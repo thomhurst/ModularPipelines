@@ -1428,6 +1428,42 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Dependency_Of_Instance_Registered_Through_Interface()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:DependencyModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            [DependsOn<DependencyModule>]
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    IModule module = new BuildModule();
+                    Pipeline.CreateBuilder().AddModule(module);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DependencyModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_NonPublic_Module_Registered_By_Factory()
     {
         var source = $$"""

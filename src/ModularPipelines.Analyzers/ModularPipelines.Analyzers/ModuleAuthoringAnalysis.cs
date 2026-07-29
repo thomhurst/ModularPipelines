@@ -493,7 +493,6 @@ internal static class ModuleAuthoringAnalysis
         {
             if (!TryTrackInstanceModuleTypes(
                     argument.Value,
-                    registeredModules,
                     instanceRegisteredModules,
                     [with(SymbolEqualityComparer.Default)]))
             {
@@ -517,7 +516,6 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackInstanceModuleTypes(
         IOperation operation,
-        ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         HashSet<ILocalSymbol> visitedLocals)
     {
@@ -526,18 +524,15 @@ internal static class ModuleAuthoringAnalysis
             case IConversionOperation conversion:
                 return TryTrackInstanceModuleTypes(
                     conversion.Operand,
-                    registeredModules,
                     instanceRegisteredModules,
                     visitedLocals);
             case IDelegateCreationOperation delegateCreation:
                 return TryTrackInstanceModuleTypes(
                     delegateCreation.Target,
-                    registeredModules,
                     instanceRegisteredModules,
                     visitedLocals);
             case IObjectCreationOperation { Type: INamedTypeSymbol moduleType }:
                 var normalizedType = moduleType.OriginalDefinition;
-                registeredModules.Add(normalizedType);
                 instanceRegisteredModules.Add(normalizedType);
                 return true;
             case ILocalReferenceOperation localReference
@@ -545,7 +540,6 @@ internal static class ModuleAuthoringAnalysis
                      && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
                 return TryTrackInstanceModuleTypes(
                     localValue,
-                    registeredModules,
                     instanceRegisteredModules,
                     visitedLocals);
             case IAnonymousFunctionOperation anonymousFunction:
@@ -563,19 +557,16 @@ internal static class ModuleAuthoringAnalysis
                        && returnValues.All(returnValue =>
                            TryTrackInstanceModuleTypes(
                                returnValue,
-                               registeredModules,
                                instanceRegisteredModules,
                                visitedLocals));
             case IConditionalOperation conditional:
                 return TryTrackInstanceModuleTypes(
                            conditional.WhenTrue,
-                           registeredModules,
                            instanceRegisteredModules,
                            visitedLocals)
                        && conditional.WhenFalse is { } whenFalse
                        && TryTrackInstanceModuleTypes(
                            whenFalse,
-                           registeredModules,
                            instanceRegisteredModules,
                            visitedLocals);
             default:
@@ -739,7 +730,8 @@ internal static class ModuleAuthoringAnalysis
         AddRequiredDependencyClosure(registered, context.Compilation);
         foreach (var module in moduleSet)
         {
-            if (registered.Contains(module))
+            if (registered.Contains(module)
+                || instanceRegistered.Contains(module))
             {
                 continue;
             }
@@ -1213,43 +1205,87 @@ internal static class ModuleAuthoringAnalysis
                     localReference,
                     cancellationToken,
                     visitedLocals),
-            IPropertyReferenceOperation propertyReference
-                when IsCancellationTokenSourceToken(propertyReference) =>
-                propertyReference.Instance is not null
-                && FlowsFromCancellationToken(
-                    propertyReference.Instance,
+            IPropertyReferenceOperation propertyReference =>
+                FlowsFromCancellationTokenProperty(
+                    propertyReference,
                     cancellationToken,
                     visitedLocals),
-            IInvocationOperation invocation
-                when IsCancellationCarrier(invocation.Type) =>
-                invocation.Arguments.Any(argument =>
-                    argument.Parameter is not null
-                    && IsCancellationToken(argument.Parameter)
-                    && FlowsFromCancellationToken(
-                        argument.Value,
-                        cancellationToken,
-                        visitedLocals)),
-            IConditionalOperation conditional =>
-                FlowsFromCancellationToken(
-                    conditional.WhenTrue,
+            IInvocationOperation invocation =>
+                FlowsFromCancellationTokenInvocation(
+                    invocation,
                     cancellationToken,
-                    visitedLocals)
-                && conditional.WhenFalse is not null
-                && FlowsFromCancellationToken(
-                    conditional.WhenFalse,
+                    visitedLocals),
+            IConditionalOperation conditional =>
+                FlowsFromCancellationTokenConditional(
+                    conditional,
                     cancellationToken,
                     visitedLocals),
             ICoalesceOperation coalesce =>
-                FlowsFromCancellationToken(
-                    coalesce.Value,
-                    cancellationToken,
-                    visitedLocals)
-                && FlowsFromCancellationToken(
-                    coalesce.WhenNull,
+                FlowsFromCancellationTokenCoalesce(
+                    coalesce,
                     cancellationToken,
                     visitedLocals),
             _ => false,
         };
+    }
+
+    private static bool FlowsFromCancellationTokenProperty(
+        IPropertyReferenceOperation propertyReference,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        return IsCancellationTokenSourceToken(propertyReference)
+               && propertyReference.Instance is not null
+               && FlowsFromCancellationToken(
+                   propertyReference.Instance,
+                   cancellationToken,
+                   visitedLocals);
+    }
+
+    private static bool FlowsFromCancellationTokenInvocation(
+        IInvocationOperation invocation,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        return IsCancellationCarrier(invocation.Type)
+               && invocation.Arguments.Any(argument =>
+                   argument.Parameter is not null
+                   && IsCancellationToken(argument.Parameter)
+                   && FlowsFromCancellationToken(
+                       argument.Value,
+                       cancellationToken,
+                       visitedLocals));
+    }
+
+    private static bool FlowsFromCancellationTokenConditional(
+        IConditionalOperation conditional,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        return FlowsFromCancellationToken(
+                   conditional.WhenTrue,
+                   cancellationToken,
+                   visitedLocals)
+               && conditional.WhenFalse is not null
+               && FlowsFromCancellationToken(
+                   conditional.WhenFalse,
+                   cancellationToken,
+                   visitedLocals);
+    }
+
+    private static bool FlowsFromCancellationTokenCoalesce(
+        ICoalesceOperation coalesce,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        return FlowsFromCancellationToken(
+                   coalesce.Value,
+                   cancellationToken,
+                   visitedLocals)
+               && FlowsFromCancellationToken(
+                   coalesce.WhenNull,
+                   cancellationToken,
+                   visitedLocals);
     }
 
     private static bool FlowsFromCancellationTokenLocal(
