@@ -279,11 +279,27 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         var method = node.FirstAncestorOrSelf<MethodDeclarationSyntax>();
 
         return moduleContextType is null
+               || method is null
+               || node.Ancestors()
+                   .TakeWhile(ancestor => ancestor != method)
+                   .Any(IsStaticCallable)
             ? null
-            : method?.ParameterList.Parameters.FirstOrDefault(parameter =>
+            : method.ParameterList.Parameters.FirstOrDefault(parameter =>
                 SymbolEqualityComparer.Default.Equals(
                     semanticModel.GetTypeInfo(parameter.Type!, cancellationToken).Type,
                     moduleContextType));
+    }
+
+    private static bool IsStaticCallable(SyntaxNode node)
+    {
+        return node switch
+        {
+            LocalFunctionStatementSyntax localFunction =>
+                localFunction.Modifiers.Any(SyntaxKind.StaticKeyword),
+            AnonymousFunctionExpressionSyntax anonymousFunction =>
+                anonymousFunction.Modifiers.Any(SyntaxKind.StaticKeyword),
+            _ => false,
+        };
     }
 
     private static async Task<Document> ReplaceWithContextLoggerAsync(

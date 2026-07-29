@@ -150,6 +150,21 @@ public class Module1 : Module<CommandResult>
 }}
 ";
 
+    private const string BadModuleSourceAwaitThisInsideDirective = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<CommandResult>
+{{
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+#region Self await
+        await this;
+#endregion
+        return null;
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_AwaitThis_InExecuteAsync()
     {
@@ -201,5 +216,13 @@ public class Module1 : Module<CommandResult>
             BadModuleSourceAwaitThisAsEmbeddedStatement,
             expected,
             FixedModuleSourceAwaitThisAsEmbeddedStatement);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_Inside_Directives()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            BadModuleSourceAwaitThisInsideDirective,
+            AwaitThisAnalyzer.DiagnosticId);
     }
 }

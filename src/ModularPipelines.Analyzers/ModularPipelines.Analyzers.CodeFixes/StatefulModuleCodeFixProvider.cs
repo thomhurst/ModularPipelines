@@ -35,6 +35,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
             || variable.Parent?.Parent is not FieldDeclarationSyntax fieldDeclaration
             || fieldDeclaration.Declaration.Variables.Count != 1
             || fieldDeclaration.Modifiers.Any(SyntaxKind.VolatileKeyword)
+            || fieldDeclaration.Modifiers.Any(SyntaxKind.RequiredKeyword)
             || variable.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
             || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
             || semanticModel?.GetDeclaredSymbol(variable, context.CancellationToken) is not IFieldSymbol field

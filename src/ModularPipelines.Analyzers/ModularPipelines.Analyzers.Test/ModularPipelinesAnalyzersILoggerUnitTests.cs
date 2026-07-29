@@ -252,6 +252,31 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string StaticLocalFunctionStoredLoggerSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private static ILogger<Module1> _logger = null!;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        static void Log()
+        {{
+            _logger.LogInformation(""Running"");
+        }}
+
+        Log();
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string GoodModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -398,5 +423,13 @@ public class Module1 : Module<List<string>>
             EscapedContextStoredLoggerSource,
             expected,
             FixedEscapedContextStoredLoggerSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Logger_Inside_Static_Local_Function()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            StaticLocalFunctionStoredLoggerSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
     }
 }

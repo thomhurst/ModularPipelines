@@ -17,7 +17,7 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
 {
     /// <inheritdoc/>
     public override ImmutableArray<string> FixableDiagnosticIds =>
-        ImmutableArray.Create(AwaitThisAnalyzer.DiagnosticId);
+        [AwaitThisAnalyzer.DiagnosticId];
 
     /// <inheritdoc/>
     public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
@@ -30,7 +30,8 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
         var awaitExpression = root?.FindNode(diagnostic.Location.SourceSpan)
             .FirstAncestorOrSelf<AwaitExpressionSyntax>();
 
-        if (awaitExpression?.Parent is not ExpressionStatementSyntax expressionStatement)
+        if (awaitExpression?.Parent is not ExpressionStatementSyntax expressionStatement
+            || expressionStatement.ContainsDirectives)
         {
             return;
         }

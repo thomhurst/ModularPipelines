@@ -341,6 +341,26 @@ public class Module1 : Module<object>
 }
 ";
 
+    private const string ModuleWithRequiredField = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<object>
+{
+    public required object State;
+
+    protected override Task<object?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult<object?>(State);
+    }
+}
+";
+
     private const string ModuleWithDeconstructionWrite = @"
 #nullable enable
 using System.Threading;
@@ -488,6 +508,14 @@ public class Module1 : Module<string>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithVolatileField,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Required_Field()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithRequiredField,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 
