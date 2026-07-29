@@ -420,6 +420,8 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
                && constructor.AttributeLists.Count == 0
                && !constructor.ContainsDirectives
                && constructor.Modifiers.Any(SyntaxKind.PublicKeyword)
+               && constructor.Parent is TypeDeclarationSyntax containingType
+               && !containingType.Modifiers.Any(SyntaxKind.AbstractKeyword)
                && IsOnlyInstanceConstructor(constructor);
     }
 

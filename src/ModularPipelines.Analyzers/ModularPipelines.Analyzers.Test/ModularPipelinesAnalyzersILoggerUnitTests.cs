@@ -43,6 +43,42 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string AbstractModuleSourceILoggerGeneric = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public abstract class Module1 : Module<List<string>>
+{{
+    public Module1({{|#0:ILogger<Module1> logger|}})
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedAbstractModuleSourceILoggerGeneric = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public abstract class Module1 : Module<List<string>>
+{{
+    public Module1()
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string BadModuleSourceUsedLogger = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -781,6 +817,17 @@ public class Module1 : Module<List<string>>
         var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSourceILoggerGeneric, expected, FixedModuleSourceILoggerGeneric);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Retains_Public_Constructor_On_Abstract_Type()
+    {
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            AbstractModuleSourceILoggerGeneric,
+            expected,
+            FixedAbstractModuleSourceILoggerGeneric);
     }
 
     [TestMethod]
