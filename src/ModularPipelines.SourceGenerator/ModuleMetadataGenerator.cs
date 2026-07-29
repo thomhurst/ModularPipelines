@@ -78,10 +78,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         return new ModuleMetadataInfo(
             type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             IsTypeAccessible(type, currentAssembly),
-            dependencies
+            [.. dependencies
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
-                .ThenBy(static dependency => dependency.Optional)
-                .ToImmutableArray(),
+                .ThenBy(static dependency => dependency.Optional)],
             dependenciesComplete);
     }
 
@@ -122,6 +121,13 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         out ITypeSymbol? dependencyType,
         out bool optional)
     {
+        if (!IsBuiltInDependsOnAttribute(attribute.AttributeClass))
+        {
+            dependencyType = null;
+            optional = false;
+            return false;
+        }
+
         optional = attribute.NamedArguments
             .FirstOrDefault(static argument => argument.Key == "Optional")
             .Value.Value as bool? ?? false;
@@ -140,6 +146,16 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .FirstOrDefault(static argument => argument.Kind == TypedConstantKind.Type)
             .Value as ITypeSymbol;
         return dependencyType is not null;
+    }
+
+    private static bool IsBuiltInDependsOnAttribute(INamedTypeSymbol? attributeType)
+    {
+        return attributeType is not null
+               && (attributeType.ToDisplayString() == DependsOnAttributeFullName
+                   || (attributeType.OriginalDefinition.MetadataName
+                           == GenericDependsOnAttributeMetadataName
+                       && attributeType.ContainingNamespace.ToDisplayString()
+                           == "ModularPipelines.Attributes"));
     }
 
     private static bool ImplementsModule(INamedTypeSymbol type, Compilation compilation)
@@ -209,7 +225,10 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .OrderBy(static item => item.TypeName, StringComparer.Ordinal)
             .ToArray();
         var emittedModules = modules.Where(static module => module.CanEmit).ToArray();
-        var isComplete = modules.All(static module => module.CanEmit);
+
+        // Generators cannot observe modules emitted by other generators in the same
+        // compilation, so assembly discovery must retain its reflection fallback.
+        const bool isComplete = false;
         var registrationTypeName = $"ModuleMetadataRegistration_{GetStableIdentifier(assemblyName)}";
         var sb = new StringBuilder();
 

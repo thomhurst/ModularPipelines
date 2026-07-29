@@ -58,7 +58,7 @@ public class ModuleMetadataGeneratorTests
                 .Contains("new(typeof(global::Consumer.DependencyModule), true)");
             await Assert.That(generated)
                 .Contains("CreateRegistration<global::Consumer.DependencyModule>");
-            await Assert.That(generated).Contains("isComplete: true");
+            await Assert.That(generated).Contains("isComplete: false");
         }
     }
 
@@ -78,6 +78,25 @@ public class ModuleMetadataGeneratorTests
         await Assert.That(CountOccurrences(
             generated,
             "CreateRegistration<global::Consumer.BuildModule>")).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Assembly_Metadata_Remains_Incomplete_When_No_Source_Module_Is_Visible()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                public static class Marker;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).DoesNotContain("CreateRegistration<global::Consumer");
+            await Assert.That(generated).Contains("isComplete: false");
+        }
     }
 
     [Test]
@@ -107,7 +126,7 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
-    public async Task Open_Generic_Module_Is_Omitted_Without_Forcing_Fallback()
+    public async Task Open_Generic_Module_Is_Omitted_With_Assembly_Fallback()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
@@ -122,7 +141,7 @@ public class ModuleMetadataGeneratorTests
         using (Assert.Multiple())
         {
             await Assert.That(generated).DoesNotContain("GenericModule");
-            await Assert.That(generated).Contains("isComplete: true");
+            await Assert.That(generated).Contains("isComplete: false");
         }
     }
 
@@ -181,6 +200,38 @@ public class ModuleMetadataGeneratorTests
         using (Assert.Multiple())
         {
             await Assert.That(generated).DoesNotContain("new(typeof(string)");
+            await Assert.That(generated).Contains("dependenciesComplete: false");
+        }
+    }
+
+    [Test]
+    public async Task Custom_Generic_Dependency_Attribute_Uses_Reflection_Fallback()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+
+                public sealed class OptionalDependencyAttribute
+                    : ModularPipelines.Attributes.DependsOnAttribute<DependencyModule>
+                {
+                    public OptionalDependencyAttribute()
+                    {
+                        Optional = true;
+                    }
+                }
+
+                [OptionalDependency]
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .DoesNotContain("new(typeof(global::Consumer.DependencyModule)");
             await Assert.That(generated).Contains("dependenciesComplete: false");
         }
     }
