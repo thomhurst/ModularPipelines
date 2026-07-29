@@ -236,6 +236,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             var nodeToReplace = GetLoggerExpression(fieldReference);
             if (nodeToReplace.Parent is not MemberAccessExpressionSyntax { Expression: var expression }
                 || expression != nodeToReplace
+                || !CanReplaceLoggerReceiver(nodeToReplace, semanticModel, cancellationToken)
                 || FindModuleContextParameter(nodeToReplace, semanticModel, cancellationToken) is not { } contextParameter)
             {
                 return null;
@@ -245,6 +246,36 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         }
 
         return replacements.ToImmutable();
+    }
+
+    private static bool CanReplaceLoggerReceiver(
+        ExpressionSyntax loggerExpression,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        if (loggerExpression.Parent is not MemberAccessExpressionSyntax memberAccess)
+        {
+            return false;
+        }
+
+        var requiredReceiverType = semanticModel.GetSymbolInfo(memberAccess, cancellationToken).Symbol switch
+        {
+            IMethodSymbol { ReducedFrom: { Parameters.Length: > 0 } reducedMethod } =>
+                reducedMethod.Parameters[0].Type,
+            IMethodSymbol method => method.ContainingType,
+            IPropertySymbol property => property.ContainingType,
+            IFieldSymbol field => field.ContainingType,
+            IEventSymbol @event => @event.ContainingType,
+            _ => null,
+        };
+        var contextLoggerType = semanticModel.Compilation.GetTypeByMetadataName(
+            "ModularPipelines.Logging.IModuleLogger");
+
+        return requiredReceiverType is not null
+               && contextLoggerType is not null
+               && semanticModel.Compilation
+                   .ClassifyCommonConversion(contextLoggerType, requiredReceiverType)
+                   .IsImplicit;
     }
 
     private static bool IsLogger(ITypeSymbol type)

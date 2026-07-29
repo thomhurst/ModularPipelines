@@ -459,6 +459,35 @@ public static class LoggerConsumer
 }}
 ";
 
+    private const string LoggerWithGenericExtensionSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public static class LoggerExtensions
+{{
+    public static void LogModuleSpecific(this ILogger<Module1> logger)
+    {{
+    }}
+}}
+
+public class Module1 : Module<List<string>>
+{{
+    private readonly ILogger<Module1> _logger;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        _logger.LogModuleSpecific();
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string GoodModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -674,6 +703,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ExternallyReferencedStoredLoggerSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Generic_Logger_Extension()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            LoggerWithGenericExtensionSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 }

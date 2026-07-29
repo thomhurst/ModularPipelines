@@ -489,6 +489,23 @@ public class Module1 : Module<int>
 }
 ";
 
+    private const string ModuleWithMakeRefField = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : Module<int>
+{{
+    private int _state;
+
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        var reference = __makeref(_state);
+        return Task.FromResult(__refvalue(reference, int));
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableField()
     {
@@ -677,5 +694,13 @@ public class Module1 : Module<int>
             ModuleWithAddressOfField,
             StatefulModuleAnalyzer.DiagnosticId,
             allowUnsafe: true);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_MakeRef_Field()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithMakeRefField,
+            StatefulModuleAnalyzer.DiagnosticId);
     }
 }

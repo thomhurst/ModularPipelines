@@ -88,8 +88,9 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
     private static bool IsRefEscape(IdentifierNameSyntax identifier)
     {
         return identifier.FirstAncestorOrSelf<RefExpressionSyntax>() is not null
+               || identifier.FirstAncestorOrSelf<MakeRefExpressionSyntax>() is not null
                || identifier.FirstAncestorOrSelf<PrefixUnaryExpressionSyntax>()
-                   ?.IsKind(SyntaxKind.AddressOfExpression) == true;
+                      ?.IsKind(SyntaxKind.AddressOfExpression) == true;
     }
 
     private static bool IsDirectlyWithinConstructor(
