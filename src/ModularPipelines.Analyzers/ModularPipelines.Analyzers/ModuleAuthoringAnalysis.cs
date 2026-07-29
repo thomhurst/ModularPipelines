@@ -378,6 +378,13 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
+        if (operation is IArrayElementReferenceOperation
+            or IPropertyReferenceOperation { Property.IsIndexer: true })
+        {
+            QueueChildOperations(operation, true, pending);
+            return null;
+        }
+
         QueueChildOperations(operation, requireTaskLike, pending);
         return null;
     }
@@ -1048,12 +1055,12 @@ internal static class ModuleAuthoringAnalysis
                 return TryTrackInstanceModuleTypes(
                            conditional.WhenTrue,
                            instanceRegisteredModules,
-                           visitedLocals)
+                           CloneVisitedLocals(visitedLocals))
                        && conditional.WhenFalse is { } whenFalse
                        && TryTrackInstanceModuleTypes(
                            whenFalse,
                            instanceRegisteredModules,
-                           visitedLocals);
+                           CloneVisitedLocals(visitedLocals));
             default:
                 return false;
         }
@@ -1781,6 +1788,11 @@ internal static class ModuleAuthoringAnalysis
                     element,
                     cancellationToken,
                     visitedLocals)),
+            ISpreadOperation spread =>
+                FlowsFromCancellationToken(
+                    spread.Operand,
+                    cancellationToken,
+                    visitedLocals),
             IConditionalOperation conditional =>
                 FlowsFromCancellationTokenConditional(
                     conditional,

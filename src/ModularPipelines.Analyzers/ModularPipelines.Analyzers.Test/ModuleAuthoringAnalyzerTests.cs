@@ -74,6 +74,43 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Conditional_Instance_Registration_Still_Reports_Unregistered_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:DeployModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    var module = new BuildModule();
+                    builder.Services.AddSingleton<IModule>(flag ? module : module);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DeployModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Type_Based_DI()
     {
         var source = $$"""
@@ -943,6 +980,24 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Linked_CancellationToken_Collection_Spread()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var tokens = new[] { cancellationToken, CancellationToken.None };
+                using var source = CancellationTokenSource.CreateLinkedTokenSource([.. tokens]);
+                await Task.Delay(1, source.Token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Shared_Local_In_Conditional_Token_Branches()
     {
         var source = ModuleSource("""
@@ -1232,6 +1287,27 @@ public class ModuleAuthoringAnalyzerTests
                 private static Task FetchAsync() => Task.CompletedTask;
 
                 private static Task OtherAsync() => Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Cancellation_Overload_In_Awaited_Index()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var tasks = new[] { Task.Delay(1, cancellationToken) };
+                await tasks[GetIndex()];
+                return null;
+            }
+
+                private static int GetIndex() => 0;
+
+                private static int GetIndex(CancellationToken token) => 0;
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
