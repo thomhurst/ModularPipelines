@@ -159,9 +159,9 @@ public class ExecutionHintTests : TestBase
             .AddModule<CpuIntensiveModule1>()
             .AddModule<CpuIntensiveModule2>()
             .AddModule<CpuIntensiveModule3>()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.Concurrency.MaxCpuIntensiveModules = 2;
+                Concurrency = options.Concurrency with { MaxCpuIntensiveModules = 2 },
             })
             .ExecutePipelineAsync();
 

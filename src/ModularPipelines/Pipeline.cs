@@ -15,7 +15,10 @@ public static class Pipeline
     /// using var builder = Pipeline.CreateBuilder(args);
     ///
     /// builder.AddModule&lt;BuildModule&gt;();
-    /// builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
+    /// builder.ConfigurePipelineOptions(options => options with
+    /// {
+    ///     ExecutionMode = ExecutionMode.StopOnFirstException,
+    /// });
     ///
     /// var pipeline = await builder.BuildAsync();
     /// var summary = await pipeline.RunAsync();

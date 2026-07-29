@@ -29,7 +29,10 @@ builder
     .AddModule<Module3>()
     .AddModule<Module4>();
 
-builder.Options.RunOnlyCategories = ["UnitTest", "IntegrationTest"];
+builder.ConfigurePipelineOptions(options => options with
+{
+    RunOnlyCategories = ["UnitTest", "IntegrationTest"],
+});
 
 await builder.ExecutePipelineAsync();
 ```
@@ -46,7 +49,10 @@ builder
     .AddModule<Module3>()
     .AddModule<Module4>();
 
-builder.Options.IgnoreCategories = ["Publish", "Deploy"];
+builder.ConfigurePipelineOptions(options => options with
+{
+    IgnoreCategories = ["Publish", "Deploy"],
+});
 
 await builder.ExecutePipelineAsync();
 ```

@@ -77,7 +77,10 @@ public class PipelineBuilderRegistrationTests
 
         await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsFalse();
 
-        builder.ConfigurePipelineOptions(options => options.LoadModularPipelineAssemblies = true);
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            LoadModularPipelineAssemblies = true,
+        });
 
         await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsTrue();
     }

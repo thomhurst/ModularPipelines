@@ -104,7 +104,10 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<Module1>();
 
         // This test expects the pipeline to throw when BadModule fails
-        builder.Options.ThrowOnPipelineFailure = true;
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = true,
+        });
 
         var host = await builder.BuildAsync();
 
@@ -127,7 +130,10 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<LongRunningModule>();
 
         // This test expects the pipeline to throw when BadModule fails
-        builder.Options.ThrowOnPipelineFailure = true;
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = true,
+        });
 
         var host = await builder.BuildAsync();
 
@@ -154,7 +160,10 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<LongRunningModuleWithoutCancellation>();
 
         // This test expects the pipeline to throw when BadModule fails
-        builder.Options.ThrowOnPipelineFailure = true;
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = true,
+        });
 
         var host = await builder.BuildAsync();
 
@@ -177,7 +186,10 @@ public class EngineCancellationTokenTests : TestBase
         PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((_, options) => options.ExecutionMode = ExecutionMode.WaitForAllModules)
+            .ConfigurePipelineOptions((_, options) => options with
+            {
+                ExecutionMode = ExecutionMode.WaitForAllModules,
+            })
             .AddModule<WaitForAllFailingModule>()
             .AddModule<WaitForAllCompletingModule>()
             .AddModule<WaitForAllPendingModule>();
@@ -202,10 +214,10 @@ public class EngineCancellationTokenTests : TestBase
         PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.ExecutionMode = ExecutionMode.WaitForAllModules;
-                options.ThrowOnPipelineFailure = true;
+                ExecutionMode = ExecutionMode.WaitForAllModules,
+                ThrowOnPipelineFailure = true,
             })
             .AddModule<WaitForAllFailingModule>()
             .AddModule<WaitForAllCompletingModule>();

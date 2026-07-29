@@ -1,9 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Console;
@@ -34,9 +32,9 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
     public async Task Pipeline_Completes_When_Progress_Disabled()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+            .ConfigurePipelineOptions(options => options with
             {
-                services.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false);
+                ShowProgressInConsole = false,
             })
             .AddModule<Module1>()
             .BuildAsync();
@@ -52,9 +50,9 @@ public class OutputCoordinatorDeferredFlushTests : TestBase
     public async Task Pipeline_With_Multiple_Modules_Completes_Successfully()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+            .ConfigurePipelineOptions(options => options with
             {
-                services.Configure<PipelineOptions>(opt => opt.ShowProgressInConsole = false);
+                ShowProgressInConsole = false,
             })
             .AddModule<Module1>()
             .AddModule<Module2>()

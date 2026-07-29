@@ -173,9 +173,9 @@ public class RetryTests : TestBase
     public async Task When_Successful_Do_Not_Retry()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.DefaultRetryCount = DefaultRetryCount;
+                DefaultRetryCount = DefaultRetryCount,
             })
             .AddModule<SuccessModule>()
             .BuildAsync();
@@ -197,9 +197,9 @@ public class RetryTests : TestBase
     public async Task When_Error_Then_Retry()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.DefaultRetryCount = DefaultRetryCount;
+                DefaultRetryCount = DefaultRetryCount,
             })
             .AddModule<FailedModule>()
             .BuildAsync();
@@ -274,9 +274,9 @@ public class RetryTests : TestBase
     public async Task When_Error_And_Zero_Retry_Count_Then_Do_Not_Retry()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.DefaultRetryCount = 0;
+                DefaultRetryCount = 0,
             })
             .AddModule<FailedModule>()
             .BuildAsync();
@@ -298,9 +298,9 @@ public class RetryTests : TestBase
     public async Task When_Retry_With_Timeout_Then_Honour_Overall_Timeout()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.DefaultRetryCount = DefaultRetryCount;
+                DefaultRetryCount = DefaultRetryCount,
             })
             .AddModule<FailedModuleWithTimeout>()
             .BuildAsync();
@@ -321,9 +321,9 @@ public class RetryTests : TestBase
     public async Task When_Retry_Timeouts_During_Module_Then_Report_Token_Respected()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.DefaultRetryCount = DefaultRetryCount;
+                DefaultRetryCount = DefaultRetryCount,
             })
             .AddModule<CancellableModuleWithTimeout>()
             .ExecutePipelineAsync());

@@ -22,6 +22,8 @@ namespace ModularPipelines.Options;
 /// </remarks>
 public record HttpLoggingOptions
 {
+    private IReadOnlyList<string> _sensitiveHeaderNames = DefaultSensitiveHeaders;
+
     /// <summary>
     /// Gets a value indicating whether to log request method, URL, and version. Default is true.
     /// </summary>
@@ -76,7 +78,11 @@ public record HttpLoggingOptions
     /// Values are compared case-insensitively. Default includes common sensitive headers like
     /// Authorization, X-API-Key, Cookie, Set-Cookie, and various token/key headers.
     /// </summary>
-    public IReadOnlyList<string> SensitiveHeaderNames { get; init; } = DefaultSensitiveHeaders;
+    public IReadOnlyList<string> SensitiveHeaderNames
+    {
+        get => _sensitiveHeaderNames;
+        init => _sensitiveHeaderNames = Array.AsReadOnly(value.ToArray());
+    }
 
     /// <summary>
     /// Gets the default list of sensitive header names that should be obfuscated.

@@ -112,9 +112,9 @@ public class LifecycleEventIntegrationTests : TestBase
         {
             await TestPipelineHostBuilder.Create()
                 .AddModule<FailingModule>()
-                .ConfigurePipelineOptions((_, options) =>
+                .ConfigurePipelineOptions((_, options) => options with
                 {
-                    options.ExecutionMode = ExecutionMode.WaitForAllModules;
+                    ExecutionMode = ExecutionMode.WaitForAllModules,
                 })
                 .ExecutePipelineAsync();
         }

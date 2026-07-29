@@ -3,6 +3,7 @@ using Azure.ResourceManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
+using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.TestHelpers;
@@ -24,12 +25,15 @@ public static class TestPipelineHostBuilder
 
         builder.Services.AddSingleton(new ArmClient(new DefaultAzureCredential()));
 
-        builder.Options.DefaultLoggingOptions = testHostSettings.CommandLogging;
-        builder.Options.ShowProgressInConsole = testHostSettings.ShowProgressInConsole;
-        builder.Options.PrintResults = false;
-        builder.Options.PrintLogo = false;
-        builder.Options.PrintDependencyChains = false;
-        builder.Options.ThrowOnPipelineFailure = false; // Tests handle failures explicitly
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            DefaultLoggingOptions = testHostSettings.CommandLogging,
+            ShowProgressInConsole = testHostSettings.ShowProgressInConsole,
+            PrintResults = false,
+            PrintLogo = false,
+            PrintDependencyChains = false,
+            ThrowOnPipelineFailure = false, // Tests handle failures explicitly
+        });
 
         if (testHostSettings.ClearLogProviders)
         {

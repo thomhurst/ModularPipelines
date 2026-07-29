@@ -47,9 +47,9 @@ public class ConcurrencyOptionsTests : TestBase
         var result = await TestPipelineHostBuilder.Create()
             .AddModule<SimpleModule>()
             .AddModule<SimpleModule2>()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.Concurrency.MaxParallelism = 2;
+                Concurrency = options.Concurrency with { MaxParallelism = 2 },
             })
             .ExecutePipelineAsync();
 
@@ -61,9 +61,9 @@ public class ConcurrencyOptionsTests : TestBase
     {
         var result = await TestPipelineHostBuilder.Create()
             .AddModule<SimpleModule>()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.Concurrency.MaxCpuIntensiveModules = 1;
+                Concurrency = options.Concurrency with { MaxCpuIntensiveModules = 1 },
             })
             .ExecutePipelineAsync();
 
@@ -75,9 +75,9 @@ public class ConcurrencyOptionsTests : TestBase
     {
         var result = await TestPipelineHostBuilder.Create()
             .AddModule<SimpleModule>()
-            .ConfigurePipelineOptions((_, options) =>
+            .ConfigurePipelineOptions((_, options) => options with
             {
-                options.Concurrency.MaxIoIntensiveModules = 10;
+                Concurrency = options.Concurrency with { MaxIoIntensiveModules = 10 },
             })
             .ExecutePipelineAsync();
 

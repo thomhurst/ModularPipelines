@@ -7,6 +7,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using Moq;
+using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Console;
 
@@ -147,6 +148,30 @@ public class ConsoleCoordinatorTests
                 OutputFlushKind.Incremental,
                 It.IsAny<CancellationToken>()),
             Times.Once);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Install_ConfiguresInteractiveCapability_AndDisposeRestoresConsole(bool showProgress)
+    {
+        var originalConsole = AnsiConsole.Console;
+        var coordinator = CreateCoordinator(
+            Mock.Of<IOutputCoordinator>(),
+            new PipelineOptions { ShowProgressInConsole = showProgress });
+
+        try
+        {
+            coordinator.Install();
+
+            await Assert.That(AnsiConsole.Profile.Capabilities.Interactive).IsEqualTo(showProgress);
+        }
+        finally
+        {
+            await coordinator.DisposeAsync();
+        }
+
+        await Assert.That(AnsiConsole.Console).IsSameReferenceAs(originalConsole);
     }
 
     private static ConsoleCoordinator CreateCoordinator(

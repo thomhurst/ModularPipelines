@@ -163,8 +163,10 @@ If the integration DLL is copied beside the application without a compile-time r
 opt in to filename-based assembly discovery before building the pipeline:
 
 ```csharp
-builder.ConfigurePipelineOptions(options =>
-    options.LoadModularPipelineAssemblies = true);
+builder.ConfigurePipelineOptions(options => options with
+{
+    LoadModularPipelineAssemblies = true,
+});
 ```
 
 The option is disabled by default to avoid scanning and loading every matching assembly at
