@@ -18,42 +18,25 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
 {
+    private static readonly FixAllProvider DocumentFixAllProvider =
+        FixAllProvider.Create(FixAllInDocumentAsync);
+
     /// <inheritdoc/>
     public override ImmutableArray<string> FixableDiagnosticIds =>
         [LoggerInConstructorAnalyzer.DiagnosticId];
 
     /// <inheritdoc/>
-    public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+    public override FixAllProvider GetFixAllProvider() => DocumentFixAllProvider;
 
     /// <inheritdoc/>
     public override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
-        var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-        var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
         var diagnostic = context.Diagnostics.First();
-        var parameter = root?.FindNode(diagnostic.Location.SourceSpan)
-            .FirstAncestorOrSelf<ParameterSyntax>();
-
-        if (parameter is null
-            || parameter.FirstAncestorOrSelf<ConstructorDeclarationSyntax>() is not { } constructor
-            || constructor.ParameterList.ContainsDirectives
-            || parameter.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
-            || semanticModel?.GetDeclaredSymbol(parameter, context.CancellationToken) is not IParameterSymbol parameterSymbol
-            || semanticModel.GetDeclaredSymbol(constructor, context.CancellationToken) is not IMethodSymbol constructorSymbol
-            || await HasExplicitReferencesAsync(
-                constructorSymbol,
-                context.Document.Project.Solution,
-                context.CancellationToken).ConfigureAwait(false)
-            || !TryCreateFix(
-                containingType,
-                constructor,
-                constructorSymbol,
-                parameterSymbol,
-                semanticModel,
-                context.CancellationToken,
-                out var fieldDeclaration,
-                out var assignmentStatement,
-                out var loggerReplacements))
+        var fix = await TryCreateFixAsync(
+            context.Document,
+            diagnostic,
+            context.CancellationToken).ConfigureAwait(false);
+        if (fix is null)
         {
             return;
         }
@@ -63,14 +46,78 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
                 CodeFixResources.LoggerInConstructorCodeFixTitle,
                 cancellationToken => ReplaceWithContextLoggerAsync(
                     context.Document,
-                    constructor,
-                    parameter,
-                    fieldDeclaration,
-                    assignmentStatement,
-                    loggerReplacements,
+                    [fix],
                     cancellationToken),
                 nameof(CodeFixResources.LoggerInConstructorCodeFixTitle)),
             diagnostic);
+    }
+
+    private static async Task<LoggerFix?> TryCreateFixAsync(
+        Document document,
+        Diagnostic diagnostic,
+        CancellationToken cancellationToken)
+    {
+        var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+        var semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+        var parameter = root?.FindNode(diagnostic.Location.SourceSpan)
+            .FirstAncestorOrSelf<ParameterSyntax>();
+
+        if (parameter is null
+            || parameter.FirstAncestorOrSelf<ConstructorDeclarationSyntax>() is not { } constructor
+            || constructor.ParameterList.ContainsDirectives
+            || parameter.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
+            || semanticModel?.GetDeclaredSymbol(parameter, cancellationToken) is not IParameterSymbol parameterSymbol
+            || semanticModel.GetDeclaredSymbol(constructor, cancellationToken) is not IMethodSymbol constructorSymbol
+            || await HasExplicitReferencesAsync(
+                constructorSymbol,
+                document.Project.Solution,
+                cancellationToken).ConfigureAwait(false)
+            || !TryCreateFix(
+                containingType,
+                constructor,
+                constructorSymbol,
+                parameterSymbol,
+                semanticModel,
+                cancellationToken,
+                out var fieldDeclaration,
+                out var assignmentStatement,
+                out var loggerReplacements))
+        {
+            return null;
+        }
+
+        return new LoggerFix(
+            constructor,
+            constructorSymbol,
+            parameter,
+            parameterSymbol,
+            fieldDeclaration,
+            assignmentStatement,
+            loggerReplacements);
+    }
+
+    private static async Task<Document?> FixAllInDocumentAsync(
+        FixAllContext context,
+        Document document,
+        ImmutableArray<Diagnostic> diagnostics)
+    {
+        var fixes = ImmutableArray.CreateBuilder<LoggerFix>();
+        foreach (var diagnostic in diagnostics)
+        {
+            var fix = await TryCreateFixAsync(
+                document,
+                diagnostic,
+                context.CancellationToken).ConfigureAwait(false);
+            if (fix is not null)
+            {
+                fixes.Add(fix);
+            }
+        }
+
+        return await ReplaceWithContextLoggerAsync(
+            document,
+            fixes.ToImmutable(),
+            context.CancellationToken).ConfigureAwait(false);
     }
 
     private static bool TryCreateFix(
@@ -167,8 +214,16 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         IMethodSymbol constructor,
         IParameterSymbol removedParameter)
     {
+        return WouldOverlapSiblingConstructor(constructor, [removedParameter]);
+    }
+
+    private static bool WouldOverlapSiblingConstructor(
+        IMethodSymbol constructor,
+        IReadOnlyCollection<IParameterSymbol> removedParameters)
+    {
         var remainingParameters = constructor.Parameters
-            .Where(parameter => !SymbolEqualityComparer.Default.Equals(parameter, removedParameter))
+            .Where(parameter => !removedParameters.Any(removedParameter =>
+                SymbolEqualityComparer.Default.Equals(parameter, removedParameter)))
             .ToArray();
         var (remainingMinimum, remainingMaximum) = GetCallableArity(remainingParameters);
 
@@ -360,17 +415,13 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
 
     private static async Task<Document> ReplaceWithContextLoggerAsync(
         Document document,
-        ConstructorDeclarationSyntax constructor,
-        ParameterSyntax parameter,
-        FieldDeclarationSyntax? fieldDeclaration,
-        ExpressionStatementSyntax? assignmentStatement,
-        ImmutableArray<LoggerReplacement> loggerReplacements,
+        ImmutableArray<LoggerFix> fixes,
         CancellationToken cancellationToken)
     {
         var editor = await DocumentEditor.CreateAsync(document, cancellationToken).ConfigureAwait(false);
-        var removeConstructor = CanRemoveConstructor(constructor, assignmentStatement);
+        var applicableFixes = GetApplicableFixes(fixes);
 
-        foreach (var replacement in loggerReplacements)
+        foreach (var replacement in applicableFixes.SelectMany(static fix => fix.LoggerReplacements))
         {
             editor.ReplaceNode(
                 replacement.Node,
@@ -383,38 +434,90 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
                     .WithAdditionalAnnotations(Formatter.Annotation));
         }
 
-        if (fieldDeclaration is not null)
+        foreach (var fieldDeclaration in applicableFixes
+                     .Select(static fix => fix.FieldDeclaration)
+                     .OfType<FieldDeclarationSyntax>()
+                     .Distinct())
         {
             editor.RemoveNode(fieldDeclaration);
         }
 
-        if (assignmentStatement is not null && !removeConstructor)
+        foreach (var constructorFixes in applicableFixes.GroupBy(static fix => fix.Constructor))
         {
-            editor.RemoveNode(assignmentStatement);
-        }
+            var constructor = constructorFixes.Key;
+            var parameters = constructorFixes
+                .Select(static fix => fix.Parameter)
+                .ToImmutableHashSet();
+            var assignmentStatements = constructorFixes
+                .Select(static fix => fix.AssignmentStatement)
+                .OfType<ExpressionStatementSyntax>()
+                .ToImmutableHashSet();
+            var removeConstructor = CanRemoveConstructor(
+                constructor,
+                parameters,
+                assignmentStatements);
 
-        if (removeConstructor)
-        {
-            editor.RemoveNode(constructor);
-        }
-        else
-        {
+            if (removeConstructor)
+            {
+                editor.RemoveNode(constructor);
+                continue;
+            }
+
+            foreach (var assignmentStatement in assignmentStatements)
+            {
+                editor.RemoveNode(assignmentStatement);
+            }
+
+            var remainingParameters = constructor.ParameterList.Parameters;
+            foreach (var parameter in parameters)
+            {
+                remainingParameters = remainingParameters.Remove(parameter);
+            }
+
             editor.ReplaceNode(
                 constructor.ParameterList,
-                constructor.ParameterList.WithParameters(
-                    constructor.ParameterList.Parameters.Remove(parameter)));
+                constructor.ParameterList
+                    .WithParameters(remainingParameters)
+                    .WithAdditionalAnnotations(Formatter.Annotation));
         }
 
         return editor.GetChangedDocument();
     }
 
+    private static ImmutableArray<LoggerFix> GetApplicableFixes(
+        ImmutableArray<LoggerFix> fixes)
+    {
+        var applicableFixes = ImmutableArray.CreateBuilder<LoggerFix>();
+        foreach (var constructorFixes in fixes.GroupBy(static fix => fix.Constructor))
+        {
+            var selectedFixes = new List<LoggerFix>();
+            foreach (var fix in constructorFixes)
+            {
+                var removedParameters = selectedFixes
+                    .Select(static selectedFix => selectedFix.ParameterSymbol)
+                    .Append(fix.ParameterSymbol)
+                    .ToArray();
+                if (!WouldOverlapSiblingConstructor(
+                        fix.ConstructorSymbol,
+                        removedParameters))
+                {
+                    selectedFixes.Add(fix);
+                }
+            }
+
+            applicableFixes.AddRange(selectedFixes);
+        }
+
+        return applicableFixes.ToImmutable();
+    }
+
     private static bool CanRemoveConstructor(
         ConstructorDeclarationSyntax constructor,
-        ExpressionStatementSyntax? assignmentStatement)
+        IReadOnlyCollection<ParameterSyntax> parameters,
+        IReadOnlyCollection<ExpressionStatementSyntax> assignmentStatements)
     {
-        var removedStatementCount = assignmentStatement is null ? 0 : 1;
-        var remainingStatements = constructor.Body?.Statements.Count - removedStatementCount;
-        return constructor.ParameterList.Parameters.Count == 1
+        var remainingStatements = constructor.Body?.Statements.Count - assignmentStatements.Count;
+        return constructor.ParameterList.Parameters.Count == parameters.Count
                && remainingStatements == 0
                && constructor.Initializer is null
                && constructor.AttributeLists.Count == 0
@@ -439,6 +542,30 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         public SyntaxNode Node { get; } = node;
 
         public SyntaxToken ContextParameterIdentifier { get; } = contextParameterIdentifier;
+    }
+
+    private sealed class LoggerFix(
+        ConstructorDeclarationSyntax constructor,
+        IMethodSymbol constructorSymbol,
+        ParameterSyntax parameter,
+        IParameterSymbol parameterSymbol,
+        FieldDeclarationSyntax? fieldDeclaration,
+        ExpressionStatementSyntax? assignmentStatement,
+        ImmutableArray<LoggerReplacement> loggerReplacements)
+    {
+        public ConstructorDeclarationSyntax Constructor { get; } = constructor;
+
+        public IMethodSymbol ConstructorSymbol { get; } = constructorSymbol;
+
+        public ParameterSyntax Parameter { get; } = parameter;
+
+        public IParameterSymbol ParameterSymbol { get; } = parameterSymbol;
+
+        public FieldDeclarationSyntax? FieldDeclaration { get; } = fieldDeclaration;
+
+        public ExpressionStatementSyntax? AssignmentStatement { get; } = assignmentStatement;
+
+        public ImmutableArray<LoggerReplacement> LoggerReplacements { get; } = loggerReplacements;
     }
 
     private sealed class LoggerStorage(

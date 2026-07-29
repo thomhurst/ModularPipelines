@@ -199,6 +199,20 @@ public class Module1 : Module<CommandResult>
 }}
 ";
 
+    private const string BadModuleSourceAwaitThisAtGotoTarget = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<CommandResult>
+{{
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+retry:
+        await this;
+        goto retry;
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_AwaitThis_InExecuteAsync()
     {
@@ -273,6 +287,14 @@ public class Module1 : Module<CommandResult>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             BadModuleSourceAwaitThisInsideLoopBlock,
+            AwaitThisAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_At_Goto_Target()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            BadModuleSourceAwaitThisAtGotoTarget,
             AwaitThisAnalyzer.DiagnosticId);
     }
 }

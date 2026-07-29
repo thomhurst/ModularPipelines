@@ -32,7 +32,8 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
 
         if (awaitExpression?.Parent is not ExpressionStatementSyntax expressionStatement
             || expressionStatement.ContainsDirectives
-            || IsInsideLoop(expressionStatement))
+            || IsInsideLoop(expressionStatement)
+            || IsGotoTarget(expressionStatement))
         {
             return;
         }
@@ -53,6 +54,31 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
                 or ForStatementSyntax
                 or ForEachStatementSyntax
                 or ForEachVariableStatementSyntax);
+    }
+
+    private static bool IsGotoTarget(ExpressionStatementSyntax statement)
+    {
+        var labeledStatement = statement
+            .AncestorsAndSelf()
+            .OfType<LabeledStatementSyntax>()
+            .FirstOrDefault();
+        if (labeledStatement is null)
+        {
+            return false;
+        }
+
+        var callable = statement.Ancestors().FirstOrDefault(static ancestor =>
+            ancestor is BaseMethodDeclarationSyntax
+                or AccessorDeclarationSyntax
+                or LocalFunctionStatementSyntax
+                or AnonymousFunctionExpressionSyntax);
+        var scope = callable ?? statement.SyntaxTree.GetRoot();
+
+        return scope.DescendantNodes()
+            .OfType<GotoStatementSyntax>()
+            .Any(gotoStatement =>
+                gotoStatement.Expression is IdentifierNameSyntax identifier
+                && identifier.Identifier.ValueText == labeledStatement.Identifier.ValueText);
     }
 
     private static async Task<Document> RemoveAwaitAsync(

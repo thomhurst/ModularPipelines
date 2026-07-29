@@ -43,6 +43,25 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string MultipleLoggerParametersSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1(
+        {{|#0:ILogger<Module1> logger|}},
+        {{|#1:ILoggerFactory loggerFactory|}})
+    {{
+    }}
+
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        return new List<string>();
+    }}
+}}
+";
+
     private const string AbstractModuleSourceILoggerGeneric = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -817,6 +836,21 @@ public class Module1 : Module<List<string>>
         var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSourceILoggerGeneric, expected, FixedModuleSourceILoggerGeneric);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Removes_CoLocated_Logger_Parameters()
+    {
+        var expected = new[]
+        {
+            VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0),
+            VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(1),
+        };
+
+        await VerifyCS.VerifyCodeFixAsync(
+            MultipleLoggerParametersSource,
+            expected,
+            FixedModuleSourceILoggerGeneric);
     }
 
     [TestMethod]
