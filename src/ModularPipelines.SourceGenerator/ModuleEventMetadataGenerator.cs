@@ -21,10 +21,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
     {
         var modules = context.SyntaxProvider
             .CreateSyntaxProvider(
-                static (node, _) => node is TypeDeclarationSyntax
-                {
-                    BaseList.Types.Count: > 0,
-                },
+                static (node, _) => IsTypeCandidate(node),
                 static (generatorContext, _) => GetModuleMetadata(generatorContext))
             .Where(static metadata => metadata is not null)
             .Select(static (metadata, _) => metadata!);
@@ -38,6 +35,13 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
                     Generate(metadata));
             }
         });
+    }
+
+    internal static bool IsTypeCandidate(SyntaxNode node)
+    {
+        return node is ClassDeclarationSyntax { BaseList.Types.Count: > 0 }
+            || (node is RecordDeclarationSyntax { BaseList.Types.Count: > 0 } record
+                && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword));
     }
 
     private static ModuleEventMetadata? GetModuleMetadata(GeneratorSyntaxContext context)

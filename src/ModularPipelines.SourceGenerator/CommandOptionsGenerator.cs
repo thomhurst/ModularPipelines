@@ -24,17 +24,25 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var metadata = context.SyntaxProvider
+        var typeMetadata = context.SyntaxProvider
             .CreateSyntaxProvider(
-                static (node, _) => node is ClassDeclarationSyntax
-                    || (node is RecordDeclarationSyntax record
-                        && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword)),
+                static (node, _) => IsTypeCandidate(node),
                 static (generatorContext, _) => GetTypeMetadata(generatorContext))
             .Where(static item => item is not null)
             .Select(static (item, _) => item!);
 
-        context.RegisterSourceOutput(metadata.Collect(), static (sourceContext, items) =>
+        var secretMetadata = context.SyntaxProvider
+            .ForAttributeWithMetadataName(
+                SecretValueAttributeFullName,
+                static (_, _) => true,
+                static (generatorContext, _) => GetTypeMetadata(generatorContext))
+            .Where(static item => item is not null)
+            .Select(static (item, _) => item!);
+
+        var metadata = typeMetadata.Collect().Combine(secretMetadata.Collect());
+        context.RegisterSourceOutput(metadata, static (sourceContext, itemGroups) =>
         {
+            var items = itemGroups.Left.AddRange(itemGroups.Right);
             if (items.Length > 0)
             {
                 sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
@@ -42,20 +50,42 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         });
     }
 
+    internal static bool IsTypeCandidate(SyntaxNode node)
+    {
+        return node is ClassDeclarationSyntax { BaseList.Types.Count: > 0 }
+            || (node is RecordDeclarationSyntax record
+                && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword)
+                && (record.BaseList is { Types.Count: > 0 }
+                    || record.ParameterList?.Parameters.Any(
+                        static parameter => parameter.AttributeLists.Count > 0) == true));
+    }
+
     private static TypeMetadata? GetTypeMetadata(GeneratorSyntaxContext context)
     {
-        if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
+        return GetTypeMetadata(
+            context.SemanticModel.GetDeclaredSymbol(context.Node) as INamedTypeSymbol,
+            context.SemanticModel.Compilation);
+    }
+
+    private static TypeMetadata? GetTypeMetadata(GeneratorAttributeSyntaxContext context)
+    {
+        return GetTypeMetadata(context.TargetSymbol.ContainingType, context.SemanticModel.Compilation);
+    }
+
+    private static TypeMetadata? GetTypeMetadata(INamedTypeSymbol? type, Compilation compilation)
+    {
+        if (type is null
             || type.IsGenericType
-            || !IsTypeAccessible(type, context.SemanticModel.Compilation.Assembly))
+            || !IsTypeAccessible(type, compilation.Assembly))
         {
             return null;
         }
 
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var commandMetadata = isCommandOptions
-            ? GetCommandProperties(type, context.SemanticModel.Compilation.Assembly)
+            ? GetCommandProperties(type, compilation.Assembly)
             : PropertyCollection.Empty;
-        var secretMetadata = GetSecretProperties(type, context.SemanticModel.Compilation.Assembly);
+        var secretMetadata = GetSecretProperties(type, compilation.Assembly);
 
         if (!isCommandOptions && !secretMetadata.HasAttributes)
         {
