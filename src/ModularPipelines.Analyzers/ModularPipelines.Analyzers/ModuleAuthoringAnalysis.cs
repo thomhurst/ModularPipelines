@@ -698,23 +698,40 @@ internal static class ModuleAuthoringAnalysis
                     instanceRegisteredModules,
                     unresolvedModuleRegistrations);
             case IArrayCreationOperation { Initializer: { } initializer }:
-                return initializer.ElementValues.Any(element =>
-                    TryTrackServiceDescriptor(
-                        element,
-                        instanceRegisteredModules,
-                        unresolvedModuleRegistrations,
-                        visitedLocals));
+                return TryTrackServiceDescriptorCollection(
+                    initializer.ElementValues,
+                    instanceRegisteredModules,
+                    unresolvedModuleRegistrations,
+                    visitedLocals);
             case ICollectionExpressionOperation collection:
-                return collection.Elements.Any(element =>
-                    TryTrackServiceDescriptor(
-                        element,
-                        instanceRegisteredModules,
-                        unresolvedModuleRegistrations,
-                        visitedLocals));
+                return TryTrackServiceDescriptorCollection(
+                    collection.Elements,
+                    instanceRegisteredModules,
+                    unresolvedModuleRegistrations,
+                    visitedLocals);
             default:
                 unresolvedModuleRegistrations.Add(0);
                 return true;
         }
+    }
+
+    private static bool TryTrackServiceDescriptorCollection(
+        IEnumerable<IOperation> elements,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        var tracked = false;
+        foreach (var element in elements)
+        {
+            tracked |= TryTrackServiceDescriptor(
+                element,
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations,
+                CloneVisitedLocals(visitedLocals));
+        }
+
+        return tracked;
     }
 
     private static bool IsServiceDescriptorFactory(IMethodSymbol method)
@@ -1736,12 +1753,12 @@ internal static class ModuleAuthoringAnalysis
         return FlowsFromCancellationToken(
                    conditional.WhenTrue,
                    cancellationToken,
-                   visitedLocals)
+                   CloneVisitedLocals(visitedLocals))
                && conditional.WhenFalse is not null
                && FlowsFromCancellationToken(
                    conditional.WhenFalse,
                    cancellationToken,
-                   visitedLocals);
+                   CloneVisitedLocals(visitedLocals));
     }
 
     private static bool FlowsFromCancellationTokenCoalesce(
@@ -1752,12 +1769,16 @@ internal static class ModuleAuthoringAnalysis
         return FlowsFromCancellationToken(
                    coalesce.Value,
                    cancellationToken,
-                   visitedLocals)
+                   CloneVisitedLocals(visitedLocals))
                && FlowsFromCancellationToken(
                    coalesce.WhenNull,
                    cancellationToken,
-                   visitedLocals);
+                   CloneVisitedLocals(visitedLocals));
     }
+
+    private static HashSet<ILocalSymbol> CloneVisitedLocals(
+        HashSet<ILocalSymbol> visitedLocals) =>
+        new(visitedLocals, visitedLocals.Comparer);
 
     private static bool FlowsFromCancellationTokenLocal(
         ILocalReferenceOperation localReference,

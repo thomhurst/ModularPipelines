@@ -256,6 +256,44 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_All_Modules_In_TryAddEnumerable_Descriptor_Array()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.DependencyInjection.Extensions;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class DeployModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.TryAddEnumerable(
+                        new[]
+                        {
+                            ServiceDescriptor.Singleton<IModule, BuildModule>(),
+                            ServiceDescriptor.Singleton<IModule, DeployModule>(),
+                        });
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Similarly_Named_Method_Does_Not_Register_Module()
     {
         var source = $$"""
@@ -823,6 +861,23 @@ public class ModuleAuthoringAnalyzerTests
                 using var source = CancellationTokenSource.CreateLinkedTokenSource(
                     new[] { cancellationToken, CancellationToken.None });
                 await Task.Delay(1, source.Token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Shared_Local_In_Conditional_Token_Branches()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = cancellationToken;
+                await Task.Delay(1, context is not null ? token : token);
                 return null;
             }
             """);
