@@ -364,7 +364,6 @@ internal static class CommandCoverageGuard
             tool.OutputDirectory,
             "Generated",
             $"{tool.NamespacePrefix}.CommandCoverage.json");
-
 }
 
 internal sealed record CommandCoverageManifest
