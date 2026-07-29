@@ -226,35 +226,55 @@ internal sealed class SpectreLoggerFilterOptionsPostConfigure
         for (var index = 0; index < options.Rules.Count; index++)
         {
             var rule = options.Rules[index];
-            if (rule.ProviderName is not null
-                && rule.ProviderName is not SpectreLoggerSuppressionRegistration.SpectreProviderAlias
-                && rule.ProviderName is not SpectreLoggerSuppressionRegistration.SpectreProviderTypeName)
+            var translatedRule = TranslateRule(rule);
+            if (!ReferenceEquals(translatedRule, rule))
             {
-                continue;
+                options.Rules[index] = translatedRule;
             }
-
-            var originalFilter = rule.Filter;
-            var translatedProviderName =
-                rule.ProviderName is SpectreLoggerSuppressionRegistration.SpectreProviderTypeName
-                    ? typeof(SuppressibleSpectreLoggerProvider).FullName
-                    : rule.ProviderName;
-            if (translatedProviderName == rule.ProviderName && originalFilter is null)
-            {
-                continue;
-            }
-
-            options.Rules[index] = new LoggerFilterRule(
-                translatedProviderName,
-                rule.CategoryName,
-                rule.LogLevel,
-                originalFilter is null
-                    ? null
-                    : (providerName, categoryName, logLevel) => originalFilter(
-                        providerName == typeof(SuppressibleSpectreLoggerProvider).FullName
-                            ? SpectreLoggerSuppressionRegistration.SpectreProviderTypeName
-                            : providerName,
-                        categoryName,
-                        logLevel));
         }
+    }
+
+    private static LoggerFilterRule TranslateRule(LoggerFilterRule rule)
+    {
+        if (!TargetsSpectreProvider(rule.ProviderName))
+        {
+            return rule;
+        }
+
+        var providerName = rule.ProviderName is SpectreLoggerSuppressionRegistration.SpectreProviderTypeName
+            ? typeof(SuppressibleSpectreLoggerProvider).FullName
+            : rule.ProviderName;
+        var filter = TranslateFilter(rule.Filter);
+        if (providerName == rule.ProviderName && ReferenceEquals(filter, rule.Filter))
+        {
+            return rule;
+        }
+
+        return new LoggerFilterRule(
+            providerName,
+            rule.CategoryName,
+            rule.LogLevel,
+            filter);
+    }
+
+    private static bool TargetsSpectreProvider(string? providerName) =>
+        providerName is null
+        or SpectreLoggerSuppressionRegistration.SpectreProviderAlias
+        or SpectreLoggerSuppressionRegistration.SpectreProviderTypeName;
+
+    private static Func<string?, string?, LogLevel, bool>? TranslateFilter(
+        Func<string?, string?, LogLevel, bool>? filter)
+    {
+        if (filter is null)
+        {
+            return null;
+        }
+
+        return (providerName, categoryName, logLevel) => filter(
+            providerName == typeof(SuppressibleSpectreLoggerProvider).FullName
+                ? SpectreLoggerSuppressionRegistration.SpectreProviderTypeName
+                : providerName,
+            categoryName,
+            logLevel);
     }
 }

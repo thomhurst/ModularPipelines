@@ -210,18 +210,19 @@ public class NonSpectreLoggerFactoryTests
         options.Rules[0].Filter!(wrapperProviderName, "Global", LogLevel.Information);
         options.Rules[1].Filter!(wrapperProviderName, "Alias", LogLevel.Warning);
         options.Rules[0].Filter!("Other.Provider", "Global", LogLevel.Information);
+        string?[] expectedProviderNames =
+        [
+            SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+            SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+            "Other.Provider",
+        ];
 
         using (Assert.Multiple())
         {
             await Assert.That(options.Rules[0].ProviderName).IsNull();
             await Assert.That(options.Rules[1].ProviderName)
                 .IsEqualTo(SpectreLoggerSuppressionRegistration.SpectreProviderAlias);
-            await Assert.That(filteredProviderNames).IsEquivalentTo(
-            [
-                SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
-                SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
-                "Other.Provider",
-            ]);
+            await Assert.That(filteredProviderNames).IsEquivalentTo(expectedProviderNames);
         }
     }
 
