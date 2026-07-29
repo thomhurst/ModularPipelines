@@ -44,29 +44,44 @@ public class CommandGroupAliasGenerationTests
                 "DockerBuildx.Generated.cs",
                 StringComparison.Ordinal));
         await Assert.That(canonicalService.Content)
-            .Contains("public class DockerBuildx : IDockerBuildx, IDockerBuilder");
+            .Contains("public class DockerBuildx : IDockerBuildx");
+        await Assert.That(canonicalService.Content)
+            .DoesNotContain("IDockerBuilder");
 
         var builderService = serviceFiles.Single(file =>
             Path.GetFileName(file.RelativePath).Equals(
                 "DockerBuilder.Generated.cs",
                 StringComparison.Ordinal));
         await Assert.That(builderService.Content)
-            .Contains("public class DockerBuilder : DockerBuildx");
-        await Assert.That(builderService.Content).DoesNotContain("Task<CommandResult>");
+            .Contains("public class DockerBuilder : DockerBuildx, IDockerBuilder");
+        await Assert.That(builderService.Content)
+            .Contains("public virtual Task<CommandResult> Build(");
+        await Assert.That(builderService.Content)
+            .Contains("DockerBuilderBuildOptions? options = null");
+        await Assert.That(builderService.Content)
+            .Contains("return base.Build(options, executionOptions, cancellationToken);");
 
         var builderInterface = serviceFiles.Single(file =>
             file.RelativePath.EndsWith(
                 "IDockerBuilder.Generated.cs",
                 StringComparison.Ordinal));
         await Assert.That(builderInterface.Content)
-            .Contains("public interface IDockerBuilder : IDockerBuildx");
+            .Contains("public interface IDockerBuilder");
+        await Assert.That(builderInterface.Content)
+            .DoesNotContain(": IDockerBuildx");
+        await Assert.That(builderInterface.Content)
+            .Contains("DockerBuilderBuildOptions? options = null");
 
         await Assert.That(serviceInterface)
             .Contains("IDockerBuilder Builder { get; }");
         await Assert.That(serviceImplementation)
-            .Contains("public IDockerBuilder Builder => (IDockerBuilder)Buildx;");
+            .Contains("IDockerBuilder builder");
+        await Assert.That(serviceImplementation)
+            .Contains("Builder = builder;");
+        await Assert.That(serviceImplementation)
+            .Contains("public IDockerBuilder Builder { get; }");
         await Assert.That(registration)
-            .Contains("services.TryAddScoped<IDockerBuilder>");
+            .Contains("services.TryAddScoped<IDockerBuilder, DockerBuilder>();");
     }
 
     private static CliToolDefinition CreateTool() =>

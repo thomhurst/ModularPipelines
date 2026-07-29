@@ -7,6 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -18,4 +21,16 @@ public class DockerBuilderPolicy : DockerBuildxPolicy
         : base(command)
     {
     }
+
+    public virtual Task<CommandResult> Eval(
+        DockerBuilderPolicyEvalOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Eval(options, executionOptions, cancellationToken);
+
+    public virtual Task<CommandResult> Test(
+        DockerBuilderPolicyTestOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Test(options, executionOptions, cancellationToken);
 }

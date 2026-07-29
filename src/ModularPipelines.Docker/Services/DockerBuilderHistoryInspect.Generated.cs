@@ -7,6 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -18,4 +21,10 @@ public class DockerBuilderHistoryInspect : DockerBuildxHistoryInspect
         : base(command)
     {
     }
+
+    public virtual Task<CommandResult> Attachment(
+        DockerBuilderHistoryInspectAttachmentOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Attachment(options, executionOptions, cancellationToken);
 }

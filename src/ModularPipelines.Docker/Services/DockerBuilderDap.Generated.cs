@@ -7,6 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -18,4 +21,10 @@ public class DockerBuilderDap : DockerBuildxDap
         : base(command)
     {
     }
+
+    public virtual Task<CommandResult> Build(
+        DockerBuilderDapBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Build(options, executionOptions, cancellationToken);
 }

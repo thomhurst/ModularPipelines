@@ -5,11 +5,78 @@
 
 #nullable enable
 
+#pragma warning disable CS0618 // Compatibility facade references obsolete alias wrappers.
+
 using System.CodeDom.Compiler;
+using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Services;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public interface IDockerBuilder : IDockerBuildx
+public interface IDockerBuilder
 {
+    DockerBuilderDap Dap { get; }
+
+    DockerBuilderHistory History { get; }
+
+    DockerBuilderImageTools ImageTools { get; }
+
+    DockerBuilderPolicy Policy { get; }
+
+    Task<CommandResult> Bake(
+        DockerBuilderBakeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Build(
+        DockerBuilderBuildOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Create(
+        DockerBuilderCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> DialStdio(
+        DockerBuilderDialStdioOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Du(
+        DockerBuilderDuOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Inspect(
+        DockerBuilderInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Ls(
+        DockerBuilderLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Prune(
+        DockerBuilderPruneOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Rm(
+        DockerBuilderRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Stop(
+        DockerBuilderStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
+
+    Task<CommandResult> Use(
+        DockerBuilderUseOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
 }

@@ -7,6 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -14,8 +17,57 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerBuilderHistory : DockerBuildxHistory
 {
+    private readonly ICommandContext _command;
+    private DockerBuilderHistoryInspect? _inspect;
+
     public DockerBuilderHistory(ICommandContext command)
         : base(command)
     {
+        _command = command;
     }
+
+    public new DockerBuilderHistoryInspect Inspect =>
+        _inspect ??= new DockerBuilderHistoryInspect(_command);
+
+    public virtual Task<CommandResult> Export(
+        DockerBuilderHistoryExportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Export(options, executionOptions, cancellationToken);
+
+    public virtual Task<CommandResult> Import(
+        DockerBuilderHistoryImportOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Import(options, executionOptions, cancellationToken);
+
+    public virtual Task<CommandResult> Logs(
+        DockerBuilderHistoryLogsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Logs(options, executionOptions, cancellationToken);
+
+    public virtual Task<CommandResult> Ls(
+        DockerBuilderHistoryLsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Ls(options, executionOptions, cancellationToken);
+
+    public virtual Task<CommandResult> Open(
+        DockerBuilderHistoryOpenOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Open(options, executionOptions, cancellationToken);
+
+    public virtual Task<CommandResult> Rm(
+        DockerBuilderHistoryRmOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Rm(options, executionOptions, cancellationToken);
+
+    public virtual Task<CommandResult> Trace(
+        DockerBuilderHistoryTraceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Trace(options, executionOptions, cancellationToken);
 }

@@ -35,6 +35,12 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         // Usings
+        if (tool.CommandGroupAliases.Count > 0)
+        {
+            sb.AppendLine("#pragma warning disable CS0618 // Compatibility aliases are intentionally registered.");
+            sb.AppendLine();
+        }
+
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection.Extensions;");
@@ -87,9 +93,8 @@ public class DependencyRegistrationGenerator : ICodeGenerator
             {
                 var aliasIdentifier = GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
                 sb.AppendLine(
-                    $"        services.TryAddScoped<I{tool.NamespacePrefix}{aliasIdentifier}>("
-                    + $"serviceProvider => (I{tool.NamespacePrefix}{aliasIdentifier})"
-                    + $"serviceProvider.GetRequiredService<I{subDomainClassName}>());");
+                    $"        services.TryAddScoped<I{tool.NamespacePrefix}{aliasIdentifier}, "
+                    + $"{tool.NamespacePrefix}{aliasIdentifier}>();");
             }
         }
 

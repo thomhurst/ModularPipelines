@@ -7,6 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -18,4 +21,16 @@ public class DockerBuilderImageTools : DockerBuildxImageTools
         : base(command)
     {
     }
+
+    public virtual Task<CommandResult> Create(
+        DockerBuilderImageToolsCreateOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Create(options, executionOptions, cancellationToken);
+
+    public virtual Task<CommandResult> Inspect(
+        DockerBuilderImageToolsInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default) =>
+        base.Inspect(options, executionOptions, cancellationToken);
 }
