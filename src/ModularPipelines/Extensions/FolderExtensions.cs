@@ -19,8 +19,8 @@ public static class FolderExtensions
     /// </summary>
     /// <param name="folders">The folder collection.</param>
     /// <returns>The folders as paths.</returns>
-    public static IReadOnlyList<string> AsPaths(this IReadOnlyList<Folder> folders) =>
-        folders.Select(f => f.Path).ToArray();
+    public static IReadOnlyList<string> AsPaths(this IList<Folder> folders) =>
+        [.. folders.Select(f => f.Path)];
 
     /// <summary>
     /// Turns a nullable Folder object in a non-nullable Folder object if the folder exists.

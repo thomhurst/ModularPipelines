@@ -20,8 +20,8 @@ public static class FileExtensions
     /// </summary>
     /// <param name="files">The file collection.</param>
     /// <returns>The files as paths.</returns>
-    public static IReadOnlyList<string> AsPaths(this IReadOnlyList<File> files) =>
-        files.Select(f => f.Path).ToArray();
+    public static IReadOnlyList<string> AsPaths(this IList<File> files) =>
+        [.. files.Select(f => f.Path)];
 
     /// <summary>
     /// Turns a nullable File object in a non-nullable File object if the file exists.

@@ -22,4 +22,37 @@ public class ReadOnlySetJsonConverterTests
         await Assert.That(actual!).IsEquivalentTo(expected);
         await Assert.That(actual.Contains("docker")).IsTrue();
     }
+
+    [Test]
+    public async Task ModuleAssignment_RoundTrips_With_DefaultOptions()
+    {
+        var expected = new ModuleAssignment(
+            "BuildModule",
+            "System.String",
+            new HashSet<string> { "Docker" },
+            null,
+            DateTimeOffset.UtcNow,
+            new ModuleAssignmentConfig(null, 0, false));
+
+        var json = JsonSerializer.Serialize(expected);
+        var actual = JsonSerializer.Deserialize<ModuleAssignment>(json);
+
+        await Assert.That(actual).IsNotNull();
+        await Assert.That(actual!.RequiredCapabilities.Contains("docker")).IsTrue();
+    }
+
+    [Test]
+    public async Task WorkerRegistration_RoundTrips_With_DefaultOptions()
+    {
+        var expected = new WorkerRegistration(
+            1,
+            new HashSet<string> { "Docker" },
+            DateTimeOffset.UtcNow);
+
+        var json = JsonSerializer.Serialize(expected);
+        var actual = JsonSerializer.Deserialize<WorkerRegistration>(json);
+
+        await Assert.That(actual).IsNotNull();
+        await Assert.That(actual!.Capabilities.Contains("docker")).IsTrue();
+    }
 }
