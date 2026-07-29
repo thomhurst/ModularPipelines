@@ -23,7 +23,7 @@ public abstract class CommandServiceBase
     protected readonly ICommandContext Command;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CommandServiceBase"/> class.
+    /// Initialises a new instance of the <see cref="CommandServiceBase"/> class.
     /// </summary>
     /// <param name="command">The command execution service.</param>
     protected CommandServiceBase(ICommandContext command)

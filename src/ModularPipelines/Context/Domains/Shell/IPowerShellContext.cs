@@ -23,11 +23,11 @@ public interface IPowerShellContext
     /// <returns>A <see cref="CommandResult"/> containing the execution results, including standard output, standard error, and exit code.</returns>
     /// <example>
     /// <code>
-    /// var result = await context.Powershell.Script(new PowershellScriptOptions("Get-Process | Select-Object -First 5"));
+    /// var result = await context.Shell.PowerShell.ScriptAsync(new PowershellScriptOptions("Get-Process | Select-Object -First 5"));
     /// Console.WriteLine(result.StandardOutput);
     /// </code>
     /// </example>
-    Task<CommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ScriptAsync(PowershellScriptOptions options, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Executes a PowerShell script from a file.
@@ -37,12 +37,12 @@ public interface IPowerShellContext
     /// <returns>A <see cref="CommandResult"/> containing the execution results, including standard output, standard error, and exit code.</returns>
     /// <example>
     /// <code>
-    /// var result = await context.Powershell.FromFile(new PowershellFileOptions("./scripts/deploy.ps1"));
+    /// var result = await context.Shell.PowerShell.FromFileAsync(new PowershellFileOptions("./scripts/deploy.ps1"));
     /// if (result.ExitCode != 0)
     /// {
     ///     throw new Exception($"Script failed: {result.StandardError}");
     /// }
     /// </code>
     /// </example>
-    Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FromFileAsync(PowershellFileOptions options, CancellationToken cancellationToken = default);
 }

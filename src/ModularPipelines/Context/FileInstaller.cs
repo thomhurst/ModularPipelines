@@ -31,9 +31,9 @@ public class FileInstaller : IFileInstaller
         }
 
         var escapedPath = options.Path.Replace("'", "'\''");
-        await _bash.Command(new BashCommandOptions($"chmod u+x '{escapedPath}'"), cancellationToken).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions($"chmod u+x '{escapedPath}'"), cancellationToken).ConfigureAwait(false);
 
-        return await _bash.FromFile(new BashFileOptions(options.Path), cancellationToken).ConfigureAwait(false);
+        return await _bash.FromFileAsync(new BashFileOptions(options.Path), cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>

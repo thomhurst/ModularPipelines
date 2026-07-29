@@ -1322,10 +1322,10 @@ This section provides structured data optimized for AI assistants helping with c
   new: "context.Shell.Command.ExecuteCommandLineToolAsync(...)"
 
 - old: "context.Bash.ExecuteCommand(...)"
-  new: "context.Shell.Bash.ExecuteCommand(...)"
+  new: "context.Shell.Bash.CommandAsync(...)"
 
 - old: "context.Powershell.ExecuteCommand(...)"
-  new: "context.Shell.PowerShell.ExecuteCommand(...)"
+  new: "context.Shell.PowerShell.ScriptAsync(...)"
 
 # Tool Options Constructors (removed - use property initializers)
 - old: "new DotNetNewOptions(\"console\")"

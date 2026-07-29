@@ -15,6 +15,9 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
+/// <summary>
+/// Provides predefined installers for common development tools.
+/// </summary>
 [ExcludeFromCodeCoverage]
 public partial class PredefinedInstallers : IPredefinedInstallersContext
 {
@@ -26,9 +29,9 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     /// <remarks>
     /// These versions are used to construct download URLs for various installers.
     /// Check the respective project repositories for the latest available versions:
-    /// - PowerShell: https://github.com/PowerShell/PowerShell/releases
-    /// - NVM for Windows: https://github.com/coreybutler/nvm-windows/releases
-    /// - NVM for Unix: https://github.com/nvm-sh/nvm/releases
+    /// - PowerShell: https://github.com/PowerShell/PowerShell/releases.
+    /// - NVM for Windows: https://github.com/coreybutler/nvm-windows/releases.
+    /// - NVM for Unix: https://github.com/nvm-sh/nvm/releases.
     /// </remarks>
     private static class Versions
     {
@@ -164,12 +167,12 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
         var bashScript = await _downloader.DownloadFileAsync(
             new DownloadFileOptions(new Uri(nvmLinuxUrl))).ConfigureAwait(false);
 
-        await _bash.FromFile(new BashFileOptions(bashScript)).ConfigureAwait(false);
+        await _bash.FromFileAsync(new BashFileOptions(bashScript)).ConfigureAwait(false);
 
-        await _bash.Command(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\"")).ConfigureAwait(false);
-        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"")).ConfigureAwait(false);
-        await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"")).ConfigureAwait(false);
-        await _bash.Command(new BashCommandOptions("source ~/.bashrc")).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\"")).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"")).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"")).ConfigureAwait(false);
+        await _bash.CommandAsync(new BashCommandOptions("source ~/.bashrc")).ConfigureAwait(false);
 
         var nvmDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nvm");
         return new File(nvmDir);
@@ -194,7 +197,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
         // Linux/Mac: Use shell escaping since BashCommandOptions uses string interpolation.
         // The validation regex ensures no single quotes in version, making this escaping safe.
         var escapedVersion = EscapeShellArgument(version);
-        return await _bash.Command(new BashCommandOptions($"nvm install {escapedVersion}")).ConfigureAwait(false);
+        return await _bash.CommandAsync(new BashCommandOptions($"nvm install {escapedVersion}")).ConfigureAwait(false);
     }
 
     /// <summary>

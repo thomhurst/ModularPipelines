@@ -21,11 +21,11 @@ public interface IBashContext
     /// <returns>A <see cref="CommandResult"/> containing the output, exit code, and execution details.</returns>
     /// <example>
     /// <code>
-    /// var result = await context.Bash.Command(new BashCommandOptions("echo 'Hello World'"));
+    /// var result = await context.Shell.Bash.CommandAsync(new BashCommandOptions("echo 'Hello World'"));
     /// Console.WriteLine(result.StandardOutput);
     /// </code>
     /// </example>
-    Task<CommandResult> Command(BashCommandOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> CommandAsync(BashCommandOptions options, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Executes a bash script from a file.
@@ -35,9 +35,9 @@ public interface IBashContext
     /// <returns>A <see cref="CommandResult"/> containing the output, exit code, and execution details.</returns>
     /// <example>
     /// <code>
-    /// var result = await context.Bash.FromFile(new BashFileOptions("/path/to/script.sh"));
+    /// var result = await context.Shell.Bash.FromFileAsync(new BashFileOptions("/path/to/script.sh"));
     /// Console.WriteLine(result.StandardOutput);
     /// </code>
     /// </example>
-    Task<CommandResult> FromFile(BashFileOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FromFileAsync(BashFileOptions options, CancellationToken cancellationToken = default);
 }

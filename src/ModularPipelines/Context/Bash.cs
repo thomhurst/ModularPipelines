@@ -13,12 +13,12 @@ internal class Bash : IBashContext
         _command = command;
     }
 
-    public virtual Task<CommandResult> Command(BashCommandOptions options, CancellationToken cancellationToken = default)
+    public virtual Task<CommandResult> CommandAsync(BashCommandOptions options, CancellationToken cancellationToken = default)
     {
         return _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> FromFile(BashFileOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> FromFileAsync(BashFileOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options with
         {
