@@ -76,6 +76,109 @@ public class IncrementalGeneratorCachingTests
         await AssertOutputIsCachedAfterTriviaChange(new ModuleEventMetadataGenerator(), source);
     }
 
+    [Test]
+    public async Task Command_Metadata_Only_Performs_Semantic_Analysis_For_Syntax_Candidates()
+    {
+        const string source = """
+                              namespace ModularPipelines.Options
+                              {
+                                  public abstract class CommandLineToolOptions;
+                              }
+
+                              namespace ModularPipelines.Attributes
+                              {
+                                  [System.AttributeUsage(System.AttributeTargets.Property)]
+                                  public sealed class SecretValueAttribute : System.Attribute;
+                              }
+
+                              namespace Consumer
+                              {
+                                  public class CommandTarget : ModularPipelines.Options.CommandLineToolOptions;
+
+                                  public class SecretTarget
+                                  {
+                                      [ModularPipelines.Attributes.SecretValue]
+                                      public string? Value { get; init; }
+                                  }
+
+                                  public record SecretRecord(
+                                      [property: ModularPipelines.Attributes.SecretValue] string Value);
+
+                                  public class PlainClass;
+                                  public record PlainRecord;
+                                  public struct PlainStruct;
+                                  public interface IPlainInterface;
+                              }
+                              """;
+
+        var result = RunGenerator(new CommandOptionsGenerator(), source);
+        var candidateCount = CSharpSyntaxTree.ParseText(source)
+            .GetRoot()
+            .DescendantNodes()
+            .Count(CommandOptionsGenerator.IsTypeCandidate);
+        var generatedSource = result.GeneratedSources.Single().SourceText.ToString();
+
+        await Assert.That(candidateCount).IsEqualTo(3);
+        await Assert.That(generatedSource).Contains("SecretTarget");
+        await Assert.That(generatedSource).Contains("SecretRecord");
+    }
+
+    [Test]
+    public async Task Module_Event_Metadata_Only_Performs_Semantic_Analysis_For_Class_Candidates()
+    {
+        const string source = """
+                              namespace ModularPipelines.Modules
+                              {
+                                  public abstract class Module<T>;
+                              }
+
+                              namespace Consumer
+                              {
+                                  public sealed class SampleAttribute : System.Attribute;
+                                  public class ModuleTarget : ModularPipelines.Modules.Module<string>;
+                                  public class NotAModule : System.IDisposable
+                                  {
+                                      public void Dispose() { }
+                                  }
+
+                                  public interface IPlainInterface : System.IDisposable;
+                                  public struct PlainStruct : System.IDisposable
+                                  {
+                                      public void Dispose() { }
+                                  }
+
+                                  public class PlainClass;
+                                  public record PlainRecord;
+                              }
+                              """;
+
+        var result = RunGenerator(new ModuleEventMetadataGenerator(), source);
+        var candidateCount = CSharpSyntaxTree.ParseText(source)
+            .GetRoot()
+            .DescendantNodes()
+            .Count(ModuleEventMetadataGenerator.IsTypeCandidate);
+
+        await Assert.That(candidateCount).IsEqualTo(3);
+        await Assert.That(result.GeneratedSources).IsNotEmpty();
+    }
+
+    private static GeneratorRunResult RunGenerator(
+        IIncrementalGenerator generator,
+        string source)
+    {
+        var syntaxTree = CSharpSyntaxTree.ParseText(source);
+        var compilation = CSharpCompilation.Create(
+            "GeneratorCandidateTests",
+            [syntaxTree],
+            [MetadataReference.CreateFromFile(typeof(object).Assembly.Location)],
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        GeneratorDriver driver = CSharpGeneratorDriver.Create([generator.AsSourceGenerator()]);
+
+        driver = driver.RunGenerators(compilation);
+
+        return driver.GetRunResult().Results.Single();
+    }
+
     private static async Task AssertOutputIsCachedAfterTriviaChange(
         IIncrementalGenerator generator,
         string source)
