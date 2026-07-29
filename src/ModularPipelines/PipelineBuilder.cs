@@ -26,10 +26,8 @@ namespace ModularPipelines;
 /// <summary>
 /// A builder for configuring and creating a pipeline.
 /// </summary>
-public sealed class PipelineBuilder
+public sealed class PipelineBuilder : IDisposable
 {
-    private static readonly IFileProvider EmptyFileProvider = new NullFileProvider();
-
     private readonly IHostBuilder _hostBuilder;
     private readonly ServiceCollection _services;
     private readonly ConfigurationManager _configuration;
@@ -93,6 +91,15 @@ public sealed class PipelineBuilder
     /// Gets the host environment information.
     /// </summary>
     public IHostEnvironment Environment => _environment;
+
+    /// <summary>
+    /// Releases resources owned by the cached host environment.
+    /// </summary>
+    public void Dispose()
+    {
+        (_environment.ContentRootFileProvider as IDisposable)?.Dispose();
+        GC.SuppressFinalize(this);
+    }
 
     /// <summary>
     /// Sets the minimum log level for the pipeline.
@@ -262,7 +269,7 @@ public sealed class PipelineBuilder
             ApplicationName = applicationName,
             EnvironmentName = environmentName,
             ContentRootPath = contentRootPath,
-            ContentRootFileProvider = EmptyFileProvider,
+            ContentRootFileProvider = new PhysicalFileProvider(contentRootPath),
         };
     }
 

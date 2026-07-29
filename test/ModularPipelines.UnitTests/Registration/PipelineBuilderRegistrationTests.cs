@@ -1,6 +1,5 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
@@ -108,20 +107,31 @@ public class PipelineBuilderRegistrationTests
     public async Task Environment_IsCachedAndHonorsBuilderOptions()
     {
         var contentRoot = Path.GetTempPath();
-        var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+        var fileName = $"pipeline-environment-{Guid.NewGuid():N}.txt";
+        var filePath = Path.Combine(contentRoot, fileName);
+        await File.WriteAllTextAsync(filePath, "content");
+
+        try
         {
-            ApplicationName = "ConfiguredApp",
-            EnvironmentName = "ConfiguredEnvironment",
-            ContentRootPath = contentRoot,
-        });
+            using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+            {
+                ApplicationName = "ConfiguredApp",
+                EnvironmentName = "ConfiguredEnvironment",
+                ContentRootPath = contentRoot,
+            });
 
-        var environment = builder.Environment;
+            var environment = builder.Environment;
 
-        await Assert.That(builder.Environment).IsSameReferenceAs(environment);
-        await Assert.That(environment.ApplicationName).IsEqualTo("ConfiguredApp");
-        await Assert.That(environment.EnvironmentName).IsEqualTo("ConfiguredEnvironment");
-        await Assert.That(environment.ContentRootPath).IsEqualTo(Path.GetFullPath(contentRoot));
-        await Assert.That(environment.ContentRootFileProvider).IsTypeOf<NullFileProvider>();
+            await Assert.That(builder.Environment).IsSameReferenceAs(environment);
+            await Assert.That(environment.ApplicationName).IsEqualTo("ConfiguredApp");
+            await Assert.That(environment.EnvironmentName).IsEqualTo("ConfiguredEnvironment");
+            await Assert.That(environment.ContentRootPath).IsEqualTo(Path.GetFullPath(contentRoot));
+            await Assert.That(environment.ContentRootFileProvider.GetFileInfo(fileName).Exists).IsTrue();
+        }
+        finally
+        {
+            File.Delete(filePath);
+        }
     }
 
     [Test]
