@@ -252,9 +252,19 @@ public class CodeGeneratorOrchestratorTests
     /// Creates a temp output root containing one pre-existing generated file for the tool,
     /// returning both paths.
     /// </summary>
-    private static (string OutputRoot, string ExistingFile) CreateOutputRootWithExistingFile()
+    private static async Task<(string OutputRoot, string ExistingFile)> CreateOutputRootWithExistingFileAsync()
     {
         var outputRoot = Path.Combine(Path.GetTempPath(), "mp-orchestrator-tests", Guid.NewGuid().ToString("N"));
+        var baselineTool = new FakeCliScraper().CreateToolDefinition() with
+        {
+            Commands = [FakeCommand()],
+        };
+        var baseline = CommandCoverageGuard.Evaluate(
+            baselineTool,
+            outputRoot,
+            approveShrinkage: false);
+        await CommandCoverageGuard.WriteManifestAsync(baseline, CancellationToken.None);
+
         var optionsDir = Path.Combine(outputRoot, ToolOutputDirectory, "Options");
         Directory.CreateDirectory(optionsDir);
 
@@ -274,7 +284,7 @@ public class CodeGeneratorOrchestratorTests
     [Test]
     public async Task Generator_Failure_Leaves_Existing_Output_Untouched()
     {
-        var (outputRoot, existingFile) = CreateOutputRootWithExistingFile();
+        var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
 
         try
         {
@@ -298,7 +308,7 @@ public class CodeGeneratorOrchestratorTests
     [Test]
     public async Task Duplicate_Output_Paths_Fail_Without_Mutating_Existing_Output()
     {
-        var (outputRoot, existingFile) = CreateOutputRootWithExistingFile();
+        var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
 
         try
         {
@@ -329,7 +339,7 @@ public class CodeGeneratorOrchestratorTests
     [Test]
     public async Task Zero_Commands_For_Cli_Only_Tool_Is_An_Error_And_Writes_Nothing()
     {
-        var (outputRoot, existingFile) = CreateOutputRootWithExistingFile();
+        var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
 
         try
         {
@@ -371,7 +381,7 @@ public class CodeGeneratorOrchestratorTests
     [Test]
     public async Task Write_Failure_Preserves_Old_Files_Because_Prune_Runs_Last()
     {
-        var (outputRoot, existingFile) = CreateOutputRootWithExistingFile();
+        var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
 
         try
         {
@@ -408,7 +418,7 @@ public class CodeGeneratorOrchestratorTests
     [Test]
     public async Task Successful_Generation_Replaces_Old_Output()
     {
-        var (outputRoot, existingFile) = CreateOutputRootWithExistingFile();
+        var (outputRoot, existingFile) = await CreateOutputRootWithExistingFileAsync();
 
         try
         {

@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "toolName": "packer",
+  "commandCount": 9,
+  "commandTreeSha256": "3128eaec0d83158e6f834a0c550de2b6ed3991bc3818a5e3cf053d2af1b43288",
+  "commands": [
+    "packer build",
+    "packer console",
+    "packer fix",
+    "packer fmt",
+    "packer hcl2_upgrade",
+    "packer init",
+    "packer inspect",
+    "packer plugins",
+    "packer validate"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

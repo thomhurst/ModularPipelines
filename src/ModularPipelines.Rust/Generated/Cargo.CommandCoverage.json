@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "toolName": "cargo",
+  "commandCount": 16,
+  "commandTreeSha256": "f8b1c0ec09c6f1a8fbc12f34c9e244131aa2869c068c7f752c8da91976b1ec19",
+  "commands": [
+    "cargo add",
+    "cargo bench",
+    "cargo build",
+    "cargo check",
+    "cargo clean",
+    "cargo doc",
+    "cargo init",
+    "cargo install",
+    "cargo new",
+    "cargo publish",
+    "cargo remove",
+    "cargo run",
+    "cargo search",
+    "cargo test",
+    "cargo uninstall",
+    "cargo update"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

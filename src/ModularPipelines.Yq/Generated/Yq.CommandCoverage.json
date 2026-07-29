@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "toolName": "yq",
+  "commandCount": 2,
+  "commandTreeSha256": "328b5b077fb40b3d69b15529bbcc453b6d65385140018db3cd2467f0e69454ee",
+  "commands": [
+    "yq eval",
+    "yq eval-all"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

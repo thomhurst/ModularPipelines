@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "toolName": "newman",
+  "commandCount": 2,
+  "commandTreeSha256": "13196507826b0a03a1696fab6caf487b98a0120c7bce0b25bafe6a340d66228c",
+  "commands": [
+    "newman run",
+    "newman URL"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

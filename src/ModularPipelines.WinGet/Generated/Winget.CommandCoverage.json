@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "toolName": "winget",
+  "commandCount": 18,
+  "commandTreeSha256": "a801b204df811644e4a13544b9587761e8e74e3ff8ab509195e637d9651acb3c",
+  "commands": [
+    "winget configure",
+    "winget download",
+    "winget dscv3",
+    "winget export",
+    "winget features",
+    "winget hash",
+    "winget import",
+    "winget install",
+    "winget list",
+    "winget pin",
+    "winget repair",
+    "winget search",
+    "winget settings",
+    "winget show",
+    "winget source",
+    "winget uninstall",
+    "winget upgrade",
+    "winget validate"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

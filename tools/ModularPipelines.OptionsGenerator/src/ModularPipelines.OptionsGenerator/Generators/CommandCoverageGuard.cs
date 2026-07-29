@@ -2,13 +2,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
 
-internal static partial class CommandCoverageGuard
+internal static class CommandCoverageGuard
 {
     private const int ManifestFormatVersion = 1;
 
@@ -24,16 +23,18 @@ internal static partial class CommandCoverageGuard
         string outputDirectory,
         bool approveShrinkage,
         string? fallbackManifestPath = null,
-        StringComparer? pathComparer = null)
+        StringComparer? pathComparer = null,
+        bool allowMissingManifest = false)
     {
         var commands = NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
         var manifestPath = GetManifestPath(tool, outputDirectory);
-        var (previous, usedGeneratedApiBaseline) = ReadBaseline(
+        var previous = ReadBaseline(
             tool,
             outputDirectory,
             manifestPath,
             fallbackManifestPath,
-            pathComparer ?? StringComparer.OrdinalIgnoreCase);
+            pathComparer ?? StringComparer.OrdinalIgnoreCase,
+            allowMissingManifest);
         var exclusions = ValidateExclusions(tool.CommandCoverage.Exclusions);
         var excludedCommands = exclusions
             .Select(exclusion => NormalizeCommand(exclusion.Command))
@@ -67,7 +68,6 @@ internal static partial class CommandCoverageGuard
             ManifestPath = manifestPath,
             Manifest = manifest,
             HasPreviousBaseline = previous is not null,
-            UsedGeneratedApiBaseline = usedGeneratedApiBaseline,
             AddedCommands = addedCommands,
             RemovedCommands = removedCommands,
             KnownGroupsWithoutChildren = knownGroupsWithoutChildren,
@@ -76,17 +76,18 @@ internal static partial class CommandCoverageGuard
         };
     }
 
-    private static (CommandCoverageManifest? Manifest, bool UsedGeneratedApiBaseline) ReadBaseline(
+    private static CommandCoverageManifest? ReadBaseline(
         CliToolDefinition tool,
         string outputDirectory,
         string manifestPath,
         string? fallbackManifestPath,
-        StringComparer pathComparer)
+        StringComparer pathComparer,
+        bool allowMissingManifest)
     {
         var manifest = ReadManifest(manifestPath);
         if (manifest is not null)
         {
-            return (manifest, false);
+            return manifest;
         }
 
         if (!string.IsNullOrEmpty(fallbackManifestPath)
@@ -95,12 +96,18 @@ internal static partial class CommandCoverageGuard
             manifest = ReadManifest(fallbackManifestPath);
             if (manifest is not null)
             {
-                return (manifest, false);
+                return manifest;
             }
         }
 
-        var generatedApiBaseline = ReadGeneratedApiBaseline(tool, outputDirectory);
-        return (generatedApiBaseline, generatedApiBaseline is not null);
+        if (!allowMissingManifest && HasGeneratedApi(tool, outputDirectory))
+        {
+            throw new InvalidOperationException(
+                $"Command coverage manifest is missing for '{tool.ToolName}': {manifestPath}. "
+                + "Restore the committed manifest before regenerating this tool.");
+        }
+
+        return null;
     }
 
     private static IReadOnlyList<string> GetKnownGroupsWithoutChildren(
@@ -260,71 +267,17 @@ internal static partial class CommandCoverageGuard
         };
     }
 
-    private static CommandCoverageManifest? ReadGeneratedApiBaseline(
+    private static bool HasGeneratedApi(
         CliToolDefinition tool,
         string outputDirectory)
     {
         var optionsDirectory = Path.Combine(outputDirectory, tool.OutputDirectory, "Options");
-        if (!Directory.Exists(optionsDirectory))
-        {
-            return null;
-        }
-
-        var generatedFiles = Directory.EnumerateFiles(
-                optionsDirectory,
-                $"{tool.NamespacePrefix}*Options.Generated.cs",
-                SearchOption.TopDirectoryOnly)
-            .ToArray();
-        if (generatedFiles.Length == 0)
-        {
-            return null;
-        }
-
-        var commands = NormalizeCommands(
-            generatedFiles.SelectMany(path => ReadGeneratedCommands(path, tool)));
-        if (commands.Count == 0)
-        {
-            throw new InvalidOperationException(
-                $"Found generated option files for '{tool.ToolName}' but could not reconstruct a command "
-                + $"coverage baseline from {optionsDirectory}. Commit an explicit coverage manifest or "
-                + "update the generated API baseline parser.");
-        }
-
-        return CreateManifest(tool.ToolName, null, commands, []);
-    }
-
-    private static IEnumerable<string> ReadGeneratedCommands(
-        string path,
-        CliToolDefinition tool)
-    {
-        var content = File.ReadAllText(path);
-        foreach (Match attribute in CliSubCommandAttributePattern().Matches(content))
-        {
-            var commandParts = QuotedStringPattern()
-                .Matches(attribute.Groups["arguments"].Value)
-                .Select(match => Regex.Unescape(match.Groups["value"].Value))
-                .ToArray();
-            if (commandParts.Length > 0)
-            {
-                yield return string.Join(' ', commandParts.Prepend(tool.ToolName));
-            }
-        }
-
-        if (ContainsGeneratedRootCommand(content, tool.NamespacePrefix))
-        {
-            yield return tool.ToolName;
-        }
-    }
-
-    private static bool ContainsGeneratedRootCommand(
-        string content,
-        string namespacePrefix)
-    {
-        var escapedPrefix = Regex.Escape(namespacePrefix);
-        var pattern =
-            $@"\bpublic\s+record\s+{escapedPrefix}(?:Execute)+Options"
-            + $@"(?:\s*\([^{{;]*\))?\s*:\s*{escapedPrefix}Options\b";
-        return Regex.IsMatch(content, pattern, RegexOptions.CultureInvariant);
+        return Directory.Exists(optionsDirectory)
+               && Directory.EnumerateFiles(
+                       optionsDirectory,
+                       $"{tool.NamespacePrefix}*Options*.cs",
+                       SearchOption.TopDirectoryOnly)
+                   .Any();
     }
 
     private static CommandCoverageManifest CreateManifest(
@@ -411,12 +364,6 @@ internal static partial class CommandCoverageGuard
             tool.OutputDirectory,
             "Generated",
             $"{tool.NamespacePrefix}.CommandCoverage.json");
-
-    [GeneratedRegex(@"\[CliSubCommand\((?<arguments>[^\)]*)\)\]")]
-    private static partial Regex CliSubCommandAttributePattern();
-
-    [GeneratedRegex(@"""(?<value>[^""]+)""")]
-    private static partial Regex QuotedStringPattern();
 }
 
 internal sealed record CommandCoverageManifest
@@ -445,8 +392,6 @@ internal sealed record CommandCoverageEvaluation
     public required CommandCoverageManifest Manifest { get; init; }
 
     public required bool HasPreviousBaseline { get; init; }
-
-    public bool UsedGeneratedApiBaseline { get; init; }
 
     public required IReadOnlyList<string> AddedCommands { get; init; }
 

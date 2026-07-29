@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "toolName": "pip",
+  "commandCount": 14,
+  "commandTreeSha256": "a9b92993f96a5cee7b1131d5da44c679e8bd64ee6a736a1d92dc95e915bd18ac",
+  "commands": [
+    "pip cache",
+    "pip check",
+    "pip config",
+    "pip download",
+    "pip freeze",
+    "pip hash",
+    "pip index",
+    "pip inspect",
+    "pip install",
+    "pip list",
+    "pip search",
+    "pip show",
+    "pip uninstall",
+    "pip wheel"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}
