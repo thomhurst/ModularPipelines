@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.SourceGenerator;
@@ -23,6 +24,24 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private static readonly DiagnosticDescriptor InvalidIntegrationMethod =
         GeneratorDiagnostics.InvalidIntegrationMethod;
 
+    private static readonly DiagnosticDescriptor UnsupportedToolsLanguageVersion = new(
+        id: "MPGEN003",
+        title: "Discoverable tool properties require C# 14",
+        messageFormat:
+            "Tool accessor '{0}' cannot generate a context.Tools property because language version "
+            + "'{1}' does not support extension members; use C# 14 or preview",
+        category: "ModularPipelines.SourceGenerator",
+        defaultSeverity: DiagnosticSeverity.Warning,
+        isEnabledByDefault: true);
+
+    private static readonly DiagnosticDescriptor ConflictingToolProperty = new(
+        id: "MPGEN004",
+        title: "Conflicting discoverable tool property",
+        messageFormat: "Tool property '{0}' has conflicting return types: {1}",
+        category: "ModularPipelines.SourceGenerator",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var candidates = context.SyntaxProvider.ForAttributeWithMetadataName(
@@ -31,8 +50,11 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 static (generatorContext, _) => GetCandidate(generatorContext));
 
         context.RegisterSourceOutput(
-            candidates.Collect(),
-            static (sourceContext, items) => Generate(sourceContext, items));
+            candidates.Collect().Combine(context.ParseOptionsProvider),
+            static (sourceContext, input) => Generate(
+                sourceContext,
+                input.Left,
+                input.Right));
     }
 
     private static IntegrationCandidate GetCandidate(
@@ -87,7 +109,9 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 && !method.ReturnsVoid)
             .Select(static method => new ToolProperty(
                 method.Name,
-                method.ReturnType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
+                method.ReturnType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                method.ToDisplayString(),
+                method.Locations.FirstOrDefault()))
             .ToImmutableArray();
     }
 
@@ -135,7 +159,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
 
     private static void Generate(
         SourceProductionContext context,
-        ImmutableArray<IntegrationCandidate> candidates)
+        ImmutableArray<IntegrationCandidate> candidates,
+        ParseOptions parseOptions)
     {
         foreach (var candidate in candidates)
         {
@@ -158,7 +183,16 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
 
         var toolProperties = candidates
             .SelectMany(static candidate => candidate.ToolProperties)
-            .Distinct()
+            .ToArray();
+        var conflictingPropertyNames = ReportToolPropertyConflicts(context, toolProperties);
+        var uniqueToolProperties = toolProperties
+            .Where(property => !conflictingPropertyNames.Contains(property.Name))
+            .GroupBy(static property => new
+            {
+                property.Name,
+                property.TypeName,
+            })
+            .Select(static group => group.First())
             .OrderBy(static property => property.Name, StringComparer.Ordinal)
             .ThenBy(static property => property.TypeName, StringComparer.Ordinal)
             .ToArray();
@@ -195,7 +229,16 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         builder.AppendLine("}");
         builder.AppendLine("}");
 
-        if (toolProperties.Length > 0)
+        if (uniqueToolProperties.Length > 0 && !SupportsExtensionMembers(parseOptions))
+        {
+            var firstProperty = uniqueToolProperties[0];
+            context.ReportDiagnostic(Diagnostic.Create(
+                UnsupportedToolsLanguageVersion,
+                firstProperty.Location,
+                firstProperty.MethodName,
+                GetLanguageVersionDisplay(parseOptions)));
+        }
+        else if (uniqueToolProperties.Length > 0)
         {
             builder.AppendLine();
             builder.AppendLine("namespace ModularPipelines.Context");
@@ -207,7 +250,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 "    extension(global::ModularPipelines.Context.IToolsContext tools)");
             builder.AppendLine("    {");
 
-            foreach (var property in toolProperties)
+            foreach (var property in uniqueToolProperties)
             {
                 builder.AppendLine(
                     $"        public {property.TypeName} {property.Name} "
@@ -222,6 +265,55 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         context.AddSource("ModularPipelines.IntegrationRegistration.g.cs", builder.ToString());
     }
 
+    private static ImmutableHashSet<string> ReportToolPropertyConflicts(
+        SourceProductionContext context,
+        ToolProperty[] toolProperties)
+    {
+        var conflicts = toolProperties
+            .GroupBy(static property => property.Name, StringComparer.Ordinal)
+            .Where(static group =>
+                group.Select(static property => property.TypeName)
+                    .Distinct(StringComparer.Ordinal)
+                    .Skip(1)
+                    .Any())
+            .ToArray();
+
+        foreach (var conflict in conflicts)
+        {
+            var types = string.Join(
+                ", ",
+                conflict.Select(static property => property.TypeName)
+                    .Distinct(StringComparer.Ordinal)
+                    .OrderBy(static typeName => typeName, StringComparer.Ordinal));
+            foreach (var property in conflict)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    ConflictingToolProperty,
+                    property.Location,
+                    property.Name,
+                    types));
+            }
+        }
+
+        return conflicts
+            .Select(static group => group.Key)
+            .ToImmutableHashSet(StringComparer.Ordinal);
+    }
+
+    private static bool SupportsExtensionMembers(ParseOptions parseOptions)
+    {
+        return parseOptions is CSharpParseOptions csharpParseOptions
+            && (int) LanguageVersionFacts.MapSpecifiedToEffectiveVersion(
+                csharpParseOptions.SpecifiedLanguageVersion) >= 1400;
+    }
+
+    private static string GetLanguageVersionDisplay(ParseOptions parseOptions)
+    {
+        return parseOptions is CSharpParseOptions csharpParseOptions
+            ? csharpParseOptions.SpecifiedLanguageVersion.ToDisplayString()
+            : parseOptions.Language;
+    }
+
     private sealed record IntegrationCandidate(
         IntegrationRegistration? Registration,
         EquatableArray<ToolProperty> ToolProperties,
@@ -231,5 +323,9 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
 
     private sealed record IntegrationRegistration(string TypeName, string MethodName);
 
-    private sealed record ToolProperty(string Name, string TypeName);
+    private sealed record ToolProperty(
+        string Name,
+        string TypeName,
+        string MethodName,
+        Location? Location);
 }
