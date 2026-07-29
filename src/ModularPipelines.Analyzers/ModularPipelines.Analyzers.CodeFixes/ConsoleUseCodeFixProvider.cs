@@ -158,15 +158,9 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         }
 
         var logMethod = isConsoleError ? "LogError" : "LogInformation";
-        var arguments = invocation.ArgumentList.Arguments.Count == 0
-            ? SyntaxFactory.SingletonSeparatedList(
-                SyntaxFactory.Argument(
-                    SyntaxFactory.LiteralExpression(
-                        SyntaxKind.StringLiteralExpression,
-                        SyntaxFactory.Literal(string.Empty))))
-            : CoalesceNullableMessage(
-                invocation.ArgumentList.Arguments,
-                messageCanBeNull);
+        var arguments = CreateLoggerArguments(
+            invocation.ArgumentList.Arguments,
+            messageCanBeNull);
         var contextLogger = SyntaxFactory.MemberAccessExpression(
             SyntaxKind.SimpleMemberAccessExpression,
             SyntaxFactory.IdentifierName(contextParameterIdentifier.WithoutTrivia()),
@@ -201,24 +195,39 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         return document.WithSyntaxRoot(newRoot);
     }
 
-    private static SeparatedSyntaxList<ArgumentSyntax> CoalesceNullableMessage(
+    private static SeparatedSyntaxList<ArgumentSyntax> CreateLoggerArguments(
         SeparatedSyntaxList<ArgumentSyntax> arguments,
         bool messageCanBeNull)
     {
-        if (!messageCanBeNull)
+        if (arguments.Count == 0)
         {
-            return arguments;
+            return SyntaxFactory.SingletonSeparatedList(
+                SyntaxFactory.Argument(
+                    SyntaxFactory.LiteralExpression(
+                        SyntaxKind.StringLiteralExpression,
+                        SyntaxFactory.Literal(string.Empty))));
         }
 
         var argument = arguments[0];
-        var coalescedMessage = SyntaxFactory.BinaryExpression(
-            SyntaxKind.CoalesceExpression,
-            SyntaxFactory.ParenthesizedExpression(argument.Expression.WithoutTrivia()),
-            SyntaxFactory.MemberAccessExpression(
-                SyntaxKind.SimpleMemberAccessExpression,
-                SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)),
-                SyntaxFactory.IdentifierName(nameof(string.Empty))));
-        return SyntaxFactory.SingletonSeparatedList(
-            argument.WithExpression(coalescedMessage));
+        if (messageCanBeNull)
+        {
+            argument = argument.WithExpression(
+                SyntaxFactory.BinaryExpression(
+                    SyntaxKind.CoalesceExpression,
+                    SyntaxFactory.ParenthesizedExpression(argument.Expression.WithoutTrivia()),
+                    SyntaxFactory.MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression,
+                        SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)),
+                        SyntaxFactory.IdentifierName(nameof(string.Empty)))));
+        }
+
+        return SyntaxFactory.SeparatedList(
+        [
+            SyntaxFactory.Argument(
+                SyntaxFactory.LiteralExpression(
+                    SyntaxKind.StringLiteralExpression,
+                    SyntaxFactory.Literal("{Message}"))),
+            argument,
+        ]);
     }
 }

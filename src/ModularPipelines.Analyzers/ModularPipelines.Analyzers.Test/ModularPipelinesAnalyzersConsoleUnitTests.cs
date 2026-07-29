@@ -94,7 +94,7 @@ public class Module1 : Module<List<string>>
 {{
     protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
     {{
-        @event.Logger.LogError(""Failure!"");
+        @event.Logger.LogError(""{{Message}}"", ""Failure!"");
         return Task.FromResult<List<string>?>([]);
     }}
 }}
@@ -131,7 +131,7 @@ public class Module1 : Module<List<string>>
         CancellationToken cancellationToken)
     {{
         string? message = null;
-        context.Logger.LogInformation((message) ?? string.Empty);
+        context.Logger.LogInformation(""{{Message}}"", (message) ?? string.Empty);
         return Task.FromResult<List<string>?>([]);
     }}
 }}
@@ -208,7 +208,8 @@ public class Module1 : Module<List<string>>
     public async Task CodeFix_Replaces_Console_WriteLine_With_Logger()
     {
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
-        var fixedSource = CreateFixedModuleSource(@"context.Logger.LogInformation(""Done!"")");
+        var fixedSource = CreateFixedModuleSource(
+            @"context.Logger.LogInformation(""{Message}"", ""Done!"")");
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, fixedSource);
     }
@@ -217,9 +218,22 @@ public class Module1 : Module<List<string>>
     public async Task CodeFix_Replaces_Awaited_Console_WriteLine_With_Logger()
     {
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
-        var fixedSource = CreateFixedModuleSource(@"context.Logger.LogInformation(""Done!"")");
+        var fixedSource = CreateFixedModuleSource(
+            @"context.Logger.LogInformation(""{Message}"", ""Done!"")");
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource5, expected, fixedSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Passes_Brace_Containing_Text_As_Logging_Value()
+    {
+        var source = CreateBadModuleSource(
+            @"Console.WriteLine(""Status: {pending}"")");
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+        var fixedSource = CreateFixedModuleSource(
+            @"context.Logger.LogInformation(""{Message}"", ""Status: {pending}"")");
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
     }
 
     [TestMethod]
