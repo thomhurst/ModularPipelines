@@ -3,10 +3,10 @@ using ModularPipelines.Enums;
 namespace ModularPipelines.Models;
 
 /// <summary>
-/// Represents a dependency declared programmatically via <see cref="Modules.IDependencyDeclaration"/>.
+/// Represents a dependency declared through module configuration or attributes.
 /// </summary>
 /// <param name="ModuleType">The type of the module being depended on.</param>
-/// <param name="Kind">The kind of dependency (Required, Optional, Conditional).</param>
+/// <param name="Kind">The kind of dependency (required or optional).</param>
 /// <param name="IsOptional">Whether this dependency is optional (module runs even if dependency is not registered or skipped).</param>
 public readonly record struct DeclaredDependency(
     Type ModuleType,
@@ -26,11 +26,4 @@ public readonly record struct DeclaredDependency(
     /// <returns>An optional dependency declaration.</returns>
     public static DeclaredDependency Optional(Type type) =>
         new(type, Enums.DependencyType.Optional, true);
-
-    /// <summary>
-    /// Creates a conditional dependency.
-    /// </summary>
-    /// <returns>A conditional dependency declaration.</returns>
-    public static DeclaredDependency Conditional(Type type) =>
-        new(type, Enums.DependencyType.Conditional, false);
 }

@@ -1,8 +1,6 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
-using ModularPipelines.Enums;
-using ModularPipelines.Exceptions;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
@@ -10,9 +8,9 @@ using Status = ModularPipelines.Enums.Status;
 namespace ModularPipelines.UnitTests.Dependencies;
 
 /// <summary>
-/// Tests for the dynamic dependency declaration feature introduced in Issue #1870.
+/// Tests for dependencies declared through module configuration.
 /// </summary>
-public class DynamicDependencyDeclarationTests : TestBase
+public class FluentDependencyConfigurationTests : TestBase
 {
     #region Helper Modules
 
@@ -45,10 +43,9 @@ public class DynamicDependencyDeclarationTests : TestBase
     /// </summary>
     private class ModuleWithProgrammaticDependency : Module<string>
     {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOn<BaseModule>();
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<BaseModule>()
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -62,10 +59,9 @@ public class DynamicDependencyDeclarationTests : TestBase
     /// </summary>
     private class ModuleWithOptionalDependency : Module<string>
     {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOnOptional<OptionalDependencyModule>();
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOnOptional<OptionalDependencyModule>()
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -79,10 +75,9 @@ public class DynamicDependencyDeclarationTests : TestBase
     /// </summary>
     private class ModuleWithActiveConditionalDependency : Module<string>
     {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOnIf<ConditionalModule>(true);
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOnIf<ConditionalModule>(true)
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -96,10 +91,9 @@ public class DynamicDependencyDeclarationTests : TestBase
     /// </summary>
     private class ModuleWithInactiveConditionalDependency : Module<string>
     {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOnIf<ConditionalModule>(false);
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOnIf<ConditionalModule>(false)
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -114,10 +108,9 @@ public class DynamicDependencyDeclarationTests : TestBase
     [ModularPipelines.Attributes.DependsOn<BaseModule>]
     private class ModuleWithBothAttributeAndProgrammaticDependencies : Module<string>
     {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOnOptional<OptionalDependencyModule>();
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOnOptional<OptionalDependencyModule>()
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -131,11 +124,10 @@ public class DynamicDependencyDeclarationTests : TestBase
     /// </summary>
     private class ModuleWithChainedDependencies : Module<string>
     {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOn<BaseModule>()
-                .DependsOnOptional<OptionalDependencyModule>();
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<BaseModule>()
+            .DependsOnOptional<OptionalDependencyModule>()
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -149,10 +141,9 @@ public class DynamicDependencyDeclarationTests : TestBase
     /// </summary>
     private class ModuleWithMissingRequiredDependency : Module<string>
     {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOn<BaseModule>(); // BaseModule not registered
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn<BaseModule>() // BaseModule not registered
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -166,10 +157,9 @@ public class DynamicDependencyDeclarationTests : TestBase
     /// </summary>
     private class ModuleWithTypeDependency : Module<string>
     {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOn(typeof(BaseModule));
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOn(typeof(BaseModule))
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -320,100 +310,6 @@ public class DynamicDependencyDeclarationTests : TestBase
             .ExecutePipelineAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-    }
-
-    #endregion
-
-    #region DependencyDeclaration Unit Tests
-
-    [Test]
-    public async Task DependencyDeclaration_DependsOn_Returns_Same_Instance_For_Chaining()
-    {
-        var declaration = new DependencyDeclaration();
-
-        var result = declaration.DependsOn<BaseModule>();
-
-        await Assert.That(result).IsSameReferenceAs(declaration);
-    }
-
-    [Test]
-    public async Task DependencyDeclaration_DependsOnOptional_Returns_Same_Instance_For_Chaining()
-    {
-        var declaration = new DependencyDeclaration();
-
-        var result = declaration.DependsOnOptional<BaseModule>();
-
-        await Assert.That(result).IsSameReferenceAs(declaration);
-    }
-
-    [Test]
-    public async Task DependencyDeclaration_DependsOnIf_Returns_Same_Instance_For_Chaining()
-    {
-        var declaration = new DependencyDeclaration();
-
-        var result = declaration.DependsOnIf<BaseModule>(true);
-
-        await Assert.That(result).IsSameReferenceAs(declaration);
-    }
-
-    [Test]
-    public async Task DependencyDeclaration_Throws_For_Non_Module_Type()
-    {
-        var declaration = new DependencyDeclaration();
-
-        await Assert.That(() => declaration.DependsOn(typeof(string)))
-            .Throws<InvalidModuleTypeException>()
-            .And.HasMessageContaining("is not a Module");
-    }
-
-    [Test]
-    public async Task DependencyDeclaration_Required_Has_Correct_DependencyType()
-    {
-        var declaration = new DependencyDeclaration();
-        declaration.DependsOn<BaseModule>();
-
-        var deps = declaration.Dependencies;
-
-        await Assert.That(deps).Count().IsEqualTo(1);
-        await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Required);
-        await Assert.That(deps[0].IsOptional).IsFalse();
-    }
-
-    [Test]
-    public async Task DependencyDeclaration_Optional_Has_Correct_DependencyType()
-    {
-        var declaration = new DependencyDeclaration();
-        declaration.DependsOnOptional<BaseModule>();
-
-        var deps = declaration.Dependencies;
-
-        await Assert.That(deps).Count().IsEqualTo(1);
-        await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Optional);
-        await Assert.That(deps[0].IsOptional).IsTrue();
-    }
-
-    [Test]
-    public async Task DependencyDeclaration_Conditional_Has_Correct_DependencyType()
-    {
-        var declaration = new DependencyDeclaration();
-        declaration.DependsOnIf<BaseModule>(true);
-
-        var deps = declaration.Dependencies;
-
-        await Assert.That(deps).Count().IsEqualTo(1);
-        await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Conditional);
-        await Assert.That(deps[0].IsOptional).IsFalse();
-    }
-
-    [Test]
-    public async Task DependencyDeclaration_Conditional_False_Does_Not_Add_Dependency()
-    {
-        var declaration = new DependencyDeclaration();
-        declaration.DependsOnIf<BaseModule>(false);
-
-        var deps = declaration.Dependencies;
-
-        await Assert.That(deps).Count().IsEqualTo(0);
     }
 
     #endregion

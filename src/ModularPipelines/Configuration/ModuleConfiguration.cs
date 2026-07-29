@@ -118,7 +118,7 @@ public sealed class ModuleConfiguration
     public string? Category { get; init; }
 
     /// <summary>
-    /// Gets dependencies declared through fluent configuration, legacy overrides, or attributes.
+    /// Gets dependencies declared through fluent configuration or attributes.
     /// </summary>
     internal IReadOnlyList<DeclaredDependency> Dependencies { get; init; } = [];
 }

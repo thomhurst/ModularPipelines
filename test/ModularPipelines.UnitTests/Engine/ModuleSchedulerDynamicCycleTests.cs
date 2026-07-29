@@ -87,10 +87,9 @@ public class ModuleSchedulerDynamicCycleTests
     {
         public bool IncludeDependency { get; set; } = true;
 
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOnIf<CompletedDependencyModule>(IncludeDependency);
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .DependsOnIf<CompletedDependencyModule>(IncludeDependency)
+            .Build();
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
