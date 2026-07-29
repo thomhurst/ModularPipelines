@@ -1,4 +1,7 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ModularPipelines.Context;
 using System.Text;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ConflictingDependsOnAttributeAnalyzer>;
 
@@ -127,6 +130,22 @@ public class Module1<T> : Module<List<string>>
 {SimpleModuleBody}
 
 [{{|#1:DependsOn<Module1<int>>|}}]
+public class Module2 : Module<List<string>>
+{SimpleModuleBody}
+";
+
+    private const string GeneratedCycleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[{{|#0:DependsOn<Module2>|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
+    private const string GeneratedDependencySource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[DependsOn<Module1>]
 public class Module2 : Module<List<string>>
 {SimpleModuleBody}
 ";
@@ -264,6 +283,31 @@ public class Module2 : Module<List<string>>
     }
 
     [TestMethod]
+    public async Task AnalyzerIsTriggered_When_Cycle_Uses_Generated_Dependency()
+    {
+        var expected = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module2", "Module1");
+        var test = new GeneratedDependencyAnalyzerTest
+        {
+            TestCode = GeneratedCycleSource,
+            ReferenceAssemblies = Net.Net100,
+            TestState =
+            {
+                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
+            },
+        };
+
+        test.TestState.GeneratedSources.Add((
+            typeof(GeneratedDependencySourceGenerator),
+            "GeneratedDependency.g.cs",
+            SourceText.From(GeneratedDependencySource, Encoding.UTF8)));
+        test.ExpectedDiagnostics.Add(expected);
+
+        await test.RunAsync(CancellationToken.None);
+    }
+
+    [TestMethod]
     public async Task AnalyzerHandlesLongDependencyChainsIteratively()
     {
         await VerifyCS.VerifyAnalyzerAsync(CreateLongDependencyChain(5_000));
@@ -304,5 +348,25 @@ public class Module2 : Module<List<string>>
         source.AppendLine("}");
 
         return source.ToString();
+    }
+
+    private sealed class GeneratedDependencyAnalyzerTest : VerifyCS.Test
+    {
+        protected override IEnumerable<Type> GetSourceGenerators()
+        {
+            return [typeof(GeneratedDependencySourceGenerator)];
+        }
+    }
+
+    public sealed class GeneratedDependencySourceGenerator : ISourceGenerator
+    {
+        public void Initialize(GeneratorInitializationContext context)
+        {
+        }
+
+        public void Execute(GeneratorExecutionContext context)
+        {
+            context.AddSource("GeneratedDependency.g.cs", GeneratedDependencySource);
+        }
     }
 }
