@@ -403,15 +403,11 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 moduleLogger,
                 _loggerControl,
                 flushKind,
-                _nonSpectreLoggerFactory.CreateLoggers(GetCategoryName(buffer.ModuleType)),
+                _nonSpectreLoggerFactory.CreateLoggers(
+                    OutputLoggerCategories.ForModule(buffer.ModuleType)),
                 cancellationToken)
             .ConfigureAwait(false);
     }
-
-    private static string GetCategoryName(Type moduleType)
-        => moduleType == typeof(void)
-            ? OutputLoggerCategories.Pipeline
-            : moduleType.FullName ?? moduleType.Name;
 
     private ILogger GetModuleLogger(Type moduleType)
     {

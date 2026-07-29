@@ -50,6 +50,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly IOutputCoordinator _outputCoordinator;
     private readonly ISpectreConsoleLoggerControl _loggerControl;
     private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory;
+    private readonly ISpectreLoggerFilter _spectreLoggerFilter;
     private TextWriter? _originalConsoleOut;
     private TextWriter? _originalConsoleError;
     private IAnsiConsole? _originalAnsiConsole;
@@ -71,7 +72,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IServiceProvider serviceProvider,
         IOutputCoordinator outputCoordinator,
         ISpectreConsoleLoggerControl loggerControl,
-        INonSpectreLoggerFactory nonSpectreLoggerFactory)
+        INonSpectreLoggerFactory nonSpectreLoggerFactory,
+        ISpectreLoggerFilter spectreLoggerFilter)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
@@ -84,11 +86,15 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _outputCoordinator = outputCoordinator;
         _loggerControl = loggerControl;
         _nonSpectreLoggerFactory = nonSpectreLoggerFactory;
+        _spectreLoggerFilter = spectreLoggerFilter;
         _unattributedBuffer = new ModuleOutputBuffer(
             "Pipeline",
             typeof(void),
             _options.Value.ModuleOutputFlushThreshold,
-            RequestThresholdFlush);
+            RequestThresholdFlush,
+            isSpectreEnabled: logLevel => _spectreLoggerFilter.IsEnabled(
+                OutputLoggerCategories.Pipeline,
+                logLevel));
     }
 
     /// <inheritdoc />
@@ -281,7 +287,10 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             t => new ModuleOutputBuffer(
                 t,
                 _options.Value.ModuleOutputFlushThreshold,
-                RequestThresholdFlush));
+                RequestThresholdFlush,
+                isSpectreEnabled: logLevel => _spectreLoggerFilter.IsEnabled(
+                    OutputLoggerCategories.ForModule(t),
+                    logLevel)));
     }
 
     /// <inheritdoc />

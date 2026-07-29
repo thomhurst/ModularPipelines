@@ -166,6 +166,7 @@ internal static class SpectreLoggerSuppressionRegistration
             serviceProvider.GetRequiredService<SuppressibleSpectreLoggerProvider>());
         services.AddSingleton<ISpectreConsoleLoggerControl>(serviceProvider =>
             serviceProvider.GetRequiredService<SuppressibleSpectreLoggerProvider>());
+        services.AddSingleton<ISpectreLoggerFilter, SpectreLoggerFilter>();
         services.MakeLoggerFactoryTrackProviders();
     }
 

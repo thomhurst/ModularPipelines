@@ -189,9 +189,46 @@ public class NonSpectreLoggerFactoryTests
 
         var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
         var control = serviceProvider.GetRequiredService<ISpectreConsoleLoggerControl>();
+        var spectreFilter = serviceProvider.GetRequiredService<ISpectreLoggerFilter>();
 
         await Assert.That(loggerFactory).IsNotNull();
         await Assert.That(control.SynchronizationLock).IsNotNull();
+        await Assert.That(spectreFilter).IsNotNull();
+    }
+
+    [Test]
+    public async Task SpectreFilter_Applies_Configured_Provider_And_Category_Rules()
+    {
+        var options = new LoggerFilterOptions
+        {
+            MinLevel = LogLevel.Trace,
+        };
+        options.Rules.Add(new LoggerFilterRule(
+            SpectreLoggerSuppressionRegistration.SpectreProviderAlias,
+            "Filtered.Category",
+            LogLevel.Warning,
+            null));
+        var suppression = new SpectreLoggerSuppression();
+        using var provider = new SuppressibleSpectreLoggerProvider(
+            new RecordingLoggerProvider(),
+            Mock.Of<ISpectreConsoleLoggerControl>(),
+            suppression);
+        using var filter = new SpectreLoggerFilter(
+            provider,
+            CreateOptionsMonitor(options));
+
+        var informationEnabled = filter.IsEnabled(
+            "Filtered.Category",
+            LogLevel.Information);
+        var warningEnabled = filter.IsEnabled(
+            "Filtered.Category",
+            LogLevel.Warning);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(informationEnabled).IsFalse();
+            await Assert.That(warningEnabled).IsTrue();
+        }
     }
 
     [Test]

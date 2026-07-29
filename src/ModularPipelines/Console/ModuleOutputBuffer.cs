@@ -35,6 +35,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly DateTime _startTimeUtc;
     private readonly int _outputFlushThreshold;
     private readonly TimeSpan _synchronizationLockTimeout;
+    private readonly Func<LogLevel, bool> _isSpectreEnabled;
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
@@ -54,17 +55,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
     /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
+    /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
-        TimeSpan? synchronizationLockTimeout = null)
+        TimeSpan? synchronizationLockTimeout = null,
+        Func<LogLevel, bool>? isSpectreEnabled = null)
         : this(
             moduleType.Name,
             moduleType,
             outputFlushThreshold,
             requestIncrementalFlush,
-            synchronizationLockTimeout)
+            synchronizationLockTimeout,
+            isSpectreEnabled)
     {
     }
 
@@ -77,12 +81,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
     /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
+    /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
-        TimeSpan? synchronizationLockTimeout = null)
+        TimeSpan? synchronizationLockTimeout = null,
+        Func<LogLevel, bool>? isSpectreEnabled = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
@@ -90,6 +96,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _outputFlushThreshold = outputFlushThreshold;
         _requestIncrementalFlush = requestIncrementalFlush;
         _synchronizationLockTimeout = synchronizationLockTimeout ?? DefaultSynchronizationLockTimeout;
+        _isSpectreEnabled = isSpectreEnabled ?? (static _ => true);
     }
 
     /// <inheritdoc />
@@ -422,7 +429,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private static void RenderBufferedOutputs(
+    private void RenderBufferedOutputs(
         TextWriter console,
         IAnsiConsole directConsole,
         ILogger logger,
@@ -455,10 +462,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                             new StructuredDeliveryRetry(logEvent, failedLoggers));
                     }
 
-                    WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
-                    if (logEvent.FormatException() is { } formattedException)
+                    if (_isSpectreEnabled(logEvent.Level))
                     {
-                        console.WriteLine(formattedException);
+                        WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
+                        if (logEvent.FormatException() is { } formattedException)
+                        {
+                            console.WriteLine(formattedException);
+                        }
                     }
                 }
                 else
@@ -693,6 +703,8 @@ internal readonly struct BufferedOutput
 /// </summary>
 internal interface IBufferedLogEvent
 {
+    LogLevel Level { get; }
+
     void WriteTo(ILogger logger);
 
     string FormatMessageWithLevel();
@@ -712,6 +724,8 @@ internal sealed class BufferedLogEvent<TState>(
     Func<TState, Exception?, string> formatter,
     ISecretObfuscator secretObfuscator) : IBufferedLogEvent
 {
+    public LogLevel Level => level;
+
     public void WriteTo(ILogger logger)
     {
         logger.Log(

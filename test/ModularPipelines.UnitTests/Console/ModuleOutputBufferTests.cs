@@ -534,6 +534,54 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_LockTimeout_Respects_Spectre_Filter()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var fallbackLogger = new RecordingLogger();
+        var buffer = CreateBufferWithStructuredLog(
+            TimeSpan.FromMilliseconds(50),
+            "filtered structured log",
+            isSpectreEnabled: static _ => false);
+        buffer.WriteLine("direct output");
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        try
+        {
+            await buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete,
+                [fallbackLogger],
+                CancellationToken.None);
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("Timed out waiting for the console logger lock");
+        await Assert.That(output).Contains("direct output");
+        await Assert.That(output).DoesNotContain("filtered structured log");
+        await Assert.That(fallbackLogger.Entries).HasSingleItem();
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    [Test]
     public async Task Flush_LockTimeout_RetriesFailedProviderWithoutRepeatingConsoleOutput()
     {
         var writer = new StringWriter();
@@ -603,11 +651,13 @@ public class ModuleOutputBufferTests
         string message = "structured log",
         ISecretObfuscator? secretObfuscator = null,
         Exception? exception = null,
-        LogLevel logLevel = LogLevel.Information)
+        LogLevel logLevel = LogLevel.Information,
+        Func<LogLevel, bool>? isSpectreEnabled = null)
     {
         var buffer = new ModuleOutputBuffer(
             typeof(ModuleOutputBufferTests),
-            synchronizationLockTimeout: synchronizationLockTimeout);
+            synchronizationLockTimeout: synchronizationLockTimeout,
+            isSpectreEnabled: isSpectreEnabled);
         buffer.AddLogEvent(new BufferedLogEvent<string>(
             logLevel,
             default,
