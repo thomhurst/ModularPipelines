@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
+using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.Formatting;
 
 namespace ModularPipelines.Analyzers;
@@ -36,9 +37,15 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             || parameter.FirstAncestorOrSelf<ConstructorDeclarationSyntax>() is not { } constructor
             || parameter.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
             || semanticModel?.GetDeclaredSymbol(parameter, context.CancellationToken) is not IParameterSymbol parameterSymbol
+            || semanticModel.GetDeclaredSymbol(constructor, context.CancellationToken) is not IMethodSymbol constructorSymbol
+            || await HasExplicitReferencesAsync(
+                constructorSymbol,
+                context.Document.Project.Solution,
+                context.CancellationToken).ConfigureAwait(false)
             || !TryCreateFix(
                 containingType,
                 constructor,
+                constructorSymbol,
                 parameterSymbol,
                 semanticModel,
                 context.CancellationToken,
@@ -67,6 +74,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
     private static bool TryCreateFix(
         TypeDeclarationSyntax containingType,
         ConstructorDeclarationSyntax constructor,
+        IMethodSymbol constructorSymbol,
         IParameterSymbol parameter,
         SemanticModel semanticModel,
         CancellationToken cancellationToken,
@@ -83,15 +91,13 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             return false;
         }
 
-        var constructorSymbol = semanticModel.GetDeclaredSymbol(constructor, cancellationToken);
-        if (constructorSymbol is not null
-            && (containingType.DescendantNodes()
-                    .OfType<ConstructorInitializerSyntax>()
-                    .Where(initializer => initializer.ThisOrBaseKeyword.IsKind(SyntaxKind.ThisKeyword))
-                    .Any(initializer => SymbolEqualityComparer.Default.Equals(
-                        semanticModel.GetSymbolInfo(initializer, cancellationToken).Symbol,
-                        constructorSymbol))
-                || WouldDuplicateConstructor(constructorSymbol, parameter)))
+        if (containingType.DescendantNodes()
+                .OfType<ConstructorInitializerSyntax>()
+                .Where(initializer => initializer.ThisOrBaseKeyword.IsKind(SyntaxKind.ThisKeyword))
+                .Any(initializer => SymbolEqualityComparer.Default.Equals(
+                    semanticModel.GetSymbolInfo(initializer, cancellationToken).Symbol,
+                    constructorSymbol))
+            || WouldDuplicateConstructor(constructorSymbol, parameter))
         {
             return false;
         }
@@ -132,6 +138,19 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         assignmentStatement = loggerStorage.AssignmentStatement;
         loggerReplacements = replacements.Value;
         return true;
+    }
+
+    private static async Task<bool> HasExplicitReferencesAsync(
+        IMethodSymbol constructor,
+        Solution solution,
+        CancellationToken cancellationToken)
+    {
+        var references = await SymbolFinder.FindReferencesAsync(
+            constructor,
+            solution,
+            cancellationToken).ConfigureAwait(false);
+
+        return references.Any(static reference => reference.Locations.Any());
     }
 
     private static bool WouldDuplicateConstructor(

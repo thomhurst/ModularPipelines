@@ -39,6 +39,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
             || variable.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
             || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
             || semanticModel?.GetDeclaredSymbol(variable, context.CancellationToken) is not IFieldSymbol field
+            || field.DeclaredAccessibility != Accessibility.Private
             || field.Type is INamedTypeSymbol { IsValueType: true, IsReadOnly: false }
             || IsWrittenOutsideConstructor(
                 containingType,
@@ -72,8 +73,14 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                 semanticModel.GetSymbolInfo(identifier, cancellationToken).Symbol,
                 field))
             .Any(identifier =>
-                IsWrite(identifier, field, semanticModel, cancellationToken)
-                && !IsDirectlyWithinConstructor(identifier, containingType));
+                IsRefEscape(identifier)
+                || (IsWrite(identifier, field, semanticModel, cancellationToken)
+                    && !IsDirectlyWithinConstructor(identifier, containingType)));
+    }
+
+    private static bool IsRefEscape(IdentifierNameSyntax identifier)
+    {
+        return identifier.FirstAncestorOrSelf<RefExpressionSyntax>() is not null;
     }
 
     private static bool IsDirectlyWithinConstructor(

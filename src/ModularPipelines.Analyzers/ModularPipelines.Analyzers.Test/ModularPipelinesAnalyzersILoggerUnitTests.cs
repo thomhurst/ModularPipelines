@@ -159,6 +159,50 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string ExplicitConstructorCallSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1(ILogger<Module1> logger)
+    {{
+    }}
+
+    public static Module1 Create(ILogger<Module1> logger) => new(logger);
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string BaseConstructorCallSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1(ILogger<Module1> logger)
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+
+public class DerivedModule : Module1
+{{
+    private static ILogger<Module1> Logger {{ get; }} = null!;
+
+    public DerivedModule()
+        : base(Logger)
+    {{
+    }}
+}}
+";
+
     private const string DuplicateConstructorSignatureSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -392,6 +436,22 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ConstructorInitializerSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Constructor_Is_Called_Explicitly()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ExplicitConstructorCallSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Base_Constructor_Is_Called()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            BaseConstructorCallSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 

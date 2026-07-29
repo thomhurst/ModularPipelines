@@ -382,6 +382,44 @@ public class Module1 : Module<string>
 }
 ";
 
+    private const string ModuleWithExternallyWritableField = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : Module<int>
+{{
+    public List<string> _items = new();
+
+    protected override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult(_items.Count);
+    }}
+}}
+
+public static class ModuleConfigurator
+{{
+    public static void Configure(Module1 module)
+    {{
+        module._items = [];
+    }}
+}}
+";
+
+    private const string ModuleWithRefEscapedField = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : Module<object>
+{{
+    private object _state = new();
+
+    private ref object State => ref _state;
+
+    protected override Task<object?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<object?>(State);
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableField()
     {
@@ -524,6 +562,22 @@ public class Module1 : Module<string>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithDeconstructionWrite,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Externally_Writable_Field()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithExternallyWritableField,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Ref_Escaped_Field()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithRefEscapedField,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 }
