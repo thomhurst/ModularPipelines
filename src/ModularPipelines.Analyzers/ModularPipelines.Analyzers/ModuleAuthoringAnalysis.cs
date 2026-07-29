@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -9,99 +8,43 @@ using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
-[DiagnosticAnalyzer(LanguageNames.CSharp)]
-[ExcludeFromCodeCoverage]
-public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
+internal static class ModuleAuthoringAnalysis
 {
-    public const string UnregisteredModuleId = "MPREG001";
-    public const string AsyncVoidId = "MPASYNC001";
-    public const string BlockingCallId = "MPASYNC002";
-    public const string UnflowedCancellationTokenId = "MPASYNC003";
-    public const string ThreadSleepId = "MPASYNC004";
-    public const string NonPublicModuleId = "MPTYPE001";
-    public const string DuplicateDependsOnId = "MPDEP004";
-
-    private const string Category = "Usage";
     private const string CancellationTokenMetadataName = "System.Threading.CancellationToken";
 
-    public static DiagnosticDescriptor UnregisteredModuleRule { get; } = CreateRule(
-        UnregisteredModuleId,
-        "Register module with the pipeline",
-        "Module '{0}' is not registered; call AddModule<{0}>() or register its assembly",
-        DiagnosticSeverity.Warning);
-
-    public static DiagnosticDescriptor AsyncVoidRule { get; } = CreateRule(
-        AsyncVoidId,
-        "Avoid async void in modules",
-        "Async method '{0}' in a module must return Task or Task<T>",
-        DiagnosticSeverity.Error);
-
-    public static DiagnosticDescriptor BlockingCallRule { get; } = CreateRule(
-        BlockingCallId,
-        "Do not block in ExecuteAsync",
-        "Blocking call '{0}' in ExecuteAsync can deadlock or exhaust worker threads",
-        DiagnosticSeverity.Warning);
-
-    public static DiagnosticDescriptor UnflowedCancellationTokenRule { get; } = CreateRule(
-        UnflowedCancellationTokenId,
-        "Flow the module cancellation token",
-        "Awaited call '{0}' accepts a CancellationToken; pass the ExecuteAsync cancellationToken",
-        DiagnosticSeverity.Warning);
-
-    public static DiagnosticDescriptor ThreadSleepRule { get; } = CreateRule(
-        ThreadSleepId,
-        "Do not call Thread.Sleep in ExecuteAsync",
-        "Thread.Sleep blocks ExecuteAsync; use an asynchronous delay with cancellation",
-        DiagnosticSeverity.Warning);
-
-    public static DiagnosticDescriptor NonPublicModuleRule { get; } = CreateRule(
-        NonPublicModuleId,
-        "Module classes must be public",
-        "Module '{0}' is not public and cannot be discovered reliably",
-        DiagnosticSeverity.Warning);
-
-    public static DiagnosticDescriptor DuplicateDependsOnRule { get; } = CreateRule(
-        DuplicateDependsOnId,
-        "Remove duplicate module dependency",
-        "Module '{0}' declares dependency '{1}' more than once",
-        DiagnosticSeverity.Error);
-
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-    [
-        UnregisteredModuleRule,
-        AsyncVoidRule,
-        BlockingCallRule,
-        UnflowedCancellationTokenRule,
-        ThreadSleepRule,
-        NonPublicModuleRule,
-        DuplicateDependsOnRule,
-    ];
-
-    public override void Initialize(AnalysisContext context)
+    public static void InitializeRegistrationAnalysis(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.EnableConcurrentExecution();
-        context.RegisterCompilationStartAction(StartAnalysis);
+        context.RegisterCompilationStartAction(StartRegistrationAnalysis);
     }
 
-    private static void StartAnalysis(CompilationStartAnalysisContext context)
+    public static void InitializeAsyncSafetyAnalysis(AnalysisContext context)
+    {
+        context.RegisterSymbolAction(AnalyzeMethod, SymbolKind.Method);
+        context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
+        context.RegisterOperationAction(AnalyzePropertyReference, OperationKind.PropertyReference);
+        context.RegisterOperationAction(AnalyzeAwait, OperationKind.Await);
+    }
+
+    public static void InitializeDuplicateDependencyAnalysis(AnalysisContext context)
+    {
+        context.RegisterSymbolAction(AnalyzeDuplicateDependencies, SymbolKind.NamedType);
+    }
+
+    private static void StartRegistrationAnalysis(CompilationStartAnalysisContext context)
     {
         var modules = new ConcurrentBag<INamedTypeSymbol>();
         var registeredModules = new ConcurrentBag<INamedTypeSymbol>();
         var assemblyRegistrationUsed = 0;
 
         context.RegisterSymbolAction(
-            symbolContext => AnalyzeNamedType(symbolContext, modules),
+            symbolContext => AnalyzeRegisteredModuleType(symbolContext, modules),
             SymbolKind.NamedType);
-        context.RegisterSymbolAction(AnalyzeMethod, SymbolKind.Method);
         context.RegisterOperationAction(
-            operationContext => AnalyzeInvocation(
+            operationContext => TrackRegistration(
                 operationContext,
                 registeredModules,
                 ref assemblyRegistrationUsed),
             OperationKind.Invocation);
-        context.RegisterOperationAction(AnalyzePropertyReference, OperationKind.PropertyReference);
-        context.RegisterOperationAction(AnalyzeAwait, OperationKind.Await);
         context.RegisterCompilationEndAction(endContext =>
             ReportUnregisteredModules(
                 endContext,
@@ -110,7 +53,7 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
                 Volatile.Read(ref assemblyRegistrationUsed) != 0));
     }
 
-    private static void AnalyzeNamedType(
+    private static void AnalyzeRegisteredModuleType(
         SymbolAnalysisContext context,
         ConcurrentBag<INamedTypeSymbol> modules)
     {
@@ -125,12 +68,10 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
         if (location is not null && !IsPublic(type))
         {
             context.ReportDiagnostic(Diagnostic.Create(
-                NonPublicModuleRule,
+                ModuleRegistrationAnalyzer.NonPublicModuleRule,
                 location,
                 type.Name));
         }
-
-        ReportDuplicateDependencies(context, type);
     }
 
     private static void AnalyzeMethod(SymbolAnalysisContext context)
@@ -147,19 +88,24 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
         if (location is not null)
         {
             context.ReportDiagnostic(Diagnostic.Create(
-                AsyncVoidRule,
+                ModuleAsyncSafetyAnalyzer.AsyncVoidRule,
                 location,
                 method.Name));
         }
     }
 
-    private static void AnalyzeInvocation(
+    private static void TrackRegistration(
         OperationAnalysisContext context,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ref int assemblyRegistrationUsed)
     {
         var invocation = (IInvocationOperation) context.Operation;
-        TrackRegistration(invocation, registeredModules, ref assemblyRegistrationUsed);
+        TrackRegistrationInvocation(invocation, registeredModules, ref assemblyRegistrationUsed);
+    }
+
+    private static void AnalyzeInvocation(OperationAnalysisContext context)
+    {
+        var invocation = (IInvocationOperation) context.Operation;
 
         if (!IsInsideModuleExecuteAsync(context))
         {
@@ -171,7 +117,7 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
             && method.ContainingType.ToDisplayString() == "System.Threading.Thread")
         {
             context.ReportDiagnostic(Diagnostic.Create(
-                ThreadSleepRule,
+                ModuleAsyncSafetyAnalyzer.ThreadSleepRule,
                 invocation.Syntax.GetLocation()));
             return;
         }
@@ -181,7 +127,7 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
             || (method.Name == "GetResult" && IsAwaiterGetResult(invocation)))
         {
             context.ReportDiagnostic(Diagnostic.Create(
-                BlockingCallRule,
+                ModuleAsyncSafetyAnalyzer.BlockingCallRule,
                 invocation.Syntax.GetLocation(),
                 method.Name));
         }
@@ -199,7 +145,7 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
         }
 
         context.ReportDiagnostic(Diagnostic.Create(
-            BlockingCallRule,
+            ModuleAsyncSafetyAnalyzer.BlockingCallRule,
             propertyReference.Syntax.GetLocation(),
             propertyReference.Property.Name));
     }
@@ -223,7 +169,7 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
         }
 
         context.ReportDiagnostic(Diagnostic.Create(
-            UnflowedCancellationTokenRule,
+            ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenRule,
             invocation.Syntax.GetLocation(),
             invocation.TargetMethod.Name));
     }
@@ -244,7 +190,7 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
         return invocation;
     }
 
-    private static void TrackRegistration(
+    private static void TrackRegistrationInvocation(
         IInvocationOperation invocation,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ref int assemblyRegistrationUsed)
@@ -308,17 +254,21 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
             if (location is not null)
             {
                 context.ReportDiagnostic(Diagnostic.Create(
-                    UnregisteredModuleRule,
+                    ModuleRegistrationAnalyzer.UnregisteredModuleRule,
                     location,
                     module.Name));
             }
         }
     }
 
-    private static void ReportDuplicateDependencies(
-        SymbolAnalysisContext context,
-        INamedTypeSymbol module)
+    private static void AnalyzeDuplicateDependencies(SymbolAnalysisContext context)
     {
+        var module = (INamedTypeSymbol) context.Symbol;
+        if (module.IsAbstract || !module.IsModule(context.Compilation))
+        {
+            return;
+        }
+
         var dependencies = module.GetAttributes()
             .Select(attribute => new
             {
@@ -337,7 +287,7 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
                 if (location is not null)
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
-                        DuplicateDependsOnRule,
+                        DuplicateDependsOnAnalyzer.Rule,
                         location,
                         module.Name,
                         duplicates.Key!.Name));
@@ -457,20 +407,5 @@ public sealed class ModuleAuthoringAnalyzer : DiagnosticAnalyzer
         }
 
         return true;
-    }
-
-    private static DiagnosticDescriptor CreateRule(
-        string id,
-        string title,
-        string message,
-        DiagnosticSeverity severity)
-    {
-        return new DiagnosticDescriptor(
-            id,
-            title,
-            message,
-            Category,
-            severity,
-            isEnabledByDefault: true);
     }
 }
