@@ -24,7 +24,8 @@ internal sealed class DependencyDeclaration : IDependencyDeclaration
     public IReadOnlyList<DeclaredDependency> Dependencies => _dependencies;
 
     /// <inheritdoc />
-    public IDependencyDeclaration DependsOn<TModule>() where TModule : IModule
+    public IDependencyDeclaration DependsOn<TModule>()
+        where TModule : IModule
     {
         return DependsOn(typeof(TModule));
     }
@@ -38,7 +39,8 @@ internal sealed class DependencyDeclaration : IDependencyDeclaration
     }
 
     /// <inheritdoc />
-    public IDependencyDeclaration DependsOnOptional<TModule>() where TModule : IModule
+    public IDependencyDeclaration DependsOnOptional<TModule>()
+        where TModule : IModule
     {
         return DependsOnOptional(typeof(TModule));
     }
@@ -52,16 +54,10 @@ internal sealed class DependencyDeclaration : IDependencyDeclaration
     }
 
     /// <inheritdoc />
-    public IDependencyDeclaration DependsOnIf<TModule>(bool condition) where TModule : IModule
+    public IDependencyDeclaration DependsOnIf<TModule>(bool condition)
+        where TModule : IModule
     {
         return DependsOnIf(typeof(TModule), condition);
-    }
-
-    /// <inheritdoc />
-    public IDependencyDeclaration DependsOnIf<TModule>(Func<bool> predicate) where TModule : IModule
-    {
-        ArgumentNullException.ThrowIfNull(predicate);
-        return DependsOnIf(typeof(TModule), predicate());
     }
 
     /// <inheritdoc />
@@ -74,27 +70,6 @@ internal sealed class DependencyDeclaration : IDependencyDeclaration
 
         ValidateModuleType(moduleType);
         _dependencies.Add(DeclaredDependency.Conditional(moduleType));
-        return this;
-    }
-
-    /// <inheritdoc />
-    public IDependencyDeclaration DependsOnIf(Type moduleType, Func<bool> predicate)
-    {
-        ArgumentNullException.ThrowIfNull(predicate);
-        return DependsOnIf(moduleType, predicate());
-    }
-
-    /// <inheritdoc />
-    public IDependencyDeclaration DependsOnLazy<TModule>() where TModule : IModule
-    {
-        return DependsOnLazy(typeof(TModule));
-    }
-
-    /// <inheritdoc />
-    public IDependencyDeclaration DependsOnLazy(Type moduleType)
-    {
-        ValidateModuleType(moduleType);
-        _dependencies.Add(DeclaredDependency.Lazy(moduleType));
         return this;
     }
 

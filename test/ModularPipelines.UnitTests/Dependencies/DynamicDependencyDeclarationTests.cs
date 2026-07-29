@@ -33,14 +33,6 @@ public class DynamicDependencyDeclarationTests : TestBase
     }
 
     /// <summary>
-    /// A module for testing lazy dependencies.
-    /// </summary>
-    private class LazyModule : SimpleTestModule<string>
-    {
-        protected override string Result => "lazy";
-    }
-
-    /// <summary>
     /// A module for testing conditional dependencies.
     /// </summary>
     private class ConditionalModule : SimpleTestModule<string>
@@ -117,42 +109,6 @@ public class DynamicDependencyDeclarationTests : TestBase
     }
 
     /// <summary>
-    /// A module that declares a conditional dependency using a predicate.
-    /// </summary>
-    private class ModuleWithPredicateConditionalDependency : Module<string>
-    {
-        public static bool ShouldDependOnConditional { get; set; } = true;
-
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOnIf<ConditionalModule>(() => ShouldDependOnConditional);
-        }
-
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return "predicate-conditional";
-        }
-    }
-
-    /// <summary>
-    /// A module that declares a lazy dependency.
-    /// </summary>
-    private class ModuleWithLazyDependency : Module<string>
-    {
-        protected override void DeclareDependencies(IDependencyDeclaration deps)
-        {
-            deps.DependsOnLazy<LazyModule>();
-        }
-
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return "lazy-dep";
-        }
-    }
-
-    /// <summary>
     /// A module that combines both attribute and programmatic dependencies.
     /// </summary>
     [ModularPipelines.Attributes.DependsOn<BaseModule>]
@@ -178,8 +134,7 @@ public class DynamicDependencyDeclarationTests : TestBase
         protected override void DeclareDependencies(IDependencyDeclaration deps)
         {
             deps.DependsOn<BaseModule>()
-                .DependsOnOptional<OptionalDependencyModule>()
-                .DependsOnLazy<LazyModule>();
+                .DependsOnOptional<OptionalDependencyModule>();
         }
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -317,58 +272,6 @@ public class DynamicDependencyDeclarationTests : TestBase
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
     }
 
-    [Test]
-    [TUnit.Core.NotInParallel(Order = 1)]
-    public async Task Conditional_Predicate_Dependency_Works_When_Predicate_Returns_True()
-    {
-        ModuleWithPredicateConditionalDependency.ShouldDependOnConditional = true;
-
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .AddModule<ConditionalModule>()
-            .AddModule<ModuleWithPredicateConditionalDependency>()
-            .ExecutePipelineAsync();
-
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-    }
-
-    [Test]
-    [TUnit.Core.NotInParallel(Order = 2)]
-    public async Task Conditional_Predicate_Dependency_Not_Added_When_Predicate_Returns_False()
-    {
-        ModuleWithPredicateConditionalDependency.ShouldDependOnConditional = false;
-
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .AddModule<ModuleWithPredicateConditionalDependency>()
-            .ExecutePipelineAsync();
-
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-    }
-
-    #endregion
-
-    #region Lazy Dependency Tests
-
-    [Test]
-    public async Task Lazy_Dependency_Does_Not_Fail_When_Not_Registered()
-    {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .AddModule<ModuleWithLazyDependency>()
-            .ExecutePipelineAsync();
-
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-    }
-
-    [Test]
-    public async Task Lazy_Dependency_Works_When_Registered()
-    {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
-            .AddModule<LazyModule>()
-            .AddModule<ModuleWithLazyDependency>()
-            .ExecutePipelineAsync();
-
-        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-    }
-
     #endregion
 
     #region Combined Dependency Tests
@@ -402,7 +305,6 @@ public class DynamicDependencyDeclarationTests : TestBase
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<OptionalDependencyModule>()
-            .AddModule<LazyModule>()
             .AddModule<ModuleWithChainedDependencies>()
             .ExecutePipelineAsync();
 
@@ -455,16 +357,6 @@ public class DynamicDependencyDeclarationTests : TestBase
     }
 
     [Test]
-    public async Task DependencyDeclaration_DependsOnLazy_Returns_Same_Instance_For_Chaining()
-    {
-        var declaration = new DependencyDeclaration();
-
-        var result = declaration.DependsOnLazy<BaseModule>();
-
-        await Assert.That(result).IsSameReferenceAs(declaration);
-    }
-
-    [Test]
     public async Task DependencyDeclaration_Throws_For_Non_Module_Type()
     {
         var declaration = new DependencyDeclaration();
@@ -497,19 +389,6 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         await Assert.That(deps).Count().IsEqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Optional);
-        await Assert.That(deps[0].IsOptional).IsTrue();
-    }
-
-    [Test]
-    public async Task DependencyDeclaration_Lazy_Has_Correct_DependencyType()
-    {
-        var declaration = new DependencyDeclaration();
-        declaration.DependsOnLazy<BaseModule>();
-
-        var deps = declaration.Dependencies;
-
-        await Assert.That(deps).Count().IsEqualTo(1);
-        await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Lazy);
         await Assert.That(deps[0].IsOptional).IsTrue();
     }
 
