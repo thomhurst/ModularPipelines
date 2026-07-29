@@ -806,7 +806,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsServiceDescriptorFactory(IMethodSymbol method)
     {
-        return method.Name is "Singleton" or "Scoped" or "Transient"
+        return method.Name is "Singleton" or "Scoped" or "Transient" or "Describe"
                && method.ContainingType.ToDisplayString()
                == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor";
     }
@@ -1062,7 +1062,7 @@ internal static class ModuleAuthoringAnalysis
                            TryTrackInstanceModuleTypes(
                                returnValue,
                                instanceRegisteredModules,
-                               visitedLocals));
+                               CloneVisitedLocals(visitedLocals)));
             case IConditionalOperation conditional:
                 return TryTrackInstanceModuleTypes(
                            conditional.WhenTrue,

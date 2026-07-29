@@ -111,6 +111,51 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Repeated_Factory_Return_Local_Still_Reports_Unregistered_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:DeployModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.AddSingleton<IModule>(_ =>
+                    {
+                        var module = new BuildModule();
+                        if (flag)
+                        {
+                            return module;
+                        }
+
+                        return module;
+                    });
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DeployModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Type_Based_DI()
     {
         var source = $$"""
@@ -163,6 +208,45 @@ public class ModuleAuthoringAnalyzerTests
             """;
 
         await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Describe_Registration_Still_Reports_Unregistered_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:DeployModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.Add(ServiceDescriptor.Describe(
+                        typeof(IModule),
+                        typeof(BuildModule),
+                        ServiceLifetime.Singleton));
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DeployModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
