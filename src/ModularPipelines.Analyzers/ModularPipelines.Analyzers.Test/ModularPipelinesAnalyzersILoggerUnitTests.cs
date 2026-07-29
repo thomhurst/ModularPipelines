@@ -95,6 +95,29 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string ShadowedContextStoredLoggerSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private readonly ILogger<Module1> _logger;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        Action<int> log = context => _logger.LogInformation(""Running"");
+        log(0);
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string FixedAttributedLoggerConstructorSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -695,6 +718,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             StaticLocalFunctionStoredLoggerSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Context_Is_Shadowed()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ShadowedContextStoredLoggerSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 

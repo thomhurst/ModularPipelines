@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using Microsoft.CodeAnalysis.FindSymbols;
 using Microsoft.CodeAnalysis.Formatting;
+using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
@@ -237,7 +238,9 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             if (nodeToReplace.Parent is not MemberAccessExpressionSyntax { Expression: var expression }
                 || expression != nodeToReplace
                 || !CanReplaceLoggerReceiver(nodeToReplace, semanticModel, cancellationToken)
-                || FindModuleContextParameter(nodeToReplace, semanticModel, cancellationToken) is not { } contextParameter)
+                || nodeToReplace.FindVisibleModuleContextParameter(
+                    semanticModel,
+                    cancellationToken) is not { } contextParameter)
             {
                 return null;
             }
@@ -317,39 +320,6 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         }
 
         return fieldReference;
-    }
-
-    private static ParameterSyntax? FindModuleContextParameter(
-        SyntaxNode node,
-        SemanticModel semanticModel,
-        CancellationToken cancellationToken)
-    {
-        var moduleContextType = semanticModel.Compilation.GetTypeByMetadataName(
-            "ModularPipelines.Context.IModuleContext");
-        var method = node.FirstAncestorOrSelf<MethodDeclarationSyntax>();
-
-        return moduleContextType is null
-               || method is null
-               || node.Ancestors()
-                   .TakeWhile(ancestor => ancestor != method)
-                   .Any(IsStaticCallable)
-            ? null
-            : method.ParameterList.Parameters.FirstOrDefault(parameter =>
-                SymbolEqualityComparer.Default.Equals(
-                    semanticModel.GetTypeInfo(parameter.Type!, cancellationToken).Type,
-                    moduleContextType));
-    }
-
-    private static bool IsStaticCallable(SyntaxNode node)
-    {
-        return node switch
-        {
-            LocalFunctionStatementSyntax localFunction =>
-                localFunction.Modifiers.Any(SyntaxKind.StaticKeyword),
-            AnonymousFunctionExpressionSyntax anonymousFunction =>
-                anonymousFunction.Modifiers.Any(SyntaxKind.StaticKeyword),
-            _ => false,
-        };
     }
 
     private static async Task<Document> ReplaceWithContextLoggerAsync(

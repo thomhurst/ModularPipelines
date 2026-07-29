@@ -40,7 +40,9 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
             || !SupportedMethodNames.Contains(method.Name)
             || !CanReplaceStatement(invocation)
             || !HasSupportedArguments(invocation, semanticModel, context.CancellationToken)
-            || FindModuleContextParameter(invocation, semanticModel, context.CancellationToken) is not { } contextParameter)
+            || invocation.FindVisibleModuleContextParameter(
+                semanticModel,
+                context.CancellationToken) is not { } contextParameter)
         {
             return;
         }
@@ -80,39 +82,6 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         return argument.NameColon is null
                && semanticModel.GetTypeInfo(argument.Expression, cancellationToken).ConvertedType?.SpecialType
                == SpecialType.System_String;
-    }
-
-    private static ParameterSyntax? FindModuleContextParameter(
-        InvocationExpressionSyntax invocation,
-        SemanticModel semanticModel,
-        CancellationToken cancellationToken)
-    {
-        var moduleContextType = semanticModel.Compilation.GetTypeByMetadataName(
-            "ModularPipelines.Context.IModuleContext");
-        var method = invocation.FirstAncestorOrSelf<MethodDeclarationSyntax>();
-
-        return moduleContextType is null
-               || method is null
-               || invocation.Ancestors()
-                   .TakeWhile(node => node != method)
-                   .Any(IsStaticCallable)
-            ? null
-            : method.ParameterList.Parameters.FirstOrDefault(parameter =>
-                SymbolEqualityComparer.Default.Equals(
-                    semanticModel.GetTypeInfo(parameter.Type!, cancellationToken).Type,
-                    moduleContextType));
-    }
-
-    private static bool IsStaticCallable(SyntaxNode node)
-    {
-        return node switch
-        {
-            LocalFunctionStatementSyntax localFunction =>
-                localFunction.Modifiers.Any(SyntaxKind.StaticKeyword),
-            AnonymousFunctionExpressionSyntax anonymousFunction =>
-                anonymousFunction.Modifiers.Any(SyntaxKind.StaticKeyword),
-            _ => false,
-        };
     }
 
     private static bool IsConsoleError(

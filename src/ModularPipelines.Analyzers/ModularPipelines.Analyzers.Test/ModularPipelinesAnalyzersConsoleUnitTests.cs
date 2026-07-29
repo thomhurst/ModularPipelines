@@ -67,6 +67,24 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string ShadowedContextSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        Action<int> write = context => Console.WriteLine(""Done!"");
+        write(0);
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string AliasedConsoleErrorWithEscapedContextSource = $@"
 {TestSourceConstants.StandardUsings}
 using C = System.Console;
@@ -241,6 +259,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             StaticLocalFunctionSource,
+            ConsoleUseAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Context_Is_Shadowed()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ShadowedContextSource,
             ConsoleUseAnalyzer.DiagnosticId);
     }
 
