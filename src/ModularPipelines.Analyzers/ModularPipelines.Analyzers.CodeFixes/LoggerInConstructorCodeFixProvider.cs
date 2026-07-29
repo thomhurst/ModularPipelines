@@ -216,7 +216,8 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         var fieldDeclaration = fieldVariable?.Parent?.Parent as FieldDeclarationSyntax;
 
         return fieldVariable?.Initializer is null
-               && fieldDeclaration?.Declaration.Variables.Count == 1
+               && fieldDeclaration is { AttributeLists.Count: 0 }
+               && fieldDeclaration.Declaration.Variables.Count == 1
             ? new LoggerStorage(field, fieldDeclaration, assignmentStatement, assignment)
             : null;
     }

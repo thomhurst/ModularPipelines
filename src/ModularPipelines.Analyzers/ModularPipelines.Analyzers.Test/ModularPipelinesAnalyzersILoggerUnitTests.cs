@@ -102,6 +102,34 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string AttributedLoggerFieldSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[AttributeUsage(AttributeTargets.Field)]
+public sealed class PreserveAttribute : Attribute
+{{
+}}
+
+public class Module1 : Module<List<string>>
+{{
+    [Preserve]
+    private readonly ILogger<Module1> _logger;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        _logger.LogInformation(""Running"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string AttributedLoggerConstructorSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -798,6 +826,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             DirectiveLoggerAssignmentSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Logger_Field_Has_Attributes()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            AttributedLoggerFieldSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 
