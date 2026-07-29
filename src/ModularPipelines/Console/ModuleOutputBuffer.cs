@@ -536,7 +536,7 @@ internal sealed class BufferedLogEvent<TState> : IBufferedLogEvent
             Format);
     }
 
-    private string Format(object _, Exception? exception)
+    private string Format(object state, Exception? exception)
     {
         var formatted = _formatter(_originalState, exception);
         return _secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
