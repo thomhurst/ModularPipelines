@@ -215,6 +215,75 @@ public class OutputCoordinatorTests
     }
 
     [Test]
+    public async Task UnattributedFlush_UsesPipelineLoggerCategory()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(void));
+        buffer.SetupGet(x => x.HasOutput).Returns(true);
+        buffer
+            .Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                OutputFlushKind.Incremental,
+                It.IsAny<IReadOnlyList<ILogger>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var loggerFactory = new Mock<ILoggerFactory>();
+        loggerFactory
+            .Setup(x => x.CreateLogger(It.IsAny<string>()))
+            .Returns(Mock.Of<ILogger>());
+        var nonSpectreLoggerFactory = new Mock<INonSpectreLoggerFactory>();
+        nonSpectreLoggerFactory
+            .Setup(x => x.CreateLoggers(It.IsAny<string>()))
+            .Returns([]);
+        var coordinator = CreateCoordinator(
+            loggerFactory.Object,
+            nonSpectreLoggerFactory: nonSpectreLoggerFactory.Object);
+
+        await coordinator.EnqueueAndFlushAsync(buffer.Object, OutputFlushKind.Incremental);
+
+        loggerFactory.Verify(
+            x => x.CreateLogger(OutputLoggerCategories.Pipeline),
+            Times.Once);
+        nonSpectreLoggerFactory.Verify(
+            x => x.CreateLoggers(OutputLoggerCategories.Pipeline),
+            Times.Once);
+    }
+
+    [Test]
+    public async Task Completion_RetriesStructuredProviderDeliveryOnce()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(OutputCoordinatorTests));
+        buffer.SetupGet(x => x.NeedsCompletionFlush).Returns(true);
+        buffer.SetupGet(x => x.HasStructuredDeliveryRetries).Returns(true);
+        buffer
+            .Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                OutputFlushKind.Complete,
+                It.IsAny<IReadOnlyList<ILogger>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await coordinator.OnModuleCompletedAsync(buffer.Object, buffer.Object.ModuleType);
+
+        buffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            OutputFlushKind.Complete,
+            It.IsAny<IReadOnlyList<ILogger>?>(),
+            It.IsAny<CancellationToken>()), Times.Exactly(2));
+    }
+
+    [Test]
     public async Task Completion_IsQueuedWhileIncrementalFlushOwnsOutput()
     {
         var buffer = new BlockingIncrementalOutputBuffer();
@@ -418,7 +487,8 @@ public class OutputCoordinatorTests
 
     private static OutputCoordinator CreateCoordinator(
         ILoggerFactory loggerFactory,
-        IBuildSystemFormatterProvider? formatterProvider = null)
+        IBuildSystemFormatterProvider? formatterProvider = null,
+        INonSpectreLoggerFactory? nonSpectreLoggerFactory = null)
     {
         if (formatterProvider is null)
         {
@@ -430,17 +500,21 @@ public class OutputCoordinatorTests
         var serviceProvider = new Mock<IServiceProvider>();
         var loggerControl = new Mock<ISpectreConsoleLoggerControl>();
         loggerControl.SetupGet(x => x.SynchronizationLock).Returns(new object());
-        var nonSpectreLoggerFactory = new Mock<INonSpectreLoggerFactory>();
-        nonSpectreLoggerFactory
-            .Setup(factory => factory.CreateLoggers(It.IsAny<string>()))
-            .Returns([]);
+        if (nonSpectreLoggerFactory is null)
+        {
+            var nonSpectreLoggerFactoryMock = new Mock<INonSpectreLoggerFactory>();
+            nonSpectreLoggerFactoryMock
+                .Setup(factory => factory.CreateLoggers(It.IsAny<string>()))
+                .Returns([]);
+            nonSpectreLoggerFactory = nonSpectreLoggerFactoryMock.Object;
+        }
 
         return new OutputCoordinator(
             formatterProvider,
             loggerFactory,
             serviceProvider.Object,
             loggerControl.Object,
-            nonSpectreLoggerFactory.Object);
+            nonSpectreLoggerFactory);
     }
 
     private sealed class ConsoleWritingLoggerFactory(TextWriter writer) : ILoggerFactory

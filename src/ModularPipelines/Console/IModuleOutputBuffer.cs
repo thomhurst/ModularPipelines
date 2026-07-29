@@ -54,6 +54,11 @@ internal interface IModuleOutputBuffer
     bool HasOutput { get; }
 
     /// <summary>
+    /// Gets a value indicating whether a structured event needs another provider delivery attempt.
+    /// </summary>
+    bool HasStructuredDeliveryRetries => false;
+
+    /// <summary>
     /// Gets a value indicating whether the owning module has completed.
     /// </summary>
     bool IsComplete { get; }

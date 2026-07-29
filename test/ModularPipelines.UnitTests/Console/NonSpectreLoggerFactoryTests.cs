@@ -99,7 +99,12 @@ public class NonSpectreLoggerFactoryTests
     [Test]
     public async Task Filter_PostConfigure_Translates_Full_Provider_Name_In_Place()
     {
-        Func<string?, string?, LogLevel, bool> filter = (_, _, _) => true;
+        string? filteredProviderName = null;
+        Func<string?, string?, LogLevel, bool> filter = (providerName, _, _) =>
+        {
+            filteredProviderName = providerName;
+            return true;
+        };
         var options = new LoggerFilterOptions();
         options.Rules.Add(new LoggerFilterRule(
             "Other.Provider",
@@ -120,6 +125,10 @@ public class NonSpectreLoggerFactoryTests
         new SpectreLoggerFilterOptionsPostConfigure().PostConfigure(null, options);
 
         var translatedRule = options.Rules[1];
+        var filterResult = translatedRule.Filter!(
+            translatedRule.ProviderName,
+            translatedRule.CategoryName,
+            translatedRule.LogLevel!.Value);
         using (Assert.Multiple())
         {
             await Assert.That(options.Rules[0].CategoryName).IsEqualTo("Before");
@@ -127,7 +136,9 @@ public class NonSpectreLoggerFactoryTests
                 .IsEqualTo(typeof(SuppressibleSpectreLoggerProvider).FullName);
             await Assert.That(translatedRule.CategoryName).IsEqualTo("Category");
             await Assert.That(translatedRule.LogLevel).IsEqualTo(LogLevel.Warning);
-            await Assert.That(translatedRule.Filter).IsSameReferenceAs(filter);
+            await Assert.That(filterResult).IsTrue();
+            await Assert.That(filteredProviderName)
+                .IsEqualTo(SpectreLoggerSuppressionRegistration.SpectreProviderTypeName);
             await Assert.That(options.Rules[2].CategoryName).IsEqualTo("After");
         }
     }

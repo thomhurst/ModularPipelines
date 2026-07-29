@@ -126,6 +126,18 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
+    public bool HasStructuredDeliveryRetries
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _structuredDeliveryRetries.Count > 0;
+            }
+        }
+    }
+
+    /// <inheritdoc />
     public bool IsComplete
     {
         get
@@ -550,7 +562,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             var logEvent = structuredDeliveryRetries[index];
             if (!WriteToFallbackLoggers(logEvent, fallbackLoggers, console))
             {
-                failedStructuredDeliveries.Add(logEvent);
+                console.WriteLine(
+                    "Structured delivery was abandoned after 2 failed attempts; the direct console copy was retained.");
             }
         }
     }

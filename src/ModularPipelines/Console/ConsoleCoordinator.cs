@@ -123,7 +123,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 ConfigureConsoleWidth();
 
                 // Create logger for structured output during flush
-                _outputLogger = _loggerFactory.CreateLogger("ModularPipelines.Output");
+                _outputLogger = _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
 
                 // Install our intercepting writers
                 // Buffer module output while the coordinated output phase is active. Flush paths
@@ -341,7 +341,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         // Flush unattributed output (if any)
         if (_unattributedBuffer.HasOutput)
         {
-            var unattributedLogger = _outputLogger ?? _loggerFactory.CreateLogger("ModularPipelines.Output");
+            var unattributedLogger = _outputLogger
+                                     ?? _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
             await _unattributedBuffer
                 .FlushToAsync(
                     _originalConsoleOut,
@@ -349,8 +350,23 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     unattributedLogger,
                     _loggerControl,
                     OutputFlushKind.Complete,
-                    fallbackLoggers: _nonSpectreLoggerFactory.CreateLoggers("ModularPipelines.Output"))
+                    fallbackLoggers: _nonSpectreLoggerFactory.CreateLoggers(
+                        OutputLoggerCategories.Pipeline))
                 .ConfigureAwait(false);
+
+            if (_unattributedBuffer.HasStructuredDeliveryRetries)
+            {
+                await _unattributedBuffer
+                    .FlushToAsync(
+                        _originalConsoleOut,
+                        formatter,
+                        unattributedLogger,
+                        _loggerControl,
+                        OutputFlushKind.Complete,
+                        fallbackLoggers: _nonSpectreLoggerFactory.CreateLoggers(
+                            OutputLoggerCategories.Pipeline))
+                    .ConfigureAwait(false);
+            }
         }
     }
 

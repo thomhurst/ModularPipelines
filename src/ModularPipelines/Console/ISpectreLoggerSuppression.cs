@@ -181,11 +181,17 @@ internal sealed class SpectreLoggerFilterOptionsPostConfigure
                 continue;
             }
 
+            var originalFilter = rule.Filter;
             options.Rules[index] = new LoggerFilterRule(
                 typeof(SuppressibleSpectreLoggerProvider).FullName,
                 rule.CategoryName,
                 rule.LogLevel,
-                rule.Filter);
+                originalFilter is null
+                    ? null
+                    : (_, categoryName, logLevel) => originalFilter(
+                        SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+                        categoryName,
+                        logLevel));
         }
     }
 }

@@ -377,6 +377,22 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         OutputFlushKind flushKind,
         CancellationToken cancellationToken)
     {
+        await FlushBufferOnceAsync(buffer, formatter, flushKind, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (flushKind is OutputFlushKind.Complete && buffer.HasStructuredDeliveryRetries)
+        {
+            await FlushBufferOnceAsync(buffer, formatter, flushKind, cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private async Task FlushBufferOnceAsync(
+        IModuleOutputBuffer buffer,
+        IBuildSystemFormatter formatter,
+        OutputFlushKind flushKind,
+        CancellationToken cancellationToken)
+    {
         var moduleLogger = GetModuleLogger(buffer.ModuleType);
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
@@ -393,13 +409,15 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     }
 
     private static string GetCategoryName(Type moduleType)
-        => moduleType.FullName ?? moduleType.Name;
+        => moduleType == typeof(void)
+            ? OutputLoggerCategories.Pipeline
+            : moduleType.FullName ?? moduleType.Name;
 
     private ILogger GetModuleLogger(Type moduleType)
     {
         if (moduleType == typeof(void))
         {
-            return _loggerFactory.CreateLogger(moduleType);
+            return _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
         }
 
         var loggerType = typeof(ILogger<>).MakeGenericType(moduleType);
