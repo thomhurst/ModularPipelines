@@ -197,6 +197,10 @@ internal interface IGeneratedModuleRuntime
 {
     ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType);
 
+    IModuleResult CreateFailure(
+        Exception exception,
+        ModuleExecutionContext executionContext);
+
     IModuleResult CreateSkipped(ModuleExecutionContext executionContext);
 
     IModuleLogger GetLogger(IServiceProvider serviceProvider);
@@ -217,6 +221,15 @@ internal sealed class GeneratedModuleRuntime<TModule, TResult> : IGeneratedModul
     public ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
     {
         return new ModuleExecutionContext<TResult>((Module<TResult>) module, moduleType);
+    }
+
+    public IModuleResult CreateFailure(
+        Exception exception,
+        ModuleExecutionContext executionContext)
+    {
+        return ModuleResult<TResult>.CreateFailure(
+            exception,
+            (ModuleExecutionContext<TResult>) executionContext);
     }
 
     public IModuleResult CreateSkipped(ModuleExecutionContext executionContext)

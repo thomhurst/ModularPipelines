@@ -19,6 +19,7 @@ using var builder = Pipeline.CreateBuilder(args);
 builder
     .AddModule<CommandModule>()
     .AddModule<VerificationModule>()
+    .AddModule<ClosedGenericModule<int>>()
     .AddModule<IgnoredValueModule>()
     .WithCategory("ignored");
 builder.IgnoreCategories("ignored");
@@ -32,11 +33,33 @@ if (SmokeState.HookInvocations != 1)
         $"Expected one generated hook invocation, got {SmokeState.HookInvocations}.");
 }
 
+using var failureBuilder = Pipeline.CreateBuilder(args);
+failureBuilder
+    .AddModule<FailingModule>()
+    .AddModule<PendingAfterFailureModule>();
+failureBuilder.ConfigurePipelineOptions(options => options with
+{
+    ThrowOnPipelineFailure = true,
+});
+
+await using var failurePipeline = await failureBuilder.BuildAsync();
+try
+{
+    await failurePipeline.RunAsync();
+    throw new InvalidOperationException("Expected the failure smoke pipeline to throw.");
+}
+catch (Exception exception) when (
+    exception.ToString().Contains(SmokeState.ExpectedFailure, StringComparison.Ordinal))
+{
+}
+
 Console.WriteLine("TRIM_AOT_SMOKE_OK");
 
 internal static class SmokeState
 {
     public const string ChildArgument = "--aot-smoke-child";
+
+    public const string ExpectedFailure = "trim-aot-expected-failure";
 
     public const string Secret = "trim-aot-smoke-secret";
 
@@ -120,5 +143,36 @@ internal sealed class IgnoredValueModule : Module<int>
         CancellationToken cancellationToken)
     {
         throw new InvalidOperationException("Ignored module should not execute.");
+    }
+}
+
+internal sealed class ClosedGenericModule<T> : Module<bool>
+{
+    protected override Task<bool> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult(true);
+    }
+}
+
+internal sealed class FailingModule : Module<bool>
+{
+    protected override Task<bool> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        throw new InvalidOperationException(SmokeState.ExpectedFailure);
+    }
+}
+
+[DependsOn<FailingModule>]
+internal sealed class PendingAfterFailureModule : Module<int>
+{
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        throw new InvalidOperationException("Pending module should not execute.");
     }
 }

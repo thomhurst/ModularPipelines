@@ -17,6 +17,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string GenericModuleMetadataName = "Module`1";
     internal const string DependsOnAttributeFullName = "ModularPipelines.Attributes.DependsOnAttribute";
     internal const string GenericDependsOnAttributeMetadataName = "DependsOnAttribute`1";
+    internal const string PipelineBuilderExtensionsFullName =
+        "ModularPipelines.Extensions.PipelineBuilderExtensions";
 
     private static readonly DiagnosticDescriptor SkippedModuleRuntimeMetadata =
         GeneratorDiagnostics.SkippedModuleRuntimeMetadata;
@@ -30,8 +32,20 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .Where(static metadata => metadata is not null)
             .Select(static (metadata, _) => metadata!);
 
+        var registeredClosedGenericModules = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                static (node, _) => IsModuleRegistrationCandidate(node),
+                static (generatorContext, _) => GetRegisteredModuleMetadata(generatorContext))
+            .Where(static metadata => metadata is not null)
+            .Select(static (metadata, _) => metadata!);
+
+        var allModules = modules
+            .Collect()
+            .Combine(registeredClosedGenericModules.Collect())
+            .Select(static (input, _) => input.Left.AddRange(input.Right));
+
         context.RegisterSourceOutput(
-            context.CompilationProvider.Combine(modules.Collect()),
+            context.CompilationProvider.Combine(allModules),
             static (sourceContext, input) =>
             {
                 if (input.Left.GetTypeByMetadataName(ModuleInterfaceFullName) is not null)
@@ -61,6 +75,27 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                    && record.ClassOrStructKeyword.ValueText != "struct");
     }
 
+    private static bool IsModuleRegistrationCandidate(SyntaxNode node)
+    {
+        if (node is not InvocationExpressionSyntax invocation)
+        {
+            return false;
+        }
+
+        var genericName = invocation.Expression switch
+        {
+            GenericNameSyntax directName => directName,
+            MemberAccessExpressionSyntax { Name: GenericNameSyntax memberName } => memberName,
+            _ => null,
+        };
+
+        return genericName is
+        {
+            Identifier.ValueText: "AddModule",
+            TypeArgumentList.Arguments.Count: 1,
+        };
+    }
+
     private static ModuleMetadataInfo? GetModuleMetadata(GeneratorSyntaxContext context)
     {
         if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
@@ -71,7 +106,34 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             return null;
         }
 
-        var currentAssembly = context.SemanticModel.Compilation.Assembly;
+        return CreateModuleMetadata(type, context.SemanticModel.Compilation);
+    }
+
+    private static ModuleMetadataInfo? GetRegisteredModuleMetadata(
+        GeneratorSyntaxContext context)
+    {
+        if (context.Node is not InvocationExpressionSyntax invocation
+            || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
+            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
+            != PipelineBuilderExtensionsFullName
+            || method.TypeArguments.Length != 1
+            || method.TypeArguments[0] is not INamedTypeSymbol type
+            || !type.IsGenericType
+            || type.IsUnboundGenericType
+            || type.IsAbstract
+            || !ImplementsModule(type, context.SemanticModel.Compilation))
+        {
+            return null;
+        }
+
+        return CreateModuleMetadata(type, context.SemanticModel.Compilation);
+    }
+
+    private static ModuleMetadataInfo CreateModuleMetadata(
+        INamedTypeSymbol type,
+        Compilation compilation)
+    {
+        var currentAssembly = compilation.Assembly;
         var dependencies = ImmutableArray.CreateBuilder<DependencyMetadataInfo>();
         var dependenciesComplete = !HasPartialDeclaration(type);
 
@@ -79,7 +141,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         {
             if (!TryGetDependencyMetadata(
                     attribute,
-                    context.SemanticModel.Compilation,
+                    compilation,
                     currentAssembly,
                     out var dependency,
                     out var dependencyComplete))

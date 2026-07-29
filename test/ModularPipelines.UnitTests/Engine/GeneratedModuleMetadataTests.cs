@@ -1,8 +1,11 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -51,6 +54,23 @@ public class GeneratedModuleMetadataTests
             await Assert.That(services.Count(descriptor => descriptor.ServiceType == typeof(IModule)))
                 .IsEqualTo(2);
         }
+    }
+
+    [Test]
+    public async Task Generated_Runtime_Creates_Typed_Terminated_Result()
+    {
+        var module = new GeneratedMetadataDependencyModule();
+        var registry = new ModuleResultRegistry();
+        var registrar = new ModuleResultRegistrar(
+            registry,
+            NullLogger<ModuleResultRegistrar>.Instance);
+        var exception = new InvalidOperationException("Pipeline terminated");
+
+        registrar.RegisterTerminatedResult(module, module.GetType(), exception);
+
+        var result = registry.GetResult(module.GetType());
+        await Assert.That(result).IsAssignableTo<ModuleResult<bool>>();
+        await Assert.That(result!.ExceptionOrDefault).IsSameReferenceAs(exception);
     }
 
     [Test]
