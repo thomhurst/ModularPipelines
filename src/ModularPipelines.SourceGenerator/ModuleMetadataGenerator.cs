@@ -121,7 +121,10 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             || !type.IsGenericType
             || type.IsUnboundGenericType
             || type.IsAbstract
-            || !ImplementsModule(type, context.SemanticModel.Compilation))
+            || !ImplementsModule(type, context.SemanticModel.Compilation)
+            || !SymbolEqualityComparer.Default.Equals(
+                type.ContainingAssembly,
+                context.SemanticModel.Compilation.Assembly))
         {
             return null;
         }

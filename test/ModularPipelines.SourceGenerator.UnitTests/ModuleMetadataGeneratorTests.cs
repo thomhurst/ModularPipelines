@@ -240,6 +240,53 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Registered_External_Closed_Generic_Module_Is_Not_Emitted()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new ModuleMetadataGenerator(),
+            TestInfrastructure,
+            """
+            namespace ExternalModules
+            {
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+            }
+            """,
+            """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        builder.AddModule<ExternalModules.GenericModule<string>>();
+                    }
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        await Assert.That(generated).DoesNotContain("ExternalModules.GenericModule");
+    }
+
+    [Test]
     public async Task Direct_IModule_Implementation_Is_Registered()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """

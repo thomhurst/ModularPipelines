@@ -19,6 +19,37 @@ internal static class GeneratorTestHarness
         string source)
     {
         var compilation = CreateCompilation(infrastructure, source);
+        return Run(generator, compilation);
+    }
+
+    public static GeneratorDriverRunResult RunWithExternalAssembly(
+        IIncrementalGenerator generator,
+        string infrastructure,
+        string externalSource,
+        string source)
+    {
+        var infrastructureReference = CreateMetadataReference(
+            "ModularPipelines",
+            [infrastructure],
+            References);
+        var externalReference = CreateMetadataReference(
+            "ExternalModules",
+            [externalSource],
+            [.. References, infrastructureReference]);
+        var compilation = CSharpCompilation.Create(
+            "GeneratorTests",
+            [CSharpSyntaxTree.ParseText(source)],
+            [.. References, infrastructureReference, externalReference],
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        return Run(generator, compilation);
+    }
+
+    private static GeneratorDriverRunResult Run(
+        IIncrementalGenerator generator,
+        CSharpCompilation compilation)
+    {
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
         driver = driver.RunGeneratorsAndUpdateCompilation(
@@ -69,12 +100,43 @@ internal static class GeneratorTestHarness
             ],
             References,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        return compilation;
+    }
+
+    private static void ThrowForCompilationErrors(CSharpCompilation compilation)
+    {
         var compilationErrors = compilation.GetDiagnostics()
             .Where(static diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
             .ToArray();
+        if (compilationErrors.Length > 0)
+        {
+            throw new InvalidOperationException(string.Join(Environment.NewLine, compilationErrors));
+        }
+    }
 
-        return compilationErrors.Length == 0
-            ? compilation
-            : throw new InvalidOperationException(string.Join(Environment.NewLine, compilationErrors));
+    private static PortableExecutableReference CreateMetadataReference(
+        string assemblyName,
+        IEnumerable<string> sources,
+        IEnumerable<MetadataReference> references)
+    {
+        var compilation = CSharpCompilation.Create(
+            assemblyName,
+            sources.Select(static source => CSharpSyntaxTree.ParseText(source)),
+            references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        using var stream = new MemoryStream();
+        var emitResult = compilation.Emit(stream);
+        if (!emitResult.Success)
+        {
+            throw new InvalidOperationException(string.Join(
+                Environment.NewLine,
+                emitResult.Diagnostics));
+        }
+
+        return MetadataReference.CreateFromImage(stream.ToArray());
     }
 }
