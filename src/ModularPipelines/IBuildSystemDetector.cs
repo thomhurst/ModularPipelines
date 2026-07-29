@@ -8,6 +8,16 @@ namespace ModularPipelines;
 public interface IBuildSystemDetector
 {
     /// <summary>
+    /// Gets the current build agent type, if known.
+    /// </summary>
+    BuildSystem Current => GetCurrentBuildSystem();
+
+    /// <summary>
+    /// Gets the environment variable that identified the current build system, if known.
+    /// </summary>
+    string? MatchedEnvironmentVariable => null;
+
+    /// <summary>
     /// Gets a value indicating whether the current build agent is Azure Pipelines.
     /// </summary>
     bool IsRunningOnAzurePipelines => Is(BuildSystem.AzurePipelines);
@@ -63,5 +73,5 @@ public interface IBuildSystemDetector
     /// </summary>
     /// <param name="buildSystem">The build system type to check for.</param>
     /// <returns>True if the pipeline is running on the specified build system; otherwise, false.</returns>
-    bool Is(BuildSystem buildSystem) => GetCurrentBuildSystem() == buildSystem;
+    bool Is(BuildSystem buildSystem) => Current == buildSystem;
 }

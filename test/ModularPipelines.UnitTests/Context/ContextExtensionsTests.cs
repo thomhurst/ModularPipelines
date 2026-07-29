@@ -2,7 +2,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
+using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Implementations;
+using ModularPipelines.Enums;
 using ModularPipelines.Options;
 using Moq;
 
@@ -139,6 +141,30 @@ public class ContextExtensionsTests
         // Act & Assert
         await Assert.That(() => mockContext.Object.GetRequiredConfigValue("MissingKey"))
             .ThrowsExactly<InvalidOperationException>();
+    }
+
+    [Test]
+    [Arguments(BuildSystem.AzurePipelines)]
+    [Arguments(BuildSystem.TeamCity)]
+    [Arguments(BuildSystem.GitHubActions)]
+    [Arguments(BuildSystem.Jenkins)]
+    [Arguments(BuildSystem.GitLab)]
+    [Arguments(BuildSystem.Bitbucket)]
+    [Arguments(BuildSystem.TravisCI)]
+    [Arguments(BuildSystem.AppVeyor)]
+    [Arguments(BuildSystem.Unknown)]
+    public async Task IsRunningIn_Uses_Current_Build_System(BuildSystem buildSystem)
+    {
+        var buildSystemContext = new Mock<IBuildSystemContext>();
+        buildSystemContext.SetupGet(context => context.Current).Returns(buildSystem);
+        var environmentContext = new Mock<IEnvironmentDomainContext>();
+        environmentContext
+            .SetupGet(context => context.BuildSystem)
+            .Returns(buildSystemContext.Object);
+        var context = new Mock<IPipelineContext>();
+        context.SetupGet(pipelineContext => pipelineContext.Environment).Returns(environmentContext.Object);
+
+        await Assert.That(context.Object.IsRunningIn(buildSystem)).IsTrue();
     }
 
     private static ServicesContext CreateServicesContext(IServiceProvider serviceProvider)
