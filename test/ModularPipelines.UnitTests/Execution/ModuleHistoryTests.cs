@@ -4,7 +4,6 @@ using ModularPipelines.Conditions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -38,7 +37,7 @@ public class ModuleHistoryTests
     {
         public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
         {
-            return false.AsTask();
+            return Task.FromResult(false);
         }
     }
 

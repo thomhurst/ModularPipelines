@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
-using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -58,9 +57,9 @@ public class SafeEstimatedTimeProviderTests
 
     private class DummyModule : Module<bool>
     {
-        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await true.AsTask();
+            return Task.FromResult(true);
         }
     }
 

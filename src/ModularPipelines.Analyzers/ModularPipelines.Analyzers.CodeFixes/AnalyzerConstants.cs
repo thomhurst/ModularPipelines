@@ -30,11 +30,6 @@ internal static class AnalyzerConstants
         internal const string Task = "Task";
 
         /// <summary>
-        /// The TaskExtensions type name from ModularPipelines.Extensions.
-        /// </summary>
-        internal const string TaskExtensions = "TaskExtensions";
-
-        /// <summary>
         /// The IEnumerable interface name.
         /// </summary>
         internal const string IEnumerable = "IEnumerable";
@@ -54,11 +49,6 @@ internal static class AnalyzerConstants
         /// The GetModule method name for retrieving module dependencies.
         /// </summary>
         internal const string GetModule = "GetModule";
-
-        /// <summary>
-        /// The AsTask extension method name.
-        /// </summary>
-        internal const string AsTask = "AsTask";
 
         /// <summary>
         /// The FromResult method name from Task.
@@ -96,11 +86,6 @@ internal static class AnalyzerConstants
         /// The System.Threading.Tasks namespace.
         /// </summary>
         internal const string SystemThreadingTasks = "System.Threading.Tasks";
-
-        /// <summary>
-        /// The ModularPipelines.Extensions namespace.
-        /// </summary>
-        internal const string ModularPipelinesExtensions = "ModularPipelines.Extensions";
     }
 
     /// <summary>

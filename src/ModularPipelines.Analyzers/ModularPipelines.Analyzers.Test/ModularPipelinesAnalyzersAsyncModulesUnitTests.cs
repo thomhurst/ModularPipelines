@@ -76,18 +76,6 @@ public class Module1 : Module<string>
 }}
 ";
 
-    private const string GoodModuleSource3 = $@"
-{TestSourceConstants.StandardModuleHeaderWithExtensions}
-
-public class Module1 : Module<string>
-{{
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {{
-        return ""Foo"".AsTask<string?>();
-    }}
-}}
-";
-
     private const string BadModuleSource2Fixed = $@"
 {TestSourceConstants.StandardModuleHeaderWithOptions}
 
@@ -129,12 +117,6 @@ public class Module1 : Module<string>
     public async Task AnalyzerIsNotTriggered_When_TaskFromResult()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource2);
-    }
-
-    [TestMethod]
-    public async Task AnalyzerIsNotTriggered_When_AsTaskExtension()
-    {
-        await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource3);
     }
 
     [TestMethod]

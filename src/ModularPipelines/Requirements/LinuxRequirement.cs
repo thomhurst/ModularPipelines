@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Requirements;
@@ -14,9 +13,9 @@ public class LinuxRequirement : IPipelineRequirement
     /// <inheritdoc/>
     public Task<RequirementDecision> MustAsync(IPipelineContext context)
     {
-        return RequirementDecision.Of(
+        return Task.FromResult(RequirementDecision.Of(
             passed: context.Environment.OperatingSystem == System.Runtime.InteropServices.OSPlatform.Linux,
             reason: "Linux is required"
-        ).AsTask();
+        ));
     }
 }
