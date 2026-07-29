@@ -1007,22 +1007,7 @@ internal static class ModuleAuthoringAnalysis
 
             if (IsTaskJoin(parentInvocation))
             {
-                for (var ancestor = parentInvocation.Parent;
-                     ancestor is not null;
-                     ancestor = ancestor.Parent)
-                {
-                    if (ancestor is IAwaitOperation)
-                    {
-                        return true;
-                    }
-
-                    if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
-                    {
-                        return false;
-                    }
-                }
-
-                return false;
+                return IsAwaitedBeforeNestedCallable(parentInvocation);
             }
 
             if (parentInvocation.TargetMethod.ContainingType.OriginalDefinition
@@ -1032,6 +1017,26 @@ internal static class ModuleAuthoringAnalysis
             }
 
             current = parentInvocation.Parent;
+        }
+
+        return false;
+    }
+
+    private static bool IsAwaitedBeforeNestedCallable(IOperation operation)
+    {
+        for (var ancestor = operation.Parent;
+             ancestor is not null;
+             ancestor = ancestor.Parent)
+        {
+            if (ancestor is IAwaitOperation)
+            {
+                return true;
+            }
+
+            if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                return false;
+            }
         }
 
         return false;
