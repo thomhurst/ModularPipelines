@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Models;
@@ -30,6 +31,14 @@ internal class ModuleResultSerializer
         }
     }
 
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Distributed type-erased result serialization is explicitly unsupported in Native AOT.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Distributed type-erased result serialization is explicitly unsupported in trimmed applications.")]
     public ModularPipelines.Distributed.SerializedModuleResult Serialize(IModuleResult result, string moduleTypeName, string resultTypeName, int workerIndex)
     {
         // Serialize as the ModuleResult<T> base type so the custom converter writes the $type discriminator.
@@ -48,6 +57,14 @@ internal class ModuleResultSerializer
         );
     }
 
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Distributed type-erased result serialization is explicitly unsupported in Native AOT.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Distributed type-erased result serialization is explicitly unsupported in trimmed applications.")]
     public IModuleResult? Deserialize(ModularPipelines.Distributed.SerializedModuleResult serialized)
     {
         var resolved = _typeRegistry.Resolve(serialized.ModuleTypeName) ?? throw new InvalidOperationException(

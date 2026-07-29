@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Exceptions;
@@ -20,6 +21,10 @@ internal class DependencyWaiter : IDependencyWaiter
     }
 
     /// <inheritdoc />
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Generated runtime metadata handles statically known modules; MakeGenericType is the documented fallback for dynamic modules.")]
     public async Task WaitForDependenciesAsync(ModuleState moduleState, IModuleScheduler scheduler, IServiceProvider scopedServiceProvider)
     {
         foreach (var (dependencyType, optional) in moduleState.Dependencies)
@@ -34,8 +39,12 @@ internal class DependencyWaiter : IDependencyWaiter
                 }
                 catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {
-                    var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType);
-                    var depLogger = (IModuleLogger) scopedServiceProvider.GetRequiredService(loggerType);
+                    var depLogger = GeneratedModuleMetadata.TryGetRuntime(
+                        moduleState.ModuleType,
+                        out var runtime)
+                            ? runtime.GetLogger(scopedServiceProvider)
+                            : (IModuleLogger) scopedServiceProvider.GetRequiredService(
+                                typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType));
                     _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
                         $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
                         e));

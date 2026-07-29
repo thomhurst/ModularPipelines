@@ -583,6 +583,10 @@ internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
         return false;
     }
 
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Reflection-based ModuleResult JSON conversion is unsupported in Native AOT; use source-generated serialization metadata.")]
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         // For non-generic types
@@ -621,6 +625,10 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
     private static readonly ExceptionJsonConverter ExceptionConverter = new();
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Reflection-based ModuleResult JSON conversion is unsupported in Native AOT; use source-generated serialization metadata.")]
     public override ModuleResult? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
@@ -722,6 +730,10 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Reflection-based ModuleResult JSON conversion is unsupported in Native AOT; use source-generated serialization metadata.")]
     public override void Write(Utf8JsonWriter writer, ModuleResult value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
@@ -774,6 +786,10 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
     private static readonly ExceptionJsonConverter ExceptionConverter = new();
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Reflection-based ModuleResult JSON conversion is unsupported in Native AOT; use source-generated serialization metadata.")]
     public override ModuleResult<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType == JsonTokenType.Null)
@@ -888,6 +904,10 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Reflection-based ModuleResult JSON conversion is unsupported in Native AOT; use source-generated serialization metadata.")]
     public override void Write(Utf8JsonWriter writer, ModuleResult<T> value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();

@@ -537,3 +537,53 @@ jobs:
             }
             Write-Output "::endgroup::"
           }
+
+  trim-aot:
+    name: trim and Native AOT
+    needs: fast-fail
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      MSBUILDDISABLENODEREUSE: "1"
+      DOTNET_gcServer: "0"
+
+    steps:
+      - name: Require fast-fail success
+        if: needs.fast-fail.result != 'success'
+        run: |
+          echo "::error::The fast-fail lane did not pass."
+          exit 1
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Publish and run trimmed smoke
+        shell: bash
+        run: |
+          dotnet publish \
+            test/ModularPipelines.TrimAotSmoke/ModularPipelines.TrimAotSmoke.csproj \
+            --configuration Release \
+            --runtime linux-x64 \
+            --self-contained true \
+            --output "$RUNNER_TEMP/trim-smoke" \
+            -p:PublishAot=false
+          "$RUNNER_TEMP/trim-smoke/ModularPipelines.TrimAotSmoke" |
+            grep -F TRIM_AOT_SMOKE_OK
+      - name: Publish and run Native AOT smoke
+        shell: bash
+        run: |
+          dotnet publish \
+            test/ModularPipelines.TrimAotSmoke/ModularPipelines.TrimAotSmoke.csproj \
+            --configuration Release \
+            --runtime linux-x64 \
+            --self-contained true \
+            --output "$RUNNER_TEMP/aot-smoke"
+          "$RUNNER_TEMP/aot-smoke/ModularPipelines.TrimAotSmoke" |
+            grep -F TRIM_AOT_SMOKE_OK

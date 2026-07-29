@@ -1,7 +1,11 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.Distributed;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
@@ -80,11 +84,20 @@ internal class OptionsProvider : IOptionsProvider
     /// <remarks>
     /// This method is thread-safe. The options type list is cached on first access.
     /// </remarks>
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(PipelineOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(SchedulerOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(ConcurrencyOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(HttpResilienceOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(ModuleRegistrationOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(SecretMaskingOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(DistributedOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(ArtifactOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(LoggerFilterOptions))]
     public IEnumerable<object?> GetOptions()
     {
         foreach (var t in _cachedOptionTypes.Value)
         {
-            var optionsType = IOptionsTypeCache.GetOrAdd(t, static innerType => typeof(IOptions<>).MakeGenericType(innerType));
+            var optionsType = IOptionsTypeCache.GetOrAdd(t, CreateOptionsType);
             var option = _serviceProvider.GetService(optionsType);
 
             if (option is null)
@@ -99,8 +112,32 @@ internal class OptionsProvider : IOptionsProvider
     }
 
     /// <summary>
+    /// Creates the closed IOptions type for a runtime-discovered options type.
+    /// </summary>
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Options registered through the static DI path are rooted; runtime-discovered option types are unsupported in Native AOT.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2071",
+        Justification = "Options registered through the static DI path are rooted; runtime-discovered option types are unsupported when trimming.")]
+    private static Type CreateOptionsType(Type optionsType)
+    {
+        return typeof(IOptions<>).MakeGenericType(optionsType);
+    }
+
+    /// <summary>
     /// Creates a compiled delegate to access the Value property of an IOptions&lt;T&gt; instance.
     /// </summary>
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Options registered through the static DI path are rooted; runtime-discovered option types are unsupported in Native AOT.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "Options registered through the static DI path are rooted; runtime-discovered option types are unsupported when trimming.")]
     private static Func<object, object?> CreateValueGetter(Type optionsType)
     {
         var valueProperty = optionsType.GetProperty("Value")

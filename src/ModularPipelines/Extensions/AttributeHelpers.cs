@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace ModularPipelines.Extensions;
@@ -22,6 +23,10 @@ internal static class AttributeHelpers
         return attributes.Cast<T>();
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "This method is the documented reflection fallback for dynamically supplied types; generated module event metadata handles statically known modules.")]
     private static object[] GetAttributesInternal<T>(Type type)
         where T : Attribute
     {

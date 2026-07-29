@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -182,6 +183,14 @@ internal static class CompletionSourceSetterCache
         return Cache.GetOrAdd(resultType, CreateSetter);
     }
 
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "The dynamic completion-source setter is used by history paths that are unsupported in Native AOT.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "The dynamic completion-source setter is used by history paths that are unsupported when trimming.")]
     private static Action<IModule, IModuleResult> CreateSetter(Type resultType)
     {
         // Create compiled delegate for: ((Module<T>)module).CompletionSource.TrySetResult((ModuleResult<T>)result)

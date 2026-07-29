@@ -361,7 +361,8 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configureOptions">The configuration action.</param>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder Configure<TOptions>(
+    public static PipelineBuilder Configure<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TOptions>(
         this PipelineBuilder builder,
         Action<TOptions> configureOptions)
         where TOptions : class

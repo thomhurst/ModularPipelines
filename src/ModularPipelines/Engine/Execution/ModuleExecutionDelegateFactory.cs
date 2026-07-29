@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using ModularPipelines.Context;
@@ -28,19 +29,11 @@ internal static class ModuleExecutionDelegateFactory
 
     private static readonly ConcurrentDictionary<Type, ExecuteModuleDelegate> ExecutorCache = new();
 
-    /// <summary>
-    /// Cache for generic MethodInfo instances created via MakeGenericMethod.
-    /// Key is the result type, value is the specialized MethodInfo.
-    /// </summary>
-    private static readonly ConcurrentDictionary<Type, MethodInfo> ExecuteAsyncMethodCache = new();
     private static readonly ConcurrentDictionary<Type, MethodInfo> ExecuteAndCastAsyncMethodCache = new();
 
     /// <summary>
     /// Base method definitions, cached once on first use.
     /// </summary>
-    private static readonly MethodInfo ExecuteAsyncMethodDefinition =
-        typeof(IModuleExecutionPipeline).GetMethod(nameof(IModuleExecutionPipeline.ExecuteAsync))!;
-
     private static readonly MethodInfo ExecuteAndCastAsyncMethodDefinition =
         typeof(ModuleExecutionDelegateFactory).GetMethod(nameof(ExecuteAndCastAsync), BindingFlags.NonPublic | BindingFlags.Static)!;
 
@@ -54,6 +47,10 @@ internal static class ModuleExecutionDelegateFactory
         return ExecutorCache.GetOrAdd(resultType, CreateExecutor);
     }
 
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Generated runtime metadata handles statically known modules; this factory is the documented fallback for dynamic modules.")]
     private static ExecuteModuleDelegate CreateExecutor(Type resultType)
     {
         // Parameters for the delegate
@@ -66,8 +63,6 @@ internal static class ModuleExecutionDelegateFactory
         // Get the generic types
         var moduleType = typeof(Module<>).MakeGenericType(resultType);
         var executionContextType = typeof(ModuleExecutionContext<>).MakeGenericType(resultType);
-        var moduleResultType = typeof(ModuleResult<>).MakeGenericType(resultType);
-        var taskType = typeof(Task<>).MakeGenericType(moduleResultType);
 
         // Cast module to Module<T>
         var castModule = Expression.Convert(moduleParam, moduleType);
@@ -75,25 +70,11 @@ internal static class ModuleExecutionDelegateFactory
         // Cast executionContext to ModuleExecutionContext<T>
         var castContext = Expression.Convert(contextParam, executionContextType);
 
-        // Get the ExecuteAsync method (cached)
-        var executeMethod = ExecuteAsyncMethodCache.GetOrAdd(
-            resultType,
-            static type => ExecuteAsyncMethodDefinition.MakeGenericMethod(type));
-
-        // Call pipeline.ExecuteAsync<T>(module, executionContext, moduleContext, cancellationToken)
-        var callExecute = Expression.Call(
-            pipelineParam,
-            executeMethod,
-            castModule,
-            castContext,
-            moduleContextParam,
-            cancellationTokenParam);
-
         // We need to create an async wrapper that awaits the task and casts the result to IModuleResult
         // Since Expression trees can't directly represent async/await, we'll use a helper method (cached)
         var helperMethod = ExecuteAndCastAsyncMethodCache.GetOrAdd(
             resultType,
-            static type => ExecuteAndCastAsyncMethodDefinition.MakeGenericMethod(type));
+            MakeExecuteAndCastAsyncMethod);
 
         var callHelper = Expression.Call(
             helperMethod,
@@ -113,6 +94,19 @@ internal static class ModuleExecutionDelegateFactory
             cancellationTokenParam);
 
         return lambda.Compile();
+    }
+
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Generated runtime metadata handles statically known modules; this factory is the documented fallback for dynamic modules.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2060",
+        Justification = "Generated runtime metadata handles statically known modules; this factory is the documented fallback for dynamic modules.")]
+    private static MethodInfo MakeExecuteAndCastAsyncMethod(Type resultType)
+    {
+        return ExecuteAndCastAsyncMethodDefinition.MakeGenericMethod(resultType);
     }
 
     private static async Task<IModuleResult> ExecuteAndCastAsync<T>(

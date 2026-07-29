@@ -53,11 +53,11 @@ public class ModuleMetadataGeneratorTests
         using (Assert.Multiple())
         {
             await Assert.That(generated)
-                .Contains("CreateRegistration<global::Consumer.BuildModule>");
+                .Contains("CreateRegistration<global::Consumer.BuildModule, string>");
             await Assert.That(generated)
                 .Contains("new(typeof(global::Consumer.DependencyModule), true)");
             await Assert.That(generated)
-                .Contains("CreateRegistration<global::Consumer.DependencyModule>");
+                .Contains("CreateRegistration<global::Consumer.DependencyModule, string>");
             await Assert.That(generated).Contains("isComplete: false");
         }
     }
@@ -77,7 +77,7 @@ public class ModuleMetadataGeneratorTests
 
         await Assert.That(CountOccurrences(
             generated,
-            "CreateRegistration<global::Consumer.BuildModule>")).IsEqualTo(1);
+            "CreateRegistration<global::Consumer.BuildModule, string>")).IsEqualTo(1);
     }
 
     [Test]
@@ -142,7 +142,7 @@ public class ModuleMetadataGeneratorTests
         using (Assert.Multiple())
         {
             await Assert.That(generated)
-                .Contains("CreateRegistration<global::Consumer.BuildModule>");
+                .Contains("CreateRegistration<global::Consumer.BuildModule, string>");
             await Assert.That(generated).DoesNotContain("HiddenModule");
             await Assert.That(generated).Contains("isComplete: false");
         }
@@ -189,7 +189,7 @@ public class ModuleMetadataGeneratorTests
                 .Contains("new(typeof(global::Consumer.GenericModule<string>), false)");
             await Assert.That(CountOccurrences(
                 generated,
-                "CreateRegistration<global::Consumer.GenericModule<string>>")).IsEqualTo(1);
+                "CreateRegistration<global::Consumer.GenericModule<string>, string>")).IsEqualTo(1);
             await Assert.That(generated).Contains("dependenciesComplete: true");
         }
     }

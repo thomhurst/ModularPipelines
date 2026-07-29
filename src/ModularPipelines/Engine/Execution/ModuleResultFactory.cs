@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 
@@ -59,6 +60,10 @@ internal static class ModuleResultFactory
     /// <summary>
     /// Creates a skipped ModuleResult (type-erased version for engine use).
     /// </summary>
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Type-erased result creation is used by dynamic and history paths that are unsupported in Native AOT.")]
     public static IModuleResult CreateSkipped(Type resultType, ModuleExecutionContext executionContext)
     {
         var method = typeof(ModuleResultFactory)
@@ -71,6 +76,10 @@ internal static class ModuleResultFactory
     /// <summary>
     /// Creates a failure ModuleResult (type-erased version for engine use).
     /// </summary>
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Type-erased result creation is used by dynamic and history paths that are unsupported in Native AOT.")]
     public static IModuleResult CreateException(Type resultType, Exception exception, ModuleExecutionContext executionContext)
     {
         var method = typeof(ModuleResultFactory)
@@ -93,6 +102,10 @@ internal static class ModuleResultFactory
     /// <summary>
     /// Creates a copy of the result with a different status (type-erased version for engine use).
     /// </summary>
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Type-erased result mutation is used by dynamic and history paths that are unsupported in Native AOT.")]
     public static IModuleResult WithStatus(IModuleResult result, Status status)
     {
         // Handle non-generic Failure/Skipped types directly (most efficient path)

@@ -139,7 +139,10 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         }
     }
 
-    [RequiresUnreferencedCode("Calls ModularPipelines.Engine.SecretProvider.GetSecretProperties(Type)")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Generated secret accessors handle statically known option types; GetSecretProperties is the documented reflection fallback for dynamic options.")]
     public IEnumerable<string> GetSecretsInObject(object? value)
     {
         if (value is null)
@@ -264,7 +267,6 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             .ToArray();
     }
 
-    [RequiresUnreferencedCode("Calls ModularPipelines.Engine.SecretProvider.GetSecretsInObject(Object)")]
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
     {
         foreach (var option in options)

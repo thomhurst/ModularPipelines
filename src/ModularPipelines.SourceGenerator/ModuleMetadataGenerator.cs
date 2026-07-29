@@ -13,6 +13,8 @@ namespace ModularPipelines.SourceGenerator;
 public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 {
     internal const string ModuleInterfaceFullName = "ModularPipelines.Modules.IModule";
+    internal const string ModuleNamespace = "ModularPipelines.Modules";
+    internal const string GenericModuleMetadataName = "Module`1";
     internal const string DependsOnAttributeFullName = "ModularPipelines.Attributes.DependsOnAttribute";
     internal const string GenericDependsOnAttributeMetadataName = "DependsOnAttribute`1";
 
@@ -78,6 +80,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         return new ModuleMetadataInfo(
             type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            GetModuleResultTypeName(type),
             IsTypeAccessible(type, currentAssembly),
             [.. dependencies
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
@@ -118,6 +121,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                                                 currentAssembly);
         dependency = new DependencyMetadataInfo(
             namedDependency.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            GetModuleResultTypeName(namedDependency),
             optional,
             canEmitActivationRegistration);
         dependencyComplete = !isClosedGeneric || canEmitActivationRegistration;
@@ -211,6 +215,21 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                    SymbolEqualityComparer.Default.Equals(candidate, moduleInterface));
     }
 
+    private static string? GetModuleResultTypeName(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            if (current.OriginalDefinition.MetadataName == GenericModuleMetadataName
+                && current.OriginalDefinition.ContainingNamespace.ToDisplayString() == ModuleNamespace)
+            {
+                return current.TypeArguments[0]
+                    .ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            }
+        }
+
+        return null;
+    }
+
     private static bool IsTypeAccessible(INamedTypeSymbol type, IAssemblySymbol currentAssembly)
     {
         for (var current = type; current is not null; current = current.ContainingType)
@@ -271,16 +290,16 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         var closedGenericDependencies = modules
             .SelectMany(static module => module.Dependencies)
             .Where(static dependency => dependency.EmitActivationRegistration)
-            .Select(static dependency => dependency.TypeName)
-            .Where(typeName => !emittedModuleNames.Contains(typeName))
-            .Distinct(StringComparer.Ordinal)
-            .OrderBy(static typeName => typeName, StringComparer.Ordinal)
+            .Where(dependency => !emittedModuleNames.Contains(dependency.TypeName))
+            .GroupBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
+            .Select(static group => group.First())
+            .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
             .ToArray();
 
         // Generators cannot observe modules emitted by other generators in the same
-        // compilation, so assembly discovery must retain its reflection fallback.
-        // TODO(#3228): Revisit completeness when final trim/AOT certification can
-        // account for every generator participating in the compilation.
+        // compilation. Assembly-wide discovery therefore remains incomplete and uses
+        // the documented reflection fallback; explicitly registered source modules use
+        // the trim-safe registrations below.
         const bool isComplete = false;
         var registrationTypeName = $"ModuleMetadataRegistration_{GetStableIdentifier(assemblyName)}";
         var sb = new StringBuilder();
@@ -302,7 +321,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         foreach (var module in emittedModules)
         {
-            sb.AppendLine($"                global::ModularPipelines.Engine.GeneratedModuleMetadata.CreateRegistration<{module.TypeName}>(");
+            sb.AppendLine($"                global::ModularPipelines.Engine.GeneratedModuleMetadata.CreateRegistration<{GetRegistrationTypeArguments(module.TypeName, module.ResultTypeName)}>(");
             sb.AppendLine("                    new global::ModularPipelines.Engine.ModuleDependencyMetadata[]");
             sb.AppendLine("                    {");
 
@@ -314,9 +333,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             sb.AppendLine($"                    }}, dependenciesComplete: {BooleanLiteral(module.DependenciesComplete)}),");
         }
 
-        foreach (var typeName in closedGenericDependencies)
+        foreach (var dependency in closedGenericDependencies)
         {
-            sb.AppendLine($"                global::ModularPipelines.Engine.GeneratedModuleMetadata.CreateRegistration<{typeName}>(");
+            sb.AppendLine($"                global::ModularPipelines.Engine.GeneratedModuleMetadata.CreateRegistration<{GetRegistrationTypeArguments(dependency.TypeName, dependency.ResultTypeName)}>(");
             sb.AppendLine("                    global::System.Array.Empty<global::ModularPipelines.Engine.ModuleDependencyMetadata>(),");
             sb.AppendLine("                    dependenciesComplete: false),");
         }
@@ -328,6 +347,13 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     }
 
     private static string BooleanLiteral(bool value) => value ? "true" : "false";
+
+    private static string GetRegistrationTypeArguments(string moduleTypeName, string? resultTypeName)
+    {
+        return resultTypeName is null
+            ? moduleTypeName
+            : $"{moduleTypeName}, {resultTypeName}";
+    }
 
     private static string GetStableIdentifier(string? value)
     {
@@ -346,12 +372,14 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     private sealed record ModuleMetadataInfo(
         string TypeName,
+        string? ResultTypeName,
         bool CanEmit,
         ImmutableArray<DependencyMetadataInfo> Dependencies,
         bool DependenciesComplete);
 
     private sealed record DependencyMetadataInfo(
         string TypeName,
+        string? ResultTypeName,
         bool Optional,
         bool EmitActivationRegistration);
 }

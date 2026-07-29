@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using ModularPipelines.Context.Domains.Data;
@@ -6,6 +7,8 @@ namespace ModularPipelines.Context;
 
 internal class Xml : IXmlContext
 {
+    [RequiresDynamicCode("XmlSerializer may require runtime code generation.")]
+    [RequiresUnreferencedCode("XmlSerializer requires members that trimming cannot statically discover.")]
     public string ToXml<T>(T input, SaveOptions options = SaveOptions.None)
     {
         var serializer = new XmlSerializer(typeof(T));
@@ -19,6 +22,8 @@ internal class Xml : IXmlContext
         return document.ToString();
     }
 
+    [RequiresDynamicCode("XmlSerializer may require runtime code generation.")]
+    [RequiresUnreferencedCode("XmlSerializer requires members that trimming cannot statically discover.")]
     public T? FromXml<T>(string input, LoadOptions options = LoadOptions.PreserveWhitespace)
         where T : class
     {
@@ -32,6 +37,8 @@ internal class Xml : IXmlContext
         return FromXml<T>(document.Root, options);
     }
 
+    [RequiresDynamicCode("XmlSerializer may require runtime code generation.")]
+    [RequiresUnreferencedCode("XmlSerializer requires members that trimming cannot statically discover.")]
     public T? FromXml<T>(XElement element, LoadOptions options = LoadOptions.PreserveWhitespace)
         where T : class
     {

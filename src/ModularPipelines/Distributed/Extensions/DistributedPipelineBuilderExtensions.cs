@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,6 +27,8 @@ public static class DistributedPipelineBuilderExtensions
     /// <summary>
     /// Enables distributed execution mode from configuration.
     /// </summary>
+    [RequiresUnreferencedCode("Configuration binding requires members of DistributedOptions that cannot be statically discovered.")]
+    [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, IConfigurationSection section)
     {
         builder.Services.Configure<DistributedOptions>(section);
@@ -38,7 +41,9 @@ public static class DistributedPipelineBuilderExtensions
     /// <summary>
     /// Registers a custom distributed coordinator implementation.
     /// </summary>
-    public static PipelineBuilder AddDistributedCoordinator<TCoordinator>(this PipelineBuilder builder)
+    public static PipelineBuilder AddDistributedCoordinator<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TCoordinator>(
+        this PipelineBuilder builder)
         where TCoordinator : class, IDistributedCoordinator
     {
         builder.Services.AddSingleton<IDistributedCoordinator, TCoordinator>();
@@ -48,7 +53,9 @@ public static class DistributedPipelineBuilderExtensions
     /// <summary>
     /// Registers a distributed coordinator factory for async initialization.
     /// </summary>
-    public static PipelineBuilder AddDistributedCoordinatorFactory<TFactory>(this PipelineBuilder builder)
+    public static PipelineBuilder AddDistributedCoordinatorFactory<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TFactory>(
+        this PipelineBuilder builder)
         where TFactory : class, IDistributedCoordinatorFactory
     {
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, TFactory>();

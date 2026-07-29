@@ -1,5 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Engine;
 
 namespace ModularPipelines.Logging;
 
@@ -37,8 +39,17 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
     /// Gets a logger for a specific module type.
     /// Does not cache to _moduleLogger to avoid conflicts with parameterless GetLogger().
     /// </summary>
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Generated runtime metadata handles statically known modules; MakeGenericType is the documented fallback for dynamic modules.")]
     public IModuleLogger GetLogger(Type type)
     {
+        if (GeneratedModuleMetadata.TryGetRuntime(type, out var runtime))
+        {
+            return runtime.GetLogger(_serviceProvider);
+        }
+
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(type);
         return (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
     }
