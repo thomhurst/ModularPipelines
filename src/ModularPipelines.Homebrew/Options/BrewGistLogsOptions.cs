@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Upload logs for a failed build of formula to a new Gist. Presents an error message if no logs are found.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gist-logs")]
 public record BrewGistLogsOptions : BrewOptions

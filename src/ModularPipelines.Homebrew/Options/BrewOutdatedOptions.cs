@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// List installed casks and formulae that have an updated version available. By default, version information is displayed in interactive shells and suppressed otherwise.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("outdated")]
 public record BrewOutdatedOptions : BrewOptions

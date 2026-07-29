@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Show the git log for formula or cask, or show the log for the Homebrew repository if no formula or cask is provided.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("log")]
 public record BrewLogOptions : BrewOptions

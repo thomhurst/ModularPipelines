@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Display formula’s name and one-line description. The cache is created on the first search, making that search slower than subsequent ones.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("desc")]
 public record BrewDescOptions : BrewOptions

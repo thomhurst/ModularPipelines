@@ -23,7 +23,7 @@ $stampPattern = [regex]::new(
 $matchingLines = @(
     & git -C $repositoryRoot grep -n -F `
         'GeneratedCode("ModularPipelines.OptionsGenerator"' `
-        -- 'src/*.Generated.cs'
+        -- 'src'
 )
 if ($LASTEXITCODE -notin @(0, 1)) {
     throw 'Failed to inspect tracked generated files.'

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Enter the interactive Homebrew Ruby shell.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("irb")]
 public record BrewIrbOptions : BrewOptions

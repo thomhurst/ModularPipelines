@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Open a formula, cask or tap in the editor set by $EDITOR or $HOMEBREW_EDITOR, or open the Homebrew repository for editing if no argument is provided.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("edit")]
 public record BrewEditOptions : BrewOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Bundler for non-Ruby dependencies from Homebrew, Homebrew Cask, Mac App Store, Visual Studio Code (and forks/variants), Go packages, Cargo packages and Flatpak. Note: Flatpak support is only available on Linux.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bundle")]
 public record BrewBundleOptions : BrewOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Manage background services with macOS’ launchctl(1) daemon manager or Linux’s systemctl(1) service manager. If sudo is passed, operate on /Library/LaunchDaemons or /usr/lib/systemd/system (started at boot). Otherwise, operate on ~/Library/LaunchAgents or ~/.config/systemd/user (started at login).
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services")]
 public record BrewServicesOptions : BrewOptions

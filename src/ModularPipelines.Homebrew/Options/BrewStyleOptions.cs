@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Check formulae or files for conformance to Homebrew style guidelines. Lists of file, tap and formula may not be combined. If none are provided, style will run style checks on the whole Homebrew library, including core code and all formulae.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("style")]
 public record BrewStyleOptions : BrewOptions

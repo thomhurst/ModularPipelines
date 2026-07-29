@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Create symlinks for Homebrew’s installed NodeJS versions in ~/.nodenv/versions. Note that older version symlinks will also be created so e.g. NodeJS 19.1.0 will also be symlinked to 19.0.0.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nodenv-sync")]
 public record BrewNodenvSyncOptions : BrewOptions

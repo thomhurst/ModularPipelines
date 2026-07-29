@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Run a Ruby instance with Homebrew’s libraries loaded. For example, brew ruby -e "puts :gcc.f.deps" or brew ruby script.rb. Run e.g. brew ruby -- --version to pass arbitrary arguments to ruby.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ruby")]
 public record BrewRubyOptions : BrewOptions

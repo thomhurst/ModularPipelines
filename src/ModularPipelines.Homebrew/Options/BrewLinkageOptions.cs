@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Check the library links from the given formula kegs. If no formula are provided, check all kegs. Raises an error if run on uninstalled formulae.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("linkage")]
 public record BrewLinkageOptions : BrewOptions

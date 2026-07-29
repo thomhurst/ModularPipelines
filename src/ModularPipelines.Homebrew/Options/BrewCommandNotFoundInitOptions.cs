@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Print instructions for setting up the command-not-found hook for your shell. If the output is not to a tty, print the appropriate handler script for your shell. For more information, see: https://docs.brew.sh/Command-Not-Found
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("command-not-found-init")]
 public record BrewCommandNotFoundInitOptions : BrewOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Generate a bottle (binary package) from a formula that was installed with --build-bottle. If the formula specifies a rebuild version, it will be incremented in the generated DSL. Passing --keep-old will attempt to keep it at its original value, while --no-rebuild will remove it.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bottle")]
 public record BrewBottleOptions : BrewOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Generate homebrew/cask API data files for https://formulae.brew.sh. The generated files are written to the current directory.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate-cask-api")]
 public record BrewGenerateCaskApiOptions : BrewOptions

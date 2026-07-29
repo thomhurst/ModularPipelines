@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Show dependencies for formula. When given multiple formula arguments, show the intersection of dependencies for each formula. By default, deps shows all required and recommended dependencies. If any version of each formula argument is installed and no other options are passed, this command displays their actual runtime dependencies (similar to brew linkage), which may differ from a formula’s declared dependencies. Note: --missing and --skip-recommended have precedence over --include-*.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deps")]
 public record BrewDepsOptions : BrewOptions

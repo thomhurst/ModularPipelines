@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Create a pull request to update formula with a new URL or a new tag. If a URL is specified, the SHA-256 checksum of the new download should also be specified. A best effort to determine the SHA-256 will be made if not supplied by the user. If a tag is specified, the Git commit revision corresponding to that tag should also be specified. A best effort to determine the revision will be made if the value is not supplied by the user. If a version is specified, a best effort to determine the URL a...
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bump-formula-pr")]
 public record BrewBumpFormulaPrOptions : BrewOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Create symlinks for Homebrew’s installed Ruby versions in ~/.rbenv/versions. Note that older version symlinks will also be created so e.g. Ruby 3.2.1 will also be symlinked to 3.2.0.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rbenv-sync")]
 public record BrewRbenvSyncOptions : BrewOptions

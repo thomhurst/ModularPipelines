@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Verify the build provenance of bottles using GitHub’s attestation tools. This is done by first fetching the given bottles and then verifying their provenance. Note that this command depends on the GitHub CLI. Run brew install gh.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify")]
 public record BrewVerifyOptions : BrewOptions

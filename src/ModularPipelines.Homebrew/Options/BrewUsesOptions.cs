@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Show formulae and casks that specify formula as a dependency; that is, show dependents of formula. When given multiple formula arguments, show the intersection of formulae that use formula. By default, uses shows all formulae and casks that specify formula as a required or recommended dependency for their stable builds. Note: --missing and --skip-recommended have precedence over --include-*.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uses")]
 public record BrewUsesOptions : BrewOptions

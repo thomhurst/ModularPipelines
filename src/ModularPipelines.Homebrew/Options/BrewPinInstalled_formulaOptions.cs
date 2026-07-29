@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Pin the specified formula, preventing them from being upgraded when issuing the brew upgrade formula command. See also unpin. Note: Other packages which depend on newer versions of a pinned formula might not install or run correctly.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pin", "installed_formula")]
 public record BrewPinInstalled_formulaOptions : BrewOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Fetch and reset Homebrew and all tap repositories (or any specified repository) using git(1) to their latest origin/HEAD. Note: this will destroy all your uncommitted or committed changes.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("update-reset")]
 public record BrewUpdateResetOptions : BrewOptions
