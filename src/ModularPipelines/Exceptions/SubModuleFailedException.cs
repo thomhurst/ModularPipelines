@@ -54,6 +54,7 @@ public class SubModuleFailedException : PipelineException
     public Type? ParentModuleType { get; }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="SubModuleFailedException"/> class.
     /// Initializes a new instance of the <see cref="SubModuleFailedException"/> class.
     /// </summary>
     /// <param name="message">The error message.</param>
@@ -62,6 +63,7 @@ public class SubModuleFailedException : PipelineException
     }
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="SubModuleFailedException"/> class.
     /// Initializes a new instance of the <see cref="SubModuleFailedException"/> class.
     /// </summary>
     /// <param name="message">The error message.</param>
@@ -71,16 +73,7 @@ public class SubModuleFailedException : PipelineException
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SubModuleFailedException"/> class.
-    /// </summary>
-    /// <param name="submodule">The sub-module that failed.</param>
-    /// <param name="exception">The inner exception that caused this failure.</param>
-    public SubModuleFailedException(SubModuleBase submodule, Exception exception) :
-        base($"The Sub-Module {submodule.Name} has failed.", exception)
-    {
-    }
-
-    /// <summary>
+    /// Initialises a new instance of the <see cref="SubModuleFailedException"/> class.
     /// Initializes a new instance of the <see cref="SubModuleFailedException"/> class.
     /// </summary>
     /// <param name="subModuleName">The name of the sub-module that failed.</param>

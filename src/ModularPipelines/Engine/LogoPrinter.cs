@@ -6,7 +6,7 @@ using Spectre.Console;
 namespace ModularPipelines.Engine;
 
 [ExcludeFromCodeCoverage]
-public sealed class LogoPrinter(IOptions<PipelineOptions> options) : ILogoPrinter
+internal sealed class LogoPrinter(IOptions<PipelineOptions> options) : ILogoPrinter
 {
     private const string LargeAsciiLogo = """"""""
                                                                                       

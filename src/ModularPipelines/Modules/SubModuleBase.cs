@@ -2,7 +2,7 @@ using ModularPipelines.Enums;
 
 namespace ModularPipelines.Modules;
 
-public abstract class SubModuleBase
+internal abstract class SubModuleBase
 {
     public Type ParentModule { get; }
 
