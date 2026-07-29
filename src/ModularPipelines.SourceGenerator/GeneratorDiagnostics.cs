@@ -85,6 +85,14 @@ internal static class GeneratorDiagnostics
         + "before publishing with Native AOT",
         DiagnosticSeverity.Warning);
 
+    public static DiagnosticDescriptor ExternalClosedGenericModuleRuntimeMetadata { get; } = Create(
+        "MPG0012",
+        "External closed generic module lacks runtime metadata",
+        "Runtime metadata for externally declared closed generic module '{0}' cannot be generated "
+        + "from this AddModule call; use a consumer-owned non-generic wrapper before publishing "
+        + "with Native AOT",
+        DiagnosticSeverity.Warning);
+
     private static DiagnosticDescriptor Create(
         string id,
         string title,

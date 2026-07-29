@@ -23,6 +23,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     private static readonly DiagnosticDescriptor SkippedModuleRuntimeMetadata =
         GeneratorDiagnostics.SkippedModuleRuntimeMetadata;
 
+    private static readonly DiagnosticDescriptor ExternalClosedGenericModuleRuntimeMetadata =
+        GeneratorDiagnostics.ExternalClosedGenericModuleRuntimeMetadata;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var modules = context.SyntaxProvider
@@ -56,7 +59,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                                  .Select(static group => group.First()))
                     {
                         sourceContext.ReportDiagnostic(Diagnostic.Create(
-                            SkippedModuleRuntimeMetadata,
+                            skipped.IsExternalRegistration
+                                ? ExternalClosedGenericModuleRuntimeMetadata
+                                : SkippedModuleRuntimeMetadata,
                             skipped.Location,
                             skipped.TypeName));
                     }
@@ -121,12 +126,23 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             || !type.IsGenericType
             || type.IsUnboundGenericType
             || type.IsAbstract
-            || !ImplementsModule(type, context.SemanticModel.Compilation)
-            || !SymbolEqualityComparer.Default.Equals(
+            || !ImplementsModule(type, context.SemanticModel.Compilation))
+        {
+            return null;
+        }
+
+        if (!SymbolEqualityComparer.Default.Equals(
                 type.ContainingAssembly,
                 context.SemanticModel.Compilation.Assembly))
         {
-            return null;
+            return new ModuleMetadataInfo(
+                type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                GetModuleResultTypeName(type),
+                false,
+                invocation.GetLocation(),
+                [],
+                false,
+                true);
         }
 
         return CreateModuleMetadata(type, context.SemanticModel.Compilation);
@@ -165,7 +181,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             [.. dependencies
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
                 .ThenBy(static dependency => dependency.Optional)],
-            dependenciesComplete);
+            dependenciesComplete,
+            false);
     }
 
     private static bool HasPartialDeclaration(INamedTypeSymbol type)
@@ -456,7 +473,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         bool CanEmit,
         Location? Location,
         ImmutableArray<DependencyMetadataInfo> Dependencies,
-        bool DependenciesComplete);
+        bool DependenciesComplete,
+        bool IsExternalRegistration);
 
     private sealed record DependencyMetadataInfo(
         string TypeName,

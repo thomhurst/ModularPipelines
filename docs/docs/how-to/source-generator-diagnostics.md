@@ -97,6 +97,15 @@ remains available for ordinary JIT deployments.
 
 **Severity:** Warning
 
+## MPG0012
+
+An `AddModule<T>()` call registers a closed generic module declared in another
+assembly. The consumer generator cannot add runtime metadata owned by that external
+assembly. Use a consumer-owned non-generic wrapper for the module before publishing
+with Native AOT.
+
+**Severity:** Warning
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 

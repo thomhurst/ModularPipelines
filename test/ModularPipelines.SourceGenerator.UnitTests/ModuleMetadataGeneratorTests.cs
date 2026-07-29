@@ -240,7 +240,7 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
-    public async Task Registered_External_Closed_Generic_Module_Is_Not_Emitted()
+    public async Task Registered_External_Closed_Generic_Module_Reports_Aot_Diagnostic()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new ModuleMetadataGenerator(),
@@ -283,7 +283,14 @@ public class ModuleMetadataGeneratorTests
 
         var generated = result.GeneratedTrees.Single().GetText().ToString();
 
-        await Assert.That(generated).DoesNotContain("ExternalModules.GenericModule");
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).DoesNotContain("ExternalModules.GenericModule");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0012"
+                                        && diagnostic.GetMessage()
+                                            .Contains("ExternalModules.GenericModule<string>"));
+        }
     }
 
     [Test]
