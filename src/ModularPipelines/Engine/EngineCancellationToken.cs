@@ -22,7 +22,7 @@ internal class EngineCancellationToken : IDisposable
     public CancellationToken Token => _cts.Token;
 
     /// <summary>
-    /// Gets whether cancellation has been requested on the underlying token source.
+    /// Gets a value indicating whether cancellation has been requested on the underlying token source.
     /// </summary>
     public bool IsCancellationRequested => _cts.IsCancellationRequested;
 
@@ -50,13 +50,8 @@ internal class EngineCancellationToken : IDisposable
     {
         _primaryExceptionContainer = primaryExceptionContainer;
 
-        System.Console.CancelKeyPress += (_, args) =>
-        {
-            args.Cancel = true;
-            TryCancel();
-        };
-
-        AppDomain.CurrentDomain.ProcessExit += (_, _) => TryCancel();
+        System.Console.CancelKeyPress += OnCancelKeyPress;
+        AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
     }
 
     public void CancelWithReason(string? reason)
@@ -104,13 +99,23 @@ internal class EngineCancellationToken : IDisposable
             return;
         }
 
+        _disposed = true;
+
         if (disposing)
         {
+            System.Console.CancelKeyPress -= OnCancelKeyPress;
+            AppDomain.CurrentDomain.ProcessExit -= OnProcessExit;
             _cts.Dispose();
         }
-
-        _disposed = true;
     }
+
+    private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs args)
+    {
+        args.Cancel = true;
+        TryCancel();
+    }
+
+    private void OnProcessExit(object? sender, EventArgs args) => TryCancel();
 
     private void TryCancel()
     {

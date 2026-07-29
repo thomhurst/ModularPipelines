@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
@@ -8,6 +9,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using PipelineEngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
 using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests.Execution;
@@ -80,6 +82,18 @@ public class EngineCancellationTokenTests : TestBase
         {
             return Task.FromResult(true);
         }
+    }
+
+    [Test]
+    public async Task Dispose_Releases_Global_Event_Subscriptions()
+    {
+        var weakReference = CreateDisposedEngineCancellationToken();
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
+        await Assert.That(weakReference.IsAlive).IsFalse();
     }
 
     [Test]
@@ -201,5 +215,17 @@ public class EngineCancellationTokenTests : TestBase
 
         await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
         await Assert.That(exception.InnerException!).HasMessageEqualTo("Expected test failure");
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static WeakReference CreateDisposedEngineCancellationToken()
+    {
+        var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var weakReference = new WeakReference(engineCancellationToken);
+
+        engineCancellationToken.Dispose();
+
+        return weakReference;
     }
 }

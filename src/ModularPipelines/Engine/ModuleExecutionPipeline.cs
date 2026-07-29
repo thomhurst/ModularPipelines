@@ -57,6 +57,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var moduleName = executionContext.ModuleType.Name;
         ModuleResult<T>? moduleResult = null;
         var beforeHooksExecuted = false;
+        var originalCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
 
         // Get configuration once at the start
         var config = ((IModule) module).Configuration;
@@ -134,26 +135,39 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
         finally
         {
-            // Call direct OnAfterExecuteAsync hook - runs on both success and failure
-            // Only run if before hooks were executed (module actually started)
-            if (beforeHooksExecuted && moduleResult != null)
+            try
             {
-                try
+                // Call direct OnAfterExecuteAsync hook - runs on both success and failure
+                // Only run if before hooks were executed (module actually started)
+                if (beforeHooksExecuted && moduleResult != null)
                 {
-                    var modifiedResult = await _directHookInvoker.InvokeAfterExecuteAsync(module, moduleContext, moduleResult, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
-                    if (modifiedResult != null)
+                    try
                     {
-                        moduleResult = modifiedResult;
-                        executionContext.SetTypedResult(moduleResult);
+                        var modifiedResult = await _directHookInvoker.InvokeAfterExecuteAsync(module, moduleContext, moduleResult, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
+                        if (modifiedResult != null)
+                        {
+                            moduleResult = modifiedResult;
+                            executionContext.SetTypedResult(moduleResult);
+                        }
+                    }
+                    catch (Exception afterHookException)
+                    {
+                        logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
                     }
                 }
-                catch (Exception afterHookException)
+
+                LogModuleStatus(executionContext, logger);
+            }
+            finally
+            {
+                var activeCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
+                activeCancellationTokenSource.Dispose();
+
+                if (!ReferenceEquals(activeCancellationTokenSource, originalCancellationTokenSource))
                 {
-                    logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
+                    originalCancellationTokenSource.Dispose();
                 }
             }
-
-            LogModuleStatus(executionContext, logger);
         }
     }
 
