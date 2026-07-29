@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Logging;
@@ -102,6 +104,16 @@ public class ContextHierarchyTests
         var getModuleIfRegisteredMethods = moduleContextType.GetMethods().Where(m => m.Name == "GetModuleIfRegistered").ToArray();
         await Assert.That(getModuleIfRegisteredMethods.Length).IsGreaterThanOrEqualTo(1)
             .Because("IModuleContext should have GetModuleIfRegistered method(s)");
+    }
+
+    [Test]
+    public async Task MatrixTargetApi_ShouldBeExperimentalUntilExecutionIsWired()
+    {
+        var method = typeof(IModuleContext).GetMethod("GetMatrixTarget");
+        var experimental = method?.GetCustomAttribute<ExperimentalAttribute>();
+
+        await Assert.That(experimental).IsNotNull();
+        await Assert.That(experimental!.DiagnosticId).IsEqualTo("MPDIST001");
     }
 
     [Test]

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -181,10 +182,14 @@ public interface IModuleContext : IPipelineContext
         where TModule : class, IModule;
 
     /// <summary>
-    /// Gets the matrix target value for this module instance, if it was expanded via <see cref="Attributes.MatrixTargetAttribute"/>.
-    /// Returns <c>null</c> if this is not an expanded matrix module instance.
+    /// Gets the matrix target value reserved for future distributed matrix execution.
     /// </summary>
+    /// <remarks>
+    /// Matrix module expansion is not yet connected to the distributed executor.
+    /// This method currently returns <c>null</c>.
+    /// </remarks>
     /// <returns>The matrix target string, or <c>null</c>.</returns>
+    [Experimental("MPDIST001")]
     string? GetMatrixTarget();
 
     /// <summary>
