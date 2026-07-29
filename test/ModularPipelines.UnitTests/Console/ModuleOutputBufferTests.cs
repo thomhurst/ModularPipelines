@@ -475,17 +475,70 @@ public class ModuleOutputBufferTests
         await Assert.That(buffer.HasOutput).IsTrue();
     }
 
-    private static ModuleOutputBuffer CreateBufferWithStructuredLog()
+    [Test]
+    public async Task Flush_LockTimeout_WritesBufferedOutputDirectly()
     {
-        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = CreateBufferWithStructuredLog(
+            TimeSpan.FromMilliseconds(50),
+            "structured secret",
+            new RedactingSecretObfuscator());
+        buffer.WriteLine("direct output");
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        try
+        {
+            var flush = Task.Run(() => buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete));
+
+            await flush.WaitAsync(TimeSpan.FromSeconds(2));
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("Timed out waiting for the console logger lock");
+        await Assert.That(output).Contains("structured ***");
+        await Assert.That(output).DoesNotContain("structured secret");
+        await Assert.That(output).Contains("direct output");
+        await Assert.That(loggerControl.LogCallCount).IsEqualTo(0);
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    private static ModuleOutputBuffer CreateBufferWithStructuredLog(
+        TimeSpan? synchronizationLockTimeout = null,
+        string message = "structured log",
+        ISecretObfuscator? secretObfuscator = null)
+    {
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            synchronizationLockTimeout: synchronizationLockTimeout);
         buffer.AddLogEvent(new BufferedLogEvent<string>(
             LogLevel.Information,
             default,
-            "structured log",
-            "structured log",
+            message,
+            message,
             null,
             static (state, _) => state,
-            new PassthroughSecretObfuscator()));
+            secretObfuscator ?? new PassthroughSecretObfuscator()));
         return buffer;
     }
 
@@ -499,6 +552,12 @@ public class ModuleOutputBufferTests
         public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
     }
 
+    private sealed class RedactingSecretObfuscator : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject)
+            => input?.Replace("secret", "***", StringComparison.Ordinal) ?? string.Empty;
+    }
+
     private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
     {
         public object SynchronizationLock { get; } = new();
@@ -508,6 +567,8 @@ public class ModuleOutputBufferTests
         public Exception? LogException { get; set; }
 
         public Exception? LogExceptionAfterWrite { get; set; }
+
+        public int LogCallCount { get; private set; }
 
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
@@ -522,6 +583,8 @@ public class ModuleOutputBufferTests
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
+            LogCallCount++;
+
             if (LogException is not null)
             {
                 throw LogException;

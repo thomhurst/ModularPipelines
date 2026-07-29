@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using MEL.Spectre;
@@ -25,13 +26,16 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class ModuleOutputBuffer : IModuleOutputBuffer
 {
-    private readonly List<BufferedOutput> _outputs = new();
-    private readonly object _lock = new();
+    private static readonly TimeSpan DefaultSynchronizationLockTimeout = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan SynchronizationLockPollInterval = TimeSpan.FromMilliseconds(50);
+    private readonly List<BufferedOutput> _outputs = [];
+    private readonly Lock _lock = new();
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
     private readonly int _outputFlushThreshold;
+    private readonly TimeSpan _synchronizationLockTimeout;
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
-    private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = new();
+    private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private bool _isComplete;
     private bool _isIncrementalFlushInProgress;
@@ -48,11 +52,18 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="moduleType">The module type.</param>
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
+    /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
-        Action<IModuleOutputBuffer>? requestIncrementalFlush = null)
-        : this(moduleType.Name, moduleType, outputFlushThreshold, requestIncrementalFlush)
+        Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
+        TimeSpan? synchronizationLockTimeout = null)
+        : this(
+            moduleType.Name,
+            moduleType,
+            outputFlushThreshold,
+            requestIncrementalFlush,
+            synchronizationLockTimeout)
     {
     }
 
@@ -64,17 +75,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="moduleType">Placeholder type.</param>
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
+    /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
         int outputFlushThreshold = 0,
-        Action<IModuleOutputBuffer>? requestIncrementalFlush = null)
+        Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
+        TimeSpan? synchronizationLockTimeout = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
         _startTimeUtc = DateTime.UtcNow;
         _outputFlushThreshold = outputFlushThreshold;
         _requestIncrementalFlush = requestIncrementalFlush;
+        _synchronizationLockTimeout = synchronizationLockTimeout ?? DefaultSynchronizationLockTimeout;
     }
 
     /// <inheritdoc />
@@ -243,7 +257,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 return false;
             }
 
-            outputs = new List<BufferedOutput>(_outputs);
+            outputs = [.. _outputs];
             _outputs.Clear();
             _thresholdFlushRequested = false;
             _isIncrementalFlushInProgress = flushKind is OutputFlushKind.Incremental;
@@ -264,7 +278,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        EnterSynchronizationLock(synchronizationLock, cancellationToken);
+        var lockTaken = TryEnterSynchronizationLock(synchronizationLock, cancellationToken);
+        if (!lockTaken)
+        {
+            console.WriteLine(
+                $"Timed out waiting for the console logger lock for {_moduleName}; writing buffered output directly.");
+        }
+
         try
         {
             RenderOutputGroup(
@@ -275,12 +295,16 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 exception,
                 flushKind,
                 outputs,
+                writeStructuredLogsDirectly: !lockTaken,
                 ref renderedCount,
                 cancellationToken);
         }
         finally
         {
-            Monitor.Exit(synchronizationLock);
+            if (lockTaken)
+            {
+                Monitor.Exit(synchronizationLock);
+            }
         }
     }
 
@@ -292,6 +316,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         Exception? exception,
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
+        bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
@@ -318,6 +343,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 directConsole,
                 logger,
                 outputs,
+                writeStructuredLogsDirectly,
                 ref renderedCount,
                 cancellationToken);
 
@@ -344,6 +370,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IAnsiConsole directConsole,
         ILogger logger,
         List<BufferedOutput> outputs,
+        bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
@@ -357,9 +384,16 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             }
             else if (output.LogEvent is { } logEvent)
             {
-                // Synchronous MEL.Spectre rendering preserves this buffer's position
-                // while other providers (for example file logging) still receive the event.
-                logEvent.WriteTo(logger);
+                if (writeStructuredLogsDirectly)
+                {
+                    WriteDirect(directConsole, console, logEvent.FormatMessage());
+                }
+                else
+                {
+                    // Synchronous MEL.Spectre rendering preserves this buffer's position
+                    // while other providers (for example file logging) still receive the event.
+                    logEvent.WriteTo(logger);
+                }
             }
 
             // Advance only after the sink returns successfully. A sink that accepts
@@ -388,15 +422,29 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private static void EnterSynchronizationLock(
+    private bool TryEnterSynchronizationLock(
         object synchronizationLock,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        while (!Monitor.TryEnter(synchronizationLock, millisecondsTimeout: 50))
+        var stopwatch = Stopwatch.StartNew();
+
+        while (stopwatch.Elapsed < _synchronizationLockTimeout)
         {
+            var remaining = _synchronizationLockTimeout - stopwatch.Elapsed;
+            var wait = remaining < SynchronizationLockPollInterval
+                ? remaining
+                : SynchronizationLockPollInterval;
+
+            if (Monitor.TryEnter(synchronizationLock, wait))
+            {
+                return true;
+            }
+
             cancellationToken.ThrowIfCancellationRequested();
         }
+
+        return false;
     }
 
     private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)
@@ -498,52 +546,37 @@ internal readonly struct BufferedOutput
 internal interface IBufferedLogEvent
 {
     void WriteTo(ILogger logger);
+
+    string FormatMessage();
 }
 
 /// <summary>
 /// Holds generic structured log state and its original formatter for deferred output.
 /// </summary>
-internal sealed class BufferedLogEvent<TState> : IBufferedLogEvent
+internal sealed class BufferedLogEvent<TState>(
+    LogLevel level,
+    EventId eventId,
+    TState originalState,
+    object obfuscatedState,
+    Exception? exception,
+    Func<TState, Exception?, string> formatter,
+    ISecretObfuscator secretObfuscator) : IBufferedLogEvent
 {
-    private readonly LogLevel _level;
-    private readonly EventId _eventId;
-    private readonly TState _originalState;
-    private readonly object _obfuscatedState;
-    private readonly Exception? _exception;
-    private readonly Func<TState, Exception?, string> _formatter;
-    private readonly ISecretObfuscator _secretObfuscator;
-
-    public BufferedLogEvent(
-        LogLevel level,
-        EventId eventId,
-        TState originalState,
-        object obfuscatedState,
-        Exception? exception,
-        Func<TState, Exception?, string> formatter,
-        ISecretObfuscator secretObfuscator)
-    {
-        _level = level;
-        _eventId = eventId;
-        _originalState = originalState;
-        _obfuscatedState = obfuscatedState;
-        _exception = exception;
-        _formatter = formatter;
-        _secretObfuscator = secretObfuscator;
-    }
-
     public void WriteTo(ILogger logger)
     {
         logger.Log(
-            _level,
-            _eventId,
-            _obfuscatedState,
-            _exception,
+            level,
+            eventId,
+            obfuscatedState,
+            exception,
             Format);
     }
 
-    private string Format(object state, Exception? exception)
+    public string FormatMessage() => Format(obfuscatedState, exception);
+
+    private string Format(object state, Exception? logException)
     {
-        var formatted = _formatter(_originalState, exception);
-        return _secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
+        var formatted = formatter(originalState, logException);
+        return secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
     }
 }
