@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -34,6 +35,26 @@ internal sealed class ModuleActivator : IModuleActivator
         finally
         {
             // Restore previous context
+            ModuleLogger.CurrentModuleType.Value = previousType;
+        }
+    }
+
+    internal static TModule CreateModule<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
+        IServiceProvider serviceProvider)
+        where TModule : class, IModule
+    {
+        var previousType = ModuleLogger.CurrentModuleType.Value;
+        ModuleLogger.CurrentModuleType.Value = typeof(TModule);
+
+        try
+        {
+            var module = ActivatorUtilities.CreateInstance<TModule>(serviceProvider);
+            _ = module.Configuration;
+            return module;
+        }
+        finally
+        {
             ModuleLogger.CurrentModuleType.Value = previousType;
         }
     }

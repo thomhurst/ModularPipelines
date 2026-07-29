@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using ModularPipelines.Attributes;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
@@ -39,10 +38,9 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
             .ToList();
 
         var unregisteredDependencies = registeredServices
-            .SelectMany(moduleType => moduleType.GetCustomAttributes(typeof(DependsOnAttribute), inherit: true)
-                .Cast<DependsOnAttribute>())
-            .Where(attr => !attr.Optional)
-            .Select(attr => attr.Type)
+            .SelectMany(ModuleDependencyResolver.GetDependencies)
+            .Where(static dependency => !dependency.Optional)
+            .Select(static dependency => dependency.DependencyType)
             .Distinct()
             .Where(depType => !registeredServices.Contains(depType))
             .ToList();

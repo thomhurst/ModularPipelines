@@ -14,7 +14,7 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
         return AppDomain.CurrentDomain
             .GetAssemblies()
             .Where(ReferencesModularPipelines)
-            .SelectMany(GetLoadableTypes)
+            .SelectMany(assembly => GetKnownTypes(assembly, type))
             .Where(t => t.IsAssignableTo(type))
             .Where(t => !t.IsAbstract)
             .ToArray();
@@ -34,7 +34,23 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Unused-module diagnostics tolerate types removed by trimming.")]
+        Justification = "Generated metadata is used when complete; reflection is the explicit compatibility fallback for dynamic assemblies.")]
+    internal static IEnumerable<Type> GetKnownTypes(Assembly assembly, Type assignableTo)
+    {
+        if (typeof(IModule).IsAssignableFrom(assignableTo)
+            && GeneratedModuleMetadata.TryGetModuleTypes(
+                assembly,
+                out var generatedModuleTypes,
+                out var generatedMetadataIsComplete)
+            && generatedMetadataIsComplete)
+        {
+            return generatedModuleTypes;
+        }
+
+        return GetLoadableTypes(assembly);
+    }
+
+    [RequiresUnreferencedCode("Calls System.Reflection.Assembly.GetTypes()")]
     private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
     {
         try
