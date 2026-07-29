@@ -66,7 +66,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     }
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="PipelineContext"/> class.
+    /// Initializes a new instance of the <see cref="PipelineContext"/> class.
     /// </summary>
     public PipelineContext(
         ModuleLookup moduleLookup,
