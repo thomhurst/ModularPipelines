@@ -171,6 +171,33 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Open_Generic_Module_In_Scanned_Assembly()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:ScaleModule|}<T> : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder()
+                        .AddModulesFromAssemblyContainingType<ScaleModule<string>>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("ScaleModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Closed_Generic_Module_Registration()
     {
         var source = $$"""
@@ -589,6 +616,32 @@ public class ModuleAuthoringAnalyzerTests
             }
 
                 private static Task WrapAsync(Task task, CancellationToken cancellationToken) => task;
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Unflowed_CancellationToken_In_Task_Producing_Receiver()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await {|#0:FetchAsync()|}.ContinueWith(
+                    _ => { },
+                    cancellationToken);
+                return null;
+            }
 
                 private static Task FetchAsync() => Task.CompletedTask;
 

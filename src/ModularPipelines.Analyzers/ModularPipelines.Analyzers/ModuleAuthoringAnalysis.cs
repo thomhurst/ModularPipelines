@@ -290,6 +290,11 @@ internal static class ModuleAuthoringAnalysis
             pending.Push((argument.Value, true));
         }
 
+        if (invocation.Instance is { } instance && IsTaskLike(instance.Type))
+        {
+            pending.Push((instance, true));
+        }
+
         return !requireTaskLike || IsTaskLike(invocation.Type)
             ? invocation
             : null;
@@ -508,7 +513,7 @@ internal static class ModuleAuthoringAnalysis
         foreach (var module in moduleSet.Where(module =>
                      !IsPublic(module)
                      && !instanceRegistered.Contains(module)
-                     && !scanned.Contains(module.ContainingAssembly)))
+                     && !IsAssemblyScannedModule(module, scanned)))
         {
             ReportModuleDiagnostic(
                 context,
@@ -529,7 +534,8 @@ internal static class ModuleAuthoringAnalysis
         var registered = new HashSet<INamedTypeSymbol>(
             registeredModules,
             SymbolEqualityComparer.Default);
-        foreach (var module in moduleSet.Where(module => scanned.Contains(module.ContainingAssembly)))
+        foreach (var module in moduleSet.Where(module =>
+                     IsAssemblyScannedModule(module, scanned)))
         {
             registered.Add(module);
         }
@@ -594,6 +600,27 @@ internal static class ModuleAuthoringAnalysis
         return outputKind is OutputKind.ConsoleApplication
             or OutputKind.WindowsApplication
             or OutputKind.WindowsRuntimeApplication;
+    }
+
+    private static bool IsOpenGenericType(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            if (current.Arity > 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsAssemblyScannedModule(
+        INamedTypeSymbol module,
+        ImmutableHashSet<IAssemblySymbol> scannedAssemblies)
+    {
+        return scannedAssemblies.Contains(module.ContainingAssembly)
+               && !IsOpenGenericType(module);
     }
 
     private static void AnalyzeDuplicateDependencies(SymbolAnalysisContext context)
