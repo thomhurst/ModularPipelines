@@ -73,6 +73,11 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         CancellationToken cancellationToken)
     {
         var arguments = invocation.ArgumentList.Arguments;
+        if (invocation.ArgumentList.ContainsDirectives)
+        {
+            return false;
+        }
+
         if (arguments.Count != 1)
         {
             return arguments.Count == 0;
@@ -128,7 +133,7 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
 
         var logMethod = isConsoleError ? "LogError" : "LogInformation";
         var arguments = CreateLoggerArguments(
-            invocation.ArgumentList.Arguments,
+            invocation.ArgumentList,
             messageCanBeNull);
         var contextLogger = SyntaxFactory.MemberAccessExpression(
             SyntaxKind.SimpleMemberAccessExpression,
@@ -165,37 +170,52 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
     }
 
     private static SeparatedSyntaxList<ArgumentSyntax> CreateLoggerArguments(
-        SeparatedSyntaxList<ArgumentSyntax> arguments,
+        ArgumentListSyntax argumentList,
         bool messageCanBeNull)
     {
+        var arguments = argumentList.Arguments;
         if (arguments.Count == 0)
         {
             return SyntaxFactory.SingletonSeparatedList(
                 SyntaxFactory.Argument(
                     SyntaxFactory.LiteralExpression(
                         SyntaxKind.StringLiteralExpression,
-                        SyntaxFactory.Literal(string.Empty))));
+                        SyntaxFactory.Literal(string.Empty)))
+                    .WithLeadingTrivia(argumentList.OpenParenToken.TrailingTrivia));
         }
 
-        var argument = arguments[0];
+        var messageTrivia = argumentList.OpenParenToken.TrailingTrivia.AddRange(
+            arguments[0].GetLeadingTrivia());
+        if (messageTrivia.Count == 0
+            || !messageTrivia[0].IsKind(SyntaxKind.WhitespaceTrivia))
+        {
+            messageTrivia = messageTrivia.Insert(0, SyntaxFactory.Space);
+        }
+
+        var argument = arguments[0].WithLeadingTrivia(default(SyntaxTriviaList));
         if (messageCanBeNull)
         {
+            var parenthesizedMessage = SyntaxFactory.ParenthesizedExpression(
+                argument.Expression.WithoutTrivia());
             argument = argument.WithExpression(
-                SyntaxFactory.BinaryExpression(
-                    SyntaxKind.CoalesceExpression,
-                    SyntaxFactory.ParenthesizedExpression(argument.Expression.WithoutTrivia()),
-                    SyntaxFactory.MemberAccessExpression(
-                        SyntaxKind.SimpleMemberAccessExpression,
-                        SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)),
-                        SyntaxFactory.IdentifierName(nameof(string.Empty)))));
+                    SyntaxFactory.BinaryExpression(
+                        SyntaxKind.CoalesceExpression,
+                        parenthesizedMessage,
+                        SyntaxFactory.MemberAccessExpression(
+                            SyntaxKind.SimpleMemberAccessExpression,
+                            SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)),
+                            SyntaxFactory.IdentifierName(nameof(string.Empty)))))
+                .WithTriviaFrom(argument);
         }
 
-        return SyntaxFactory.SeparatedList(
+        return SyntaxFactory.SeparatedList<ArgumentSyntax>(
         [
             SyntaxFactory.Argument(
                 SyntaxFactory.LiteralExpression(
                     SyntaxKind.StringLiteralExpression,
                     SyntaxFactory.Literal("{Message}"))),
+            SyntaxFactory.Token(SyntaxKind.CommaToken)
+                .WithTrailingTrivia(messageTrivia),
             argument,
         ]);
     }

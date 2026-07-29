@@ -78,6 +78,30 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string LoggerFieldWithInitializerSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private ILogger<Module1> _logger = RegisterTelemetry();
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        _logger.LogInformation(""Running"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+
+    private static ILogger<Module1> RegisterTelemetry() => null!;
+}}
+";
+
     private const string AttributedLoggerConstructorSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -742,6 +766,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             LoggerWithGenericExtensionSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Logger_Field_With_Initializer()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            LoggerFieldWithInitializerSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 }

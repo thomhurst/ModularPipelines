@@ -155,6 +155,43 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string NullableConsoleMessageWithCommentSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        string? message = null;
+        {{|#0:Console.WriteLine(/* explanation */ message)|}};
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedNullableConsoleMessageWithCommentSource = $@"
+{TestSourceConstants.StandardUsings}
+using Microsoft.Extensions.Logging;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        string? message = null;
+        context.Logger.LogInformation(""{{Message}}"", /* explanation */ (message) ?? string.Empty);
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private static string CreateFixedModuleSource(string loggerCall) => $@"
 {TestSourceConstants.StandardUsings}
 using Microsoft.Extensions.Logging;
@@ -314,5 +351,16 @@ public class Module1 : Module<List<string>>
             NullableConsoleMessageSource,
             expected,
             FixedNullableConsoleMessageSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Nullable_Message_Comment()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            NullableConsoleMessageWithCommentSource,
+            expected,
+            FixedNullableConsoleMessageWithCommentSource);
     }
 }

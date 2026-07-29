@@ -204,14 +204,15 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             return null;
         }
 
-        var fieldDeclaration = containingType.DescendantNodes()
+        var fieldVariable = containingType.DescendantNodes()
             .OfType<VariableDeclaratorSyntax>()
             .FirstOrDefault(variable => SymbolEqualityComparer.Default.Equals(
                 semanticModel.GetDeclaredSymbol(variable, cancellationToken),
-                field))
-            ?.Parent?.Parent as FieldDeclarationSyntax;
+                field));
+        var fieldDeclaration = fieldVariable?.Parent?.Parent as FieldDeclarationSyntax;
 
-        return fieldDeclaration?.Declaration.Variables.Count == 1
+        return fieldVariable?.Initializer is null
+               && fieldDeclaration?.Declaration.Variables.Count == 1
             ? new LoggerStorage(field, fieldDeclaration, assignmentStatement, assignment)
             : null;
     }
