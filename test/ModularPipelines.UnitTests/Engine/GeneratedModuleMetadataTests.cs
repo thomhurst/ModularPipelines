@@ -112,8 +112,44 @@ public class GeneratedModuleMetadataTests
         var knownTypes = AssemblyLoadedTypesProvider
             .GetKnownTypes(assembly, typeof(IModule))
             .ToArray();
+        var generatedKnownTypes = AssemblyLoadedTypesProvider
+            .GetGeneratedKnownTypes(assembly, typeof(IModule))
+            .ToArray();
 
-        await Assert.That(knownTypes).IsEquivalentTo([includedModule]);
+        using (Assert.Multiple())
+        {
+            await Assert.That(knownTypes).IsEquivalentTo([includedModule]);
+            await Assert.That(generatedKnownTypes).IsEquivalentTo([includedModule]);
+        }
+    }
+
+    [Test]
+    public async Task Incomplete_Generated_Metadata_Is_Skipped_Without_Reflection_Fallback()
+    {
+        var (assembly, _, module) = CreateDynamicModule("IncompleteModule");
+        GeneratedModuleMetadata.Register(
+            assembly,
+            [
+                new GeneratedModuleRegistration(
+                    module,
+                    static _ => { },
+                    [],
+                    DependenciesComplete: true),
+            ],
+            isComplete: false);
+
+        var knownTypes = AssemblyLoadedTypesProvider
+            .GetKnownTypes(assembly, typeof(IModule))
+            .ToArray();
+        var generatedKnownTypes = AssemblyLoadedTypesProvider
+            .GetGeneratedKnownTypes(assembly, typeof(IModule))
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(knownTypes).Contains(module);
+            await Assert.That(generatedKnownTypes).IsEmpty();
+        }
     }
 
     private static (AssemblyBuilder Assembly, ModuleBuilder ModuleBuilder, Type Module)
