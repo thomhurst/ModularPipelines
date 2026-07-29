@@ -40,6 +40,14 @@ public class DockerBuilder : DockerBuildx, IDockerBuilder
     public new DockerBuilderPolicy Policy =>
         _policy ??= new DockerBuilderPolicy(_command);
 
+    public virtual Task<CommandResult> Execute(
+        DockerBuilderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return base.Execute(options, executionOptions, cancellationToken);
+    }
+
     public virtual Task<CommandResult> Bake(
         DockerBuilderBakeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

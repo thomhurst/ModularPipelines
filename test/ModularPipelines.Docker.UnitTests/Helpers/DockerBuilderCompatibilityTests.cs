@@ -7,6 +7,7 @@ using ModularPipelines.Docker.Enums;
 using ModularPipelines.Docker.Extensions;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Docker.Services;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Docker.UnitTests.Helpers;
@@ -26,6 +27,16 @@ public class DockerBuilderCompatibilityTests
         await Assert.That(typeof(IDockerBuilder).GetMethod("Build", parameterTypes))
             .IsNotNull();
         await Assert.That(typeof(DockerBuilder).GetMethod("Build", parameterTypes))
+            .IsNotNull();
+        var rootParameterTypes = new[]
+        {
+            typeof(DockerBuilderOptions),
+            typeof(CommandExecutionOptions),
+            typeof(CancellationToken),
+        };
+        await Assert.That(typeof(IDockerBuilder).GetMethod("Execute", rootParameterTypes))
+            .IsNotNull();
+        await Assert.That(typeof(DockerBuilder).GetMethod("Execute", rootParameterTypes))
             .IsNotNull();
         await Assert.That(typeof(IDockerBuilder).GetProperty(nameof(IDockerBuilder.History))!.PropertyType)
             .IsEqualTo(typeof(DockerBuilderHistory));
@@ -78,6 +89,20 @@ public class DockerBuilderCompatibilityTests
 
         await Assert.That(options.Progress)
             .IsEqualTo(DockerBuilderHistoryLogsProgress.Rawjson);
+    }
+
+    [Test]
+    public async Task BuilderEnumOptionRendersCanonicalSwitch()
+    {
+        var options = new DockerBuilderHistoryLogsOptions
+        {
+            Progress = DockerBuilderHistoryLogsProgress.Plain,
+        };
+        var model = new CommandModelProvider()
+            .GetCommandModel(typeof(DockerBuilderHistoryLogsOptions));
+        var arguments = new CommandArgumentBuilder().BuildArguments(model, options);
+
+        await Assert.That(arguments).IsEquivalentTo(["--progress=Plain"]);
     }
 
     [Test]

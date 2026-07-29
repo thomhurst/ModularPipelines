@@ -73,6 +73,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
         if (enumOptions.Length > 0)
         {
+            sb.AppendLine("using ModularPipelines.Attributes;");
             sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
         }
 
@@ -126,6 +127,7 @@ public class OptionsClassGenerator : ICodeGenerator
             $"{canonicalEnumName}?",
             StringComparison.Ordinal);
 
+        sb.AppendLine($"    [{GeneratorUtils.GenerateCliAttributeString(option)}]");
         sb.AppendLine($"    public new {aliasType} {option.PropertyName}");
         sb.AppendLine("    {");
         if (isNullable)

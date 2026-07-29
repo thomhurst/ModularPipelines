@@ -25,6 +25,8 @@ public interface IDockerBuilder
 
     DockerBuilderPolicy Policy { get; }
 
+    Task<CommandResult> Execute(DockerBuilderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
     Task<CommandResult> Bake(
         DockerBuilderBakeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

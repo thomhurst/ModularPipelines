@@ -50,7 +50,8 @@ public class CommandGroupAliasGenerationTests
             .Contains(": (DockerBuilderHistoryLogsProgress)(int)base.Progress.Value;");
         await Assert.That(historyLogsOptions.Content)
             .Contains(": (DockerBuildxHistoryLogsProgress)(int)value.Value;");
-        await Assert.That(historyLogsOptions.Content).DoesNotContain("[CliOption(");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains("[CliOption(\"--progress\", Format = OptionFormat.EqualsSeparated)]");
 
         var canonicalService = serviceFiles.Single(file =>
             Path.GetFileName(file.RelativePath).Equals(
@@ -127,6 +128,7 @@ public class CommandGroupAliasGenerationTests
                             SwitchName = "--progress",
                             PropertyName = "Progress",
                             CSharpType = "DockerBuildxHistoryLogsProgress?",
+                            ValueSeparator = "=",
                             EnumDefinition = new CliEnumDefinition
                             {
                                 EnumName = "DockerBuildxHistoryLogsProgress",
