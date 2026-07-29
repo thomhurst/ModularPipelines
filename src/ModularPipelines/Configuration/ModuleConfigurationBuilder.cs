@@ -356,6 +356,13 @@ public sealed class ModuleConfigurationBuilder
         };
     }
 
+    internal ModuleConfigurationBuilder SetAdvancedRetryPolicy(Func<IModuleContext, IAsyncPolicy> factory)
+    {
+        _advancedRetryPolicyFactory = factory;
+        _retryConfiguration = null;
+        return this;
+    }
+
     private Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? ComposeSkipConditions()
     {
         if (_skipConditions.Count == 0)
@@ -384,13 +391,6 @@ public sealed class ModuleConfigurationBuilder
 
             return SkipDecision.Skip(reasons is null ? null : string.Join("; ", reasons));
         };
-    }
-
-    internal ModuleConfigurationBuilder SetAdvancedRetryPolicy(Func<IModuleContext, IAsyncPolicy> factory)
-    {
-        _advancedRetryPolicyFactory = factory;
-        _retryConfiguration = null;
-        return this;
     }
 
     private static void ValidateModuleType(Type moduleType)
