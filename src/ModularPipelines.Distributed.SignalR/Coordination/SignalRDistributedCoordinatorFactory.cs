@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.SignalR.Configuration;
 using ModularPipelines.Distributed.SignalR.Discovery;
 using ModularPipelines.Distributed.SignalR.Hub;
@@ -151,6 +152,7 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
                 // Match server-side settings: PascalCase, case-insensitive
                 jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
                 jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
+                jsonOptions.PayloadSerializerOptions.Converters.Add(new ReadOnlySetJsonConverter());
             });
 
         if (_options.EnableAutoReconnect)

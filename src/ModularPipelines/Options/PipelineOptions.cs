@@ -62,12 +62,12 @@ public record PipelineOptions
     /// <summary>
     /// Gets or sets the collection of module categories to run exclusively. If specified, only modules in these categories will run.
     /// </summary>
-    public ICollection<string>? RunOnlyCategories { get; set; }
+    public IReadOnlyList<string>? RunOnlyCategories { get; set; }
 
     /// <summary>
     /// Gets or sets the collection of module categories to ignore during execution.
     /// </summary>
-    public ICollection<string>? IgnoreCategories { get; set; }
+    public IReadOnlyList<string>? IgnoreCategories { get; set; }
 
     private bool _showProgressInConsole = AnsiConsole.Profile.Capabilities.Interactive;
 

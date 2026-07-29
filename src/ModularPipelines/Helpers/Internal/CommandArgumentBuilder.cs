@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Models;
@@ -9,7 +10,9 @@ namespace ModularPipelines.Helpers.Internal;
 internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 {
     /// <inheritdoc/>
-    public List<string> BuildArguments(IReadOnlyList<PropertyCommandLinePart> commandModel, object optionsObject)
+    public IReadOnlyList<string> BuildArguments(
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        object optionsObject)
     {
         var args = new List<string>();
 
@@ -334,6 +337,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         return result;
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "Generated command metadata preserves the public enum fields inspected for EnumValueAttribute.")]
     private static string ParseEnum(object rawValue)
     {
         var enumValueAttribute = rawValue

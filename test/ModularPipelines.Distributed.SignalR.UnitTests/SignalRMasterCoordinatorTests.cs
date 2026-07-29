@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -83,7 +84,7 @@ public class SignalRMasterCoordinatorTests
         var disconnectedWorker = new WorkerState
         {
             ConnectionId = "disconnected-worker",
-            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, FrozenSet<string>.Empty, DateTimeOffset.UtcNow),
         };
         var pending = state.TrackPendingReconnect(disconnectedWorker, assignment)!;
         pending.TryMakeAvailableForRedispatch();
@@ -91,7 +92,7 @@ public class SignalRMasterCoordinatorTests
         var worker = new WorkerState
         {
             ConnectionId = "reconnected-worker",
-            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, FrozenSet<string>.Empty, DateTimeOffset.UtcNow),
         };
 
         var restored = state.TryRestoreReconnect(
@@ -241,7 +242,7 @@ public class SignalRMasterCoordinatorTests
         var disconnectedWorker = new WorkerState
         {
             ConnectionId = "disconnected-worker",
-            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, FrozenSet<string>.Empty, DateTimeOffset.UtcNow),
         };
         var pending = state.TrackPendingReconnect(disconnectedWorker, assignment)!;
         pending.TryMakeAvailableForRedispatch();
@@ -249,7 +250,7 @@ public class SignalRMasterCoordinatorTests
         var retryWorker = new WorkerState
         {
             ConnectionId = "retry-worker",
-            Registration = new WorkerRegistration(2, [], DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(2, FrozenSet<string>.Empty, DateTimeOffset.UtcNow),
         };
         state.Workers[retryWorker.ConnectionId] = retryWorker;
 

@@ -16,7 +16,7 @@ public abstract record CommandLineToolOptions
     /// <summary>
     /// Gets the command parts (subcommands) for the tool.
     /// </summary>
-    public string[]? CommandParts { get; init; }
+    public IReadOnlyList<string>? CommandParts { get; init; }
 
     /// <summary>
     /// Gets used for providing switches and arguments to the tool.

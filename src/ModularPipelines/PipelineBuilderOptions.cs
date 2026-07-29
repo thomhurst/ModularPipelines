@@ -8,7 +8,7 @@ public class PipelineBuilderOptions
     /// <summary>
     /// Gets or sets the command line arguments.
     /// </summary>
-    public string[]? Args { get; set; }
+    public IReadOnlyList<string>? Args { get; set; }
 
     /// <summary>
     /// Gets or sets the application name.

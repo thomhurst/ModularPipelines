@@ -1,4 +1,5 @@
 using System.Text.Json;
+using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Redis.Configuration;
 using ModularPipelines.Distributed.Redis.Coordination;
 using Moq;

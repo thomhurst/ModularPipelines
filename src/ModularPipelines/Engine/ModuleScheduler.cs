@@ -421,7 +421,7 @@ internal class ModuleScheduler : IModuleScheduler
         var moduleType = state.ModuleType;
         var configuration = state.Module.Configuration;
         var parallelConstraintKeys = configuration.ParallelConstraintKeys
-                                     ?? moduleType.GetCustomAttribute<NotInParallelAttribute>(inherit: true)?.ConstraintKeys;
+                                     ?? moduleType.GetCustomAttribute<NotInParallelAttribute>(inherit: true)?.ConstraintKeys.ToArray();
 
         ApplyParallelConstraints(state, parallelConstraintKeys);
 

@@ -11,5 +11,5 @@ public interface ICommandArgumentBuilder
     /// <param name="commandModel">The structured command model for the options type.</param>
     /// <param name="optionsObject">The options object instance containing the values.</param>
     /// <returns>A list of string arguments ready to be passed to a CLI tool.</returns>
-    List<string> BuildArguments(IReadOnlyList<PropertyCommandLinePart> commandModel, object optionsObject);
+    IReadOnlyList<string> BuildArguments(IReadOnlyList<PropertyCommandLinePart> commandModel, object optionsObject);
 }

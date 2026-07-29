@@ -14,7 +14,8 @@ internal class EnvironmentVariables : IEnvironmentVariablesContext
         return Environment.GetEnvironmentVariable(name, target);
     }
 
-    public IDictionary<string, string> GetEnvironmentVariables(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
+    public IReadOnlyDictionary<string, string> GetEnvironmentVariables(
+        EnvironmentVariableTarget target = EnvironmentVariableTarget.Process)
     {
         return Environment.GetEnvironmentVariables(target)
             .Cast<DictionaryEntry>()

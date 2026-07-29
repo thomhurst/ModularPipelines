@@ -229,7 +229,7 @@ public class SnykOptionsTests
         await Assert.That(password!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
     }
 
-    private List<string> BuildArguments(object options)
+    private IReadOnlyList<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());
         return _argumentBuilder.BuildArguments(model, options);

@@ -32,7 +32,7 @@ public interface IEnvironmentVariablesContext
     /// A dictionary containing all environment variable names and their values
     /// for the specified target scope.
     /// </returns>
-    IDictionary<string, string> GetEnvironmentVariables(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
+    IReadOnlyDictionary<string, string> GetEnvironmentVariables(EnvironmentVariableTarget target = EnvironmentVariableTarget.Process);
 
     /// <summary>
     /// Sets the value of an environment variable.

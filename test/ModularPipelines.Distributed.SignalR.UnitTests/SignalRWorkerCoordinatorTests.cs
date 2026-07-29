@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed;
@@ -20,7 +21,7 @@ public class SignalRWorkerCoordinatorTests
         var assignment = new ModuleAssignment(
             "TestModule",
             "System.String",
-            [],
+            FrozenSet<string>.Empty,
             null,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentConfig(null, 0, false));

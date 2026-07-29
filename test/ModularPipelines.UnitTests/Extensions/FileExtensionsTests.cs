@@ -35,9 +35,12 @@ public class FileExtensionsTests
             new File(Path.Combine(TestContext.WorkingDirectory, "File2.txt")),
         };
 
-        var paths = files.AsPaths();
+        var paths = ((IList<File>) files).AsPaths();
+        files.Add(new(Path.Combine(TestContext.WorkingDirectory, "File3.txt")));
+
         await Assert.That((object) paths).IsAssignableTo<IEnumerable<string>>();
-        await Assert.That((object) paths).IsAssignableTo<List<string>>();
+        await Assert.That((object) paths).IsAssignableTo<IReadOnlyList<string>>();
+        await Assert.That((object) paths).IsNotAssignableTo<List<string>>();
         await Assert.That(paths).IsEquivalentTo([
             Path.Combine(TestContext.WorkingDirectory, "File1.txt"),
             Path.Combine(TestContext.WorkingDirectory, "File2.txt")

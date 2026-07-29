@@ -57,19 +57,19 @@ public class NewRunConditionAttributeTests : TestBase
 
     private class TrueConditionGroup : ConditionGroup
     {
-        public override IRunCondition[] Conditions => [new AlwaysTrue()];
+        public override IReadOnlyList<IRunCondition> Conditions => [new AlwaysTrue()];
         public override ConditionLogic Logic => ConditionLogic.Any;
     }
 
     private class FalseConditionGroup : ConditionGroup
     {
-        public override IRunCondition[] Conditions => [new AlwaysFalse()];
+        public override IReadOnlyList<IRunCondition> Conditions => [new AlwaysFalse()];
         public override ConditionLogic Logic => ConditionLogic.All;
     }
 
     private class CancellationConditionGroup : ConditionGroup
     {
-        public override IRunCondition[] Conditions => [new CancelDuringEvaluation(), new TrackEvaluation()];
+        public override IReadOnlyList<IRunCondition> Conditions => [new CancelDuringEvaluation(), new TrackEvaluation()];
         public override ConditionLogic Logic => ConditionLogic.Any;
     }
 

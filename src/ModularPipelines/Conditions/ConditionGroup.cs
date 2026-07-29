@@ -16,7 +16,7 @@ namespace ModularPipelines.Conditions;
 /// <code>
 /// public sealed class OnUnixPlatforms : ConditionGroup
 /// {
-///     public override IRunCondition[] Conditions =&gt; [new OnLinux(), new OnMacOS()];
+///     public override IReadOnlyList&lt;IRunCondition&gt; Conditions =&gt; [new OnLinux(), new OnMacOS()];
 ///     public override ConditionLogic Logic =&gt; ConditionLogic.Any;
 /// }
 ///
@@ -31,7 +31,7 @@ public abstract class ConditionGroup : IRunCondition
     /// <summary>
     /// Gets the conditions in this group.
     /// </summary>
-    public abstract IRunCondition[] Conditions { get; }
+    public abstract IReadOnlyList<IRunCondition> Conditions { get; }
 
     /// <summary>
     /// Gets the logic used to combine conditions in this group.
@@ -52,7 +52,7 @@ public abstract class ConditionGroup : IRunCondition
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context, CancellationToken cancellationToken)
     {
-        if (Conditions.Length == 0)
+        if (Conditions.Count == 0)
         {
             return Task.FromResult(true);
         }

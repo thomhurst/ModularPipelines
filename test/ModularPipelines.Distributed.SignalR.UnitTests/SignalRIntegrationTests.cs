@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.SignalR.Configuration;
 using ModularPipelines.Distributed.SignalR.Hub;
 using ModularPipelines.Distributed.SignalR.Server;
@@ -24,6 +25,7 @@ public class SignalRIntegrationTests
             {
                 jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
                 jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
+                jsonOptions.PayloadSerializerOptions.Converters.Add(new ReadOnlySetJsonConverter());
             })
             .Build();
     }

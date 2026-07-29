@@ -19,7 +19,7 @@ namespace ModularPipelines.Conditions;
 public sealed class OnUnix : ConditionGroup
 {
     /// <inheritdoc />
-    public override IRunCondition[] Conditions => [new OnLinux(), new OnMacOS()];
+    public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnMacOS()];
 
     /// <inheritdoc />
     public override ConditionLogic Logic => ConditionLogic.Any;
