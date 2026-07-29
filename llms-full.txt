@@ -379,7 +379,7 @@ public class DockerBuildModule : Module<string>
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Only executes on workers that advertise "docker"
-        await context.Docker().Build(new());
+        await context.Docker().BuildAsync(new());
         return "built";
     }
 }
@@ -724,7 +724,7 @@ public class RestoreModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Restore(new());
+        await context.DotNet().RestoreAsync(new());
         return "restored";
     }
 }
@@ -735,7 +735,7 @@ public class BuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Build(new());
+        await context.DotNet().BuildAsync(new());
         return "built";
     }
 }
@@ -746,7 +746,7 @@ public class TestModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Test(new());
+        await context.DotNet().TestAsync(new());
         return "tested";
     }
 }
@@ -865,7 +865,7 @@ public class RestoreModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Restore(new());
+        await context.DotNet().RestoreAsync(new());
         return "restored";
     }
 }
@@ -877,8 +877,8 @@ public class LinuxBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Build(new());
-        await context.DotNet().Test(new());
+        await context.DotNet().BuildAsync(new());
+        await context.DotNet().TestAsync(new());
         return "linux-ok";
     }
 }
@@ -890,8 +890,8 @@ public class WindowsBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Build(new());
-        await context.DotNet().Test(new());
+        await context.DotNet().BuildAsync(new());
+        await context.DotNet().TestAsync(new());
         return "windows-ok";
     }
 }
@@ -903,8 +903,8 @@ public class MacBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().Build(new());
-        await context.DotNet().Test(new());
+        await context.DotNet().BuildAsync(new());
+        await context.DotNet().TestAsync(new());
         return "macos-ok";
     }
 }
@@ -1247,7 +1247,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         return await projects
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async projectFile => await context.DotNet().Pack(new DotNetPackOptions
+            .SelectAsync(async projectFile => await context.DotNet().PackAsync(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
                 IncludeSource = true,
@@ -1277,7 +1277,7 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
                               && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase))
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async unitTestProjectFile => await context.DotNet().Test(new DotNetTestOptions
+            .SelectAsync(async unitTestProjectFile => await context.DotNet().TestAsync(new DotNetTestOptions
             {
                 TargetPath = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",
@@ -1923,7 +1923,7 @@ Every argument should be passed as a separate string in a collection. This allow
 ## Example
 
 ```csharp
-await context.Shell.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
+await context.Shell.Command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("dotnet")
         {
             Arguments = new[] { "tool", "install", "--global", "dotnet-coverage" },
         }, cancellationToken);
@@ -2865,7 +2865,7 @@ When you execute CLI commands (e.g., `dotnet build`, `docker run`), ModularPipel
 ### Per-Command Configuration
 
 ```csharp
-await context.DotNet().Build(
+await context.DotNet().BuildAsync(
     new DotNetBuildOptions { Configuration = "Release" },
     new CommandExecutionOptions
     {
@@ -3990,7 +3990,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         foreach (var project in projects)
         {
-            yield return await context.SubModule(project.Name, () => context.DotNet().Pack(new DotNetPackOptions
+            yield return await context.SubModule(project.Name, () => context.DotNet().PackAsync(new DotNetPackOptions
             {
                 TargetPath = project,
                 Configuration = Configuration.Release,
@@ -5826,7 +5826,7 @@ The `ansible` executable must be installed and available on `PATH` when the pipe
 using ModularPipelines.Ansible.Extensions;
 using ModularPipelines.Ansible.Options;
 
-var result = await context.Ansible().Execute(
+var result = await context.Ansible().ExecuteAsync(
     new AnsibleExecuteOptions("webservers")
     {
         Inventory = ["hosts.ini"],
@@ -5870,7 +5870,7 @@ using ModularPipelines.ArgoCd.Enums;
 using ModularPipelines.ArgoCd.Extensions;
 using ModularPipelines.ArgoCd.Options;
 
-var result = await context.ArgoCd().App.Get(
+var result = await context.ArgoCd().App.GetAsync(
     new ArgoCdAppGetOptions("guestbook")
     {
         AppNamespace = "argocd",
@@ -5889,7 +5889,7 @@ argocd app get guestbook --app-namespace=argocd --output=json --refresh
 ## Create ApplicationSets
 
 ```csharp
-var result = await context.ArgoCd().ApplicationSet.Create(
+var result = await context.ArgoCd().ApplicationSet.CreateAsync(
     new ArgoCdApplicationSetCreateOptions(["apps.yaml", "more-apps.yaml"])
     {
         DryRun = true,
@@ -5980,7 +5980,7 @@ public class UseAzureModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Az().Account.List(
+        return await context.Az().Account.ListAsync(
             new AzAccountListOptions(),
             cancellationToken: cancellationToken);
     }
@@ -6108,7 +6108,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Ansible().Execute(
+        return await context.Ansible().ExecuteAsync(
             new AnsibleExecuteOptions("value"),
             cancellationToken: cancellationToken);
     }
@@ -6154,7 +6154,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.ArgoCd().Configure(
+        return await context.ArgoCd().ConfigureAsync(
             new ArgoCdConfigureOptions(),
             cancellationToken: cancellationToken);
     }
@@ -6347,7 +6347,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Az().Account.List(
+        return await context.Az().Account.ListAsync(
             new AzAccountListOptions(),
             cancellationToken: cancellationToken);
     }
@@ -9497,7 +9497,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Buildah().Add(
+        return await context.Buildah().AddAsync(
             new BuildahAddOptions(),
             cancellationToken: cancellationToken);
     }
@@ -9577,7 +9577,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Cargo().Check(
+        return await context.Cargo().CheckAsync(
             new CargoCheckOptions
             {
                 Quiet = true,
@@ -9641,7 +9641,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Choco().Apikey(
+        return await context.Choco().ApikeyAsync(
             new ChocoApikeyOptions(),
             cancellationToken: cancellationToken);
     }
@@ -9713,7 +9713,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Flux().Check(
+        return await context.Flux().CheckAsync(
             new FluxCheckOptions(),
             cancellationToken: cancellationToken);
     }
@@ -9913,7 +9913,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Flyway().Info(
+        return await context.Flyway().InfoAsync(
             new FlywayInfoOptions(),
             cancellationToken: cancellationToken);
     }
@@ -9970,7 +9970,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gcloud().Info(
+        return await context.Gcloud().InfoAsync(
             new GcloudInfoOptions
             {
                 Anonymize = true,
@@ -17655,7 +17655,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gh().Config.List(
+        return await context.Gh().Config.ListAsync(
             new GhConfigListOptions(),
             cancellationToken: cancellationToken);
     }
@@ -17823,7 +17823,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Go().Vet(
+        return await context.Go().VetAsync(
             new GoVetOptions(),
             cancellationToken: cancellationToken);
     }
@@ -17873,7 +17873,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gradle().Execute(
+        return await context.Gradle().ExecuteAsync(
             new GradleExecuteOptions(),
             cancellationToken: cancellationToken);
     }
@@ -17919,7 +17919,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Grype().Explain(
+        return await context.Grype().ExplainAsync(
             new GrypeExplainOptions(),
             cancellationToken: cancellationToken);
     }
@@ -17975,7 +17975,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Hadolint().Execute(
+        return await context.Hadolint().ExecuteAsync(
             new HadolintExecuteOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18021,7 +18021,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Helm().Env(
+        return await context.Helm().EnvAsync(
             new HelmEnvOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18109,7 +18109,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Jq().Execute(
+        return await context.Jq().ExecuteAsync(
             new JqExecuteOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18199,7 +18199,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kubernetes().Config.View(
+        return await context.Kubernetes().Config.ViewAsync(
             new KubernetesConfigViewOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18298,7 +18298,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kustomize().Build(
+        return await context.Kustomize().BuildAsync(
             new KustomizeBuildOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18385,7 +18385,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Liquibase().CalculateChecksum(
+        return await context.Liquibase().CalculateChecksumAsync(
             new LiquibaseCalculateChecksumOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18551,7 +18551,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Maven().Execute(
+        return await context.Maven().ExecuteAsync(
             new MavenExecuteOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18607,7 +18607,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Nbgv().GetVersion(
+        return await context.Nbgv().GetVersionAsync(
             new NbgvGetVersionOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18659,7 +18659,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Newman().Url(
+        return await context.Newman().UrlAsync(
             new NewmanUrlOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18706,7 +18706,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Packer().Console(
+        return await context.Packer().ConsoleAsync(
             new PackerConsoleOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18760,7 +18760,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pip().Freeze(
+        return await context.Pip().FreezeAsync(
             new PipFreezeOptions(),
             cancellationToken: cancellationToken);
     }
@@ -18819,7 +18819,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pnpm().Audit(
+        return await context.Pnpm().AuditAsync(
             new PnpmAuditOptions
             {
                 AuditLevel = "high",
@@ -18877,7 +18877,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Podman().Attach(
+        return await context.Podman().AttachAsync(
             new PodmanAttachOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19124,7 +19124,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Shellcheck().Execute(
+        return await context.Shellcheck().ExecuteAsync(
             new ShellcheckExecuteOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19170,7 +19170,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Skopeo().GenerateSigstoreKey(
+        return await context.Skopeo().GenerateSigstoreKeyAsync(
             new SkopeoGenerateSigstoreKeyOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19226,7 +19226,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Snyk().Auth(
+        return await context.Snyk().AuthAsync(
             new SnykAuthOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19289,7 +19289,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.SonarScanner().Execute(
+        return await context.SonarScanner().ExecuteAsync(
             new SonarScannerExecuteOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19335,7 +19335,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Syft().Attest(
+        return await context.Syft().AttestAsync(
             new SyftAttestOptions("value"),
             cancellationToken: cancellationToken);
     }
@@ -19386,7 +19386,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Terraform().Validate(
+        return await context.Terraform().ValidateAsync(
             new TerraformValidateOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19488,7 +19488,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Trivy().Clean(
+        return await context.Trivy().CleanAsync(
             new TrivyCleanOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19560,7 +19560,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Vault().Delete(
+        return await context.Vault().DeleteAsync(
             new VaultDeleteOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19708,7 +19708,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Winget().Install(
+        return await context.Winget().InstallAsync(
             new WingetInstallOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19771,7 +19771,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Yq().EvalAll(
+        return await context.Yq().EvalAllAsync(
             new YqEvalAllOptions(),
             cancellationToken: cancellationToken);
     }
@@ -19850,7 +19850,7 @@ The `cosign` executable must be installed and available on `PATH` when the pipel
 using ModularPipelines.Cosign.Extensions;
 using ModularPipelines.Cosign.Options;
 
-var result = await context.Cosign().Sign(
+var result = await context.Cosign().SignAsync(
     new CosignSignOptions(["registry.example/app@sha256:..."])
     {
         Key = "cosign.key",
@@ -19869,7 +19869,7 @@ cosign sign registry.example/app@sha256:... --annotations=team=platform --key=co
 ## Verify container images
 
 ```csharp
-var result = await context.Cosign().Verify(
+var result = await context.Cosign().VerifyAsync(
     new CosignVerifyOptions(["registry.example/app@sha256:..."])
     {
         Key = "cosign.pub",
@@ -20046,7 +20046,7 @@ public class UseDockerModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Docker().Info(
+        return await context.Docker().InfoAsync(
             new DockerInfoOptions(),
             cancellationToken: cancellationToken);
     }
@@ -20092,7 +20092,7 @@ public class UseDotNetModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().Workload.List(
+        return await context.DotNet().Workload.ListAsync(
             new DotNetWorkloadListOptions(),
             cancellationToken: cancellationToken);
     }
@@ -20123,7 +20123,7 @@ The `eksctl` executable must be installed and available on `PATH` when the pipel
 using ModularPipelines.Eksctl.Extensions;
 using ModularPipelines.Eksctl.Options;
 
-var result = await context.Eksctl().Create.Cluster(
+var result = await context.Eksctl().Create.ClusterAsync(
     new EksctlCreateClusterOptions
     {
         Name = "production",
@@ -20146,7 +20146,7 @@ eksctl create cluster --name=production --region=eu-west-2 --zones=eu-west-2a --
 ```csharp
 using ModularPipelines.Eksctl.Enums;
 
-var result = await context.Eksctl().Utils.UpdateClusterLogging(
+var result = await context.Eksctl().Utils.UpdateClusterLoggingAsync(
     new EksctlUtilsUpdateClusterLoggingOptions
     {
         Cluster = "production",
@@ -20363,7 +20363,7 @@ public class UseGitModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Git().Status(
+        return await context.Git().Commands.WorkingTree.StatusAsync(
             new GitStatusOptions
             {
                 Short = true,
@@ -20503,7 +20503,7 @@ public class UseGoModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Go().Vet(
+        return await context.Go().VetAsync(
             new GoVetOptions(),
             cancellationToken: cancellationToken);
     }
@@ -20548,7 +20548,7 @@ public class UseGcloudModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gcloud().Info(
+        return await context.Gcloud().InfoAsync(
             new GcloudInfoOptions
             {
                 Anonymize = true,
@@ -20625,7 +20625,7 @@ using ModularPipelines.Hadolint.Enums;
 using ModularPipelines.Hadolint.Extensions;
 using ModularPipelines.Hadolint.Options;
 
-var result = await context.Hadolint().Execute(
+var result = await context.Hadolint().ExecuteAsync(
     new HadolintExecuteOptions
     {
         Dockerfiles = ["Dockerfile", "build/Dockerfile"],
@@ -20682,7 +20682,7 @@ public class UseHelmModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Helm().Env(
+        return await context.Helm().EnvAsync(
             new HelmEnvOptions(),
             cancellationToken: cancellationToken);
     }
@@ -20715,19 +20715,21 @@ Import `ModularPipelines.Homebrew.Extensions`, then use this service from a modu
 ## Module example
 
 ```csharp
+using ModularPipelines.Context;
+using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Homebrew.Extensions;
+using ModularPipelines.Homebrew.Options;
 
-public class UseBrewModule : SyncModule<None>
+public class UseBrewModule : Module<CommandResult>
 {
-    protected override None Execute(
+    protected override async Task<CommandResult?> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var brew = context.Brew();
-
-        // Call the integration's strongly typed operations here.
-        context.Logger.LogInformation("Brew integration is ready");
-        return None.Value;
+        return await context.Brew().ListAsync(
+            new BrewListOptions(),
+            cancellationToken: cancellationToken);
     }
 }
 ```
@@ -20757,7 +20759,7 @@ using ModularPipelines.Java.Extensions;
 using ModularPipelines.Java.Options;
 using ModularPipelines.Models;
 
-var result = await context.Maven().Execute(
+var result = await context.Maven().ExecuteAsync(
     new MavenExecuteOptions
     {
         BatchMode = true,
@@ -20777,7 +20779,7 @@ mvn --batch-mode --color never --define skipTests=true clean verify
 ## Gradle
 
 ```csharp
-var result = await context.Gradle().Execute(
+var result = await context.Gradle().ExecuteAsync(
     new GradleExecuteOptions
     {
         Console = GradleConsole.Plain,
@@ -20820,7 +20822,7 @@ using ModularPipelines.Jq.Extensions;
 using ModularPipelines.Jq.Options;
 using ModularPipelines.Models;
 
-var result = await context.Jq().Execute(
+var result = await context.Jq().ExecuteAsync(
     new JqExecuteOptions
     {
         RawOutput = true,
@@ -20923,7 +20925,7 @@ public class UseKubernetesModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kubernetes().Config.View(
+        return await context.Kubernetes().Config.ViewAsync(
             new KubernetesConfigViewOptions(),
             cancellationToken: cancellationToken);
     }
@@ -20953,7 +20955,7 @@ public class UpdateDatabaseModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Liquibase().Update(
+        return await context.Liquibase().UpdateAsync(
             new LiquibaseUpdateOptions
             {
                 ChangelogFile = "db/changelog.xml",
@@ -21074,7 +21076,7 @@ The `nbgv` executable must be available on `PATH` when the pipeline runs.
 using ModularPipelines.NerdbankGitVersioning.Extensions;
 using ModularPipelines.NerdbankGitVersioning.Options;
 
-var result = await context.Nbgv().GetVersion(
+var result = await context.Nbgv().GetVersionAsync(
     new NbgvGetVersionOptions
     {
         Project = "src/MyProject",
@@ -21086,7 +21088,7 @@ var result = await context.Nbgv().GetVersion(
 ## Set cloud build variables
 
 ```csharp
-var result = await context.Nbgv().Cloud(
+var result = await context.Nbgv().CloudAsync(
     new NbgvCloudOptions
     {
         CommonVars = true,
@@ -21179,7 +21181,7 @@ public class UseNodeModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Node().Version(cancellationToken);
+        return await context.Node().VersionAsync(cancellationToken);
     }
 }
 ```
@@ -21351,7 +21353,7 @@ public class UsePipModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pip().Freeze(
+        return await context.Pip().FreezeAsync(
             new PipFreezeOptions(),
             cancellationToken: cancellationToken);
     }
@@ -21396,7 +21398,7 @@ public class UseCargoModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Cargo().Check(
+        return await context.Cargo().CheckAsync(
             new CargoCheckOptions
             {
                 Quiet = true,
@@ -21434,7 +21436,7 @@ public class CheckShellScriptsModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Shellcheck().Execute(
+        return await context.Shellcheck().ExecuteAsync(
             new ShellcheckExecuteOptions
             {
                 Files = ["scripts/build.sh", "scripts/deploy.sh"],
@@ -21555,7 +21557,7 @@ using ModularPipelines.Snyk.Enums;
 using ModularPipelines.Snyk.Extensions;
 using ModularPipelines.Snyk.Options;
 
-var result = await context.Snyk().ContainerTest(
+var result = await context.Snyk().ContainerTestAsync(
     new SnykContainerTestOptions("alpine:3.20")
     {
         SeverityThreshold = SnykSeverityThreshold.High,
@@ -21598,7 +21600,7 @@ The `sonar-scanner` executable must be installed and available on `PATH` when th
 using ModularPipelines.SonarScanner.Extensions;
 using ModularPipelines.SonarScanner.Options;
 
-var result = await context.SonarScanner().Execute(
+var result = await context.SonarScanner().ExecuteAsync(
     new SonarScannerExecuteOptions
     {
         ProjectKey = "example-project",
@@ -21738,7 +21740,7 @@ public class UseTerraformModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Terraform().Validate(
+        return await context.Terraform().ValidateAsync(
             new TerraformValidateOptions(),
             cancellationToken: cancellationToken);
     }
@@ -21770,7 +21772,7 @@ using ModularPipelines.Trivy.Extensions;
 using ModularPipelines.Trivy.Enums;
 using ModularPipelines.Trivy.Options;
 
-var result = await context.Trivy().Image(
+var result = await context.Trivy().ImageAsync(
     new TrivyImageOptions
     {
         ImageName = "alpine:3.20",
@@ -21791,7 +21793,7 @@ trivy image alpine:3.20 --format=json --output=trivy-results.json --severity=HIG
 ## Scan a filesystem
 
 ```csharp
-var result = await context.Trivy().Filesystem(
+var result = await context.Trivy().FilesystemAsync(
     new TrivyFilesystemOptions("./src")
     {
         Scanners =
