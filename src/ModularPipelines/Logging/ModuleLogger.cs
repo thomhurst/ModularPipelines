@@ -73,7 +73,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     private readonly StringWriter _renderWriter;
     private readonly IAnsiConsole _renderConsole;
 
-    private volatile bool _isDisposed;
+    private bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
     public ModuleLogger(
@@ -107,24 +107,32 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string>? formatter)
     {
-        if (!IsEnabled(logLevel) || _isDisposed)
+        if (!IsEnabled(logLevel))
         {
             return;
         }
 
-        var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state!);
-        var logEvent = new BufferedLogEvent<TState>(
-            logLevel,
-            eventId,
-            state,
-            obfuscatedState,
-            exception,
-            formatter ?? (static (_, _) => string.Empty),
-            _secretObfuscator);
+        lock (_disposeLock)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
 
-        // Write to buffer for ordered module output during pipeline execution.
-        // Output will be flushed to console and loggers when the module completes.
-        _buffer.AddLogEvent(logEvent);
+            var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state!);
+            var logEvent = new BufferedLogEvent<TState>(
+                logLevel,
+                eventId,
+                state,
+                obfuscatedState,
+                exception,
+                formatter ?? (static (_, _) => string.Empty),
+                _secretObfuscator);
+
+            // Write to buffer for ordered module output during pipeline execution.
+            // Output will be flushed to console and loggers when the module completes.
+            _buffer.AddLogEvent(logEvent);
+        }
     }
 
     public override void Dispose()

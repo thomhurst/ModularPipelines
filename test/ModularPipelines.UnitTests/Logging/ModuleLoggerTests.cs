@@ -161,6 +161,50 @@ public class ModuleLoggerTests
     }
 
     [Test]
+    public async Task Dispose_WaitsForInProgressLogAdmission()
+    {
+        var logEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLog = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleLoggerTests));
+        var consoleCoordinator = CreateConsoleCoordinator(buffer);
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        defaultLogger.Setup(x => x.IsEnabled(LogLevel.Information)).Returns(true);
+        var formattedValuesObfuscator = new Mock<IFormattedLogValuesObfuscator>();
+        formattedValuesObfuscator
+            .Setup(x => x.TryObfuscateValues(It.IsAny<object>()))
+            .Callback(() =>
+            {
+                logEntered.TrySetResult();
+                releaseLog.Task.GetAwaiter().GetResult();
+            })
+            .Returns((object state) => state);
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            Mock.Of<ISecretObfuscator>(),
+            formattedValuesObfuscator.Object,
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        var logTask = Task.Run(() => logger.LogInformation("message"));
+
+        await logEntered.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        var disposeTask = Task.Run(logger.Dispose);
+
+        try
+        {
+            await Task.Delay(50);
+            await Assert.That(disposeTask.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            releaseLog.TrySetResult();
+        }
+
+        await Task.WhenAll(logTask, disposeTask);
+        await Assert.That(buffer.HasOutput).IsTrue();
+        await Assert.That(buffer.IsComplete).IsTrue();
+    }
+
+    [Test]
     public async Task Write_ReusesClearedRenderer()
     {
         var renderedLines = new List<string>();
