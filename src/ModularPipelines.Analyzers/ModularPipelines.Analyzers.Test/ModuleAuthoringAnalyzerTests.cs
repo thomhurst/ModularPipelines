@@ -119,6 +119,19 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Entry_Assembly()
+    {
+        var source = ModuleSource(
+            TestSourceConstants.SimpleAsyncExecuteBody,
+            """
+            Pipeline.CreateBuilder().AddModulesFromAssembly(
+                System.Reflection.Assembly.GetEntryAssembly()!);
+            """);
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Closed_Generic_Module_Registration()
     {
         var source = $$"""
@@ -481,6 +494,30 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Static_CancellationToken_Overload_For_Instance_Call()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await new Client().FetchAsync();
+                return null;
+            }
+
+                private sealed class Client
+                {
+                    public Task FetchAsync() => Task.CompletedTask;
+
+                    public static Task FetchAsync(CancellationToken cancellationToken) =>
+                        Task.CompletedTask;
+                }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Unflowed_Token_For_Generic_Overload()
     {
         var source = ModuleSource("""
@@ -597,6 +634,50 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("Delay");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Invoked_Lambda()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Func<Task> run = async () =>
+                {
+                    await {|#0:Task.Delay(1)|};
+                };
+
+                await run();
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Async_Safety_Inside_Unused_Lambda()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Func<Task> run = async () =>
+                {
+                    await Task.Delay(1);
+                };
+
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]

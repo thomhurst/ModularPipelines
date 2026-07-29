@@ -315,7 +315,7 @@ internal static class ModuleAuthoringAnalysis
             if (value.DescendantsAndSelf()
                 .OfType<IInvocationOperation>()
                 .Any(static operation =>
-                    operation.TargetMethod.Name == "GetExecutingAssembly"
+                    operation.TargetMethod.Name is "GetExecutingAssembly" or "GetEntryAssembly"
                     && operation.TargetMethod.ContainingType.ToDisplayString()
                     == "System.Reflection.Assembly"))
             {
@@ -494,7 +494,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static IMethodSymbol? GetModuleExecuteAsync(OperationAnalysisContext context)
     {
-        var localFunctions = GetEnclosingLocalFunctions(context.Operation);
+        var nestedCallables = GetEnclosingNestedCallables(context.Operation);
 
         for (var method = context.ContainingSymbol as IMethodSymbol;
              method is not null;
@@ -504,38 +504,45 @@ internal static class ModuleAuthoringAnalysis
                 && method.IsOverride
                 && method.OverriddenMethod?.ContainingType.IsModule(context.Compilation) == true)
             {
-                return LocalFunctionsAreInvoked(context.Operation, localFunctions)
+                return NestedCallablesAreInvoked(context.Operation, nestedCallables)
                     ? method
                     : null;
             }
 
-            if (method.MethodKind != MethodKind.LocalFunction)
+            if (method.MethodKind is not (MethodKind.LocalFunction or MethodKind.AnonymousFunction))
             {
                 return null;
             }
 
-            if (!localFunctions.Contains(method, SymbolEqualityComparer.Default))
+            if (!nestedCallables.Contains(method, SymbolEqualityComparer.Default))
             {
-                localFunctions.Add(method);
+                nestedCallables.Add(method);
             }
         }
 
         return null;
     }
 
-    private static List<IMethodSymbol> GetEnclosingLocalFunctions(IOperation operation)
+    private static List<IMethodSymbol> GetEnclosingNestedCallables(IOperation operation)
     {
-        var localFunctions = new List<IMethodSymbol>();
+        var nestedCallables = new List<IMethodSymbol>();
 
         for (var current = operation.Parent; current is not null; current = current.Parent)
         {
-            if (current is ILocalFunctionOperation localFunction)
+            var symbol = current switch
             {
-                localFunctions.Add(localFunction.Symbol);
+                ILocalFunctionOperation localFunction => localFunction.Symbol,
+                IAnonymousFunctionOperation anonymousFunction => anonymousFunction.Symbol,
+                _ => null,
+            };
+            if (symbol is not null
+                && !nestedCallables.Contains(symbol, SymbolEqualityComparer.Default))
+            {
+                nestedCallables.Add(symbol);
             }
         }
 
-        return localFunctions;
+        return nestedCallables;
     }
 
     private static bool IsAwaiterGetResult(IInvocationOperation invocation)
@@ -546,23 +553,67 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
-    private static bool LocalFunctionsAreInvoked(
+    private static bool NestedCallablesAreInvoked(
         IOperation operation,
-        List<IMethodSymbol> localFunctions)
+        List<IMethodSymbol> nestedCallables)
     {
-        if (localFunctions.Count == 0)
+        if (nestedCallables.Count == 0)
         {
             return true;
         }
 
         var root = GetRoot(operation);
-        var invokedMethods = root.DescendantsAndSelf()
+        var invocations = root.DescendantsAndSelf()
             .OfType<IInvocationOperation>()
+            .ToImmutableArray();
+        var invokedMethods = invocations
             .Select(static invocation => invocation.TargetMethod.OriginalDefinition)
             .ToImmutableHashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
 
-        return localFunctions.All(localFunction =>
-            invokedMethods.Contains(localFunction.OriginalDefinition));
+        return nestedCallables.All(callable =>
+            callable.MethodKind == MethodKind.AnonymousFunction
+                ? invocations.Any(invocation => InvocationTargetsAnonymousFunction(
+                    invocation,
+                    callable))
+                : invokedMethods.Contains(callable.OriginalDefinition));
+    }
+
+    private static bool InvocationTargetsAnonymousFunction(
+        IInvocationOperation invocation,
+        IMethodSymbol anonymousFunction)
+    {
+        return invocation.Instance is not null
+               && ValueContainsAnonymousFunction(
+                   invocation.Instance,
+                   anonymousFunction,
+                   [with(SymbolEqualityComparer.Default)]);
+    }
+
+    private static bool ValueContainsAnonymousFunction(
+        IOperation value,
+        IMethodSymbol anonymousFunction,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (value.DescendantsAndSelf()
+            .OfType<IAnonymousFunctionOperation>()
+            .Any(candidate => SymbolEqualityComparer.Default.Equals(
+                candidate.Symbol,
+                anonymousFunction)))
+        {
+            return true;
+        }
+
+        foreach (var localReference in value.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
+        {
+            if (visitedLocals.Add(localReference.Local)
+                && FindReachingLocalValue(localReference, localReference.Local) is { } localValue
+                && ValueContainsAnonymousFunction(localValue, anonymousFunction, visitedLocals))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool InvocationUsesCancellation(
@@ -697,6 +748,7 @@ internal static class ModuleAuthoringAnalysis
         var selectedMethod = method.ReducedFrom ?? method;
         return selectedMethod.ContainingType.GetMembers(selectedMethod.Name)
             .OfType<IMethodSymbol>()
+            .Where(candidate => candidate.IsStatic == selectedMethod.IsStatic)
             .Where(candidate => compilation.IsSymbolAccessibleWithin(candidate, within))
             .Any(candidate => IsCancellationOverload(selectedMethod, candidate));
     }
