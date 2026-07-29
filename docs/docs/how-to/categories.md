@@ -21,7 +21,7 @@ If "Ignore Categories" have been set with some values, if a Module has one of th
 ## Example of Running Specific Categories
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()
@@ -38,7 +38,7 @@ await builder.ExecutePipelineAsync();
 ## Example of Ignoring Specific Categories
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()

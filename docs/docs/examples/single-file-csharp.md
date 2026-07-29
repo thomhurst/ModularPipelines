@@ -34,7 +34,7 @@ To use ModularPipelines in a single file C# application, you can follow these st
     using ModularPipelines.Models;
     using ModularPipelines.Modules;
 
-    var builder = Pipeline.CreateBuilder(args);
+    using var builder = Pipeline.CreateBuilder(args);
 
     builder
         .AddModule<UpdateDotnetWorkloads>()

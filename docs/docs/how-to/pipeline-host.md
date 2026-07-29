@@ -18,7 +18,7 @@ The pipeline builder follows the ASP.NET Core minimal API pattern, providing dir
 ## Basic Example
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<BuildModule>()
@@ -33,7 +33,7 @@ await builder.ExecutePipelineAsync();
 Add configuration sources directly via the `Configuration` property:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)
@@ -50,7 +50,7 @@ builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySetti
 Modules are registered directly on `PipelineBuilder`. Every registration method returns the same builder for chaining:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 // Register modules
 builder
@@ -67,7 +67,7 @@ builder.AddModules(typeof(Module1), typeof(Module2), typeof(Module3));
 Use `builder.Environment` or `builder.Configuration` for conditional module registration:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 
@@ -91,7 +91,7 @@ builder.AddModule<AlwaysRunModule>();
 Configure pipeline behavior via the `Options` property:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 // Execution mode
 builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
@@ -117,7 +117,7 @@ builder.Options.Concurrency = new ConcurrencyOptions
 The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 
 // Step 1: Build and validate the pipeline
@@ -136,7 +136,7 @@ if (summary.Status == PipelineStatus.Failed)
 `BuildAsync()` always validates the pipeline configuration before returning:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 
 try
@@ -158,7 +158,7 @@ catch (PipelineValidationException ex)
 ### Validate Without Running
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 
 var validation = await builder.ValidateAsync();
@@ -183,7 +183,7 @@ using ModularPipelines;
 using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 // Configuration
 builder.Configuration
@@ -228,7 +228,7 @@ await builder.ExecutePipelineAsync();
 Register global hooks and pipeline requirements:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 // Global hooks (run before/after all modules)
 builder.AddPipelineGlobalHooks<MyGlobalHooks>();
@@ -246,7 +246,7 @@ builder.AddRequirement<GitRequirement>();
 For a more fluent API, extension methods are available:
 
 ```csharp
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 await builder
     .AddModule<Module1>()

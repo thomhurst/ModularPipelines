@@ -138,7 +138,7 @@ public class PipelineBuilderRegistrationTests
     public async Task Environment_HonorsCommandLineHostConfiguration()
     {
         var contentRoot = Path.GetTempPath();
-        var builder = Pipeline.CreateBuilder(
+        using var builder = Pipeline.CreateBuilder(
         [
             "--applicationName", "CommandLineApp",
             "--environment", "CommandLineEnvironment",

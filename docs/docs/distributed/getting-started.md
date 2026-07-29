@@ -33,7 +33,7 @@ In your `Program.cs`, enable distributed mode and register the Redis coordinator
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Extensions;
 
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 // Parse instance info from arguments or environment
 var instanceIndex = int.Parse(
@@ -118,7 +118,7 @@ using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 var instanceIndex = int.Parse(
     Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");

@@ -137,7 +137,7 @@ Then configure and execute the pipeline from `Program.cs`:
 ```csharp
 using ModularPipelines;
 
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 await builder.ExecutePipelineAsync();
 ```
 

@@ -45,7 +45,7 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
                 context.DotNet().Sdk.Check(cancellationToken = cancellationToken);
 
     let args = System.Environment.GetCommandLineArgs()
-    let builder = Pipeline.CreateBuilder(args)
+    use builder = Pipeline.CreateBuilder(args)
 
     builder.Services.RegisterDotNetContext()
 

@@ -81,7 +81,7 @@ using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
-var builder = Pipeline.CreateBuilder(args);
+using var builder = Pipeline.CreateBuilder(args);
 
 var instanceIndex = int.Parse(
     Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
