@@ -12,13 +12,16 @@ Node.js, npm, npx, nvm, and strongly typed pnpm helpers.
 dotnet add package ModularPipelines.Node
 ```
 
-Required command-line tools: `node`, `pnpm`. They must be installed and available on `PATH` when the pipeline runs.
+Required command-line tools: `node`, `npm`, `npx`, `nvm`, and `pnpm`. Install the tools used by your pipeline and make them available on `PATH`.
 
 ## Context entry points
 
 Import `ModularPipelines.Node.Extensions`, then use these services from a module:
 
 - `context.Node()`
+- `context.Node().Npm`
+- `context.Node().Npx`
+- `context.Node().Nvm`
 - `context.Pnpm()`
 
 ## Module example

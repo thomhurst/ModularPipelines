@@ -134,6 +134,13 @@ internal static class DocumentationExampleCatalog
                 [
                     Safe("nbgv get-version"),
                 ]),
+            ["npm"] = new(
+                "npm audit",
+                [
+                    Safe(
+                        "npm audit",
+                        ("AuditLevel", "\"high\"")),
+                ]),
             ["packer"] = new(
                 null,
                 [
