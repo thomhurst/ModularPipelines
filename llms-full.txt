@@ -1997,7 +1997,7 @@ public class MyModule : Module<FileInfo>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithTimeout(TimeSpan.FromMinutes(5))
-        .WithRetryCount(3)
+        .WithRetry(3)
         .WithSkipWhen(_ => !File.Exists("important.json")
             ? SkipDecision.Skip("important.json does not exist")
             : SkipDecision.DoNotSkip)
@@ -2023,8 +2023,8 @@ public class MyModule : Module<FileInfo>
 | Method | Description |
 |--------|-------------|
 | `.WithTimeout(TimeSpan)` | Maximum execution time before module is cancelled |
-| `.WithRetryCount(int)` | Number of retry attempts on failure |
-| `.WithRetryPolicy(IAsyncPolicy)` | Custom Polly retry policy |
+| `.WithRetry(int, TimeSpan?, Func<Exception, bool>?)` | Retry attempts, jittered base delay, and optional exception filter |
+| `.Advanced.WithRetryPolicy(IAsyncPolicy)` | Custom Polly policy for advanced scenarios |
 | `.WithSkipWhen(...)` | Condition to skip the module |
 | `.WithIgnoreFailures()` | Don't fail the pipeline if this module fails |
 | `.WithIgnoreFailuresWhen(...)` | Conditionally ignore failures |
@@ -2784,7 +2784,7 @@ Ignoring failures can be combined with other module behaviors:
 public class ResilientModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithRetryCount(3)  // Try 3 times first
+        .WithRetry(3)  // Try 3 times first
         .WithIgnoreFailuresWhen((ctx, ex) => ex is HttpRequestException)  // Then ignore HTTP errors
         .WithAlwaysRun()  // Run even if dependencies failed
         .Build();
@@ -3386,19 +3386,21 @@ public class WindowsRequirement : IPipelineRequirement
 ## Retry Policies
 
 
-When creating modules, you can set a retry policy per module using the `Configure()` method. The retry policy uses Polly, so if you've used Polly before you should be familiar with how to use it.
+When creating modules, you can configure retries per module using the `Configure()` method.
+The standard API supports exponential backoff, jitter, and exception filtering without exposing
+the underlying resilience library.
 
 ## Using ModuleConfiguration
 
-### Simple Retry Count
+### Simple Retries
 
-The easiest way to add retries is with `WithRetryCount()`:
+The easiest way to add retries is with `WithRetry()`:
 
 ```csharp
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithRetryCount(3)  // Retry up to 3 times with exponential backoff
+        .WithRetry(3)  // Retry up to 3 times with exponential backoff and jitter
         .Build();
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -3408,14 +3410,28 @@ public class MyModule : Module<CommandResult>
 }
 ```
 
-### Custom Polly Policy
+The default base delay is 100 milliseconds. Each retry uses equal jitter between half and all of
+its exponential-backoff ceiling. You can set a different base delay and limit retries to selected
+exceptions:
 
-For more control, you can provide a custom Polly policy:
+```csharp
+protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    .WithRetry(
+        count: 5,
+        baseDelay: TimeSpan.FromSeconds(1),
+        shouldRetry: exception => exception is HttpRequestException)
+    .Build();
+```
+
+### Advanced Polly Policy
+
+For policy features outside the standard API, use the explicit `.Advanced` surface:
 
 ```csharp
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .Advanced
         .WithRetryPolicy(
             Policy.Handle<HttpRequestException>()
                 .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i)))
@@ -3436,6 +3452,7 @@ If you need access to the pipeline context when building your policy:
 public class MyModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .Advanced
         .WithRetryPolicy(ctx =>
         {
             var retryCount = ctx.Environment.IsCI ? 5 : 2;
@@ -3454,7 +3471,7 @@ Retry policies can be combined with other module behaviors:
 public class ResilientModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithRetryCount(3)
+        .WithRetry(3)
         .WithTimeout(TimeSpan.FromMinutes(10))
         .WithIgnoreFailures()  // Don't fail the pipeline even after all retries
         .Build();
@@ -4167,7 +4184,7 @@ public class ResilientModule : Module<CommandResult>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithTimeout(TimeSpan.FromMinutes(5))
-        .WithRetryCount(3)  // Retry if timeout or other failure occurs
+        .WithRetry(3)  // Retry if timeout or other failure occurs
         .WithIgnoreFailures()  // Don't fail the pipeline if module times out
         .Build();
 
@@ -4406,7 +4423,7 @@ public class MyModule : Module<string>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithTimeout(TimeSpan.FromMinutes(5))
-        .WithRetryCount(3)
+        .WithRetry(3)
         .WithSkipWhen(async ctx => (await ctx.Git().Information.GetInfoAsync())?.BranchName != "main"
             ? SkipDecision.Skip("Only runs on main branch")
             : SkipDecision.DoNotSkip)
@@ -4428,7 +4445,7 @@ public class MyModule : Module<string>
 | V2 Override | V3 Configure() Method |
 |-------------|----------------------|
 | `TimeSpan Timeout` property | `.WithTimeout(TimeSpan)` |
-| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetryCount(int)` or `.WithRetryPolicy(IAsyncPolicy)` |
+| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetry(int, ...)` or `.Advanced.WithRetryPolicy(IAsyncPolicy)` |
 | `Task<SkipDecision> ShouldSkip()` method | `.WithSkipWhen(...)` |
 | `Task<bool> ShouldIgnoreFailures()` method | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
 | `ModuleRunType.AlwaysRun` | `.WithAlwaysRun()` |
@@ -5055,7 +5072,7 @@ The following have been removed in V3:
 | `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()` |
 | `ModuleRunType` property | `Configure().WithAlwaysRun()` |
 | `Timeout` property | `Configure().WithTimeout()` |
-| `RetryPolicy` property | `Configure().WithRetryCount()` or `.WithRetryPolicy()` |
+| `RetryPolicy` property | `Configure().WithRetry()` or `.Advanced.WithRetryPolicy()` |
 | `GetModule<T>()` on module | `context.GetModule<TModule>()` |
 
 ## New Features in V3
@@ -5378,7 +5395,7 @@ public class DeployModule : Module<bool>
 | `ShouldSkip()` override | `Configure().WithSkipWhen()` | Fluent builder |
 | `ShouldIgnoreFailures()` override | `Configure().WithIgnoreFailures()` | Fluent builder |
 | `Timeout` property override | `Configure().WithTimeout()` | Fluent builder |
-| `RetryPolicy` property override | `Configure().WithRetryCount()` | Fluent builder |
+| `RetryPolicy` property override | `Configure().WithRetry()` | Fluent builder |
 | `ModuleRunType` override | `Configure().WithAlwaysRun()` | Fluent builder |
 | `OnBeforeExecute()` override | `OnBeforeExecuteAsync()` | Override the module virtual |
 | `OnAfterExecute()` override | `OnAfterExecuteAsync()` | Override the module virtual |
@@ -5459,7 +5476,7 @@ This section provides structured data optimized for AI assistants helping with c
   new: "Configure().WithTimeout(TimeSpan)"
 
 - old: "protected override AsyncRetryPolicy<T?> RetryPolicy => ..."
-  new: "Configure().WithRetryCount(int)"
+  new: "Configure().WithRetry(int)"
 
 - old: "protected internal override Task<SkipDecision> ShouldSkip(...)"
   new: "Configure().WithSkipWhen(Func<IModuleContext, SkipDecision>)"
@@ -5557,7 +5574,7 @@ This section provides structured data optimized for AI assistants helping with c
 | `CS0117: 'ModuleResult' does not contain 'Exception'` | Property renamed | Change `.Exception` to `.ExceptionOrDefault` |
 | `CS0115: 'ShouldSkip': no suitable method found to override` | Method removed | Use `Configure().WithSkipWhen()` instead |
 | `CS0115: 'Timeout': no suitable method found to override` | Property removed | Use `Configure().WithTimeout()` instead |
-| `CS0115: 'RetryPolicy': no suitable method found to override` | Property removed | Use `Configure().WithRetryCount()` instead |
+| `CS0115: 'RetryPolicy': no suitable method found to override` | Property removed | Use `Configure().WithRetry()` instead |
 | `CS1061: 'DotNetBuildOptions' does not contain 'WorkingDirectory'` | Property moved | Pass `CommandExecutionOptions` as second parameter |
 | `CS1061: 'DotNetBuildOptions' does not contain 'LogInput'` | Property moved | Use `CommandExecutionOptions.LogSettings` with `CommandLoggingOptions` |
 | `CS0246: 'CommandLoggingOptions' could not be found` | Missing using | Add `using ModularPipelines.Options;` |
@@ -5686,7 +5703,7 @@ await context.DotNet().Build(
 
 ### Keywords for Search
 
-ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module, SyncModule, None struct, ExecuteAsync, Execute, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity, context.Shell.Command, context.Shell.Bash, context.Shell.PowerShell, DotNetNewOptions, DotNetPackOptions, GitTagOptions, TemplateShortName, property initializer, constructor removed, token parameter
+ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetry, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity, context.Shell.Command, context.Shell.Bash, context.Shell.PowerShell, DotNetNewOptions, DotNetPackOptions, GitTagOptions, TemplateShortName, property initializer, constructor removed, token parameter
 
 ## Getting Help
 
