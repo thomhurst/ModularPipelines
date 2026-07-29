@@ -109,18 +109,14 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             return false;
         }
 
-        var genericName = invocation.Expression switch
+        var name = invocation.Expression switch
         {
-            GenericNameSyntax directName => directName,
-            MemberAccessExpressionSyntax { Name: GenericNameSyntax memberName } => memberName,
+            SimpleNameSyntax directName => directName,
+            MemberAccessExpressionSyntax { Name: var memberName } => memberName,
             _ => null,
         };
 
-        return genericName is
-        {
-            Identifier.ValueText: "AddModule",
-            TypeArgumentList.Arguments.Count: 1,
-        };
+        return name?.Identifier.ValueText == "AddModule";
     }
 
     internal static INamedTypeSymbol? GetRegisteredClosedGenericModule(

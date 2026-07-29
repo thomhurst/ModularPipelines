@@ -22,6 +22,16 @@ public class ModuleEventMetadataGeneratorTests
                 public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                     this ModularPipelines.PipelineBuilder builder)
                     where TModule : class, ModularPipelines.Modules.IModule => builder;
+
+                public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                    this ModularPipelines.PipelineBuilder builder,
+                    TModule module)
+                    where TModule : class, ModularPipelines.Modules.IModule => builder;
+
+                public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                    this ModularPipelines.PipelineBuilder builder,
+                    System.Func<System.IServiceProvider, TModule> factory)
+                    where TModule : class, ModularPipelines.Modules.IModule => builder;
             }
         }
 
@@ -102,6 +112,47 @@ public class ModuleEventMetadataGeneratorTests
         {
             await Assert.That(generated)
                 .Contains("typeof(global::Consumer.GenericModule<int>)");
+            await Assert.That(generated)
+                .Contains("new global::Consumer.MarkerAttribute()");
+        }
+    }
+
+    [Test]
+    public async Task Inferred_Closed_Generic_Registrations_Emit_Event_Metadata()
+    {
+        var result = GeneratorTestRunner.Run(
+            new ModuleEventMetadataGenerator(),
+            Infrastructure,
+            """
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                [System.AttributeUsage(System.AttributeTargets.Class)]
+                public sealed class MarkerAttribute : System.Attribute;
+
+                [Marker]
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        builder.AddModule(new GenericModule<int>());
+                        builder.AddModule(_ => new GenericModule<string>());
+                    }
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("typeof(global::Consumer.GenericModule<int>)");
+            await Assert.That(generated)
+                .Contains("typeof(global::Consumer.GenericModule<string>)");
             await Assert.That(generated)
                 .Contains("new global::Consumer.MarkerAttribute()");
         }

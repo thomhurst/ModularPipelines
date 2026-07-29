@@ -66,6 +66,10 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="moduleTypes">The module types to add.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    [RequiresUnreferencedCode(
+        "Runtime type module registration relies on reflection. Use AddModule<TModule>() for trim-safe registration.")]
+    [RequiresDynamicCode(
+        "Runtime type module registration may require runtime code generation. Use AddModule<TModule>() for Native AOT.")]
     public static PipelineBuilder AddModules(this PipelineBuilder builder, params Type[] moduleTypes)
     {
         ArgumentNullException.ThrowIfNull(moduleTypes);
