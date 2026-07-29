@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
@@ -30,6 +31,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly DateTime _startTimeUtc;
     private readonly int _outputFlushThreshold;
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
+    private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = new();
     private Exception? _exception;
     private bool _isComplete;
     private bool _isIncrementalFlushInProgress;
@@ -82,14 +84,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
-    public void AddLogEvent(
-        LogLevel level,
-        EventId eventId,
-        object state,
-        Exception? exception,
-        Func<object, Exception?, string> formatter)
+    public void AddLogEvent(IBufferedLogEvent logEvent)
     {
-        AddOutput(BufferedOutput.FromLogEvent(level, eventId, state, exception, formatter));
+        AddOutput(BufferedOutput.FromLogEvent(logEvent));
     }
 
     /// <inheritdoc />
@@ -162,7 +159,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             return Task.CompletedTask;
         }
 
-        var directConsole = CreateDirectConsole(console);
+        var directConsole = GetDirectConsole(console);
         var renderedCount = 0;
 
         try
@@ -192,6 +189,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         RecordRenderedOutput(flushKind, renderedCount);
         return Task.CompletedTask;
+    }
+
+    internal IAnsiConsole GetDirectConsole(TextWriter writer)
+    {
+        return _directConsoles.GetValue(writer, static value => CreateDirectConsole(value));
     }
 
     private void AddOutput(BufferedOutput output)
@@ -348,14 +350,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             {
                 WriteDirect(directConsole, console, output.StringValue);
             }
-            else if (output.LogEvent.HasValue)
+            else if (output.LogEvent is { } logEvent)
             {
-                var logEvent = output.LogEvent.Value;
-
                 // Synchronous MEL.Spectre rendering preserves this buffer's position
                 // while other providers (for example file logging) still receive the event.
-                logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
-                    (state, ex) => logEvent.Formatter(state, ex));
+                logEvent.WriteTo(logger);
             }
 
             // Advance only after the sink returns successfully. A sink that accepts
@@ -469,7 +468,7 @@ internal readonly struct BufferedOutput
     /// <summary>
     /// Gets the log event if this is a structured log event.
     /// </summary>
-    public LogEventData? LogEvent { get; private init; }
+    public IBufferedLogEvent? LogEvent { get; private init; }
 
     /// <summary>
     /// Gets a value indicating whether this output contains a string.
@@ -484,41 +483,62 @@ internal readonly struct BufferedOutput
     /// <summary>
     /// Creates a buffered output from a log event.
     /// </summary>
-    public static BufferedOutput FromLogEvent(
-        LogLevel level,
-        EventId eventId,
-        object state,
-        Exception? exception,
-        Func<object, Exception?, string> formatter)
-        => new() { LogEvent = new LogEventData(level, eventId, state, exception, formatter) };
+    public static BufferedOutput FromLogEvent(IBufferedLogEvent logEvent)
+        => new() { LogEvent = logEvent };
 }
 
 /// <summary>
 /// Holds structured log event data for deferred output.
 /// </summary>
-internal readonly struct LogEventData
+internal interface IBufferedLogEvent
 {
-    public LogLevel Level { get; }
+    void WriteTo(ILogger logger);
+}
 
-    public EventId EventId { get; }
+/// <summary>
+/// Holds generic structured log state and its original formatter for deferred output.
+/// </summary>
+internal sealed class BufferedLogEvent<TState> : IBufferedLogEvent
+{
+    private readonly LogLevel _level;
+    private readonly EventId _eventId;
+    private readonly TState _originalState;
+    private readonly object _obfuscatedState;
+    private readonly Exception? _exception;
+    private readonly Func<TState, Exception?, string> _formatter;
+    private readonly ISecretObfuscator _secretObfuscator;
 
-    public object State { get; }
-
-    public Exception? Exception { get; }
-
-    public Func<object, Exception?, string> Formatter { get; }
-
-    public LogEventData(
+    public BufferedLogEvent(
         LogLevel level,
         EventId eventId,
-        object state,
+        TState originalState,
+        object obfuscatedState,
         Exception? exception,
-        Func<object, Exception?, string> formatter)
+        Func<TState, Exception?, string> formatter,
+        ISecretObfuscator secretObfuscator)
     {
-        Level = level;
-        EventId = eventId;
-        State = state;
-        Exception = exception;
-        Formatter = formatter;
+        _level = level;
+        _eventId = eventId;
+        _originalState = originalState;
+        _obfuscatedState = obfuscatedState;
+        _exception = exception;
+        _formatter = formatter;
+        _secretObfuscator = secretObfuscator;
+    }
+
+    public void WriteTo(ILogger logger)
+    {
+        logger.Log(
+            _level,
+            _eventId,
+            _obfuscatedState,
+            _exception,
+            Format);
+    }
+
+    private string Format(object _, Exception? exception)
+    {
+        var formatted = _formatter(_originalState, exception);
+        return _secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
     }
 }

@@ -31,12 +31,14 @@ public class OutputCoordinatorTests
         coordinatedWriter.Write("partial");
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(coordinatedWriter));
         var moduleBuffer = new ModuleOutputBuffer(typeof(OutputCoordinatorTests));
-        moduleBuffer.AddLogEvent(
+        moduleBuffer.AddLogEvent(new BufferedLogEvent<string>(
             LogLevel.Information,
             default,
             "replayed log",
+            "replayed log",
             null,
-            static (state, _) => state.ToString()!);
+            static (state, _) => state,
+            secretObfuscator.Object));
 
         await coordinator.EnqueueAndFlushAsync(moduleBuffer, OutputFlushKind.Complete);
         await coordinatedWriter.FlushAsync();
@@ -483,12 +485,7 @@ public class OutputCoordinatorTests
         {
         }
 
-        public void AddLogEvent(
-            LogLevel level,
-            EventId eventId,
-            object state,
-            Exception? exception,
-            Func<object, Exception?, string> formatter)
+        public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
 
@@ -533,12 +530,7 @@ public class OutputCoordinatorTests
         {
         }
 
-        public void AddLogEvent(
-            LogLevel level,
-            EventId eventId,
-            object state,
-            Exception? exception,
-            Func<object, Exception?, string> formatter)
+        public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
 
@@ -584,12 +576,7 @@ public class OutputCoordinatorTests
         {
         }
 
-        public void AddLogEvent(
-            LogLevel level,
-            EventId eventId,
-            object state,
-            Exception? exception,
-            Func<object, Exception?, string> formatter)
+        public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
 
@@ -637,12 +624,7 @@ public class OutputCoordinatorTests
         {
         }
 
-        public void AddLogEvent(
-            LogLevel level,
-            EventId eventId,
-            object state,
-            Exception? exception,
-            Func<object, Exception?, string> formatter)
+        public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
 
@@ -696,12 +678,7 @@ public class OutputCoordinatorTests
         {
         }
 
-        public void AddLogEvent(
-            LogLevel level,
-            EventId eventId,
-            object state,
-            Exception? exception,
-            Func<object, Exception?, string> formatter)
+        public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
 
@@ -741,12 +718,7 @@ public class OutputCoordinatorTests
         {
         }
 
-        public void AddLogEvent(
-            LogLevel level,
-            EventId eventId,
-            object state,
-            Exception? exception,
-            Func<object, Exception?, string> formatter)
+        public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
 
