@@ -53,6 +53,17 @@ public class CommandGroupAliasGenerationTests
             .Contains(": (DockerBuildxHistoryLogsProgress)(int)value.Value;");
         await Assert.That(historyLogsOptions.Content)
             .Contains("[CliOption(\"--progress\", Format = OptionFormat.EqualsSeparated)]");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains(
+                "public new IEnumerable<DockerBuilderHistoryLogsProgress>? ProgressModes");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains(
+                "get => base.ProgressModes?.Select(static value => "
+                + "(DockerBuilderHistoryLogsProgress)(int)value);");
+        await Assert.That(historyLogsOptions.Content)
+            .Contains(
+                "set => base.ProgressModes = value?.Select(static value => "
+                + "(DockerBuildxHistoryLogsProgress)(int)value);");
         var historyLogsEnum = enumFiles.Single(file =>
             file.RelativePath.EndsWith(
                 "DockerBuilderHistoryLogsProgress.Generated.cs",
@@ -138,6 +149,25 @@ public class CommandGroupAliasGenerationTests
                             PropertyName = "Progress",
                             CSharpType = "DockerBuildxHistoryLogsProgress?",
                             ValueSeparator = "=",
+                            EnumDefinition = new CliEnumDefinition
+                            {
+                                EnumName = "DockerBuildxHistoryLogsProgress",
+                                Values =
+                                [
+                                    new CliEnumValue
+                                    {
+                                        MemberName = "Plain",
+                                        CliValue = "plain",
+                                    },
+                                ],
+                            },
+                        },
+                        new CliOptionDefinition
+                        {
+                            SwitchName = "--progress-mode",
+                            PropertyName = "ProgressModes",
+                            CSharpType = "IEnumerable<DockerBuildxHistoryLogsProgress>?",
+                            AcceptsMultipleValues = true,
                             EnumDefinition = new CliEnumDefinition
                             {
                                 EnumName = "DockerBuildxHistoryLogsProgress",

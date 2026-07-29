@@ -123,6 +123,9 @@ public class OptionsClassGenerator : ICodeGenerator
             canonicalEnumName,
             aliasEnumName,
             StringComparison.Ordinal);
+        var isEnumerable = option.CSharpType.TrimEnd('?').Equals(
+            $"IEnumerable<{canonicalEnumName}>",
+            StringComparison.Ordinal);
         var isNullable = option.CSharpType.Equals(
             $"{canonicalEnumName}?",
             StringComparison.Ordinal);
@@ -130,7 +133,15 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{GeneratorUtils.GenerateCliAttributeString(option)}]");
         sb.AppendLine($"    public new {aliasType} {option.PropertyName}");
         sb.AppendLine("    {");
-        if (isNullable)
+        if (isEnumerable)
+        {
+            GenerateCompatibilityEnumCollectionAccessors(
+                sb,
+                option,
+                canonicalEnumName,
+                aliasEnumName);
+        }
+        else if (isNullable)
         {
             sb.AppendLine($"        get => base.{option.PropertyName} is null");
             sb.AppendLine("            ? null");
@@ -148,6 +159,25 @@ public class OptionsClassGenerator : ICodeGenerator
         }
 
         sb.AppendLine("    }");
+    }
+
+    private static void GenerateCompatibilityEnumCollectionAccessors(
+        StringBuilder sb,
+        CliOptionDefinition option,
+        string canonicalEnumName,
+        string aliasEnumName)
+    {
+        var nullableOperator = option.CSharpType.EndsWith(
+            "?",
+            StringComparison.Ordinal)
+            ? "?"
+            : string.Empty;
+        sb.AppendLine(
+            $"        get => base.{option.PropertyName}{nullableOperator}.Select("
+            + $"static value => ({aliasEnumName})(int)value);");
+        sb.AppendLine(
+            $"        set => base.{option.PropertyName} = value{nullableOperator}.Select("
+            + $"static value => ({canonicalEnumName})(int)value);");
     }
 
     private static string GenerateOptionsClass(CliCommandDefinition command, CliToolDefinition tool)
