@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
@@ -21,6 +22,19 @@ public class PipelineBuilderRegistrationTests
     private class TestModuleB : SimpleTestModule<bool>
     {
         protected override bool Result => true;
+    }
+
+    private sealed class TestAssembly(
+        AssemblyName assemblyName,
+        params AssemblyName[] referencedAssemblies) : Assembly
+    {
+        public override bool IsDynamic => false;
+
+        public override AssemblyName GetName() => assemblyName;
+
+        public override AssemblyName GetName(bool copiedName) => assemblyName;
+
+        public override AssemblyName[] GetReferencedAssemblies() => referencedAssemblies;
     }
 
     [Test]
@@ -54,6 +68,39 @@ public class PipelineBuilderRegistrationTests
             System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
 
         await Assert.That(synchronousBuild).IsNull();
+    }
+
+    [Test]
+    public async Task ModularPipelineAssemblyLoading_IsOptIn()
+    {
+        var builder = TestPipelineHostBuilder.Create();
+
+        await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsFalse();
+
+        builder.ConfigurePipelineOptions(options => options.LoadModularPipelineAssemblies = true);
+
+        await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsTrue();
+    }
+
+    [Test]
+    public async Task ReferencedIntegrationLoading_TraversesNonModularAssemblies()
+    {
+        var integrationName = new AssemblyName("ModularPipelines.FakeIntegration");
+        var integrationAssembly = new TestAssembly(integrationName);
+        var intermediateAssembly = new TestAssembly(
+            new AssemblyName("Acme.Pipeline.Modules"),
+            integrationName);
+        var loadedAssemblyNames = new List<AssemblyName>();
+
+        ReferencedAssemblyTraversal.LoadModularPipelinesAssemblies(
+            [intermediateAssembly],
+            assemblyName =>
+            {
+                loadedAssemblyNames.Add(assemblyName);
+                return integrationAssembly;
+            });
+
+        await Assert.That(loadedAssemblyNames).Contains(integrationName);
     }
 
     [Test]

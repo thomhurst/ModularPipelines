@@ -272,6 +272,7 @@ public sealed class PipelineBuilder
                 opts.PrintResults = _options.PrintResults;
                 opts.PrintLogo = _options.PrintLogo;
                 opts.PrintDependencyChains = _options.PrintDependencyChains;
+                opts.LoadModularPipelineAssemblies = _options.LoadModularPipelineAssemblies;
                 opts.DefaultRetryCount = _options.DefaultRetryCount;
                 opts.DefaultLoggingOptions = _options.DefaultLoggingOptions;
                 opts.DefaultHttpLoggingOptions = _options.DefaultHttpLoggingOptions;
@@ -302,6 +303,13 @@ public sealed class PipelineBuilder
     private void LoadModularPipelineAssembliesIfNotLoadedYet()
     {
         var coreVersion = typeof(PipelineBuilder).Assembly.GetName().Version;
+        LoadReferencedModularPipelineAssemblies(coreVersion);
+
+        if (!_options.LoadModularPipelineAssemblies)
+        {
+            return;
+        }
+
         var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
         var unloadedModularPipelineAssemblies = GetDlls()
@@ -312,10 +320,23 @@ public sealed class PipelineBuilder
 
         foreach (var modularPipelineAssembly in unloadedModularPipelineAssemblies)
         {
-            var assembly = Assembly.Load(new AssemblyName(modularPipelineAssembly));
-            PluginVersionValidator.Validate(assembly, coreVersion);
-            RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
+            LoadAndInitializeAssembly(new AssemblyName(modularPipelineAssembly), coreVersion);
         }
+    }
+
+    private static void LoadReferencedModularPipelineAssemblies(Version? coreVersion)
+    {
+        ReferencedAssemblyTraversal.LoadModularPipelinesAssemblies(
+            AppDomain.CurrentDomain.GetAssemblies(),
+            assemblyName => LoadAndInitializeAssembly(assemblyName, coreVersion));
+    }
+
+    private static Assembly LoadAndInitializeAssembly(AssemblyName assemblyName, Version? coreVersion)
+    {
+        var assembly = Assembly.Load(assemblyName);
+        PluginVersionValidator.Validate(assembly, coreVersion);
+        RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
+        return assembly;
     }
 
     private static IEnumerable<string> GetDlls()

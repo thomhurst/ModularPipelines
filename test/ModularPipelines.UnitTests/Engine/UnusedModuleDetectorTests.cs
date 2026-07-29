@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -60,6 +61,25 @@ public class UnusedModuleDetectorTests
         var expected = "⚠ Unregistered Modules:\n  • Module2\n  • Module5";
 
         await Assert.That(actual).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task Log_WhenWarningDisabled_DoesNotScanAssembliesOrServices()
+    {
+        var logger = new Mock<ILogger<UnusedModuleDetector>>();
+        logger.Setup(x => x.IsEnabled(LogLevel.Warning)).Returns(false);
+        var detector = new UnusedModuleDetector(
+            _assemblyLoadedTypesProvider.Object,
+            _serviceContainerWrapper.Object,
+            logger.Object);
+
+        detector.Log();
+
+        _assemblyLoadedTypesProvider.Verify(
+            x => x.GetLoadedTypesAssignableTo(It.IsAny<Type>()),
+            Times.Never);
+        _serviceContainerWrapper.VerifyGet(x => x.ServiceCollection, Times.Never);
+        await Assert.That(_sb.ToString()).IsEmpty();
     }
 
     private class Module1 : SimpleTestModule<bool>

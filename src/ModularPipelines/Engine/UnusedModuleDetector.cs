@@ -24,6 +24,11 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
 
     public void Log()
     {
+        if (!_logger.IsEnabled(LogLevel.Warning))
+        {
+            return;
+        }
+
         // Use the centralized helper that works with factory-based registrations
         var registeredServices = ServiceCollectionExtensions.GetRegisteredModuleTypes(_serviceContainerWrapper.ServiceCollection);
 

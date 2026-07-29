@@ -30,9 +30,24 @@ internal class DependencyChainProvider : IDependencyChainProvider
 
     private ModuleDependencyModel[] Detect(ModuleDependencyModel[] allModules)
     {
+        var availableModuleTypes = new Type[allModules.Length];
+        var moduleModelsByType = new Dictionary<Type, ModuleDependencyModel>(allModules.Length);
+
+        for (var i = 0; i < allModules.Length; i++)
+        {
+            var moduleModel = allModules[i];
+            var moduleType = moduleModel.Module.GetType();
+            availableModuleTypes[i] = moduleType;
+            moduleModelsByType.TryAdd(moduleType, moduleModel);
+        }
+
         foreach (var moduleDependencyModel in allModules)
         {
-            var dependencies = GetModuleDependencies(moduleDependencyModel, allModules).ToArray();
+            var dependencies = GetModuleDependencies(
+                    moduleDependencyModel,
+                    availableModuleTypes,
+                    moduleModelsByType)
+                .ToArray();
 
             moduleDependencyModel.IsDependentOn.AddRange(dependencies);
 
@@ -45,11 +60,11 @@ internal class DependencyChainProvider : IDependencyChainProvider
         return allModules;
     }
 
-    private IEnumerable<ModuleDependencyModel> GetModuleDependencies(ModuleDependencyModel moduleDependencyModel, ModuleDependencyModel[] allModules)
+    private IEnumerable<ModuleDependencyModel> GetModuleDependencies(
+        ModuleDependencyModel moduleDependencyModel,
+        IReadOnlyList<Type> availableModuleTypes,
+        Dictionary<Type, ModuleDependencyModel> moduleModelsByType)
     {
-        // Get all available module types for DependsOnAllModulesInheritingFrom and predicate-based resolution
-        var availableModuleTypes = allModules.Select(m => m.Module.GetType()).ToArray();
-
         var dependencies = ModuleDependencyResolver.GetAllDependencies(
             moduleDependencyModel.Module,
             availableModuleTypes,
@@ -57,17 +72,10 @@ internal class DependencyChainProvider : IDependencyChainProvider
 
         foreach (var (dependencyType, _) in dependencies)
         {
-            var dependencyModel = GetModuleDependencyModel(dependencyType, allModules);
-
-            if (dependencyModel is not null)
+            if (moduleModelsByType.TryGetValue(dependencyType, out var dependencyModel))
             {
                 yield return dependencyModel;
             }
         }
-    }
-
-    private ModuleDependencyModel? GetModuleDependencyModel(Type type, IEnumerable<ModuleDependencyModel> allModules)
-    {
-        return allModules.FirstOrDefault(x => x.Module.GetType() == type);
     }
 }
