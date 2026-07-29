@@ -189,6 +189,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.NerdbankGi
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ModularPipelines.FSharp.TestFixtures", "test\ModularPipelines.FSharp.TestFixtures\ModularPipelines.FSharp.TestFixtures.fsproj", "{C294970E-BDBD-413C-A431-3012ECA5FC1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModularPipelines.Templates", "src\ModularPipelines.Templates\ModularPipelines.Templates.csproj", "{89576148-F56C-463D-BCEB-6C3C9E75550B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1231,6 +1233,18 @@ Global
 		{C294970E-BDBD-413C-A431-3012ECA5FC1C}.Release|x64.Build.0 = Release|Any CPU
 		{C294970E-BDBD-413C-A431-3012ECA5FC1C}.Release|x86.ActiveCfg = Release|Any CPU
 		{C294970E-BDBD-413C-A431-3012ECA5FC1C}.Release|x86.Build.0 = Release|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Debug|x64.Build.0 = Debug|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Debug|x86.Build.0 = Debug|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Release|x64.ActiveCfg = Release|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Release|x64.Build.0 = Release|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Release|x86.ActiveCfg = Release|Any CPU
+		{89576148-F56C-463D-BCEB-6C3C9E75550B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1323,6 +1337,7 @@ Global
 		{639D67F3-3C80-4DBC-BD20-0D3475EC7948} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{6259C165-F4E7-4666-B245-859AB1A53721} = {F213898F-1E32-48F1-AB8C-83D2BD01A93B}
 		{C294970E-BDBD-413C-A431-3012ECA5FC1C} = {F213898F-1E32-48F1-AB8C-83D2BD01A93B}
+		{89576148-F56C-463D-BCEB-6C3C9E75550B} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5905A5D-B4E1-4A7A-9279-0283D86A9F7F}
