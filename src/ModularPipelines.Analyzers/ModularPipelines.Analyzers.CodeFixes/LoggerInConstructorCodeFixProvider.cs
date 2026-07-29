@@ -95,27 +95,74 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         }
 
         var parameterReference = parameterReferences[0];
-        var assignment = parameterReference.Parent as AssignmentExpressionSyntax;
-        var candidateAssignment = assignment?.Parent as ExpressionStatementSyntax;
-        if (assignment?.IsKind(SyntaxKind.SimpleAssignmentExpression) != true
-            || candidateAssignment is null
-            || assignment.Right != parameterReference
-            || semanticModel.GetSymbolInfo(assignment.Left, cancellationToken).Symbol is not IFieldSymbol field
-            || !IsLogger(field.Type)
-            || containingType.DescendantNodes()
-                .OfType<VariableDeclaratorSyntax>()
-                .FirstOrDefault(variable => SymbolEqualityComparer.Default.Equals(
-                    semanticModel.GetDeclaredSymbol(variable, cancellationToken),
-                    field)) is not { Parent.Parent: FieldDeclarationSyntax candidateField }
-            || candidateField.Declaration.Variables.Count != 1)
+        var loggerStorage = GetLoggerStorage(
+            containingType,
+            parameterReference,
+            semanticModel,
+            cancellationToken);
+        if (loggerStorage is null)
         {
             return false;
         }
 
-        var replacements = ImmutableArray.CreateBuilder<LoggerReplacement>();
-        foreach (var fieldReference in GetReferences(containingType, field, semanticModel, cancellationToken))
+        var replacements = CreateLoggerReplacements(
+            containingType,
+            loggerStorage,
+            semanticModel,
+            cancellationToken);
+        if (replacements is null)
         {
-            if (assignment.Left.Span.Contains(fieldReference.Span))
+            return false;
+        }
+
+        fieldDeclaration = loggerStorage.FieldDeclaration;
+        assignmentStatement = loggerStorage.AssignmentStatement;
+        loggerReplacements = replacements.Value;
+        return true;
+    }
+
+    private static LoggerStorage? GetLoggerStorage(
+        TypeDeclarationSyntax containingType,
+        IdentifierNameSyntax parameterReference,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        if (parameterReference.Parent is not AssignmentExpressionSyntax assignment
+            || !assignment.IsKind(SyntaxKind.SimpleAssignmentExpression)
+            || assignment.Parent is not ExpressionStatementSyntax assignmentStatement
+            || assignment.Right != parameterReference
+            || semanticModel.GetSymbolInfo(assignment.Left, cancellationToken).Symbol is not IFieldSymbol field
+            || !IsLogger(field.Type))
+        {
+            return null;
+        }
+
+        var fieldDeclaration = containingType.DescendantNodes()
+            .OfType<VariableDeclaratorSyntax>()
+            .FirstOrDefault(variable => SymbolEqualityComparer.Default.Equals(
+                semanticModel.GetDeclaredSymbol(variable, cancellationToken),
+                field))
+            ?.Parent?.Parent as FieldDeclarationSyntax;
+
+        return fieldDeclaration?.Declaration.Variables.Count == 1
+            ? new LoggerStorage(field, fieldDeclaration, assignmentStatement, assignment)
+            : null;
+    }
+
+    private static ImmutableArray<LoggerReplacement>? CreateLoggerReplacements(
+        TypeDeclarationSyntax containingType,
+        LoggerStorage loggerStorage,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        var replacements = ImmutableArray.CreateBuilder<LoggerReplacement>();
+        foreach (var fieldReference in GetReferences(
+                     containingType,
+                     loggerStorage.Field,
+                     semanticModel,
+                     cancellationToken))
+        {
+            if (loggerStorage.Assignment.Left.Span.Contains(fieldReference.Span))
             {
                 continue;
             }
@@ -125,16 +172,13 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
                 || expression != nodeToReplace
                 || FindModuleContextParameter(nodeToReplace, semanticModel, cancellationToken) is not { } contextParameter)
             {
-                return false;
+                return null;
             }
 
             replacements.Add(new LoggerReplacement(nodeToReplace, contextParameter.Identifier.ValueText));
         }
 
-        fieldDeclaration = candidateField;
-        assignmentStatement = candidateAssignment;
-        loggerReplacements = replacements.ToImmutable();
-        return true;
+        return replacements.ToImmutable();
     }
 
     private static bool IsLogger(ITypeSymbol type)
@@ -248,5 +292,20 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         public SyntaxNode Node { get; } = node;
 
         public string ContextParameterName { get; } = contextParameterName;
+    }
+
+    private sealed class LoggerStorage(
+        IFieldSymbol field,
+        FieldDeclarationSyntax fieldDeclaration,
+        ExpressionStatementSyntax assignmentStatement,
+        AssignmentExpressionSyntax assignment)
+    {
+        public IFieldSymbol Field { get; } = field;
+
+        public FieldDeclarationSyntax FieldDeclaration { get; } = fieldDeclaration;
+
+        public ExpressionStatementSyntax AssignmentStatement { get; } = assignmentStatement;
+
+        public AssignmentExpressionSyntax Assignment { get; } = assignment;
     }
 }
