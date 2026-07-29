@@ -374,7 +374,7 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
-    public async Task Deferred_Logging_Failure_Is_Wrapped_Once_By_Command()
+    public async Task Deferred_Logging_Failure_After_Success_Is_Not_A_Command_Failure()
     {
         var marker = $"throwing-output-{Guid.NewGuid():N}";
         using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
@@ -385,18 +385,16 @@ public class CommandLoggerTests : TestBase
             collection.AddLogging(builder => builder.AddProvider(loggingProvider));
         });
 
-        var exception = await Assert.ThrowsAsync<CommandException>(() =>
+        var exception = await Assert.ThrowsAsync<AggregateException>(() =>
             commandContext.ExecuteCommandLineTool(
                 new PowershellScriptOptions(
                     $"Write-Output '{marker}'; "
                     + "Start-Sleep -Milliseconds 750; "
                     + $"Write-Output '{marker}'")));
 
-        var loggingFailure = exception!.InnerException as AggregateException;
-        await Assert.That(loggingFailure).IsNotNull();
-        await Assert.That(loggingFailure!.InnerExceptions).Count().IsEqualTo(1);
-        await Assert.That(loggingFailure.InnerExceptions[0]).IsTypeOf<InvalidOperationException>();
-        await Assert.That(loggingFailure.InnerExceptions[0].Message).IsEqualTo("Logging failed.");
+        await Assert.That(exception!.InnerExceptions).Count().IsEqualTo(1);
+        await Assert.That(exception.InnerExceptions[0]).IsTypeOf<InvalidOperationException>();
+        await Assert.That(exception.InnerExceptions[0].Message).IsEqualTo("Logging failed.");
         await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
     }
 

@@ -135,6 +135,7 @@ internal sealed class Command : ICommandContext
             () => ScheduleForcefulCancellation(forcefulCancellationToken, execOpts.GracefulShutdownTimeout));
         await using (registration.ConfigureAwait(false))
         {
+            CliWrap.CommandResult result;
             try
             {
                 var executionTask = command
@@ -156,7 +157,7 @@ internal sealed class Command : ICommandContext
                         gracefulCancellationToken: linkedCancellationToken.Token);
                 using var descendantCaptureRegistration =
                     linkedCancellationToken.Token.Register(processTreeTerminator.BeginGracefulShutdown);
-                var result = await executionTask.ConfigureAwait(false);
+                result = await executionTask.ConfigureAwait(false);
 
                 await WaitForForcefulCancellationAsync(
                     processTreeTerminator,
@@ -165,35 +166,6 @@ internal sealed class Command : ICommandContext
 
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
-
-                LogCommandCompletion(
-                    options,
-                    execOpts,
-                    inputToLog,
-                    result.ExitCode,
-                    result.RunTime,
-                    standardOutput,
-                    standardError,
-                    completeStandardOutputBuffer,
-                    completeStandardErrorBuffer,
-                    deferredOutputLogger,
-                    command.WorkingDirPath);
-
-                if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
-                {
-                    throw new CommandException(CreateFailureResult(
-                        command,
-                        execOpts,
-                        inputToLog,
-                        result.ExitCode,
-                        result.RunTime,
-                        standardOutput,
-                        standardError,
-                        result.StartTime,
-                        result.ExitTime));
-                }
-
-                return new CommandResult(command, result, standardOutput, standardError);
             }
             catch (CommandExecutionException e)
             {
@@ -267,6 +239,35 @@ internal sealed class Command : ICommandContext
                         standardError),
                     failure);
             }
+
+            LogCommandCompletion(
+                options,
+                execOpts,
+                inputToLog,
+                result.ExitCode,
+                result.RunTime,
+                standardOutput,
+                standardError,
+                completeStandardOutputBuffer,
+                completeStandardErrorBuffer,
+                deferredOutputLogger,
+                command.WorkingDirPath);
+
+            if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
+            {
+                throw new CommandException(CreateFailureResult(
+                    command,
+                    execOpts,
+                    inputToLog,
+                    result.ExitCode,
+                    result.RunTime,
+                    standardOutput,
+                    standardError,
+                    result.StartTime,
+                    result.ExitTime));
+            }
+
+            return new CommandResult(command, result, standardOutput, standardError);
         }
     }
 
