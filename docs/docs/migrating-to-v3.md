@@ -109,7 +109,7 @@ await PipelineHostBuilder.Create()
 ### After (V3)
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Direct property access instead of callbacks
 builder.Configuration
@@ -436,7 +436,7 @@ V3 uses a three-tier configuration system (highest to lowest priority):
 ### Setting Global Defaults
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Set global default for all commands
 builder.Options.DefaultLoggingOptions = new CommandLoggingOptions
@@ -915,7 +915,7 @@ nullable == value;      // true - None? and None are always equal
 V3 introduces a validation API to catch configuration errors before execution:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.Services.AddModule<MyModule>();
 
 // Option 1: Validate without running
@@ -1122,7 +1122,7 @@ public class DeployModule : Module<bool>
 
 ```csharp
 // Program.cs
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 
