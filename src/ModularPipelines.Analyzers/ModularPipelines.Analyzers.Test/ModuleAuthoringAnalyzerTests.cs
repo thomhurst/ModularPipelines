@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ModuleAuthoringAnalyzer>;
+using VerifyAsyncCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ModuleAsyncSafetyAnalyzer>;
+using VerifyDependencyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.DuplicateDependsOnAnalyzer>;
+using VerifyRegistrationCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ModuleRegistrationAnalyzer>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -20,10 +22,10 @@ public class ModuleAuthoringAnalyzerTests
             }
             """;
 
-        var expected = VerifyCS.Diagnostic(ModuleAuthoringAnalyzer.UnregisteredModuleId)
+        var expected = VerifyRegistrationCS.Diagnostic(ModuleRegistrationAnalyzer.UnregisteredModuleId)
             .WithLocation(0)
             .WithArguments("BuildModule");
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyRegistrationCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -31,7 +33,7 @@ public class ModuleAuthoringAnalyzerTests
     {
         var source = ModuleSource(TestSourceConstants.SimpleAsyncExecuteBody);
 
-        await VerifyCS.VerifyAnalyzerAsync(source);
+        await VerifyRegistrationCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
@@ -46,10 +48,10 @@ public class ModuleAuthoringAnalyzerTests
                 }
             """);
 
-        var expected = VerifyCS.Diagnostic(ModuleAuthoringAnalyzer.AsyncVoidId)
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.AsyncVoidId)
             .WithLocation(0)
             .WithArguments("Run");
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -70,10 +72,10 @@ public class ModuleAuthoringAnalyzerTests
             }
             """);
 
-        var expected = VerifyCS.Diagnostic(ModuleAuthoringAnalyzer.BlockingCallId)
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
             .WithLocation(0)
             .WithArguments(memberName);
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -89,10 +91,10 @@ public class ModuleAuthoringAnalyzerTests
             }
             """);
 
-        var expected = VerifyCS.Diagnostic(ModuleAuthoringAnalyzer.UnflowedCancellationTokenId)
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
             .WithLocation(0)
             .WithArguments("Delay");
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -108,10 +110,10 @@ public class ModuleAuthoringAnalyzerTests
             }
             """);
 
-        var expected = VerifyCS.Diagnostic(ModuleAuthoringAnalyzer.UnflowedCancellationTokenId)
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
             .WithLocation(0)
             .WithArguments("Delay");
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -119,7 +121,7 @@ public class ModuleAuthoringAnalyzerTests
     {
         var source = ModuleSource(TestSourceConstants.SimpleAsyncExecuteBody);
 
-        await VerifyCS.VerifyAnalyzerAsync(source);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
@@ -136,7 +138,7 @@ public class ModuleAuthoringAnalyzerTests
             }
             """);
 
-        await VerifyCS.VerifyAnalyzerAsync(source);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
@@ -157,7 +159,7 @@ public class ModuleAuthoringAnalyzerTests
                     Task.CompletedTask;
             """);
 
-        await VerifyCS.VerifyAnalyzerAsync(source);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
@@ -173,9 +175,9 @@ public class ModuleAuthoringAnalyzerTests
             }
             """);
 
-        var expected = VerifyCS.Diagnostic(ModuleAuthoringAnalyzer.ThreadSleepId)
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
             .WithLocation(0);
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -196,10 +198,10 @@ public class ModuleAuthoringAnalyzerTests
             }
             """;
 
-        var expected = VerifyCS.Diagnostic(ModuleAuthoringAnalyzer.NonPublicModuleId)
+        var expected = VerifyRegistrationCS.Diagnostic(ModuleRegistrationAnalyzer.NonPublicModuleId)
             .WithLocation(0)
             .WithArguments("BuildModule");
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyRegistrationCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -226,10 +228,10 @@ public class ModuleAuthoringAnalyzerTests
             }
             """;
 
-        var expected = VerifyCS.Diagnostic(ModuleAuthoringAnalyzer.DuplicateDependsOnId)
+        var expected = VerifyDependencyCS.Diagnostic(DuplicateDependsOnAnalyzer.DiagnosticId)
             .WithLocation(0)
             .WithArguments("BuildModule", "DependencyModule");
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyDependencyCS.VerifyAnalyzerAsync(source, expected);
     }
 
     private static string ModuleSource(string body)
