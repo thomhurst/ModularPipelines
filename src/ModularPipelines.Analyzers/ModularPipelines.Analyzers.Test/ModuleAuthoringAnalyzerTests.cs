@@ -547,6 +547,31 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Infer_Scanned_Assembly_From_Type_Parameter()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static void Register<T>() =>
+                    Pipeline.CreateBuilder().AddModulesFromAssembly(typeof(T).Assembly);
+
+                public static void RegisterExternalAssembly() => Register<string>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Collection_Spread_Does_Not_Hide_Unregistered_Module()
     {
         var source = $$"""
@@ -986,6 +1011,31 @@ public class ModuleAuthoringAnalyzerTests
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
             .WithLocation(0)
             .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Unflowed_CancellationToken_With_Trailing_Optional_Parameter()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await {|#0:FetchAsync()|};
+                return null;
+            }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(
+                    CancellationToken cancellationToken,
+                    bool refresh = false) => Task.CompletedTask;
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("FetchAsync");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
@@ -2283,6 +2333,35 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Stored_Linq_Callback_Consumed_In_Awaited_Callback()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var values = Enumerable.Range(0, 1).Select(_ =>
+                {
+                    {|#0:Thread.Sleep(1)|};
+                    return 1;
+                });
+
+                await Task.Run(() =>
+                {
+                    foreach (var value in values)
+                    {
+                    }
+                }, cancellationToken);
+                return null;
             }
             """);
 

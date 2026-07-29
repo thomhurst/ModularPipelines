@@ -1207,8 +1207,9 @@ internal static class ModuleAuthoringAnalysis
 
                 propertyReference
                 when propertyReference.Property.ContainingType.ToDisplayString()
-                     == "System.Type":
-                scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
+                     == "System.Type"
+                     && typeOfOperation.TypeOperand is INamedTypeSymbol namedType:
+                scannedAssemblies.Add(namedType.ContainingAssembly);
                 return true;
             case IInvocationOperation invocation
                 when invocation.TargetMethod.Name == "GetExecutingAssembly"
@@ -1765,16 +1766,52 @@ internal static class ModuleAuthoringAnalysis
             .Where(reference => SymbolEqualityComparer.Default.Equals(
                 reference.Local,
                 local))
-            .Where(reference => ReferenceEquals(
-                GetEnclosingCallable(reference),
-                callable))
-            .Where(reference =>
-                FindReachingLocalValue(reference, local) is { } reachingValue
-                && HasAncestor(reachingValue, assignment))
+            .Where(reference => IsDeferredLinqReferenceReachable(
+                assignment,
+                reference,
+                local,
+                callable,
+                visitedLocals))
             .Where(static reference => !IsLocalAssignmentTarget(reference))
             .Any(reference => IsDeferredLinqSequenceConsumed(
                 reference,
                 CloneVisitedLocals(visitedLocals)));
+    }
+
+    private static bool IsDeferredLinqReferenceReachable(
+        IOperation assignment,
+        ILocalReferenceOperation reference,
+        ILocalSymbol local,
+        IOperation? assignmentCallable,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        var referenceCallable = GetEnclosingCallable(reference);
+        if (ReferenceEquals(referenceCallable, assignmentCallable))
+        {
+            return FindReachingLocalValue(reference, local) is { } reachingValue
+                   && HasAncestor(reachingValue, assignment);
+        }
+
+        if (GetCallableSymbol(referenceCallable) is not { } referenceCallableSymbol)
+        {
+            return false;
+        }
+
+        return GetRoot(assignment)
+            .DescendantsAndSelf()
+            .OfType<IInvocationOperation>()
+            .Where(invocation => invocation.Syntax.SpanStart > assignment.Syntax.Span.End)
+            .Where(invocation => ReferenceEquals(
+                GetEnclosingCallable(invocation),
+                assignmentCallable))
+            .Where(IsAwaitedBeforeNestedCallable)
+            .Where(invocation => ValueContainsCallable(
+                invocation,
+                referenceCallableSymbol,
+                CloneVisitedLocals(visitedLocals)))
+            .Any(invocation =>
+                FindReachingLocalValue(invocation, local) is { } reachingValue
+                && HasAncestor(reachingValue, assignment));
     }
 
     private static bool IsLocalAssignmentTarget(ILocalReferenceOperation reference)
@@ -2322,18 +2359,22 @@ internal static class ModuleAuthoringAnalysis
         var candidateParameters = candidate.Parameters
             .Where(parameter => !IsCancellationToken(parameter))
             .ToArray();
-        if (candidateParameters.Length != selectedMethod.Parameters.Length
+        if (candidateParameters.Length < selectedMethod.Parameters.Length
             || candidate.Parameters.Length == candidateParameters.Length)
         {
             return false;
         }
 
         return candidateParameters
+                   .Take(selectedMethod.Parameters.Length)
             .Zip(
                 selectedMethod.Parameters,
                 static (left, right) => left.RefKind == right.RefKind
                     && SymbolEqualityComparer.Default.Equals(left.Type, right.Type))
-            .All(static matches => matches);
+            .All(static matches => matches)
+               && candidateParameters
+                   .Skip(selectedMethod.Parameters.Length)
+                   .All(static parameter => parameter.IsOptional);
     }
 
     private static bool SatisfiesGenericConstraints(
