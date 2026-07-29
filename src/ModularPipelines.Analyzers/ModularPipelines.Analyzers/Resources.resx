@@ -154,13 +154,13 @@
     <value>Use of Console detected</value>
   </data>
   <data name="ConflictingDependsOnAttributeAnalyzerTitle" xml:space="preserve">
-    <value>Conflicting DependsOn Attributes</value>
+    <value>Circular dependency detected</value>
   </data>
   <data name="ConflictingDependsOnAttributeAnalyzerMessageFormat" xml:space="preserve">
-    <value>{0} Depends on {1} and {1} Depends on {0}</value>
+    <value>Dependency edge {1} -&gt; {0} participates in a circular dependency</value>
   </data>
   <data name="ConflictingDependsOnAttributeAnalyzerDescription" xml:space="preserve">
-    <value>{0} Depends on {1} and {1} Depends on {0}.</value>
+    <value>A dependency edge participates in a circular module dependency.</value>
   </data>
   <data name="AsyncModuleAnalyzerTitle" xml:space="preserve">
     <value>Module should be async</value>
