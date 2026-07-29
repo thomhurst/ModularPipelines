@@ -93,7 +93,8 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
 
         return new ModuleClassInfo(
             ClassName: typeSymbol.Name,
-            FullyQualifiedName: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
+            FullyQualifiedName: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            Location: typeSymbol.Locations.FirstOrDefault() ?? classDeclaration.GetLocation()
         );
     }
 
@@ -142,11 +143,12 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             .ToList();
         foreach (var moduleGroup in modulesByMethodName.Where(static group => group.Count() > 1))
         {
+            var conflictingModules = moduleGroup.ToList();
             context.ReportDiagnostic(Diagnostic.Create(
                 DuplicateModuleAccessor,
-                Location.None,
+                conflictingModules[0].Location,
                 $"Get{moduleGroup.Key}Module",
-                string.Join(", ", moduleGroup.Select(static module => module.FullyQualifiedName))));
+                string.Join(", ", conflictingModules.Select(static module => module.FullyQualifiedName))));
         }
 
         var uniqueModules = modulesByMethodName

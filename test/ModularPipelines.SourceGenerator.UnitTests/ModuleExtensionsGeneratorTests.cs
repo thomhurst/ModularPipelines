@@ -35,6 +35,8 @@ public class ModuleExtensionsGeneratorTests
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
             await Assert.That(diagnostic.GetMessage()).Contains("global::First.BuildModule");
             await Assert.That(diagnostic.GetMessage()).Contains("global::Second.BuildModule");
+            await Assert.That(diagnostic.Location.IsInSource).IsTrue();
+            await Assert.That(diagnostic.Location.GetLineSpan().StartLinePosition.Line).IsEqualTo(2);
         }
     }
 
