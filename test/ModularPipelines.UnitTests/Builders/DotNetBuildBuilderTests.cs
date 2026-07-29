@@ -1,5 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Builders;
 using ModularPipelines.DotNet.Builders;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
@@ -33,6 +34,40 @@ public class DotNetBuildBuilderTests : TestBase
     }
 
     #region Tool-Specific Options Tests
+
+    [Test]
+    public async Task Interface_InheritsGenericCommandBuilderWithoutRedeclaringBaseMembers()
+    {
+        var interfaces = typeof(IDotNetBuildBuilder).GetInterfaces();
+        var declaredMethods = typeof(IDotNetBuildBuilder).GetMethods(
+            System.Reflection.BindingFlags.Public |
+            System.Reflection.BindingFlags.Instance |
+            System.Reflection.BindingFlags.DeclaredOnly);
+
+        await Assert.That(interfaces).Contains(typeof(ICommandBuilder<IDotNetBuildBuilder, DotNetBuildOptions>));
+        await Assert.That(declaredMethods.Select(x => x.Name)).DoesNotContain(nameof(IDotNetBuildBuilder.WithWorkingDirectory));
+        await Assert.That(declaredMethods.Select(x => x.Name)).DoesNotContain(nameof(IDotNetBuildBuilder.ExecuteAsync));
+        await Assert.That(typeof(ICommandBuilder<,>).Assembly.GetType("ModularPipelines.Builders.ICommandBuilder")).IsNull();
+    }
+
+    [Test]
+    public async Task Interface_BaseMethodsPreserveToolSpecificChaining()
+    {
+#pragma warning disable CA1859 // Intentionally exercise fluent chaining through the public interface.
+        IDotNetBuildBuilder builder = new DotNetBuildBuilder(CreateMockCommand().Object);
+#pragma warning restore CA1859
+
+        var chainedBuilder = builder
+            .WithSudo()
+            .WithGracefulShutdownTimeout(TimeSpan.FromSeconds(5))
+            .WithNoLogo();
+
+        var (toolOptions, executionOptions) = chainedBuilder.ToOptions();
+        await Assert.That(chainedBuilder).IsSameReferenceAs(builder);
+        await Assert.That(toolOptions.NoLogo).IsTrue();
+        await Assert.That(executionOptions.Sudo).IsTrue();
+        await Assert.That(executionOptions.GracefulShutdownTimeout).IsEqualTo(TimeSpan.FromSeconds(5));
+    }
 
     [Test]
     public async Task ForProject_SetsProjectPath()

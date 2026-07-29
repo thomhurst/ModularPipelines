@@ -460,22 +460,21 @@ public class CommandBuilderBaseTests : TestBase
 
     #endregion
 
-    #region Non-Generic Interface Tests
+    #region Generic Interface Tests
 
     [Test]
-    public async Task NonGenericInterface_CanBeUsedForChaining()
+    public async Task GenericInterface_CanBeUsedForChaining()
     {
         var mockCommand = new Mock<ICommandContext>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
-        // Use via non-generic interface
-        ICommandBuilder nonGenericBuilder = builder;
-        nonGenericBuilder
+        ICommandBuilder<TestToolBuilder, TestToolOptions> genericBuilder = builder;
+        var chainedBuilder = genericBuilder
             .WithWorkingDirectory("/test")
             .WithTimeout(TimeSpan.FromMinutes(1));
 
-        // The underlying builder should still have the options set
         var (_, execOptions) = builder.ToOptions();
+        await Assert.That(chainedBuilder).IsSameReferenceAs(builder);
         await Assert.That(execOptions.WorkingDirectory).IsEqualTo("/test");
         await Assert.That(execOptions.ExecutionTimeout).IsEqualTo(TimeSpan.FromMinutes(1));
     }
