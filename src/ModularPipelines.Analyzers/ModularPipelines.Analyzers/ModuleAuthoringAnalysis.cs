@@ -367,6 +367,7 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
+        QueueInvokedCallbackReturns(invocation, pending);
         foreach (var argument in invocation.Arguments.Reverse())
         {
             pending.Push((argument.Value, true));
@@ -380,6 +381,39 @@ internal static class ModuleAuthoringAnalysis
         return !requireTaskLike || IsTaskLike(invocation.Type)
             ? invocation
             : null;
+    }
+
+    private static void QueueInvokedCallbackReturns(
+        IInvocationOperation invocation,
+        Stack<(IOperation Operation, bool RequireTaskLike)> pending)
+    {
+        if (!IsKnownDelegateInvoker(invocation))
+        {
+            return;
+        }
+
+        var enclosingCallable = GetEnclosingCallable(invocation);
+        foreach (var returnValue in invocation.Arguments
+                     .SelectMany(static argument => argument.Value
+                         .DescendantsAndSelf()
+                         .OfType<IAnonymousFunctionOperation>())
+                     .Where(anonymousFunction =>
+                         ReferenceEquals(
+                             GetEnclosingCallable(anonymousFunction),
+                             enclosingCallable))
+                     .SelectMany(anonymousFunction => anonymousFunction.Body
+                         .DescendantsAndSelf()
+                         .OfType<IReturnOperation>()
+                         .Where(returnOperation =>
+                             ReferenceEquals(
+                                 GetEnclosingCallable(returnOperation),
+                                 anonymousFunction)))
+                     .Select(static returnOperation => returnOperation.ReturnedValue)
+                     .OfType<IOperation>()
+                     .Reverse())
+        {
+            pending.Push((returnValue, true));
+        }
     }
 
     private static void QueueChildOperations(
@@ -415,6 +449,14 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var method = invocation.TargetMethod;
+        if (TryTrackDirectModuleServiceRegistration(
+                invocation,
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations))
+        {
+            return;
+        }
+
         if (!IsModuleRegistrationMethod(method))
         {
             return;
@@ -456,6 +498,44 @@ internal static class ModuleAuthoringAnalysis
                    or "AddModules"
                    or "AddModulesFromAssembly"
                    or "AddModulesFromAssemblyContainingType";
+    }
+
+    private static bool TryTrackDirectModuleServiceRegistration(
+        IInvocationOperation invocation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
+    {
+        var method = invocation.TargetMethod;
+        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        if (definition.Name is not ("AddSingleton" or "AddScoped" or "AddTransient")
+            || definition.ContainingType.ToDisplayString() is not (
+                "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
+                or "ModularPipelines.Extensions.PipelineBuilderExtensions")
+            || method.TypeArguments.FirstOrDefault()?.ToDisplayString()
+            != "ModularPipelines.Modules.IModule")
+        {
+            return false;
+        }
+
+        if (method.TypeArguments.ElementAtOrDefault(1) is INamedTypeSymbol implementationType)
+        {
+            instanceRegisteredModules.Add(implementationType.OriginalDefinition);
+            return true;
+        }
+
+        var tracked = invocation.Arguments
+            .Where(static argument => argument.Parameter?.Name is
+                "implementationInstance" or "implementationFactory")
+            .Any(argument => TryTrackInstanceModuleTypes(
+                argument.Value,
+                instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)]));
+        if (!tracked)
+        {
+            unresolvedModuleRegistrations.Add(0);
+        }
+
+        return true;
     }
 
     private static void TrackGenericModuleRegistrations(
@@ -1073,12 +1153,17 @@ internal static class ModuleAuthoringAnalysis
                || (method.Name == "StartNew"
                    && containingType == "System.Threading.Tasks.TaskFactory")
                || (containingType == "System.Linq.Enumerable"
-                   && IsLinqCallbackInvokedByAwaitedTaskJoin(invocation));
+                   && IsLinqCallbackInvoked(invocation));
     }
 
-    private static bool IsLinqCallbackInvokedByAwaitedTaskJoin(
+    private static bool IsLinqCallbackInvoked(
         IInvocationOperation invocation)
     {
+        if (EagerLinqTerminalNames.Contains(invocation.TargetMethod.Name))
+        {
+            return true;
+        }
+
         for (var current = invocation.Parent; current is not null;)
         {
             if (current is IArgumentOperation or IConversionOperation)
@@ -1215,6 +1300,16 @@ internal static class ModuleAuthoringAnalysis
                     invocation,
                     cancellationToken,
                     visitedLocals),
+            IArrayCreationOperation { Initializer: { } initializer } =>
+                FlowsFromCancellationToken(
+                    initializer,
+                    cancellationToken,
+                    visitedLocals),
+            IArrayInitializerOperation initializer =>
+                initializer.ElementValues.Any(element => FlowsFromCancellationToken(
+                    element,
+                    cancellationToken,
+                    visitedLocals)),
             IConditionalOperation conditional =>
                 FlowsFromCancellationTokenConditional(
                     conditional,
@@ -1250,11 +1345,19 @@ internal static class ModuleAuthoringAnalysis
         return IsCancellationCarrier(invocation.Type)
                && invocation.Arguments.Any(argument =>
                    argument.Parameter is not null
-                   && IsCancellationToken(argument.Parameter)
+                   && IsCancellationInput(argument.Parameter)
                    && FlowsFromCancellationToken(
                        argument.Value,
                        cancellationToken,
                        visitedLocals));
+    }
+
+    private static bool IsCancellationInput(IParameterSymbol parameter)
+    {
+        return IsCancellationToken(parameter)
+               || (parameter.Type is IArrayTypeSymbol arrayType
+                   && arrayType.ElementType.ToDisplayString()
+                   == CancellationTokenMetadataName);
     }
 
     private static bool FlowsFromCancellationTokenConditional(

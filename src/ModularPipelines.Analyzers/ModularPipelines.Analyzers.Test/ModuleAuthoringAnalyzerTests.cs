@@ -47,6 +47,33 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_Directly_As_IModule_Service()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.AddSingleton<IModule, BuildModule>();
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Similarly_Named_Method_Does_Not_Register_Module()
     {
         var source = $$"""
@@ -539,6 +566,24 @@ public class ModuleAuthoringAnalyzerTests
                 CancellationToken cancellationToken)
             {
                 using var source = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                await Task.Delay(1, source.Token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Linked_CancellationToken_Array()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                using var source = CancellationTokenSource.CreateLinkedTokenSource(
+                    new[] { cancellationToken, CancellationToken.None });
                 await Task.Delay(1, source.Token);
                 return null;
             }
@@ -1174,6 +1219,30 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Unflowed_Token_In_Task_Returning_Callback()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.Run(() => {|#0:FetchAsync()|}, cancellationToken);
+                return null;
+            }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Async_Safety_Inside_Awaited_TaskJoin_Linq_Callback()
     {
         var source = ModuleSource("""
@@ -1218,6 +1287,28 @@ public class ModuleAuthoringAnalyzerTests
                         return 1;
                     })
                     .{{terminalInvocation}};
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Direct_Eager_Linq_Callback()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                _ = new[] { 1 }.Any(value =>
+                {
+                    {|#0:Thread.Sleep(1)|};
+                    return value > 0;
+                });
                 return Task.FromResult<List<string>?>(null);
             }
             """);
