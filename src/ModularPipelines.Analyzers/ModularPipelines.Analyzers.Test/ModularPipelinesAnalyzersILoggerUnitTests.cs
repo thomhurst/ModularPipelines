@@ -1049,6 +1049,36 @@ public class Module1 : Module<List<string>>
     }
 
     [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Static_Logger_Field()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private static ILogger<Module1> _logger;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        _logger.LogInformation(""Running"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+        await VerifyCS.VerifyNoCodeFixAsync(
+            source,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
     public async Task CodeFix_Preserves_Escaped_Context_Identifier()
     {
         var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
