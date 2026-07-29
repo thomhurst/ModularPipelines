@@ -80,13 +80,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <inheritdoc />
     public void WriteLine(string message)
     {
-        AddOutput(BufferedOutput.FromString(message));
+        AddOutput(BufferedOutput.FromString(message), allowAfterCompletion: true);
     }
 
     /// <inheritdoc />
     public void AddLogEvent(IBufferedLogEvent logEvent)
     {
-        AddOutput(BufferedOutput.FromLogEvent(logEvent));
+        AddOutput(BufferedOutput.FromLogEvent(logEvent), allowAfterCompletion: false);
     }
 
     /// <inheritdoc />
@@ -196,13 +196,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return _directConsoles.GetValue(writer, static value => CreateDirectConsole(value));
     }
 
-    private void AddOutput(BufferedOutput output)
+    private void AddOutput(BufferedOutput output, bool allowAfterCompletion)
     {
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null;
 
         lock (_lock)
         {
-            if (_isComplete)
+            if (_isComplete && !allowAfterCompletion)
             {
                 return;
             }

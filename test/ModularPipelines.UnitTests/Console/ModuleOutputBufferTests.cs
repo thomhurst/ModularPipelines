@@ -91,12 +91,11 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task OutputAddedAfterCompletion_IsIgnored()
+    public async Task LogEventAddedAfterCompletion_IsIgnored()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
 
         buffer.MarkComplete();
-        buffer.WriteLine("late output");
         buffer.AddLogEvent(new BufferedLogEvent<string>(
             LogLevel.Information,
             default,
@@ -108,6 +107,18 @@ public class ModuleOutputBufferTests
 
         await Assert.That(buffer.HasOutput).IsFalse();
         await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
+    public async Task ConsoleOutputAddedAfterCompletion_IsRetained()
+    {
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+
+        buffer.MarkComplete();
+        buffer.WriteLine("retained output");
+
+        await Assert.That(buffer.HasOutput).IsTrue();
+        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
     }
 
     [Test]
