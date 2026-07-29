@@ -190,7 +190,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         INamedTypeSymbol,
         Dictionary<INamedTypeSymbol, INamedTypeSymbol>> FindCyclicEffectiveDependents(
         DependencyGraphs graphs,
-        IReadOnlyDictionary<INamedTypeSymbol, int> components,
+        Dictionary<INamedTypeSymbol, int> components,
         CancellationToken cancellationToken)
     {
         var result = new Dictionary<
@@ -238,7 +238,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
     private static IEnumerable<INamedTypeSymbol> GetAttributeDeclarations(
         INamedTypeSymbol type,
-        IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> directGraph)
+        Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> directGraph)
     {
         var yielded = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
 
@@ -269,6 +269,16 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     }
 
     private static Dictionary<INamedTypeSymbol, int> FindStronglyConnectedComponents(
+        IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph,
+        CancellationToken cancellationToken)
+    {
+        var finishOrder = CreateFinishOrder(graph, cancellationToken);
+        var reverseGraph = CreateReverseGraph(graph);
+
+        return AssignComponents(finishOrder, reverseGraph, cancellationToken);
+    }
+
+    private static List<INamedTypeSymbol> CreateFinishOrder(
         IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph,
         CancellationToken cancellationToken)
     {
@@ -316,10 +326,19 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             }
         }
 
-        var reverseGraph = graph.Keys.ToDictionary(
-            node => node,
-            _ => new List<INamedTypeSymbol>(),
+        return finishOrder;
+    }
+
+    private static Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> CreateReverseGraph(
+        IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph)
+    {
+        var reverseGraph = new Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>>(
             SymbolEqualityComparer.Default);
+
+        foreach (var node in graph.Keys)
+        {
+            reverseGraph.Add(node, []);
+        }
 
         foreach (var entry in graph)
         {
@@ -329,6 +348,14 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             }
         }
 
+        return reverseGraph;
+    }
+
+    private static Dictionary<INamedTypeSymbol, int> AssignComponents(
+        List<INamedTypeSymbol> finishOrder,
+        Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> reverseGraph,
+        CancellationToken cancellationToken)
+    {
         var components = new Dictionary<INamedTypeSymbol, int>(SymbolEqualityComparer.Default);
         var nextComponent = 0;
 
