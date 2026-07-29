@@ -105,7 +105,7 @@ internal sealed class NonSpectreLoggerFactory(
         string? providerName,
         string categoryName)
     {
-        if (rule.ProviderName is not null && rule.ProviderName != providerName)
+        if (!ProviderMatches(rule.ProviderName, providerName))
         {
             return false;
         }
@@ -120,28 +120,32 @@ internal sealed class NonSpectreLoggerFactory(
             return true;
         }
 
-        if (current.ProviderName is not null && rule.ProviderName is null)
+        if (IsLessSpecificProvider(rule, current))
         {
             return false;
         }
 
-        if (current.ProviderName is null && rule.ProviderName is not null)
+        if (IsMoreSpecificProvider(rule, current))
         {
             return true;
         }
 
-        if (current.CategoryName is null)
-        {
-            return true;
-        }
-
-        if (rule.CategoryName is null)
-        {
-            return false;
-        }
-
-        return current.CategoryName.Length <= rule.CategoryName.Length;
+        return IsAtLeastAsSpecificCategory(rule, current);
     }
+
+    private static bool ProviderMatches(string? ruleProviderName, string? providerName)
+        => ruleProviderName is null || ruleProviderName == providerName;
+
+    private static bool IsLessSpecificProvider(LoggerFilterRule rule, LoggerFilterRule current)
+        => current.ProviderName is not null && rule.ProviderName is null;
+
+    private static bool IsMoreSpecificProvider(LoggerFilterRule rule, LoggerFilterRule current)
+        => current.ProviderName is null && rule.ProviderName is not null;
+
+    private static bool IsAtLeastAsSpecificCategory(LoggerFilterRule rule, LoggerFilterRule current)
+        => current.CategoryName is null
+           || (rule.CategoryName is not null
+               && current.CategoryName.Length <= rule.CategoryName.Length);
 
     private static bool CategoryMatches(string? ruleCategory, string categoryName)
     {
