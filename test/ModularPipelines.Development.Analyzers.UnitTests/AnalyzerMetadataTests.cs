@@ -5,7 +5,7 @@ namespace ModularPipelines.Development.Analyzers.UnitTests;
 public class AnalyzerMetadataTests
 {
     private const string DocumentationBaseUrl =
-        "https://thomhurst.github.io/ModularPipelines/docs/analyzers/";
+        "https://thomhurst.github.io/ModularPipelines/docs/next/analyzers/";
 
     [Test]
     public async Task DevelopmentRulesContinueTheUnifiedIdFamily()

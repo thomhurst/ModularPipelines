@@ -65,7 +65,10 @@ function applyReleaseMetadata(filePath, activeRulesById) {
       continue;
     }
 
-    const [id, category, severity, ...notes] = columns;
+    const [id, category, severity] = columns;
+    const notes = section === 'changed'
+      ? columns.slice(5)
+      : columns.slice(3);
 
     if (section === 'removed') {
       activeRulesById.delete(id);

@@ -41,6 +41,11 @@ The legacy prose IDs were renamed so `.editorconfig` settings can use one predic
 | `ConsoleUse` | `MP0004` |
 | `ConflictingDependsOnAttribute` | `MP0005` |
 | `AsyncModule` | `MP0006` |
+| `AwaitThis` | `MP0007` |
+| `StatefulModule` | `MP0008` |
+| `MPDEP001` | `MP0009` |
+| `MPDEP002` | `MP0005` |
+| `MPDEP003` | `MP0010` |
 | `MPD0001` | `MP0011` |
 | `MPD0002` | `MP0012` |
 | `MPREG001` | `MP0013` |

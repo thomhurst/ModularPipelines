@@ -5,7 +5,7 @@ namespace ModularPipelines.Development.Analyzers;
 internal static class DiagnosticDescriptorFactory
 {
     private const string DocumentationBaseUrl =
-        "https://thomhurst.github.io/ModularPipelines/docs/analyzers/";
+        "https://thomhurst.github.io/ModularPipelines/docs/next/analyzers/";
 
     public static DiagnosticDescriptor Create(
         string id,

@@ -7,7 +7,7 @@ namespace ModularPipelines.Analyzers.Test;
 public class AnalyzerMetadataTests
 {
     private const string DocumentationBaseUrl =
-        "https://thomhurst.github.io/ModularPipelines/docs/analyzers/";
+        "https://thomhurst.github.io/ModularPipelines/docs/next/analyzers/";
 
     [TestMethod]
     public void PublicRulesUseUnifiedIdsAndHelpLinks()
@@ -33,12 +33,11 @@ public class AnalyzerMetadataTests
             DuplicateDependsOnAnalyzer.Rule,
         };
 
-        CollectionAssert.AreEquivalent(
+        Assert.AreSequenceEqual(
             Enumerable.Range(1, 10)
                 .Concat(Enumerable.Range(13, 7))
-                .Select(index => $"MP{index:0000}")
-                .ToArray(),
-            rules.Select(rule => rule.Id).ToArray());
+                .Select(index => $"MP{index:0000}"),
+            rules.Select(rule => rule.Id));
 
         foreach (var rule in rules)
         {
