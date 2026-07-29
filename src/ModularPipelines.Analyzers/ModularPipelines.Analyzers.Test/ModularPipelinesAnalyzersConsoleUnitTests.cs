@@ -8,7 +8,10 @@ namespace ModularPipelines.Analyzers.Test;
 [TestClass]
 public class ModularPipelinesAnalyzersConsoleUnitTests
 {
-    private static string CreateBadModuleSource(string consoleCall, bool isAsync = false) => $@"
+    private static string CreateBadModuleSource(
+        string consoleCall,
+        bool isAsync = false,
+        bool markDiagnostic = true) => $@"
 {TestSourceConstants.StandardUsings}
 
 namespace AnalyzerExamples;
@@ -19,7 +22,7 @@ public class Module1 : Module<List<string>>
     {{
         await Task.Delay(1, cancellationToken);
 
-        {(isAsync ? "await " : "")}{{|#0:{consoleCall}|}};
+        {(isAsync ? "await " : "")}{(markDiagnostic ? $"{{|#0:{consoleCall}|}}" : consoleCall)};
 
         return new List<string>();
     }}
@@ -32,6 +35,9 @@ public class Module1 : Module<List<string>>
     private static readonly string BadModuleSource4 = CreateBadModuleSource(@"Console.Out.WriteLine(""Done!"")");
     private static readonly string BadModuleSource5 = CreateBadModuleSource(@"Console.Out.WriteLineAsync(""Done!"")", isAsync: true);
     private static readonly string BadModuleSource6 = CreateBadModuleSource(@"Console.Out.Dispose()");
+    private static readonly string NamedArgumentSource = CreateBadModuleSource(
+        @"Console.WriteLine(value: ""Done!"")",
+        markDiagnostic: false);
 
     private const string StaticLocalFunctionSource = $@"
 {TestSourceConstants.StandardUsings}
@@ -177,6 +183,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             StaticLocalFunctionSource,
+            ConsoleUseAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Named_Console_Argument()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            NamedArgumentSource,
             ConsoleUseAnalyzer.DiagnosticId);
     }
 

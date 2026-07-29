@@ -159,6 +159,26 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string DuplicateConstructorSignatureSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1(ILogger<Module1> logger, int value)
+    {{
+    }}
+
+    public Module1(int value)
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string EscapedContextStoredLoggerSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -307,6 +327,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ConstructorInitializerSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Resulting_Constructor_Would_Be_Duplicate()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            DuplicateConstructorSignatureSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 

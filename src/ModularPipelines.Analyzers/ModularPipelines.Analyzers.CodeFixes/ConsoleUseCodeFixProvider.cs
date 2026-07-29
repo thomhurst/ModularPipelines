@@ -17,11 +17,11 @@ namespace ModularPipelines.Analyzers;
 public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
 {
     private static readonly ImmutableHashSet<string> SupportedMethodNames =
-        ImmutableHashSet.Create("Write", "WriteLine", "WriteAsync", "WriteLineAsync");
+        ["Write", "WriteLine", "WriteAsync", "WriteLineAsync"];
 
     /// <inheritdoc/>
     public override ImmutableArray<string> FixableDiagnosticIds =>
-        ImmutableArray.Create(ConsoleUseAnalyzer.DiagnosticId);
+        [ConsoleUseAnalyzer.DiagnosticId];
 
     /// <inheritdoc/>
     public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
@@ -69,11 +69,16 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         SemanticModel semanticModel,
         CancellationToken cancellationToken)
     {
-        var firstArgument = invocation.ArgumentList.Arguments.FirstOrDefault();
-        return invocation.ArgumentList.Arguments.Count <= 1
-               && (firstArgument is null
-               || semanticModel.GetTypeInfo(firstArgument.Expression, cancellationToken).ConvertedType?.SpecialType
-               == SpecialType.System_String);
+        var arguments = invocation.ArgumentList.Arguments;
+        if (arguments.Count != 1)
+        {
+            return arguments.Count == 0;
+        }
+
+        var argument = arguments[0];
+        return argument.NameColon is null
+               && semanticModel.GetTypeInfo(argument.Expression, cancellationToken).ConvertedType?.SpecialType
+               == SpecialType.System_String;
     }
 
     private static ParameterSyntax? FindModuleContextParameter(

@@ -17,7 +17,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
 {
     /// <inheritdoc/>
     public override ImmutableArray<string> FixableDiagnosticIds =>
-        ImmutableArray.Create(StatefulModuleAnalyzer.DiagnosticId);
+        [StatefulModuleAnalyzer.DiagnosticId];
 
     /// <inheritdoc/>
     public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
@@ -34,6 +34,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
         if (variable is null
             || variable.Parent?.Parent is not FieldDeclarationSyntax fieldDeclaration
             || fieldDeclaration.Declaration.Variables.Count != 1
+            || fieldDeclaration.Modifiers.Any(SyntaxKind.VolatileKeyword)
             || variable.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
             || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
             || semanticModel?.GetDeclaredSymbol(variable, context.CancellationToken) is not IFieldSymbol field
@@ -95,6 +96,12 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
         CancellationToken cancellationToken)
     {
         var assignment = identifier.FirstAncestorOrSelf<AssignmentExpressionSyntax>();
+        if (assignment?.Left is TupleExpressionSyntax tuple
+            && ContainsFieldTarget(tuple, field, semanticModel, cancellationToken))
+        {
+            return true;
+        }
+
         if (assignment is not null
             && assignment.Left.Span.Contains(identifier.Span)
             && SymbolEqualityComparer.Default.Equals(
@@ -127,6 +134,24 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                && SymbolEqualityComparer.Default.Equals(
                    semanticModel.GetSymbolInfo(argument.Expression, cancellationToken).Symbol,
                    field);
+    }
+
+    private static bool ContainsFieldTarget(
+        TupleExpressionSyntax tuple,
+        IFieldSymbol field,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        return tuple.Arguments.Any(argument =>
+            argument.Expression is TupleExpressionSyntax nestedTuple
+                ? ContainsFieldTarget(
+                    nestedTuple,
+                    field,
+                    semanticModel,
+                    cancellationToken)
+                : SymbolEqualityComparer.Default.Equals(
+                    semanticModel.GetSymbolInfo(argument.Expression, cancellationToken).Symbol,
+                    field));
     }
 
     private static async Task<Document> AddReadonlyAsync(

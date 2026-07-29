@@ -18,7 +18,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
 {
     /// <inheritdoc/>
     public override ImmutableArray<string> FixableDiagnosticIds =>
-        ImmutableArray.Create(LoggerInConstructorAnalyzer.DiagnosticId);
+        [LoggerInConstructorAnalyzer.DiagnosticId];
 
     /// <inheritdoc/>
     public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
@@ -76,7 +76,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
     {
         fieldDeclaration = null;
         assignmentStatement = null;
-        loggerReplacements = ImmutableArray<LoggerReplacement>.Empty;
+        loggerReplacements = [];
 
         if (containingType.Modifiers.Any(SyntaxKind.PartialKeyword))
         {
@@ -85,12 +85,13 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
 
         var constructorSymbol = semanticModel.GetDeclaredSymbol(constructor, cancellationToken);
         if (constructorSymbol is not null
-            && containingType.DescendantNodes()
-                .OfType<ConstructorInitializerSyntax>()
-                .Where(initializer => initializer.ThisOrBaseKeyword.IsKind(SyntaxKind.ThisKeyword))
-                .Any(initializer => SymbolEqualityComparer.Default.Equals(
-                    semanticModel.GetSymbolInfo(initializer, cancellationToken).Symbol,
-                    constructorSymbol)))
+            && (containingType.DescendantNodes()
+                    .OfType<ConstructorInitializerSyntax>()
+                    .Where(initializer => initializer.ThisOrBaseKeyword.IsKind(SyntaxKind.ThisKeyword))
+                    .Any(initializer => SymbolEqualityComparer.Default.Equals(
+                        semanticModel.GetSymbolInfo(initializer, cancellationToken).Symbol,
+                        constructorSymbol))
+                || WouldDuplicateConstructor(constructorSymbol, parameter)))
         {
             return false;
         }
@@ -130,6 +131,40 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         fieldDeclaration = loggerStorage.FieldDeclaration;
         assignmentStatement = loggerStorage.AssignmentStatement;
         loggerReplacements = replacements.Value;
+        return true;
+    }
+
+    private static bool WouldDuplicateConstructor(
+        IMethodSymbol constructor,
+        IParameterSymbol removedParameter)
+    {
+        var remainingParameters = constructor.Parameters
+            .Where(parameter => !SymbolEqualityComparer.Default.Equals(parameter, removedParameter))
+            .ToArray();
+
+        return constructor.ContainingType.InstanceConstructors
+            .Where(other => !SymbolEqualityComparer.Default.Equals(other, constructor))
+            .Any(other => HaveSameSignature(remainingParameters, other.Parameters));
+    }
+
+    private static bool HaveSameSignature(
+        IParameterSymbol[] first,
+        IReadOnlyList<IParameterSymbol> second)
+    {
+        if (first.Length != second.Count)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < first.Length; index++)
+        {
+            if (!SymbolEqualityComparer.Default.Equals(first[index].Type, second[index].Type)
+                || (first[index].RefKind == RefKind.None) != (second[index].RefKind == RefKind.None))
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -212,12 +247,14 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         SemanticModel semanticModel,
         CancellationToken cancellationToken)
     {
-        return containingType.DescendantNodes()
-            .OfType<IdentifierNameSyntax>()
-            .Where(identifier => SymbolEqualityComparer.Default.Equals(
-                semanticModel.GetSymbolInfo(identifier, cancellationToken).Symbol,
-                symbol))
-            .ToImmutableArray();
+        return
+        [
+            .. containingType.DescendantNodes()
+                .OfType<IdentifierNameSyntax>()
+                .Where(identifier => SymbolEqualityComparer.Default.Equals(
+                    semanticModel.GetSymbolInfo(identifier, cancellationToken).Symbol,
+                    symbol)),
+        ];
     }
 
     private static ExpressionSyntax GetLoggerExpression(IdentifierNameSyntax fieldReference)

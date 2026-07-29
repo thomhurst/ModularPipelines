@@ -321,6 +321,47 @@ public partial class Module1
 }
 ";
 
+    private const string ModuleWithVolatileField = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<object>
+{
+    private volatile object _state = new();
+
+    protected override Task<object?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult<object?>(_state);
+    }
+}
+";
+
+    private const string ModuleWithDeconstructionWrite = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<string>
+{
+    private string _state = string.Empty;
+
+    protected override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        (_state, _) = (""updated"", 0);
+        return Task.FromResult<string?>(_state);
+    }
+}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableField()
     {
@@ -439,6 +480,22 @@ public partial class Module1
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithMutableStructMemberAssignment,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Volatile_Field()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithVolatileField,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Deconstruction_Write()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithDeconstructionWrite,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 }
