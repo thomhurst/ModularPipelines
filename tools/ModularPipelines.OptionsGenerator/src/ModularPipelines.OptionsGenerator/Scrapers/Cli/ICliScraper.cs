@@ -29,6 +29,11 @@ public interface ICliScraper
     string OutputDirectory { get; }
 
     /// <summary>
+    /// The operating-system family used to run this scraper in generation automation.
+    /// </summary>
+    CliGenerationPlatform GenerationPlatform => CliGenerationPlatform.Linux;
+
+    /// <summary>
     /// Whether the CLI tool is available on the system.
     /// </summary>
     Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default);

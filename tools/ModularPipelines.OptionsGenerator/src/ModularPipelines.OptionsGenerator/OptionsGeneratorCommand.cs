@@ -31,6 +31,8 @@ internal static class OptionsGeneratorCommand
         rootCommand.Options.Add(options.EnhanceTypes);
         rootCommand.Options.Add(options.ApproveCommandCoverageShrinkage);
         rootCommand.Options.Add(options.ChangeManifest);
+        rootCommand.Options.Add(options.ListTools);
+        rootCommand.Options.Add(options.Json);
         rootCommand.SetAction((parseResult, cancellationToken) =>
             ExecuteAsync(ParseSettings(parseResult, options), cancellationToken));
         return rootCommand;
@@ -71,6 +73,14 @@ internal static class OptionsGeneratorCommand
             ChangeManifest: new Option<string?>("--change-manifest")
             {
                 Description = "Write the repository-relative generated and deleted paths to this file",
+            },
+            ListTools: new Option<bool>("--list-tools")
+            {
+                Description = "List registered first-party CLI tools without generating files",
+            },
+            Json: new Option<bool>("--json")
+            {
+                Description = "Write machine-readable JSON when listing tools",
             });
     }
 
@@ -83,13 +93,34 @@ internal static class OptionsGeneratorCommand
             UseCliFirst: parseResult.GetValue(options.UseCliFirst),
             EnhanceTypes: parseResult.GetValue(options.EnhanceTypes),
             ApproveCommandCoverageShrinkage: parseResult.GetValue(options.ApproveCommandCoverageShrinkage),
-            ChangeManifest: parseResult.GetValue(options.ChangeManifest));
+            ChangeManifest: parseResult.GetValue(options.ChangeManifest),
+            ListTools: parseResult.GetValue(options.ListTools),
+            Json: parseResult.GetValue(options.Json));
     }
 
     private static async Task<int> ExecuteAsync(
         GeneratorSettings settings,
         CancellationToken cancellationToken)
     {
+        if (settings.Json && !settings.ListTools)
+        {
+            Console.Error.WriteLine("--json requires --list-tools.");
+            return 1;
+        }
+
+        if (settings.ListTools)
+        {
+            if (settings.Input is not null)
+            {
+                Console.Error.WriteLine("--list-tools cannot be combined with --input.");
+                return 1;
+            }
+
+            var entries = CreateToolCatalog();
+            Console.WriteLine(settings.Json ? ToolCatalog.ToJson(entries) : ToolCatalog.ToText(entries));
+            return 0;
+        }
+
         if (settings.Input is not null
             && !string.Equals(settings.Tools, "all", StringComparison.OrdinalIgnoreCase))
         {
@@ -129,11 +160,11 @@ internal static class OptionsGeneratorCommand
         }
     }
 
-    private static IHost BuildHost(bool enhanceTypes)
+    private static IHost BuildHost(bool enhanceTypes, bool suppressLogs = false)
     {
         var builder = Host.CreateApplicationBuilder();
         builder.Logging.AddConsole();
-        builder.Logging.SetMinimumLevel(LogLevel.Information);
+        builder.Logging.SetMinimumLevel(suppressLogs ? LogLevel.None : LogLevel.Information);
         builder.Services.AddHttpClient();
         builder.Services.AddSingleton<ProcessCliCommandExecutor>();
         builder.Services.AddSingleton<ICliCommandExecutor>(serviceProvider =>
@@ -159,6 +190,12 @@ internal static class OptionsGeneratorCommand
 
         builder.Services.AddSingleton<CodeGeneratorOrchestrator>();
         return builder.Build();
+    }
+
+    internal static IReadOnlyList<ToolCatalogEntry> CreateToolCatalog()
+    {
+        using var host = BuildHost(enhanceTypes: false, suppressLogs: true);
+        return ToolCatalog.Create(host.Services.GetServices<ICliScraper>());
     }
 
     private static void RegisterCliScrapers(IServiceCollection services)
@@ -346,7 +383,9 @@ internal static class OptionsGeneratorCommand
         Option<bool> UseCliFirst,
         Option<bool> EnhanceTypes,
         Option<bool> ApproveCommandCoverageShrinkage,
-        Option<string?> ChangeManifest);
+        Option<string?> ChangeManifest,
+        Option<bool> ListTools,
+        Option<bool> Json);
 
     private sealed record GeneratorSettings(
         string Tools,
@@ -355,5 +394,7 @@ internal static class OptionsGeneratorCommand
         bool UseCliFirst,
         bool EnhanceTypes,
         bool ApproveCommandCoverageShrinkage,
-        string? ChangeManifest);
+        string? ChangeManifest,
+        bool ListTools,
+        bool Json);
 }
