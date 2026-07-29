@@ -643,7 +643,11 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var duplicates in dependencies.Where(static group => group.Skip(1).Any()))
         {
-            foreach (var duplicate in duplicates.Skip(1))
+            // Keep a required declaration when one exists so removing reported
+            // duplicates cannot make the effective dependency optional.
+            foreach (var duplicate in duplicates
+                         .OrderBy(static item => IsOptionalDependency(item.Attribute))
+                         .Skip(1))
             {
                 var location = duplicate.Attribute.ApplicationSyntaxReference?.GetSyntax(
                     context.CancellationToken).GetLocation();

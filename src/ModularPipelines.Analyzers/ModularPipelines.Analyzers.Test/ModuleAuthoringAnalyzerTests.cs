@@ -1129,6 +1129,36 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Optional_Duplicate_Instead_Of_Required_Dependency()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public abstract class DependencyModule : Module<List<string>>
+            {
+            }
+
+            [{|#0:DependsOn<DependencyModule>(Optional = true)|}]
+            [DependsOn<DependencyModule>]
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+            """;
+
+        var expected = VerifyDependencyCS.Diagnostic(DuplicateDependsOnAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("BuildModule", "DependencyModule");
+        await VerifyDependencyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Dependency_Duplicated_From_Base_Module()
     {
         var source = $$"""
