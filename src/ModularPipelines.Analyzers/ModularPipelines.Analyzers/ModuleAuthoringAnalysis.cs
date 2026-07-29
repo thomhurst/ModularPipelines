@@ -1034,8 +1034,7 @@ internal static class ModuleAuthoringAnalysis
             if (SymbolEqualityComparer.Default.Equals(
                     callable.OriginalDefinition,
                     targetMethod)
-                || (callable.MethodKind == MethodKind.AnonymousFunction
-                    && InvocationTargetsAnonymousFunction(invocation, callable)))
+                || InvocationTargetsCallable(invocation, callable))
             {
                 yield return callable;
             }
@@ -1052,14 +1051,14 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
-    private static bool InvocationTargetsAnonymousFunction(
+    private static bool InvocationTargetsCallable(
         IInvocationOperation invocation,
-        IMethodSymbol anonymousFunction)
+        IMethodSymbol callable)
     {
         if (invocation.Instance is not null
-            && ValueContainsAnonymousFunction(
+            && ValueContainsCallable(
                 invocation.Instance,
-                anonymousFunction,
+                callable,
                 [with(SymbolEqualityComparer.Default)]))
         {
             return true;
@@ -1067,9 +1066,9 @@ internal static class ModuleAuthoringAnalysis
 
         return IsKnownDelegateInvoker(invocation)
                && invocation.Arguments.Any(argument =>
-                   ValueContainsAnonymousFunction(
+                   ValueContainsCallable(
                        argument.Value,
-                       anonymousFunction,
+                       callable,
                        [with(SymbolEqualityComparer.Default)]));
     }
 
@@ -1148,16 +1147,21 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool ValueContainsAnonymousFunction(
+    private static bool ValueContainsCallable(
         IOperation value,
-        IMethodSymbol anonymousFunction,
+        IMethodSymbol callable,
         HashSet<ILocalSymbol> visitedLocals)
     {
         if (value.DescendantsAndSelf()
             .OfType<IAnonymousFunctionOperation>()
             .Any(candidate => SymbolEqualityComparer.Default.Equals(
                 candidate.Symbol,
-                anonymousFunction)))
+                callable))
+            || value.DescendantsAndSelf()
+                .OfType<IMethodReferenceOperation>()
+                .Any(candidate => SymbolEqualityComparer.Default.Equals(
+                    candidate.Method.OriginalDefinition,
+                    callable.OriginalDefinition)))
         {
             return true;
         }
@@ -1166,7 +1170,7 @@ internal static class ModuleAuthoringAnalysis
         {
             if (visitedLocals.Add(localReference.Local)
                 && FindReachingLocalValue(localReference, localReference.Local) is { } localValue
-                && ValueContainsAnonymousFunction(localValue, anonymousFunction, visitedLocals))
+                && ValueContainsCallable(localValue, callable, visitedLocals))
             {
                 return true;
             }
@@ -1472,8 +1476,12 @@ internal static class ModuleAuthoringAnalysis
         IMethodSymbol candidate,
         Compilation compilation)
     {
-        if (candidate.IsGenericMethod
-            && candidate.Arity == selectedMethod.TypeArguments.Length)
+        if (candidate.Arity != selectedMethod.Arity)
+        {
+            return false;
+        }
+
+        if (candidate.IsGenericMethod)
         {
             candidate = candidate.Construct([.. selectedMethod.TypeArguments]);
             if (!SatisfiesGenericConstraints(candidate, compilation))

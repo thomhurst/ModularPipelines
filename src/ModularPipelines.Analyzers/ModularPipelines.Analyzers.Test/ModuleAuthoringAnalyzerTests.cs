@@ -913,6 +913,27 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Generic_Cancellation_Overload_For_Non_Generic_Call()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await FetchAsync();
+                return null;
+            }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync<T>(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Async_Void_Event_Handler_In_Module()
     {
         var source = ModuleSource($$"""
@@ -1068,6 +1089,43 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("Delay");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Local_Function_Method_Groups()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await {|#2:Task.Run(Work)|};
+                Func<Task> callback = OtherWork;
+                await callback();
+                return null;
+
+                async Task Work()
+                {
+                    await {|#0:Task.Delay(1)|};
+                }
+
+                async Task OtherWork()
+                {
+                    await {|#1:Task.Delay(1)|};
+                }
+            }
+            """);
+
+        var first = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        var second = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(1)
+            .WithArguments("Delay");
+        var taskRun = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(2)
+            .WithArguments("Run");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, first, second, taskRun);
     }
 
     [TestMethod]
