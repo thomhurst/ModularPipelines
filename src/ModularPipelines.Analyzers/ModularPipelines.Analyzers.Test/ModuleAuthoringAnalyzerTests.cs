@@ -481,6 +481,32 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Library_Module_When_Entry_Assembly_Is_Scanned()
+    {
+        var source = $$"""
+            {{Header}}
+
+            internal class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModulesFromAssembly(
+                        System.Reflection.Assembly.GetEntryAssembly()!);
+            }
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.NonPublicModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_For_Unresolved_Assembly_Helper()
     {
         var source = $$"""
@@ -1103,6 +1129,59 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Cancellation_Overload_In_Awaited_Condition()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await (ShouldUseFirst() ? FetchAsync() : OtherAsync());
+                return null;
+            }
+
+                private static bool ShouldUseFirst() => true;
+
+                private static bool ShouldUseFirst(CancellationToken cancellationToken) => true;
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task OtherAsync() => Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Cancellation_Overload_In_Awaited_Conditional_Arm()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await (ShouldUseFirst() ? {|#0:FetchAsync()|} : OtherAsync());
+                return null;
+            }
+
+                private static bool ShouldUseFirst() => true;
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+
+                private static Task OtherAsync() => Task.CompletedTask;
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
             .WithLocation(0)
             .WithArguments("FetchAsync");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
@@ -1774,6 +1853,31 @@ public class ModuleAuthoringAnalyzerTests
             {
                 Parallel.ForEach(new[] { 1 }, _ => {|#0:Thread.Sleep(1)|});
                 return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Parallel_ForEachAsync_Callback()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Parallel.ForEachAsync(
+                    new[] { 1 },
+                    cancellationToken,
+                    async (_, _) =>
+                    {
+                        {|#0:Thread.Sleep(1)|};
+                        await Task.Yield();
+                    });
+                return null;
             }
             """);
 

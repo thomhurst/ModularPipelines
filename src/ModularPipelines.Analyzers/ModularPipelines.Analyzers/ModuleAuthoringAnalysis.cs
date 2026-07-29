@@ -185,6 +185,7 @@ internal static class ModuleAuthoringAnalysis
         TrackRegistrationInvocation(
             invocation,
             context.Compilation.Assembly,
+            IsApplication(context.Compilation.Options.OutputKind),
             registeredModules,
             instanceRegisteredModules,
             scannedAssemblies,
@@ -365,6 +366,18 @@ internal static class ModuleAuthoringAnalysis
                 pending);
         }
 
+        if (operation is IConditionalOperation conditional)
+        {
+            if (conditional.WhenFalse is { } whenFalse)
+            {
+                pending.Push((whenFalse, requireTaskLike));
+            }
+
+            pending.Push((conditional.WhenTrue, requireTaskLike));
+            pending.Push((conditional.Condition, true));
+            return null;
+        }
+
         QueueChildOperations(operation, requireTaskLike, pending);
         return null;
     }
@@ -489,6 +502,7 @@ internal static class ModuleAuthoringAnalysis
     private static void TrackRegistrationInvocation(
         IInvocationOperation invocation,
         IAssemblySymbol currentAssembly,
+        bool isApplication,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
@@ -513,6 +527,7 @@ internal static class ModuleAuthoringAnalysis
             TrackScannedAssemblies(
                 invocation,
                 currentAssembly,
+                isApplication,
                 scannedAssemblies,
                 unresolvedModuleRegistrations);
             return;
@@ -1069,6 +1084,7 @@ internal static class ModuleAuthoringAnalysis
     private static void TrackScannedAssemblies(
         IInvocationOperation invocation,
         IAssemblySymbol currentAssembly,
+        bool isApplication,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
@@ -1091,6 +1107,7 @@ internal static class ModuleAuthoringAnalysis
             if (!TryTrackScannedAssembly(
                     argument.Value,
                     currentAssembly,
+                    isApplication,
                     scannedAssemblies,
                     [with(SymbolEqualityComparer.Default)]))
             {
@@ -1102,6 +1119,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool TryTrackScannedAssembly(
         IOperation operation,
         IAssemblySymbol currentAssembly,
+        bool isApplication,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
         HashSet<ILocalSymbol> visitedLocals)
     {
@@ -1111,6 +1129,7 @@ internal static class ModuleAuthoringAnalysis
                 return TryTrackScannedAssembly(
                     conversion.Operand,
                     currentAssembly,
+                    isApplication,
                     scannedAssemblies,
                     visitedLocals);
             case ILocalReferenceOperation localReference
@@ -1119,6 +1138,7 @@ internal static class ModuleAuthoringAnalysis
                 return TryTrackScannedAssembly(
                     localValue,
                     currentAssembly,
+                    isApplication,
                     scannedAssemblies,
                     visitedLocals);
             case IPropertyReferenceOperation
@@ -1133,10 +1153,20 @@ internal static class ModuleAuthoringAnalysis
                 scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
                 return true;
             case IInvocationOperation invocation
-                when invocation.TargetMethod.Name is "GetExecutingAssembly" or "GetEntryAssembly"
+                when invocation.TargetMethod.Name == "GetExecutingAssembly"
                      && invocation.TargetMethod.ContainingType.ToDisplayString()
                      == AssemblyMetadataName:
                 scannedAssemblies.Add(currentAssembly);
+                return true;
+            case IInvocationOperation invocation
+                when invocation.TargetMethod.Name == "GetEntryAssembly"
+                     && invocation.TargetMethod.ContainingType.ToDisplayString()
+                     == AssemblyMetadataName:
+                if (isApplication)
+                {
+                    scannedAssemblies.Add(currentAssembly);
+                }
+
                 return true;
             default:
                 return false;
@@ -1546,7 +1576,7 @@ internal static class ModuleAuthoringAnalysis
                        or "System.Collections.Generic.List<T>"
                        or "System.Threading.Tasks.Parallel")
                || (containingType == "System.Threading.Tasks.Parallel"
-                   && method.Name is "For" or "Invoke")
+                   && method.Name is "For" or "ForEachAsync" or "Invoke")
                || (containingType == "System.Linq.Enumerable"
                    && IsLinqCallbackInvoked(invocation));
     }
