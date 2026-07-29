@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
@@ -29,49 +30,50 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        context.RegisterSyntaxNodeAction(AnalyzeConflictingDependsOnAttributes, SyntaxKind.Attribute);
+        context.RegisterCompilationStartAction(startContext =>
+        {
+            var edges = new ConcurrentBag<DependencyEdge>();
+
+            startContext.RegisterSyntaxNodeAction(
+                syntaxContext => CollectDependencyEdge(syntaxContext, edges),
+                SyntaxKind.Attribute);
+            startContext.RegisterCompilationEndAction(
+                compilationContext => ReportCircularDependencies(compilationContext, edges));
+        });
     }
 
-    private void AnalyzeConflictingDependsOnAttributes(SyntaxNodeAnalysisContext context)
+    private static void CollectDependencyEdge(
+        SyntaxNodeAnalysisContext context,
+        ConcurrentBag<DependencyEdge> edges)
     {
-        if (!IsDependsOn(context, out var namedTypeSymbol))
+        if (!TryGetDependencyType(context, out var dependencyType) ||
+            dependencyType is null)
         {
             return;
         }
 
-        if (!namedTypeSymbol!.IsGenericType ||
-            namedTypeSymbol.TypeArguments.FirstOrDefault() is not INamedTypeSymbol namedArgumentTypeSymbol)
+        var typeDeclaration = context.Node.FirstAncestorOrSelf<TypeDeclarationSyntax>();
+        var dependentType = typeDeclaration is null
+            ? null
+            : context.SemanticModel.GetDeclaredSymbol(
+                typeDeclaration,
+                context.CancellationToken);
+
+        if (dependentType is null)
         {
             return;
         }
 
-        var typeContainingAttribute = context.GetClassThatNodeIsIn();
-
-        if (typeContainingAttribute is null)
-        {
-            return;
-        }
-
-        var allAttributesOnDependentType = namedArgumentTypeSymbol.GetAllAttributesIncludingBaseAndInterfaces();
-
-        ReportDiagnostics(context, allAttributesOnDependentType, typeContainingAttribute, namedArgumentTypeSymbol);
+        edges.Add(new DependencyEdge(dependentType, dependencyType, context.Node.GetLocation()));
     }
 
-    private static bool IsDependsOn(SyntaxNodeAnalysisContext context, out INamedTypeSymbol? namedTypeSymbol)
+    private static bool TryGetDependencyType(
+        SyntaxNodeAnalysisContext context,
+        out INamedTypeSymbol? dependencyType)
     {
-        namedTypeSymbol = null;
+        dependencyType = null;
 
         if (context.Node is not AttributeSyntax attributeSyntax)
-        {
-            return false;
-        }
-
-        if (attributeSyntax.Name is not GenericNameSyntax genericNameSyntax)
-        {
-            return false;
-        }
-
-        if (genericNameSyntax.Identifier.ValueText is not AnalyzerConstants.TypeNames.DependsOn)
         {
             return false;
         }
@@ -83,56 +85,160 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        namedTypeSymbol = methodSymbol.ContainingType;
+        var attributeType = methodSymbol.ContainingType;
 
-        if (!IsDependsOnAttributeType(namedTypeSymbol, context.Compilation))
+        if (!attributeType.IsDependsOnAttribute(context.Compilation))
         {
             return false;
         }
 
-        return true;
+        dependencyType = attributeType.GetDependsOnTypeArgument(
+            attributeSyntax,
+            context.SemanticModel) as INamedTypeSymbol;
+
+        return dependencyType is not null;
     }
 
-    /// <summary>
-    /// Checks if the given type symbol is the DependsOnAttribute type (generic or non-generic).
-    /// Uses proper symbol comparison instead of string comparison.
-    /// </summary>
-    private static bool IsDependsOnAttributeType(INamedTypeSymbol typeSymbol, Compilation compilation)
+    private static void ReportCircularDependencies(
+        CompilationAnalysisContext context,
+        ConcurrentBag<DependencyEdge> collectedEdges)
     {
-        // Get the non-generic DependsOnAttribute type
-        var dependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute");
-        if (dependsOnAttributeType is null)
+        var edges = collectedEdges
+            .OrderBy(edge => edge.Location.SourceTree?.FilePath, StringComparer.Ordinal)
+            .ThenBy(edge => edge.Location.SourceSpan.Start)
+            .ToArray();
+
+        if (edges.Length == 0)
         {
-            return false;
+            return;
         }
 
-        // For generic types, compare the original definition
-        var typeToCompare = typeSymbol.IsGenericType
-            ? typeSymbol.OriginalDefinition
-            : typeSymbol;
+        var graph = BuildGraph(edges);
 
-        // Check if it's the non-generic version
-        if (SymbolEqualityComparer.Default.Equals(typeToCompare, dependsOnAttributeType))
+        foreach (var edge in edges)
         {
-            return true;
-        }
+            context.CancellationToken.ThrowIfCancellationRequested();
 
-        // Get and check the generic version (DependsOnAttribute`1)
-        var genericDependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute`1");
-        return genericDependsOnAttributeType is not null &&
-               SymbolEqualityComparer.Default.Equals(typeToCompare, genericDependsOnAttributeType);
+            if (!CanReach(
+                    edge.DependencyType,
+                    edge.DependentType,
+                    graph,
+                    context.CancellationToken))
+            {
+                continue;
+            }
+
+            context.ReportDiagnostic(Diagnostic.Create(
+                Rule,
+                edge.Location,
+                edge.DependencyType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
+                edge.DependentType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+        }
     }
 
-    private static void ReportDiagnostics(SyntaxNodeAnalysisContext context, IEnumerable<AttributeData> allAttributesOnDependentType,
-        INamedTypeSymbol typeContainingAttribute, INamedTypeSymbol namedArgumentTypeSymbol)
+    private static Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> BuildGraph(
+        IEnumerable<DependencyEdge> edges)
     {
-        foreach (var conflictingDependencyAttribute in allAttributesOnDependentType.Where(x =>
-                     x.IsDependsOnAttributeFor(context.Compilation, typeContainingAttribute)))
+        var graph = new Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>>(
+            SymbolEqualityComparer.Default);
+
+        foreach (var edge in edges)
         {
-            context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(),
-                namedArgumentTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
-                conflictingDependencyAttribute.AttributeClass?.TypeArguments.First()
-                    .ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+            if (!graph.TryGetValue(edge.DependentType, out var dependencies))
+            {
+                dependencies = [];
+                graph.Add(edge.DependentType, dependencies);
+            }
+
+            dependencies.Add(edge.DependencyType);
         }
+
+        return graph;
+    }
+
+    private static bool CanReach(
+        INamedTypeSymbol start,
+        INamedTypeSymbol target,
+        IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph,
+        CancellationToken cancellationToken)
+    {
+        var pending = new Stack<INamedTypeSymbol>();
+        var visited = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+        pending.Push(start);
+
+        while (pending.Count > 0)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var current = pending.Pop();
+
+            if (SymbolEqualityComparer.Default.Equals(current, target))
+            {
+                return true;
+            }
+
+            if (!visited.Add(current))
+            {
+                continue;
+            }
+
+            foreach (var dependency in GetDependencies(current, graph))
+            {
+                pending.Push(dependency);
+            }
+        }
+
+        return false;
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetDependencies(
+        INamedTypeSymbol type,
+        IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph)
+    {
+        if (graph.TryGetValue(type, out var directDependencies))
+        {
+            foreach (var dependency in directDependencies)
+            {
+                yield return dependency;
+            }
+        }
+
+        foreach (var interfaceType in type.AllInterfaces)
+        {
+            if (!graph.TryGetValue(interfaceType, out var interfaceDependencies))
+            {
+                continue;
+            }
+
+            foreach (var dependency in interfaceDependencies)
+            {
+                yield return dependency;
+            }
+        }
+
+        for (var baseType = type.BaseType; baseType is not null; baseType = baseType.BaseType)
+        {
+            if (!graph.TryGetValue(baseType, out var baseDependencies))
+            {
+                continue;
+            }
+
+            foreach (var dependency in baseDependencies)
+            {
+                yield return dependency;
+            }
+        }
+    }
+
+    private sealed class DependencyEdge(
+        INamedTypeSymbol dependentType,
+        INamedTypeSymbol dependencyType,
+        Location location)
+    {
+        public INamedTypeSymbol DependentType { get; } = dependentType;
+
+        public INamedTypeSymbol DependencyType { get; } = dependencyType;
+
+        public Location Location { get; } = location;
     }
 }
