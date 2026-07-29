@@ -53,6 +53,7 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                     invocation,
                     contextParameter.Identifier,
                     IsConsoleError(invocation, semanticModel, context.CancellationToken),
+                    MessageCanBeNull(invocation, semanticModel, context.CancellationToken),
                     cancellationToken),
                 nameof(CodeFixResources.ConsoleUseCodeFixTitle)),
             diagnostic);
@@ -131,11 +132,23 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                && SymbolEqualityComparer.Default.Equals(property.ContainingType, consoleType);
     }
 
+    private static bool MessageCanBeNull(
+        InvocationExpressionSyntax invocation,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        var arguments = invocation.ArgumentList.Arguments;
+        return arguments.Count == 1
+               && semanticModel.GetTypeInfo(arguments[0].Expression, cancellationToken)
+                   .ConvertedNullability.FlowState != NullableFlowState.NotNull;
+    }
+
     private static async Task<Document> ReplaceWithLoggerAsync(
         Document document,
         InvocationExpressionSyntax invocation,
         SyntaxToken contextParameterIdentifier,
         bool isConsoleError,
+        bool messageCanBeNull,
         CancellationToken cancellationToken)
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
@@ -151,7 +164,9 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                     SyntaxFactory.LiteralExpression(
                         SyntaxKind.StringLiteralExpression,
                         SyntaxFactory.Literal(string.Empty))))
-            : invocation.ArgumentList.Arguments;
+            : CoalesceNullableMessage(
+                invocation.ArgumentList.Arguments,
+                messageCanBeNull);
         var contextLogger = SyntaxFactory.MemberAccessExpression(
             SyntaxKind.SimpleMemberAccessExpression,
             SyntaxFactory.IdentifierName(contextParameterIdentifier.WithoutTrivia()),
@@ -184,5 +199,26 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         var newRoot = root.ReplaceNode(oldNode, newNode)
             .AddUsing("Microsoft.Extensions.Logging");
         return document.WithSyntaxRoot(newRoot);
+    }
+
+    private static SeparatedSyntaxList<ArgumentSyntax> CoalesceNullableMessage(
+        SeparatedSyntaxList<ArgumentSyntax> arguments,
+        bool messageCanBeNull)
+    {
+        if (!messageCanBeNull)
+        {
+            return arguments;
+        }
+
+        var argument = arguments[0];
+        var coalescedMessage = SyntaxFactory.BinaryExpression(
+            SyntaxKind.CoalesceExpression,
+            SyntaxFactory.ParenthesizedExpression(argument.Expression.WithoutTrivia()),
+            SyntaxFactory.MemberAccessExpression(
+                SyntaxKind.SimpleMemberAccessExpression,
+                SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.StringKeyword)),
+                SyntaxFactory.IdentifierName(nameof(string.Empty))));
+        return SyntaxFactory.SingletonSeparatedList(
+            argument.WithExpression(coalescedMessage));
     }
 }

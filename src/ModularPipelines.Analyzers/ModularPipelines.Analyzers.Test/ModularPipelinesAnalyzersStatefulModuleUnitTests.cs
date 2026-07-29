@@ -466,6 +466,29 @@ public class Module1 : Module<object>
 }}
 ";
 
+    private const string ModuleWithAddressOfField = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<int>
+{
+    private int _state;
+
+    protected override unsafe Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        fixed (int* pointer = &_state)
+        {
+            return Task.FromResult(*pointer);
+        }
+    }
+}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableField()
     {
@@ -645,5 +668,14 @@ public class Module1 : Module<object>
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithRefEscapedField,
             StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Address_Of_Field()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithAddressOfField,
+            StatefulModuleAnalyzer.DiagnosticId,
+            allowUnsafe: true);
     }
 }

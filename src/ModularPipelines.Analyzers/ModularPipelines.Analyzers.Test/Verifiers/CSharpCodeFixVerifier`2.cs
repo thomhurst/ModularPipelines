@@ -73,7 +73,10 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
         await test.RunAsync(CancellationToken.None);
     }
 
-    public static async Task VerifyNoCodeFixAsync(string source, string diagnosticId)
+    public static async Task VerifyNoCodeFixAsync(
+        string source,
+        string diagnosticId,
+        bool allowUnsafe = false)
     {
         using var workspace = new AdhocWorkspace();
         var project = workspace.AddProject(
@@ -84,10 +87,12 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
                 "CodeFixTest",
                 LanguageNames.CSharp,
                 parseOptions: new CSharpParseOptions(LanguageVersion.Preview),
-                compilationOptions: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)));
+                compilationOptions: new CSharpCompilationOptions(
+                    OutputKind.DynamicallyLinkedLibrary,
+                    allowUnsafe: allowUnsafe)));
 
         var trustedPlatformAssemblies =
-            (string?)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") ?? string.Empty;
+            (string?) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") ?? string.Empty;
         var referencePaths = trustedPlatformAssemblies
             .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
             .Append(typeof(IModuleContext).Assembly.Location)
