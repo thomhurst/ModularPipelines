@@ -282,7 +282,37 @@ public class CommandLoggerTests : TestBase
         await Assert.That(logFile).DoesNotContain("Working Directory:");
     }
 
-    private async Task<string> RunPowershellCommandWithLoggingOptions(string command, CommandLoggingOptions loggingOptions)
+    [Test]
+    public async Task Fast_Command_Logs_Complete_Output_When_Result_Is_Truncated()
+    {
+        const string output = "complete-output";
+        var file = await RunPowershellCommandWithLoggingOptions(
+            $"Write-Output '{output}'",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal },
+            maxCapturedOutputLength: 4);
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains($"→ {output}");
+        await Assert.That(logFile).DoesNotContain("truncated");
+    }
+
+    [Test]
+    public async Task Failed_Fast_Command_Logs_Short_Standard_Output()
+    {
+        const string output = "failure-output";
+        var file = await RunPowershellCommandWithLoggingOptions(
+            $"Write-Output '{output}'; exit 1",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(Regex.Matches(logFile, $"↳ {output}").Count).IsEqualTo(1);
+        await Assert.That(logFile).Contains("exit 1");
+    }
+
+    private async Task<string> RunPowershellCommandWithLoggingOptions(
+        string command,
+        CommandLoggingOptions loggingOptions,
+        int? maxCapturedOutputLength = null)
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
@@ -298,6 +328,8 @@ public class CommandLoggerTests : TestBase
             {
                 LogSettings = loggingOptions,
                 ThrowOnNonZeroExitCode = false,
+                MaxCapturedOutputLength =
+                    maxCapturedOutputLength ?? CommandExecutionOptions.DefaultMaxCapturedOutputLength,
             });
 
         await result.Host.DisposeAsync();

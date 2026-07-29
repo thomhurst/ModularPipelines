@@ -844,7 +844,8 @@ internal sealed class Command : ICommandContext
         DeferredCommandOutputLogger? deferredOutputLogger,
         string workingDirectory)
     {
-        var hasStreamedOutput = deferredOutputLogger?.Complete() == true;
+        var deferredOutput = deferredOutputLogger?.Complete();
+        var hasStreamedOutput = deferredOutput?.HasStreamedOutput == true;
         _commandLogger.Log(
             options,
             executionOptions,
@@ -853,7 +854,9 @@ internal sealed class Command : ICommandContext
             runTime,
             hasStreamedOutput
                 ? string.Empty
-                : completeStandardOutputBuffer?.ToString() ?? standardOutput,
+                : deferredOutput?.PendingStandardOutput
+                  ?? completeStandardOutputBuffer?.ToString()
+                  ?? standardOutput,
             hasStreamedOutput
                 ? string.Empty
                 : completeStandardErrorBuffer?.ToString() ?? standardError,

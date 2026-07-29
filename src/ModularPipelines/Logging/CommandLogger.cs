@@ -146,7 +146,8 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
         var trimmedOutput = standardOutputToLog.Trim();
         var hasShortOutput = ShouldInlineOutput(options, trimmedOutput);
-        var inlineOutput = hasShortOutput && isSuccess
+        var hasInlineOutput = hasShortOutput && isSuccess;
+        var inlineOutput = hasInlineOutput
             ? $" → {_secretObfuscator.Obfuscate(trimmedOutput, null)}"
             : string.Empty;
         var commandStatus = BuildCommandStatus(options, isSuccess, exitCode, runTime);
@@ -157,7 +158,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             inlineOutput,
             commandStatus);
 
-        LogCapturedOutput(options, trimmedOutput, hasShortOutput);
+        LogCapturedOutput(options, trimmedOutput, hasInlineOutput);
         LogCapturedError(options, standardErrorToLog, exitCode);
     }
 

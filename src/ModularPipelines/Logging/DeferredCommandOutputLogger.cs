@@ -1,3 +1,4 @@
+using System.Runtime.ExceptionServices;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Logging;
@@ -11,6 +12,8 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
     private readonly List<BufferedLine> _pendingLines = [];
     private readonly TimeSpan _streamingDelay;
     private readonly CommandLineToolOptions _toolOptions;
+    private DeferredCommandOutputCompletion? _completion;
+    private ExceptionDispatchInfo? _loggingFailure;
     private Timer? _timer;
     private bool _isCompleted;
 
@@ -44,7 +47,32 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
         LogLine(new BufferedLine(line, IsError: true));
     }
 
-    public bool Complete()
+    public DeferredCommandOutputCompletion Complete()
+    {
+        lock (_lock)
+        {
+            if (_completion is not null)
+            {
+                _loggingFailure?.Throw();
+                return _completion;
+            }
+
+            _isCompleted = true;
+            _timer?.Dispose();
+            _timer = null;
+            var pendingStandardOutput = HasStreamedOutput || _pendingLines.Count == 0
+                ? string.Empty
+                : _pendingLines[0].Text;
+            _pendingLines.Clear();
+            _completion = new DeferredCommandOutputCompletion(
+                HasStreamedOutput,
+                pendingStandardOutput);
+            _loggingFailure?.Throw();
+            return _completion;
+        }
+    }
+
+    public void Dispose()
     {
         lock (_lock)
         {
@@ -52,13 +80,7 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
             _timer?.Dispose();
             _timer = null;
             _pendingLines.Clear();
-            return HasStreamedOutput;
         }
-    }
-
-    public void Dispose()
-    {
-        Complete();
     }
 
     private bool HasStreamedOutput { get; set; }
@@ -107,7 +129,14 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
                 return;
             }
 
-            FlushPendingLinesUnderLock();
+            try
+            {
+                FlushPendingLinesUnderLock();
+            }
+            catch (Exception exception)
+            {
+                _loggingFailure = ExceptionDispatchInfo.Capture(exception);
+            }
         }
     }
 
@@ -137,4 +166,13 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
     }
 
     private readonly record struct BufferedLine(string Text, bool IsError);
+}
+
+internal sealed class DeferredCommandOutputCompletion(
+    bool hasStreamedOutput,
+    string pendingStandardOutput)
+{
+    public bool HasStreamedOutput { get; } = hasStreamedOutput;
+
+    public string PendingStandardOutput { get; } = pendingStandardOutput;
 }

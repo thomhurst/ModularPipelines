@@ -17,7 +17,9 @@ public class DeferredCommandOutputLoggerTests
 
         deferredLogger.LogStandardOutputLine("output");
 
-        await Assert.That(deferredLogger.Complete()).IsFalse();
+        var completion = deferredLogger.Complete();
+        await Assert.That(completion.HasStreamedOutput).IsFalse();
+        await Assert.That(completion.PendingStandardOutput).IsEqualTo("output");
         await Assert.That(outputLogger.Lines).IsEmpty();
     }
 
@@ -34,7 +36,9 @@ public class DeferredCommandOutputLoggerTests
         deferredLogger.LogStandardOutputLine("output");
         await outputLogger.ExpectedLinesReceived.WaitAsync(TimeSpan.FromSeconds(5));
 
-        await Assert.That(deferredLogger.Complete()).IsTrue();
+        var completion = deferredLogger.Complete();
+        await Assert.That(completion.HasStreamedOutput).IsTrue();
+        await Assert.That(completion.PendingStandardOutput).IsEmpty();
         await Assert.That(outputLogger.Lines).IsEquivalentTo([(Text: "output", IsError: false)]);
     }
 
@@ -52,11 +56,30 @@ public class DeferredCommandOutputLoggerTests
         deferredLogger.LogStandardOutputLine("second");
         await outputLogger.ExpectedLinesReceived.WaitAsync(TimeSpan.FromSeconds(5));
 
-        await Assert.That(deferredLogger.Complete()).IsTrue();
+        var completion = deferredLogger.Complete();
+        await Assert.That(completion.HasStreamedOutput).IsTrue();
+        await Assert.That(completion.PendingStandardOutput).IsEmpty();
         await Assert.That(outputLogger.Lines).IsEquivalentTo([
             (Text: "first", IsError: false),
             (Text: "second", IsError: false),
         ]);
+    }
+
+    [Test]
+    public async Task Delayed_Logging_Failure_Is_Propagated_On_Completion()
+    {
+        var outputLogger = new ThrowingOutputLogger();
+        using var deferredLogger = new DeferredCommandOutputLogger(
+            outputLogger,
+            new TestCommandOptions(),
+            new CommandExecutionOptions(),
+            TimeSpan.FromMilliseconds(10));
+
+        deferredLogger.LogStandardOutputLine("output");
+        await outputLogger.LoggingAttempted.WaitAsync(TimeSpan.FromSeconds(5));
+
+        var exception = Assert.Throws<InvalidOperationException>(() => deferredLogger.Complete());
+        await Assert.That(exception.Message).IsEqualTo("Logging failed.");
     }
 
     private sealed class RecordingOutputLogger(int expectedLineCount) : ICommandOutputLogger
@@ -91,6 +114,31 @@ public class DeferredCommandOutputLoggerTests
             {
                 _expectedLinesReceived.TrySetResult();
             }
+        }
+    }
+
+    private sealed class ThrowingOutputLogger : ICommandOutputLogger
+    {
+        private readonly TaskCompletionSource _loggingAttempted =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task LoggingAttempted => _loggingAttempted.Task;
+
+        public void LogStandardOutputLine(
+            CommandLineToolOptions options,
+            CommandExecutionOptions executionOptions,
+            string line)
+        {
+            _loggingAttempted.TrySetResult();
+            throw new InvalidOperationException("Logging failed.");
+        }
+
+        public void LogStandardErrorLine(
+            CommandLineToolOptions options,
+            CommandExecutionOptions executionOptions,
+            string line)
+        {
+            throw new InvalidOperationException("Logging failed.");
         }
     }
 
