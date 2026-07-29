@@ -11,7 +11,7 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public class ConsoleUseAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "ConsoleUse";
+    public const string DiagnosticId = "MP0004";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,

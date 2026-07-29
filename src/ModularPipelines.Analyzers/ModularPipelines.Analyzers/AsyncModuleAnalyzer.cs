@@ -12,7 +12,7 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public class AsyncModuleAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "AsyncModule";
+    public const string DiagnosticId = "MP0006";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,

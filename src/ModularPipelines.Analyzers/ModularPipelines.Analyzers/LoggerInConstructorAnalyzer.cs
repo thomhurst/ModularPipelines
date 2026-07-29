@@ -12,7 +12,7 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "LoggerInConstructor";
+    public const string DiagnosticId = "MP0003";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,
