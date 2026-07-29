@@ -25,9 +25,9 @@ Import `ModularPipelines.Grype.Extensions`, then use this service from a module:
 ```csharp
 using ModularPipelines.Grype.Extensions;
 
-public class UseGrypeModule : SyncModule
+public class UseGrypeModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseGrypeModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Grype integration is ready");
+        return None.Value;
     }
 }
 ```

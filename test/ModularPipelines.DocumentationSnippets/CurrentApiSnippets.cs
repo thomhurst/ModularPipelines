@@ -76,14 +76,15 @@ public static class CurrentApiSnippets
     }
 
     [DependsOn<BuildModule>]
-    public sealed class PublishModule : Module
+    public sealed class PublishModule : Module<None>
     {
-        protected override async Task ExecuteModuleAsync(
+        protected override async Task<None> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             var buildResult = await context.GetModule<BuildModule>();
             _ = buildResult.ValueOrDefault!.OutputPath;
+            return None.Value;
         }
     }
 
@@ -130,11 +131,13 @@ public static class CurrentApiSnippets
     }
 
     [DependsOn<BuildModule>]
-    public sealed class ArtifactPathResolver : SyncModule<string>
+    public sealed class ArtifactPathResolver : Module<string>
     {
-        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
         {
-            var buildResult = context.GetModule<BuildModule>().GetAwaiter().GetResult();
+            var buildResult = await context.GetModule<BuildModule>();
             return Path.Combine(buildResult.ValueOrDefault!.OutputPath, "artifacts");
         }
     }

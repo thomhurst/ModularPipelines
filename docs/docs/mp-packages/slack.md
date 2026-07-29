@@ -23,9 +23,9 @@ Import `ModularPipelines.Slack.Extensions`, then use this service from a module:
 ```csharp
 using ModularPipelines.Slack.Extensions;
 
-public class UseSlackModule : SyncModule
+public class UseSlackModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -33,6 +33,7 @@ public class UseSlackModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Slack integration is ready");
+        return None.Value;
     }
 }
 ```

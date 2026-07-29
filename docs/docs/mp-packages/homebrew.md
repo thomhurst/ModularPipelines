@@ -25,9 +25,9 @@ Import `ModularPipelines.Homebrew.Extensions`, then use this service from a modu
 ```csharp
 using ModularPipelines.Homebrew.Extensions;
 
-public class UseBrewModule : SyncModule
+public class UseBrewModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseBrewModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Brew integration is ready");
+        return None.Value;
     }
 }
 ```

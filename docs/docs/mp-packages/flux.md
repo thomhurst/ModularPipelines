@@ -25,9 +25,9 @@ Import `ModularPipelines.Flux.Extensions`, then use this service from a module:
 ```csharp
 using ModularPipelines.Flux.Extensions;
 
-public class UseFluxModule : SyncModule
+public class UseFluxModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseFluxModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Flux integration is ready");
+        return None.Value;
     }
 }
 ```

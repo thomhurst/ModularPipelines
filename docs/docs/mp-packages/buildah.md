@@ -25,9 +25,9 @@ Import `ModularPipelines.Buildah.Extensions`, then use this service from a modul
 ```csharp
 using ModularPipelines.Buildah.Extensions;
 
-public class UseBuildahModule : SyncModule
+public class UseBuildahModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseBuildahModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Buildah integration is ready");
+        return None.Value;
     }
 }
 ```

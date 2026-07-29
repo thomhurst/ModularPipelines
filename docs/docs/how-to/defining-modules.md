@@ -24,36 +24,36 @@ public class FindAFileModule : Module<FileInfo>
 
 ### Modules Without Return Values
 
-For modules that perform actions without returning meaningful data, use the non-generic `Module` base class:
+For modules that perform actions without returning meaningful data, use `Module<None>`:
 
 ```csharp
-public class CleanupModule : Module
+public class CleanupModule : Module<None>
 {
-    protected override async Task ExecuteModuleAsync(
+    protected override async Task<None> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         var folder = context.Files.GetFolder("./temp");
         folder.Delete();
-        // No return statement needed
+        return None.Value;
     }
 }
 ```
 
-For synchronous operations, use `SyncModule`:
+For synchronous operations, use `SyncModule<None>`:
 
 ```csharp
-public class LoggingModule : SyncModule
+public class LoggingModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
-        // No return statement needed
+        return None.Value;
     }
 }
 ```
 
-These classes internally use the `None` struct to represent the absence of a value. `None` is semantically equivalent to `null`, meaning `None.Value.Equals(null)` returns `true`.
+The `None` struct represents the absence of a value. It is semantically equivalent to `null`, meaning `None.Value.Equals(null)` returns `true`.
 
 ## Configuring Module Behavior
 

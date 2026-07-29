@@ -122,9 +122,12 @@ public class SyncModuleTests : TestBase
     {
         public bool BeforeHookCalled { get; private set; }
 
-        protected override void OnBeforeExecute(IModuleContext context, CancellationToken cancellationToken)
+        protected override Task OnBeforeExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
         {
             BeforeHookCalled = true;
+            return Task.CompletedTask;
         }
 
         protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
@@ -146,14 +149,14 @@ public class SyncModuleTests : TestBase
         public bool AfterHookCalled { get; private set; }
         public ModuleResult<string>? CapturedResult { get; private set; }
 
-        protected override ModuleResult<string>? OnAfterExecute(
+        protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
             IModuleContext context,
             ModuleResult<string> result,
             CancellationToken cancellationToken)
         {
             AfterHookCalled = true;
             CapturedResult = result;
-            return null;
+            return Task.FromResult<ModuleResult<string>?>(null);
         }
 
         protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
@@ -177,13 +180,14 @@ public class SyncModuleTests : TestBase
         public bool FailedHookCalled { get; private set; }
         public Exception? CapturedExceptionInHook { get; private set; }
 
-        protected override void OnFailed(
+        protected override Task OnFailedAsync(
             IModuleContext context,
             Exception exception,
             CancellationToken cancellationToken)
         {
             FailedHookCalled = true;
             CapturedExceptionInHook = exception;
+            return Task.CompletedTask;
         }
 
         protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
@@ -225,13 +229,14 @@ public class SyncModuleTests : TestBase
             .WithSkipWhen(_ => SkipDecision.Skip("Always skip"))
             .Build();
 
-        protected override void OnSkipped(
+        protected override Task OnSkippedAsync(
             IModuleContext context,
             SkipDecision skipDecision,
             CancellationToken cancellationToken)
         {
             SkippedHookCalled = true;
             CapturedSkipDecision = skipDecision;
+            return Task.CompletedTask;
         }
 
         protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)

@@ -25,9 +25,9 @@ Import `ModularPipelines.Podman.Extensions`, then use this service from a module
 ```csharp
 using ModularPipelines.Podman.Extensions;
 
-public class UsePodmanModule : SyncModule
+public class UsePodmanModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UsePodmanModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Podman integration is ready");
+        return None.Value;
     }
 }
 ```

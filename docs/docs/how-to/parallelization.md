@@ -19,7 +19,7 @@ If these have any dependencies, they will be triggered too.
 
 ```csharp
 [NotInParallel]
-public class MyModule : Module
+public class MyModule : Module<IDictionary<string, object>>
 {
     protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -36,7 +36,7 @@ If another module has a different constraint key, these will still run in parall
 
 ```csharp
 [NotInParallel(ConstraintKey = "Install")]
-public class InstallModule1 : Module
+public class InstallModule1 : Module<IDictionary<string, object>>
 {
     protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -45,7 +45,7 @@ public class InstallModule1 : Module
 }
 
 [NotInParallel(ConstraintKey = "Install")]
-public class InstallModule2 : Module
+public class InstallModule2 : Module<IDictionary<string, object>>
 {
     protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -54,7 +54,7 @@ public class InstallModule2 : Module
 }
 
 [NotInParallel(ConstraintKey = "Build")]
-public class BuildProjectModule : Module
+public class BuildProjectModule : Module<IDictionary<string, object>>
 {
     protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -93,7 +93,7 @@ using TUnit.Core;
 namespace MyTestProject;
 
 [ParallelLimiter<MyParallelLimit>]
-public class InstallModule1 : Module
+public class InstallModule1 : Module<IDictionary<string, object>>
 {
     protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -102,7 +102,7 @@ public class InstallModule1 : Module
 }
 
 [ParallelLimiter<MyParallelLimit>]
-public class InstallModule2 : Module
+public class InstallModule2 : Module<IDictionary<string, object>>
 {
     protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
@@ -111,7 +111,7 @@ public class InstallModule2 : Module
 }
 
 [ParallelLimiter<MyParallelLimit>]
-public class BuildProjectModule : Module
+public class BuildProjectModule : Module<IDictionary<string, object>>
 {
     protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

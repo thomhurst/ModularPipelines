@@ -872,30 +872,32 @@ The following have been removed in V3:
 
 ## New Features in V3
 
-### Non-Generic Module Classes
+### Modules Without Results
 
-V3 introduces non-generic `Module` and `SyncModule` base classes for modules that perform actions without returning meaningful data. These use the `None` struct internally to represent the absence of a value.
+V3 introduced non-generic convenience bases for modules without results. V4 removes
+those bases so execution consistently uses `ExecuteAsync` or `Execute`. Current code
+uses `Module<None>` and `SyncModule<None>` instead.
 
 ```csharp
 // Async module that doesn't return data
-public class DeployModule : Module
+public class DeployModule : Module<None>
 {
-    protected override async Task ExecuteModuleAsync(
+    protected override async Task<None> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Shell.Command.ExecuteCommandLineTool(...);
-        // No return statement needed
+        return None.Value;
     }
 }
 
 // Sync module that doesn't return data
-public class LoggingModule : SyncModule
+public class LoggingModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
-        // No return statement needed
+        return None.Value;
     }
 }
 ```
@@ -1345,14 +1347,14 @@ This section provides structured data optimized for AI assistants helping with c
   new: "WithIgnoreFailuresWhen(...)"
   note: "Same method accepts both sync and async lambdas"
 
-# Non-generic modules (V3 addition)
+# Modules without results
 - old: "public class MyModule : Module<IDictionary<string, object>>"
-  new: "public class MyModule : Module"
-  note: "For modules that don't return data"
+  new: "public class MyModule : Module<None>"
+  note: "Use None when the module does not return data"
 
 - old: "protected override async Task<IDictionary<string, object>?> ExecuteAsync(...)"
-  new: "protected override async Task ExecuteModuleAsync(...)"
-  note: "No return statement needed"
+  new: "protected override async Task<None> ExecuteAsync(...)"
+  note: "Return None.Value"
 ```
 
 ### Common Compiler Errors and Fixes
@@ -1421,22 +1423,24 @@ public class MyModule : Module<MyResult>
 }
 
 // Async module WITHOUT return value
-public class MyActionModule : Module
+public class MyActionModule : Module<None>
 {
-    protected override async Task ExecuteModuleAsync(
+    protected override async Task<None> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        // Implementation - no return needed
+        // Implementation
+        return None.Value;
     }
 }
 
 // Sync module WITHOUT return value
-public class MySyncModule : SyncModule
+public class MySyncModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        // Implementation - no return needed
+        // Implementation
+        return None.Value;
     }
 }
 ```
@@ -1494,7 +1498,7 @@ await context.DotNet().Build(
 
 ### Keywords for Search
 
-ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity, context.Shell.Command, context.Shell.Bash, context.Shell.PowerShell, DotNetNewOptions, DotNetPackOptions, GitTagOptions, TemplateShortName, property initializer, constructor removed, token parameter
+ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module, SyncModule, None struct, ExecuteAsync, Execute, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity, context.Shell.Command, context.Shell.Bash, context.Shell.PowerShell, DotNetNewOptions, DotNetPackOptions, GitTagOptions, TemplateShortName, property initializer, constructor removed, token parameter
 
 ## Getting Help
 

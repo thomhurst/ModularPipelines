@@ -25,9 +25,9 @@ Import `ModularPipelines.Newman.Extensions`, then use this service from a module
 ```csharp
 using ModularPipelines.Newman.Extensions;
 
-public class UseNewmanModule : SyncModule
+public class UseNewmanModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseNewmanModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Newman integration is ready");
+        return None.Value;
     }
 }
 ```
