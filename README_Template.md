@@ -124,6 +124,23 @@ explicit dependencies and configurable paths. See the
 [template source](src/ModularPipelines.Templates/templates/modularpipeline) for a
 complete copy-ready example.
 
+Adding pipeline modules to an existing project instead? Install the core framework and
+the .NET CLI integration used by the examples above:
+
+```bash
+dotnet add package ModularPipelines
+dotnet add package ModularPipelines.DotNet
+```
+
+Then configure and execute the pipeline from `Program.cs`:
+
+```csharp
+using ModularPipelines;
+
+var builder = Pipeline.CreateBuilder(args);
+await builder.ExecutePipelineAsync();
+```
+
 ## Console Progress
 
 See exactly what's happening as your pipeline runs:
