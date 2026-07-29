@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
@@ -321,50 +320,23 @@ public sealed class PipelineBuilder
 
         foreach (var modularPipelineAssembly in unloadedModularPipelineAssemblies)
         {
-            var assembly = Assembly.Load(new AssemblyName(modularPipelineAssembly));
-            PluginVersionValidator.Validate(assembly, coreVersion);
-            RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
+            LoadAndInitializeAssembly(new AssemblyName(modularPipelineAssembly), coreVersion);
         }
     }
 
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2026",
-        Justification = "Referenced integrations removed by trimming do not need runtime registration.")]
     private static void LoadReferencedModularPipelineAssemblies(Version? coreVersion)
     {
-        var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-        var loadedAssemblyNames = currentAssemblies
-            .Select(static assembly => assembly.GetName().Name)
-            .OfType<string>()
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var entryAssembly = Assembly.GetEntryAssembly();
-        var assembliesToVisit = new Queue<Assembly>(currentAssemblies.Where(assembly =>
-            !assembly.IsDynamic
-            && (ReferenceEquals(assembly, entryAssembly)
-                || IsModularPipelinesAssembly(assembly.GetName()))));
-
-        while (assembliesToVisit.TryDequeue(out var assembly))
-        {
-            foreach (var referencedAssemblyName in assembly.GetReferencedAssemblies()
-                         .Where(IsModularPipelinesAssembly))
-            {
-                if (referencedAssemblyName.Name is not { } name || !loadedAssemblyNames.Add(name))
-                {
-                    continue;
-                }
-
-                var referencedAssembly = Assembly.Load(referencedAssemblyName);
-                PluginVersionValidator.Validate(referencedAssembly, coreVersion);
-                RuntimeHelpers.RunModuleConstructor(referencedAssembly.ManifestModule.ModuleHandle);
-                assembliesToVisit.Enqueue(referencedAssembly);
-            }
-        }
+        ReferencedAssemblyTraversal.LoadModularPipelinesAssemblies(
+            AppDomain.CurrentDomain.GetAssemblies(),
+            assemblyName => LoadAndInitializeAssembly(assemblyName, coreVersion));
     }
 
-    private static bool IsModularPipelinesAssembly(AssemblyName assemblyName)
+    private static Assembly LoadAndInitializeAssembly(AssemblyName assemblyName, Version? coreVersion)
     {
-        return assemblyName.Name?.Contains("ModularPipeline", StringComparison.OrdinalIgnoreCase) is true;
+        var assembly = Assembly.Load(assemblyName);
+        PluginVersionValidator.Validate(assembly, coreVersion);
+        RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
+        return assembly;
     }
 
     private static IEnumerable<string> GetDlls()
