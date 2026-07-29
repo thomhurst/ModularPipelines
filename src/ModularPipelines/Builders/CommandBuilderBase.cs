@@ -8,10 +8,10 @@ namespace ModularPipelines.Builders;
 /// <summary>
 /// Base implementation for command builders providing common execution options handling.
 /// </summary>
-/// <typeparam name="TBuilder">The concrete builder type for fluent chaining.</typeparam>
+/// <typeparam name="TBuilder">The builder self type used for fluent chaining.</typeparam>
 /// <typeparam name="TOptions">The tool options type.</typeparam>
 public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<TBuilder, TOptions>
-    where TBuilder : CommandBuilderBase<TBuilder, TOptions>
+    where TBuilder : class, ICommandBuilder<TBuilder, TOptions>
     where TOptions : CommandLineToolOptions, new()
 {
     private readonly ICommandContext _command;
@@ -19,7 +19,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     private CommandExecutionOptions _executionOptions = new();
 
     /// <summary>
-    /// Initializes a new instance of the builder with default options.
+    /// Initialises a new instance of the <see cref="CommandBuilderBase{TBuilder, TOptions}"/> class.
     /// </summary>
     /// <param name="command">The command interface for execution.</param>
     protected CommandBuilderBase(ICommandContext command)
@@ -29,7 +29,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     }
 
     /// <summary>
-    /// Initializes a new instance of the builder with initial options.
+    /// Initialises a new instance of the <see cref="CommandBuilderBase{TBuilder, TOptions}"/> class.
     /// </summary>
     /// <param name="command">The command interface for execution.</param>
     /// <param name="initialOptions">The initial tool options.</param>
@@ -42,7 +42,8 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     /// <summary>
     /// Gets the builder instance as the concrete type for fluent chaining.
     /// </summary>
-    protected TBuilder Self => (TBuilder) this;
+    protected TBuilder Self => this as TBuilder
+        ?? throw new InvalidOperationException($"{GetType().Name} must implement {typeof(TBuilder).Name}.");
 
     /// <summary>
     /// Gets or sets the tool-specific options being built.
@@ -80,7 +81,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     public TBuilder WithEnvironmentVariable(string key, string value)
     {
         var vars = _executionOptions.EnvironmentVariables?.ToDictionary(k => k.Key, v => v.Value)
-            ?? new Dictionary<string, string?>();
+            ?? [];
         vars[key] = value;
         _executionOptions = _executionOptions with { EnvironmentVariables = vars };
         return Self;
@@ -90,7 +91,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     public TBuilder WithEnvironmentVariables(IDictionary<string, string?> variables)
     {
         var vars = _executionOptions.EnvironmentVariables?.ToDictionary(k => k.Key, v => v.Value)
-            ?? new Dictionary<string, string?>();
+            ?? [];
         foreach (var kvp in variables)
         {
             vars[kvp.Key] = kvp.Value;
@@ -135,33 +136,6 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
         configure(options);
         return WithLogging(options);
     }
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithWorkingDirectory(string directory) => WithWorkingDirectory(directory);
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithTimeout(TimeSpan timeout) => WithTimeout(timeout);
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithEnvironmentVariable(string key, string value) => WithEnvironmentVariable(key, value);
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithEnvironmentVariables(IDictionary<string, string?> variables) => WithEnvironmentVariables(variables);
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithSudo(bool sudo) => WithSudo(sudo);
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithThrowOnError(bool throwOnError) => WithThrowOnError(throwOnError);
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithGracefulShutdownTimeout(TimeSpan timeout) => WithGracefulShutdownTimeout(timeout);
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithLogging(CommandLoggingOptions options) => WithLogging(options);
-
-    /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithLogging(Action<CommandLoggingOptions> configure) => WithLogging(configure);
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ExecuteAsync(CancellationToken cancellationToken = default)

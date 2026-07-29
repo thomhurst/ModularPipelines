@@ -2,22 +2,22 @@ namespace ModularPipelines.Models;
 
 /// <summary>
 /// Represents a fully-built command line ready for execution.
-/// This is the output of ICommandBuilder and input to ICommandExecutor.
+/// This is the output of the internal command-line builder and input to ICommandExecutor.
 /// </summary>
 public record CommandLine
 {
     /// <summary>
-    /// The CLI tool to execute (e.g., "git", "docker").
+    /// Gets the CLI tool to execute (e.g., "git", "docker").
     /// </summary>
     public string Tool { get; }
 
     /// <summary>
-    /// The command arguments.
+    /// Gets the command arguments.
     /// </summary>
     public IReadOnlyList<string> Arguments { get; }
 
     /// <summary>
-    /// Initializes a new instance with the specified tool and arguments.
+    /// Initialises a new instance of the <see cref="CommandLine"/> class.
     /// Creates a defensive copy to ensure immutability.
     /// </summary>
     /// <param name="tool">The CLI tool to execute.</param>
@@ -31,6 +31,7 @@ public record CommandLine
     /// <summary>
     /// Returns the command line as a string suitable for display.
     /// </summary>
+    /// <returns>The command line as a display string.</returns>
     public override string ToString()
     {
         return Arguments.Count == 0

@@ -1,6 +1,5 @@
+using ModularPipelines.Builders;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Models;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.DotNet.Builders;
 
@@ -8,7 +7,7 @@ namespace ModularPipelines.DotNet.Builders;
 /// Fluent builder interface for dotnet build command.
 /// Provides a discoverable, chainable API for configuring build options.
 /// </summary>
-public interface IDotNetBuildBuilder
+public interface IDotNetBuildBuilder : ICommandBuilder<IDotNetBuildBuilder, DotNetBuildOptions>
 {
     #region Tool-Specific Options
 
@@ -139,71 +138,6 @@ public interface IDotNetBuildBuilder
     /// <param name="value">The property value.</param>
     /// <returns>The builder instance for chaining.</returns>
     IDotNetBuildBuilder WithProperty(string name, string value);
-
-    #endregion
-
-    #region Execution Options
-
-    /// <summary>
-    /// Sets the working directory for command execution.
-    /// </summary>
-    /// <param name="directory">The working directory path.</param>
-    /// <returns>The builder instance for chaining.</returns>
-    IDotNetBuildBuilder WithWorkingDirectory(string directory);
-
-    /// <summary>
-    /// Sets the execution timeout.
-    /// </summary>
-    /// <param name="timeout">The timeout duration.</param>
-    /// <returns>The builder instance for chaining.</returns>
-    IDotNetBuildBuilder WithTimeout(TimeSpan timeout);
-
-    /// <summary>
-    /// Sets an environment variable for the command.
-    /// </summary>
-    /// <param name="key">The environment variable name.</param>
-    /// <param name="value">The environment variable value.</param>
-    /// <returns>The builder instance for chaining.</returns>
-    IDotNetBuildBuilder WithEnvironmentVariable(string key, string value);
-
-    /// <summary>
-    /// Sets multiple environment variables.
-    /// </summary>
-    /// <param name="variables">A dictionary of environment variables.</param>
-    /// <returns>The builder instance for chaining.</returns>
-    IDotNetBuildBuilder WithEnvironmentVariables(IDictionary<string, string?> variables);
-
-    /// <summary>
-    /// Configures whether to throw on non-zero exit code.
-    /// </summary>
-    /// <param name="throwOnError">Whether to throw on error. Defaults to true.</param>
-    /// <returns>The builder instance for chaining.</returns>
-    IDotNetBuildBuilder WithThrowOnError(bool throwOnError = true);
-
-    /// <summary>
-    /// Configures logging options for the command.
-    /// </summary>
-    /// <param name="options">The logging options.</param>
-    /// <returns>The builder instance for chaining.</returns>
-    IDotNetBuildBuilder WithLogging(CommandLoggingOptions options);
-
-    #endregion
-
-    #region Terminal Operations
-
-    /// <summary>
-    /// Executes the build command with the configured options.
-    /// </summary>
-    /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A task representing the command result.</returns>
-    Task<CommandResult> ExecuteAsync(CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Returns the built options without executing.
-    /// Useful for inspection, testing, or hybrid usage patterns.
-    /// </summary>
-    /// <returns>A tuple containing the tool options and execution options.</returns>
-    (DotNetBuildOptions ToolOptions, CommandExecutionOptions ExecutionOptions) ToOptions();
 
     #endregion
 }
