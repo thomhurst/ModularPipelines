@@ -18,6 +18,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string DependsOnAttributeFullName = "ModularPipelines.Attributes.DependsOnAttribute";
     internal const string GenericDependsOnAttributeMetadataName = "DependsOnAttribute`1";
 
+    private static readonly DiagnosticDescriptor SkippedModuleRuntimeMetadata =
+        GeneratorDiagnostics.SkippedModuleRuntimeMetadata;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var modules = context.SyntaxProvider
@@ -33,6 +36,17 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             {
                 if (input.Left.GetTypeByMetadataName(ModuleInterfaceFullName) is not null)
                 {
+                    foreach (var skipped in input.Right
+                                 .Where(static module => !module.CanEmit)
+                                 .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
+                                 .Select(static group => group.First()))
+                    {
+                        sourceContext.ReportDiagnostic(Diagnostic.Create(
+                            SkippedModuleRuntimeMetadata,
+                            skipped.Location,
+                            skipped.TypeName));
+                    }
+
                     sourceContext.AddSource(
                         "ModularPipelines.ModuleMetadata.g.cs",
                         Generate(input.Left.AssemblyName, input.Right));
@@ -82,6 +96,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             GetModuleResultTypeName(type),
             IsTypeAccessible(type, currentAssembly),
+            type.Locations.FirstOrDefault(static location => location.IsInSource),
             [.. dependencies
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
                 .ThenBy(static dependency => dependency.Optional)],
@@ -374,6 +389,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         string TypeName,
         string? ResultTypeName,
         bool CanEmit,
+        Location? Location,
         ImmutableArray<DependencyMetadataInfo> Dependencies,
         bool DependenciesComplete);
 

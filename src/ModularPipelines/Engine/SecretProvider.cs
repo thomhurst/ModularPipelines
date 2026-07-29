@@ -165,6 +165,33 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         }
     }
 
+    /// <inheritdoc />
+    public Task InitializeAsync()
+    {
+        // Use double-checked locking pattern for thread-safety
+        // The volatile read of _initialized before the lock provides a fast-path
+        // for subsequent calls after initialization is complete
+        if (_initialized)
+        {
+            return Task.CompletedTask;
+        }
+
+        lock (_initLock)
+        {
+            // Re-check inside lock to prevent race condition
+            if (_initialized)
+            {
+                return Task.CompletedTask;
+            }
+
+            AddSecrets(GetSecrets(_optionsProvider.GetOptions()));
+
+            _initialized = true;
+        }
+
+        return Task.CompletedTask;
+    }
+
     private static IEnumerable<string> GetSecretsFromProperty(
         SecretPropertyAccessor property,
         object value)
@@ -226,32 +253,6 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             IEnumerable<char> characters => new string(characters.ToArray()),
             _ => value.ToString(),
         };
-    }
-
-    public Task InitializeAsync()
-    {
-        // Use double-checked locking pattern for thread-safety
-        // The volatile read of _initialized before the lock provides a fast-path
-        // for subsequent calls after initialization is complete
-        if (_initialized)
-        {
-            return Task.CompletedTask;
-        }
-
-        lock (_initLock)
-        {
-            // Re-check inside lock to prevent race condition
-            if (_initialized)
-            {
-                return Task.CompletedTask;
-            }
-
-            AddSecrets(GetSecrets(_optionsProvider.GetOptions()));
-
-            _initialized = true;
-        }
-
-        return Task.CompletedTask;
     }
 
     [RequiresUnreferencedCode("Reflection fallback requires SecretValue-attributed properties. Ensure ModularPipelines.SourceGenerator runs for trim-safe secret access.")]

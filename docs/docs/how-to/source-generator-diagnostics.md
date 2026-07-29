@@ -88,6 +88,15 @@ A tool accessor would generate a property whose name is already available on
 
 **Severity:** Error
 
+## MPG0011
+
+Module runtime metadata generation was skipped because the module or one of its
+containing types is inaccessible to generated code. Make the module and its
+containing types accessible before publishing with Native AOT. Runtime reflection
+remains available for ordinary JIT deployments.
+
+**Severity:** Warning
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 

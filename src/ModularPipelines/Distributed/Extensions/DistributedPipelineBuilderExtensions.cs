@@ -13,6 +13,7 @@ public static class DistributedPipelineBuilderExtensions
     /// Enables distributed execution mode. When <see cref="DistributedOptions.TotalInstances"/> is greater than 1,
     /// the pipeline switches to master/worker mode. Otherwise, execution remains in-process.
     /// </summary>
+    /// <returns>The pipeline builder.</returns>
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Action<DistributedOptions> configure)
     {
         builder.Services.Configure<DistributedOptions>(o =>
@@ -27,6 +28,7 @@ public static class DistributedPipelineBuilderExtensions
     /// <summary>
     /// Enables distributed execution mode from configuration.
     /// </summary>
+    /// <returns>The pipeline builder.</returns>
     [RequiresUnreferencedCode("Configuration binding requires members of DistributedOptions that cannot be statically discovered.")]
     [RequiresDynamicCode("Configuration binding may require runtime code generation.")]
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, IConfigurationSection section)
@@ -41,6 +43,7 @@ public static class DistributedPipelineBuilderExtensions
     /// <summary>
     /// Registers a custom distributed coordinator implementation.
     /// </summary>
+    /// <returns>The pipeline builder.</returns>
     public static PipelineBuilder AddDistributedCoordinator<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TCoordinator>(
         this PipelineBuilder builder)
@@ -53,6 +56,7 @@ public static class DistributedPipelineBuilderExtensions
     /// <summary>
     /// Registers a distributed coordinator factory for async initialization.
     /// </summary>
+    /// <returns>The pipeline builder.</returns>
     public static PipelineBuilder AddDistributedCoordinatorFactory<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TFactory>(
         this PipelineBuilder builder)

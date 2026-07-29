@@ -341,6 +341,11 @@ public sealed class PipelineBuilder : IDisposable
 
     private void LoadModularPipelineAssembliesIfNotLoadedYet()
     {
+        if (!RuntimeFeature.IsDynamicCodeSupported)
+        {
+            return;
+        }
+
         var coreVersion = typeof(PipelineBuilder).Assembly.GetName().Version;
         LoadReferencedModularPipelineAssemblies(coreVersion);
 

@@ -145,6 +145,9 @@ public class ModuleMetadataGeneratorTests
                 .Contains("CreateRegistration<global::Consumer.BuildModule, string>");
             await Assert.That(generated).DoesNotContain("HiddenModule");
             await Assert.That(generated).Contains("isComplete: false");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0011"
+                                        && diagnostic.GetMessage().Contains("HiddenModule"));
         }
     }
 

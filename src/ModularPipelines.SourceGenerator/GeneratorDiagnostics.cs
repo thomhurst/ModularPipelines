@@ -77,6 +77,14 @@ internal static class GeneratorDiagnostics
         + "available on IToolsContext or object",
         DiagnosticSeverity.Error);
 
+    public static DiagnosticDescriptor SkippedModuleRuntimeMetadata { get; } = Create(
+        "MPG0011",
+        "Module runtime metadata generation skipped",
+        "Runtime metadata generation for module '{0}' was skipped because the type is "
+        + "inaccessible to generated code; make the module and its containing types accessible "
+        + "before publishing with Native AOT",
+        DiagnosticSeverity.Warning);
+
     private static DiagnosticDescriptor Create(
         string id,
         string title,

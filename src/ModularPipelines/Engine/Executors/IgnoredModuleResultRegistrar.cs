@@ -127,13 +127,26 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         executionContext.Status = Status.Skipped;
         executionContext.SkipResult = ignoredModule.SkipDecision;
 
-        // Create ModuleResult<T> with the skipped status using compiled delegate factory
-        var result = ModuleResultFactory.CreateSkipped(resultType, executionContext);
+        // Prefer generated typed metadata so Native AOT has compiled result and
+        // completion-source adapters.
+        var hasGeneratedRuntime = GeneratedModuleMetadata.TryGetRuntime(
+            moduleType,
+            out var runtime);
+        var result = hasGeneratedRuntime
+            ? runtime.CreateSkipped(executionContext)
+            : ModuleResultFactory.CreateSkipped(resultType, executionContext);
 
         _resultRegistry.RegisterResult(moduleType, result);
 
         // Set the completion source so awaiting the module returns immediately
-        SetModuleCompletionSource(module, resultType, result);
+        if (hasGeneratedRuntime)
+        {
+            runtime.SetCompletionSource(module, result);
+        }
+        else
+        {
+            SetModuleCompletionSource(module, resultType, result);
+        }
     }
 
     /// <summary>

@@ -70,7 +70,7 @@ internal static class ModuleResultFactory
             .GetMethod(nameof(CreateSkippedGeneric), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
             .MakeGenericMethod(resultType);
 
-        return (IModuleResult)method.Invoke(null, [executionContext.SkipResult ?? SkipDecision.DoNotSkip, executionContext])!;
+        return (IModuleResult) method.Invoke(null, [executionContext.SkipResult ?? SkipDecision.DoNotSkip, executionContext])!;
     }
 
     /// <summary>
@@ -86,17 +86,7 @@ internal static class ModuleResultFactory
             .GetMethod(nameof(CreateFailureGeneric), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
             .MakeGenericMethod(resultType);
 
-        return (IModuleResult)method.Invoke(null, [exception, executionContext])!;
-    }
-
-    private static IModuleResult CreateSkippedGeneric<T>(SkipDecision decision, ModuleExecutionContext ctx)
-    {
-        return ModuleResult<T>.CreateSkipped(decision, ctx);
-    }
-
-    private static IModuleResult CreateFailureGeneric<T>(Exception exception, ModuleExecutionContext ctx)
-    {
-        return ModuleResult<T>.CreateFailure(exception, ctx);
+        return (IModuleResult) method.Invoke(null, [exception, executionContext])!;
     }
 
     /// <summary>
@@ -144,7 +134,17 @@ internal static class ModuleResultFactory
             .GetMethod(nameof(WithStatusGeneric), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
             .MakeGenericMethod(valueType);
 
-        return (IModuleResult)method.Invoke(null, [result, status])!;
+        return (IModuleResult) method.Invoke(null, [result, status])!;
+    }
+
+    private static IModuleResult CreateSkippedGeneric<T>(SkipDecision decision, ModuleExecutionContext ctx)
+    {
+        return ModuleResult<T>.CreateSkipped(decision, ctx);
+    }
+
+    private static IModuleResult CreateFailureGeneric<T>(Exception exception, ModuleExecutionContext ctx)
+    {
+        return ModuleResult<T>.CreateFailure(exception, ctx);
     }
 
     private static IModuleResult WithStatusGeneric<T>(ModuleResult<T> result, Status status)

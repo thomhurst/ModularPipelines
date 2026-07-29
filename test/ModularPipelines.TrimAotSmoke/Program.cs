@@ -18,7 +18,10 @@ if (args is [SmokeState.ChildArgument, var childValue])
 using var builder = Pipeline.CreateBuilder(args);
 builder
     .AddModule<CommandModule>()
-    .AddModule<VerificationModule>();
+    .AddModule<VerificationModule>()
+    .AddModule<IgnoredValueModule>()
+    .WithCategory("ignored");
+builder.IgnoreCategories("ignored");
 
 await using var pipeline = await builder.BuildAsync();
 await pipeline.RunAsync();
@@ -107,5 +110,15 @@ internal sealed class VerificationModule(
         }
 
         return true;
+    }
+}
+
+internal sealed class IgnoredValueModule : Module<int>
+{
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        throw new InvalidOperationException("Ignored module should not execute.");
     }
 }

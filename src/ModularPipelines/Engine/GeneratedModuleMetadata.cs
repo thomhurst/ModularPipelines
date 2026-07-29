@@ -197,7 +197,11 @@ internal interface IGeneratedModuleRuntime
 {
     ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType);
 
+    IModuleResult CreateSkipped(ModuleExecutionContext executionContext);
+
     IModuleLogger GetLogger(IServiceProvider serviceProvider);
+
+    void SetCompletionSource(IModule module, IModuleResult result);
 
     Task<IModuleResult> ExecuteAsync(
         IModuleExecutionPipeline pipeline,
@@ -215,9 +219,21 @@ internal sealed class GeneratedModuleRuntime<TModule, TResult> : IGeneratedModul
         return new ModuleExecutionContext<TResult>((Module<TResult>) module, moduleType);
     }
 
+    public IModuleResult CreateSkipped(ModuleExecutionContext executionContext)
+    {
+        return ModuleResult<TResult>.CreateSkipped(
+            executionContext.SkipResult ?? SkipDecision.DoNotSkip,
+            (ModuleExecutionContext<TResult>) executionContext);
+    }
+
     public IModuleLogger GetLogger(IServiceProvider serviceProvider)
     {
         return serviceProvider.GetRequiredService<ModuleLogger<TModule>>();
+    }
+
+    public void SetCompletionSource(IModule module, IModuleResult result)
+    {
+        ((Module<TResult>) module).CompletionSource.TrySetResult((ModuleResult<TResult>) result);
     }
 
     public async Task<IModuleResult> ExecuteAsync(
