@@ -198,6 +198,35 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Inaccessible_Closed_Generic_Dependency_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                public static class Container
+                {
+                    private sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                    [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
+                    public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).DoesNotContain("GenericModule<int>");
+            await Assert.That(generated).Contains("dependenciesComplete: false");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0011"
+                                        && diagnostic.GetMessage()
+                                            .Contains("Container.GenericModule<int>"));
+        }
+    }
+
+    [Test]
     public async Task Transitive_Closed_Generic_Dependency_Metadata_Is_Emitted()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """

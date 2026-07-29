@@ -144,8 +144,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 .Where(dependency =>
                     dependency.IsGenericType
                     && !dependency.IsUnboundGenericType
-                    && ImplementsModule(dependency, compilation)
-                    && IsTypeReferenceAccessible(dependency, compilation.Assembly))
+                    && ImplementsModule(dependency, compilation))
                 .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default),
         ];
     }
