@@ -44,6 +44,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Secrets](https://thomhurst.github.io/ModularPipelines/docs/how-to/secrets): Your options classes should be registered as IOptions.
 - [Sharing data across modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/sharing-data): Modules have been designed with data and sharing at its core.
 - [Skipping Modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/skipping): The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
+- [Source generator diagnostics](https://thomhurst.github.io/ModularPipelines/docs/next/how-to/source-generator-diagnostics): Modular Pipelines generates registration metadata at compile time. A generator
 - [Module History](https://thomhurst.github.io/ModularPipelines/docs/how-to/storing-and-retrieving-results): This can be used later on if you want to re-run the pipeline but skip certain categories or modules.
 - [Sub-Modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/sub-modules): For instance, you have 10 .NET projects to package into NuGet packages.
 - [Testing](https://thomhurst.github.io/ModularPipelines/docs/how-to/testing): ModularPipelines supports mocking file system operations for unit testing. All file I/O goes through `IFileSystemProvider`, which can be replaced w...
