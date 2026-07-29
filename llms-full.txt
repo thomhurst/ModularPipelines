@@ -1857,7 +1857,10 @@ builder
     .AddModule<Module3>()
     .AddModule<Module4>();
 
-builder.Options.RunOnlyCategories = ["UnitTest", "IntegrationTest"];
+builder.ConfigurePipelineOptions(options => options with
+{
+    RunOnlyCategories = ["UnitTest", "IntegrationTest"],
+});
 
 await builder.ExecutePipelineAsync();
 ```
@@ -1873,7 +1876,10 @@ builder
     .AddModule<Module3>()
     .AddModule<Module4>();
 
-builder.Options.IgnoreCategories = ["Publish", "Deploy"];
+builder.ConfigurePipelineOptions(options => options with
+{
+    IgnoreCategories = ["Publish", "Deploy"],
+});
 
 await builder.ExecutePipelineAsync();
 ```
@@ -1897,14 +1903,20 @@ Configure the interval globally. Setting it to zero disables time-based flushing
 entry threshold still protects against unbounded buffering:
 
 ```csharp
-builder.Options.ModuleOutputFlushInterval = TimeSpan.FromSeconds(30);
+builder.ConfigurePipelineOptions(options => options with
+{
+    ModuleOutputFlushInterval = TimeSpan.FromSeconds(30),
+});
 ```
 
 To keep all output buffered until each module completes, disable both triggers:
 
 ```csharp
-builder.Options.ModuleOutputFlushInterval = TimeSpan.Zero;
-builder.Options.ModuleOutputFlushThreshold = 0;
+builder.ConfigurePipelineOptions(options => options with
+{
+    ModuleOutputFlushInterval = TimeSpan.Zero,
+    ModuleOutputFlushThreshold = 0,
+});
 ```
 
 `ModuleOutputFlushThreshold` counts entries, not bytes. Its default is 1,000 entries per
@@ -2513,8 +2525,10 @@ If the integration DLL is copied beside the application without a compile-time r
 opt in to filename-based assembly discovery before building the pipeline:
 
 ```csharp
-builder.ConfigurePipelineOptions(options =>
-    options.LoadModularPipelineAssemblies = true);
+builder.ConfigurePipelineOptions(options => options with
+{
+    LoadModularPipelineAssemblies = true,
+});
 ```
 
 The option is disabled by default to avoid scanning and loading every matching assembly at
@@ -2884,10 +2898,16 @@ Set default logging for all commands at the pipeline level:
 using var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
-builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultLoggingOptions = CommandLoggingOptions.Silent,
+});
 
 // Or use Diagnostic for debugging
-builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultLoggingOptions = CommandLoggingOptions.Diagnostic,
+});
 
 await builder.ExecutePipelineAsync();
 ```
@@ -2943,7 +2963,7 @@ new CommandExecutionOptions
 Logging settings are resolved in this order (highest to lowest priority):
 
 1. **Per-Call**: `CommandExecutionOptions.LogSettings` on individual command calls
-2. **Global Default**: `builder.Options.DefaultLoggingOptions` set at pipeline level
+2. **Global Default**: `DefaultLoggingOptions` configured at pipeline level
 3. **System Default**: `CommandLoggingOptions.Default` (Normal verbosity)
 
 ---
@@ -3169,23 +3189,26 @@ Configure pipeline behavior via the `Options` property:
 ```csharp
 using var builder = Pipeline.CreateBuilder(args);
 
-// Execution mode
-builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
-
-// Category filtering
-builder.Options.RunOnlyCategories = ["Build", "Test"];
-builder.Options.IgnoreCategories = ["Experimental"];
-
-// Display options
-builder.Options.ShowProgressInConsole = true;
-builder.Options.PrintResults = true;
-builder.Options.PrintLogo = true;
-
-// Concurrency settings
-builder.Options.Concurrency = new ConcurrencyOptions
+builder.ConfigurePipelineOptions(options => options with
 {
-    MaxParallelModules = 4
-};
+    // Execution mode
+    ExecutionMode = ExecutionMode.StopOnFirstException,
+
+    // Category filtering
+    RunOnlyCategories = ["Build", "Test"],
+    IgnoreCategories = ["Experimental"],
+
+    // Display options
+    ShowProgressInConsole = true,
+    PrintResults = true,
+    PrintLogo = true,
+
+    // Concurrency settings
+    Concurrency = new ConcurrencyOptions
+    {
+        MaxParallelism = 4,
+    },
+});
 ```
 
 ## Building and Running
@@ -3268,8 +3291,11 @@ builder.Configuration
     .AddEnvironmentVariables();
 
 // Options
-builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
-builder.Options.IgnoreCategories = ["Experimental"];
+builder.ConfigurePipelineOptions(options => options with
+{
+    ExecutionMode = ExecutionMode.StopOnFirstException,
+    IgnoreCategories = ["Experimental"],
+});
 
 // Services
 builder.Services.Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"));
@@ -3327,9 +3353,9 @@ using var builder = Pipeline.CreateBuilder(args);
 await builder
     .AddModule<Module1>()
     .AddModule<Module2>()
-    .ConfigurePipelineOptions(options =>
+    .ConfigurePipelineOptions(options => options with
     {
-        options.ExecutionMode = ExecutionMode.StopOnFirstException;
+        ExecutionMode = ExecutionMode.StopOnFirstException,
     })
     .ExecutePipelineAsync();
 ```
@@ -3357,7 +3383,10 @@ builder
     .AddModule<Module2>()
     .AddModule<Module3>();
 
-builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
+builder.ConfigurePipelineOptions(options => options with
+{
+    ExecutionMode = ExecutionMode.WaitForAllModules,
+});
 
 await builder.ExecutePipelineAsync();
 ```
@@ -3490,7 +3519,10 @@ builder
     .AddModule<Module2>()
     .AddModule<Module3>();
 
-builder.Options.DefaultRetryCount = 3;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultRetryCount = 3,
+});
 
 await builder.ExecutePipelineAsync();
 ```
@@ -4224,10 +4256,16 @@ Modules have a 30-minute timeout by default. Configure the pipeline default when
 
 ```csharp
 using var builder = Pipeline.CreateBuilder();
-builder.Options.DefaultModuleTimeout = TimeSpan.FromHours(2);
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultModuleTimeout = TimeSpan.FromHours(2),
+});
 
 // Disable the default. Per-module timeouts still apply.
-builder.Options.DefaultModuleTimeout = TimeSpan.Zero;
+builder.ConfigurePipelineOptions(options => options with
+{
+    DefaultModuleTimeout = TimeSpan.Zero,
+});
 ```
 
 You can override the pipeline default for one module using `Configure()`. Bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
