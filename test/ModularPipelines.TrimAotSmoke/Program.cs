@@ -31,10 +31,10 @@ builder.IgnoreCategories("ignored");
 await using var pipeline = await builder.BuildAsync();
 await pipeline.RunAsync();
 
-if (SmokeState.HookInvocations != 2)
+if (SmokeState.HookInvocations != 3)
 {
     throw new InvalidOperationException(
-        $"Expected two generated hook invocations, got {SmokeState.HookInvocations}.");
+        $"Expected three generated hook invocations, got {SmokeState.HookInvocations}.");
 }
 
 using var failureBuilder = Pipeline.CreateBuilder(args);
@@ -166,7 +166,19 @@ internal sealed class IgnoredValueModule : Module<int>
 }
 
 [SmokeHook]
+[DependsOn<TransitiveGenericModule<string>>]
 internal sealed class ClosedGenericModule<T> : Module<bool>
+{
+    protected override Task<bool> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult(true);
+    }
+}
+
+[SmokeHook]
+internal sealed class TransitiveGenericModule<T> : Module<bool>
 {
     protected override Task<bool> ExecuteAsync(
         IModuleContext context,

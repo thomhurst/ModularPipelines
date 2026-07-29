@@ -32,15 +32,13 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .CreateSyntaxProvider(
                 static (node, _) => IsCandidate(node),
                 static (generatorContext, _) => GetModuleMetadata(generatorContext))
-            .Where(static metadata => metadata is not null)
-            .Select(static (metadata, _) => metadata!);
+            .SelectMany(static (metadata, _) => metadata);
 
         var registeredClosedGenericModules = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (node, _) => IsModuleRegistrationCandidate(node),
                 static (generatorContext, _) => GetRegisteredModuleMetadata(generatorContext))
-            .Where(static metadata => metadata is not null)
-            .Select(static (metadata, _) => metadata!);
+            .SelectMany(static (metadata, _) => metadata);
 
         var allModules = modules
             .Collect()
@@ -142,26 +140,27 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                    && record.ClassOrStructKeyword.ValueText != "struct");
     }
 
-    private static ModuleMetadataInfo? GetModuleMetadata(GeneratorSyntaxContext context)
+    private static ImmutableArray<ModuleMetadataInfo> GetModuleMetadata(
+        GeneratorSyntaxContext context)
     {
         if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
             || type.IsAbstract
             || type.IsGenericType
             || !ImplementsModule(type, context.SemanticModel.Compilation))
         {
-            return null;
+            return [];
         }
 
-        return CreateModuleMetadata(type, context.SemanticModel.Compilation);
+        return CreateModuleMetadataGraph(type, context.SemanticModel.Compilation);
     }
 
-    private static ModuleMetadataInfo? GetRegisteredModuleMetadata(
+    private static ImmutableArray<ModuleMetadataInfo> GetRegisteredModuleMetadata(
         GeneratorSyntaxContext context)
     {
         var type = GetRegisteredClosedGenericModule(context);
         if (type is null)
         {
-            return null;
+            return [];
         }
 
         var invocation = (InvocationExpressionSyntax) context.Node;
@@ -169,17 +168,50 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 type.ContainingAssembly,
                 context.SemanticModel.Compilation.Assembly))
         {
-            return new ModuleMetadataInfo(
-                type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                GetModuleResultTypeName(type),
-                false,
-                invocation.GetLocation(),
-                [],
-                false,
-                true);
+            return
+            [
+                new ModuleMetadataInfo(
+                    type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                    GetModuleResultTypeName(type),
+                    false,
+                    invocation.GetLocation(),
+                    [],
+                    false,
+                    true),
+            ];
         }
 
-        return CreateModuleMetadata(type, context.SemanticModel.Compilation);
+        return CreateModuleMetadataGraph(type, context.SemanticModel.Compilation);
+    }
+
+    private static ImmutableArray<ModuleMetadataInfo> CreateModuleMetadataGraph(
+        INamedTypeSymbol root,
+        Compilation compilation)
+    {
+        var metadata = ImmutableArray.CreateBuilder<ModuleMetadataInfo>();
+        var pending = new Stack<INamedTypeSymbol>();
+        var visited = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+        pending.Push(root);
+
+        while (pending.Count > 0)
+        {
+            var type = pending.Pop();
+            if (!visited.Add(type))
+            {
+                continue;
+            }
+
+            metadata.Add(CreateModuleMetadata(type, compilation));
+            foreach (var dependency in GetClosedGenericModuleDependencies(type, compilation)
+                         .Where(dependency => SymbolEqualityComparer.Default.Equals(
+                             dependency.ContainingAssembly,
+                             compilation.Assembly)))
+            {
+                pending.Push(dependency);
+            }
+        }
+
+        return metadata.ToImmutable();
     }
 
     private static ModuleMetadataInfo CreateModuleMetadata(

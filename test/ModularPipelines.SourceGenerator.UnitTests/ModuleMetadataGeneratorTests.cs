@@ -198,6 +198,38 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Transitive_Closed_Generic_Dependency_Metadata_Is_Emitted()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                public sealed class LeafModule<T> : ModularPipelines.Modules.Module<T>;
+
+                [ModularPipelines.Attributes.DependsOn<LeafModule<string>>]
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<int>, int>");
+            await Assert.That(generated)
+                .Contains("new(typeof(global::Consumer.LeafModule<string>), false)");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.LeafModule<string>, string>");
+            await Assert.That(CountOccurrences(
+                generated,
+                "dependenciesComplete: true")).IsEqualTo(3);
+        }
+    }
+
+    [Test]
     public async Task Registered_Closed_Generic_Module_Is_Emitted()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
