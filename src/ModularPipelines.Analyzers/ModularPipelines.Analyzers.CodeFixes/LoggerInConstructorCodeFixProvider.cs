@@ -300,7 +300,8 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         var removeConstructor = constructor.ParameterList.Parameters.Count == 1
                                 && remainingStatements == 0
                                 && constructor.Initializer is null
-                                && constructor.Modifiers.Any(SyntaxKind.PublicKeyword);
+                                && constructor.Modifiers.Any(SyntaxKind.PublicKeyword)
+                                && IsOnlyInstanceConstructor(constructor);
 
         foreach (var replacement in loggerReplacements)
         {
@@ -338,6 +339,15 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         }
 
         return editor.GetChangedDocument();
+    }
+
+    private static bool IsOnlyInstanceConstructor(ConstructorDeclarationSyntax constructor)
+    {
+        return constructor.Parent is TypeDeclarationSyntax containingType
+               && !containingType.Members
+                   .OfType<ConstructorDeclarationSyntax>()
+                   .Any(other => other != constructor
+                                 && !other.Modifiers.Any(SyntaxKind.StaticKeyword));
     }
 
     private sealed class LoggerReplacement(SyntaxNode node, SyntaxToken contextParameterIdentifier)

@@ -179,6 +179,46 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string LoggerConstructorWithOverloadSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1({{|#0:ILogger<Module1> logger|}})
+    {{
+    }}
+
+    public Module1(int value)
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedLoggerConstructorWithOverloadSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1()
+    {{
+    }}
+
+    public Module1(int value)
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string EscapedContextStoredLoggerSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -336,6 +376,17 @@ public class Module1 : Module<List<string>>
         await VerifyCS.VerifyNoCodeFixAsync(
             DuplicateConstructorSignatureSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Retains_Public_Constructor_When_Another_Overload_Remains()
+    {
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            LoggerConstructorWithOverloadSource,
+            expected,
+            FixedLoggerConstructorWithOverloadSource);
     }
 
     [TestMethod]
