@@ -64,6 +64,7 @@ builder
     .AddModule<RunDistributedArtifactsS3UnitTestsModule>()
     .AddModule<RunDistributedSignalRUnitTestsModule>()
     .AddModule<RunDistributedDiscoveryRedisUnitTestsModule>()
+    .AddModules(GeneratedOptionsUnitTestProjects.ModuleTypes)
     .AddModule<RunAllUnitTestsModule>()
     .AddModule<NugetVersionGeneratorModule>()
     .AddModule<FindProjectsModule>()
