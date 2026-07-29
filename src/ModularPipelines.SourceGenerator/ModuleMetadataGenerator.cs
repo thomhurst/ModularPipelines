@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.SourceGenerator;
@@ -56,7 +57,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         var currentAssembly = context.SemanticModel.Compilation.Assembly;
         var dependencies = ImmutableArray.CreateBuilder<DependencyMetadataInfo>();
-        var dependenciesComplete = true;
+        var dependenciesComplete = !HasPartialDeclaration(type);
 
         foreach (var attribute in GetDependencyAttributes(type))
         {
@@ -82,6 +83,13 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
                 .ThenBy(static dependency => dependency.Optional)],
             dependenciesComplete);
+    }
+
+    private static bool HasPartialDeclaration(INamedTypeSymbol type)
+    {
+        return type.DeclaringSyntaxReferences.Any(static reference =>
+            reference.GetSyntax() is TypeDeclarationSyntax declaration
+            && declaration.Modifiers.Any(SyntaxKind.PartialKeyword));
     }
 
     private static bool TryGetDependencyMetadata(

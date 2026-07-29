@@ -81,6 +81,29 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Partial_Module_Dependency_Metadata_Remains_Incomplete()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+                public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("new(typeof(global::Consumer.DependencyModule), false)");
+            await Assert.That(generated).Contains("dependenciesComplete: false");
+        }
+    }
+
+    [Test]
     public async Task Assembly_Metadata_Remains_Incomplete_When_No_Source_Module_Is_Visible()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
