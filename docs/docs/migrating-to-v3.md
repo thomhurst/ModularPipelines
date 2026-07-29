@@ -324,7 +324,7 @@ Execution-related properties have been separated from tool-specific options into
 
 ```csharp
 // Execution options were mixed with tool options
-await context.DotNet().BuildAsync(new DotNetBuildOptions
+await context.DotNet().Build(new DotNetBuildOptions
 {
     Project = "MySolution.sln",
     Configuration = Configuration.Release,
@@ -387,7 +387,7 @@ V3 introduces a new `CommandLoggingOptions` system that replaces the previous lo
 
 ```csharp
 // Logging settings were on tool options with limited control
-await context.DotNet().BuildAsync(new DotNetBuildOptions
+await context.DotNet().Build(new DotNetBuildOptions
 {
     LogInput = true,
     LogOutput = false,
@@ -650,7 +650,7 @@ public class PackageModule : Module<PackageResult>
             // Protected method on module class
             await SubModule(package, async () =>
             {
-                await context.DotNet().PackAsync(new DotNetPackOptions { Project = package });
+                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
             });
         }
 
@@ -744,7 +744,7 @@ The command execution API has moved from `context.Command` to `context.Shell.Com
 ### Before (V2)
 
 ```csharp
-await context.Command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("mytool")
+await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("mytool")
 {
     Arguments = new[] { "arg1", "arg2" }
 });
@@ -790,14 +790,14 @@ await context.Git().Tag(new GitTagOptions
 
 ```csharp
 // Without execution options (most common)
-await context.Git().Tag(new GitTagOptions
+await context.Git().Commands.Branches.TagAsync(new GitTagOptions
 {
     TagName = "v1.0.0",
     Message = "Release v1.0.0"
-}, token: cancellationToken);
+}, cancellationToken: cancellationToken);
 
 // With execution options (when needed)
-await context.Git().Tag(
+await context.Git().Commands.Branches.TagAsync(
     new GitTagOptions
     {
         TagName = "v1.0.0",
@@ -809,14 +809,16 @@ await context.Git().Tag(
 
 ### Note on Parameter Names
 
-When calling without `CommandExecutionOptions`, use named parameter `token:` for the cancellation token to avoid ambiguity:
+When calling without `CommandExecutionOptions`, use named parameter `cancellationToken:` to avoid ambiguity:
 
 ```csharp
 // Correct - named parameter
-await context.Git().Push(options, token: cancellationToken);
+await context.Git().Commands.Remotes.PushAsync(
+    options,
+    cancellationToken: cancellationToken);
 
 // May be ambiguous without named parameter
-await context.Git().Push(options, cancellationToken); // Could fail
+await context.Git().Commands.Remotes.PushAsync(options, cancellationToken); // Could fail
 ```
 
 ## Async Configuration Methods
@@ -1087,7 +1089,7 @@ public class BuildModule : Module<BuildOutput>
     protected override async Task<BuildOutput?> ExecuteAsync(
         IPipelineContext context, CancellationToken cancellationToken)
     {
-        var result = await context.DotNet().BuildAsync(new DotNetBuildOptions());
+        var result = await context.DotNet().Build(new DotNetBuildOptions());
         return new BuildOutput(result.StandardOutput);
     }
 }
@@ -1318,7 +1320,7 @@ This section provides structured data optimized for AI assistants helping with c
   note: "Pre-configured logging options"
 
 # Shell/Command Execution (API restructured)
-- old: "context.Command.ExecuteCommandLineToolAsync(...)"
+- old: "context.Command.ExecuteCommandLineTool(...)"
   new: "context.Shell.Command.ExecuteCommandLineToolAsync(...)"
 
 - old: "context.Bash.ExecuteCommand(...)"

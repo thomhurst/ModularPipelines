@@ -616,7 +616,7 @@ public class GeneratorHardeningTests
 
         await Assert.That(generated)
             .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
-        await Assert.That(generated).Contains("Task<CommandResult> Create_or_update(");
+        await Assert.That(generated).Contains("Task<CommandResult> Create_or_updateAsync(");
         await Assert.That(generated).Contains(
             "return await CreateOrUpdateAsync(options, executionOptions, cancellationToken);");
     }
@@ -642,7 +642,7 @@ public class GeneratorHardeningTests
 
         await Assert.That(generated)
             .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
-        await Assert.That(generated).Contains("Task<CommandResult> Create_or_update(");
+        await Assert.That(generated).Contains("Task<CommandResult> Create_or_updateAsync(");
     }
 
     #endregion

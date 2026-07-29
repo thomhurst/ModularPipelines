@@ -686,6 +686,10 @@ public static partial class GeneratorUtils
         string currentMethodName)
     {
         return command.CompatibilityMethods
+            .Select(method => method with
+            {
+                MethodName = EnsureAsyncSuffix(method.MethodName),
+            })
             .Where(method => !string.Equals(method.MethodName, currentMethodName, StringComparison.Ordinal))
             .DistinctBy(method => method.MethodName, StringComparer.Ordinal);
     }

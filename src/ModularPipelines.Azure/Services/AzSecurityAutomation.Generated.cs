@@ -52,7 +52,7 @@ public class AzSecurityAutomation
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await CreateOrUpdate(options, executionOptions, cancellationToken);
+        return await CreateOrUpdateAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

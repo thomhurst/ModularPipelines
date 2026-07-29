@@ -67,7 +67,7 @@ public class AzSecurityAlertsSuppressionRule
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await UpsertScope(options, executionOptions, cancellationToken);
+        return await UpsertScopeAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion
