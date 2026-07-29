@@ -96,7 +96,7 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
 
             if (HasStreamedOutput)
             {
-                WriteLine(line);
+                WriteLineSafely(line);
                 return;
             }
 
@@ -108,7 +108,7 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
                 || line.Text.Length > CommandLogger.MaximumInlineOutputLength
                 || _pendingLines.Count > 1)
             {
-                FlushPendingLinesUnderLock();
+                FlushPendingLinesSafely();
                 return;
             }
 
@@ -124,19 +124,24 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
     {
         lock (_lock)
         {
-            if (_isCompleted)
+            if (_isCompleted || _loggingFailure is not null)
             {
                 return;
             }
 
-            try
-            {
-                FlushPendingLinesUnderLock();
-            }
-            catch (Exception exception)
-            {
-                _loggingFailure = ExceptionDispatchInfo.Capture(exception);
-            }
+            FlushPendingLinesSafely();
+        }
+    }
+
+    private void FlushPendingLinesSafely()
+    {
+        try
+        {
+            FlushPendingLinesUnderLock();
+        }
+        catch (Exception exception)
+        {
+            CaptureLoggingFailure(exception);
         }
     }
 
@@ -149,6 +154,25 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
         }
 
         _pendingLines.Clear();
+        _timer?.Dispose();
+        _timer = null;
+    }
+
+    private void WriteLineSafely(BufferedLine line)
+    {
+        try
+        {
+            WriteLine(line);
+        }
+        catch (Exception exception)
+        {
+            CaptureLoggingFailure(exception);
+        }
+    }
+
+    private void CaptureLoggingFailure(Exception exception)
+    {
+        _loggingFailure ??= ExceptionDispatchInfo.Capture(exception);
         _timer?.Dispose();
         _timer = null;
     }

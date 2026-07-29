@@ -88,6 +88,40 @@ public class DeferredCommandOutputLoggerTests
         await Assert.That(completion.HasStreamedOutput).IsTrue();
     }
 
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Immediate_Logging_Failure_Stops_Writes_And_Is_Propagated_Once(
+        bool useStandardError)
+    {
+        var outputLogger = new ThrowingOutputLogger();
+        using var deferredLogger = new DeferredCommandOutputLogger(
+            outputLogger,
+            new TestCommandOptions(),
+            new CommandExecutionOptions(),
+            TimeSpan.FromMilliseconds(10));
+
+        if (useStandardError)
+        {
+            deferredLogger.LogStandardErrorLine("error");
+        }
+        else
+        {
+            deferredLogger.LogStandardOutputLine("first");
+            deferredLogger.LogStandardOutputLine("second");
+        }
+
+        deferredLogger.LogStandardOutputLine("later output");
+        await Task.Delay(TimeSpan.FromMilliseconds(50));
+        await Assert.That(outputLogger.AttemptCount).IsEqualTo(1);
+
+        var exception = Assert.Throws<InvalidOperationException>(() => deferredLogger.Complete());
+        await Assert.That(exception.Message).IsEqualTo("Logging failed.");
+
+        var completion = deferredLogger.Complete();
+        await Assert.That(completion.HasStreamedOutput).IsTrue();
+    }
+
     private sealed class RecordingOutputLogger(int expectedLineCount) : ICommandOutputLogger
     {
         private readonly TaskCompletionSource _expectedLinesReceived =
