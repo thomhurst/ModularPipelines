@@ -1458,32 +1458,21 @@ internal static class ModuleAuthoringAnalysis
              method is not null;
              method = method.ContainingSymbol as IMethodSymbol)
         {
-            if (method.Name == AnalyzerConstants.MethodNames.ExecuteAsync
-                && method.IsOverride
-                && method.OverriddenMethod?.ContainingType.IsModule(context.Compilation) == true)
+            if (IsModuleExecuteAsync(method, context.Compilation))
             {
                 return NestedCallablesAreInvoked(context.Operation, nestedCallables)
                     ? method
                     : null;
             }
 
-            if (method.MethodKind == MethodKind.Ordinary
-                && TryGetReachableExecuteMethod(
-                    context,
-                    method,
-                    out var executeMethod))
+            if (GetReachableMemberExecutionMethod(context, method) is { } executionMethod)
             {
-                if (!NestedCallablesAreInvoked(context.Operation, nestedCallables))
-                {
-                    return null;
-                }
-
-                return method.Parameters.Any(IsCancellationToken)
-                    ? method
-                    : executeMethod;
+                return NestedCallablesAreInvoked(context.Operation, nestedCallables)
+                    ? executionMethod
+                    : null;
             }
 
-            if (method.MethodKind is not (MethodKind.LocalFunction or MethodKind.AnonymousFunction))
+            if (!IsNestedCallable(method))
             {
                 return null;
             }
@@ -1495,6 +1484,33 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return null;
+    }
+
+    private static bool IsModuleExecuteAsync(IMethodSymbol method, Compilation compilation)
+    {
+        return method.Name == AnalyzerConstants.MethodNames.ExecuteAsync
+               && method.IsOverride
+               && method.OverriddenMethod?.ContainingType.IsModule(compilation) == true;
+    }
+
+    private static IMethodSymbol? GetReachableMemberExecutionMethod(
+        OperationAnalysisContext context,
+        IMethodSymbol method)
+    {
+        if (method.MethodKind != MethodKind.Ordinary
+            || !TryGetReachableExecuteMethod(context, method, out var executeMethod))
+        {
+            return null;
+        }
+
+        return method.Parameters.Any(IsCancellationToken)
+            ? method
+            : executeMethod;
+    }
+
+    private static bool IsNestedCallable(IMethodSymbol method)
+    {
+        return method.MethodKind is MethodKind.LocalFunction or MethodKind.AnonymousFunction;
     }
 
     private static List<IMethodSymbol> GetEnclosingNestedCallables(IOperation operation)
