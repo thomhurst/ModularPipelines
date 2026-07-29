@@ -78,6 +78,12 @@ public class ContextHierarchyTests
             .Because("IPipelineContext should have Services property");
         await Assert.That(servicesProperty!.PropertyType).IsEqualTo(typeof(IServicesContext))
             .Because("Services should be of type IServicesContext");
+
+        var toolsProperty = contextType.GetProperty("Tools");
+        await Assert.That(toolsProperty).IsNotNull()
+            .Because("IPipelineContext should have Tools property");
+        await Assert.That(toolsProperty!.PropertyType).IsEqualTo(typeof(IToolsContext))
+            .Because("Tools should be of type IToolsContext");
     }
 
     [Test]

@@ -19,6 +19,18 @@ public class ModularPipelinesIntegrationGeneratorTests
             {
             }
         }
+
+        namespace ModularPipelines.Context
+        {
+            public interface IPipelineContext
+            {
+            }
+
+            public interface IToolsContext
+            {
+                T Get<T>() where T : class;
+            }
+        }
         """;
 
     [Test]
@@ -69,6 +81,39 @@ public class ModularPipelinesIntegrationGeneratorTests
         await SnapshotVerifier.VerifyAsync(
             "ModularPipelinesIntegrationGenerator.ValidIntegration",
             result.GeneratedTrees.Single().GetText().ToString());
+    }
+
+    [Test]
+    public async Task Tool_Accessor_Generates_Discoverable_Extension_Property()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using ModularPipelines.Context;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public interface IGit
+            {
+            }
+
+            public static class GitIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+
+                public static IGit Git(this IPipelineContext context) => throw null!;
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource)
+                .Contains("public global::IGit Git => tools.Get<global::IGit>();");
+        }
     }
 
     [Test]
