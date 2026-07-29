@@ -138,6 +138,11 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
         SemanticModel semanticModel,
         CancellationToken cancellationToken)
     {
+        if (IsWritableRefExtensionReceiver(identifier, semanticModel, cancellationToken))
+        {
+            return true;
+        }
+
         var assignment = identifier.FirstAncestorOrSelf<AssignmentExpressionSyntax>();
         if (assignment?.Left is TupleExpressionSyntax tuple
             && ContainsFieldTarget(tuple, field, semanticModel, cancellationToken))
@@ -177,6 +182,27 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                && SymbolEqualityComparer.Default.Equals(
                    semanticModel.GetSymbolInfo(argument.Expression, cancellationToken).Symbol,
                    field);
+    }
+
+    private static bool IsWritableRefExtensionReceiver(
+        IdentifierNameSyntax identifier,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        var invocation = identifier.Ancestors()
+            .OfType<InvocationExpressionSyntax>()
+            .FirstOrDefault(candidate =>
+                candidate.Expression is MemberAccessExpressionSyntax memberAccess
+                && memberAccess.Expression.Span.Contains(identifier.Span));
+
+        return invocation is not null
+               && semanticModel.GetSymbolInfo(invocation, cancellationToken).Symbol
+                   is IMethodSymbol
+               {
+                   ReducedFrom: { Parameters.Length: > 0 } reducedFrom,
+               }
+
+               && reducedFrom.Parameters[0].RefKind == RefKind.Ref;
     }
 
     private static bool ContainsFieldTarget(

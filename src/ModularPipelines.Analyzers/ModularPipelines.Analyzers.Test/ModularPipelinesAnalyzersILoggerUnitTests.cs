@@ -638,6 +638,40 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string LoggerWithMoreSpecificExtensionSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+using ModularPipelines.Logging;
+
+public static class LoggerExtensions
+{{
+    public static void LogCustom(this ILogger logger)
+    {{
+    }}
+
+    public static void LogCustom(this IModuleLogger logger)
+    {{
+    }}
+}}
+
+public class Module1 : Module<List<string>>
+{{
+    private readonly ILogger _logger;
+
+    public Module1(ILogger logger)
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        _logger.LogCustom();
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string GoodModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -901,6 +935,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             LoggerWithGenericExtensionSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Extension_Overload_Changes()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            LoggerWithMoreSpecificExtensionSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 

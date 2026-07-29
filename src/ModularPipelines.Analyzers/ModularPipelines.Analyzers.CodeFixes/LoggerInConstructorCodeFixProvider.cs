@@ -242,10 +242,14 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             var nodeToReplace = GetLoggerExpression(fieldReference);
             if (nodeToReplace.Parent is not MemberAccessExpressionSyntax { Expression: var expression }
                 || expression != nodeToReplace
-                || !CanReplaceLoggerReceiver(nodeToReplace, semanticModel, cancellationToken)
                 || nodeToReplace.FindVisibleModuleContextParameter(
                     semanticModel,
-                    cancellationToken) is not { } contextParameter)
+                    cancellationToken) is not { } contextParameter
+                || !CanReplaceLoggerReceiver(
+                    nodeToReplace,
+                    contextParameter.Identifier,
+                    semanticModel,
+                    cancellationToken))
             {
                 return null;
             }
@@ -258,6 +262,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
 
     private static bool CanReplaceLoggerReceiver(
         ExpressionSyntax loggerExpression,
+        SyntaxToken contextParameterIdentifier,
         SemanticModel semanticModel,
         CancellationToken cancellationToken)
     {
@@ -279,11 +284,36 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         var contextLoggerType = semanticModel.Compilation.GetTypeByMetadataName(
             "ModularPipelines.Logging.IModuleLogger");
 
-        return requiredReceiverType is not null
-               && contextLoggerType is not null
-               && semanticModel.Compilation
-                   .ClassifyCommonConversion(contextLoggerType, requiredReceiverType)
-                   .IsImplicit;
+        if (requiredReceiverType is null
+            || contextLoggerType is null
+            || !semanticModel.Compilation
+                .ClassifyCommonConversion(contextLoggerType, requiredReceiverType)
+                .IsImplicit)
+        {
+            return false;
+        }
+
+        ExpressionSyntax expressionToBind =
+            memberAccess.Parent is InvocationExpressionSyntax invocation
+            && invocation.Expression == memberAccess
+                ? invocation
+                : memberAccess;
+        var contextLogger = SyntaxFactory.MemberAccessExpression(
+            SyntaxKind.SimpleMemberAccessExpression,
+            SyntaxFactory.IdentifierName(contextParameterIdentifier.WithoutTrivia()),
+            SyntaxFactory.IdentifierName("Logger"));
+        var rewrittenExpression = expressionToBind.ReplaceNode(
+            loggerExpression,
+            contextLogger);
+        var originalSymbol = semanticModel.GetSymbolInfo(
+            expressionToBind,
+            cancellationToken).Symbol;
+        var rewrittenSymbol = semanticModel.GetSpeculativeSymbolInfo(
+            expressionToBind.SpanStart,
+            rewrittenExpression,
+            SpeculativeBindingOption.BindAsExpression).Symbol;
+
+        return SymbolEqualityComparer.Default.Equals(originalSymbol, rewrittenSymbol);
     }
 
     private static bool IsLogger(ITypeSymbol type)

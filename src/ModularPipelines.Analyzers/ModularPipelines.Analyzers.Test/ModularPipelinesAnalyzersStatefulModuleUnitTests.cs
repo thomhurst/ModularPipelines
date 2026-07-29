@@ -343,6 +343,35 @@ public class Module1 : Module<int>
 }
 ";
 
+    private const string ModuleWithRefExtensionReceiver = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public static class IntExtensions
+{
+    public static void Increment(this ref int value)
+    {
+        value++;
+    }
+}
+
+public class Module1 : Module<int>
+{
+    private int _state;
+
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        _state.Increment();
+        return Task.FromResult(_state);
+    }
+}
+";
+
     private const string ModuleWithMutableStructMemberAssignment = @"
 #nullable enable
 using System.Threading;
@@ -783,6 +812,14 @@ public class Module1 : Module<int>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithExternallyWritableField,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Ref_Extension_Receiver()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithRefExtensionReceiver,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 
