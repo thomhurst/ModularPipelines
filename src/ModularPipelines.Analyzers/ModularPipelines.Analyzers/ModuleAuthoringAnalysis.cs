@@ -419,21 +419,56 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var enclosingCallable = GetEnclosingCallable(invocation);
-        foreach (var returnValue in invocation.Arguments
+        foreach (var anonymousFunction in invocation.Arguments
                      .SelectMany(static argument => argument.Value
                          .DescendantsAndSelf()
                          .OfType<IAnonymousFunctionOperation>())
                      .Where(anonymousFunction =>
                          ReferenceEquals(
                              GetEnclosingCallable(anonymousFunction),
-                             enclosingCallable))
-                     .SelectMany(anonymousFunction => anonymousFunction.Body
+                             enclosingCallable)))
+        {
+            QueueCallableReturns(
+                anonymousFunction.Body,
+                anonymousFunction,
+                pending);
+        }
+
+        var root = GetRoot(invocation);
+        foreach (var methodReference in invocation.Arguments
+                     .SelectMany(static argument => argument.Value
                          .DescendantsAndSelf()
-                         .OfType<IReturnOperation>()
-                         .Where(returnOperation =>
-                             ReferenceEquals(
-                                 GetEnclosingCallable(returnOperation),
-                                 anonymousFunction)))
+                         .OfType<IMethodReferenceOperation>()))
+        {
+            foreach (var localFunction in root.DescendantsAndSelf()
+                         .OfType<ILocalFunctionOperation>()
+                         .Where(localFunction =>
+                             SymbolEqualityComparer.Default.Equals(
+                                 localFunction.Symbol.OriginalDefinition,
+                                 methodReference.Method.OriginalDefinition)))
+            {
+                if (localFunction.Body is { } body)
+                {
+                    QueueCallableReturns(
+                        body,
+                        localFunction,
+                        pending);
+                }
+            }
+        }
+    }
+
+    private static void QueueCallableReturns(
+        IOperation body,
+        IOperation callable,
+        Stack<(IOperation Operation, bool RequireTaskLike)> pending)
+    {
+        foreach (var returnValue in body.DescendantsAndSelf()
+                     .OfType<IReturnOperation>()
+                     .Where(returnOperation =>
+                         ReferenceEquals(
+                             GetEnclosingCallable(returnOperation),
+                             callable))
                      .Select(static returnOperation => returnOperation.ReturnedValue)
                      .OfType<IOperation>()
                      .Reverse())
@@ -536,9 +571,23 @@ internal static class ModuleAuthoringAnalysis
         if (definition.Name is not ("AddSingleton" or "AddScoped" or "AddTransient")
             || definition.ContainingType.ToDisplayString() is not (
                 "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
-                or "ModularPipelines.Extensions.PipelineBuilderExtensions")
-            || method.TypeArguments.FirstOrDefault()?.ToDisplayString()
-            != "ModularPipelines.Modules.IModule")
+                or "ModularPipelines.Extensions.PipelineBuilderExtensions"))
+        {
+            return false;
+        }
+
+        var registersModuleService =
+            method.TypeArguments.FirstOrDefault()?.ToDisplayString()
+            == "ModularPipelines.Modules.IModule"
+            || invocation.Arguments.Any(argument =>
+                argument.Parameter?.Name == "serviceType"
+                && TryGetTypeOfNamedType(
+                    argument.Value,
+                    [with(SymbolEqualityComparer.Default)],
+                    out var serviceType)
+                && serviceType.ToDisplayString()
+                == "ModularPipelines.Modules.IModule");
+        if (!registersModuleService)
         {
             return false;
         }
@@ -546,6 +595,25 @@ internal static class ModuleAuthoringAnalysis
         if (method.TypeArguments.ElementAtOrDefault(1) is INamedTypeSymbol implementationType)
         {
             instanceRegisteredModules.Add(implementationType.OriginalDefinition);
+            return true;
+        }
+
+        var implementationTypeArgument = invocation.Arguments.FirstOrDefault(
+            static argument => argument.Parameter?.Name == "implementationType");
+        if (implementationTypeArgument is not null)
+        {
+            if (TryGetTypeOfNamedType(
+                    implementationTypeArgument.Value,
+                    [with(SymbolEqualityComparer.Default)],
+                    out implementationType))
+            {
+                instanceRegisteredModules.Add(implementationType.OriginalDefinition);
+            }
+            else
+            {
+                unresolvedModuleRegistrations.Add(0);
+            }
+
             return true;
         }
 
@@ -562,6 +630,34 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return true;
+    }
+
+    private static bool TryGetTypeOfNamedType(
+        IOperation operation,
+        HashSet<ILocalSymbol> visitedLocals,
+        out INamedTypeSymbol namedType)
+    {
+        switch (operation)
+        {
+            case IConversionOperation conversion:
+                return TryGetTypeOfNamedType(
+                    conversion.Operand,
+                    visitedLocals,
+                    out namedType);
+            case ITypeOfOperation { TypeOperand: INamedTypeSymbol typeOperand }:
+                namedType = typeOperand;
+                return true;
+            case ILocalReferenceOperation localReference
+                when visitedLocals.Add(localReference.Local)
+                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
+                return TryGetTypeOfNamedType(
+                    localValue,
+                    visitedLocals,
+                    out namedType);
+            default:
+                namedType = null!;
+                return false;
+        }
     }
 
     private static void TrackGenericModuleRegistrations(
