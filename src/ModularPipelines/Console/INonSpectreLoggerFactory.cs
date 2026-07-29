@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
+using System.Reflection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ModularPipelines.Console;
 
@@ -9,27 +11,54 @@ internal interface INonSpectreLoggerFactory
 }
 
 internal sealed class NonSpectreLoggerFactory(
-    ILoggerFactory loggerFactory,
-    ISpectreLoggerSuppression suppression) : INonSpectreLoggerFactory
+    ILoggerProviderRegistry providerRegistry,
+    IOptionsMonitor<LoggerFilterOptions> filterOptions) : INonSpectreLoggerFactory, IDisposable
 {
     private readonly ConcurrentDictionary<string, IReadOnlyList<ILogger>> _loggers = new();
+    private readonly ConcurrentDictionary<ILoggerProvider, LoggerFactory> _providerFactories =
+        new(ReferenceEqualityComparer.Instance);
 
     public IReadOnlyList<ILogger> CreateLoggers(string categoryName)
     {
         return _loggers.GetOrAdd(
             categoryName,
-            name => [new SpectreSuppressingLogger(loggerFactory.CreateLogger(name), suppression)]);
+            name => [new DynamicProviderLogger(this, name)]);
     }
 
-    private sealed class SpectreSuppressingLogger(
-        ILogger inner,
-        ISpectreLoggerSuppression suppression) : ILogger
+    public void Dispose()
+    {
+        foreach (var factory in _providerFactories.Values)
+        {
+            factory.Dispose();
+        }
+    }
+
+    private static bool IsSpectreProvider(ILoggerProvider provider) =>
+        provider is SuppressibleSpectreLoggerProvider
+        || provider.GetType().FullName is SpectreLoggerSuppressionRegistration.SpectreProviderTypeName;
+
+    private IReadOnlyList<ILogger> GetProviderLoggers(string categoryName) =>
+    [
+        .. providerRegistry.Providers
+            .Where(static provider => !IsSpectreProvider(provider))
+            .Select(provider => _providerFactories
+                .GetOrAdd(
+                    provider,
+                    value => new LoggerFactory(
+                        [new NonOwningLoggerProvider(value)],
+                        new ProviderFilterOptionsMonitor(filterOptions, value.GetType())))
+                .CreateLogger(categoryName)),
+    ];
+
+    private sealed class DynamicProviderLogger(
+        NonSpectreLoggerFactory owner,
+        string categoryName) : ILogger
     {
         public IDisposable? BeginScope<TState>(TState state)
-            where TState : notnull
-            => inner.BeginScope(state);
+            where TState : notnull => null;
 
-        public bool IsEnabled(LogLevel logLevel) => inner.IsEnabled(logLevel);
+        public bool IsEnabled(LogLevel logLevel) =>
+            owner.GetProviderLoggers(categoryName).Any(logger => logger.IsEnabled(logLevel));
 
         public void Log<TState>(
             LogLevel logLevel,
@@ -38,8 +67,103 @@ internal sealed class NonSpectreLoggerFactory(
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
-            using var scope = suppression.BeginSuppression();
-            inner.Log(logLevel, eventId, state, exception, formatter);
+            List<ILogger>? failedLoggers = null;
+            List<Exception>? exceptions = null;
+            foreach (var logger in owner.GetProviderLoggers(categoryName))
+            {
+                try
+                {
+                    logger.Log(logLevel, eventId, state, exception, formatter);
+                }
+                catch (Exception deliveryException)
+                {
+                    (failedLoggers ??= []).Add(logger);
+                    (exceptions ??= []).Add(deliveryException);
+                }
+            }
+
+            if (failedLoggers is not null)
+            {
+                throw new ProviderDeliveryException(failedLoggers, exceptions!);
+            }
         }
     }
+
+    private sealed class NonOwningLoggerProvider(ILoggerProvider inner) : ILoggerProvider
+    {
+        public ILogger CreateLogger(string categoryName) => inner.CreateLogger(categoryName);
+
+        public void Dispose()
+        {
+        }
+    }
+
+    private sealed class ProviderFilterOptionsMonitor(
+        IOptionsMonitor<LoggerFilterOptions> inner,
+        Type providerType) : IOptionsMonitor<LoggerFilterOptions>
+    {
+        private static readonly string WrapperProviderName =
+            typeof(NonOwningLoggerProvider).FullName!;
+
+        private readonly string? _providerAlias =
+            providerType.GetCustomAttribute<ProviderAliasAttribute>()?.Alias;
+
+        private readonly string _providerName = providerType.FullName ?? providerType.Name;
+
+        public LoggerFilterOptions CurrentValue => Translate(inner.CurrentValue);
+
+        public LoggerFilterOptions Get(string? name) => Translate(inner.Get(name));
+
+        public IDisposable? OnChange(Action<LoggerFilterOptions, string?> listener) =>
+            inner.OnChange((options, name) => listener(Translate(options), name));
+
+        private LoggerFilterOptions Translate(LoggerFilterOptions source)
+        {
+            var translated = new LoggerFilterOptions
+            {
+                CaptureScopes = source.CaptureScopes,
+                MinLevel = source.MinLevel,
+            };
+
+            foreach (var rule in source.Rules)
+            {
+                translated.Rules.Add(Translate(rule));
+            }
+
+            return translated;
+        }
+
+        private LoggerFilterRule Translate(LoggerFilterRule rule)
+        {
+            var originalFilter = rule.Filter;
+            var translatedProviderName = rule.ProviderName == _providerName
+                                         || (_providerAlias is not null
+                                             && rule.ProviderName == _providerAlias)
+                ? WrapperProviderName
+                : rule.ProviderName;
+            if (translatedProviderName == rule.ProviderName && originalFilter is null)
+            {
+                return rule;
+            }
+
+            return new LoggerFilterRule(
+                translatedProviderName,
+                rule.CategoryName,
+                rule.LogLevel,
+                originalFilter is null
+                    ? null
+                    : (_, categoryName, logLevel) => originalFilter(
+                        _providerName,
+                        categoryName,
+                        logLevel));
+        }
+    }
+}
+
+internal sealed class ProviderDeliveryException(
+    IReadOnlyList<ILogger> failedLoggers,
+    IReadOnlyList<Exception> exceptions)
+    : AggregateException("One or more non-console loggers rejected buffered output.", exceptions)
+{
+    public IReadOnlyList<ILogger> FailedLoggers { get; } = failedLoggers;
 }

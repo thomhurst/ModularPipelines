@@ -538,6 +538,7 @@ public class ModuleOutputBufferTests
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
+        var successfulLogger = new RecordingLogger();
         var fallbackLogger = new RecordingLogger
         {
             LogException = new InvalidOperationException("provider rejected event"),
@@ -565,7 +566,7 @@ public class ModuleOutputBufferTests
                 loggerControl,
                 loggerControl,
                 OutputFlushKind.Complete,
-                [fallbackLogger],
+                [successfulLogger, fallbackLogger],
                 CancellationToken.None);
         }
         finally
@@ -575,6 +576,7 @@ public class ModuleOutputBufferTests
         }
 
         await Assert.That(buffer.HasOutput).IsTrue();
+        await Assert.That(successfulLogger.Entries).HasSingleItem();
         await Assert.That(fallbackLogger.Entries).IsEmpty();
         await Assert.That(CountOccurrences(writer.ToString(), "[INFO] retry structured log"))
             .IsEqualTo(1);
@@ -586,10 +588,11 @@ public class ModuleOutputBufferTests
             loggerControl,
             loggerControl,
             OutputFlushKind.Complete,
-            [fallbackLogger],
+            [successfulLogger, fallbackLogger],
             CancellationToken.None);
 
         await Assert.That(buffer.HasOutput).IsFalse();
+        await Assert.That(successfulLogger.Entries).HasSingleItem();
         await Assert.That(fallbackLogger.Entries).HasSingleItem();
         await Assert.That(CountOccurrences(writer.ToString(), "[INFO] retry structured log"))
             .IsEqualTo(1);

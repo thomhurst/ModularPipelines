@@ -22,8 +22,8 @@ public class NonSpectreLoggerFactoryTests
             "Allowed",
             LogLevel.Warning,
             null));
-        using var loggerFactory = CreateLoggerFactory(provider, options);
-        var logger = CreateFactory(loggerFactory).CreateLoggers("Allowed.Category").Single();
+        using var factory = CreateFactory(provider, options);
+        var logger = factory.CreateLoggers("Allowed.Category").Single();
 
         logger.LogInformation("filtered");
         logger.LogWarning("delivered");
@@ -36,6 +36,7 @@ public class NonSpectreLoggerFactoryTests
     public async Task CreateLoggers_Rule_With_No_Minimum_Overrides_Global_Minimum()
     {
         var provider = new RecordingLoggerProvider();
+        string? filteredProviderName = null;
         var options = new LoggerFilterOptions
         {
             MinLevel = LogLevel.Error,
@@ -44,14 +45,20 @@ public class NonSpectreLoggerFactoryTests
             "Recording",
             "Allowed",
             null,
-            (_, _, _) => true));
-        using var loggerFactory = CreateLoggerFactory(provider, options);
-        var logger = CreateFactory(loggerFactory).CreateLoggers("Allowed.Category").Single();
+            (providerName, _, _) =>
+            {
+                filteredProviderName = providerName;
+                return true;
+            }));
+        using var factory = CreateFactory(provider, options);
+        var logger = factory.CreateLoggers("Allowed.Category").Single();
 
         logger.LogInformation("delivered");
 
         await Assert.That(provider.Entries).HasSingleItem();
         await Assert.That(provider.Entries[0]).IsEqualTo((LogLevel.Information, "delivered"));
+        await Assert.That(filteredProviderName)
+            .IsEqualTo(typeof(RecordingLoggerProvider).FullName);
     }
 
     [Test]
@@ -65,17 +72,50 @@ public class NonSpectreLoggerFactoryTests
                 spectreProvider,
                 Mock.Of<ISpectreConsoleLoggerControl>(),
                 suppression);
-        using var loggerFactory = new LoggerFactory([suppressibleSpectreProvider]);
-        var logger = new NonSpectreLoggerFactory(loggerFactory, suppression)
+        var loggerFactory = new LoggerFactory([suppressibleSpectreProvider]);
+        using var trackingFactory = new ProviderTrackingLoggerFactory(
+            loggerFactory,
+            [suppressibleSpectreProvider]);
+        using var factory = new NonSpectreLoggerFactory(
+            trackingFactory,
+            CreateOptionsMonitor(new LoggerFilterOptions()));
+        var logger = factory
             .CreateLoggers("Category")
             .Single();
 
-        loggerFactory.AddProvider(dynamicProvider);
+        trackingFactory.AddProvider(dynamicProvider);
         logger.LogWarning("delivered");
 
         await Assert.That(spectreProvider.Entries).IsEmpty();
         await Assert.That(dynamicProvider.Entries).HasSingleItem();
         await Assert.That(dynamicProvider.Entries[0]).IsEqualTo((LogLevel.Warning, "delivered"));
+    }
+
+    [Test]
+    public async Task CreateLoggers_ReportsOnlyFailedProviderForRetry()
+    {
+        var successfulProvider = new RecordingLoggerProvider();
+        var failingProvider = new RecordingLoggerProvider
+        {
+            LogException = new InvalidOperationException("provider rejected event"),
+        };
+        using var factory = new NonSpectreLoggerFactory(
+            new TestProviderRegistry([successfulProvider, failingProvider]),
+            CreateOptionsMonitor(new LoggerFilterOptions()));
+        var logger = factory.CreateLoggers("Category").Single();
+
+        var exception = Assert.Throws<ProviderDeliveryException>(
+            () => logger.LogWarning("delivered"));
+
+        await Assert.That(successfulProvider.Entries).HasSingleItem();
+        await Assert.That(failingProvider.Entries).IsEmpty();
+        await Assert.That(exception.FailedLoggers).HasSingleItem();
+
+        failingProvider.LogException = null;
+        exception.FailedLoggers.Single().LogWarning("delivered");
+
+        await Assert.That(successfulProvider.Entries).HasSingleItem();
+        await Assert.That(failingProvider.Entries).HasSingleItem();
     }
 
     [Test]
@@ -143,21 +183,31 @@ public class NonSpectreLoggerFactoryTests
         }
     }
 
-    private static NonSpectreLoggerFactory CreateFactory(ILoggerFactory loggerFactory)
+    private static NonSpectreLoggerFactory CreateFactory(
+        ILoggerProvider provider,
+        LoggerFilterOptions options)
     {
-        return new NonSpectreLoggerFactory(loggerFactory, new SpectreLoggerSuppression());
+        return new NonSpectreLoggerFactory(
+            new TestProviderRegistry([provider]),
+            CreateOptionsMonitor(options));
     }
 
-    private static LoggerFactory CreateLoggerFactory(
-        ILoggerProvider provider,
+    private static IOptionsMonitor<LoggerFilterOptions> CreateOptionsMonitor(
         LoggerFilterOptions options)
     {
         var monitor = new Mock<IOptionsMonitor<LoggerFilterOptions>>();
         monitor.SetupGet(x => x.CurrentValue).Returns(options);
+        monitor.Setup(x => x.Get(It.IsAny<string?>())).Returns(options);
         monitor
             .Setup(x => x.OnChange(It.IsAny<Action<LoggerFilterOptions, string?>>()))
             .Returns(Mock.Of<IDisposable>());
-        return new LoggerFactory([provider], monitor.Object);
+        return monitor.Object;
+    }
+
+    private sealed class TestProviderRegistry(
+        IReadOnlyList<ILoggerProvider> providers) : ILoggerProviderRegistry
+    {
+        public IReadOnlyList<ILoggerProvider> Providers { get; } = providers;
     }
 
     [ProviderAlias("Recording")]
@@ -165,7 +215,9 @@ public class NonSpectreLoggerFactoryTests
     {
         public List<(LogLevel LogLevel, string Message)> Entries { get; } = [];
 
-        public ILogger CreateLogger(string categoryName) => new RecordingLogger(Entries);
+        public Exception? LogException { get; set; }
+
+        public ILogger CreateLogger(string categoryName) => new RecordingLogger(this);
 
         public void Dispose()
         {
@@ -173,7 +225,7 @@ public class NonSpectreLoggerFactoryTests
     }
 
     private sealed class RecordingLogger(
-        List<(LogLevel LogLevel, string Message)> entries) : ILogger
+        RecordingLoggerProvider provider) : ILogger
     {
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
@@ -188,7 +240,12 @@ public class NonSpectreLoggerFactoryTests
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
-            entries.Add((logLevel, formatter(state, exception)));
+            if (provider.LogException is not null)
+            {
+                throw provider.LogException;
+            }
+
+            provider.Entries.Add((logLevel, formatter(state, exception)));
         }
     }
 }

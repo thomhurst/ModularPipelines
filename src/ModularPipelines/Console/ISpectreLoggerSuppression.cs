@@ -165,6 +165,55 @@ internal static class SpectreLoggerSuppressionRegistration
             serviceProvider.GetRequiredService<SuppressibleSpectreLoggerProvider>());
         services.AddSingleton<ISpectreConsoleLoggerControl>(serviceProvider =>
             serviceProvider.GetRequiredService<SuppressibleSpectreLoggerProvider>());
+        services.MakeLoggerFactoryTrackProviders();
+    }
+
+    private static void MakeLoggerFactoryTrackProviders(this IServiceCollection services)
+    {
+        var factoryDescriptor = services.LastOrDefault(static service =>
+            service.ServiceType == typeof(ILoggerFactory));
+        if (factoryDescriptor is null)
+        {
+            throw new InvalidOperationException("The logger factory is not registered.");
+        }
+
+        services.Remove(factoryDescriptor);
+        services.AddSingleton(serviceProvider =>
+        {
+            var inner = CreateLoggerFactory(serviceProvider, factoryDescriptor);
+            return new ProviderTrackingLoggerFactory(
+                inner,
+                serviceProvider.GetServices<ILoggerProvider>(),
+                disposeInner: factoryDescriptor.ImplementationInstance is null);
+        });
+        services.AddSingleton<ILoggerFactory>(serviceProvider =>
+            serviceProvider.GetRequiredService<ProviderTrackingLoggerFactory>());
+        services.AddSingleton<ILoggerProviderRegistry>(serviceProvider =>
+            serviceProvider.GetRequiredService<ProviderTrackingLoggerFactory>());
+    }
+
+    private static ILoggerFactory CreateLoggerFactory(
+        IServiceProvider serviceProvider,
+        ServiceDescriptor descriptor)
+    {
+        if (descriptor.ImplementationInstance is ILoggerFactory instance)
+        {
+            return instance;
+        }
+
+        if (descriptor.ImplementationFactory is not null)
+        {
+            return (ILoggerFactory) descriptor.ImplementationFactory(serviceProvider);
+        }
+
+        if (descriptor.ImplementationType is not null)
+        {
+            return (ILoggerFactory) ActivatorUtilities.CreateInstance(
+                serviceProvider,
+                descriptor.ImplementationType);
+        }
+
+        throw new InvalidOperationException("The logger factory registration is unsupported.");
     }
 }
 

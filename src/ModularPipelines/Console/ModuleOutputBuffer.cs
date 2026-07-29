@@ -29,7 +29,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private static readonly TimeSpan DefaultSynchronizationLockTimeout = TimeSpan.FromSeconds(1);
     private static readonly TimeSpan SynchronizationLockPollInterval = TimeSpan.FromMilliseconds(50);
     private readonly List<BufferedOutput> _outputs = [];
-    private readonly List<IBufferedLogEvent> _structuredDeliveryRetries = [];
+    private readonly List<StructuredDeliveryRetry> _structuredDeliveryRetries = [];
     private readonly Lock _lock = new();
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
@@ -195,14 +195,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
         var directConsole = GetDirectConsole(console);
         var effectiveFallbackLoggers = fallbackLoggers ?? [];
-        var failedStructuredDeliveries = new List<IBufferedLogEvent>();
+        var failedStructuredDeliveries = new List<StructuredDeliveryRetry>();
         var renderedCount = 0;
 
         try
         {
             RetryStructuredDeliveries(
                 structuredDeliveryRetries,
-                effectiveFallbackLoggers,
                 failedStructuredDeliveries,
                 console,
                 cancellationToken);
@@ -276,7 +275,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private bool TryTakeOutputs(
         OutputFlushKind flushKind,
         out List<BufferedOutput> outputs,
-        out List<IBufferedLogEvent> structuredDeliveryRetries,
+        out List<StructuredDeliveryRetry> structuredDeliveryRetries,
         out bool shouldRenderOutputGroup,
         out Exception? exception)
     {
@@ -326,7 +325,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
-        List<IBufferedLogEvent> failedStructuredDeliveries,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
@@ -371,7 +370,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
-        List<IBufferedLogEvent> failedStructuredDeliveries,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
@@ -429,7 +428,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ILogger logger,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
-        List<IBufferedLogEvent> failedStructuredDeliveries,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
@@ -446,9 +445,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             {
                 if (writeStructuredLogsDirectly)
                 {
-                    if (!WriteToFallbackLoggers(logEvent, fallbackLoggers, console))
+                    var failedLoggers = WriteToFallbackLoggers(
+                        logEvent,
+                        fallbackLoggers,
+                        console);
+                    if (failedLoggers.Count > 0)
                     {
-                        failedStructuredDeliveries.Add(logEvent);
+                        failedStructuredDeliveries.Add(
+                            new StructuredDeliveryRetry(logEvent, failedLoggers));
                     }
 
                     WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
@@ -521,33 +525,38 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return false;
     }
 
-    private static bool WriteToFallbackLoggers(
+    private static IReadOnlyList<ILogger> WriteToFallbackLoggers(
         IBufferedLogEvent logEvent,
         IReadOnlyList<ILogger> fallbackLoggers,
         TextWriter console)
     {
-        var delivered = true;
+        List<ILogger>? failedLoggers = null;
         foreach (var fallbackLogger in fallbackLoggers)
         {
             try
             {
                 logEvent.WriteTo(fallbackLogger);
             }
+            catch (ProviderDeliveryException exception)
+            {
+                (failedLoggers ??= []).AddRange(exception.FailedLoggers);
+                console.WriteLine(
+                    $"A non-console logger failed while handling buffered output: {exception.Message}");
+            }
             catch (Exception exception)
             {
-                delivered = false;
+                (failedLoggers ??= []).Add(fallbackLogger);
                 console.WriteLine(
                     $"A non-console logger failed while handling buffered output: {exception.Message}");
             }
         }
 
-        return delivered;
+        return failedLoggers ?? [];
     }
 
     private static void RetryStructuredDeliveries(
-        List<IBufferedLogEvent> structuredDeliveryRetries,
-        IReadOnlyList<ILogger> fallbackLoggers,
-        List<IBufferedLogEvent> failedStructuredDeliveries,
+        List<StructuredDeliveryRetry> structuredDeliveryRetries,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
         TextWriter console,
         CancellationToken cancellationToken)
     {
@@ -559,8 +568,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 cancellationToken.ThrowIfCancellationRequested();
             }
 
-            var logEvent = structuredDeliveryRetries[index];
-            if (!WriteToFallbackLoggers(logEvent, fallbackLoggers, console))
+            var retry = structuredDeliveryRetries[index];
+            if (WriteToFallbackLoggers(retry.LogEvent, retry.Loggers, console).Count > 0)
             {
                 console.WriteLine(
                     "Structured delivery was abandoned after 2 failed attempts; the direct console copy was retained.");
@@ -569,7 +578,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     private void RestoreStructuredDeliveryRetries(
-        List<IBufferedLogEvent> structuredDeliveryRetries)
+        List<StructuredDeliveryRetry> structuredDeliveryRetries)
     {
         if (structuredDeliveryRetries.Count == 0)
         {
@@ -581,6 +590,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             _structuredDeliveryRetries.InsertRange(0, structuredDeliveryRetries);
         }
     }
+
+    private readonly record struct StructuredDeliveryRetry(
+        IBufferedLogEvent LogEvent,
+        IReadOnlyList<ILogger> Loggers);
 
     private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)
     {
