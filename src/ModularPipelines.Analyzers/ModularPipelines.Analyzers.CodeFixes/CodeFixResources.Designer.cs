@@ -103,5 +103,41 @@ namespace ModularPipelines.Analyzers {
                 return ResourceManager.GetString("ConflictingDependsOnAttributeCodeFixTitle", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remove self-await.
+        /// </summary>
+        internal static string AwaitThisCodeFixTitle {
+            get {
+                return ResourceManager.GetString("AwaitThisCodeFixTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Use the module context logger.
+        /// </summary>
+        internal static string ConsoleUseCodeFixTitle {
+            get {
+                return ResourceManager.GetString("ConsoleUseCodeFixTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remove logger parameter; use context.Logger.
+        /// </summary>
+        internal static string LoggerInConstructorCodeFixTitle {
+            get {
+                return ResourceManager.GetString("LoggerInConstructorCodeFixTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Make field readonly.
+        /// </summary>
+        internal static string StatefulModuleCodeFixTitle {
+            get {
+                return ResourceManager.GetString("StatefulModuleCodeFixTitle", resourceCulture);
+            }
+        }
     }
 }

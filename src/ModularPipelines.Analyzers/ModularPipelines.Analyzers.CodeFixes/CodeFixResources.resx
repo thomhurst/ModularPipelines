@@ -136,4 +136,20 @@
     <value>Remove DependsOn Attribute</value>
     <comment>The title of the code fix to remove a conflicting DependsOn attribute.</comment>
   </data>
+  <data name="AwaitThisCodeFixTitle" xml:space="preserve">
+    <value>Remove self-await</value>
+    <comment>The title of the code fix to remove a standalone await this statement.</comment>
+  </data>
+  <data name="ConsoleUseCodeFixTitle" xml:space="preserve">
+    <value>Use the module context logger</value>
+    <comment>The title of the code fix to replace supported Console writes with context.Logger.</comment>
+  </data>
+  <data name="LoggerInConstructorCodeFixTitle" xml:space="preserve">
+    <value>Remove logger parameter; use context.Logger</value>
+    <comment>The title of the code fix to remove an unused logger constructor parameter.</comment>
+  </data>
+  <data name="StatefulModuleCodeFixTitle" xml:space="preserve">
+    <value>Make field readonly</value>
+    <comment>The title of the code fix to make an eligible module field readonly.</comment>
+  </data>
 </root>

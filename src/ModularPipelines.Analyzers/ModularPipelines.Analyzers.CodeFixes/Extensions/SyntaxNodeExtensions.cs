@@ -10,15 +10,20 @@ internal static class SyntaxNodeExtensions
 {
     public static SyntaxNode AddUsings(this SyntaxNode documentRoot)
     {
+        return documentRoot.AddUsing("ModularPipelines.Attributes");
+    }
+
+    public static SyntaxNode AddUsing(this SyntaxNode documentRoot, string namespaceName)
+    {
         var compilationUnitSyntax = (CompilationUnitSyntax) documentRoot;
 
-        if (compilationUnitSyntax.Usings.Any(x => x.Name?.ToFullString() == "ModularPipelines.Attributes"))
+        if (compilationUnitSyntax.Usings.Any(x => x.Name?.ToFullString() == namespaceName))
         {
             return documentRoot;
         }
 
         compilationUnitSyntax = compilationUnitSyntax.AddUsings(
-            SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("ModularPipelines.Attributes")));
+            SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(namespaceName)));
 
         return compilationUnitSyntax;
     }

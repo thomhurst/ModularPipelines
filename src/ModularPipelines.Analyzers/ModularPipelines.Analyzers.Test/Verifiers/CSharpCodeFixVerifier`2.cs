@@ -54,8 +54,8 @@ public static partial class CSharpCodeFixVerifier<TAnalyzer, TCodeFix>
     {
         var test = new Test
         {
-            TestCode = source,
-            FixedCode = fixedSource,
+            TestCode = source.ReplaceLineEndings(),
+            FixedCode = fixedSource.ReplaceLineEndings(),
             ReferenceAssemblies = Net.Net100,
             TestState =
             {

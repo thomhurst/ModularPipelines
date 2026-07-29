@@ -14,7 +14,10 @@ namespace ModularPipelines.Analyzers;
 public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
 {
     /// <inheritdoc/>
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(ConflictingDependsOnAttributeAnalyzer.DiagnosticId);
+    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(
+        ConflictingDependsOnAttributeAnalyzer.DiagnosticId,
+        InvalidDependsOnTypeAnalyzer.DiagnosticId,
+        SelfDependencyAnalyzer.DiagnosticId);
 
     /// <inheritdoc/>
     public sealed override FixAllProvider GetFixAllProvider()
@@ -69,7 +72,7 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
         // If this is the only attribute in the list, remove the entire attribute list
         if (attributeList.Attributes.Count == 1)
         {
-            newRoot = documentRoot.RemoveNode(attributeList, SyntaxRemoveOptions.KeepNoTrivia)!;
+            newRoot = documentRoot.RemoveNode(attributeList, SyntaxRemoveOptions.KeepTrailingTrivia)!;
         }
         else
         {

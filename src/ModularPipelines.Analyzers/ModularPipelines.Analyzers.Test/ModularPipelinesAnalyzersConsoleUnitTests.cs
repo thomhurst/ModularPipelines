@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ConsoleUseAnalyzer>;
+using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.ConsoleUseAnalyzer,
+    ModularPipelines.Analyzers.ConsoleUseCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -30,6 +32,25 @@ public class Module1 : Module<List<string>>
     private static readonly string BadModuleSource4 = CreateBadModuleSource(@"Console.Out.WriteLine(""Done!"")");
     private static readonly string BadModuleSource5 = CreateBadModuleSource(@"Console.Out.WriteLineAsync(""Done!"")", isAsync: true);
     private static readonly string BadModuleSource6 = CreateBadModuleSource(@"Console.Out.Dispose()");
+
+    private static string CreateFixedModuleSource(string loggerCall) => $@"
+{TestSourceConstants.StandardUsings}
+using Microsoft.Extensions.Logging;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+
+        {loggerCall};
+
+        return new List<string>();
+    }}
+}}
+";
 
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Using_Console()
@@ -77,5 +98,23 @@ public class Module1 : Module<List<string>>
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource6, expected);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Replaces_Console_WriteLine_With_Logger()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+        var fixedSource = CreateFixedModuleSource(@"context.Logger.LogInformation(""Done!"")");
+
+        await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, fixedSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Replaces_Awaited_Console_WriteLine_With_Logger()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+        var fixedSource = CreateFixedModuleSource(@"context.Logger.LogInformation(""Done!"")");
+
+        await VerifyCS.VerifyCodeFixAsync(BadModuleSource5, expected, fixedSource);
     }
 }

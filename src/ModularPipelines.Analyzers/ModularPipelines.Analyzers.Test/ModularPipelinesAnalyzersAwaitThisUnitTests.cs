@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<
-    ModularPipelines.Analyzers.AwaitThisAnalyzer>;
+using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.AwaitThisAnalyzer,
+    ModularPipelines.Analyzers.AwaitThisCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -16,6 +17,18 @@ public class Module1 : Module<CommandResult>
     {{
         // This should trigger the analyzer
         {{|#0:await this|}};
+        return null;
+    }}
+}}
+";
+
+    private const string FixedModuleSourceAwaitThis = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<CommandResult>
+{{
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
         return null;
     }}
 }}
@@ -139,5 +152,13 @@ public class Module1 : Module<CommandResult>
     public async Task AnalyzerIsNotTriggered_When_AwaitThis_InOnAfterExecuteAsync()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSourceAwaitThisInOnAfterExecuteAsync);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Removes_Standalone_Self_Await()
+    {
+        var expected = VerifyCS.Diagnostic(AwaitThisAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(BadModuleSourceAwaitThis, expected, FixedModuleSourceAwaitThis);
     }
 }

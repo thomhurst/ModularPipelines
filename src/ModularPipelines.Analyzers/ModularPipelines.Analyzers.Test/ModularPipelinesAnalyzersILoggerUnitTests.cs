@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.LoggerInConstructorAnalyzer>;
+using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.LoggerInConstructorAnalyzer,
+    ModularPipelines.Analyzers.LoggerInConstructorCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -27,6 +29,54 @@ public class Module1 : Module<List<string>>
     private static readonly string BadModuleSourceILoggerProvider = CreateModuleWithLoggerConstructor("ILoggerProvider loggerProvider");
     private static readonly string BadModuleSourceILoggerFactory = CreateModuleWithLoggerConstructor("ILoggerFactory loggerFactory");
     private static readonly string BadModuleSourceILoggerGeneric = CreateModuleWithLoggerConstructor("ILogger<Module1> logger");
+
+    private const string FixedModuleSourceILoggerGeneric = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        return new List<string>();
+    }}
+}}
+";
+
+    private const string BadModuleSourceUsedLogger = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private readonly ILogger<Module1> _logger;
+
+    public Module1({{|#0:ILogger<Module1> logger|}})
+    {{
+        _logger = logger;
+    }}
+
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        _logger.LogInformation(""Running"");
+        return new List<string>();
+    }}
+}}
+";
+
+    private const string FixedModuleSourceUsedLogger = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        context.Logger.LogInformation(""Running"");
+        return new List<string>();
+    }}
+}}
+";
 
     private const string GoodModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
@@ -101,5 +151,21 @@ public class Module1 : Module<List<string>>
     public async Task AnalyzerIsNotTriggered_When_No_Logger_In_Constructor2()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource2);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Removes_Unused_Logger_Parameter()
+    {
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(BadModuleSourceILoggerGeneric, expected, FixedModuleSourceILoggerGeneric);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Replaces_Stored_Logger_With_Context_Logger()
+    {
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(BadModuleSourceUsedLogger, expected, FixedModuleSourceUsedLogger);
     }
 }

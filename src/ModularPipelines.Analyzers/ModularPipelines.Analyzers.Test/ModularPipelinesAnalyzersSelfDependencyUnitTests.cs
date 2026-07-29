@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.SelfDependencyAnalyzer>;
+using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.SelfDependencyAnalyzer,
+    ModularPipelines.Analyzers.ConflictingDependsOnAttributeCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -19,6 +21,13 @@ public class ModularPipelinesAnalyzersSelfDependencyUnitTests
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
 [{{|#0:DependsOn<Module1>|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
+    private const string FixedModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
 public class Module1 : Module<List<string>>
 {SimpleModuleBody}
 ";
@@ -48,5 +57,15 @@ public class Module2 : Module<List<string>>
     public async Task AnalyzerIsNotTriggered_When_Module_Does_Not_Depend_On_Self()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Removes_Self_Dependency()
+    {
+        var expected = VerifyCS.Diagnostic(SelfDependencyAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module1");
+
+        await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, FixedModuleSource);
     }
 }

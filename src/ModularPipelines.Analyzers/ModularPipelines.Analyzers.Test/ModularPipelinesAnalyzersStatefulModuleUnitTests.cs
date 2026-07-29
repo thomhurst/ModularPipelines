@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<
-    ModularPipelines.Analyzers.StatefulModuleAnalyzer>;
+using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.StatefulModuleAnalyzer,
+    ModularPipelines.Analyzers.StatefulModuleCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -29,6 +30,22 @@ public class Module1 : Module<string>
 public class Module1 : Module<int>
 {{
     private List<string> {{|#0:_items|}} = new();
+
+    protected override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        _items.Add(""item"");
+        return _items.Count;
+    }}
+}}
+";
+
+    private const string FixedModuleWithReadonlyCollection = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : Module<int>
+{{
+    private readonly List<string> _items = new();
 
     protected override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
@@ -263,5 +280,18 @@ public class NotAModule
     public async Task AnalyzerIsNotTriggered_When_NotAModule()
     {
         await VerifyCS.VerifyAnalyzerAsync(NonModuleClassWithMutableField);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Makes_Eligible_Field_Readonly()
+    {
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("_items", "Module1");
+
+        await VerifyCS.VerifyCodeFixAsync(
+            BadModuleWithMutableCollection,
+            expected,
+            FixedModuleWithReadonlyCollection);
     }
 }
