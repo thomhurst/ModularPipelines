@@ -116,12 +116,17 @@ jobs:
             "$RUNNER_TEMP/template-run/TemplateRun.csproj" \
             --configuration Release \
             --output "$RUNNER_TEMP/template-published"
+          cp -R \
+            "$RUNNER_TEMP/template-run" \
+            "$RUNNER_TEMP/relocated-template-run"
+          rm -rf "$RUNNER_TEMP/relocated-template-run/artifacts"
           mkdir "$RUNNER_TEMP/published-caller"
           (
             cd "$RUNNER_TEMP/published-caller"
-            dotnet "$RUNNER_TEMP/template-published/TemplateRun.dll"
+            MODULAR_PIPELINES_DIRECTORY="$RUNNER_TEMP/relocated-template-run" \
+              dotnet "$RUNNER_TEMP/template-published/TemplateRun.dll"
           )
-          test -f "$RUNNER_TEMP/template-run/artifacts/publish/Example.dll"
+          test -f "$RUNNER_TEMP/relocated-template-run/artifacts/publish/Example.dll"
           test ! -d "$RUNNER_TEMP/published-caller/artifacts"
       - name: Run OptionsGenerator unit tests
         run: |

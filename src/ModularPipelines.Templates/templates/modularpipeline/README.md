@@ -21,3 +21,10 @@ Run the pipeline:
 ```bash
 dotnet run
 ```
+
+If you publish the pipeline and move it away from its build machine, point the
+published host at the generated pipeline project directory:
+
+```bash
+MODULAR_PIPELINES_DIRECTORY=/path/to/TemplatePipeline dotnet TemplatePipeline.dll
+```

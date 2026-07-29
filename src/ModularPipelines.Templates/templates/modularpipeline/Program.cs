@@ -27,6 +27,20 @@ await builder.ExecutePipelineAsync();
 
 static string FindPipelineDirectory([CallerFilePath] string sourceFilePath = "")
 {
+    const string directoryVariable = "MODULAR_PIPELINES_DIRECTORY";
+    var configuredDirectory = Environment.GetEnvironmentVariable(directoryVariable);
+    if (!string.IsNullOrWhiteSpace(configuredDirectory))
+    {
+        var fullPath = Path.GetFullPath(configuredDirectory);
+        if (IsPipelineDirectory(fullPath))
+        {
+            return fullPath;
+        }
+
+        throw new InvalidOperationException(
+            $"{directoryVariable} must point to a directory containing appsettings.json and a project file.");
+    }
+
     var sourceDirectory = Path.GetDirectoryName(sourceFilePath);
     if (sourceDirectory is not null && IsPipelineDirectory(sourceDirectory))
     {
@@ -43,10 +57,12 @@ static string FindPipelineDirectory([CallerFilePath] string sourceFilePath = "")
         }
     }
 
-    return AppContext.BaseDirectory;
+    throw new InvalidOperationException(
+        $"Could not locate the pipeline project directory. Set {directoryVariable} to its path.");
 }
 
 static bool IsPipelineDirectory(string? directory) =>
     directory is not null
+    && Directory.Exists(directory)
     && File.Exists(Path.Combine(directory, "appsettings.json"))
     && Directory.EnumerateFiles(directory, "*.csproj").Any();
