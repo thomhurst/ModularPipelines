@@ -51,6 +51,9 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     public IServicesContext Services { get; }
 
     /// <inheritdoc />
+    public IToolsContext Tools { get; }
+
+    /// <inheritdoc />
     public ISummaryLogger Summary { get; }
 
     // Internal properties for IInternalPipelineContext
@@ -99,6 +102,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         Network = network;
         Security = security;
         Services = services;
+        Tools = new ToolsContext(services);
         Summary = summary;
     }
 

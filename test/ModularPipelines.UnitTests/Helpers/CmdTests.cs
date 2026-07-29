@@ -1,4 +1,3 @@
-using ModularPipelines.Cmd.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -15,7 +14,7 @@ public class CmdTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Cmd().ScriptAsync(new("echo Foo bar!"), cancellationToken: cancellationToken);
+            return await context.Tools.Cmd.ScriptAsync(new("echo Foo bar!"), cancellationToken: cancellationToken);
         }
     }
 

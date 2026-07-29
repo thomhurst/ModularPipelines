@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.SourceGenerator;
@@ -17,8 +18,35 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private const string ServiceCollectionFullName =
         "Microsoft.Extensions.DependencyInjection.IServiceCollection";
 
+    private const string PipelineContextFullName =
+        "ModularPipelines.Context.IPipelineContext";
+
+    private const string AssemblyMetadataAttributeFullName =
+        "System.Reflection.AssemblyMetadataAttribute";
+
+    private const string ToolPropertyMetadataPrefix =
+        "ModularPipelines.ToolProperty:";
+
+    private static readonly ImmutableHashSet<string> ShadowedToolPropertyNames =
+    [
+        "Equals",
+        "Get",
+        "GetHashCode",
+        "GetType",
+        "ToString",
+    ];
+
     private static readonly DiagnosticDescriptor InvalidIntegrationMethod =
         GeneratorDiagnostics.InvalidIntegrationMethod;
+
+    private static readonly DiagnosticDescriptor UnsupportedToolsLanguageVersion =
+        GeneratorDiagnostics.UnsupportedToolsLanguageVersion;
+
+    private static readonly DiagnosticDescriptor ConflictingToolProperty =
+        GeneratorDiagnostics.ConflictingToolProperty;
+
+    private static readonly DiagnosticDescriptor ShadowedToolProperty =
+        GeneratorDiagnostics.ShadowedToolProperty;
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -26,10 +54,19 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 IntegrationAttributeFullName,
                 static (node, _) => node is MethodDeclarationSyntax,
                 static (generatorContext, _) => GetCandidate(generatorContext));
+        var referencedToolProperties = context.CompilationProvider.Select(
+            static (compilation, _) => GetReferencedToolProperties(compilation));
 
         context.RegisterSourceOutput(
-            candidates.Collect(),
-            static (sourceContext, items) => Generate(sourceContext, items));
+            candidates
+                .Collect()
+                .Combine(context.ParseOptionsProvider)
+                .Combine(referencedToolProperties),
+            static (sourceContext, input) => Generate(
+                sourceContext,
+                input.Left.Left,
+                input.Left.Right,
+                input.Right));
     }
 
     private static IntegrationCandidate GetCandidate(
@@ -53,6 +90,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         {
             return new IntegrationCandidate(
                 Registration: null,
+                EquatableArray<ToolProperty>.Empty,
+                GetGeneratedTypeName(context.SemanticModel.Compilation.AssemblyName),
                 method.ToDisplayString(),
                 location);
         }
@@ -61,9 +100,83 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             new IntegrationRegistration(
                 method.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 method.Name),
+            GetToolProperties(method.ContainingType),
+            GetGeneratedTypeName(context.SemanticModel.Compilation.AssemblyName),
             method.ToDisplayString(),
             location);
     }
+
+    private static EquatableArray<ToolProperty> GetToolProperties(INamedTypeSymbol type)
+    {
+        return type.GetMembers()
+            .OfType<IMethodSymbol>()
+            .Where(static method =>
+                method.IsStatic
+                && method.IsExtensionMethod
+                && !method.IsGenericMethod
+                && method.DeclaredAccessibility == Accessibility.Public
+                && method.Parameters.Length == 1
+                && method.Parameters[0].RefKind == RefKind.None
+                && method.Parameters[0].Type.ToDisplayString() == PipelineContextFullName
+                && method.ReturnType.IsReferenceType
+                && IsPubliclyAccessible(method.ReturnType))
+            .Select(static method => new ToolProperty(
+                method.Name,
+                method.ReturnType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                method.ToDisplayString(),
+                method.Locations.FirstOrDefault(),
+                method.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)))
+            .ToImmutableArray();
+    }
+
+    private static EquatableArray<ReferencedToolProperty> GetReferencedToolProperties(
+        Compilation compilation)
+    {
+        return compilation.References
+            .Select(compilation.GetAssemblyOrModuleSymbol)
+            .OfType<IAssemblySymbol>()
+            .SelectMany(static assembly => assembly.GetAttributes()
+                .Where(static attribute =>
+                    attribute.AttributeClass?.ToDisplayString() == AssemblyMetadataAttributeFullName
+                    && attribute.ConstructorArguments.Length == 2
+                    && attribute.ConstructorArguments[0].Value is string key
+                    && key.StartsWith(ToolPropertyMetadataPrefix, StringComparison.Ordinal)
+                    && attribute.ConstructorArguments[1].Value is string)
+                .Select(attribute => new ReferencedToolProperty(
+                    ((string) attribute.ConstructorArguments[0].Value!)
+                        .Substring(ToolPropertyMetadataPrefix.Length),
+                    (string) attribute.ConstructorArguments[1].Value!,
+                    assembly.Identity.ToString())))
+            .Distinct()
+            .OrderBy(static property => property.Name, StringComparer.Ordinal)
+            .ThenBy(static property => property.TypeName, StringComparer.Ordinal)
+            .ThenBy(static property => property.SourceId, StringComparer.Ordinal)
+            .ToImmutableArray();
+    }
+
+    private static string GetGeneratedTypeName(string? assemblyName)
+    {
+        var name = assemblyName ?? "Integration";
+        var builder = new StringBuilder(name.Length + 15);
+
+        if (name.Length == 0 || !IsIdentifierStart(name[0]))
+        {
+            builder.Append('_');
+        }
+
+        foreach (var character in name)
+        {
+            builder.Append(IsIdentifierPart(character) ? character : '_');
+        }
+
+        return builder.Append("ToolsExtensions").ToString();
+    }
+
+    private static bool IsIdentifierStart(char character) =>
+        character == '_' || char.IsLetter(character);
+
+    private static bool IsIdentifierPart(char character) =>
+        character == '_' || char.IsLetterOrDigit(character);
 
     private static bool IsAccessibleFromGeneratedRegistrar(INamedTypeSymbol type)
     {
@@ -83,20 +196,36 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         return true;
     }
 
-    private static void Generate(
-        SourceProductionContext context,
-        ImmutableArray<IntegrationCandidate> candidates)
+    private static bool IsPubliclyAccessible(ITypeSymbol type)
     {
-        foreach (var candidate in candidates)
+        if (type is IArrayTypeSymbol arrayType)
         {
-            if (candidate.Registration is null)
+            return IsPubliclyAccessible(arrayType.ElementType);
+        }
+
+        if (type is not INamedTypeSymbol namedType)
+        {
+            return type.TypeKind == TypeKind.Dynamic;
+        }
+
+        for (var current = namedType; current is not null; current = current.ContainingType)
+        {
+            if (current.DeclaredAccessibility != Accessibility.Public)
             {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    InvalidIntegrationMethod,
-                    candidate.Location,
-                    candidate.MethodName));
+                return false;
             }
         }
+
+        return namedType.TypeArguments.All(IsPubliclyAccessible);
+    }
+
+    private static void Generate(
+        SourceProductionContext context,
+        ImmutableArray<IntegrationCandidate> candidates,
+        ParseOptions parseOptions,
+        EquatableArray<ReferencedToolProperty> referencedToolProperties)
+    {
+        ReportInvalidIntegrationMethods(context, candidates);
 
         var uniqueRegistrations = candidates
             .Select(static candidate => candidate.Registration)
@@ -105,6 +234,16 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             .OrderBy(static registration => registration.TypeName, StringComparer.Ordinal)
             .ThenBy(static registration => registration.MethodName, StringComparer.Ordinal)
             .ToArray();
+
+        var supportsExtensionMembers = SupportsExtensionMembers(parseOptions);
+        var uniqueToolProperties = GetUniqueToolProperties(
+            context,
+            candidates,
+            referencedToolProperties,
+            supportsExtensionMembers);
+        var generatesExtensionMembers =
+            uniqueToolProperties.Length > 0 && supportsExtensionMembers;
+
         if (uniqueRegistrations.Length == 0)
         {
             return;
@@ -117,8 +256,28 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         builder.AppendLine(
             "[assembly: global::ModularPipelines.Attributes.ModularPipelinesContextAttribute("
             + "typeof(global::ModularPipelines.Generated.ModularPipelinesContextRegistration))]");
+        if (generatesExtensionMembers)
+        {
+            foreach (var property in uniqueToolProperties)
+            {
+                builder.AppendLine(
+                    "[assembly: global::System.Reflection.AssemblyMetadataAttribute("
+                    + $"{Literal(ToolPropertyMetadataPrefix + property.Name)}, "
+                    + $"{Literal(property.TypeName)})]");
+            }
+        }
+
         builder.AppendLine();
-        builder.AppendLine("namespace ModularPipelines.Generated;");
+        if (generatesExtensionMembers)
+        {
+            builder.AppendLine("namespace ModularPipelines.Generated");
+            builder.AppendLine("{");
+        }
+        else
+        {
+            builder.AppendLine("namespace ModularPipelines.Generated;");
+        }
+
         builder.AppendLine();
         builder.AppendLine("internal static class ModularPipelinesContextRegistration");
         builder.AppendLine("{");
@@ -135,14 +294,201 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
 
         builder.AppendLine("    }");
         builder.AppendLine("}");
+        if (generatesExtensionMembers)
+        {
+            builder.AppendLine("}");
+        }
+
+        if (uniqueToolProperties.Length > 0 && !supportsExtensionMembers)
+        {
+            var firstProperty = uniqueToolProperties[0];
+            context.ReportDiagnostic(Diagnostic.Create(
+                UnsupportedToolsLanguageVersion,
+                firstProperty.Location,
+                firstProperty.MethodName,
+                GetLanguageVersionDisplay(parseOptions)));
+        }
+        else if (uniqueToolProperties.Length > 0)
+        {
+            builder.AppendLine();
+            builder.AppendLine("namespace ModularPipelines.Context");
+            builder.AppendLine("{");
+            builder.AppendLine(
+                $"public static class {candidates[0].GeneratedTypeName}");
+            builder.AppendLine("{");
+            builder.AppendLine(
+                "    extension(global::ModularPipelines.Context.IToolsContext tools)");
+            builder.AppendLine("    {");
+
+            foreach (var property in uniqueToolProperties)
+            {
+                builder.AppendLine(
+                    $"        public {property.TypeName} {EscapeIdentifier(property.Name)} "
+                    + $"=> tools.Get<{property.TypeName}>();");
+            }
+
+            builder.AppendLine("    }");
+            builder.AppendLine("}");
+            builder.AppendLine("}");
+        }
 
         context.AddSource("ModularPipelines.IntegrationRegistration.g.cs", builder.ToString());
     }
 
+    private static void ReportInvalidIntegrationMethods(
+        SourceProductionContext context,
+        ImmutableArray<IntegrationCandidate> candidates)
+    {
+        foreach (var candidate in candidates.Where(
+                     static candidate => candidate.Registration is null))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(
+                InvalidIntegrationMethod,
+                candidate.Location,
+                candidate.MethodName));
+        }
+    }
+
+    private static ToolProperty[] GetUniqueToolProperties(
+        SourceProductionContext context,
+        ImmutableArray<IntegrationCandidate> candidates,
+        EquatableArray<ReferencedToolProperty> referencedToolProperties,
+        bool supportsExtensionMembers)
+    {
+        var toolProperties = candidates
+            .SelectMany(static candidate => candidate.ToolProperties)
+            .ToArray();
+        if (supportsExtensionMembers)
+        {
+            ReportShadowedToolProperties(context, toolProperties);
+            toolProperties =
+            [
+                .. toolProperties.Where(
+                    static property => !ShadowedToolPropertyNames.Contains(property.Name)),
+            ];
+        }
+
+        var allToolProperties = toolProperties
+            .Concat(referencedToolProperties.Select(static property => new ToolProperty(
+                property.Name,
+                property.TypeName,
+                MethodName: property.Name,
+                Location: null,
+                property.SourceId)))
+            .ToArray();
+        var conflictingPropertyNames = supportsExtensionMembers
+            ? ReportToolPropertyConflicts(context, allToolProperties)
+            : [];
+
+        return
+        [
+            .. toolProperties
+                .Where(property => !conflictingPropertyNames.Contains(property.Name))
+                .GroupBy(static property => new
+                {
+                    property.Name,
+                    property.TypeName,
+                })
+                .Select(static group => group.First())
+                .OrderBy(static property => property.Name, StringComparer.Ordinal)
+                .ThenBy(static property => property.TypeName, StringComparer.Ordinal),
+        ];
+    }
+
+    private static void ReportShadowedToolProperties(
+        SourceProductionContext context,
+        ToolProperty[] toolProperties)
+    {
+        foreach (var property in toolProperties.Where(
+                     static property => ShadowedToolPropertyNames.Contains(property.Name)))
+        {
+            context.ReportDiagnostic(Diagnostic.Create(
+                ShadowedToolProperty,
+                property.Location,
+                property.MethodName,
+                property.Name));
+        }
+    }
+
+    private static ImmutableHashSet<string> ReportToolPropertyConflicts(
+        SourceProductionContext context,
+        ToolProperty[] toolProperties)
+    {
+        var conflicts = toolProperties
+            .GroupBy(static property => new
+            {
+                property.Name,
+                property.TypeName,
+                property.SourceId,
+            })
+            .Select(static group => group.First())
+            .GroupBy(static property => property.Name, StringComparer.Ordinal)
+            .Where(static group => group.Skip(1).Any())
+            .ToArray();
+
+        foreach (var conflict in conflicts)
+        {
+            var declarations = string.Join(
+                ", ",
+                conflict.Select(static property =>
+                        $"{property.TypeName} ({property.SourceId})")
+                    .OrderBy(static declaration => declaration, StringComparer.Ordinal));
+            foreach (var property in conflict)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    ConflictingToolProperty,
+                    property.Location,
+                    property.Name,
+                    declarations));
+            }
+        }
+
+        return conflicts
+            .Select(static group => group.Key)
+            .ToImmutableHashSet(StringComparer.Ordinal);
+    }
+
+    private static bool SupportsExtensionMembers(ParseOptions parseOptions)
+    {
+        return parseOptions is CSharpParseOptions csharpParseOptions
+            && (int) LanguageVersionFacts.MapSpecifiedToEffectiveVersion(
+                csharpParseOptions.SpecifiedLanguageVersion) >= 1400;
+    }
+
+    private static string GetLanguageVersionDisplay(ParseOptions parseOptions)
+    {
+        return parseOptions is CSharpParseOptions csharpParseOptions
+            ? csharpParseOptions.SpecifiedLanguageVersion.ToDisplayString()
+            : parseOptions.Language;
+    }
+
+    private static string Literal(string value) =>
+        global::Microsoft.CodeAnalysis.CSharp.SymbolDisplay.FormatLiteral(value, quote: true);
+
+    private static string EscapeIdentifier(string identifier) =>
+        SyntaxFacts.GetKeywordKind(identifier) != SyntaxKind.None
+        || SyntaxFacts.GetContextualKeywordKind(identifier) != SyntaxKind.None
+            ? $"@{identifier}"
+            : identifier;
+
     private sealed record IntegrationCandidate(
         IntegrationRegistration? Registration,
+        EquatableArray<ToolProperty> ToolProperties,
+        string GeneratedTypeName,
         string MethodName,
         Location Location);
 
     private sealed record IntegrationRegistration(string TypeName, string MethodName);
+
+    private sealed record ToolProperty(
+        string Name,
+        string TypeName,
+        string MethodName,
+        Location? Location,
+        string SourceId);
+
+    private sealed record ReferencedToolProperty(
+        string Name,
+        string TypeName,
+        string SourceId);
 }

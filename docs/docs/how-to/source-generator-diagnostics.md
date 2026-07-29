@@ -66,6 +66,28 @@ accessible and non-generic. Until fixed, Modular Pipelines uses runtime reflecti
 
 **Severity:** Info
 
+## MPG0008
+
+A tool accessor cannot generate a discoverable `context.Tools` property because
+the consuming project uses a language version older than C# 14. Registration
+metadata still generates. Use C# 14 or preview to enable the property.
+
+**Severity:** Warning
+
+## MPG0009
+
+Multiple tool accessors would generate the same discoverable property with
+conflicting declarations. Give each accessor a unique name.
+
+**Severity:** Error
+
+## MPG0010
+
+A tool accessor would generate a property whose name is already available on
+`IToolsContext` or `object`, such as `Get` or `GetType`. Rename the accessor.
+
+**Severity:** Error
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 

@@ -20,58 +20,64 @@ namespace ModularPipelines.Context;
 /// <item><term>Network</term><description>HTTP and downloads</description></item>
 /// <item><term>Security</term><description>Certificates and hashing</description></item>
 /// <item><term>Services</term><description>DI and configuration</description></item>
+/// <item><term>Tools</term><description>Installed tool integrations</description></item>
 /// <item><term>Summary</term><description>Pipeline summary logging (displayed after completion)</description></item>
 /// </list>
 /// </remarks>
 public interface IPipelineContext
 {
     /// <summary>
-    /// Logger for the current context. Thread-safe.
+    /// Gets the logger for the current context. Thread-safe.
     /// </summary>
     IModuleLogger Logger { get; }
 
     /// <summary>
-    /// Command execution capabilities.
+    /// Gets the command execution capabilities.
     /// </summary>
     Domains.IShellContext Shell { get; }
 
     /// <summary>
-    /// File system operations.
+    /// Gets the file system operations.
     /// </summary>
     IFilesContext Files { get; }
 
     /// <summary>
-    /// Serialization and encoding.
+    /// Gets the serialization and encoding capabilities.
     /// </summary>
     IDataContext Data { get; }
 
     /// <summary>
-    /// Environment and system information.
+    /// Gets the environment and system information.
     /// </summary>
     IEnvironmentDomainContext Environment { get; }
 
     /// <summary>
-    /// Software installation.
+    /// Gets the software installation capabilities.
     /// </summary>
     IInstallersContext Installers { get; }
 
     /// <summary>
-    /// HTTP and download operations.
+    /// Gets the HTTP and download operations.
     /// </summary>
     INetworkContext Network { get; }
 
     /// <summary>
-    /// Security operations.
+    /// Gets the security operations.
     /// </summary>
     ISecurityContext Security { get; }
 
     /// <summary>
-    /// Dependency injection and configuration.
+    /// Gets the dependency injection and configuration capabilities.
     /// </summary>
     IServicesContext Services { get; }
 
     /// <summary>
-    /// Summary logger for messages displayed after pipeline completion.
+    /// Gets the installed tool integrations.
+    /// </summary>
+    IToolsContext Tools { get; }
+
+    /// <summary>
+    /// Gets the summary logger for messages displayed after pipeline completion.
     /// </summary>
     /// <remarks>
     /// <para>
