@@ -198,6 +198,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             || assignment.Parent is not ExpressionStatementSyntax assignmentStatement
             || assignment.Right != parameterReference
             || semanticModel.GetSymbolInfo(assignment.Left, cancellationToken).Symbol is not IFieldSymbol field
+            || field.DeclaredAccessibility != Accessibility.Private
             || !IsLogger(field.Type))
         {
             return null;
