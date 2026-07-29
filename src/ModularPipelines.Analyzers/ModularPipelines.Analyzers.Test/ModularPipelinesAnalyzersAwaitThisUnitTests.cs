@@ -16,7 +16,7 @@ public class Module1 : Module<CommandResult>
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         // This should trigger the analyzer
-        {{|#0:await this|}};
+        {{|#0:await this|}}; // Preserve this explanation too
         return null;
     }}
 }}
@@ -29,6 +29,8 @@ public class Module1 : Module<CommandResult>
 {{
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
+        // This should trigger the analyzer
+        // Preserve this explanation too
         return null;
     }}
 }}

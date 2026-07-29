@@ -50,13 +50,36 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
         CancellationToken cancellationToken)
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
-        var newRoot = expressionStatement.Parent is BlockSyntax or SwitchSectionSyntax
-            ? root?.RemoveNode(expressionStatement, SyntaxRemoveOptions.KeepNoTrivia)
-            : root?.ReplaceNode(
+        if (root is null)
+        {
+            return document;
+        }
+
+        if (expressionStatement.Parent is not (BlockSyntax or SwitchSectionSyntax))
+        {
+            return document.WithSyntaxRoot(root.ReplaceNode(
                 expressionStatement,
                 SyntaxFactory.EmptyStatement()
                     .WithTriviaFrom(expressionStatement)
-                    .WithAdditionalAnnotations(Formatter.Annotation));
-        return newRoot is null ? document : document.WithSyntaxRoot(newRoot);
+                    .WithAdditionalAnnotations(Formatter.Annotation)));
+        }
+
+        var newRoot = root.RemoveNode(
+            expressionStatement,
+            SyntaxRemoveOptions.KeepExteriorTrivia);
+        if (newRoot is null)
+        {
+            return document;
+        }
+
+        var nextNode = newRoot.FindToken(expressionStatement.SpanStart).Parent;
+        if (nextNode is not null)
+        {
+            newRoot = newRoot.ReplaceNode(
+                nextNode,
+                nextNode.WithAdditionalAnnotations(Formatter.Annotation));
+        }
+
+        return document.WithSyntaxRoot(newRoot);
     }
 }
