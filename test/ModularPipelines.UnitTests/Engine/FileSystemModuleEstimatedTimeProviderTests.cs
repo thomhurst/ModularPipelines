@@ -92,6 +92,25 @@ public class FileSystemModuleEstimatedTimeProviderTests
         });
     }
 
+    [Test]
+    public async Task GetSubModuleEstimatedTimes_RefreshesExpiredDirectoryIndex()
+    {
+        await RunWithTemporaryDirectoryAsync(async directory =>
+        {
+            WriteEstimation(directory, typeof(PrefixModule), "first", TimeSpan.FromSeconds(1));
+            var timeProvider = new FakeTimeProvider(CurrentTime);
+            var provider = new FileSystemModuleEstimatedTimeProvider(directory, timeProvider);
+            _ = await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule));
+
+            WriteEstimation(directory, typeof(PrefixModule), "external", TimeSpan.FromSeconds(2));
+            timeProvider.Advance(TimeSpan.FromMinutes(2));
+            var estimations = (await provider.GetSubModuleEstimatedTimesAsync(typeof(PrefixModule))).ToArray();
+
+            await Assert.That(estimations.Select(x => x.SubModuleName))
+                .IsEquivalentTo(["first", "external"]);
+        });
+    }
+
     private static FileSystemModuleEstimatedTimeProvider CreateProvider(string directory)
     {
         return new FileSystemModuleEstimatedTimeProvider(directory, new FakeTimeProvider(CurrentTime));

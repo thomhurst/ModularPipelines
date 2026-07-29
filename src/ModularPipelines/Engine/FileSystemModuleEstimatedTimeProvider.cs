@@ -6,11 +6,13 @@ namespace ModularPipelines.Engine;
 internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider
 {
     private static readonly TimeSpan CacheRetention = TimeSpan.FromDays(90);
+    private static readonly TimeSpan IndexRefreshInterval = TimeSpan.FromMinutes(1);
 
     private readonly object _subModuleIndexLock = new();
     private readonly string _directory;
     private readonly TimeProvider _timeProvider;
     private IReadOnlyDictionary<string, FileInfo[]>? _subModuleFilesByModule;
+    private long _subModuleIndexExpiresAtTicks;
 
     public FileSystemModuleEstimatedTimeProvider()
         : this(
@@ -84,28 +86,44 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
         lock (_subModuleIndexLock)
         {
-            _subModuleFilesByModule = null;
+            Volatile.Write(ref _subModuleFilesByModule, null);
+            Volatile.Write(ref _subModuleIndexExpiresAtTicks, 0);
         }
     }
 
     private IReadOnlyDictionary<string, FileInfo[]> GetSubModuleFilesByModule()
     {
+        var now = _timeProvider.GetUtcNow();
         var filesByModule = Volatile.Read(ref _subModuleFilesByModule);
-        if (filesByModule is not null)
+        if (filesByModule is not null
+            && now.UtcTicks < Volatile.Read(ref _subModuleIndexExpiresAtTicks))
         {
             return filesByModule;
         }
 
         lock (_subModuleIndexLock)
         {
-            return _subModuleFilesByModule ??= BuildSubModuleFileIndex();
+            now = _timeProvider.GetUtcNow();
+            filesByModule = _subModuleFilesByModule;
+            if (filesByModule is not null
+                && now.UtcTicks < _subModuleIndexExpiresAtTicks)
+            {
+                return filesByModule;
+            }
+
+            filesByModule = BuildSubModuleFileIndex(now);
+            Volatile.Write(
+                ref _subModuleIndexExpiresAtTicks,
+                now.Add(IndexRefreshInterval).UtcTicks);
+            Volatile.Write(ref _subModuleFilesByModule, filesByModule);
+            return filesByModule;
         }
     }
 
-    private IReadOnlyDictionary<string, FileInfo[]> BuildSubModuleFileIndex()
+    private IReadOnlyDictionary<string, FileInfo[]> BuildSubModuleFileIndex(DateTimeOffset now)
     {
         var directoryInfo = Directory.CreateDirectory(_directory);
-        var expirationTime = _timeProvider.GetUtcNow().UtcDateTime - CacheRetention;
+        var expirationTime = now.UtcDateTime - CacheRetention;
         var filesByModule = new Dictionary<string, List<FileInfo>>(StringComparer.Ordinal);
 
         foreach (var file in directoryInfo.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
