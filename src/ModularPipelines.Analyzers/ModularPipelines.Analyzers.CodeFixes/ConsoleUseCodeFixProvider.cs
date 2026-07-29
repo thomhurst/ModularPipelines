@@ -73,7 +73,7 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         CancellationToken cancellationToken)
     {
         var arguments = invocation.ArgumentList.Arguments;
-        if (invocation.ArgumentList.ContainsDirectives)
+        if (invocation.ContainsDirectives)
         {
             return false;
         }

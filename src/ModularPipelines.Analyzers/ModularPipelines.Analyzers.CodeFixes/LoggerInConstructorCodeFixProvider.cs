@@ -36,6 +36,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
 
         if (parameter is null
             || parameter.FirstAncestorOrSelf<ConstructorDeclarationSyntax>() is not { } constructor
+            || constructor.ParameterList.ContainsDirectives
             || parameter.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
             || semanticModel?.GetDeclaredSymbol(parameter, context.CancellationToken) is not IParameterSymbol parameterSymbol
             || semanticModel.GetDeclaredSymbol(constructor, context.CancellationToken) is not IMethodSymbol constructorSymbol

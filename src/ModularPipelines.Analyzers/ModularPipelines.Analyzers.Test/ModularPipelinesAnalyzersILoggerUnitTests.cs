@@ -193,6 +193,26 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string DirectiveLoggerParameterListSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    public Module1(
+#region logger parameter
+        ILogger<Module1> logger
+#endregion
+    )
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string BadPrivateConstructorSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -638,6 +658,14 @@ public class Module1 : Module<List<string>>
             DirectiveLoggerConstructorSource,
             expected,
             FixedDirectiveLoggerConstructorSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Parameter_List_Contains_Directives()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            DirectiveLoggerParameterListSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
     }
 
     [TestMethod]

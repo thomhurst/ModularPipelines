@@ -155,6 +155,27 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string DirectiveInConsoleReceiverSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        Console
+#if true
+            .WriteLine(""Done!"")
+#endif
+            ;
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string NullableConsoleMessageWithCommentSource = $@"
 {TestSourceConstants.StandardUsings}
 
@@ -304,6 +325,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ShadowedContextSource,
+            ConsoleUseAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Console_Invocation_Contains_Directives()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            DirectiveInConsoleReceiverSource,
             ConsoleUseAnalyzer.DiagnosticId);
     }
 
