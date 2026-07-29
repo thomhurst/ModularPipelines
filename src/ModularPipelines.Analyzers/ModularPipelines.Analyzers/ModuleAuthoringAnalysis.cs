@@ -368,35 +368,51 @@ internal static class ModuleAuthoringAnalysis
 
         if (operation is IConditionalOperation conditional)
         {
-            if (conditional.WhenFalse is { } whenFalse)
-            {
-                pending.Push((whenFalse, requireTaskLike));
-            }
-
-            pending.Push((conditional.WhenTrue, requireTaskLike));
-            pending.Push((conditional.Condition, true));
+            QueueConditionalOperations(conditional, requireTaskLike, pending);
             return null;
         }
 
         if (operation is ISwitchExpressionOperation switchExpression)
         {
-            foreach (var arm in switchExpression.Arms.Reverse())
-            {
-                pending.Push((arm.Value, requireTaskLike));
-                if (arm.Guard is { } guard)
-                {
-                    pending.Push((guard, true));
-                }
-
-                pending.Push((arm.Pattern, true));
-            }
-
-            pending.Push((switchExpression.Value, true));
+            QueueSwitchExpressionOperations(switchExpression, requireTaskLike, pending);
             return null;
         }
 
         QueueChildOperations(operation, requireTaskLike, pending);
         return null;
+    }
+
+    private static void QueueConditionalOperations(
+        IConditionalOperation conditional,
+        bool requireTaskLike,
+        Stack<(IOperation Operation, bool RequireTaskLike)> pending)
+    {
+        if (conditional.WhenFalse is { } whenFalse)
+        {
+            pending.Push((whenFalse, requireTaskLike));
+        }
+
+        pending.Push((conditional.WhenTrue, requireTaskLike));
+        pending.Push((conditional.Condition, true));
+    }
+
+    private static void QueueSwitchExpressionOperations(
+        ISwitchExpressionOperation switchExpression,
+        bool requireTaskLike,
+        Stack<(IOperation Operation, bool RequireTaskLike)> pending)
+    {
+        foreach (var arm in switchExpression.Arms.Reverse())
+        {
+            pending.Push((arm.Value, requireTaskLike));
+            if (arm.Guard is { } guard)
+            {
+                pending.Push((guard, true));
+            }
+
+            pending.Push((arm.Pattern, true));
+        }
+
+        pending.Push((switchExpression.Value, true));
     }
 
     private static void QueueLocalValue(
