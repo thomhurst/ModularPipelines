@@ -997,6 +997,44 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Awaited_TaskJoin_Linq_Callback()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.WhenAll(
+                    Enumerable.Range(0, 1).Select(
+                        async _ => await {|#0:Task.Delay(1)|}));
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Async_Safety_Inside_Unused_Linq_Callback()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var tasks = Enumerable.Range(0, 1).Select(
+                    async _ => await Task.Delay(1));
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Async_Safety_Inside_Unused_Lambda()
     {
         var source = ModuleSource("""
@@ -1267,6 +1305,37 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("BuildModule", "DependencyModule");
         await VerifyDependencyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Required_Override_Of_Optional_Base_Dependency()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public abstract class DependencyModule : Module<List<string>>
+            {
+            }
+
+            [DependsOn<DependencyModule>(Optional = true)]
+            public abstract class BaseModule : Module<List<string>>
+            {
+            }
+
+            [DependsOn<DependencyModule>]
+            public class BuildModule : BaseModule
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+            """;
+
+        await VerifyDependencyCS.VerifyAnalyzerAsync(source);
     }
 
     private static string ModuleSource(

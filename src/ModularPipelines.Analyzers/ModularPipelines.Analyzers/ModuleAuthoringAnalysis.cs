@@ -644,12 +644,16 @@ internal static class ModuleAuthoringAnalysis
             return;
         }
 
-        var dependencies = GetInheritedAttributes(module)
-            .Concat(module.GetAttributes())
-            .Select(attribute => new
+        var attributes = GetInheritedAttributes(module)
+            .Select(static attribute => (Attribute: attribute, IsInherited: true))
+            .Concat(module.GetAttributes()
+                .Select(static attribute => (Attribute: attribute, IsInherited: false)));
+        var dependencies = attributes
+            .Select(item => new
             {
-                Attribute = attribute,
-                Type = GetDependencyType(attribute, context.Compilation),
+                item.Attribute,
+                item.IsInherited,
+                Type = GetDependencyType(item.Attribute, context.Compilation),
             })
             .Where(static item => item.Type is not null)
             .GroupBy(static item => item.Type!, SymbolEqualityComparer.Default);
@@ -660,7 +664,8 @@ internal static class ModuleAuthoringAnalysis
             // duplicates cannot make the effective dependency optional.
             foreach (var duplicate in duplicates
                          .OrderBy(static item => IsOptionalDependency(item.Attribute))
-                         .Skip(1))
+                         .Skip(1)
+                         .Where(static item => !item.IsInherited))
             {
                 var location = duplicate.Attribute.ApplicationSyntaxReference?.GetSyntax(
                     context.CancellationToken).GetLocation();
@@ -877,7 +882,7 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
-        return IsKnownDelegateInvoker(invocation.TargetMethod)
+        return IsKnownDelegateInvoker(invocation)
                && invocation.Arguments.Any(argument =>
                    ValueContainsAnonymousFunction(
                        argument.Value,
@@ -885,13 +890,64 @@ internal static class ModuleAuthoringAnalysis
                        [with(SymbolEqualityComparer.Default)]));
     }
 
-    private static bool IsKnownDelegateInvoker(IMethodSymbol method)
+    private static bool IsKnownDelegateInvoker(IInvocationOperation invocation)
     {
+        var method = invocation.TargetMethod;
         var containingType = method.ContainingType.OriginalDefinition.ToDisplayString();
         return (method.Name == "Run"
                 && containingType == "System.Threading.Tasks.Task")
                || (method.Name == "StartNew"
-                   && containingType == "System.Threading.Tasks.TaskFactory");
+                   && containingType == "System.Threading.Tasks.TaskFactory")
+               || (containingType == "System.Linq.Enumerable"
+                   && IsLinqCallbackInvokedByAwaitedTaskJoin(invocation));
+    }
+
+    private static bool IsLinqCallbackInvokedByAwaitedTaskJoin(
+        IInvocationOperation invocation)
+    {
+        for (var current = invocation.Parent; current is not null;)
+        {
+            if (current is IArgumentOperation or IConversionOperation)
+            {
+                current = current.Parent;
+                continue;
+            }
+
+            if (current is not IInvocationOperation parentInvocation)
+            {
+                return false;
+            }
+
+            if (IsTaskJoin(parentInvocation))
+            {
+                for (var ancestor = parentInvocation.Parent;
+                     ancestor is not null;
+                     ancestor = ancestor.Parent)
+                {
+                    if (ancestor is IAwaitOperation)
+                    {
+                        return true;
+                    }
+
+                    if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
+                    {
+                        return false;
+                    }
+                }
+
+                return false;
+            }
+
+            if (parentInvocation.TargetMethod.ContainingType.OriginalDefinition
+                .ToDisplayString() != "System.Linq.Enumerable")
+            {
+                return false;
+            }
+
+            current = parentInvocation.Parent;
+        }
+
+        return false;
     }
 
     private static bool ValueContainsAnonymousFunction(
