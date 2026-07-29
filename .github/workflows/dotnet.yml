@@ -57,8 +57,8 @@ jobs:
       - name: Validate pipeline template
         shell: bash
         run: |
-          framework_version=3.2.8
           release_package_version=0.0.0-local
+          framework_version="$release_package_version"
           dotnet pack src/ModularPipelines/ModularPipelines.csproj \
             -c Release \
             -p:PackageVersion="$release_package_version" \
@@ -84,7 +84,8 @@ jobs:
             "$RUNNER_TEMP/template-version-smoke/TemplateVersionSmoke.csproj" \
             -p:RestoreAdditionalProjectSources="$RUNNER_TEMP/template-pack" \
             -p:RestorePackagesPath="$RUNNER_TEMP/template-version-packages"
-          NUGET_PACKAGES="$RUNNER_TEMP/template-version-packages" dotnet build \
+          export NUGET_PACKAGES="$RUNNER_TEMP/template-version-packages"
+          dotnet build \
             "$RUNNER_TEMP/template-version-smoke/TemplateVersionSmoke.csproj" \
             -c Release \
             --no-restore
