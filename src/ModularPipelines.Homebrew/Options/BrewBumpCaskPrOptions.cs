@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Create a pull request to update cask with a new version. A best effort to determine the SHA-256 will be made if the value is not supplied by the user.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bump-cask-pr")]
 public record BrewBumpCaskPrOptions : BrewOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Unpin formula, allowing them to be upgraded by brew upgrade formula. See also pin.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("unpin", "installed_formula")]
 public record BrewUnpinInstalled_formulaOptions : BrewOptions

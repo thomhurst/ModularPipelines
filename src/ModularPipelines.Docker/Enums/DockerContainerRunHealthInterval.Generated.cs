@@ -13,7 +13,7 @@ namespace ModularPipelines.Docker.Enums;
 /// <summary>
 /// Allowed values for the --healthinterval option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum DockerContainerRunHealthInterval
 {
     [Description("ms")]

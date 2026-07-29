@@ -15,7 +15,7 @@ namespace ModularPipelines.Homebrew.Services;
 /// <summary>
 /// Generated interface for brew CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IBrew
 {
     #region Commands

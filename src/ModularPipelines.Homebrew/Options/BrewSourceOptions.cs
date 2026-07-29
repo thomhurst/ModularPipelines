@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Open a formula’s source repository in a browser, or open Homebrew’s own repository if no argument is provided. The repository URL is determined from the formula’s head URL, stable URL, or homepage. Supports GitHub, GitLab, Bitbucket, Codeberg and SourceHut repositories.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source")]
 public record BrewSourceOptions : BrewOptions

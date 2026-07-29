@@ -16,7 +16,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Print the logs of a build record
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builder", "history", "logs")]
 public record DockerBuilderHistoryLogsOptions : DockerOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.DotNet.Options;
 /// Base options class for dotnet CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("dotnet")]
 public abstract record DotNetOptions : CommandLineToolOptions

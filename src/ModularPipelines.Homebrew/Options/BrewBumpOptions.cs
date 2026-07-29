@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Displays out-of-date packages and the latest version available. If the returned current and livecheck versions differ or when querying specific packages, also displays whether a pull request has been opened with the URL.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bump")]
 public record BrewBumpOptions : BrewOptions

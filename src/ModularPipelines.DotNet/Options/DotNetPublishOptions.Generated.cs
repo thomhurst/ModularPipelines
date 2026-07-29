@@ -16,7 +16,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// Publisher for the .NET Platform
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("publish")]
 public record DotNetPublishOptions : DotNetOptions

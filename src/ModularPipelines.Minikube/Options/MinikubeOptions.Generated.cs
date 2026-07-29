@@ -16,7 +16,7 @@ namespace ModularPipelines.Minikube.Options;
 /// Base options class for minikube CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("minikube")]
 public abstract record MinikubeOptions : CommandLineToolOptions

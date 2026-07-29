@@ -15,7 +15,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// Generated interface for docker CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IDocker
 {
     #region Sub-domain Services

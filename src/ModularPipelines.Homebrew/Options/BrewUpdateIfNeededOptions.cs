@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Runs brew update --auto-update only if needed. This is a good replacement for brew update in scripts where you want the no-op case to be both possible and really fast.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("update-if-needed")]
 public record BrewUpdateIfNeededOptions : BrewOptions

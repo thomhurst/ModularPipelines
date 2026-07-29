@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Edit tab information for installed formulae or casks. This can be useful when you want to control whether an installed formula should be removed by brew autoremove. To prevent removal, mark the formula as installed on request; to allow removal, mark the formula as not installed on request.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tab")]
 public record BrewTabOptions : BrewOptions

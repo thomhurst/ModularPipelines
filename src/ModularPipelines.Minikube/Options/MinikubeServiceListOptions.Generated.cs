@@ -16,7 +16,7 @@ namespace ModularPipelines.Minikube.Options;
 /// <summary>
 /// Lists the URLs for the services in your local cluster
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service", "list")]
 public record MinikubeServiceListOptions : MinikubeOptions

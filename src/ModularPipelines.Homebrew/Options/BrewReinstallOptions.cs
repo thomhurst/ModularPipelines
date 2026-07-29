@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Uninstall and then reinstall a formula or cask using the same options it was originally installed with, plus any appended options specific to a formula. Unless $HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK is set, brew upgrade or brew reinstall will be run for outdated dependents and dependents with broken linkage, respectively. Unless $HOMEBREW_NO_INSTALL_CLEANUP is set, brew cleanup will then be run for the reinstalled formulae or, every 30 days, for all formulae.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reinstall")]
 public record BrewReinstallOptions : BrewOptions

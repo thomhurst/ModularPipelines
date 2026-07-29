@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Control Homebrew’s developer mode. When developer mode is enabled, brew update will update Homebrew to the latest commit on the main branch instead of the latest stable version along with some other behaviour changes.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("developer")]
 public record BrewDeveloperOptions : BrewOptions

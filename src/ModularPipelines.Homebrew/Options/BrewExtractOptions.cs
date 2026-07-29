@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Look through repository history to find the most recent version of formula and create a copy in tap. Specifically, the command will create the new formula file at tap/Formula/formula@version.rb. If the tap is not installed yet, attempt to install/clone the tap before continuing. To extract a formula from a tap that is not homebrew/core use its fully-qualified form of user/repo/formula.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("extract")]
 public record BrewExtractOptions : BrewOptions

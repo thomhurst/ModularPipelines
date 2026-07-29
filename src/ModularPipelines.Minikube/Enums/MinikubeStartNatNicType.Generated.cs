@@ -13,7 +13,7 @@ namespace ModularPipelines.Minikube.Enums;
 /// <summary>
 /// Allowed values for the --natnictype option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeStartNatNicType
 {
     [Description("Am79C970A")]

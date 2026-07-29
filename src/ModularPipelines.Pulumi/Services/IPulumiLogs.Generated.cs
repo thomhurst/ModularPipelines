@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// <summary>
 /// pulumi logs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IPulumiLogs
 {
     /// <summary>

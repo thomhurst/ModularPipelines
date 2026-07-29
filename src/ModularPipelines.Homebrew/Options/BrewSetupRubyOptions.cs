@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Installs and configures Homebrew’s Ruby. If command is passed, it will only run Bundler if necessary for that command.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("setup-ruby")]
 public record BrewSetupRubyOptions : BrewOptions

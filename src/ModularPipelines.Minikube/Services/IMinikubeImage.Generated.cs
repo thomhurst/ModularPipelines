@@ -15,7 +15,7 @@ namespace ModularPipelines.Minikube.Services;
 /// <summary>
 /// minikube image commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IMinikubeImage
 {
     /// <summary>

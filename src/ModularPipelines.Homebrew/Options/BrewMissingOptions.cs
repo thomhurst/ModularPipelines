@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Check the given formula kegs for missing dependencies. If no formula are provided, check all kegs. Will exit with a non-zero status if any kegs are found to be missing dependencies.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("missing")]
 public record BrewMissingOptions : BrewOptions

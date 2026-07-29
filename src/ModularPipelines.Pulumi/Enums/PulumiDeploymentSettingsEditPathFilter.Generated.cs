@@ -13,7 +13,7 @@ namespace ModularPipelines.Pulumi.Enums;
 /// <summary>
 /// Allowed values for the --pathfilter option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiDeploymentSettingsEditPathFilter
 {
     [Description("repeatable")]

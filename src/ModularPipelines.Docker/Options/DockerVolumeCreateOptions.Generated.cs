@@ -16,7 +16,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Create a volume
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "create")]
 public record DockerVolumeCreateOptions : DockerOptions

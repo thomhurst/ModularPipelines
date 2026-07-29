@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Create symlinks for Homebrew’s installed Python versions in ~/.pyenv/versions. Note that older patch version symlinks will be created and linked to the minor version so e.g. Python 3.11.0 will also be symlinked to 3.11.3.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pyenv-sync")]
 public record BrewPyenvSyncOptions : BrewOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Enter an interactive shell for Homebrew’s build environment. Use years-battle-hardened build logic to help your ./configure &amp;&amp; make &amp;&amp; make install and even your gem install succeed. Especially handy if you run Homebrew in an Xcode-only configuration since it adds tools like make to your $PATH which build systems would not find otherwise. With --ruby, enter an interactive shell for Homebrew’s Ruby environment. This sets up the correct Ruby paths, $GEM_HOME and bundle configuration used by Hom...
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sh")]
 public record BrewShOptions : BrewOptions

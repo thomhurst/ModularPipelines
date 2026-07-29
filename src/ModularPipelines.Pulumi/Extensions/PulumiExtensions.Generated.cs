@@ -17,7 +17,7 @@ namespace ModularPipelines.Pulumi.Extensions;
 /// <summary>
 /// Generated extensions for registering pulumi services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class PulumiExtensions
 {
     /// <summary>

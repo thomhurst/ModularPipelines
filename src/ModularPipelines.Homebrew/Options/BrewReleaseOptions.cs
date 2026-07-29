@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Create a new draft Homebrew/brew release with the appropriate version number and release notes. By default, brew release will bump the patch version number. Pass --major or --minor to bump the major or minor version numbers, respectively. The command will fail if the previous major or minor release was made less than one month ago. Without --force, this command will just output the release notes without creating the release or triggering the workflow. Note: Requires write access to the Homebr...
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("release")]
 public record BrewReleaseOptions : BrewOptions

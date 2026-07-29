@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Tap a formula repository. If no arguments are provided, list all installed taps. With URL unspecified, tap a formula repository from GitHub using HTTPS. Since so many taps are hosted on GitHub, this command is a shortcut for brew tap user/repo https://github.com/user/homebrew-repo. With URL specified, tap a formula repository from anywhere, using any transport protocol that git(1) handles. The one-argument form of tap simplifies but also limits. This two-argument command makes no assumptions,...
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tap")]
 public record BrewTapOptions : BrewOptions

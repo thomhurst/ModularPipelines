@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Perform a substring search of cask tokens and formula names for text. If text is flanked by slashes, it is interpreted as a regular expression. The search for text is extended online to homebrew/core and homebrew/cask. If no search term is provided, all locally available formulae are listed.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
 public record BrewSearchOptions : BrewOptions

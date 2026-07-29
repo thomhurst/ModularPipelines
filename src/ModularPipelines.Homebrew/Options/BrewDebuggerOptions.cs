@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Run the specified Homebrew command in debug mode. To pass flags to the command, use -- to separate them from the brew flags. For example: brew debugger -- list --formula.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("debugger")]
 public record BrewDebuggerOptions : BrewOptions

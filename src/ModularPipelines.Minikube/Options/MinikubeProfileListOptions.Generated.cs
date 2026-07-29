@@ -16,7 +16,7 @@ namespace ModularPipelines.Minikube.Options;
 /// <summary>
 /// Lists all valid minikube profiles and detects all possible invalid profiles.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("profile", "list")]
 public record MinikubeProfileListOptions : MinikubeOptions

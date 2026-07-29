@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// <summary>
 /// Check formula or cask for Homebrew coding style violations. This should be run before submitting a new formula or cask. If no formula or cask are provided, check all locally available formulae and casks and skip style checks. Will exit with a non-zero status if any errors are found.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("audit")]
 public record BrewAuditOptions : BrewOptions
