@@ -74,8 +74,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
                 continue;
             }
 
-            if (IsTaskFromResult(expressionSyntax, semanticModel)
-                || IsAsTaskExtension(expressionSyntax, semanticModel))
+            if (IsTaskFromResult(expressionSyntax, semanticModel))
             {
                 var argumentList = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().FirstOrDefault();
                 var firstArgument = argumentList?.Arguments.FirstOrDefault();
@@ -137,30 +136,5 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
             methodSymbol.Name == AnalyzerConstants.MethodNames.FromResult
             && methodSymbol.ContainingType.Name == AnalyzerConstants.TypeNames.Task
             && methodSymbol.ContainingNamespace.ToDisplayString() == AnalyzerConstants.Namespaces.SystemThreadingTasks;
-    }
-
-    private static bool IsAsTaskExtension(ExpressionSyntax expressionSyntax, SemanticModel? semanticModel)
-    {
-        if (expressionSyntax is not InvocationExpressionSyntax invocationExpressionSyntax)
-        {
-            return false;
-        }
-
-        if (semanticModel is null)
-        {
-            return false;
-        }
-
-        var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
-
-        if (symbol is not IMethodSymbol methodSymbol)
-        {
-            return false;
-        }
-
-        return
-            methodSymbol.Name == AnalyzerConstants.MethodNames.AsTask
-            && methodSymbol.ContainingType.Name == AnalyzerConstants.TypeNames.TaskExtensions
-            && methodSymbol.ContainingNamespace.ToDisplayString() == AnalyzerConstants.Namespaces.ModularPipelinesExtensions;
     }
 }

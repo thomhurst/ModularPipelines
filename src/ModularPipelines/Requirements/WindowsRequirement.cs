@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Requirements;
@@ -16,9 +15,9 @@ public class WindowsRequirement : IPipelineRequirement
     {
         if (OperatingSystem.IsWindows())
         {
-            return RequirementDecision.Passed.AsTask();
+            return Task.FromResult(RequirementDecision.Passed);
         }
 
-        return RequirementDecision.Failed("Windows is required").AsTask();
+        return Task.FromResult(RequirementDecision.Failed("Windows is required"));
     }
 }

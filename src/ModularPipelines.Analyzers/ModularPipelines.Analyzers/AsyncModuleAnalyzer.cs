@@ -85,22 +85,17 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        if (methodSymbol.Name != AnalyzerConstants.MethodNames.AsTask && methodSymbol.Name != AnalyzerConstants.MethodNames.FromResult)
+        if (methodSymbol.Name != AnalyzerConstants.MethodNames.FromResult)
         {
             return false;
         }
 
-        if (methodSymbol.ContainingType.Name != AnalyzerConstants.TypeNames.Task && methodSymbol.ContainingType.Name != AnalyzerConstants.TypeNames.TaskExtensions)
+        if (methodSymbol.ContainingType.Name != AnalyzerConstants.TypeNames.Task)
         {
             return false;
         }
 
-        if (methodSymbol.ContainingNamespace.ToDisplayString() != AnalyzerConstants.Namespaces.ModularPipelinesExtensions
-            && methodSymbol.ContainingNamespace.ToDisplayString() != AnalyzerConstants.Namespaces.SystemThreadingTasks)
-        {
-            return false;
-        }
-
-        return true;
+        return methodSymbol.ContainingNamespace.ToDisplayString()
+               == AnalyzerConstants.Namespaces.SystemThreadingTasks;
     }
 }

@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Principal;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Requirements;
@@ -37,14 +36,14 @@ public class WindowsAdminRequirement : IPipelineRequirement
         if (context.Environment.OperatingSystem == System.Runtime.InteropServices.OSPlatform.Windows)
         {
 #pragma warning disable CA1416
-            return RequirementDecision.Of(
+            return Task.FromResult(RequirementDecision.Of(
                 passed: WindowsIdentity.GetCurrent().Owner?.IsWellKnown(WellKnownSidType.BuiltinAdministratorsSid)
                         ?? true,
                 reason: "Windows Admin is required."
-            ).AsTask();
+            ));
 #pragma warning restore CA1416
         }
 
-        return RequirementDecision.Passed.AsTask();
+        return Task.FromResult(RequirementDecision.Passed);
     }
 }

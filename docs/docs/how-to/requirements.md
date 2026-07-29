@@ -13,7 +13,7 @@ public class WindowsRequirement : IPipelineRequirement
 {
     public Task<bool> MustAsync(IPipelineContext context)
     {
-        return (context.Environment.OperatingSystem == OSPlatform.Windows).AsTask();
+        return Task.FromResult(context.Environment.OperatingSystem == OSPlatform.Windows);
     }
 }
 ```
