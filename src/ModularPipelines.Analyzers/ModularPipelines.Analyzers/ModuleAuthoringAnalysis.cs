@@ -54,6 +54,7 @@ internal static class ModuleAuthoringAnalysis
         context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
         context.RegisterOperationAction(AnalyzePropertyReference, OperationKind.PropertyReference);
         context.RegisterOperationAction(AnalyzeAwait, OperationKind.Await);
+        context.RegisterOperationAction(AnalyzeForEachLoop, OperationKind.Loop);
     }
 
     public static void InitializeDuplicateDependencyAnalysis(AnalysisContext context)
@@ -257,13 +258,38 @@ internal static class ModuleAuthoringAnalysis
             return;
         }
 
+        AnalyzeCancellationInvocations(
+            context,
+            executeMethod,
+            GetAwaitedInvocations(awaitOperation.Operation));
+    }
+
+    private static void AnalyzeForEachLoop(OperationAnalysisContext context)
+    {
+        if (GetModuleExecuteAsync(context) is not { } executeMethod
+            || context.Operation is not IForEachLoopOperation { IsAsynchronous: true } loop)
+        {
+            return;
+        }
+
+        AnalyzeCancellationInvocations(
+            context,
+            executeMethod,
+            GetAwaitedInvocations(loop.Collection));
+    }
+
+    private static void AnalyzeCancellationInvocations(
+        OperationAnalysisContext context,
+        IMethodSymbol executeMethod,
+        IEnumerable<IInvocationOperation> invocations)
+    {
         var cancellationToken = executeMethod.Parameters.FirstOrDefault(IsCancellationToken);
         if (cancellationToken is null)
         {
             return;
         }
 
-        foreach (var invocation in GetAwaitedInvocations(awaitOperation))
+        foreach (var invocation in invocations)
         {
             if (InvocationUsesCancellation(invocation, cancellationToken)
                 || !InvocationAcceptsCancellationToken(
@@ -282,10 +308,10 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static IEnumerable<IInvocationOperation> GetAwaitedInvocations(
-        IAwaitOperation awaitOperation)
+        IOperation operation)
     {
         return GetAwaitedInvocations(
-            awaitOperation.Operation,
+            operation,
             [with(SymbolEqualityComparer.Default)]);
     }
 
@@ -731,34 +757,58 @@ internal static class ModuleAuthoringAnalysis
                      argument.Parameter?.Type.ToDisplayString()
                      == AssemblyMetadataName))
         {
-            var resolvedArgument = false;
-
-            foreach (var value in GetValueAndReachingLocalValues(
-                         argument.Value,
-                         [with(SymbolEqualityComparer.Default)]))
-            {
-                foreach (var typeOfOperation in value.DescendantsAndSelf().OfType<ITypeOfOperation>())
-                {
-                    scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
-                    resolvedArgument = true;
-                }
-
-                if (value.DescendantsAndSelf()
-                    .OfType<IInvocationOperation>()
-                    .Any(static operation =>
-                        operation.TargetMethod.Name is "GetExecutingAssembly" or "GetEntryAssembly"
-                        && operation.TargetMethod.ContainingType.ToDisplayString()
-                        == AssemblyMetadataName))
-                {
-                    scannedAssemblies.Add(currentAssembly);
-                    resolvedArgument = true;
-                }
-            }
-
-            if (!resolvedArgument)
+            if (!TryTrackScannedAssembly(
+                    argument.Value,
+                    currentAssembly,
+                    scannedAssemblies,
+                    [with(SymbolEqualityComparer.Default)]))
             {
                 unresolvedModuleRegistrations.Add(0);
             }
+        }
+    }
+
+    private static bool TryTrackScannedAssembly(
+        IOperation operation,
+        IAssemblySymbol currentAssembly,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        switch (operation)
+        {
+            case IConversionOperation conversion:
+                return TryTrackScannedAssembly(
+                    conversion.Operand,
+                    currentAssembly,
+                    scannedAssemblies,
+                    visitedLocals);
+            case ILocalReferenceOperation localReference
+                when visitedLocals.Add(localReference.Local)
+                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
+                return TryTrackScannedAssembly(
+                    localValue,
+                    currentAssembly,
+                    scannedAssemblies,
+                    visitedLocals);
+            case IPropertyReferenceOperation
+            {
+                Property.Name: "Assembly",
+                Instance: ITypeOfOperation typeOfOperation,
+            }
+
+                propertyReference
+                when propertyReference.Property.ContainingType.ToDisplayString()
+                     == "System.Type":
+                scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
+                return true;
+            case IInvocationOperation invocation
+                when invocation.TargetMethod.Name is "GetExecutingAssembly" or "GetEntryAssembly"
+                     && invocation.TargetMethod.ContainingType.ToDisplayString()
+                     == AssemblyMetadataName:
+                scannedAssemblies.Add(currentAssembly);
+                return true;
+            default:
+                return false;
         }
     }
 

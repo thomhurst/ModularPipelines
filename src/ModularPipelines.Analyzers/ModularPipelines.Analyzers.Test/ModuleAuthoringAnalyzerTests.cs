@@ -259,6 +259,34 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Infer_Assembly_From_Nested_TypeOf_Argument()
+    {
+        var source = $$"""
+            {{Header}}
+            using System.Reflection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static Assembly Choose(Type ignored) =>
+                    typeof(BuildModule).Assembly;
+
+                public static void Register() =>
+                    Pipeline.CreateBuilder()
+                        .AddModulesFromAssembly(Choose(typeof(string)));
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_For_Generic_Assembly_Helper()
     {
         var source = $$"""
@@ -546,6 +574,34 @@ public class ModuleAuthoringAnalyzerTests
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
             .WithLocation(0)
             .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Unflowed_CancellationToken_In_AwaitForeach()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await foreach (var item in {|#0:GetItemsAsync()|})
+                {
+                    _ = item;
+                }
+
+                return null;
+            }
+
+                private static IAsyncEnumerable<int> GetItemsAsync() => null!;
+
+                private static IAsyncEnumerable<int> GetItemsAsync(
+                    CancellationToken cancellationToken) => null!;
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("GetItemsAsync");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
