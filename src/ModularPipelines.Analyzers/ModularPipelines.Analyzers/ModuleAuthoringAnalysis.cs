@@ -234,7 +234,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         Stack<(IOperation Operation, bool RequireTaskLike)> pending)
     {
-        if (operation is IAnonymousFunctionOperation)
+        if (operation is IAnonymousFunctionOperation or IAwaitOperation)
         {
             return null;
         }
@@ -355,7 +355,8 @@ internal static class ModuleAuthoringAnalysis
         TrackGenericModuleRegistrations(
             method,
             registeredModules,
-            instanceRegisteredModules);
+            instanceRegisteredModules,
+            unresolvedModuleRegistrations);
         if (method.Name == "AddModules")
         {
             TrackDynamicModuleRegistrations(
@@ -380,8 +381,15 @@ internal static class ModuleAuthoringAnalysis
     private static void TrackGenericModuleRegistrations(
         IMethodSymbol method,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
+        if (method.TypeArguments.Any(static typeArgument =>
+                typeArgument is not INamedTypeSymbol))
+        {
+            unresolvedModuleRegistrations.Add(0);
+        }
+
         foreach (var typeArgument in method.TypeArguments.OfType<INamedTypeSymbol>())
         {
             var normalizedType = typeArgument.OriginalDefinition;
@@ -730,16 +738,86 @@ internal static class ModuleAuthoringAnalysis
         var invocations = root.DescendantsAndSelf()
             .OfType<IInvocationOperation>()
             .ToImmutableArray();
-        var invokedMethods = invocations
-            .Select(static invocation => invocation.TargetMethod.OriginalDefinition)
-            .ToImmutableHashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+        var callables = root.DescendantsAndSelf()
+            .Select(GetCallableSymbol)
+            .Where(static callable => callable is not null)
+            .Cast<IMethodSymbol>()
+            .Distinct<IMethodSymbol>(SymbolEqualityComparer.Default)
+            .ToImmutableArray();
+        var reachableCallables = GetReachableCallables(invocations, callables);
 
-        return nestedCallables.All(callable =>
-            callable.MethodKind == MethodKind.AnonymousFunction
-                ? invocations.Any(invocation => InvocationTargetsAnonymousFunction(
-                    invocation,
-                    callable))
-                : invokedMethods.Contains(callable.OriginalDefinition));
+        return nestedCallables.All(reachableCallables.Contains);
+    }
+
+    private static HashSet<IMethodSymbol> GetReachableCallables(
+        ImmutableArray<IInvocationOperation> invocations,
+        ImmutableArray<IMethodSymbol> callables)
+    {
+        var reachable = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+        var pending = new Queue<IMethodSymbol>();
+
+        AddInvocationTargets(null, invocations, callables, reachable, pending);
+        while (pending.Count > 0)
+        {
+            AddInvocationTargets(
+                pending.Dequeue(),
+                invocations,
+                callables,
+                reachable,
+                pending);
+        }
+
+        return reachable;
+    }
+
+    private static void AddInvocationTargets(
+        IMethodSymbol? caller,
+        ImmutableArray<IInvocationOperation> invocations,
+        ImmutableArray<IMethodSymbol> callables,
+        HashSet<IMethodSymbol> reachable,
+        Queue<IMethodSymbol> pending)
+    {
+        foreach (var invocation in invocations.Where(candidate =>
+                     SymbolEqualityComparer.Default.Equals(
+                         GetCallableSymbol(GetEnclosingCallable(candidate)),
+                         caller)))
+        {
+            foreach (var target in GetInvocationTargets(invocation, callables))
+            {
+                if (reachable.Add(target))
+                {
+                    pending.Enqueue(target);
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<IMethodSymbol> GetInvocationTargets(
+        IInvocationOperation invocation,
+        ImmutableArray<IMethodSymbol> callables)
+    {
+        var targetMethod = invocation.TargetMethod.OriginalDefinition;
+        foreach (var callable in callables)
+        {
+            if (SymbolEqualityComparer.Default.Equals(
+                    callable.OriginalDefinition,
+                    targetMethod)
+                || (callable.MethodKind == MethodKind.AnonymousFunction
+                    && InvocationTargetsAnonymousFunction(invocation, callable)))
+            {
+                yield return callable;
+            }
+        }
+    }
+
+    private static IMethodSymbol? GetCallableSymbol(IOperation? operation)
+    {
+        return operation switch
+        {
+            ILocalFunctionOperation localFunction => localFunction.Symbol,
+            IAnonymousFunctionOperation anonymousFunction => anonymousFunction.Symbol,
+            _ => null,
+        };
     }
 
     private static bool InvocationTargetsAnonymousFunction(

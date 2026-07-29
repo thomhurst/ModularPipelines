@@ -194,6 +194,33 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_Through_Generic_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register<T>()
+                    where T : class, IModule =>
+                    Pipeline.CreateBuilder().AddModule<T>();
+
+                public static void RegisterBuildModule() =>
+                    Register<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task External_Assembly_Scan_Does_Not_Hide_Unregistered_Local_Module()
     {
         var source = $$"""
@@ -576,6 +603,32 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Unflowed_CancellationToken_Once_For_Nested_Await()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await WrapAsync(await {|#0:FetchAsync()|});
+                return null;
+            }
+
+                private static Task WrapAsync(string value) => Task.CompletedTask;
+
+                private static Task<string> FetchAsync() => Task.FromResult(string.Empty);
+
+                private static Task<string> FetchAsync(CancellationToken cancellationToken) =>
+                    Task.FromResult(string.Empty);
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Unrelated_CancellationToken_Overload()
     {
         var source = ModuleSource("""
@@ -846,6 +899,49 @@ public class ModuleAuthoringAnalyzerTests
                 void Block()
                 {
                     Task.Delay(1).Wait();
+                }
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Async_Safety_Inside_Unreachable_Recursive_Local_Function()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                return Task.FromResult<List<string>?>(null);
+
+                void Block()
+                {
+                    Thread.Sleep(1);
+                    Block();
+                }
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Async_Safety_Inside_Transitively_Unreachable_Local_Function()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                return Task.FromResult<List<string>?>(null);
+
+                void First() => Second();
+
+                void Second()
+                {
+                    Thread.Sleep(1);
                 }
             }
             """);
