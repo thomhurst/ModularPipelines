@@ -377,7 +377,7 @@ public class ArgoCdOptionsTests
         await Assert.That(arguments).IsEquivalentTo(["cd.argoproj.io", "--delete"]);
     }
 
-    private List<string> BuildArguments(object options)
+    private IReadOnlyList<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());
         return _argumentBuilder.BuildArguments(model, options);

@@ -13,7 +13,9 @@ internal sealed class PlaceholderHandler : IPlaceholderHandler
     }
 
     /// <inheritdoc/>
-    public List<string> ReplacePlaceholders(List<string> commandParts, object optionsObject)
+    public IReadOnlyList<string> ReplacePlaceholders(
+        IReadOnlyList<string> commandParts,
+        object optionsObject)
     {
         if (commandParts.Count == 0)
         {

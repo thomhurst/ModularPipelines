@@ -46,13 +46,17 @@ internal static class CliCommandFactory
             .WithEnvironmentVariables(environmentVariables);
     }
 
+    internal static bool IsInternalEnvironmentVariable(string name) =>
+        name.StartsWith(InternalEnvironmentVariablePrefix, StringComparison.OrdinalIgnoreCase);
+
     private static Command ApplyEnvironmentVariables(
         Command command,
-        IDictionary<string, string?>? environmentVariables)
+        IReadOnlyDictionary<string, string?>? environmentVariables)
     {
         return environmentVariables is null
             ? command
-            : command.WithEnvironmentVariables(new Dictionary<string, string?>(environmentVariables));
+            : command.WithEnvironmentVariables(
+                environmentVariables.ToDictionary(pair => pair.Key, pair => pair.Value));
     }
 
     private static void AddCommandValue(
@@ -92,7 +96,4 @@ internal static class CliCommandFactory
             .FirstOrDefault(pair => string.Equals(pair.Key, name, StringComparison.OrdinalIgnoreCase))
             .Value;
     }
-
-    internal static bool IsInternalEnvironmentVariable(string name) =>
-        name.StartsWith(InternalEnvironmentVariablePrefix, StringComparison.OrdinalIgnoreCase);
 }

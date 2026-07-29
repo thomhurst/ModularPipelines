@@ -8,11 +8,11 @@ namespace ModularPipelines.Helpers.Internal;
 internal sealed class CommandPartsProvider : ICommandPartsProvider
 {
     /// <inheritdoc/>
-    public List<string> GetRawCommandParts(object optionsObject)
+    public IReadOnlyList<string> GetRawCommandParts(object optionsObject)
     {
         if (optionsObject is CommandLineToolOptions { CommandParts: not null } commandLineToolOptions)
         {
-            return commandLineToolOptions.CommandParts.ToList();
+            return commandLineToolOptions.CommandParts;
         }
 
         var type = optionsObject.GetType();
@@ -24,14 +24,14 @@ internal sealed class CommandPartsProvider : ICommandPartsProvider
 
         if (preferredAlias is not null)
         {
-            return preferredAlias.CommandParts.ToList();
+            return preferredAlias.CommandParts;
         }
 
         // Prefer the explicit CliSubCommand attribute if it exists (for classes that inherit tool from base)
         var cliSubCommandAttribute = type.GetCustomAttribute<CliSubCommandAttribute>();
         if (cliSubCommandAttribute is not null)
         {
-            return cliSubCommandAttribute.SubCommands.ToList();
+            return cliSubCommandAttribute.SubCommands;
         }
 
         // Fall back to full CliCommand attribute (defines both tool and subcommands)
@@ -39,9 +39,9 @@ internal sealed class CommandPartsProvider : ICommandPartsProvider
         if (cliCommandAttribute is not null)
         {
             // Only return SubCommands, not the tool name (which is already used by Cli.Wrap)
-            return cliCommandAttribute.SubCommands.ToList();
+            return cliCommandAttribute.SubCommands;
         }
 
-        return new List<string>();
+        return [];
     }
 }

@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Threading;
 using ModularPipelines.Distributed.Redis.Configuration;
+using ModularPipelines.Distributed.Serialization;
 using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Coordination;

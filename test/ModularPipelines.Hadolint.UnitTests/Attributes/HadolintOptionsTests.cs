@@ -58,7 +58,7 @@ public class HadolintOptionsTests
         await Assert.That(arguments).IsEquivalentTo(["--format", "junit"]);
     }
 
-    private List<string> BuildArguments(object options)
+    private IReadOnlyList<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());
         return _argumentBuilder.BuildArguments(model, options);

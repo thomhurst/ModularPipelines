@@ -49,17 +49,18 @@ public sealed class PipelineBuilder : IDisposable
     {
         ArgumentNullException.ThrowIfNull(options);
 
+        var args = options.Args?.ToArray();
         _services = new ServiceCollection();
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions();
 
-        _hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(options.Args);
+        _hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args);
 
         // Add default configuration sources
         _configuration.AddEnvironmentVariables();
-        if (options.Args != null)
+        if (args is not null)
         {
-            _configuration.AddCommandLine(options.Args);
+            _configuration.AddCommandLine(args);
         }
 
         _environment = CreateHostEnvironment(options);
@@ -123,11 +124,11 @@ public sealed class PipelineBuilder : IDisposable
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder RunCategories(params string[] categories)
     {
-        _options.RunOnlyCategories ??= [];
-        foreach (var category in categories)
-        {
-            _options.RunOnlyCategories.Add(category);
-        }
+        _options.RunOnlyCategories =
+        [
+            .. _options.RunOnlyCategories ?? [],
+            .. categories,
+        ];
 
         return this;
     }
@@ -139,11 +140,11 @@ public sealed class PipelineBuilder : IDisposable
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder IgnoreCategories(params string[] categories)
     {
-        _options.IgnoreCategories ??= [];
-        foreach (var category in categories)
-        {
-            _options.IgnoreCategories.Add(category);
-        }
+        _options.IgnoreCategories =
+        [
+            .. _options.IgnoreCategories ?? [],
+            .. categories,
+        ];
 
         return this;
     }
@@ -250,7 +251,7 @@ public sealed class PipelineBuilder : IDisposable
         hostConfiguration.AddEnvironmentVariables(prefix: "DOTNET_");
         if (options.Args is not null)
         {
-            hostConfiguration.AddCommandLine(options.Args);
+            hostConfiguration.AddCommandLine(options.Args.ToArray());
         }
 
         var environmentName = FirstNonEmpty(

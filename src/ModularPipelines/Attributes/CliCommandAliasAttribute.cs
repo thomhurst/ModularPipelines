@@ -20,7 +20,7 @@ public sealed class CliCommandAliasAttribute : Attribute
     /// <summary>
     /// Gets the command parts for this alias.
     /// </summary>
-    public string[] CommandParts { get; }
+    public IReadOnlyList<string> CommandParts { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether this alias is the preferred form when building the command.
@@ -35,6 +35,7 @@ public sealed class CliCommandAliasAttribute : Attribute
     /// <param name="commandParts">The command parts for this alternative invocation.</param>
     public CliCommandAliasAttribute(params string[] commandParts)
     {
-        CommandParts = commandParts;
+        ArgumentNullException.ThrowIfNull(commandParts);
+        CommandParts = Array.AsReadOnly([.. commandParts]);
     }
 }

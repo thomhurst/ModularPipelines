@@ -13,5 +13,5 @@ public interface ICommandPartsProvider
     /// </summary>
     /// <param name="optionsObject">The options object to extract command parts from.</param>
     /// <returns>A list of command parts, potentially including placeholders.</returns>
-    List<string> GetRawCommandParts(object optionsObject);
+    IReadOnlyList<string> GetRawCommandParts(object optionsObject);
 }

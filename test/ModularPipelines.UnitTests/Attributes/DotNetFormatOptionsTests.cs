@@ -8,7 +8,7 @@ public class DotNetFormatOptionsTests
     private readonly CommandModelProvider _modelProvider = new();
     private readonly CommandArgumentBuilder _argumentBuilder = new();
 
-    private List<string> BuildArguments(object optionsObject)
+    private IReadOnlyList<string> BuildArguments(object optionsObject)
     {
         var model = _modelProvider.GetCommandModel(optionsObject.GetType());
         return _argumentBuilder.BuildArguments(model, optionsObject);

@@ -24,7 +24,7 @@ public sealed class CliCommandAttribute : Attribute
     /// <summary>
     /// Gets the subcommands that follow the tool name.
     /// </summary>
-    public string[] SubCommands { get; }
+    public IReadOnlyList<string> SubCommands { get; }
 
     /// <summary>
     /// Initialises a new instance of the <see cref="CliCommandAttribute"/> class.
@@ -34,13 +34,14 @@ public sealed class CliCommandAttribute : Attribute
     /// <param name="subCommands">The subcommands following the tool name.</param>
     public CliCommandAttribute(string tool, params string[] subCommands)
     {
+        ArgumentNullException.ThrowIfNull(subCommands);
         Tool = tool;
-        SubCommands = subCommands;
+        SubCommands = Array.AsReadOnly([.. subCommands]);
     }
 
     /// <summary>
     /// Gets all command parts including the tool and subcommands.
     /// </summary>
     /// <returns></returns>
-    public string[] GetAllParts() => [Tool, .. SubCommands];
+    public IReadOnlyList<string> GetAllParts() => [Tool, .. SubCommands];
 }

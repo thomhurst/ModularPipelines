@@ -6,12 +6,13 @@ namespace ModularPipelines.Options;
 public record CommandExecutionOptions
 {
     internal static TimeSpan DefaultExecutionTimeout { get; } = TimeSpan.FromMinutes(30);
+
     internal const int DefaultMaxCapturedOutputLength = 1024 * 1024;
 
     /// <summary>
     /// Gets any EnvironmentVariables to pass to the command.
     /// </summary>
-    public IDictionary<string, string?>? EnvironmentVariables { get; init; }
+    public IReadOnlyDictionary<string, string?>? EnvironmentVariables { get; init; }
 
     /// <summary>
     /// Gets the working directory to run the command from.
@@ -24,7 +25,7 @@ public record CommandExecutionOptions
     public CommandLineCredentials? CommandLineCredentials { get; init; }
 
     /// <summary>
-    /// Gets or sets logging options for command execution.
+    /// Gets logging options for command execution.
     /// </summary>
     public CommandLoggingOptions? LogSettings { get; init; }
 
@@ -41,28 +42,28 @@ public record CommandExecutionOptions
     public Func<string, string>? OutputLoggingManipulator { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to prefix commands with Sudo.
+    /// Gets a value indicating whether to prefix commands with Sudo.
     /// </summary>
     public bool Sudo { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to throw an exception on non-zero exit codes.
+    /// Gets a value indicating whether to throw an exception on non-zero exit codes.
     /// </summary>
     public bool ThrowOnNonZeroExitCode { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets the maximum time allowed for the command to complete.
+    /// Gets the maximum time allowed for the command to complete.
     /// Defaults to 30 minutes.
     /// </summary>
     public TimeSpan? ExecutionTimeout { get; init; } = DefaultExecutionTimeout;
 
     /// <summary>
-    /// Gets or sets the time to wait for graceful shutdown before forcefully terminating.
+    /// Gets the time to wait for graceful shutdown before forcefully terminating.
     /// </summary>
     public TimeSpan GracefulShutdownTimeout { get; init; } = TimeSpan.FromSeconds(30);
 
     /// <summary>
-    /// Gets or sets the maximum number of characters retained from each command output stream.
+    /// Gets the maximum number of characters retained from each command output stream.
     /// When output exceeds this limit, the beginning and end are retained with a truncation marker.
     /// Set to 0 or a negative value to retain unlimited output.
     /// </summary>

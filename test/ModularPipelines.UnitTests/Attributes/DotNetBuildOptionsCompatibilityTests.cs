@@ -62,7 +62,7 @@ public class DotNetBuildOptionsCompatibilityTests
         await Assert.That(arguments).Contains("--nologo");
     }
 
-    private List<string> BuildArguments(object options)
+    private IReadOnlyList<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());
         return _argumentBuilder.BuildArguments(model, options);

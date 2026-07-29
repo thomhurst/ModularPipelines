@@ -101,7 +101,7 @@ public class JqOptionsTests
         await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
     }
 
-    private List<string> BuildArguments(object options)
+    private IReadOnlyList<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());
         return _argumentBuilder.BuildArguments(model, options);

@@ -84,8 +84,9 @@ public class TrivyOptionsTests
             PluginArguments = ["pod", "your-pod", "--", "--exit-code", "1"],
             Quiet = true,
         });
+        var argumentList = arguments.ToList();
 
-        await Assert.That(arguments).IsEquivalentTo(
+        await Assert.That(argumentList).IsEquivalentTo(
         [
             "kubectl",
             "--quiet",
@@ -95,7 +96,7 @@ public class TrivyOptionsTests
             "--exit-code",
             "1",
         ]);
-        await Assert.That(arguments.IndexOf("--quiet")).IsLessThan(arguments.IndexOf("--"));
+        await Assert.That(argumentList.IndexOf("--quiet")).IsLessThan(argumentList.IndexOf("--"));
     }
 
     [Test]
@@ -119,7 +120,7 @@ public class TrivyOptionsTests
         await Assert.That(token!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
     }
 
-    private List<string> BuildArguments(object options)
+    private IReadOnlyList<string> BuildArguments(object options)
     {
         var model = _modelProvider.GetCommandModel(options.GetType());
         return _argumentBuilder.BuildArguments(model, options);

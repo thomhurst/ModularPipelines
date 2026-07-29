@@ -112,7 +112,7 @@ internal static class OperatingSystemConditions
 
         if (!typeof(ConditionGroup).IsAssignableFrom(conditionType)
             || Activator.CreateInstance(conditionType) is not ConditionGroup group
-            || group.Conditions.Length == 0)
+            || group.Conditions.Count == 0)
         {
             return null;
         }

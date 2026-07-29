@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Distributed.SignalR.Hub;
@@ -14,7 +15,7 @@ public class DistributedPipelineHubTests
         var worker = new WorkerState
         {
             ConnectionId = "connection-1",
-            Registration = new WorkerRegistration(1, [], DateTimeOffset.UtcNow),
+            Registration = new WorkerRegistration(1, FrozenSet<string>.Empty, DateTimeOffset.UtcNow),
         };
         worker.TryAssign(CreateAssignment("CurrentModule"));
         state.Workers[worker.ConnectionId] = worker;
@@ -53,7 +54,7 @@ public class DistributedPipelineHubTests
         return new ModuleAssignment(
             moduleTypeName,
             "System.String",
-            [],
+            FrozenSet<string>.Empty,
             null,
             DateTimeOffset.UtcNow,
             new ModuleAssignmentConfig(null, 0, false));

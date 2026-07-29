@@ -7,19 +7,22 @@ namespace ModularPipelines.Attributes;
 public class SecretValueAttribute : Attribute
 {
     /// <summary>
-    /// Initializes a new instance that marks the entire property value as sensitive.
+    /// Initialises a new instance of the <see cref="SecretValueAttribute"/> class
+    /// that marks the entire property value as sensitive.
     /// </summary>
     public SecretValueAttribute()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance that marks values for the specified keys as sensitive.
+    /// Initialises a new instance of the <see cref="SecretValueAttribute"/> class
+    /// that marks values for the specified keys as sensitive.
     /// </summary>
     /// <param name="keys">Keys whose associated values contain secrets.</param>
     public SecretValueAttribute(params string[] keys)
     {
-        Keys = keys;
+        ArgumentNullException.ThrowIfNull(keys);
+        Keys = Array.AsReadOnly([.. keys]);
     }
 
     /// <summary>

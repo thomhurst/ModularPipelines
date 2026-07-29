@@ -39,7 +39,7 @@ internal static class ModuleConfigurationAttributeAdapter
             IgnoreFailuresCondition = configured.IgnoreFailuresCondition,
             AlwaysRun = configured.AlwaysRun,
             ParallelConstraintKeys = configured.ParallelConstraintKeys
-                ?? notInParallel?.ConstraintKeys,
+                ?? notInParallel?.ConstraintKeys.ToArray(),
             Priority = configured.Priority ?? priority?.Priority,
             ExecutionType = configured.ExecutionType ?? executionHint?.ExecutionType,
             Tags = tags,
