@@ -379,7 +379,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         if (operation is IArrayElementReferenceOperation
-            or IPropertyReferenceOperation { Property.IsIndexer: true })
+            or IPropertyReferenceOperation)
         {
             QueueChildOperations(operation, true, pending);
             return null;
@@ -770,6 +770,12 @@ internal static class ModuleAuthoringAnalysis
             case ICollectionExpressionOperation collection:
                 return TryTrackServiceDescriptorCollection(
                     collection.Elements,
+                    instanceRegisteredModules,
+                    unresolvedModuleRegistrations,
+                    visitedLocals);
+            case ISpreadOperation spread:
+                return TryTrackServiceDescriptor(
+                    spread.Operand,
                     instanceRegisteredModules,
                     unresolvedModuleRegistrations,
                     visitedLocals);
@@ -2072,16 +2078,16 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        var localValue = FindReachingLocalValue(
-            localReference,
-            localReference.Local,
-            out var isAmbiguous);
-        return isAmbiguous
-               || (localValue is not null
-                   && FlowsFromCancellationToken(
+        var localValues = FindReachingLocalValues(
+                localReference,
+                localReference.Local)
+            .ToArray();
+        return localValues.Length > 0
+               && localValues.All(localValue =>
+                   FlowsFromCancellationToken(
                        localValue,
                        cancellationToken,
-                       visitedLocals));
+                       CloneVisitedLocals(visitedLocals)));
     }
 
     private static bool IsCancellationTokenSourceToken(

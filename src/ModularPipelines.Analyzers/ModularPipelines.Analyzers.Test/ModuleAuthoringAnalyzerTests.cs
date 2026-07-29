@@ -360,6 +360,47 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Descriptor_Collection_Spread_Does_Not_Hide_Unregistered_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.DependencyInjection.Extensions;
+
+            public class RegisteredModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:UnregisteredModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    ServiceDescriptor[] descriptors =
+                    [
+                        ServiceDescriptor.Singleton<IModule, RegisteredModule>(),
+                    ];
+                    builder.Services.TryAddEnumerable([.. descriptors]);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("UnregisteredModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     [DataRow("TryAddSingleton")]
     [DataRow("TryAddScoped")]
     [DataRow("TryAddTransient")]
@@ -1248,6 +1289,31 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Cancellation_Overload_For_Task_Property_Receiver()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await GetHolder().Pending;
+                return null;
+            }
+
+                private static Holder GetHolder() => new();
+
+                private static Holder GetHolder(CancellationToken cancellationToken) => new();
+
+                private sealed class Holder
+                {
+                    public Task Pending { get; } = Task.CompletedTask;
+                }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Unflowed_CancellationToken_For_Branch_Assigned_Stored_Task()
     {
         var source = ModuleSource("""
@@ -1300,7 +1366,7 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Guess_Branch_Dependent_CancellationToken_Flow()
+    public async Task Reports_Branch_Dependent_CancellationToken_Flow()
     {
         var cancellationLast = ModuleSource("""
             protected override async Task<List<string>?> ExecuteAsync(
@@ -1317,7 +1383,7 @@ public class ModuleAuthoringAnalyzerTests
                     token = cancellationToken;
                 }
 
-                await Task.Delay(1, token);
+                await {|#0:Task.Delay(1, token)|};
                 return null;
             }
             """);
@@ -1336,13 +1402,73 @@ public class ModuleAuthoringAnalyzerTests
                     token = CancellationToken.None;
                 }
 
+                await {|#0:Task.Delay(1, token)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(cancellationLast, expected);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(cancellationFirst, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_When_All_Branch_Tokens_Are_Unflowed()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token;
+                if (context is not null)
+                {
+                    token = default;
+                }
+                else
+                {
+                    token = CancellationToken.None;
+                }
+
+                await {|#0:Task.Delay(1, token)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_When_All_Branch_Tokens_Are_Flowed()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token;
+                if (context is not null)
+                {
+                    token = cancellationToken;
+                }
+                else
+                {
+                    token = cancellationToken;
+                }
+
                 await Task.Delay(1, token);
                 return null;
             }
             """);
 
-        await VerifyAsyncCS.VerifyAnalyzerAsync(cancellationLast);
-        await VerifyAsyncCS.VerifyAnalyzerAsync(cancellationFirst);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
