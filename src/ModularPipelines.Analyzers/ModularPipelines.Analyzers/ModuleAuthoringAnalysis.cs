@@ -195,49 +195,42 @@ internal static class ModuleAuthoringAnalysis
         IOperation operation,
         HashSet<ILocalSymbol> visitedLocals)
     {
-        if (operation is ILocalReferenceOperation localReference)
+        var pending = new Stack<IOperation>();
+        pending.Push(operation);
+
+        while (pending.Count > 0)
         {
-            if (visitedLocals.Add(localReference.Local)
-                && FindLocalInitializer(operation, localReference.Local) is { } initializer)
+            var current = pending.Pop();
+            if (current is ILocalReferenceOperation localReference)
             {
-                foreach (var awaitedInvocation in GetAwaitedInvocations(
-                             initializer,
-                             visitedLocals))
+                if (visitedLocals.Add(localReference.Local)
+                    && FindLocalInitializer(current, localReference.Local) is { } initializer)
                 {
-                    yield return awaitedInvocation;
+                    pending.Push(initializer);
+                }
+
+                continue;
+            }
+
+            if (current is IInvocationOperation invocation)
+            {
+                if (invocation.TargetMethod.Name == "ConfigureAwait"
+                    && invocation.Instance is { } configuredOperation)
+                {
+                    pending.Push(configuredOperation);
+                    continue;
+                }
+
+                if (!IsTaskJoin(invocation))
+                {
+                    yield return invocation;
+                    continue;
                 }
             }
 
-            yield break;
-        }
-
-        if (operation is IInvocationOperation invocation)
-        {
-            if (invocation.TargetMethod.Name == "ConfigureAwait"
-                && invocation.Instance is { } configuredOperation)
+            foreach (var child in current.ChildOperations.Reverse())
             {
-                foreach (var configuredInvocation in GetAwaitedInvocations(
-                             configuredOperation,
-                             visitedLocals))
-                {
-                    yield return configuredInvocation;
-                }
-
-                yield break;
-            }
-
-            if (!IsTaskJoin(invocation))
-            {
-                yield return invocation;
-                yield break;
-            }
-        }
-
-        foreach (var child in operation.ChildOperations)
-        {
-            foreach (var awaitedInvocation in GetAwaitedInvocations(child, visitedLocals))
-            {
-                yield return awaitedInvocation;
+                pending.Push(child);
             }
         }
     }
