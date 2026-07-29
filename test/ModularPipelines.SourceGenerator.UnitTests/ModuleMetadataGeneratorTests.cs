@@ -422,6 +422,63 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task NonConcrete_Module_Registrations_Report_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder,
+                        TModule module)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder,
+                        System.Func<System.IServiceProvider, TModule> factory)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        ModularPipelines.Modules.IModule module = new GenericModule<int>();
+                        builder.AddModule(module);
+                        builder.AddModule<ModularPipelines.Modules.IModule>(
+                            _ => new GenericModule<string>());
+                    }
+                }
+            }
+            """);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics.Count(diagnostic => diagnostic.Id == "MPG0015"))
+                .IsEqualTo(2);
+            await Assert.That(result.Diagnostics)
+                .All(diagnostic => diagnostic.Id != "MPG0015"
+                                   || diagnostic.GetMessage().Contains("IModule"));
+            await Assert.That(result.GeneratedTrees.Single().GetText().ToString())
+                .DoesNotContain("GenericModule<int>")
+                .And.DoesNotContain("GenericModule<string>");
+        }
+    }
+
+    [Test]
     public async Task Registered_External_Closed_Generic_Module_Reports_Aot_Diagnostic()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(

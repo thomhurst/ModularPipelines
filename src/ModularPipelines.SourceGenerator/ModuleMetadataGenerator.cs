@@ -32,6 +32,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     private static readonly DiagnosticDescriptor PartialModuleRuntimeMetadata =
         GeneratorDiagnostics.PartialModuleRuntimeMetadata;
 
+    private static readonly DiagnosticDescriptor NonConcreteModuleRegistrationRuntimeMetadata =
+        GeneratorDiagnostics.NonConcreteModuleRegistrationRuntimeMetadata;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var modules = context.SyntaxProvider
@@ -50,6 +53,12 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .CreateSyntaxProvider(
                 static (node, _) => IsModuleRegistrationCandidate(node),
                 static (generatorContext, _) => GetGenericModuleRegistration(generatorContext))
+            .Where(static registration => registration is not null);
+
+        var nonConcreteModuleRegistrations = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                static (node, _) => IsModuleRegistrationCandidate(node),
+                static (generatorContext, _) => GetNonConcreteModuleRegistration(generatorContext))
             .Where(static registration => registration is not null);
 
         var allModules = modules
@@ -100,6 +109,14 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     GenericModuleRegistrationRuntimeMetadata,
                     registration!.Location,
                     registration.TypeParameterName)));
+
+        context.RegisterSourceOutput(
+            nonConcreteModuleRegistrations,
+            static (sourceContext, registration) =>
+                sourceContext.ReportDiagnostic(Diagnostic.Create(
+                    NonConcreteModuleRegistrationRuntimeMetadata,
+                    registration!.Location,
+                    registration.TypeName)));
     }
 
     internal static bool IsModuleRegistrationCandidate(SyntaxNode node)
@@ -175,6 +192,26 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         return new GenericModuleRegistrationInfo(
             typeParameter.Name,
+            invocation.GetLocation());
+    }
+
+    private static NonConcreteModuleRegistrationInfo? GetNonConcreteModuleRegistration(
+        GeneratorSyntaxContext context)
+    {
+        if (context.Node is not InvocationExpressionSyntax invocation
+            || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
+            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
+            != PipelineBuilderExtensionsFullName
+            || method.TypeArguments.Length != 1
+            || method.TypeArguments[0] is not INamedTypeSymbol type
+            || !ImplementsModule(type, context.SemanticModel.Compilation)
+            || (!type.IsAbstract && type.TypeKind != TypeKind.Interface))
+        {
+            return null;
+        }
+
+        return new NonConcreteModuleRegistrationInfo(
+            type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
             invocation.GetLocation());
     }
 
@@ -629,5 +666,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
     private sealed record GenericModuleRegistrationInfo(
         string TypeParameterName,
+        Location Location);
+
+    private sealed record NonConcreteModuleRegistrationInfo(
+        string TypeName,
         Location Location);
 }

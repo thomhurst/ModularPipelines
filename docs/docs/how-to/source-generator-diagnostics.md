@@ -125,6 +125,15 @@ module declarations before publishing with Native AOT.
 
 **Severity:** Warning
 
+## MPG0015
+
+An `AddModule` call uses a non-concrete static module type, such as `IModule` or an
+abstract module base class. The source generator cannot determine the concrete runtime
+type, so trim-safe runtime metadata cannot be generated. Register the concrete module
+type directly before publishing with Native AOT.
+
+**Severity:** Warning
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 
