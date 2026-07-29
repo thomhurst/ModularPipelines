@@ -1601,6 +1601,10 @@ internal static class ModuleAuthoringAnalysis
         var containingType = method.ContainingType.OriginalDefinition.ToDisplayString();
         return (method.Name == "Run"
                 && containingType == "System.Threading.Tasks.Task")
+               || (method.Name == "ContinueWith"
+                   && containingType is
+                       "System.Threading.Tasks.Task"
+                       or "System.Threading.Tasks.Task<TResult>")
                || (method.Name == "StartNew"
                    && containingType == "System.Threading.Tasks.TaskFactory")
                || (method.Name == "ForEach"
@@ -1772,6 +1776,11 @@ internal static class ModuleAuthoringAnalysis
                     element,
                     cancellationToken,
                     visitedLocals)),
+            ICollectionExpressionOperation collection =>
+                collection.Elements.Any(element => FlowsFromCancellationToken(
+                    element,
+                    cancellationToken,
+                    visitedLocals)),
             IConditionalOperation conditional =>
                 FlowsFromCancellationTokenConditional(
                     conditional,
@@ -1849,6 +1858,13 @@ internal static class ModuleAuthoringAnalysis
         return IsCancellationToken(parameter)
                || (parameter.Type is IArrayTypeSymbol arrayType
                    && arrayType.ElementType.ToDisplayString()
+                   == CancellationTokenMetadataName)
+               || (parameter.Type is INamedTypeSymbol { IsGenericType: true } namedType
+                   && namedType.TypeArguments.Length == 1
+                   && namedType.OriginalDefinition.ToDisplayString() is
+                       "System.Span<T>"
+                       or "System.ReadOnlySpan<T>"
+                   && namedType.TypeArguments[0].ToDisplayString()
                    == CancellationTokenMetadataName);
     }
 

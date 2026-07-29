@@ -925,6 +925,24 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Linked_CancellationToken_Collection_Expression()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                using var source = CancellationTokenSource.CreateLinkedTokenSource(
+                    [cancellationToken, CancellationToken.None]);
+                await Task.Delay(1, source.Token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Shared_Local_In_Conditional_Token_Branches()
     {
         var source = ModuleSource("""
@@ -1885,6 +1903,26 @@ public class ModuleAuthoringAnalyzerTests
             {
                 Parallel.ForEach(new[] { 1 }, _ => {|#0:Thread.Sleep(1)|});
                 return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Task_Continuation()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.CompletedTask.ContinueWith(
+                    _ => {|#0:Thread.Sleep(1)|},
+                    cancellationToken);
+                return null;
             }
             """);
 
