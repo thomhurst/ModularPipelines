@@ -29,6 +29,10 @@ public class Module1 : Module<List<string>>
     private static readonly string BadModuleSourceILoggerProvider = CreateModuleWithLoggerConstructor("ILoggerProvider loggerProvider");
     private static readonly string BadModuleSourceILoggerFactory = CreateModuleWithLoggerConstructor("ILoggerFactory loggerFactory");
     private static readonly string BadModuleSourceILoggerGeneric = CreateModuleWithLoggerConstructor("ILogger<Module1> logger");
+    private static readonly string AttributedLoggerParameterSource =
+        CreateModuleWithLoggerConstructor("[System.Diagnostics.CodeAnalysis.AllowNull] ILogger<Module1> logger")
+            .Replace("{|#0:", string.Empty)
+            .Replace("|}", string.Empty);
 
     private const string FixedModuleSourceILoggerGeneric = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
@@ -891,6 +895,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             DirectiveLoggerParameterListSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Logger_Parameter_Has_Attributes()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            AttributedLoggerParameterSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 

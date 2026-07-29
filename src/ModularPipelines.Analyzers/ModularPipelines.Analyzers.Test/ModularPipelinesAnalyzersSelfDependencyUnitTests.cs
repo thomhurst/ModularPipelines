@@ -96,6 +96,14 @@ public class Module1 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string DuplicateSelfDependenciesSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[{{|#0:DependsOn<Module1>|}}, {{|#1:DependsOn<Module1>|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Module_Depends_On_Self()
     {
@@ -159,5 +167,24 @@ public class Module1 : Module<List<string>>
             SharedAttributeListBadModuleSource,
             expected,
             FixedSharedAttributeListModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Removes_CoLocated_Self_Dependencies()
+    {
+        var expected = new[]
+        {
+            VerifyCS.Diagnostic(SelfDependencyAnalyzer.DiagnosticId)
+                .WithLocation(0)
+                .WithArguments("Module1"),
+            VerifyCS.Diagnostic(SelfDependencyAnalyzer.DiagnosticId)
+                .WithLocation(1)
+                .WithArguments("Module1"),
+        };
+
+        await VerifyCS.VerifyCodeFixAsync(
+            DuplicateSelfDependenciesSource,
+            expected,
+            FixedModuleSource);
     }
 }

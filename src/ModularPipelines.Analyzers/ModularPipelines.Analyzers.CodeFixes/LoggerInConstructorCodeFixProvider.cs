@@ -63,6 +63,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             .FirstAncestorOrSelf<ParameterSyntax>();
 
         if (parameter is null
+            || parameter.AttributeLists.Count != 0
             || parameter.FirstAncestorOrSelf<ConstructorDeclarationSyntax>() is not { } constructor
             || constructor.ParameterList.ContainsDirectives
             || parameter.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
