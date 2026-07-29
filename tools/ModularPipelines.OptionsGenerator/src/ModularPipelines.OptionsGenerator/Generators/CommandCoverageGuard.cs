@@ -26,7 +26,7 @@ internal static class CommandCoverageGuard
         StringComparer? pathComparer = null,
         bool allowMissingManifest = false)
     {
-        var commands = NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
+        var commands = GetCoverageCommands(tool);
         var manifestPath = GetManifestPath(tool, outputDirectory);
         var previous = ReadBaseline(
             tool,
@@ -330,6 +330,24 @@ internal static class CommandCoverageGuard
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .OrderBy(command => command, StringComparer.OrdinalIgnoreCase)
             .ToArray();
+
+    private static IReadOnlyList<string> GetCoverageCommands(CliToolDefinition tool)
+    {
+        var commands = NormalizeCommands(tool.Commands.Select(command => command.FullCommand));
+        var aliasCommands = tool.CommandGroupAliases.SelectMany(alias =>
+        {
+            var canonicalPrefix = NormalizeCommand($"{tool.ToolName} {alias.CanonicalCommand}");
+            var aliasPrefix = NormalizeCommand($"{tool.ToolName} {alias.Alias}");
+
+            return commands
+                .Where(command =>
+                    command.Equals(canonicalPrefix, StringComparison.OrdinalIgnoreCase)
+                    || IsChildOf(canonicalPrefix, command))
+                .Select(command => aliasPrefix + command[canonicalPrefix.Length..]);
+        });
+
+        return NormalizeCommands(commands.Concat(aliasCommands));
+    }
 
     private static string NormalizeCommand(string command) =>
         string.Join(' ', command.Split((char[]?) null, StringSplitOptions.RemoveEmptyEntries));

@@ -951,6 +951,74 @@ public static partial class GeneratorUtils
         };
     }
 
+    internal static IReadOnlyList<CliCommandGroupAlias> GetCommandGroupAliases(
+        CliToolDefinition tool,
+        string canonicalIdentifier)
+    {
+        ArgumentNullException.ThrowIfNull(tool);
+        ArgumentException.ThrowIfNullOrWhiteSpace(canonicalIdentifier);
+
+        return tool.CommandGroupAliases
+            .Where(alias => GetCanonicalCommandGroupIdentifier(tool, alias)
+                .Equals(canonicalIdentifier, StringComparison.OrdinalIgnoreCase))
+            .OrderBy(alias => alias.Alias, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
+    internal static string GetAliasCommandGroupIdentifier(CliCommandGroupAlias alias)
+    {
+        ArgumentNullException.ThrowIfNull(alias);
+        return ToPascalCase(alias.Alias);
+    }
+
+    internal static string GetCanonicalCommandGroupIdentifier(
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        ArgumentNullException.ThrowIfNull(tool);
+        ArgumentNullException.ThrowIfNull(alias);
+
+        var identifiers = tool.Commands
+            .Where(command => command.CommandParts.Length > 0
+                && command.CommandParts[0].Equals(
+                    alias.CanonicalCommand,
+                    StringComparison.OrdinalIgnoreCase))
+            .Select(command => command.CommandGroupIdentifierOverride
+                ?? ToPascalCase(command.CommandParts[0]))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        return identifiers.Count switch
+        {
+            1 => identifiers[0],
+            0 => throw new InvalidOperationException(
+                $"Command-group alias '{alias.Alias}' targets missing canonical command "
+                + $"'{alias.CanonicalCommand}' for {tool.ToolName}."),
+            _ => throw new InvalidOperationException(
+                $"Command-group alias '{alias.Alias}' targets canonical command "
+                + $"'{alias.CanonicalCommand}' with conflicting generated identifiers: "
+                + string.Join(", ", identifiers)),
+        };
+    }
+
+    internal static string GetAliasedClassName(
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias,
+        string canonicalClassName)
+    {
+        var canonicalPrefix =
+            $"{tool.NamespacePrefix}{GetCanonicalCommandGroupIdentifier(tool, alias)}";
+        if (!canonicalClassName.StartsWith(canonicalPrefix, StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Canonical class '{canonicalClassName}' does not start with expected "
+                + $"command-group prefix '{canonicalPrefix}'.");
+        }
+
+        return $"{tool.NamespacePrefix}{GetAliasCommandGroupIdentifier(alias)}"
+            + canonicalClassName[canonicalPrefix.Length..];
+    }
+
     internal static string GetCommandGroupIdentifier(CliCommandDefinition command) =>
         command.CommandGroupIdentifierOverride
         ?? GenerateMethodNameFromCommandParts(command.CommandParts);

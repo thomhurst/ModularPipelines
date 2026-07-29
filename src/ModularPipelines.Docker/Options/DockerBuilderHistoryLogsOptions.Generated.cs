@@ -8,41 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Docker.Options;
 using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
-/// <summary>
-/// Print the logs of a build record
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("builder", "history", "logs")]
-public record DockerBuilderHistoryLogsOptions : DockerOptions
+public record DockerBuilderHistoryLogsOptions : DockerBuildxHistoryLogsOptions
 {
-    /// <summary>
-    /// Override the configured builder instance (default "default")
-    /// </summary>
-    [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
-    public string? Builder { get; set; }
-
-    /// <summary>
-    /// Enable debug logging
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Set type of progress output (plain, rawjson, tty) (default "plain")
-    /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-    public DockerBuilderHistoryLogsProgress? Progress { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Ref { get; set; }
-
+    public new DockerBuilderHistoryLogsProgress? Progress
+    {
+        get => base.Progress is null
+            ? null
+            : (DockerBuilderHistoryLogsProgress)(int)base.Progress.Value;
+        set => base.Progress = value is null
+            ? null
+            : (DockerBuildxHistoryLogsProgress)(int)value.Value;
+    }
 }

@@ -7,44 +7,9 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
-/// <summary>
-/// Inspect current builder instance
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("builder", "inspect")]
-public record DockerBuilderInspectOptions : DockerOptions
-{
-    /// <summary>
-    /// Ensure builder has booted before inspecting
-    /// </summary>
-    [CliFlag("--bootstrap")]
-    public bool? Bootstrap { get; set; }
-
-    /// <summary>
-    /// Override the configured builder instance (default "default")
-    /// </summary>
-    [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
-    public string? Builder { get; set; }
-
-    /// <summary>
-    /// Enable debug logging
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Override the default timeout for loading builder status (default 20s)
-    /// </summary>
-    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
-    public string? Timeout { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Name { get; set; }
-
-}
+public record DockerBuilderInspectOptions : DockerBuildxInspectOptions;

@@ -7,59 +7,30 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
-/// <summary>
-/// docker policy commands.
-/// </summary>
+[Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class DockerBuilderPolicy
+public class DockerBuilderPolicy : DockerBuildxPolicy
 {
-    private readonly ICommandContext _command;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DockerBuilderPolicy"/> class.
-    /// </summary>
     public DockerBuilderPolicy(ICommandContext command)
+        : base(command)
     {
-        _command = command;
     }
 
-    #region Commands
-
-    /// <summary>
-    /// Evaluate policy for a source
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> EvalAsync(
+    public virtual Task<CommandResult> EvalAsync(
         DockerBuilderPolicyEvalOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderPolicyEvalOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.EvalAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Run policy tests
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> TestAsync(
+    public virtual Task<CommandResult> TestAsync(
         DockerBuilderPolicyTestOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderPolicyTestOptions(), executionOptions, cancellationToken);
-    }
-
-    #endregion
+        CancellationToken cancellationToken = default) =>
+        base.TestAsync(options, executionOptions, cancellationToken);
 }

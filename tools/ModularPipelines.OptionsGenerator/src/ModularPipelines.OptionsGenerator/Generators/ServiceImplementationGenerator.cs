@@ -80,6 +80,15 @@ public class ServiceImplementationGenerator : ICodeGenerator
                 var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
                 constructorParams.Add($"        I{subDomainClassName} {paramName}");
+
+                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(tool, subDomain))
+                {
+                    var aliasIdentifier = GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
+                    var aliasParamName = GeneratorUtils.EscapeIdentifier(
+                        char.ToLowerInvariant(aliasIdentifier[0]) + aliasIdentifier[1..]);
+                    constructorParams.Add(
+                        $"        I{tool.NamespacePrefix}{aliasIdentifier} {aliasParamName}");
+                }
             }
             constructorParams.Add("        ICommandContext command");
 
@@ -93,6 +102,14 @@ public class ServiceImplementationGenerator : ICodeGenerator
                 var rawParamName = char.ToLowerInvariant(subDomain[0]) + subDomain[1..];
                 var paramName = GeneratorUtils.EscapeIdentifier(rawParamName);
                 sb.AppendLine($"        {subDomain} = {paramName};");
+
+                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(tool, subDomain))
+                {
+                    var aliasIdentifier = GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
+                    var aliasParamName = GeneratorUtils.EscapeIdentifier(
+                        char.ToLowerInvariant(aliasIdentifier[0]) + aliasIdentifier[1..]);
+                    sb.AppendLine($"        {aliasIdentifier} = {aliasParamName};");
+                }
             }
 
             sb.AppendLine("        _command = command;");
@@ -124,6 +141,17 @@ public class ServiceImplementationGenerator : ICodeGenerator
                 sb.AppendLine($"    /// <inheritdoc />");
                 sb.AppendLine($"    public I{subDomainClassName} {subDomain} {{ get; }}");
                 sb.AppendLine();
+
+                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(tool, subDomain))
+                {
+                    var aliasIdentifier =
+                        GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
+                    sb.AppendLine("    /// <inheritdoc />");
+                    sb.AppendLine(
+                        $"    public I{tool.NamespacePrefix}{aliasIdentifier} "
+                        + $"{aliasIdentifier} {{ get; }}");
+                    sb.AppendLine();
+                }
             }
 
             sb.AppendLine("    #endregion");

@@ -30,9 +30,154 @@ public class OptionsClassGenerator : ICodeGenerator
                 RelativePath = relativePath,
                 Content = content
             });
+
+            if (command.CommandParts.Length == 0)
+            {
+                continue;
+            }
+
+            foreach (var alias in tool.CommandGroupAliases.Where(alias =>
+                         command.CommandParts[0].Equals(
+                             alias.CanonicalCommand,
+                             StringComparison.OrdinalIgnoreCase)))
+            {
+                files.Add(GenerateCompatibilityOptionsAlias(command, tool, alias));
+            }
         }
 
         return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
+    }
+
+    private static GeneratedFile GenerateCompatibilityOptionsAlias(
+        CliCommandDefinition command,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        if (GeneratorUtils.HasRequiredParameters(command))
+        {
+            throw new InvalidOperationException(
+                $"Command-group compatibility alias '{alias.Alias}' cannot wrap "
+                + $"'{command.FullCommand}' because it has required constructor parameters.");
+        }
+
+        var aliasClassName = GeneratorUtils.GetAliasedClassName(
+            tool,
+            alias,
+            command.ClassName);
+        var enumOptions = command.Options
+            .Where(option => option.EnumDefinition is not null)
+            .ToArray();
+        var sb = new StringBuilder();
+        GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        if (enumOptions.Length > 0)
+        {
+            sb.AppendLine("using ModularPipelines.Attributes;");
+            sb.AppendLine($"using {tool.TargetNamespace}.Enums;");
+        }
+
+        sb.AppendLine();
+        sb.AppendLine($"namespace {tool.TargetNamespace}.Options;");
+        sb.AppendLine();
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
+        sb.AppendLine("[ExcludeFromCodeCoverage]");
+        if (enumOptions.Length == 0)
+        {
+            sb.AppendLine($"public record {aliasClassName} : {command.ClassName};");
+        }
+        else
+        {
+            sb.AppendLine($"public record {aliasClassName} : {command.ClassName}");
+            sb.AppendLine("{");
+            foreach (var option in enumOptions)
+            {
+                GenerateCompatibilityEnumProperty(sb, option, tool, alias);
+            }
+
+            sb.AppendLine("}");
+        }
+
+        return new GeneratedFile
+        {
+            RelativePath = Path.Combine(
+                tool.OutputDirectory,
+                "Options",
+                $"{aliasClassName}.Generated.cs"),
+            Content = sb.ToString(),
+        };
+    }
+
+    private static void GenerateCompatibilityEnumProperty(
+        StringBuilder sb,
+        CliOptionDefinition option,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        var canonicalEnumName = option.EnumDefinition!.EnumName;
+        var aliasEnumName = GeneratorUtils.GetAliasedClassName(
+            tool,
+            alias,
+            canonicalEnumName);
+        var aliasType = option.CSharpType.Replace(
+            canonicalEnumName,
+            aliasEnumName,
+            StringComparison.Ordinal);
+        var isEnumerable = option.CSharpType.TrimEnd('?').Equals(
+            $"IEnumerable<{canonicalEnumName}>",
+            StringComparison.Ordinal);
+        var isNullable = option.CSharpType.Equals(
+            $"{canonicalEnumName}?",
+            StringComparison.Ordinal);
+
+        sb.AppendLine($"    [{GeneratorUtils.GenerateCliAttributeString(option)}]");
+        sb.AppendLine($"    public new {aliasType} {option.PropertyName}");
+        sb.AppendLine("    {");
+        if (isEnumerable)
+        {
+            GenerateCompatibilityEnumCollectionAccessors(
+                sb,
+                option,
+                canonicalEnumName,
+                aliasEnumName);
+        }
+        else if (isNullable)
+        {
+            sb.AppendLine($"        get => base.{option.PropertyName} is null");
+            sb.AppendLine("            ? null");
+            sb.AppendLine($"            : ({aliasEnumName})(int)base.{option.PropertyName}.Value;");
+            sb.AppendLine($"        set => base.{option.PropertyName} = value is null");
+            sb.AppendLine("            ? null");
+            sb.AppendLine($"            : ({canonicalEnumName})(int)value.Value;");
+        }
+        else
+        {
+            sb.AppendLine(
+                $"        get => ({aliasEnumName})(int)base.{option.PropertyName};");
+            sb.AppendLine(
+                $"        set => base.{option.PropertyName} = ({canonicalEnumName})(int)value;");
+        }
+
+        sb.AppendLine("    }");
+    }
+
+    private static void GenerateCompatibilityEnumCollectionAccessors(
+        StringBuilder sb,
+        CliOptionDefinition option,
+        string canonicalEnumName,
+        string aliasEnumName)
+    {
+        var nullableOperator = option.CSharpType.EndsWith(
+            "?",
+            StringComparison.Ordinal)
+            ? "?"
+            : string.Empty;
+        sb.AppendLine(
+            $"        get => base.{option.PropertyName}{nullableOperator}.Select("
+            + $"static value => ({aliasEnumName})(int)value);");
+        sb.AppendLine(
+            $"        set => base.{option.PropertyName} = value{nullableOperator}.Select("
+            + $"static value => ({canonicalEnumName})(int)value);");
     }
 
     private static string GenerateOptionsClass(CliCommandDefinition command, CliToolDefinition tool)

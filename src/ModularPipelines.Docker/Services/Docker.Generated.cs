@@ -25,8 +25,8 @@ internal partial class Docker : IDocker
     /// Initializes a new instance of the <see cref="Docker"/> class.
     /// </summary>
     public Docker(
-        IDockerBuilder builder,
         IDockerBuildx buildx,
+        IDockerBuilder builder,
         IDockerCompose compose,
         IDockerContainer container,
         IDockerContext context,
@@ -41,8 +41,8 @@ internal partial class Docker : IDocker
         ICommandContext command
     )
     {
-        Builder = builder;
         Buildx = buildx;
+        Builder = builder;
         Compose = compose;
         Container = container;
         Context = context;
@@ -60,10 +60,10 @@ internal partial class Docker : IDocker
     #region Sub-domain Services
 
     /// <inheritdoc />
-    public IDockerBuilder Builder { get; }
+    public IDockerBuildx Buildx { get; }
 
     /// <inheritdoc />
-    public IDockerBuildx Buildx { get; }
+    public IDockerBuilder Builder { get; }
 
     /// <inheritdoc />
     public IDockerCompose Compose { get; }

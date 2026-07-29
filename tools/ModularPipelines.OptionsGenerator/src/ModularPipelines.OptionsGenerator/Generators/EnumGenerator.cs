@@ -11,21 +11,59 @@ public class EnumGenerator : ICodeGenerator
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
         var files = new List<GeneratedFile>();
+        var generatedEnumNames = new HashSet<string>(StringComparer.Ordinal);
 
         foreach (var enumDef in tool.AllEnums)
         {
-            var content = GenerateEnum(enumDef, tool);
-            var fileName = $"{enumDef.EnumName}.Generated.cs";
-            var relativePath = Path.Combine(tool.OutputDirectory, "Enums", fileName);
+            AddEnumFile(files, generatedEnumNames, enumDef, tool);
+        }
 
-            files.Add(new GeneratedFile
+        foreach (var alias in tool.CommandGroupAliases)
+        {
+            foreach (var command in tool.Commands.Where(command =>
+                         command.CommandParts.Length > 0
+                         && command.CommandParts[0].Equals(
+                             alias.CanonicalCommand,
+                             StringComparison.OrdinalIgnoreCase)))
             {
-                RelativePath = relativePath,
-                Content = content
-            });
+                foreach (var enumDef in command.Options
+                             .Where(option => option.EnumDefinition is not null)
+                             .Select(option => option.EnumDefinition!))
+                {
+                    var aliasEnum = enumDef with
+                    {
+                        EnumName = GeneratorUtils.GetAliasedClassName(
+                            tool,
+                            alias,
+                            enumDef.EnumName),
+                    };
+                    AddEnumFile(files, generatedEnumNames, aliasEnum, tool);
+                }
+            }
         }
 
         return Task.FromResult<IReadOnlyList<GeneratedFile>>(files);
+    }
+
+    private static void AddEnumFile(
+        List<GeneratedFile> files,
+        HashSet<string> generatedEnumNames,
+        CliEnumDefinition enumDef,
+        CliToolDefinition tool)
+    {
+        if (!generatedEnumNames.Add(enumDef.EnumName))
+        {
+            return;
+        }
+
+        files.Add(new GeneratedFile
+        {
+            RelativePath = Path.Combine(
+                tool.OutputDirectory,
+                "Enums",
+                $"{enumDef.EnumName}.Generated.cs"),
+            Content = GenerateEnum(enumDef, tool),
+        });
     }
 
     private static string GenerateEnum(CliEnumDefinition enumDef, CliToolDefinition tool)

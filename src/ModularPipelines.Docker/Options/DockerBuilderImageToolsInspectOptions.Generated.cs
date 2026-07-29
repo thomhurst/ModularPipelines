@@ -7,44 +7,9 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
-/// <summary>
-/// Show details of an image in the registry
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("builder", "imagetools", "inspect")]
-public record DockerBuilderImageToolsInspectOptions : DockerOptions
-{
-    /// <summary>
-    /// Override the configured builder instance (default "default")
-    /// </summary>
-    [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
-    public string? Builder { get; set; }
-
-    /// <summary>
-    /// Enable debug logging
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Format the output using the given Go template
-    /// </summary>
-    [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
-
-    /// <summary>
-    /// Show original, unformatted JSON manifest
-    /// </summary>
-    [CliFlag("--raw")]
-    public bool? Raw { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-}
+public record DockerBuilderImageToolsInspectOptions : DockerBuildxImageToolsInspectOptions;

@@ -7,53 +7,9 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Attributes;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
-/// <summary>
-/// Export build records into Docker Desktop bundle
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("builder", "history", "export")]
-public record DockerBuilderHistoryExportOptions : DockerOptions
-{
-    /// <summary>
-    /// Export all build records for the builder
-    /// </summary>
-    [CliFlag("--all")]
-    public bool? All { get; set; }
-
-    /// <summary>
-    /// Override the configured builder instance (default "default")
-    /// </summary>
-    [CliOption("--builder", Format = OptionFormat.EqualsSeparated)]
-    public string? Builder { get; set; }
-
-    /// <summary>
-    /// Enable debug logging
-    /// </summary>
-    [CliFlag("--debug", ShortForm = "-D")]
-    public bool? Debug { get; set; }
-
-    /// <summary>
-    /// Ensure build records are finalized before exporting
-    /// </summary>
-    [CliFlag("--finalize")]
-    public bool? Finalize { get; set; }
-
-    /// <summary>
-    /// Output file path
-    /// </summary>
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Ref { get; set; }
-
-}
+public record DockerBuilderHistoryExportOptions : DockerBuildxHistoryExportOptions;

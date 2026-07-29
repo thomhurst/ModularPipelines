@@ -788,6 +788,7 @@ public class CodeGeneratorOrchestrator
             TargetNamespace = toolDefinition.TargetNamespace,
             OutputDirectory = toolDefinition.OutputDirectory,
             Commands = allCommands,
+            CommandGroupAliases = toolDefinition.CommandGroupAliases,
             ToolVersion = toolVersion,
             CommandCoverage = toolDefinition.CommandCoverage,
             GlobalOptions = toolDefinition.GlobalOptions,

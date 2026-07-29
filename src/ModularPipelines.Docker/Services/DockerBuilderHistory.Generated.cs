@@ -7,144 +7,67 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
-/// <summary>
-/// docker history commands.
-/// </summary>
+[Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class DockerBuilderHistory
+public class DockerBuilderHistory : DockerBuildxHistory
 {
     private readonly ICommandContext _command;
     private DockerBuilderHistoryInspect? _inspect;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DockerBuilderHistory"/> class.
-    /// </summary>
     public DockerBuilderHistory(ICommandContext command)
+        : base(command)
     {
         _command = command;
     }
 
-    #region Sub-command Groups
+    public new DockerBuilderHistoryInspect Inspect =>
+        _inspect ??= new DockerBuilderHistoryInspect(_command);
 
-    /// <summary>
-    /// docker inspect sub-commands.
-    /// </summary>
-    public DockerBuilderHistoryInspect Inspect => _inspect ??= new DockerBuilderHistoryInspect(_command);
-
-    #endregion
-
-    #region Commands
-
-    /// <summary>
-    /// Export build records into Docker Desktop bundle
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ExportAsync(
+    public virtual Task<CommandResult> ExportAsync(
         DockerBuilderHistoryExportOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderHistoryExportOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.ExportAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Import build records into Docker Desktop
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ImportAsync(
+    public virtual Task<CommandResult> ImportAsync(
         DockerBuilderHistoryImportOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderHistoryImportOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.ImportAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Print the logs of a build record
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> LogsAsync(
+    public virtual Task<CommandResult> LogsAsync(
         DockerBuilderHistoryLogsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderHistoryLogsOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.LogsAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// List build records
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> LsAsync(
+    public virtual Task<CommandResult> LsAsync(
         DockerBuilderHistoryLsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderHistoryLsOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.LsAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Open a build record in Docker Desktop
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> OpenAsync(
+    public virtual Task<CommandResult> OpenAsync(
         DockerBuilderHistoryOpenOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderHistoryOpenOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.OpenAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Remove build records
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RmAsync(
+    public virtual Task<CommandResult> RmAsync(
         DockerBuilderHistoryRmOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderHistoryRmOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.RmAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Show the OpenTelemetry trace of a build record
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> TraceAsync(
+    public virtual Task<CommandResult> TraceAsync(
         DockerBuilderHistoryTraceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderHistoryTraceOptions(), executionOptions, cancellationToken);
-    }
-
-    #endregion
+        CancellationToken cancellationToken = default) =>
+        base.TraceAsync(options, executionOptions, cancellationToken);
 }

@@ -66,6 +66,18 @@ public class ServiceInterfaceGenerator : ICodeGenerator
                 sb.AppendLine($"    /// </summary>");
                 sb.AppendLine($"    I{subDomainClassName} {subDomainIdentifier} {{ get; }}");
                 sb.AppendLine();
+
+                foreach (var alias in GeneratorUtils.GetCommandGroupAliases(
+                             tool,
+                             subDomainIdentifier))
+                {
+                    var aliasIdentifier =
+                        GeneratorUtils.GetAliasCommandGroupIdentifier(alias);
+                    sb.AppendLine(
+                        $"    [Obsolete({GeneratorUtils.FormatStringLiteral(alias.ObsoleteMessage)})]");
+                    sb.AppendLine($"    I{tool.NamespacePrefix}{aliasIdentifier} {aliasIdentifier} {{ get; }}");
+                    sb.AppendLine();
+                }
             }
 
             sb.AppendLine("    #endregion");

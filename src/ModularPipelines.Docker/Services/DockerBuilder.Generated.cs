@@ -7,222 +7,110 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
-/// <summary>
-/// docker builder commands.
-/// </summary>
+[Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class DockerBuilder : IDockerBuilder
+public class DockerBuilder : DockerBuildx, IDockerBuilder
 {
     private readonly ICommandContext _command;
     private DockerBuilderDap? _dap;
     private DockerBuilderHistory? _history;
-    private DockerBuilderImageTools? _imagetools;
+    private DockerBuilderImageTools? _imageTools;
     private DockerBuilderPolicy? _policy;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DockerBuilder"/> class.
-    /// </summary>
     public DockerBuilder(ICommandContext command)
+        : base(command)
     {
         _command = command;
     }
 
-    #region Sub-command Groups
+    public new DockerBuilderDap Dap => _dap ??= new DockerBuilderDap(_command);
 
-    /// <summary>
-    /// docker dap sub-commands.
-    /// </summary>
-    public DockerBuilderDap Dap => _dap ??= new DockerBuilderDap(_command);
+    public new DockerBuilderHistory History =>
+        _history ??= new DockerBuilderHistory(_command);
 
-    /// <summary>
-    /// docker history sub-commands.
-    /// </summary>
-    public DockerBuilderHistory History => _history ??= new DockerBuilderHistory(_command);
+    public new DockerBuilderImageTools ImageTools =>
+        _imageTools ??= new DockerBuilderImageTools(_command);
 
-    /// <summary>
-    /// docker imagetools sub-commands.
-    /// </summary>
-    public DockerBuilderImageTools ImageTools => _imagetools ??= new DockerBuilderImageTools(_command);
+    public new DockerBuilderPolicy Policy =>
+        _policy ??= new DockerBuilderPolicy(_command);
 
-    /// <summary>
-    /// docker policy sub-commands.
-    /// </summary>
-    public DockerBuilderPolicy Policy => _policy ??= new DockerBuilderPolicy(_command);
+    public virtual Task<CommandResult> ExecuteAsync(
+        DockerBuilderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return base.ExecuteAsync(options, executionOptions, cancellationToken);
+    }
 
-    #endregion
-
-    #region Commands
-
-    /// <summary>
-    /// Build from a file
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BakeAsync(
+    public virtual Task<CommandResult> BakeAsync(
         DockerBuilderBakeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderBakeOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.BakeAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Start a build
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> BuildAsync(
+    public virtual Task<CommandResult> BuildAsync(
         DockerBuilderBuildOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderBuildOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.BuildAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Create a new builder instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CreateAsync(
+    public virtual Task<CommandResult> CreateAsync(
         DockerBuilderCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderCreateOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.CreateAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Proxy current stdio streams to builder instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DialStdioAsync(
+    public virtual Task<CommandResult> DialStdioAsync(
         DockerBuilderDialStdioOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderDialStdioOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.DialStdioAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// --builder string     Override the configured builder instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DuAsync(
+    public virtual Task<CommandResult> DuAsync(
         DockerBuilderDuOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderDuOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.DuAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Inspect current builder instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> InspectAsync(
+    public virtual Task<CommandResult> InspectAsync(
         DockerBuilderInspectOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderInspectOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.InspectAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// List builder instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> LsAsync(
+    public virtual Task<CommandResult> LsAsync(
         DockerBuilderLsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderLsOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.LsAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Remove build cache
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> PruneAsync(
+    public virtual Task<CommandResult> PruneAsync(
         DockerBuilderPruneOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderPruneOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.PruneAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Remove one or more builder instances
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> RmAsync(
+    public virtual Task<CommandResult> RmAsync(
         DockerBuilderRmOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderRmOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.RmAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Stop builder instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> StopAsync(
+    public virtual Task<CommandResult> StopAsync(
         DockerBuilderStopOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderStopOptions(), executionOptions, cancellationToken);
-    }
+        CancellationToken cancellationToken = default) =>
+        base.StopAsync(options, executionOptions, cancellationToken);
 
-    /// <summary>
-    /// Set the current builder instance
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> UseAsync(
+    public virtual Task<CommandResult> UseAsync(
         DockerBuilderUseOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderUseOptions(), executionOptions, cancellationToken);
-    }
-
-    #endregion
+        CancellationToken cancellationToken = default) =>
+        base.UseAsync(options, executionOptions, cancellationToken);
 }

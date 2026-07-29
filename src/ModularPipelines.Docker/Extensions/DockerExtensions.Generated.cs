@@ -5,6 +5,8 @@
 
 #nullable enable
 
+#pragma warning disable CS0618 // Compatibility aliases are intentionally registered.
+
 using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -29,8 +31,8 @@ public static class DockerExtensions
     public static IServiceCollection RegisterDockerContext(this IServiceCollection services)
     {
         services.TryAddScoped<IDocker, Services.Docker>();
-        services.TryAddScoped<IDockerBuilder, DockerBuilder>();
         services.TryAddScoped<IDockerBuildx, DockerBuildx>();
+        services.TryAddScoped<IDockerBuilder, DockerBuilder>();
         services.TryAddScoped<IDockerCompose, DockerCompose>();
         services.TryAddScoped<IDockerContainer, DockerContainer>();
         services.TryAddScoped<IDockerContext, DockerContext>();

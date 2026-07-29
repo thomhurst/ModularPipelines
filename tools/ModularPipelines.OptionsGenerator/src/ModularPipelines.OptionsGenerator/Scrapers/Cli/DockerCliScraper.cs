@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -18,4 +19,10 @@ public class DockerCliScraper : CobraCliScraper
         : base(executor, helpCache, logger)
     {
     }
+
+    /// <inheritdoc />
+    protected override CliCommandGroupAlias? DetectCommandGroupAlias(
+        string[] commandPath,
+        string helpText) =>
+        DockerCliCompatibility.DetectCommandGroupAlias(commandPath, helpText);
 }

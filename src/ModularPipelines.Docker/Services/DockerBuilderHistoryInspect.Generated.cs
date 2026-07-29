@@ -7,44 +7,24 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
-using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
-/// <summary>
-/// docker inspect commands.
-/// </summary>
+[Obsolete("docker builder is an alias of docker buildx. Use Buildx instead.")]
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public class DockerBuilderHistoryInspect
+public class DockerBuilderHistoryInspect : DockerBuildxHistoryInspect
 {
-    private readonly ICommandContext _command;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DockerBuilderHistoryInspect"/> class.
-    /// </summary>
     public DockerBuilderHistoryInspect(ICommandContext command)
+        : base(command)
     {
-        _command = command;
     }
 
-    #region Commands
-
-    /// <summary>
-    /// Inspect a build record attachment
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> AttachmentAsync(
+    public virtual Task<CommandResult> AttachmentAsync(
         DockerBuilderHistoryInspectAttachmentOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuilderHistoryInspectAttachmentOptions(), executionOptions, cancellationToken);
-    }
-
-    #endregion
+        CancellationToken cancellationToken = default) =>
+        base.AttachmentAsync(options, executionOptions, cancellationToken);
 }

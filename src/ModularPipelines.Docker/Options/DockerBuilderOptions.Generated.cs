@@ -12,4 +12,4 @@ namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderHistoryOptions : DockerBuildxHistoryOptions;
+public record DockerBuilderOptions : DockerBuildxOptions;
