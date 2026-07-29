@@ -44,7 +44,8 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
         // Find the attribute syntax identified by the diagnostic.
         var attributeSyntax = root.FindToken(diagnosticSpan.Start).Parent?.AncestorsAndSelf().OfType<AttributeSyntax>().FirstOrDefault();
 
-        if (attributeSyntax is null)
+        if (attributeSyntax?.Parent is not AttributeListSyntax attributeList
+            || attributeList.ContainsDirectives)
         {
             return;
         }
@@ -64,10 +65,7 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
         var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
 
         // Get the attribute list that contains this attribute
-        if (attributeSyntax.Parent is not AttributeListSyntax attributeList)
-        {
-            return document;
-        }
+        var attributeList = (AttributeListSyntax) attributeSyntax.Parent!;
 
         SyntaxNode newRoot;
 

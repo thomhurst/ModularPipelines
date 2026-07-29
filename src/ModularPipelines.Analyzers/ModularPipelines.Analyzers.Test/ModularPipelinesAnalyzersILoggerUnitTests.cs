@@ -1005,6 +1005,38 @@ public class Module1 : Module<List<string>>
     }
 
     [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Other_Instance_Logger_Assignment()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private readonly ILogger<Module1> _logger;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        GetOther()._logger = logger;
+    }}
+
+    private static Module1 GetOther() => null!;
+
+    protected override async Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        return [];
+    }}
+}}
+";
+
+        await VerifyCS.VerifyNoCodeFixAsync(
+            source,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
     public async Task CodeFix_Preserves_Escaped_Context_Identifier()
     {
         var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);

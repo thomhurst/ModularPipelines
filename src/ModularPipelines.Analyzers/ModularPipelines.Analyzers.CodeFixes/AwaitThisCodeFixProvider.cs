@@ -65,6 +65,7 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
             .Where(label => IsInSameCallable(label, callable))
             .Where(label => label.SpanStart <= statement.SpanStart)
             .ToArray();
+        var containingSwitch = statement.FirstAncestorOrSelf<SwitchStatementSyntax>();
 
         return scope.DescendantNodes()
             .OfType<GotoStatementSyntax>()
@@ -72,9 +73,15 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
                 IsInSameCallable(gotoStatement, callable)
                 && gotoStatement.SpanStart > statement.SpanStart)
             .Any(gotoStatement =>
-                gotoStatement.Expression is IdentifierNameSyntax identifier
-                && labels.Any(label =>
-                    label.Identifier.ValueText == identifier.Identifier.ValueText));
+                (gotoStatement.Expression is IdentifierNameSyntax identifier
+                 && labels.Any(label =>
+                     label.Identifier.ValueText == identifier.Identifier.ValueText))
+                || (containingSwitch is not null
+                    && gotoStatement.Kind() is
+                        SyntaxKind.GotoCaseStatement or SyntaxKind.GotoDefaultStatement
+                    && ReferenceEquals(
+                        gotoStatement.FirstAncestorOrSelf<SwitchStatementSyntax>(),
+                        containingSwitch)));
     }
 
     private static bool IsInSameCallable(SyntaxNode node, SyntaxNode? callable)

@@ -257,6 +257,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             || assignment.Parent is not ExpressionStatementSyntax assignmentStatement
             || assignment.Right != parameterReference
             || semanticModel.GetSymbolInfo(assignment.Left, cancellationToken).Symbol is not IFieldSymbol field
+            || !IsCurrentInstanceFieldReference(assignment.Left)
             || field.DeclaredAccessibility != Accessibility.Private
             || !IsLogger(field.Type))
         {
@@ -275,6 +276,15 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
                && fieldDeclaration.Declaration.Variables.Count == 1
             ? new LoggerStorage(field, fieldDeclaration, assignmentStatement, assignment)
             : null;
+    }
+
+    private static bool IsCurrentInstanceFieldReference(ExpressionSyntax expression)
+    {
+        return expression is IdentifierNameSyntax
+            or MemberAccessExpressionSyntax
+        {
+            Expression: ThisExpressionSyntax,
+        };
     }
 
     private static ImmutableArray<LoggerReplacement>? CreateLoggerReplacements(
@@ -513,8 +523,8 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
 
     private static bool CanRemoveConstructor(
         ConstructorDeclarationSyntax constructor,
-        IReadOnlyCollection<ParameterSyntax> parameters,
-        IReadOnlyCollection<ExpressionStatementSyntax> assignmentStatements)
+        ImmutableHashSet<ParameterSyntax> parameters,
+        ImmutableHashSet<ExpressionStatementSyntax> assignmentStatements)
     {
         var remainingStatements = constructor.Body?.Statements.Count - assignmentStatements.Count;
         return constructor.ParameterList.Parameters.Count == parameters.Count

@@ -320,4 +320,27 @@ retry:
             BadModuleSourceAwaitThisInsideGotoCycle,
             AwaitThisAnalyzer.DiagnosticId);
     }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_Inside_Goto_Case_Cycle()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<CommandResult>
+{{
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        switch (context)
+        {{
+            case null:
+                await this;
+                goto case null;
+        }}
+    }}
+}}
+";
+
+        await VerifyCS.VerifyNoCodeFixAsync(source, AwaitThisAnalyzer.DiagnosticId);
+    }
 }
