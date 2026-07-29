@@ -22,18 +22,18 @@ public class FSharpCompatibilityTests
     }
 
     [Test]
-    public async Task FSharp_Modules_Execute_With_Dynamic_Dependency()
+    public async Task FSharp_Modules_Execute_With_Configured_Dependency()
     {
-        var summary = await PipelineRunner.RunDynamicAsync();
+        var summary = await PipelineRunner.RunConfiguredAsync();
 
         var dependencyResult = await summary.GetModule<DependencyModule>();
-        var dependentResult = await summary.GetModule<DynamicDependentModule>();
+        var dependentResult = await summary.GetModule<ConfiguredDependentModule>();
 
         using (Assert.Multiple())
         {
             await Assert.That(summary.Status).IsEqualTo(Status.Successful);
             await Assert.That(dependencyResult.ValueOrDefault).IsEqualTo("dependency");
-            await Assert.That(dependentResult.ValueOrDefault).IsEqualTo("dependency-dynamic");
+            await Assert.That(dependentResult.ValueOrDefault).IsEqualTo("dependency-configured");
         }
     }
 }

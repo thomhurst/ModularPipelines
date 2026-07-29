@@ -17,11 +17,11 @@ internal static class DependencyGraphValidator
     /// <para>
     /// <b>Limitation:</b> This method only validates attribute-based dependencies declared via
     /// <see cref="DependsOnAttribute"/> and <see cref="DependsOnAllModulesInheritingFromAttribute"/>.
-    /// Dependencies declared programmatically via <c>Module.DeclareDependencies()</c> at runtime
-    /// cannot be detected at registration time and are NOT validated by this method.
+    /// Dependencies declared through <c>Module.Configure()</c> cannot be detected at registration
+    /// time and are NOT validated by this method.
     /// </para>
     /// <para>
-    /// Circular dependencies involving only programmatic declarations will still fail at runtime
+    /// Circular dependencies involving only fluent configuration will still fail at runtime
     /// during module execution.
     /// </para>
     /// </remarks>
@@ -170,6 +170,7 @@ internal static class DependencyGraphValidator
                             return true;
                         }
                     }
+
                     // If state == 2, already fully processed, no cycle through this node
                 }
             }

@@ -944,24 +944,18 @@ catch (PipelineValidationException ex)
 }
 ```
 
-### Dynamic Dependencies
+### Fluent Dependencies
 
-Declare dependencies programmatically at runtime:
+Declare dependencies through module configuration:
 
 ```csharp
 public class MyModule : Module<string>
 {
-    protected override void DeclareDependencies(IDependencyDeclaration deps)
-    {
-        // Always depend on this module
-        deps.DependsOn<RequiredModule>();
-
-        // Optional dependency (won't fail if not registered)
-        deps.DependsOnOptional<OptionalModule>();
-
-        // Conditional dependency
-        deps.DependsOnIf<ProductionModule>(Environment.IsProduction);
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .DependsOn<RequiredModule>()
+        .DependsOnOptional<OptionalModule>()
+        .DependsOnIf<ProductionModule>(Environment.IsProduction)
+        .Build();
 
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
@@ -974,7 +968,7 @@ public class MyModule : Module<string>
 Two redundant dependency APIs have been removed:
 
 - Replace `DependsOnLazy<TModule>()` with `DependsOnOptional<TModule>()`. The removed API was only an optional-dependency marker; it did not defer module execution.
-- Replace `DependsOnIf<TModule>(Func<bool>)` with `DependsOnIf<TModule>(bool)` by evaluating the predicate before the call, for example `deps.DependsOnIf<HeavyModule>(ShouldRunHeavyProcessing())`.
+- Replace `DependsOnIf<TModule>(Func<bool>)` with `DependsOnIf<TModule>(bool)` by evaluating the predicate before the call, for example `.DependsOnIf<HeavyModule>(ShouldRunHeavyProcessing())`.
 
 The same replacements apply to the overloads that accept a module `Type`.
 

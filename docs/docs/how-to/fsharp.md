@@ -14,6 +14,7 @@ open System.Threading
 open System.Threading.Tasks
 open ModularPipelines
 open ModularPipelines.Attributes
+open ModularPipelines.Configuration
 open ModularPipelines.Context
 open ModularPipelines.Extensions
 open ModularPipelines.Modules
@@ -55,10 +56,12 @@ dependencies with `[<DependsOn(typeof<DependencyModule>)>]`. This overload is a
 supported API and has the same auto-registration, validation, optional-dependency,
 and cascade-skip behavior as C#'s `[DependsOn<DependencyModule>]`.
 
-For dynamic dependencies, override `DeclareDependencies` and use its generic
-methods:
+For runtime-selected dependencies, override `Configure` and use the fluent
+configuration builder:
 
 ```fsharp
-override _.DeclareDependencies(dependencies) =
-    dependencies.DependsOn<BuildModule>() |> ignore
+override _.Configure() =
+    ModuleConfiguration.Create()
+        .DependsOn<BuildModule>()
+        .Build()
 ```

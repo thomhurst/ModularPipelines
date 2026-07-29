@@ -134,18 +134,17 @@ if (module != null)
 }
 ```
 
-## Programmatic Dependencies
+## Fluent Dependencies
 
-You can also declare dependencies programmatically by overriding `DeclareDependencies`:
+Declare runtime-selected dependencies through the module's `Configure()` method:
 
 ```csharp
 public class Module2 : Module<string>
 {
-    protected override void DeclareDependencies(IDependencyDeclaration deps)
-    {
-        deps.DependsOn<Module1>();                    // Required
-        deps.DependsOnOptional<Module3>();            // Optional
-        deps.DependsOnIf<Module4>(someCondition);     // Conditional
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .DependsOn<Module1>()                    // Required
+        .DependsOnOptional<Module3>()            // Optional
+        .DependsOnIf<Module4>(someCondition)     // Required when true
+        .Build();
 }
 ```

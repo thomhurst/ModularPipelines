@@ -4,6 +4,7 @@ open System.Threading
 open System.Threading.Tasks
 open ModularPipelines
 open ModularPipelines.Attributes
+open ModularPipelines.Configuration
 open ModularPipelines.Context
 open ModularPipelines.Extensions
 open ModularPipelines.Modules
@@ -30,11 +31,14 @@ type DependentModule() =
             return $"{dependency.ValueOrDefault}-dependent"
         }
 
-type DynamicDependentModule() =
+type ConfiguredDependentModule() =
     inherit Module<string>()
 
-    override _.DeclareDependencies(dependencies) =
-        dependencies.DependsOn<DependencyModule>() |> ignore
+    override _.Configure() =
+        ModuleConfiguration
+            .Create()
+            .DependsOn<DependencyModule>()
+            .Build()
 
     override _.ExecuteAsync(
         context: IModuleContext,
@@ -42,7 +46,7 @@ type DynamicDependentModule() =
     ) : Task<string> =
         task {
             let! dependency = context.GetModule<DependencyModule>()
-            return $"{dependency.ValueOrDefault}-dynamic"
+            return $"{dependency.ValueOrDefault}-configured"
         }
 
 type PipelineRunner =
@@ -52,9 +56,9 @@ type PipelineRunner =
             .AddModule<DependentModule>()
             .ExecutePipelineAsync()
 
-    static member RunDynamicAsync() =
+    static member RunConfiguredAsync() =
         Pipeline
             .CreateBuilder()
             .AddModule<DependencyModule>()
-            .AddModule<DynamicDependentModule>()
+            .AddModule<ConfiguredDependentModule>()
             .ExecutePipelineAsync()

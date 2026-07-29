@@ -31,23 +31,19 @@ namespace ModularPipelines.Modules;
 /// <item><see cref="ModuleConfigurationBuilder.DependsOn{TModule}"/> - Declare dependencies</item>
 /// </list>
 /// <para>
-/// Dependencies can be declared in two ways:
+/// Dependencies can be declared through <see cref="Configure"/> or statically via
+/// <see cref="Attributes.DependsOnAttribute"/> attributes.
 /// </para>
-/// <list type="bullet">
-/// <item>Statically via <see cref="Attributes.DependsOnAttribute"/> attributes</item>
-/// <item>Dynamically by overriding <see cref="DeclareDependencies"/></item>
-/// </list>
 /// </remarks>
 /// <example>
 /// <code>
 /// public class ApiModule : Module&lt;ApiResult&gt;
 /// {
-///     protected override void DeclareDependencies(IDependencyDeclaration deps)
-///     {
-///         deps.DependsOn&lt;DatabaseModule&gt;();
-///         deps.DependsOnOptional&lt;CachingModule&gt;();
-///         deps.DependsOnIf&lt;MonitoringModule&gt;(Environment.IsProduction);
-///     }
+///     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+///         .DependsOn&lt;DatabaseModule&gt;()
+///         .DependsOnOptional&lt;CachingModule&gt;()
+///         .DependsOnIf&lt;MonitoringModule&gt;(Environment.IsProduction)
+///         .Build();
 ///
 ///     protected override Task&lt;ApiResult?&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ///         =&gt; Task.FromResult&lt;ApiResult?&gt;(new ApiResult());
@@ -129,45 +125,6 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// Override value takes precedence over attribute.
     /// </remarks>
     public virtual string? Category => null;
-
-    /// <summary>
-    /// Declares dependencies programmatically at runtime.
-    /// Override this method to add dynamic or conditional dependencies.
-    /// </summary>
-    /// <param name="deps">The dependency declaration builder.</param>
-    /// <remarks>
-    /// <para>
-    /// Dependencies declared here are combined with attribute-based dependencies
-    /// from <see cref="Attributes.DependsOnAttribute"/>.
-    /// </para>
-    /// <para>
-    /// This method is called once during module initialization, before execution begins.
-    /// </para>
-    /// </remarks>
-    /// <example>
-    /// <code>
-    /// protected override void DeclareDependencies(IDependencyDeclaration deps)
-    /// {
-    ///     deps.DependsOn&lt;RequiredModule&gt;();
-    ///     deps.DependsOnOptional&lt;OptionalModule&gt;();
-    ///     deps.DependsOnIf&lt;ConditionalModule&gt;(SomeCondition);
-    /// }
-    /// </code>
-    /// </example>
-    protected virtual void DeclareDependencies(IDependencyDeclaration deps)
-    {
-        // Default implementation does nothing - dependencies are declared via attributes only
-    }
-
-    /// <summary>
-    /// Internal method to collect declared dependencies.
-    /// </summary>
-    internal IReadOnlyList<DeclaredDependency> GetDeclaredDependencies()
-    {
-        var declaration = new DependencyDeclaration();
-        DeclareDependencies(declaration);
-        return declaration.Dependencies;
-    }
 
     /// <summary>
     /// Executes the module's core logic.
@@ -313,15 +270,12 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <returns>An awaiter for the module result.</returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter() => CompletionSource.Task.GetAwaiter();
 
-    private ModuleConfiguration CreateConfiguration()
-    {
-        return ModuleConfigurationAttributeAdapter.Apply(
+    private ModuleConfiguration CreateConfiguration() =>
+        ModuleConfigurationAttributeAdapter.Apply(
             GetType(),
             Configure(),
             _tags.Value,
-            Category,
-            GetDeclaredDependencies());
-    }
+            Category);
 }
 
 #pragma warning restore SA1202
