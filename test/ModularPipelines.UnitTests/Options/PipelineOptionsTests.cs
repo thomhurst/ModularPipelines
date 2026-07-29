@@ -20,9 +20,11 @@ public class PipelineOptionsTests
     }
 
     [Test]
-    public async Task PublicProperties_AreInitOnly()
+    [Arguments(typeof(PipelineOptions))]
+    [Arguments(typeof(ConcurrencyOptions))]
+    public async Task PublicProperties_AreInitOnly(Type optionsType)
     {
-        var mutableProperties = typeof(PipelineOptions)
+        var mutableProperties = optionsType
             .GetProperties()
             .Where(property => property.SetMethod is not null)
             .Where(property => !property.SetMethod!.ReturnParameter

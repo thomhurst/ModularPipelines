@@ -10,33 +10,39 @@ namespace ModularPipelines.Options;
 public record ConcurrencyOptions
 {
     /// <summary>
-    /// Gets or sets the maximum number of modules that can execute in parallel.
+    /// Gets the maximum number of modules that can execute in parallel.
     /// Default: <c>Environment.ProcessorCount * 4</c> for aggressive parallelism.
     /// Set to <see cref="int.MaxValue"/> for unlimited parallelism (bounded only by dependencies).
     /// </summary>
     /// <example>
     /// <code>
     /// // Limit to processor count (conservative)
-    /// options.Concurrency.MaxParallelism = Environment.ProcessorCount;
+    /// options with
+    /// {
+    ///     Concurrency = options.Concurrency with { MaxParallelism = Environment.ProcessorCount },
+    /// };
     ///
     /// // Unlimited parallelism
-    /// options.Concurrency.MaxParallelism = int.MaxValue;
+    /// options with
+    /// {
+    ///     Concurrency = options.Concurrency with { MaxParallelism = int.MaxValue },
+    /// };
     /// </code>
     /// </example>
-    public int MaxParallelism { get; set; } = Environment.ProcessorCount * ConcurrencyConstants.ParallelismMultiplier;
+    public int MaxParallelism { get; init; } = Environment.ProcessorCount * ConcurrencyConstants.ParallelismMultiplier;
 
     /// <summary>
-    /// Gets or sets the maximum number of CPU-intensive modules that can execute concurrently.
+    /// Gets the maximum number of CPU-intensive modules that can execute concurrently.
     /// Only applies to modules decorated with <c>[ExecutionHint(ExecutionType.CpuIntensive)]</c>.
     /// Default: <c>Environment.ProcessorCount</c>.
     /// Set to <c>null</c> to use <see cref="MaxParallelism"/> instead.
     /// </summary>
-    public int? MaxCpuIntensiveModules { get; set; } = Environment.ProcessorCount;
+    public int? MaxCpuIntensiveModules { get; init; } = Environment.ProcessorCount;
 
     /// <summary>
-    /// Gets or sets the maximum number of I/O-intensive modules that can execute concurrently.
+    /// Gets the maximum number of I/O-intensive modules that can execute concurrently.
     /// Only applies to modules decorated with <c>[ExecutionHint(ExecutionType.IoIntensive)]</c>.
     /// Default: <c>null</c> (unlimited, bounded only by <see cref="MaxParallelism"/>).
     /// </summary>
-    public int? MaxIoIntensiveModules { get; set; }
+    public int? MaxIoIntensiveModules { get; init; }
 }
