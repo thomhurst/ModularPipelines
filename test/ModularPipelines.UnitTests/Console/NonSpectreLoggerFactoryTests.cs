@@ -183,6 +183,48 @@ public class NonSpectreLoggerFactoryTests
         }
     }
 
+    [Test]
+    public async Task Filter_PostConfigure_Preserves_Identity_For_Global_And_Alias_Filters()
+    {
+        var filteredProviderNames = new List<string?>();
+        Func<string?, string?, LogLevel, bool> filter = (providerName, _, _) =>
+        {
+            filteredProviderNames.Add(providerName);
+            return true;
+        };
+        var options = new LoggerFilterOptions();
+        options.Rules.Add(new LoggerFilterRule(
+            null,
+            "Global",
+            LogLevel.Information,
+            filter));
+        options.Rules.Add(new LoggerFilterRule(
+            SpectreLoggerSuppressionRegistration.SpectreProviderAlias,
+            "Alias",
+            LogLevel.Warning,
+            filter));
+
+        new SpectreLoggerFilterOptionsPostConfigure().PostConfigure(null, options);
+
+        var wrapperProviderName = typeof(SuppressibleSpectreLoggerProvider).FullName;
+        options.Rules[0].Filter!(wrapperProviderName, "Global", LogLevel.Information);
+        options.Rules[1].Filter!(wrapperProviderName, "Alias", LogLevel.Warning);
+        options.Rules[0].Filter!("Other.Provider", "Global", LogLevel.Information);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.Rules[0].ProviderName).IsNull();
+            await Assert.That(options.Rules[1].ProviderName)
+                .IsEqualTo(SpectreLoggerSuppressionRegistration.SpectreProviderAlias);
+            await Assert.That(filteredProviderNames).IsEquivalentTo(
+            [
+                SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+                SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+                "Other.Provider",
+            ]);
+        }
+    }
+
     private static NonSpectreLoggerFactory CreateFactory(
         ILoggerProvider provider,
         LoggerFilterOptions options)

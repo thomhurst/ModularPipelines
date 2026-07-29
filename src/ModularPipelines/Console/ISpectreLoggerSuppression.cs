@@ -42,7 +42,7 @@ internal sealed class SpectreLoggerSuppression : ISpectreLoggerSuppression
     }
 }
 
-[ProviderAlias("SpectreConsole")]
+[ProviderAlias(SpectreLoggerSuppressionRegistration.SpectreProviderAlias)]
 internal sealed class SuppressibleSpectreLoggerProvider(
     ILoggerProvider inner,
     ISpectreConsoleLoggerControl control,
@@ -120,6 +120,7 @@ internal sealed class SuppressibleSpectreLoggerProvider(
 
 internal static class SpectreLoggerSuppressionRegistration
 {
+    internal const string SpectreProviderAlias = "SpectreConsole";
     internal const string SpectreProviderTypeName = "MEL.Spectre.Provider.SpectreConsoleLoggerProvider";
 
     public static void MakeSpectreLoggerSuppressible(this IServiceCollection services)
@@ -225,20 +226,33 @@ internal sealed class SpectreLoggerFilterOptionsPostConfigure
         for (var index = 0; index < options.Rules.Count; index++)
         {
             var rule = options.Rules[index];
-            if (rule.ProviderName is not SpectreLoggerSuppressionRegistration.SpectreProviderTypeName)
+            if (rule.ProviderName is not null
+                && rule.ProviderName is not SpectreLoggerSuppressionRegistration.SpectreProviderAlias
+                && rule.ProviderName is not SpectreLoggerSuppressionRegistration.SpectreProviderTypeName)
             {
                 continue;
             }
 
             var originalFilter = rule.Filter;
+            var translatedProviderName =
+                rule.ProviderName is SpectreLoggerSuppressionRegistration.SpectreProviderTypeName
+                    ? typeof(SuppressibleSpectreLoggerProvider).FullName
+                    : rule.ProviderName;
+            if (translatedProviderName == rule.ProviderName && originalFilter is null)
+            {
+                continue;
+            }
+
             options.Rules[index] = new LoggerFilterRule(
-                typeof(SuppressibleSpectreLoggerProvider).FullName,
+                translatedProviderName,
                 rule.CategoryName,
                 rule.LogLevel,
                 originalFilter is null
                     ? null
-                    : (_, categoryName, logLevel) => originalFilter(
-                        SpectreLoggerSuppressionRegistration.SpectreProviderTypeName,
+                    : (providerName, categoryName, logLevel) => originalFilter(
+                        providerName == typeof(SuppressibleSpectreLoggerProvider).FullName
+                            ? SpectreLoggerSuppressionRegistration.SpectreProviderTypeName
+                            : providerName,
                         categoryName,
                         logLevel));
         }
