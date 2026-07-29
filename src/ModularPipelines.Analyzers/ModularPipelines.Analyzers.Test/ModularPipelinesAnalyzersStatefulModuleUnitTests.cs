@@ -481,6 +481,30 @@ public static class ModuleConfigurator
 }}
 ";
 
+    private const string NestedModuleWithEnclosingWrite = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class ModuleContainer
+{{
+    public class Module1 : Module<int>
+    {{
+        private int _state;
+
+        protected override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {{
+            return Task.FromResult(_state);
+        }}
+    }}
+
+    public static void Configure(Module1 module)
+    {{
+        module._state = 1;
+    }}
+}}
+";
+
     private const string BadModuleWithReadonlyStructContainingMutableState = $@"
 {TestSourceConstants.StandardModuleHeader}
 
@@ -759,6 +783,14 @@ public class Module1 : Module<int>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithExternallyWritableField,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Nested_Module()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            NestedModuleWithEnclosingWrite,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 

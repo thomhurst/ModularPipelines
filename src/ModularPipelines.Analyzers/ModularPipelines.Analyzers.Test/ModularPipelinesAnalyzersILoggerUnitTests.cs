@@ -526,6 +526,35 @@ public static class LoggerConsumer
 }}
 ";
 
+    private const string NestedModuleLoggerSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class ModuleContainer
+{{
+    public class Module1 : Module<List<string>>
+    {{
+        private readonly ILogger<Module1> _logger;
+
+        public Module1(ILogger<Module1> logger)
+        {{
+            _logger = logger;
+        }}
+
+        protected override Task<List<string>?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {{
+            return Task.FromResult<List<string>?>([]);
+        }}
+    }}
+
+    public static void Log(Module1 module)
+    {{
+        module._logger.LogInformation(""Running"");
+    }}
+}}
+";
+
     private const string LoggerWithGenericExtensionSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -786,6 +815,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ExternallyReferencedStoredLoggerSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Nested_Module()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            NestedModuleLoggerSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 

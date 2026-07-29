@@ -17,7 +17,8 @@ internal static class SyntaxNodeExtensions
     {
         var compilationUnitSyntax = (CompilationUnitSyntax) documentRoot;
 
-        if (compilationUnitSyntax.Usings.Any(x => x.Name?.ToFullString() == namespaceName))
+        if (compilationUnitSyntax.Usings.Any(x =>
+                x.Alias is null && x.Name?.ToFullString() == namespaceName))
         {
             return documentRoot;
         }

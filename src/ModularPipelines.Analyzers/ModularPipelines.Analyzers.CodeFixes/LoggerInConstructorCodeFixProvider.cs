@@ -88,7 +88,8 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         assignmentStatement = null;
         loggerReplacements = [];
 
-        if (containingType.Modifiers.Any(SyntaxKind.PartialKeyword))
+        if (containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
+            || containingType.Parent is TypeDeclarationSyntax)
         {
             return false;
         }
@@ -167,14 +168,14 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         var remainingParameters = constructor.Parameters
             .Where(parameter => !SymbolEqualityComparer.Default.Equals(parameter, removedParameter))
             .ToArray();
-        var remainingArity = GetCallableArity(remainingParameters);
+        var (remainingMinimum, remainingMaximum) = GetCallableArity(remainingParameters);
 
         return constructor.ContainingType.InstanceConstructors
             .Where(other => !SymbolEqualityComparer.Default.Equals(other, constructor))
             .Select(static other => GetCallableArity(other.Parameters))
             .Any(otherArity =>
-                remainingArity.Minimum <= otherArity.Maximum
-                && otherArity.Minimum <= remainingArity.Maximum);
+                remainingMinimum <= otherArity.Maximum
+                && otherArity.Minimum <= remainingMaximum);
     }
 
     private static (int Minimum, int Maximum) GetCallableArity(

@@ -39,6 +39,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
             || fieldDeclaration.Modifiers.Any(SyntaxKind.RequiredKeyword)
             || variable.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
             || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
+            || containingType.Parent is TypeDeclarationSyntax
             || semanticModel?.GetDeclaredSymbol(variable, context.CancellationToken) is not IFieldSymbol field
             || field.DeclaredAccessibility != Accessibility.Private
             || !IsDeeplyImmutable(field.Type)

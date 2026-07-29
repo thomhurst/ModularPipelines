@@ -155,6 +155,43 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string LoggingNamespaceAliasSource = $@"
+{TestSourceConstants.StandardUsings}
+using Logging = Microsoft.Extensions.Logging;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        {{|#0:Console.WriteLine(""Done!"")|}};
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedLoggingNamespaceAliasSource = $@"
+{TestSourceConstants.StandardUsings}
+using Logging = Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        context.Logger.LogInformation(""{{Message}}"", (""Done!"") ?? string.Empty);
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string SuppressedNullConsoleMessageSource = $@"
 {TestSourceConstants.StandardUsings}
 
@@ -404,6 +441,17 @@ public class Module1 : Module<List<string>>
             AliasedConsoleErrorWithEscapedContextSource,
             expected,
             FixedAliasedConsoleErrorWithEscapedContextSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Adds_Logging_Import_When_Only_Alias_Exists()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            LoggingNamespaceAliasSource,
+            expected,
+            FixedLoggingNamespaceAliasSource);
     }
 
     [TestMethod]
