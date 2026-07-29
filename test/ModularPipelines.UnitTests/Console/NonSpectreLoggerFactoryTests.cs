@@ -122,6 +122,25 @@ public class NonSpectreLoggerFactoryTests
     }
 
     [Test]
+    public async Task SpectreFilter_Disables_Orphaned_Provider_For_Replacement_Factory()
+    {
+        var suppression = new SpectreLoggerSuppression();
+        using var provider = new SuppressibleSpectreLoggerProvider(
+            new RecordingLoggerProvider(),
+            Mock.Of<ISpectreConsoleLoggerControl>(),
+            suppression);
+        var registry = new TestProviderRegistry([]);
+        using var replacementFactory = new LoggerFactory();
+        using var filter = new SpectreLoggerFilter(
+            provider,
+            CreateOptionsMonitor(new LoggerFilterOptions()),
+            replacementFactory,
+            registry);
+
+        await Assert.That(filter.IsEnabled("Category", LogLevel.Warning)).IsFalse();
+    }
+
+    [Test]
     public async Task CreateLoggers_Does_Not_Retry_Opaque_Replacement_Factory()
     {
         var successfulProvider = new RecordingLoggerProvider();
@@ -213,9 +232,12 @@ public class NonSpectreLoggerFactoryTests
             new RecordingLoggerProvider(),
             Mock.Of<ISpectreConsoleLoggerControl>(),
             suppression);
+        var registry = new TestProviderRegistry([]);
         using var filter = new SpectreLoggerFilter(
             provider,
-            CreateOptionsMonitor(options));
+            CreateOptionsMonitor(options),
+            registry,
+            registry);
 
         var informationEnabled = filter.IsEnabled(
             "Filtered.Category",
