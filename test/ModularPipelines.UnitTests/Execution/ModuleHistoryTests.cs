@@ -53,7 +53,7 @@ public class ModuleHistoryTests
     private class SkipFromMethod : Module<bool>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(() => SkipDecision.Skip("Testing"))
+            .WithSkipWhen(_ => SkipDecision.Skip("Testing"))
             .Build();
 
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

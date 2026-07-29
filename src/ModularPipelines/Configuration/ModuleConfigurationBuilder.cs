@@ -23,7 +23,9 @@ namespace ModularPipelines.Configuration;
 /// <example>
 /// <code>
 /// var config = ModuleConfiguration.Create()
-///     .WithSkipWhen(() => someCondition)
+///     .WithSkipWhen(_ => someCondition
+///         ? SkipDecision.Skip("Configured skip condition returned true")
+///         : SkipDecision.DoNotSkip)
 ///     .WithTimeout(TimeSpan.FromMinutes(5))
 ///     .WithRetryCount(3)
 ///     .WithIgnoreFailures()
@@ -35,7 +37,7 @@ public sealed class ModuleConfigurationBuilder
 {
     private readonly HashSet<string> _tags = new(StringComparer.OrdinalIgnoreCase);
     private readonly List<DeclaredDependency> _dependencies = [];
-    private Func<IModuleContext, Task<SkipDecision>>? _skipCondition;
+    private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _skipConditions = [];
     private TimeSpan? _timeout;
     private Func<IModuleContext, IAsyncPolicy>? _retryPolicyFactory;
     private Func<IModuleContext, Exception, Task<bool>>? _ignoreFailuresCondition;
@@ -48,106 +50,29 @@ public sealed class ModuleConfigurationBuilder
     #region WithSkipWhen Overloads
 
     /// <summary>
-    /// Sets a skip condition based on a synchronous boolean function.
+    /// Adds a synchronous skip condition.
     /// </summary>
-    /// <param name="condition">A function that returns true if the module should be skipped.</param>
+    /// <param name="condition">A function that receives the module context and returns a <see cref="SkipDecision"/>.</param>
     /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithSkipWhen(Func<bool> condition)
-    {
-        _skipCondition = _ =>
-        {
-            var shouldSkip = condition();
-            return Task.FromResult(SkipDecision.Of(shouldSkip, "Configured skip condition returned true"));
-        };
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a skip condition based on an asynchronous boolean function.
-    /// </summary>
-    /// <param name="condition">An async function that returns true if the module should be skipped.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithSkipWhen(Func<Task<bool>> condition)
-    {
-        _skipCondition = async _ =>
-        {
-            var shouldSkip = await condition().ConfigureAwait(false);
-            return SkipDecision.Of(shouldSkip, "Configured skip condition returned true");
-        };
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a skip condition based on a synchronous function returning a <see cref="SkipDecision"/>.
-    /// </summary>
-    /// <param name="condition">A function that returns a <see cref="SkipDecision"/>.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithSkipWhen(Func<SkipDecision> condition)
-    {
-        _skipCondition = _ => Task.FromResult(condition());
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a skip condition based on an asynchronous function returning a <see cref="SkipDecision"/>.
-    /// </summary>
-    /// <param name="condition">An async function that returns a <see cref="SkipDecision"/>.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithSkipWhen(Func<Task<SkipDecision>> condition)
-    {
-        _skipCondition = async _ => await condition().ConfigureAwait(false);
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a skip condition based on a synchronous boolean function that receives the module context.
-    /// </summary>
-    /// <param name="condition">A function that takes the module context and returns true if the module should be skipped.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, bool> condition)
-    {
-        _skipCondition = ctx =>
-        {
-            var shouldSkip = condition(ctx);
-            return Task.FromResult(SkipDecision.Of(shouldSkip, "Configured skip condition returned true"));
-        };
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a skip condition based on an asynchronous boolean function that receives the module context.
-    /// </summary>
-    /// <param name="condition">An async function that takes the module context and returns true if the module should be skipped.</param>
-    /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, Task<bool>> condition)
-    {
-        _skipCondition = async ctx =>
-        {
-            var shouldSkip = await condition(ctx).ConfigureAwait(false);
-            return SkipDecision.Of(shouldSkip, "Configured skip condition returned true");
-        };
-        return this;
-    }
-
-    /// <summary>
-    /// Sets a skip condition based on a synchronous function that receives the module context and returns a <see cref="SkipDecision"/>.
-    /// </summary>
-    /// <param name="condition">A function that takes the module context and returns a <see cref="SkipDecision"/>.</param>
-    /// <returns>This builder instance for method chaining.</returns>
+    /// <remarks>Repeated conditions are combined with AND semantics and evaluated in registration order.</remarks>
     public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, SkipDecision> condition)
     {
-        _skipCondition = ctx => Task.FromResult(condition(ctx));
+        ArgumentNullException.ThrowIfNull(condition);
+        _skipConditions.Add((context, _) => ValueTask.FromResult(condition(context)));
         return this;
     }
 
     /// <summary>
-    /// Sets a skip condition based on an asynchronous function that receives the module context and returns a <see cref="SkipDecision"/>.
+    /// Adds an asynchronous skip condition.
     /// </summary>
-    /// <param name="condition">An async function that takes the module context and returns a <see cref="SkipDecision"/>.</param>
+    /// <param name="condition">A function that receives the module context and cancellation token and returns a <see cref="SkipDecision"/>.</param>
     /// <returns>This builder instance for method chaining.</returns>
-    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, Task<SkipDecision>> condition)
+    /// <remarks>Repeated conditions are combined with AND semantics and evaluated in registration order.</remarks>
+    public ModuleConfigurationBuilder WithSkipWhen(
+        Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> condition)
     {
-        _skipCondition = condition;
+        ArgumentNullException.ThrowIfNull(condition);
+        _skipConditions.Add(condition);
         return this;
     }
 
@@ -452,7 +377,7 @@ public sealed class ModuleConfigurationBuilder
     {
         return new ModuleConfiguration
         {
-            SkipCondition = _skipCondition,
+            SkipCondition = ComposeSkipConditions(),
             Timeout = _timeout,
             RetryPolicyFactory = _retryPolicyFactory,
             IgnoreFailuresCondition = _ignoreFailuresCondition,
@@ -463,6 +388,36 @@ public sealed class ModuleConfigurationBuilder
             Tags = new HashSet<string>(_tags, StringComparer.OrdinalIgnoreCase),
             Category = _category,
             Dependencies = [.. _dependencies],
+        };
+    }
+
+    private Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? ComposeSkipConditions()
+    {
+        if (_skipConditions.Count == 0)
+        {
+            return null;
+        }
+
+        var conditions = _skipConditions.ToArray();
+        return async (context, cancellationToken) =>
+        {
+            List<string>? reasons = null;
+
+            foreach (var condition in conditions)
+            {
+                var decision = await condition(context, cancellationToken).ConfigureAwait(false);
+                if (!decision.ShouldSkip)
+                {
+                    return SkipDecision.DoNotSkip;
+                }
+
+                if (!string.IsNullOrWhiteSpace(decision.Reason))
+                {
+                    (reasons ??= []).Add(decision.Reason);
+                }
+            }
+
+            return SkipDecision.Skip(reasons is null ? null : string.Join("; ", reasons));
         };
     }
 

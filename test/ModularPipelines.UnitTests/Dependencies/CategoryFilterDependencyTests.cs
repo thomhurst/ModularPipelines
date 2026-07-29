@@ -88,7 +88,7 @@ public class CategoryFilterDependencyTests : TestBase
     private class FluentlySkippedModule : SimpleTestModule<string>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(() => SkipDecision.Skip("Fluent skip"))
+            .WithSkipWhen(_ => SkipDecision.Skip("Fluent skip"))
             .Build();
 
         protected override string Result => throw new InvalidOperationException("A fluently skipped module must not execute");

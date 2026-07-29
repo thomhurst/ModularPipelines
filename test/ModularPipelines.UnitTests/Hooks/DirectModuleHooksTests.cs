@@ -76,7 +76,7 @@ public class DirectModuleHooksTests : TestBase
         public SkipDecision? ReceivedSkipDecision { get; private set; }
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(() => SkipDecision.Skip("Test skip reason"))
+            .WithSkipWhen(_ => SkipDecision.Skip("Test skip reason"))
             .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

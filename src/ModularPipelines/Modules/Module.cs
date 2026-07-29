@@ -19,7 +19,7 @@ namespace ModularPipelines.Modules;
 /// Modules can customize execution behavior by overriding <see cref="Configure"/>:
 /// </para>
 /// <list type="bullet">
-/// <item><see cref="ModuleConfigurationBuilder.WithSkipWhen(System.Func{bool})"/> - Define skip conditions</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithSkipWhen(System.Func{IModuleContext, SkipDecision})"/> - Define skip conditions</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithTimeout"/> - Set execution timeout</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithRetryCount"/> - Configure retry policy</item>
 /// <item><see cref="ModuleConfigurationBuilder.WithIgnoreFailures()"/> - Handle failures gracefully</item>

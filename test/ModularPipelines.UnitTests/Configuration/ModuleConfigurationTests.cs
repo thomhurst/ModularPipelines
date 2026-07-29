@@ -23,7 +23,7 @@ public class ModuleConfigurationTests
     {
         var config = ModuleConfiguration.Default;
 
-        await Assert.That(config.SkipCondition).IsNull();
+        await Assert.That((object?) config.SkipCondition).IsNull();
     }
 
     [Test]
@@ -72,63 +72,59 @@ public class ModuleConfigurationTests
     #region WithSkipWhen Tests
 
     [Test]
-    public async Task WithSkipWhen_SyncBool_SetsSkipCondition()
+    public async Task WithSkipWhen_ExposesOnlyComposableOverloads()
     {
-        var config = ModuleConfiguration.Create()
-            .WithSkipWhen(() => true)
-            .Build();
+        var parameterTypes = typeof(ModuleConfigurationBuilder)
+            .GetMethods()
+            .Where(method => method.Name == nameof(ModuleConfigurationBuilder.WithSkipWhen))
+            .Select(method => method.GetParameters().Single().ParameterType)
+            .ToArray();
 
-        await Assert.That(config.SkipCondition).IsNotNull();
-
-        var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
-
-        await Assert.That(decision.ShouldSkip).IsTrue();
+        await Assert.That(parameterTypes).IsEquivalentTo(
+        [
+            typeof(Func<IModuleContext, SkipDecision>),
+            typeof(Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>),
+        ]);
     }
 
     [Test]
-    public async Task WithSkipWhen_SyncBoolFalse_ReturnsDoNotSkip()
+    public async Task WithSkipWhen_RepeatedCalls_AndComposeAndShortCircuit()
     {
+        var evaluatedConditions = new List<string>();
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(() => false)
-            .Build();
-
-        var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
-
-        await Assert.That(decision.ShouldSkip).IsFalse();
-    }
-
-    [Test]
-    public async Task WithSkipWhen_AsyncBool_SetsSkipCondition()
-    {
-        var config = ModuleConfiguration.Create()
-            .WithSkipWhen(async () =>
+            .WithSkipWhen(_ =>
             {
-                await Task.Delay(1).ConfigureAwait(false);
-                return true;
+                evaluatedConditions.Add("first");
+                return SkipDecision.DoNotSkip;
+            })
+            .WithSkipWhen(_ =>
+            {
+                evaluatedConditions.Add("second");
+                return SkipDecision.Skip("Should not be evaluated");
             })
             .Build();
 
-        await Assert.That(config.SkipCondition).IsNotNull();
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
 
-        var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
-
-        await Assert.That(decision.ShouldSkip).IsTrue();
+        using (Assert.Multiple())
+        {
+            await Assert.That(decision.ShouldSkip).IsFalse();
+            await Assert.That(evaluatedConditions).IsEquivalentTo(["first"]);
+        }
     }
 
     [Test]
-    public async Task WithSkipWhen_SyncSkipDecision_SetsSkipCondition()
+    public async Task WithSkipWhen_SyncCondition_ReceivesContext()
     {
+        var context = Mock.Of<IModuleContext>();
         var expectedDecision = SkipDecision.Skip("Test reason");
 
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(() => expectedDecision)
+            .WithSkipWhen(receivedContext =>
+                ReferenceEquals(receivedContext, context) ? expectedDecision : SkipDecision.DoNotSkip)
             .Build();
 
-        var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
+        var decision = await config.SkipCondition!(context, CancellationToken.None);
 
         using (Assert.Multiple())
         {
@@ -138,12 +134,12 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task WithSkipWhen_AsyncSkipDecision_SetsSkipCondition()
+    public async Task WithSkipWhen_AsyncCondition_SetsSkipCondition()
     {
         var expectedDecision = SkipDecision.Skip("Async reason");
 
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(async () =>
+            .WithSkipWhen(async (_, _) =>
             {
                 await Task.Delay(1).ConfigureAwait(false);
                 return expectedDecision;
@@ -151,7 +147,7 @@ public class ModuleConfigurationTests
             .Build();
 
         var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
+        var decision = await config.SkipCondition!(context, CancellationToken.None);
 
         using (Assert.Multiple())
         {
@@ -161,70 +157,58 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task WithSkipWhen_WithContext_SyncBool_SetsSkipCondition()
+    public async Task WithSkipWhen_AsyncCondition_ReceivesCancellationToken()
     {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        CancellationToken? receivedToken = null;
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(ctx => ctx != null)
-            .Build();
-
-        var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
-
-        await Assert.That(decision.ShouldSkip).IsTrue();
-    }
-
-    [Test]
-    public async Task WithSkipWhen_WithContext_AsyncBool_SetsSkipCondition()
-    {
-        var config = ModuleConfiguration.Create()
-            .WithSkipWhen(async ctx =>
+            .WithSkipWhen((_, cancellationToken) =>
             {
-                await Task.Delay(1).ConfigureAwait(false);
-                return ctx != null;
+                receivedToken = cancellationToken;
+                return ValueTask.FromResult(SkipDecision.Skip("Testing"));
             })
             .Build();
 
-        var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
+        await config.SkipCondition!(Mock.Of<IModuleContext>(), cancellationTokenSource.Token);
 
-        await Assert.That(decision.ShouldSkip).IsTrue();
+        await Assert.That(receivedToken).IsEqualTo(cancellationTokenSource.Token);
     }
 
     [Test]
-    public async Task WithSkipWhen_WithContext_SyncSkipDecision_SetsSkipCondition()
+    public async Task WithSkipWhen_AllConditionsSkip_CombinesReasons()
     {
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(ctx => ctx != null ? SkipDecision.Skip("Has context") : SkipDecision.DoNotSkip)
+            .WithSkipWhen(_ => SkipDecision.Skip("First reason"))
+            .WithSkipWhen(_ => SkipDecision.Skip("Second reason"))
             .Build();
 
-        var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
 
         using (Assert.Multiple())
         {
             await Assert.That(decision.ShouldSkip).IsTrue();
-            await Assert.That(decision.Reason).IsEqualTo("Has context");
+            await Assert.That(decision.Reason).IsEqualTo("First reason; Second reason");
         }
     }
 
     [Test]
-    public async Task WithSkipWhen_WithContext_AsyncSkipDecision_SetsSkipCondition()
+    public async Task Build_SnapshotsSkipConditions()
     {
-        var config = ModuleConfiguration.Create()
-            .WithSkipWhen(async ctx =>
-            {
-                await Task.Delay(1).ConfigureAwait(false);
-                return ctx != null ? SkipDecision.Skip("Async context") : SkipDecision.DoNotSkip;
-            })
-            .Build();
+        var builder = ModuleConfiguration.Create()
+            .WithSkipWhen(_ => SkipDecision.Skip("First reason"));
+        var firstConfig = builder.Build();
+
+        builder.WithSkipWhen(_ => SkipDecision.DoNotSkip);
+        var secondConfig = builder.Build();
 
         var context = Mock.Of<IModuleContext>();
-        var decision = await config.SkipCondition!(context);
+        var firstDecision = await firstConfig.SkipCondition!(context, CancellationToken.None);
+        var secondDecision = await secondConfig.SkipCondition!(context, CancellationToken.None);
 
         using (Assert.Multiple())
         {
-            await Assert.That(decision.ShouldSkip).IsTrue();
-            await Assert.That(decision.Reason).IsEqualTo("Async context");
+            await Assert.That(firstDecision.ShouldSkip).IsTrue();
+            await Assert.That(secondDecision.ShouldSkip).IsFalse();
         }
     }
 
@@ -397,7 +381,7 @@ public class ModuleConfigurationTests
         var policy = Policy.NoOpAsync();
 
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(() => false)
+            .WithSkipWhen(_ => false)
             .WithTimeout(TimeSpan.FromMinutes(1))
             .WithRetryPolicy(policy)
             .WithIgnoreFailures()
@@ -412,7 +396,7 @@ public class ModuleConfigurationTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(config.SkipCondition).IsNotNull();
+            await Assert.That((object?) config.SkipCondition).IsNotNull();
             await Assert.That(config.Timeout).IsEqualTo(TimeSpan.FromMinutes(1));
             await Assert.That(config.RetryPolicyFactory).IsNotNull();
             await Assert.That(config.IgnoreFailuresCondition).IsNotNull();
