@@ -46,7 +46,7 @@ To use ModularPipelines in a single file C# application, you can follow these st
     {
         protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.DotNet().DotNetWorkload.UpdateAsync(token: cancellationToken);
+            return await context.DotNet().DotNetWorkload.Update(token: cancellationToken);
         }
     }
 
@@ -55,7 +55,7 @@ To use ModularPipelines in a single file C# application, you can follow these st
     {
         protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.DotNet().Sdk.CheckAsync(token: cancellationToken);
+            return await context.DotNet().Sdk.Check(token: cancellationToken);
         }
     }
     ```

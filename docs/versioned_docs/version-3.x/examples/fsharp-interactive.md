@@ -35,14 +35,14 @@ F# Interactive (FSI) is a powerful tool for executing F# code snippets and scrip
     type UpdateDotnetWorkloads() =
         inherit Module<CommandResult>()
         override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> =
-                context.DotNet().Workload.UpdateAsync(cancellationToken = cancellationToken)
+                context.DotNet().Workload.Update(cancellationToken = cancellationToken)
 
     /// Generic attributes are not supported in fsharp, so have to use the old way of declaring dependencies
     [<DependsOn(typeof<UpdateDotnetWorkloads>)>]
     type CheckDotnetSdkModule () =
         inherit Module<CommandResult>()
         override this.ExecuteAsync (context: IModuleContext, cancellationToken: CancellationToken): Tasks.Task<CommandResult> =
-                context.DotNet().Sdk.CheckAsync(cancellationToken = cancellationToken);
+                context.DotNet().Sdk.Check(cancellationToken = cancellationToken);
 
     let args = System.Environment.GetCommandLineArgs()
     let builder = Pipeline.CreateBuilder(args)

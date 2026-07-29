@@ -58,20 +58,35 @@ jobs:
         shell: bash
         run: |
           framework_version=3.2.8
-          template_package_version=0.0.0-local
+          release_package_version=0.0.0-local
+          dotnet pack src/ModularPipelines/ModularPipelines.csproj \
+            -c Release \
+            -p:PackageVersion="$release_package_version" \
+            --output "$RUNNER_TEMP/template-pack"
+          dotnet pack src/ModularPipelines.DotNet/ModularPipelines.DotNet.csproj \
+            -c Release \
+            -p:PackageVersion="$release_package_version" \
+            --output "$RUNNER_TEMP/template-pack"
           dotnet pack src/ModularPipelines.Templates/ModularPipelines.Templates.csproj \
             -c Release \
-            -p:PackageVersion="$template_package_version" \
+            -p:PackageVersion="$release_package_version" \
             --output "$RUNNER_TEMP/template-pack"
           dotnet new install \
-            "$RUNNER_TEMP/template-pack/ModularPipelines.Templates.$template_package_version.nupkg"
+            "$RUNNER_TEMP/template-pack/ModularPipelines.Templates.$release_package_version.nupkg"
           dotnet new modularpipeline --help | grep -F -- '--no-restore'
           dotnet new modularpipeline \
             --name TemplateVersionSmoke \
             --output "$RUNNER_TEMP/template-version-smoke" \
             --no-restore
-          test "$(grep -Fc "Version=\"$template_package_version\"" \
+          test "$(grep -Fc "Version=\"$release_package_version\"" \
             "$RUNNER_TEMP/template-version-smoke/Directory.Packages.props")" -eq 2
+          dotnet restore \
+            "$RUNNER_TEMP/template-version-smoke/TemplateVersionSmoke.csproj" \
+            -p:RestoreAdditionalProjectSources="$RUNNER_TEMP/template-pack"
+          dotnet build \
+            "$RUNNER_TEMP/template-version-smoke/TemplateVersionSmoke.csproj" \
+            -c Release \
+            --no-restore
           dotnet new modularpipeline \
             --name TemplateSmoke \
             --output "$RUNNER_TEMP/template-smoke" \

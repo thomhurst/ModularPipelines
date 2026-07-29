@@ -16,7 +16,7 @@ public sealed class PublishModule(IOptions<BuildSettings> settings) : Module<Com
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().Publish(
+        return await context.DotNet().PublishAsync(
             new DotNetPublishOptions
             {
                 ProjectSolution = settings.Value.PublishProject,
