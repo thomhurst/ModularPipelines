@@ -62,6 +62,22 @@ public class ModuleExtensionsGeneratorTests
         }
     }
 
+    [Test]
+    public async Task Partial_Module_Declarations_Do_Not_Report_A_Collision()
+    {
+        var result = RunGenerator("""
+            namespace Consumer
+            {
+                public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
+                public sealed partial class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await Assert.That(result.GeneratedTrees.Single().GetText().ToString())
+            .Contains("GetBuildModule");
+    }
+
     private static GeneratorDriverRunResult RunGenerator(string source)
     {
         var infrastructureSyntaxTree = CSharpSyntaxTree.ParseText(TestInfrastructure);

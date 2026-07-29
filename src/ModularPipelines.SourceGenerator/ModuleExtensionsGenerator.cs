@@ -35,16 +35,30 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Create syntax provider that finds class declarations with base types
-        var moduleClasses = context.SyntaxProvider
+        var moduleCandidates = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => IsCandidate(node),
-                transform: static (ctx, _) => GetModuleClassInfo(ctx))
+                transform: static (ctx, _) => GetModuleClassCandidate(ctx))
             .Where(static info => info is not null)
             .Select(static (info, _) => info!);
 
-        // Collect all modules and generate a single extensions file
+        // Keep source locations out of the generation pipeline so trivia-only edits
+        // do not invalidate otherwise identical generated output.
+        var moduleClasses = moduleCandidates
+            .Select(static (candidate, _) => candidate.Module);
         var collectedModules = moduleClasses.Collect();
         context.RegisterSourceOutput(collectedModules, static (ctx, modules) => GenerateExtensions(ctx, modules));
+
+        var duplicateAccessors = moduleCandidates
+            .Collect()
+            .SelectMany(static (candidates, _) => FindDuplicateAccessors(candidates));
+        context.RegisterSourceOutput(
+            duplicateAccessors,
+            static (ctx, duplicate) => ctx.ReportDiagnostic(Diagnostic.Create(
+                DuplicateModuleAccessor,
+                duplicate.Location,
+                duplicate.MethodName,
+                duplicate.ConflictingModuleNames)));
     }
 
     /// <summary>
@@ -59,9 +73,9 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     }
 
     /// <summary>
-    /// Extracts ModuleClassInfo from a type declaration if it inherits from Module&lt;T&gt;.
+    /// Extracts module information from a type declaration if it inherits from Module&lt;T&gt;.
     /// </summary>
-    private static ModuleClassInfo? GetModuleClassInfo(GeneratorSyntaxContext context)
+    private static ModuleClassCandidate? GetModuleClassCandidate(GeneratorSyntaxContext context)
     {
         var classDeclaration = (ClassDeclarationSyntax) context.Node;
         var semanticModel = context.SemanticModel;
@@ -91,11 +105,32 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             return null;
         }
 
-        return new ModuleClassInfo(
-            ClassName: typeSymbol.Name,
-            FullyQualifiedName: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-            Location: typeSymbol.Locations.FirstOrDefault() ?? classDeclaration.GetLocation()
+        return new ModuleClassCandidate(
+            new ModuleClassInfo(
+                ClassName: typeSymbol.Name,
+                FullyQualifiedName: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+            typeSymbol.Locations.FirstOrDefault() ?? classDeclaration.GetLocation()
         );
+    }
+
+    private static ImmutableArray<DuplicateModuleAccessorInfo> FindDuplicateAccessors(
+        ImmutableArray<ModuleClassCandidate> candidates)
+    {
+        return candidates
+            .GroupBy(static candidate => candidate.Module)
+            .Select(static group => group.First())
+            .OrderBy(static candidate => candidate.Module.FullyQualifiedName, StringComparer.Ordinal)
+            .GroupBy(
+                static candidate => StripModuleSuffix(candidate.Module.ClassName),
+                StringComparer.Ordinal)
+            .Where(static group => group.Count() > 1)
+            .Select(static group => new DuplicateModuleAccessorInfo(
+                $"Get{group.Key}Module",
+                string.Join(
+                    ", ",
+                    group.Select(static candidate => candidate.Module.FullyQualifiedName)),
+                group.First().Location))
+            .ToImmutableArray();
     }
 
     /// <summary>
@@ -141,15 +176,6 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
                 static module => StripModuleSuffix(module.ClassName),
                 StringComparer.Ordinal)
             .ToList();
-        foreach (var moduleGroup in modulesByMethodName.Where(static group => group.Count() > 1))
-        {
-            var conflictingModules = moduleGroup.ToList();
-            context.ReportDiagnostic(Diagnostic.Create(
-                DuplicateModuleAccessor,
-                conflictingModules[0].Location,
-                $"Get{moduleGroup.Key}Module",
-                string.Join(", ", conflictingModules.Select(static module => module.FullyQualifiedName))));
-        }
 
         var uniqueModules = modulesByMethodName
             .Where(static group => group.Count() == 1)
@@ -243,4 +269,11 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
 
         return className;
     }
+
+    private sealed record ModuleClassCandidate(ModuleClassInfo Module, Location Location);
+
+    private sealed record DuplicateModuleAccessorInfo(
+        string MethodName,
+        string ConflictingModuleNames,
+        Location Location);
 }
