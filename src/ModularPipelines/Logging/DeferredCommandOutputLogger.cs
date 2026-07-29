@@ -53,7 +53,7 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
         {
             if (_completion is not null)
             {
-                _loggingFailure?.Throw();
+                ThrowLoggingFailure();
                 return _completion;
             }
 
@@ -67,7 +67,7 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
             _completion = new DeferredCommandOutputCompletion(
                 HasStreamedOutput,
                 pendingStandardOutput);
-            _loggingFailure?.Throw();
+            ThrowLoggingFailure();
             return _completion;
         }
     }
@@ -163,6 +163,13 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
         {
             _outputLogger.LogStandardOutputLine(_toolOptions, _executionOptions, line.Text);
         }
+    }
+
+    private void ThrowLoggingFailure()
+    {
+        var loggingFailure = _loggingFailure;
+        _loggingFailure = null;
+        loggingFailure?.Throw();
     }
 
     private readonly record struct BufferedLine(string Text, bool IsError);

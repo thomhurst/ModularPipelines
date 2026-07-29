@@ -80,6 +80,9 @@ public class DeferredCommandOutputLoggerTests
 
         var exception = Assert.Throws<InvalidOperationException>(() => deferredLogger.Complete());
         await Assert.That(exception.Message).IsEqualTo("Logging failed.");
+
+        var completion = deferredLogger.Complete();
+        await Assert.That(completion.HasStreamedOutput).IsTrue();
     }
 
     private sealed class RecordingOutputLogger(int expectedLineCount) : ICommandOutputLogger

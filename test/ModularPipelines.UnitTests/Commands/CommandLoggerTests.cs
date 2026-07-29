@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
@@ -372,6 +373,31 @@ public class CommandLoggerTests : TestBase
         }
     }
 
+    [Test]
+    public async Task Deferred_Logging_Failure_Is_Wrapped_Once_By_Command()
+    {
+        var marker = $"throwing-output-{Guid.NewGuid():N}";
+        using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
+        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+
+        var exception = await Assert.ThrowsAsync<CommandException>(() =>
+            commandContext.ExecuteCommandLineTool(
+                new PowershellScriptOptions(
+                    $"Write-Output '{marker}'; Start-Sleep -Milliseconds 750")));
+
+        var loggingFailure = exception!.InnerException as AggregateException;
+        await Assert.That(loggingFailure).IsNotNull();
+        await Assert.That(loggingFailure!.InnerExceptions).Count().IsEqualTo(1);
+        await Assert.That(loggingFailure.InnerExceptions[0]).IsTypeOf<InvalidOperationException>();
+        await Assert.That(loggingFailure.InnerExceptions[0].Message).IsEqualTo("Logging failed.");
+        await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+    }
+
     private static async Task<bool> WaitUntilAsync(Func<bool> condition, TimeSpan timeout)
     {
         var timeoutTask = Task.Delay(timeout);
@@ -442,6 +468,30 @@ public class CommandLoggerTests : TestBase
             Func<TState, Exception?, string> formatter)
         {
             record(formatter(state, exception));
+        }
+    }
+
+    private sealed class SelectiveThrowingLoggerProvider(string messageToThrowOn)
+        : ILoggerProvider
+    {
+        private int _throwCount;
+
+        public int ThrowCount => _throwCount;
+
+        public ILogger CreateLogger(string categoryName)
+        {
+            return new ObserverLogger(message =>
+            {
+                if (message == messageToThrowOn)
+                {
+                    Interlocked.Increment(ref _throwCount);
+                    throw new InvalidOperationException("Logging failed.");
+                }
+            });
+        }
+
+        public void Dispose()
+        {
         }
     }
 
