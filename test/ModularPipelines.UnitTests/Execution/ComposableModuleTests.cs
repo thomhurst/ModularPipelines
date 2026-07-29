@@ -25,7 +25,7 @@ public class ComposableModuleTests
     private class AlwaysSkippedModule : Module<string>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(() => SkipDecision.Skip("Skipped via composition"))
+            .WithSkipWhen(_ => SkipDecision.Skip("Skipped via composition"))
             .Build();
 
         protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -41,7 +41,7 @@ public class ComposableModuleTests
     private class NeverSkippedModule : Module<string>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(() => SkipDecision.DoNotSkip)
+            .WithSkipWhen(_ => SkipDecision.DoNotSkip)
             .Build();
 
         protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -77,7 +77,7 @@ public class ComposableModuleTests
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithTimeout(TimeSpan.FromMinutes(1))
-            .WithSkipWhen(() => SkipDecision.DoNotSkip)
+            .WithSkipWhen(_ => SkipDecision.DoNotSkip)
             .Build();
 
         protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

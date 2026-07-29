@@ -49,10 +49,11 @@ public sealed class ModuleConfiguration
     /// Gets the condition that determines whether the module should be skipped.
     /// </summary>
     /// <value>
-    /// A function that takes an <see cref="IModuleContext"/> and returns a <see cref="Task{SkipDecision}"/>,
+    /// A function that takes an <see cref="IModuleContext"/> and <see cref="CancellationToken"/>
+    /// and returns a <see cref="ValueTask{SkipDecision}"/>,
     /// or null if no skip condition is configured.
     /// </value>
-    public Func<IModuleContext, Task<SkipDecision>>? SkipCondition { get; init; }
+    public Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? SkipCondition { get; init; }
 
     /// <summary>
     /// Gets the timeout duration for module execution.

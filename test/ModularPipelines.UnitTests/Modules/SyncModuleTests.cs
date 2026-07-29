@@ -222,7 +222,7 @@ public class SyncModuleTests : TestBase
         public SkipDecision? CapturedSkipDecision { get; private set; }
 
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(() => SkipDecision.Skip("Always skip"))
+            .WithSkipWhen(_ => SkipDecision.Skip("Always skip"))
             .Build();
 
         protected override void OnSkipped(

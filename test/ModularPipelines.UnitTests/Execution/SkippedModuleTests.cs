@@ -14,7 +14,7 @@ public class SkippedModuleTests : TestBase
     private class SkippedModule : Module<CommandResult>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(() => SkipDecision.Skip("Testing purposes"))
+            .WithSkipWhen(_ => SkipDecision.Skip("Testing purposes"))
             .Build();
 
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

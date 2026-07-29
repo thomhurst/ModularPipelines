@@ -31,14 +31,16 @@ public class CreateReleaseModule : Module<Release>
     }
 
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-        .WithSkipWhen(() =>
+        .WithSkipWhen(_ =>
         {
             if (!_publishSettings.Value.ShouldPublish)
             {
                 return SkipDecision.Skip("The 'ShouldPublish' flag is false");
             }
 
-            return string.IsNullOrEmpty(_githubSettings.Value.AdminToken);
+            return string.IsNullOrEmpty(_githubSettings.Value.AdminToken)
+                ? SkipDecision.Skip("The GitHub admin token is unavailable")
+                : SkipDecision.DoNotSkip;
         })
         .WithIgnoreFailuresWhen((_, ex) => ex is ApiValidationException)
         .Build();

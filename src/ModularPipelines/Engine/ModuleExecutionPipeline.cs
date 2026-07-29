@@ -71,7 +71,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             var skipDecision = executionContext.SkipResult;
             if (!skipDecision.ShouldSkip && config.SkipCondition != null)
             {
-                skipDecision = await config.SkipCondition(moduleContext).ConfigureAwait(false);
+                skipDecision = await config.SkipCondition(
+                        moduleContext,
+                        executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
             }
 
             if (skipDecision.ShouldSkip)

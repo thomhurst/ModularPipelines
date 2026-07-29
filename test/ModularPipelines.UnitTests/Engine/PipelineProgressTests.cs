@@ -60,7 +60,7 @@ public class PipelineProgressTests
     private class Module4 : Module<bool>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
-            .WithSkipWhen(() => SkipDecision.Skip("Testing"))
+            .WithSkipWhen(_ => SkipDecision.Skip("Testing"))
             .Build();
 
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
