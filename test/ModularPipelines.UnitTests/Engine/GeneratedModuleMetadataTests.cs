@@ -1,0 +1,130 @@
+using System.Reflection;
+using System.Reflection.Emit;
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Engine;
+using ModularPipelines.Extensions;
+using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
+
+namespace ModularPipelines.UnitTests.Engine;
+
+public class GeneratedModuleMetadataTests
+{
+    [Test]
+    public async Task Generated_Dependencies_Are_Used_For_Dependency_Only_Registration()
+    {
+        var services = new ServiceCollection();
+        services.AddModule<GeneratedMetadataDependentModule>();
+
+        var found = GeneratedModuleMetadata.TryGetDependencies(
+            typeof(GeneratedMetadataDependentModule),
+            out var dependencies);
+        ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);
+        var registeredTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(services);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(found).IsTrue();
+            await Assert.That(dependencies)
+                .Contains(dependency => dependency.DependencyType == typeof(GeneratedMetadataDependencyModule)
+                                        && !dependency.Optional);
+            await Assert.That(registeredTypes).Contains(typeof(GeneratedMetadataDependencyModule));
+        }
+    }
+
+    [Test]
+    public async Task Generated_Registration_Preserves_Duplicate_Module_Behavior()
+    {
+        var services = new ServiceCollection();
+
+        var first = GeneratedModuleMetadata.TryRegisterModule(
+            services,
+            typeof(GeneratedMetadataDependencyModule));
+        var second = GeneratedModuleMetadata.TryRegisterModule(
+            services,
+            typeof(GeneratedMetadataDependencyModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(first).IsTrue();
+            await Assert.That(second).IsTrue();
+            await Assert.That(services.Count(descriptor => descriptor.ServiceType == typeof(IModule)))
+                .IsEqualTo(2);
+        }
+    }
+
+    [Test]
+    public async Task Dynamic_Assembly_Uses_Reflection_Fallback()
+    {
+        var (assembly, _, module) = CreateDynamicModule("DynamicModule");
+
+        var knownTypes = AssemblyLoadedTypesProvider
+            .GetKnownTypes(assembly, typeof(IModule))
+            .ToArray();
+        var services = new ServiceCollection();
+        services.AddModulesFromAssembly(assembly);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(knownTypes).Contains(module);
+            await Assert.That(ServiceCollectionExtensions.GetRegisteredModuleTypes(services))
+                .Contains(module);
+        }
+    }
+
+    [Test]
+    public async Task Complete_Generated_Metadata_Is_Preferred_Over_Assembly_Scan()
+    {
+        var (_, moduleBuilder, includedModule) = CreateDynamicModule("IncludedModule");
+        _ = CreateDynamicModule(moduleBuilder, "ExcludedModule");
+        var assembly = includedModule.Assembly;
+        GeneratedModuleMetadata.Register(
+            assembly,
+            [
+                new GeneratedModuleRegistration(
+                    includedModule,
+                    static _ => { },
+                    [],
+                    DependenciesComplete: true),
+            ],
+            isComplete: true);
+
+        var knownTypes = AssemblyLoadedTypesProvider
+            .GetKnownTypes(assembly, typeof(IModule))
+            .ToArray();
+
+        await Assert.That(knownTypes).IsEquivalentTo([includedModule]);
+    }
+
+    private static (AssemblyBuilder Assembly, ModuleBuilder ModuleBuilder, Type Module)
+        CreateDynamicModule(string name)
+    {
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"DynamicModules_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+        var module = assembly.DefineDynamicModule("Main");
+        return (assembly, module, CreateDynamicModule(module, name));
+    }
+
+    private static Type CreateDynamicModule(ModuleBuilder module, string name)
+    {
+        var typeBuilder = module.DefineType(
+            name,
+            TypeAttributes.Public | TypeAttributes.Class,
+            typeof(TrueModule));
+        var constructor = typeBuilder.DefineConstructor(
+            MethodAttributes.Public,
+            CallingConventions.Standard,
+            Type.EmptyTypes);
+        var il = constructor.GetILGenerator();
+        il.Emit(OpCodes.Ldarg_0);
+        il.Emit(OpCodes.Call, typeof(TrueModule).GetConstructor(Type.EmptyTypes)!);
+        il.Emit(OpCodes.Ret);
+        return typeBuilder.CreateType()!;
+    }
+}
+
+public sealed class GeneratedMetadataDependencyModule : TrueModule;
+
+[ModularPipelines.Attributes.DependsOn<GeneratedMetadataDependencyModule>]
+public sealed class GeneratedMetadataDependentModule : TrueModule;

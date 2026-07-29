@@ -63,16 +63,16 @@ internal static class DependencyGraphValidator
     private static IEnumerable<Type> GetDependencyTypes(Type moduleType, HashSet<Type> availableModuleTypes)
     {
         // Get direct DependsOn attributes
-        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
+        foreach (var dependency in ModuleDependencyResolver.GetDependencies(moduleType))
         {
             // Only include if this dependency type is actually being registered
             // Also handle Optional - if the dependency is not registered and
             // Optional is true, we skip it for cycle detection
-            if (availableModuleTypes.Contains(attribute.Type))
+            if (availableModuleTypes.Contains(dependency.DependencyType))
             {
-                yield return attribute.Type;
+                yield return dependency.DependencyType;
             }
-            else if (!attribute.Optional)
+            else if (!dependency.Optional)
             {
                 // If the dependency is not registered and Optional is false,
                 // we still yield it so the runtime can fail appropriately later.

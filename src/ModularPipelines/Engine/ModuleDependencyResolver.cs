@@ -20,9 +20,9 @@ internal static class ModuleDependencyResolver
     /// </summary>
     public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(Type moduleType)
     {
-        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
+        foreach (var dependency in GetDeclaredDependencies(moduleType))
         {
-            yield return (attribute.Type, attribute.Optional);
+            yield return dependency;
         }
     }
 
@@ -53,9 +53,9 @@ internal static class ModuleDependencyResolver
         var availableModuleTypesList = availableModuleTypes as IReadOnlyList<Type> ?? availableModuleTypes.ToList();
 
         // Handle regular DependsOn attributes
-        foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
+        foreach (var dependency in GetDeclaredDependencies(moduleType))
         {
-            yield return (attribute.Type, attribute.Optional);
+            yield return dependency;
         }
 
         foreach (var dependency in GetSelectorDependencies(moduleType, availableModuleTypesList, dependencyContext))
@@ -219,5 +219,19 @@ internal static class ModuleDependencyResolver
                 yield return (dynamicDep, false);
             }
         }
+    }
+
+    private static IEnumerable<(Type DependencyType, bool Optional)> GetDeclaredDependencies(Type moduleType)
+    {
+        if (GeneratedModuleMetadata.TryGetDependencies(moduleType, out var generatedDependencies))
+        {
+            return generatedDependencies.Select(static dependency => (
+                dependency.DependencyType,
+                dependency.Optional));
+        }
+
+        return moduleType
+            .GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>()
+            .Select(static attribute => (attribute.Type, attribute.Optional));
     }
 }

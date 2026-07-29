@@ -20,7 +20,9 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder)
+    public static PipelineBuilder AddModule<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
+        this PipelineBuilder builder)
         where TModule : class, IModule
     {
         builder.Services.AddModule<TModule>();

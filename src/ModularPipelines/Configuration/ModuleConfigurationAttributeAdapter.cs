@@ -1,7 +1,7 @@
 using System.Collections.Frozen;
 using System.Reflection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Extensions;
+using ModularPipelines.Engine;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Configuration;
@@ -65,11 +65,11 @@ internal static class ModuleConfigurationAttributeAdapter
         Type moduleType,
         IReadOnlyList<DeclaredDependency> configuredDependencies)
     {
-        var attributeDependencies = moduleType
-            .GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>()
-            .Select(attribute => attribute.Optional
-                ? DeclaredDependency.Optional(attribute.Type)
-                : DeclaredDependency.Required(attribute.Type));
+        var attributeDependencies = ModuleDependencyResolver
+            .GetDependencies(moduleType)
+            .Select(dependency => dependency.Optional
+                ? DeclaredDependency.Optional(dependency.DependencyType)
+                : DeclaredDependency.Required(dependency.DependencyType));
 
         return attributeDependencies
             .Concat(configuredDependencies)

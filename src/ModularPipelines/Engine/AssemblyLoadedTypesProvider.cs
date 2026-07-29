@@ -11,13 +11,15 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
 
     public Type[] GetLoadedTypesAssignableTo(Type type)
     {
-        return AppDomain.CurrentDomain
+        return
+        [
+            .. AppDomain.CurrentDomain
             .GetAssemblies()
             .Where(ReferencesModularPipelines)
-            .SelectMany(GetLoadableTypes)
+            .SelectMany(assembly => GetKnownTypes(assembly, type))
             .Where(t => t.IsAssignableTo(type))
-            .Where(t => !t.IsAbstract)
-            .ToArray();
+            .Where(t => !t.IsAbstract),
+        ];
     }
 
     [UnconditionalSuppressMessage(
@@ -34,16 +36,19 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Unused-module diagnostics tolerate types removed by trimming.")]
-    private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
+        Justification = "Generated metadata is used when complete; reflection is the explicit compatibility fallback for dynamic assemblies.")]
+    internal static IEnumerable<Type> GetKnownTypes(Assembly assembly, Type assignableTo)
     {
-        try
+        if (typeof(IModule).IsAssignableFrom(assignableTo)
+            && GeneratedModuleMetadata.TryGetModuleTypes(
+                assembly,
+                out var generatedModuleTypes,
+                out var generatedMetadataIsComplete)
+            && generatedMetadataIsComplete)
         {
-            return assembly.GetTypes();
+            return generatedModuleTypes;
         }
-        catch (ReflectionTypeLoadException e)
-        {
-            return e.Types.OfType<Type>();
-        }
+
+        return AssemblyTypeLoader.GetLoadableTypes(assembly);
     }
 }

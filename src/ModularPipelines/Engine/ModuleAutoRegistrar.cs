@@ -63,8 +63,10 @@ internal static class ModuleAutoRegistrar
         // Register all discovered missing dependencies
         foreach (var moduleType in modulesToAdd)
         {
-            // Use the standard AddModule pattern which handles tracking
-            services.AddModule(moduleType);
+            if (!GeneratedModuleMetadata.TryRegisterModule(services, moduleType))
+            {
+                services.AddModule(moduleType);
+            }
         }
     }
 

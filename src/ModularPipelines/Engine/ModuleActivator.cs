@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -17,23 +18,46 @@ namespace ModularPipelines.Engine;
 internal sealed class ModuleActivator : IModuleActivator
 {
     /// <inheritdoc />
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2067",
+        Justification = "This runtime-Type overload is the reflection fallback; generated registrations use the annotated generic overload.")]
     public IModule CreateModule(Type moduleType, IServiceProvider serviceProvider)
     {
-        // Save previous context (typically null during construction phase)
-        var previousType = ModuleLogger.CurrentModuleType.Value;
+        return CreateModuleWithContext(
+            moduleType,
+            serviceProvider,
+            provider => (IModule) ActivatorUtilities.CreateInstance(provider, moduleType));
+    }
 
-        // Set AsyncLocal context BEFORE construction so constructors can log with context
+    internal static TModule CreateModule<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
+        IServiceProvider serviceProvider)
+        where TModule : class, IModule
+    {
+        return CreateModuleWithContext(
+            typeof(TModule),
+            serviceProvider,
+            static provider => ActivatorUtilities.CreateInstance<TModule>(provider));
+    }
+
+    private static TModule CreateModuleWithContext<TModule>(
+        Type moduleType,
+        IServiceProvider serviceProvider,
+        Func<IServiceProvider, TModule> activate)
+        where TModule : IModule
+    {
+        var previousType = ModuleLogger.CurrentModuleType.Value;
         ModuleLogger.CurrentModuleType.Value = moduleType;
 
         try
         {
-            var module = (IModule) ActivatorUtilities.CreateInstance(serviceProvider, moduleType);
+            var module = activate(serviceProvider);
             _ = module.Configuration;
             return module;
         }
         finally
         {
-            // Restore previous context
             ModuleLogger.CurrentModuleType.Value = previousType;
         }
     }

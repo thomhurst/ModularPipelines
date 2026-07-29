@@ -35,14 +35,15 @@ internal static class ServiceCollectionExtensions
     ///     .AddModule&lt;DeployModule&gt;();
     /// </code>
     /// </example>
-    internal static IServiceCollection AddModule<TModule>(this IServiceCollection services)
+    internal static IServiceCollection AddModule<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
+        this IServiceCollection services)
         where TModule : class, IModule
     {
         // Track module type for auto-registration and unused module detection
         GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
-        services.AddSingleton<IModule>(sp =>
-            sp.GetRequiredService<IModuleActivator>().CreateModule(typeof(TModule), sp));
+        services.AddSingleton<IModule>(ModuleActivator.CreateModule<TModule>);
         return services;
     }
 
@@ -269,12 +270,20 @@ internal static class ServiceCollectionExtensions
     [RequiresUnreferencedCode("Module discovery scans all types in an assembly.")]
     internal static IServiceCollection AddModulesFromAssembly(this IServiceCollection services, Assembly assembly)
     {
-        var modules = assembly.GetTypes()
-            .Where(type => type.IsAssignableTo(typeof(IModule)))
-            .Where(type => type.IsClass)
-            .Where(type => !type.IsAbstract)
-            .Where(type => !type.IsGenericTypeDefinition) // Skip open generic types - DI cannot instantiate them
-            .ToList();
+        var hasGeneratedMetadata = GeneratedModuleMetadata.TryGetModuleTypes(
+            assembly,
+            out var generatedModuleTypes,
+            out var generatedMetadataIsComplete);
+        List<Type> modules = hasGeneratedMetadata && generatedMetadataIsComplete
+            ? [.. generatedModuleTypes]
+            :
+            [
+                .. AssemblyTypeLoader.GetLoadableTypes(assembly)
+                    .Where(type => type.IsAssignableTo(typeof(IModule)))
+                    .Where(type => type.IsClass)
+                    .Where(type => !type.IsAbstract)
+                    .Where(type => !type.IsGenericTypeDefinition),
+            ];
 
         // Get already registered module types
         var existingModuleTypes = GetRegisteredModuleTypes(services);
@@ -288,13 +297,16 @@ internal static class ServiceCollectionExtensions
         var holder = GetOrCreateModuleTypesHolder(services);
         foreach (var moduleType in modules)
         {
-            // Track module type for auto-registration and unused module detection
-            holder.Add(moduleType);
+            if (!GeneratedModuleMetadata.TryRegisterModule(services, moduleType))
+            {
+                // Track module type for auto-registration and unused module detection
+                holder.Add(moduleType);
 
-            // Capture moduleType in closure to avoid closure over loop variable
-            var capturedType = moduleType;
-            services.AddSingleton(typeof(IModule), sp =>
-                sp.GetRequiredService<IModuleActivator>().CreateModule(capturedType, sp));
+                // Capture moduleType in closure to avoid closure over loop variable
+                var capturedType = moduleType;
+                services.AddSingleton(typeof(IModule), sp =>
+                    sp.GetRequiredService<IModuleActivator>().CreateModule(capturedType, sp));
+            }
         }
 
         return services;
