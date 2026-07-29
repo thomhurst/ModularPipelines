@@ -32,7 +32,7 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
 
         if (awaitExpression?.Parent is not ExpressionStatementSyntax expressionStatement
             || expressionStatement.ContainsDirectives
-            || IsDirectLoopBody(expressionStatement))
+            || IsInsideLoop(expressionStatement))
         {
             return;
         }
@@ -45,13 +45,14 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
             diagnostic);
     }
 
-    private static bool IsDirectLoopBody(ExpressionStatementSyntax statement)
+    private static bool IsInsideLoop(ExpressionStatementSyntax statement)
     {
-        return statement.Parent is WhileStatementSyntax
-            or DoStatementSyntax
-            or ForStatementSyntax
-            or ForEachStatementSyntax
-            or ForEachVariableStatementSyntax;
+        return statement.Ancestors().Any(ancestor =>
+            ancestor is WhileStatementSyntax
+                or DoStatementSyntax
+                or ForStatementSyntax
+                or ForEachStatementSyntax
+                or ForEachVariableStatementSyntax);
     }
 
     private static async Task<Document> RemoveAwaitAsync(

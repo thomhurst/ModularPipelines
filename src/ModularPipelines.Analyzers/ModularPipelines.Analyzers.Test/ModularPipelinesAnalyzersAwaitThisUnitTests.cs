@@ -182,6 +182,23 @@ public class Module1 : Module<CommandResult>
 }}
 ";
 
+    private const string BadModuleSourceAwaitThisInsideLoopBlock = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<CommandResult>
+{{
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        while (!cancellationToken.IsCancellationRequested)
+        {{
+            await this;
+        }}
+
+        return null;
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_AwaitThis_InExecuteAsync()
     {
@@ -248,6 +265,14 @@ public class Module1 : Module<CommandResult>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             BadModuleSourceAwaitThisAsLoopBody,
+            AwaitThisAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_Inside_Loop_Block()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            BadModuleSourceAwaitThisInsideLoopBlock,
             AwaitThisAnalyzer.DiagnosticId);
     }
 }
