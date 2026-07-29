@@ -91,25 +91,25 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
     private IReadOnlyDictionary<string, FileInfo[]> GetSubModuleFilesByModule()
     {
-        var now = _timeProvider.GetUtcNow();
         var index = Volatile.Read(ref _subModuleFileIndex);
-        if (index is not null && now.UtcTicks < index.ExpiresAtTicks)
+        if (index is not null
+            && _timeProvider.GetElapsedTime(index.CreatedTimestamp) < IndexRefreshInterval)
         {
             return index.FilesByModule;
         }
 
         lock (_subModuleIndexLock)
         {
-            now = _timeProvider.GetUtcNow();
             index = _subModuleFileIndex;
-            if (index is not null && now.UtcTicks < index.ExpiresAtTicks)
+            if (index is not null
+                && _timeProvider.GetElapsedTime(index.CreatedTimestamp) < IndexRefreshInterval)
             {
                 return index.FilesByModule;
             }
 
             index = new SubModuleFileIndex(
-                BuildSubModuleFileIndex(now),
-                now.Add(IndexRefreshInterval).UtcTicks);
+                BuildSubModuleFileIndex(_timeProvider.GetUtcNow()),
+                _timeProvider.GetTimestamp());
             Volatile.Write(ref _subModuleFileIndex, index);
             return index.FilesByModule;
         }
@@ -214,5 +214,5 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
     private sealed record SubModuleFileIndex(
         IReadOnlyDictionary<string, FileInfo[]> FilesByModule,
-        long ExpiresAtTicks);
+        long CreatedTimestamp);
 }
