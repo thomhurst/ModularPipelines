@@ -105,6 +105,63 @@ public class ModuleSchedulerDynamicCycleTests
             CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(LateDynamicModule));
     }
 
+    private sealed class CountingDependsOnAttribute : ModularPipelines.Attributes.DependsOnBaseAttribute
+    {
+        public static int EvaluationCount;
+
+        public override bool ShouldDependOn(Type candidateModule, IDependencyContext context)
+        {
+            Interlocked.Increment(ref EvaluationCount);
+            return candidateModule == typeof(IndependentDynamicModule);
+        }
+    }
+
+    [CountingDependsOn]
+    private class CountingPredicateModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(CountingPredicateModule));
+    }
+
+    private class ExistingCandidateOne : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(ExistingCandidateOne));
+    }
+
+    private class ExistingCandidateTwo : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(ExistingCandidateTwo));
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DeepDynamicModule>(Optional = true)]
+    private class DeepExistingModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(DeepExistingModule));
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DeepExistingModule>]
+    private class DeepMiddleModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(DeepMiddleModule));
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DeepMiddleModule>]
+    private class DeepDynamicModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(DeepDynamicModule));
+    }
+
     [Test]
     public async Task AddModule_WhenModuleIntroducesCycle_ThrowsAndRollsBack()
     {
@@ -116,6 +173,20 @@ public class ModuleSchedulerDynamicCycleTests
             .And.HasMessageEqualTo(
                 "Dependency collision detected: **ExistingModule** -> DynamicModule -> **ExistingModule**");
         await Assert.That(scheduler.GetModuleState(typeof(DynamicModule))).IsNull();
+    }
+
+    [Test]
+    public async Task AddModule_WhenModuleClosesLongCycle_ThrowsAndRollsBack()
+    {
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules([new DeepExistingModule(), new DeepMiddleModule()]);
+
+        await Assert.That(() => scheduler.AddModule(new DeepDynamicModule()))
+            .Throws<DependencyCollisionException>()
+            .And.HasMessageEqualTo(
+                "Dependency collision detected: **DeepExistingModule** -> " +
+                "DeepDynamicModule -> DeepMiddleModule -> **DeepExistingModule**");
+        await Assert.That(scheduler.GetModuleState(typeof(DeepDynamicModule))).IsNull();
     }
 
     [Test]
@@ -323,6 +394,21 @@ public class ModuleSchedulerDynamicCycleTests
         var state = scheduler.GetModuleState(typeof(ConditionalExistingModule));
         await Assert.That(state).IsNotNull();
         await Assert.That(state!.UnresolvedDependencies).Contains(typeof(CompletedDependencyModule));
+    }
+
+    [Test]
+    public async Task AddModule_EvaluatesExistingSelectorsOnlyForNewModule()
+    {
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules(
+            [new CountingPredicateModule(), new ExistingCandidateOne(), new ExistingCandidateTwo()]);
+        CountingDependsOnAttribute.EvaluationCount = 0;
+
+        scheduler.AddModule(new IndependentDynamicModule());
+
+        await Assert.That(CountingDependsOnAttribute.EvaluationCount).IsEqualTo(1);
+        await Assert.That(scheduler.GetModuleState(typeof(CountingPredicateModule))!.UnresolvedDependencies)
+            .Contains(typeof(IndependentDynamicModule));
     }
 
     private static ModuleScheduler CreateScheduler(
