@@ -133,6 +133,33 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    public async Task DefaultExecutionEnvironmentVariables_AreDefensivelyCopied()
+    {
+        var environmentVariables = new Dictionary<string, string?>
+        {
+            ["ORIGINAL"] = "value",
+        };
+        var options = new PipelineOptions
+        {
+            DefaultExecutionOptions = new CommandExecutionOptions
+            {
+                EnvironmentVariables = environmentVariables,
+            },
+        };
+
+        environmentVariables["ORIGINAL"] = "changed";
+        environmentVariables["ADDED"] = "later";
+
+        var snapshot = options.DefaultExecutionOptions!.EnvironmentVariables!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(snapshot["ORIGINAL"]).IsEqualTo("value");
+            await Assert.That(snapshot.ContainsKey("ADDED")).IsFalse();
+            await Assert.That(snapshot.IsReadOnly).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task PipelineBuilder_RegistersConsistentOptionsSnapshotWithoutCopyingProperties()
     {
         var builder = TestPipelineHostBuilder.Create()
@@ -153,5 +180,22 @@ public class PipelineOptionsTests
         await Assert.That(options).IsSameReferenceAs(expected);
         await Assert.That(snapshot).IsSameReferenceAs(expected);
         await Assert.That(monitor).IsSameReferenceAs(expected);
+    }
+
+    [Test]
+    public async Task PipelineBuilder_PreservesRegisteredPipelineOptionsValidators()
+    {
+        var builder = TestPipelineHostBuilder.Create()
+            .AddModule<OptionsTestModule>();
+        builder.Services
+            .AddOptions<PipelineOptions>()
+            .Validate(_ => false, "Custom validation failure.")
+            .ValidateOnStart();
+
+        var exception = await Assert.ThrowsAsync<OptionsValidationException>(
+            () => builder.BuildAsync());
+
+        await Assert.That(exception!.Failures)
+            .Contains("Custom validation failure.");
     }
 }

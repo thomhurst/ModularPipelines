@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using Spectre.Console;
 
@@ -50,6 +51,7 @@ public record PipelineOptions
 {
     private IReadOnlyList<string>? _runOnlyCategories;
     private IReadOnlyList<string>? _ignoreCategories;
+    private CommandExecutionOptions? _defaultExecutionOptions;
 
     /// <summary>
     /// Gets the execution mode that determines how the pipeline handles failures.
@@ -251,7 +253,19 @@ public record PipelineOptions
     /// Properties set on per-call <see cref="CommandExecutionOptions"/> override matching properties here.
     /// </para>
     /// </remarks>
-    public CommandExecutionOptions? DefaultExecutionOptions { get; init; }
+    public CommandExecutionOptions? DefaultExecutionOptions
+    {
+        get => _defaultExecutionOptions;
+        init => _defaultExecutionOptions = value is null
+            ? null
+            : value with
+            {
+                EnvironmentVariables = value.EnvironmentVariables is null
+                    ? null
+                    : new ReadOnlyDictionary<string, string?>(
+                        new Dictionary<string, string?>(value.EnvironmentVariables)),
+            };
+    }
 
     /// <summary>
     /// Gets a value indicating whether to throw a <see cref="Exceptions.PipelineFailedException"/>
