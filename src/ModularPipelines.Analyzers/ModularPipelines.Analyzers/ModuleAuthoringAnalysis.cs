@@ -107,7 +107,7 @@ internal static class ModuleAuthoringAnalysis
     {
         var invocation = (IInvocationOperation) context.Operation;
 
-        if (!IsInsideModuleExecuteAsync(context))
+        if (GetModuleExecuteAsync(context) is null)
         {
             return;
         }
@@ -122,8 +122,9 @@ internal static class ModuleAuthoringAnalysis
             return;
         }
 
-        if ((method.Name == "Wait" && method.ContainingType.InheritsFrom(
-                context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task")))
+        if ((method.Name is "Wait" or "WaitAll" or "WaitAny"
+             && method.ContainingType.InheritsFrom(
+                 context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task")))
             || (method.Name == "GetResult" && IsAwaiterGetResult(invocation)))
         {
             context.ReportDiagnostic(Diagnostic.Create(
@@ -136,7 +137,7 @@ internal static class ModuleAuthoringAnalysis
     private static void AnalyzePropertyReference(OperationAnalysisContext context)
     {
         var propertyReference = (IPropertyReferenceOperation) context.Operation;
-        if (!IsInsideModuleExecuteAsync(context)
+        if (GetModuleExecuteAsync(context) is null
             || propertyReference.Property.Name != "Result"
             || !propertyReference.Property.ContainingType.InheritsFrom(
                 context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task")))
@@ -152,42 +153,100 @@ internal static class ModuleAuthoringAnalysis
 
     private static void AnalyzeAwait(OperationAnalysisContext context)
     {
-        if (!IsInsideModuleExecuteAsync(context)
-            || context.Operation is not IAwaitOperation awaitOperation
-            || GetAwaitedInvocation(awaitOperation) is not { } invocation
-            || context.ContainingSymbol is not IMethodSymbol executeMethod)
+        if (GetModuleExecuteAsync(context) is not { } executeMethod
+            || context.Operation is not IAwaitOperation awaitOperation)
         {
             return;
         }
 
         var cancellationToken = executeMethod.Parameters.FirstOrDefault(IsCancellationToken);
-        if (cancellationToken is null
-            || InvocationUsesCancellation(invocation, cancellationToken)
-            || !InvocationAcceptsCancellationToken(invocation.TargetMethod))
+        if (cancellationToken is null)
         {
             return;
         }
 
-        context.ReportDiagnostic(Diagnostic.Create(
-            ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenRule,
-            invocation.Syntax.GetLocation(),
-            invocation.TargetMethod.Name));
+        foreach (var invocation in GetAwaitedInvocations(awaitOperation))
+        {
+            if (InvocationUsesCancellation(invocation, cancellationToken)
+                || !InvocationAcceptsCancellationToken(
+                    invocation.TargetMethod,
+                    context.Compilation,
+                    executeMethod.ContainingType))
+            {
+                continue;
+            }
+
+            context.ReportDiagnostic(Diagnostic.Create(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenRule,
+                invocation.Syntax.GetLocation(),
+                invocation.TargetMethod.Name));
+        }
     }
 
-    private static IInvocationOperation? GetAwaitedInvocation(IAwaitOperation awaitOperation)
+    private static IEnumerable<IInvocationOperation> GetAwaitedInvocations(
+        IAwaitOperation awaitOperation)
     {
-        if (awaitOperation.Operation is not IInvocationOperation invocation)
+        return GetAwaitedInvocations(
+            awaitOperation.Operation,
+            [with(SymbolEqualityComparer.Default)]);
+    }
+
+    private static IEnumerable<IInvocationOperation> GetAwaitedInvocations(
+        IOperation operation,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (operation is ILocalReferenceOperation localReference)
         {
-            return null;
+            if (visitedLocals.Add(localReference.Local)
+                && FindLocalInitializer(operation, localReference.Local) is { } initializer)
+            {
+                foreach (var awaitedInvocation in GetAwaitedInvocations(
+                             initializer,
+                             visitedLocals))
+                {
+                    yield return awaitedInvocation;
+                }
+            }
+
+            yield break;
         }
 
-        while (invocation.TargetMethod.Name == "ConfigureAwait"
-               && invocation.Instance is IInvocationOperation configuredInvocation)
+        if (operation is IInvocationOperation invocation)
         {
-            invocation = configuredInvocation;
+            if (invocation.TargetMethod.Name == "ConfigureAwait"
+                && invocation.Instance is { } configuredOperation)
+            {
+                foreach (var configuredInvocation in GetAwaitedInvocations(
+                             configuredOperation,
+                             visitedLocals))
+                {
+                    yield return configuredInvocation;
+                }
+
+                yield break;
+            }
+
+            if (!IsTaskJoin(invocation))
+            {
+                yield return invocation;
+                yield break;
+            }
         }
 
-        return invocation;
+        foreach (var child in operation.ChildOperations)
+        {
+            foreach (var awaitedInvocation in GetAwaitedInvocations(child, visitedLocals))
+            {
+                yield return awaitedInvocation;
+            }
+        }
+    }
+
+    private static bool IsTaskJoin(IInvocationOperation invocation)
+    {
+        return invocation.TargetMethod.Name is "WhenAll" or "WhenAny"
+            && invocation.TargetMethod.ContainingType.ToDisplayString()
+            == "System.Threading.Tasks.Task";
     }
 
     private static void TrackRegistrationInvocation(
@@ -218,12 +277,13 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var typeArgument in method.TypeArguments.OfType<INamedTypeSymbol>())
         {
-            registeredModules.Add(typeArgument);
+            var normalizedType = typeArgument.OriginalDefinition;
+            registeredModules.Add(normalizedType);
             if (method.Name == "AddModule"
                 && method.Parameters.Any(static parameter =>
                     parameter.Name is "module" or "factory"))
             {
-                instanceRegisteredModules.Add(typeArgument);
+                instanceRegisteredModules.Add(normalizedType);
             }
         }
 
@@ -234,7 +294,7 @@ internal static class ModuleAuthoringAnalysis
         {
             if (typeOfOperation.TypeOperand is INamedTypeSymbol moduleType)
             {
-                registeredModules.Add(moduleType);
+                registeredModules.Add(moduleType.OriginalDefinition);
             }
         }
     }
@@ -249,22 +309,25 @@ internal static class ModuleAuthoringAnalysis
             scannedAssemblies.Add(typeArgument.ContainingAssembly);
         }
 
-        foreach (var typeOfOperation in invocation.Arguments
-                     .SelectMany(static argument => argument.Value.DescendantsAndSelf())
-                     .OfType<ITypeOfOperation>())
+        foreach (var value in invocation.Arguments.SelectMany(argument =>
+                     GetValueAndLocalInitializers(
+                         argument.Value,
+                         [with(SymbolEqualityComparer.Default)])))
         {
-            scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
-        }
+            foreach (var typeOfOperation in value.DescendantsAndSelf().OfType<ITypeOfOperation>())
+            {
+                scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
+            }
 
-        if (invocation.Arguments
-            .SelectMany(static argument => argument.Value.DescendantsAndSelf())
-            .OfType<IInvocationOperation>()
-            .Any(static operation =>
-                operation.TargetMethod.Name == "GetExecutingAssembly"
-                && operation.TargetMethod.ContainingType.ToDisplayString()
+            if (value.DescendantsAndSelf()
+                .OfType<IInvocationOperation>()
+                .Any(static operation =>
+                    operation.TargetMethod.Name == "GetExecutingAssembly"
+                    && operation.TargetMethod.ContainingType.ToDisplayString()
                     == "System.Reflection.Assembly"))
-        {
-            scannedAssemblies.Add(currentAssembly);
+            {
+                scannedAssemblies.Add(currentAssembly);
+            }
         }
     }
 
@@ -433,12 +496,50 @@ internal static class ModuleAuthoringAnalysis
             : attribute.ConstructorArguments.FirstOrDefault().Value as ITypeSymbol;
     }
 
-    private static bool IsInsideModuleExecuteAsync(OperationAnalysisContext context)
+    private static IMethodSymbol? GetModuleExecuteAsync(OperationAnalysisContext context)
     {
-        return context.ContainingSymbol is IMethodSymbol method
-            && method.Name == AnalyzerConstants.MethodNames.ExecuteAsync
-            && method.IsOverride
-            && method.OverriddenMethod?.ContainingType.IsModule(context.Compilation) == true;
+        var localFunctions = GetEnclosingLocalFunctions(context.Operation);
+
+        for (var method = context.ContainingSymbol as IMethodSymbol;
+             method is not null;
+             method = method.ContainingSymbol as IMethodSymbol)
+        {
+            if (method.Name == AnalyzerConstants.MethodNames.ExecuteAsync
+                && method.IsOverride
+                && method.OverriddenMethod?.ContainingType.IsModule(context.Compilation) == true)
+            {
+                return LocalFunctionsAreInvoked(context.Operation, localFunctions)
+                    ? method
+                    : null;
+            }
+
+            if (method.MethodKind != MethodKind.LocalFunction)
+            {
+                return null;
+            }
+
+            if (!localFunctions.Contains(method, SymbolEqualityComparer.Default))
+            {
+                localFunctions.Add(method);
+            }
+        }
+
+        return null;
+    }
+
+    private static List<IMethodSymbol> GetEnclosingLocalFunctions(IOperation operation)
+    {
+        var localFunctions = new List<IMethodSymbol>();
+
+        for (var current = operation.Parent; current is not null; current = current.Parent)
+        {
+            if (current is ILocalFunctionOperation localFunction)
+            {
+                localFunctions.Add(localFunction.Symbol);
+            }
+        }
+
+        return localFunctions;
     }
 
     private static bool IsAwaiterGetResult(IInvocationOperation invocation)
@@ -447,6 +548,25 @@ internal static class ModuleAuthoringAnalysis
         {
             TargetMethod.Name: "GetAwaiter",
         };
+    }
+
+    private static bool LocalFunctionsAreInvoked(
+        IOperation operation,
+        List<IMethodSymbol> localFunctions)
+    {
+        if (localFunctions.Count == 0)
+        {
+            return true;
+        }
+
+        var root = GetRoot(operation);
+        var invokedMethods = root.DescendantsAndSelf()
+            .OfType<IInvocationOperation>()
+            .Select(static invocation => invocation.TargetMethod.OriginalDefinition)
+            .ToImmutableHashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+
+        return localFunctions.All(localFunction =>
+            invokedMethods.Contains(localFunction.OriginalDefinition));
     }
 
     private static bool InvocationUsesCancellation(
@@ -477,12 +597,6 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
-        var root = value;
-        while (root.Parent is not null)
-        {
-            root = root.Parent;
-        }
-
         foreach (var localReference in value.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
         {
             if (!visitedLocals.Add(localReference.Local))
@@ -490,12 +604,7 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            var initializer = root.DescendantsAndSelf()
-                .OfType<IVariableDeclaratorOperation>()
-                .FirstOrDefault(declarator => SymbolEqualityComparer.Default.Equals(
-                    declarator.Symbol,
-                    localReference.Local))
-                ?.Initializer?.Value;
+            var initializer = FindLocalInitializer(value, localReference.Local);
             if (initializer is not null
                 && FlowsFromCancellationToken(initializer, cancellationToken, visitedLocals))
             {
@@ -506,16 +615,64 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool InvocationAcceptsCancellationToken(IMethodSymbol method)
+    private static IEnumerable<IOperation> GetValueAndLocalInitializers(
+        IOperation value,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        yield return value;
+
+        foreach (var localReference in value.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
+        {
+            if (!visitedLocals.Add(localReference.Local)
+                || FindLocalInitializer(value, localReference.Local) is not { } initializer)
+            {
+                continue;
+            }
+
+            foreach (var operation in GetValueAndLocalInitializers(initializer, visitedLocals))
+            {
+                yield return operation;
+            }
+        }
+    }
+
+    private static IOperation? FindLocalInitializer(
+        IOperation operation,
+        ILocalSymbol local)
+    {
+        return GetRoot(operation).DescendantsAndSelf()
+            .OfType<IVariableDeclaratorOperation>()
+            .FirstOrDefault(declarator => SymbolEqualityComparer.Default.Equals(
+                declarator.Symbol,
+                local))
+            ?.Initializer?.Value;
+    }
+
+    private static IOperation GetRoot(IOperation operation)
+    {
+        while (operation.Parent is not null)
+        {
+            operation = operation.Parent;
+        }
+
+        return operation;
+    }
+
+    private static bool InvocationAcceptsCancellationToken(
+        IMethodSymbol method,
+        Compilation compilation,
+        INamedTypeSymbol within)
     {
         if (method.Parameters.Any(IsCancellationToken))
         {
             return true;
         }
 
-        return method.ContainingType.GetMembers(method.Name)
+        var selectedMethod = method.ReducedFrom ?? method;
+        return selectedMethod.ContainingType.GetMembers(selectedMethod.Name)
             .OfType<IMethodSymbol>()
-            .Any(candidate => IsCancellationOverload(method, candidate));
+            .Where(candidate => compilation.IsSymbolAccessibleWithin(candidate, within))
+            .Any(candidate => IsCancellationOverload(selectedMethod, candidate));
     }
 
     private static bool IsCancellationOverload(
