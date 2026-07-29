@@ -5,35 +5,48 @@ namespace ModularPipelines.Engine;
 
 internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider
 {
-    private readonly string _directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "ModularPipelines", "EstimatedTimes");
+    private static readonly TimeSpan CacheRetention = TimeSpan.FromDays(90);
+    private static readonly TimeSpan IndexRefreshInterval = TimeSpan.FromMinutes(1);
+
+    private readonly object _subModuleIndexLock = new();
+    private readonly string _directory;
+    private readonly TimeProvider _timeProvider;
+    private SubModuleFileIndex? _subModuleFileIndex;
+
+    public FileSystemModuleEstimatedTimeProvider()
+        : this(
+            Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "ModularPipelines",
+                "EstimatedTimes"),
+            TimeProvider.System)
+    {
+    }
+
+    internal FileSystemModuleEstimatedTimeProvider(string directory, TimeProvider timeProvider)
+    {
+        _directory = directory;
+        _timeProvider = timeProvider;
+    }
 
     public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
     {
-        var fileName = $"{moduleType.FullName}.txt";
+        var fileName = $"{GetModuleName(moduleType)}.txt";
         return await GetEstimatedTimeAsync(fileName).ConfigureAwait(false);
     }
 
     public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
     {
-        var fileName = $"{moduleType.FullName}.txt";
+        var fileName = $"{GetModuleName(moduleType)}.txt";
 
         await SaveModuleTimeAsync(duration, fileName).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
     {
-        var directoryInfo = new DirectoryInfo(_directory);
-
-        if (!directoryInfo.Exists)
-        {
-            directoryInfo.Create();
-        }
-
-        var paths = directoryInfo
-            .EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly)
-            .Where(x => x.Name.StartsWith($"Mod-{moduleType.FullName}"))
-            .ToList();
+        var filesByModule = GetSubModuleFilesByModule();
+        var moduleName = GetModuleName(moduleType);
+        var paths = filesByModule.GetValueOrDefault(moduleName, []);
 
         var subModuleEstimations = await paths.ToAsyncProcessorBuilder()
             .SelectAsync(async file =>
@@ -66,9 +79,106 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
     public async Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
     {
-        var fileName = $"Mod-{moduleType.FullName}-Sub-{subModuleEstimation.SubModuleName}.txt";
+        var fileName = $"Mod-{GetModuleName(moduleType)}-Sub-{subModuleEstimation.SubModuleName}.txt";
 
         await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName).ConfigureAwait(false);
+
+        lock (_subModuleIndexLock)
+        {
+            Volatile.Write(ref _subModuleFileIndex, null);
+        }
+    }
+
+    private IReadOnlyDictionary<string, FileInfo[]> GetSubModuleFilesByModule()
+    {
+        var index = Volatile.Read(ref _subModuleFileIndex);
+        if (index is not null
+            && _timeProvider.GetElapsedTime(index.CreatedTimestamp) < IndexRefreshInterval)
+        {
+            return index.FilesByModule;
+        }
+
+        lock (_subModuleIndexLock)
+        {
+            index = _subModuleFileIndex;
+            if (index is not null
+                && _timeProvider.GetElapsedTime(index.CreatedTimestamp) < IndexRefreshInterval)
+            {
+                return index.FilesByModule;
+            }
+
+            index = new SubModuleFileIndex(
+                BuildSubModuleFileIndex(_timeProvider.GetUtcNow()),
+                _timeProvider.GetTimestamp());
+            Volatile.Write(ref _subModuleFileIndex, index);
+            return index.FilesByModule;
+        }
+    }
+
+    private IReadOnlyDictionary<string, FileInfo[]> BuildSubModuleFileIndex(DateTimeOffset now)
+    {
+        var directoryInfo = Directory.CreateDirectory(_directory);
+        var expirationTime = now.UtcDateTime - CacheRetention;
+        var filesByModule = new Dictionary<string, List<FileInfo>>(StringComparer.Ordinal);
+
+        foreach (var file in directoryInfo.EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly))
+        {
+            if (file.LastWriteTimeUtc < expirationTime)
+            {
+                TryDelete(file);
+                continue;
+            }
+
+            if (!TryGetModuleName(file.Name, out var moduleName))
+            {
+                continue;
+            }
+
+            if (!filesByModule.TryGetValue(moduleName, out var files))
+            {
+                files = [];
+                filesByModule[moduleName] = files;
+            }
+
+            files.Add(file);
+        }
+
+        return filesByModule.ToDictionary(
+            pair => pair.Key,
+            pair => pair.Value.ToArray(),
+            StringComparer.Ordinal);
+    }
+
+    private static bool TryGetModuleName(string fileName, out string moduleName)
+    {
+        const string prefix = "Mod-";
+        const string separator = "-Sub-";
+
+        var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+        var subModuleSeparatorIndex = fileNameWithoutExtension.IndexOf(separator, StringComparison.Ordinal);
+        if (!fileNameWithoutExtension.StartsWith(prefix, StringComparison.Ordinal)
+            || subModuleSeparatorIndex <= prefix.Length)
+        {
+            moduleName = string.Empty;
+            return false;
+        }
+
+        moduleName = fileNameWithoutExtension[prefix.Length..subModuleSeparatorIndex];
+        return true;
+    }
+
+    private static string GetModuleName(Type moduleType) => moduleType.FullName ?? moduleType.Name;
+
+    private static void TryDelete(FileInfo file)
+    {
+        try
+        {
+            file.Delete();
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
+        {
+            // Best-effort pruning. A locked cache entry can be retried on the next process run.
+        }
     }
 
     private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName)
@@ -101,4 +211,8 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
         await File.WriteAllTextAsync(path, duration.ToString()).ConfigureAwait(false);
     }
+
+    private sealed record SubModuleFileIndex(
+        IReadOnlyDictionary<string, FileInfo[]> FilesByModule,
+        long CreatedTimestamp);
 }
