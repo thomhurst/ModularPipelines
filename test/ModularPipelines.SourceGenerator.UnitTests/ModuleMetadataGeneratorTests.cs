@@ -272,6 +272,57 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Generic_Helper_Module_Registration_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Register<TModule>(ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule
+                    {
+                        builder.AddModule<TModule>();
+                    }
+
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        Register<GenericModule<int>>(builder);
+                    }
+                }
+            }
+            """);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0013"
+                                        && diagnostic.GetMessage().Contains("AddModule<TModule>"));
+            await Assert.That(result.GeneratedTrees.Single().GetText().ToString())
+                .DoesNotContain("GenericModule<int>");
+        }
+    }
+
+    [Test]
     public async Task Registered_External_Closed_Generic_Module_Reports_Aot_Diagnostic()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(

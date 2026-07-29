@@ -106,6 +106,16 @@ with Native AOT.
 
 **Severity:** Warning
 
+## MPG0013
+
+An `AddModule<TModule>()` call uses a type parameter. The source generator cannot
+determine every closed construction that may flow through the generic helper, so
+trim-safe runtime metadata cannot be generated. Register each concrete module type
+directly, or use a non-generic helper that lists concrete registrations explicitly,
+before publishing with Native AOT.
+
+**Severity:** Warning
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 

@@ -26,6 +26,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     private static readonly DiagnosticDescriptor ExternalClosedGenericModuleRuntimeMetadata =
         GeneratorDiagnostics.ExternalClosedGenericModuleRuntimeMetadata;
 
+    private static readonly DiagnosticDescriptor GenericModuleRegistrationRuntimeMetadata =
+        GeneratorDiagnostics.GenericModuleRegistrationRuntimeMetadata;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var modules = context.SyntaxProvider
@@ -39,6 +42,12 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 static (node, _) => IsModuleRegistrationCandidate(node),
                 static (generatorContext, _) => GetRegisteredModuleMetadata(generatorContext))
             .SelectMany(static (metadata, _) => metadata);
+
+        var genericModuleRegistrations = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                static (node, _) => IsModuleRegistrationCandidate(node),
+                static (generatorContext, _) => GetGenericModuleRegistration(generatorContext))
+            .Where(static registration => registration is not null);
 
         var allModules = modules
             .Collect()
@@ -69,6 +78,14 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                         Generate(input.Left.AssemblyName, input.Right));
                 }
             });
+
+        context.RegisterSourceOutput(
+            genericModuleRegistrations,
+            static (sourceContext, registration) =>
+                sourceContext.ReportDiagnostic(Diagnostic.Create(
+                    GenericModuleRegistrationRuntimeMetadata,
+                    registration!.Location,
+                    registration.TypeParameterName)));
     }
 
     internal static bool IsModuleRegistrationCandidate(SyntaxNode node)
@@ -131,6 +148,24 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     && IsTypeReferenceAccessible(dependency, compilation.Assembly))
                 .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default),
         ];
+    }
+
+    private static GenericModuleRegistrationInfo? GetGenericModuleRegistration(
+        GeneratorSyntaxContext context)
+    {
+        if (context.Node is not InvocationExpressionSyntax invocation
+            || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
+            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
+            != PipelineBuilderExtensionsFullName
+            || method.TypeArguments.Length != 1
+            || method.TypeArguments[0] is not ITypeParameterSymbol typeParameter)
+        {
+            return null;
+        }
+
+        return new GenericModuleRegistrationInfo(
+            typeParameter.Name,
+            invocation.GetLocation());
     }
 
     private static bool IsCandidate(SyntaxNode node)
@@ -576,4 +611,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         string? ResultTypeName,
         bool Optional,
         bool EmitActivationRegistration);
+
+    private sealed record GenericModuleRegistrationInfo(
+        string TypeParameterName,
+        Location Location);
 }

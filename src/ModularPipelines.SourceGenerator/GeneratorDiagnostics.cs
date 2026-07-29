@@ -93,6 +93,14 @@ internal static class GeneratorDiagnostics
         + "with Native AOT",
         DiagnosticSeverity.Warning);
 
+    public static DiagnosticDescriptor GenericModuleRegistrationRuntimeMetadata { get; } = Create(
+        "MPG0013",
+        "Generic module registration lacks runtime metadata",
+        "Runtime metadata cannot be generated for AddModule<{0}> because the module type is a "
+        + "type parameter; register each concrete module type directly before publishing with "
+        + "Native AOT",
+        DiagnosticSeverity.Warning);
+
     private static DiagnosticDescriptor Create(
         string id,
         string title,
