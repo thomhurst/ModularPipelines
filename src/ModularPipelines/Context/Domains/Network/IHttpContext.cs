@@ -1,4 +1,3 @@
-using ModularPipelines.Http;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context.Domains.Network;
@@ -12,15 +11,4 @@ public interface IHttpContext
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
     Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Gets the default, non-logging HTTP client.
-    /// </summary>
-    HttpClient HttpClient { get; }
-
-    /// <summary>
-    /// Gets a logging HTTP client.
-    /// </summary>
-    /// <returns>A logging HTTP client.</returns>
-    HttpClient GetLoggingHttpClient(HttpLoggingType loggingType = HttpLoggingType.Request | HttpLoggingType.Response | HttpLoggingType.StatusCode | HttpLoggingType.Duration);
 }
