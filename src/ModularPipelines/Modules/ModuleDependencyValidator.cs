@@ -19,6 +19,33 @@ public static class ModuleDependencyValidator
     public static void Validate(IEnumerable<IModule> registeredModules)
         => Validate(registeredModules, dynamicRegistry: null, metadataRegistry: null);
 
+    /// <summary>
+    /// Validates all registered module dependencies.
+    /// </summary>
+    /// <param name="registeredModuleTypes">The types of all registered modules.</param>
+    /// <exception cref="ModuleReferencingSelfException">
+    /// Thrown when a module depends on itself.
+    /// </exception>
+    /// <exception cref="DependencyCollisionException">
+    /// Thrown when circular dependencies are detected.
+    /// </exception>
+    /// <exception cref="ModuleNotRegisteredException">
+    /// Thrown when a required dependency is not registered.
+    /// </exception>
+    public static void Validate(IEnumerable<Type> registeredModuleTypes)
+    {
+        var moduleTypes = registeredModuleTypes.ToHashSet();
+
+        if (moduleTypes.Count == 0)
+        {
+            return;
+        }
+
+        ValidateSelfReferences(moduleTypes);
+        ValidateMissingDependencies(moduleTypes);
+        ValidateCircularDependencies(moduleTypes);
+    }
+
     internal static void Validate(
         IEnumerable<IModule> registeredModules,
         IModuleDependencyRegistry? dynamicRegistry,
@@ -76,30 +103,26 @@ public static class ModuleDependencyValidator
     }
 
     /// <summary>
-    /// Validates all registered module dependencies.
+    /// Validates a dependency graph that may have been extended at runtime.
     /// </summary>
-    /// <param name="registeredModuleTypes">The types of all registered modules.</param>
-    /// <exception cref="ModuleReferencingSelfException">
-    /// Thrown when a module depends on itself.
-    /// </exception>
-    /// <exception cref="DependencyCollisionException">
-    /// Thrown when circular dependencies are detected.
-    /// </exception>
-    /// <exception cref="ModuleNotRegisteredException">
-    /// Thrown when a required dependency is not registered.
-    /// </exception>
-    public static void Validate(IEnumerable<Type> registeredModuleTypes)
+    /// <param name="dependencyGraph">The declared dependencies keyed by registered module type.</param>
+    /// <exception cref="DependencyCollisionException">Thrown when circular dependencies are detected.</exception>
+    internal static void ValidateCircularDependencies(IReadOnlyDictionary<Type, HashSet<Type>> dependencyGraph)
     {
-        var moduleTypes = registeredModuleTypes.ToHashSet();
-
-        if (moduleTypes.Count == 0)
+        var cycle = DependencyCycleDetector.FindCycle(dependencyGraph);
+        if (cycle is not null)
         {
-            return;
-        }
+            var formattedArray = cycle.Select(t => t.Name).ToArray();
 
-        ValidateSelfReferences(moduleTypes);
-        ValidateMissingDependencies(moduleTypes);
-        ValidateCircularDependencies(moduleTypes);
+            // Format with bold markers on first and last to match existing behavior
+            formattedArray[0] = $"**{formattedArray[0]}**";
+            formattedArray[^1] = $"**{formattedArray[^1]}**";
+
+            var cycleDescription = string.Join(" -> ", formattedArray);
+
+            throw new DependencyCollisionException(
+                $"Dependency collision detected: {cycleDescription}");
+        }
     }
 
     private static HashSet<(Type DependencyType, bool Optional)> GetAllDependencies(
@@ -184,110 +207,5 @@ public static class ModuleDependencyValidator
         }
 
         ValidateCircularDependencies(dependencyGraph);
-    }
-
-    /// <summary>
-    /// Validates a dependency graph that may have been extended at runtime.
-    /// </summary>
-    /// <param name="dependencyGraph">The declared dependencies keyed by registered module type.</param>
-    /// <exception cref="DependencyCollisionException">Thrown when circular dependencies are detected.</exception>
-    internal static void ValidateCircularDependencies(IReadOnlyDictionary<Type, HashSet<Type>> dependencyGraph)
-    {
-        // Detect cycles using DFS with coloring
-        // White (0) = not visited, Gray (1) = in current path, Black (2) = fully processed
-        var colors = new Dictionary<Type, int>();
-        var parent = new Dictionary<Type, Type?>();
-
-        foreach (var moduleType in dependencyGraph.Keys)
-        {
-            colors[moduleType] = 0;
-            parent[moduleType] = null;
-        }
-
-        foreach (var moduleType in dependencyGraph.Keys)
-        {
-            if (colors[moduleType] == 0)
-            {
-                var cycleStart = DetectCycleDfs(moduleType, dependencyGraph, colors, parent);
-                if (cycleStart != null)
-                {
-                    var cycle = BuildCyclePath(cycleStart, parent);
-                    var formattedArray = cycle.Select(t => t.Name).ToArray();
-
-                    // Format with bold markers on first and last to match existing behavior
-                    formattedArray[0] = $"**{formattedArray[0]}**";
-                    formattedArray[^1] = $"**{formattedArray[^1]}**";
-
-                    var cycleDescription = string.Join(" -> ", formattedArray);
-
-                    throw new DependencyCollisionException(
-                        $"Dependency collision detected: {cycleDescription}");
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Performs DFS to detect cycles, returning the start of a cycle if found.
-    /// </summary>
-    private static Type? DetectCycleDfs(
-        Type current,
-        IReadOnlyDictionary<Type, HashSet<Type>> graph,
-        Dictionary<Type, int> colors,
-        Dictionary<Type, Type?> parent)
-    {
-        colors[current] = 1; // Gray - currently being processed
-
-        if (graph.TryGetValue(current, out var dependencies))
-        {
-            foreach (var dependency in dependencies)
-            {
-                // Dependencies not yet registered cannot participate in a cycle.
-                if (!colors.ContainsKey(dependency))
-                {
-                    continue;
-                }
-
-                if (colors[dependency] == 1)
-                {
-                    // Found a cycle - dependency is currently being processed
-                    parent[dependency] = current;
-                    return dependency;
-                }
-
-                if (colors[dependency] == 0)
-                {
-                    parent[dependency] = current;
-                    var cycleStart = DetectCycleDfs(dependency, graph, colors, parent);
-                    if (cycleStart != null)
-                    {
-                        return cycleStart;
-                    }
-                }
-            }
-        }
-
-        colors[current] = 2; // Black - fully processed
-        return null;
-    }
-
-    /// <summary>
-    /// Builds the path of a detected cycle for error reporting.
-    /// </summary>
-    private static List<Type> BuildCyclePath(Type cycleStart, Dictionary<Type, Type?> parent)
-    {
-        var path = new List<Type> { cycleStart };
-        var current = parent[cycleStart];
-
-        while (current != null && current != cycleStart)
-        {
-            path.Add(current);
-            current = parent[current];
-        }
-
-        path.Add(cycleStart); // Complete the cycle
-        path.Reverse();
-
-        return path;
     }
 }

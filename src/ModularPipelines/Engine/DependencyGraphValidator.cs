@@ -34,28 +34,10 @@ internal static class DependencyGraphValidator
         // Build adjacency list: module type -> its dependencies (types it depends on)
         var adjacencyList = BuildAdjacencyList(moduleTypeSet);
 
-        // Track visit states for cycle detection
-        // 0 = not visited, 1 = in current DFS path (gray), 2 = fully processed (black)
-        var visitState = new Dictionary<Type, int>();
-        foreach (var moduleType in moduleTypeSet)
+        var cycle = DependencyCycleDetector.FindCycle(adjacencyList);
+        if (cycle is not null)
         {
-            visitState[moduleType] = 0;
-        }
-
-        // Track the current path for error reporting
-        var currentPath = new List<Type>();
-
-        // Run DFS from each unvisited node
-        foreach (var moduleType in moduleTypeSet)
-        {
-            if (visitState[moduleType] == 0)
-            {
-                if (DetectCycleDfs(moduleType, adjacencyList, visitState, currentPath, moduleTypeSet))
-                {
-                    // Cycle detected - currentPath contains the cycle
-                    throw CircularDependencyException.CreateWithCyclePath(currentPath.ToList());
-                }
-            }
+            throw CircularDependencyException.CreateWithCyclePath(cycle);
         }
     }
 
@@ -69,7 +51,7 @@ internal static class DependencyGraphValidator
         foreach (var moduleType in moduleTypes)
         {
             var dependencies = GetDependencyTypes(moduleType, moduleTypes);
-            adjacencyList[moduleType] = dependencies.ToList();
+            adjacencyList[moduleType] = [.. dependencies];
         }
 
         return adjacencyList;
@@ -116,70 +98,5 @@ internal static class DependencyGraphValidator
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// Performs depth-first search to detect cycles.
-    /// </summary>
-    /// <returns>True if a cycle is detected, false otherwise.</returns>
-    private static bool DetectCycleDfs(
-        Type current,
-        Dictionary<Type, List<Type>> adjacencyList,
-        Dictionary<Type, int> visitState,
-        List<Type> currentPath,
-        HashSet<Type> moduleTypeSet)
-    {
-        // Mark as in-progress (gray)
-        visitState[current] = 1;
-        currentPath.Add(current);
-
-        // Check all dependencies
-        if (adjacencyList.TryGetValue(current, out var dependencies))
-        {
-            foreach (var dependency in dependencies)
-            {
-                // Skip dependencies that aren't in our module set (they're not being registered)
-                if (!moduleTypeSet.Contains(dependency))
-                {
-                    continue;
-                }
-
-                if (visitState.TryGetValue(dependency, out var state))
-                {
-                    if (state == 1)
-                    {
-                        // Found a back edge - cycle detected!
-                        // Add the dependency again to show the complete cycle
-                        currentPath.Add(dependency);
-
-                        // Trim the path to show only the cycle
-                        var cycleStartIndex = currentPath.IndexOf(dependency);
-                        if (cycleStartIndex >= 0 && cycleStartIndex < currentPath.Count - 1)
-                        {
-                            currentPath.RemoveRange(0, cycleStartIndex);
-                        }
-
-                        return true;
-                    }
-
-                    if (state == 0)
-                    {
-                        // Not visited - recurse
-                        if (DetectCycleDfs(dependency, adjacencyList, visitState, currentPath, moduleTypeSet))
-                        {
-                            return true;
-                        }
-                    }
-
-                    // If state == 2, already fully processed, no cycle through this node
-                }
-            }
-        }
-
-        // Mark as fully processed (black)
-        visitState[current] = 2;
-        currentPath.RemoveAt(currentPath.Count - 1);
-
-        return false;
     }
 }
