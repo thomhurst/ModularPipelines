@@ -1,5 +1,7 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -13,29 +15,31 @@ namespace ModularPipelines.UnitTests.Context;
 public class PipelineContextModuleLookupTests
 {
     [Test]
-    public async Task GetModule_BuildsModuleLookupOnlyOnce()
+    public async Task ModuleLookup_IsSharedAcrossScopes()
     {
         var module = new FirstLookupModule();
-        var resolutionCount = 0;
-        var serviceProvider = CreateServiceProvider([module], () => resolutionCount++);
-        using var engineCancellationToken = new EngineCancellationToken(Mock.Of<IPrimaryExceptionContainer>());
-        var context = CreateContext(serviceProvider, engineCancellationToken);
+        var services = new ServiceCollection();
+        DependencyInjectionSetup.Initialize(services);
+        services.AddSingleton<IModule>(module);
+        await using var serviceProvider = services.BuildServiceProvider();
+        using var firstScope = serviceProvider.CreateScope();
+        using var secondScope = serviceProvider.CreateScope();
 
-        var firstResult = context.GetModule<FirstLookupModule>();
-        var secondResult = context.GetModule<FirstLookupModule>();
+        var firstLookup = firstScope.ServiceProvider.GetRequiredService<ModuleLookup>();
+        var secondLookup = secondScope.ServiceProvider.GetRequiredService<ModuleLookup>();
 
-        await Assert.That(firstResult).IsSameReferenceAs(module);
-        await Assert.That(secondResult).IsSameReferenceAs(module);
-        await Assert.That(resolutionCount).IsEqualTo(1);
+        await Assert.That(secondLookup).IsSameReferenceAs(firstLookup);
+        await Assert.That(firstLookup.GetAssignable(typeof(FirstLookupModule)))
+            .IsSameReferenceAs(module);
     }
 
     [Test]
     public async Task GetModule_ReturnsOnlyAssignableModule()
     {
         var module = new FirstLookupModule();
-        var serviceProvider = CreateServiceProvider([module]);
+        var moduleLookup = CreateModuleLookup([module]);
         using var engineCancellationToken = new EngineCancellationToken(Mock.Of<IPrimaryExceptionContainer>());
-        var context = CreateContext(serviceProvider, engineCancellationToken);
+        var context = CreateContext(moduleLookup, engineCancellationToken);
 
         var result = context.GetModule<LookupModule>();
 
@@ -45,9 +49,9 @@ public class PipelineContextModuleLookupTests
     [Test]
     public async Task GetModuleByType_RequiresExactModuleType()
     {
-        var serviceProvider = CreateServiceProvider([new FirstLookupModule()]);
+        var moduleLookup = CreateModuleLookup([new FirstLookupModule()]);
         using var engineCancellationToken = new EngineCancellationToken(Mock.Of<IPrimaryExceptionContainer>());
-        var context = CreateContext(serviceProvider, engineCancellationToken);
+        var context = CreateContext(moduleLookup, engineCancellationToken);
 
         var result = context.GetModule(typeof(LookupModule));
 
@@ -57,9 +61,9 @@ public class PipelineContextModuleLookupTests
     [Test]
     public async Task GetModule_WhenMultipleModulesMatch_ThrowsDescriptivePipelineException()
     {
-        var serviceProvider = CreateServiceProvider([new FirstLookupModule(), new SecondLookupModule()]);
+        var moduleLookup = CreateModuleLookup([new FirstLookupModule(), new SecondLookupModule()]);
         using var engineCancellationToken = new EngineCancellationToken(Mock.Of<IPrimaryExceptionContainer>());
-        var context = CreateContext(serviceProvider, engineCancellationToken);
+        var context = CreateContext(moduleLookup, engineCancellationToken);
 
         var exception = Assert.Throws<AmbiguousModuleException>(() => context.GetModule<LookupModule>());
 
@@ -71,28 +75,31 @@ public class PipelineContextModuleLookupTests
             .IsEquivalentTo([typeof(FirstLookupModule), typeof(SecondLookupModule)]);
     }
 
-    private static Mock<IServiceProvider> CreateServiceProvider(
-        IReadOnlyList<IModule> modules,
-        Action? onResolve = null)
+    [Test]
+    public async Task GetModule_WhenConcreteBaseAndDerivedModulesMatch_ThrowsDescriptivePipelineException()
     {
-        var serviceProvider = new Mock<IServiceProvider>();
-        serviceProvider
-            .Setup(x => x.GetService(typeof(IEnumerable<IModule>)))
-            .Returns(() =>
-            {
-                onResolve?.Invoke();
-                return modules;
-            });
+        var moduleLookup = CreateModuleLookup(
+            [new ConcreteBaseLookupModule(), new DerivedConcreteLookupModule()]);
+        using var engineCancellationToken = new EngineCancellationToken(Mock.Of<IPrimaryExceptionContainer>());
+        var context = CreateContext(moduleLookup, engineCancellationToken);
 
-        return serviceProvider;
+        var exception = Assert.Throws<AmbiguousModuleException>(
+            () => context.GetModule<ConcreteBaseLookupModule>());
+
+        await Assert.That(exception.RequestedType).IsEqualTo(typeof(ConcreteBaseLookupModule));
+        await Assert.That(exception.MatchingModuleTypes)
+            .IsEquivalentTo([typeof(ConcreteBaseLookupModule), typeof(DerivedConcreteLookupModule)]);
     }
 
+    private static ModuleLookup CreateModuleLookup(IReadOnlyList<IModule> modules) =>
+        new(modules);
+
     private static PipelineContext CreateContext(
-        Mock<IServiceProvider> serviceProvider,
+        ModuleLookup moduleLookup,
         EngineCancellationToken engineCancellationToken)
     {
         return new PipelineContext(
-            serviceProvider.Object,
+            moduleLookup,
             Mock.Of<IDependencyCollisionDetector>(),
             Mock.Of<IModuleResultRepository>(),
             Mock.Of<IInternalModuleLoggerProvider>(),
@@ -125,4 +132,14 @@ public class PipelineContextModuleLookupTests
             CancellationToken cancellationToken)
             => Task.FromResult<string?>(nameof(SecondLookupModule));
     }
+
+    private class ConcreteBaseLookupModule : LookupModule
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+            => Task.FromResult<string?>(nameof(ConcreteBaseLookupModule));
+    }
+
+    private sealed class DerivedConcreteLookupModule : ConcreteBaseLookupModule;
 }
