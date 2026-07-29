@@ -139,8 +139,9 @@ internal static class ModuleAuthoringAnalysis
         var propertyReference = (IPropertyReferenceOperation) context.Operation;
         if (GetModuleExecuteAsync(context) is null
             || propertyReference.Property.Name != "Result"
-            || !propertyReference.Property.ContainingType.InheritsFrom(
-                context.Compilation.GetTypeByMetadataName("System.Threading.Tasks.Task")))
+            || !IsBlockingResultType(
+                propertyReference.Property.ContainingType,
+                context.Compilation))
         {
             return;
         }
@@ -149,6 +150,16 @@ internal static class ModuleAuthoringAnalysis
             ModuleAsyncSafetyAnalyzer.BlockingCallRule,
             propertyReference.Syntax.GetLocation(),
             propertyReference.Property.Name));
+    }
+
+    private static bool IsBlockingResultType(
+        INamedTypeSymbol type,
+        Compilation compilation)
+    {
+        return type.InheritsFrom(
+                   compilation.GetTypeByMetadataName("System.Threading.Tasks.Task"))
+               || type.OriginalDefinition.ToDisplayString()
+               == "System.Threading.Tasks.ValueTask<TResult>";
     }
 
     private static void AnalyzeAwait(OperationAnalysisContext context)
@@ -195,18 +206,23 @@ internal static class ModuleAuthoringAnalysis
         IOperation operation,
         HashSet<ILocalSymbol> visitedLocals)
     {
-        var pending = new Stack<IOperation>();
-        pending.Push(operation);
+        var pending = new Stack<(IOperation Operation, bool RequireTaskLike)>();
+        pending.Push((operation, false));
 
         while (pending.Count > 0)
         {
-            var current = pending.Pop();
+            var (current, requireTaskLike) = pending.Pop();
+            if (current is IAnonymousFunctionOperation)
+            {
+                continue;
+            }
+
             if (current is ILocalReferenceOperation localReference)
             {
                 if (visitedLocals.Add(localReference.Local)
                     && FindReachingLocalValue(current, localReference.Local) is { } localValue)
                 {
-                    pending.Push(localValue);
+                    pending.Push((localValue, requireTaskLike));
                 }
 
                 continue;
@@ -217,20 +233,30 @@ internal static class ModuleAuthoringAnalysis
                 if (invocation.TargetMethod.Name == "ConfigureAwait"
                     && invocation.Instance is { } configuredOperation)
                 {
-                    pending.Push(configuredOperation);
+                    pending.Push((configuredOperation, requireTaskLike));
                     continue;
                 }
 
                 if (!IsTaskJoin(invocation))
                 {
-                    yield return invocation;
+                    if (!requireTaskLike || IsTaskLike(invocation.Type))
+                    {
+                        yield return invocation;
+                    }
+
+                    foreach (var argument in invocation.Arguments.Reverse())
+                    {
+                        pending.Push((argument.Value, true));
+                    }
+
                     continue;
                 }
             }
 
+            var childRequiresTaskLike = requireTaskLike || current is IInvocationOperation;
             foreach (var child in current.ChildOperations.Reverse())
             {
-                pending.Push(child);
+                pending.Push((child, childRequiresTaskLike));
             }
         }
     }
@@ -240,6 +266,25 @@ internal static class ModuleAuthoringAnalysis
         return invocation.TargetMethod.Name is "WhenAll" or "WhenAny"
             && invocation.TargetMethod.ContainingType.ToDisplayString()
             == "System.Threading.Tasks.Task";
+    }
+
+    private static bool IsTaskLike(ITypeSymbol? type)
+    {
+        for (var current = type as INamedTypeSymbol;
+             current is not null;
+             current = current.BaseType)
+        {
+            if (current.OriginalDefinition.ToDisplayString() is
+                "System.Threading.Tasks.Task"
+                or "System.Threading.Tasks.Task<TResult>"
+                or "System.Threading.Tasks.ValueTask"
+                or "System.Threading.Tasks.ValueTask<TResult>")
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void TrackRegistrationInvocation(
@@ -582,11 +627,30 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         IMethodSymbol anonymousFunction)
     {
-        return invocation.Instance is not null
-               && ValueContainsAnonymousFunction(
-                   invocation.Instance,
-                   anonymousFunction,
-                   [with(SymbolEqualityComparer.Default)]);
+        if (invocation.Instance is not null
+            && ValueContainsAnonymousFunction(
+                invocation.Instance,
+                anonymousFunction,
+                [with(SymbolEqualityComparer.Default)]))
+        {
+            return true;
+        }
+
+        return IsKnownDelegateInvoker(invocation.TargetMethod)
+               && invocation.Arguments.Any(argument =>
+                   ValueContainsAnonymousFunction(
+                       argument.Value,
+                       anonymousFunction,
+                       [with(SymbolEqualityComparer.Default)]));
+    }
+
+    private static bool IsKnownDelegateInvoker(IMethodSymbol method)
+    {
+        var containingType = method.ContainingType.OriginalDefinition.ToDisplayString();
+        return (method.Name == "Run"
+                && containingType == "System.Threading.Tasks.Task")
+               || (method.Name == "StartNew"
+                   && containingType == "System.Threading.Tasks.TaskFactory");
     }
 
     private static bool ValueContainsAnonymousFunction(
