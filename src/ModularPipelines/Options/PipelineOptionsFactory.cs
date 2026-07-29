@@ -11,27 +11,29 @@ internal sealed class PipelineOptionsFactory(
 {
     public PipelineOptions Create(string name)
     {
+        var options = value with { };
+
         foreach (var setup in setups)
         {
             if (setup is IConfigureNamedOptions<PipelineOptions> namedSetup)
             {
-                namedSetup.Configure(name, value);
+                namedSetup.Configure(name, options);
             }
             else if (name == Microsoft.Extensions.Options.Options.DefaultName)
             {
-                setup.Configure(value);
+                setup.Configure(options);
             }
         }
 
         foreach (var postConfigure in postConfigures)
         {
-            postConfigure.PostConfigure(name, value);
+            postConfigure.PostConfigure(name, options);
         }
 
         var failures = new List<string>();
         foreach (var validation in validations)
         {
-            var result = validation.Validate(name, value);
+            var result = validation.Validate(name, options);
             if (result.Failed)
             {
                 failures.AddRange(result.Failures);
@@ -39,7 +41,7 @@ internal sealed class PipelineOptionsFactory(
         }
 
         return failures.Count == 0
-            ? value
+            ? options
             : throw new OptionsValidationException(name, typeof(PipelineOptions), failures);
     }
 }

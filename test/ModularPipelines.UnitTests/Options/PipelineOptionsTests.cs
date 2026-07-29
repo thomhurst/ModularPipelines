@@ -155,12 +155,14 @@ public class PipelineOptionsTests
         {
             await Assert.That(snapshot["ORIGINAL"]).IsEqualTo("value");
             await Assert.That(snapshot.ContainsKey("ADDED")).IsFalse();
-            await Assert.That(snapshot.IsReadOnly).IsTrue();
+            await Assert.That(
+                    ((ICollection<KeyValuePair<string, string?>>) snapshot).IsReadOnly)
+                .IsTrue();
         }
     }
 
     [Test]
-    public async Task PipelineBuilder_RegistersConsistentOptionsSnapshotWithoutCopyingProperties()
+    public async Task PipelineBuilder_RegistersEquivalentIsolatedOptionsSnapshots()
     {
         var builder = TestPipelineHostBuilder.Create()
             .AddModule<OptionsTestModule>();
@@ -177,9 +179,44 @@ public class PipelineOptionsTests
             .GetRequiredService<IOptionsMonitor<PipelineOptions>>()
             .CurrentValue;
 
-        await Assert.That(options).IsSameReferenceAs(expected);
-        await Assert.That(snapshot).IsSameReferenceAs(expected);
-        await Assert.That(monitor).IsSameReferenceAs(expected);
+        using (Assert.Multiple())
+        {
+            await Assert.That(options).IsEqualTo(expected);
+            await Assert.That(snapshot).IsEqualTo(expected);
+            await Assert.That(monitor).IsEqualTo(expected);
+            await Assert.That(options).IsNotSameReferenceAs(expected);
+            await Assert.That(snapshot).IsNotSameReferenceAs(expected);
+            await Assert.That(monitor).IsNotSameReferenceAs(expected);
+        }
+    }
+
+    [Test]
+    public async Task PipelineOptionsFactory_IsolatesNamedConfigurations()
+    {
+        var source = new PipelineOptions();
+        var namedSetup = new ConfigureNamedOptions<PipelineOptions>(
+            "custom",
+            options => typeof(PipelineOptions)
+                .GetProperty(nameof(PipelineOptions.PrintLogo))!
+                .SetValue(options, false));
+        var factory = new PipelineOptionsFactory(
+            source,
+            [namedSetup],
+            [],
+            []);
+
+        var custom = factory.Create("custom");
+        var defaults = factory.Create(Microsoft.Extensions.Options.Options.DefaultName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(custom.PrintLogo).IsFalse();
+            await Assert.That(defaults.PrintLogo).IsTrue();
+            await Assert.That(source.PrintLogo).IsTrue();
+            await Assert.That(custom).IsNotSameReferenceAs(defaults);
+            await Assert.That(custom).IsNotSameReferenceAs(source);
+            await Assert.That(defaults).IsNotSameReferenceAs(source);
+        }
     }
 
     [Test]

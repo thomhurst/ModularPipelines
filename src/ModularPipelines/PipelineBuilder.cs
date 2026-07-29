@@ -259,7 +259,7 @@ public sealed class PipelineBuilder : IDisposable
         hostConfiguration.AddEnvironmentVariables(prefix: "DOTNET_");
         if (options.Args is not null)
         {
-            hostConfiguration.AddCommandLine(options.Args.ToArray());
+            hostConfiguration.AddCommandLine([.. options.Args]);
         }
 
         var environmentName = FirstNonEmpty(
