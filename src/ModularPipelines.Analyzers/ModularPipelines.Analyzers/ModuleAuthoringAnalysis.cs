@@ -204,9 +204,9 @@ internal static class ModuleAuthoringAnalysis
             if (current is ILocalReferenceOperation localReference)
             {
                 if (visitedLocals.Add(localReference.Local)
-                    && FindLocalInitializer(current, localReference.Local) is { } initializer)
+                    && FindReachingLocalValue(current, localReference.Local) is { } localValue)
                 {
-                    pending.Push(initializer);
+                    pending.Push(localValue);
                 }
 
                 continue;
@@ -303,7 +303,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         foreach (var value in invocation.Arguments.SelectMany(argument =>
-                     GetValueAndLocalInitializers(
+                     GetValueAndReachingLocalValues(
                          argument.Value,
                          [with(SymbolEqualityComparer.Default)])))
         {
@@ -390,9 +390,10 @@ internal static class ModuleAuthoringAnalysis
                          .Select(attribute => GetDependencyType(attribute, compilation))
                          .OfType<INamedTypeSymbol>())
             {
-                if (registered.Add(dependency))
+                var normalizedDependency = dependency.OriginalDefinition;
+                if (registered.Add(normalizedDependency))
                 {
-                    pending.Enqueue(dependency);
+                    pending.Enqueue(normalizedDependency);
                 }
             }
         }
@@ -599,9 +600,9 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            var initializer = FindLocalInitializer(value, localReference.Local);
-            if (initializer is not null
-                && FlowsFromCancellationToken(initializer, cancellationToken, visitedLocals))
+            var localValue = FindReachingLocalValue(value, localReference.Local);
+            if (localValue is not null
+                && FlowsFromCancellationToken(localValue, cancellationToken, visitedLocals))
             {
                 return true;
             }
@@ -610,7 +611,7 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static IEnumerable<IOperation> GetValueAndLocalInitializers(
+    private static IEnumerable<IOperation> GetValueAndReachingLocalValues(
         IOperation value,
         HashSet<ILocalSymbol> visitedLocals)
     {
@@ -619,28 +620,58 @@ internal static class ModuleAuthoringAnalysis
         foreach (var localReference in value.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
         {
             if (!visitedLocals.Add(localReference.Local)
-                || FindLocalInitializer(value, localReference.Local) is not { } initializer)
+                || FindReachingLocalValue(value, localReference.Local) is not { } localValue)
             {
                 continue;
             }
 
-            foreach (var operation in GetValueAndLocalInitializers(initializer, visitedLocals))
+            foreach (var operation in GetValueAndReachingLocalValues(localValue, visitedLocals))
             {
                 yield return operation;
             }
         }
     }
 
-    private static IOperation? FindLocalInitializer(
+    private static IOperation? FindReachingLocalValue(
         IOperation operation,
         ILocalSymbol local)
     {
-        return GetRoot(operation).DescendantsAndSelf()
+        var root = GetRoot(operation);
+        var callable = GetEnclosingCallable(operation);
+        var assignment = root.DescendantsAndSelf()
+            .OfType<ISimpleAssignmentOperation>()
+            .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
+            .Where(candidate => candidate.Target is ILocalReferenceOperation localReference
+                && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
+            .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
+            .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
+            .FirstOrDefault();
+        if (assignment is not null)
+        {
+            return assignment.Value;
+        }
+
+        return root.DescendantsAndSelf()
             .OfType<IVariableDeclaratorOperation>()
-            .FirstOrDefault(declarator => SymbolEqualityComparer.Default.Equals(
-                declarator.Symbol,
-                local))
+            .Where(declarator => declarator.Syntax.SpanStart < operation.Syntax.SpanStart)
+            .Where(declarator => SymbolEqualityComparer.Default.Equals(declarator.Symbol, local))
+            .Where(declarator => ReferenceEquals(GetEnclosingCallable(declarator), callable))
+            .OrderByDescending(static declarator => declarator.Syntax.SpanStart)
+            .FirstOrDefault()
             ?.Initializer?.Value;
+    }
+
+    private static IOperation? GetEnclosingCallable(IOperation operation)
+    {
+        for (var current = operation.Parent; current is not null; current = current.Parent)
+        {
+            if (current is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                return current;
+            }
+        }
+
+        return null;
     }
 
     private static IOperation GetRoot(IOperation operation)

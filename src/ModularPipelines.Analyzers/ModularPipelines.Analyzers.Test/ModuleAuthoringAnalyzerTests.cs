@@ -105,6 +105,20 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Assigned_Local_Assembly()
+    {
+        var source = ModuleSource(
+            TestSourceConstants.SimpleAsyncExecuteBody,
+            """
+            System.Reflection.Assembly assembly;
+            assembly = typeof(BuildModule).Assembly;
+            Pipeline.CreateBuilder().AddModulesFromAssembly(assembly);
+            """);
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Closed_Generic_Module_Registration()
     {
         var source = $$"""
@@ -165,6 +179,35 @@ public class ModuleAuthoringAnalyzerTests
             }
 
             [DependsOn<DependencyModule>]
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Required_Closed_Generic_AutoRegistered_Dependency()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class DependencyModule<T> : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            [DependsOn<DependencyModule<string>>]
             public class BuildModule : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
@@ -327,6 +370,45 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("Delay");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Unflowed_CancellationToken_For_Assigned_Stored_Task()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Task pending;
+                pending = {|#0:Task.Delay(1)|};
+                await pending;
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Uses_Latest_Assignment_When_Tracing_CancellationToken()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                token = cancellationToken;
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
