@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context.Domains.Network;
@@ -12,6 +13,22 @@ namespace ModularPipelines.UnitTests.Context;
 
 public class HttpTests : TestBase
 {
+    [Test]
+    public async Task PublicApi_DoesNotExposeRawHttpClients()
+    {
+        var rawClientMembers = typeof(IHttpContext)
+            .GetMembers()
+            .Where(member => member switch
+            {
+                PropertyInfo property => property.PropertyType == typeof(HttpClient),
+                MethodInfo method => method.ReturnType == typeof(HttpClient),
+                _ => false,
+            })
+            .Select(member => member.Name);
+
+        await Assert.That(rawClientMembers).IsEmpty();
+    }
+
     [Test]
     public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
     {
@@ -83,7 +100,7 @@ public class HttpTests : TestBase
     [Test]
     [Arguments(true)]
     [Arguments(false)]
-    public async Task Assert_LoggingHttpClient_Logs_As_Expected(bool customHttpClient)
+    public async Task Assert_SendAsync_Logs_As_Expected(bool customHttpClient)
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
@@ -98,9 +115,7 @@ public class HttpTests : TestBase
 
         if (!customHttpClient)
         {
-            var loggingClient = result.T.GetLoggingHttpClient();
-
-            await loggingClient.GetAsync(new Uri("https://thomhurst.github.io/TUnit"));
+            await result.T.SendAsync(new Uri("https://thomhurst.github.io/TUnit"));
         }
         else
         {
