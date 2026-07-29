@@ -372,6 +372,31 @@ public class Module1 : Module<int>
 }
 ";
 
+    private const string ModuleWithImplicitInArgument = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<int>
+{
+    private int _state;
+
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        Escape(_state);
+        return Task.FromResult(_state);
+    }
+
+    private static void Escape(in int value)
+    {
+    }
+}
+";
+
     private const string ModuleWithMutableStructMemberAssignment = @"
 #nullable enable
 using System.Threading;
@@ -820,6 +845,14 @@ public class Module1 : Module<int>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithRefExtensionReceiver,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Implicit_In_Argument()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithImplicitInArgument,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 

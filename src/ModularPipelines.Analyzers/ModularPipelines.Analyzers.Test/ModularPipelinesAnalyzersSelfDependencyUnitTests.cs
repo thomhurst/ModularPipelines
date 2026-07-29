@@ -1,6 +1,13 @@
+using System.Collections.Immutable;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
     ModularPipelines.Analyzers.SelfDependencyAnalyzer,
+    ModularPipelines.Analyzers.ConflictingDependsOnAttributeCodeFixProvider>;
+using VerifyDuplicateCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.Test.DuplicateDependencyDiagnosticAnalyzer,
     ModularPipelines.Analyzers.ConflictingDependsOnAttributeCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
@@ -104,6 +111,22 @@ public class Module1 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string DuplicateDiagnosticsSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[Obsolete, {{|#0:DependsOn<Module1>|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
+    private const string FixedDuplicateDiagnosticsSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[Obsolete ]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Module_Depends_On_Self()
     {
@@ -187,4 +210,71 @@ public class Module1 : Module<List<string>>
             expected,
             FixedModuleSource);
     }
+
+    [TestMethod]
+    public async Task CodeFix_Deduplicates_Diagnostics_For_One_Attribute()
+    {
+        var expected = new[]
+        {
+            VerifyDuplicateCS.Diagnostic(SelfDependencyAnalyzer.DiagnosticId)
+                .WithLocation(0),
+            VerifyDuplicateCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+                .WithLocation(0),
+        };
+
+        await VerifyDuplicateCS.VerifyCodeFixAsync(
+            DuplicateDiagnosticsSource,
+            expected,
+            FixedDuplicateDiagnosticsSource);
+    }
 }
+
+[DiagnosticAnalyzer(LanguageNames.CSharp)]
+#pragma warning disable RS1036, RS2008
+public sealed class DuplicateDependencyDiagnosticAnalyzer : DiagnosticAnalyzer
+{
+    private static readonly DiagnosticDescriptor SelfDependencyRule = new(
+        SelfDependencyAnalyzer.DiagnosticId,
+        "Self dependency",
+        "Self dependency",
+        "Test",
+        DiagnosticSeverity.Warning,
+        isEnabledByDefault: true);
+
+    private static readonly DiagnosticDescriptor ConflictingDependencyRule = new(
+        ConflictingDependsOnAttributeAnalyzer.DiagnosticId,
+        "Conflicting dependency",
+        "Conflicting dependency",
+        "Test",
+        DiagnosticSeverity.Warning,
+        isEnabledByDefault: true);
+
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
+        [SelfDependencyRule, ConflictingDependencyRule];
+
+    public override void Initialize(AnalysisContext context)
+    {
+        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
+        context.EnableConcurrentExecution();
+        context.RegisterSyntaxNodeAction(
+            static syntaxContext =>
+            {
+                if (!syntaxContext.Node.ToString().StartsWith(
+                        "DependsOn",
+                        StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                var location = syntaxContext.Node.GetLocation();
+                syntaxContext.ReportDiagnostic(Diagnostic.Create(
+                    SelfDependencyRule,
+                    location));
+                syntaxContext.ReportDiagnostic(Diagnostic.Create(
+                    ConflictingDependencyRule,
+                    location));
+            },
+            SyntaxKind.Attribute);
+    }
+}
+#pragma warning restore RS1036, RS2008

@@ -178,7 +178,15 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
         }
 
         var argument = identifier.FirstAncestorOrSelf<ArgumentSyntax>();
-        return argument?.RefKindKeyword.IsKind(SyntaxKind.None) == false
+        if (argument is null)
+        {
+            return false;
+        }
+
+        var argumentOperation = semanticModel.GetOperation(argument, cancellationToken)
+            as IArgumentOperation;
+        return (!argument.RefKindKeyword.IsKind(SyntaxKind.None)
+                || argumentOperation?.Parameter?.RefKind != RefKind.None)
                && SymbolEqualityComparer.Default.Equals(
                    semanticModel.GetSymbolInfo(argument.Expression, cancellationToken).Symbol,
                    field);

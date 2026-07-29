@@ -109,6 +109,7 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
                 .FirstOrDefault())
             .Where(static attribute => attribute?.Parent is AttributeListSyntax { ContainsDirectives: false })
             .Cast<AttributeSyntax>()
+            .Distinct()
             .GroupBy(static attribute => (AttributeListSyntax) attribute.Parent!)
             .OrderByDescending(static group => group.Key.SpanStart);
 
