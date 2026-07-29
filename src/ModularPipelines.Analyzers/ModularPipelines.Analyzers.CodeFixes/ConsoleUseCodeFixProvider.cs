@@ -47,6 +47,17 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
             return;
         }
 
+        var isConsoleError = IsConsoleError(invocation, semanticModel, context.CancellationToken);
+        if (!await BindsToLoggerExtensionsAsync(
+                context.Document,
+                invocation,
+                contextParameter.Identifier,
+                isConsoleError,
+                context.CancellationToken).ConfigureAwait(false))
+        {
+            return;
+        }
+
         context.RegisterCodeFix(
             CodeAction.Create(
                 CodeFixResources.ConsoleUseCodeFixTitle,
@@ -54,7 +65,7 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                     context.Document,
                     invocation,
                     contextParameter.Identifier,
-                    IsConsoleError(invocation, semanticModel, context.CancellationToken),
+                    isConsoleError,
                     cancellationToken),
                 nameof(CodeFixResources.ConsoleUseCodeFixTitle)),
             diagnostic);
@@ -105,6 +116,46 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                && SymbolEqualityComparer.Default.Equals(property.ContainingType, consoleType);
     }
 
+    private static async Task<bool> BindsToLoggerExtensionsAsync(
+        Document document,
+        InvocationExpressionSyntax invocation,
+        SyntaxToken contextParameterIdentifier,
+        bool isConsoleError,
+        CancellationToken cancellationToken)
+    {
+        var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+        if (root is null)
+        {
+            return false;
+        }
+
+        var annotation = new SyntaxAnnotation();
+        var newRoot = ReplaceWithLogger(
+            root,
+            invocation,
+            contextParameterIdentifier,
+            isConsoleError,
+            annotation);
+        var newDocument = document.WithSyntaxRoot(newRoot);
+        var semanticModel = await newDocument.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+        var boundRoot = await newDocument.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+        var loggerInvocation = boundRoot?.GetAnnotatedNodes(annotation)
+            .OfType<InvocationExpressionSyntax>()
+            .SingleOrDefault();
+        if (loggerInvocation is null)
+        {
+            return false;
+        }
+
+        var method = semanticModel?.GetSymbolInfo(loggerInvocation, cancellationToken).Symbol as IMethodSymbol;
+        var loggerExtensions = semanticModel?.Compilation.GetTypeByMetadataName(
+            "Microsoft.Extensions.Logging.LoggerExtensions");
+
+        return SymbolEqualityComparer.Default.Equals(
+            method?.ReducedFrom?.ContainingType ?? method?.ContainingType,
+            loggerExtensions);
+    }
+
     private static async Task<Document> ReplaceWithLoggerAsync(
         Document document,
         InvocationExpressionSyntax invocation,
@@ -118,6 +169,21 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
             return document;
         }
 
+        return document.WithSyntaxRoot(
+            ReplaceWithLogger(
+                root,
+                invocation,
+                contextParameterIdentifier,
+                isConsoleError));
+    }
+
+    private static SyntaxNode ReplaceWithLogger(
+        SyntaxNode root,
+        InvocationExpressionSyntax invocation,
+        SyntaxToken contextParameterIdentifier,
+        bool isConsoleError,
+        SyntaxAnnotation? annotation = null)
+    {
         var logMethod = isConsoleError ? "LogError" : "LogInformation";
         var arguments = CreateLoggerArguments(invocation.ArgumentList);
         var contextLogger = SyntaxFactory.MemberAccessExpression(
@@ -131,6 +197,10 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                     SyntaxFactory.IdentifierName(logMethod)),
                 SyntaxFactory.ArgumentList(arguments))
             .WithAdditionalAnnotations(Formatter.Annotation);
+        if (annotation is not null)
+        {
+            loggerInvocation = loggerInvocation.WithAdditionalAnnotations(annotation);
+        }
 
         SyntaxNode oldNode;
         SyntaxNode newNode;
@@ -149,9 +219,8 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
             newNode = loggerInvocation.WithTriviaFrom(invocation);
         }
 
-        var newRoot = root.ReplaceNode(oldNode, newNode)
+        return root.ReplaceNode(oldNode, newNode)
             .AddUsing("Microsoft.Extensions.Logging");
-        return document.WithSyntaxRoot(newRoot);
     }
 
     private static SeparatedSyntaxList<ArgumentSyntax> CreateLoggerArguments(

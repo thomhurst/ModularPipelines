@@ -285,6 +285,33 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string ConflictingLoggerExtensionSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public static class CustomLoggerExtensions
+{{
+    public static void LogInformation(
+        this ModularPipelines.Logging.IModuleLogger logger,
+        string message,
+        string value)
+    {{
+    }}
+}}
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        Console.WriteLine(""Done!"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private static string CreateFixedModuleSource(string loggerCall) => $@"
 {TestSourceConstants.StandardUsings}
 using Microsoft.Extensions.Logging;
@@ -485,5 +512,13 @@ public class Module1 : Module<List<string>>
             NullableConsoleMessageWithCommentSource,
             expected,
             FixedNullableConsoleMessageWithCommentSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Logging_Extension_Would_Be_Shadowed()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ConflictingLoggerExtensionSource,
+            ConsoleUseAnalyzer.DiagnosticId);
     }
 }
