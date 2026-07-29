@@ -113,6 +113,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         {
             SimpleNameSyntax directName => directName,
             MemberAccessExpressionSyntax { Name: var memberName } => memberName,
+            MemberBindingExpressionSyntax { Name: var bindingName } => bindingName,
             _ => null,
         };
 

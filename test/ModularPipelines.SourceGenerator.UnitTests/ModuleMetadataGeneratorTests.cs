@@ -318,6 +318,10 @@ public class ModuleMetadataGeneratorTests
                 public static class PipelineBuilderExtensions
                 {
                     public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
                         this ModularPipelines.PipelineBuilder builder,
                         TModule module)
                         where TModule : class, ModularPipelines.Modules.IModule => builder;
@@ -341,6 +345,9 @@ public class ModuleMetadataGeneratorTests
                     {
                         builder.AddModule(new GenericModule<int>());
                         builder.AddModule(_ => new GenericModule<string>());
+                        builder?.AddModule<GenericModule<long>>();
+                        builder?.AddModule(new GenericModule<decimal>());
+                        builder?.AddModule(_ => new GenericModule<bool>());
                     }
                 }
             }
@@ -354,6 +361,12 @@ public class ModuleMetadataGeneratorTests
                 .Contains("CreateRegistration<global::Consumer.GenericModule<int>, int>");
             await Assert.That(generated)
                 .Contains("CreateRegistration<global::Consumer.GenericModule<string>, string>");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<long>, long>");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<decimal>, decimal>");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<bool>, bool>");
         }
     }
 

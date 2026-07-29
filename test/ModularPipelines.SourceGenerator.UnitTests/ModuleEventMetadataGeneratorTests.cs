@@ -140,6 +140,9 @@ public class ModuleEventMetadataGeneratorTests
                     {
                         builder.AddModule(new GenericModule<int>());
                         builder.AddModule(_ => new GenericModule<string>());
+                        builder?.AddModule<GenericModule<long>>();
+                        builder?.AddModule(new GenericModule<decimal>());
+                        builder?.AddModule(_ => new GenericModule<bool>());
                     }
                 }
             }
@@ -153,6 +156,12 @@ public class ModuleEventMetadataGeneratorTests
                 .Contains("typeof(global::Consumer.GenericModule<int>)");
             await Assert.That(generated)
                 .Contains("typeof(global::Consumer.GenericModule<string>)");
+            await Assert.That(generated)
+                .Contains("typeof(global::Consumer.GenericModule<long>)");
+            await Assert.That(generated)
+                .Contains("typeof(global::Consumer.GenericModule<decimal>)");
+            await Assert.That(generated)
+                .Contains("typeof(global::Consumer.GenericModule<bool>)");
             await Assert.That(generated)
                 .Contains("new global::Consumer.MarkerAttribute()");
         }
