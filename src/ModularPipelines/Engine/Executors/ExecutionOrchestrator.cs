@@ -105,7 +105,9 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
             _hasRun = true;
         }
 
-        cancellationToken.Register(() => _engineCancellationToken.CancelWithReason("The user's cancellation token passed into the pipeline was cancelled."));
+        using var cancellationRegistration = cancellationToken.Register(
+            () => _engineCancellationToken.CancelWithReason(
+                "The user's cancellation token passed into the pipeline was cancelled."));
 
         _threadPoolConfigurator.Configure();
 
