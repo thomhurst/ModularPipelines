@@ -64,6 +64,22 @@ public class Module1 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string TrailingCommentBadModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[{{|#0:DependsOn<Module1>|}}] // dependency explanation
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
+    private const string FixedTrailingCommentModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+ // dependency explanation
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Module_Depends_On_Self()
     {
@@ -101,5 +117,18 @@ public class Module1 : Module<List<string>>
             DocumentedBadModuleSource,
             expected,
             FixedDocumentedModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Trailing_Comment()
+    {
+        var expected = VerifyCS.Diagnostic(SelfDependencyAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module1");
+
+        await VerifyCS.VerifyCodeFixAsync(
+            TrailingCommentBadModuleSource,
+            expected,
+            FixedTrailingCommentModuleSource);
     }
 }

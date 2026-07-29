@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.Analyzers;
@@ -72,7 +73,12 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
         // If this is the only attribute in the list, remove the entire attribute list
         if (attributeList.Attributes.Count == 1)
         {
-            newRoot = documentRoot.RemoveNode(attributeList, SyntaxRemoveOptions.KeepLeadingTrivia)!;
+            var removalOptions = attributeList.GetTrailingTrivia().Any(static trivia =>
+                !trivia.IsKind(SyntaxKind.WhitespaceTrivia)
+                && !trivia.IsKind(SyntaxKind.EndOfLineTrivia))
+                ? SyntaxRemoveOptions.KeepExteriorTrivia
+                : SyntaxRemoveOptions.KeepLeadingTrivia;
+            newRoot = documentRoot.RemoveNode(attributeList, removalOptions)!;
         }
         else
         {
