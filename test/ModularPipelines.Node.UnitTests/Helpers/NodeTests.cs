@@ -13,7 +13,7 @@ public class NodeTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Node().Version(cancellationToken: cancellationToken);
+            return await context.Node().VersionAsync(cancellationToken: cancellationToken);
         }
     }
 
@@ -35,5 +35,18 @@ public class NodeTests : TestBase
             await Assert.That(moduleResult.ValueOrDefault!.StandardError).IsNull().Or.IsEmpty();
             await Assert.That(moduleResult.ValueOrDefault.StandardOutput).Matches(@"v\d+");
         }
+    }
+
+    [Test]
+    public async Task Command_Methods_Are_Asynchronous()
+    {
+        var commandMethods = new[] { typeof(INode), typeof(INpm), typeof(INpx), typeof(INvm) }
+            .SelectMany(type => type.GetMethods())
+            .Where(method => method.ReturnType == typeof(Task<CommandResult>))
+            .ToList();
+
+        await Assert.That(commandMethods).IsNotEmpty();
+        await Assert.That(commandMethods.All(method =>
+            method.Name.EndsWith("Async", StringComparison.Ordinal))).IsTrue();
     }
 }

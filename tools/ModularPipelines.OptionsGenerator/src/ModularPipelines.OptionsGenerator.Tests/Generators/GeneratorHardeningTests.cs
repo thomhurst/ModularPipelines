@@ -613,9 +613,14 @@ public class GeneratorHardeningTests
         GeneratorUtils.GenerateServiceMethod(sb, "CreateOrUpdate", command);
 
         var generated = sb.ToString();
+        var expectedObsoleteMessage = obsoleteMessage.Replace(
+            "CreateOrUpdate",
+            "CreateOrUpdateAsync",
+            StringComparison.Ordinal);
 
         await Assert.That(generated)
-            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
+            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(expectedObsoleteMessage)})]");
+        await Assert.That(generated).DoesNotContain("CreateOrUpdateAsyncAsync");
         await Assert.That(generated).Contains("Task<CommandResult> Create_or_updateAsync(");
         await Assert.That(generated).Contains(
             "return await CreateOrUpdateAsync(options, executionOptions, cancellationToken);");
@@ -639,9 +644,13 @@ public class GeneratorHardeningTests
             ]));
 
         var generated = (await new ServiceInterfaceGenerator().GenerateAsync(tool)).Single().Content;
+        var expectedObsoleteMessage = obsoleteMessage.Replace(
+            "CreateOrUpdate",
+            "CreateOrUpdateAsync",
+            StringComparison.Ordinal);
 
         await Assert.That(generated)
-            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
+            .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(expectedObsoleteMessage)})]");
         await Assert.That(generated).Contains("Task<CommandResult> Create_or_updateAsync(");
     }
 

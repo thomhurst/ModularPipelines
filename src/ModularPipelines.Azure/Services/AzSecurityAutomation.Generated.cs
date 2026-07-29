@@ -46,7 +46,7 @@ public class AzSecurityAutomation
         return await _command.ExecuteCommandLineToolAsync(options ?? new AzSecurityAutomationCreateOrUpdateOptions(), executionOptions, cancellationToken);
     }
 
-    [Obsolete("Use CreateOrUpdate instead.")]
+    [Obsolete("Use CreateOrUpdateAsync instead.")]
     public virtual async Task<CommandResult> Create_or_updateAsync(
         AzSecurityAutomationCreateOrUpdateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,

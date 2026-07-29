@@ -38,7 +38,7 @@ public class UseNodeModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Node().Version(cancellationToken);
+        return await context.Node().VersionAsync(cancellationToken);
     }
 }
 ```

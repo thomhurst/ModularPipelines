@@ -16,500 +16,500 @@ internal class Npm : INpm
         _command = command;
     }
 
-    public virtual async Task<CommandResult> AccessListPackages(NpmAccessListPackagesOptions? options = default,
+    public virtual async Task<CommandResult> AccessListPackagesAsync(NpmAccessListPackagesOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmAccessListPackagesOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> AccessListCollaborators(NpmAccessListCollaboratorsOptions? options = default,
+    public virtual async Task<CommandResult> AccessListCollaboratorsAsync(NpmAccessListCollaboratorsOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmAccessListCollaboratorsOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> AccessGetStatus(NpmAccessGetStatusOptions? options = default,
+    public virtual async Task<CommandResult> AccessGetStatusAsync(NpmAccessGetStatusOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmAccessGetStatusOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> AccessSet(NpmAccessSetOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> AccessSetAsync(NpmAccessSetOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> AccessGrant(NpmAccessGrantOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> AccessGrantAsync(NpmAccessGrantOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> AccessRevoke(NpmAccessRevokeOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> AccessRevokeAsync(NpmAccessRevokeOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Adduser(NpmAdduserOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> AdduserAsync(NpmAdduserOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmAdduserOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Audit(NpmAuditOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> AuditAsync(NpmAuditOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmAuditOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Bugs(NpmBugsOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> BugsAsync(NpmBugsOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmBugsOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> CacheAdd(NpmCacheAddOptions? options = default,
+    public virtual async Task<CommandResult> CacheAddAsync(NpmCacheAddOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmCacheAddOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> CacheClean(NpmCacheCleanOptions? options = default,
+    public virtual async Task<CommandResult> CacheCleanAsync(NpmCacheCleanOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmCacheCleanOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> CacheLs(NpmCacheLsOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> CacheLsAsync(NpmCacheLsOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmCacheLsOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> CacheVerify(NpmCacheVerifyOptions? options = default,
+    public virtual async Task<CommandResult> CacheVerifyAsync(NpmCacheVerifyOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmCacheVerifyOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Ci(NpmCiOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> CiAsync(NpmCiOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmCiOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Completion(NpmCompletionOptions? options = default,
+    public virtual async Task<CommandResult> CompletionAsync(NpmCompletionOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmCompletionOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ConfigSet(NpmConfigSetOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ConfigSetAsync(NpmConfigSetOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ConfigSetRegistry(NpmConfigSetRegistryOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ConfigSetRegistryAsync(NpmConfigSetRegistryOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ConfigGet(NpmConfigGetOptions? options = default,
+    public virtual async Task<CommandResult> ConfigGetAsync(NpmConfigGetOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmConfigGetOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ConfigDelete(NpmConfigDeleteOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ConfigDeleteAsync(NpmConfigDeleteOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ConfigList(NpmConfigListOptions? options = default,
+    public virtual async Task<CommandResult> ConfigListAsync(NpmConfigListOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmConfigListOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ConfigEdit(NpmConfigEditOptions? options = default,
+    public virtual async Task<CommandResult> ConfigEditAsync(NpmConfigEditOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmConfigEditOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ConfigFix(NpmConfigFixOptions? options = default,
+    public virtual async Task<CommandResult> ConfigFixAsync(NpmConfigFixOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmConfigFixOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Dedupe(NpmDedupeOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> DedupeAsync(NpmDedupeOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmDedupeOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Deprecate(NpmDeprecateOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> DeprecateAsync(NpmDeprecateOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Diff(NpmDiffOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> DiffAsync(NpmDiffOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmDiffOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Docs(NpmDocsOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> DocsAsync(NpmDocsOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmDocsOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Doctor(NpmDoctorOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> DoctorAsync(NpmDoctorOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmDoctorOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Edit(NpmEditOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> EditAsync(NpmEditOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmEditOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Exec(NpmExecOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ExecAsync(NpmExecOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ExecC(NpmExecCOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ExecCAsync(NpmExecCOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmExecCOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Explain(NpmExplainOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ExplainAsync(NpmExplainOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmExplainOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Explore(NpmExploreOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ExploreAsync(NpmExploreOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmExploreOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Fund(NpmFundOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> FundAsync(NpmFundOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmFundOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Help(NpmHelpOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> HelpAsync(NpmHelpOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> HookAdd(NpmHookAddOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> HookAddAsync(NpmHookAddOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> HookLs(NpmHookLsOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> HookLsAsync(NpmHookLsOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmHookLsOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> HookRm(NpmHookRmOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> HookRmAsync(NpmHookRmOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> HookUpdate(NpmHookUpdateOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> HookUpdateAsync(NpmHookUpdateOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Init(NpmInitOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> InitAsync(NpmInitOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Install(NpmInstallOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> InstallAsync(NpmInstallOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmInstallOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Link(NpmLinkOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> LinkAsync(NpmLinkOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmLinkOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Login(NpmLoginOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> LoginAsync(NpmLoginOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmLoginOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Logout(NpmLogoutOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> LogoutAsync(NpmLogoutOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmLogoutOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Ls(NpmLsOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> LsAsync(NpmLsOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmLsOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> OrgSet(NpmOrgSetOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> OrgSetAsync(NpmOrgSetOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> OrgRm(NpmOrgRmOptions options,
+    public virtual async Task<CommandResult> OrgRmAsync(NpmOrgRmOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> OrgLs(NpmOrgLsOptions options,
+    public virtual async Task<CommandResult> OrgLsAsync(NpmOrgLsOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Outdated(NpmOutdatedOptions? options = default,
+    public virtual async Task<CommandResult> OutdatedAsync(NpmOutdatedOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmOutdatedOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> OwnerAdd(NpmOwnerAddOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> OwnerAddAsync(NpmOwnerAddOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> OwnerRm(NpmOwnerRmOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> OwnerRmAsync(NpmOwnerRmOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> OwnerLs(NpmOwnerLsOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> OwnerLsAsync(NpmOwnerLsOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmOwnerLsOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Pack(NpmPackOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PackAsync(NpmPackOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPackOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Ping(NpmPingOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PingAsync(NpmPingOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPingOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> PkgSet(NpmPkgSetOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PkgSetAsync(NpmPkgSetOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> PkgGet(NpmPkgGetOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PkgGetAsync(NpmPkgGetOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPkgGetOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> PkgDelete(NpmPkgDeleteOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PkgDeleteAsync(NpmPkgDeleteOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> PkgFix(NpmPkgFixOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PkgFixAsync(NpmPkgFixOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPkgFixOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Prefix(NpmPrefixOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PrefixAsync(NpmPrefixOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPrefixOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ProfileEnable2fa(NpmProfileEnable2faOptions? options = default,
+    public virtual async Task<CommandResult> ProfileEnable2faAsync(NpmProfileEnable2faOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmProfileEnable2faOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ProfileDisable2fa(NpmProfileDisable2faOptions? options = default,
+    public virtual async Task<CommandResult> ProfileDisable2faAsync(NpmProfileDisable2faOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmProfileDisable2faOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ProfileGet(NpmProfileGetOptions? options = default,
+    public virtual async Task<CommandResult> ProfileGetAsync(NpmProfileGetOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmProfileGetOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> ProfileSet(NpmProfileSetOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ProfileSetAsync(NpmProfileSetOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Prune(NpmPruneOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PruneAsync(NpmPruneOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPruneOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Publish(NpmPublishOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> PublishAsync(NpmPublishOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmPublishOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Query(NpmQueryOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> QueryAsync(NpmQueryOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Rebuild(NpmRebuildOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> RebuildAsync(NpmRebuildOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmRebuildOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Repo(NpmRepoOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> RepoAsync(NpmRepoOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmRepoOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Restart(NpmRestartOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> RestartAsync(NpmRestartOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Root(NpmRootOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> RootAsync(NpmRootOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmRootOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Run(NpmRunOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> RunAsync(NpmRunOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Sbom(NpmSbomOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> SbomAsync(NpmSbomOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmSbomOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Search(NpmSearchOptions options,
+    public virtual async Task<CommandResult> SearchAsync(NpmSearchOptions options,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Shrinkwrap(NpmShrinkwrapOptions? options = default,
+    public virtual async Task<CommandResult> ShrinkwrapAsync(NpmShrinkwrapOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmShrinkwrapOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Star(NpmStarOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> StarAsync(NpmStarOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmStarOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Stars(NpmStarsOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> StarsAsync(NpmStarsOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmStarsOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Start(NpmStartOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> StartAsync(NpmStartOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Stop(NpmStopOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> StopAsync(NpmStopOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> TeamCreate(NpmTeamCreateOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> TeamCreateAsync(NpmTeamCreateOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> TeamDestroy(NpmTeamDestroyOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> TeamDestroyAsync(NpmTeamDestroyOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> TeamAdd(NpmTeamAddOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> TeamAddAsync(NpmTeamAddOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> TeamRm(NpmTeamRmOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> TeamRmAsync(NpmTeamRmOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> TeamLs(NpmTeamLsOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> TeamLsAsync(NpmTeamLsOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Test(NpmTestOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> TestAsync(NpmTestOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> TokenList(NpmTokenListOptions? options = default,
+    public virtual async Task<CommandResult> TokenListAsync(NpmTokenListOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmTokenListOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> TokenRevoke(NpmTokenRevokeOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> TokenRevokeAsync(NpmTokenRevokeOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> TokenCreate(NpmTokenCreateOptions? options = default,
+    public virtual async Task<CommandResult> TokenCreateAsync(NpmTokenCreateOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmTokenCreateOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Uninstall(NpmUninstallOptions? options = default,
+    public virtual async Task<CommandResult> UninstallAsync(NpmUninstallOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmUninstallOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Unpublish(NpmUnpublishOptions? options = default,
+    public virtual async Task<CommandResult> UnpublishAsync(NpmUnpublishOptions? options = default,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmUnpublishOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Unstar(NpmUnstarOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> UnstarAsync(NpmUnstarOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmUnstarOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Update(NpmUpdateOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> UpdateAsync(NpmUpdateOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmUpdateOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Version(NpmVersionOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> VersionAsync(NpmVersionOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> View(NpmViewOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> ViewAsync(NpmViewOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmViewOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Whoami(NpmWhoamiOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> WhoamiAsync(NpmWhoamiOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpmWhoamiOptions(), null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> Npx(NpxOptions options, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> NpxAsync(NpxOptions options, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
-    public virtual async Task<CommandResult> NpxC(NpxCOptions? options = default, CancellationToken cancellationToken = default)
+    public virtual async Task<CommandResult> NpxCAsync(NpxCOptions? options = default, CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new NpxCOptions(), null, cancellationToken);
     }

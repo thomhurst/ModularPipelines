@@ -36,7 +36,7 @@ public class FormatMarkdownModule : Module<CommandResult>
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.Node().Npm.Install(new NpmInstallOptions
+        await context.Node().Npm.InstallAsync(new NpmInstallOptions
         {
             Arguments =
             [

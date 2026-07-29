@@ -689,9 +689,34 @@ public static partial class GeneratorUtils
             .Select(method => method with
             {
                 MethodName = EnsureAsyncSuffix(method.MethodName),
+                ObsoleteMessage = EnsureAsyncCompatibilityMessage(
+                    method.ObsoleteMessage,
+                    currentMethodName),
             })
             .Where(method => !string.Equals(method.MethodName, currentMethodName, StringComparison.Ordinal))
             .DistinctBy(method => method.MethodName, StringComparer.Ordinal);
+    }
+
+    private static string EnsureAsyncCompatibilityMessage(
+        string obsoleteMessage,
+        string currentMethodName)
+    {
+        const string asyncSuffix = "Async";
+        if (!currentMethodName.EndsWith(asyncSuffix, StringComparison.Ordinal))
+        {
+            return obsoleteMessage;
+        }
+
+        if (obsoleteMessage.Contains(currentMethodName, StringComparison.Ordinal))
+        {
+            return obsoleteMessage;
+        }
+
+        var unsuffixedMethodName = currentMethodName[..^asyncSuffix.Length];
+        return obsoleteMessage.Replace(
+            unsuffixedMethodName,
+            currentMethodName,
+            StringComparison.Ordinal);
     }
 
     private static void GenerateCompatibilityServiceMethod(
