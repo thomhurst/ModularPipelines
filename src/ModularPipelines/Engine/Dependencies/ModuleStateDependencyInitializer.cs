@@ -27,9 +27,6 @@ internal static class ModuleStateDependencyInitializer
 
     public static void Record(ModuleState state, Type dependencyType, bool optional)
     {
-        state.Dependencies[dependencyType] =
-            state.Dependencies.TryGetValue(dependencyType, out var existingOptional)
-                ? existingOptional && optional
-                : optional;
+        state.RecordDependency(dependencyType, optional);
     }
 }

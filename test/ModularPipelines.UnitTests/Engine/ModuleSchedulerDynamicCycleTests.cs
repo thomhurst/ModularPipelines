@@ -287,12 +287,14 @@ public class ModuleSchedulerDynamicCycleTests
     {
         using var scheduler = CreateScheduler();
         scheduler.InitializeModules([new ExistingPredicateModule()]);
+        var existingState = scheduler.GetModuleState(typeof(ExistingPredicateModule))!;
+        var dependencySnapshot = existingState.Dependencies;
 
         scheduler.AddModule(new IndependentDynamicModule());
 
-        var existingState = scheduler.GetModuleState(typeof(ExistingPredicateModule));
-        await Assert.That(existingState).IsNotNull();
-        await Assert.That(existingState!.UnresolvedDependencies).Contains(typeof(IndependentDynamicModule));
+        await Assert.That(dependencySnapshot.ContainsKey(typeof(IndependentDynamicModule))).IsFalse();
+        await Assert.That(existingState.Dependencies.ContainsKey(typeof(IndependentDynamicModule))).IsTrue();
+        await Assert.That(existingState.UnresolvedDependencies).Contains(typeof(IndependentDynamicModule));
     }
 
     [Test]
