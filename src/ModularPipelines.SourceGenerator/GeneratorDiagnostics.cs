@@ -57,6 +57,26 @@ internal static class GeneratorDiagnostics
         + "type is generic or inaccessible; runtime reflection will be used",
         DiagnosticSeverity.Info);
 
+    public static DiagnosticDescriptor UnsupportedToolsLanguageVersion { get; } = Create(
+        "MPG0008",
+        "Discoverable tool properties require C# 14",
+        "Tool accessor '{0}' cannot generate a context.Tools property because language version "
+        + "'{1}' does not support extension members; use C# 14 or preview",
+        DiagnosticSeverity.Warning);
+
+    public static DiagnosticDescriptor ConflictingToolProperty { get; } = Create(
+        "MPG0009",
+        "Conflicting discoverable tool property",
+        "Tool property '{0}' has conflicting declarations: {1}",
+        DiagnosticSeverity.Error);
+
+    public static DiagnosticDescriptor ShadowedToolProperty { get; } = Create(
+        "MPG0010",
+        "Discoverable tool property shadows an instance member",
+        "Tool accessor '{0}' cannot generate property '{1}' because that name is already "
+        + "available on IToolsContext or object",
+        DiagnosticSeverity.Error);
+
     private static DiagnosticDescriptor Create(
         string id,
         string title,

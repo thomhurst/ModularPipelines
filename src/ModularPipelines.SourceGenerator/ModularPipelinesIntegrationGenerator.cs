@@ -39,33 +39,14 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private static readonly DiagnosticDescriptor InvalidIntegrationMethod =
         GeneratorDiagnostics.InvalidIntegrationMethod;
 
-    private static readonly DiagnosticDescriptor UnsupportedToolsLanguageVersion = new(
-        id: "MPGEN003",
-        title: "Discoverable tool properties require C# 14",
-        messageFormat:
-            "Tool accessor '{0}' cannot generate a context.Tools property because language version "
-            + "'{1}' does not support extension members; use C# 14 or preview",
-        category: "ModularPipelines.SourceGenerator",
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true);
+    private static readonly DiagnosticDescriptor UnsupportedToolsLanguageVersion =
+        GeneratorDiagnostics.UnsupportedToolsLanguageVersion;
 
-    private static readonly DiagnosticDescriptor ConflictingToolProperty = new(
-        id: "MPGEN004",
-        title: "Conflicting discoverable tool property",
-        messageFormat: "Tool property '{0}' has conflicting declarations: {1}",
-        category: "ModularPipelines.SourceGenerator",
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true);
+    private static readonly DiagnosticDescriptor ConflictingToolProperty =
+        GeneratorDiagnostics.ConflictingToolProperty;
 
-    private static readonly DiagnosticDescriptor ShadowedToolProperty = new(
-        id: "MPGEN005",
-        title: "Discoverable tool property shadows an instance member",
-        messageFormat:
-            "Tool accessor '{0}' cannot generate property '{1}' because that name is already "
-            + "available on IToolsContext or object",
-        category: "ModularPipelines.SourceGenerator",
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true);
+    private static readonly DiagnosticDescriptor ShadowedToolProperty =
+        GeneratorDiagnostics.ShadowedToolProperty;
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -260,6 +241,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
             candidates,
             referencedToolProperties,
             supportsExtensionMembers);
+        var generatesExtensionMembers =
+            uniqueToolProperties.Length > 0 && supportsExtensionMembers;
 
         if (uniqueRegistrations.Length == 0)
         {
@@ -273,7 +256,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         builder.AppendLine(
             "[assembly: global::ModularPipelines.Attributes.ModularPipelinesContextAttribute("
             + "typeof(global::ModularPipelines.Generated.ModularPipelinesContextRegistration))]");
-        if (uniqueToolProperties.Length > 0 && supportsExtensionMembers)
+        if (generatesExtensionMembers)
         {
             foreach (var property in uniqueToolProperties)
             {
@@ -285,8 +268,17 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         }
 
         builder.AppendLine();
-        builder.AppendLine("namespace ModularPipelines.Generated");
-        builder.AppendLine("{");
+        if (generatesExtensionMembers)
+        {
+            builder.AppendLine("namespace ModularPipelines.Generated");
+            builder.AppendLine("{");
+        }
+        else
+        {
+            builder.AppendLine("namespace ModularPipelines.Generated;");
+        }
+
+        builder.AppendLine();
         builder.AppendLine("internal static class ModularPipelinesContextRegistration");
         builder.AppendLine("{");
         builder.AppendLine(
@@ -302,7 +294,10 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
 
         builder.AppendLine("    }");
         builder.AppendLine("}");
-        builder.AppendLine("}");
+        if (generatesExtensionMembers)
+        {
+            builder.AppendLine("}");
+        }
 
         if (uniqueToolProperties.Length > 0 && !supportsExtensionMembers)
         {

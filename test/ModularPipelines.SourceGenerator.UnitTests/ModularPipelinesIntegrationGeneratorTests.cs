@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
 
@@ -175,7 +176,7 @@ public class ModularPipelinesIntegrationGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPGEN003");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0008");
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Warning);
             await Assert.That(diagnostic.GetMessage()).Contains("C# 14");
             await Assert.That(generatedSource).DoesNotContain("extension(");
@@ -266,7 +267,7 @@ public class ModularPipelinesIntegrationGeneratorTests
             """);
 
         var diagnostics = result.Diagnostics
-            .Where(static diagnostic => diagnostic.Id == "MPGEN004")
+            .Where(static diagnostic => diagnostic.Id == "MPG0009")
             .ToArray();
         var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
 
@@ -302,7 +303,7 @@ public class ModularPipelinesIntegrationGeneratorTests
             source: string.Empty,
             additionalReferences: [firstIntegration, secondIntegration]);
         var diagnostics = result.Diagnostics
-            .Where(static diagnostic => diagnostic.Id == "MPGEN004")
+            .Where(static diagnostic => diagnostic.Id == "MPG0009")
             .ToArray();
 
         using (Assert.Multiple())
@@ -337,7 +338,7 @@ public class ModularPipelinesIntegrationGeneratorTests
             source: string.Empty,
             additionalReferences: [firstIntegration, secondIntegration]);
         var diagnostics = result.Diagnostics
-            .Where(static diagnostic => diagnostic.Id == "MPGEN004")
+            .Where(static diagnostic => diagnostic.Id == "MPG0009")
             .ToArray();
 
         using (Assert.Multiple())
@@ -443,7 +444,7 @@ public class ModularPipelinesIntegrationGeneratorTests
             """);
 
         var diagnostics = result.Diagnostics
-            .Where(static diagnostic => diagnostic.Id == "MPGEN005")
+            .Where(static diagnostic => diagnostic.Id == "MPG0010")
             .ToArray();
         var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
 
