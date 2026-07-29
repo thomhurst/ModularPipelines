@@ -78,7 +78,9 @@ public class NonSpectreLoggerFactoryTests
             [suppressibleSpectreProvider]);
         using var factory = new NonSpectreLoggerFactory(
             trackingFactory,
-            CreateOptionsMonitor(new LoggerFilterOptions()));
+            trackingFactory,
+            CreateOptionsMonitor(new LoggerFilterOptions()),
+            suppression);
         var logger = factory
             .CreateLoggers("Category")
             .Single();
@@ -92,6 +94,34 @@ public class NonSpectreLoggerFactoryTests
     }
 
     [Test]
+    public async Task CreateLoggers_Uses_Effective_Replacement_Logger_Factory()
+    {
+        var effectiveProvider = new RecordingLoggerProvider();
+        var excludedProvider = new RecordingLoggerProvider();
+        var spectreProvider = new RecordingLoggerProvider();
+        var suppression = new SpectreLoggerSuppression();
+        using var suppressibleSpectreProvider =
+            new SuppressibleSpectreLoggerProvider(
+                spectreProvider,
+                Mock.Of<ISpectreConsoleLoggerControl>(),
+                suppression);
+        using var effectiveFactory = new LoggerFactory(
+            [suppressibleSpectreProvider, effectiveProvider]);
+        using var factory = new NonSpectreLoggerFactory(
+            effectiveFactory,
+            new TestProviderRegistry([suppressibleSpectreProvider, excludedProvider]),
+            CreateOptionsMonitor(new LoggerFilterOptions()),
+            suppression);
+        var logger = factory.CreateLoggers("Category").Single();
+
+        logger.LogWarning("delivered");
+
+        await Assert.That(spectreProvider.Entries).IsEmpty();
+        await Assert.That(effectiveProvider.Entries).HasSingleItem();
+        await Assert.That(excludedProvider.Entries).IsEmpty();
+    }
+
+    [Test]
     public async Task CreateLoggers_ReportsOnlyFailedProviderForRetry()
     {
         var successfulProvider = new RecordingLoggerProvider();
@@ -99,9 +129,12 @@ public class NonSpectreLoggerFactoryTests
         {
             LogException = new InvalidOperationException("provider rejected event"),
         };
+        var registry = new TestProviderRegistry([successfulProvider, failingProvider]);
         using var factory = new NonSpectreLoggerFactory(
-            new TestProviderRegistry([successfulProvider, failingProvider]),
-            CreateOptionsMonitor(new LoggerFilterOptions()));
+            registry,
+            registry,
+            CreateOptionsMonitor(new LoggerFilterOptions()),
+            new SpectreLoggerSuppression());
         var logger = factory.CreateLoggers("Category").Single();
 
         var exception = Assert.Throws<ProviderDeliveryException>(
@@ -230,9 +263,12 @@ public class NonSpectreLoggerFactoryTests
         ILoggerProvider provider,
         LoggerFilterOptions options)
     {
+        var registry = new TestProviderRegistry([provider]);
         return new NonSpectreLoggerFactory(
-            new TestProviderRegistry([provider]),
-            CreateOptionsMonitor(options));
+            registry,
+            registry,
+            CreateOptionsMonitor(options),
+            new SpectreLoggerSuppression());
     }
 
     private static IOptionsMonitor<LoggerFilterOptions> CreateOptionsMonitor(
@@ -248,9 +284,19 @@ public class NonSpectreLoggerFactoryTests
     }
 
     private sealed class TestProviderRegistry(
-        IReadOnlyList<ILoggerProvider> providers) : ILoggerProviderRegistry
+        IReadOnlyList<ILoggerProvider> providers) : ILoggerFactory, ILoggerProviderRegistry
     {
         public IReadOnlyList<ILoggerProvider> Providers { get; } = providers;
+
+        public void AddProvider(ILoggerProvider provider)
+        {
+        }
+
+        public ILogger CreateLogger(string categoryName) => Mock.Of<ILogger>();
+
+        public void Dispose()
+        {
+        }
     }
 
     [ProviderAlias("Recording")]

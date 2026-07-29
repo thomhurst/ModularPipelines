@@ -11,18 +11,27 @@ internal interface INonSpectreLoggerFactory
 }
 
 internal sealed class NonSpectreLoggerFactory(
+    ILoggerFactory loggerFactory,
     ILoggerProviderRegistry providerRegistry,
-    IOptionsMonitor<LoggerFilterOptions> filterOptions) : INonSpectreLoggerFactory, IDisposable
+    IOptionsMonitor<LoggerFilterOptions> filterOptions,
+    ISpectreLoggerSuppression suppression) : INonSpectreLoggerFactory, IDisposable
 {
     private readonly ConcurrentDictionary<string, IReadOnlyList<ILogger>> _loggers = new();
     private readonly ConcurrentDictionary<ILoggerProvider, LoggerFactory> _providerFactories =
         new(ReferenceEqualityComparer.Instance);
 
+    // A later user registration can replace ILoggerFactory while leaving the core registry registered.
+    // In that case only the effective factory knows which providers should receive the event.
+    private readonly bool _isEffectiveFactoryTracked =
+        ReferenceEquals(loggerFactory, providerRegistry);
+
     public IReadOnlyList<ILogger> CreateLoggers(string categoryName)
     {
         return _loggers.GetOrAdd(
             categoryName,
-            name => [new DynamicProviderLogger(this, name)]);
+            name => _isEffectiveFactoryTracked
+                ? [new DynamicProviderLogger(this, name)]
+                : [new SpectreSuppressingLogger(loggerFactory.CreateLogger(name), suppression)]);
     }
 
     public void Dispose()
@@ -86,6 +95,27 @@ internal sealed class NonSpectreLoggerFactory(
             {
                 throw new ProviderDeliveryException(failedLoggers, exceptions!);
             }
+        }
+    }
+
+    private sealed class SpectreSuppressingLogger(
+        ILogger inner,
+        ISpectreLoggerSuppression suppression) : ILogger
+    {
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => inner.BeginScope(state);
+
+        public bool IsEnabled(LogLevel logLevel) => inner.IsEnabled(logLevel);
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            using var scope = suppression.BeginSuppression();
+            inner.Log(logLevel, eventId, state, exception, formatter);
         }
     }
 
