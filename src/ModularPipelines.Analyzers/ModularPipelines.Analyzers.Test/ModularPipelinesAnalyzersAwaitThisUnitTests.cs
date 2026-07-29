@@ -120,6 +120,36 @@ public class Module1 : Module<CommandResult>
 }}
 ";
 
+    private const string BadModuleSourceAwaitThisAsEmbeddedStatement = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<CommandResult>
+{{
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        if (DateTime.UtcNow.Ticks > 0)
+            {{|#0:await this|}};
+
+        return null;
+    }}
+}}
+";
+
+    private const string FixedModuleSourceAwaitThisAsEmbeddedStatement = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<CommandResult>
+{{
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        if (DateTime.UtcNow.Ticks > 0)
+            ;
+
+        return null;
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_AwaitThis_InExecuteAsync()
     {
@@ -160,5 +190,16 @@ public class Module1 : Module<CommandResult>
         var expected = VerifyCS.Diagnostic(AwaitThisAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSourceAwaitThis, expected, FixedModuleSourceAwaitThis);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Embedded_Statement_Parent()
+    {
+        var expected = VerifyCS.Diagnostic(AwaitThisAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            BadModuleSourceAwaitThisAsEmbeddedStatement,
+            expected,
+            FixedModuleSourceAwaitThisAsEmbeddedStatement);
     }
 }

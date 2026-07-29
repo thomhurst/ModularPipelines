@@ -235,6 +235,63 @@ public class Module1 : Module<string>
 }
 ";
 
+    private const string ModuleWithMutableStructMethodCall = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public struct Counter
+{
+    public int Value { get; private set; }
+
+    public void Increment()
+    {
+        Value++;
+    }
+}
+
+public class Module1 : Module<int>
+{
+    private Counter _counter;
+
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        _counter.Increment();
+        return Task.FromResult(_counter.Value);
+    }
+}
+";
+
+    private const string ModuleWithMutableStructMemberAssignment = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public struct Counter
+{
+    public int Value { get; set; }
+}
+
+public class Module1 : Module<int>
+{
+    private Counter _counter;
+
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        _counter.Value = 1;
+        return Task.FromResult(_counter.Value);
+    }
+}
+";
+
     private const string PartialModuleWithWrite = @"
 #nullable enable
 using System.Collections.Generic;
@@ -366,6 +423,22 @@ public partial class Module1
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             PartialModuleWithWrite,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Mutable_Struct_Method_Call()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithMutableStructMethodCall,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Mutable_Struct_Member_Assignment()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithMutableStructMemberAssignment,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 }

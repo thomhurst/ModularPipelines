@@ -83,6 +83,18 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
             return false;
         }
 
+        var constructorSymbol = semanticModel.GetDeclaredSymbol(constructor, cancellationToken);
+        if (constructorSymbol is not null
+            && containingType.DescendantNodes()
+                .OfType<ConstructorInitializerSyntax>()
+                .Where(initializer => initializer.ThisOrBaseKeyword.IsKind(SyntaxKind.ThisKeyword))
+                .Any(initializer => SymbolEqualityComparer.Default.Equals(
+                    semanticModel.GetSymbolInfo(initializer, cancellationToken).Symbol,
+                    constructorSymbol)))
+        {
+            return false;
+        }
+
         var parameterReferences = GetReferences(containingType, parameter, semanticModel, cancellationToken);
         if (parameterReferences.Length == 0)
         {
@@ -175,7 +187,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
                 return null;
             }
 
-            replacements.Add(new LoggerReplacement(nodeToReplace, contextParameter.Identifier.ValueText));
+            replacements.Add(new LoggerReplacement(nodeToReplace, contextParameter.Identifier));
         }
 
         return replacements.ToImmutable();
@@ -257,7 +269,11 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         {
             editor.ReplaceNode(
                 replacement.Node,
-                SyntaxFactory.ParseExpression($"{replacement.ContextParameterName}.Logger")
+                SyntaxFactory.MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression,
+                        SyntaxFactory.IdentifierName(
+                            replacement.ContextParameterIdentifier.WithoutTrivia()),
+                        SyntaxFactory.IdentifierName("Logger"))
                     .WithTriviaFrom(replacement.Node)
                     .WithAdditionalAnnotations(Formatter.Annotation));
         }
@@ -287,11 +303,11 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         return editor.GetChangedDocument();
     }
 
-    private sealed class LoggerReplacement(SyntaxNode node, string contextParameterName)
+    private sealed class LoggerReplacement(SyntaxNode node, SyntaxToken contextParameterIdentifier)
     {
         public SyntaxNode Node { get; } = node;
 
-        public string ContextParameterName { get; } = contextParameterName;
+        public SyntaxToken ContextParameterIdentifier { get; } = contextParameterIdentifier;
     }
 
     private sealed class LoggerStorage(

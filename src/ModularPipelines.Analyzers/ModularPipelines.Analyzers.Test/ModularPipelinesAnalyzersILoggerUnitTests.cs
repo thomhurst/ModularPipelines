@@ -136,6 +136,62 @@ public partial class Module1
 }}
 ";
 
+    private const string ConstructorInitializerSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private static ILogger<Module1> Logger {{ get; }} = null!;
+
+    public Module1()
+        : this(Logger, 1)
+    {{
+    }}
+
+    private Module1(ILogger<Module1> logger, int value)
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string EscapedContextStoredLoggerSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private readonly ILogger<Module1> _logger;
+
+    public Module1({{|#0:ILogger<Module1> logger|}})
+    {{
+        _logger = logger;
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    {{
+        _logger.LogInformation(""Running"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedEscapedContextStoredLoggerSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    {{
+        @event.Logger.LogInformation(""Running"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string GoodModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -244,5 +300,24 @@ public class Module1 : Module<List<string>>
         await VerifyCS.VerifyNoCodeFixAsync(
             PartialModuleSourceUsedLogger,
             LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_This_Initializer_Targets_Constructor()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ConstructorInitializerSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Escaped_Context_Identifier()
+    {
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            EscapedContextStoredLoggerSource,
+            expected,
+            FixedEscapedContextStoredLoggerSource);
     }
 }

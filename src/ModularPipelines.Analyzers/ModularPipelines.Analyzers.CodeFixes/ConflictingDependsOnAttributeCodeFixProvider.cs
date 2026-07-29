@@ -72,7 +72,7 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
         // If this is the only attribute in the list, remove the entire attribute list
         if (attributeList.Attributes.Count == 1)
         {
-            newRoot = documentRoot.RemoveNode(attributeList, SyntaxRemoveOptions.KeepTrailingTrivia)!;
+            newRoot = documentRoot.RemoveNode(attributeList, SyntaxRemoveOptions.KeepLeadingTrivia)!;
         }
         else
         {

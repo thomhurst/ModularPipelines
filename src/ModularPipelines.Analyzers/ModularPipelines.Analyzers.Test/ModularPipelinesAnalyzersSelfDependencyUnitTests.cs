@@ -43,6 +43,27 @@ public class Module2 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string DocumentedBadModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+/// <summary>
+/// Runs the module.
+/// </summary>
+[{{|#0:DependsOn<Module1>|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
+    private const string FixedDocumentedModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+/// <summary>
+/// Runs the module.
+/// </summary>
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Module_Depends_On_Self()
     {
@@ -67,5 +88,18 @@ public class Module2 : Module<List<string>>
             .WithArguments("Module1");
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource, expected, FixedModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Class_Documentation()
+    {
+        var expected = VerifyCS.Diagnostic(SelfDependencyAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module1");
+
+        await VerifyCS.VerifyCodeFixAsync(
+            DocumentedBadModuleSource,
+            expected,
+            FixedDocumentedModuleSource);
     }
 }

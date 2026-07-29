@@ -54,6 +54,39 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string AliasedConsoleErrorWithEscapedContextSource = $@"
+{TestSourceConstants.StandardUsings}
+using C = System.Console;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    {{
+        {{|#0:C.Error.WriteLine(""Failure!"")|}};
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedAliasedConsoleErrorWithEscapedContextSource = $@"
+{TestSourceConstants.StandardUsings}
+using C = System.Console;
+using Microsoft.Extensions.Logging;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    {{
+        @event.Logger.LogError(""Failure!"");
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private static string CreateFixedModuleSource(string loggerCall) => $@"
 {TestSourceConstants.StandardUsings}
 using Microsoft.Extensions.Logging;
@@ -145,5 +178,16 @@ public class Module1 : Module<List<string>>
         await VerifyCS.VerifyNoCodeFixAsync(
             StaticLocalFunctionSource,
             ConsoleUseAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Uses_Error_Level_And_Preserves_Escaped_Context()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            AliasedConsoleErrorWithEscapedContextSource,
+            expected,
+            FixedAliasedConsoleErrorWithEscapedContextSource);
     }
 }

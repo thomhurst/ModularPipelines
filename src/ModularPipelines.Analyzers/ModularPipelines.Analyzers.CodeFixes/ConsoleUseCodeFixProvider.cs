@@ -51,7 +51,8 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                 cancellationToken => ReplaceWithLoggerAsync(
                     context.Document,
                     invocation,
-                    contextParameter.Identifier.ValueText,
+                    contextParameter.Identifier,
+                    IsConsoleError(invocation, semanticModel, context.CancellationToken),
                     cancellationToken),
                 nameof(CodeFixResources.ConsoleUseCodeFixTitle)),
             diagnostic);
@@ -108,10 +109,28 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         };
     }
 
+    private static bool IsConsoleError(
+        InvocationExpressionSyntax invocation,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        if (invocation.Expression is not MemberAccessExpressionSyntax methodAccess
+            || semanticModel.GetSymbolInfo(methodAccess.Expression, cancellationToken).Symbol
+                is not IPropertySymbol property)
+        {
+            return false;
+        }
+
+        var consoleType = semanticModel.Compilation.GetTypeByMetadataName("System.Console");
+        return property.Name == nameof(Console.Error)
+               && SymbolEqualityComparer.Default.Equals(property.ContainingType, consoleType);
+    }
+
     private static async Task<Document> ReplaceWithLoggerAsync(
         Document document,
         InvocationExpressionSyntax invocation,
-        string contextParameterName,
+        SyntaxToken contextParameterIdentifier,
+        bool isConsoleError,
         CancellationToken cancellationToken)
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
@@ -120,9 +139,7 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
             return document;
         }
 
-        var logMethod = invocation.Expression.ToString().Contains("Console.Error.", StringComparison.Ordinal)
-            ? "LogError"
-            : "LogInformation";
+        var logMethod = isConsoleError ? "LogError" : "LogInformation";
         var arguments = invocation.ArgumentList.Arguments.Count == 0
             ? SyntaxFactory.SingletonSeparatedList(
                 SyntaxFactory.Argument(
@@ -130,8 +147,15 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
                         SyntaxKind.StringLiteralExpression,
                         SyntaxFactory.Literal(string.Empty))))
             : invocation.ArgumentList.Arguments;
+        var contextLogger = SyntaxFactory.MemberAccessExpression(
+            SyntaxKind.SimpleMemberAccessExpression,
+            SyntaxFactory.IdentifierName(contextParameterIdentifier.WithoutTrivia()),
+            SyntaxFactory.IdentifierName("Logger"));
         var loggerInvocation = SyntaxFactory.InvocationExpression(
-                SyntaxFactory.ParseExpression($"{contextParameterName}.Logger.{logMethod}"),
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression,
+                    contextLogger,
+                    SyntaxFactory.IdentifierName(logMethod)),
                 SyntaxFactory.ArgumentList(arguments))
             .WithAdditionalAnnotations(Formatter.Annotation);
 

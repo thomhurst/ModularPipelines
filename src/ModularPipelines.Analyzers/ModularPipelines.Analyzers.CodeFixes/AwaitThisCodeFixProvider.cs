@@ -4,7 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Formatting;
 
 namespace ModularPipelines.Analyzers;
 
@@ -47,7 +49,13 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
         CancellationToken cancellationToken)
     {
         var root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
-        var newRoot = root?.RemoveNode(expressionStatement, SyntaxRemoveOptions.KeepNoTrivia);
+        var newRoot = expressionStatement.Parent is BlockSyntax or SwitchSectionSyntax
+            ? root?.RemoveNode(expressionStatement, SyntaxRemoveOptions.KeepNoTrivia)
+            : root?.ReplaceNode(
+                expressionStatement,
+                SyntaxFactory.EmptyStatement()
+                    .WithTriviaFrom(expressionStatement)
+                    .WithAdditionalAnnotations(Formatter.Annotation));
         return newRoot is null ? document : document.WithSyntaxRoot(newRoot);
     }
 }

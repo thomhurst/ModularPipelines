@@ -37,6 +37,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
             || variable.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
             || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
             || semanticModel?.GetDeclaredSymbol(variable, context.CancellationToken) is not IFieldSymbol field
+            || field.Type is INamedTypeSymbol { IsValueType: true, IsReadOnly: false }
             || IsWrittenOutsideConstructor(
                 containingType,
                 field,
