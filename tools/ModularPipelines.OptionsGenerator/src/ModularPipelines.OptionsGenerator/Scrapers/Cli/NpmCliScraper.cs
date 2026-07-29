@@ -123,11 +123,7 @@ public partial class NpmCliScraper(
                 $@"{Regex.Escape(switchName)}\s+<[^>]+>",
                 RegexOptions.IgnoreCase);
             var acceptsMultipleValues = takesValue
-                && (description.Contains("multiple times", StringComparison.OrdinalIgnoreCase)
-                    || Regex.IsMatch(
-                        normalizedHelp,
-                        $@"{Regex.Escape(switchName)}\s+<[^>]+>[^\r\n]*{Regex.Escape(switchName)}\s+<",
-                        RegexOptions.IgnoreCase));
+                && HelpDeclaresRepeatableOption(normalizedHelp, switchName, description);
             var isFlag = !takesValue;
 
             options.Add(new CliOptionDefinition
