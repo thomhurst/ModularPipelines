@@ -70,9 +70,17 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 continue;
             }
 
+            var isClosedGeneric = namedDependency.IsGenericType
+                                  && !namedDependency.IsUnboundGenericType;
+            var canEmitActivationRegistration = isClosedGeneric
+                                                && SymbolEqualityComparer.Default.Equals(
+                                                    namedDependency.ContainingAssembly,
+                                                    currentAssembly);
             dependencies.Add(new DependencyMetadataInfo(
                 namedDependency.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                optional));
+                optional,
+                canEmitActivationRegistration));
+            dependenciesComplete &= !isClosedGeneric || canEmitActivationRegistration;
         }
 
         return new ModuleMetadataInfo(
@@ -225,6 +233,17 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .OrderBy(static item => item.TypeName, StringComparer.Ordinal)
             .ToArray();
         var emittedModules = modules.Where(static module => module.CanEmit).ToArray();
+        var emittedModuleNames = emittedModules
+            .Select(static module => module.TypeName)
+            .ToImmutableHashSet(StringComparer.Ordinal);
+        var closedGenericDependencies = modules
+            .SelectMany(static module => module.Dependencies)
+            .Where(static dependency => dependency.EmitActivationRegistration)
+            .Select(static dependency => dependency.TypeName)
+            .Where(typeName => !emittedModuleNames.Contains(typeName))
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(static typeName => typeName, StringComparer.Ordinal)
+            .ToArray();
 
         // Generators cannot observe modules emitted by other generators in the same
         // compilation, so assembly discovery must retain its reflection fallback.
@@ -263,6 +282,13 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             sb.AppendLine($"                    }}, dependenciesComplete: {BooleanLiteral(module.DependenciesComplete)}),");
         }
 
+        foreach (var typeName in closedGenericDependencies)
+        {
+            sb.AppendLine($"                global::ModularPipelines.Engine.GeneratedModuleMetadata.CreateRegistration<{typeName}>(");
+            sb.AppendLine("                    global::System.Array.Empty<global::ModularPipelines.Engine.ModuleDependencyMetadata>(),");
+            sb.AppendLine("                    dependenciesComplete: false),");
+        }
+
         sb.AppendLine($"            }}, isComplete: {BooleanLiteral(isComplete)});");
         sb.AppendLine("    }");
         sb.AppendLine("}");
@@ -292,5 +318,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         ImmutableArray<DependencyMetadataInfo> Dependencies,
         bool DependenciesComplete);
 
-    private sealed record DependencyMetadataInfo(string TypeName, bool Optional);
+    private sealed record DependencyMetadataInfo(
+        string TypeName,
+        bool Optional,
+        bool EmitActivationRegistration);
 }

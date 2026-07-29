@@ -164,6 +164,9 @@ public class ModuleMetadataGeneratorTests
         {
             await Assert.That(generated)
                 .Contains("new(typeof(global::Consumer.GenericModule<string>), false)");
+            await Assert.That(CountOccurrences(
+                generated,
+                "CreateRegistration<global::Consumer.GenericModule<string>>")).IsEqualTo(1);
             await Assert.That(generated).Contains("dependenciesComplete: true");
         }
     }
