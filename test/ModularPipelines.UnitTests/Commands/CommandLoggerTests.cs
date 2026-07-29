@@ -399,6 +399,40 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
+    public async Task Deferred_Logging_Failure_After_NonZero_Exit_Preserves_Command_Failure()
+    {
+        var marker = $"throwing-failure-output-{Guid.NewGuid():N}";
+        using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
+        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+
+        var exception = await Assert.ThrowsAsync<CommandException>(() =>
+            commandContext.ExecuteCommandLineTool(
+                new PowershellScriptOptions(
+                    $"Write-Output '{marker}'; "
+                    + "Start-Sleep -Milliseconds 750; "
+                    + "exit 7")));
+
+        await Assert.That(exception!.Result.ExitCode).IsEqualTo(7);
+        var failures = (exception.InnerException as AggregateException)
+            ?.Flatten().InnerExceptions;
+        await Assert.That(failures).IsNotNull();
+        await Assert.That(failures!)
+            .Contains(failure =>
+                failure is CommandException commandFailure
+                && commandFailure.Result.ExitCode == 7);
+        await Assert.That(failures)
+            .Contains(failure =>
+                failure is InvalidOperationException
+                && failure.Message == "Logging failed.");
+        await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Deferred_Logging_Failure_During_Cancellation_Is_Wrapped_By_Command()
     {
         var marker = $"throwing-cancellation-output-{Guid.NewGuid():N}";

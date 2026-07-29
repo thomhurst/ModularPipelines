@@ -240,22 +240,8 @@ internal sealed class Command : ICommandContext
                     failure);
             }
 
-            LogCommandCompletion(
-                options,
-                execOpts,
-                inputToLog,
-                result.ExitCode,
-                result.RunTime,
-                standardOutput,
-                standardError,
-                completeStandardOutputBuffer,
-                completeStandardErrorBuffer,
-                deferredOutputLogger,
-                command.WorkingDirPath);
-
-            if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
-            {
-                throw new CommandException(CreateFailureResult(
+            var commandFailure = result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
+                ? new CommandException(CreateFailureResult(
                     command,
                     execOpts,
                     inputToLog,
@@ -264,7 +250,34 @@ internal sealed class Command : ICommandContext
                     standardOutput,
                     standardError,
                     result.StartTime,
-                    result.ExitTime));
+                    result.ExitTime))
+                : null;
+
+            try
+            {
+                LogCommandCompletion(
+                    options,
+                    execOpts,
+                    inputToLog,
+                    result.ExitCode,
+                    result.RunTime,
+                    standardOutput,
+                    standardError,
+                    completeStandardOutputBuffer,
+                    completeStandardErrorBuffer,
+                    deferredOutputLogger,
+                    command.WorkingDirPath);
+            }
+            catch (Exception completionFailure) when (commandFailure is not null)
+            {
+                throw new CommandException(
+                    commandFailure.Result,
+                    new AggregateException(commandFailure, completionFailure));
+            }
+
+            if (commandFailure is not null)
+            {
+                throw commandFailure;
             }
 
             return new CommandResult(command, result, standardOutput, standardError);
