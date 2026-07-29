@@ -15,10 +15,12 @@ namespace ModularPipelines.Analyzers;
 public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
 {
     /// <inheritdoc/>
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(
+    public sealed override ImmutableArray<string> FixableDiagnosticIds =>
+    [
         ConflictingDependsOnAttributeAnalyzer.DiagnosticId,
         InvalidDependsOnTypeAnalyzer.DiagnosticId,
-        SelfDependencyAnalyzer.DiagnosticId);
+        SelfDependencyAnalyzer.DiagnosticId,
+    ];
 
     /// <inheritdoc/>
     public sealed override FixAllProvider GetFixAllProvider()
@@ -62,8 +64,7 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
         var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
 
         // Get the attribute list that contains this attribute
-        var attributeList = attributeSyntax.Parent as AttributeListSyntax;
-        if (attributeList is null)
+        if (attributeSyntax.Parent is not AttributeListSyntax attributeList)
         {
             return document;
         }
@@ -82,10 +83,10 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
         }
         else
         {
-            // Otherwise, just remove this attribute from the list
-            var newAttributes = attributeList.Attributes.Remove(attributeSyntax);
-            var newAttributeList = attributeList.WithAttributes(newAttributes);
-            newRoot = documentRoot.ReplaceNode(attributeList, newAttributeList);
+            // Let Roslyn remove the adjacent separator and transfer the attribute's trivia.
+            newRoot = documentRoot.RemoveNode(
+                attributeSyntax,
+                SyntaxRemoveOptions.KeepExteriorTrivia)!;
         }
 
         return document.WithSyntaxRoot(newRoot);
