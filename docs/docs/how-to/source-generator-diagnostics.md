@@ -56,7 +56,7 @@ Command or secret metadata generation was skipped because its declaring type is
 generic or inaccessible to generated code. Make the type and its containing types
 accessible and non-generic. Until fixed, Modular Pipelines uses runtime reflection.
 
-**Severity:** Warning
+**Severity:** Info
 
 ## MPG0007
 
@@ -64,7 +64,7 @@ Module event metadata generation was skipped because a concrete module type is
 generic or inaccessible to generated code. Make the type and its containing types
 accessible and non-generic. Until fixed, Modular Pipelines uses runtime reflection.
 
-**Severity:** Warning
+**Severity:** Info
 
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:

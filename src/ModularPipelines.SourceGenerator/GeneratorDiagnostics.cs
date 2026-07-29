@@ -48,14 +48,14 @@ internal static class GeneratorDiagnostics
         "Runtime metadata generation skipped",
         "Runtime metadata generation for '{0}' was skipped because the type is generic or "
         + "inaccessible; runtime reflection will be used",
-        DiagnosticSeverity.Warning);
+        DiagnosticSeverity.Info);
 
     public static DiagnosticDescriptor SkippedModuleEventMetadata { get; } = Create(
         "MPG0007",
         "Module event metadata generation skipped",
         "Module event metadata generation for '{0}' was skipped because the concrete module "
         + "type is generic or inaccessible; runtime reflection will be used",
-        DiagnosticSeverity.Warning);
+        DiagnosticSeverity.Info);
 
     private static DiagnosticDescriptor Create(
         string id,

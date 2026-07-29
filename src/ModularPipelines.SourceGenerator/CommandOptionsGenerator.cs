@@ -117,7 +117,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var location = type.Locations.FirstOrDefault() ?? Location.None;
         if (!IsTypeAccessible(type, compilation.Assembly))
         {
-            return null;
+            return isCommandOptions || hasKnownSecretAttribute
+                ? new TypeMetadataCandidate(typeName, location, Metadata: null)
+                : null;
         }
 
         if (type.IsGenericType)
@@ -516,10 +518,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return [];
         }
 
-        return attribute.ConstructorArguments[0].Values
-            .Select(value => value.Value)
-            .OfType<string>()
-            .ToImmutableArray();
+        return
+        [
+            .. attribute.ConstructorArguments[0].Values
+                .Select(value => value.Value)
+                .OfType<string>(),
+        ];
     }
 
     private static string? GetNamedString(AttributeData attribute, string name) =>

@@ -93,7 +93,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         var location = type.Locations.FirstOrDefault() ?? Location.None;
         if (!IsTypeDeclarationAccessible(type, compilation.Assembly))
         {
-            return null;
+            return new ModuleEventMetadataCandidate(typeName, location, Metadata: null);
         }
 
         if (type.IsGenericType)

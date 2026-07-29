@@ -91,7 +91,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Inaccessible_Command_Options_Type_Uses_Reflection_Without_Diagnostic()
+    public async Task Inaccessible_Command_Options_Type_Reports_Informational_Skip()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -104,8 +104,33 @@ public class IncompleteMetadataDiagnosticTests
             }
             """);
 
-        await Assert.That(result.Diagnostics).IsEmpty();
-        await Assert.That(result.GeneratedTrees).IsEmpty();
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::Container.HiddenOptions");
+    }
+
+    [Test]
+    public async Task Inaccessible_Secret_Type_Reports_Informational_Skip()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public class Container
+            {
+                private sealed class HiddenSecrets
+                {
+                    [ModularPipelines.Attributes.SecretValue]
+                    public string Token { get; } = "";
+                }
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::Container.HiddenSecrets");
     }
 
     [Test]
@@ -126,7 +151,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Inaccessible_Module_Type_Uses_Reflection_Without_Diagnostic()
+    public async Task Inaccessible_Module_Type_Reports_Informational_Skip()
     {
         var result = GeneratorTestRunner.Run(
             new ModuleEventMetadataGenerator(),
@@ -139,8 +164,10 @@ public class IncompleteMetadataDiagnosticTests
             }
             """);
 
-        await Assert.That(result.Diagnostics).IsEmpty();
-        await Assert.That(result.GeneratedTrees).IsEmpty();
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0007",
+            "global::Container.HiddenModule");
     }
 
     [Test]
@@ -240,7 +267,7 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(diagnostic.Id).IsEqualTo(diagnosticId);
-            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Warning);
+            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Info);
             await Assert.That(diagnostic.GetMessage()).Contains(typeName);
             await Assert.That(diagnostic.GetMessage()).Contains("runtime reflection");
             await Assert.That(diagnostic.Descriptor.HelpLinkUri).EndsWith($"#{diagnosticId.ToLowerInvariant()}");
