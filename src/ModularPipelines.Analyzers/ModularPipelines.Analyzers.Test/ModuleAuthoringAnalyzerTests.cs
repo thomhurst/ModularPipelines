@@ -548,6 +548,29 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Incidental_CancellationToken_Reference()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await {|#0:Task.Delay(
+                    1,
+                    cancellationToken.CanBeCanceled
+                        ? CancellationToken.None
+                        : default)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Unrelated_CancellationToken()
     {
         var source = ModuleSource("""
@@ -907,6 +930,28 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Async_Void_Custom_Event_Handler_In_Module()
+    {
+        var source = ModuleSource($$"""
+            {{TestSourceConstants.SimpleAsyncExecuteBody}}
+
+                public event Action<int>? Progress;
+
+                public BuildModule()
+                {
+                    Progress += OnProgress;
+                }
+
+                private async void OnProgress(int value)
+                {
+                    await Task.Yield();
+                }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Generic_Overload_With_Unsatisfied_Constraints()
     {
         var source = ModuleSource("""
@@ -1092,10 +1137,16 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    [DataRow("ToList")]
-    [DataRow("ToArray")]
+    [DataRow("ToList()")]
+    [DataRow("ToArray()")]
+    [DataRow("Count()")]
+    [DataRow("Any()")]
+    [DataRow("First()")]
+    [DataRow("Single()")]
+    [DataRow("ToHashSet()")]
+    [DataRow("Aggregate(0, (total, value) => total + value)")]
     public async Task Reports_Async_Safety_Inside_Eager_Linq_Callback(
-        string terminalMethod)
+        string terminalInvocation)
     {
         var source = ModuleSource($$"""
             protected override Task<List<string>?> ExecuteAsync(
@@ -1108,7 +1159,7 @@ public class ModuleAuthoringAnalyzerTests
                         {|#0:Thread.Sleep(1)|};
                         return 1;
                     })
-                    .{{terminalMethod}}();
+                    .{{terminalInvocation}};
                 return Task.FromResult<List<string>?>(null);
             }
             """);

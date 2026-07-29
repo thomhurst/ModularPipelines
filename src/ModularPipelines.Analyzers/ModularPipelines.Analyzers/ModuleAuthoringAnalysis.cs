@@ -13,6 +13,36 @@ internal static class ModuleAuthoringAnalysis
     private const string CancellationTokenMetadataName = "System.Threading.CancellationToken";
     private const string EventArgsMetadataName = "System.EventArgs";
 
+    private static readonly ImmutableHashSet<string> EagerLinqTerminalNames =
+    [
+        "Aggregate",
+        "All",
+        "Any",
+        "Average",
+        "Contains",
+        "Count",
+        "ElementAt",
+        "ElementAtOrDefault",
+        "First",
+        "FirstOrDefault",
+        "Last",
+        "LastOrDefault",
+        "LongCount",
+        "Max",
+        "MaxBy",
+        "Min",
+        "MinBy",
+        "SequenceEqual",
+        "Single",
+        "SingleOrDefault",
+        "Sum",
+        "ToArray",
+        "ToDictionary",
+        "ToHashSet",
+        "ToList",
+        "ToLookup",
+    ];
+
     public static void InitializeRegistrationAnalysis(AnalysisContext context)
     {
         context.RegisterCompilationStartAction(StartRegistrationAnalysis);
@@ -20,7 +50,7 @@ internal static class ModuleAuthoringAnalysis
 
     public static void InitializeAsyncSafetyAnalysis(AnalysisContext context)
     {
-        context.RegisterSymbolAction(AnalyzeMethod, SymbolKind.Method);
+        context.RegisterCompilationStartAction(StartAsyncVoidAnalysis);
         context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
         context.RegisterOperationAction(AnalyzePropertyReference, OperationKind.PropertyReference);
         context.RegisterOperationAction(AnalyzeAwait, OperationKind.Await);
@@ -73,20 +103,69 @@ internal static class ModuleAuthoringAnalysis
         modules.Add(type);
     }
 
-    private static void AnalyzeMethod(SymbolAnalysisContext context)
+    private static void StartAsyncVoidAnalysis(
+        CompilationStartAnalysisContext context)
+    {
+        var asyncVoidMethods = new ConcurrentBag<IMethodSymbol>();
+        var eventHandlerMethods = new ConcurrentBag<IMethodSymbol>();
+
+        context.RegisterSymbolAction(
+            symbolContext => CollectAsyncVoidMethod(symbolContext, asyncVoidMethods),
+            SymbolKind.Method);
+        context.RegisterOperationAction(
+            operationContext => CollectEventHandlerMethod(
+                operationContext,
+                eventHandlerMethods),
+            OperationKind.EventAssignment);
+        context.RegisterCompilationEndAction(endContext =>
+            ReportAsyncVoidDiagnostics(
+                endContext,
+                asyncVoidMethods,
+                eventHandlerMethods));
+    }
+
+    private static void CollectAsyncVoidMethod(
+        SymbolAnalysisContext context,
+        ConcurrentBag<IMethodSymbol> asyncVoidMethods)
     {
         var method = (IMethodSymbol) context.Symbol;
-        if (!method.IsAsync
-            || !method.ReturnsVoid
-            || !method.ContainingType.IsModule(context.Compilation)
-            || HasEventHandlerSignature(method, context.Compilation))
+        if (method.IsAsync
+            && method.ReturnsVoid
+            && method.ContainingType.IsModule(context.Compilation))
         {
-            return;
+            asyncVoidMethods.Add(method);
         }
+    }
 
-        var location = method.Locations.FirstOrDefault(static item => item.IsInSource);
-        if (location is not null)
+    private static void CollectEventHandlerMethod(
+        OperationAnalysisContext context,
+        ConcurrentBag<IMethodSymbol> eventHandlerMethods)
+    {
+        var eventAssignment = (IEventAssignmentOperation) context.Operation;
+        foreach (var methodReference in eventAssignment.HandlerValue
+                     .DescendantsAndSelf()
+                     .OfType<IMethodReferenceOperation>())
         {
+            eventHandlerMethods.Add(methodReference.Method);
+        }
+    }
+
+    private static void ReportAsyncVoidDiagnostics(
+        CompilationAnalysisContext context,
+        ConcurrentBag<IMethodSymbol> asyncVoidMethods,
+        ConcurrentBag<IMethodSymbol> eventHandlerMethods)
+    {
+        foreach (var method in asyncVoidMethods)
+        {
+            if (HasEventHandlerSignature(method, context.Compilation)
+                || eventHandlerMethods.Any(eventHandler =>
+                    SymbolEqualityComparer.Default.Equals(eventHandler, method))
+                || method.Locations.FirstOrDefault(static item => item.IsInSource)
+                    is not { } location)
+            {
+                continue;
+            }
+
             context.ReportDiagnostic(Diagnostic.Create(
                 ModuleAsyncSafetyAnalyzer.AsyncVoidRule,
                 location,
@@ -1038,7 +1117,7 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (parentInvocation.TargetMethod.Name is "ToArray" or "ToList")
+            if (EagerLinqTerminalNames.Contains(parentInvocation.TargetMethod.Name))
             {
                 return true;
             }
@@ -1115,39 +1194,95 @@ internal static class ModuleAuthoringAnalysis
         IParameterSymbol cancellationToken,
         HashSet<ILocalSymbol> visitedLocals)
     {
-        if (value.DescendantsAndSelf()
-            .OfType<IParameterReferenceOperation>()
-            .Any(reference => SymbolEqualityComparer.Default.Equals(
-                reference.Parameter,
-                cancellationToken)))
+        return value switch
         {
-            return true;
+            IConversionOperation conversion => FlowsFromCancellationToken(
+                conversion.Operand,
+                cancellationToken,
+                visitedLocals),
+            IParameterReferenceOperation parameterReference =>
+                SymbolEqualityComparer.Default.Equals(
+                    parameterReference.Parameter,
+                    cancellationToken),
+            ILocalReferenceOperation localReference =>
+                FlowsFromCancellationTokenLocal(
+                    localReference,
+                    cancellationToken,
+                    visitedLocals),
+            IPropertyReferenceOperation propertyReference
+                when IsCancellationTokenSourceToken(propertyReference) =>
+                propertyReference.Instance is not null
+                && FlowsFromCancellationToken(
+                    propertyReference.Instance,
+                    cancellationToken,
+                    visitedLocals),
+            IInvocationOperation invocation
+                when IsCancellationCarrier(invocation.Type) =>
+                invocation.Arguments.Any(argument =>
+                    argument.Parameter is not null
+                    && IsCancellationToken(argument.Parameter)
+                    && FlowsFromCancellationToken(
+                        argument.Value,
+                        cancellationToken,
+                        visitedLocals)),
+            IConditionalOperation conditional =>
+                FlowsFromCancellationToken(
+                    conditional.WhenTrue,
+                    cancellationToken,
+                    visitedLocals)
+                && conditional.WhenFalse is not null
+                && FlowsFromCancellationToken(
+                    conditional.WhenFalse,
+                    cancellationToken,
+                    visitedLocals),
+            ICoalesceOperation coalesce =>
+                FlowsFromCancellationToken(
+                    coalesce.Value,
+                    cancellationToken,
+                    visitedLocals)
+                && FlowsFromCancellationToken(
+                    coalesce.WhenNull,
+                    cancellationToken,
+                    visitedLocals),
+            _ => false,
+        };
+    }
+
+    private static bool FlowsFromCancellationTokenLocal(
+        ILocalReferenceOperation localReference,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (!visitedLocals.Add(localReference.Local))
+        {
+            return false;
         }
 
-        foreach (var localReference in value.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
-        {
-            if (!visitedLocals.Add(localReference.Local))
-            {
-                continue;
-            }
+        var localValue = FindReachingLocalValue(
+            localReference,
+            localReference.Local,
+            out var isAmbiguous);
+        return isAmbiguous
+               || (localValue is not null
+                   && FlowsFromCancellationToken(
+                       localValue,
+                       cancellationToken,
+                       visitedLocals));
+    }
 
-            var localValue = FindReachingLocalValue(
-                value,
-                localReference.Local,
-                out var isAmbiguous);
-            if (isAmbiguous)
-            {
-                return true;
-            }
+    private static bool IsCancellationTokenSourceToken(
+        IPropertyReferenceOperation propertyReference)
+    {
+        return propertyReference.Property.Name == "Token"
+               && propertyReference.Property.ContainingType.ToDisplayString()
+               == "System.Threading.CancellationTokenSource";
+    }
 
-            if (localValue is not null
-                && FlowsFromCancellationToken(localValue, cancellationToken, visitedLocals))
-            {
-                return true;
-            }
-        }
-
-        return false;
+    private static bool IsCancellationCarrier(ITypeSymbol? type)
+    {
+        return type?.ToDisplayString() is
+            CancellationTokenMetadataName
+            or "System.Threading.CancellationTokenSource";
     }
 
     private static IEnumerable<IOperation> GetValueAndReachingLocalValues(
