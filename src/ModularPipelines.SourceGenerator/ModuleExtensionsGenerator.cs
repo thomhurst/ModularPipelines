@@ -103,7 +103,8 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         return new ModuleClassCandidate(
             new ModuleClassInfo(
                 ClassName: typeSymbol.Name,
-                FullyQualifiedName: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+                FullyQualifiedName: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                IsPublic: typeSymbol.DeclaredAccessibility == Accessibility.Public),
             typeSymbol.Locations.FirstOrDefault() ?? classDeclaration.GetLocation()
         );
     }
@@ -111,7 +112,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     private static ImmutableArray<DuplicateModuleAccessorInfo> FindDuplicateAccessors(
         ImmutableArray<ModuleClassCandidate> candidates)
     {
-        return candidates
+        return [.. candidates
             .GroupBy(static candidate => candidate.Module)
             .Select(static group => group.First())
             .OrderBy(static candidate => candidate.Module.FullyQualifiedName, StringComparer.Ordinal)
@@ -124,8 +125,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
                 string.Join(
                     ", ",
                     group.Select(static candidate => candidate.Module.FullyQualifiedName)),
-                group.First().Location))
-            .ToImmutableArray();
+                group.First().Location))];
     }
 
     /// <summary>
@@ -202,6 +202,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         foreach (var module in uniqueModules)
         {
             var methodName = StripModuleSuffix(module.ClassName);
+            var accessibility = module.IsPublic ? "public" : "internal";
 
             // GetXxxModule method - returns the module (which can be awaited for its result)
             sb.AppendLine($"    /// <summary>");
@@ -211,7 +212,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
             sb.AppendLine($"    /// <returns>The module instance, which can be awaited for its result.</returns>");
             sb.AppendLine($"    /// <exception cref=\"ModularPipelines.Exceptions.ModuleNotRegisteredException\">Thrown when the module is not registered.</exception>");
-            sb.AppendLine($"    public static {module.FullyQualifiedName} Get{methodName}Module(this IModuleContext context)");
+            sb.AppendLine($"    {accessibility} static {module.FullyQualifiedName} Get{methodName}Module(this IModuleContext context)");
             sb.AppendLine($"        => context.GetModule<{module.FullyQualifiedName}>();");
             sb.AppendLine();
 
@@ -222,7 +223,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             sb.AppendLine($"    /// </summary>");
             sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
             sb.AppendLine($"    /// <returns>The module instance, or null if not registered.</returns>");
-            sb.AppendLine($"    public static {module.FullyQualifiedName}? Get{methodName}ModuleIfRegistered(this IModuleContext context)");
+            sb.AppendLine($"    {accessibility} static {module.FullyQualifiedName}? Get{methodName}ModuleIfRegistered(this IModuleContext context)");
             sb.AppendLine($"        => context.GetModuleIfRegistered<{module.FullyQualifiedName}>();");
             sb.AppendLine();
         }
