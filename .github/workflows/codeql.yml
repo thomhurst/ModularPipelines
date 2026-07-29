@@ -27,6 +27,7 @@ jobs:
         language:
           - actions
           - csharp
+          - javascript-typescript
           - python
 
     steps:
