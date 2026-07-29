@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Maven().Execute(
+        return await context.Maven().ExecuteAsync(
             new MavenExecuteOptions(),
             cancellationToken: cancellationToken);
     }

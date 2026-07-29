@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Az().Login(
+        return await context.Az().LoginAsync(
             new AzLoginOptions(),
             cancellationToken: cancellationToken);
     }

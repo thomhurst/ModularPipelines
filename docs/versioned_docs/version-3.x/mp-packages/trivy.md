@@ -22,7 +22,7 @@ using ModularPipelines.Trivy.Extensions;
 using ModularPipelines.Trivy.Enums;
 using ModularPipelines.Trivy.Options;
 
-var result = await context.Trivy().Image(
+var result = await context.Trivy().ImageAsync(
     new TrivyImageOptions
     {
         ImageName = "alpine:3.20",
@@ -43,7 +43,7 @@ trivy image alpine:3.20 --format=json --output=trivy-results.json --severity=HIG
 ## Scan a filesystem
 
 ```csharp
-var result = await context.Trivy().Filesystem(
+var result = await context.Trivy().FilesystemAsync(
     new TrivyFilesystemOptions("./src")
     {
         Scanners =

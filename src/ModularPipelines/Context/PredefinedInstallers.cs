@@ -87,7 +87,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     }
 
     /// <inheritdoc/>
-    public virtual async Task<CommandResult> Chocolatey()
+    public virtual async Task<CommandResult> ChocolateyAsync()
     {
         return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("cmd")
         {
@@ -109,7 +109,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     }
 
     /// <inheritdoc/>
-    public async virtual Task<CommandResult> Powershell7()
+    public virtual async Task<CommandResult> Powershell7Async()
     {
         var operatingSystem = _environmentContext.OperatingSystem;
 
@@ -118,18 +118,18 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
             var arch = _environmentContext.Is64BitOperatingSystem ? "x64" : "x86";
             var url = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/PowerShell-{Versions.PowerShell7}-win-{arch}.msi";
 
-            return await _windowsInstaller.InstallMsi(new MsiInstallerOptions(url)).ConfigureAwait(false);
+            return await _windowsInstaller.InstallMsiAsync(new MsiInstallerOptions(url)).ConfigureAwait(false);
         }
 
         if (operatingSystem == OperatingSystemIdentifier.MacOS)
         {
-            return await _macInstaller.InstallFromBrew(new MacBrewOptions("powershell")).ConfigureAwait(false);
+            return await _macInstaller.InstallFromBrewAsync(new MacBrewOptions("powershell")).ConfigureAwait(false);
         }
 
         var linuxUrl = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/powershell_{Versions.PowerShell7}-1.deb_amd64.deb";
         var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri(linuxUrl))).ConfigureAwait(false);
 
-        return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile)).ConfigureAwait(false);
+        return await _linuxInstaller.InstallFromDpkgAsync(new DpkgInstallOptions(linuxFile)).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -179,7 +179,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     }
 
     /// <inheritdoc/>
-    public virtual async Task<CommandResult> Node(string version = "--lts")
+    public virtual async Task<CommandResult> NodeAsync(string version = "--lts")
     {
         ValidateNodeVersion(version);
 

@@ -13,5 +13,5 @@ public interface IMacInstallerContext
     /// </summary>
     /// <param name="macBrewOptions">The options specifying the package name and installation parameters.</param>
     /// <returns>A <see cref="CommandResult"/> containing the result of the Homebrew installation command.</returns>
-    Task<CommandResult> InstallFromBrew(MacBrewOptions macBrewOptions);
+    Task<CommandResult> InstallFromBrewAsync(MacBrewOptions macBrewOptions);
 }

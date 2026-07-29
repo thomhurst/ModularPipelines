@@ -51,7 +51,7 @@ When you execute CLI commands (e.g., `dotnet build`, `docker run`), ModularPipel
 ### Per-Command Configuration
 
 ```csharp
-await context.DotNet().Build(
+await context.DotNet().BuildAsync(
     new DotNetBuildOptions { Configuration = "Release" },
     new CommandExecutionOptions
     {

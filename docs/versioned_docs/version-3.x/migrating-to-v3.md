@@ -340,7 +340,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 
 ```csharp
 // Tool options only contain tool-specific arguments
-await context.DotNet().Build(
+await context.DotNet().BuildAsync(
     new DotNetBuildOptions
     {
         ProjectSolution = "MySolution.sln",
@@ -398,7 +398,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 
 ```csharp
 // Rich logging configuration via CommandLoggingOptions
-await context.DotNet().Build(
+await context.DotNet().BuildAsync(
     new DotNetBuildOptions { Configuration = "Release" },
     new CommandExecutionOptions
     {
@@ -674,7 +674,7 @@ public class PackageModule : Module<PackageResult>
             // Method moved to context
             await context.SubModule(package, async () =>
             {
-                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+                await context.DotNet().PackAsync(new DotNetPackOptions { Project = package });
             });
         }
 
@@ -753,7 +753,7 @@ await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("mytool"
 ### After (V3)
 
 ```csharp
-await context.Shell.Command.ExecuteCommandLineTool(
+await context.Shell.Command.ExecuteCommandLineToolAsync(
     new CommandLineToolOptions("mytool")
     {
         Arguments = new[] { "arg1", "arg2" }
@@ -790,14 +790,14 @@ await context.Git().Tag(new GitTagOptions
 
 ```csharp
 // Without execution options (most common)
-await context.Git().Tag(new GitTagOptions
+await context.Git().Commands.Branches.TagAsync(new GitTagOptions
 {
     TagName = "v1.0.0",
     Message = "Release v1.0.0"
-}, token: cancellationToken);
+}, cancellationToken: cancellationToken);
 
 // With execution options (when needed)
-await context.Git().Tag(
+await context.Git().Commands.Branches.TagAsync(
     new GitTagOptions
     {
         TagName = "v1.0.0",
@@ -809,14 +809,16 @@ await context.Git().Tag(
 
 ### Note on Parameter Names
 
-When calling without `CommandExecutionOptions`, use named parameter `token:` for the cancellation token to avoid ambiguity:
+When calling without `CommandExecutionOptions`, use named parameter `cancellationToken:` to avoid ambiguity:
 
 ```csharp
 // Correct - named parameter
-await context.Git().Push(options, token: cancellationToken);
+await context.Git().Commands.Remotes.PushAsync(
+    options,
+    cancellationToken: cancellationToken);
 
 // May be ambiguous without named parameter
-await context.Git().Push(options, cancellationToken); // Could fail
+await context.Git().Commands.Remotes.PushAsync(options, cancellationToken); // Could fail
 ```
 
 ## Async Configuration Methods
@@ -881,7 +883,7 @@ public class DeployModule : Module
     protected override async Task ExecuteModuleAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.Shell.Command.ExecuteCommandLineTool(...);
+        await context.Shell.Command.ExecuteCommandLineToolAsync(...);
         // No return statement needed
     }
 }
@@ -1149,7 +1151,7 @@ public class BuildModule : Module<BuildOutput>
     protected override async Task<BuildOutput?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        var result = await context.DotNet().BuildAsync(new DotNetBuildOptions());
         return new BuildOutput(result.StandardOutput);
     }
 }
@@ -1325,13 +1327,13 @@ This section provides structured data optimized for AI assistants helping with c
 
 # Shell/Command Execution (API restructured)
 - old: "context.Command.ExecuteCommandLineTool(...)"
-  new: "context.Shell.Command.ExecuteCommandLineTool(...)"
+  new: "context.Shell.Command.ExecuteCommandLineToolAsync(...)"
 
 - old: "context.Bash.ExecuteCommand(...)"
-  new: "context.Shell.Bash.ExecuteCommand(...)"
+  new: "context.Shell.Bash.CommandAsync(...)"
 
 - old: "context.Powershell.ExecuteCommand(...)"
-  new: "context.Shell.PowerShell.ExecuteCommand(...)"
+  new: "context.Shell.PowerShell.ScriptAsync(...)"
 
 # Tool Options Constructors (removed - use property initializers)
 - old: "new DotNetNewOptions(\"console\")"
@@ -1380,7 +1382,7 @@ This section provides structured data optimized for AI assistants helping with c
 | `CS1061: 'DotNetBuildOptions' does not contain 'LogInput'` | Property moved | Use `CommandExecutionOptions.LogSettings` with `CommandLoggingOptions` |
 | `CS0246: 'CommandLoggingOptions' could not be found` | Missing using | Add `using ModularPipelines.Options;` |
 | `CS1729: 'DotNetNewOptions' does not contain a constructor that takes 1 arguments` | Constructors removed | Use property initializer: `new DotNetNewOptions { TemplateShortName = "template" }` |
-| `CS1061: 'IModuleContext' does not contain 'Command'` | API restructured | Use `context.Shell.Command.ExecuteCommandLineTool()` |
+| `CS1061: 'IModuleContext' does not contain 'Command'` | API restructured | Use `context.Shell.Command.ExecuteCommandLineToolAsync()` |
 | `CS0117: 'SkipDecision' does not contain 'WithSkipWhenAsync'` | No async version | Use `WithSkipWhen()` with async lambda: `.WithSkipWhen(async () => await CheckAsync())` |
 
 ### Regex Patterns for Automated Migration
@@ -1485,7 +1487,7 @@ if (result.IsSuccess)
 
 ```csharp
 // Tool-specific options separate from execution options
-await context.DotNet().Build(
+await context.DotNet().BuildAsync(
     new DotNetBuildOptions
     {
         ProjectSolution = "MySolution.sln",

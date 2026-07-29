@@ -21,7 +21,7 @@ The `sonar-scanner` executable must be installed and available on `PATH` when th
 using ModularPipelines.SonarScanner.Extensions;
 using ModularPipelines.SonarScanner.Options;
 
-var result = await context.SonarScanner().Execute(
+var result = await context.SonarScanner().ExecuteAsync(
     new SonarScannerExecuteOptions
     {
         ProjectKey = "example-project",

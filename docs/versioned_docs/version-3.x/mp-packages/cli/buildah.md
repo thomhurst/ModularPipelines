@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Buildah().Add(
+        return await context.Buildah().AddAsync(
             new BuildahAddOptions(),
             cancellationToken: cancellationToken);
     }

@@ -23,7 +23,7 @@ using ModularPipelines.ArgoCd.Enums;
 using ModularPipelines.ArgoCd.Extensions;
 using ModularPipelines.ArgoCd.Options;
 
-var result = await context.ArgoCd().App.Get(
+var result = await context.ArgoCd().App.GetAsync(
     new ArgoCdAppGetOptions("guestbook")
     {
         AppNamespace = "argocd",
@@ -42,7 +42,7 @@ argocd app get guestbook --app-namespace=argocd --output=json --refresh
 ## Create ApplicationSets
 
 ```csharp
-var result = await context.ArgoCd().ApplicationSet.Create(
+var result = await context.ArgoCd().ApplicationSet.CreateAsync(
     new ArgoCdApplicationSetCreateOptions(["apps.yaml", "more-apps.yaml"])
     {
         DryRun = true,

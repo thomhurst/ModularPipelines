@@ -5,27 +5,27 @@ namespace ModularPipelines.Context.Linux;
 
 public interface IAptGet
 {
-    Task<CommandResult> Autoclean(AptGetAutocleanOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> AutocleanAsync(AptGetAutocleanOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> BuildDep(AptGetBuildDepOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> BuildDepAsync(AptGetBuildDepOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Check(AptGetCheckOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> CheckAsync(AptGetCheckOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Clean(AptGetCleanOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> CleanAsync(AptGetCleanOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> DistUpgrade(AptGetDistUpgradeOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> DistUpgradeAsync(AptGetDistUpgradeOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Install(AptGetInstallOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallAsync(AptGetInstallOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Package(AptGetPackageOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> PackageAsync(AptGetPackageOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Remove(AptGetRemoveOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> RemoveAsync(AptGetRemoveOptions options, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Source(AptGetSourceOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> SourceAsync(AptGetSourceOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Update(AptGetUpdateOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateAsync(AptGetUpdateOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Upgrade(AptGetUpgradeOptions? options = default, CancellationToken cancellationToken = default);
+    Task<CommandResult> UpgradeAsync(AptGetUpgradeOptions? options = default, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Custom(AptGetOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> CustomAsync(AptGetOptions options, CancellationToken cancellationToken = default);
 }

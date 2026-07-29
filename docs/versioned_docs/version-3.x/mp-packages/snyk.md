@@ -22,7 +22,7 @@ using ModularPipelines.Snyk.Enums;
 using ModularPipelines.Snyk.Extensions;
 using ModularPipelines.Snyk.Options;
 
-var result = await context.Snyk().ContainerTest(
+var result = await context.Snyk().ContainerTestAsync(
     new SnykContainerTestOptions("alpine:3.20")
     {
         SeverityThreshold = SnykSeverityThreshold.High,

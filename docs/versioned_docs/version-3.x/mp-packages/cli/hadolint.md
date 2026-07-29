@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Hadolint().Execute(
+        return await context.Hadolint().ExecuteAsync(
             new HadolintExecuteOptions(),
             cancellationToken: cancellationToken);
     }
