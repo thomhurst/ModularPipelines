@@ -33,7 +33,7 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
         if (awaitExpression?.Parent is not ExpressionStatementSyntax expressionStatement
             || expressionStatement.ContainsDirectives
             || IsInsideLoop(expressionStatement)
-            || IsGotoTarget(expressionStatement))
+            || IsInsideBackwardGotoCycle(expressionStatement))
         {
             return;
         }
@@ -56,29 +56,44 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
                 or ForEachVariableStatementSyntax);
     }
 
-    private static bool IsGotoTarget(ExpressionStatementSyntax statement)
+    private static bool IsInsideBackwardGotoCycle(ExpressionStatementSyntax statement)
     {
-        var labeledStatement = statement
-            .AncestorsAndSelf()
+        var callable = GetEnclosingCallable(statement);
+        var scope = callable ?? statement.SyntaxTree.GetRoot();
+        var labels = scope.DescendantNodes()
             .OfType<LabeledStatementSyntax>()
-            .FirstOrDefault();
-        if (labeledStatement is null)
-        {
-            return false;
-        }
+            .Where(label => IsInSameCallable(label, callable))
+            .Where(label => label.SpanStart <= statement.SpanStart)
+            .ToArray();
 
-        var callable = statement.Ancestors().FirstOrDefault(static ancestor =>
+        return scope.DescendantNodes()
+            .OfType<GotoStatementSyntax>()
+            .Where(gotoStatement =>
+                IsInSameCallable(gotoStatement, callable)
+                && gotoStatement.SpanStart > statement.SpanStart)
+            .Any(gotoStatement =>
+                gotoStatement.Expression is IdentifierNameSyntax identifier
+                && labels.Any(label =>
+                    label.Identifier.ValueText == identifier.Identifier.ValueText));
+    }
+
+    private static bool IsInSameCallable(SyntaxNode node, SyntaxNode? callable)
+    {
+        var enclosingCallable = GetEnclosingCallable(node);
+        return enclosingCallable is null
+            ? callable is null
+            : callable is not null
+              && enclosingCallable.RawKind == callable.RawKind
+              && enclosingCallable.Span == callable.Span;
+    }
+
+    private static SyntaxNode? GetEnclosingCallable(SyntaxNode node)
+    {
+        return node.Ancestors().FirstOrDefault(static ancestor =>
             ancestor is BaseMethodDeclarationSyntax
                 or AccessorDeclarationSyntax
                 or LocalFunctionStatementSyntax
                 or AnonymousFunctionExpressionSyntax);
-        var scope = callable ?? statement.SyntaxTree.GetRoot();
-
-        return scope.DescendantNodes()
-            .OfType<GotoStatementSyntax>()
-            .Any(gotoStatement =>
-                gotoStatement.Expression is IdentifierNameSyntax identifier
-                && identifier.Identifier.ValueText == labeledStatement.Identifier.ValueText);
     }
 
     private static async Task<Document> RemoveAwaitAsync(
