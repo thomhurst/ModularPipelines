@@ -422,7 +422,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         if (GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime))
         {
-            return runtime.GetLogger(_serviceProvider);
+            return runtime.GetOutputLogger(_serviceProvider);
         }
 
         var loggerType = typeof(ILogger<>).MakeGenericType(moduleType);

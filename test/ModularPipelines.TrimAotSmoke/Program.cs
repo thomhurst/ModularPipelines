@@ -24,7 +24,6 @@ builder.Services.AddSingleton<IOptions<SmokePipelineOptions>>(
 builder
     .AddModule<CommandModule>()
     .AddModule<VerificationModule>()
-    .AddModule<ClosedGenericModule<int>>()
     .AddModule<IgnoredValueModule>()
     .WithCategory("ignored");
 builder.IgnoreCategories("ignored");
@@ -32,10 +31,10 @@ builder.IgnoreCategories("ignored");
 await using var pipeline = await builder.BuildAsync();
 await pipeline.RunAsync();
 
-if (SmokeState.HookInvocations != 1)
+if (SmokeState.HookInvocations != 2)
 {
     throw new InvalidOperationException(
-        $"Expected one generated hook invocation, got {SmokeState.HookInvocations}.");
+        $"Expected two generated hook invocations, got {SmokeState.HookInvocations}.");
 }
 
 using var failureBuilder = Pipeline.CreateBuilder(args);
@@ -120,6 +119,7 @@ internal sealed class CommandModule : Module<CommandResult>
 }
 
 [DependsOn<CommandModule>]
+[DependsOn<ClosedGenericModule<int>>]
 internal sealed class VerificationModule(
     ISecretObfuscator secretObfuscator) : Module<bool>
 {
@@ -158,6 +158,7 @@ internal sealed class IgnoredValueModule : Module<int>
     }
 }
 
+[SmokeHook]
 internal sealed class ClosedGenericModule<T> : Module<bool>
 {
     protected override Task<bool> ExecuteAsync(

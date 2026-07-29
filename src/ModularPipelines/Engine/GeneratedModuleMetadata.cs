@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Extensions;
@@ -205,6 +206,8 @@ internal interface IGeneratedModuleRuntime
 
     IModuleLogger GetLogger(IServiceProvider serviceProvider);
 
+    ILogger GetOutputLogger(IServiceProvider serviceProvider);
+
     void SetCompletionSource(IModule module, IModuleResult result);
 
     Task<IModuleResult> ExecuteAsync(
@@ -242,6 +245,11 @@ internal sealed class GeneratedModuleRuntime<TModule, TResult> : IGeneratedModul
     public IModuleLogger GetLogger(IServiceProvider serviceProvider)
     {
         return serviceProvider.GetRequiredService<ModuleLogger<TModule>>();
+    }
+
+    public ILogger GetOutputLogger(IServiceProvider serviceProvider)
+    {
+        return serviceProvider.GetRequiredService<ILogger<TModule>>();
     }
 
     public void SetCompletionSource(IModule module, IModuleResult result)

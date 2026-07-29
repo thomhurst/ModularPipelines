@@ -114,6 +114,27 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         return type;
     }
 
+    internal static ImmutableArray<INamedTypeSymbol> GetClosedGenericModuleDependencies(
+        INamedTypeSymbol type,
+        Compilation compilation)
+    {
+        return
+        [
+            .. GetDependencyAttributes(type)
+                .Select(attribute =>
+                    TryGetDependency(attribute, out var dependencyType, out _)
+                        ? dependencyType as INamedTypeSymbol
+                        : null)
+                .OfType<INamedTypeSymbol>()
+                .Where(dependency =>
+                    dependency.IsGenericType
+                    && !dependency.IsUnboundGenericType
+                    && ImplementsModule(dependency, compilation)
+                    && IsTypeReferenceAccessible(dependency, compilation.Assembly))
+                .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default),
+        ];
+    }
+
     private static bool IsCandidate(SyntaxNode node)
     {
         return node is ClassDeclarationSyntax { BaseList.Types.Count: > 0 }

@@ -41,10 +41,22 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             .Select(static (candidate, _) => candidate!)
             .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
 
+        var closedGenericDependencyCandidates = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                static (node, _) => IsTypeCandidate(node),
+                static (generatorContext, _) =>
+                    GetClosedGenericDependencyCandidates(generatorContext))
+            .SelectMany(static (candidates, _) => candidates)
+            .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
+
         var allCandidates = moduleCandidates
             .Collect()
             .Combine(registeredClosedGenericCandidates.Collect())
-            .Select(static (input, _) => input.Left.AddRange(input.Right));
+            .Combine(closedGenericDependencyCandidates.Collect())
+            .Select(static (input, _) =>
+                input.Left.Left
+                    .AddRange(input.Left.Right)
+                    .AddRange(input.Right));
 
         context.RegisterSourceOutput(allCandidates, static (sourceContext, candidates) =>
         {
@@ -120,6 +132,29 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
                 context.SemanticModel.Compilation,
                 context.Node.GetLocation(),
                 allowConstructedGeneric: true);
+    }
+
+    private static ImmutableArray<ModuleEventMetadataCandidate>
+        GetClosedGenericDependencyCandidates(GeneratorSyntaxContext context)
+    {
+        var compilation = context.SemanticModel.Compilation;
+        if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
+            || type.IsAbstract
+            || !InheritsFromModule(type, compilation))
+        {
+            return [];
+        }
+
+        return
+        [
+            .. ModuleMetadataGenerator
+                .GetClosedGenericModuleDependencies(type, compilation)
+                .Select(dependency => CreateModuleCandidate(
+                    dependency,
+                    compilation,
+                    context.Node.GetLocation(),
+                    allowConstructedGeneric: true)),
+        ];
     }
 
     private static ModuleEventMetadataCandidate CreateModuleCandidate(
