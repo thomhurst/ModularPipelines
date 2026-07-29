@@ -11,8 +11,7 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     private readonly object _subModuleIndexLock = new();
     private readonly string _directory;
     private readonly TimeProvider _timeProvider;
-    private IReadOnlyDictionary<string, FileInfo[]>? _subModuleFilesByModule;
-    private long _subModuleIndexExpiresAtTicks;
+    private SubModuleFileIndex? _subModuleFileIndex;
 
     public FileSystemModuleEstimatedTimeProvider()
         : this(
@@ -86,37 +85,33 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
         lock (_subModuleIndexLock)
         {
-            Volatile.Write(ref _subModuleFilesByModule, null);
-            Volatile.Write(ref _subModuleIndexExpiresAtTicks, 0);
+            Volatile.Write(ref _subModuleFileIndex, null);
         }
     }
 
     private IReadOnlyDictionary<string, FileInfo[]> GetSubModuleFilesByModule()
     {
         var now = _timeProvider.GetUtcNow();
-        var filesByModule = Volatile.Read(ref _subModuleFilesByModule);
-        if (filesByModule is not null
-            && now.UtcTicks < Volatile.Read(ref _subModuleIndexExpiresAtTicks))
+        var index = Volatile.Read(ref _subModuleFileIndex);
+        if (index is not null && now.UtcTicks < index.ExpiresAtTicks)
         {
-            return filesByModule;
+            return index.FilesByModule;
         }
 
         lock (_subModuleIndexLock)
         {
             now = _timeProvider.GetUtcNow();
-            filesByModule = _subModuleFilesByModule;
-            if (filesByModule is not null
-                && now.UtcTicks < _subModuleIndexExpiresAtTicks)
+            index = _subModuleFileIndex;
+            if (index is not null && now.UtcTicks < index.ExpiresAtTicks)
             {
-                return filesByModule;
+                return index.FilesByModule;
             }
 
-            filesByModule = BuildSubModuleFileIndex(now);
-            Volatile.Write(
-                ref _subModuleIndexExpiresAtTicks,
+            index = new SubModuleFileIndex(
+                BuildSubModuleFileIndex(now),
                 now.Add(IndexRefreshInterval).UtcTicks);
-            Volatile.Write(ref _subModuleFilesByModule, filesByModule);
-            return filesByModule;
+            Volatile.Write(ref _subModuleFileIndex, index);
+            return index.FilesByModule;
         }
     }
 
@@ -216,4 +211,8 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
         await File.WriteAllTextAsync(path, duration.ToString()).ConfigureAwait(false);
     }
+
+    private sealed record SubModuleFileIndex(
+        IReadOnlyDictionary<string, FileInfo[]> FilesByModule,
+        long ExpiresAtTicks);
 }
