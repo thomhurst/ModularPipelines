@@ -113,17 +113,16 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var graph = BuildGraph(edges);
+        var graph = BuildEffectiveGraph(edges);
+        var components = FindStronglyConnectedComponents(
+            graph,
+            context.CancellationToken);
 
         foreach (var edge in edges)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            if (!CanReach(
-                    edge.DependencyType,
-                    edge.DependentType,
-                    graph,
-                    context.CancellationToken))
+            if (components[edge.DependentType] != components[edge.DependencyType])
             {
                 continue;
             }
@@ -136,59 +135,104 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private static Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> BuildGraph(
+    private static Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>> BuildEffectiveGraph(
         IEnumerable<DependencyEdge> edges)
     {
-        var graph = new Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>>(
+        var directGraph = new Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>>(
             SymbolEqualityComparer.Default);
+        var nodes = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
 
         foreach (var edge in edges)
         {
-            if (!graph.TryGetValue(edge.DependentType, out var dependencies))
+            nodes.Add(edge.DependentType);
+            nodes.Add(edge.DependencyType);
+
+            if (!directGraph.TryGetValue(edge.DependentType, out var dependencies))
             {
                 dependencies = [];
-                graph.Add(edge.DependentType, dependencies);
+                directGraph.Add(edge.DependentType, dependencies);
             }
 
             dependencies.Add(edge.DependencyType);
         }
 
-        return graph;
+        var effectiveGraph = new Dictionary<INamedTypeSymbol, List<INamedTypeSymbol>>(
+            SymbolEqualityComparer.Default);
+
+        foreach (var node in nodes)
+        {
+            effectiveGraph[node] = GetDependencies(node, directGraph)
+                .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
+                .ToList();
+        }
+
+        return effectiveGraph;
     }
 
-    private static bool CanReach(
-        INamedTypeSymbol start,
-        INamedTypeSymbol target,
+    private static Dictionary<INamedTypeSymbol, int> FindStronglyConnectedComponents(
         IReadOnlyDictionary<INamedTypeSymbol, List<INamedTypeSymbol>> graph,
         CancellationToken cancellationToken)
     {
-        var pending = new Stack<INamedTypeSymbol>();
-        var visited = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
-        pending.Push(start);
+        var nextIndex = 0;
+        var nextComponent = 0;
+        var indices = new Dictionary<INamedTypeSymbol, int>(SymbolEqualityComparer.Default);
+        var lowLinks = new Dictionary<INamedTypeSymbol, int>(SymbolEqualityComparer.Default);
+        var stack = new Stack<INamedTypeSymbol>();
+        var onStack = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+        var components = new Dictionary<INamedTypeSymbol, int>(SymbolEqualityComparer.Default);
 
-        while (pending.Count > 0)
+        foreach (var node in graph.Keys)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var current = pending.Pop();
-
-            if (SymbolEqualityComparer.Default.Equals(current, target))
+            if (!indices.ContainsKey(node))
             {
-                return true;
-            }
-
-            if (!visited.Add(current))
-            {
-                continue;
-            }
-
-            foreach (var dependency in GetDependencies(current, graph))
-            {
-                pending.Push(dependency);
+                Visit(node);
             }
         }
 
-        return false;
+        return components;
+
+        void Visit(INamedTypeSymbol node)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            indices[node] = nextIndex;
+            lowLinks[node] = nextIndex;
+            nextIndex++;
+            stack.Push(node);
+            onStack.Add(node);
+
+            foreach (var dependency in graph[node])
+            {
+                if (!indices.ContainsKey(dependency))
+                {
+                    Visit(dependency);
+                    lowLinks[node] = Math.Min(lowLinks[node], lowLinks[dependency]);
+                }
+                else if (onStack.Contains(dependency))
+                {
+                    lowLinks[node] = Math.Min(lowLinks[node], indices[dependency]);
+                }
+            }
+
+            if (lowLinks[node] != indices[node])
+            {
+                return;
+            }
+
+            INamedTypeSymbol componentNode;
+
+            do
+            {
+                componentNode = stack.Pop();
+                onStack.Remove(componentNode);
+                components[componentNode] = nextComponent;
+            }
+            while (!SymbolEqualityComparer.Default.Equals(componentNode, node));
+
+            nextComponent++;
+        }
     }
 
     private static IEnumerable<INamedTypeSymbol> GetDependencies(

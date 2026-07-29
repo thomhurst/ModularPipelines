@@ -82,6 +82,22 @@ public class Module3 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string InheritedInterfaceCycleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+[DependsOn<Module2>]
+public interface IModule1Dependencies
+{{
+}}
+
+public class Module1 : Module<List<string>>, IModule1Dependencies
+{SimpleModuleBody}
+
+[{{|#0:DependsOn<Module1>|}}]
+public class Module2 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     private const string GoodModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -161,6 +177,16 @@ public class Module2 : Module<List<string>>
     public async Task AnalyzerIsNotTriggered_When_Indirect_Dependency_Chain_Is_Acyclic()
     {
         await VerifyCS.VerifyAnalyzerAsync(AcyclicChainSource);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_Cycle_Uses_Inherited_Interface_Dependency()
+    {
+        var expected = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module1", "Module2");
+
+        await VerifyCS.VerifyAnalyzerAsync(InheritedInterfaceCycleSource, expected);
     }
 
     [TestMethod]
