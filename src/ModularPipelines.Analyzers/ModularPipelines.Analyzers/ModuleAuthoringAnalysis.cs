@@ -428,8 +428,14 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         Stack<(IOperation Operation, bool RequireTaskLike)> pending)
     {
-        if (visitedLocals.Add(localReference.Local)
-            && FindReachingLocalValue(localReference, localReference.Local) is { } localValue)
+        if (!visitedLocals.Add(localReference.Local))
+        {
+            return;
+        }
+
+        foreach (var localValue in FindReachingLocalValues(
+                     localReference,
+                     localReference.Local))
         {
             pending.Push((localValue, requireTaskLike));
         }
@@ -652,7 +658,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsServiceDescriptorRegistrationMethod(
         IInvocationOperation invocation)
     {
-        if (invocation.TargetMethod.Name is not ("Add" or "TryAddEnumerable")
+        if (invocation.TargetMethod.Name is not ("Add" or "TryAdd" or "TryAddEnumerable")
             || !InvocationTargetsServiceCollection(invocation))
         {
             return false;
@@ -2079,6 +2085,35 @@ internal static class ModuleAuthoringAnalysis
         return FindReachingLocalValue(operation, local, out _);
     }
 
+    private static IEnumerable<IOperation> FindReachingLocalValues(
+        IOperation operation,
+        ILocalSymbol local)
+    {
+        var root = GetRoot(operation);
+        var callable = GetEnclosingCallable(operation);
+        var assignments = FindLocalAssignments(root, operation, local, callable);
+        var linearAssignment = assignments.FirstOrDefault(candidate =>
+            IsLinearPredecessor(candidate, operation));
+        var lowerBound = linearAssignment?.Syntax.SpanStart ?? int.MinValue;
+
+        foreach (var assignment in assignments.Where(candidate =>
+                     candidate.Syntax.SpanStart >= lowerBound))
+        {
+            yield return assignment.Value;
+        }
+
+        if (linearAssignment is not null)
+        {
+            yield break;
+        }
+
+        var declarator = FindLocalDeclarator(root, operation, local, callable);
+        if (declarator?.Initializer?.Value is { } initialValue)
+        {
+            yield return initialValue;
+        }
+    }
+
     private static IOperation? FindReachingLocalValue(
         IOperation operation,
         ILocalSymbol local,
@@ -2087,14 +2122,7 @@ internal static class ModuleAuthoringAnalysis
         isAmbiguous = false;
         var root = GetRoot(operation);
         var callable = GetEnclosingCallable(operation);
-        var assignments = root.DescendantsAndSelf()
-            .OfType<ISimpleAssignmentOperation>()
-            .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
-            .Where(candidate => candidate.Target is ILocalReferenceOperation localReference
-                && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
-            .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
-            .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
-            .ToArray();
+        var assignments = FindLocalAssignments(root, operation, local, callable);
         var assignment = assignments.FirstOrDefault(candidate =>
             IsLinearPredecessor(candidate, operation));
         if (assignments.Any(candidate =>
@@ -2111,13 +2139,7 @@ internal static class ModuleAuthoringAnalysis
             return assignment.Value;
         }
 
-        var declarator = root.DescendantsAndSelf()
-            .OfType<IVariableDeclaratorOperation>()
-            .Where(declarator => declarator.Syntax.SpanStart < operation.Syntax.SpanStart)
-            .Where(declarator => SymbolEqualityComparer.Default.Equals(declarator.Symbol, local))
-            .Where(declarator => ReferenceEquals(GetEnclosingCallable(declarator), callable))
-            .OrderByDescending(static declarator => declarator.Syntax.SpanStart)
-            .FirstOrDefault();
+        var declarator = FindLocalDeclarator(root, operation, local, callable);
         if (declarator is null)
         {
             return null;
@@ -2130,6 +2152,39 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return declarator.Initializer?.Value;
+    }
+
+    private static ISimpleAssignmentOperation[] FindLocalAssignments(
+        IOperation root,
+        IOperation operation,
+        ILocalSymbol local,
+        IOperation? callable)
+    {
+        return
+        [
+            .. root.DescendantsAndSelf()
+            .OfType<ISimpleAssignmentOperation>()
+            .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
+            .Where(candidate => candidate.Target is ILocalReferenceOperation localReference
+                && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
+            .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
+            .OrderByDescending(static candidate => candidate.Syntax.SpanStart),
+        ];
+    }
+
+    private static IVariableDeclaratorOperation? FindLocalDeclarator(
+        IOperation root,
+        IOperation operation,
+        ILocalSymbol local,
+        IOperation? callable)
+    {
+        return root.DescendantsAndSelf()
+            .OfType<IVariableDeclaratorOperation>()
+            .Where(declarator => declarator.Syntax.SpanStart < operation.Syntax.SpanStart)
+            .Where(declarator => SymbolEqualityComparer.Default.Equals(declarator.Symbol, local))
+            .Where(declarator => ReferenceEquals(GetEnclosingCallable(declarator), callable))
+            .OrderByDescending(static declarator => declarator.Syntax.SpanStart)
+            .FirstOrDefault();
     }
 
     private static bool IsLinearPredecessor(
