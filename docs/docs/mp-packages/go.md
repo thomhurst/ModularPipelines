@@ -35,7 +35,7 @@ public class UseGoModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Go().Vet(
+        return await context.Go().VetAsync(
             new GoVetOptions(),
             cancellationToken: cancellationToken);
     }

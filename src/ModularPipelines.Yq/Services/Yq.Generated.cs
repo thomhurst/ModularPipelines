@@ -32,21 +32,21 @@ internal partial class Yq : IYq
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> EvalAll(
+    public virtual async Task<CommandResult> EvalAllAsync(
         YqEvalAllOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new YqEvalAllOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new YqEvalAllOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Eval(
+    public virtual async Task<CommandResult> EvalAsync(
         YqEvalOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new YqEvalOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new YqEvalOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

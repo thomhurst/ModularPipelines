@@ -415,7 +415,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Execute(
+    Task<CommandResult> ExecuteAsync(
         GcloudComputeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -427,7 +427,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConfigSsh(
+    Task<CommandResult> ConfigSshAsync(
         GcloudComputeConfigSshOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -439,7 +439,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ConnectToSerialPort(
+    Task<CommandResult> ConnectToSerialPortAsync(
         GcloudComputeConnectToSerialPortOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -451,7 +451,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CopyFiles(
+    Task<CommandResult> CopyFilesAsync(
         GcloudComputeCopyFilesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -463,7 +463,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ResetWindowsPassword(
+    Task<CommandResult> ResetWindowsPasswordAsync(
         GcloudComputeResetWindowsPasswordOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -475,7 +475,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Scp(
+    Task<CommandResult> ScpAsync(
         GcloudComputeScpOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -487,7 +487,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SignUrl(
+    Task<CommandResult> SignUrlAsync(
         GcloudComputeSignUrlOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -499,7 +499,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Ssh(
+    Task<CommandResult> SshAsync(
         GcloudComputeSshOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);
@@ -511,7 +511,7 @@ public interface IGcloudCompute
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> StartIapTunnel(
+    Task<CommandResult> StartIapTunnelAsync(
         GcloudComputeStartIapTunnelOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default);

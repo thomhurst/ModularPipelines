@@ -38,7 +38,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewAliasOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -47,7 +47,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewAuditOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewAuditOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -56,7 +56,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewAutoremoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewAutoremoveOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -65,7 +65,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewBottleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBottleOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -74,7 +74,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewBumpCaskPrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBumpCaskPrOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -83,7 +83,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewBumpFormulaPrOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBumpFormulaPrOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -92,7 +92,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewBumpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBumpOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -101,7 +101,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewBumpRevisionOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBumpRevisionOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -110,7 +110,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewBumpUnversionedCasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBumpUnversionedCasksOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -119,7 +119,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewBundleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewBundleOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -128,7 +128,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewCasksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCasksOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -137,7 +137,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewCatOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCatOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -146,7 +146,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewCleanupOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCleanupOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -155,7 +155,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewCommandCommandOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCommandCommandOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -164,7 +164,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewCommandNotFoundInitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCommandNotFoundInitOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -173,7 +173,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewContributionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewContributionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -182,7 +182,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -191,7 +191,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewDebuggerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDebuggerOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -200,7 +200,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewDepsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDepsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -209,7 +209,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewDescOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDescOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -218,7 +218,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewDeveloperOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDeveloperOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -227,7 +227,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewDispatchBuildBottleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDispatchBuildBottleOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -236,7 +236,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewDocsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewDocsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -245,7 +245,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewEditOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewEditOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -254,7 +254,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewExtractOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewExtractOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -263,7 +263,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewFetchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewFetchOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -272,7 +272,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewFormulaAnalyticsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewFormulaAnalyticsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -281,7 +281,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewFormulaeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewFormulaeOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -290,7 +290,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewFormulaFormulaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewFormulaFormulaOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -299,7 +299,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewGenerateAnalyticsApiOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGenerateAnalyticsApiOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -308,7 +308,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewGenerateCaskApiOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGenerateCaskApiOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -317,7 +317,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewGenerateFormulaApiOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGenerateFormulaApiOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -326,7 +326,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewGenerateManCompletionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGenerateManCompletionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -335,7 +335,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewGistLogsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewGistLogsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -344,7 +344,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewInstallBundlerGemsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewInstallBundlerGemsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -353,7 +353,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewInstallFormulaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewInstallFormulaOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -362,7 +362,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewInstallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewInstallOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -371,7 +371,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewIrbOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewIrbOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -380,7 +380,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewLeavesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewLeavesOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -389,7 +389,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewLgtmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewLgtmOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -398,7 +398,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewLinkageOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewLinkageOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -407,7 +407,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewListOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -416,7 +416,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewLogOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewLogOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -425,7 +425,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewMcpServerOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewMcpServerOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -434,7 +434,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewMigrateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewMigrateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -443,7 +443,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewMissingOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewMissingOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -452,7 +452,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewNodenvSyncOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewNodenvSyncOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -461,7 +461,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewOptionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewOptionsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -470,7 +470,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewOutdatedOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewOutdatedOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -479,7 +479,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewPinInstalled_formulaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPinInstalled_formulaOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -488,7 +488,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewPrAutomergeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPrAutomergeOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -497,7 +497,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewProfOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewProfOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -506,7 +506,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewPrPublishOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPrPublishOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -515,7 +515,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewPrPullOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPrPullOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -524,7 +524,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewPrUploadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPrUploadOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -533,7 +533,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewPyenvSyncOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewPyenvSyncOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -542,7 +542,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewRbenvSyncOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewRbenvSyncOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -551,7 +551,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewReadallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewReadallOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -560,7 +560,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewReinstallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewReinstallOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -569,7 +569,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewReleaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewReleaseOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -578,7 +578,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewRubocopOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewRubocopOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -587,7 +587,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewRubydocOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewRubydocOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -596,7 +596,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewRubyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewRubyOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -605,7 +605,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewSearchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewSearchOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -614,7 +614,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewServicesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewServicesOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -623,7 +623,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewSetupRubyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewSetupRubyOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -632,7 +632,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewShOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewShOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -641,7 +641,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewSourceOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -650,7 +650,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewStyleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewStyleOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -659,7 +659,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewTabOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTabOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -668,7 +668,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewTapInfoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTapInfoOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -677,7 +677,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewTapNewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTapNewOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -686,7 +686,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewTapOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTapOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -695,7 +695,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewTestBotOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTestBotOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -704,7 +704,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -713,7 +713,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewTestsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewTestsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -722,7 +722,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUnaliasAliasOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnaliasAliasOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -731,7 +731,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUnbottledOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnbottledOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -740,7 +740,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUninstallFormulaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUninstallFormulaOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -749,7 +749,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUnlinkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnlinkOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -758,7 +758,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUnpackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnpackOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -767,7 +767,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUnpinInstalled_formulaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUnpinInstalled_formulaOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -776,7 +776,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUntapOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUntapOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -785,7 +785,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpdateIfNeededOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateIfNeededOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -794,7 +794,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpdateLicenseDataOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateLicenseDataOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -803,7 +803,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpdateMaintainersOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateMaintainersOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -812,7 +812,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpdatePerlResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdatePerlResourcesOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -821,7 +821,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpdatePythonResourcesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdatePythonResourcesOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -830,7 +830,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpdateResetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateResetOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -839,7 +839,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpdateSponsorsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateSponsorsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -848,7 +848,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpdateTestOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpdateTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -857,7 +857,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUpgradeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUpgradeOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -866,7 +866,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewUsesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewUsesOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -875,7 +875,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewVendorGemsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewVendorGemsOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -884,7 +884,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewVerifyOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewVerifyOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -893,7 +893,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewWhichFormulaOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewWhichFormulaOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -902,7 +902,7 @@ internal partial class Brew : IBrew
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new BrewWhichUpdateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new BrewWhichUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

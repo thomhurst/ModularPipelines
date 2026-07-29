@@ -5,7 +5,7 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 
 /// <summary>
 /// Generates the service implementation class that implements the I{Tool} interface.
-/// Follows the existing ModularPipelines pattern of delegating to ICommandContext.ExecuteCommandLineTool().
+/// Follows the existing ModularPipelines pattern of delegating to ICommandContext.ExecuteCommandLineToolAsync().
 /// </summary>
 public class ServiceImplementationGenerator : ICodeGenerator
 {

@@ -35,7 +35,7 @@ public class UseHelmModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Helm().Env(
+        return await context.Helm().EnvAsync(
             new HelmEnvOptions(),
             cancellationToken: cancellationToken);
     }

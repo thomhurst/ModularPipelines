@@ -15,11 +15,11 @@ internal class Powershell : IPowerShellContext
 
     public virtual Task<CommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default)
     {
-        return _command.ExecuteCommandLineTool(options, null, cancellationToken);
+        return _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 
     public virtual Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
     {
-        return _command.ExecuteCommandLineTool(options, null, cancellationToken);
+        return _command.ExecuteCommandLineToolAsync(options, null, cancellationToken);
     }
 }

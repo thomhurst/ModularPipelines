@@ -46,7 +46,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            await context.DotNet().Build(
+            await context.DotNet().BuildAsync(
                 new DotNetBuildOptions
                 {
                     ProjectSolution = "MySolution.sln",
@@ -65,7 +65,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.DotNet().Test(
+            return await context.DotNet().TestAsync(
                 new DotNetTestOptions
                 {
                     Project = "MySolution.sln",
@@ -94,7 +94,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.DotNet().Publish(
+            return await context.DotNet().PublishAsync(
                 new DotNetPublishOptions
                 {
                     ProjectSolution = "src/MyApp/MyApp.csproj",
@@ -109,7 +109,7 @@ public static class CurrentApiSnippets
     {
         public override async Task<RequirementDecision> MustAsync(IPipelineContext context)
         {
-            var result = await context.Shell.Command.ExecuteCommandLineTool(
+            var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("dotnet") { Arguments = ["--version"] })
                 .ConfigureAwait(false);
 

@@ -35,7 +35,7 @@ public class UseDockerModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Docker().Info(
+        return await context.Docker().InfoAsync(
             new DockerInfoOptions(),
             cancellationToken: cancellationToken);
     }

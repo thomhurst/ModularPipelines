@@ -178,7 +178,7 @@ public class GeneratorHardeningTests
         await Assert.That(subDomainClass.Content)
             .Contains("public class ToolApplicationSet : IToolApplicationSet");
         await Assert.That(subDomainInterface.Content)
-            .Contains("Task<CommandResult> Execute(ToolApplicationSetOptions? options = null");
+            .Contains("Task<CommandResult> ExecuteAsync(ToolApplicationSetOptions? options = null");
         await Assert.That(interfaceFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
         await Assert.That(interfaceFiles.Single().Content).DoesNotContain("Appset(");
         await Assert.That(implementationFiles.Single().Content).Contains("IToolApplicationSet ApplicationSet { get; }");
@@ -231,7 +231,7 @@ public class GeneratorHardeningTests
             Path.GetFileName(file.RelativePath) == "ToolVexRepo.Generated.cs");
 
         await Assert.That(repoService.Content).Contains("ToolVexRepoOptions? options = null");
-        await Assert.That(repoService.Content).Contains("public virtual async Task<CommandResult> Execute(");
+        await Assert.That(repoService.Content).Contains("public virtual async Task<CommandResult> ExecuteAsync(");
     }
 
     [Test]
@@ -253,9 +253,9 @@ public class GeneratorHardeningTests
 
         await Assert.That(groupService.Content).Contains("ToolGroupOptions? options = null");
         await Assert.That(groupService.Content)
-            .Contains("public virtual async Task<CommandResult> Execute(");
+            .Contains("public virtual async Task<CommandResult> ExecuteAsync(");
         await Assert.That(groupService.Content)
-            .Contains("public virtual async Task<CommandResult> Child(");
+            .Contains("public virtual async Task<CommandResult> ChildAsync(");
         await Assert.That(interfaceFiles.Single().Content).Contains("IToolGroup Group { get; }");
         await Assert.That(optionFiles.Single(file =>
                 file.RelativePath.EndsWith("ToolGroupOptions.Generated.cs")).Content)
@@ -295,9 +295,9 @@ public class GeneratorHardeningTests
         await Assert.That(clusterInfoService.Content)
             .Contains("KubernetesClusterInfoOptions? options = null");
         await Assert.That(clusterInfoService.Content)
-            .Contains("public virtual async Task<CommandResult> Execute(");
+            .Contains("public virtual async Task<CommandResult> ExecuteAsync(");
         await Assert.That(clusterInfoService.Content)
-            .Contains("public virtual async Task<CommandResult> Dump(");
+            .Contains("public virtual async Task<CommandResult> DumpAsync(");
         await Assert.That(interfaceFiles.Single().Content)
             .Contains("IKubernetesClusterInfo ClusterInfo { get; }");
         await Assert.That(implementationFiles.Single().Content)
@@ -618,7 +618,7 @@ public class GeneratorHardeningTests
             .Contains($"[Obsolete({GeneratorUtils.FormatStringLiteral(obsoleteMessage)})]");
         await Assert.That(generated).Contains("Task<CommandResult> Create_or_update(");
         await Assert.That(generated).Contains(
-            "return await CreateOrUpdate(options, executionOptions, cancellationToken);");
+            "return await CreateOrUpdateAsync(options, executionOptions, cancellationToken);");
     }
 
     [Test]

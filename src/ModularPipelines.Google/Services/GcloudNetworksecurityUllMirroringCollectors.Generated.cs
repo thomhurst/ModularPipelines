@@ -38,12 +38,12 @@ public class GcloudNetworksecurityUllMirroringCollectors
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Rules(
+    public virtual async Task<CommandResult> RulesAsync(
         GcloudNetworkSecurityUllMirroringCollectorsRulesOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityUllMirroringCollectorsRulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudNetworkSecurityUllMirroringCollectorsRulesOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

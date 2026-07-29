@@ -35,7 +35,7 @@ public class UseGitModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Git().Status(
+        return await context.Git().Commands.WorkingTree.StatusAsync(
             new GitStatusOptions
             {
                 Short = true,

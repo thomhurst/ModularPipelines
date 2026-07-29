@@ -32,12 +32,12 @@ internal partial class Shellcheck : IShellcheck
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Execute(
+    public virtual async Task<CommandResult> ExecuteAsync(
         ShellcheckExecuteOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new ShellcheckExecuteOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new ShellcheckExecuteOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

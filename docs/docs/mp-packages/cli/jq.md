@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Jq().Execute(
+        return await context.Jq().ExecuteAsync(
             new JqExecuteOptions(),
             cancellationToken: cancellationToken);
     }

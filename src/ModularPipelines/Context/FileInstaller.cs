@@ -24,7 +24,7 @@ public class FileInstaller : IFileInstaller
     {
         if (OperatingSystem.IsWindows())
         {
-            return await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions(options.Path)
+            return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(options.Path)
             {
                 Arguments = options.Arguments ?? Array.Empty<string>(),
             }, null, cancellationToken).ConfigureAwait(false);

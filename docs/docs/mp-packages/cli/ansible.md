@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Ansible().Execute(
+        return await context.Ansible().ExecuteAsync(
             new AnsibleExecuteOptions("value"),
             cancellationToken: cancellationToken);
     }

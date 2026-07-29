@@ -86,7 +86,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Chocolatey()
     {
-        return await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("cmd")
+        return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("cmd")
         {
             Arguments =
             [
@@ -185,7 +185,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
         if (OperatingSystem.IsWindows())
         {
             // Windows: CliWrap handles argument escaping automatically via WithArguments()
-            return await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+            return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
             {
                 Arguments = ["install", version],
             }).ConfigureAwait(false);

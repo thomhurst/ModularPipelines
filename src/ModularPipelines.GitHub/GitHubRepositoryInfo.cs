@@ -61,7 +61,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
                 : CommandLoggingOptions.Silent,
             };
 
-            var remote = await git.Commands.Remote(options, executionOptions);
+            var remote = await git.Commands.Remotes.RemoteAsync(options, executionOptions);
             var remoteUrl = remote.StandardOutput;
 
             if (string.IsNullOrEmpty(remoteUrl))

@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kubernetes().Config.View(
+        return await context.Kubernetes().Config.ViewAsync(
             new KubernetesConfigViewOptions(),
             cancellationToken: cancellationToken);
     }

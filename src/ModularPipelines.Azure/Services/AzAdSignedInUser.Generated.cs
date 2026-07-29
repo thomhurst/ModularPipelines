@@ -38,12 +38,12 @@ public class AzAdSignedInUser
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListOwnedObjects(
+    public virtual async Task<CommandResult> ListOwnedObjectsAsync(
         AzAdSignedInUserListOwnedObjectsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdSignedInUserListOwnedObjectsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzAdSignedInUserListOwnedObjectsOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

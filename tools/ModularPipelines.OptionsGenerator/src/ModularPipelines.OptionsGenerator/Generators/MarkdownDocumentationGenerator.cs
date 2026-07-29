@@ -281,10 +281,10 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 }
 
                 var subDomain = GeneratorUtils.GetCommandGroupIdentifier(subDomainParent);
-                return $"context.{tool.NamespacePrefix}().{subDomain}.Execute";
+                return $"context.{tool.NamespacePrefix}().{subDomain}.ExecuteAsync";
             }
 
-            return $"context.{tool.NamespacePrefix}().{rootMethod}";
+            return $"context.{tool.NamespacePrefix}().{GeneratorUtils.EnsureAsyncSuffix(rootMethod)}";
         }
 
         var navigationSegments = new List<string>
@@ -304,11 +304,11 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 && IsCommandPrefix(command, candidate)))
         {
             navigationSegments.Add(GeneratorUtils.ToPascalCase(command.CommandParts[^1]));
-            return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.Execute";
+            return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.ExecuteAsync";
         }
 
         var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
-        return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.{methodName}";
+        return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.{GeneratorUtils.EnsureAsyncSuffix(methodName)}";
     }
 
     private static bool IsCommandPrefix(

@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pnpm().Audit(
+        return await context.Pnpm().AuditAsync(
             new PnpmAuditOptions
             {
                 AuditLevel = "high",

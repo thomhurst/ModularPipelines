@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Vault().Delete(
+        return await context.Vault().DeleteAsync(
             new VaultDeleteOptions(),
             cancellationToken: cancellationToken);
     }

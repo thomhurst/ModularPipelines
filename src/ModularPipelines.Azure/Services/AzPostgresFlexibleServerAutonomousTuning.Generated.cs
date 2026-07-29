@@ -38,12 +38,12 @@ public class AzPostgresFlexibleServerAutonomousTuning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListIndexRecommendations(
+    public virtual async Task<CommandResult> ListIndexRecommendationsAsync(
         AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerAutonomousTuningListIndexRecommendationsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -53,12 +53,12 @@ public class AzPostgresFlexibleServerAutonomousTuning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTableRecommendations(
+    public virtual async Task<CommandResult> ListTableRecommendationsAsync(
         AzPostgresFlexibleServerAutonomousTuningListTableRecommendationsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerAutonomousTuningListTableRecommendationsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerAutonomousTuningListTableRecommendationsOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -68,12 +68,12 @@ public class AzPostgresFlexibleServerAutonomousTuning
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> SetSettings(
+    public virtual async Task<CommandResult> SetSettingsAsync(
         AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AzPostgresFlexibleServerAutonomousTuningSetSettingsOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

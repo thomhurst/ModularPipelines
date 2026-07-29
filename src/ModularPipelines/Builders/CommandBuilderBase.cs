@@ -140,7 +140,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     /// <inheritdoc />
     public virtual async Task<CommandResult> ExecuteAsync(CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(_toolOptions, _executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(_toolOptions, _executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

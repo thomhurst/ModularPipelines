@@ -32,21 +32,21 @@ public class DotNetNuGetAdd
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ClientCert(
+    public virtual async Task<CommandResult> ClientCertAsync(
         DotNetNuGetAddClientCertOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNuGetAddClientCertOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetAddClientCertOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Source(
+    public virtual async Task<CommandResult> SourceAsync(
         DotNetNuGetAddSourceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNuGetAddSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetAddSourceOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

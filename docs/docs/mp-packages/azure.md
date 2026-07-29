@@ -36,7 +36,7 @@ public class UseAzureModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Az().Account.List(
+        return await context.Az().Account.ListAsync(
             new AzAccountListOptions(),
             cancellationToken: cancellationToken);
     }

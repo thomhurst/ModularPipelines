@@ -580,6 +580,7 @@ public static partial class GeneratorUtils
     {
         ArgumentNullException.ThrowIfNull(sb);
         ArgumentNullException.ThrowIfNull(command);
+        methodName = EnsureAsyncSuffix(methodName);
 
         if (!string.IsNullOrEmpty(command.Description))
         {
@@ -619,6 +620,7 @@ public static partial class GeneratorUtils
     {
         ArgumentNullException.ThrowIfNull(sb);
         ArgumentNullException.ThrowIfNull(command);
+        methodName = EnsureAsyncSuffix(methodName);
 
         var hasRequiredParams = HasRequiredParameters(command);
 
@@ -644,11 +646,11 @@ public static partial class GeneratorUtils
 
         if (hasRequiredParams)
         {
-            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);");
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);");
         }
         else
         {
-            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineToolAsync(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
         }
 
         sb.AppendLine($"{indent}}}");
@@ -663,6 +665,20 @@ public static partial class GeneratorUtils
                 command,
                 indent);
         }
+    }
+
+    /// <summary>
+    /// Adds the standard asynchronous method suffix when it is not already present.
+    /// </summary>
+    /// <param name="methodName">The generated method name.</param>
+    /// <returns>The method name ending in <c>Async</c>.</returns>
+    public static string EnsureAsyncSuffix(string methodName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(methodName);
+
+        return methodName.EndsWith("Async", StringComparison.Ordinal)
+            ? methodName
+            : $"{methodName}Async";
     }
 
     internal static IEnumerable<CliCompatibilityMethod> GetCompatibilityMethods(
@@ -813,7 +829,7 @@ public static partial class GeneratorUtils
     /// collide with a sub-domain property name. Shared by ServiceInterfaceGenerator and
     /// ServiceImplementationGenerator so the interface and implementation can never disagree
     /// about which methods exist. Colliding single-part commands are not lost: the
-    /// SubDomainClassGenerator surfaces them as Execute() on the sub-domain class.
+    /// SubDomainClassGenerator surfaces them as ExecuteAsync() on the sub-domain class.
     /// </summary>
     public static IReadOnlyList<CliCommandDefinition> GetNonCollidingRootCommands(CliToolDefinition tool)
     {

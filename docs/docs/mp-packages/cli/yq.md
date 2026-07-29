@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Yq().EvalAll(
+        return await context.Yq().EvalAllAsync(
             new YqEvalAllOptions(),
             cancellationToken: cancellationToken);
     }

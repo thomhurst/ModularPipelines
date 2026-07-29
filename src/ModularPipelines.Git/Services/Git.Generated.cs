@@ -30,390 +30,390 @@ internal class Git : IGit
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Am(
+    public virtual async Task<CommandResult> AmAsync(
         GitAmOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitAmOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitAmOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Archimport(
+    public virtual async Task<CommandResult> ArchimportAsync(
         GitArchimportOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitArchimportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitArchimportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Attributes(
+    public virtual async Task<CommandResult> AttributesAsync(
         GitAttributesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Branch(
+    public virtual async Task<CommandResult> BranchAsync(
         GitBranchOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitBranchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitBranchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> CheckoutIndex(
+    public virtual async Task<CommandResult> CheckoutIndexAsync(
         GitCheckoutIndexOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCheckoutIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitCheckoutIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Cli(
+    public virtual async Task<CommandResult> CliAsync(
         GitCliOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCliOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitCliOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Commit(
+    public virtual async Task<CommandResult> CommitAsync(
         GitCommitOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCommitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitCommitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> CommitTree(
+    public virtual async Task<CommandResult> CommitTreeAsync(
         GitCommitTreeOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCommitTreeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitCommitTreeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Cvsexportcommit(
+    public virtual async Task<CommandResult> CvsexportcommitAsync(
         GitCvsexportcommitOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCvsexportcommitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitCvsexportcommitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Cvsimport(
+    public virtual async Task<CommandResult> CvsimportAsync(
         GitCvsimportOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCvsimportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitCvsimportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Cvsserver(
+    public virtual async Task<CommandResult> CvsserverAsync(
         GitCvsserverOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCvsserverOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitCvsserverOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> DiffFiles(
+    public virtual async Task<CommandResult> DiffFilesAsync(
         GitDiffFilesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitDiffFilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitDiffFilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> DiffIndex(
+    public virtual async Task<CommandResult> DiffIndexAsync(
         GitDiffIndexOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitDiffIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitDiffIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Diff(
+    public virtual async Task<CommandResult> DiffAsync(
         GitDiffOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitDiffOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitDiffOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> DiffTree(
+    public virtual async Task<CommandResult> DiffTreeAsync(
         GitDiffTreeOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitDiffTreeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitDiffTreeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FastImport(
+    public virtual async Task<CommandResult> FastImportAsync(
         GitFastImportOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFastImportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFastImportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FetchPack(
+    public virtual async Task<CommandResult> FetchPackAsync(
         GitFetchPackOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFetchPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFetchPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FilterBranch(
+    public virtual async Task<CommandResult> FilterBranchAsync(
         GitFilterBranchOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFilterBranchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFilterBranchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormatBundle(
+    public virtual async Task<CommandResult> FormatBundleAsync(
         GitFormatBundleOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatBundleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFormatBundleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormatChunk(
+    public virtual async Task<CommandResult> FormatChunkAsync(
         GitFormatChunkOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatChunkOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFormatChunkOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormatCommitGraph(
+    public virtual async Task<CommandResult> FormatCommitGraphAsync(
         GitFormatCommitGraphOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatCommitGraphOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFormatCommitGraphOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormatIndex(
+    public virtual async Task<CommandResult> FormatIndexAsync(
         GitFormatIndexOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFormatIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormatPack(
+    public virtual async Task<CommandResult> FormatPackAsync(
         GitFormatPackOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFormatPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormatSignature(
+    public virtual async Task<CommandResult> FormatSignatureAsync(
         GitFormatSignatureOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatSignatureOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitFormatSignatureOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Gc(
+    public virtual async Task<CommandResult> GcAsync(
         GitGcOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitGcOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitGcOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Hooks(
+    public virtual async Task<CommandResult> HooksAsync(
         GitHooksOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitHooksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitHooksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Ignore(
+    public virtual async Task<CommandResult> IgnoreAsync(
         GitIgnoreOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitIgnoreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitIgnoreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> LsFiles(
+    public virtual async Task<CommandResult> LsFilesAsync(
         GitLsFilesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitLsFilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitLsFilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Mailmap(
+    public virtual async Task<CommandResult> MailmapAsync(
         GitMailmapOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitMailmapOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitMailmapOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Merge(
+    public virtual async Task<CommandResult> MergeAsync(
         GitMergeOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitMergeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitMergeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Modules(
+    public virtual async Task<CommandResult> ModulesAsync(
         GitModulesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitModulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitModulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> P4(
+    public virtual async Task<CommandResult> P4Async(
         GitP4Options? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitP4Options(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitP4Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ProtocolCapabilities(
+    public virtual async Task<CommandResult> ProtocolCapabilitiesAsync(
         GitProtocolCapabilitiesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolCapabilitiesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitProtocolCapabilitiesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ProtocolCommon(
+    public virtual async Task<CommandResult> ProtocolCommonAsync(
         GitProtocolCommonOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolCommonOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitProtocolCommonOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ProtocolHttp(
+    public virtual async Task<CommandResult> ProtocolHttpAsync(
         GitProtocolHttpOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolHttpOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitProtocolHttpOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ProtocolPack(
+    public virtual async Task<CommandResult> ProtocolPackAsync(
         GitProtocolPackOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitProtocolPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ProtocolV2(
+    public virtual async Task<CommandResult> ProtocolV2Async(
         GitProtocolV2Options? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitProtocolV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Rebase(
+    public virtual async Task<CommandResult> RebaseAsync(
         GitRebaseOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitRebaseOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitRebaseOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> RepositoryLayout(
+    public virtual async Task<CommandResult> RepositoryLayoutAsync(
         GitRepositoryLayoutOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitRepositoryLayoutOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitRepositoryLayoutOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Revisions(
+    public virtual async Task<CommandResult> RevisionsAsync(
         GitRevisionsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitRevisionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitRevisionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Scalar(
+    public virtual async Task<CommandResult> ScalarAsync(
         GitScalarOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitScalarOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitScalarOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> ShI18n(
+    public virtual async Task<CommandResult> ShI18nAsync(
         GitShI18nOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitShI18nOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitShI18nOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Status(
+    public virtual async Task<CommandResult> StatusAsync(
         GitStatusOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GitStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

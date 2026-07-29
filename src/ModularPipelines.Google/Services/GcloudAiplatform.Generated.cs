@@ -72,12 +72,12 @@ public class GcloudAiplatform : IGcloudAiplatform
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Predict(
+    public virtual async Task<CommandResult> PredictAsync(
         GcloudAiPlatformPredictOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformPredictOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudAiPlatformPredictOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

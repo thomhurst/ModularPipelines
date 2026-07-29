@@ -32,12 +32,12 @@ public class DotNetNuGetEnable
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Source(
+    public virtual async Task<CommandResult> SourceAsync(
         DotNetNuGetEnableSourceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNuGetEnableSourceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DotNetNuGetEnableSourceOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

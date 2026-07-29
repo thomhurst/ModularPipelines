@@ -38,12 +38,12 @@ public class GcloudComputeAdvice
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CalendarMode(
+    public virtual async Task<CommandResult> CalendarModeAsync(
         GcloudComputeAdviceCalendarModeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeAdviceCalendarModeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GcloudComputeAdviceCalendarModeOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

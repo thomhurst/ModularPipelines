@@ -41,7 +41,7 @@ public abstract class GitCommandService
         CancellationToken cancellationToken = default)
         where TOptions : CommandLineToolOptions
     {
-        return await Command.ExecuteCommandLineTool(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await Command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -58,6 +58,6 @@ public abstract class GitCommandService
         CancellationToken cancellationToken = default)
         where TOptions : CommandLineToolOptions, new()
     {
-        return await Command.ExecuteCommandLineTool(options ?? new TOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+        return await Command.ExecuteCommandLineToolAsync(options ?? new TOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 }

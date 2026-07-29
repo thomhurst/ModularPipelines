@@ -1771,9 +1771,9 @@ public class ExternalToolDefinitionTests
             };
             var nested = command with
             {
-                FullCommand = "private-widget config execute run",
-                CommandParts = ["config", "execute", "run"],
-                ClassName = "PrivateWidgetConfigExecuteRunOptions",
+                FullCommand = "private-widget config execute-async run",
+                CommandParts = ["config", "execute-async", "run"],
+                ClassName = "PrivateWidgetConfigExecuteAsyncRunOptions",
                 SubDomainGroup = "Config",
             };
             tool = tool with { Commands = [parent, nested] };

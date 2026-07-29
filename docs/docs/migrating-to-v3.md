@@ -324,7 +324,7 @@ Execution-related properties have been separated from tool-specific options into
 
 ```csharp
 // Execution options were mixed with tool options
-await context.DotNet().Build(new DotNetBuildOptions
+await context.DotNet().BuildAsync(new DotNetBuildOptions
 {
     Project = "MySolution.sln",
     Configuration = Configuration.Release,
@@ -341,7 +341,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 
 ```csharp
 // Tool options only contain tool-specific arguments
-await context.DotNet().Build(
+await context.DotNet().BuildAsync(
     new DotNetBuildOptions
     {
         ProjectSolution = "MySolution.sln",
@@ -387,7 +387,7 @@ V3 introduces a new `CommandLoggingOptions` system that replaces the previous lo
 
 ```csharp
 // Logging settings were on tool options with limited control
-await context.DotNet().Build(new DotNetBuildOptions
+await context.DotNet().BuildAsync(new DotNetBuildOptions
 {
     LogInput = true,
     LogOutput = false,
@@ -399,7 +399,7 @@ await context.DotNet().Build(new DotNetBuildOptions
 
 ```csharp
 // Rich logging configuration via CommandLoggingOptions
-await context.DotNet().Build(
+await context.DotNet().BuildAsync(
     new DotNetBuildOptions { Configuration = "Release" },
     new CommandExecutionOptions
     {
@@ -650,7 +650,7 @@ public class PackageModule : Module<PackageResult>
             // Protected method on module class
             await SubModule(package, async () =>
             {
-                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+                await context.DotNet().PackAsync(new DotNetPackOptions { Project = package });
             });
         }
 
@@ -674,7 +674,7 @@ public class PackageModule : Module<PackageResult>
             // Method moved to context
             await context.SubModule(package, async () =>
             {
-                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+                await context.DotNet().PackAsync(new DotNetPackOptions { Project = package });
             });
         }
 
@@ -744,7 +744,7 @@ The command execution API has moved from `context.Command` to `context.Shell.Com
 ### Before (V2)
 
 ```csharp
-await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("mytool")
+await context.Command.ExecuteCommandLineToolAsync(new CommandLineToolOptions("mytool")
 {
     Arguments = new[] { "arg1", "arg2" }
 });
@@ -753,7 +753,7 @@ await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("mytool"
 ### After (V3)
 
 ```csharp
-await context.Shell.Command.ExecuteCommandLineTool(
+await context.Shell.Command.ExecuteCommandLineToolAsync(
     new CommandLineToolOptions("mytool")
     {
         Arguments = new[] { "arg1", "arg2" }
@@ -885,7 +885,7 @@ public class DeployModule : Module<None>
     protected override async Task<None> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.Shell.Command.ExecuteCommandLineTool(...);
+        await context.Shell.Command.ExecuteCommandLineToolAsync(...);
         return None.Value;
     }
 }
@@ -1087,7 +1087,7 @@ public class BuildModule : Module<BuildOutput>
     protected override async Task<BuildOutput?> ExecuteAsync(
         IPipelineContext context, CancellationToken cancellationToken)
     {
-        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        var result = await context.DotNet().BuildAsync(new DotNetBuildOptions());
         return new BuildOutput(result.StandardOutput);
     }
 }
@@ -1143,7 +1143,7 @@ public class BuildModule : Module<BuildOutput>
     protected override async Task<BuildOutput?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        var result = await context.DotNet().BuildAsync(new DotNetBuildOptions());
         return new BuildOutput(result.StandardOutput);
     }
 }
@@ -1318,8 +1318,8 @@ This section provides structured data optimized for AI assistants helping with c
   note: "Pre-configured logging options"
 
 # Shell/Command Execution (API restructured)
-- old: "context.Command.ExecuteCommandLineTool(...)"
-  new: "context.Shell.Command.ExecuteCommandLineTool(...)"
+- old: "context.Command.ExecuteCommandLineToolAsync(...)"
+  new: "context.Shell.Command.ExecuteCommandLineToolAsync(...)"
 
 - old: "context.Bash.ExecuteCommand(...)"
   new: "context.Shell.Bash.ExecuteCommand(...)"
@@ -1374,7 +1374,7 @@ This section provides structured data optimized for AI assistants helping with c
 | `CS1061: 'DotNetBuildOptions' does not contain 'LogInput'` | Property moved | Use `CommandExecutionOptions.LogSettings` with `CommandLoggingOptions` |
 | `CS0246: 'CommandLoggingOptions' could not be found` | Missing using | Add `using ModularPipelines.Options;` |
 | `CS1729: 'DotNetNewOptions' does not contain a constructor that takes 1 arguments` | Constructors removed | Use property initializer: `new DotNetNewOptions { TemplateShortName = "template" }` |
-| `CS1061: 'IModuleContext' does not contain 'Command'` | API restructured | Use `context.Shell.Command.ExecuteCommandLineTool()` |
+| `CS1061: 'IModuleContext' does not contain 'Command'` | API restructured | Use `context.Shell.Command.ExecuteCommandLineToolAsync()` |
 | `CS0117: 'SkipDecision' does not contain 'WithSkipWhenAsync'` | No async version | Use `WithSkipWhen()` with async lambda: `.WithSkipWhen(async () => await CheckAsync())` |
 
 ### Regex Patterns for Automated Migration
@@ -1478,7 +1478,7 @@ if (result is ModuleResult<BuildOutput>.Success)
 
 ```csharp
 // Tool-specific options separate from execution options
-await context.DotNet().Build(
+await context.DotNet().BuildAsync(
     new DotNetBuildOptions
     {
         ProjectSolution = "MySolution.sln",

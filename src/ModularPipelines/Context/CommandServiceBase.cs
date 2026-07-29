@@ -45,6 +45,6 @@ public abstract class CommandServiceBase
         CancellationToken cancellationToken = default)
         where TOptions : CommandLineToolOptions
     {
-        return await Command.ExecuteCommandLineTool(options, executionOptions, cancellationToken).ConfigureAwait(false);
+        return await Command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 }

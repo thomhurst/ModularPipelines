@@ -49,7 +49,7 @@ public class BuildModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return context.Shell.Command.ExecuteCommandLineTool(
+        return context.Shell.Command.ExecuteCommandLineToolAsync(
             new DotNetBuildOptions(),
             cancellationToken: cancellationToken);
     }

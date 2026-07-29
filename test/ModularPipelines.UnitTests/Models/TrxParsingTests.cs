@@ -64,7 +64,7 @@ public class TrxParsingTests : TestBase
 
             const string trxFileName = "test-results.trx";
 
-            await context.DotNet().Test(
+            await context.DotNet().TestAsync(
                 new DotNetTestOptions
                 {
                     Framework = "net10.0",

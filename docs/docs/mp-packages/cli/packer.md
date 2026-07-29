@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Packer().Console(
+        return await context.Packer().ConsoleAsync(
             new PackerConsoleOptions(),
             cancellationToken: cancellationToken);
     }

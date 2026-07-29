@@ -42,7 +42,7 @@ public class CommandTests : TestBase
     public async Task Command_Execution_Caps_Captured_Output_With_Head_And_Tail()
     {
         var command = await GetService<ICommandContext>();
-        var result = await command.ExecuteCommandLineTool(
+        var result = await command.ExecuteCommandLineToolAsync(
             new PowershellScriptOptions("Write-Output '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'"),
             new CommandExecutionOptions { MaxCapturedOutputLength = 10 });
 
@@ -60,7 +60,7 @@ public class CommandTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Shell.Command.ExecuteCommandLineTool(
+            return await context.Shell.Command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-Command", "echo 'Foo bar!'"],
@@ -110,7 +110,7 @@ public class CommandTests : TestBase
         pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
 
         var exception = await Assert.ThrowsAsync<CommandException>(() =>
-            command.ExecuteCommandLineTool(
+            command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("pwsh")
                 {
                     Arguments =
@@ -140,7 +140,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_Resolves_Windows_Command_Scripts_From_Path()
+    public async Task ExecuteCommandLineToolAsync_Resolves_Windows_Command_Scripts_From_Path()
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -156,7 +156,7 @@ public class CommandTests : TestBase
             await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %~1\r\n");
             var command = await GetService<ICommandContext>();
 
-            var result = await command.ExecuteCommandLineTool(
+            var result = await command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("mp-runtime-test")
                 {
                     Arguments = ["hello world"],
@@ -183,7 +183,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_Preserves_Windows_Command_Script_Metacharacters()
+    public async Task ExecuteCommandLineToolAsync_Preserves_Windows_Command_Script_Metacharacters()
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -202,7 +202,7 @@ public class CommandTests : TestBase
                 "@echo off\r\nsetlocal DisableDelayedExpansion\r\nset \"arg=%~1\"\r\nsetlocal EnableDelayedExpansion\r\necho(!arg!\r\n");
             var command = await GetService<ICommandContext>();
 
-            var result = await command.ExecuteCommandLineTool(
+            var result = await command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions(scriptPath)
                 {
                     Arguments = [argument],
@@ -219,7 +219,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_Resolves_Extensionless_Relative_Windows_Command_Script()
+    public async Task ExecuteCommandLineToolAsync_Resolves_Extensionless_Relative_Windows_Command_Script()
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -246,7 +246,7 @@ public class CommandTests : TestBase
                 pathExtensions: ".COM;.EXE;.BAT;.CMD",
                 isWindows: true);
 
-            var result = await command.ExecuteCommandLineTool(
+            var result = await command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions(relativeToolPath),
                 new CommandExecutionOptions
                 {
@@ -270,7 +270,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_Resolves_Relative_Path_Entries_Before_Changing_Working_Directory()
+    public async Task ExecuteCommandLineToolAsync_Resolves_Relative_Path_Entries_Before_Changing_Working_Directory()
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -289,7 +289,7 @@ public class CommandTests : TestBase
             await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %CD%\r\n");
             var command = await GetService<ICommandContext>();
 
-            var result = await command.ExecuteCommandLineTool(
+            var result = await command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("mp-runtime-path-test"),
                 new CommandExecutionOptions
                 {
@@ -313,7 +313,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_ForcefulCancellation_KillsDescendantProcesses()
+    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantProcesses()
     {
         var pidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-child-{Guid.NewGuid():N}.pid");
         Process? childProcess = null;
@@ -328,7 +328,7 @@ public class CommandTests : TestBase
                 $"Set-Content -LiteralPath '{EscapePowerShellLiteral(pidFile)}' -Value $child.Id",
                 "Wait-Process -Id $child.Id");
 
-            var executionTask = command.ExecuteCommandLineTool(
+            var executionTask = command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", script],
@@ -363,7 +363,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_ForcefulCancellation_KillsDescendantAfterParentExits()
+    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantAfterParentExits()
     {
         var fileSuffix = Guid.NewGuid().ToString("N");
         var pidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-child-{fileSuffix}.pid");
@@ -380,7 +380,7 @@ public class CommandTests : TestBase
                 $"Set-Content -LiteralPath '{EscapePowerShellLiteral(pidFile)}' -Value $child.Id",
                 $"while (-not (Test-Path -LiteralPath '{EscapePowerShellLiteral(parentExitFile)}')) {{ Start-Sleep -Milliseconds 10 }}");
 
-            var executionTask = command.ExecuteCommandLineTool(
+            var executionTask = command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", script],
@@ -417,7 +417,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_GracefulExit_DoesNotWaitForForcefulTimeout()
+    public async Task ExecuteCommandLineToolAsync_GracefulExit_DoesNotWaitForForcefulTimeout()
     {
         var parentExitFile = Path.Combine(
             Path.GetTempPath(),
@@ -431,7 +431,7 @@ public class CommandTests : TestBase
                 $"while (-not (Test-Path -LiteralPath '{EscapePowerShellLiteral(parentExitFile)}')) " +
                 "{ Start-Sleep -Milliseconds 10 }";
 
-            var executionTask = command.ExecuteCommandLineTool(
+            var executionTask = command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", script],
@@ -457,7 +457,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    public async Task ExecuteCommandLineTool_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace()
+    public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace()
     {
         var fileSuffix = Guid.NewGuid().ToString("N");
         var triggerFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-trigger-{fileSuffix}");
@@ -486,7 +486,7 @@ public class CommandTests : TestBase
                 $"Set-Content -LiteralPath '{EscapePowerShellLiteral(intermediatePidFile)}' -Value $intermediate.Id",
                 "Wait-Process -Id $intermediate.Id");
 
-            var executionTask = command.ExecuteCommandLineTool(
+            var executionTask = command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-NoProfile", "-Command", parentScript],

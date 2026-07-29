@@ -192,7 +192,7 @@ public class CommandParserTests : TestBase
             InternalDryRun = true,
         };
 
-        return await command.ExecuteCommandLineTool(options, executionOptions);
+        return await command.ExecuteCommandLineToolAsync(options, executionOptions);
     }
 
     [CliTool("mysupersecrettool")]

@@ -36,7 +36,7 @@ public class UseDotNetModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().Workload.List(
+        return await context.DotNet().Workload.ListAsync(
             new DotNetWorkloadListOptions(),
             cancellationToken: cancellationToken);
     }

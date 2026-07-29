@@ -20,7 +20,7 @@ internal class LinuxInstaller : ILinuxInstallerContext
 
     public virtual async Task<CommandResult> InstallFromDpkg(DpkgInstallOptions options)
     {
-        var linuxInstallationResult = await _command.ExecuteCommandLineTool(options).ConfigureAwait(false);
+        var linuxInstallationResult = await _command.ExecuteCommandLineToolAsync(options).ConfigureAwait(false);
 
         await _aptGet.Install(new AptGetInstallOptions
         {

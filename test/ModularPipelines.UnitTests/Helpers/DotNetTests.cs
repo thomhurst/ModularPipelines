@@ -21,7 +21,7 @@ public class DotNetTests : TestBase
 
             // Use main solution explicitly - FindFile returns first match alphabetically
             // which could be ModularPipelines.Analyzers.sln causing flaky failures
-            return await context.DotNet().Package.List(new DotNetPackageListOptions
+            return await context.DotNet().Package.ListAsync(new DotNetPackageListOptions
             {
                 Project = repositoryInfo.Root.FindFile(x => x.Name == "ModularPipelines.sln").AssertExists(),
             }, cancellationToken: cancellationToken);
@@ -35,7 +35,7 @@ public class DotNetTests : TestBase
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
 
-            return await context.DotNet().Format(new DotNetFormatOptions
+            return await context.DotNet().FormatAsync(new DotNetFormatOptions
             {
                 ProjectSolution = repositoryInfo.Root.FindFile(x => x.Name.Contains("TestsForTests")).AssertExists(),
             }, cancellationToken: cancellationToken);
