@@ -486,7 +486,8 @@ public class ModuleOutputBufferTests
             TimeSpan.FromMilliseconds(50),
             "structured secret",
             new RedactingSecretObfuscator(),
-            logException);
+            logException,
+            LogLevel.Warning);
         buffer.WriteLine("direct output");
         var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -521,7 +522,7 @@ public class ModuleOutputBufferTests
 
         var output = writer.ToString();
         await Assert.That(output).Contains("Timed out waiting for the console logger lock");
-        await Assert.That(output).Contains("structured ***");
+        await Assert.That(output).Contains("[WARN] structured ***");
         await Assert.That(output).DoesNotContain("structured secret");
         await Assert.That(output).Contains(nameof(InvalidOperationException));
         await Assert.That(output).Contains("structured failure");
@@ -536,13 +537,14 @@ public class ModuleOutputBufferTests
         TimeSpan? synchronizationLockTimeout = null,
         string message = "structured log",
         ISecretObfuscator? secretObfuscator = null,
-        Exception? exception = null)
+        Exception? exception = null,
+        LogLevel logLevel = LogLevel.Information)
     {
         var buffer = new ModuleOutputBuffer(
             typeof(ModuleOutputBufferTests),
             synchronizationLockTimeout: synchronizationLockTimeout);
         buffer.AddLogEvent(new BufferedLogEvent<string>(
-            LogLevel.Information,
+            logLevel,
             default,
             message,
             message,

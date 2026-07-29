@@ -394,7 +394,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 if (writeStructuredLogsDirectly)
                 {
                     WriteToFallbackLoggers(logEvent, fallbackLoggers, console);
-                    WriteDirect(directConsole, console, logEvent.FormatMessage());
+                    WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
                     if (logEvent.FormatException() is { } formattedException)
                     {
                         console.WriteLine(formattedException);
@@ -583,7 +583,7 @@ internal interface IBufferedLogEvent
 {
     void WriteTo(ILogger logger);
 
-    string FormatMessage();
+    string FormatMessageWithLevel();
 
     string? FormatException();
 }
@@ -610,7 +610,7 @@ internal sealed class BufferedLogEvent<TState>(
             Format);
     }
 
-    public string FormatMessage() => Format(obfuscatedState, exception);
+    public string FormatMessageWithLevel() => $"[{FormatLevel(level)}] {Format(obfuscatedState, exception)}";
 
     public string? FormatException()
         => exception is null
@@ -622,4 +622,16 @@ internal sealed class BufferedLogEvent<TState>(
         var formatted = formatter(originalState, logException);
         return secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
     }
+
+    private static string FormatLevel(LogLevel logLevel) =>
+        logLevel switch
+        {
+            LogLevel.Trace => "TRCE",
+            LogLevel.Debug => "DBUG",
+            LogLevel.Information => "INFO",
+            LogLevel.Warning => "WARN",
+            LogLevel.Error => "ERRO",
+            LogLevel.Critical => "CRIT",
+            _ => "NONE",
+        };
 }
