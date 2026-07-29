@@ -100,6 +100,10 @@ public class ModuleMetadataGeneratorTests
             await Assert.That(generated)
                 .Contains("new(typeof(global::Consumer.DependencyModule), false)");
             await Assert.That(generated).Contains("dependenciesComplete: false");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0014"
+                                        && diagnostic.GetMessage()
+                                            .Contains("Consumer.BuildModule"));
         }
     }
 

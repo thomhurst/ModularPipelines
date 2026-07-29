@@ -29,6 +29,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     private static readonly DiagnosticDescriptor GenericModuleRegistrationRuntimeMetadata =
         GeneratorDiagnostics.GenericModuleRegistrationRuntimeMetadata;
 
+    private static readonly DiagnosticDescriptor PartialModuleRuntimeMetadata =
+        GeneratorDiagnostics.PartialModuleRuntimeMetadata;
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var modules = context.SyntaxProvider
@@ -71,6 +74,17 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                                 : SkippedModuleRuntimeMetadata,
                             skipped.Location,
                             skipped.TypeName));
+                    }
+
+                    foreach (var partial in input.Right
+                                 .Where(static module => module.IsPartial)
+                                 .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
+                                 .Select(static group => group.First()))
+                    {
+                        sourceContext.ReportDiagnostic(Diagnostic.Create(
+                            PartialModuleRuntimeMetadata,
+                            partial.Location,
+                            partial.TypeName));
                     }
 
                     sourceContext.AddSource(
@@ -211,6 +225,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     invocation.GetLocation(),
                     [],
                     false,
+                    false,
                     true),
             ];
         }
@@ -253,6 +268,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     GetDependencyLocation(type, dependency),
                     [],
                     false,
+                    false,
                     true));
             }
         }
@@ -283,7 +299,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     {
         var currentAssembly = compilation.Assembly;
         var dependencies = ImmutableArray.CreateBuilder<DependencyMetadataInfo>();
-        var dependenciesComplete = !HasPartialDeclaration(type);
+        var isPartial = HasPartialDeclaration(type);
+        var dependenciesComplete = !isPartial;
 
         foreach (var attribute in GetDependencyAttributes(type))
         {
@@ -311,6 +328,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
                 .ThenBy(static dependency => dependency.Optional)],
             dependenciesComplete,
+            isPartial,
             false);
     }
 
@@ -603,6 +621,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         Location? Location,
         ImmutableArray<DependencyMetadataInfo> Dependencies,
         bool DependenciesComplete,
+        bool IsPartial,
         bool IsExternalRegistration);
 
     private sealed record DependencyMetadataInfo(

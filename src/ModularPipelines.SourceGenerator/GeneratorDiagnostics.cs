@@ -101,6 +101,14 @@ internal static class GeneratorDiagnostics
         + "Native AOT",
         DiagnosticSeverity.Warning);
 
+    public static DiagnosticDescriptor PartialModuleRuntimeMetadata { get; } = Create(
+        "MPG0014",
+        "Partial module dependency metadata is incomplete",
+        "Runtime dependency metadata for partial module '{0}' is incomplete because another "
+        + "source generator can contribute partial declarations; avoid partial module "
+        + "declarations before publishing with Native AOT",
+        DiagnosticSeverity.Warning);
+
     private static DiagnosticDescriptor Create(
         string id,
         string title,

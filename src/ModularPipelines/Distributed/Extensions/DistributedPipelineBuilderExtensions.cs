@@ -14,6 +14,10 @@ public static class DistributedPipelineBuilderExtensions
     /// the pipeline switches to master/worker mode. Otherwise, execution remains in-process.
     /// </summary>
     /// <returns>The pipeline builder.</returns>
+    [RequiresUnreferencedCode(
+        "Distributed type-erased result serialization is unsupported in trimmed applications.")]
+    [RequiresDynamicCode(
+        "Distributed type-erased result serialization is unsupported in Native AOT.")]
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Action<DistributedOptions> configure)
     {
         builder.Services.Configure<DistributedOptions>(o =>

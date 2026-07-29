@@ -116,6 +116,15 @@ before publishing with Native AOT.
 
 **Severity:** Warning
 
+## MPG0014
+
+A module has one or more partial declarations. Another source generator can add a
+partial declaration that this generator cannot observe, so dependency metadata
+remains incomplete and runtime reflection is used as a fallback. Avoid partial
+module declarations before publishing with Native AOT.
+
+**Severity:** Warning
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 
