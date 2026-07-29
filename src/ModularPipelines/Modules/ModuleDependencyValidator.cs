@@ -109,37 +109,19 @@ public static class ModuleDependencyValidator
     /// <exception cref="DependencyCollisionException">Thrown when circular dependencies are detected.</exception>
     internal static void ValidateCircularDependencies(IReadOnlyDictionary<Type, HashSet<Type>> dependencyGraph)
     {
-        // Detect cycles using DFS with coloring
-        // White (0) = not visited, Gray (1) = in current path, Black (2) = fully processed
-        var colors = new Dictionary<Type, int>();
-        var parent = new Dictionary<Type, Type?>();
-
-        foreach (var moduleType in dependencyGraph.Keys)
+        var cycle = DependencyCycleDetector.FindCycle(dependencyGraph);
+        if (cycle is not null)
         {
-            colors[moduleType] = 0;
-            parent[moduleType] = null;
-        }
+            var formattedArray = cycle.Select(t => t.Name).ToArray();
 
-        foreach (var moduleType in dependencyGraph.Keys)
-        {
-            if (colors[moduleType] == 0)
-            {
-                var cycleStart = DetectCycle(moduleType, dependencyGraph, colors, parent);
-                if (cycleStart != null)
-                {
-                    var cycle = BuildCyclePath(cycleStart, parent);
-                    var formattedArray = cycle.Select(t => t.Name).ToArray();
+            // Format with bold markers on first and last to match existing behavior
+            formattedArray[0] = $"**{formattedArray[0]}**";
+            formattedArray[^1] = $"**{formattedArray[^1]}**";
 
-                    // Format with bold markers on first and last to match existing behavior
-                    formattedArray[0] = $"**{formattedArray[0]}**";
-                    formattedArray[^1] = $"**{formattedArray[^1]}**";
+            var cycleDescription = string.Join(" -> ", formattedArray);
 
-                    var cycleDescription = string.Join(" -> ", formattedArray);
-
-                    throw new DependencyCollisionException(
-                        $"Dependency collision detected: {cycleDescription}");
-                }
-            }
+            throw new DependencyCollisionException(
+                $"Dependency collision detected: {cycleDescription}");
         }
     }
 
@@ -225,75 +207,5 @@ public static class ModuleDependencyValidator
         }
 
         ValidateCircularDependencies(dependencyGraph);
-    }
-
-    /// <summary>
-    /// Performs iterative DFS to detect cycles, returning the start of a cycle if found.
-    /// </summary>
-    private static Type? DetectCycle(
-        Type start,
-        IReadOnlyDictionary<Type, HashSet<Type>> graph,
-        Dictionary<Type, int> colors,
-        Dictionary<Type, Type?> parent)
-    {
-        var stack = new Stack<(Type Module, HashSet<Type>.Enumerator Dependencies)>();
-        colors[start] = 1; // Gray - currently being processed
-        stack.Push((start, graph[start].GetEnumerator()));
-
-        while (stack.Count > 0)
-        {
-            var (module, dependencies) = stack.Pop();
-
-            if (!dependencies.MoveNext())
-            {
-                colors[module] = 2; // Black - fully processed
-                continue;
-            }
-
-            var dependency = dependencies.Current;
-            stack.Push((module, dependencies));
-
-            // Dependencies not yet registered cannot participate in a cycle.
-            if (!colors.TryGetValue(dependency, out var color))
-            {
-                continue;
-            }
-
-            if (color == 1)
-            {
-                // Found a cycle - dependency is currently being processed
-                parent[dependency] = module;
-                return dependency;
-            }
-
-            if (color == 0)
-            {
-                parent[dependency] = module;
-                colors[dependency] = 1;
-                stack.Push((dependency, graph[dependency].GetEnumerator()));
-            }
-        }
-
-        return null;
-    }
-
-    /// <summary>
-    /// Builds the path of a detected cycle for error reporting.
-    /// </summary>
-    private static List<Type> BuildCyclePath(Type cycleStart, Dictionary<Type, Type?> parent)
-    {
-        var path = new List<Type> { cycleStart };
-        var current = parent[cycleStart];
-
-        while (current != null && current != cycleStart)
-        {
-            path.Add(current);
-            current = parent[current];
-        }
-
-        path.Add(cycleStart); // Complete the cycle
-        path.Reverse();
-
-        return path;
     }
 }
