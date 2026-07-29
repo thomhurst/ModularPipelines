@@ -78,6 +78,11 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         assignmentStatement = null;
         loggerReplacements = ImmutableArray<LoggerReplacement>.Empty;
 
+        if (containingType.Modifiers.Any(SyntaxKind.PartialKeyword))
+        {
+            return false;
+        }
+
         var parameterReferences = GetReferences(containingType, parameter, semanticModel, cancellationToken);
         if (parameterReferences.Length == 0)
         {
@@ -201,7 +206,8 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         var remainingStatements = constructor.Body?.Statements.Count - (assignmentStatement is null ? 0 : 1);
         var removeConstructor = constructor.ParameterList.Parameters.Count == 1
                                 && remainingStatements == 0
-                                && constructor.Initializer is null;
+                                && constructor.Initializer is null
+                                && constructor.Modifiers.Any(SyntaxKind.PublicKeyword);
 
         foreach (var replacement in loggerReplacements)
         {

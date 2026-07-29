@@ -33,6 +33,27 @@ public class Module1 : Module<List<string>>
     private static readonly string BadModuleSource5 = CreateBadModuleSource(@"Console.Out.WriteLineAsync(""Done!"")", isAsync: true);
     private static readonly string BadModuleSource6 = CreateBadModuleSource(@"Console.Out.Dispose()");
 
+    private const string StaticLocalFunctionSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        static void WriteMessage()
+        {{
+            Console.WriteLine(""Done!"");
+        }}
+
+        await Task.Delay(1, cancellationToken);
+        WriteMessage();
+        return new List<string>();
+    }}
+}}
+";
+
     private static string CreateFixedModuleSource(string loggerCall) => $@"
 {TestSourceConstants.StandardUsings}
 using Microsoft.Extensions.Logging;
@@ -116,5 +137,13 @@ public class Module1 : Module<List<string>>
         var fixedSource = CreateFixedModuleSource(@"context.Logger.LogInformation(""Done!"")");
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource5, expected, fixedSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_In_Static_Local_Function()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            StaticLocalFunctionSource,
+            ConsoleUseAnalyzer.DiagnosticId);
     }
 }

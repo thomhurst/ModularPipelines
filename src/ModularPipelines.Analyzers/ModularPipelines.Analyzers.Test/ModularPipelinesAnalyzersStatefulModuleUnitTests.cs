@@ -206,6 +206,64 @@ public class NotAModule
 }
 ";
 
+    private const string ModuleWithConstructorNestedWrite = @"
+#nullable enable
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<string>
+{
+    private string _state = string.Empty;
+
+    public Module1()
+    {
+        void SetState()
+        {
+            _state = ""updated"";
+        }
+    }
+
+    protected override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult<string?>(_state);
+    }
+}
+";
+
+    private const string PartialModuleWithWrite = @"
+#nullable enable
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public partial class Module1 : Module<string>
+{
+    private string _state = string.Empty;
+
+    protected override Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult<string?>(_state);
+    }
+}
+
+public partial class Module1
+{
+    public void SetState()
+    {
+        _state = ""updated"";
+    }
+}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableField()
     {
@@ -293,5 +351,21 @@ public class NotAModule
             BadModuleWithMutableCollection,
             expected,
             FixedModuleWithReadonlyCollection);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Constructor_Nested_Write()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithConstructorNestedWrite,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Partial_Type()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            PartialModuleWithWrite,
+            StatefulModuleAnalyzer.DiagnosticId);
     }
 }

@@ -85,11 +85,27 @@ public sealed class ConsoleUseCodeFixProvider : CodeFixProvider
         var method = invocation.FirstAncestorOrSelf<MethodDeclarationSyntax>();
 
         return moduleContextType is null
+               || method is null
+               || invocation.Ancestors()
+                   .TakeWhile(node => node != method)
+                   .Any(IsStaticCallable)
             ? null
-            : method?.ParameterList.Parameters.FirstOrDefault(parameter =>
+            : method.ParameterList.Parameters.FirstOrDefault(parameter =>
                 SymbolEqualityComparer.Default.Equals(
                     semanticModel.GetTypeInfo(parameter.Type!, cancellationToken).Type,
                     moduleContextType));
+    }
+
+    private static bool IsStaticCallable(SyntaxNode node)
+    {
+        return node switch
+        {
+            LocalFunctionStatementSyntax localFunction =>
+                localFunction.Modifiers.Any(SyntaxKind.StaticKeyword),
+            AnonymousFunctionExpressionSyntax anonymousFunction =>
+                anonymousFunction.Modifiers.Any(SyntaxKind.StaticKeyword),
+            _ => false,
+        };
     }
 
     private static async Task<Document> ReplaceWithLoggerAsync(

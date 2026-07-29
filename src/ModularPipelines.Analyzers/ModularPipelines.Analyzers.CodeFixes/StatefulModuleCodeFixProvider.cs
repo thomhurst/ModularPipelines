@@ -35,6 +35,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
             || variable.Parent?.Parent is not FieldDeclarationSyntax fieldDeclaration
             || fieldDeclaration.Declaration.Variables.Count != 1
             || variable.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
+            || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
             || semanticModel?.GetDeclaredSymbol(variable, context.CancellationToken) is not IFieldSymbol field
             || IsWrittenOutsideConstructor(
                 containingType,
@@ -69,7 +70,21 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                 field))
             .Any(identifier =>
                 IsWrite(identifier, field, semanticModel, cancellationToken)
-                && identifier.FirstAncestorOrSelf<ConstructorDeclarationSyntax>() is null);
+                && !IsDirectlyWithinConstructor(identifier, containingType));
+    }
+
+    private static bool IsDirectlyWithinConstructor(
+        IdentifierNameSyntax identifier,
+        TypeDeclarationSyntax containingType)
+    {
+        var containingCallable = identifier.Ancestors().FirstOrDefault(node =>
+            node is BaseMethodDeclarationSyntax
+                or LocalFunctionStatementSyntax
+                or AnonymousFunctionExpressionSyntax
+                or AccessorDeclarationSyntax);
+
+        return containingCallable is ConstructorDeclarationSyntax constructor
+               && constructor.Parent == containingType;
     }
 
     private static bool IsWrite(

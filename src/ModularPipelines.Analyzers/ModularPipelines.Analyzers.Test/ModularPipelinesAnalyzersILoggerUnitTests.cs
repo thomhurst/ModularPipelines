@@ -78,6 +78,64 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string BadPrivateConstructorSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private Module1({{|#0:ILogger<Module1> logger|}})
+    {{
+    }}
+
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        return new List<string>();
+    }}
+}}
+";
+
+    private const string FixedPrivateConstructorSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private Module1()
+    {{
+    }}
+
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        return new List<string>();
+    }}
+}}
+";
+
+    private const string PartialModuleSourceUsedLogger = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public partial class Module1 : Module<List<string>>
+{{
+    private readonly ILogger<Module1> _logger;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+}}
+
+public partial class Module1
+{{
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        _logger.LogInformation(""Running"");
+        return new List<string>();
+    }}
+}}
+";
+
     private const string GoodModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -167,5 +225,24 @@ public class Module1 : Module<List<string>>
         var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSourceUsedLogger, expected, FixedModuleSourceUsedLogger);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Private_Constructor_Accessibility()
+    {
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            BadPrivateConstructorSource,
+            expected,
+            FixedPrivateConstructorSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Partial_Type()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            PartialModuleSourceUsedLogger,
+            LoggerInConstructorAnalyzer.DiagnosticId);
     }
 }
