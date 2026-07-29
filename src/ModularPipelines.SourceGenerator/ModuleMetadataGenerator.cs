@@ -202,16 +202,45 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             }
 
             metadata.Add(CreateModuleMetadata(type, compilation));
-            foreach (var dependency in GetClosedGenericModuleDependencies(type, compilation)
-                         .Where(dependency => SymbolEqualityComparer.Default.Equals(
-                             dependency.ContainingAssembly,
-                             compilation.Assembly)))
+            foreach (var dependency in GetClosedGenericModuleDependencies(type, compilation))
             {
-                pending.Push(dependency);
+                if (SymbolEqualityComparer.Default.Equals(
+                        dependency.ContainingAssembly,
+                        compilation.Assembly))
+                {
+                    pending.Push(dependency);
+                    continue;
+                }
+
+                metadata.Add(new ModuleMetadataInfo(
+                    dependency.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                    GetModuleResultTypeName(dependency),
+                    false,
+                    GetDependencyLocation(type, dependency),
+                    [],
+                    false,
+                    true));
             }
         }
 
         return metadata.ToImmutable();
+    }
+
+    private static Location? GetDependencyLocation(
+        INamedTypeSymbol type,
+        INamedTypeSymbol dependency)
+    {
+        foreach (var attribute in GetDependencyAttributes(type))
+        {
+            if (TryGetDependency(attribute, out var candidate, out _)
+                && SymbolEqualityComparer.Default.Equals(candidate, dependency))
+            {
+                return attribute.ApplicationSyntaxReference?.GetSyntax().GetLocation()
+                       ?? type.Locations.FirstOrDefault(static location => location.IsInSource);
+            }
+        }
+
+        return type.Locations.FirstOrDefault(static location => location.IsInSource);
     }
 
     private static ModuleMetadataInfo CreateModuleMetadata(

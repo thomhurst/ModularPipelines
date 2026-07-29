@@ -89,7 +89,7 @@ internal static class GeneratorDiagnostics
         "MPG0012",
         "External closed generic module lacks runtime metadata",
         "Runtime metadata for externally declared closed generic module '{0}' cannot be generated "
-        + "from this AddModule call; use a consumer-owned non-generic wrapper before publishing "
+        + "from this consumer usage; use a consumer-owned non-generic wrapper before publishing "
         + "with Native AOT",
         DiagnosticSeverity.Warning);
 

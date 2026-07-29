@@ -326,6 +326,32 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task External_Closed_Generic_Dependency_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new ModuleMetadataGenerator(),
+            TestInfrastructure,
+            """
+            namespace ExternalModules
+            {
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+            }
+            """,
+            """
+            namespace Consumer
+            {
+                [ModularPipelines.Attributes.DependsOn<ExternalModules.GenericModule<string>>]
+                public sealed class BuildModule : ModularPipelines.Modules.Module<bool>;
+            }
+            """);
+
+        await Assert.That(result.Diagnostics)
+            .Contains(diagnostic => diagnostic.Id == "MPG0012"
+                                    && diagnostic.GetMessage()
+                                        .Contains("ExternalModules.GenericModule<string>"));
+    }
+
+    [Test]
     public async Task Direct_IModule_Implementation_Is_Registered()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
