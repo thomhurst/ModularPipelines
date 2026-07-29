@@ -568,30 +568,61 @@ internal static class ModuleAuthoringAnalysis
     {
         var method = invocation.TargetMethod;
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
-        if (definition.Name is not ("AddSingleton" or "AddScoped" or "AddTransient")
-            || definition.ContainingType.ToDisplayString() is not (
-                "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
-                or "ModularPipelines.Extensions.PipelineBuilderExtensions"))
+        if (!IsDirectServiceRegistrationMethod(definition)
+            || !RegistersModuleService(invocation, method))
         {
             return false;
         }
 
-        var registersModuleService =
-            method.TypeArguments.FirstOrDefault()?.ToDisplayString()
-            == "ModularPipelines.Modules.IModule"
-            || invocation.Arguments.Any(argument =>
-                argument.Parameter?.Name == "serviceType"
-                && TryGetTypeOfNamedType(
-                    argument.Value,
-                    [with(SymbolEqualityComparer.Default)],
-                    out var serviceType)
-                && serviceType.ToDisplayString()
-                == "ModularPipelines.Modules.IModule");
-        if (!registersModuleService)
+        if (!TryTrackDirectImplementationType(
+                invocation,
+                method,
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations))
         {
-            return false;
+            TrackDirectImplementationValue(
+                invocation,
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations);
         }
 
+        return true;
+    }
+
+    private static bool IsDirectServiceRegistrationMethod(IMethodSymbol definition)
+    {
+        return definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
+               && definition.ContainingType.ToDisplayString() is
+                   "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
+                   or "ModularPipelines.Extensions.PipelineBuilderExtensions";
+    }
+
+    private static bool RegistersModuleService(
+        IInvocationOperation invocation,
+        IMethodSymbol method)
+    {
+        if (method.TypeArguments.FirstOrDefault()?.ToDisplayString()
+            == "ModularPipelines.Modules.IModule")
+        {
+            return true;
+        }
+
+        return invocation.Arguments.Any(argument =>
+            argument.Parameter?.Name == "serviceType"
+            && TryGetTypeOfNamedType(
+                argument.Value,
+                [with(SymbolEqualityComparer.Default)],
+                out var serviceType)
+            && serviceType.ToDisplayString()
+            == "ModularPipelines.Modules.IModule");
+    }
+
+    private static bool TryTrackDirectImplementationType(
+        IInvocationOperation invocation,
+        IMethodSymbol method,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
+    {
         if (method.TypeArguments.ElementAtOrDefault(1) is INamedTypeSymbol implementationType)
         {
             instanceRegisteredModules.Add(implementationType.OriginalDefinition);
@@ -600,23 +631,31 @@ internal static class ModuleAuthoringAnalysis
 
         var implementationTypeArgument = invocation.Arguments.FirstOrDefault(
             static argument => argument.Parameter?.Name == "implementationType");
-        if (implementationTypeArgument is not null)
+        if (implementationTypeArgument is null)
         {
-            if (TryGetTypeOfNamedType(
-                    implementationTypeArgument.Value,
-                    [with(SymbolEqualityComparer.Default)],
-                    out implementationType))
-            {
-                instanceRegisteredModules.Add(implementationType.OriginalDefinition);
-            }
-            else
-            {
-                unresolvedModuleRegistrations.Add(0);
-            }
-
-            return true;
+            return false;
         }
 
+        if (TryGetTypeOfNamedType(
+                implementationTypeArgument.Value,
+                [with(SymbolEqualityComparer.Default)],
+                out implementationType))
+        {
+            instanceRegisteredModules.Add(implementationType.OriginalDefinition);
+        }
+        else
+        {
+            unresolvedModuleRegistrations.Add(0);
+        }
+
+        return true;
+    }
+
+    private static void TrackDirectImplementationValue(
+        IInvocationOperation invocation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
+    {
         var tracked = invocation.Arguments
             .Where(static argument => argument.Parameter?.Name is
                 "implementationInstance" or "implementationFactory")
@@ -628,8 +667,6 @@ internal static class ModuleAuthoringAnalysis
         {
             unresolvedModuleRegistrations.Add(0);
         }
-
-        return true;
     }
 
     private static bool TryGetTypeOfNamedType(
