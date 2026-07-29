@@ -115,7 +115,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var location = type.Locations.FirstOrDefault() ?? Location.None;
-        if (type.IsGenericType || !IsTypeAccessible(type, compilation.Assembly))
+        if (!IsTypeAccessible(type, compilation.Assembly))
+        {
+            return null;
+        }
+
+        if (type.IsGenericType)
         {
             return isCommandOptions || hasKnownSecretAttribute
                 ? new TypeMetadataCandidate(typeName, location, Metadata: null)
@@ -561,11 +566,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             || (x is not null
                 && y is not null
                 && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
-                && EqualityComparer<TypeMetadata?>.Default.Equals(x.Metadata, y.Metadata));
+                && EqualityComparer<TypeMetadata?>.Default.Equals(x.Metadata, y.Metadata)
+                && (!RequiresDiagnostic(x) || x.Location.Equals(y.Location)));
 
-        public int GetHashCode(TypeMetadataCandidate obj) =>
-            (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
-            ^ (obj.Metadata?.GetHashCode() ?? 0);
+        public int GetHashCode(TypeMetadataCandidate obj)
+        {
+            var hashCode = (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
+                           ^ (obj.Metadata?.GetHashCode() ?? 0);
+            return RequiresDiagnostic(obj)
+                ? (hashCode * 397) ^ obj.Location.GetHashCode()
+                : hashCode;
+        }
+
+        private static bool RequiresDiagnostic(TypeMetadataCandidate candidate) =>
+            candidate.Metadata is null
+            || !candidate.Metadata.CommandMetadata.IsComplete
+            || !candidate.Metadata.SecretMetadata.IsComplete;
     }
 
     private sealed record PropertyCollection(

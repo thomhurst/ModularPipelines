@@ -91,7 +91,12 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var location = type.Locations.FirstOrDefault() ?? Location.None;
-        if (type.IsGenericType || !IsTypeAccessible(type, compilation.Assembly))
+        if (!IsTypeDeclarationAccessible(type, compilation.Assembly))
+        {
+            return null;
+        }
+
+        if (type.IsGenericType)
         {
             return new ModuleEventMetadataCandidate(typeName, location, Metadata: null);
         }
@@ -442,6 +447,15 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
     private static bool IsTypeAccessible(INamedTypeSymbol type, IAssemblySymbol currentAssembly)
     {
+        return IsTypeDeclarationAccessible(type, currentAssembly)
+               && type.TypeArguments.All(typeArgument =>
+                   IsTypeReferenceAccessible(typeArgument, currentAssembly));
+    }
+
+    private static bool IsTypeDeclarationAccessible(
+        INamedTypeSymbol type,
+        IAssemblySymbol currentAssembly)
+    {
         for (var current = type; current is not null; current = current.ContainingType)
         {
             if (!IsAccessible(current.DeclaredAccessibility, current.ContainingAssembly, currentAssembly))
@@ -450,8 +464,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             }
         }
 
-        return type.TypeArguments.All(typeArgument =>
-            IsTypeReferenceAccessible(typeArgument, currentAssembly));
+        return true;
     }
 
     private static bool IsAccessible(
@@ -536,11 +549,20 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             || (x is not null
                 && y is not null
                 && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
-                && EqualityComparer<ModuleEventMetadata?>.Default.Equals(x.Metadata, y.Metadata));
+                && EqualityComparer<ModuleEventMetadata?>.Default.Equals(x.Metadata, y.Metadata)
+                && (!RequiresDiagnostic(x) || x.Location.Equals(y.Location)));
 
-        public int GetHashCode(ModuleEventMetadataCandidate obj) =>
-            (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
-            ^ (obj.Metadata?.GetHashCode() ?? 0);
+        public int GetHashCode(ModuleEventMetadataCandidate obj)
+        {
+            var hashCode = (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
+                           ^ (obj.Metadata?.GetHashCode() ?? 0);
+            return RequiresDiagnostic(obj)
+                ? (hashCode * 397) ^ obj.Location.GetHashCode()
+                : hashCode;
+        }
+
+        private static bool RequiresDiagnostic(ModuleEventMetadataCandidate candidate) =>
+            candidate.Metadata is null or { IsComplete: false };
     }
 
     private sealed record AttributeMetadata(

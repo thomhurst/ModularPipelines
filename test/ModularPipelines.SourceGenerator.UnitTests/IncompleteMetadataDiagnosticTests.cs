@@ -91,7 +91,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Inaccessible_Command_Options_Type_Reports_Skipped_Diagnostic()
+    public async Task Inaccessible_Command_Options_Type_Uses_Reflection_Without_Diagnostic()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -104,10 +104,43 @@ public class IncompleteMetadataDiagnosticTests
             }
             """);
 
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await Assert.That(result.GeneratedTrees).IsEmpty();
+    }
+
+    [Test]
+    public async Task Generic_Command_Options_Type_Reports_Skipped_Diagnostic()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public sealed class GenericOptions<T>
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """);
+
         await AssertSkippedDiagnostic(
             result,
             "MPG0006",
-            "global::Container.HiddenOptions");
+            "global::GenericOptions<T>");
+    }
+
+    [Test]
+    public async Task Inaccessible_Module_Type_Uses_Reflection_Without_Diagnostic()
+    {
+        var result = GeneratorTestRunner.Run(
+            new ModuleEventMetadataGenerator(),
+            ModuleInfrastructure,
+            """
+            public class Container
+            {
+                private sealed class HiddenModule
+                    : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await Assert.That(result.GeneratedTrees).IsEmpty();
     }
 
     [Test]
@@ -125,6 +158,57 @@ public class IncompleteMetadataDiagnosticTests
             result,
             "MPG0007",
             "global::GenericModule<T>");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Incremental_Diagnostic_Location_Tracks_Source_Edit(bool moduleMetadata)
+    {
+        var infrastructure = moduleMetadata ? ModuleInfrastructure : CommandInfrastructure;
+        var candidate = moduleMetadata
+            ? """
+              public class Container
+              {
+                  [System.AttributeUsage(System.AttributeTargets.Class)]
+                  private sealed class HiddenAttribute : System.Attribute;
+
+                  [Hidden]
+                  public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+              }
+              """
+            : """
+              public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
+              {
+                  [ModularPipelines.Attributes.CliOption("--value")]
+                  private string Value { get; } = "";
+              }
+              """;
+        var updatedCandidate = $"{Environment.NewLine}{Environment.NewLine}{candidate}";
+        var typeDeclaration = moduleMetadata
+            ? "public sealed class BuildModule"
+            : "public sealed class TestOptions";
+        var expectedLine = updatedCandidate[..updatedCandidate.IndexOf(
+                typeDeclaration,
+                StringComparison.Ordinal)]
+            .Count(static character => character == '\n');
+        var generator = moduleMetadata
+            ? (IIncrementalGenerator) new ModuleEventMetadataGenerator()
+            : new CommandOptionsGenerator();
+
+        var result = GeneratorTestRunner.RunIncrementalUpdate(
+            generator,
+            [infrastructure, candidate],
+            [infrastructure, updatedCandidate]);
+        var diagnostic = result.Diagnostics.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Location.SourceTree?.ToString())
+                .IsEqualTo(updatedCandidate);
+            await Assert.That(diagnostic.Location.GetLineSpan().StartLinePosition.Line)
+                .IsEqualTo(expectedLine);
+        }
     }
 
     private static async Task AssertIncompleteDiagnostic(
