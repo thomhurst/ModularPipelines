@@ -122,6 +122,31 @@ public class NonSpectreLoggerFactoryTests
     }
 
     [Test]
+    public async Task CreateLoggers_Does_Not_Retry_Opaque_Replacement_Factory()
+    {
+        var successfulProvider = new RecordingLoggerProvider();
+        var failingProvider = new RecordingLoggerProvider
+        {
+            LogException = new InvalidOperationException("provider rejected event"),
+        };
+        var suppression = new SpectreLoggerSuppression();
+        using var effectiveFactory = new LoggerFactory([successfulProvider, failingProvider]);
+        using var factory = new NonSpectreLoggerFactory(
+            effectiveFactory,
+            new TestProviderRegistry([]),
+            CreateOptionsMonitor(new LoggerFilterOptions()),
+            suppression);
+        var logger = factory.CreateLoggers("Category").Single();
+
+        var exception = Assert.Throws<ProviderDeliveryException>(
+            () => logger.LogWarning("delivered"));
+
+        await Assert.That(successfulProvider.Entries).HasSingleItem();
+        await Assert.That(failingProvider.Entries).IsEmpty();
+        await Assert.That(exception.FailedLoggers).IsEmpty();
+    }
+
+    [Test]
     public async Task CreateLoggers_ReportsOnlyFailedProviderForRetry()
     {
         var successfulProvider = new RecordingLoggerProvider();

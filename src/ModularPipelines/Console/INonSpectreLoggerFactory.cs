@@ -115,7 +115,20 @@ internal sealed class NonSpectreLoggerFactory(
             Func<TState, Exception?, string> formatter)
         {
             using var scope = suppression.BeginSuppression();
-            inner.Log(logLevel, eventId, state, exception, formatter);
+            try
+            {
+                inner.Log(logLevel, eventId, state, exception, formatter);
+            }
+            catch (ProviderDeliveryException)
+            {
+                throw;
+            }
+            catch (Exception deliveryException)
+            {
+                // ILoggerFactory does not expose the provider that failed. Retrying its
+                // composite logger would also invoke providers that already succeeded.
+                throw new ProviderDeliveryException([], [deliveryException]);
+            }
         }
     }
 
