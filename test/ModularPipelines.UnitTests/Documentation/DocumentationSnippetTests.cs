@@ -110,10 +110,9 @@ public class DocumentationSnippetTests
             throw new InvalidOperationException($"Could not list tracked Markdown files: {error}");
         }
 
-        return output
+        return [.. output
             .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
             .Where(line => !line.StartsWith("120000 ", StringComparison.Ordinal))
-            .Select(line => line[(line.IndexOf(' ') + 1)..])
-            .ToArray();
+            .Select(line => line[(line.IndexOf(' ') + 1)..])];
     }
 }

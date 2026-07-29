@@ -36,7 +36,7 @@ public sealed class PipelineBuilder : IDisposable
     private readonly ServiceCollection _services;
     private readonly ConfigurationManager _configuration;
     private readonly PipelineOptions _options;
-    private readonly IHostEnvironment _environment;
+    private readonly PipelineHostEnvironment _environment;
 
     internal Type? LastRegisteredModuleType { get; set; }
 
@@ -123,7 +123,7 @@ public sealed class PipelineBuilder : IDisposable
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder RunCategories(params string[] categories)
     {
-        _options.RunOnlyCategories ??= new List<string>();
+        _options.RunOnlyCategories ??= [];
         foreach (var category in categories)
         {
             _options.RunOnlyCategories.Add(category);
@@ -139,7 +139,7 @@ public sealed class PipelineBuilder : IDisposable
     /// <returns>The same builder instance for chaining.</returns>
     public PipelineBuilder IgnoreCategories(params string[] categories)
     {
-        _options.IgnoreCategories ??= new List<string>();
+        _options.IgnoreCategories ??= [];
         foreach (var category in categories)
         {
             _options.IgnoreCategories.Add(category);
@@ -244,7 +244,7 @@ public sealed class PipelineBuilder : IDisposable
                ?? Task.FromResult(ValidationResult.Success());
     }
 
-    private static IHostEnvironment CreateHostEnvironment(PipelineBuilderOptions options)
+    private static PipelineHostEnvironment CreateHostEnvironment(PipelineBuilderOptions options)
     {
         var hostConfiguration = new ConfigurationManager();
         hostConfiguration.AddEnvironmentVariables(prefix: "DOTNET_");
