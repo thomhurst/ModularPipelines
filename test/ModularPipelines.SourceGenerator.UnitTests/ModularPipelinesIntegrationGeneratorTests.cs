@@ -185,6 +185,50 @@ public class ModularPipelinesIntegrationGeneratorTests
     }
 
     [Test]
+    public async Task Referenced_Conflicts_On_Older_Language_Version_Are_Ignored()
+    {
+        var firstIntegration = CreateMetadataReference(
+            "FirstIntegration",
+            """
+            [assembly: System.Reflection.AssemblyMetadata(
+                "ModularPipelines.ToolProperty:Git",
+                "global::FirstIntegration.IGit")]
+            """);
+        var secondIntegration = CreateMetadataReference(
+            "SecondIntegration",
+            """
+            [assembly: System.Reflection.AssemblyMetadata(
+                "ModularPipelines.ToolProperty:Git",
+                "global::SecondIntegration.IGit")]
+            """);
+
+        var result = RunGenerator(
+            """
+            using ModularPipelines.Attributes;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public static class ConsumerIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+            }
+            """,
+            LanguageVersion.CSharp13,
+            [firstIntegration, secondIntegration]);
+        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource)
+                .Contains("global::ConsumerIntegration.Register(services);");
+            await Assert.That(generatedSource).DoesNotContain("extension(");
+        }
+    }
+
+    [Test]
     public async Task Conflicting_Tool_Accessors_Report_Diagnostics()
     {
         var result = RunGenerator("""
@@ -374,6 +418,47 @@ public class ModularPipelinesIntegrationGeneratorTests
     }
 
     [Test]
+    public async Task Instance_Member_Tool_Names_Report_Diagnostics()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using ModularPipelines.Context;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public interface ITool
+            {
+            }
+
+            public static class ToolIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+
+                public static ITool Get(this IPipelineContext context) => throw null!;
+
+                public static ITool GetType(this IPipelineContext context) => throw null!;
+            }
+            """);
+
+        var diagnostics = result.Diagnostics
+            .Where(static diagnostic => diagnostic.Id == "MPGEN005")
+            .ToArray();
+        var generatedSource = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostics).Count().IsEqualTo(2);
+            await Assert.That(diagnostics.Select(static diagnostic => diagnostic.Severity))
+                .IsEquivalentTo([DiagnosticSeverity.Error, DiagnosticSeverity.Error]);
+            await Assert.That(diagnostics[0].GetMessage()).Contains("IToolsContext or object");
+            await Assert.That(diagnostics[1].GetMessage()).Contains("IToolsContext or object");
+            await Assert.That(generatedSource).DoesNotContain("public global::ITool Get");
+        }
+    }
+
+    [Test]
     public async Task File_Local_Integration_Type_Reports_Diagnostic()
     {
         var result = GeneratorTestHarness.Run(new ModularPipelinesIntegrationGenerator(), TestInfrastructure, """
@@ -486,7 +571,7 @@ public class ModularPipelinesIntegrationGeneratorTests
         return driver.GetRunResult();
     }
 
-    private static MetadataReference CreateMetadataReference(
+    private static PortableExecutableReference CreateMetadataReference(
         string assemblyName,
         string source)
     {

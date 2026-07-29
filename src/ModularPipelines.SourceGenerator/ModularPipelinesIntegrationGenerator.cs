@@ -27,6 +27,15 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     private const string ToolPropertyMetadataPrefix =
         "ModularPipelines.ToolProperty:";
 
+    private static readonly ImmutableHashSet<string> ShadowedToolPropertyNames =
+    [
+        "Equals",
+        "Get",
+        "GetHashCode",
+        "GetType",
+        "ToString",
+    ];
+
     private static readonly DiagnosticDescriptor InvalidIntegrationMethod =
         GeneratorDiagnostics.InvalidIntegrationMethod;
 
@@ -44,6 +53,16 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         id: "MPGEN004",
         title: "Conflicting discoverable tool property",
         messageFormat: "Tool property '{0}' has conflicting declarations: {1}",
+        category: "ModularPipelines.SourceGenerator",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
+    private static readonly DiagnosticDescriptor ShadowedToolProperty = new(
+        id: "MPGEN005",
+        title: "Discoverable tool property shadows an instance member",
+        messageFormat:
+            "Tool accessor '{0}' cannot generate property '{1}' because that name is already "
+            + "available on IToolsContext or object",
         category: "ModularPipelines.SourceGenerator",
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
@@ -247,6 +266,26 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         var toolProperties = candidates
             .SelectMany(static candidate => candidate.ToolProperties)
             .ToArray();
+        var supportsExtensionMembers = SupportsExtensionMembers(parseOptions);
+        if (supportsExtensionMembers)
+        {
+            foreach (var property in toolProperties.Where(
+                         static property => ShadowedToolPropertyNames.Contains(property.Name)))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    ShadowedToolProperty,
+                    property.Location,
+                    property.MethodName,
+                    property.Name));
+            }
+
+            toolProperties =
+            [
+                .. toolProperties.Where(
+                    static property => !ShadowedToolPropertyNames.Contains(property.Name)),
+            ];
+        }
+
         var allToolProperties = toolProperties
             .Concat(referencedToolProperties.Select(static property => new ToolProperty(
                 property.Name,
@@ -255,7 +294,9 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 Location: null,
                 property.SourceId)))
             .ToArray();
-        var conflictingPropertyNames = ReportToolPropertyConflicts(context, allToolProperties);
+        var conflictingPropertyNames = supportsExtensionMembers
+            ? ReportToolPropertyConflicts(context, allToolProperties)
+            : [];
         var uniqueToolProperties = toolProperties
             .Where(property => !conflictingPropertyNames.Contains(property.Name))
             .GroupBy(static property => new
@@ -280,7 +321,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         builder.AppendLine(
             "[assembly: global::ModularPipelines.Attributes.ModularPipelinesContextAttribute("
             + "typeof(global::ModularPipelines.Generated.ModularPipelinesContextRegistration))]");
-        if (uniqueToolProperties.Length > 0 && SupportsExtensionMembers(parseOptions))
+        if (uniqueToolProperties.Length > 0 && supportsExtensionMembers)
         {
             foreach (var property in uniqueToolProperties)
             {
@@ -311,7 +352,7 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         builder.AppendLine("}");
         builder.AppendLine("}");
 
-        if (uniqueToolProperties.Length > 0 && !SupportsExtensionMembers(parseOptions))
+        if (uniqueToolProperties.Length > 0 && !supportsExtensionMembers)
         {
             var firstProperty = uniqueToolProperties[0];
             context.ReportDiagnostic(Diagnostic.Create(

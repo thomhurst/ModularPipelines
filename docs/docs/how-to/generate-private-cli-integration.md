@@ -165,6 +165,8 @@ public static IPrivateWidget PrivateWidget(this IPipelineContext context) =>
 
 The generator uses that shared declaring type to associate the accessor with its
 registration. Accessor names must be unique across all referenced integration packages.
+They also cannot use names already exposed by `IToolsContext` or `object`, such as `Get`
+or `GetType`, because instance-member lookup would hide the generated property.
 `context.Tools.*` is the preferred discoverable API; the original extension method remains
 available for compatibility. Generated tool properties use C# 14 extension members. On
 older language versions, registration metadata still generates and `MPGEN003` explains why
