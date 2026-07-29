@@ -54,6 +54,12 @@ internal static class ExecutablePrerequisiteCatalog
                     "Install the nbgv .NET tool globally or in a tool path available on PATH.",
             },
             ["newman"] = Declared("newman"),
+            ["npm"] = new()
+            {
+                CommandName = "npm",
+                InstallationUrl = "https://docs.npmjs.com/downloading-and-installing-node-js-and-npm",
+                InstallationNotes = "Install npm with a supported Node.js distribution.",
+            },
             ["packer"] = Declared("packer"),
             ["pip"] = Declared("pip"),
             ["pnpm"] = Declared("pnpm"),
