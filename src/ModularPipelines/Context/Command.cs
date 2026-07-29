@@ -109,7 +109,10 @@ internal sealed class Command : ICommandContext
         var completeStandardOutputBuffer = CreateCompleteOutputBuffer(execOpts);
         var completeStandardErrorBuffer = CreateCompleteOutputBuffer(execOpts);
         var outputLogger = _commandLogger as ICommandOutputLogger;
-        var streamsOutput = outputLogger is not null && execOpts.OutputLoggingManipulator is null;
+        using var deferredOutputLogger = CreateDeferredOutputLogger(
+            outputLogger,
+            options,
+            execOpts);
         var stopwatch = Stopwatch.StartNew();
 
         var standardOutput = string.Empty;
@@ -139,18 +142,12 @@ internal sealed class Command : ICommandContext
                         standardOutputBuffer,
                         completeStandardOutputBuffer,
                         CreateStandardOutputLogger(
-                            streamsOutput,
-                            outputLogger,
-                            options,
-                            execOpts)))
+                            deferredOutputLogger)))
                     .WithStandardErrorPipe(CreateOutputTarget(
                         standardErrorBuffer,
                         completeStandardErrorBuffer,
                         CreateStandardErrorLogger(
-                            streamsOutput,
-                            outputLogger,
-                            options,
-                            execOpts)))
+                            deferredOutputLogger)))
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync(
                         configureStartInfo: ConfigureStartInfo,
@@ -179,7 +176,7 @@ internal sealed class Command : ICommandContext
                     standardError,
                     completeStandardOutputBuffer,
                     completeStandardErrorBuffer,
-                    streamsOutput,
+                    deferredOutputLogger,
                     command.WorkingDirPath);
 
                 if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
@@ -218,7 +215,7 @@ internal sealed class Command : ICommandContext
                     standardError,
                     completeStandardOutputBuffer,
                     completeStandardErrorBuffer,
-                    streamsOutput,
+                    deferredOutputLogger,
                     command.WorkingDirPath);
 
                 throw new CommandException(
@@ -252,7 +249,7 @@ internal sealed class Command : ICommandContext
                     standardError,
                     completeStandardOutputBuffer,
                     completeStandardErrorBuffer,
-                    streamsOutput,
+                    deferredOutputLogger,
                     command.WorkingDirPath);
 
                 throw new CommandException(
@@ -349,26 +346,30 @@ internal sealed class Command : ICommandContext
         }
     }
 
-    private static Action<string>? CreateStandardOutputLogger(
-        bool streamsOutput,
+    private static DeferredCommandOutputLogger? CreateDeferredOutputLogger(
         ICommandOutputLogger? outputLogger,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions)
     {
-        return streamsOutput
-            ? line => outputLogger!.LogStandardOutputLine(options, executionOptions, line)
+        return outputLogger is not null && executionOptions.OutputLoggingManipulator is null
+            ? new DeferredCommandOutputLogger(outputLogger, options, executionOptions)
             : null;
     }
 
-    private static Action<string>? CreateStandardErrorLogger(
-        bool streamsOutput,
-        ICommandOutputLogger? outputLogger,
-        CommandLineToolOptions options,
-        CommandExecutionOptions executionOptions)
+    private static Action<string>? CreateStandardOutputLogger(
+        DeferredCommandOutputLogger? outputLogger)
     {
-        return streamsOutput
-            ? line => outputLogger!.LogStandardErrorLine(options, executionOptions, line)
-            : null;
+        return outputLogger is null
+            ? null
+            : outputLogger.LogStandardOutputLine;
+    }
+
+    private static Action<string>? CreateStandardErrorLogger(
+        DeferredCommandOutputLogger? outputLogger)
+    {
+        return outputLogger is null
+            ? null
+            : outputLogger.LogStandardErrorLine;
     }
 
     private static void ConfigureStartInfo(ProcessStartInfo startInfo)
@@ -840,19 +841,20 @@ internal sealed class Command : ICommandContext
         string standardError,
         BoundedCommandOutputBuffer? completeStandardOutputBuffer,
         BoundedCommandOutputBuffer? completeStandardErrorBuffer,
-        bool streamsOutput,
+        DeferredCommandOutputLogger? deferredOutputLogger,
         string workingDirectory)
     {
+        var hasStreamedOutput = deferredOutputLogger?.Complete() == true;
         _commandLogger.Log(
             options,
             executionOptions,
             input,
             exitCode,
             runTime,
-            streamsOutput
+            hasStreamedOutput
                 ? string.Empty
                 : completeStandardOutputBuffer?.ToString() ?? standardOutput,
-            streamsOutput
+            hasStreamedOutput
                 ? string.Empty
                 : completeStandardErrorBuffer?.ToString() ?? standardError,
             workingDirectory);

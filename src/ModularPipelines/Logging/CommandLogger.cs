@@ -10,6 +10,8 @@ namespace ModularPipelines.Logging;
 
 internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 {
+    internal const int MaximumInlineOutputLength = 100;
+
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ISecretObfuscator _secretObfuscator;
@@ -157,19 +159,13 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
         LogCapturedOutput(options, trimmedOutput, hasShortOutput);
         LogCapturedError(options, standardErrorToLog, exitCode);
-
-        // Log working directory only at Diagnostic level (separate line, indented)
-        if (options.Verbosity >= CommandLogVerbosity.Diagnostic || options.ShowWorkingDirectory)
-        {
-            Logger.LogInformation("  Working Directory: {WorkingDirectory}", workingDirectory);
-        }
     }
 
     private static bool ShouldInlineOutput(CommandLoggingOptions options, string output)
     {
         return !string.IsNullOrEmpty(output)
                && !output.Contains('\n')
-               && output.Length <= 100
+               && output.Length <= MaximumInlineOutputLength
                && options.Verbosity >= CommandLogVerbosity.Normal
                && options.ShowStandardOutput;
     }

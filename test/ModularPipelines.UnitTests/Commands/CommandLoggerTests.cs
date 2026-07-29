@@ -239,9 +239,8 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: command line includes working directory and command
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output is streamed on a separate line
-        await Assert.That(logFile).Contains("↳");
-        await Assert.That(Regex.Matches(logFile, "↳ Hello").Count).IsEqualTo(1);
+        // Fast commands inline output; slower commands may begin streaming under load.
+        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
         // Normal doesn't show exit code or duration
         await Assert.That(logFile).DoesNotContain("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsFalse();
@@ -257,8 +256,8 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output is streamed on a separate line
-        await Assert.That(logFile).Contains("↳");
+        // Output is logged exactly once, inline or streamed if startup exceeds the deferral.
+        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
@@ -274,13 +273,13 @@ public class CommandLoggerTests : TestBase
         var logFile = await File.ReadAllTextAsync(file);
         // New compact format: all info on one line
         await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}>");
-        // Output is streamed on a separate line
-        await Assert.That(logFile).Contains("↳");
+        // Output is logged exactly once, inline or streamed if startup exceeds the deferral.
+        await Assert.That(Regex.Matches(logFile, "(?:→|↳) Hello").Count).IsEqualTo(1);
         // Exit code and duration shown inline
         await Assert.That(logFile).Contains("exit ");
         await Assert.That(Regex.IsMatch(logFile, @"\[\d+m?s")).IsTrue();
-        // Working directory logged separately at Diagnostic level
-        await Assert.That(logFile).Contains("Working Directory:");
+        // The working directory stays in the command summary instead of adding another log entry.
+        await Assert.That(logFile).DoesNotContain("Working Directory:");
     }
 
     private async Task<string> RunPowershellCommandWithLoggingOptions(string command, CommandLoggingOptions loggingOptions)
