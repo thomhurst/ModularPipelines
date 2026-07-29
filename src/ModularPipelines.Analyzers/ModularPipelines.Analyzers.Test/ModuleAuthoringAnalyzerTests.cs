@@ -294,6 +294,36 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("TryAddSingleton")]
+    [DataRow("TryAddScoped")]
+    [DataRow("TryAddTransient")]
+    public async Task Does_Not_Report_Module_Registered_With_TryAdd(string registrationMethod)
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection.Extensions;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.{{registrationMethod}}<IModule, BuildModule>();
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Similarly_Named_Method_Does_Not_Register_Module()
     {
         var source = $$"""
@@ -1707,6 +1737,42 @@ public class ModuleAuthoringAnalyzerTests
                     {|#0:Thread.Sleep(1)|};
                     return value > 0;
                 });
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_List_ForEach_Callback()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                new List<int> { 1 }.ForEach(_ => {|#0:Thread.Sleep(1)|});
+                return Task.FromResult<List<string>?>(null);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Parallel_ForEach_Callback()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Parallel.ForEach(new[] { 1 }, _ => {|#0:Thread.Sleep(1)|});
                 return Task.FromResult<List<string>?>(null);
             }
             """);

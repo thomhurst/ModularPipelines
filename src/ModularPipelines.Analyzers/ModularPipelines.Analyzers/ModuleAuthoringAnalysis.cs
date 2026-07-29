@@ -585,10 +585,13 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsDirectServiceRegistrationMethod(IMethodSymbol definition)
     {
         var containingType = definition.ContainingType.ToDisplayString();
-        return definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
-               && containingType is
-                   "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
-                   or "ModularPipelines.Extensions.PipelineBuilderExtensions";
+        return (definition.Name is "AddSingleton" or "AddScoped" or "AddTransient"
+                && containingType is
+                    "Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions"
+                    or "ModularPipelines.Extensions.PipelineBuilderExtensions")
+               || (definition.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient"
+                   && containingType
+                   == "Microsoft.Extensions.DependencyInjection.Extensions.ServiceCollectionDescriptorExtensions");
     }
 
     private static bool IsServiceDescriptorRegistrationMethod(
@@ -1537,6 +1540,13 @@ internal static class ModuleAuthoringAnalysis
                 && containingType == "System.Threading.Tasks.Task")
                || (method.Name == "StartNew"
                    && containingType == "System.Threading.Tasks.TaskFactory")
+               || (method.Name == "ForEach"
+                   && containingType is
+                       "System.Array"
+                       or "System.Collections.Generic.List<T>"
+                       or "System.Threading.Tasks.Parallel")
+               || (containingType == "System.Threading.Tasks.Parallel"
+                   && method.Name is "For" or "Invoke")
                || (containingType == "System.Linq.Enumerable"
                    && IsLinqCallbackInvoked(invocation));
     }
