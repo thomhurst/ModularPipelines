@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Options;
 /// <summary>
 /// Copies the config from the current stack to the destination stack. If `key` is omitted,
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "copy")]
 public record PulumiConfigCopyOptions : PulumiOptions

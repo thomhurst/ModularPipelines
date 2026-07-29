@@ -15,7 +15,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// NuGet configuration CLI
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "config")]
 public record DotNetNuGetConfigOptions : DotNetOptions

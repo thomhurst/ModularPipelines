@@ -15,7 +15,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker volume commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IDockerVolume
 {
     /// <summary>

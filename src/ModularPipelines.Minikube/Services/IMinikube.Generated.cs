@@ -15,7 +15,7 @@ namespace ModularPipelines.Minikube.Services;
 /// <summary>
 /// Generated interface for minikube CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public partial interface IMinikube
 {
     #region Sub-domain Services

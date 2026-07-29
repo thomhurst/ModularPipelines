@@ -15,7 +15,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Stop one or more running containers
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "stop")]
 public record DockerContainerStopOptions : DockerOptions

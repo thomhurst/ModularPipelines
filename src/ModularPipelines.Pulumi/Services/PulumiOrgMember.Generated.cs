@@ -16,7 +16,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// <summary>
 /// pulumi member commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PulumiOrgMember
 {
     private readonly ICommandContext _command;

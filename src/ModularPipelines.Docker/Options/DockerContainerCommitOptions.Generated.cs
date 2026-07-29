@@ -15,7 +15,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Create a new image from a container's changes
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "commit")]
 public record DockerContainerCommitOptions : DockerOptions

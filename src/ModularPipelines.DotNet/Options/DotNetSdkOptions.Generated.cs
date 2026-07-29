@@ -15,7 +15,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// .NET SDK Command
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sdk")]
 public record DotNetSdkOptions : DotNetOptions

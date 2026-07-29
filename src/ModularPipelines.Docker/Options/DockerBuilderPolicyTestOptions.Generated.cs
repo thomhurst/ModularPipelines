@@ -15,7 +15,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Run policy tests
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builder", "policy", "test")]
 public record DockerBuilderPolicyTestOptions : DockerOptions

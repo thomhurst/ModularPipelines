@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Options;
 /// <summary>
 /// [EXPERIMENTAL] Look up a single resource discovered by Pulumi Insights.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "resource", "get")]
 public record PulumiInsightsResourceGetOptions : PulumiOptions

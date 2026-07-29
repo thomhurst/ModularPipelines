@@ -15,7 +15,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// Install or work with tools that extend the .NET experience.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tool")]
 public record DotNetToolOptions : DotNetOptions

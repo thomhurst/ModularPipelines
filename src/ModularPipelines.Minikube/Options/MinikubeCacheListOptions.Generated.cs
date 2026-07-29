@@ -15,7 +15,7 @@ namespace ModularPipelines.Minikube.Options;
 /// <summary>
 /// List all available images from the local cache.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cache", "list")]
 public record MinikubeCacheListOptions : MinikubeOptions

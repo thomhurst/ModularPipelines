@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Options;
 /// <summary>
 /// Enable a Policy Pack for a Pulumi organization. Can specify latest to enable the latest version of the Policy Pack or a specific version number.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "enable")]
 public record PulumiPolicyEnableOptions : PulumiOptions

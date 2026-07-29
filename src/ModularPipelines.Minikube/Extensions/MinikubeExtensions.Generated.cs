@@ -17,7 +17,7 @@ namespace ModularPipelines.Minikube.Extensions;
 /// <summary>
 /// Generated extensions for registering minikube services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class MinikubeExtensions
 {
     /// <summary>

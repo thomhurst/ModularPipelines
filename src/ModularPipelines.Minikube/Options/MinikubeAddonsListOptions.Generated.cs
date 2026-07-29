@@ -15,7 +15,7 @@ namespace ModularPipelines.Minikube.Options;
 /// <summary>
 /// Lists all available minikube addons as well as their current statuses (enabled/disabled)
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "list")]
 public record MinikubeAddonsListOptions : MinikubeOptions

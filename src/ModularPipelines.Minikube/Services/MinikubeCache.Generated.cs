@@ -16,7 +16,7 @@ namespace ModularPipelines.Minikube.Services;
 /// <summary>
 /// minikube cache commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class MinikubeCache : IMinikubeCache
 {
     private readonly ICommandContext _command;

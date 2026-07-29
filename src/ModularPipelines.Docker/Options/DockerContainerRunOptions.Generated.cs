@@ -17,7 +17,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Create and run a new container from an image
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "run")]
 public record DockerContainerRunOptions : DockerOptions

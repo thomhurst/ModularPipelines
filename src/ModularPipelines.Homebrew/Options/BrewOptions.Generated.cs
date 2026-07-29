@@ -16,7 +16,7 @@ namespace ModularPipelines.Homebrew.Options;
 /// Base options class for brew CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("brew")]
 public abstract record BrewOptions : CommandLineToolOptions

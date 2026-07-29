@@ -15,7 +15,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// Interact with servers started from a build.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build-server")]
 public record DotNetBuildServerOptions : DotNetOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// Generated implementation for docker CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Docker : IDocker
 {
     private readonly ICommandContext _command;

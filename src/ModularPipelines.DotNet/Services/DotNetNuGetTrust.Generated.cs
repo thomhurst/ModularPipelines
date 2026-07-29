@@ -16,7 +16,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet trust commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DotNetNuGetTrust
 {
     private readonly ICommandContext _command;

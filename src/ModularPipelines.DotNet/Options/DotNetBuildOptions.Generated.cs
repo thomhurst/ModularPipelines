@@ -16,7 +16,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// .NET Builder
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build")]
 public record DotNetBuildOptions : DotNetOptions

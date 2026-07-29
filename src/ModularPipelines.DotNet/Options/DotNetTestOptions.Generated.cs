@@ -16,7 +16,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// .NET Test Command for Microsoft.Testing.Platform (opted-in via 'global.json'
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("test")]
 public record DotNetTestOptions : DotNetOptions

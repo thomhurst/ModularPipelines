@@ -15,7 +15,7 @@ namespace ModularPipelines.Minikube.Options;
 /// <summary>
 /// Configures the addon w/ADDON_NAME within minikube (example: minikube addons configure registry-creds). For a list of available addons use: minikube addons list
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "configure")]
 public record MinikubeAddonsConfigureOptions : MinikubeOptions

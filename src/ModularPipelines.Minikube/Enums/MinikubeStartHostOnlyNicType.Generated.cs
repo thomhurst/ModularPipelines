@@ -13,7 +13,7 @@ namespace ModularPipelines.Minikube.Enums;
 /// <summary>
 /// Allowed values for the --hostonlynictype option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeStartHostOnlyNicType
 {
     [Description("Am79C970A")]

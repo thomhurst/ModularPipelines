@@ -15,7 +15,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// List all project-to-project references of the project.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("reference", "list")]
 public record DotNetReferenceListOptions : DotNetOptions

@@ -16,7 +16,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Create a context
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "create")]
 public record DockerContextCreateOptions : DockerOptions

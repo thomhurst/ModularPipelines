@@ -16,7 +16,7 @@ namespace ModularPipelines.Minikube.Services;
 /// <summary>
 /// Generated implementation for minikube CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class Minikube : IMinikube
 {
     private readonly ICommandContext _command;

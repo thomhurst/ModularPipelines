@@ -17,7 +17,7 @@ namespace ModularPipelines.Docker.Extensions;
 /// <summary>
 /// Generated extensions for registering docker services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class DockerExtensions
 {
     /// <summary>

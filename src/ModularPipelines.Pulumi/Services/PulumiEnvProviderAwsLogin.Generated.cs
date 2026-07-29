@@ -16,7 +16,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// <summary>
 /// pulumi aws-login commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class PulumiEnvProviderAwsLogin
 {
     private readonly ICommandContext _command;

@@ -16,7 +16,7 @@ namespace ModularPipelines.Minikube.Options;
 /// <summary>
 /// List images
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "ls")]
 public record MinikubeImageLsOptions : MinikubeOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Options;
 /// <summary>
 /// Creates a Pulumi Neo agent task in CLI tool execution mode and runs the local tool loop. Filesystem and shell tool calls from the agent run on this machine, in the working directory you select, instead of in the cloud agent container. If no prompt is provided, the TUI starts and waits for your first message.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("neo")]
 public record PulumiNeoOptions : PulumiOptions

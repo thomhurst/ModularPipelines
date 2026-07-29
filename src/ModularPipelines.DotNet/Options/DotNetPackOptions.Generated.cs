@@ -16,7 +16,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// .NET Core NuGet Package Packer
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pack")]
 public record DotNetPackOptions : DotNetOptions

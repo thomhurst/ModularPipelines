@@ -17,7 +17,7 @@ namespace ModularPipelines.Homebrew.Extensions;
 /// <summary>
 /// Generated extensions for registering brew services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class BrewExtensions
 {
     /// <summary>

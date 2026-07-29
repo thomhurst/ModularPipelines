@@ -16,7 +16,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// Generated implementation for dotnet CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 internal partial class DotNet : IDotNet
 {
     private readonly ICommandContext _command;

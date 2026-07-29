@@ -15,7 +15,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker context commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IDockerContext
 {
     /// <summary>

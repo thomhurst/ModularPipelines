@@ -17,7 +17,7 @@ namespace ModularPipelines.DotNet.Extensions;
 /// <summary>
 /// Generated extensions for registering dotnet services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class DotNetExtensions
 {
     /// <summary>

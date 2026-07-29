@@ -16,7 +16,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet add commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DotNetNuGetAdd
 {
     private readonly ICommandContext _command;

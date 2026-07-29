@@ -15,7 +15,7 @@ namespace ModularPipelines.DotNet.Options;
 /// <summary>
 /// Lists the paths to all NuGet configuration files that will be applied when invoking NuGet command in a specific directory
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("nuget", "config", "paths")]
 public record DotNetNuGetConfigPathsOptions : DotNetOptions

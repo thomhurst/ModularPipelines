@@ -16,7 +16,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker plugin commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerPlugin : IDockerPlugin
 {
     private readonly ICommandContext _command;
