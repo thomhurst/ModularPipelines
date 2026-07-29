@@ -17,6 +17,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private readonly ILogger _logger;
     private readonly TextWriter _console;
     private readonly ISpectreConsoleLoggerControl _loggerControl;
+    private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory;
 
     private readonly object _queueLock = new();
     private readonly Queue<PendingFlush> _pendingQueue = new();
@@ -42,12 +43,15 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         IBuildSystemFormatterProvider formatterProvider,
         ILoggerFactory loggerFactory,
         IServiceProvider serviceProvider,
-        ISpectreConsoleLoggerControl loggerControl)
+        ISpectreConsoleLoggerControl loggerControl,
+        INonSpectreLoggerFactory nonSpectreLoggerFactory)
     {
         _formatterProvider = formatterProvider ?? throw new ArgumentNullException(nameof(formatterProvider));
         _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         _loggerControl = loggerControl ?? throw new ArgumentNullException(nameof(loggerControl));
+        _nonSpectreLoggerFactory = nonSpectreLoggerFactory
+                                   ?? throw new ArgumentNullException(nameof(nonSpectreLoggerFactory));
         _logger = loggerFactory.CreateLogger<OutputCoordinator>();
         _console = System.Console.Out;
     }
@@ -377,9 +381,19 @@ internal sealed class OutputCoordinator : IOutputCoordinator
 
         using var directWrite = CoordinatedTextWriter.BeginDirectWrite();
         await buffer
-            .FlushToAsync(_console, formatter, moduleLogger, _loggerControl, flushKind, cancellationToken)
+            .FlushToAsync(
+                _console,
+                formatter,
+                moduleLogger,
+                _loggerControl,
+                flushKind,
+                _nonSpectreLoggerFactory.CreateLoggers(GetCategoryName(buffer.ModuleType)),
+                cancellationToken)
             .ConfigureAwait(false);
     }
+
+    private static string GetCategoryName(Type moduleType)
+        => moduleType.FullName ?? moduleType.Name;
 
     private ILogger GetModuleLogger(Type moduleType)
     {

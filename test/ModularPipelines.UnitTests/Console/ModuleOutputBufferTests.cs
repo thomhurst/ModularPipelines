@@ -330,7 +330,7 @@ public class ModuleOutputBufferTests
                 loggerControl,
                 loggerControl,
                 OutputFlushKind.Complete,
-                cancellationTokenSource.Token));
+                cancellationToken: cancellationTokenSource.Token));
 
         await Assert.That(buffer.HasOutput).IsTrue();
     }
@@ -352,7 +352,7 @@ public class ModuleOutputBufferTests
                 loggerControl,
                 loggerControl,
                 OutputFlushKind.Complete,
-                cancellationTokenSource.Token));
+                cancellationToken: cancellationTokenSource.Token));
 
         var cancelledOutput = writer.ToString();
         await Assert.That(cancelledOutput.IndexOf("::endgroup::", StringComparison.Ordinal))
@@ -464,7 +464,7 @@ public class ModuleOutputBufferTests
                     loggerControl,
                     loggerControl,
                     OutputFlushKind.Complete,
-                    cancellationTokenSource.Token));
+                    cancellationToken: cancellationTokenSource.Token));
         }
         finally
         {
@@ -480,10 +480,13 @@ public class ModuleOutputBufferTests
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
+        var fallbackLogger = new RecordingLogger();
+        var logException = new InvalidOperationException("structured failure");
         var buffer = CreateBufferWithStructuredLog(
             TimeSpan.FromMilliseconds(50),
             "structured secret",
-            new RedactingSecretObfuscator());
+            new RedactingSecretObfuscator(),
+            logException);
         buffer.WriteLine("direct output");
         var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -504,7 +507,9 @@ public class ModuleOutputBufferTests
                 new GitHubActionsFormatter(),
                 loggerControl,
                 loggerControl,
-                OutputFlushKind.Complete));
+                OutputFlushKind.Complete,
+                [fallbackLogger],
+                CancellationToken.None));
 
             await flush.WaitAsync(TimeSpan.FromSeconds(2));
         }
@@ -518,15 +523,20 @@ public class ModuleOutputBufferTests
         await Assert.That(output).Contains("Timed out waiting for the console logger lock");
         await Assert.That(output).Contains("structured ***");
         await Assert.That(output).DoesNotContain("structured secret");
+        await Assert.That(output).Contains(nameof(InvalidOperationException));
+        await Assert.That(output).Contains("structured failure");
         await Assert.That(output).Contains("direct output");
         await Assert.That(loggerControl.LogCallCount).IsEqualTo(0);
+        await Assert.That(fallbackLogger.Entries).HasSingleItem();
+        await Assert.That(fallbackLogger.Entries[0].Exception).IsSameReferenceAs(logException);
         await Assert.That(buffer.HasOutput).IsFalse();
     }
 
     private static ModuleOutputBuffer CreateBufferWithStructuredLog(
         TimeSpan? synchronizationLockTimeout = null,
         string message = "structured log",
-        ISecretObfuscator? secretObfuscator = null)
+        ISecretObfuscator? secretObfuscator = null,
+        Exception? exception = null)
     {
         var buffer = new ModuleOutputBuffer(
             typeof(ModuleOutputBufferTests),
@@ -536,7 +546,7 @@ public class ModuleOutputBufferTests
             default,
             message,
             message,
-            null,
+            exception,
             static (state, _) => state,
             secretObfuscator ?? new PassthroughSecretObfuscator()));
         return buffer;
@@ -556,6 +566,27 @@ public class ModuleOutputBufferTests
     {
         public string Obfuscate(string? input, object? optionsObject)
             => input?.Replace("secret", "***", StringComparison.Ordinal) ?? string.Empty;
+    }
+
+    private sealed class RecordingLogger : ILogger
+    {
+        public List<(string Message, Exception? Exception)> Entries { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull
+            => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            Entries.Add((formatter(state, exception), exception));
+        }
     }
 
     private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl

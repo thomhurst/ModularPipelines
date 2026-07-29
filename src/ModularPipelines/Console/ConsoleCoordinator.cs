@@ -49,6 +49,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly ConcurrentQueue<string> _deferredExceptions = new();
     private readonly IOutputCoordinator _outputCoordinator;
     private readonly ISpectreConsoleLoggerControl _loggerControl;
+    private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory;
     private TextWriter? _originalConsoleOut;
     private TextWriter? _originalConsoleError;
     private IAnsiConsole? _originalAnsiConsole;
@@ -69,7 +70,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IBuildSystemDetector buildSystemDetector,
         IServiceProvider serviceProvider,
         IOutputCoordinator outputCoordinator,
-        ISpectreConsoleLoggerControl loggerControl)
+        ISpectreConsoleLoggerControl loggerControl,
+        INonSpectreLoggerFactory nonSpectreLoggerFactory)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
@@ -81,6 +83,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _serviceProvider = serviceProvider;
         _outputCoordinator = outputCoordinator;
         _loggerControl = loggerControl;
+        _nonSpectreLoggerFactory = nonSpectreLoggerFactory;
         _unattributedBuffer = new ModuleOutputBuffer(
             "Pipeline",
             typeof(void),
@@ -345,7 +348,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                     formatter,
                     unattributedLogger,
                     _loggerControl,
-                    OutputFlushKind.Complete)
+                    OutputFlushKind.Complete,
+                    fallbackLoggers: _nonSpectreLoggerFactory.CreateLoggers("ModularPipelines.Output"))
                 .ConfigureAwait(false);
         }
     }

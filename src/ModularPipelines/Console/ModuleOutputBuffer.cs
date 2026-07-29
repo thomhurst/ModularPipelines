@@ -166,6 +166,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ILogger logger,
         ISpectreConsoleLoggerControl loggerControl,
         OutputFlushKind flushKind,
+        IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default)
     {
         if (!TryTakeOutputs(flushKind, out var outputs, out var exception))
@@ -187,6 +188,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 exception,
                 flushKind,
                 outputs,
+                fallbackLoggers ?? [],
                 ref renderedCount,
                 cancellationToken);
         }
@@ -275,6 +277,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         Exception? exception,
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
+        IReadOnlyList<ILogger> fallbackLoggers,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
@@ -295,6 +298,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 exception,
                 flushKind,
                 outputs,
+                fallbackLoggers,
                 writeStructuredLogsDirectly: !lockTaken,
                 ref renderedCount,
                 cancellationToken);
@@ -316,6 +320,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         Exception? exception,
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
+        IReadOnlyList<ILogger> fallbackLoggers,
         bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
@@ -343,6 +348,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 directConsole,
                 logger,
                 outputs,
+                fallbackLoggers,
                 writeStructuredLogsDirectly,
                 ref renderedCount,
                 cancellationToken);
@@ -370,6 +376,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IAnsiConsole directConsole,
         ILogger logger,
         List<BufferedOutput> outputs,
+        IReadOnlyList<ILogger> fallbackLoggers,
         bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
@@ -386,7 +393,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             {
                 if (writeStructuredLogsDirectly)
                 {
+                    WriteToFallbackLoggers(logEvent, fallbackLoggers, console);
                     WriteDirect(directConsole, console, logEvent.FormatMessage());
+                    if (logEvent.FormatException() is { } formattedException)
+                    {
+                        console.WriteLine(formattedException);
+                    }
                 }
                 else
                 {
@@ -432,6 +444,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         while (stopwatch.Elapsed < _synchronizationLockTimeout)
         {
             var remaining = _synchronizationLockTimeout - stopwatch.Elapsed;
+            if (remaining <= TimeSpan.Zero)
+            {
+                return false;
+            }
+
             var wait = remaining < SynchronizationLockPollInterval
                 ? remaining
                 : SynchronizationLockPollInterval;
@@ -445,6 +462,25 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         return false;
+    }
+
+    private static void WriteToFallbackLoggers(
+        IBufferedLogEvent logEvent,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        TextWriter console)
+    {
+        foreach (var fallbackLogger in fallbackLoggers)
+        {
+            try
+            {
+                logEvent.WriteTo(fallbackLogger);
+            }
+            catch (Exception exception)
+            {
+                console.WriteLine(
+                    $"A non-console logger failed while handling buffered output: {exception.Message}");
+            }
+        }
     }
 
     private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)
@@ -548,6 +584,8 @@ internal interface IBufferedLogEvent
     void WriteTo(ILogger logger);
 
     string FormatMessage();
+
+    string? FormatException();
 }
 
 /// <summary>
@@ -573,6 +611,11 @@ internal sealed class BufferedLogEvent<TState>(
     }
 
     public string FormatMessage() => Format(obfuscatedState, exception);
+
+    public string? FormatException()
+        => exception is null
+            ? null
+            : secretObfuscator.Obfuscate(exception.ToString(), null);
 
     private string Format(object state, Exception? logException)
     {

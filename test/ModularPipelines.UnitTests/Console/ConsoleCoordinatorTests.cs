@@ -158,6 +158,10 @@ public class ConsoleCoordinatorTests
         secretObfuscator
             .Setup(obfuscator => obfuscator.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
             .Returns((string? value, object? _) => value ?? string.Empty);
+        var nonSpectreLoggerFactory = new Mock<INonSpectreLoggerFactory>();
+        nonSpectreLoggerFactory
+            .Setup(factory => factory.CreateLoggers(It.IsAny<string>()))
+            .Returns([]);
 
         return new ConsoleCoordinator(
             Mock.Of<IBuildSystemFormatterProvider>(),
@@ -169,6 +173,7 @@ public class ConsoleCoordinatorTests
             Mock.Of<IBuildSystemDetector>(),
             Mock.Of<IServiceProvider>(),
             outputCoordinator,
-            Mock.Of<ISpectreConsoleLoggerControl>());
+            Mock.Of<ISpectreConsoleLoggerControl>(),
+            nonSpectreLoggerFactory.Object);
     }
 }
