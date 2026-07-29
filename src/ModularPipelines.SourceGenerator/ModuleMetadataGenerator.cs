@@ -60,27 +60,19 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
 
         foreach (var attribute in GetDependencyAttributes(type))
         {
-            if (!TryGetDependency(attribute, out var dependencyType, out var optional)
-                || dependencyType is not INamedTypeSymbol namedDependency
-                || namedDependency.IsUnboundGenericType
-                || !ImplementsModule(namedDependency, context.SemanticModel.Compilation)
-                || !IsTypeReferenceAccessible(namedDependency, currentAssembly))
+            if (!TryGetDependencyMetadata(
+                    attribute,
+                    context.SemanticModel.Compilation,
+                    currentAssembly,
+                    out var dependency,
+                    out var dependencyComplete))
             {
                 dependenciesComplete = false;
                 continue;
             }
 
-            var isClosedGeneric = namedDependency.IsGenericType
-                                  && !namedDependency.IsUnboundGenericType;
-            var canEmitActivationRegistration = isClosedGeneric
-                                                && SymbolEqualityComparer.Default.Equals(
-                                                    namedDependency.ContainingAssembly,
-                                                    currentAssembly);
-            dependencies.Add(new DependencyMetadataInfo(
-                namedDependency.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                optional,
-                canEmitActivationRegistration));
-            dependenciesComplete &= !isClosedGeneric || canEmitActivationRegistration;
+            dependencies.Add(dependency);
+            dependenciesComplete &= dependencyComplete;
         }
 
         return new ModuleMetadataInfo(
@@ -90,6 +82,38 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
                 .ThenBy(static dependency => dependency.Optional)],
             dependenciesComplete);
+    }
+
+    private static bool TryGetDependencyMetadata(
+        AttributeData attribute,
+        Compilation compilation,
+        IAssemblySymbol currentAssembly,
+        out DependencyMetadataInfo dependency,
+        out bool dependencyComplete)
+    {
+        dependency = default!;
+        dependencyComplete = false;
+        if (!TryGetDependency(attribute, out var dependencyType, out var optional)
+            || dependencyType is not INamedTypeSymbol namedDependency
+            || namedDependency.IsUnboundGenericType
+            || !ImplementsModule(namedDependency, compilation)
+            || !IsTypeReferenceAccessible(namedDependency, currentAssembly))
+        {
+            return false;
+        }
+
+        var isClosedGeneric = namedDependency.IsGenericType
+                              && !namedDependency.IsUnboundGenericType;
+        var canEmitActivationRegistration = isClosedGeneric
+                                            && SymbolEqualityComparer.Default.Equals(
+                                                namedDependency.ContainingAssembly,
+                                                currentAssembly);
+        dependency = new DependencyMetadataInfo(
+            namedDependency.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            optional,
+            canEmitActivationRegistration);
+        dependencyComplete = !isClosedGeneric || canEmitActivationRegistration;
+        return true;
     }
 
     private static IEnumerable<AttributeData> GetDependencyAttributes(INamedTypeSymbol type)
