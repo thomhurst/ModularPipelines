@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "toolName": "kind",
+  "commandCount": 17,
+  "commandTreeSha256": "a31e4891e1c87ea5e6da505fb24f5fd2529e7fd0762e6ecd515001187472577b",
+  "commands": [
+    "kind build",
+    "kind build node-image",
+    "kind create",
+    "kind create cluster",
+    "kind delete",
+    "kind delete cluster",
+    "kind delete clusters",
+    "kind export",
+    "kind export kubeconfig",
+    "kind export logs",
+    "kind get",
+    "kind get clusters",
+    "kind get kubeconfig",
+    "kind get nodes",
+    "kind load",
+    "kind load docker-image",
+    "kind load image-archive"
+  ],
+  "commandGroups": [
+    "kind build",
+    "kind create",
+    "kind delete",
+    "kind export",
+    "kind get",
+    "kind load"
+  ],
+  "exclusions": []
+}

@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "toolName": "sonar-scanner",
+  "commandCount": 1,
+  "commandTreeSha256": "944baa3accf9323dfebdf2c80745c343a30dd6bbb1b9ea867489959c12c680be",
+  "commands": [
+    "sonar-scanner"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

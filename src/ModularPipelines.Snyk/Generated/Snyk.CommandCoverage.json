@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "toolName": "snyk",
+  "commandCount": 18,
+  "commandTreeSha256": "32de8a747296e31736bf613027b19e2b477465ca0d4198f0a4631966ff7f20ac",
+  "commands": [
+    "snyk aibom",
+    "snyk aibom test",
+    "snyk auth",
+    "snyk code test",
+    "snyk container monitor",
+    "snyk container sbom",
+    "snyk container test",
+    "snyk iac",
+    "snyk iac describe",
+    "snyk iac test",
+    "snyk iac update-exclude-policy",
+    "snyk ignore",
+    "snyk log4shell",
+    "snyk monitor",
+    "snyk policy",
+    "snyk sbom",
+    "snyk sbom test",
+    "snyk test"
+  ],
+  "commandGroups": [
+    "snyk aibom",
+    "snyk code",
+    "snyk container",
+    "snyk iac",
+    "snyk sbom"
+  ],
+  "exclusions": []
+}

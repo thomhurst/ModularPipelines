@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "toolName": "go",
+  "commandCount": 5,
+  "commandTreeSha256": "d91b6c355f88c3e297ae0e96351ad5c316d2d369a2330c61a3a3c715e9996129",
+  "commands": [
+    "go build",
+    "go fix",
+    "go generate",
+    "go test",
+    "go vet"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

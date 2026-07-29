@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "toolName": "syft",
+  "commandCount": 8,
+  "commandTreeSha256": "312b56070505f8e9227e5762adaba7ae25213d326283923b5592ce0281c0c868",
+  "commands": [
+    "syft attest",
+    "syft cataloger",
+    "syft cataloger list",
+    "syft config",
+    "syft config locations",
+    "syft convert",
+    "syft login",
+    "syft scan"
+  ],
+  "commandGroups": [
+    "syft cataloger",
+    "syft config"
+  ],
+  "exclusions": []
+}

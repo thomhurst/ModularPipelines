@@ -164,6 +164,7 @@ public class CodeGeneratorOrchestrator
             writeAssemblyInfo: false,
             commandCoverageBaselinePath: previousCoverageManifestPath,
             commandCoveragePathComparer: fileSystemPathComparer,
+            allowMissingCommandCoverageManifest: true,
             replaceableExistingPaths: replaceableExistingPaths,
             enumBaselinePaths: enumBaselinePaths,
             beforeWrite: async (candidateOwnedPaths, token) =>
@@ -831,6 +832,7 @@ public class CodeGeneratorOrchestrator
         bool writeAssemblyInfo = true,
         string? commandCoverageBaselinePath = null,
         StringComparer? commandCoveragePathComparer = null,
+        bool allowMissingCommandCoverageManifest = false,
         IReadOnlySet<string>? replaceableExistingPaths = null,
         IReadOnlyDictionary<string, string>? enumBaselinePaths = null,
         Func<IReadOnlyCollection<string>, CancellationToken, Task>? beforeWrite = null)
@@ -900,7 +902,8 @@ public class CodeGeneratorOrchestrator
             outputDirectory,
             approveCommandCoverageShrinkage,
             commandCoverageBaselinePath,
-            commandCoveragePathComparer);
+            commandCoveragePathComparer,
+            allowMissingCommandCoverageManifest);
         result.CommandCoverage.Add(coverage);
 
         if (coverage.Violations.Count > 0)
@@ -1364,10 +1367,6 @@ public class GenerationResult
             if (!coverage.HasPreviousBaseline)
             {
                 lines.Add("  - Baseline: created");
-            }
-            else if (coverage.UsedGeneratedApiBaseline)
-            {
-                lines.Add("  - Baseline: checked-in generated APIs");
             }
 
             AppendDiff(lines, "Added", coverage.AddedCommands);

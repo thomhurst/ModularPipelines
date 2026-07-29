@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "toolName": "mvn",
+  "commandCount": 1,
+  "commandTreeSha256": "77b009e6e3fcca705290e093300672ab0c85c6661417cced8369040f3290be3f",
+  "commands": [
+    "mvn"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

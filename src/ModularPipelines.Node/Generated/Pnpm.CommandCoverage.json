@@ -1,0 +1,20 @@
+{
+  "formatVersion": 1,
+  "toolName": "pnpm",
+  "commandCount": 10,
+  "commandTreeSha256": "cb939fe929bf55ab34691b42cc4b86072d72586b984937e4c3c43dc8b6c6be56",
+  "commands": [
+    "pnpm add",
+    "pnpm audit",
+    "pnpm create",
+    "pnpm dlx",
+    "pnpm init",
+    "pnpm publish",
+    "pnpm run",
+    "pnpm stage",
+    "pnpm unlink",
+    "pnpm why"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

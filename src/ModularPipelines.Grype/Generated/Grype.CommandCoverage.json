@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "toolName": "grype",
+  "commandCount": 12,
+  "commandTreeSha256": "b45d7527254e3df6ad584cc8896f94ed1d24e359389729d279639a4563ceb40c",
+  "commands": [
+    "grype db",
+    "grype db check",
+    "grype db delete",
+    "grype db diff",
+    "grype db import",
+    "grype db list",
+    "grype db providers",
+    "grype db search",
+    "grype db search vuln",
+    "grype db status",
+    "grype db update",
+    "grype explain"
+  ],
+  "commandGroups": [
+    "grype db",
+    "grype db search"
+  ],
+  "exclusions": []
+}

@@ -166,74 +166,15 @@ public class CommandCoverageGuardTests
     }
 
     [Test]
-    public async Task FirstManifest_Uses_CheckedInGeneratedApis_AsBaseline()
+    public async Task MissingManifest_FailsWhenGeneratedApiExists()
     {
         var outputDirectory = CreateOutputDirectory();
         var optionsDirectory = CreateGeneratedOptionsDirectory(outputDirectory);
         await File.WriteAllTextAsync(
-            Path.Combine(optionsDirectory, "FakeProjectCreateOptions.Generated.cs"),
+            Path.Combine(optionsDirectory, "FakeProjectCreateOptions.cs"),
             """
             [CliSubCommand("project", "create")]
             public record FakeProjectCreateOptions;
-            """);
-
-        try
-        {
-            var evaluation = CommandCoverageGuard.Evaluate(
-                Tool(Command("fake status")),
-                outputDirectory,
-                approveShrinkage: false);
-
-            await Assert.That(evaluation.UsedGeneratedApiBaseline).IsTrue();
-            await Assert.That(evaluation.RemovedCommands)
-                .IsEquivalentTo(["fake project create"]);
-            await Assert.That(evaluation.Violations).Contains(
-                violation => violation.Contains("fake project create", StringComparison.Ordinal));
-        }
-        finally
-        {
-            Directory.Delete(outputDirectory, recursive: true);
-        }
-    }
-
-    [Test]
-    public async Task FirstManifest_Uses_CheckedInSingleCommandApi_AsBaseline()
-    {
-        var outputDirectory = CreateOutputDirectory();
-        var optionsDirectory = CreateGeneratedOptionsDirectory(outputDirectory);
-        await File.WriteAllTextAsync(
-            Path.Combine(optionsDirectory, "FakeExecuteOptions.Generated.cs"),
-            """
-            public record FakeExecuteOptions : FakeOptions;
-            """);
-
-        try
-        {
-            var evaluation = CommandCoverageGuard.Evaluate(
-                Tool(),
-                outputDirectory,
-                approveShrinkage: false);
-
-            await Assert.That(evaluation.UsedGeneratedApiBaseline).IsTrue();
-            await Assert.That(evaluation.RemovedCommands).IsEquivalentTo(["fake"]);
-            await Assert.That(evaluation.Violations).Contains(
-                violation => violation.Contains("fake", StringComparison.Ordinal));
-        }
-        finally
-        {
-            Directory.Delete(outputDirectory, recursive: true);
-        }
-    }
-
-    [Test]
-    public async Task FirstManifest_FailsWhenGeneratedApiCannotBeReconstructed()
-    {
-        var outputDirectory = CreateOutputDirectory();
-        var optionsDirectory = CreateGeneratedOptionsDirectory(outputDirectory);
-        await File.WriteAllTextAsync(
-            Path.Combine(optionsDirectory, "FakeUnknownOptions.Generated.cs"),
-            """
-            public record FakeUnknownOptions;
             """);
 
         try
@@ -246,7 +187,8 @@ public class CommandCoverageGuardTests
 
             await Assert.That(Evaluate)
                 .Throws<InvalidOperationException>()
-                .And.HasMessageContaining("could not reconstruct a command coverage baseline");
+                .And.HasMessageContaining("Command coverage manifest is missing for 'fake'")
+                .And.HasMessageContaining("Fake.CommandCoverage.json");
         }
         finally
         {

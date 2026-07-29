@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "toolName": "ansible",
+  "commandCount": 1,
+  "commandTreeSha256": "0cb87f727f31e5f5a59cca8a10c8f9b55622be05305d4e7e92c334f5911e1034",
+  "commands": [
+    "ansible"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}

@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "toolName": "flyway",
+  "commandCount": 12,
+  "commandTreeSha256": "212ba4929ba415eedd50228d53122698bbaf4d215647dc967334a46e505c5c5d",
+  "commands": [
+    "flyway baseline",
+    "flyway check",
+    "flyway clean",
+    "flyway deploy",
+    "flyway info",
+    "flyway init",
+    "flyway list-engines",
+    "flyway migrate",
+    "flyway prepare",
+    "flyway repair",
+    "flyway snapshot",
+    "flyway validate"
+  ],
+  "commandGroups": [],
+  "exclusions": []
+}
