@@ -164,55 +164,17 @@ internal class ModuleScheduler : IModuleScheduler
                 availableModuleTypes,
                 _dependencyRegistry,
                 _metadataRegistry).ToArray();
-            var declaredDependenciesByType = _dependencyGraph.ToDictionary(
-                pair => pair.Key,
-                pair => new HashSet<Type>(pair.Value));
-            var newlyResolvedDependenciesByType = new Dictionary<Type, (Type DependencyType, bool Optional)[]>();
+            var (newlyAvailableDependenciesByType, selectorDependents) =
+                ResolveNewlyAvailableDependencies(moduleType);
 
-            foreach (var existingModuleType in _moduleStates.Keys)
-            {
-                var newlyResolvedDependencies = ModuleDependencyResolver.GetAllDependencies(
-                        _moduleStates[existingModuleType].Module,
-                        availableModuleTypes,
-                        _dependencyRegistry,
-                        _metadataRegistry)
-                    .Where(dependency => dependency.DependencyType == moduleType)
-                    .ToArray();
-
-                newlyResolvedDependenciesByType[existingModuleType] = newlyResolvedDependencies;
-
-                declaredDependenciesByType[existingModuleType]
-                    .UnionWith(newlyResolvedDependencies.Select(dependency => dependency.DependencyType));
-            }
-
-            declaredDependenciesByType[moduleType] = newModuleDependencies
+            var newModuleDependencyTypes = newModuleDependencies
                 .Select(dependency => dependency.DependencyType)
                 .ToHashSet();
 
-            var candidateGraph = declaredDependenciesByType.ToDictionary(
-                pair => pair.Key,
-                pair => pair.Key == moduleType || _moduleStates[pair.Key].State == ModuleExecutionState.Pending
-                    ? pair.Value.Where(dependencyType =>
-                            !_moduleStates.TryGetValue(dependencyType, out var dependencyState)
-                            || dependencyState.State != ModuleExecutionState.Completed)
-                        .ToHashSet()
-                    : new HashSet<Type>());
-
-            ModuleDependencyValidator.ValidateCircularDependencies(candidateGraph);
-
-            foreach (var (existingModuleType, newlyResolvedDependencies) in newlyResolvedDependenciesByType)
-            {
-                var existingState = _moduleStates[existingModuleType];
-                if (existingState.State != ModuleExecutionState.Pending)
-                {
-                    continue;
-                }
-
-                foreach (var (dependencyType, optional) in newlyResolvedDependencies)
-                {
-                    ModuleStateDependencyInitializer.Record(existingState, dependencyType, optional);
-                }
-            }
+            ValidateNoDynamicCycle(
+                moduleType,
+                newModuleDependencyTypes,
+                newlyAvailableDependenciesByType.Keys);
 
             foreach (var (dependencyType, optional) in newModuleDependencies)
             {
@@ -221,13 +183,27 @@ internal class ModuleScheduler : IModuleScheduler
 
             _moduleStates[moduleType] = state;
             _stateCounters.AddPendingModule();
-            _dependencyGraph.Clear();
-            foreach (var (registeredType, registeredDependencies) in declaredDependenciesByType)
+            _dependencyGraph[moduleType] = newModuleDependencyTypes;
+
+            foreach (var selectorDependent in selectorDependents)
             {
-                _dependencyGraph[registeredType] = registeredDependencies;
+                _dependencyGraph[selectorDependent].Add(moduleType);
             }
 
-            RebuildPendingDependencyState(declaredDependenciesByType);
+            foreach (var (existingModuleType, optional) in newlyAvailableDependenciesByType)
+            {
+                var existingState = _moduleStates[existingModuleType];
+                if (existingState.State == ModuleExecutionState.Pending)
+                {
+                    ModuleStateDependencyInitializer.Record(existingState, moduleType, optional);
+                    LinkDependencyState(existingState, moduleType, optional);
+                }
+            }
+
+            foreach (var (dependencyType, optional) in newModuleDependencies)
+            {
+                LinkDependencyState(state, dependencyType, optional);
+            }
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in newModuleDependencies)
             {
@@ -261,6 +237,42 @@ internal class ModuleScheduler : IModuleScheduler
             state.UnresolvedDependencies.Count);
 
         _schedulerNotification.Release();
+    }
+
+    private (
+        Dictionary<Type, bool> DependenciesByType,
+        HashSet<Type> SelectorDependents) ResolveNewlyAvailableDependencies(Type moduleType)
+    {
+        var dependenciesByType = new Dictionary<Type, bool>();
+        var selectorDependents = new HashSet<Type>();
+
+        foreach (var existingModuleType in _moduleStates.Keys)
+        {
+            var existingState = _moduleStates[existingModuleType];
+            bool? isOptional = existingState.Dependencies.TryGetValue(moduleType, out var declaredOptional)
+                ? declaredOptional
+                : null;
+
+            var selectorDependencies = ModuleDependencyResolver.GetSelectorDependencies(
+                    existingModuleType,
+                    [moduleType],
+                    _metadataRegistry)
+                .ToArray();
+
+            if (selectorDependencies.Length > 0)
+            {
+                selectorDependents.Add(existingModuleType);
+                isOptional = (isOptional ?? true)
+                             && selectorDependencies.All(dependency => dependency.Optional);
+            }
+
+            if (isOptional is not null)
+            {
+                dependenciesByType[existingModuleType] = isOptional.Value;
+            }
+        }
+
+        return (dependenciesByType, selectorDependents);
     }
 
     private void AddModuleStates(IEnumerable<IModule> modules)
@@ -366,7 +378,8 @@ internal class ModuleScheduler : IModuleScheduler
     {
         if (_moduleStates.TryGetValue(dependencyType, out var dependencyState))
         {
-            if (state.UnresolvedDependencies.Add(dependencyType))
+            if (dependencyState.State != ModuleExecutionState.Completed
+                && state.UnresolvedDependencies.Add(dependencyType))
             {
                 dependencyState.DependentModules.Add(state);
             }
@@ -383,35 +396,93 @@ internal class ModuleScheduler : IModuleScheduler
         }
     }
 
-    private void RebuildPendingDependencyState(
-        IReadOnlyDictionary<Type, HashSet<Type>> dependenciesByType)
+    private void ValidateNoDynamicCycle(
+        Type moduleType,
+        IReadOnlySet<Type> newModuleDependencies,
+        IEnumerable<Type> newlyAvailableDependentTypes)
     {
-        foreach (var registeredState in _moduleStates.Values)
+        if (newModuleDependencies.Contains(moduleType))
         {
-            registeredState.UnresolvedDependencies.Clear();
-            registeredState.DependentModules.Clear();
+            ThrowDependencyCollision([moduleType, moduleType]);
         }
 
-        foreach (var (dependentType, dependencies) in dependenciesByType)
+        var pendingDependents = newlyAvailableDependentTypes
+            .Where(type => _moduleStates[type].State == ModuleExecutionState.Pending)
+            .ToHashSet();
+        if (pendingDependents.Count == 0)
         {
-            var dependentState = _moduleStates[dependentType];
-            if (dependentState.State != ModuleExecutionState.Pending)
-            {
-                continue;
-            }
+            return;
+        }
 
-            foreach (var dependencyType in dependencies)
+        var parentByType = new Dictionary<Type, Type?>
+        {
+            [moduleType] = null,
+        };
+
+        var modulesToVisit = new Stack<Type>();
+        modulesToVisit.Push(moduleType);
+
+        while (modulesToVisit.TryPop(out var currentType))
+        {
+            foreach (var dependencyType in GetPendingDependencies(currentType, moduleType, newModuleDependencies))
             {
-                if (!_moduleStates.TryGetValue(dependencyType, out var dependencyState)
-                    || dependencyState.State == ModuleExecutionState.Completed)
+                if (!parentByType.TryAdd(dependencyType, currentType))
                 {
                     continue;
                 }
 
-                dependentState.UnresolvedDependencies.Add(dependencyType);
-                dependencyState.DependentModules.Add(dependentState);
+                if (pendingDependents.Contains(dependencyType))
+                {
+                    ThrowDependencyCollision(BuildDynamicCycle(moduleType, dependencyType, parentByType));
+                }
+
+                modulesToVisit.Push(dependencyType);
             }
         }
+    }
+
+    private IEnumerable<Type> GetPendingDependencies(
+        Type currentType,
+        Type addedModuleType,
+        IReadOnlySet<Type> newModuleDependencies)
+    {
+        var dependencies = currentType == addedModuleType
+            ? newModuleDependencies
+            : _moduleStates[currentType].State == ModuleExecutionState.Pending
+                ? _dependencyGraph[currentType]
+                : [];
+
+        return dependencies.Where(dependencyType =>
+            dependencyType != addedModuleType
+            && _moduleStates.TryGetValue(dependencyType, out var dependencyState)
+            && dependencyState.State != ModuleExecutionState.Completed);
+    }
+
+    private static Type[] BuildDynamicCycle(
+        Type moduleType,
+        Type dependentType,
+        IReadOnlyDictionary<Type, Type?> parentByType)
+    {
+        var pathFromModule = new Stack<Type>();
+        Type? currentType = dependentType;
+
+        while (currentType is not null && currentType != moduleType)
+        {
+            pathFromModule.Push(currentType);
+            currentType = parentByType[currentType];
+        }
+
+        return [dependentType, moduleType, .. pathFromModule];
+    }
+
+    private static void ThrowDependencyCollision(IReadOnlyList<Type> cycle)
+    {
+        var formattedCycle = cycle.Select(type => type.Name).ToArray();
+        formattedCycle[0] = $"**{formattedCycle[0]}**";
+        formattedCycle[^1] = $"**{formattedCycle[^1]}**";
+
+        throw new DependencyCollisionException(
+            $"Dependency collision detected: {string.Join(" -> ", formattedCycle)}");
     }
 
     /// <summary>
