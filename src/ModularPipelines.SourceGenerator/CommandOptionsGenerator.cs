@@ -38,7 +38,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 static (node, _) => IsTypeCandidate(node),
                 static (generatorContext, _) => GetTypeCandidate(generatorContext))
             .Where(static item => item is not null)
-            .Select(static (item, _) => item!);
+            .Select(static (item, _) => item!)
+            .WithComparer(TypeMetadataCandidateComparer.Instance);
 
         var secretCandidates = context.SyntaxProvider
             .ForAttributeWithMetadataName(
@@ -51,12 +52,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var candidates = typeCandidates.Collect().Combine(secretCandidates.Collect());
         context.RegisterSourceOutput(candidates, static (sourceContext, candidateGroups) =>
         {
-            var candidates = candidateGroups.Left
-                .AddRange(candidateGroups.Right)
-                .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
-                .Select(static group => group.First())
-                .ToArray();
-            foreach (var skipped in candidates.Where(static candidate => candidate.Metadata is null))
+            var candidates = candidateGroups.Left.AddRange(candidateGroups.Right);
+            foreach (var skipped in candidates
+                         .Where(static candidate => candidate.Metadata is null)
+                         .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                         .Select(static group => group.First()))
             {
                 sourceContext.ReportDiagnostic(Diagnostic.Create(
                     SkippedRuntimeMetadata,
@@ -70,7 +70,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 .ToImmutableArray();
             if (items.Length > 0)
             {
-                ReportIncompleteMetadata(sourceContext, items);
+                ReportIncompleteMetadata(sourceContext, candidates);
                 sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
             }
         });
@@ -113,25 +113,26 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
-        if (!isCommandOptions && !hasKnownSecretAttribute)
-        {
-            return null;
-        }
-
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var location = type.Locations.FirstOrDefault() ?? Location.None;
         if (type.IsGenericType || !IsTypeAccessible(type, compilation.Assembly))
         {
-            return new TypeMetadataCandidate(typeName, location, Metadata: null);
+            return isCommandOptions || hasKnownSecretAttribute
+                ? new TypeMetadataCandidate(typeName, location, Metadata: null)
+                : null;
         }
 
         var commandMetadata = isCommandOptions
             ? GetCommandProperties(type, compilation.Assembly)
             : PropertyCollection.Empty;
         var secretMetadata = GetSecretProperties(type, compilation.Assembly);
+        if (!isCommandOptions && !secretMetadata.HasAttributes)
+        {
+            return null;
+        }
+
         return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
             typeName,
-            location,
             isCommandOptions,
             commandMetadata,
             secretMetadata));
@@ -350,17 +351,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void ReportIncompleteMetadata(
         SourceProductionContext context,
-        ImmutableArray<TypeMetadata> items)
+        IReadOnlyCollection<TypeMetadataCandidate> candidates)
     {
-        foreach (var item in items
-                     .GroupBy(static item => item.TypeName, StringComparer.Ordinal)
+        foreach (var candidate in candidates
+                     .Where(static candidate => candidate.Metadata is not null)
+                     .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
                      .Select(static group => group.First()))
         {
+            var item = candidate.Metadata!;
             if (!item.CommandMetadata.IsComplete)
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     IncompleteCommandMetadata,
-                    item.Location,
+                    candidate.Location,
                     item.TypeName));
             }
 
@@ -368,7 +371,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     IncompleteSecretMetadata,
-                    item.Location,
+                    candidate.Location,
                     item.TypeName));
             }
         }
@@ -540,7 +543,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private sealed record TypeMetadata(
         string TypeName,
-        Location Location,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
         PropertyCollection SecretMetadata);
@@ -549,6 +551,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string TypeName,
         Location Location,
         TypeMetadata? Metadata);
+
+    private sealed class TypeMetadataCandidateComparer : IEqualityComparer<TypeMetadataCandidate>
+    {
+        public static TypeMetadataCandidateComparer Instance { get; } = new();
+
+        public bool Equals(TypeMetadataCandidate? x, TypeMetadataCandidate? y) =>
+            ReferenceEquals(x, y)
+            || (x is not null
+                && y is not null
+                && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
+                && EqualityComparer<TypeMetadata?>.Default.Equals(x.Metadata, y.Metadata));
+
+        public int GetHashCode(TypeMetadataCandidate obj) =>
+            (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
+            ^ (obj.Metadata?.GetHashCode() ?? 0);
+    }
 
     private sealed record PropertyCollection(
         EquatableArray<PropertyMetadata> Properties,

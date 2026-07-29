@@ -30,7 +30,8 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
                 static (node, _) => IsTypeCandidate(node),
                 static (generatorContext, _) => GetModuleCandidate(generatorContext))
             .Where(static candidate => candidate is not null)
-            .Select(static (candidate, _) => candidate!);
+            .Select(static (candidate, _) => candidate!)
+            .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
 
         context.RegisterSourceOutput(moduleCandidates.Collect(), static (sourceContext, candidates) =>
         {
@@ -51,15 +52,16 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
                 .ToImmutableArray();
             if (!metadata.IsEmpty)
             {
-                foreach (var module in metadata
-                             .GroupBy(static item => item.TypeName, StringComparer.Ordinal)
-                             .Select(static group => group.First())
-                             .Where(static item => !item.IsComplete))
+                foreach (var candidate in candidates
+                             .Where(static candidate =>
+                                 candidate.Metadata is { IsComplete: false })
+                             .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                             .Select(static group => group.First()))
                 {
                     sourceContext.ReportDiagnostic(Diagnostic.Create(
                         IncompleteModuleEventMetadata,
-                        module.Location,
-                        module.TypeName));
+                        candidate.Location,
+                        candidate.TypeName));
                 }
 
                 sourceContext.AddSource(
@@ -97,7 +99,6 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         var attributeMetadata = GetAttributeMetadata(type, compilation.Assembly);
         return new ModuleEventMetadataCandidate(typeName, location, new ModuleEventMetadata(
             typeName,
-            location,
             attributeMetadata.Expressions,
             attributeMetadata.IsComplete));
     }
@@ -515,7 +516,6 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
     private sealed record ModuleEventMetadata(
         string TypeName,
-        Location Location,
         EquatableArray<string> Attributes,
         bool IsComplete);
 
@@ -523,6 +523,25 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         string TypeName,
         Location Location,
         ModuleEventMetadata? Metadata);
+
+    private sealed class ModuleEventMetadataCandidateComparer
+        : IEqualityComparer<ModuleEventMetadataCandidate>
+    {
+        public static ModuleEventMetadataCandidateComparer Instance { get; } = new();
+
+        public bool Equals(
+            ModuleEventMetadataCandidate? x,
+            ModuleEventMetadataCandidate? y) =>
+            ReferenceEquals(x, y)
+            || (x is not null
+                && y is not null
+                && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
+                && EqualityComparer<ModuleEventMetadata?>.Default.Equals(x.Metadata, y.Metadata));
+
+        public int GetHashCode(ModuleEventMetadataCandidate obj) =>
+            (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
+            ^ (obj.Metadata?.GetHashCode() ?? 0);
+    }
 
     private sealed record AttributeMetadata(
         EquatableArray<string> Expressions,
