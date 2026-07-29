@@ -111,78 +111,35 @@ Built-in Roslyn analyzers catch common mistakes before you even run:
 ## Quick Start
 
 ```bash
-dotnet new console -n MyPipeline
+dotnet new install ModularPipelines.Templates
+dotnet new modularpipeline -n MyPipeline \
+  --solution ../MySolution.slnx \
+  --publish-project ../src/MyApp/MyApp.csproj
 cd MyPipeline
+dotnet run
+```
+
+The generated project contains separate restore, build, test, and publish modules with
+explicit dependencies and configurable paths. See the
+[template source](src/ModularPipelines.Templates/templates/modularpipeline) for a
+complete copy-ready example.
+
+Adding pipeline modules to an existing project instead? Install the core framework and
+the .NET CLI integration used by the examples above:
+
+```bash
 dotnet add package ModularPipelines
 dotnet add package ModularPipelines.DotNet
 ```
 
+Then configure and execute the pipeline from `Program.cs`:
+
 ```csharp
-// Program.cs
 using ModularPipelines;
-using ModularPipelines.Extensions;
 
 var builder = Pipeline.CreateBuilder(args);
-
-builder
-    .AddModule<BuildModule>()
-    .AddModule<TestModule>()
-    .AddModule<PublishModule>();
-
 await builder.ExecutePipelineAsync();
 ```
-
-```csharp
-// BuildModule.cs
-using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
-using ModularPipelines.DotNet.Options;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-
-public class BuildModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        return await context.DotNet().Build(new DotNetBuildOptions
-        {
-            ProjectSolution = "MySolution.sln",
-            Configuration = "Release"
-        }, cancellationToken: cancellationToken);
-    }
-}
-```
-
-```csharp
-// TestModule.cs
-using ModularPipelines.Attributes;
-using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
-using ModularPipelines.DotNet.Options;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-
-[DependsOn<BuildModule>]
-public class TestModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        return await context.DotNet().Test(new DotNetTestOptions
-        {
-            Project = "MySolution.sln",
-            Configuration = "Release"
-        }, cancellationToken: cancellationToken);
-    }
-}
-```
-
-Run it:
-
-```bash
-dotnet run
-```
-
-That's it. No YAML. No waiting for CI. Just `dotnet run` and watch your pipeline execute.
 
 ## Console Progress
 
@@ -235,6 +192,7 @@ ModularPipelines has strongly-typed wrappers for the tools you already use:
 | ModularPipelines.Snyk | Helpers for interacting with Snyk security CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Snyk.svg)](https://www.nuget.org/packages/ModularPipelines.Snyk/) |
 | ModularPipelines.SonarScanner | Helpers for interacting with SonarScanner CLI for SonarQube and SonarCloud. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.SonarScanner.svg)](https://www.nuget.org/packages/ModularPipelines.SonarScanner/) |
 | ModularPipelines.TeamCity | Helpers for interacting with TeamCity build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.TeamCity.svg)](https://www.nuget.org/packages/ModularPipelines.TeamCity/) |
+| ModularPipelines.Templates | Templates for creating realistic ModularPipelines build, test, and publish pipelines. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Templates.svg)](https://www.nuget.org/packages/ModularPipelines.Templates/) |
 | ModularPipelines.Terraform | Helpers for interacting with Terraform CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Terraform.svg)](https://www.nuget.org/packages/ModularPipelines.Terraform/) |
 | ModularPipelines.Trivy | Helpers for interacting with Trivy security scanner CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Trivy.svg)](https://www.nuget.org/packages/ModularPipelines.Trivy/) |
 | ModularPipelines.WinGet | Helpers for interacting with the Windows Package Manager. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.WinGet.svg)](https://www.nuget.org/packages/ModularPipelines.WinGet/) |

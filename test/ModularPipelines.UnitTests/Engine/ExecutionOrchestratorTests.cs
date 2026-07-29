@@ -13,6 +13,70 @@ namespace ModularPipelines.UnitTests.Engine;
 public class ExecutionOrchestratorTests
 {
     [Test]
+    public async Task CallerCancellationRegistration_IsDisposedAfterExecution()
+    {
+        var organizedModules = new OrganizedModules([], []);
+        var summary = new PipelineSummary(
+            [],
+            [],
+            TimeSpan.Zero,
+            DateTimeOffset.UtcNow,
+            DateTimeOffset.UtcNow);
+
+        var pipelineInitializer = new Mock<IPipelineInitializer>();
+        pipelineInitializer
+            .Setup(x => x.Initialize(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(organizedModules);
+
+        var ignoredModuleResultRegistrar = new Mock<IIgnoredModuleResultRegistrar>();
+        ignoredModuleResultRegistrar
+            .Setup(x => x.RegisterIgnoredModuleResultsAsync(organizedModules))
+            .ReturnsAsync(organizedModules);
+
+        var pipelineExecutor = new Mock<IPipelineExecutor>();
+        pipelineExecutor
+            .Setup(x => x.ExecuteAsync(It.IsAny<List<IModule>>(), organizedModules))
+            .ReturnsAsync(summary);
+
+        var outputScope = new Mock<IPipelineOutputScope>();
+        outputScope
+            .Setup(x => x.DisposeAsync())
+            .Returns(ValueTask.CompletedTask);
+
+        var outputCoordinator = new Mock<IPipelineOutputCoordinator>();
+        outputCoordinator
+            .Setup(x => x.InitializeAsync())
+            .ReturnsAsync(outputScope.Object);
+
+        var moduleDisposeExecutor = new Mock<IModuleDisposeExecutor>();
+        moduleDisposeExecutor
+            .Setup(x => x.DisposeAsync())
+            .Returns(ValueTask.CompletedTask);
+
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var orchestrator = new ExecutionOrchestrator(
+            pipelineInitializer.Object,
+            moduleDisposeExecutor.Object,
+            pipelineExecutor.Object,
+            outputCoordinator.Object,
+            ignoredModuleResultRegistrar.Object,
+            Mock.Of<IModuleResultRegistry>(),
+            Mock.Of<IPipelineSummaryFactory>(),
+            engineCancellationToken,
+            Mock.Of<IThreadPoolConfigurator>(),
+            Mock.Of<IExceptionRethrowService>(),
+            OptionsFactory.Create(new PipelineOptions()),
+            Mock.Of<ILogger<ExecutionOrchestrator>>());
+        using var callerCancellationTokenSource = new CancellationTokenSource();
+
+        await orchestrator.ExecuteAsync(callerCancellationTokenSource.Token);
+        callerCancellationTokenSource.Cancel();
+
+        await Assert.That(engineCancellationToken.IsCancellationRequested).IsFalse();
+    }
+
+    [Test]
     public async Task PipelineFailure_IsNotMaskedByOutputTeardownOrLoggingFailure()
     {
         var organizedModules = new OrganizedModules([], []);
