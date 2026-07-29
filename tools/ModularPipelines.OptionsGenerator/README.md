@@ -17,7 +17,7 @@ The first-party generation path is:
 OptionsGeneratorCommand
   -> CodeGeneratorOrchestrator
      -> ICliScraper (preferred) or ICliDocumentationScraper (fallback)
-     -> OptionTypeEnhancer
+     -> OptionTypeEnhancer (HTML scraping only)
      -> CliToolDefinition
      -> ICodeGenerator implementations
      -> command-coverage validation
@@ -40,11 +40,14 @@ The main components are:
 | `src/ModularPipelines.OptionsGenerator.Tests/` | Unit tests for scraping, parsing, type detection, generation, safety, and coverage behavior. |
 
 `CodeGeneratorOrchestrator` prefers an `ICliScraper` when both scraper kinds are registered
-for a tool and `--use-cli-first` is enabled. If CLI scraping is unavailable or fails, it can
-use the registered HTML scraper. Type enhancement runs after scraping when
-`--enhance-types` is enabled. The generators then write through a collision-aware,
-transactional path and remove obsolete files only when their generated markers establish
-ownership.
+for a tool and `--use-cli-first` is enabled. It falls back to the registered HTML scraper
+when the executable is unavailable or CLI scraping discovers no commands. Exceptions during
+CLI availability checks, scraping, validation, version lookup, or generation are reported
+without HTML fallback. Type enhancement runs only after HTML scraping when
+`--enhance-types` is enabled; CLI-first and external definitions bypass it. The generators
+check for output collisions, then write files sequentially. A failed run can therefore
+leave earlier outputs modified. Obsolete files are removed only when their generated
+markers establish ownership.
 
 External definitions bypass scraper registration. They enter at `CliToolDefinition`, use
 the same generators and coverage guard, and track owned paths under
@@ -78,7 +81,7 @@ Use a comma-separated list for `--tools`, or `all`. Useful options are:
 | Option | Purpose |
 | --- | --- |
 | `--use-cli-first <true\|false>` | Prefer installed CLI help over HTML documentation. Defaults to `true`. |
-| `--enhance-types <true\|false>` | Run type detection after scraping. Defaults to `true`. |
+| `--enhance-types <true\|false>` | Run type detection after HTML scraping. Defaults to `true`. |
 | `--change-manifest <path>` | Record every repository-relative generated or deleted path for safe automation. |
 | `--approve-command-coverage-shrinkage` | Acknowledge reviewed command removals for this run. It does not bypass minimum counts or sentinel commands. |
 | `--input <path>` | Generate an external integration from JSON. This cannot be combined with `--tools`. |
