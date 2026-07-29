@@ -66,7 +66,7 @@ public class DeferredCommandOutputLoggerTests
     }
 
     [Test]
-    public async Task Delayed_Logging_Failure_Is_Propagated_On_Completion()
+    public async Task Delayed_Logging_Failure_Stops_Writes_And_Is_Propagated_Once()
     {
         var outputLogger = new ThrowingOutputLogger();
         using var deferredLogger = new DeferredCommandOutputLogger(
@@ -77,6 +77,9 @@ public class DeferredCommandOutputLoggerTests
 
         deferredLogger.LogStandardOutputLine("output");
         await outputLogger.LoggingAttempted.WaitAsync(TimeSpan.FromSeconds(5));
+
+        deferredLogger.LogStandardOutputLine("later output");
+        await Assert.That(outputLogger.AttemptCount).IsEqualTo(1);
 
         var exception = Assert.Throws<InvalidOperationException>(() => deferredLogger.Complete());
         await Assert.That(exception.Message).IsEqualTo("Logging failed.");
@@ -124,14 +127,18 @@ public class DeferredCommandOutputLoggerTests
     {
         private readonly TaskCompletionSource _loggingAttempted =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private int _attemptCount;
 
         public Task LoggingAttempted => _loggingAttempted.Task;
+
+        public int AttemptCount => _attemptCount;
 
         public void LogStandardOutputLine(
             CommandLineToolOptions options,
             CommandExecutionOptions executionOptions,
             string line)
         {
+            Interlocked.Increment(ref _attemptCount);
             _loggingAttempted.TrySetResult();
             throw new InvalidOperationException("Logging failed.");
         }
@@ -141,6 +148,7 @@ public class DeferredCommandOutputLoggerTests
             CommandExecutionOptions executionOptions,
             string line)
         {
+            Interlocked.Increment(ref _attemptCount);
             throw new InvalidOperationException("Logging failed.");
         }
     }

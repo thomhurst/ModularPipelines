@@ -388,7 +388,9 @@ public class CommandLoggerTests : TestBase
         var exception = await Assert.ThrowsAsync<CommandException>(() =>
             commandContext.ExecuteCommandLineTool(
                 new PowershellScriptOptions(
-                    $"Write-Output '{marker}'; Start-Sleep -Milliseconds 750")));
+                    $"Write-Output '{marker}'; "
+                    + "Start-Sleep -Milliseconds 750; "
+                    + $"Write-Output '{marker}'")));
 
         var loggingFailure = exception!.InnerException as AggregateException;
         await Assert.That(loggingFailure).IsNotNull();

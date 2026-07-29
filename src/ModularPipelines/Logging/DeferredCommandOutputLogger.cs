@@ -89,7 +89,7 @@ internal sealed class DeferredCommandOutputLogger : IDisposable
     {
         lock (_lock)
         {
-            if (_isCompleted)
+            if (_isCompleted || _loggingFailure is not null)
             {
                 return;
             }
