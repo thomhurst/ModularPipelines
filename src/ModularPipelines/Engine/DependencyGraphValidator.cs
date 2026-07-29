@@ -170,6 +170,7 @@ internal static class DependencyGraphValidator
                             return true;
                         }
                     }
+
                     // If state == 2, already fully processed, no cycle through this node
                 }
             }
