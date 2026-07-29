@@ -533,6 +533,68 @@ public class ModuleOutputBufferTests
         await Assert.That(buffer.HasOutput).IsFalse();
     }
 
+    [Test]
+    public async Task Flush_LockTimeout_RetriesFailedProviderWithoutRepeatingConsoleOutput()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var fallbackLogger = new RecordingLogger
+        {
+            LogException = new InvalidOperationException("provider rejected event"),
+        };
+        var buffer = CreateBufferWithStructuredLog(
+            TimeSpan.FromMilliseconds(50),
+            "retry structured log");
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        try
+        {
+            await buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete,
+                [fallbackLogger],
+                CancellationToken.None);
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        await Assert.That(buffer.HasOutput).IsTrue();
+        await Assert.That(fallbackLogger.Entries).IsEmpty();
+        await Assert.That(CountOccurrences(writer.ToString(), "[INFO] retry structured log"))
+            .IsEqualTo(1);
+
+        fallbackLogger.LogException = null;
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [fallbackLogger],
+            CancellationToken.None);
+
+        await Assert.That(buffer.HasOutput).IsFalse();
+        await Assert.That(fallbackLogger.Entries).HasSingleItem();
+        await Assert.That(CountOccurrences(writer.ToString(), "[INFO] retry structured log"))
+            .IsEqualTo(1);
+    }
+
     private static ModuleOutputBuffer CreateBufferWithStructuredLog(
         TimeSpan? synchronizationLockTimeout = null,
         string message = "structured log",
@@ -574,6 +636,8 @@ public class ModuleOutputBufferTests
     {
         public List<(string Message, Exception? Exception)> Entries { get; } = [];
 
+        public Exception? LogException { get; set; }
+
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
             => null;
@@ -587,6 +651,11 @@ public class ModuleOutputBufferTests
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
+            if (LogException is not null)
+            {
+                throw LogException;
+            }
+
             Entries.Add((formatter(state, exception), exception));
         }
     }

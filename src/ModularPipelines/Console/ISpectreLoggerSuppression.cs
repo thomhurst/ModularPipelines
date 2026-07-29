@@ -2,6 +2,7 @@ using MEL.Spectre;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ModularPipelines.Console;
 
@@ -119,7 +120,7 @@ internal sealed class SuppressibleSpectreLoggerProvider(
 
 internal static class SpectreLoggerSuppressionRegistration
 {
-    private const string SpectreProviderTypeName = "MEL.Spectre.Provider.SpectreConsoleLoggerProvider";
+    internal const string SpectreProviderTypeName = "MEL.Spectre.Provider.SpectreConsoleLoggerProvider";
 
     public static void MakeSpectreLoggerSuppressible(this IServiceCollection services)
     {
@@ -141,6 +142,10 @@ internal static class SpectreLoggerSuppressionRegistration
         services.Remove(providerDescriptor);
         services.Remove(controlDescriptor);
         services.TryAddSingleton<ISpectreLoggerSuppression, SpectreLoggerSuppression>();
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<
+                IPostConfigureOptions<LoggerFilterOptions>,
+                SpectreLoggerFilterOptionsPostConfigure>());
         services.AddSingleton(serviceProvider =>
         {
             var provider = (ILoggerProvider) ActivatorUtilities.CreateInstance(
@@ -160,5 +165,27 @@ internal static class SpectreLoggerSuppressionRegistration
             serviceProvider.GetRequiredService<SuppressibleSpectreLoggerProvider>());
         services.AddSingleton<ISpectreConsoleLoggerControl>(serviceProvider =>
             serviceProvider.GetRequiredService<SuppressibleSpectreLoggerProvider>());
+    }
+}
+
+internal sealed class SpectreLoggerFilterOptionsPostConfigure
+    : IPostConfigureOptions<LoggerFilterOptions>
+{
+    public void PostConfigure(string? name, LoggerFilterOptions options)
+    {
+        for (var index = 0; index < options.Rules.Count; index++)
+        {
+            var rule = options.Rules[index];
+            if (rule.ProviderName is not SpectreLoggerSuppressionRegistration.SpectreProviderTypeName)
+            {
+                continue;
+            }
+
+            options.Rules[index] = new LoggerFilterRule(
+                typeof(SuppressibleSpectreLoggerProvider).FullName,
+                rule.CategoryName,
+                rule.LogLevel,
+                rule.Filter);
+        }
     }
 }

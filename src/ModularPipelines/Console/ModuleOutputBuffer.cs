@@ -29,6 +29,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private static readonly TimeSpan DefaultSynchronizationLockTimeout = TimeSpan.FromSeconds(1);
     private static readonly TimeSpan SynchronizationLockPollInterval = TimeSpan.FromMilliseconds(50);
     private readonly List<BufferedOutput> _outputs = [];
+    private readonly List<IBufferedLogEvent> _structuredDeliveryRetries = [];
     private readonly Lock _lock = new();
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
@@ -119,7 +120,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             lock (_lock)
             {
-                return _outputs.Count > 0;
+                return _outputs.Count > 0 || _structuredDeliveryRetries.Count > 0;
             }
         }
     }
@@ -144,6 +145,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             lock (_lock)
             {
                 return _outputs.Count > 0
+                       || _structuredDeliveryRetries.Count > 0
                        || _isIncrementalFlushInProgress
                        || _hasRenderedIncrementalOutput;
             }
@@ -169,28 +171,46 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default)
     {
-        if (!TryTakeOutputs(flushKind, out var outputs, out var exception))
+        if (!TryTakeOutputs(
+                flushKind,
+                out var outputs,
+                out var structuredDeliveryRetries,
+                out var shouldRenderOutputGroup,
+                out var exception))
         {
             return Task.CompletedTask;
         }
 
         var directConsole = GetDirectConsole(console);
+        var effectiveFallbackLoggers = fallbackLoggers ?? [];
+        var failedStructuredDeliveries = new List<IBufferedLogEvent>();
         var renderedCount = 0;
 
         try
         {
-            RenderOutputs(
+            RetryStructuredDeliveries(
+                structuredDeliveryRetries,
+                effectiveFallbackLoggers,
+                failedStructuredDeliveries,
                 console,
-                directConsole,
-                formatter,
-                logger,
-                loggerControl.SynchronizationLock,
-                exception,
-                flushKind,
-                outputs,
-                fallbackLoggers ?? [],
-                ref renderedCount,
                 cancellationToken);
+
+            if (shouldRenderOutputGroup)
+            {
+                RenderOutputs(
+                    console,
+                    directConsole,
+                    formatter,
+                    logger,
+                    loggerControl.SynchronizationLock,
+                    exception,
+                    flushKind,
+                    outputs,
+                    effectiveFallbackLoggers,
+                    failedStructuredDeliveries,
+                    ref renderedCount,
+                    cancellationToken);
+            }
         }
         catch
         {
@@ -201,6 +221,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             RestoreUnrenderedOutputs(outputs, renderedCount);
             throw;
+        }
+        finally
+        {
+            RestoreStructuredDeliveryRetries(failedStructuredDeliveries);
         }
 
         RecordRenderedOutput(flushKind, renderedCount);
@@ -240,6 +264,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private bool TryTakeOutputs(
         OutputFlushKind flushKind,
         out List<BufferedOutput> outputs,
+        out List<IBufferedLogEvent> structuredDeliveryRetries,
+        out bool shouldRenderOutputGroup,
         out Exception? exception)
     {
         lock (_lock)
@@ -247,20 +273,30 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             if (flushKind is OutputFlushKind.Incremental && _isComplete)
             {
                 outputs = null!;
+                structuredDeliveryRetries = null!;
+                shouldRenderOutputGroup = false;
                 exception = null;
                 return false;
             }
 
             if (_outputs.Count == 0
+                && _structuredDeliveryRetries.Count == 0
                 && (flushKind is OutputFlushKind.Incremental || !_hasRenderedIncrementalOutput))
             {
                 outputs = null!;
+                structuredDeliveryRetries = null!;
+                shouldRenderOutputGroup = false;
                 exception = null;
                 return false;
             }
 
             outputs = [.. _outputs];
+            structuredDeliveryRetries = [.. _structuredDeliveryRetries];
+            shouldRenderOutputGroup = _outputs.Count > 0
+                                      || (flushKind is OutputFlushKind.Complete
+                                          && _hasRenderedIncrementalOutput);
             _outputs.Clear();
+            _structuredDeliveryRetries.Clear();
             _thresholdFlushRequested = false;
             _isIncrementalFlushInProgress = flushKind is OutputFlushKind.Incremental;
             exception = _exception;
@@ -278,6 +314,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
+        List<IBufferedLogEvent> failedStructuredDeliveries,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
@@ -299,6 +336,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 flushKind,
                 outputs,
                 fallbackLoggers,
+                failedStructuredDeliveries,
                 writeStructuredLogsDirectly: !lockTaken,
                 ref renderedCount,
                 cancellationToken);
@@ -321,6 +359,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
+        List<IBufferedLogEvent> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
@@ -349,6 +388,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 logger,
                 outputs,
                 fallbackLoggers,
+                failedStructuredDeliveries,
                 writeStructuredLogsDirectly,
                 ref renderedCount,
                 cancellationToken);
@@ -377,6 +417,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ILogger logger,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
+        List<IBufferedLogEvent> failedStructuredDeliveries,
         bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
@@ -393,7 +434,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             {
                 if (writeStructuredLogsDirectly)
                 {
-                    WriteToFallbackLoggers(logEvent, fallbackLoggers, console);
+                    if (!WriteToFallbackLoggers(logEvent, fallbackLoggers, console))
+                    {
+                        failedStructuredDeliveries.Add(logEvent);
+                    }
+
                     WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
                     if (logEvent.FormatException() is { } formattedException)
                     {
@@ -464,11 +509,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         return false;
     }
 
-    private static void WriteToFallbackLoggers(
+    private static bool WriteToFallbackLoggers(
         IBufferedLogEvent logEvent,
         IReadOnlyList<ILogger> fallbackLoggers,
         TextWriter console)
     {
+        var delivered = true;
         foreach (var fallbackLogger in fallbackLoggers)
         {
             try
@@ -477,9 +523,49 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             }
             catch (Exception exception)
             {
+                delivered = false;
                 console.WriteLine(
                     $"A non-console logger failed while handling buffered output: {exception.Message}");
             }
+        }
+
+        return delivered;
+    }
+
+    private static void RetryStructuredDeliveries(
+        List<IBufferedLogEvent> structuredDeliveryRetries,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<IBufferedLogEvent> failedStructuredDeliveries,
+        TextWriter console,
+        CancellationToken cancellationToken)
+    {
+        for (var index = 0; index < structuredDeliveryRetries.Count; index++)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                failedStructuredDeliveries.AddRange(structuredDeliveryRetries.Skip(index));
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+
+            var logEvent = structuredDeliveryRetries[index];
+            if (!WriteToFallbackLoggers(logEvent, fallbackLoggers, console))
+            {
+                failedStructuredDeliveries.Add(logEvent);
+            }
+        }
+    }
+
+    private void RestoreStructuredDeliveryRetries(
+        List<IBufferedLogEvent> structuredDeliveryRetries)
+    {
+        if (structuredDeliveryRetries.Count == 0)
+        {
+            return;
+        }
+
+        lock (_lock)
+        {
+            _structuredDeliveryRetries.InsertRange(0, structuredDeliveryRetries);
         }
     }
 
