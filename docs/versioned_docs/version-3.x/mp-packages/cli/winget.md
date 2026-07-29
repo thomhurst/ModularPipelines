@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Winget().InstallAsync(
+        return await context.Winget().Install(
             new WingetInstallOptions(),
             cancellationToken: cancellationToken);
     }

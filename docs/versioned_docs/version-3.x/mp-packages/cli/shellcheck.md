@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Shellcheck().ExecuteAsync(
+        return await context.Shellcheck().Execute(
             new ShellcheckExecuteOptions(),
             cancellationToken: cancellationToken);
     }

@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Flux().CheckAsync(
+        return await context.Flux().Check(
             new FluxCheckOptions(),
             cancellationToken: cancellationToken);
     }

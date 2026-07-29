@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Grype().ExplainAsync(
+        return await context.Grype().Explain(
             new GrypeExplainOptions(),
             cancellationToken: cancellationToken);
     }

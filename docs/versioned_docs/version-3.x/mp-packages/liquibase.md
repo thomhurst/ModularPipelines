@@ -20,7 +20,7 @@ public class UpdateDatabaseModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Liquibase().UpdateAsync(
+        return await context.Liquibase().Update(
             new LiquibaseUpdateOptions
             {
                 ChangelogFile = "db/changelog.xml",

@@ -113,7 +113,7 @@ public class RestoreModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().RestoreAsync(new());
+        await context.DotNet().Restore(new());
         return "restored";
     }
 }
@@ -125,8 +125,8 @@ public class LinuxBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(new());
-        await context.DotNet().TestAsync(new());
+        await context.DotNet().Build(new());
+        await context.DotNet().Test(new());
         return "linux-ok";
     }
 }
@@ -138,8 +138,8 @@ public class WindowsBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(new());
-        await context.DotNet().TestAsync(new());
+        await context.DotNet().Build(new());
+        await context.DotNet().Test(new());
         return "windows-ok";
     }
 }
@@ -151,8 +151,8 @@ public class MacBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(new());
-        await context.DotNet().TestAsync(new());
+        await context.DotNet().Build(new());
+        await context.DotNet().Test(new());
         return "macos-ok";
     }
 }

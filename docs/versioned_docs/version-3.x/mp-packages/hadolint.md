@@ -21,7 +21,7 @@ using ModularPipelines.Hadolint.Enums;
 using ModularPipelines.Hadolint.Extensions;
 using ModularPipelines.Hadolint.Options;
 
-var result = await context.Hadolint().ExecuteAsync(
+var result = await context.Hadolint().Execute(
     new HadolintExecuteOptions
     {
         Dockerfiles = ["Dockerfile", "build/Dockerfile"],

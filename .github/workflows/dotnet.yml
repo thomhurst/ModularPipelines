@@ -82,8 +82,9 @@ jobs:
             "$RUNNER_TEMP/template-version-smoke/Directory.Packages.props")" -eq 2
           dotnet restore \
             "$RUNNER_TEMP/template-version-smoke/TemplateVersionSmoke.csproj" \
-            -p:RestoreAdditionalProjectSources="$RUNNER_TEMP/template-pack"
-          dotnet build \
+            -p:RestoreAdditionalProjectSources="$RUNNER_TEMP/template-pack" \
+            -p:RestorePackagesPath="$RUNNER_TEMP/template-version-packages"
+          NUGET_PACKAGES="$RUNNER_TEMP/template-version-packages" dotnet build \
             "$RUNNER_TEMP/template-version-smoke/TemplateVersionSmoke.csproj" \
             -c Release \
             --no-restore

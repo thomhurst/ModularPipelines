@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Go().FixAsync(
+        return await context.Go().Fix(
             new GoFixOptions(),
             cancellationToken: cancellationToken);
     }

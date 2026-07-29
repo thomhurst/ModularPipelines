@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pip().FreezeAsync(
+        return await context.Pip().Freeze(
             new PipFreezeOptions(),
             cancellationToken: cancellationToken);
     }

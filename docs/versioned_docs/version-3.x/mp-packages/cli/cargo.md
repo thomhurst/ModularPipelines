@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Cargo().BuildAsync(
+        return await context.Cargo().Build(
             new CargoBuildOptions(),
             cancellationToken: cancellationToken);
     }

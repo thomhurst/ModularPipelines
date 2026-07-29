@@ -38,7 +38,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         foreach (var project in projects)
         {
-            yield return await context.SubModule(project.Name, () => context.DotNet().PackAsync(new DotNetPackOptions
+            yield return await context.SubModule(project.Name, () => context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = project,
                 Configuration = Configuration.Release,

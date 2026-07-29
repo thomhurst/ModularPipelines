@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gradle().ExecuteAsync(
+        return await context.Gradle().Execute(
             new GradleExecuteOptions(),
             cancellationToken: cancellationToken);
     }

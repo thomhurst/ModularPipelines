@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Skopeo().GenerateSigstoreKeyAsync(
+        return await context.Skopeo().GenerateSigstoreKey(
             new SkopeoGenerateSigstoreKeyOptions(),
             cancellationToken: cancellationToken);
     }

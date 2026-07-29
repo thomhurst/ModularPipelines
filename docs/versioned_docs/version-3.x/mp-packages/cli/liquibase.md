@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Liquibase().CalculateChecksumAsync(
+        return await context.Liquibase().CalculateChecksum(
             new LiquibaseCalculateChecksumOptions(),
             cancellationToken: cancellationToken);
     }

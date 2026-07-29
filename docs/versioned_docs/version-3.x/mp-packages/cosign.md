@@ -21,7 +21,7 @@ The `cosign` executable must be installed and available on `PATH` when the pipel
 using ModularPipelines.Cosign.Extensions;
 using ModularPipelines.Cosign.Options;
 
-var result = await context.Cosign().SignAsync(
+var result = await context.Cosign().Sign(
     new CosignSignOptions(["registry.example/app@sha256:..."])
     {
         Key = "cosign.key",
@@ -40,7 +40,7 @@ cosign sign registry.example/app@sha256:... --annotations=team=platform --key=co
 ## Verify container images
 
 ```csharp
-var result = await context.Cosign().VerifyAsync(
+var result = await context.Cosign().Verify(
     new CosignVerifyOptions(["registry.example/app@sha256:..."])
     {
         Key = "cosign.pub",

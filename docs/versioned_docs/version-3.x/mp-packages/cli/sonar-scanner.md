@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.SonarScanner().ExecuteAsync(
+        return await context.SonarScanner().Execute(
             new SonarScannerExecuteOptions(),
             cancellationToken: cancellationToken);
     }

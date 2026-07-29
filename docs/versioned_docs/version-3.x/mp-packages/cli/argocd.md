@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.ArgoCd().ConfigureAsync(
+        return await context.ArgoCd().Configure(
             new ArgoCdConfigureOptions(),
             cancellationToken: cancellationToken);
     }

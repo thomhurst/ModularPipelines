@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Helm().EnvAsync(
+        return await context.Helm().Env(
             new HelmEnvOptions(),
             cancellationToken: cancellationToken);
     }

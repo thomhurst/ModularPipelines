@@ -35,7 +35,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         return await projects
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async projectFile => await context.DotNet().PackAsync(new DotNetPackOptions
+            .SelectAsync(async projectFile => await context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
                 IncludeSource = true,
@@ -63,7 +63,7 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
                               && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase))
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async unitTestProjectFile => await context.DotNet().TestAsync(new DotNetTestOptions
+            .SelectAsync(async unitTestProjectFile => await context.DotNet().Test(new DotNetTestOptions
             {
                 TargetPath = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",

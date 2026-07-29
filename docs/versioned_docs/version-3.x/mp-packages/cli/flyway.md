@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Flyway().InfoAsync(
+        return await context.Flyway().Info(
             new FlywayInfoOptions(),
             cancellationToken: cancellationToken);
     }

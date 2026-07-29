@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Syft().AttestAsync(
+        return await context.Syft().Attest(
             new SyftAttestOptions("value"),
             cancellationToken: cancellationToken);
     }

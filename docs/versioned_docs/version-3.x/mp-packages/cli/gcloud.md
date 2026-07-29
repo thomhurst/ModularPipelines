@@ -30,7 +30,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gcloud().DockerAsync(
+        return await context.Gcloud().Docker(
             new GcloudDockerOptions(),
             cancellationToken: cancellationToken);
     }

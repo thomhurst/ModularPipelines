@@ -20,7 +20,7 @@ The `ansible` executable must be installed and available on `PATH` when the pipe
 using ModularPipelines.Ansible.Extensions;
 using ModularPipelines.Ansible.Options;
 
-var result = await context.Ansible().ExecuteAsync(
+var result = await context.Ansible().Execute(
     new AnsibleExecuteOptions("webservers")
     {
         Inventory = ["hosts.ini"],
