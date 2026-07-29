@@ -610,6 +610,30 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_NonPublic_Module_Registered_By_Assembly()
+    {
+        var source = $$"""
+            {{Header}}
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder()
+                        .AddModulesFromAssemblyContainingType<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Duplicate_DependsOn()
     {
         var source = $$"""

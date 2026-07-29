@@ -343,8 +343,12 @@ internal static class ModuleAuthoringAnalysis
             .ToImmutableArray();
         var instanceRegistered = instanceRegisteredModules.ToImmutableHashSet<INamedTypeSymbol>(
             SymbolEqualityComparer.Default);
+        var scanned = scannedAssemblies.ToImmutableHashSet<IAssemblySymbol>(
+            SymbolEqualityComparer.Default);
         foreach (var module in moduleSet.Where(module =>
-                     !IsPublic(module) && !instanceRegistered.Contains(module)))
+                     !IsPublic(module)
+                     && !instanceRegistered.Contains(module)
+                     && !scanned.Contains(module.ContainingAssembly)))
         {
             ReportModuleDiagnostic(
                 context,
@@ -359,8 +363,6 @@ internal static class ModuleAuthoringAnalysis
 
         var registered = new HashSet<INamedTypeSymbol>(
             registeredModules,
-            SymbolEqualityComparer.Default);
-        var scanned = scannedAssemblies.ToImmutableHashSet<IAssemblySymbol>(
             SymbolEqualityComparer.Default);
         foreach (var module in moduleSet.Where(module => scanned.Contains(module.ContainingAssembly)))
         {
