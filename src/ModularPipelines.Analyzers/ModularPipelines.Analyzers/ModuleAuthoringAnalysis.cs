@@ -35,6 +35,7 @@ internal static class ModuleAuthoringAnalysis
         var registeredModules = new ConcurrentBag<INamedTypeSymbol>();
         var instanceRegisteredModules = new ConcurrentBag<INamedTypeSymbol>();
         var scannedAssemblies = new ConcurrentBag<IAssemblySymbol>();
+        var unresolvedModuleRegistrations = new ConcurrentBag<byte>();
 
         context.RegisterSymbolAction(
             symbolContext => CollectModuleType(symbolContext, modules),
@@ -44,7 +45,8 @@ internal static class ModuleAuthoringAnalysis
                 operationContext,
                 registeredModules,
                 instanceRegisteredModules,
-                scannedAssemblies),
+                scannedAssemblies,
+                unresolvedModuleRegistrations),
             OperationKind.Invocation);
         context.RegisterCompilationEndAction(endContext =>
             ReportModuleDiagnostics(
@@ -52,7 +54,8 @@ internal static class ModuleAuthoringAnalysis
                 modules,
                 registeredModules,
                 instanceRegisteredModules,
-                scannedAssemblies));
+                scannedAssemblies,
+                unresolvedModuleRegistrations));
     }
 
     private static void CollectModuleType(
@@ -92,7 +95,8 @@ internal static class ModuleAuthoringAnalysis
         OperationAnalysisContext context,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var invocation = (IInvocationOperation) context.Operation;
         TrackRegistrationInvocation(
@@ -100,7 +104,8 @@ internal static class ModuleAuthoringAnalysis
             context.Compilation.Assembly,
             registeredModules,
             instanceRegisteredModules,
-            scannedAssemblies);
+            scannedAssemblies,
+            unresolvedModuleRegistrations);
     }
 
     private static void AnalyzeInvocation(OperationAnalysisContext context)
@@ -332,7 +337,8 @@ internal static class ModuleAuthoringAnalysis
         IAssemblySymbol currentAssembly,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var method = invocation.TargetMethod;
         if (!method.ContainingNamespace.ToDisplayString().StartsWith(
@@ -365,15 +371,58 @@ internal static class ModuleAuthoringAnalysis
             }
         }
 
-        // AddModules(params Type[]) can only be resolved statically for direct typeof operands.
-        foreach (var typeOfOperation in invocation.Arguments
-                     .SelectMany(static argument => argument.Value.DescendantsAndSelf())
-                     .OfType<ITypeOfOperation>())
+        if (method.Name != "AddModules")
         {
-            if (typeOfOperation.TypeOperand is INamedTypeSymbol moduleType)
+            return;
+        }
+
+        foreach (var argument in invocation.Arguments)
+        {
+            if (!TryTrackModuleTypes(
+                    argument.Value,
+                    registeredModules,
+                    [with(SymbolEqualityComparer.Default)]))
             {
-                registeredModules.Add(moduleType.OriginalDefinition);
+                unresolvedModuleRegistrations.Add(0);
             }
+        }
+    }
+
+    private static bool TryTrackModuleTypes(
+        IOperation operation,
+        ConcurrentBag<INamedTypeSymbol> registeredModules,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        switch (operation)
+        {
+            case IConversionOperation conversion:
+                return TryTrackModuleTypes(
+                    conversion.Operand,
+                    registeredModules,
+                    visitedLocals);
+            case ITypeOfOperation { TypeOperand: INamedTypeSymbol moduleType }:
+                registeredModules.Add(moduleType.OriginalDefinition);
+                return true;
+            case ILocalReferenceOperation localReference
+                when visitedLocals.Add(localReference.Local)
+                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
+                return TryTrackModuleTypes(
+                    localValue,
+                    registeredModules,
+                    visitedLocals);
+            case IArrayCreationOperation { Initializer: { } initializer }:
+                return initializer.ElementValues.All(element =>
+                    TryTrackModuleTypes(element, registeredModules, visitedLocals));
+            case ICollectionExpressionOperation collection:
+                return collection.Elements.All(element =>
+                    TryTrackModuleTypes(element, registeredModules, visitedLocals));
+            case IInvocationOperation invocation
+                when invocation.TargetMethod.Name == "Empty"
+                     && invocation.TargetMethod.ContainingType.OriginalDefinition
+                         .ToDisplayString() == "System.Array":
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -414,7 +463,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> modules,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var moduleSet = modules
             .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
@@ -435,6 +485,11 @@ internal static class ModuleAuthoringAnalysis
         }
 
         if (!IsApplication(context.Compilation.Options.OutputKind))
+        {
+            return;
+        }
+
+        if (!unresolvedModuleRegistrations.IsEmpty)
         {
             return;
         }

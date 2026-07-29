@@ -72,6 +72,45 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_With_Local_Params_Type_Array()
+    {
+        var source = ModuleSource(
+            TestSourceConstants.SimpleAsyncExecuteBody,
+            """
+            Type[] moduleTypes = [typeof(BuildModule)];
+            Pipeline.CreateBuilder().AddModules(moduleTypes);
+            """);
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_When_Params_Type_Array_Property_Cannot_Be_Resolved()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static Type[] ModuleTypes { get; } =
+                    typeof(Registration).Assembly.GetTypes();
+
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModules(ModuleTypes);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_By_Containing_Assembly()
     {
         var source = ModuleSource(
