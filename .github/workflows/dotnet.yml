@@ -330,11 +330,23 @@ jobs:
           echo "::error::The fast-fail lane did not pass."
           exit 1
       - name: Add mask
+        shell: bash
+        env:
+          DOTNET_FORMAT_PUSH_TOKEN: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NuGet__ApiKey }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          CODACY_API_KEY: ${{ secrets.CODACY_APIKEY }}
         run: |
-          echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}"
-          echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
-          echo "::add-mask::${{ secrets.ADMIN_TOKEN }}"
-          echo "::add-mask::${{ secrets.CODACY_APIKEY }}"
+          for secret in \
+            "$DOTNET_FORMAT_PUSH_TOKEN" \
+            "$NUGET_API_KEY" \
+            "$ADMIN_TOKEN" \
+            "$CODACY_API_KEY"
+          do
+            if [[ -n "$secret" ]]; then
+              echo "::add-mask::$secret"
+            fi
+          done
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
