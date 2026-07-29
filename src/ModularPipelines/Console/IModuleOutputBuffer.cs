@@ -38,17 +38,8 @@ internal interface IModuleOutputBuffer
     /// Adds a structured log event to the buffer.
     /// Used for ILogger calls.
     /// </summary>
-    /// <param name="level">Log level.</param>
-    /// <param name="eventId">Event identifier.</param>
-    /// <param name="state">Log state object.</param>
-    /// <param name="exception">Optional exception.</param>
-    /// <param name="formatter">Formatter function.</param>
-    void AddLogEvent(
-        LogLevel level,
-        EventId eventId,
-        object state,
-        Exception? exception,
-        Func<object, Exception?, string> formatter);
+    /// <param name="logEvent">The structured log event.</param>
+    void AddLogEvent(IBufferedLogEvent logEvent);
 
     /// <summary>
     /// Sets the exception if the module failed.

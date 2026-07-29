@@ -39,10 +39,7 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IA
     internal static ILogger Current => (Values.Value as ILogger) ?? NullLogger.Instance;
 
     protected readonly object _disposeLock = new();
-    protected readonly object _logLock = new();
     protected Exception? _exception;
-
-    internal DateTime LastLogWritten { get; set; } = DateTime.MinValue;
 
     public abstract void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter);
 
@@ -72,6 +69,9 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     private readonly IFormattedLogValuesObfuscator _formattedLogValuesObfuscator;
     private readonly IModuleOutputBuffer _buffer;
     private readonly IOutputCoordinator _outputCoordinator;
+    private readonly object _renderLock = new();
+    private readonly StringWriter _renderWriter;
+    private readonly IAnsiConsole _renderConsole;
 
     private bool _isDisposed;
 
@@ -88,6 +88,11 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
         _buffer = consoleCoordinator.GetModuleBuffer(typeof(T));
         _outputCoordinator = outputCoordinator;
+        _renderWriter = new StringWriter();
+        _renderConsole = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(_renderWriter),
+        });
     }
 
     public override IDisposable? BeginScope<TState>(TState state)
@@ -102,21 +107,31 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string>? formatter)
     {
-        lock (_logLock)
+        if (!IsEnabled(logLevel))
         {
-            if (!IsEnabled(logLevel) || _isDisposed)
+            return;
+        }
+
+        lock (_disposeLock)
+        {
+            if (_isDisposed)
             {
                 return;
             }
 
             var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state!);
-            var mappedFormatter = MapFormatter(formatter, state);
+            var logEvent = new BufferedLogEvent<TState>(
+                logLevel,
+                eventId,
+                state,
+                obfuscatedState,
+                exception,
+                formatter ?? (static (_, _) => string.Empty),
+                _secretObfuscator);
 
-            // Write to buffer for ordered module output during pipeline execution
-            // Output will be flushed to console and loggers when the module completes
-            _buffer.AddLogEvent(logLevel, eventId, obfuscatedState, exception, mappedFormatter);
-
-            LastLogWritten = DateTime.UtcNow;
+            // Write to buffer for ordered module output during pipeline execution.
+            // Output will be flushed to console and loggers when the module completes.
+            _buffer.AddLogEvent(logEvent);
         }
     }
 
@@ -199,31 +214,15 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void Write(IRenderable renderable)
     {
-        // Render to string for buffering, then obfuscate
-        using var writer = new StringWriter();
-        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        string rendered;
+        lock (_renderLock)
         {
-            Out = new AnsiConsoleOutput(writer),
-        });
-        console.Write(renderable);
-        var rendered = writer.ToString();
-        var obfuscated = _secretObfuscator.Obfuscate(rendered, null) ?? rendered;
-        _buffer.WriteLine(obfuscated);
-    }
-
-    private Func<object, Exception?, string> MapFormatter<TState>(
-        Func<TState, Exception?, string>? formatter,
-        TState originalState)
-    {
-        if (formatter is null)
-        {
-            return (_, _) => string.Empty;
+            _renderWriter.GetStringBuilder().Clear();
+            _renderConsole.Write(renderable);
+            rendered = _renderWriter.ToString();
         }
 
-        return (_, exception) =>
-        {
-            var formattedString = formatter.Invoke(originalState, exception);
-            return _secretObfuscator.Obfuscate(formattedString, null) ?? string.Empty;
-        };
+        var obfuscated = _secretObfuscator.Obfuscate(rendered, null) ?? rendered;
+        _buffer.WriteLine(obfuscated);
     }
 }

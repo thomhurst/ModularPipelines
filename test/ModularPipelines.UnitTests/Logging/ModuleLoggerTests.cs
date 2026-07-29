@@ -11,6 +11,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Moq;
 using NReco.Logging.File;
+using Spectre.Console;
 using File = ModularPipelines.FileSystem.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -119,6 +120,118 @@ public class ModuleLoggerTests
         await Assert.That(loggerReference.IsAlive).IsFalse();
     }
 
+    [Test]
+    public async Task Log_BuffersRawStateAndOriginalFormatter()
+    {
+        IBufferedLogEvent? bufferedLogEvent = null;
+        var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
+        moduleOutputBuffer
+            .Setup(x => x.AddLogEvent(It.IsAny<IBufferedLogEvent>()))
+            .Callback<IBufferedLogEvent>(logEvent => bufferedLogEvent = logEvent);
+        var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer.Object);
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        defaultLogger.Setup(x => x.IsEnabled(LogLevel.Information)).Returns(true);
+        var formattedValuesObfuscator = new Mock<IFormattedLogValuesObfuscator>();
+        formattedValuesObfuscator
+            .Setup(x => x.TryObfuscateValues(It.IsAny<object>()))
+            .Returns("sanitized-state");
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value?.Replace("secret", "***") ?? string.Empty);
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            secretObfuscator.Object,
+            formattedValuesObfuscator.Object,
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        var originalState = new TestLogState("secret");
+
+        logger.Log(
+            LogLevel.Information,
+            default,
+            originalState,
+            null,
+            static (state, _) => $"value:{state.Value}");
+        var captureLogger = new CaptureLogger();
+        bufferedLogEvent!.WriteTo(captureLogger);
+
+        await Assert.That(captureLogger.State).IsEqualTo("sanitized-state");
+        await Assert.That(captureLogger.Message).IsEqualTo("value:***");
+    }
+
+    [Test]
+    public async Task Dispose_WaitsForInProgressLogAdmission()
+    {
+        var logEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLog = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleLoggerTests));
+        var consoleCoordinator = CreateConsoleCoordinator(buffer);
+        var defaultLogger = new Mock<ILogger<ModuleLoggerTests>>();
+        defaultLogger.Setup(x => x.IsEnabled(LogLevel.Information)).Returns(true);
+        var formattedValuesObfuscator = new Mock<IFormattedLogValuesObfuscator>();
+        formattedValuesObfuscator
+            .Setup(x => x.TryObfuscateValues(It.IsAny<object>()))
+            .Callback(() =>
+            {
+                logEntered.TrySetResult();
+                releaseLog.Task.GetAwaiter().GetResult();
+            })
+            .Returns((object state) => state);
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            defaultLogger.Object,
+            Mock.Of<ISecretObfuscator>(),
+            formattedValuesObfuscator.Object,
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+        var logTask = Task.Run(() => logger.LogInformation("message"));
+
+        await logEntered.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        var disposeTask = Task.Run(logger.Dispose);
+
+        try
+        {
+            await Task.Delay(50);
+            await Assert.That(disposeTask.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            releaseLog.TrySetResult();
+        }
+
+        await Task.WhenAll(logTask, disposeTask);
+        await Assert.That(buffer.HasOutput).IsTrue();
+        await Assert.That(buffer.IsComplete).IsTrue();
+    }
+
+    [Test]
+    public async Task Write_ReusesClearedRenderer()
+    {
+        var renderedLines = new List<string>();
+        var moduleOutputBuffer = new Mock<IModuleOutputBuffer>();
+        moduleOutputBuffer
+            .Setup(x => x.WriteLine(It.IsAny<string>()))
+            .Callback<string>(renderedLines.Add);
+        var consoleCoordinator = CreateConsoleCoordinator(moduleOutputBuffer.Object);
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
+            .Returns((string? value, object? _) => value ?? string.Empty);
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            Mock.Of<ILogger<ModuleLoggerTests>>(),
+            secretObfuscator.Object,
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+
+        logger.Write(new Markup("first"));
+        logger.Write(new Markup("second"));
+
+        await Assert.That(renderedLines).Count().IsEqualTo(2);
+        await Assert.That(renderedLines[1]).Contains("second");
+        await Assert.That(renderedLines[1]).DoesNotContain("first");
+    }
+
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static WeakReference CreateDisposedLoggerReference()
     {
@@ -137,6 +250,41 @@ public class ModuleLoggerTests
 
         logger.Dispose();
         return new WeakReference(logger);
+    }
+
+    private static Mock<IConsoleCoordinator> CreateConsoleCoordinator(IModuleOutputBuffer moduleOutputBuffer)
+    {
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleLoggerTests)))
+            .Returns(moduleOutputBuffer);
+        return consoleCoordinator;
+    }
+
+    private readonly record struct TestLogState(string Value);
+
+    private sealed class CaptureLogger : ILogger
+    {
+        public object? State { get; private set; }
+
+        public string? Message { get; private set; }
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull
+            => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            State = state;
+            Message = formatter(state, exception);
+        }
     }
 
     private class MySecrets

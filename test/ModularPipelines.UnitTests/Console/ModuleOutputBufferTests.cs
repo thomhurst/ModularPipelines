@@ -1,6 +1,7 @@
 using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
+using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
 
 namespace ModularPipelines.UnitTests.Console;
@@ -74,6 +75,50 @@ public class ModuleOutputBufferTests
         var output = writer.ToString();
         await Assert.That(output).Contains("direct output");
         await Assert.That(output).DoesNotContain("[green]");
+    }
+
+    [Test]
+    public async Task DirectConsole_IsCachedPerWriter()
+    {
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        using var firstWriter = new StringWriter();
+        using var secondWriter = new StringWriter();
+
+        var firstConsole = buffer.GetDirectConsole(firstWriter);
+
+        await Assert.That(buffer.GetDirectConsole(firstWriter)).IsSameReferenceAs(firstConsole);
+        await Assert.That(buffer.GetDirectConsole(secondWriter)).IsNotSameReferenceAs(firstConsole);
+    }
+
+    [Test]
+    public async Task LogEventAddedAfterCompletion_IsIgnored()
+    {
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+
+        buffer.MarkComplete();
+        buffer.AddLogEvent(new BufferedLogEvent<string>(
+            LogLevel.Information,
+            default,
+            "late log",
+            "late log",
+            null,
+            static (state, _) => state,
+            new PassthroughSecretObfuscator()));
+
+        await Assert.That(buffer.HasOutput).IsFalse();
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
+    public async Task ConsoleOutputAddedAfterCompletion_IsRetained()
+    {
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+
+        buffer.MarkComplete();
+        buffer.WriteLine("retained output");
+
+        await Assert.That(buffer.HasOutput).IsTrue();
+        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
     }
 
     [Test]
@@ -433,18 +478,25 @@ public class ModuleOutputBufferTests
     private static ModuleOutputBuffer CreateBufferWithStructuredLog()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
-        buffer.AddLogEvent(
+        buffer.AddLogEvent(new BufferedLogEvent<string>(
             LogLevel.Information,
             default,
             "structured log",
+            "structured log",
             null,
-            static (state, _) => state.ToString()!);
+            static (state, _) => state,
+            new PassthroughSecretObfuscator()));
         return buffer;
     }
 
     private static int CountOccurrences(string value, string search)
     {
         return value.Split(search, StringSplitOptions.None).Length - 1;
+    }
+
+    private sealed class PassthroughSecretObfuscator : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
     }
 
     private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
