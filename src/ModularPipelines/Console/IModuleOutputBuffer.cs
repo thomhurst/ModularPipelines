@@ -54,6 +54,11 @@ internal interface IModuleOutputBuffer
     bool HasOutput { get; }
 
     /// <summary>
+    /// Gets a value indicating whether a structured event needs another provider delivery attempt.
+    /// </summary>
+    bool HasStructuredDeliveryRetries => false;
+
+    /// <summary>
     /// Gets a value indicating whether the owning module has completed.
     /// </summary>
     bool IsComplete { get; }
@@ -77,6 +82,7 @@ internal interface IModuleOutputBuffer
     /// <param name="logger">The logger for structured log output.</param>
     /// <param name="loggerControl">Coordinates log rendering with direct console writes.</param>
     /// <param name="flushKind">Whether this is an incremental or complete flush.</param>
+    /// <param name="fallbackLoggers">Non-Spectre loggers that receive structured events during direct fallback.</param>
     /// <param name="cancellationToken">Cancellation token for the flush operation.</param>
     /// <returns>A task that completes when buffered output has been rendered.</returns>
     Task FlushToAsync(
@@ -85,5 +91,6 @@ internal interface IModuleOutputBuffer
         ILogger logger,
         ISpectreConsoleLoggerControl loggerControl,
         OutputFlushKind flushKind,
+        IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default);
 }

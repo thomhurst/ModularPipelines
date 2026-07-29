@@ -105,6 +105,7 @@ internal static class DependencyInjectionSetup
                     .AddFilter("System", LogLevel.Warning);
 
                 builder.AddSpectreConsole(ConfigureSpectreConsoleLogger);
+                builder.Services.MakeSpectreLoggerSuppressible();
             })
             .AddHttpClient()
             .AddLoggingHttpClients()
@@ -193,6 +194,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IProgressDisplay>(sp => sp.GetRequiredService<Console.ConsoleCoordinator>())
 
             // Output coordinator - manages immediate output during live display
+            .AddSingleton<Console.INonSpectreLoggerFactory, Console.NonSpectreLoggerFactory>()
             .AddSingleton<Console.OutputCoordinator>()
             .AddSingleton<Console.IOutputCoordinator>(sp => sp.GetRequiredService<Console.OutputCoordinator>())
 

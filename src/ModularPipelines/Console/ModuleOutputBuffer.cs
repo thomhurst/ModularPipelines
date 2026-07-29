@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using MEL.Spectre;
@@ -25,13 +26,18 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class ModuleOutputBuffer : IModuleOutputBuffer
 {
-    private readonly List<BufferedOutput> _outputs = new();
-    private readonly object _lock = new();
+    private static readonly TimeSpan DefaultSynchronizationLockTimeout = TimeSpan.FromSeconds(1);
+    private static readonly TimeSpan SynchronizationLockPollInterval = TimeSpan.FromMilliseconds(50);
+    private readonly List<BufferedOutput> _outputs = [];
+    private readonly List<StructuredDeliveryRetry> _structuredDeliveryRetries = [];
+    private readonly Lock _lock = new();
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
     private readonly int _outputFlushThreshold;
+    private readonly TimeSpan _synchronizationLockTimeout;
+    private readonly Func<LogLevel, bool> _isSpectreEnabled;
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
-    private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = new();
+    private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private bool _isComplete;
     private bool _isIncrementalFlushInProgress;
@@ -48,11 +54,21 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="moduleType">The module type.</param>
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
+    /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
+    /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
-        Action<IModuleOutputBuffer>? requestIncrementalFlush = null)
-        : this(moduleType.Name, moduleType, outputFlushThreshold, requestIncrementalFlush)
+        Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
+        TimeSpan? synchronizationLockTimeout = null,
+        Func<LogLevel, bool>? isSpectreEnabled = null)
+        : this(
+            moduleType.Name,
+            moduleType,
+            outputFlushThreshold,
+            requestIncrementalFlush,
+            synchronizationLockTimeout,
+            isSpectreEnabled)
     {
     }
 
@@ -64,17 +80,23 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="moduleType">Placeholder type.</param>
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
+    /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
+    /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
         int outputFlushThreshold = 0,
-        Action<IModuleOutputBuffer>? requestIncrementalFlush = null)
+        Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
+        TimeSpan? synchronizationLockTimeout = null,
+        Func<LogLevel, bool>? isSpectreEnabled = null)
     {
         ModuleType = moduleType;
         _moduleName = name;
         _startTimeUtc = DateTime.UtcNow;
         _outputFlushThreshold = outputFlushThreshold;
         _requestIncrementalFlush = requestIncrementalFlush;
+        _synchronizationLockTimeout = synchronizationLockTimeout ?? DefaultSynchronizationLockTimeout;
+        _isSpectreEnabled = isSpectreEnabled ?? (static _ => true);
     }
 
     /// <inheritdoc />
@@ -105,7 +127,19 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             lock (_lock)
             {
-                return _outputs.Count > 0;
+                return _outputs.Count > 0 || _structuredDeliveryRetries.Count > 0;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public bool HasStructuredDeliveryRetries
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _structuredDeliveryRetries.Count > 0;
             }
         }
     }
@@ -130,6 +164,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             lock (_lock)
             {
                 return _outputs.Count > 0
+                       || _structuredDeliveryRetries.Count > 0
                        || _isIncrementalFlushInProgress
                        || _hasRenderedIncrementalOutput;
             }
@@ -152,29 +187,48 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ILogger logger,
         ISpectreConsoleLoggerControl loggerControl,
         OutputFlushKind flushKind,
+        IReadOnlyList<ILogger>? fallbackLoggers = null,
         CancellationToken cancellationToken = default)
     {
-        if (!TryTakeOutputs(flushKind, out var outputs, out var exception))
+        if (!TryTakeOutputs(
+                flushKind,
+                out var outputs,
+                out var structuredDeliveryRetries,
+                out var shouldRenderOutputGroup,
+                out var exception))
         {
             return Task.CompletedTask;
         }
 
         var directConsole = GetDirectConsole(console);
+        var effectiveFallbackLoggers = fallbackLoggers ?? [];
+        var failedStructuredDeliveries = new List<StructuredDeliveryRetry>();
         var renderedCount = 0;
 
         try
         {
-            RenderOutputs(
+            RetryStructuredDeliveries(
+                structuredDeliveryRetries,
+                failedStructuredDeliveries,
                 console,
-                directConsole,
-                formatter,
-                logger,
-                loggerControl.SynchronizationLock,
-                exception,
-                flushKind,
-                outputs,
-                ref renderedCount,
                 cancellationToken);
+
+            if (shouldRenderOutputGroup)
+            {
+                RenderOutputs(
+                    console,
+                    directConsole,
+                    formatter,
+                    logger,
+                    loggerControl.SynchronizationLock,
+                    exception,
+                    flushKind,
+                    outputs,
+                    effectiveFallbackLoggers,
+                    failedStructuredDeliveries,
+                    ref renderedCount,
+                    cancellationToken);
+            }
         }
         catch
         {
@@ -185,6 +239,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             RestoreUnrenderedOutputs(outputs, renderedCount);
             throw;
+        }
+        finally
+        {
+            RestoreStructuredDeliveryRetries(failedStructuredDeliveries);
         }
 
         RecordRenderedOutput(flushKind, renderedCount);
@@ -224,6 +282,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private bool TryTakeOutputs(
         OutputFlushKind flushKind,
         out List<BufferedOutput> outputs,
+        out List<StructuredDeliveryRetry> structuredDeliveryRetries,
+        out bool shouldRenderOutputGroup,
         out Exception? exception)
     {
         lock (_lock)
@@ -231,20 +291,30 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             if (flushKind is OutputFlushKind.Incremental && _isComplete)
             {
                 outputs = null!;
+                structuredDeliveryRetries = null!;
+                shouldRenderOutputGroup = false;
                 exception = null;
                 return false;
             }
 
             if (_outputs.Count == 0
+                && _structuredDeliveryRetries.Count == 0
                 && (flushKind is OutputFlushKind.Incremental || !_hasRenderedIncrementalOutput))
             {
                 outputs = null!;
+                structuredDeliveryRetries = null!;
+                shouldRenderOutputGroup = false;
                 exception = null;
                 return false;
             }
 
-            outputs = new List<BufferedOutput>(_outputs);
+            outputs = [.. _outputs];
+            structuredDeliveryRetries = [.. _structuredDeliveryRetries];
+            shouldRenderOutputGroup = _outputs.Count > 0
+                                      || (flushKind is OutputFlushKind.Complete
+                                          && _hasRenderedIncrementalOutput);
             _outputs.Clear();
+            _structuredDeliveryRetries.Clear();
             _thresholdFlushRequested = false;
             _isIncrementalFlushInProgress = flushKind is OutputFlushKind.Incremental;
             exception = _exception;
@@ -261,10 +331,18 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         Exception? exception,
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        EnterSynchronizationLock(synchronizationLock, cancellationToken);
+        var lockTaken = TryEnterSynchronizationLock(synchronizationLock, cancellationToken);
+        if (!lockTaken)
+        {
+            console.WriteLine(
+                $"Timed out waiting for the console logger lock for {_moduleName}; writing buffered output directly.");
+        }
+
         try
         {
             RenderOutputGroup(
@@ -275,12 +353,18 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 exception,
                 flushKind,
                 outputs,
+                fallbackLoggers,
+                failedStructuredDeliveries,
+                writeStructuredLogsDirectly: !lockTaken,
                 ref renderedCount,
                 cancellationToken);
         }
         finally
         {
-            Monitor.Exit(synchronizationLock);
+            if (lockTaken)
+            {
+                Monitor.Exit(synchronizationLock);
+            }
         }
     }
 
@@ -292,6 +376,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         Exception? exception,
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
+        bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
@@ -318,6 +405,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 directConsole,
                 logger,
                 outputs,
+                fallbackLoggers,
+                failedStructuredDeliveries,
+                writeStructuredLogsDirectly,
                 ref renderedCount,
                 cancellationToken);
 
@@ -339,11 +429,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private static void RenderBufferedOutputs(
+    private void RenderBufferedOutputs(
         TextWriter console,
         IAnsiConsole directConsole,
         ILogger logger,
         List<BufferedOutput> outputs,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
+        bool writeStructuredLogsDirectly,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
@@ -357,9 +450,33 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             }
             else if (output.LogEvent is { } logEvent)
             {
-                // Synchronous MEL.Spectre rendering preserves this buffer's position
-                // while other providers (for example file logging) still receive the event.
-                logEvent.WriteTo(logger);
+                if (writeStructuredLogsDirectly)
+                {
+                    var failedLoggers = WriteToFallbackLoggers(
+                        logEvent,
+                        fallbackLoggers,
+                        console);
+                    if (failedLoggers.Count > 0)
+                    {
+                        failedStructuredDeliveries.Add(
+                            new StructuredDeliveryRetry(logEvent, failedLoggers));
+                    }
+
+                    if (_isSpectreEnabled(logEvent.Level))
+                    {
+                        WriteDirect(directConsole, console, logEvent.FormatMessageWithLevel());
+                        if (logEvent.FormatException() is { } formattedException)
+                        {
+                            console.WriteLine(formattedException);
+                        }
+                    }
+                }
+                else
+                {
+                    // Synchronous MEL.Spectre rendering preserves this buffer's position
+                    // while other providers (for example file logging) still receive the event.
+                    logEvent.WriteTo(logger);
+                }
             }
 
             // Advance only after the sink returns successfully. A sink that accepts
@@ -388,16 +505,105 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private static void EnterSynchronizationLock(
+    private bool TryEnterSynchronizationLock(
         object synchronizationLock,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        while (!Monitor.TryEnter(synchronizationLock, millisecondsTimeout: 50))
+        var stopwatch = Stopwatch.StartNew();
+
+        while (stopwatch.Elapsed < _synchronizationLockTimeout)
         {
+            var remaining = _synchronizationLockTimeout - stopwatch.Elapsed;
+            if (remaining <= TimeSpan.Zero)
+            {
+                return false;
+            }
+
+            var wait = remaining < SynchronizationLockPollInterval
+                ? remaining
+                : SynchronizationLockPollInterval;
+
+            if (Monitor.TryEnter(synchronizationLock, wait))
+            {
+                return true;
+            }
+
             cancellationToken.ThrowIfCancellationRequested();
         }
+
+        return false;
     }
+
+    private static IReadOnlyList<ILogger> WriteToFallbackLoggers(
+        IBufferedLogEvent logEvent,
+        IReadOnlyList<ILogger> fallbackLoggers,
+        TextWriter console)
+    {
+        List<ILogger>? failedLoggers = null;
+        foreach (var fallbackLogger in fallbackLoggers)
+        {
+            try
+            {
+                logEvent.WriteTo(fallbackLogger);
+            }
+            catch (ProviderDeliveryException exception)
+            {
+                (failedLoggers ??= []).AddRange(exception.FailedLoggers);
+                console.WriteLine(
+                    $"A non-console logger failed while handling buffered output: {exception.Message}");
+            }
+            catch (Exception exception)
+            {
+                (failedLoggers ??= []).Add(fallbackLogger);
+                console.WriteLine(
+                    $"A non-console logger failed while handling buffered output: {exception.Message}");
+            }
+        }
+
+        return failedLoggers ?? [];
+    }
+
+    private static void RetryStructuredDeliveries(
+        List<StructuredDeliveryRetry> structuredDeliveryRetries,
+        List<StructuredDeliveryRetry> failedStructuredDeliveries,
+        TextWriter console,
+        CancellationToken cancellationToken)
+    {
+        for (var index = 0; index < structuredDeliveryRetries.Count; index++)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                failedStructuredDeliveries.AddRange(structuredDeliveryRetries.Skip(index));
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+
+            var retry = structuredDeliveryRetries[index];
+            if (WriteToFallbackLoggers(retry.LogEvent, retry.Loggers, console).Count > 0)
+            {
+                console.WriteLine(
+                    "Structured delivery was abandoned after 2 failed attempts; the direct console copy was retained.");
+            }
+        }
+    }
+
+    private void RestoreStructuredDeliveryRetries(
+        List<StructuredDeliveryRetry> structuredDeliveryRetries)
+    {
+        if (structuredDeliveryRetries.Count == 0)
+        {
+            return;
+        }
+
+        lock (_lock)
+        {
+            _structuredDeliveryRetries.InsertRange(0, structuredDeliveryRetries);
+        }
+    }
+
+    private readonly record struct StructuredDeliveryRetry(
+        IBufferedLogEvent LogEvent,
+        IReadOnlyList<ILogger> Loggers);
 
     private void RestoreUnrenderedOutputs(List<BufferedOutput> outputs, int renderedCount)
     {
@@ -497,53 +703,61 @@ internal readonly struct BufferedOutput
 /// </summary>
 internal interface IBufferedLogEvent
 {
+    LogLevel Level { get; }
+
     void WriteTo(ILogger logger);
+
+    string FormatMessageWithLevel();
+
+    string? FormatException();
 }
 
 /// <summary>
 /// Holds generic structured log state and its original formatter for deferred output.
 /// </summary>
-internal sealed class BufferedLogEvent<TState> : IBufferedLogEvent
+internal sealed class BufferedLogEvent<TState>(
+    LogLevel level,
+    EventId eventId,
+    TState originalState,
+    object obfuscatedState,
+    Exception? exception,
+    Func<TState, Exception?, string> formatter,
+    ISecretObfuscator secretObfuscator) : IBufferedLogEvent
 {
-    private readonly LogLevel _level;
-    private readonly EventId _eventId;
-    private readonly TState _originalState;
-    private readonly object _obfuscatedState;
-    private readonly Exception? _exception;
-    private readonly Func<TState, Exception?, string> _formatter;
-    private readonly ISecretObfuscator _secretObfuscator;
-
-    public BufferedLogEvent(
-        LogLevel level,
-        EventId eventId,
-        TState originalState,
-        object obfuscatedState,
-        Exception? exception,
-        Func<TState, Exception?, string> formatter,
-        ISecretObfuscator secretObfuscator)
-    {
-        _level = level;
-        _eventId = eventId;
-        _originalState = originalState;
-        _obfuscatedState = obfuscatedState;
-        _exception = exception;
-        _formatter = formatter;
-        _secretObfuscator = secretObfuscator;
-    }
+    public LogLevel Level => level;
 
     public void WriteTo(ILogger logger)
     {
         logger.Log(
-            _level,
-            _eventId,
-            _obfuscatedState,
-            _exception,
+            level,
+            eventId,
+            obfuscatedState,
+            exception,
             Format);
     }
 
-    private string Format(object state, Exception? exception)
+    public string FormatMessageWithLevel() => $"[{FormatLevel(level)}] {Format(obfuscatedState, exception)}";
+
+    public string? FormatException()
+        => exception is null
+            ? null
+            : secretObfuscator.Obfuscate(exception.ToString(), null);
+
+    private string Format(object state, Exception? logException)
     {
-        var formatted = _formatter(_originalState, exception);
-        return _secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
+        var formatted = formatter(originalState, logException);
+        return secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
     }
+
+    private static string FormatLevel(LogLevel logLevel) =>
+        logLevel switch
+        {
+            LogLevel.Trace => "TRCE",
+            LogLevel.Debug => "DBUG",
+            LogLevel.Information => "INFO",
+            LogLevel.Warning => "WARN",
+            LogLevel.Error => "ERRO",
+            LogLevel.Critical => "CRIT",
+            _ => "NONE",
+        };
 }

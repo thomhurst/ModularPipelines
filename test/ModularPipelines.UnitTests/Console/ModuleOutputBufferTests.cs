@@ -330,7 +330,7 @@ public class ModuleOutputBufferTests
                 loggerControl,
                 loggerControl,
                 OutputFlushKind.Complete,
-                cancellationTokenSource.Token));
+                cancellationToken: cancellationTokenSource.Token));
 
         await Assert.That(buffer.HasOutput).IsTrue();
     }
@@ -352,7 +352,7 @@ public class ModuleOutputBufferTests
                 loggerControl,
                 loggerControl,
                 OutputFlushKind.Complete,
-                cancellationTokenSource.Token));
+                cancellationToken: cancellationTokenSource.Token));
 
         var cancelledOutput = writer.ToString();
         await Assert.That(cancelledOutput.IndexOf("::endgroup::", StringComparison.Ordinal))
@@ -464,7 +464,7 @@ public class ModuleOutputBufferTests
                     loggerControl,
                     loggerControl,
                     OutputFlushKind.Complete,
-                    cancellationTokenSource.Token));
+                    cancellationToken: cancellationTokenSource.Token));
         }
         finally
         {
@@ -475,17 +475,197 @@ public class ModuleOutputBufferTests
         await Assert.That(buffer.HasOutput).IsTrue();
     }
 
-    private static ModuleOutputBuffer CreateBufferWithStructuredLog()
+    [Test]
+    public async Task Flush_LockTimeout_WritesBufferedOutputDirectly()
     {
-        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var fallbackLogger = new RecordingLogger();
+        var logException = new InvalidOperationException("structured failure");
+        var buffer = CreateBufferWithStructuredLog(
+            TimeSpan.FromMilliseconds(50),
+            "structured secret",
+            new RedactingSecretObfuscator(),
+            logException,
+            LogLevel.Warning);
+        buffer.WriteLine("direct output");
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        try
+        {
+            var flush = Task.Run(() => buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete,
+                [fallbackLogger],
+                CancellationToken.None));
+
+            await flush.WaitAsync(TimeSpan.FromSeconds(2));
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("Timed out waiting for the console logger lock");
+        await Assert.That(output).Contains("[WARN] structured ***");
+        await Assert.That(output).DoesNotContain("structured secret");
+        await Assert.That(output).Contains(nameof(InvalidOperationException));
+        await Assert.That(output).Contains("structured failure");
+        await Assert.That(output).Contains("direct output");
+        await Assert.That(loggerControl.LogCallCount).IsEqualTo(0);
+        await Assert.That(fallbackLogger.Entries).HasSingleItem();
+        await Assert.That(fallbackLogger.Entries[0].Exception).IsSameReferenceAs(logException);
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    [Test]
+    public async Task Flush_LockTimeout_Respects_Spectre_Filter()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var fallbackLogger = new RecordingLogger();
+        var buffer = CreateBufferWithStructuredLog(
+            TimeSpan.FromMilliseconds(50),
+            "filtered structured log",
+            isSpectreEnabled: static _ => false);
+        buffer.WriteLine("direct output");
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        try
+        {
+            await buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete,
+                [fallbackLogger],
+                CancellationToken.None);
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("Timed out waiting for the console logger lock");
+        await Assert.That(output).Contains("direct output");
+        await Assert.That(output).DoesNotContain("filtered structured log");
+        await Assert.That(fallbackLogger.Entries).HasSingleItem();
+        await Assert.That(buffer.HasOutput).IsFalse();
+    }
+
+    [Test]
+    public async Task Flush_LockTimeout_RetriesFailedProviderWithoutRepeatingConsoleOutput()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var successfulLogger = new RecordingLogger();
+        var fallbackLogger = new RecordingLogger
+        {
+            LogException = new InvalidOperationException("provider rejected event"),
+        };
+        var buffer = CreateBufferWithStructuredLog(
+            TimeSpan.FromMilliseconds(50),
+            "retry structured log");
+        var lockAcquired = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseLock = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var lockHolder = Task.Run(() =>
+        {
+            lock (loggerControl.SynchronizationLock)
+            {
+                lockAcquired.TrySetResult();
+                releaseLock.Task.GetAwaiter().GetResult();
+            }
+        });
+
+        await lockAcquired.Task.WaitAsync(TimeSpan.FromSeconds(1));
+        try
+        {
+            await buffer.FlushToAsync(
+                writer,
+                new GitHubActionsFormatter(),
+                loggerControl,
+                loggerControl,
+                OutputFlushKind.Complete,
+                [successfulLogger, fallbackLogger],
+                CancellationToken.None);
+        }
+        finally
+        {
+            releaseLock.TrySetResult();
+            await lockHolder;
+        }
+
+        await Assert.That(buffer.HasOutput).IsTrue();
+        await Assert.That(successfulLogger.Entries).HasSingleItem();
+        await Assert.That(fallbackLogger.Entries).IsEmpty();
+        await Assert.That(CountOccurrences(writer.ToString(), "[INFO] retry structured log"))
+            .IsEqualTo(1);
+
+        fallbackLogger.LogException = null;
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete,
+            [successfulLogger, fallbackLogger],
+            CancellationToken.None);
+
+        await Assert.That(buffer.HasOutput).IsFalse();
+        await Assert.That(successfulLogger.Entries).HasSingleItem();
+        await Assert.That(fallbackLogger.Entries).HasSingleItem();
+        await Assert.That(CountOccurrences(writer.ToString(), "[INFO] retry structured log"))
+            .IsEqualTo(1);
+    }
+
+    private static ModuleOutputBuffer CreateBufferWithStructuredLog(
+        TimeSpan? synchronizationLockTimeout = null,
+        string message = "structured log",
+        ISecretObfuscator? secretObfuscator = null,
+        Exception? exception = null,
+        LogLevel logLevel = LogLevel.Information,
+        Func<LogLevel, bool>? isSpectreEnabled = null)
+    {
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            synchronizationLockTimeout: synchronizationLockTimeout,
+            isSpectreEnabled: isSpectreEnabled);
         buffer.AddLogEvent(new BufferedLogEvent<string>(
-            LogLevel.Information,
+            logLevel,
             default,
-            "structured log",
-            "structured log",
-            null,
+            message,
+            message,
+            exception,
             static (state, _) => state,
-            new PassthroughSecretObfuscator()));
+            secretObfuscator ?? new PassthroughSecretObfuscator()));
         return buffer;
     }
 
@@ -499,15 +679,17 @@ public class ModuleOutputBufferTests
         public string Obfuscate(string? input, object? optionsObject) => input ?? string.Empty;
     }
 
-    private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
+    private sealed class RedactingSecretObfuscator : ISecretObfuscator
     {
-        public object SynchronizationLock { get; } = new();
+        public string Obfuscate(string? input, object? optionsObject)
+            => input?.Replace("secret", "***", StringComparison.Ordinal) ?? string.Empty;
+    }
 
-        public Action? AfterLog { get; set; }
+    private sealed class RecordingLogger : ILogger
+    {
+        public List<(string Message, Exception? Exception)> Entries { get; } = [];
 
         public Exception? LogException { get; set; }
-
-        public Exception? LogExceptionAfterWrite { get; set; }
 
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
@@ -522,6 +704,42 @@ public class ModuleOutputBufferTests
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
+            if (LogException is not null)
+            {
+                throw LogException;
+            }
+
+            Entries.Add((formatter(state, exception), exception));
+        }
+    }
+
+    private sealed class SynchronousLoggerControl(TextWriter writer) : ILogger, ISpectreConsoleLoggerControl
+    {
+        public object SynchronizationLock { get; } = new();
+
+        public Action? AfterLog { get; set; }
+
+        public Exception? LogException { get; set; }
+
+        public Exception? LogExceptionAfterWrite { get; set; }
+
+        public int LogCallCount { get; private set; }
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull
+            => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            LogCallCount++;
+
             if (LogException is not null)
             {
                 throw LogException;

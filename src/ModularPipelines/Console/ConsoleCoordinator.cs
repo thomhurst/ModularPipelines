@@ -49,6 +49,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly ConcurrentQueue<string> _deferredExceptions = new();
     private readonly IOutputCoordinator _outputCoordinator;
     private readonly ISpectreConsoleLoggerControl _loggerControl;
+    private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory;
+    private readonly ISpectreLoggerFilter _spectreLoggerFilter;
     private TextWriter? _originalConsoleOut;
     private TextWriter? _originalConsoleError;
     private IAnsiConsole? _originalAnsiConsole;
@@ -69,7 +71,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IBuildSystemDetector buildSystemDetector,
         IServiceProvider serviceProvider,
         IOutputCoordinator outputCoordinator,
-        ISpectreConsoleLoggerControl loggerControl)
+        ISpectreConsoleLoggerControl loggerControl,
+        INonSpectreLoggerFactory nonSpectreLoggerFactory,
+        ISpectreLoggerFilter spectreLoggerFilter)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
@@ -81,11 +85,16 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _serviceProvider = serviceProvider;
         _outputCoordinator = outputCoordinator;
         _loggerControl = loggerControl;
+        _nonSpectreLoggerFactory = nonSpectreLoggerFactory;
+        _spectreLoggerFilter = spectreLoggerFilter;
         _unattributedBuffer = new ModuleOutputBuffer(
             "Pipeline",
             typeof(void),
             _options.Value.ModuleOutputFlushThreshold,
-            RequestThresholdFlush);
+            RequestThresholdFlush,
+            isSpectreEnabled: logLevel => _spectreLoggerFilter.IsEnabled(
+                OutputLoggerCategories.Pipeline,
+                logLevel));
     }
 
     /// <inheritdoc />
@@ -120,7 +129,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 ConfigureConsoleWidth();
 
                 // Create logger for structured output during flush
-                _outputLogger = _loggerFactory.CreateLogger("ModularPipelines.Output");
+                _outputLogger = _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
 
                 // Install our intercepting writers
                 // Buffer module output while the coordinated output phase is active. Flush paths
@@ -278,7 +287,10 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             t => new ModuleOutputBuffer(
                 t,
                 _options.Value.ModuleOutputFlushThreshold,
-                RequestThresholdFlush));
+                RequestThresholdFlush,
+                isSpectreEnabled: logLevel => _spectreLoggerFilter.IsEnabled(
+                    OutputLoggerCategories.ForModule(t),
+                    logLevel)));
     }
 
     /// <inheritdoc />
@@ -338,15 +350,32 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         // Flush unattributed output (if any)
         if (_unattributedBuffer.HasOutput)
         {
-            var unattributedLogger = _outputLogger ?? _loggerFactory.CreateLogger("ModularPipelines.Output");
+            var unattributedLogger = _outputLogger
+                                     ?? _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
             await _unattributedBuffer
                 .FlushToAsync(
                     _originalConsoleOut,
                     formatter,
                     unattributedLogger,
                     _loggerControl,
-                    OutputFlushKind.Complete)
+                    OutputFlushKind.Complete,
+                    fallbackLoggers: _nonSpectreLoggerFactory.CreateLoggers(
+                        OutputLoggerCategories.Pipeline))
                 .ConfigureAwait(false);
+
+            if (_unattributedBuffer.HasStructuredDeliveryRetries)
+            {
+                await _unattributedBuffer
+                    .FlushToAsync(
+                        _originalConsoleOut,
+                        formatter,
+                        unattributedLogger,
+                        _loggerControl,
+                        OutputFlushKind.Complete,
+                        fallbackLoggers: _nonSpectreLoggerFactory.CreateLoggers(
+                            OutputLoggerCategories.Pipeline))
+                    .ConfigureAwait(false);
+            }
         }
     }
 

@@ -126,6 +126,7 @@ public class OutputCoordinatorTests
             It.IsAny<ILogger>(),
             It.IsAny<ISpectreConsoleLoggerControl>(),
             It.IsAny<OutputFlushKind>(),
+            It.IsAny<IReadOnlyList<ILogger>?>(),
             It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -158,6 +159,7 @@ public class OutputCoordinatorTests
                 It.IsAny<ILogger>(),
                 It.IsAny<ISpectreConsoleLoggerControl>(),
                 OutputFlushKind.Incremental,
+                It.IsAny<IReadOnlyList<ILogger>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
@@ -170,6 +172,7 @@ public class OutputCoordinatorTests
             It.IsAny<ILogger>(),
             It.IsAny<ISpectreConsoleLoggerControl>(),
             OutputFlushKind.Incremental,
+            It.IsAny<IReadOnlyList<ILogger>?>(),
             It.IsAny<CancellationToken>()), Times.Once);
         buffer.Verify(x => x.FlushToAsync(
             It.IsAny<TextWriter>(),
@@ -177,6 +180,7 @@ public class OutputCoordinatorTests
             It.IsAny<ILogger>(),
             It.IsAny<ISpectreConsoleLoggerControl>(),
             OutputFlushKind.Complete,
+            It.IsAny<IReadOnlyList<ILogger>?>(),
             It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -193,6 +197,7 @@ public class OutputCoordinatorTests
                 It.IsAny<ILogger>(),
                 It.IsAny<ISpectreConsoleLoggerControl>(),
                 OutputFlushKind.Incremental,
+                It.IsAny<IReadOnlyList<ILogger>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
@@ -205,7 +210,77 @@ public class OutputCoordinatorTests
             It.IsAny<ILogger>(),
             It.IsAny<ISpectreConsoleLoggerControl>(),
             OutputFlushKind.Incremental,
+            It.IsAny<IReadOnlyList<ILogger>?>(),
             It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Test]
+    public async Task UnattributedFlush_UsesPipelineLoggerCategory()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(void));
+        buffer.SetupGet(x => x.HasOutput).Returns(true);
+        buffer
+            .Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                OutputFlushKind.Incremental,
+                It.IsAny<IReadOnlyList<ILogger>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var loggerFactory = new Mock<ILoggerFactory>();
+        loggerFactory
+            .Setup(x => x.CreateLogger(It.IsAny<string>()))
+            .Returns(Mock.Of<ILogger>());
+        var nonSpectreLoggerFactory = new Mock<INonSpectreLoggerFactory>();
+        nonSpectreLoggerFactory
+            .Setup(x => x.CreateLoggers(It.IsAny<string>()))
+            .Returns([]);
+        var coordinator = CreateCoordinator(
+            loggerFactory.Object,
+            nonSpectreLoggerFactory: nonSpectreLoggerFactory.Object);
+
+        await coordinator.EnqueueAndFlushAsync(buffer.Object, OutputFlushKind.Incremental);
+
+        loggerFactory.Verify(
+            x => x.CreateLogger(OutputLoggerCategories.Pipeline),
+            Times.Once);
+        nonSpectreLoggerFactory.Verify(
+            x => x.CreateLoggers(OutputLoggerCategories.Pipeline),
+            Times.Once);
+    }
+
+    [Test]
+    public async Task Completion_RetriesStructuredProviderDeliveryOnce()
+    {
+        var buffer = new Mock<IModuleOutputBuffer>();
+        buffer.SetupGet(x => x.ModuleType).Returns(typeof(OutputCoordinatorTests));
+        buffer.SetupGet(x => x.NeedsCompletionFlush).Returns(true);
+        buffer.SetupGet(x => x.HasStructuredDeliveryRetries).Returns(true);
+        buffer
+            .Setup(x => x.FlushToAsync(
+                It.IsAny<TextWriter>(),
+                It.IsAny<IBuildSystemFormatter>(),
+                It.IsAny<ILogger>(),
+                It.IsAny<ISpectreConsoleLoggerControl>(),
+                OutputFlushKind.Complete,
+                It.IsAny<IReadOnlyList<ILogger>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        var coordinator = CreateCoordinator(new ConsoleWritingLoggerFactory(TextWriter.Null));
+
+        await coordinator.OnModuleCompletedAsync(buffer.Object, buffer.Object.ModuleType);
+
+        buffer.Verify(x => x.FlushToAsync(
+            It.IsAny<TextWriter>(),
+            It.IsAny<IBuildSystemFormatter>(),
+            It.IsAny<ILogger>(),
+            It.IsAny<ISpectreConsoleLoggerControl>(),
+            OutputFlushKind.Complete,
+            It.IsAny<IReadOnlyList<ILogger>?>(),
+            It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
 
     [Test]
@@ -412,7 +487,8 @@ public class OutputCoordinatorTests
 
     private static OutputCoordinator CreateCoordinator(
         ILoggerFactory loggerFactory,
-        IBuildSystemFormatterProvider? formatterProvider = null)
+        IBuildSystemFormatterProvider? formatterProvider = null,
+        INonSpectreLoggerFactory? nonSpectreLoggerFactory = null)
     {
         if (formatterProvider is null)
         {
@@ -424,12 +500,21 @@ public class OutputCoordinatorTests
         var serviceProvider = new Mock<IServiceProvider>();
         var loggerControl = new Mock<ISpectreConsoleLoggerControl>();
         loggerControl.SetupGet(x => x.SynchronizationLock).Returns(new object());
+        if (nonSpectreLoggerFactory is null)
+        {
+            var nonSpectreLoggerFactoryMock = new Mock<INonSpectreLoggerFactory>();
+            nonSpectreLoggerFactoryMock
+                .Setup(factory => factory.CreateLoggers(It.IsAny<string>()))
+                .Returns([]);
+            nonSpectreLoggerFactory = nonSpectreLoggerFactoryMock.Object;
+        }
 
         return new OutputCoordinator(
             formatterProvider,
             loggerFactory,
             serviceProvider.Object,
-            loggerControl.Object);
+            loggerControl.Object,
+            nonSpectreLoggerFactory);
     }
 
     private sealed class ConsoleWritingLoggerFactory(TextWriter writer) : ILoggerFactory
@@ -499,6 +584,7 @@ public class OutputCoordinatorTests
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
             OutputFlushKind flushKind,
+            IReadOnlyList<ILogger>? fallbackLoggers = null,
             CancellationToken cancellationToken = default)
         {
             FlushCount++;
@@ -544,6 +630,7 @@ public class OutputCoordinatorTests
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
             OutputFlushKind flushKind,
+            IReadOnlyList<ILogger>? fallbackLoggers = null,
             CancellationToken cancellationToken = default)
         {
             FlushCount++;
@@ -590,6 +677,7 @@ public class OutputCoordinatorTests
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
             OutputFlushKind flushKind,
+            IReadOnlyList<ILogger>? fallbackLoggers = null,
             CancellationToken cancellationToken = default)
         {
             FlushStarted.TrySetResult();
@@ -638,6 +726,7 @@ public class OutputCoordinatorTests
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
             OutputFlushKind flushKind,
+            IReadOnlyList<ILogger>? fallbackLoggers = null,
             CancellationToken cancellationToken = default)
         {
             if (flushKind is OutputFlushKind.Complete)
@@ -692,6 +781,7 @@ public class OutputCoordinatorTests
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
             OutputFlushKind flushKind,
+            IReadOnlyList<ILogger>? fallbackLoggers = null,
             CancellationToken cancellationToken = default)
         {
             FlushStarted.TrySetResult();
@@ -732,6 +822,7 @@ public class OutputCoordinatorTests
             ILogger logger,
             ISpectreConsoleLoggerControl loggerControl,
             OutputFlushKind flushKind,
+            IReadOnlyList<ILogger>? fallbackLoggers = null,
             CancellationToken cancellationToken = default)
         {
             DeliveryCount++;

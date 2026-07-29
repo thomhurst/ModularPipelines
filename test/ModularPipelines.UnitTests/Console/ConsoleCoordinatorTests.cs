@@ -1,4 +1,5 @@
 using MEL.Spectre;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
@@ -158,6 +159,14 @@ public class ConsoleCoordinatorTests
         secretObfuscator
             .Setup(obfuscator => obfuscator.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()))
             .Returns((string? value, object? _) => value ?? string.Empty);
+        var nonSpectreLoggerFactory = new Mock<INonSpectreLoggerFactory>();
+        nonSpectreLoggerFactory
+            .Setup(factory => factory.CreateLoggers(It.IsAny<string>()))
+            .Returns([]);
+        var spectreLoggerFilter = new Mock<ISpectreLoggerFilter>();
+        spectreLoggerFilter
+            .Setup(filter => filter.IsEnabled(It.IsAny<string>(), It.IsAny<LogLevel>()))
+            .Returns(true);
 
         return new ConsoleCoordinator(
             Mock.Of<IBuildSystemFormatterProvider>(),
@@ -169,6 +178,8 @@ public class ConsoleCoordinatorTests
             Mock.Of<IBuildSystemDetector>(),
             Mock.Of<IServiceProvider>(),
             outputCoordinator,
-            Mock.Of<ISpectreConsoleLoggerControl>());
+            Mock.Of<ISpectreConsoleLoggerControl>(),
+            nonSpectreLoggerFactory.Object,
+            spectreLoggerFilter.Object);
     }
 }
