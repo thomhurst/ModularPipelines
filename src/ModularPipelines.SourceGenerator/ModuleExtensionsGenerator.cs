@@ -11,7 +11,7 @@ namespace ModularPipelines.SourceGenerator;
 /// Source generator that creates type-safe GetModule extension methods for Module classes.
 /// For each class that inherits from Module&lt;T&gt;, generates:
 /// - GetXxxModuleResult(this IModuleContext context) extension method (strips "Module" suffix)
-/// - GetXxxModuleResultIfRegistered(this IModuleContext context) extension method
+/// - GetXxxModuleResultIfRegistered(this IModuleContext context) extension method.
 /// </summary>
 [Generator]
 public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
@@ -24,19 +24,41 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     private const string GeneratorName = "ModularPipelines.SourceGenerator";
     private const string GeneratorVersion = "1.0.0";
 
+    private static readonly DiagnosticDescriptor DuplicateModuleAccessor = new(
+        id: "MPGEN002",
+        title: "Duplicate generated module accessor",
+        messageFormat: "Generated module accessor '{0}' conflicts for module types: {1}",
+        category: "ModularPipelines.SourceGenerator",
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         // Create syntax provider that finds class declarations with base types
-        var moduleClasses = context.SyntaxProvider
+        var moduleCandidates = context.SyntaxProvider
             .CreateSyntaxProvider(
                 predicate: static (node, _) => IsCandidate(node),
-                transform: static (ctx, _) => GetModuleClassInfo(ctx))
+                transform: static (ctx, _) => GetModuleClassCandidate(ctx))
             .Where(static info => info is not null)
             .Select(static (info, _) => info!);
 
-        // Collect all modules and generate a single extensions file
+        // Keep source locations out of the generation pipeline so trivia-only edits
+        // do not invalidate otherwise identical generated output.
+        var moduleClasses = moduleCandidates
+            .Select(static (candidate, _) => candidate.Module);
         var collectedModules = moduleClasses.Collect();
         context.RegisterSourceOutput(collectedModules, static (ctx, modules) => GenerateExtensions(ctx, modules));
+
+        var duplicateAccessors = moduleCandidates
+            .Collect()
+            .SelectMany(static (candidates, _) => FindDuplicateAccessors(candidates));
+        context.RegisterSourceOutput(
+            duplicateAccessors,
+            static (ctx, duplicate) => ctx.ReportDiagnostic(Diagnostic.Create(
+                DuplicateModuleAccessor,
+                duplicate.Location,
+                duplicate.MethodName,
+                duplicate.ConflictingModuleNames)));
     }
 
     /// <summary>
@@ -51,9 +73,9 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     }
 
     /// <summary>
-    /// Extracts ModuleClassInfo from a type declaration if it inherits from Module&lt;T&gt;.
+    /// Extracts module information from a type declaration if it inherits from Module&lt;T&gt;.
     /// </summary>
-    private static ModuleClassInfo? GetModuleClassInfo(GeneratorSyntaxContext context)
+    private static ModuleClassCandidate? GetModuleClassCandidate(GeneratorSyntaxContext context)
     {
         var classDeclaration = (ClassDeclarationSyntax) context.Node;
         var semanticModel = context.SemanticModel;
@@ -83,15 +105,32 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             return null;
         }
 
-        // Extract namespace
-        var namespaceName = typeSymbol.ContainingNamespace.IsGlobalNamespace
-            ? string.Empty
-            : typeSymbol.ContainingNamespace.ToDisplayString();
-
-        return new ModuleClassInfo(
-            Namespace: namespaceName,
-            ClassName: typeSymbol.Name
+        return new ModuleClassCandidate(
+            new ModuleClassInfo(
+                ClassName: typeSymbol.Name,
+                FullyQualifiedName: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)),
+            typeSymbol.Locations.FirstOrDefault() ?? classDeclaration.GetLocation()
         );
+    }
+
+    private static ImmutableArray<DuplicateModuleAccessorInfo> FindDuplicateAccessors(
+        ImmutableArray<ModuleClassCandidate> candidates)
+    {
+        return candidates
+            .GroupBy(static candidate => candidate.Module)
+            .Select(static group => group.First())
+            .OrderBy(static candidate => candidate.Module.FullyQualifiedName, StringComparer.Ordinal)
+            .GroupBy(
+                static candidate => StripModuleSuffix(candidate.Module.ClassName),
+                StringComparer.Ordinal)
+            .Where(static group => group.Count() > 1)
+            .Select(static group => new DuplicateModuleAccessorInfo(
+                $"Get{group.Key}Module",
+                string.Join(
+                    ", ",
+                    group.Select(static candidate => candidate.Module.FullyQualifiedName)),
+                group.First().Location))
+            .ToImmutableArray();
     }
 
     /// <summary>
@@ -130,6 +169,23 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             return;
         }
 
+        var modulesByMethodName = modules
+            .Distinct()
+            .OrderBy(static module => module.FullyQualifiedName, StringComparer.Ordinal)
+            .GroupBy(
+                static module => StripModuleSuffix(module.ClassName),
+                StringComparer.Ordinal)
+            .ToList();
+
+        var uniqueModules = modulesByMethodName
+            .Where(static group => group.Count() == 1)
+            .Select(static group => group.Single())
+            .ToList();
+        if (uniqueModules.Count == 0)
+        {
+            return;
+        }
+
         var sb = new StringBuilder();
         sb.AppendLine("// <auto-generated/>");
         sb.AppendLine("#nullable enable");
@@ -138,20 +194,6 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Modules;");
-        sb.AppendLine();
-
-        // Add using statements for module namespaces
-        var distinctNamespaces = modules
-            .Select(m => m.Namespace)
-            .Where(ns => !string.IsNullOrEmpty(ns))
-            .Distinct()
-            .OrderBy(ns => ns);
-
-        foreach (var ns in distinctNamespaces)
-        {
-            sb.AppendLine($"using {ns};");
-        }
-
         sb.AppendLine();
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
@@ -162,35 +204,31 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         sb.AppendLine("public static class ModuleContextExtensions");
         sb.AppendLine("{");
 
-        // Group modules by class name to handle potential duplicates
-        var modulesByName = modules.GroupBy(m => m.ClassName).ToList();
-
-        foreach (var moduleGroup in modulesByName)
+        foreach (var module in uniqueModules)
         {
-            var module = moduleGroup.First();
             var methodName = StripModuleSuffix(module.ClassName);
 
             // GetXxxModule method - returns the module (which can be awaited for its result)
             sb.AppendLine($"    /// <summary>");
-            sb.AppendLine($"    /// Gets the <see cref=\"{EscapeXmlComment(module.ClassName)}\"/> module instance.");
+            sb.AppendLine($"    /// Gets the <see cref=\"{EscapeXmlComment(module.FullyQualifiedName)}\"/> module instance.");
             sb.AppendLine($"    /// Await the returned module to get its <see cref=\"ModuleResult{{T}}\"/>.");
             sb.AppendLine($"    /// </summary>");
             sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
             sb.AppendLine($"    /// <returns>The module instance, which can be awaited for its result.</returns>");
             sb.AppendLine($"    /// <exception cref=\"ModularPipelines.Exceptions.ModuleNotRegisteredException\">Thrown when the module is not registered.</exception>");
-            sb.AppendLine($"    public static {module.ClassName} Get{methodName}Module(this IModuleContext context)");
-            sb.AppendLine($"        => context.GetModule<{module.ClassName}>();");
+            sb.AppendLine($"    public static {module.FullyQualifiedName} Get{methodName}Module(this IModuleContext context)");
+            sb.AppendLine($"        => context.GetModule<{module.FullyQualifiedName}>();");
             sb.AppendLine();
 
             // GetXxxModuleIfRegistered method - returns nullable module
             sb.AppendLine($"    /// <summary>");
-            sb.AppendLine($"    /// Gets the <see cref=\"{EscapeXmlComment(module.ClassName)}\"/> if it is registered, otherwise null.");
+            sb.AppendLine($"    /// Gets the <see cref=\"{EscapeXmlComment(module.FullyQualifiedName)}\"/> if it is registered, otherwise null.");
             sb.AppendLine($"    /// Await the returned module to get its <see cref=\"ModuleResult{{T}}\"/>.");
             sb.AppendLine($"    /// </summary>");
             sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
             sb.AppendLine($"    /// <returns>The module instance, or null if not registered.</returns>");
-            sb.AppendLine($"    public static {module.ClassName}? Get{methodName}ModuleIfRegistered(this IModuleContext context)");
-            sb.AppendLine($"        => context.GetModuleIfRegistered<{module.ClassName}>();");
+            sb.AppendLine($"    public static {module.FullyQualifiedName}? Get{methodName}ModuleIfRegistered(this IModuleContext context)");
+            sb.AppendLine($"        => context.GetModuleIfRegistered<{module.FullyQualifiedName}>();");
             sb.AppendLine();
         }
 
@@ -231,4 +269,11 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
 
         return className;
     }
+
+    private sealed record ModuleClassCandidate(ModuleClassInfo Module, Location Location);
+
+    private sealed record DuplicateModuleAccessorInfo(
+        string MethodName,
+        string ConflictingModuleNames,
+        Location Location);
 }
