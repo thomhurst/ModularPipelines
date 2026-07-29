@@ -212,52 +212,92 @@ internal static class ModuleAuthoringAnalysis
         while (pending.Count > 0)
         {
             var (current, requireTaskLike) = pending.Pop();
-            if (current is IAnonymousFunctionOperation)
+            if (ProcessAwaitedOperation(
+                    current,
+                    requireTaskLike,
+                    visitedLocals,
+                    pending) is { } invocation)
             {
-                continue;
+                yield return invocation;
             }
+        }
+    }
 
-            if (current is ILocalReferenceOperation localReference)
-            {
-                if (visitedLocals.Add(localReference.Local)
-                    && FindReachingLocalValue(current, localReference.Local) is { } localValue)
-                {
-                    pending.Push((localValue, requireTaskLike));
-                }
+    private static IInvocationOperation? ProcessAwaitedOperation(
+        IOperation operation,
+        bool requireTaskLike,
+        HashSet<ILocalSymbol> visitedLocals,
+        Stack<(IOperation Operation, bool RequireTaskLike)> pending)
+    {
+        if (operation is IAnonymousFunctionOperation)
+        {
+            return null;
+        }
 
-                continue;
-            }
+        if (operation is ILocalReferenceOperation localReference)
+        {
+            QueueLocalValue(localReference, requireTaskLike, visitedLocals, pending);
+            return null;
+        }
 
-            if (current is IInvocationOperation invocation)
-            {
-                if (invocation.TargetMethod.Name == "ConfigureAwait"
-                    && invocation.Instance is { } configuredOperation)
-                {
-                    pending.Push((configuredOperation, requireTaskLike));
-                    continue;
-                }
+        if (operation is IInvocationOperation invocation)
+        {
+            return ProcessAwaitedInvocation(invocation, requireTaskLike, pending);
+        }
 
-                if (!IsTaskJoin(invocation))
-                {
-                    if (!requireTaskLike || IsTaskLike(invocation.Type))
-                    {
-                        yield return invocation;
-                    }
+        QueueChildOperations(operation, requireTaskLike, pending);
+        return null;
+    }
 
-                    foreach (var argument in invocation.Arguments.Reverse())
-                    {
-                        pending.Push((argument.Value, true));
-                    }
+    private static void QueueLocalValue(
+        ILocalReferenceOperation localReference,
+        bool requireTaskLike,
+        HashSet<ILocalSymbol> visitedLocals,
+        Stack<(IOperation Operation, bool RequireTaskLike)> pending)
+    {
+        if (visitedLocals.Add(localReference.Local)
+            && FindReachingLocalValue(localReference, localReference.Local) is { } localValue)
+        {
+            pending.Push((localValue, requireTaskLike));
+        }
+    }
 
-                    continue;
-                }
-            }
+    private static IInvocationOperation? ProcessAwaitedInvocation(
+        IInvocationOperation invocation,
+        bool requireTaskLike,
+        Stack<(IOperation Operation, bool RequireTaskLike)> pending)
+    {
+        if (invocation.TargetMethod.Name == "ConfigureAwait"
+            && invocation.Instance is { } configuredOperation)
+        {
+            pending.Push((configuredOperation, requireTaskLike));
+            return null;
+        }
 
-            var childRequiresTaskLike = requireTaskLike || current is IInvocationOperation;
-            foreach (var child in current.ChildOperations.Reverse())
-            {
-                pending.Push((child, childRequiresTaskLike));
-            }
+        if (IsTaskJoin(invocation))
+        {
+            QueueChildOperations(invocation, true, pending);
+            return null;
+        }
+
+        foreach (var argument in invocation.Arguments.Reverse())
+        {
+            pending.Push((argument.Value, true));
+        }
+
+        return !requireTaskLike || IsTaskLike(invocation.Type)
+            ? invocation
+            : null;
+    }
+
+    private static void QueueChildOperations(
+        IOperation operation,
+        bool requireTaskLike,
+        Stack<(IOperation Operation, bool RequireTaskLike)> pending)
+    {
+        foreach (var child in operation.ChildOperations.Reverse())
+        {
+            pending.Push((child, requireTaskLike));
         }
     }
 
