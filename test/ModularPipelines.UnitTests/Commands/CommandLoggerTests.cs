@@ -386,7 +386,7 @@ public class CommandLoggerTests : TestBase
         });
 
         var exception = await Assert.ThrowsAsync<AggregateException>(() =>
-            commandContext.ExecuteCommandLineTool(
+            commandContext.ExecuteCommandLineToolAsync(
                 new PowershellScriptOptions(
                     $"Write-Output '{marker}'; "
                     + "Start-Sleep -Milliseconds 750; "
@@ -411,7 +411,7 @@ public class CommandLoggerTests : TestBase
         });
 
         var exception = await Assert.ThrowsAsync<CommandException>(() =>
-            commandContext.ExecuteCommandLineTool(
+            commandContext.ExecuteCommandLineToolAsync(
                 new PowershellScriptOptions(
                     $"Write-Output '{marker}'; "
                     + "Start-Sleep -Milliseconds 750; "
@@ -446,7 +446,7 @@ public class CommandLoggerTests : TestBase
         });
 
         var commandTask =
-            commandContext.ExecuteCommandLineTool(
+            commandContext.ExecuteCommandLineToolAsync(
                 new PowershellScriptOptions(
                     $"Write-Output '{marker}'; Start-Sleep -Seconds 30"),
                 new CommandExecutionOptions
