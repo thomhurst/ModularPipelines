@@ -7,6 +7,13 @@ StatefulModule | Design | Warning | Detects mutable instance fields in modules t
 MPDEP001 | Usage | Error | DependsOn type does not implement IModule
 MPDEP002 | Usage | Error | Circular dependency detected between modules (renamed from ConflictingDependsOnAttribute)
 MPDEP003 | Usage | Error | Module depends on itself
+MPREG001 | Usage | Warning | Module is not registered with the pipeline
+MPASYNC001 | Usage | Error | Async void method in a module
+MPASYNC002 | Usage | Warning | Blocking call in ExecuteAsync
+MPASYNC003 | Usage | Warning | ExecuteAsync cancellation token is not flowed
+MPASYNC004 | Usage | Warning | Thread.Sleep in ExecuteAsync
+MPTYPE001 | Usage | Warning | Module class is not public
+MPDEP004 | Usage | Error | Duplicate DependsOn declaration
 
 ### Removed Rules
 
