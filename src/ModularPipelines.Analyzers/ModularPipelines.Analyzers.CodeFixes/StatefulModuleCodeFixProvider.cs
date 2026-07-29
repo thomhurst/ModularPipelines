@@ -65,7 +65,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
     {
         return type.SpecialType == SpecialType.System_String
                || type.TypeKind == TypeKind.Enum
-               || type is INamedTypeSymbol { IsValueType: true, IsReadOnly: true };
+               || (type.IsValueType && type.SpecialType != SpecialType.None);
     }
 
     private static bool IsWrittenOutsideConstructor(

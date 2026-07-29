@@ -426,6 +426,30 @@ public static class ModuleConfigurator
 }}
 ";
 
+    private const string BadModuleWithReadonlyStructContainingMutableState = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public readonly struct CacheHolder
+{{
+    public List<string> Items {{ get; }} = new();
+
+    public CacheHolder()
+    {{
+    }}
+}}
+
+public class Module1 : Module<int>
+{{
+    private CacheHolder {{|#0:_cache|}} = new();
+
+    protected override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        _cache.Items.Add(""item"");
+        return Task.FromResult(_cache.Items.Count);
+    }}
+}}
+";
+
     private const string ModuleWithRefEscapedField = $@"
 {TestSourceConstants.StandardModuleHeader}
 
@@ -536,6 +560,16 @@ public class Module1 : Module<object>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             BadModuleWithMutableCollection
+                .Replace("{|#0:", string.Empty)
+                .Replace("|}", string.Empty),
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Readonly_Struct_With_Mutable_State()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            BadModuleWithReadonlyStructContainingMutableState
                 .Replace("{|#0:", string.Empty)
                 .Replace("|}", string.Empty),
             StatefulModuleAnalyzer.DiagnosticId);
