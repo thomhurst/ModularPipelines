@@ -62,6 +62,27 @@ internal static class DependencyInjectionSetup
         RegisterDistributedServices(services);
     }
 
+    internal static void ConfigureSpectreConsoleLogger(SpectreConsoleLoggerOptions config) =>
+        ConfigureSpectreConsoleLogger(config, DelegatingAnsiConsole.Instance);
+
+    internal static void ConfigureSpectreConsoleLogger(
+        SpectreConsoleLoggerOptions config,
+        IAnsiConsole console)
+    {
+        // Console width and CI capabilities are configured by ConsoleCoordinator.
+        config.Console = console;
+        config.Template = "[{Level:u4}] {Message}";
+        config.ExceptionFormats = ExceptionFormats.Default;
+        config.AllowMarkupInMessageTemplate = true;
+        config.Theme = new SpectreTheme()
+            .WithPlaceholders(placeholders =>
+            {
+                placeholders.ForName("CommandOutput", Style.Plain);
+                placeholders.ForName("CommandError", Style.Plain);
+            });
+        config.WriteMode = WriteMode.Synchronous;
+    }
+
     /// <summary>
     /// Registers external integrations and bundled services:
     /// options configuration, logging provider, HTTP clients, initializers, and mediator.
@@ -90,27 +111,6 @@ internal static class DependencyInjectionSetup
             .AddInitializers()
             .AddServiceCollection()
             .AddMediator();
-    }
-
-    internal static void ConfigureSpectreConsoleLogger(SpectreConsoleLoggerOptions config) =>
-        ConfigureSpectreConsoleLogger(config, DelegatingAnsiConsole.Instance);
-
-    internal static void ConfigureSpectreConsoleLogger(
-        SpectreConsoleLoggerOptions config,
-        IAnsiConsole console)
-    {
-        // Console width and CI capabilities are configured by ConsoleCoordinator.
-        config.Console = console;
-        config.Template = "[{Level:u4}] {Message}";
-        config.ExceptionFormats = ExceptionFormats.Default;
-        config.AllowMarkupInMessageTemplate = true;
-        config.Theme = new SpectreTheme()
-            .WithPlaceholders(placeholders =>
-            {
-                placeholders.ForName("CommandOutput", Style.Plain);
-                placeholders.ForName("CommandError", Style.Plain);
-            });
-        config.WriteMode = WriteMode.Synchronous;
     }
 
     /// <summary>
@@ -159,6 +159,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IInstallersContext, InstallersContext>()
             .AddScoped<INetworkContext, NetworkContext>()
             .AddScoped<ISecurityContext, SecurityContext>()
+
             // Register Services domain context
             .AddScoped<IServicesContext, ServicesContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
@@ -228,6 +229,7 @@ internal static class DependencyInjectionSetup
     {
         services.TryAddSingleton<IFileSystemProvider>(SystemFileSystemProvider.Instance);
         services
+
             // Module activator - sets AsyncLocal context before module construction
             .AddSingleton<IModuleActivator, ModuleActivator>()
             .AddSingleton<IPipelineContextProvider, ModuleContextProvider>()
