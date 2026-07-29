@@ -11,23 +11,13 @@ namespace ModularPipelines.Development.Analyzers;
 [ExcludeFromCodeCoverage]
 public class VirtualCommandAnalyzer : DiagnosticAnalyzer
 {
-    private const string Category = "Usage";
+    public const string DiagnosticId = "MP0012";
 
-    public const string DiagnosticId = "MPD0002";
-
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.MPD0002Title),
-        Resources.ResourceManager, typeof(Resources));
-
-    private static readonly LocalizableString MessageFormat =
-        new LocalizableResourceString(nameof(Resources.MPD0002MessageFormat), Resources.ResourceManager,
-            typeof(Resources));
-
-    private static readonly LocalizableString Description =
-        new LocalizableResourceString(nameof(Resources.MPD0002Description), Resources.ResourceManager,
-            typeof(Resources));
-
-    private static readonly DiagnosticDescriptor Rule = new(DiagnosticId, Title, MessageFormat, Category,
-        DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+    private static readonly DiagnosticDescriptor Rule = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.MP0012Title),
+        nameof(Resources.MP0012MessageFormat),
+        nameof(Resources.MP0012Description));
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [Rule];
 

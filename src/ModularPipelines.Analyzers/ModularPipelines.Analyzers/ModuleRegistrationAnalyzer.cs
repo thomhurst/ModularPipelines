@@ -9,8 +9,8 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public sealed class ModuleRegistrationAnalyzer : DiagnosticAnalyzer
 {
-    public const string UnregisteredModuleId = "MPREG001";
-    public const string NonPublicModuleId = "MPTYPE001";
+    public const string UnregisteredModuleId = "MP0013";
+    public const string NonPublicModuleId = "MP0018";
 
     public static DiagnosticDescriptor UnregisteredModuleRule { get; } =
         DiagnosticDescriptorFactory.Create(

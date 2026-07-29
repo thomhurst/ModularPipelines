@@ -9,10 +9,10 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public sealed class ModuleAsyncSafetyAnalyzer : DiagnosticAnalyzer
 {
-    public const string AsyncVoidId = "MPASYNC001";
-    public const string BlockingCallId = "MPASYNC002";
-    public const string UnflowedCancellationTokenId = "MPASYNC003";
-    public const string ThreadSleepId = "MPASYNC004";
+    public const string AsyncVoidId = "MP0014";
+    public const string BlockingCallId = "MP0015";
+    public const string UnflowedCancellationTokenId = "MP0016";
+    public const string ThreadSleepId = "MP0017";
 
     public static DiagnosticDescriptor AsyncVoidRule { get; } =
         DiagnosticDescriptorFactory.Create(

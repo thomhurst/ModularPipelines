@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
+    "generate-analyzer-docs": "node scripts/generate-analyzer-docs.mjs",
+    "check-analyzer-docs": "node scripts/generate-analyzer-docs.mjs --check",
+    "prebuild": "yarn check-analyzer-docs",
+    "prestart": "yarn generate-analyzer-docs",
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",

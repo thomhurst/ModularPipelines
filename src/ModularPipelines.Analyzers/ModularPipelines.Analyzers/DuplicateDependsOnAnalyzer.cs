@@ -9,7 +9,7 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public sealed class DuplicateDependsOnAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "MPDEP004";
+    public const string DiagnosticId = "MP0019";
 
     public static DiagnosticDescriptor Rule { get; } =
         DiagnosticDescriptorFactory.Create(

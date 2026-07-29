@@ -19,7 +19,7 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
     /// <summary>
     /// Diagnostic ID for mutable instance fields in modules.
     /// </summary>
-    public const string DiagnosticId = "StatefulModule";
+    public const string DiagnosticId = "MP0008";
 
     /// <summary>
     /// Gets the diagnostic rule for stateful modules.

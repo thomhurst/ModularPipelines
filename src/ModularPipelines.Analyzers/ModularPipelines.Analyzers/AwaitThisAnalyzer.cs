@@ -12,7 +12,7 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public class AwaitThisAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "AwaitThis";
+    public const string DiagnosticId = "MP0007";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,
