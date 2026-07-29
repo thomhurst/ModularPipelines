@@ -1664,25 +1664,12 @@ internal static class ModuleAuthoringAnalysis
                 return true;
             }
 
-            if (current is IVariableInitializerOperation
-                {
-                    Parent: IVariableDeclaratorOperation declarator,
-                })
-            {
-                return IsDeferredLinqLocalConsumed(
+            if (GetDeferredLinqLocalConsumption(
+                    operation,
                     current,
-                    declarator.Symbol,
-                    visitedLocals);
-            }
-
-            if (current is ISimpleAssignmentOperation assignment
-                && assignment.Target is ILocalReferenceOperation localReference
-                && HasAncestor(operation, assignment.Value))
+                    visitedLocals) is { } localConsumption)
             {
-                return IsDeferredLinqLocalConsumed(
-                    current,
-                    localReference.Local,
-                    visitedLocals);
+                return localConsumption;
             }
 
             if (current is not IInvocationOperation parentInvocation)
@@ -1690,26 +1677,63 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (IsTaskJoin(parentInvocation))
+            if (GetLinqInvocationConsumption(parentInvocation) is { } invocationConsumption)
             {
-                return IsAwaitedBeforeNestedCallable(parentInvocation);
-            }
-
-            if (parentInvocation.TargetMethod.ContainingType.OriginalDefinition
-                .ToDisplayString() != "System.Linq.Enumerable")
-            {
-                return false;
-            }
-
-            if (EagerLinqTerminalNames.Contains(parentInvocation.TargetMethod.Name))
-            {
-                return true;
+                return invocationConsumption;
             }
 
             current = parentInvocation.Parent;
         }
 
         return false;
+    }
+
+    private static bool? GetDeferredLinqLocalConsumption(
+        IOperation operation,
+        IOperation current,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (current is IVariableInitializerOperation
+            {
+                Parent: IVariableDeclaratorOperation declarator,
+            })
+        {
+            return IsDeferredLinqLocalConsumed(
+                current,
+                declarator.Symbol,
+                visitedLocals);
+        }
+
+        if (current is ISimpleAssignmentOperation assignment
+            && assignment.Target is ILocalReferenceOperation localReference
+            && HasAncestor(operation, assignment.Value))
+        {
+            return IsDeferredLinqLocalConsumed(
+                current,
+                localReference.Local,
+                visitedLocals);
+        }
+
+        return null;
+    }
+
+    private static bool? GetLinqInvocationConsumption(
+        IInvocationOperation invocation)
+    {
+        if (IsTaskJoin(invocation))
+        {
+            return IsAwaitedBeforeNestedCallable(invocation);
+        }
+
+        if (invocation.TargetMethod.ContainingType.OriginalDefinition
+            .ToDisplayString() != "System.Linq.Enumerable")
+        {
+            return false;
+        }
+
+        return EagerLinqTerminalNames.Contains(invocation.TargetMethod.Name)
+            ? true
+            : null;
     }
 
     private static bool IsDeferredLinqLocalConsumed(
