@@ -331,14 +331,7 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         CancellationToken cancellationToken)
     {
         var editor = await DocumentEditor.CreateAsync(document, cancellationToken).ConfigureAwait(false);
-        var remainingStatements = constructor.Body?.Statements.Count - (assignmentStatement is null ? 0 : 1);
-        var removeConstructor = constructor.ParameterList.Parameters.Count == 1
-                                && remainingStatements == 0
-                                && constructor.Initializer is null
-                                && constructor.AttributeLists.Count == 0
-                                && !constructor.ContainsDirectives
-                                && constructor.Modifiers.Any(SyntaxKind.PublicKeyword)
-                                && IsOnlyInstanceConstructor(constructor);
+        var removeConstructor = CanRemoveConstructor(constructor, assignmentStatement);
 
         foreach (var replacement in loggerReplacements)
         {
@@ -376,6 +369,21 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         }
 
         return editor.GetChangedDocument();
+    }
+
+    private static bool CanRemoveConstructor(
+        ConstructorDeclarationSyntax constructor,
+        ExpressionStatementSyntax? assignmentStatement)
+    {
+        var removedStatementCount = assignmentStatement is null ? 0 : 1;
+        var remainingStatements = constructor.Body?.Statements.Count - removedStatementCount;
+        return constructor.ParameterList.Parameters.Count == 1
+               && remainingStatements == 0
+               && constructor.Initializer is null
+               && constructor.AttributeLists.Count == 0
+               && !constructor.ContainsDirectives
+               && constructor.Modifiers.Any(SyntaxKind.PublicKeyword)
+               && IsOnlyInstanceConstructor(constructor);
     }
 
     private static bool IsOnlyInstanceConstructor(ConstructorDeclarationSyntax constructor)
