@@ -400,6 +400,44 @@ public class CommandLoggerTests : TestBase
         await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task Deferred_Logging_Failure_During_Cancellation_Is_Wrapped_By_Command()
+    {
+        var marker = $"throwing-cancellation-output-{Guid.NewGuid():N}";
+        using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+
+        var commandTask =
+            commandContext.ExecuteCommandLineTool(
+                new PowershellScriptOptions(
+                    $"Write-Output '{marker}'; Start-Sleep -Seconds 30"),
+                new CommandExecutionOptions
+                {
+                    GracefulShutdownTimeout = TimeSpan.FromMilliseconds(100),
+                },
+                cancellationToken: cancellationTokenSource.Token);
+
+        await loggingProvider.LoggingFailed.WaitAsync(TimeSpan.FromSeconds(30));
+        await cancellationTokenSource.CancelAsync();
+
+        var exception = await Assert.ThrowsAsync<CommandException>(() => commandTask);
+
+        var failures = (exception!.InnerException as AggregateException)
+            ?.Flatten().InnerExceptions;
+        await Assert.That(failures).IsNotNull();
+        await Assert.That(failures!)
+            .Contains(failure =>
+                failure is InvalidOperationException
+                && failure.Message == "Logging failed.");
+        await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+    }
+
     private static async Task<bool> WaitUntilAsync(Func<bool> condition, TimeSpan timeout)
     {
         var timeoutTask = Task.Delay(timeout);
@@ -476,7 +514,11 @@ public class CommandLoggerTests : TestBase
     private sealed class SelectiveThrowingLoggerProvider(string messageToThrowOn)
         : ILoggerProvider
     {
+        private readonly TaskCompletionSource _loggingFailed =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
         private int _throwCount;
+
+        public Task LoggingFailed => _loggingFailed.Task;
 
         public int ThrowCount => _throwCount;
 
@@ -487,6 +529,7 @@ public class CommandLoggerTests : TestBase
                 if (message == messageToThrowOn)
                 {
                     Interlocked.Increment(ref _throwCount);
+                    _loggingFailed.TrySetResult();
                     throw new InvalidOperationException("Logging failed.");
                 }
             });

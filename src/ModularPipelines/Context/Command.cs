@@ -205,18 +205,20 @@ internal sealed class Command : ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                LogCommandCompletion(
-                    options,
-                    execOpts,
-                    inputToLog,
-                    e.ExitCode,
-                    stopwatch.Elapsed,
-                    standardOutput,
-                    standardError,
-                    completeStandardOutputBuffer,
-                    completeStandardErrorBuffer,
-                    deferredOutputLogger,
-                    command.WorkingDirPath);
+                var failure = CombineWithCompletionFailure(
+                    e,
+                    () => LogCommandCompletion(
+                        options,
+                        execOpts,
+                        inputToLog,
+                        e.ExitCode,
+                        stopwatch.Elapsed,
+                        standardOutput,
+                        standardError,
+                        completeStandardOutputBuffer,
+                        completeStandardErrorBuffer,
+                        deferredOutputLogger,
+                        command.WorkingDirPath));
 
                 throw new CommandException(
                     CreateFailureResult(
@@ -227,7 +229,7 @@ internal sealed class Command : ICommandContext
                         stopwatch.Elapsed,
                         standardOutput,
                         standardError),
-                    e);
+                    failure);
             }
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
             {
@@ -239,18 +241,20 @@ internal sealed class Command : ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                LogCommandCompletion(
-                    options,
-                    execOpts,
-                    inputToLog,
-                    -1,
-                    stopwatch.Elapsed,
-                    standardOutput,
-                    standardError,
-                    completeStandardOutputBuffer,
-                    completeStandardErrorBuffer,
-                    deferredOutputLogger,
-                    command.WorkingDirPath);
+                var failure = CombineWithCompletionFailure(
+                    e,
+                    () => LogCommandCompletion(
+                        options,
+                        execOpts,
+                        inputToLog,
+                        -1,
+                        stopwatch.Elapsed,
+                        standardOutput,
+                        standardError,
+                        completeStandardOutputBuffer,
+                        completeStandardErrorBuffer,
+                        deferredOutputLogger,
+                        command.WorkingDirPath));
 
                 throw new CommandException(
                     CreateFailureResult(
@@ -261,8 +265,23 @@ internal sealed class Command : ICommandContext
                         stopwatch.Elapsed,
                         standardOutput,
                         standardError),
-                    e);
+                    failure);
             }
+        }
+    }
+
+    private static Exception CombineWithCompletionFailure(
+        Exception executionFailure,
+        Action complete)
+    {
+        try
+        {
+            complete();
+            return executionFailure;
+        }
+        catch (Exception completionFailure)
+        {
+            return new AggregateException(executionFailure, completionFailure);
         }
     }
 
