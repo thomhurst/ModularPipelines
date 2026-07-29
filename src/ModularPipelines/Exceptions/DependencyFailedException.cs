@@ -46,7 +46,7 @@ public class DependencyFailedException : PipelineException
     public string FailingModuleName { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DependencyFailedException"/> class.
+    /// Initialises a new instance of the <see cref="DependencyFailedException"/> class.
     /// </summary>
     /// <param name="exception">The exception that caused the dependency to fail.</param>
     /// <param name="module">The module that failed.</param>
