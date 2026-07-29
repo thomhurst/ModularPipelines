@@ -14,9 +14,9 @@ public sealed class DuplicateDependsOnAnalyzer : DiagnosticAnalyzer
     public static DiagnosticDescriptor Rule { get; } =
         DiagnosticDescriptorFactory.Create(
             DiagnosticId,
-            "DuplicateDependsOnAnalyzerTitle",
-            "DuplicateDependsOnAnalyzerMessageFormat",
-            "DuplicateDependsOnAnalyzerDescription");
+            nameof(Resources.DuplicateDependsOnAnalyzerTitle),
+            nameof(Resources.DuplicateDependsOnAnalyzerMessageFormat),
+            nameof(Resources.DuplicateDependsOnAnalyzerDescription));
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [Rule];
 

@@ -24,6 +24,21 @@ public static partial class CSharpAnalyzerVerifier<TAnalyzer>
     /// <inheritdoc cref="AnalyzerVerifier{TAnalyzer, TTest, TVerifier}.VerifyAnalyzerAsync(string, DiagnosticResult[])"/>
     public static async Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
     {
+        await VerifyAnalyzerAsync(source, outputKind: null, expected);
+    }
+
+    public static async Task VerifyExecutableAnalyzerAsync(
+        string source,
+        params DiagnosticResult[] expected)
+    {
+        await VerifyAnalyzerAsync(source, OutputKind.ConsoleApplication, expected);
+    }
+
+    private static async Task VerifyAnalyzerAsync(
+        string source,
+        OutputKind? outputKind,
+        params DiagnosticResult[] expected)
+    {
         var test = new Test
         {
             TestCode = source,
@@ -33,6 +48,11 @@ public static partial class CSharpAnalyzerVerifier<TAnalyzer>
                 AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
             },
         };
+
+        if (outputKind is not null)
+        {
+            test.TestState.OutputKind = outputKind.Value;
+        }
 
         test.ExpectedDiagnostics.AddRange(expected);
         await test.RunAsync(CancellationToken.None);

@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
@@ -34,26 +33,29 @@ internal static class ModuleAuthoringAnalysis
     {
         var modules = new ConcurrentBag<INamedTypeSymbol>();
         var registeredModules = new ConcurrentBag<INamedTypeSymbol>();
-        var assemblyRegistrationUsed = 0;
+        var instanceRegisteredModules = new ConcurrentBag<INamedTypeSymbol>();
+        var scannedAssemblies = new ConcurrentBag<IAssemblySymbol>();
 
         context.RegisterSymbolAction(
-            symbolContext => AnalyzeRegisteredModuleType(symbolContext, modules),
+            symbolContext => CollectModuleType(symbolContext, modules),
             SymbolKind.NamedType);
         context.RegisterOperationAction(
             operationContext => TrackRegistration(
                 operationContext,
                 registeredModules,
-                ref assemblyRegistrationUsed),
+                instanceRegisteredModules,
+                scannedAssemblies),
             OperationKind.Invocation);
         context.RegisterCompilationEndAction(endContext =>
-            ReportUnregisteredModules(
+            ReportModuleDiagnostics(
                 endContext,
                 modules,
                 registeredModules,
-                Volatile.Read(ref assemblyRegistrationUsed) != 0));
+                instanceRegisteredModules,
+                scannedAssemblies));
     }
 
-    private static void AnalyzeRegisteredModuleType(
+    private static void CollectModuleType(
         SymbolAnalysisContext context,
         ConcurrentBag<INamedTypeSymbol> modules)
     {
@@ -64,14 +66,6 @@ internal static class ModuleAuthoringAnalysis
         }
 
         modules.Add(type);
-        var location = type.Locations.FirstOrDefault(static item => item.IsInSource);
-        if (location is not null && !IsPublic(type))
-        {
-            context.ReportDiagnostic(Diagnostic.Create(
-                ModuleRegistrationAnalyzer.NonPublicModuleRule,
-                location,
-                type.Name));
-        }
     }
 
     private static void AnalyzeMethod(SymbolAnalysisContext context)
@@ -97,10 +91,16 @@ internal static class ModuleAuthoringAnalysis
     private static void TrackRegistration(
         OperationAnalysisContext context,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
-        ref int assemblyRegistrationUsed)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
     {
         var invocation = (IInvocationOperation) context.Operation;
-        TrackRegistrationInvocation(invocation, registeredModules, ref assemblyRegistrationUsed);
+        TrackRegistrationInvocation(
+            invocation,
+            context.Compilation.Assembly,
+            registeredModules,
+            instanceRegisteredModules,
+            scannedAssemblies);
     }
 
     private static void AnalyzeInvocation(OperationAnalysisContext context)
@@ -192,8 +192,10 @@ internal static class ModuleAuthoringAnalysis
 
     private static void TrackRegistrationInvocation(
         IInvocationOperation invocation,
+        IAssemblySymbol currentAssembly,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
-        ref int assemblyRegistrationUsed)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
     {
         var method = invocation.TargetMethod;
         if (!method.ContainingNamespace.ToDisplayString().StartsWith(
@@ -210,15 +212,22 @@ internal static class ModuleAuthoringAnalysis
 
         if (method.Name.StartsWith("AddModulesFromAssembly", StringComparison.Ordinal))
         {
-            Interlocked.Exchange(ref assemblyRegistrationUsed, 1);
+            TrackScannedAssemblies(invocation, currentAssembly, scannedAssemblies);
             return;
         }
 
         foreach (var typeArgument in method.TypeArguments.OfType<INamedTypeSymbol>())
         {
             registeredModules.Add(typeArgument);
+            if (method.Name == "AddModule"
+                && method.Parameters.Any(static parameter =>
+                    parameter.Name is "module" or "factory"))
+            {
+                instanceRegisteredModules.Add(typeArgument);
+            }
         }
 
+        // AddModules(params Type[]) can only be resolved statically for direct typeof operands.
         foreach (var typeOfOperation in invocation.Arguments
                      .SelectMany(static argument => argument.Value.DescendantsAndSelf())
                      .OfType<ITypeOfOperation>())
@@ -230,35 +239,130 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static void ReportUnregisteredModules(
+    private static void TrackScannedAssemblies(
+        IInvocationOperation invocation,
+        IAssemblySymbol currentAssembly,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+    {
+        foreach (var typeArgument in invocation.TargetMethod.TypeArguments.OfType<INamedTypeSymbol>())
+        {
+            scannedAssemblies.Add(typeArgument.ContainingAssembly);
+        }
+
+        foreach (var typeOfOperation in invocation.Arguments
+                     .SelectMany(static argument => argument.Value.DescendantsAndSelf())
+                     .OfType<ITypeOfOperation>())
+        {
+            scannedAssemblies.Add(typeOfOperation.TypeOperand.ContainingAssembly);
+        }
+
+        if (invocation.Arguments
+            .SelectMany(static argument => argument.Value.DescendantsAndSelf())
+            .OfType<IInvocationOperation>()
+            .Any(static operation =>
+                operation.TargetMethod.Name == "GetExecutingAssembly"
+                && operation.TargetMethod.ContainingType.ToDisplayString()
+                    == "System.Reflection.Assembly"))
+        {
+            scannedAssemblies.Add(currentAssembly);
+        }
+    }
+
+    private static void ReportModuleDiagnostics(
         CompilationAnalysisContext context,
         ConcurrentBag<INamedTypeSymbol> modules,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
-        bool assemblyRegistrationUsed)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
     {
-        if (assemblyRegistrationUsed)
+        var moduleSet = modules
+            .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
+            .ToImmutableArray();
+        var instanceRegistered = instanceRegisteredModules.ToImmutableHashSet<INamedTypeSymbol>(
+            SymbolEqualityComparer.Default);
+        foreach (var module in moduleSet.Where(module =>
+                     !IsPublic(module) && !instanceRegistered.Contains(module)))
+        {
+            ReportModuleDiagnostic(
+                context,
+                module,
+                ModuleRegistrationAnalyzer.NonPublicModuleRule);
+        }
+
+        if (!IsApplication(context.Compilation.Options.OutputKind))
         {
             return;
         }
 
-        var registered = registeredModules.ToImmutableHashSet<INamedTypeSymbol>(
+        var registered = new HashSet<INamedTypeSymbol>(
+            registeredModules,
             SymbolEqualityComparer.Default);
-        foreach (var module in modules.Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default))
+        var scanned = scannedAssemblies.ToImmutableHashSet<IAssemblySymbol>(
+            SymbolEqualityComparer.Default);
+        foreach (var module in moduleSet.Where(module => scanned.Contains(module.ContainingAssembly)))
+        {
+            registered.Add(module);
+        }
+
+        AddRequiredDependencyClosure(registered, context.Compilation);
+        foreach (var module in moduleSet)
         {
             if (registered.Contains(module))
             {
                 continue;
             }
 
-            var location = module.Locations.FirstOrDefault(static item => item.IsInSource);
-            if (location is not null)
+            ReportModuleDiagnostic(
+                context,
+                module,
+                ModuleRegistrationAnalyzer.UnregisteredModuleRule);
+        }
+    }
+
+    private static void AddRequiredDependencyClosure(
+        HashSet<INamedTypeSymbol> registered,
+        Compilation compilation)
+    {
+        var pending = new Queue<INamedTypeSymbol>(registered);
+        while (pending.Count > 0)
+        {
+            var module = pending.Dequeue();
+            foreach (var dependency in module.GetAllAttributesIncludingBaseAndInterfaces()
+                         .Where(attribute => !IsOptionalDependency(attribute))
+                         .Select(attribute => GetDependencyType(attribute, compilation))
+                         .OfType<INamedTypeSymbol>())
             {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    ModuleRegistrationAnalyzer.UnregisteredModuleRule,
-                    location,
-                    module.Name));
+                if (registered.Add(dependency))
+                {
+                    pending.Enqueue(dependency);
+                }
             }
         }
+    }
+
+    private static bool IsOptionalDependency(AttributeData attribute)
+    {
+        return attribute.NamedArguments.Any(static argument =>
+            argument.Key == "Optional" && argument.Value.Value is true);
+    }
+
+    private static void ReportModuleDiagnostic(
+        CompilationAnalysisContext context,
+        INamedTypeSymbol module,
+        DiagnosticDescriptor rule)
+    {
+        var location = module.Locations.FirstOrDefault(static item => item.IsInSource);
+        if (location is not null)
+        {
+            context.ReportDiagnostic(Diagnostic.Create(rule, location, module.Name));
+        }
+    }
+
+    private static bool IsApplication(OutputKind outputKind)
+    {
+        return outputKind is OutputKind.ConsoleApplication
+            or OutputKind.WindowsApplication
+            or OutputKind.WindowsRuntimeApplication;
     }
 
     private static void AnalyzeDuplicateDependencies(SymbolAnalysisContext context)
@@ -269,7 +373,8 @@ internal static class ModuleAuthoringAnalysis
             return;
         }
 
-        var dependencies = module.GetAttributes()
+        var dependencies = GetInheritedAttributes(module)
+            .Concat(module.GetAttributes())
             .Select(attribute => new
             {
                 Attribute = attribute,
@@ -296,6 +401,23 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static IEnumerable<AttributeData> GetInheritedAttributes(INamedTypeSymbol module)
+    {
+        foreach (var attribute in module.AllInterfaces.SelectMany(
+                     static interfaceType => interfaceType.GetAttributes()))
+        {
+            yield return attribute;
+        }
+
+        for (var baseType = module.BaseType; baseType is not null; baseType = baseType.BaseType)
+        {
+            foreach (var attribute in baseType.GetAttributes())
+            {
+                yield return attribute;
+            }
+        }
+    }
+
     private static ITypeSymbol? GetDependencyType(
         AttributeData attribute,
         Compilation compilation)
@@ -315,7 +437,8 @@ internal static class ModuleAuthoringAnalysis
     {
         return context.ContainingSymbol is IMethodSymbol method
             && method.Name == AnalyzerConstants.MethodNames.ExecuteAsync
-            && method.ContainingType.IsModule(context.Compilation);
+            && method.IsOverride
+            && method.OverriddenMethod?.ContainingType.IsModule(context.Compilation) == true;
     }
 
     private static bool IsAwaiterGetResult(IInvocationOperation invocation)
@@ -330,26 +453,51 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         IParameterSymbol cancellationToken)
     {
-        foreach (var value in invocation.Arguments
+        return invocation.Arguments
             .Where(static argument => argument.Parameter is not null)
             .Where(argument => IsCancellationToken(argument.Parameter!))
-            .Select(static argument => argument.Value))
+            .Select(static argument => argument.Value)
+            .Any(value => FlowsFromCancellationToken(
+                value,
+                cancellationToken,
+                [with(SymbolEqualityComparer.Default)]));
+    }
+
+    private static bool FlowsFromCancellationToken(
+        IOperation value,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (value.DescendantsAndSelf()
+            .OfType<IParameterReferenceOperation>()
+            .Any(reference => SymbolEqualityComparer.Default.Equals(
+                reference.Parameter,
+                cancellationToken)))
         {
-            if (value.DescendantsAndSelf()
-                .OfType<IParameterReferenceOperation>()
-                .Any(reference => SymbolEqualityComparer.Default.Equals(
-                    reference.Parameter,
-                    cancellationToken)))
+            return true;
+        }
+
+        var root = value;
+        while (root.Parent is not null)
+        {
+            root = root.Parent;
+        }
+
+        foreach (var localReference in value.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
+        {
+            if (!visitedLocals.Add(localReference.Local))
             {
-                return true;
+                continue;
             }
 
-            if (value is not IDefaultValueOperation
-                && value is not IPropertyReferenceOperation
-                {
-                    Property.Name: "None",
-                    Property.ContainingType.Name: "CancellationToken",
-                })
+            var initializer = root.DescendantsAndSelf()
+                .OfType<IVariableDeclaratorOperation>()
+                .FirstOrDefault(declarator => SymbolEqualityComparer.Default.Equals(
+                    declarator.Symbol,
+                    localReference.Local))
+                ?.Initializer?.Value;
+            if (initializer is not null
+                && FlowsFromCancellationToken(initializer, cancellationToken, visitedLocals))
             {
                 return true;
             }
@@ -374,6 +522,12 @@ internal static class ModuleAuthoringAnalysis
         IMethodSymbol selectedMethod,
         IMethodSymbol candidate)
     {
+        if (candidate.IsGenericMethod
+            && candidate.Arity == selectedMethod.TypeArguments.Length)
+        {
+            candidate = candidate.Construct([.. selectedMethod.TypeArguments]);
+        }
+
         var candidateParameters = candidate.Parameters
             .Where(parameter => !IsCancellationToken(parameter))
             .ToArray();

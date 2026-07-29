@@ -15,17 +15,17 @@ public sealed class ModuleRegistrationAnalyzer : DiagnosticAnalyzer
     public static DiagnosticDescriptor UnregisteredModuleRule { get; } =
         DiagnosticDescriptorFactory.Create(
             UnregisteredModuleId,
-            "UnregisteredModuleAnalyzerTitle",
-            "UnregisteredModuleAnalyzerMessageFormat",
-            "UnregisteredModuleAnalyzerDescription",
+            nameof(Resources.UnregisteredModuleAnalyzerTitle),
+            nameof(Resources.UnregisteredModuleAnalyzerMessageFormat),
+            nameof(Resources.UnregisteredModuleAnalyzerDescription),
             severity: DiagnosticSeverity.Warning);
 
     public static DiagnosticDescriptor NonPublicModuleRule { get; } =
         DiagnosticDescriptorFactory.Create(
             NonPublicModuleId,
-            "NonPublicModuleAnalyzerTitle",
-            "NonPublicModuleAnalyzerMessageFormat",
-            "NonPublicModuleAnalyzerDescription",
+            nameof(Resources.NonPublicModuleAnalyzerTitle),
+            nameof(Resources.NonPublicModuleAnalyzerMessageFormat),
+            nameof(Resources.NonPublicModuleAnalyzerDescription),
             severity: DiagnosticSeverity.Warning);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

@@ -214,7 +214,7 @@
     <value>Module '{0}' is not registered; call AddModule&lt;{0}&gt;() or register its assembly</value>
   </data>
   <data name="UnregisteredModuleAnalyzerDescription" xml:space="preserve">
-    <value>Every concrete module must be registered directly or through assembly registration before the pipeline runs.</value>
+    <value>Every concrete module declared by an executable pipeline must be registered directly, auto-registered as a required dependency, or included in an assembly scan before the pipeline runs.</value>
   </data>
   <data name="NonPublicModuleAnalyzerTitle" xml:space="preserve">
     <value>Module classes must be public</value>
@@ -223,7 +223,7 @@
     <value>Module '{0}' is not public and cannot be discovered reliably</value>
   </data>
   <data name="NonPublicModuleAnalyzerDescription" xml:space="preserve">
-    <value>Concrete module classes and their containing types must be public so pipeline registration can discover them reliably.</value>
+    <value>Concrete module classes and their containing types must be public for discovery unless they are registered explicitly by instance or factory.</value>
   </data>
   <data name="AsyncVoidModuleAnalyzerTitle" xml:space="preserve">
     <value>Avoid async void in modules</value>
