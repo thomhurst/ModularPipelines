@@ -96,6 +96,16 @@ public record PipelineOptions
     public bool PrintDependencyChains { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether assemblies whose filenames contain
+    /// <c>ModularPipeline</c> are eagerly loaded from the application directory.
+    /// </summary>
+    /// <remarks>
+    /// Disabled by default. Enable this only when a plugin relies on module initializers
+    /// instead of explicit assembly or service registration.
+    /// </remarks>
+    public bool LoadModularPipelineAssemblies { get; set; }
+
+    /// <summary>
     /// Gets or sets the default number of retry attempts for failed operations.
     /// </summary>
     /// <remarks>

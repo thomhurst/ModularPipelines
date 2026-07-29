@@ -57,6 +57,18 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
+    public async Task ModularPipelineAssemblyLoading_IsOptIn()
+    {
+        var builder = TestPipelineHostBuilder.Create();
+
+        await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsFalse();
+
+        builder.ConfigurePipelineOptions(options => options.LoadModularPipelineAssemblies = true);
+
+        await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsTrue();
+    }
+
+    [Test]
     public async Task ExecutePipelineAsync_ValidatesBeforeRunning()
     {
         var builder = Pipeline.CreateBuilder();

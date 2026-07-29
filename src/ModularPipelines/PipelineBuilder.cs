@@ -272,6 +272,7 @@ public sealed class PipelineBuilder
                 opts.PrintResults = _options.PrintResults;
                 opts.PrintLogo = _options.PrintLogo;
                 opts.PrintDependencyChains = _options.PrintDependencyChains;
+                opts.LoadModularPipelineAssemblies = _options.LoadModularPipelineAssemblies;
                 opts.DefaultRetryCount = _options.DefaultRetryCount;
                 opts.DefaultLoggingOptions = _options.DefaultLoggingOptions;
                 opts.DefaultHttpLoggingOptions = _options.DefaultHttpLoggingOptions;
@@ -301,6 +302,11 @@ public sealed class PipelineBuilder
 
     private void LoadModularPipelineAssembliesIfNotLoadedYet()
     {
+        if (!_options.LoadModularPipelineAssemblies)
+        {
+            return;
+        }
+
         var coreVersion = typeof(PipelineBuilder).Assembly.GetName().Version;
         var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
