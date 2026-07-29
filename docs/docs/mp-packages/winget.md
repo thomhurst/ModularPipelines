@@ -25,9 +25,9 @@ Import `ModularPipelines.WinGet.Extensions`, then use this service from a module
 ```csharp
 using ModularPipelines.WinGet.Extensions;
 
-public class UseWingetModule : SyncModule
+public class UseWingetModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseWingetModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Winget integration is ready");
+        return None.Value;
     }
 }
 ```

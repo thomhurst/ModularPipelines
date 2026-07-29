@@ -5,8 +5,8 @@ namespace ModularPipelines.Models;
 /// </summary>
 /// <remarks>
 /// This is similar to <c>void</c> but can be used as a generic type parameter.
-/// Use <see cref="Modules.Module"/> (non-generic) instead of <see cref="Modules.Module{T}"/> with <see cref="None"/>
-/// for modules that perform actions without returning results.
+/// Use <see cref="Modules.Module{T}"/> with <see cref="None"/> for modules that perform
+/// actions without returning results.
 /// </remarks>
 public readonly struct None : IEquatable<None>, IEquatable<None?>
 {
@@ -59,5 +59,4 @@ public readonly struct None : IEquatable<None>, IEquatable<None?>
     /// Determines whether a nullable <see cref="None"/> does not equal a <see cref="None"/> (always false).
     /// </summary>
     public static bool operator !=(None? left, None right) => false;
-
 }

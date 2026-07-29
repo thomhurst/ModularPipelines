@@ -23,9 +23,9 @@ Import `ModularPipelines.Azure.Pipelines.Extensions`, then use this service from
 ```csharp
 using ModularPipelines.Azure.Pipelines.Extensions;
 
-public class UseAzurePipelineModule : SyncModule
+public class UseAzurePipelineModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -33,6 +33,7 @@ public class UseAzurePipelineModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("AzurePipeline integration is ready");
+        return None.Value;
     }
 }
 ```

@@ -23,9 +23,9 @@ Import `ModularPipelines.Email.Extensions`, then use this service from a module:
 ```csharp
 using ModularPipelines.Email.Extensions;
 
-public class UseEmailModule : SyncModule
+public class UseEmailModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -33,6 +33,7 @@ public class UseEmailModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Email integration is ready");
+        return None.Value;
     }
 }
 ```

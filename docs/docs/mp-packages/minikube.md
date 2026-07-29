@@ -25,9 +25,9 @@ Import `ModularPipelines.Minikube.Extensions`, then use this service from a modu
 ```csharp
 using ModularPipelines.Minikube.Extensions;
 
-public class UseMinikubeModule : SyncModule
+public class UseMinikubeModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseMinikubeModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Minikube integration is ready");
+        return None.Value;
     }
 }
 ```

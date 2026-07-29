@@ -25,9 +25,9 @@ Import `ModularPipelines.Chocolatey.Extensions`, then use this service from a mo
 ```csharp
 using ModularPipelines.Chocolatey.Extensions;
 
-public class UseChocoModule : SyncModule
+public class UseChocoModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseChocoModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Choco integration is ready");
+        return None.Value;
     }
 }
 ```

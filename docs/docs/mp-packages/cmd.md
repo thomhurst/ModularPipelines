@@ -25,9 +25,9 @@ Import `ModularPipelines.Cmd.Extensions`, then use this service from a module:
 ```csharp
 using ModularPipelines.Cmd.Extensions;
 
-public class UseCmdModule : SyncModule
+public class UseCmdModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseCmdModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Cmd integration is ready");
+        return None.Value;
     }
 }
 ```

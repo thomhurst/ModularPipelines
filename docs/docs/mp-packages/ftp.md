@@ -23,9 +23,9 @@ Import `ModularPipelines.Ftp.Extensions`, then use this service from a module:
 ```csharp
 using ModularPipelines.Ftp.Extensions;
 
-public class UseFtpModule : SyncModule
+public class UseFtpModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -33,6 +33,7 @@ public class UseFtpModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Ftp integration is ready");
+        return None.Value;
     }
 }
 ```

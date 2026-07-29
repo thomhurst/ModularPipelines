@@ -25,9 +25,9 @@ Import `ModularPipelines.Flyway.Extensions`, then use this service from a module
 ```csharp
 using ModularPipelines.Flyway.Extensions;
 
-public class UseFlywayModule : SyncModule
+public class UseFlywayModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseFlywayModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Flyway integration is ready");
+        return None.Value;
     }
 }
 ```

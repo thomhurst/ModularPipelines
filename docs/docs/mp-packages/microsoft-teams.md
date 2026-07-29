@@ -23,9 +23,9 @@ Import `ModularPipelines.MicrosoftTeams.Extensions`, then use this service from 
 ```csharp
 using ModularPipelines.MicrosoftTeams.Extensions;
 
-public class UseMicrosoftTeamsModule : SyncModule
+public class UseMicrosoftTeamsModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -33,6 +33,7 @@ public class UseMicrosoftTeamsModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("MicrosoftTeams integration is ready");
+        return None.Value;
     }
 }
 ```

@@ -25,9 +25,9 @@ Import `ModularPipelines.Syft.Extensions`, then use this service from a module:
 ```csharp
 using ModularPipelines.Syft.Extensions;
 
-public class UseSyftModule : SyncModule
+public class UseSyftModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseSyftModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Syft integration is ready");
+        return None.Value;
     }
 }
 ```

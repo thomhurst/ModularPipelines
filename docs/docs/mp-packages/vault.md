@@ -25,9 +25,9 @@ Import `ModularPipelines.Vault.Extensions`, then use this service from a module:
 ```csharp
 using ModularPipelines.Vault.Extensions;
 
-public class UseVaultModule : SyncModule
+public class UseVaultModule : SyncModule<None>
 {
-    protected override void ExecuteModule(
+    protected override None Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -35,6 +35,7 @@ public class UseVaultModule : SyncModule
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Vault integration is ready");
+        return None.Value;
     }
 }
 ```

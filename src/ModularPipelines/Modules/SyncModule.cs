@@ -1,9 +1,8 @@
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
 
-#pragma warning disable SA1202 // Lifecycle members are grouped by behavior rather than accessibility.
+#pragma warning disable SA1202 // Keep the user override before its protected-internal adapter.
 
 /// <summary>
 /// A synchronous version of <see cref="Module{T}"/> that provides a simpler programming model
@@ -26,8 +25,8 @@ namespace ModularPipelines.Modules;
 /// the pipeline execution engine.
 /// </para>
 /// <para>
-/// All module features (dependencies, configuration, hooks, etc.) work identically to
-/// <see cref="Module{T}"/>.
+/// All module features (dependencies, configuration, async lifecycle hooks, etc.) work
+/// identically to <see cref="Module{T}"/>.
 /// </para>
 /// </remarks>
 /// <example>
@@ -41,21 +40,6 @@ namespace ModularPipelines.Modules;
 ///         var patch = Environment.GetEnvironmentVariable("PATCH_VERSION") ?? "0";
 ///
 ///         return $"{major}.{minor}.{patch}";
-///     }
-/// }
-/// </code>
-/// </example>
-/// <example>
-/// <code>
-/// [DependsOn&lt;BuildModule&gt;]
-/// public class ArtifactPathResolver : SyncModule&lt;string&gt;
-/// {
-///     protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
-///     {
-///         var buildResult = context.GetModule&lt;BuildModule&gt;().GetAwaiter().GetResult();
-///
-///         // Synchronously access the result (it's already complete due to DependsOn)
-///         return Path.Combine(buildResult.ValueOrDefault!.OutputPath, "artifacts");
 ///     }
 /// }
 /// </code>
@@ -85,124 +69,10 @@ public abstract class SyncModule<T> : Module<T>
     /// You should not override this method in <see cref="SyncModule{T}"/> - override
     /// <see cref="Execute"/> instead.
     /// </remarks>
-    protected internal sealed override Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        var result = Execute(context, cancellationToken);
-        return Task.FromResult(result);
-    }
-
-    /// <summary>
-    /// Called before the module executes. Override to add synchronous setup logic.
-    /// </summary>
-    /// <param name="context">The module context.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <remarks>
-    /// <para>
-    /// This is a synchronous alternative to <see cref="Module{T}.OnBeforeExecuteAsync"/>.
-    /// </para>
-    /// <para>
-    /// Exceptions thrown from this method will prevent <see cref="Execute"/> from running
-    /// and will be propagated as a module failure.
-    /// </para>
-    /// </remarks>
-    protected virtual void OnBeforeExecute(IModuleContext context, CancellationToken cancellationToken)
-    {
-    }
-
-    /// <summary>
-    /// Called after the module completes (success or failure). Override to add synchronous cleanup
-    /// or result transformation.
-    /// </summary>
-    /// <param name="context">The module context.</param>
-    /// <param name="result">The module result (may contain an exception on failure).</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A modified result, or null to keep the original.</returns>
-    /// <remarks>
-    /// <para>
-    /// This is a synchronous alternative to <see cref="Module{T}.OnAfterExecuteAsync"/>.
-    /// </para>
-    /// <para>
-    /// This hook is called after both successful execution and failures.
-    /// Check <see cref="ModuleResult.ExceptionOrDefault"/> to determine if the module failed.
-    /// </para>
-    /// </remarks>
-    protected virtual ModuleResult<T>? OnAfterExecute(
+    protected internal sealed override Task<T?> ExecuteAsync(
         IModuleContext context,
-        ModuleResult<T> result,
-        CancellationToken cancellationToken)
-        => null;
-
-    /// <summary>
-    /// Called when the module is skipped. Override to add synchronous skip notification logic.
-    /// </summary>
-    /// <param name="context">The module context.</param>
-    /// <param name="skipDecision">The skip decision with reason.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    protected virtual void OnSkipped(
-        IModuleContext context,
-        SkipDecision skipDecision,
-        CancellationToken cancellationToken)
-    {
-    }
-
-    /// <summary>
-    /// Called when the module fails with an exception. Override to add synchronous error handling.
-    /// Called before OnAfterExecute.
-    /// </summary>
-    /// <param name="context">The module context.</param>
-    /// <param name="exception">The exception that caused the failure.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <remarks>
-    /// <para>
-    /// This is a synchronous alternative to <see cref="Module{T}.OnFailedAsync"/>.
-    /// </para>
-    /// <para>
-    /// This hook is called when <see cref="Execute"/> throws an exception.
-    /// </para>
-    /// </remarks>
-    protected virtual void OnFailed(
-        IModuleContext context,
-        Exception exception,
-        CancellationToken cancellationToken)
-    {
-    }
-
-    /// <inheritdoc />
-    protected sealed override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        OnBeforeExecute(context, cancellationToken);
-        return Task.CompletedTask;
-    }
-
-    /// <inheritdoc />
-    protected sealed override Task<ModuleResult<T>?> OnAfterExecuteAsync(
-        IModuleContext context,
-        ModuleResult<T> result,
-        CancellationToken cancellationToken)
-    {
-        var modifiedResult = OnAfterExecute(context, result, cancellationToken);
-        return Task.FromResult(modifiedResult);
-    }
-
-    /// <inheritdoc />
-    protected sealed override Task OnSkippedAsync(
-        IModuleContext context,
-        SkipDecision skipDecision,
-        CancellationToken cancellationToken)
-    {
-        OnSkipped(context, skipDecision, cancellationToken);
-        return Task.CompletedTask;
-    }
-
-    /// <inheritdoc />
-    protected sealed override Task OnFailedAsync(
-        IModuleContext context,
-        Exception exception,
-        CancellationToken cancellationToken)
-    {
-        OnFailed(context, exception, cancellationToken);
-        return Task.CompletedTask;
-    }
+        CancellationToken cancellationToken) =>
+        Task.FromResult(Execute(context, cancellationToken));
 }
 
 #pragma warning restore SA1202

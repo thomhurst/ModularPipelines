@@ -124,7 +124,7 @@ public class FindNugetPackagesModule : Module<List<File>>
 
 ```csharp
 [DependsOn<FindNugetPackagesModule>]
-public class UploadNugetPackagesModule : Module
+public class UploadNugetPackagesModule : Module<None>
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
 
@@ -133,7 +133,7 @@ public class UploadNugetPackagesModule : Module
         _nugetSettings = nugetSettings;
     }
 
-    protected override async Task ExecuteModuleAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var nugetFiles = await context.GetModule<FindNugetPackagesModule>();
 
@@ -145,6 +145,8 @@ public class UploadNugetPackagesModule : Module
                 ApiKey = _nugetSettings.Value.ApiKey!,
             }, cancellationToken), cancellationToken: cancellationToken)
             .ProcessOneAtATime();
+
+        return None.Value;
     }
 }
 ```
