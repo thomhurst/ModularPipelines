@@ -33,7 +33,7 @@ internal partial class Brew : IBrew
     #region Commands
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Alias(
+    public virtual async Task<CommandResult> AliasAsync(
         BrewAliasOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -42,7 +42,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Audit(
+    public virtual async Task<CommandResult> AuditAsync(
         BrewAuditOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -51,7 +51,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Autoremove(
+    public virtual async Task<CommandResult> AutoremoveAsync(
         BrewAutoremoveOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -60,7 +60,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Bottle(
+    public virtual async Task<CommandResult> BottleAsync(
         BrewBottleOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -69,7 +69,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> BumpCaskPr(
+    public virtual async Task<CommandResult> BumpCaskPrAsync(
         BrewBumpCaskPrOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -78,7 +78,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> BumpFormulaPr(
+    public virtual async Task<CommandResult> BumpFormulaPrAsync(
         BrewBumpFormulaPrOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -87,7 +87,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Bump(
+    public virtual async Task<CommandResult> BumpAsync(
         BrewBumpOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -96,7 +96,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> BumpRevision(
+    public virtual async Task<CommandResult> BumpRevisionAsync(
         BrewBumpRevisionOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -105,7 +105,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> BumpUnversionedCasks(
+    public virtual async Task<CommandResult> BumpUnversionedCasksAsync(
         BrewBumpUnversionedCasksOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -114,7 +114,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Bundle(
+    public virtual async Task<CommandResult> BundleAsync(
         BrewBundleOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -123,7 +123,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Casks(
+    public virtual async Task<CommandResult> CasksAsync(
         BrewCasksOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -132,7 +132,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Cat(
+    public virtual async Task<CommandResult> CatAsync(
         BrewCatOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -141,7 +141,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Cleanup(
+    public virtual async Task<CommandResult> CleanupAsync(
         BrewCleanupOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -150,7 +150,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> CommandCommand(
+    public virtual async Task<CommandResult> CommandCommandAsync(
         BrewCommandCommandOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -159,7 +159,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> CommandNotFoundInit(
+    public virtual async Task<CommandResult> CommandNotFoundInitAsync(
         BrewCommandNotFoundInitOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -168,7 +168,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Contributions(
+    public virtual async Task<CommandResult> ContributionsAsync(
         BrewContributionsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -177,7 +177,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Create(
+    public virtual async Task<CommandResult> CreateAsync(
         BrewCreateOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -186,7 +186,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Debugger(
+    public virtual async Task<CommandResult> DebuggerAsync(
         BrewDebuggerOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -195,7 +195,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Deps(
+    public virtual async Task<CommandResult> DepsAsync(
         BrewDepsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -204,7 +204,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Desc(
+    public virtual async Task<CommandResult> DescAsync(
         BrewDescOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -213,7 +213,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Developer(
+    public virtual async Task<CommandResult> DeveloperAsync(
         BrewDeveloperOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -222,7 +222,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> DispatchBuildBottle(
+    public virtual async Task<CommandResult> DispatchBuildBottleAsync(
         BrewDispatchBuildBottleOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -231,7 +231,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Docs(
+    public virtual async Task<CommandResult> DocsAsync(
         BrewDocsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -240,7 +240,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Edit(
+    public virtual async Task<CommandResult> EditAsync(
         BrewEditOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -249,7 +249,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Extract(
+    public virtual async Task<CommandResult> ExtractAsync(
         BrewExtractOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -258,7 +258,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Fetch(
+    public virtual async Task<CommandResult> FetchAsync(
         BrewFetchOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -267,7 +267,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormulaAnalytics(
+    public virtual async Task<CommandResult> FormulaAnalyticsAsync(
         BrewFormulaAnalyticsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -276,7 +276,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Formulae(
+    public virtual async Task<CommandResult> FormulaeAsync(
         BrewFormulaeOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -285,7 +285,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> FormulaFormula(
+    public virtual async Task<CommandResult> FormulaFormulaAsync(
         BrewFormulaFormulaOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -294,7 +294,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> GenerateAnalyticsApi(
+    public virtual async Task<CommandResult> GenerateAnalyticsApiAsync(
         BrewGenerateAnalyticsApiOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -303,7 +303,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> GenerateCaskApi(
+    public virtual async Task<CommandResult> GenerateCaskApiAsync(
         BrewGenerateCaskApiOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -312,7 +312,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> GenerateFormulaApi(
+    public virtual async Task<CommandResult> GenerateFormulaApiAsync(
         BrewGenerateFormulaApiOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -321,7 +321,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> GenerateManCompletions(
+    public virtual async Task<CommandResult> GenerateManCompletionsAsync(
         BrewGenerateManCompletionsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -330,7 +330,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> GistLogs(
+    public virtual async Task<CommandResult> GistLogsAsync(
         BrewGistLogsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -339,7 +339,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> InstallBundlerGems(
+    public virtual async Task<CommandResult> InstallBundlerGemsAsync(
         BrewInstallBundlerGemsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -348,7 +348,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> InstallFormula(
+    public virtual async Task<CommandResult> InstallFormulaAsync(
         BrewInstallFormulaOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -357,7 +357,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Install(
+    public virtual async Task<CommandResult> InstallAsync(
         BrewInstallOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -366,7 +366,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Irb(
+    public virtual async Task<CommandResult> IrbAsync(
         BrewIrbOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -375,7 +375,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Leaves(
+    public virtual async Task<CommandResult> LeavesAsync(
         BrewLeavesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -384,7 +384,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Lgtm(
+    public virtual async Task<CommandResult> LgtmAsync(
         BrewLgtmOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -393,7 +393,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Linkage(
+    public virtual async Task<CommandResult> LinkageAsync(
         BrewLinkageOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -402,7 +402,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> List(
+    public virtual async Task<CommandResult> ListAsync(
         BrewListOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -411,7 +411,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Log(
+    public virtual async Task<CommandResult> LogAsync(
         BrewLogOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -420,7 +420,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> McpServer(
+    public virtual async Task<CommandResult> McpServerAsync(
         BrewMcpServerOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -429,7 +429,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Migrate(
+    public virtual async Task<CommandResult> MigrateAsync(
         BrewMigrateOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -438,7 +438,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Missing(
+    public virtual async Task<CommandResult> MissingAsync(
         BrewMissingOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -447,7 +447,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> NodenvSync(
+    public virtual async Task<CommandResult> NodenvSyncAsync(
         BrewNodenvSyncOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -456,7 +456,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Options(
+    public virtual async Task<CommandResult> OptionsAsync(
         BrewOptionsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -465,7 +465,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Outdated(
+    public virtual async Task<CommandResult> OutdatedAsync(
         BrewOutdatedOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -474,7 +474,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> PinInstalled_formula(
+    public virtual async Task<CommandResult> PinInstalled_formulaAsync(
         BrewPinInstalled_formulaOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -483,7 +483,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> PrAutomerge(
+    public virtual async Task<CommandResult> PrAutomergeAsync(
         BrewPrAutomergeOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -492,7 +492,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Prof(
+    public virtual async Task<CommandResult> ProfAsync(
         BrewProfOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -501,7 +501,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> PrPublish(
+    public virtual async Task<CommandResult> PrPublishAsync(
         BrewPrPublishOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -510,7 +510,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> PrPull(
+    public virtual async Task<CommandResult> PrPullAsync(
         BrewPrPullOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -519,7 +519,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> PrUpload(
+    public virtual async Task<CommandResult> PrUploadAsync(
         BrewPrUploadOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -528,7 +528,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> PyenvSync(
+    public virtual async Task<CommandResult> PyenvSyncAsync(
         BrewPyenvSyncOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -537,7 +537,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> RbenvSync(
+    public virtual async Task<CommandResult> RbenvSyncAsync(
         BrewRbenvSyncOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -546,7 +546,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Readall(
+    public virtual async Task<CommandResult> ReadallAsync(
         BrewReadallOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -555,7 +555,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Reinstall(
+    public virtual async Task<CommandResult> ReinstallAsync(
         BrewReinstallOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -564,7 +564,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Release(
+    public virtual async Task<CommandResult> ReleaseAsync(
         BrewReleaseOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -573,7 +573,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Rubocop(
+    public virtual async Task<CommandResult> RubocopAsync(
         BrewRubocopOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -582,7 +582,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Rubydoc(
+    public virtual async Task<CommandResult> RubydocAsync(
         BrewRubydocOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -591,7 +591,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Ruby(
+    public virtual async Task<CommandResult> RubyAsync(
         BrewRubyOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -600,7 +600,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Search(
+    public virtual async Task<CommandResult> SearchAsync(
         BrewSearchOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -609,7 +609,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Services(
+    public virtual async Task<CommandResult> ServicesAsync(
         BrewServicesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -618,7 +618,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> SetupRuby(
+    public virtual async Task<CommandResult> SetupRubyAsync(
         BrewSetupRubyOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -627,7 +627,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Sh(
+    public virtual async Task<CommandResult> ShAsync(
         BrewShOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -636,7 +636,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Source(
+    public virtual async Task<CommandResult> SourceAsync(
         BrewSourceOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -645,7 +645,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Style(
+    public virtual async Task<CommandResult> StyleAsync(
         BrewStyleOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -654,7 +654,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Tab(
+    public virtual async Task<CommandResult> TabAsync(
         BrewTabOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -663,7 +663,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> TapInfo(
+    public virtual async Task<CommandResult> TapInfoAsync(
         BrewTapInfoOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -672,7 +672,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> TapNew(
+    public virtual async Task<CommandResult> TapNewAsync(
         BrewTapNewOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -681,7 +681,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Tap(
+    public virtual async Task<CommandResult> TapAsync(
         BrewTapOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -690,7 +690,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> TestBot(
+    public virtual async Task<CommandResult> TestBotAsync(
         BrewTestBotOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -699,7 +699,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Test(
+    public virtual async Task<CommandResult> TestAsync(
         BrewTestOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -708,7 +708,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Tests(
+    public virtual async Task<CommandResult> TestsAsync(
         BrewTestsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -717,7 +717,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UnaliasAlias(
+    public virtual async Task<CommandResult> UnaliasAliasAsync(
         BrewUnaliasAliasOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -726,7 +726,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Unbottled(
+    public virtual async Task<CommandResult> UnbottledAsync(
         BrewUnbottledOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -735,7 +735,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UninstallFormula(
+    public virtual async Task<CommandResult> UninstallFormulaAsync(
         BrewUninstallFormulaOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -744,7 +744,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Unlink(
+    public virtual async Task<CommandResult> UnlinkAsync(
         BrewUnlinkOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -753,7 +753,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Unpack(
+    public virtual async Task<CommandResult> UnpackAsync(
         BrewUnpackOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -762,7 +762,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UnpinInstalled_formula(
+    public virtual async Task<CommandResult> UnpinInstalled_formulaAsync(
         BrewUnpinInstalled_formulaOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -771,7 +771,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Untap(
+    public virtual async Task<CommandResult> UntapAsync(
         BrewUntapOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -780,7 +780,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UpdateIfNeeded(
+    public virtual async Task<CommandResult> UpdateIfNeededAsync(
         BrewUpdateIfNeededOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -789,7 +789,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UpdateLicenseData(
+    public virtual async Task<CommandResult> UpdateLicenseDataAsync(
         BrewUpdateLicenseDataOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -798,7 +798,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UpdateMaintainers(
+    public virtual async Task<CommandResult> UpdateMaintainersAsync(
         BrewUpdateMaintainersOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -807,7 +807,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UpdatePerlResources(
+    public virtual async Task<CommandResult> UpdatePerlResourcesAsync(
         BrewUpdatePerlResourcesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -816,7 +816,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UpdatePythonResources(
+    public virtual async Task<CommandResult> UpdatePythonResourcesAsync(
         BrewUpdatePythonResourcesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -825,7 +825,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UpdateReset(
+    public virtual async Task<CommandResult> UpdateResetAsync(
         BrewUpdateResetOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -834,7 +834,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UpdateSponsors(
+    public virtual async Task<CommandResult> UpdateSponsorsAsync(
         BrewUpdateSponsorsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -843,7 +843,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> UpdateTest(
+    public virtual async Task<CommandResult> UpdateTestAsync(
         BrewUpdateTestOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -852,7 +852,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Upgrade(
+    public virtual async Task<CommandResult> UpgradeAsync(
         BrewUpgradeOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -861,7 +861,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Uses(
+    public virtual async Task<CommandResult> UsesAsync(
         BrewUsesOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -870,7 +870,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> VendorGems(
+    public virtual async Task<CommandResult> VendorGemsAsync(
         BrewVendorGemsOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -879,7 +879,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Verify(
+    public virtual async Task<CommandResult> VerifyAsync(
         BrewVerifyOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -888,7 +888,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> WhichFormula(
+    public virtual async Task<CommandResult> WhichFormulaAsync(
         BrewWhichFormulaOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
@@ -897,7 +897,7 @@ internal partial class Brew : IBrew
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> WhichUpdate(
+    public virtual async Task<CommandResult> WhichUpdateAsync(
         BrewWhichUpdateOptions? options = default,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)

@@ -61,8 +61,7 @@ public class PushVersionTagModule : Module<CommandResult>
             TagName = $"v{versionInformation.ValueOrDefault!}",
         }, cancellationToken: cancellationToken);
 
-        return await context.Git().Commands.Push
-        (
+        return await context.Git().Commands.Remotes.PushAsync(
             new GitPushOptions
             {
                 Tags = true,
@@ -71,7 +70,6 @@ public class PushVersionTagModule : Module<CommandResult>
             {
                 ThrowOnNonZeroExitCode = false,
             },
-            cancellationToken: cancellationToken
-        );
+            cancellationToken: cancellationToken);
     }
 }
