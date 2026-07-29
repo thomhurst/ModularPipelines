@@ -23,10 +23,10 @@
 /// </remarks>
 /// <seealso cref="PipelineException"/>
 /// <seealso cref="DependencyFailedException"/>
-public class AlwaysRunPostponedException : PipelineException
+internal class AlwaysRunPostponedException : PipelineException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AlwaysRunPostponedException"/> class.
+    /// Initialises a new instance of the <see cref="AlwaysRunPostponedException"/> class.
     /// </summary>
     /// <param name="message">The message describing the postponed exception.</param>
     /// <param name="innerException">The original exception that was postponed.</param>

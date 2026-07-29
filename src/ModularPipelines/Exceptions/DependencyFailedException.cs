@@ -43,10 +43,10 @@ public class DependencyFailedException : PipelineException
     /// Gets the name of the module that failed, causing this dependency failure.
     /// </summary>
     [JsonInclude]
-    public string FailingModuleName { get; private set; }
+    public string FailingModuleName { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DependencyFailedException"/> class.
+    /// Initialises a new instance of the <see cref="DependencyFailedException"/> class.
     /// </summary>
     /// <param name="exception">The exception that caused the dependency to fail.</param>
     /// <param name="module">The module that failed.</param>

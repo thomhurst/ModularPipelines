@@ -11,7 +11,7 @@ namespace ModularPipelines.Context;
 /// This interface works with <see cref="ICommandLineBuilder"/> to separate command construction
 /// from execution. The builder creates a <see cref="CommandLine"/>, and this executor runs it.
 /// </remarks>
-public interface ICommandLineExecutor
+internal interface ICommandLineExecutor
 {
     /// <summary>
     /// Executes the command line.

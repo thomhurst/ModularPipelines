@@ -27,6 +27,35 @@ public class InterfaceVisibilityTests
     }
 
     [Test]
+    public async Task EnginePlumbing_ShouldNotBePublic()
+    {
+        var assembly = typeof(IModuleContext).Assembly;
+        string[] internalTypeNames =
+        [
+            "ModularPipelines.Modules.SubModuleBase",
+            "ModularPipelines.Context.ICommandLineExecutor",
+            "ModularPipelines.Context.ICommandLineBuilder",
+            "ModularPipelines.Engine.LogoPrinter",
+            "ModularPipelines.Exceptions.AlwaysRunPostponedException",
+        ];
+
+        foreach (var typeName in internalTypeNames)
+        {
+            var type = assembly.GetType(typeName);
+            await Assert.That(type).IsNotNull();
+            await Assert.That(type!.IsPublic).IsFalse()
+                .Because($"{typeName} should be internal");
+        }
+
+        await Assert.That(assembly.GetType("ModularPipelines.Modules.SubModule`1")).IsNull();
+
+        var failingModuleName = assembly
+            .GetType("ModularPipelines.Exceptions.DependencyFailedException")!
+            .GetProperty("FailingModuleName")!;
+        await Assert.That(failingModuleName.SetMethod).IsNull();
+    }
+
+    [Test]
     public async Task UserFacingContextInterfaces_ShouldBePublic()
     {
         var assembly = typeof(IModuleContext).Assembly;

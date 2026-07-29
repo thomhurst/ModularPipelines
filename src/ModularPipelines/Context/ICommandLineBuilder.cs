@@ -12,7 +12,7 @@ namespace ModularPipelines.Context;
 /// builder pattern for configuring and executing commands. This interface is specifically
 /// for transforming <see cref="CommandLineToolOptions"/> into a <see cref="CommandLine"/> model.
 /// </remarks>
-public interface ICommandLineBuilder
+internal interface ICommandLineBuilder
 {
     /// <summary>
     /// Builds a command line from the given options.
