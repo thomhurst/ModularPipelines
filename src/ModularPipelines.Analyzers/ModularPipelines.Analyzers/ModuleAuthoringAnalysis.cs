@@ -810,7 +810,15 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            var localValue = FindReachingLocalValue(value, localReference.Local);
+            var localValue = FindReachingLocalValue(
+                value,
+                localReference.Local,
+                out var isAmbiguous);
+            if (isAmbiguous)
+            {
+                return true;
+            }
+
             if (localValue is not null
                 && FlowsFromCancellationToken(localValue, cancellationToken, visitedLocals))
             {
@@ -846,29 +854,109 @@ internal static class ModuleAuthoringAnalysis
         IOperation operation,
         ILocalSymbol local)
     {
+        return FindReachingLocalValue(operation, local, out _);
+    }
+
+    private static IOperation? FindReachingLocalValue(
+        IOperation operation,
+        ILocalSymbol local,
+        out bool isAmbiguous)
+    {
+        isAmbiguous = false;
         var root = GetRoot(operation);
         var callable = GetEnclosingCallable(operation);
-        var assignment = root.DescendantsAndSelf()
+        var assignments = root.DescendantsAndSelf()
             .OfType<ISimpleAssignmentOperation>()
             .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
             .Where(candidate => candidate.Target is ILocalReferenceOperation localReference
                 && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
-            .FirstOrDefault();
+            .ToArray();
+        var assignment = assignments.FirstOrDefault(candidate =>
+            IsLinearPredecessor(candidate, operation));
+        if (assignments.Any(candidate =>
+                !IsLinearPredecessor(candidate, operation)
+                && (assignment is null
+                    || candidate.Syntax.SpanStart > assignment.Syntax.SpanStart)))
+        {
+            isAmbiguous = true;
+            return null;
+        }
+
         if (assignment is not null)
         {
             return assignment.Value;
         }
 
-        return root.DescendantsAndSelf()
+        var declarator = root.DescendantsAndSelf()
             .OfType<IVariableDeclaratorOperation>()
             .Where(declarator => declarator.Syntax.SpanStart < operation.Syntax.SpanStart)
             .Where(declarator => SymbolEqualityComparer.Default.Equals(declarator.Symbol, local))
             .Where(declarator => ReferenceEquals(GetEnclosingCallable(declarator), callable))
             .OrderByDescending(static declarator => declarator.Syntax.SpanStart)
-            .FirstOrDefault()
-            ?.Initializer?.Value;
+            .FirstOrDefault();
+        if (declarator is null)
+        {
+            return null;
+        }
+
+        if (!IsLinearPredecessor(declarator, operation))
+        {
+            isAmbiguous = true;
+            return null;
+        }
+
+        return declarator.Initializer?.Value;
+    }
+
+    private static bool IsLinearPredecessor(
+        IOperation candidate,
+        IOperation operation)
+    {
+        IBlockOperation? containingBlock = null;
+        for (var ancestor = candidate.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is IBlockOperation block)
+            {
+                containingBlock = block;
+                break;
+            }
+        }
+
+        if (containingBlock is null || !HasAncestor(operation, containingBlock))
+        {
+            return false;
+        }
+
+        for (var ancestor = candidate.Parent;
+             ancestor is not null && !ReferenceEquals(ancestor, containingBlock);
+             ancestor = ancestor.Parent)
+        {
+            if (ancestor is IConditionalOperation
+                or ILoopOperation
+                or ISwitchOperation)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool HasAncestor(
+        IOperation operation,
+        IOperation expectedAncestor)
+    {
+        for (var ancestor = operation; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ReferenceEquals(ancestor, expectedAncestor))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static IOperation? GetEnclosingCallable(IOperation operation)

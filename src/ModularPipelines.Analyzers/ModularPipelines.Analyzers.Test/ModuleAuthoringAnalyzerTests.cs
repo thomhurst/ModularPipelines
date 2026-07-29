@@ -485,6 +485,52 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Guess_Branch_Dependent_CancellationToken_Flow()
+    {
+        var cancellationLast = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token;
+                if (context is not null)
+                {
+                    token = CancellationToken.None;
+                }
+                else
+                {
+                    token = cancellationToken;
+                }
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+        var cancellationFirst = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token;
+                if (context is not null)
+                {
+                    token = cancellationToken;
+                }
+                else
+                {
+                    token = CancellationToken.None;
+                }
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(cancellationLast);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(cancellationFirst);
+    }
+
+    [TestMethod]
     public async Task Reports_Unflowed_CancellationToken_Inside_WhenAll()
     {
         var source = ModuleSource("""
