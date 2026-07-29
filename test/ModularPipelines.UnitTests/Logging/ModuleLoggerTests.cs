@@ -1,10 +1,15 @@
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
+using ModularPipelines.Console;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
+using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using Moq;
 using NReco.Logging.File;
 using File = ModularPipelines.FileSystem.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
@@ -96,6 +101,42 @@ public class ModuleLoggerTests
 
         await Assert.That(await file.ReadAsync()).DoesNotContain("Secret Value!!!");
         await Assert.That(await file.ReadAsync()).Contains("**********");
+    }
+
+    [Test]
+    public async Task Disposed_Logger_Is_Not_Rooted_By_ProcessExit()
+    {
+        var loggerReference = CreateDisposedLoggerReference();
+
+        for (var attempt = 0; attempt < 10 && loggerReference.IsAlive; attempt++)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            await Task.Delay(10);
+        }
+
+        await Assert.That(loggerReference.IsAlive).IsFalse();
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static WeakReference CreateDisposedLoggerReference()
+    {
+        var moduleOutputBuffer = Mock.Of<IModuleOutputBuffer>();
+        var consoleCoordinator = new Mock<IConsoleCoordinator>();
+        consoleCoordinator
+            .Setup(x => x.GetModuleBuffer(typeof(ModuleLoggerTests)))
+            .Returns(moduleOutputBuffer);
+
+        var logger = new ModuleLogger<ModuleLoggerTests>(
+            Mock.Of<ILogger<ModuleLoggerTests>>(),
+            Mock.Of<ISecretObfuscator>(),
+            Mock.Of<IFormattedLogValuesObfuscator>(),
+            consoleCoordinator.Object,
+            Mock.Of<IOutputCoordinator>());
+
+        logger.Dispose();
+        return new WeakReference(logger);
     }
 
     private class MySecrets

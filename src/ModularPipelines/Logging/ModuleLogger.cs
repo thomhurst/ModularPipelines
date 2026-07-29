@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
-using ModularPipelines.Helpers;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
@@ -89,8 +88,6 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
         _buffer = consoleCoordinator.GetModuleBuffer(typeof(T));
         _outputCoordinator = outputCoordinator;
-
-        Disposer.RegisterOnShutdown(this);
     }
 
     public override IDisposable? BeginScope<TState>(TState state)
