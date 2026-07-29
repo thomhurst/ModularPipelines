@@ -190,7 +190,7 @@ public class AlwaysRunHandlerTests
         var dependent = new SecondAlwaysRunModule();
         var prerequisiteState = new ModuleState(prerequisite, prerequisite.GetType());
         var dependentState = new ModuleState(dependent, dependent.GetType());
-        dependentState.Dependencies[prerequisite.GetType()] = false;
+        dependentState.RecordDependency(prerequisite.GetType(), optional: false);
         var scheduler = CreateScheduler(prerequisiteState, dependentState);
         var moduleRunner = new Mock<IModuleRunner>();
         var prerequisiteStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);

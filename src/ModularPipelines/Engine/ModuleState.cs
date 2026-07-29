@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -40,17 +41,18 @@ internal enum ModuleExecutionState
 /// - Timing metrics (queued time, execution start, completion)
 /// - Constraint requirements (sequential execution, lock keys)
 ///
-/// Thread Safety: State property and collections are accessed under lock by ModuleScheduler.
-/// State transitions are atomic via enum assignment.
+/// Thread Safety: State and mutable collections are accessed under lock by ModuleScheduler.
+/// Dependencies are published as immutable snapshots for lock-free worker reads.
 /// </remarks>
 internal class ModuleState
 {
+    private ImmutableDictionary<Type, bool> _dependencies = ImmutableDictionary<Type, bool>.Empty;
+
     public ModuleState(IModule module, Type moduleType)
     {
         Module = module;
         ModuleType = moduleType;
         CompletionSource = new TaskCompletionSource<IModule>(TaskCreationOptions.RunContinuationsAsynchronously);
-        Dependencies = new Dictionary<Type, bool>();
         UnresolvedDependencies = new HashSet<Type>();
         DependentModules = new List<ModuleState>();
         RequiredLockKeys = Array.Empty<string>();
@@ -74,7 +76,19 @@ internal class ModuleState
     /// <summary>
     /// Gets all dependency types and whether each dependency is optional.
     /// </summary>
-    public Dictionary<Type, bool> Dependencies { get; }
+    public ImmutableDictionary<Type, bool> Dependencies => Volatile.Read(ref _dependencies);
+
+    /// <summary>
+    /// Adds or updates a dependency by publishing a new immutable snapshot.
+    /// </summary>
+    public void RecordDependency(Type dependencyType, bool optional)
+    {
+        ImmutableInterlocked.AddOrUpdate(
+            ref _dependencies,
+            dependencyType,
+            optional,
+            (_, existingOptional) => existingOptional && optional);
+    }
 
     /// <summary>
     /// Gets set of dependency types that haven't completed yet.
