@@ -158,3 +158,15 @@ Referencing the `ModularPipelines` package includes the source generator as an a
 The generator emits immutable assembly registration metadata, which each pipeline consumes
 independently. Remove the old parameterless module initializer and any call to
 `ModularPipelinesContextRegistry.RegisterContext`.
+
+If the integration DLL is copied beside the application without a compile-time reference,
+opt in to filename-based assembly discovery before building the pipeline:
+
+```csharp
+builder.ConfigurePipelineOptions(options =>
+    options.LoadModularPipelineAssemblies = true);
+```
+
+The option is disabled by default to avoid scanning and loading every matching assembly at
+pipeline startup. Integrations already loaded through normal application use and explicitly
+registered services do not need it.
