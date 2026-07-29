@@ -26,6 +26,10 @@ namespace ModularPipelines;
 /// <summary>
 /// A builder for configuring and creating a pipeline.
 /// </summary>
+/// <remarks>
+/// The caller owns the builder and should dispose it when finished, especially after using
+/// <see cref="IHostEnvironment.ContentRootFileProvider"/>.
+/// </remarks>
 public sealed class PipelineBuilder : IDisposable
 {
     private readonly IHostBuilder _hostBuilder;
