@@ -61,6 +61,8 @@ Console.WriteLine("TRIM_AOT_SMOKE_OK");
 
 internal static class SmokeState
 {
+    private static int _hookInvocations;
+
     public const string ChildArgument = "--aot-smoke-child";
 
     public const string ExpectedFailure = "trim-aot-expected-failure";
@@ -69,7 +71,12 @@ internal static class SmokeState
 
     public const string OptionsMarker = "trim-aot-options-marker";
 
-    public static int HookInvocations { get; set; }
+    public static int HookInvocations => Volatile.Read(ref _hookInvocations);
+
+    public static void RecordHookInvocation()
+    {
+        Interlocked.Increment(ref _hookInvocations);
+    }
 }
 
 internal sealed class SmokePipelineOptions
@@ -82,7 +89,7 @@ internal sealed class SmokeHookAttribute : Attribute, IModuleStartHandler
 {
     public Task OnModuleStartAsync(IModuleHookContext context)
     {
-        SmokeState.HookInvocations++;
+        SmokeState.RecordHookInvocation();
         return Task.CompletedTask;
     }
 }

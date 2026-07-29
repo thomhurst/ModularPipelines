@@ -149,7 +149,8 @@ public class GeneratedModuleMetadataTests
     [Test]
     public async Task Incomplete_Generated_Metadata_Is_Skipped_Without_Reflection_Fallback()
     {
-        var (assembly, _, module) = CreateDynamicModule("IncompleteModule");
+        var (_, _, module) = CreateDynamicModule("IncompleteModule");
+        var assembly = module.Assembly;
         GeneratedModuleMetadata.Register(
             assembly,
             [
