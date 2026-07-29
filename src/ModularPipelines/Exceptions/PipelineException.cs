@@ -11,6 +11,7 @@ namespace ModularPipelines.Exceptions;
 /// <para><b>Exception Hierarchy:</b></para>
 /// <list type="bullet">
 /// <item><see cref="PipelineException"/> - Base exception for all pipeline errors</item>
+/// <item><see cref="AmbiguousModuleException"/> - Module lookup matched multiple registrations</item>
 /// <item><see cref="CommandException"/> - CLI command execution failures</item>
 /// <item><see cref="CircularDependencyException"/> - Circular module dependency detected</item>
 /// <item><see cref="DependencyCollisionException"/> - Module dependency conflicts</item>
@@ -42,14 +43,14 @@ namespace ModularPipelines.Exceptions;
 public class PipelineException : Exception
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PipelineException"/> class.
+    /// Initialises a new instance of the <see cref="PipelineException"/> class.
     /// </summary>
     public PipelineException()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PipelineException"/> class with a specified error message.
+    /// Initialises a new instance of the <see cref="PipelineException"/> class with a specified error message.
     /// </summary>
     /// <param name="message">The message that describes the error.</param>
     public PipelineException(string? message) : base(message)
@@ -57,7 +58,7 @@ public class PipelineException : Exception
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PipelineException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+    /// Initialises a new instance of the <see cref="PipelineException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
     /// </summary>
     /// <param name="message">The message that describes the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception.</param>

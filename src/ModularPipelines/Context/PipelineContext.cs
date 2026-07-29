@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
@@ -17,7 +16,7 @@ namespace ModularPipelines.Context;
 internal class PipelineContext : IPipelineContext, IInternalPipelineContext
 {
     private readonly IInternalModuleLoggerProvider _moduleLoggerProvider;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly ModuleLookup _moduleLookup;
 
     /// <summary>
     /// Cached logger instance for this context.
@@ -67,10 +66,10 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PipelineContext"/> class.
+    /// Initialises a new instance of the <see cref="PipelineContext"/> class.
     /// </summary>
     public PipelineContext(
-        IServiceProvider serviceProvider,
+        ModuleLookup moduleLookup,
         IDependencyCollisionDetector dependencyCollisionDetector,
         IModuleResultRepository moduleResultRepository,
         IInternalModuleLoggerProvider moduleLoggerProvider,
@@ -85,7 +84,7 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
         IServicesContext services,
         ISummaryLogger summary)
     {
-        _serviceProvider = serviceProvider;
+        _moduleLookup = moduleLookup;
         _moduleLoggerProvider = moduleLoggerProvider;
         DependencyCollisionDetector = dependencyCollisionDetector;
         ModuleResultRepository = moduleResultRepository;
@@ -106,15 +105,11 @@ internal class PipelineContext : IPipelineContext, IInternalPipelineContext
     public TModule? GetModule<TModule>()
         where TModule : class, IModule
     {
-        return GetDistinctModules().OfType<TModule>().SingleOrDefault();
+        return (TModule?) _moduleLookup.GetAssignable(typeof(TModule));
     }
 
     public IModule? GetModule(Type type)
     {
-        return GetDistinctModules().SingleOrDefault(module => module.GetType() == type);
+        return _moduleLookup.GetExact(type);
     }
-
-    private IEnumerable<IModule> GetDistinctModules() =>
-        _serviceProvider.GetServices<IModule>()
-            .Distinct<IModule>(ReferenceEqualityComparer.Instance);
 }
