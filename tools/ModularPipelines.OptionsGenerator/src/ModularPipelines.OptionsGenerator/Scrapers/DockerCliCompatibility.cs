@@ -14,6 +14,17 @@ internal static partial class DockerCliCompatibility
 
     public static IReadOnlyList<CliCommandGroupAlias> CommandGroupAliases => [BuilderAlias];
 
+    public static IReadOnlyList<CliCommandGroupAlias> GetSupportedCommandGroupAliases(
+        IReadOnlyCollection<CliCommandDefinition> commands)
+    {
+        return CommandGroupAliases
+            .Where(alias => commands.Any(command =>
+                command.CommandParts.FirstOrDefault()?.Equals(
+                    alias.CanonicalCommand,
+                    StringComparison.OrdinalIgnoreCase) == true))
+            .ToArray();
+    }
+
     public static CliCommandGroupAlias? DetectCommandGroupAlias(
         IReadOnlyList<string> commandPath,
         string helpText)
