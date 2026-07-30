@@ -37,6 +37,7 @@ internal class PipelineInitializer(
 
     private static readonly string[] SensitiveEnvironmentVariableNames =
     [
+        "AzureWebJobsStorage",
         "REDIS_URL",
     ];
 

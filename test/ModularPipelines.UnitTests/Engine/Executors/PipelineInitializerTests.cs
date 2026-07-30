@@ -63,6 +63,7 @@ public class PipelineInitializerTests
     [Arguments("AZURE_APPCONFIG_CONNECTION_STRING")]
     [Arguments("ConnectionStrings__Default")]
     [Arguments("SQLCONNSTR_Main")]
+    [Arguments("AzureWebJobsStorage")]
     public async Task EnvironmentVariables_MaskSensitiveNamesWithoutRegisteredSecret(
         string variableName)
     {
