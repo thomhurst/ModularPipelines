@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Pulumi.Enums;
 
@@ -16,12 +16,12 @@ namespace ModularPipelines.Pulumi.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiInsightsAccountNewScanSchedule
 {
-    [Description("none")]
+    [EnumValue("none")]
     None,
 
-    [Description("12h")]
+    [EnumValue("12h")]
     __12h,
 
-    [Description("daily")]
+    [EnumValue("daily")]
     Daily
 }

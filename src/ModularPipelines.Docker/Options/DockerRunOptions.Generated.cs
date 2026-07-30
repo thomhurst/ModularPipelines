@@ -254,7 +254,7 @@ public record DockerRunOptions : DockerOptions
     /// Time between running the check (ms|s|m|h) (default 0s)
     /// </summary>
     [CliOption("--health-interval", Format = OptionFormat.EqualsSeparated)]
-    public DockerRunHealthInterval? HealthInterval { get; set; }
+    public string? HealthInterval { get; set; }
 
     /// <summary>
     /// Consecutive failures needed to report unhealthy
@@ -266,19 +266,19 @@ public record DockerRunOptions : DockerOptions
     /// Time between running the check during the start period (ms|s|m|h) (default 0s)
     /// </summary>
     [CliOption("--health-start-interval", Format = OptionFormat.EqualsSeparated)]
-    public DockerRunHealthStartInterval? HealthStartInterval { get; set; }
+    public string? HealthStartInterval { get; set; }
 
     /// <summary>
     /// Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
     /// </summary>
     [CliOption("--health-start-period", Format = OptionFormat.EqualsSeparated)]
-    public DockerRunHealthStartPeriod? HealthStartPeriod { get; set; }
+    public string? HealthStartPeriod { get; set; }
 
     /// <summary>
     /// Maximum time to allow one check to run (ms|s|m|h) (default 0s)
     /// </summary>
     [CliOption("--health-timeout", Format = OptionFormat.EqualsSeparated)]
-    public DockerRunHealthTimeout? HealthTimeout { get; set; }
+    public string? HealthTimeout { get; set; }
 
     /// <summary>
     /// Print usage

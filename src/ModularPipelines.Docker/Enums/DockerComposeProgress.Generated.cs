@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Enums;
 
@@ -16,18 +16,18 @@ namespace ModularPipelines.Docker.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum DockerComposeProgress
 {
-    [Description("auto")]
+    [EnumValue("auto")]
     Auto,
 
-    [Description("tty")]
+    [EnumValue("tty")]
     Tty,
 
-    [Description("plain")]
+    [EnumValue("plain")]
     Plain,
 
-    [Description("json")]
+    [EnumValue("json")]
     Json,
 
-    [Description("quiet")]
+    [EnumValue("quiet")]
     Quiet
 }

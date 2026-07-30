@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Pulumi.Enums;
 
@@ -16,15 +16,15 @@ namespace ModularPipelines.Pulumi.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiStackScheduleEditOperation
 {
-    [Description("update")]
+    [EnumValue("update")]
     Update,
 
-    [Description("preview")]
+    [EnumValue("preview")]
     Preview,
 
-    [Description("refresh")]
+    [EnumValue("refresh")]
     Refresh,
 
-    [Description("destroy")]
+    [EnumValue("destroy")]
     Destroy
 }

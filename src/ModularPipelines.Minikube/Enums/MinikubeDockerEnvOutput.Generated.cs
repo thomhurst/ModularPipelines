@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Minikube.Enums;
 
@@ -16,12 +16,12 @@ namespace ModularPipelines.Minikube.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeDockerEnvOutput
 {
-    [Description("text")]
+    [EnumValue("text")]
     Text,
 
-    [Description("yaml")]
+    [EnumValue("yaml")]
     Yaml,
 
-    [Description("json")]
+    [EnumValue("json")]
     Json
 }

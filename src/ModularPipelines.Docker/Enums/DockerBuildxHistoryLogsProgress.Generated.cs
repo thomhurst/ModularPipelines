@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Docker.Enums;
 
@@ -16,12 +16,12 @@ namespace ModularPipelines.Docker.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum DockerBuildxHistoryLogsProgress
 {
-    [Description("plain")]
+    [EnumValue("plain")]
     Plain,
 
-    [Description("rawjson")]
+    [EnumValue("rawjson")]
     Rawjson,
 
-    [Description("tty")]
+    [EnumValue("tty")]
     Tty
 }

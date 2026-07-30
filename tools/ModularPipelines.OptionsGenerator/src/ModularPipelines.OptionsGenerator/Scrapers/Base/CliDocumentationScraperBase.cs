@@ -214,6 +214,13 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
                 .Where(v => !string.IsNullOrEmpty(v) && v.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_'))
                 .ToList();
 
+            // Duration placeholders describe suffixes for a free-form value such as "30s";
+            // they are not the complete values accepted by the option.
+            if (values.Count >= 2 && values.All(IsDurationUnit))
+            {
+                return null;
+            }
+
             if (values.Count >= 2)
             {
                 return CreateEnumDefinition(propertyName, commandClassName, values);
@@ -237,6 +244,11 @@ public abstract partial class CliDocumentationScraperBase : ICliDocumentationScr
         }
 
         return null;
+    }
+
+    private static bool IsDurationUnit(string value)
+    {
+        return value.ToLowerInvariant() is "ns" or "us" or "ms" or "s" or "m" or "h" or "d";
     }
 
     private static CliEnumDefinition CreateEnumDefinition(string propertyName, string commandClassName, List<string> values)
