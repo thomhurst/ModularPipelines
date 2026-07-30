@@ -167,6 +167,35 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_DI_Factory_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.AddSingleton<IModule>(_ => CreateModule());
+                }
+
+                private static BuildModule CreateModule() => new();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Type_Based_DI()
     {
         var source = $$"""
@@ -2380,6 +2409,56 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Flowed_Second_Token_In_Member_Helper()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await WorkAsync(CancellationToken.None, cancellationToken);
+                return null;
+            }
+
+                private static async Task WorkAsync(
+                    CancellationToken unrelatedToken,
+                    CancellationToken moduleToken)
+                {
+                    await Task.Delay(1, moduleToken);
+                }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Unrelated_First_Token_In_Member_Helper()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await WorkAsync(CancellationToken.None, cancellationToken);
+                return null;
+            }
+
+                private static async Task WorkAsync(
+                    CancellationToken unrelatedToken,
+                    CancellationToken moduleToken)
+                {
+                    await {|#0:Task.Delay(1, unrelatedToken)|};
+                }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]

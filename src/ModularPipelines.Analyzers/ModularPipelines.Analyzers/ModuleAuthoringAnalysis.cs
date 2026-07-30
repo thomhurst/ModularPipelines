@@ -313,15 +313,19 @@ internal static class ModuleAuthoringAnalysis
         IMethodSymbol executeMethod,
         IEnumerable<IInvocationOperation> invocations)
     {
-        var cancellationToken = executeMethod.Parameters.FirstOrDefault(IsCancellationToken);
-        if (cancellationToken is null)
+        var cancellationTokens = GetFlowingCancellationTokens(
+            context,
+            executeMethod);
+        if (cancellationTokens.IsEmpty)
         {
             return;
         }
 
         foreach (var invocation in invocations)
         {
-            if (InvocationUsesCancellation(invocation, cancellationToken)
+            if (cancellationTokens.Any(
+                    cancellationToken =>
+                        InvocationUsesCancellation(invocation, cancellationToken))
                 || !InvocationAcceptsCancellationToken(
                     invocation.TargetMethod,
                     context.Compilation,
@@ -528,6 +532,151 @@ internal static class ModuleAuthoringAnalysis
                 callableOperation,
                 callableOperation,
                 pending);
+        }
+    }
+
+    private static ImmutableArray<IParameterSymbol> GetFlowingCancellationTokens(
+        OperationAnalysisContext context,
+        IMethodSymbol executeMethod)
+    {
+        if (executeMethod.Parameters.FirstOrDefault(IsCancellationToken)
+            is not { } executeCancellationToken)
+        {
+            return [];
+        }
+
+        var containingMethod = GetContainingMemberMethod(context.ContainingSymbol);
+        if (containingMethod is null
+            || SymbolEqualityComparer.Default.Equals(
+                containingMethod,
+                executeMethod))
+        {
+            return [executeCancellationToken];
+        }
+
+        return [executeCancellationToken, .. FindMappedCancellationTokens(
+            executeMethod,
+            containingMethod,
+            executeCancellationToken,
+            context.Compilation,
+            context.CancellationToken)];
+    }
+
+    private static IMethodSymbol? GetContainingMemberMethod(ISymbol symbol)
+    {
+        for (var method = symbol as IMethodSymbol;
+             method is not null;
+             method = method.ContainingSymbol as IMethodSymbol)
+        {
+            if (method.MethodKind is MethodKind.Ordinary or MethodKind.PropertyGet)
+            {
+                return method;
+            }
+        }
+
+        return null;
+    }
+
+    private static ImmutableArray<IParameterSymbol> FindMappedCancellationTokens(
+        IMethodSymbol executeMethod,
+        IMethodSymbol targetMethod,
+        IParameterSymbol executeCancellationToken,
+        Compilation compilation,
+        CancellationToken cancellationToken)
+    {
+        var analysisType = executeMethod.ContainingType.InheritsFrom(
+            targetMethod.ContainingType)
+            ? executeMethod.ContainingType
+            : targetMethod.ContainingType;
+        var memberMethods = GetModuleMemberMethods(analysisType, compilation);
+        var mappedTokens = ImmutableArray.CreateBuilder<IParameterSymbol>();
+        var visitedTokens = new HashSet<IParameterSymbol>(
+            SymbolEqualityComparer.Default)
+        {
+            executeCancellationToken,
+        };
+        var pending = new Queue<(IMethodSymbol Method, IParameterSymbol Token)>();
+        pending.Enqueue((executeMethod, executeCancellationToken));
+
+        while (pending.Count > 0)
+        {
+            var (method, token) = pending.Dequeue();
+            if (SymbolEqualityComparer.Default.Equals(method, targetMethod))
+            {
+                mappedTokens.Add(token);
+                continue;
+            }
+
+            if (GetMethodOperation(method, compilation, cancellationToken)
+                is not { } operation)
+            {
+                continue;
+            }
+
+            foreach (var invocation in GetReachableInvocations(operation))
+            {
+                foreach (var mapping in GetCancellationTokenMappings(
+                             invocation,
+                             memberMethods,
+                             token))
+                {
+                    if (visitedTokens.Add(mapping.Token))
+                    {
+                        pending.Enqueue(mapping);
+                    }
+                }
+            }
+        }
+
+        return mappedTokens.ToImmutable();
+    }
+
+    private static IEnumerable<IInvocationOperation> GetReachableInvocations(
+        IOperation operation)
+    {
+        var invocations = operation.DescendantsAndSelf()
+            .OfType<IInvocationOperation>()
+            .ToImmutableArray();
+        var nestedCallables = operation.DescendantsAndSelf()
+            .Select(GetCallableSymbol)
+            .Where(static callable => callable is not null)
+            .Cast<IMethodSymbol>()
+            .Distinct<IMethodSymbol>(SymbolEqualityComparer.Default)
+            .ToImmutableArray();
+        var reachableNestedCallables = GetReachableCallables(
+            invocations,
+            nestedCallables);
+
+        return invocations.Where(invocation =>
+            IsInsideReachableCallable(
+                invocation,
+                reachableNestedCallables));
+    }
+
+    private static IEnumerable<(IMethodSymbol Method, IParameterSymbol Token)>
+        GetCancellationTokenMappings(
+            IInvocationOperation invocation,
+            ImmutableArray<IMethodSymbol> memberMethods,
+            IParameterSymbol sourceToken)
+    {
+        foreach (var method in memberMethods.Where(candidate =>
+                     InvocationTargetsCallable(invocation, candidate)))
+        {
+            foreach (var argument in invocation.Arguments.Where(argument =>
+                         argument.Parameter is not null
+                         && IsCancellationToken(argument.Parameter)
+                         && FlowsFromCancellationToken(
+                             argument.Value,
+                             sourceToken,
+                             [with(SymbolEqualityComparer.Default)])))
+            {
+                var targetToken = method.Parameters.ElementAtOrDefault(
+                    argument.Parameter!.Ordinal);
+                if (targetToken is not null && IsCancellationToken(targetToken))
+                {
+                    yield return (method, targetToken);
+                }
+            }
         }
     }
 
@@ -1039,6 +1188,9 @@ internal static class ModuleAuthoringAnalysis
                 var normalizedType = moduleType.OriginalDefinition;
                 instanceRegisteredModules.Add(normalizedType);
                 return true;
+            case IInvocationOperation { Type: INamedTypeSymbol moduleType }:
+                instanceRegisteredModules.Add(moduleType.OriginalDefinition);
+                return true;
             case ILocalReferenceOperation localReference
                 when visitedLocals.Add(localReference.Local)
                      && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
@@ -1479,9 +1631,7 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
-        return method.Parameters.Any(IsCancellationToken)
-            ? method
-            : executeMethod;
+        return executeMethod;
     }
 
     private static bool IsNestedCallable(IMethodSymbol method)
@@ -1863,13 +2013,7 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         CancellationToken cancellationToken)
     {
-        var memberMethods = GetModuleTypeHierarchy(analysisType, compilation)
-            .SelectMany(static type => type.GetMembers())
-            .OfType<IMethodSymbol>()
-            .Where(static method =>
-                method.MethodKind is MethodKind.Ordinary or MethodKind.PropertyGet
-                && method.DeclaringSyntaxReferences.Length > 0)
-            .ToImmutableArray();
+        var memberMethods = GetModuleMemberMethods(analysisType, compilation);
         var reachable = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default)
         {
             executeMethod,
@@ -1900,6 +2044,18 @@ internal static class ModuleAuthoringAnalysis
         return ImmutableHashSet.CreateRange<IMethodSymbol>(
             SymbolEqualityComparer.Default,
             reachable);
+    }
+
+    private static ImmutableArray<IMethodSymbol> GetModuleMemberMethods(
+        INamedTypeSymbol analysisType,
+        Compilation compilation)
+    {
+        return [.. GetModuleTypeHierarchy(analysisType, compilation)
+            .SelectMany(static type => type.GetMembers())
+            .OfType<IMethodSymbol>()
+            .Where(static method =>
+                method.MethodKind is MethodKind.Ordinary or MethodKind.PropertyGet
+                && method.DeclaringSyntaxReferences.Length > 0)];
     }
 
     private static IEnumerable<INamedTypeSymbol> GetModuleTypeHierarchy(
