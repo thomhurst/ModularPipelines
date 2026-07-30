@@ -5,6 +5,7 @@ using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.UnitTests.Helpers;
 using NReco.Logging.File;
 using File = System.IO.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
@@ -32,19 +33,19 @@ public class HttpTests : TestBase
     [Test]
     public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
     {
-        var result = await GetService<IHttpContext>((context, collection) => { });
+        await using var server = LocalHttpServer.Start();
+        var (http, _) = await GetService<IHttpContext>((_, _) => { });
 
-        var http = result.T;
-
-        await http.SendAsync(new Uri("https://thomhurst.github.io/TUnit"));
+        await http.SendAsync(server.Uri);
     }
 
     [Test]
     public async Task When_Log_Request_False_Then_Do_Not_Log_Request()
     {
+        await using var server = LocalHttpServer.Start();
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<IHttpContext>((_, collection) =>
+        var (http, host) = await GetService<IHttpContext>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {
@@ -53,27 +54,28 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit")))
+        await http.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, server.Uri))
         {
             ThrowOnNonSuccessStatusCode = false,
             LoggingType = HttpLoggingType.Response,
         });
 
-        await result.Host.DisposeAsync();
+        await host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).DoesNotContain("HTTP Request:");
-        await Assert.That(logFile).DoesNotContain("GET https://thomhurst.github.io/TUnit HTTP/1.1");
+        await Assert.That(logFile).DoesNotContain($"GET {server.Uri} HTTP/1.1");
         await Assert.That(logFile).Contains("HTTP Response:");
-        await Assert.That(logFile).Contains("Server: GitHub.com");
+        await Assert.That(logFile).Contains("Server: LocalHttpServer");
     }
 
     [Test]
     public async Task When_Log_Response_False_Then_Do_Not_Log_Response()
     {
+        await using var server = LocalHttpServer.Start();
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<IHttpContext>((_, collection) =>
+        var (http, host) = await GetService<IHttpContext>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {
@@ -82,19 +84,19 @@ public class HttpTests : TestBase
             });
         });
 
-        await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit")))
+        await http.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, server.Uri))
         {
             ThrowOnNonSuccessStatusCode = false,
             LoggingType = HttpLoggingType.Request,
         });
 
-        await result.Host.DisposeAsync();
+        await host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Contains("HTTP Request:");
-        await Assert.That(logFile).Contains("GET https://thomhurst.github.io/TUnit HTTP/1.1");
+        await Assert.That(logFile).Contains($"GET {server.Uri} HTTP/1.1");
         await Assert.That(logFile).DoesNotContain("HTTP Response:");
-        await Assert.That(logFile).DoesNotContain("Server: GitHub.com");
+        await Assert.That(logFile).DoesNotContain("Server: LocalHttpServer");
     }
 
     [Test]
@@ -102,9 +104,10 @@ public class HttpTests : TestBase
     [Arguments(false)]
     public async Task Assert_SendAsync_Logs_As_Expected(bool customHttpClient)
     {
+        await using var server = LocalHttpServer.Start();
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<IHttpContext>((_, collection) =>
+        var (http, host) = await GetService<IHttpContext>((_, collection) =>
         {
             collection.AddLogging(builder =>
             {
@@ -115,25 +118,25 @@ public class HttpTests : TestBase
 
         if (!customHttpClient)
         {
-            await result.T.SendAsync(new Uri("https://thomhurst.github.io/TUnit"));
+            await http.SendAsync(server.Uri);
         }
         else
         {
-            await result.T.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, new Uri("https://thomhurst.github.io/TUnit")))
+            await http.SendAsync(new HttpOptions(new HttpRequestMessage(HttpMethod.Get, server.Uri))
             {
                 ThrowOnNonSuccessStatusCode = false,
                 HttpClient = new HttpClient()
             });
         }
 
-        await result.Host.DisposeAsync();
+        await host.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Contains("HTTP Request:");
-        await Assert.That(logFile).Contains("GET https://thomhurst.github.io/TUnit HTTP/1.1");
+        await Assert.That(logFile).Contains($"GET {server.Uri} HTTP/1.1");
         await Assert.That(logFile).Contains("HTTP Response:");
         await Assert.That(logFile).Contains("Headers");
-        await Assert.That(logFile).Contains("Server: GitHub.com");
+        await Assert.That(logFile).Contains("Server: LocalHttpServer");
         await Assert.That(logFile).Contains("Body");
         await Assert.That(logFile).Contains("Duration:");
         await Assert.That(logFile).Contains("HTTP Status:");
