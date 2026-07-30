@@ -57,6 +57,8 @@ public class PipelineInitializerTests
     [Arguments("API_KEY")]
     [Arguments("SERVICE_PWD")]
     [Arguments("credential")]
+    [Arguments("DOCKER_AUTH_CONFIG")]
+    [Arguments("NPM_CONFIG__AUTH")]
     public async Task EnvironmentVariables_MaskSensitiveNamesWithoutRegisteredSecret(
         string variableName)
     {
@@ -78,7 +80,8 @@ public class PipelineInitializerTests
     [Test]
     [Arguments("PWD")]
     [Arguments("OLDPWD")]
-    public async Task EnvironmentVariables_DoNotMaskStandardWorkingDirectoryNames(
+    [Arguments("SSH_AUTH_SOCK")]
+    public async Task EnvironmentVariables_DoNotMaskKnownNonSecretNames(
         string variableName)
     {
         const string workingDirectory = "/home/runner/work";

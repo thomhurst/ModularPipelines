@@ -29,6 +29,7 @@ internal class PipelineInitializer(
         "KEY",
         "PWD",
         "CREDENTIAL",
+        "AUTH",
     ];
 
     private static readonly Action<ILogger, BuildSystem, string, Exception?> LogDetectedBuildSystem =
@@ -97,6 +98,7 @@ internal class PipelineInitializer(
     {
         return !name.Equals("PWD", StringComparison.OrdinalIgnoreCase)
                && !name.Equals("OLDPWD", StringComparison.OrdinalIgnoreCase)
+               && !name.Equals("SSH_AUTH_SOCK", StringComparison.OrdinalIgnoreCase)
                && SensitiveEnvironmentVariableNameParts.Any(
                    part => name.Contains(part, StringComparison.OrdinalIgnoreCase));
     }
