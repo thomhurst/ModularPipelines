@@ -105,19 +105,19 @@ internal class DistributedModuleExecutor(
                 await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(cts.Token))
                 {
                     var moduleType = moduleState.Module.GetType();
+                    var assignment = _publisher.CreateAssignment(moduleState.Module);
                     if (!scheduler.MarkModuleStarted(moduleType))
                     {
                         continue;
                     }
 
+                    var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts);
+                    resultTasks.Add(collectTask);
+
                     // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
                     // Modules with [MatrixTarget] will run once, not N times.
                     _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
-                    var assignment = _publisher.CreateAssignment(moduleState.Module);
                     await _publisher.PublishAsync(assignment, cts.Token);
-
-                    var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts);
-                    resultTasks.Add(collectTask);
                 }
             }
             catch (OperationCanceledException)
@@ -487,6 +487,7 @@ internal class DistributedModuleExecutor(
                 module.ResultType,
                 exception,
                 new ModuleExecutionContext(module, moduleType));
+            ModuleCompletionSourceApplicator.TryApply(module, failureResult);
             _resultRegistry.RegisterResult(moduleType, failureResult);
         }
         catch (Exception ex)
