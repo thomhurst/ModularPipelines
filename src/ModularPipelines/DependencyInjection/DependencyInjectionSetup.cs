@@ -37,6 +37,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Validators;
+using ModularPipelines.PipelineCli;
 using ModularPipelines.Validation;
 using Spectre.Console;
 
@@ -90,6 +91,7 @@ internal static class DependencyInjectionSetup
     private static void RegisterBundledServices(IServiceCollection services)
     {
         services
+            .AddSingleton<PipelineCommandHandler>()
             .Configure<PipelineOptions>(_ => { })
             .Configure<SchedulerOptions>(_ => { })
             .Configure<ConcurrencyOptions>(_ => { })
@@ -350,6 +352,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineValidationService, PipelineValidationService>()
             .AddSingleton<IPipelineValidator, OptionsValidator>()
             .AddSingleton<IPipelineValidator, DependencyValidator>()
+            .AddSingleton<IPipelineValidator, ModuleSelectionValidator>()
             .AddSingleton<IPipelineValidator, ModuleConfigurationValidator>();
     }
 

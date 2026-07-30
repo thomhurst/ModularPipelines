@@ -1,12 +1,14 @@
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
@@ -17,6 +19,8 @@ internal class ModuleRetriever
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly IDependencyChainProvider _dependencyChainProvider;
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly List<IModule> _modules;
     private Task<OrganizedModules>? _cached;
 
@@ -26,7 +30,9 @@ internal class ModuleRetriever
         IEnumerable<IModule> modules,
         ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
         IModuleDependencyRegistry dependencyRegistry,
-        IModuleMetadataRegistry metadataRegistry
+        IModuleMetadataRegistry metadataRegistry,
+        IDependencyChainProvider dependencyChainProvider,
+        IOptions<PipelineOptions> pipelineOptions
     )
     {
         _moduleConditionHandler = moduleConditionHandler;
@@ -34,6 +40,8 @@ internal class ModuleRetriever
         _estimatedTimeProvider = estimatedTimeProvider;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
+        _dependencyChainProvider = dependencyChainProvider;
+        _pipelineOptions = pipelineOptions;
 
         // Defend against direct service registrations that repeat one module instance.
         // The module object still represents one execution.
@@ -65,6 +73,10 @@ internal class ModuleRetriever
 
         // Dynamic dependencies and metadata must be registered before conditions and cascade skipping are evaluated.
         await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
+        var moduleSelection = ModuleSelection.Create(
+            _modules,
+            _dependencyChainProvider,
+            _pipelineOptions.Value);
 
         var modulesToIgnore = new List<IgnoredModule>();
         var modulesToProcess = new List<IModule>();
@@ -72,6 +84,12 @@ internal class ModuleRetriever
         foreach (var module in _modules)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            if (moduleSelection.GetSkipDecision(module) is { } selectionSkipDecision)
+            {
+                modulesToIgnore.Add(new IgnoredModule(module, selectionSkipDecision));
+                continue;
+            }
+
             var (shouldIgnore, skipDecision) = await _moduleConditionHandler.ShouldIgnore(module, cancellationToken).ConfigureAwait(false);
             if (shouldIgnore)
             {

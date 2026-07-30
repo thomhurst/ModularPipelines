@@ -1,0 +1,114 @@
+namespace ModularPipelines.PipelineCli;
+
+internal static class PipelineCommandLineParser
+{
+    private const string ListModulesOption = "--list-modules";
+    private const string ValidateOption = "--validate";
+    private const string ModuleOption = "--module";
+    private const string SkipModuleOption = "--skip-module";
+    private const string CategoriesOption = "--categories";
+    private const string IgnoreCategoriesOption = "--ignore-categories";
+
+    public static PipelineCommandLineOptions Parse(IReadOnlyList<string>? arguments)
+    {
+        if (arguments is null || arguments.Count == 0)
+        {
+            return PipelineCommandLineOptions.Empty;
+        }
+
+        var command = PipelineCommand.Run;
+        var hostArguments = new List<string>();
+        var targetModules = new List<string>();
+        var skippedModules = new List<string>();
+        var runOnlyCategories = new List<string>();
+        var ignoreCategories = new List<string>();
+
+        for (var index = 0; index < arguments.Count; index++)
+        {
+            var argument = arguments[index];
+            if (argument.Equals(ListModulesOption, StringComparison.OrdinalIgnoreCase))
+            {
+                command = SetCommand(command, PipelineCommand.ListModules, argument);
+                continue;
+            }
+
+            if (argument.Equals(ValidateOption, StringComparison.OrdinalIgnoreCase))
+            {
+                command = SetCommand(command, PipelineCommand.Validate, argument);
+                continue;
+            }
+
+            if (TryReadValues(arguments, ref index, ModuleOption, targetModules)
+                || TryReadValues(arguments, ref index, SkipModuleOption, skippedModules)
+                || TryReadValues(arguments, ref index, CategoriesOption, runOnlyCategories)
+                || TryReadValues(arguments, ref index, IgnoreCategoriesOption, ignoreCategories))
+            {
+                continue;
+            }
+
+            hostArguments.Add(argument);
+        }
+
+        return new PipelineCommandLineOptions(
+            command,
+            hostArguments,
+            Distinct(targetModules),
+            Distinct(skippedModules),
+            Distinct(runOnlyCategories),
+            Distinct(ignoreCategories));
+    }
+
+    private static bool TryReadValues(
+        IReadOnlyList<string> arguments,
+        ref int index,
+        string option,
+        List<string> destination)
+    {
+        var argument = arguments[index];
+        string? value = null;
+        if (argument.Equals(option, StringComparison.OrdinalIgnoreCase))
+        {
+            if (++index >= arguments.Count || arguments[index].StartsWith("--", StringComparison.Ordinal))
+            {
+                throw new ArgumentException($"Command-line option '{option}' requires a value.", nameof(arguments));
+            }
+
+            value = arguments[index];
+        }
+        else if (argument.StartsWith($"{option}=", StringComparison.OrdinalIgnoreCase))
+        {
+            value = argument[(option.Length + 1)..];
+        }
+        else
+        {
+            return false;
+        }
+
+        var values = value
+            .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (values.Length == 0)
+        {
+            throw new ArgumentException($"Command-line option '{option}' requires a non-empty value.", nameof(arguments));
+        }
+
+        destination.AddRange(values);
+        return true;
+    }
+
+    private static PipelineCommand SetCommand(
+        PipelineCommand current,
+        PipelineCommand requested,
+        string option)
+    {
+        if (current != PipelineCommand.Run && current != requested)
+        {
+            throw new ArgumentException(
+                $"Command-line option '{option}' cannot be combined with another pipeline command.");
+        }
+
+        return requested;
+    }
+
+    private static IReadOnlyList<string> Distinct(IEnumerable<string> values) =>
+        values.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+}
