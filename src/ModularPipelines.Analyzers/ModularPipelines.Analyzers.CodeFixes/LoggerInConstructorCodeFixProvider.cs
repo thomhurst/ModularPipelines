@@ -136,7 +136,8 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         assignmentStatement = null;
         loggerReplacements = [];
 
-        if (containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
+        if (containingType.ContainsConditionalDirectives()
+            || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
             || containingType.Parent is TypeDeclarationSyntax)
         {
             return false;

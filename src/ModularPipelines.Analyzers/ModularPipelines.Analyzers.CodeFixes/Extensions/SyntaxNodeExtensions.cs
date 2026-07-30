@@ -18,15 +18,37 @@ internal static class SyntaxNodeExtensions
         var compilationUnitSyntax = (CompilationUnitSyntax) documentRoot;
 
         if (compilationUnitSyntax.Usings.Any(x =>
-                x.Alias is null && x.Name?.ToFullString() == namespaceName))
+                x.Alias is null
+                && !x.ContainsConditionalDirectives()
+                && x.Name?.ToFullString() == namespaceName))
         {
             return documentRoot;
         }
 
-        compilationUnitSyntax = compilationUnitSyntax.AddUsings(
-            SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(namespaceName)));
+        var usingDirective = SyntaxFactory.UsingDirective(
+            SyntaxFactory.ParseName(namespaceName));
+        var conditionalMatch = compilationUnitSyntax.Usings
+            .FirstOrDefault(item =>
+                item.Alias is null
+                && item.Name?.ToFullString() == namespaceName);
+        compilationUnitSyntax = conditionalMatch is null
+            ? compilationUnitSyntax.AddUsings(usingDirective)
+            : compilationUnitSyntax.WithUsings(
+                compilationUnitSyntax.Usings.Insert(
+                    compilationUnitSyntax.Usings.IndexOf(conditionalMatch),
+                    usingDirective));
 
         return compilationUnitSyntax;
+    }
+
+    public static bool ContainsConditionalDirectives(this SyntaxNode node)
+    {
+        return node.DescendantTrivia(descendIntoTrivia: true)
+            .Any(static trivia => trivia.Kind() is
+                SyntaxKind.IfDirectiveTrivia
+                or SyntaxKind.ElifDirectiveTrivia
+                or SyntaxKind.ElseDirectiveTrivia
+                or SyntaxKind.EndIfDirectiveTrivia);
     }
 
     public static ParameterSyntax? FindVisibleModuleContextParameter(

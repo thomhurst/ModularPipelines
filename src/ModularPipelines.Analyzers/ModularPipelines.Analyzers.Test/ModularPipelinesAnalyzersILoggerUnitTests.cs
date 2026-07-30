@@ -354,6 +354,34 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string InactiveLoggerReferenceSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1 : Module<List<string>>
+{{
+    private readonly ILogger<Module1> _logger;
+
+    public Module1(ILogger<Module1> logger)
+    {{
+        _logger = logger;
+    }}
+
+#if EXTRA_LOGGING
+    private void LogHidden()
+    {{
+        _logger.LogInformation(""Hidden"");
+    }}
+#endif
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string BadPrivateConstructorSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -919,6 +947,14 @@ public class Module1 : Module<List<string>>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             DirectiveLoggerAssignmentSource,
+            LoggerInConstructorAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Inactive_Logger_Reference()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            InactiveLoggerReferenceSource,
             LoggerInConstructorAnalyzer.DiagnosticId);
     }
 

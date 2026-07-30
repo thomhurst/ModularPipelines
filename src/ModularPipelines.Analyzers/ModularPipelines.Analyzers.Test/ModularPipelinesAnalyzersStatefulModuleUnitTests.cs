@@ -402,6 +402,33 @@ public class Module1 : Module<int>
 }
 ";
 
+    private const string ModuleWithInactiveFieldWrite = @"
+#nullable enable
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public class Module1 : Module<int>
+{
+    private int _state;
+
+#if MUTATE
+    private void Mutate()
+    {
+        _state = 1;
+    }
+#endif
+
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult(_state);
+    }
+}
+";
+
     private const string ModuleWithImplicitInArgument = @"
 #nullable enable
 using System.Threading;
@@ -883,6 +910,14 @@ public class Module1 : Module<int>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithInExtensionReceiver,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Inactive_Field_Write()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithInactiveFieldWrite,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 

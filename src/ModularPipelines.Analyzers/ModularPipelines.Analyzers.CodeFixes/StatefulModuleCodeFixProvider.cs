@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Operations;
+using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
@@ -38,6 +39,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
             || fieldDeclaration.Modifiers.Any(SyntaxKind.VolatileKeyword)
             || fieldDeclaration.Modifiers.Any(SyntaxKind.RequiredKeyword)
             || variable.FirstAncestorOrSelf<TypeDeclarationSyntax>() is not { } containingType
+            || containingType.ContainsConditionalDirectives()
             || containingType.Modifiers.Any(SyntaxKind.PartialKeyword)
             || containingType.Parent is TypeDeclarationSyntax
             || semanticModel?.GetDeclaredSymbol(variable, context.CancellationToken) is not IFieldSymbol field

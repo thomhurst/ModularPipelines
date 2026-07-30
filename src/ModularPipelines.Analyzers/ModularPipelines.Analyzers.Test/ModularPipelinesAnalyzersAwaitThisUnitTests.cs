@@ -228,6 +228,23 @@ retry:
 }}
 ";
 
+    private const string BadModuleSourceAwaitThisWithInactiveGoto = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<CommandResult>
+{{
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+retry:
+        await this;
+#if RETRY
+        goto retry;
+#endif
+        return null;
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_AwaitThis_InExecuteAsync()
     {
@@ -318,6 +335,14 @@ retry:
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             BadModuleSourceAwaitThisInsideGotoCycle,
+            AwaitThisAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Inactive_Goto_May_Create_Cycle()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            BadModuleSourceAwaitThisWithInactiveGoto,
             AwaitThisAnalyzer.DiagnosticId);
     }
 

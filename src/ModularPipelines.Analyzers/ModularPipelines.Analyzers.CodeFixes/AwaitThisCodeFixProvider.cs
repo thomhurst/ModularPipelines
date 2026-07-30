@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
+using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
@@ -32,6 +33,7 @@ public sealed class AwaitThisCodeFixProvider : CodeFixProvider
 
         if (awaitExpression?.Parent is not ExpressionStatementSyntax expressionStatement
             || expressionStatement.ContainsDirectives
+            || GetEnclosingCallable(expressionStatement)?.ContainsConditionalDirectives() == true
             || IsInsideLoop(expressionStatement)
             || IsInsideBackwardGotoCycle(expressionStatement))
         {

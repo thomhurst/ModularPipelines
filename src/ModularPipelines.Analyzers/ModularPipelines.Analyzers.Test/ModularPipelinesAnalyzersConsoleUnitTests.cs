@@ -192,6 +192,49 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string ConditionalLoggingUsingSource = $@"
+#define LOGGING
+{TestSourceConstants.StandardUsings}
+#if LOGGING
+using Microsoft.Extensions.Logging;
+#endif
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        {{|#0:Console.WriteLine(""Done!"")|}};
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
+    private const string FixedConditionalLoggingUsingSource = $@"
+#define LOGGING
+{TestSourceConstants.StandardUsings}
+using Microsoft.Extensions.Logging;
+#if LOGGING
+using Microsoft.Extensions.Logging;
+#endif
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        context.Logger.LogInformation(""{{Message}}"", (""Done!"") ?? string.Empty);
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string SuppressedNullConsoleMessageSource = $@"
 {TestSourceConstants.StandardUsings}
 
@@ -479,6 +522,18 @@ public class Module1 : Module<List<string>>
             LoggingNamespaceAliasSource,
             expected,
             FixedLoggingNamespaceAliasSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Adds_Unconditional_Logging_Import()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            ConditionalLoggingUsingSource,
+            expected,
+            FixedConditionalLoggingUsingSource);
     }
 
     [TestMethod]
