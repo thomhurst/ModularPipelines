@@ -268,19 +268,15 @@ public partial class YarnCliScraper : CliScraperBase
                 continue;
             }
 
-            var commandName = commandWords[0];
-            if (IsValidCommand(commandName) && seenCommands.Add(commandName))
+            if (!commandWords.All(IsValidCommand))
             {
-                subcommands.Add(commandName);
+                continue;
             }
 
-            if (commandWords.Length > 1)
+            var commandName = string.Join(" ", commandWords);
+            if (seenCommands.Add(commandName))
             {
-                var fullCommandName = string.Join(" ", commandWords);
-                if (seenCommands.Add(fullCommandName))
-                {
-                    subcommands.Add(fullCommandName);
-                }
+                subcommands.Add(commandName);
             }
         }
     }

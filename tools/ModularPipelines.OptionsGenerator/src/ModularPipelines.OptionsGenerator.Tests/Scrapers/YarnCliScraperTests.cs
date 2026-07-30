@@ -30,6 +30,9 @@ public class YarnCliScraperTests
               yarn workspaces focus [--json] [-A,--all] ...
                 install a single workspace and its dependencies
 
+              yarn cache clean
+                remove cached archives
+
               yarn rebuild ...
                 rebuild native packages
 
@@ -40,7 +43,7 @@ public class YarnCliScraperTests
         var commands = new TestYarnCliScraper().Extract(helpText);
 
         await Assert.That(commands).IsEquivalentTo(
-            ["add", "bin", "workspace", "workspaces", "workspaces focus", "rebuild", "node"]);
+            ["add", "bin", "workspace", "workspaces focus", "cache clean", "rebuild", "node"]);
     }
 
     private sealed class TestYarnCliScraper : YarnCliScraper
