@@ -67,7 +67,7 @@ public class ModuleResultContractTests
     {
         var success = CreateSuccess(42);
         ModuleResult<int> result = success;
-        success.Deconstruct(out var deconstructedValue);
+        success.Deconstruct(Value: out var deconstructedValue);
 
         using (Assert.Multiple())
         {
