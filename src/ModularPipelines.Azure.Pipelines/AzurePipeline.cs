@@ -50,19 +50,13 @@ internal class AzurePipeline : IAzurePipeline
             _formatter = formatter;
 
             var startCommand = formatter.GetStartBlockCommand(name);
-            if (startCommand != null)
-            {
-                _buffer.WriteLine(startCommand);
-            }
+            buffer.WriteGroupCommand(formatter, startCommand);
         }
 
         public void Dispose()
         {
             var endCommand = _formatter.GetEndBlockCommand(_name);
-            if (endCommand != null)
-            {
-                _buffer.WriteLine(endCommand);
-            }
+            _buffer.WriteGroupCommand(_formatter, endCommand);
         }
     }
 }

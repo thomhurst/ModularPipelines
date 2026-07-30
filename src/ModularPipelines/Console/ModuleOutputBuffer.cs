@@ -106,6 +106,17 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
+    public void WriteGroupCommand(IBuildSystemFormatter formatter, string? command)
+    {
+        formatter.WriteGroupCommand(
+            command,
+            value => AddOutput(
+                BufferedOutput.FromRawBuildSystemCommand(value),
+                allowAfterCompletion: true),
+            WriteLine);
+    }
+
+    /// <inheritdoc />
     public void AddLogEvent(IBufferedLogEvent logEvent)
     {
         AddOutput(BufferedOutput.FromLogEvent(logEvent), allowAfterCompletion: false);
@@ -396,7 +407,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             // synchronous rendering, so unrelated logger calls cannot enter this group.
             if (startCommand != null)
             {
-                WriteDirect(directConsole, console, startCommand);
+                WriteGroupCommand(console, directConsole, formatter, startCommand);
                 groupStarted = true;
             }
 
@@ -418,7 +429,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             if (groupStarted && endCommand != null)
             {
-                console.WriteLine(endCommand);
+                WriteGroupCommand(console, directConsole, formatter, endCommand);
             }
 
             if (groupStarted || flushCompleted)
@@ -444,7 +455,11 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (output.IsString)
+            if (output.IsRawBuildSystemCommand)
+            {
+                console.WriteLine(output.StringValue);
+            }
+            else if (output.IsString)
             {
                 WriteDirect(directConsole, console, output.StringValue);
             }
@@ -664,6 +679,18 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             console.WriteLine(value);
         }
     }
+
+    private static void WriteGroupCommand(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        IBuildSystemFormatter formatter,
+        string command)
+    {
+        formatter.WriteGroupCommand(
+            command,
+            console.WriteLine,
+            value => WriteDirect(directConsole, console, value));
+    }
 }
 
 /// <summary>
@@ -687,9 +714,24 @@ internal readonly struct BufferedOutput
     public bool IsString => StringValue != null;
 
     /// <summary>
+    /// Gets a value indicating whether this string is a raw build-system command.
+    /// </summary>
+    public bool IsRawBuildSystemCommand { get; private init; }
+
+    /// <summary>
     /// Creates a buffered output from a string.
     /// </summary>
     public static BufferedOutput FromString(string value) => new() { StringValue = value };
+
+    /// <summary>
+    /// Creates a buffered output from a raw build-system command.
+    /// </summary>
+    public static BufferedOutput FromRawBuildSystemCommand(string value) =>
+        new()
+        {
+            StringValue = value,
+            IsRawBuildSystemCommand = true,
+        };
 
     /// <summary>
     /// Creates a buffered output from a log event.

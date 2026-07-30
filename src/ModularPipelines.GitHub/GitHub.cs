@@ -85,19 +85,13 @@ internal class GitHub : IGitHub
             _formatter = formatter;
 
             var startCommand = formatter.GetStartBlockCommand(name);
-            if (startCommand != null)
-            {
-                _github._buffer.WriteLine(startCommand);
-            }
+            github._buffer.WriteGroupCommand(formatter, startCommand);
         }
 
         public void Dispose()
         {
             var endCommand = _formatter.GetEndBlockCommand(_name);
-            if (endCommand != null)
-            {
-                _github._buffer.WriteLine(endCommand);
-            }
+            _github._buffer.WriteGroupCommand(_formatter, endCommand);
         }
     }
 }

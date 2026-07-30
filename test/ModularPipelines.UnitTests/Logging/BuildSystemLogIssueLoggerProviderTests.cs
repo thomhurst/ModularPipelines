@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
 using ModularPipelines.Logging;
-using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Logging;
 
@@ -86,11 +85,8 @@ public class BuildSystemLogIssueLoggerProviderTests
         IBuildSystemFormatter formatter,
         TextWriter writer)
     {
-        var console = AnsiConsole.Create(new AnsiConsoleSettings
-        {
-            Out = new AnsiConsoleOutput(writer),
-        });
-
-        return new BuildSystemLogIssueLoggerProvider(formatter, console);
+        return new BuildSystemLogIssueLoggerProvider(
+            formatter,
+            new BuildSystemCommandWriter(writer));
     }
 }

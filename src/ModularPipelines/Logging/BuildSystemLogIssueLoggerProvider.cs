@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
-using Spectre.Console;
 
 namespace ModularPipelines.Logging;
 
@@ -13,25 +12,27 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
     ];
 
     private readonly IBuildSystemFormatter _formatter;
-    private readonly IAnsiConsole _console;
+    private readonly IBuildSystemCommandWriter _commandWriter;
 
-    public BuildSystemLogIssueLoggerProvider(IBuildSystemFormatterProvider formatterProvider)
-        : this(formatterProvider.GetFormatter(), ModularPipelines.Console.DelegatingAnsiConsole.Instance)
+    public BuildSystemLogIssueLoggerProvider(
+        IBuildSystemFormatterProvider formatterProvider,
+        IBuildSystemCommandWriter commandWriter)
+        : this(formatterProvider.GetFormatter(), commandWriter)
     {
     }
 
     internal BuildSystemLogIssueLoggerProvider(
         IBuildSystemFormatter formatter,
-        IAnsiConsole console)
+        IBuildSystemCommandWriter commandWriter)
     {
         _formatter = formatter;
-        _console = console;
+        _commandWriter = commandWriter;
     }
 
     public ILogger CreateLogger(string categoryName) =>
         new BuildSystemLogIssueLogger(
             _formatter,
-            _console,
+            _commandWriter,
             IsIssueCategory(categoryName));
 
     public void Dispose()
@@ -45,7 +46,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
 
     private sealed class BuildSystemLogIssueLogger(
         IBuildSystemFormatter formatter,
-        IAnsiConsole console,
+        IBuildSystemCommandWriter commandWriter,
         bool isIssueCategory) : ILogger
     {
         public IDisposable? BeginScope<TState>(TState state)
@@ -76,7 +77,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             var command = formatter.GetLogIssueCommand(logLevel, message);
             if (command is not null)
             {
-                console.Profile.Out.Writer.WriteLine(command);
+                commandWriter.WriteLine(command);
             }
         }
     }

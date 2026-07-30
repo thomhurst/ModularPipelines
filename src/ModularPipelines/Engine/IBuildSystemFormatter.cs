@@ -15,19 +15,24 @@ namespace ModularPipelines.Engine;
 /// var startCommand = formatter.GetStartBlockCommand("Build Step");
 /// if (startCommand != null)
 /// {
-///     console.WriteLine(startCommand);
+///     commandWriter.WriteLine(startCommand);
 /// }
 ///
 /// // Mask a secret
 /// var maskCommand = formatter.GetMaskSecretCommand("my-secret-value");
 /// if (maskCommand != null)
 /// {
-///     console.WriteLine(maskCommand);
+///     commandWriter.WriteLine(maskCommand);
 /// }
 /// </code>
 /// </example>
 internal interface IBuildSystemFormatter
 {
+    /// <summary>
+    /// Gets a value indicating whether group commands must bypass rich-console rendering.
+    /// </summary>
+    bool UsesRawCommands => false;
+
     /// <summary>
     /// Gets the command to start a collapsible log block/group.
     /// </summary>

@@ -288,12 +288,16 @@ internal static class DependencyInjectionSetup
     /// </summary>
     private static void RegisterBuildSystemServices(IServiceCollection services)
     {
+        // Capture before service-provider construction and ConsoleCoordinator.Install() can redirect stdout.
+        var commandWriter = new BuildSystemCommandWriter(System.Console.Out);
+
         services
             .Configure<SecretMaskingOptions>(_ => { })
             .AddSingleton<SecretProvider>()
             .AddSingleton<ISecretProvider>(sp => sp.GetRequiredService<SecretProvider>())
             .AddSingleton<ISecretRegistry>(sp => sp.GetRequiredService<SecretProvider>())
             .AddSingleton<ISecretObfuscator, SecretObfuscator>()
+            .AddSingleton<IBuildSystemCommandWriter>(commandWriter)
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IBuildSystemFormatterProvider, BuildSystemFormatterProvider>();

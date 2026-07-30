@@ -19,6 +19,8 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </example>
 internal class GitLabFormatter : IBuildSystemFormatter
 {
+    public bool UsesRawCommands => true;
+
     public string GetStartBlockCommand(string name)
     {
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();

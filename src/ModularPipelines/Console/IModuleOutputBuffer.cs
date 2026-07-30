@@ -35,6 +35,14 @@ internal interface IModuleOutputBuffer
     void WriteLine(string message);
 
     /// <summary>
+    /// Buffers a build-system group command while preserving its position relative to section output.
+    /// Raw CI commands bypass Spectre when flushed; local headers retain normal rendering.
+    /// </summary>
+    /// <param name="formatter">The active build-system formatter.</param>
+    /// <param name="command">The group command, or <see langword="null"/> when unsupported.</param>
+    void WriteGroupCommand(IBuildSystemFormatter formatter, string? command);
+
+    /// <summary>
     /// Adds a structured log event to the buffer.
     /// Used for ILogger calls.
     /// </summary>

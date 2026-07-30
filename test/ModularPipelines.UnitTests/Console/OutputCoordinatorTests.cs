@@ -570,6 +570,14 @@ public class OutputCoordinatorTests
         {
         }
 
+        public void WriteGroupCommand(IBuildSystemFormatter formatter, string? command)
+        {
+            if (command is not null)
+            {
+                WriteLine(command);
+            }
+        }
+
         public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
@@ -614,6 +622,14 @@ public class OutputCoordinatorTests
 
         public void WriteLine(string message)
         {
+        }
+
+        public void WriteGroupCommand(IBuildSystemFormatter formatter, string? command)
+        {
+            if (command is not null)
+            {
+                WriteLine(command);
+            }
         }
 
         public void AddLogEvent(IBufferedLogEvent logEvent)
@@ -663,6 +679,14 @@ public class OutputCoordinatorTests
         {
         }
 
+        public void WriteGroupCommand(IBuildSystemFormatter formatter, string? command)
+        {
+            if (command is not null)
+            {
+                WriteLine(command);
+            }
+        }
+
         public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
@@ -710,6 +734,14 @@ public class OutputCoordinatorTests
 
         public void WriteLine(string message)
         {
+        }
+
+        public void WriteGroupCommand(IBuildSystemFormatter formatter, string? command)
+        {
+            if (command is not null)
+            {
+                WriteLine(command);
+            }
         }
 
         public void AddLogEvent(IBufferedLogEvent logEvent)
@@ -767,6 +799,14 @@ public class OutputCoordinatorTests
         {
         }
 
+        public void WriteGroupCommand(IBuildSystemFormatter formatter, string? command)
+        {
+            if (command is not null)
+            {
+                WriteLine(command);
+            }
+        }
+
         public void AddLogEvent(IBufferedLogEvent logEvent)
         {
         }
@@ -806,6 +846,14 @@ public class OutputCoordinatorTests
 
         public void WriteLine(string message)
         {
+        }
+
+        public void WriteGroupCommand(IBuildSystemFormatter formatter, string? command)
+        {
+            if (command is not null)
+            {
+                WriteLine(command);
+            }
         }
 
         public void AddLogEvent(IBufferedLogEvent logEvent)

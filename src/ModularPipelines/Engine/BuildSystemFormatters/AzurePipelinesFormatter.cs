@@ -22,11 +22,14 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </example>
 internal class AzurePipelinesFormatter : IBuildSystemFormatter
 {
+    public bool UsesRawCommands => true;
+
     public string GetStartBlockCommand(string name) => $"##[group]{name}";
 
     public string GetEndBlockCommand(string name) => "##[endgroup]";
 
-    public string GetMaskSecretCommand(string secret) => $"##vso[task.setvariable variable=secret_{Guid.NewGuid():N};issecret=true]{secret}";
+    public string GetMaskSecretCommand(string secret) =>
+        $"##vso[task.setvariable variable=secret_{Guid.NewGuid():N};issecret=true]{EscapeLoggingCommandValue(secret)}";
 
     public string? GetLogIssueCommand(LogLevel logLevel, string message)
     {

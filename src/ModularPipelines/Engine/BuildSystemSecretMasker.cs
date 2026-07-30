@@ -24,7 +24,7 @@ namespace ModularPipelines.Engine;
 /// </remarks>
 /// <example>
 /// <code>
-/// var masker = new BuildSystemSecretMasker(formatterProvider, consoleWriter);
+/// var masker = new BuildSystemSecretMasker(formatterProvider, commandWriter);
 ///
 /// // Mask multiple secrets
 /// masker.MaskSecrets(new[] { "password123", "api-key-xyz" });
@@ -38,16 +38,16 @@ namespace ModularPipelines.Engine;
 internal class BuildSystemSecretMasker : IBuildSystemSecretMasker
 {
     private readonly IBuildSystemFormatterProvider _formatterProvider;
-    private readonly IConsoleWriter _consoleWriter;
+    private readonly IBuildSystemCommandWriter _commandWriter;
 
     private readonly HashSet<string> _alreadyMaskedSecrets = new();
     private readonly object _lock = new();
 
     public BuildSystemSecretMasker(IBuildSystemFormatterProvider formatterProvider,
-        IConsoleWriter consoleWriter)
+        IBuildSystemCommandWriter commandWriter)
     {
         _formatterProvider = formatterProvider;
-        _consoleWriter = consoleWriter;
+        _commandWriter = commandWriter;
     }
 
     public void MaskSecrets(IEnumerable<string> secrets)
@@ -67,7 +67,7 @@ internal class BuildSystemSecretMasker : IBuildSystemSecretMasker
                 var maskCommand = formatter.GetMaskSecretCommand(secret);
                 if (maskCommand != null)
                 {
-                    _consoleWriter.LogToConsole(maskCommand);
+                    _commandWriter.WriteLine(maskCommand);
                 }
             }
         }
