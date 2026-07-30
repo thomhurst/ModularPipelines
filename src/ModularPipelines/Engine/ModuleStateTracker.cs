@@ -32,7 +32,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     private readonly Func<bool> _isSchedulerCompleted;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ModuleStateTracker"/> class.
+    /// Initialises a new instance of the <see cref="ModuleStateTracker"/> class.
     /// </summary>
     /// <param name="logger">Logger for diagnostic output.</param>
     /// <param name="timeProvider">Provider for current time.</param>
@@ -301,19 +301,6 @@ internal class ModuleStateTracker : IModuleStateTracker
         }
     }
 
-    private static ModuleStateCounters CreateCounters(
-        ConcurrentDictionary<Type, ModuleState> moduleStates)
-    {
-        var counters = new ModuleStateCounters();
-        foreach (var state in moduleStates.Values)
-        {
-            counters.AddPendingModule();
-            counters.Transition(ModuleExecutionState.Pending, state.State);
-        }
-
-        return counters;
-    }
-
     /// <inheritdoc />
     public ModuleState? GetModuleState(Type moduleType)
     {
@@ -326,6 +313,19 @@ internal class ModuleStateTracker : IModuleStateTracker
         return _moduleStates.TryGetValue(moduleType, out var state)
             ? state.CompletionSource.Task
             : null;
+    }
+
+    private static ModuleStateCounters CreateCounters(
+        ConcurrentDictionary<Type, ModuleState> moduleStates)
+    {
+        var counters = new ModuleStateCounters();
+        foreach (var state in moduleStates.Values)
+        {
+            counters.AddPendingModule();
+            counters.Transition(ModuleExecutionState.Pending, state.State);
+        }
+
+        return counters;
     }
 
     /// <summary>
