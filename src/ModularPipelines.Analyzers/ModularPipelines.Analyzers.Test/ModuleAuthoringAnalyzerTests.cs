@@ -178,6 +178,33 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Reachable_Private_Constructor()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public sealed class Registration
+            {
+                public static void Register() => _ = Create();
+
+                private static Registration Create() => new();
+
+                private Registration() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Module_Registered_Only_In_Dead_Branch()
     {
         var source = $$"""
@@ -2010,6 +2037,61 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Token_Overwritten_In_Do_Loop()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                do
+                {
+                    token = cancellationToken;
+                }
+                while (DateTime.UtcNow.Ticks > 0);
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Token_When_Do_Loop_Can_Break_Before_Assignment()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                do
+                {
+                    if (DateTime.UtcNow.Ticks > 0)
+                    {
+                        break;
+                    }
+
+                    token = cancellationToken;
+                }
+                while (DateTime.UtcNow.Ticks > 0);
+
+                await {|#0:Task.Delay(1, token)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Switch_Expression_CancellationToken()
     {
         var source = ModuleSource("""
@@ -3280,6 +3362,43 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Source_Helper_Callback()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await RunAsync(async () =>
+                {
+                    {|#0:Thread.Sleep(1)|};
+                    await {|#1:FetchAsync()|};
+                });
+                return null;
+            }
+
+                private static Task RunAsync(Func<Task> callback) => callback();
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        var blockingCall = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        var unflowedToken = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(1)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            blockingCall,
+            unflowedToken);
     }
 
     [TestMethod]

@@ -98,6 +98,11 @@ internal static class ModuleAuthoringAnalysis
                 methodCalls),
             OperationKind.Invocation);
         context.RegisterOperationAction(
+            operationContext => CollectConstructorCall(
+                operationContext,
+                methodCalls),
+            OperationKind.ObjectCreation);
+        context.RegisterOperationAction(
             operationContext => CollectServiceCollectionIndexerAssignment(
                 operationContext,
                 indexerAssignments),
@@ -229,6 +234,24 @@ internal static class ModuleAuthoringAnalysis
         {
             registrations.Add((invocation, containingMethod));
         }
+    }
+
+    private static void CollectConstructorCall(
+        OperationAnalysisContext context,
+        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
+    {
+        var objectCreation = (IObjectCreationOperation) context.Operation;
+        var containingMethod = GetContainingMethod(context.ContainingSymbol);
+        if (objectCreation.Constructor is null
+            || containingMethod is null
+            || !IsInReachableBranch(objectCreation))
+        {
+            return;
+        }
+
+        methodCalls.Add((
+            NormalizeMethod(containingMethod),
+            NormalizeMethod(objectCreation.Constructor)));
     }
 
     private static void AnalyzeInvocation(OperationAnalysisContext context)
@@ -2298,12 +2321,69 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
-        return IsKnownDelegateInvoker(invocation)
-               && invocation.Arguments.Any(argument =>
-                   ValueContainsCallable(
-                       argument.Value,
-                       callable,
-                       [with(SymbolEqualityComparer.Default)]));
+        return (IsKnownDelegateInvoker(invocation)
+                && invocation.Arguments.Any(argument =>
+                    ValueContainsCallable(
+                        argument.Value,
+                        callable,
+                        [with(SymbolEqualityComparer.Default)])))
+               || SourceMethodInvokesCallableArgument(invocation, callable);
+    }
+
+    private static bool SourceMethodInvokesCallableArgument(
+        IInvocationOperation invocation,
+        IMethodSymbol callable)
+    {
+        if (invocation.SemanticModel?.Compilation is not { } compilation)
+        {
+            return false;
+        }
+
+        var method = NormalizeMethod(invocation.TargetMethod);
+        foreach (var argument in invocation.Arguments.Where(argument =>
+                     argument.Parameter is not null
+                     && ValueContainsCallable(
+                         argument.Value,
+                         callable,
+                         [with(SymbolEqualityComparer.Default)])))
+        {
+            var parameter = method.Parameters.ElementAtOrDefault(
+                argument.Parameter!.Ordinal);
+            if (parameter is not null
+                && SourceMethodInvokesDelegateParameter(
+                    method,
+                    parameter,
+                    compilation))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool SourceMethodInvokesDelegateParameter(
+        IMethodSymbol method,
+        IParameterSymbol parameter,
+        Compilation compilation)
+    {
+        if (GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return false;
+        }
+
+        return GetReachableInvocations(operation)
+            .Any(candidate =>
+                candidate.TargetMethod.MethodKind == MethodKind.DelegateInvoke
+                && candidate.Instance is { } instance
+                && GetValueAndReachingLocalValues(
+                        instance,
+                        [with(SymbolEqualityComparer.Default)])
+                    .SelectMany(static value => value.DescendantsAndSelf())
+                    .OfType<IParameterReferenceOperation>()
+                    .Any(reference => SymbolEqualityComparer.Default.Equals(
+                        reference.Parameter,
+                        parameter)));
     }
 
     private static bool IsKnownDelegateInvoker(IInvocationOperation invocation)
@@ -3181,7 +3261,9 @@ internal static class ModuleAuthoringAnalysis
     {
         return root.DescendantsAndSelf()
             .Where(static candidate =>
-                candidate is IConditionalOperation or ISwitchOperation)
+                candidate is IConditionalOperation
+                    or ISwitchOperation
+                    or IWhileLoopOperation { ConditionIsTop: false })
             .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .Where(candidate => IsLinearPredecessor(candidate, operation))
@@ -3213,6 +3295,8 @@ internal static class ModuleAuthoringAnalysis
             ISwitchOperation switchOperation =>
                 switchOperation.Cases.SelectMany(@case =>
                     GetReachingSequenceAssignments(@case.Body, local)),
+            IWhileLoopOperation { ConditionIsTop: false } whileLoop =>
+                GetReachingLocalAssignments(whileLoop.Body, local),
             IBlockOperation block =>
                 GetReachingSequenceAssignments(block.Operations, local),
             IExpressionStatementOperation expressionStatement =>
@@ -3272,10 +3356,24 @@ internal static class ModuleAuthoringAnalysis
                 DefinitelyAssignsLocal(candidate, local)),
             ISwitchOperation switchOperation =>
                 DefinitelyAssignsLocalInSwitch(switchOperation, local),
+            IWhileLoopOperation { ConditionIsTop: false } whileLoop =>
+                DefinitelyAssignsLocalInDoLoop(whileLoop, local),
             IExpressionStatementOperation expressionStatement =>
                 DefinitelyAssignsLocal(expressionStatement.Operation, local),
             _ => false,
         };
+    }
+
+    private static bool DefinitelyAssignsLocalInDoLoop(
+        IWhileLoopOperation whileLoop,
+        ILocalSymbol local)
+    {
+        var dataFlow = whileLoop.Body.SemanticModel?.AnalyzeDataFlow(
+            whileLoop.Body.Syntax);
+        return dataFlow?.Succeeded == true
+               && dataFlow.AlwaysAssigned.Contains(
+                   local,
+                   SymbolEqualityComparer.Default);
     }
 
     private static bool DefinitelyAssignsLocalInSwitch(
