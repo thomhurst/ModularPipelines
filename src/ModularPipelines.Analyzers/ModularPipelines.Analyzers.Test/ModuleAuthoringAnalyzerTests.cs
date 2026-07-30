@@ -19,6 +19,17 @@ public class ModuleAuthoringAnalyzerTests
         """;
 
     [TestMethod]
+    public void New_Module_Authoring_Rules_Default_To_Warning()
+    {
+        Assert.AreEqual(
+            Microsoft.CodeAnalysis.DiagnosticSeverity.Warning,
+            ModuleAsyncSafetyAnalyzer.AsyncVoidRule.DefaultSeverity);
+        Assert.AreEqual(
+            Microsoft.CodeAnalysis.DiagnosticSeverity.Warning,
+            DuplicateDependsOnAnalyzer.Rule.DefaultSeverity);
+    }
+
+    [TestMethod]
     public async Task Reports_Module_That_Is_Not_Registered()
     {
         var source = $$"""
@@ -615,12 +626,12 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_When_Params_Type_Array_Property_Cannot_Be_Resolved()
+    public async Task Reports_When_Params_Type_Array_Property_Cannot_Be_Resolved()
     {
         var source = $$"""
             {{Header}}
 
-            public class BuildModule : Module<List<string>>
+            public class {|#0:BuildModule|} : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -637,7 +648,11 @@ public class ModuleAuthoringAnalyzerTests
             {{EntryPoint}}
             """;
 
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -706,7 +721,7 @@ public class ModuleAuthoringAnalyzerTests
         var source = $$"""
             {{Header}}
 
-            public class BuildModule : Module<List<string>>
+            public class {|#0:BuildModule|} : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -722,7 +737,11 @@ public class ModuleAuthoringAnalyzerTests
             {{EntryPoint}}
             """;
 
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -822,13 +841,13 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_Module_For_Unresolved_Assembly_Helper()
+    public async Task Reports_Module_For_Unresolved_Assembly_Helper()
     {
         var source = $$"""
             {{Header}}
             using System.Reflection;
 
-            internal class BuildModule : Module<List<string>>
+            internal class {|#0:BuildModule|} : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -846,17 +865,28 @@ public class ModuleAuthoringAnalyzerTests
             {{EntryPoint}}
             """;
 
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+        var unregistered = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        var nonPublic = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.NonPublicModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(
+            source,
+            unregistered,
+            nonPublic);
     }
 
     [TestMethod]
-    public async Task Does_Not_Infer_Assembly_From_Nested_TypeOf_Argument()
+    public async Task Reports_When_Assembly_Helper_Cannot_Be_Resolved()
     {
         var source = $$"""
             {{Header}}
             using System.Reflection;
 
-            internal class BuildModule : Module<List<string>>
+            internal class {|#0:BuildModule|} : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -874,16 +904,27 @@ public class ModuleAuthoringAnalyzerTests
             {{EntryPoint}}
             """;
 
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+        var unregistered = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        var nonPublic = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.NonPublicModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(
+            source,
+            unregistered,
+            nonPublic);
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_Module_For_Generic_Assembly_Helper()
+    public async Task Reports_Module_For_Unresolved_Generic_Assembly_Helper()
     {
         var source = $$"""
             {{Header}}
 
-            internal class BuildModule : Module<List<string>>
+            internal class {|#0:BuildModule|} : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -901,7 +942,18 @@ public class ModuleAuthoringAnalyzerTests
             {{EntryPoint}}
             """;
 
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+        var unregistered = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        var nonPublic = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.NonPublicModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(
+            source,
+            unregistered,
+            nonPublic);
     }
 
     [TestMethod]
@@ -955,12 +1007,12 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_Module_Registered_Through_Generic_Helper()
+    public async Task Reports_Module_When_Generic_Helper_Cannot_Be_Resolved()
     {
         var source = $$"""
             {{Header}}
 
-            public class BuildModule : Module<List<string>>
+            public class {|#0:BuildModule|} : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -978,7 +1030,11 @@ public class ModuleAuthoringAnalyzerTests
             {{EntryPoint}}
             """;
 
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
     }
 
     [TestMethod]

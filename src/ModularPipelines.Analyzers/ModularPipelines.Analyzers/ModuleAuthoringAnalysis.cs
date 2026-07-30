@@ -80,7 +80,6 @@ internal static class ModuleAuthoringAnalysis
         var registeredModules = new ConcurrentBag<INamedTypeSymbol>();
         var instanceRegisteredModules = new ConcurrentBag<INamedTypeSymbol>();
         var scannedAssemblies = new ConcurrentBag<IAssemblySymbol>();
-        var unresolvedModuleRegistrations = new ConcurrentBag<byte>();
 
         context.RegisterSymbolAction(
             symbolContext => CollectModuleType(symbolContext, modules),
@@ -90,8 +89,7 @@ internal static class ModuleAuthoringAnalysis
                 operationContext,
                 registeredModules,
                 instanceRegisteredModules,
-                scannedAssemblies,
-                unresolvedModuleRegistrations),
+                scannedAssemblies),
             OperationKind.Invocation);
         context.RegisterCompilationEndAction(endContext =>
             ReportModuleDiagnostics(
@@ -99,8 +97,7 @@ internal static class ModuleAuthoringAnalysis
                 modules,
                 registeredModules,
                 instanceRegisteredModules,
-                scannedAssemblies,
-                unresolvedModuleRegistrations));
+                scannedAssemblies));
     }
 
     private static void CollectModuleType(
@@ -190,8 +187,7 @@ internal static class ModuleAuthoringAnalysis
         OperationAnalysisContext context,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
     {
         var invocation = (IInvocationOperation) context.Operation;
         TrackRegistrationInvocation(
@@ -200,8 +196,7 @@ internal static class ModuleAuthoringAnalysis
             IsApplication(context.Compilation.Options.OutputKind),
             registeredModules,
             instanceRegisteredModules,
-            scannedAssemblies,
-            unresolvedModuleRegistrations);
+            scannedAssemblies);
     }
 
     private static void AnalyzeInvocation(OperationAnalysisContext context)
@@ -580,14 +575,12 @@ internal static class ModuleAuthoringAnalysis
         bool isApplication,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
     {
         var method = invocation.TargetMethod;
         if (TryTrackDirectModuleServiceRegistration(
                 invocation,
-                instanceRegisteredModules,
-                unresolvedModuleRegistrations))
+                instanceRegisteredModules))
         {
             return;
         }
@@ -603,22 +596,19 @@ internal static class ModuleAuthoringAnalysis
                 invocation,
                 currentAssembly,
                 isApplication,
-                scannedAssemblies,
-                unresolvedModuleRegistrations);
+                scannedAssemblies);
             return;
         }
 
         TrackGenericModuleRegistrations(
             invocation,
             registeredModules,
-            instanceRegisteredModules,
-            unresolvedModuleRegistrations);
+            instanceRegisteredModules);
         if (method.Name == "AddModules")
         {
             TrackDynamicModuleRegistrations(
                 invocation,
-                registeredModules,
-                unresolvedModuleRegistrations);
+                registeredModules);
         }
     }
 
@@ -638,8 +628,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackDirectModuleServiceRegistration(
         IInvocationOperation invocation,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         var method = invocation.TargetMethod;
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
@@ -647,8 +636,7 @@ internal static class ModuleAuthoringAnalysis
         {
             return TryTrackServiceDescriptorArguments(
                 invocation,
-                instanceRegisteredModules,
-                unresolvedModuleRegistrations);
+                instanceRegisteredModules);
         }
 
         if (!IsDirectServiceRegistrationMethod(definition)
@@ -660,13 +648,11 @@ internal static class ModuleAuthoringAnalysis
         if (!TryTrackDirectImplementationType(
                 invocation,
                 method,
-                instanceRegisteredModules,
-                unresolvedModuleRegistrations))
+                instanceRegisteredModules))
         {
             TrackDirectImplementationValue(
                 invocation,
-                instanceRegisteredModules,
-                unresolvedModuleRegistrations);
+                instanceRegisteredModules);
         }
 
         return true;
@@ -737,8 +723,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackServiceDescriptorArguments(
         IInvocationOperation invocation,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         var descriptorArguments = invocation.Arguments
             .Where(argument => argument.Parameter is not null
@@ -748,14 +733,12 @@ internal static class ModuleAuthoringAnalysis
             TryTrackServiceDescriptor(
                 argument.Value,
                 instanceRegisteredModules,
-                unresolvedModuleRegistrations,
                 [with(SymbolEqualityComparer.Default)]));
     }
 
     private static bool TryTrackServiceDescriptor(
         IOperation operation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations,
         HashSet<ILocalSymbol> visitedLocals)
     {
         switch (operation)
@@ -764,7 +747,6 @@ internal static class ModuleAuthoringAnalysis
                 return TryTrackServiceDescriptor(
                     conversion.Operand,
                     instanceRegisteredModules,
-                    unresolvedModuleRegistrations,
                     visitedLocals);
             case ILocalReferenceOperation localReference
                 when visitedLocals.Add(localReference.Local)
@@ -772,15 +754,13 @@ internal static class ModuleAuthoringAnalysis
                 return TryTrackServiceDescriptor(
                     localValue,
                     instanceRegisteredModules,
-                    unresolvedModuleRegistrations,
                     visitedLocals);
             case IInvocationOperation descriptorFactory
                 when IsServiceDescriptorFactory(descriptorFactory.TargetMethod):
                 return TrackServiceDescriptor(
                     descriptorFactory.Arguments,
                     descriptorFactory.TargetMethod.TypeArguments,
-                    instanceRegisteredModules,
-                    unresolvedModuleRegistrations);
+                    instanceRegisteredModules);
             case IObjectCreationOperation objectCreation
                 when objectCreation.Type?.ToDisplayString()
                      == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor":
@@ -788,36 +768,30 @@ internal static class ModuleAuthoringAnalysis
                     objectCreation.Arguments,
                     objectCreation.Constructor?.TypeArguments
                     ?? [],
-                    instanceRegisteredModules,
-                    unresolvedModuleRegistrations);
+                    instanceRegisteredModules);
             case IArrayCreationOperation { Initializer: { } initializer }:
                 return TryTrackServiceDescriptorCollection(
                     initializer.ElementValues,
                     instanceRegisteredModules,
-                    unresolvedModuleRegistrations,
                     visitedLocals);
             case ICollectionExpressionOperation collection:
                 return TryTrackServiceDescriptorCollection(
                     collection.Elements,
                     instanceRegisteredModules,
-                    unresolvedModuleRegistrations,
                     visitedLocals);
             case ISpreadOperation spread:
                 return TryTrackServiceDescriptor(
                     spread.Operand,
                     instanceRegisteredModules,
-                    unresolvedModuleRegistrations,
                     visitedLocals);
             default:
-                unresolvedModuleRegistrations.Add(0);
-                return true;
+                return false;
         }
     }
 
     private static bool TryTrackServiceDescriptorCollection(
         IEnumerable<IOperation> elements,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations,
         HashSet<ILocalSymbol> visitedLocals)
     {
         var tracked = false;
@@ -826,7 +800,6 @@ internal static class ModuleAuthoringAnalysis
             tracked |= TryTrackServiceDescriptor(
                 element,
                 instanceRegisteredModules,
-                unresolvedModuleRegistrations,
                 CloneVisitedLocals(visitedLocals));
         }
 
@@ -843,8 +816,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool TrackServiceDescriptor(
         ImmutableArray<IArgumentOperation> arguments,
         ImmutableArray<ITypeSymbol> typeArguments,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         if (!RegistersModuleService(arguments, typeArguments))
         {
@@ -869,19 +841,13 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
-        var tracked = arguments
+        return arguments
             .Where(static argument => argument.Parameter?.Name is
                 "implementationInstance" or "implementationFactory")
             .Any(argument => TryTrackInstanceModuleTypes(
                 argument.Value,
                 instanceRegisteredModules,
                 [with(SymbolEqualityComparer.Default)]));
-        if (!tracked)
-        {
-            unresolvedModuleRegistrations.Add(0);
-        }
-
-        return true;
     }
 
     private static bool RegistersModuleService(
@@ -914,8 +880,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool TryTrackDirectImplementationType(
         IInvocationOperation invocation,
         IMethodSymbol method,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         if (method.TypeArguments.ElementAtOrDefault(1) is INamedTypeSymbol implementationType)
         {
@@ -930,37 +895,29 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        if (TryGetTypeOfNamedType(
+        if (!TryGetTypeOfNamedType(
                 implementationTypeArgument.Value,
                 [with(SymbolEqualityComparer.Default)],
                 out implementationType))
         {
-            instanceRegisteredModules.Add(implementationType.OriginalDefinition);
-        }
-        else
-        {
-            unresolvedModuleRegistrations.Add(0);
+            return false;
         }
 
+        instanceRegisteredModules.Add(implementationType.OriginalDefinition);
         return true;
     }
 
     private static void TrackDirectImplementationValue(
         IInvocationOperation invocation,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
-        var tracked = invocation.Arguments
+        _ = invocation.Arguments
             .Where(static argument => argument.Parameter?.Name is
                 "implementationInstance" or "implementationFactory")
             .Any(argument => TryTrackInstanceModuleTypes(
                 argument.Value,
                 instanceRegisteredModules,
                 [with(SymbolEqualityComparer.Default)]));
-        if (!tracked)
-        {
-            unresolvedModuleRegistrations.Add(0);
-        }
     }
 
     private static bool TryGetTypeOfNamedType(
@@ -994,16 +951,9 @@ internal static class ModuleAuthoringAnalysis
     private static void TrackGenericModuleRegistrations(
         IInvocationOperation invocation,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         var method = invocation.TargetMethod;
-        if (method.TypeArguments.Any(static typeArgument =>
-                typeArgument is not INamedTypeSymbol))
-        {
-            unresolvedModuleRegistrations.Add(0);
-        }
-
         foreach (var typeArgument in method.TypeArguments.OfType<INamedTypeSymbol>())
         {
             var normalizedType = typeArgument.OriginalDefinition;
@@ -1024,13 +974,10 @@ internal static class ModuleAuthoringAnalysis
         foreach (var argument in invocation.Arguments.Where(static argument =>
                      argument.Parameter?.Name is "module" or "factory"))
         {
-            if (!TryTrackInstanceModuleTypes(
-                    argument.Value,
-                    instanceRegisteredModules,
-                    [with(SymbolEqualityComparer.Default)]))
-            {
-                unresolvedModuleRegistrations.Add(0);
-            }
+            _ = TryTrackInstanceModuleTypes(
+                argument.Value,
+                instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)]);
         }
     }
 
@@ -1109,19 +1056,15 @@ internal static class ModuleAuthoringAnalysis
 
     private static void TrackDynamicModuleRegistrations(
         IInvocationOperation invocation,
-        ConcurrentBag<INamedTypeSymbol> registeredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<INamedTypeSymbol> registeredModules)
     {
         foreach (var argument in invocation.Arguments.Where(static argument =>
                      argument.Parameter?.Name == "moduleTypes"))
         {
-            if (!TryTrackModuleTypes(
-                    argument.Value,
-                    registeredModules,
-                    [with(SymbolEqualityComparer.Default)]))
-            {
-                unresolvedModuleRegistrations.Add(0);
-            }
+            _ = TryTrackModuleTypes(
+                argument.Value,
+                registeredModules,
+                [with(SymbolEqualityComparer.Default)]);
         }
     }
 
@@ -1178,8 +1121,7 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         IAssemblySymbol currentAssembly,
         bool isApplication,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
     {
         foreach (var typeArgument in invocation.TargetMethod.TypeArguments)
         {
@@ -1187,25 +1129,18 @@ internal static class ModuleAuthoringAnalysis
             {
                 scannedAssemblies.Add(namedType.ContainingAssembly);
             }
-            else
-            {
-                unresolvedModuleRegistrations.Add(0);
-            }
         }
 
         foreach (var argument in invocation.Arguments.Where(static argument =>
                      argument.Parameter?.Type.ToDisplayString()
                      == AssemblyMetadataName))
         {
-            if (!TryTrackScannedAssembly(
-                    argument.Value,
-                    currentAssembly,
-                    isApplication,
-                    scannedAssemblies,
-                    [with(SymbolEqualityComparer.Default)]))
-            {
-                unresolvedModuleRegistrations.Add(0);
-            }
+            _ = TryTrackScannedAssembly(
+                argument.Value,
+                currentAssembly,
+                isApplication,
+                scannedAssemblies,
+                [with(SymbolEqualityComparer.Default)]);
         }
     }
 
@@ -1272,14 +1207,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> modules,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
     {
-        if (!unresolvedModuleRegistrations.IsEmpty)
-        {
-            return;
-        }
-
         var moduleSet = modules
             .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
             .ToImmutableArray();

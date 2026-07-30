@@ -13,12 +13,12 @@ MP0008 | Design | Warning | Declares mutable instance state that can leak betwee
 MP0009 | Usage | Error | References a dependency type that does not implement IModule
 MP0010 | Usage | Error | Declares a module dependency on itself
 MP0013 | Usage | Warning | Module is not registered with the pipeline
-MP0014 | Usage | Error | Async void method in a module
+MP0014 | Usage | Warning | Async void method in a module
 MP0015 | Usage | Warning | Blocking call in ExecuteAsync
 MP0016 | Usage | Warning | ExecuteAsync cancellation token is not flowed
 MP0017 | Usage | Warning | Thread.Sleep in ExecuteAsync
 MP0018 | Usage | Warning | Module class is not public
-MP0019 | Usage | Error | Duplicate DependsOn declaration
+MP0019 | Usage | Warning | Duplicate DependsOn declaration
 
 ### Removed Rules
 

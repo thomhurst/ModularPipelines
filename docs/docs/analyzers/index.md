@@ -23,9 +23,9 @@ sidebar_position: 1
 | [`MP0011`](./MP0011.md) | Usage | Warning | Requires generated CLI option properties to be virtual. |
 | [`MP0012`](./MP0012.md) | Usage | Warning | Requires generated CLI command methods to be virtual. |
 | [`MP0013`](./MP0013.md) | Usage | Warning | Module is not registered with the pipeline. |
-| [`MP0014`](./MP0014.md) | Usage | Error | Async void method in a module. |
+| [`MP0014`](./MP0014.md) | Usage | Warning | Async void method in a module. |
 | [`MP0015`](./MP0015.md) | Usage | Warning | Blocking call in ExecuteAsync. |
 | [`MP0016`](./MP0016.md) | Usage | Warning | ExecuteAsync cancellation token is not flowed. |
 | [`MP0017`](./MP0017.md) | Usage | Warning | Thread.Sleep in ExecuteAsync. |
 | [`MP0018`](./MP0018.md) | Usage | Warning | Module class is not public. |
-| [`MP0019`](./MP0019.md) | Usage | Error | Duplicate DependsOn declaration. |
+| [`MP0019`](./MP0019.md) | Usage | Warning | Duplicate DependsOn declaration. |

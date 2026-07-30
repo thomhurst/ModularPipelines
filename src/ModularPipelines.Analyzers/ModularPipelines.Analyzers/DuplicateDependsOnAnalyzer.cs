@@ -16,7 +16,8 @@ public sealed class DuplicateDependsOnAnalyzer : DiagnosticAnalyzer
             DiagnosticId,
             nameof(Resources.DuplicateDependsOnAnalyzerTitle),
             nameof(Resources.DuplicateDependsOnAnalyzerMessageFormat),
-            nameof(Resources.DuplicateDependsOnAnalyzerDescription));
+            nameof(Resources.DuplicateDependsOnAnalyzerDescription),
+            severity: DiagnosticSeverity.Warning);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [Rule];
 

@@ -19,7 +19,8 @@ public sealed class ModuleAsyncSafetyAnalyzer : DiagnosticAnalyzer
             AsyncVoidId,
             nameof(Resources.AsyncVoidModuleAnalyzerTitle),
             nameof(Resources.AsyncVoidModuleAnalyzerMessageFormat),
-            nameof(Resources.AsyncVoidModuleAnalyzerDescription));
+            nameof(Resources.AsyncVoidModuleAnalyzerDescription),
+            severity: DiagnosticSeverity.Warning);
 
     public static DiagnosticDescriptor BlockingCallRule { get; } =
         DiagnosticDescriptorFactory.Create(
