@@ -26,6 +26,7 @@ on:
 jobs:
   validate-generation-safety:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -37,6 +38,7 @@ jobs:
   tool-catalog:
     needs: validate-generation-safety
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     outputs:
       linux: ${{ steps.catalog.outputs.linux }}
       windows: ${{ steps.catalog.outputs.windows }}
@@ -86,6 +88,7 @@ jobs:
       - validate-generation-safety
       - tool-catalog
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     permissions:
       contents: write
       pull-requests: write
@@ -668,6 +671,7 @@ jobs:
       - validate-generation-safety
       - tool-catalog
     runs-on: windows-latest
+    timeout-minutes: 60
     permissions:
       contents: write
       pull-requests: write
@@ -945,3 +949,69 @@ jobs:
         if: steps.api-compat.outcome == 'failure'
         shell: pwsh
         run: throw "Generated API is not backward compatible. Auto-merge was not enabled."
+
+  report-scheduled-failure:
+    name: Report scheduled failure
+    if: >-
+      ${{
+        always()
+        && github.event_name == 'schedule'
+        && (
+          needs.validate-generation-safety.result == 'failure'
+          || needs.tool-catalog.result == 'failure'
+          || needs.generate.result == 'failure'
+          || needs.generate-windows.result == 'failure'
+        )
+      }}
+    needs:
+      - validate-generation-safety
+      - tool-catalog
+      - generate
+      - generate-windows
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Create or update failure issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: Generate CLI Options scheduled run failed
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          VALIDATE_RESULT: ${{ needs.validate-generation-safety.result }}
+          CATALOG_RESULT: ${{ needs.tool-catalog.result }}
+          LINUX_RESULT: ${{ needs.generate.result }}
+          WINDOWS_RESULT: ${{ needs.generate-windows.result }}
+        run: |
+          issue_body="$(cat <<EOF
+          Scheduled CLI option generation failed.
+
+          - Run: $RUN_URL
+          - Generation safety: $VALIDATE_RESULT
+          - Tool catalog: $CATALOG_RESULT
+          - Linux generation: $LINUX_RESULT
+          - Windows generation: $WINDOWS_RESULT
+
+          Inspect failed matrix jobs and keep this issue open until a scheduled run succeeds.
+          EOF
+          )"
+
+          existing_issue="$(
+            gh issue list \
+              --state open \
+              --search "$ISSUE_TITLE in:title" \
+              --limit 10 \
+              --json number,title \
+              --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .number" |
+              head -n 1
+          )"
+
+          if [ -n "$existing_issue" ]; then
+            gh issue comment "$existing_issue" --body "$issue_body"
+          else
+            gh issue create \
+              --title "$ISSUE_TITLE" \
+              --body "$issue_body" \
+              --label bug
+          fi
