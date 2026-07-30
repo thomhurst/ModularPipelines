@@ -1227,15 +1227,33 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        if (!TryGetTypeOfNamedType(
-                implementationTypeArgument.Value,
-                [with(SymbolEqualityComparer.Default)],
-                out implementationType))
+        var values = implementationTypeArgument.Value is ILocalReferenceOperation localReference
+            ? FindReachingLocalValues(localReference, localReference.Local).ToArray()
+            : [implementationTypeArgument.Value];
+        if (values.Length == 0)
         {
             return false;
         }
 
-        instanceRegisteredModules.Add(implementationType.OriginalDefinition);
+        var implementationTypes = new List<INamedTypeSymbol>();
+        foreach (var value in values)
+        {
+            if (!TryGetTypeOfNamedType(
+                    value,
+                    [with(SymbolEqualityComparer.Default)],
+                    out implementationType))
+            {
+                return false;
+            }
+
+            implementationTypes.Add(implementationType.OriginalDefinition);
+        }
+
+        foreach (var trackedType in implementationTypes)
+        {
+            instanceRegisteredModules.Add(trackedType);
+        }
+
         return true;
     }
 
@@ -1918,17 +1936,14 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        var matchingCase = switchOperation.Cases.FirstOrDefault(@case =>
-            @case.Clauses
-                .OfType<ISingleValueCaseClauseOperation>()
-                .Any(clause =>
-                    clause.Value.ConstantValue is { HasValue: true } caseValue
-                    && Equals(caseValue.Value, switchValue.Value)));
-        if (ReferenceEquals(switchCase, matchingCase))
+        var caseMatch = SwitchCaseMatchesConstant(switchCase, switchValue.Value);
+        if (caseMatch is true)
         {
             return false;
         }
 
+        var matchingCase = switchOperation.Cases.FirstOrDefault(@case =>
+            SwitchCaseMatchesConstant(@case, switchValue.Value) is true);
         if (matchingCase is not null
             && switchCase.Clauses.Any(static clause =>
                 clause is IDefaultCaseClauseOperation))
@@ -1936,8 +1951,107 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
-        return switchCase.Clauses.All(static clause =>
-            clause is ISingleValueCaseClauseOperation);
+        return caseMatch is false;
+    }
+
+    private static bool? SwitchCaseMatchesConstant(
+        ISwitchCaseOperation switchCase,
+        object? switchValue)
+    {
+        var hasUnknownClause = false;
+        foreach (var clause in switchCase.Clauses)
+        {
+            var matches = SwitchClauseMatchesConstant(clause, switchValue);
+            if (matches is true)
+            {
+                return true;
+            }
+
+            hasUnknownClause |= matches is null;
+        }
+
+        return hasUnknownClause ? null : false;
+    }
+
+    private static bool? SwitchClauseMatchesConstant(
+        ICaseClauseOperation clause,
+        object? switchValue)
+    {
+        return clause switch
+        {
+            ISingleValueCaseClauseOperation singleValueClause =>
+                ConstantEquals(singleValueClause.Value, switchValue),
+            IPatternCaseClauseOperation patternClause =>
+                PatternClauseMatchesConstant(patternClause, switchValue),
+            IDefaultCaseClauseOperation => null,
+            _ => null,
+        };
+    }
+
+    private static bool? PatternClauseMatchesConstant(
+        IPatternCaseClauseOperation clause,
+        object? switchValue)
+    {
+        var patternMatches = PatternMatchesConstant(clause.Pattern, switchValue);
+        if (patternMatches is false
+            || clause.Guard?.ConstantValue is { HasValue: true, Value: false })
+        {
+            return false;
+        }
+
+        if (patternMatches is true
+            && (clause.Guard is null
+                || clause.Guard.ConstantValue is { HasValue: true, Value: true }))
+        {
+            return true;
+        }
+
+        return null;
+    }
+
+    private static bool? PatternMatchesConstant(
+        IPatternOperation pattern,
+        object? switchValue)
+    {
+        return pattern switch
+        {
+            IConstantPatternOperation constantPattern =>
+                ConstantEquals(constantPattern.Value, switchValue),
+            IRelationalPatternOperation relationalPattern =>
+                RelationalPatternMatchesConstant(relationalPattern, switchValue),
+            _ => null,
+        };
+    }
+
+    private static bool? ConstantEquals(
+        IOperation operation,
+        object? switchValue)
+    {
+        return operation.ConstantValue is { HasValue: true } constant
+            ? Equals(constant.Value, switchValue)
+            : null;
+    }
+
+    private static bool? RelationalPatternMatchesConstant(
+        IRelationalPatternOperation pattern,
+        object? switchValue)
+    {
+        if (switchValue is not IComparable comparable
+            || pattern.Value.ConstantValue is not { HasValue: true, Value: { } patternValue }
+            || switchValue.GetType() != patternValue.GetType())
+        {
+            return null;
+        }
+
+        var comparison = comparable.CompareTo(patternValue);
+        return pattern.OperatorKind switch
+        {
+            BinaryOperatorKind.GreaterThan => comparison > 0,
+            BinaryOperatorKind.GreaterThanOrEqual => comparison >= 0,
+            BinaryOperatorKind.LessThan => comparison < 0,
+            BinaryOperatorKind.LessThanOrEqual => comparison <= 0,
+            _ => null,
+        };
     }
 
     private static void ReportModuleDiagnostics(
@@ -2073,7 +2187,7 @@ internal static class ModuleAuthoringAnalysis
     private static void AnalyzeDuplicateDependencies(SymbolAnalysisContext context)
     {
         var module = (INamedTypeSymbol) context.Symbol;
-        if (module.IsAbstract || !module.IsModule(context.Compilation))
+        if (!module.IsModule(context.Compilation))
         {
             return;
         }
@@ -2415,23 +2529,68 @@ internal static class ModuleAuthoringAnalysis
         IParameterSymbol parameter,
         Compilation compilation)
     {
-        if (GetMethodOperation(method, compilation, default) is not { } operation)
+        return SourceMethodInvokesDelegateParameter(
+            method,
+            parameter,
+            compilation,
+            [with(SymbolEqualityComparer.Default)]);
+    }
+
+    private static bool SourceMethodInvokesDelegateParameter(
+        IMethodSymbol method,
+        IParameterSymbol parameter,
+        Compilation compilation,
+        HashSet<IParameterSymbol> visitedParameters)
+    {
+        if (!visitedParameters.Add(parameter)
+            || GetMethodOperation(method, compilation, default) is not { } operation)
         {
             return false;
         }
 
-        return GetReachableInvocations(operation)
-            .Any(candidate =>
-                candidate.TargetMethod.MethodKind == MethodKind.DelegateInvoke
+        foreach (var candidate in GetReachableInvocations(operation))
+        {
+            if (candidate.TargetMethod.MethodKind == MethodKind.DelegateInvoke
                 && candidate.Instance is { } instance
-                && GetValueAndReachingLocalValues(
-                        instance,
-                        [with(SymbolEqualityComparer.Default)])
-                    .SelectMany(static value => value.DescendantsAndSelf())
-                    .OfType<IParameterReferenceOperation>()
-                    .Any(reference => SymbolEqualityComparer.Default.Equals(
-                        reference.Parameter,
-                        parameter)));
+                && ValueReferencesParameter(instance, parameter))
+            {
+                return true;
+            }
+
+            var targetMethod = NormalizeMethod(candidate.TargetMethod);
+            foreach (var argument in candidate.Arguments.Where(argument =>
+                         argument.Parameter is not null
+                         && ValueReferencesParameter(argument.Value, parameter)))
+            {
+                var targetParameter = targetMethod.Parameters.ElementAtOrDefault(
+                    argument.Parameter!.Ordinal);
+                if (targetParameter is not null
+                    && SourceMethodInvokesDelegateParameter(
+                        targetMethod,
+                        targetParameter,
+                        compilation,
+                        visitedParameters))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static bool ValueReferencesParameter(
+        IOperation value,
+        IParameterSymbol parameter)
+    {
+        return GetValueAndReachingLocalValues(
+                value,
+                [with(SymbolEqualityComparer.Default)])
+            .SelectMany(static candidate => candidate.DescendantsAndSelf())
+            .OfType<IParameterReferenceOperation>()
+            .Any(reference => SymbolEqualityComparer.Default.Equals(
+                reference.Parameter,
+                parameter));
     }
 
     private static bool IsKnownDelegateInvoker(IInvocationOperation invocation)
@@ -3186,15 +3345,17 @@ internal static class ModuleAuthoringAnalysis
         IParameterSymbol cancellationToken,
         HashSet<ILocalSymbol> visitedLocals)
     {
-        return FlowsFromCancellationToken(
-                   conditional.WhenTrue,
-                   cancellationToken,
-                   CloneVisitedLocals(visitedLocals))
+        return (AlwaysThrows(conditional.WhenTrue)
+                || FlowsFromCancellationToken(
+                    conditional.WhenTrue,
+                    cancellationToken,
+                    CloneVisitedLocals(visitedLocals)))
                && conditional.WhenFalse is not null
-               && FlowsFromCancellationToken(
-                   conditional.WhenFalse,
-                   cancellationToken,
-                   CloneVisitedLocals(visitedLocals));
+               && (AlwaysThrows(conditional.WhenFalse)
+                   || FlowsFromCancellationToken(
+                       conditional.WhenFalse,
+                       cancellationToken,
+                       CloneVisitedLocals(visitedLocals)));
     }
 
     private static bool FlowsFromCancellationTokenSwitchExpression(

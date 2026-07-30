@@ -271,6 +271,59 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Modules_Registered_Only_In_Dead_Pattern_Cases()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:RelationalModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#1:GuardedModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    switch (0)
+                    {
+                        case > 0:
+                            Pipeline.CreateBuilder().AddModule<RelationalModule>();
+                            break;
+                    }
+
+                    switch (0)
+                    {
+                        case 0 when false:
+                            Pipeline.CreateBuilder().AddModule<GuardedModule>();
+                            break;
+                    }
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var relational = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("RelationalModule");
+        var guarded = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(1)
+            .WithArguments("GuardedModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(
+            source,
+            relational,
+            guarded);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_In_Do_While_False()
     {
         var source = $$"""
@@ -989,6 +1042,45 @@ public class ModuleAuthoringAnalyzerTests
 
                 public static void Register() =>
                     Pipeline.CreateBuilder().AddModules(ModuleTypes);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Branch_Assigned_Implementation_Type()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    Type implementationType;
+                    if (DateTime.UtcNow.Ticks > 0)
+                    {
+                        implementationType = typeof(BuildModule);
+                    }
+                    else
+                    {
+                        implementationType = typeof(BuildModule);
+                    }
+
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.AddSingleton(
+                        typeof(IModule),
+                        implementationType);
+                }
             }
 
             {{EntryPoint}}
@@ -2186,6 +2278,25 @@ public class ModuleAuthoringAnalyzerTests
                     true => cancellationToken,
                     false => throw new InvalidOperationException(),
                 };
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Throwing_Conditional_Arm()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = context is not null
+                    ? cancellationToken
+                    : throw new InvalidOperationException();
                 await Task.Delay(1, token);
                 return null;
             }
@@ -3564,6 +3675,46 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Forwarded_Source_Callback()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await RunAsync(async () =>
+                {
+                    {|#0:Thread.Sleep(1)|};
+                    await {|#1:FetchAsync()|};
+                });
+                return null;
+            }
+
+                private static Task RunAsync(Func<Task> callback) =>
+                    ForwardAsync(callback);
+
+                private static Task ForwardAsync(Func<Task> callback) => callback();
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        var blockingCall = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        var unflowedToken = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(1)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            blockingCall,
+            unflowedToken);
+    }
+
+    [TestMethod]
     public async Task Reports_Unflowed_Token_In_Directly_Invoked_Delegate()
     {
         var source = ModuleSource("""
@@ -4276,6 +4427,29 @@ public class ModuleAuthoringAnalyzerTests
         var expected = VerifyDependencyCS.Diagnostic(DuplicateDependsOnAnalyzer.DiagnosticId)
             .WithLocation(0)
             .WithArguments("BuildModule", "DependencyModule");
+        await VerifyDependencyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Duplicate_DependsOn_On_Abstract_Module()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public abstract class DependencyModule : Module<List<string>>
+            {
+            }
+
+            [DependsOn<DependencyModule>]
+            [{|#0:DependsOn<DependencyModule>|}]
+            public abstract class BaseModule : Module<List<string>>
+            {
+            }
+            """;
+
+        var expected = VerifyDependencyCS.Diagnostic(DuplicateDependsOnAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("BaseModule", "DependencyModule");
         await VerifyDependencyCS.VerifyAnalyzerAsync(source, expected);
     }
 
