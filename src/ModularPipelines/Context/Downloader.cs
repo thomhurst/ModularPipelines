@@ -25,14 +25,14 @@ internal class Downloader : IDownloaderContext
     public async Task<string?> DownloadStringAsync(DownloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
+        using var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
 
         return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<File> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default)
     {
-        var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
+        using var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
 
         var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
         await using (stream.ConfigureAwait(false))

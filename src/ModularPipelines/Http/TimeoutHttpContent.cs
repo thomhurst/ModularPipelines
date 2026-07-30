@@ -5,12 +5,12 @@ namespace ModularPipelines.Http;
 internal sealed class TimeoutHttpContent : HttpContent
 {
     private readonly HttpContent _innerContent;
-    private readonly CancellationTokenSource _timeoutCancellationTokenSource;
+    private readonly CancellationTokenSource? _timeoutCancellationTokenSource;
     private readonly CancellationTokenSource _linkedCancellationTokenSource;
 
     public TimeoutHttpContent(
         HttpContent innerContent,
-        CancellationTokenSource timeoutCancellationTokenSource,
+        CancellationTokenSource? timeoutCancellationTokenSource,
         CancellationTokenSource linkedCancellationTokenSource)
     {
         _innerContent = innerContent;
@@ -94,7 +94,7 @@ internal sealed class TimeoutHttpContent : HttpContent
         {
             _innerContent.Dispose();
             _linkedCancellationTokenSource.Dispose();
-            _timeoutCancellationTokenSource.Dispose();
+            _timeoutCancellationTokenSource?.Dispose();
         }
 
         base.Dispose(disposing);
@@ -189,10 +189,19 @@ internal sealed class TimeoutHttpContent : HttpContent
             var effectiveCancellationToken =
                 readCancellationTokenSource?.Token ?? timeoutCancellationToken;
             effectiveCancellationToken.ThrowIfCancellationRequested();
-            return await innerStream.ReadAsync(
-                    buffer,
-                    effectiveCancellationToken)
-                .ConfigureAwait(false);
+            try
+            {
+                return await innerStream.ReadAsync(
+                        buffer,
+                        effectiveCancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception exception)
+                when (timeoutCancellationToken.IsCancellationRequested &&
+                      exception is ObjectDisposedException or IOException)
+            {
+                throw CreateTimeoutException(exception);
+            }
         }
 
         public override long Seek(long offset, SeekOrigin origin)

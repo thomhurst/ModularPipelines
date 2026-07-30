@@ -40,10 +40,13 @@ internal class Http : IHttpContext
             ? new CancellationTokenSource(effectiveTimeout.Value)
             : null;
 
-        // Link the timeout token with the passed cancellation token, or just use the original if no timeout
+        // Keep caller cancellation alive through streamed body consumption even when no
+        // finite timeout applies.
         var linkedCts = timeoutCts != null
             ? CancellationTokenSource.CreateLinkedTokenSource(timeoutCts.Token, cancellationToken)
-            : null;
+            : cancellationToken.CanBeCanceled
+                ? CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+                : null;
 
         var effectiveCancellationToken = linkedCts?.Token ?? cancellationToken;
 
@@ -51,7 +54,7 @@ internal class Http : IHttpContext
         {
             HttpResponseMessage WrapResponse(HttpResponseMessage response)
             {
-                if (timeoutCts is null || linkedCts is null)
+                if (linkedCts is null)
                 {
                     return response;
                 }

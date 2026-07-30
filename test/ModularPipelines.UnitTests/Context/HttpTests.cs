@@ -125,6 +125,81 @@ public class HttpTests : TestBase
     }
 
     [Test]
+    public async Task SendAsync_InfiniteTimeoutRetainsCallerCancellationForStreamedBody()
+    {
+        var contentStream = new BlockingReadStream();
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(contentStream)))
+        {
+            Timeout = Timeout.InfiniteTimeSpan,
+        };
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IHttpLogger>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var cancellationTokenSource = new CancellationTokenSource();
+        using var response = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/caller-cancellation"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.None,
+        }, cancellationTokenSource.Token);
+        var stream = response.Content.ReadAsStream();
+        var readTask = stream.ReadAsync(new byte[1]).AsTask();
+
+        cancellationTokenSource.Cancel();
+
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+        }
+        finally
+        {
+            contentStream.Release();
+        }
+    }
+
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task SendAsync_NormalizesAsyncStreamFailureAfterTimeout(
+        bool throwIOExceptionWhenDisposed)
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream(
+            throwIOExceptionWhenDisposed,
+            ignoreAsyncCancellation: true);
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(contentStream)));
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IHttpLogger>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var response = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/async-timeout"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.None,
+            Timeout = timeout,
+        });
+        var stream = response.Content.ReadAsStream();
+        var readTask = stream.ReadAsync(new byte[1]).AsTask();
+
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+        }
+        finally
+        {
+            contentStream.Release();
+        }
+    }
+
+    [Test]
     [Arguments(true, true)]
     [Arguments(true, false)]
     [Arguments(false, true)]
@@ -522,7 +597,9 @@ public class HttpTests : TestBase
         }
     }
 
-    private sealed class BlockingReadStream(bool throwIOExceptionWhenDisposed = false) : MemoryStream
+    private sealed class BlockingReadStream(
+        bool throwIOExceptionWhenDisposed = false,
+        bool ignoreAsyncCancellation = false) : MemoryStream
     {
         private readonly TaskCompletionSource _release =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -549,7 +626,16 @@ public class HttpTests : TestBase
             Memory<byte> buffer,
             CancellationToken cancellationToken = default)
         {
-            await _release.Task.WaitAsync(cancellationToken);
+            if (ignoreAsyncCancellation)
+            {
+                await _release.Task;
+                ThrowIfDisposed();
+            }
+            else
+            {
+                await _release.Task.WaitAsync(cancellationToken);
+            }
+
             return 0;
         }
 
@@ -567,14 +653,18 @@ public class HttpTests : TestBase
         private int WaitForSynchronousRead()
         {
             _synchronousRelease.Wait();
+            ThrowIfDisposed();
+            return 0;
+        }
+
+        private void ThrowIfDisposed()
+        {
             if (_isDisposed)
             {
                 throw throwIOExceptionWhenDisposed
                     ? new IOException("The stream was interrupted.")
                     : new ObjectDisposedException(nameof(BlockingReadStream));
             }
-
-            return 0;
         }
     }
 
