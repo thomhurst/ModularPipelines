@@ -144,21 +144,45 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
         }
 
         var assignment = identifier.FirstAncestorOrSelf<AssignmentExpressionSyntax>();
-        if (assignment?.Left is TupleExpressionSyntax tuple
-            && ContainsFieldTarget(tuple, field, semanticModel, cancellationToken))
-        {
-            return true;
-        }
-
         if (assignment is not null
-            && assignment.Left.Span.Contains(identifier.Span)
-            && SymbolEqualityComparer.Default.Equals(
-                semanticModel.GetSymbolInfo(assignment.Left, cancellationToken).Symbol,
-                field))
+            && IsAssignmentWrite(
+                identifier,
+                assignment,
+                field,
+                semanticModel,
+                cancellationToken))
         {
             return true;
         }
 
+        return IsUnaryWrite(identifier, field, semanticModel, cancellationToken)
+               || IsRefArgumentWrite(identifier, field, semanticModel, cancellationToken);
+    }
+
+    private static bool IsAssignmentWrite(
+        IdentifierNameSyntax identifier,
+        AssignmentExpressionSyntax assignment,
+        IFieldSymbol field,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        if (assignment.Left is TupleExpressionSyntax tuple)
+        {
+            return ContainsFieldTarget(tuple, field, semanticModel, cancellationToken);
+        }
+
+        return assignment.Left.Span.Contains(identifier.Span)
+               && SymbolEqualityComparer.Default.Equals(
+                   semanticModel.GetSymbolInfo(assignment.Left, cancellationToken).Symbol,
+                   field);
+    }
+
+    private static bool IsUnaryWrite(
+        IdentifierNameSyntax identifier,
+        IFieldSymbol field,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
         var prefix = identifier.FirstAncestorOrSelf<PrefixUnaryExpressionSyntax>();
         if (prefix?.IsKind(SyntaxKind.PreIncrementExpression) == true
             || prefix?.IsKind(SyntaxKind.PreDecrementExpression) == true)
@@ -177,6 +201,15 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                 field);
         }
 
+        return false;
+    }
+
+    private static bool IsRefArgumentWrite(
+        IdentifierNameSyntax identifier,
+        IFieldSymbol field,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
         var argument = identifier.FirstAncestorOrSelf<ArgumentSyntax>();
         if (argument is null)
         {
