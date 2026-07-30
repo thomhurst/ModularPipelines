@@ -218,6 +218,25 @@ public abstract record ModuleResult : IModuleResult
 [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
 public abstract record ModuleResult<T> : ModuleResult
 {
+    /// <summary>
+    /// Gets the successful non-null value.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">
+    /// The module failed, was skipped, or succeeded with a <see langword="null"/> value.
+    /// </exception>
+    [JsonIgnore]
+    public T Value => this switch
+    {
+        Success { Value: not null } success => success.Value,
+        Success => throw new InvalidOperationException($"{ModuleName} succeeded but returned null"),
+        FailureWrapper failure => throw new InvalidOperationException(
+            $"{ModuleName} failed: {failure.Exception.Message}",
+            failure.Exception),
+        SkippedWrapper skipped => throw new InvalidOperationException(
+            $"{ModuleName} was skipped: {skipped.Decision.Reason ?? "No reason was provided"}"),
+        _ => throw new InvalidOperationException($"{ModuleName} has an unknown result type"),
+    };
+
     // === Safe accessors (no exceptions) ===
 
     /// <summary>
@@ -298,9 +317,32 @@ public abstract record ModuleResult<T> : ModuleResult
     /// <summary>
     /// Represents a successful module execution with a value.
     /// </summary>
-    /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
     [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
-    public sealed record Success(T? Value) : ModuleResult<T>;
+    public sealed record Success : ModuleResult<T>
+    {
+        /// <summary>
+        /// Initialises a new instance of the <see cref="Success"/> class.
+        /// </summary>
+        /// <param name="value">The value produced by the module, which may be <c>null</c>.</param>
+        public Success(T? value)
+        {
+            Value = value;
+        }
+
+        /// <summary>
+        /// Gets the value produced by the module, which may be <c>null</c>.
+        /// </summary>
+        public new T? Value { get; init; }
+
+        /// <summary>
+        /// Deconstructs the result into its successful value.
+        /// </summary>
+        /// <param name="value">The value produced by the module, which may be <c>null</c>.</param>
+        public void Deconstruct(out T? value)
+        {
+            value = Value;
+        }
+    }
 
     /// <summary>
     /// Represents a failed module execution with an exception.
@@ -455,8 +497,6 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 
         string? typeName = null;
         string? message = null;
-        string? stackTrace = null;
-
         while (reader.Read())
         {
             if (reader.TokenType == JsonTokenType.EndObject)
@@ -478,7 +518,6 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
                         message = reader.GetString();
                         break;
                     case "StackTrace":
-                        stackTrace = reader.GetString();
                         break;
                 }
             }
@@ -495,8 +534,7 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
             {
                 try
                 {
-                    var ex = Activator.CreateInstance(exceptionType, message) as Exception;
-                    if (ex != null)
+                    if (Activator.CreateInstance(exceptionType, message) is Exception ex)
                     {
                         return ex;
                     }
@@ -618,10 +656,10 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
         string? discriminator = null;
         string? moduleName = null;
         string? moduleTypeName = null;
-        TimeSpan moduleDuration = TimeSpan.Zero;
-        DateTimeOffset moduleStart = DateTimeOffset.MinValue;
-        DateTimeOffset moduleEnd = DateTimeOffset.MinValue;
-        Status moduleStatus = Status.NotYetStarted;
+        var moduleDuration = TimeSpan.Zero;
+        var moduleStart = DateTimeOffset.MinValue;
+        var moduleEnd = DateTimeOffset.MinValue;
+        var moduleStatus = Status.NotYetStarted;
         Exception? exception = null;
         SkipDecision? skipDecision = null;
 
@@ -779,10 +817,10 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         string? discriminator = null;
         string? moduleName = null;
         string? moduleTypeName = null;
-        TimeSpan moduleDuration = TimeSpan.Zero;
-        DateTimeOffset moduleStart = DateTimeOffset.MinValue;
-        DateTimeOffset moduleEnd = DateTimeOffset.MinValue;
-        Status moduleStatus = Status.NotYetStarted;
+        var moduleDuration = TimeSpan.Zero;
+        var moduleStart = DateTimeOffset.MinValue;
+        var moduleEnd = DateTimeOffset.MinValue;
+        var moduleStatus = Status.NotYetStarted;
         T? value = default;
         Exception? exception = null;
         SkipDecision? skipDecision = null;

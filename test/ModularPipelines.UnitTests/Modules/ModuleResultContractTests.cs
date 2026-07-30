@@ -63,6 +63,21 @@ public class ModuleResultContractTests
     }
 
     [Test]
+    public async Task Success_Value_ReturnsValue()
+    {
+        var success = CreateSuccess(42);
+        ModuleResult<int> result = success;
+        success.Deconstruct(out var deconstructedValue);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Value).IsEqualTo(42);
+            await Assert.That(success.Value).IsEqualTo(42);
+            await Assert.That(deconstructedValue).IsEqualTo(42);
+        }
+    }
+
+    [Test]
     public async Task Generic_Skipped_Can_Be_Pattern_Matched()
     {
         var decision = SkipDecision.Skip("Not needed");
@@ -165,6 +180,62 @@ public class ModuleResultContractTests
     }
 
     [Test]
+    public async Task Success_Value_SurvivesJsonRoundTrip()
+    {
+        ModuleResult<int> result = CreateSuccess(42);
+
+        var json = JsonSerializer.Serialize(result);
+        var deserialized = JsonSerializer.Deserialize<ModuleResult<int>>(json);
+
+        await Assert.That(deserialized!.Value).IsEqualTo(42);
+    }
+
+    [Test]
+    public async Task Failure_Value_ThrowsWithModuleContext()
+    {
+        var failure = new InvalidOperationException("Compilation failed");
+        ModuleResult<int> result = CreateFailure(failure);
+
+        var exception = await Assert.That(() => result.Value)
+            .Throws<InvalidOperationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).IsEqualTo("IntModule failed: Compilation failed");
+            await Assert.That(exception.InnerException).IsSameReferenceAs(failure);
+        }
+    }
+
+    [Test]
+    public async Task Skipped_Value_ThrowsWithModuleContext()
+    {
+        ModuleResult<int> result = CreateSkipped("No source changes");
+
+        var exception = await Assert.That(() => result.Value)
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception!.Message).IsEqualTo("IntModule was skipped: No source changes");
+    }
+
+    [Test]
+    public async Task NullSuccess_Value_ThrowsWithModuleContext()
+    {
+        ModuleResult<string> result = new ModuleResult<string>.Success(null)
+        {
+            ModuleName = "NullableModule",
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Successful,
+        };
+
+        var exception = await Assert.That(() => result.Value)
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception!.Message).IsEqualTo("NullableModule succeeded but returned null");
+    }
+
+    [Test]
     public async Task NullSuccess_TryGetValue_ReturnsTrue()
     {
         ModuleResult<string> result = new ModuleResult<string>.Success(null)
@@ -202,9 +273,9 @@ public class ModuleResultContractTests
         };
     }
 
-    private static ModuleResult<int> CreateFailure()
+    private static ModuleResult<int> CreateFailure(Exception? exception = null)
     {
-        return new ModuleResult.Failure(new InvalidOperationException("Failed"))
+        return new ModuleResult.Failure(exception ?? new InvalidOperationException("Failed"))
         {
             ModuleName = nameof(IntModule),
             ModuleTypeName = typeof(IntModule).FullName,
@@ -212,6 +283,18 @@ public class ModuleResultContractTests
             ModuleStart = DateTimeOffset.UtcNow,
             ModuleEnd = DateTimeOffset.UtcNow,
             ModuleStatus = Status.Failed,
+        };
+    }
+
+    private static ModuleResult<int> CreateSkipped(string reason)
+    {
+        return new ModuleResult.Skipped(SkipDecision.Skip(reason))
+        {
+            ModuleName = nameof(IntModule),
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Skipped,
         };
     }
 

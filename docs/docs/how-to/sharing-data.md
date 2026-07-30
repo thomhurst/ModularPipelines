@@ -21,8 +21,9 @@ public class DeployModule : Module<DeployResult>
         // Get the build module's result
         var buildResult = await context.GetModule<BuildModule>();
 
-        // Access the value safely
-        var artifact = buildResult.ValueOrDefault?.ArtifactPath;
+        // Access the required dependency value. This throws with module context
+        // if the module failed, was skipped, or returned null.
+        var artifact = buildResult.Value.ArtifactPath;
 
         return await Deploy(artifact);
     }
@@ -63,9 +64,20 @@ return result.Match(
 );
 ```
 
+## Accessing Required Values
+
+Use `Value` when the dependency must have produced a non-null value. It returns `T`
+without a null-forgiveness operator. If the module failed, was skipped, or returned
+`null`, it throws an `InvalidOperationException` that identifies the module and outcome:
+
+```csharp
+var result = await context.GetModule<MyModule>();
+var value = result.Value;
+```
+
 ## Safe Accessors
 
-For simpler checks, inspect the union through its safe accessors:
+When an absent value is expected, inspect the union through its non-throwing accessors:
 
 ```csharp
 var result = await context.GetModule<MyModule>();

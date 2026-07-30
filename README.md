@@ -91,7 +91,7 @@ public class PublishModule : Module<None>
     protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var buildResult = await context.GetModule<BuildModule>();
-        var outputPath = buildResult.ValueOrDefault!.OutputPath; // Strongly-typed, compile-time checked
+        var outputPath = buildResult.Value.OutputPath; // Throws with module context if unavailable
         // Publish using the build output...
         return None.Value;
     }
