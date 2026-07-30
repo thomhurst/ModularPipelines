@@ -548,6 +548,24 @@ public class ModuleExecutorLoggingTests
         await Assert.That(logs.ToString()).Contains("Cancelling 1 pending/queued modules");
     }
 
+    [Test]
+    public async Task CancelPendingModules_CompletesPendingModuleAwaitable()
+    {
+        var module = new LaterModule();
+        var state = new ModuleState(module, module.GetType());
+        var moduleStates = new ConcurrentDictionary<Type, ModuleState>();
+        moduleStates[state.ModuleType] = state;
+        var tracker = CreateModuleStateTracker(new StringBuilder(), moduleStates);
+
+        tracker.CancelPendingModules();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.CompletionSource.Task.IsCanceled).IsTrue();
+            await Assert.That(((IModule) module).ResultTask.IsCompleted).IsTrue();
+        }
+    }
+
     private static ModuleExecutor CreateStopOnFirstExceptionExecutor(
         FaultingModule faultingModule,
         LaterModule laterModule,

@@ -283,6 +283,7 @@ internal class ModuleStateTracker : IModuleStateTracker
         foreach (var (moduleState, _) in cancelledModules)
         {
             moduleState.CompletionSource.TrySetCanceled();
+            ModuleCompletionSourceCanceller.Cancel(moduleState.Module, moduleState.ModuleType);
         }
 
         // Logging outside lock
