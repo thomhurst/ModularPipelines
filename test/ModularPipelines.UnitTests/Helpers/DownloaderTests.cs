@@ -2,6 +2,7 @@ using System.Net;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
@@ -67,15 +68,29 @@ public class DownloaderTests : TestBase
         await Assert.That(content.IsDisposed).IsTrue();
     }
 
+    [Test]
+    public async Task DownloadResponseAsync_DisposesResponseWhenStatusValidationFails()
+    {
+        var content = new TrackingStringContent("failure");
+        var downloader = CreateDownloader(content, statusCode: HttpStatusCode.BadRequest);
+
+        await Assert.ThrowsAsync<HttpResponseException>(() =>
+            downloader.DownloadResponseAsync(
+                new DownloadOptions(new Uri("https://example.test/download"))));
+
+        await Assert.That(content.IsDisposed).IsTrue();
+    }
+
     private static Downloader CreateDownloader(
         HttpContent content,
-        IFileSystemProvider? fileSystemProvider = null)
+        IFileSystemProvider? fileSystemProvider = null,
+        HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         var http = new Mock<IHttpContext>();
         http.Setup(x => x.SendAsync(
                 It.IsAny<HttpOptions>(),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
+            .ReturnsAsync(new HttpResponseMessage(statusCode)
             {
                 Content = content,
             });

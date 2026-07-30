@@ -68,7 +68,15 @@ internal class Downloader : IDownloaderContext
             HttpClient = options.HttpClient,
         }, cancellationToken).ConfigureAwait(false);
 
-        return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch
+        {
+            response.Dispose();
+            throw;
+        }
     }
 
     /// <summary>

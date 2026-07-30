@@ -28,21 +28,36 @@ internal static class HttpContentPreviewReader
         }
 
         var stream = await content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        using var cancellationRegistration = cancellationToken.Register(
+            static state => ((Stream) state!).Dispose(),
+            stream);
         var buffer = new byte[maxBytes + 1];
         var bytesRead = 0;
 
-        while (bytesRead < buffer.Length)
+        try
         {
-            var read = await stream.ReadAsync(
-                    buffer.AsMemory(bytesRead, buffer.Length - bytesRead),
-                    cancellationToken)
-                .ConfigureAwait(false);
-            if (read == 0)
+            while (bytesRead < buffer.Length)
             {
-                break;
-            }
+                var read = await stream.ReadAsync(
+                        buffer.AsMemory(bytesRead, buffer.Length - bytesRead),
+                        cancellationToken)
+                    .ConfigureAwait(false);
+                if (read == 0)
+                {
+                    break;
+                }
 
-            bytesRead += read;
+                bytesRead += read;
+            }
+        }
+        catch (Exception exception)
+            when (cancellationToken.IsCancellationRequested
+                  && exception is ObjectDisposedException or IOException)
+        {
+            throw new OperationCanceledException(
+                "The HTTP content preview read was cancelled.",
+                exception,
+                cancellationToken);
         }
 
         var isTruncated = bytesRead > maxBytes;

@@ -284,6 +284,41 @@ public class HttpTests : TestBase
     }
 
     [Test]
+    public async Task SendAsync_CustomClientTimeoutInterruptsNonCooperativeResponseLogging()
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream(ignoreAsyncCancellation: true);
+        var content = new StreamContent(contentStream);
+        content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+        using var httpClient = new HttpClient(new ImmediateResponseHandler(content));
+        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
+        moduleLoggerProvider
+            .Setup(x => x.GetLogger())
+            .Returns(Mock.Of<IModuleLogger>());
+        var httpLogger = new HttpLogger(
+            Mock.Of<IHttpRequestFormatter>(),
+            new HttpResponseFormatter(
+                Mock.Of<ISecretObfuscator>(),
+                Mock.Of<ISecretProvider>(),
+                Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions())));
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            moduleLoggerProvider.Object,
+            httpLogger,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await http.SendAsync(new HttpOptions(
+                    new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-custom-log-body"))
+                {
+                    HttpClient = httpClient,
+                    LoggingType = HttpLoggingType.Response,
+                    Timeout = timeout,
+                })
+                .WaitAsync(TimeSpan.FromSeconds(1)));
+    }
+
+    [Test]
     public async Task SendAsync_CustomClientKeepsTimeoutOutsideLoggedReplayContent()
     {
         var timeout = TimeSpan.FromMilliseconds(100);
