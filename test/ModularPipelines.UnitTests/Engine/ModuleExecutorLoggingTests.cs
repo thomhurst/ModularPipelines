@@ -42,6 +42,21 @@ public class ModuleExecutorLoggingTests
         }
     }
 
+    private class QueuedAlwaysRunModule : Module<bool>
+    {
+        protected override ModuleConfiguration Configure() =>
+            ModuleConfiguration.Create()
+                .WithAlwaysRun()
+                .Build();
+
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
     [Test]
     public async Task SuccessfulCompletion_DoesNotLogCancellation()
     {
@@ -135,6 +150,114 @@ public class ModuleExecutorLoggingTests
             .Throws<InvalidOperationException>();
 
         await Assert.That(exception).IsSameReferenceAs(sharedException);
+    }
+
+    [Test]
+    public async Task StopOnFirstException_LateStartsQueuedAlwaysRunModule()
+    {
+        var faultingModule = new FaultingModule();
+        var alwaysRunModule = new QueuedAlwaysRunModule();
+        var faultingState = new ModuleState(faultingModule, typeof(FaultingModule))
+        {
+            State = ModuleExecutionState.Queued,
+        };
+        var alwaysRunState = new ModuleState(alwaysRunModule, typeof(QueuedAlwaysRunModule))
+        {
+            State = ModuleExecutionState.Queued,
+        };
+        var moduleStates = new Dictionary<Type, ModuleState>
+        {
+            [typeof(FaultingModule)] = faultingState,
+            [typeof(QueuedAlwaysRunModule)] = alwaysRunState,
+        };
+        var readyModules = Channel.CreateUnbounded<ModuleState>();
+        readyModules.Writer.TryWrite(faultingState);
+        readyModules.Writer.TryWrite(alwaysRunState);
+        readyModules.Writer.Complete();
+
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
+        scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        scheduler
+            .Setup(x => x.GetModuleState(It.IsAny<Type>()))
+            .Returns((Type moduleType) => moduleStates[moduleType]);
+        scheduler
+            .Setup(x => x.GetModuleCompletionTask(It.IsAny<Type>()))
+            .Returns((Type moduleType) => moduleStates[moduleType].CompletionSource.Task);
+
+        var schedulerFactory = new Mock<IModuleSchedulerFactory>();
+        schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
+
+        var registrationEvents = new Mock<IRegistrationEventExecutor>();
+        registrationEvents.Setup(x => x.InvokeRegistrationEventsAsync(It.IsAny<IReadOnlyList<IModule>>()))
+            .Returns(Task.CompletedTask);
+
+        var parallelLimitProvider = new Mock<IParallelLimitProvider>();
+        parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(1);
+
+        var moduleRunner = new Mock<IModuleRunner>();
+        var primaryException = new InvalidOperationException("Primary failure");
+        moduleRunner
+            .Setup(x => x.ExecuteAsync(
+                faultingState,
+                scheduler.Object,
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(primaryException);
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                alwaysRunState,
+                scheduler.Object,
+                CancellationToken.None))
+            .Returns(() =>
+            {
+                alwaysRunState.State = ModuleExecutionState.Completed;
+                alwaysRunState.CompletionSource.TrySetResult(alwaysRunModule);
+                return Task.CompletedTask;
+            });
+
+        var pipelineOptions = Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+        {
+            ExecutionMode = ExecutionMode.StopOnFirstException,
+        });
+        var alwaysRunHandler = new AlwaysRunHandler(
+            moduleRunner.Object,
+            parallelLimitProvider.Object,
+            pipelineOptions,
+            NullLogger<AlwaysRunHandler>.Instance);
+        var executor = new ModuleExecutor(
+            schedulerFactory.Object,
+            moduleRunner.Object,
+            alwaysRunHandler,
+            Mock.Of<IModuleResultRegistrar>(),
+            Mock.Of<IModuleResultRegistry>(),
+            parallelLimitProvider.Object,
+            registrationEvents.Object,
+            Mock.Of<IMetricsCollector>(),
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(
+                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+                new ModuleAttributeEventService()),
+            new SecondaryExceptionContainer(),
+            pipelineOptions,
+            NullLogger<ModuleExecutor>.Instance);
+
+        var exception = await Assert.That(async () =>
+                await executor.ExecuteAsync([faultingModule, alwaysRunModule]))
+            .Throws<InvalidOperationException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception).IsSameReferenceAs(primaryException);
+            await Assert.That(alwaysRunState.State).IsEqualTo(ModuleExecutionState.Completed);
+        }
+
+        moduleRunner.Verify(
+            x => x.ExecuteWithoutDependencyWaitAsync(
+                alwaysRunState,
+                scheduler.Object,
+                CancellationToken.None),
+            Times.Once());
     }
 
     [Test]

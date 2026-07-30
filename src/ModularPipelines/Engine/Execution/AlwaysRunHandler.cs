@@ -49,7 +49,11 @@ internal class AlwaysRunHandler(
             await ProcessAlwaysRunModulesAsync(scheduler, modulesToProcess, exceptions).ConfigureAwait(false);
 
             var deferredModules = modulesToProcess
-                .Where(module => scheduler.GetModuleState(module.GetType())?.State == ModuleExecutionState.Pending)
+                .Where(module =>
+                {
+                    var moduleState = scheduler.GetModuleState(module.GetType());
+                    return moduleState != null && CanLateStartAlwaysRunModule(moduleState);
+                })
                 .ToList();
             var processedModules = modulesToProcess.Except(deferredModules).ToHashSet();
             remainingModules.RemoveAll(processedModules.Contains);
@@ -180,17 +184,21 @@ internal class AlwaysRunHandler(
             return null;
         }
 
-        // If the AlwaysRun module is still pending (never started), execute it now
+        // If the AlwaysRun module never started, execute it now. Queued modules can remain
+        // unconsumed after pipeline cancellation stops the scheduler workers.
         // Skip dependency waiting to prevent deadlocks - dependencies may never complete
-        if (moduleState.State == ModuleExecutionState.Pending)
+        if (CanLateStartAlwaysRunModule(moduleState))
         {
-            _logger.LogDebug("Starting pending AlwaysRun module: {ModuleName}", moduleType.Name);
+            _logger.LogDebug(
+                "Starting unexecuted AlwaysRun module: {ModuleName} (State={State})",
+                moduleType.Name,
+                moduleState.State);
 
             try
             {
                 await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, scheduler, CancellationToken.None).ConfigureAwait(false);
 
-                if (moduleState.State == ModuleExecutionState.Pending)
+                if (CanLateStartAlwaysRunModule(moduleState))
                 {
                     _logger.LogDebug(
                         "AlwaysRun module {ModuleName} was deferred and will be retried",
@@ -234,6 +242,11 @@ internal class AlwaysRunHandler(
         }
 
         return null;
+    }
+
+    private static bool CanLateStartAlwaysRunModule(ModuleState moduleState)
+    {
+        return moduleState.State is ModuleExecutionState.Pending or ModuleExecutionState.Queued;
     }
 
     private static bool ShouldWaitForAlwaysRunModule(ModuleState moduleState)
