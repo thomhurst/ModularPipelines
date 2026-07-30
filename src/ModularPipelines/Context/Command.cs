@@ -246,18 +246,13 @@ internal sealed class Command : ICommandContext
                     timeoutCancellationToken);
             }
 
-            var commandFailure = result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
-                ? new CommandException(CreateFailureResult(
-                    command,
-                    execOpts,
-                    inputToLog,
-                    result.ExitCode,
-                    result.RunTime,
-                    standardOutput,
-                    standardError,
-                    result.StartTime,
-                    result.ExitTime))
-                : null;
+            var commandFailure = CreateCommandFailure(
+                command,
+                result,
+                execOpts,
+                inputToLog,
+                standardOutput,
+                standardError);
 
             try
             {
@@ -378,6 +373,28 @@ internal sealed class Command : ICommandContext
             endTime: completedAt,
             duration: duration,
             exitCode: exitCode);
+    }
+
+    private CommandException? CreateCommandFailure(
+        CliWrap.Command command,
+        CliWrap.CommandResult result,
+        CommandExecutionOptions execOpts,
+        string input,
+        string standardOutput,
+        string standardError)
+    {
+        return result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
+            ? new CommandException(CreateFailureResult(
+                command,
+                execOpts,
+                input,
+                result.ExitCode,
+                result.RunTime,
+                standardOutput,
+                standardError,
+                result.StartTime,
+                result.ExitTime))
+            : null;
     }
 
     private static BoundedCommandOutputBuffer? CreateCompleteOutputBuffer(CommandExecutionOptions options)
