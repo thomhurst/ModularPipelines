@@ -3,6 +3,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Extensions;
 using ModularPipelines.Http;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -41,6 +42,40 @@ public class HttpTests : TestBase
             content.Release();
             response ??= await sendTask;
             response.Dispose();
+        }
+    }
+
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task SendAsync_ConfiguredTimeoutCancelsStreamedBody(bool useRequestTimeout)
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream();
+        using var httpClient = new HttpClient(new ImmediateResponseHandler(new StreamContent(contentStream)));
+        var result = await GetService<IHttpContext>((builder, _) =>
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                DefaultHttpTimeout = useRequestTimeout ? null : timeout,
+            }));
+        using var response = await result.T.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-body"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.None,
+            Timeout = useRequestTimeout ? timeout : null,
+        });
+        var stream = await response.Content.ReadAsStreamAsync();
+        var readTask = stream.ReadAsync(new byte[1]).AsTask();
+
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+        }
+        finally
+        {
+            contentStream.Release();
         }
     }
 
@@ -223,6 +258,22 @@ public class HttpTests : TestBase
         {
             length = 0;
             return false;
+        }
+    }
+
+    private sealed class BlockingReadStream : MemoryStream
+    {
+        private readonly TaskCompletionSource _release =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void Release() => _release.TrySetResult();
+
+        public override async ValueTask<int> ReadAsync(
+            Memory<byte> buffer,
+            CancellationToken cancellationToken = default)
+        {
+            await _release.Task.WaitAsync(cancellationToken);
+            return 0;
         }
     }
 }

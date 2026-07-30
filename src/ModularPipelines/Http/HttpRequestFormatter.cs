@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
@@ -31,10 +32,17 @@ namespace ModularPipelines.Http;
 internal class HttpRequestFormatter : IHttpRequestFormatter
 {
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly ISecretProvider _secretProvider;
+    private readonly IOptions<SecretMaskingOptions> _secretMaskingOptions;
 
-    public HttpRequestFormatter(ISecretObfuscator secretObfuscator)
+    public HttpRequestFormatter(
+        ISecretObfuscator secretObfuscator,
+        ISecretProvider secretProvider,
+        IOptions<SecretMaskingOptions> secretMaskingOptions)
     {
         _secretObfuscator = secretObfuscator;
+        _secretProvider = secretProvider;
+        _secretMaskingOptions = secretMaskingOptions;
     }
 
     private static readonly HashSet<string> TextMediaTypes = new(StringComparer.OrdinalIgnoreCase)
@@ -163,7 +171,12 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         }
 
         // Obfuscate sensitive values in the body
-        var obfuscatedBody = _secretObfuscator.Obfuscate(body, null);
+        var obfuscatedBody = HttpBodySecretRedactor.Redact(
+            body,
+            isTruncated,
+            _secretObfuscator,
+            _secretProvider,
+            _secretMaskingOptions);
 
         sb.AppendLine($"\t{obfuscatedBody}");
         if (isTruncated)
