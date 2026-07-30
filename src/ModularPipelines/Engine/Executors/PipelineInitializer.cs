@@ -30,6 +30,9 @@ internal class PipelineInitializer(
         "PWD",
         "CREDENTIAL",
         "AUTH",
+        "CONNECTION_STRING",
+        "CONNECTIONSTRING",
+        "CONNSTR",
     ];
 
     private static readonly string[] SensitiveEnvironmentVariableNames =

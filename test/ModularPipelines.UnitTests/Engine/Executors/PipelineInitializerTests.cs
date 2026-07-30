@@ -60,6 +60,9 @@ public class PipelineInitializerTests
     [Arguments("DOCKER_AUTH_CONFIG")]
     [Arguments("NPM_CONFIG__AUTH")]
     [Arguments("REDIS_URL")]
+    [Arguments("AZURE_APPCONFIG_CONNECTION_STRING")]
+    [Arguments("ConnectionStrings__Default")]
+    [Arguments("SQLCONNSTR_Main")]
     public async Task EnvironmentVariables_MaskSensitiveNamesWithoutRegisteredSecret(
         string variableName)
     {
