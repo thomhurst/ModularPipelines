@@ -1397,36 +1397,57 @@ internal static class ModuleAuthoringAnalysis
                      && typeOfOperation.TypeOperand is INamedTypeSymbol namedType:
                 scannedAssemblies.Add(namedType.ContainingAssembly);
                 return true;
-            case IInvocationOperation invocation
-                when invocation.TargetMethod.Name == "GetExecutingAssembly"
-                     && invocation.TargetMethod.ContainingType.ToDisplayString()
-                     == AssemblyMetadataName:
-                scannedAssemblies.Add(currentAssembly);
-                return true;
-            case IInvocationOperation invocation
-                when invocation.TargetMethod.Name == "GetEntryAssembly"
-                     && invocation.TargetMethod.ContainingType.ToDisplayString()
-                     == AssemblyMetadataName:
-                if (isApplication)
-                {
-                    scannedAssemblies.Add(currentAssembly);
-                }
-
-                return true;
-            case IInvocationOperation invocation
-                when invocation.TargetMethod.Name == "GetAssembly"
-                     && invocation.TargetMethod.ContainingType.ToDisplayString()
-                     == AssemblyMetadataName
-                     && invocation.Arguments.FirstOrDefault()?.Value
-                         is ITypeOfOperation
-                     {
-                         TypeOperand: INamedTypeSymbol namedType,
-                     }:
-                scannedAssemblies.Add(namedType.ContainingAssembly);
-                return true;
+            case IInvocationOperation invocation:
+                return TryTrackScannedAssemblyInvocation(
+                    invocation,
+                    currentAssembly,
+                    isApplication,
+                    scannedAssemblies);
             default:
                 return false;
         }
+    }
+
+    private static bool TryTrackScannedAssemblyInvocation(
+        IInvocationOperation invocation,
+        IAssemblySymbol currentAssembly,
+        bool isApplication,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+    {
+        if (invocation.TargetMethod.ContainingType.ToDisplayString()
+            != AssemblyMetadataName)
+        {
+            return false;
+        }
+
+        if (invocation.TargetMethod.Name == "GetExecutingAssembly")
+        {
+            scannedAssemblies.Add(currentAssembly);
+            return true;
+        }
+
+        if (invocation.TargetMethod.Name == "GetEntryAssembly")
+        {
+            if (isApplication)
+            {
+                scannedAssemblies.Add(currentAssembly);
+            }
+
+            return true;
+        }
+
+        if (invocation.TargetMethod.Name == "GetAssembly"
+            && invocation.Arguments.FirstOrDefault()?.Value is
+                ITypeOfOperation
+            {
+                TypeOperand: INamedTypeSymbol namedType,
+            })
+        {
+            scannedAssemblies.Add(namedType.ContainingAssembly);
+            return true;
+        }
+
+        return false;
     }
 
     private static void TrackReachableRegistrations(
@@ -1562,31 +1583,40 @@ internal static class ModuleAuthoringAnalysis
     {
         for (var current = operation; current.Parent is { } parent; current = parent)
         {
-            if (parent is IConditionalOperation conditional)
+            if (parent is IConditionalOperation conditional
+                && IsDeadConditionalBranch(current, conditional))
             {
-                var constantValue = conditional.Condition.ConstantValue;
-                if (constantValue.HasValue
-                    && constantValue.Value is bool condition
-                    && ((ReferenceEquals(current, conditional.WhenTrue) && !condition)
-                        || (ReferenceEquals(current, conditional.WhenFalse) && condition)))
-                {
-                    return false;
-                }
+                return false;
             }
 
-            if (parent is IWhileLoopOperation { Condition: { } whileCondition } whileLoop)
+            if (parent is IWhileLoopOperation whileLoop
+                && IsDeadWhileBody(current, whileLoop))
             {
-                var constantValue = whileCondition.ConstantValue;
-                if (constantValue.HasValue
-                    && constantValue.Value is false
-                    && ReferenceEquals(current, whileLoop.Body))
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
         return true;
+    }
+
+    private static bool IsDeadConditionalBranch(
+        IOperation current,
+        IConditionalOperation conditional)
+    {
+        var constantValue = conditional.Condition.ConstantValue;
+        return constantValue.HasValue
+               && constantValue.Value is bool condition
+               && ((ReferenceEquals(current, conditional.WhenTrue) && !condition)
+                   || (ReferenceEquals(current, conditional.WhenFalse) && condition));
+    }
+
+    private static bool IsDeadWhileBody(
+        IOperation current,
+        IWhileLoopOperation whileLoop)
+    {
+        var constantValue = whileLoop.Condition?.ConstantValue;
+        return constantValue is { HasValue: true, Value: false }
+               && ReferenceEquals(current, whileLoop.Body);
     }
 
     private static void ReportModuleDiagnostics(
