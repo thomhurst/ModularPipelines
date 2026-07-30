@@ -112,11 +112,32 @@ public class PipelineInitializerTests
 
         var table = PipelineInitializer.CreateEnvironmentVariablesTable(
             variables,
-            _ => "[REDACTED]");
+            _ => "[REDACTED]",
+            maskValue: "[REDACTED]");
         var output = Render(table);
 
         await Assert.That(output).Contains("[REDACTED]");
         await Assert.That(output).DoesNotContain("x");
+    }
+
+    [Test]
+    public async Task EnvironmentVariables_MaskPartiallyObfuscatedCompositeValues()
+    {
+        const string rawValue = """{"known":"registered","unknown":"unregistered"}""";
+        const string partiallyObfuscatedValue = """{"known":"********","unknown":"unregistered"}""";
+        var variables = new OrderedDictionary
+        {
+            ["CONFIG"] = rawValue,
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            _ => partiallyObfuscatedValue);
+        var output = Render(table);
+
+        await Assert.That(output).Contains(LoggingConstants.SecretMask);
+        await Assert.That(output).DoesNotContain("unregistered");
+        await Assert.That(output).DoesNotContain(partiallyObfuscatedValue);
     }
 
     [Test]

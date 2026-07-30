@@ -118,7 +118,11 @@ internal class PipelineInitializer(
             var value = environmentVariable.Value?.ToString() ?? string.Empty;
             var obfuscatedValue = obfuscate(value);
             var displayValue = IsSensitiveEnvironmentVariableName(name)
-                               || RequiresUnsafeRendering(value, obfuscatedValue, maximumValueWidth)
+                               || RequiresUnsafeRendering(
+                                   value,
+                                   obfuscatedValue,
+                                   effectiveMaskValue,
+                                   maximumValueWidth)
                 ? effectiveMaskValue
                 : MakeSingleLine(obfuscatedValue);
 
@@ -133,11 +137,16 @@ internal class PipelineInitializer(
     private static bool RequiresUnsafeRendering(
         string value,
         string obfuscatedValue,
+        string maskValue,
         int maximumValueWidth)
     {
-        return value.Equals(obfuscatedValue, StringComparison.Ordinal)
-               && (GetMaximumCellWidth(value) > maximumValueWidth
-                   || value.Any(char.IsControl));
+        if (!value.Equals(obfuscatedValue, StringComparison.Ordinal))
+        {
+            return !obfuscatedValue.Equals(maskValue, StringComparison.Ordinal);
+        }
+
+        return GetMaximumCellWidth(value) > maximumValueWidth
+               || value.Any(char.IsControl);
     }
 
     private static int GetMaximumCellWidth(string value)
