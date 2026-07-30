@@ -14,8 +14,21 @@ public class HelmCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Helm";
     public override string OutputDirectory => "src/ModularPipelines.Helm";
 
+    protected override string VersionArguments => "version";
+
     public HelmCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<HelmCliScraper> logger)
         : base(executor, helpCache, logger)
     {
+    }
+
+    public override async Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default)
+    {
+        var result = await Executor.ExecuteAsync(
+                ExecutablePath,
+                VersionArguments,
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        return result.Success;
     }
 }

@@ -148,64 +148,19 @@ public partial class YarnCliScraper : CliScraperBase
         //   yarn add [--json] [-E,--exact] [-T,--tilde] ...
         //     Add dependencies to the project.
         var categoryMatches = ClipanionCategoryPattern().Matches(helpText);
-        foreach (Match categoryMatch in categoryMatches)
+        if (categoryMatches.Count == 0)
         {
-            var categoryStart = categoryMatch.Index + categoryMatch.Length;
-
-            // Find the end of this category section (next category header or end of text)
-            var nextCategoryMatch = ClipanionCategoryPattern().Match(helpText, categoryStart);
-            var categoryEnd = nextCategoryMatch.Success ? nextCategoryMatch.Index : helpText.Length;
-
-            var categorySection = helpText.Substring(categoryStart, categoryEnd - categoryStart);
-
-            // Parse command lines in this category
-            // Format: "  yarn <command> [options...]" or "  yarn <parent> <sub> [options...]"
-            var commandMatches = ClipanionCommandLinePattern().Matches(categorySection);
-            foreach (Match commandMatch in commandMatches)
+            AddClipanionCommands(helpText, subcommands, seenCommands);
+        }
+        else
+        {
+            foreach (Match categoryMatch in categoryMatches)
             {
-                var commandPart = commandMatch.Groups["command"].Value.Trim();
-
-                if (!string.IsNullOrEmpty(commandPart))
-                {
-                    // Extract just the first command word (e.g., "add" from "add [--json]")
-                    // Handle multi-word commands like "npm info" or "workspaces focus"
-                    var commandWords = commandPart.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    if (commandWords.Length > 0)
-                    {
-                        // Get the full command path (may be multi-word like "npm info")
-                        var fullCommand = new List<string>();
-                        foreach (var word in commandWords)
-                        {
-                            // Stop at options (words starting with [ or -)
-                            if (word.StartsWith('[') || word.StartsWith('-') || word.StartsWith('<'))
-                            {
-                                break;
-                            }
-
-                            fullCommand.Add(word);
-                        }
-
-                        if (fullCommand.Count > 0)
-                        {
-                            // For now, take the first command part (we can expand later for subcommands)
-                            var commandName = fullCommand[0];
-                            if (IsValidCommand(commandName) && seenCommands.Add(commandName))
-                            {
-                                subcommands.Add(commandName);
-                            }
-
-                            // Also add the full multi-word command if different
-                            if (fullCommand.Count > 1)
-                            {
-                                var fullCommandName = string.Join(" ", fullCommand);
-                                if (seenCommands.Add(fullCommandName))
-                                {
-                                    subcommands.Add(fullCommandName);
-                                }
-                            }
-                        }
-                    }
-                }
+                var categoryStart = categoryMatch.Index + categoryMatch.Length;
+                var nextCategoryMatch = ClipanionCategoryPattern().Match(helpText, categoryStart);
+                var categoryEnd = nextCategoryMatch.Success ? nextCategoryMatch.Index : helpText.Length;
+                var categorySection = helpText[categoryStart..categoryEnd];
+                AddClipanionCommands(categorySection, subcommands, seenCommands);
             }
         }
 
@@ -290,6 +245,40 @@ public partial class YarnCliScraper : CliScraperBase
         }
 
         return subcommands;
+    }
+
+    private static void AddClipanionCommands(
+        string helpText,
+        List<string> subcommands,
+        HashSet<string> seenCommands)
+    {
+        foreach (Match commandMatch in ClipanionCommandLinePattern().Matches(helpText))
+        {
+            var commandWords = commandMatch.Groups["command"].Value
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .TakeWhile(word =>
+                    !word.StartsWith('[')
+                    && !word.StartsWith('-')
+                    && !word.StartsWith('<')
+                    && word is not "..." and not "…")
+                .ToArray();
+
+            if (commandWords.Length == 0)
+            {
+                continue;
+            }
+
+            if (!commandWords.All(IsValidCommand))
+            {
+                continue;
+            }
+
+            var commandName = string.Join(" ", commandWords);
+            if (seenCommands.Add(commandName))
+            {
+                subcommands.Add(commandName);
+            }
+        }
     }
 
     /// <summary>

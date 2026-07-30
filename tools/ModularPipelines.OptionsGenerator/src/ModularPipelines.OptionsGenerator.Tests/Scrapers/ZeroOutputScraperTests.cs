@@ -226,7 +226,7 @@ public class ZeroOutputScraperTests
         }));
 
         await Assert.That((await ScrapeAsync(scraper)).Select(command => command.FullCommand))
-            .IsEquivalentTo(["yarn add", "yarn cache", "yarn cache clean", "yarn npm", "yarn npm info"]);
+            .IsEquivalentTo(["yarn add", "yarn cache clean", "yarn npm info"]);
     }
 
     private static async Task<IReadOnlyList<CliCommandDefinition>> ScrapeAsync(ICliScraper scraper)
