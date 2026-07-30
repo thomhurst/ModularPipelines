@@ -67,8 +67,8 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine();
         sb.AppendLine(
             $"Resolve the service with `context.Tools.{tool.NamespacePrefix}`. "
-            + $"The `context.{tool.NamespacePrefix}()` extension method remains available "
-            + "as a compatibility fallback for projects older than C# 14.");
+            + $"For projects older than C# 14, import `{tool.TargetNamespace}.Extensions` "
+            + $"and use the `context.{tool.NamespacePrefix}()` extension method as a compatibility fallback.");
         sb.AppendLine();
         AppendExample(sb, tool);
         AppendGlobalOptions(sb, tool);

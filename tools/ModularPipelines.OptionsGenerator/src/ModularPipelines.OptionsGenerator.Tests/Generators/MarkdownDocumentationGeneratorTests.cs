@@ -58,6 +58,8 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(files[0].Content).Contains("context.Tools.Fake");
         await Assert.That(files[0].Content).Contains("compatibility fallback");
         await Assert.That(files[0].Content)
+            .Contains("import `ModularPipelines.Fake.Extensions`");
+        await Assert.That(files[0].Content)
             .DoesNotContain("using ModularPipelines.Fake.Extensions;");
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Context;");
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Models;");
