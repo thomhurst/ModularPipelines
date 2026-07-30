@@ -90,24 +90,24 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     {
         var runOnlyCategories = _pipelineOptions.Value.RunOnlyCategories?.ToArray();
 
-        if (runOnlyCategories?.Any() != true)
+        if (runOnlyCategories is not { Length: > 0 })
         {
             return true;
         }
 
-        return category != null && runOnlyCategories.Contains(category);
+        return category != null && runOnlyCategories.Contains(category, StringComparer.OrdinalIgnoreCase);
     }
 
     private bool IsIgnoreCategory(string? category)
     {
         var ignoreCategories = _pipelineOptions.Value.IgnoreCategories?.ToArray();
 
-        if (ignoreCategories?.Any() != true)
+        if (ignoreCategories is not { Length: > 0 })
         {
             return false;
         }
 
-        return category != null && ignoreCategories.Contains(category);
+        return category != null && ignoreCategories.Contains(category, StringComparer.OrdinalIgnoreCase);
     }
 
     private async Task<(bool IsRunnable, SkipDecision? SkipDecision)> IsRunnableCondition(
