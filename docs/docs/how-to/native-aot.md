@@ -2,9 +2,14 @@
 title: Trimming and Native AOT
 ---
 
-The core `ModularPipelines` package supports trimmed and Native AOT applications when
-the pipeline can be described at compile time. Its source generator emits the module,
-dependency, hook, command-option, and secret metadata needed by the runtime.
+The core `ModularPipelines` package supports trimmed and Native AOT C# applications
+when the pipeline can be described at compile time. Its C# source generator emits the
+module, dependency, hook, command-option, and secret metadata needed by the runtime.
+
+F# pipeline projects are not trim or Native AOT certified. The package emits
+`MPAOT001` when an F# project enables `PublishTrimmed` or `PublishAot`, because the C#
+source generators cannot emit metadata for an `.fsproj`. Keep F# pipelines
+JIT-compiled, or move their module declarations and registrations into a C# project.
 
 ## Supported pipeline shape
 
