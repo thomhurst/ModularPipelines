@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Attributes.Events;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -18,6 +19,7 @@ public class PipelineCommandLineTests
     private static int _targetExecutions;
     private static int _unrelatedExecutions;
     private static int _categoryExecutions;
+    private static int _conditionEvaluations;
 
     private sealed class CapturingConsoleWriter : IConsoleWriter
     {
@@ -107,6 +109,24 @@ public class PipelineCommandLineTests
         }
     }
 
+    private sealed class TrackingCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _conditionEvaluations);
+            return Task.FromResult(true);
+        }
+    }
+
+    [RunIfAll<TrackingCondition>]
+    private sealed class ConditionalModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("conditional");
+    }
+
     [Before(Test)]
     public void ResetCounters()
     {
@@ -114,6 +134,7 @@ public class PipelineCommandLineTests
         _targetExecutions = 0;
         _unrelatedExecutions = 0;
         _categoryExecutions = 0;
+        _conditionEvaluations = 0;
     }
 
     [Test]
@@ -217,6 +238,37 @@ public class PipelineCommandLineTests
                 .IsEquivalentTo(["Build", "Test"]);
             await Assert.That(builder.Options.IgnoreCategories)
                 .IsEquivalentTo(["Integration"]);
+        }
+    }
+
+    [Test]
+    public async Task AssemblyQualifiedModuleNameIsPreserved()
+    {
+        using var builder = CreateExecutionBuilder(
+            ["--module", typeof(TargetModule).AssemblyQualifiedName!]);
+
+        await builder.ExecutePipelineAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(_dependencyExecutions).IsEqualTo(1);
+            await Assert.That(_targetExecutions).IsEqualTo(1);
+            await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task SelectionValidationDoesNotEvaluateRunConditions()
+    {
+        using var builder = Pipeline.CreateBuilder(["--module", nameof(ConditionalModule)]);
+        builder.AddModule<ConditionalModule>();
+
+        var result = await builder.ValidateAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.IsValid).IsTrue();
+            await Assert.That(_conditionEvaluations).IsEqualTo(0);
         }
     }
 

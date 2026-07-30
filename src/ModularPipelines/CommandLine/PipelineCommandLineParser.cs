@@ -84,8 +84,9 @@ internal static class PipelineCommandLineParser
             return false;
         }
 
-        var values = value
-            .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var values = IsAssemblyQualifiedModuleName(option, value)
+            ? [value.Trim()]
+            : value.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         if (values.Length == 0)
         {
             throw new ArgumentException($"Command-line option '{option}' requires a non-empty value.", nameof(arguments));
@@ -93,6 +94,23 @@ internal static class PipelineCommandLineParser
 
         destination.AddRange(values);
         return true;
+    }
+
+    private static bool IsAssemblyQualifiedModuleName(string option, string value)
+    {
+        if (!option.Equals(ModuleOption, StringComparison.OrdinalIgnoreCase)
+            && !option.Equals(SkipModuleOption, StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        return value.Split(',').Skip(1).Any(static part =>
+        {
+            var component = part.TrimStart();
+            return component.StartsWith("Version=", StringComparison.OrdinalIgnoreCase)
+                   || component.StartsWith("Culture=", StringComparison.OrdinalIgnoreCase)
+                   || component.StartsWith("PublicKeyToken=", StringComparison.OrdinalIgnoreCase);
+        });
     }
 
     private static PipelineCommand SetCommand(
