@@ -21,8 +21,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 {
     private const string ResultEntryName = "result.json";
     private const string ArtifactPrefix = "artifacts/";
+    private const int UnixFileTypeMask = 0xF000;
     private const int UnixFileTypeRegular = 0x8000;
     private const int UnixFileTypeDirectory = 0x4000;
+    private const int UnixFileTypeSymbolicLink = 0xA000;
     private const int UnixPermissionMask = 0x0FFF;
     private readonly IModuleCacheStore _store;
     private readonly ModuleCacheOptions _options;
@@ -332,6 +334,18 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var entry = archive.CreateEntry(
                 $"{ArtifactPrefix}{relativePath}",
                 CompressionLevel.Fastest);
+            if (!OperatingSystem.IsWindows()
+                && new FileInfo(file).LinkTarget is { } linkTarget)
+            {
+                entry.ExternalAttributes = UnixFileTypeSymbolicLink << 16;
+                await using var linkOutput = entry.Open();
+                await linkOutput.WriteAsync(
+                        Encoding.UTF8.GetBytes(linkTarget),
+                        cancellationToken)
+                    .ConfigureAwait(false);
+                continue;
+            }
+
             if (!OperatingSystem.IsWindows())
             {
                 entry.ExternalAttributes =
@@ -361,12 +375,13 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             .Select(entry => (
                 Entry: entry,
                 Destination: GetArtifactDestination(root, entry),
-                IsDirectory: entry.FullName.EndsWith("/", StringComparison.Ordinal)))
+                IsDirectory: entry.FullName.EndsWith('/'),
+                IsSymbolicLink: IsUnixSymbolicLink(entry)))
             .ToArray();
 
         ClearArtifacts(moduleType, cancellationToken);
 
-        foreach (var (_, destination, isDirectory) in artifactEntries)
+        foreach (var (_, destination, isDirectory, _) in artifactEntries)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (isDirectory)
@@ -375,10 +390,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             }
         }
 
-        foreach (var (entry, destination, isDirectory) in artifactEntries)
+        foreach (var (entry, destination, isDirectory, isSymbolicLink) in artifactEntries)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            if (isDirectory)
+            if (isDirectory || isSymbolicLink)
             {
                 continue;
             }
@@ -399,11 +414,27 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             RestoreUnixMode(entry, destination, UnixFileTypeRegular);
         }
 
-        foreach (var (entry, destination, _) in artifactEntries
+        foreach (var (entry, destination, _, _) in artifactEntries
                      .Where(artifact => artifact.IsDirectory)
                      .OrderByDescending(artifact => artifact.Destination.Length))
         {
             RestoreUnixMode(entry, destination, UnixFileTypeDirectory);
+        }
+
+        foreach (var (entry, destination, _, _) in artifactEntries
+                     .Where(artifact => artifact.IsSymbolicLink))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+            await using var input = entry.Open();
+            using var reader = new StreamReader(
+                input,
+                Encoding.UTF8,
+                detectEncodingFromByteOrderMarks: false,
+                bufferSize: 1024,
+                leaveOpen: false);
+            var linkTarget = await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
+            File.CreateSymbolicLink(destination, linkTarget);
         }
     }
 
@@ -483,6 +514,17 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 File.SetUnixFileMode(destination, unixFileMode);
             }
         }
+    }
+
+    private static bool IsUnixSymbolicLink(ZipArchiveEntry entry)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return false;
+        }
+
+        var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
+        return (unixAttributes & UnixFileTypeMask) == UnixFileTypeSymbolicLink;
     }
 
     private static void Append(IncrementalHash hash, string name, string value)

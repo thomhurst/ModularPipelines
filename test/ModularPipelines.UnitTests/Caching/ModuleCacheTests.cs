@@ -175,6 +175,31 @@ public class ModuleCacheTests
         }
     }
 
+    [CacheInputs("symlink-input.txt")]
+    [ProducesArtifact("symlink-artifacts", "symlink-artifacts")]
+    private sealed class SymbolicLinkArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            var artifactDirectory = Directory.CreateDirectory(
+                Path.Combine(WorkingDirectory, "symlink-artifacts"));
+            System.IO.File.WriteAllText(
+                Path.Combine(artifactDirectory.FullName, "tool-v2"),
+                "version two");
+            System.IO.File.CreateSymbolicLink(
+                Path.Combine(artifactDirectory.FullName, "tool"),
+                "tool-v2");
+            return Task.FromResult<string?>("result");
+        }
+    }
+
     [ProducesArtifact("skippable-output", "skippable-output.txt")]
     private sealed class SkippableCachedModule : Module<string>
     {
@@ -679,6 +704,49 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestorePreservesUnixSymbolicLinks()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-symlink-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        SymbolicLinkArtifactModule.WorkingDirectory = temporaryDirectory;
+        SymbolicLinkArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "symlink-input.txt"),
+                "input");
+            await RunSymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            var artifactDirectory = Path.Combine(temporaryDirectory, "symlink-artifacts");
+            Directory.Delete(artifactDirectory, recursive: true);
+
+            var restoredStatus = await RunSymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            var link = new FileInfo(Path.Combine(artifactDirectory, "tool"));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(SymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(link.LinkTarget).IsEqualTo("tool-v2");
+                await Assert.That(await System.IO.File.ReadAllTextAsync(link.FullName))
+                    .IsEqualTo("version two");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task CacheRestorePreservesEmptyArtifactDirectories()
     {
         var temporaryDirectory = Path.Combine(
@@ -834,6 +902,24 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(ExecutableArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunSymbolicLinkArtifactPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<SymbolicLinkArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(SymbolicLinkArtifactModule))!
             .ModuleStatus;
     }
 
