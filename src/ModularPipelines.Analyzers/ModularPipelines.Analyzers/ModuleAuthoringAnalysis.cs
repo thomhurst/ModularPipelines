@@ -3097,16 +3097,11 @@ internal static class ModuleAuthoringAnalysis
         var assignments = FindLocalAssignments(root, operation, local, callable);
         var linearAssignment = assignments.FirstOrDefault(candidate =>
             IsLinearPredecessor(candidate, operation));
-        var branchingAssignment = root.DescendantsAndSelf()
-            .OfType<IConditionalOperation>()
-            .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
-            .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
-            .Where(candidate => IsLinearPredecessor(candidate, operation))
-            .Where(candidate => candidate.WhenFalse is not null
-                && DefinitelyAssignsLocal(candidate.WhenTrue, local)
-                && DefinitelyAssignsLocal(candidate.WhenFalse, local))
-            .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
-            .FirstOrDefault();
+        var branchingAssignment = FindLatestDefinitelyAssigningBranch(
+            root,
+            operation,
+            local,
+            callable);
         var lowerBound = Math.Max(
             linearAssignment?.Syntax.SpanStart ?? int.MinValue,
             branchingAssignment?.Syntax.SpanStart ?? int.MinValue);
@@ -3142,70 +3137,66 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static IConditionalOperation? FindLatestDefinitelyAssigningBranch(
+        IOperation root,
+        IOperation operation,
+        ILocalSymbol local,
+        IOperation? callable)
+    {
+        return root.DescendantsAndSelf()
+            .OfType<IConditionalOperation>()
+            .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
+            .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
+            .Where(candidate => IsLinearPredecessor(candidate, operation))
+            .Where(candidate => candidate.WhenFalse is not null
+                && DefinitelyAssignsLocal(candidate.WhenTrue, local)
+                && DefinitelyAssignsLocal(candidate.WhenFalse, local))
+            .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
+            .FirstOrDefault();
+    }
+
     private static IEnumerable<ISimpleAssignmentOperation>
         GetDefinitelyReachingLocalAssignments(
             IOperation operation,
             ILocalSymbol local)
     {
-        if (operation is ISimpleAssignmentOperation leafAssignment
-            && leafAssignment.Target is ILocalReferenceOperation localReference
-            && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
+        return operation switch
         {
-            yield return leafAssignment;
-            yield break;
-        }
+            ISimpleAssignmentOperation assignment
+                when AssignsLocal(assignment, local) =>
+                [assignment],
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                GetDefinitelyReachingLocalAssignments(conditional.WhenTrue, local)
+                    .Concat(GetDefinitelyReachingLocalAssignments(whenFalse, local)),
+            IBlockOperation block =>
+                GetDefinitelyReachingBlockAssignments(block, local),
+            IExpressionStatementOperation expressionStatement =>
+                GetDefinitelyReachingLocalAssignments(
+                    expressionStatement.Operation,
+                    local),
+            _ => [],
+        };
+    }
 
-        if (operation is IConditionalOperation conditional
-            && conditional.WhenFalse is { } whenFalse)
-        {
-            foreach (var reachingAssignment in GetDefinitelyReachingLocalAssignments(
-                         conditional.WhenTrue,
-                         local))
-            {
-                yield return reachingAssignment;
-            }
+    private static IEnumerable<ISimpleAssignmentOperation>
+        GetDefinitelyReachingBlockAssignments(
+            IBlockOperation block,
+            ILocalSymbol local)
+    {
+        var assignment = block.Operations
+            .Reverse()
+            .FirstOrDefault(candidate => DefinitelyAssignsLocal(candidate, local));
+        return assignment is null
+            ? []
+            : GetDefinitelyReachingLocalAssignments(assignment, local);
+    }
 
-            foreach (var reachingAssignment in GetDefinitelyReachingLocalAssignments(
-                         whenFalse,
-                         local))
-            {
-                yield return reachingAssignment;
-            }
-
-            yield break;
-        }
-
-        if (operation is IBlockOperation block)
-        {
-            foreach (var candidate in block.Operations.Reverse())
-            {
-                if (!DefinitelyAssignsLocal(candidate, local))
-                {
-                    continue;
-                }
-
-                foreach (var reachingAssignment in GetDefinitelyReachingLocalAssignments(
-                             candidate,
-                             local))
-                {
-                    yield return reachingAssignment;
-                }
-
-                yield break;
-            }
-
-            yield break;
-        }
-
-        if (operation is IExpressionStatementOperation expressionStatement)
-        {
-            foreach (var reachingAssignment in GetDefinitelyReachingLocalAssignments(
-                         expressionStatement.Operation,
-                         local))
-            {
-                yield return reachingAssignment;
-            }
-        }
+    private static bool AssignsLocal(
+        ISimpleAssignmentOperation assignment,
+        ILocalSymbol local)
+    {
+        return assignment.Target is ILocalReferenceOperation localReference
+               && SymbolEqualityComparer.Default.Equals(localReference.Local, local);
     }
 
     private static bool DefinitelyAssignsLocal(
@@ -3213,8 +3204,7 @@ internal static class ModuleAuthoringAnalysis
         ILocalSymbol local)
     {
         if (operation is ISimpleAssignmentOperation assignment
-            && assignment.Target is ILocalReferenceOperation localReference
-            && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
+            && AssignsLocal(assignment, local))
         {
             return true;
         }
