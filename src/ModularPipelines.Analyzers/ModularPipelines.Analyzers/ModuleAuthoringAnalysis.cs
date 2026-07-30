@@ -2548,35 +2548,50 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        foreach (var candidate in GetReachableInvocations(operation))
-        {
-            if (candidate.TargetMethod.MethodKind == MethodKind.DelegateInvoke
-                && candidate.Instance is { } instance
+        return GetReachableInvocations(operation)
+            .Any(candidate => InvocationInvokesOrForwardsParameter(
+                candidate,
+                parameter,
+                compilation,
+                visitedParameters));
+    }
+
+    private static bool InvocationInvokesOrForwardsParameter(
+        IInvocationOperation invocation,
+        IParameterSymbol parameter,
+        Compilation compilation,
+        HashSet<IParameterSymbol> visitedParameters)
+    {
+        return (invocation.TargetMethod.MethodKind == MethodKind.DelegateInvoke
+                && invocation.Instance is { } instance
                 && ValueReferencesParameter(instance, parameter))
-            {
-                return true;
-            }
+               || InvocationForwardsParameter(
+                   invocation,
+                   parameter,
+                   compilation,
+                   visitedParameters);
+    }
 
-            var targetMethod = NormalizeMethod(candidate.TargetMethod);
-            foreach (var argument in candidate.Arguments.Where(argument =>
-                         argument.Parameter is not null
-                         && ValueReferencesParameter(argument.Value, parameter)))
-            {
-                var targetParameter = targetMethod.Parameters.ElementAtOrDefault(
-                    argument.Parameter!.Ordinal);
-                if (targetParameter is not null
-                    && SourceMethodInvokesDelegateParameter(
-                        targetMethod,
-                        targetParameter,
-                        compilation,
-                        visitedParameters))
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+    private static bool InvocationForwardsParameter(
+        IInvocationOperation invocation,
+        IParameterSymbol parameter,
+        Compilation compilation,
+        HashSet<IParameterSymbol> visitedParameters)
+    {
+        var targetMethod = NormalizeMethod(invocation.TargetMethod);
+        return invocation.Arguments
+            .Where(argument =>
+                argument.Parameter is not null
+                && ValueReferencesParameter(argument.Value, parameter))
+            .Select(argument => targetMethod.Parameters.ElementAtOrDefault(
+                argument.Parameter!.Ordinal))
+            .Any(targetParameter =>
+                targetParameter is not null
+                && SourceMethodInvokesDelegateParameter(
+                    targetMethod,
+                    targetParameter,
+                    compilation,
+                    visitedParameters));
     }
 
     private static bool ValueReferencesParameter(
