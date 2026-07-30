@@ -562,9 +562,9 @@ public class DeployModule : Module<DeployResult>
         {
             ModuleResult<BuildOutput>.Success { Value: var output }
                 => await Deploy(output.ArtifactPath),
-            ModuleResult.Skipped { Decision: var skip }
+            ModuleResult<BuildOutput>.Skipped { Decision: var skip }
                 => null,
-            ModuleResult.Failure { Exception: var ex }
+            ModuleResult<BuildOutput>.Failure { Exception: var ex }
                 => throw new InvalidOperationException("Build failed", ex),
             _ => throw new InvalidOperationException("Unexpected result type")
         };
@@ -581,8 +581,8 @@ var buildResult = await context.GetModule<BuildModule>();
 return buildResult switch
 {
     ModuleResult<BuildOutput>.Success { Value: var output } => Process(output),
-    ModuleResult.Skipped => null,
-    ModuleResult.Failure { Exception: var ex } => throw ex,
+    ModuleResult<BuildOutput>.Skipped => null,
+    ModuleResult<BuildOutput>.Failure { Exception: var ex } => throw ex,
     _ => null
 };
 
@@ -1453,8 +1453,8 @@ var result = await context.GetModule<BuildModule>();
 return result switch
 {
     ModuleResult<BuildOutput>.Success { Value: var output } => Process(output),
-    ModuleResult.Skipped => null,
-    ModuleResult.Failure { Exception: var ex } => throw ex,
+    ModuleResult<BuildOutput>.Skipped => null,
+    ModuleResult<BuildOutput>.Failure { Exception: var ex } => throw ex,
     _ => null
 };
 

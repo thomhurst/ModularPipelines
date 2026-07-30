@@ -109,12 +109,8 @@ internal static class ModuleResultFactory
             return skipped with { ModuleStatus = status };
         }
 
-        // For generic types (Success, FailureWrapper, SkippedWrapper), we need to use
-        // reflection to call WithStatusGeneric<T> which handles the 'with' expression.
-        // Wrapper types (FailureWrapper/SkippedWrapper) implement IFailureResult/ISkippedResult
-        // but require the generic path to maintain proper type safety. The wrapper's _inner
-        // field is private and all metadata is copied to the wrapper's own properties, so
-        // using 'with' on the wrapper correctly updates the observable ModuleStatus.
+        // Generic variants require reflection to call WithStatusGeneric<T>, which handles
+        // the 'with' expression while preserving the closed ModuleResult<T> type.
         var resultType = result.GetType();
 
         // Get the generic type argument from ModuleResult<T>
