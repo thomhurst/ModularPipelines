@@ -122,6 +122,94 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Module_Registered_Only_By_Unused_Private_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+
+                public static void Configure()
+                {
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Called_Private_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() => RegisterCore();
+
+                private static void RegisterCore() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_Registered_Only_In_Dead_Branch()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    if (false)
+                    {
+                        Pipeline.CreateBuilder().AddModule<BuildModule>();
+                    }
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Repeated_Factory_Return_Local_Still_Reports_Unregistered_Module()
     {
         var source = $$"""
@@ -767,6 +855,19 @@ public class ModuleAuthoringAnalyzerTests
             """
             Pipeline.CreateBuilder().AddModulesFromAssembly(
                 System.Reflection.Assembly.GetEntryAssembly()!);
+            """);
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_GetAssembly()
+    {
+        var source = ModuleSource(
+            TestSourceConstants.SimpleAsyncExecuteBody,
+            """
+            Pipeline.CreateBuilder().AddModulesFromAssembly(
+                System.Reflection.Assembly.GetAssembly(typeof(BuildModule))!);
             """);
 
         await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);

@@ -80,29 +80,44 @@ internal static class ModuleAuthoringAnalysis
         var registeredModules = new ConcurrentBag<INamedTypeSymbol>();
         var instanceRegisteredModules = new ConcurrentBag<INamedTypeSymbol>();
         var scannedAssemblies = new ConcurrentBag<IAssemblySymbol>();
+        var registrationInvocations =
+            new ConcurrentBag<(IInvocationOperation Invocation, IMethodSymbol? ContainingMethod)>();
+        var indexerAssignments =
+            new ConcurrentBag<(ISimpleAssignmentOperation Assignment, IMethodSymbol? ContainingMethod)>();
+        var methodCalls =
+            new ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)>();
 
         context.RegisterSymbolAction(
             symbolContext => CollectModuleType(symbolContext, modules),
             SymbolKind.NamedType);
         context.RegisterOperationAction(
-            operationContext => TrackRegistration(
+            operationContext => CollectRegistrationInvocation(
                 operationContext,
-                registeredModules,
-                instanceRegisteredModules,
-                scannedAssemblies),
+                registrationInvocations,
+                methodCalls),
             OperationKind.Invocation);
         context.RegisterOperationAction(
-            operationContext => TrackServiceCollectionIndexerAssignment(
+            operationContext => CollectServiceCollectionIndexerAssignment(
                 operationContext,
-                instanceRegisteredModules),
+                indexerAssignments),
             OperationKind.SimpleAssignment);
         context.RegisterCompilationEndAction(endContext =>
+        {
+            TrackReachableRegistrations(
+                endContext,
+                registrationInvocations,
+                indexerAssignments,
+                methodCalls,
+                registeredModules,
+                instanceRegisteredModules,
+                scannedAssemblies);
             ReportModuleDiagnostics(
                 endContext,
                 modules,
                 registeredModules,
                 instanceRegisteredModules,
-                scannedAssemblies));
+                scannedAssemblies);
+        });
     }
 
     private static void CollectModuleType(
@@ -188,20 +203,29 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static void TrackRegistration(
+    private static void CollectRegistrationInvocation(
         OperationAnalysisContext context,
-        ConcurrentBag<INamedTypeSymbol> registeredModules,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+        ConcurrentBag<(IInvocationOperation Invocation, IMethodSymbol? ContainingMethod)> registrations,
+        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var invocation = (IInvocationOperation) context.Operation;
-        TrackRegistrationInvocation(
-            invocation,
-            context.Compilation.Assembly,
-            IsApplication(context.Compilation.Options.OutputKind),
-            registeredModules,
-            instanceRegisteredModules,
-            scannedAssemblies);
+        if (!IsInReachableBranch(invocation))
+        {
+            return;
+        }
+
+        var containingMethod = GetContainingMethod(context.ContainingSymbol);
+        if (containingMethod is not null)
+        {
+            methodCalls.Add((
+                NormalizeMethod(containingMethod),
+                NormalizeMethod(invocation.TargetMethod)));
+        }
+
+        if (IsPotentialRegistrationInvocation(invocation))
+        {
+            registrations.Add((invocation, containingMethod));
+        }
     }
 
     private static void AnalyzeInvocation(OperationAnalysisContext context)
@@ -943,23 +967,39 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static void TrackServiceCollectionIndexerAssignment(
+    private static bool IsPotentialRegistrationInvocation(
+        IInvocationOperation invocation)
+    {
+        var method = invocation.TargetMethod;
+        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        return IsModuleRegistrationMethod(method)
+               || IsServiceDescriptorRegistrationMethod(invocation)
+               || (IsDirectServiceRegistrationMethod(definition)
+                   && RegistersModuleService(invocation, method));
+    }
+
+    private static void CollectServiceCollectionIndexerAssignment(
         OperationAnalysisContext context,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
+        ConcurrentBag<(ISimpleAssignmentOperation Assignment, IMethodSymbol? ContainingMethod)>
+            assignments)
     {
         var assignment = (ISimpleAssignmentOperation) context.Operation;
-        if (assignment.Target is not IPropertyReferenceOperation indexer
-            || !indexer.Property.IsIndexer
-            || !IsServiceCollectionType(indexer.Instance?.Type)
-            || !IsServiceDescriptorType(indexer.Property.Type))
+        if (!IsInReachableBranch(assignment)
+            || !IsServiceCollectionIndexerAssignment(assignment))
         {
             return;
         }
 
-        TryTrackServiceDescriptor(
-            assignment.Value,
-            instanceRegisteredModules,
-            [with(SymbolEqualityComparer.Default)]);
+        assignments.Add((assignment, GetContainingMethod(context.ContainingSymbol)));
+    }
+
+    private static bool IsServiceCollectionIndexerAssignment(
+        ISimpleAssignmentOperation assignment)
+    {
+        return assignment.Target is IPropertyReferenceOperation indexer
+               && indexer.Property.IsIndexer
+               && IsServiceCollectionType(indexer.Instance?.Type)
+               && IsServiceDescriptorType(indexer.Property.Type);
     }
 
     private static bool TryTrackServiceDescriptorCollection(
@@ -1373,9 +1413,180 @@ internal static class ModuleAuthoringAnalysis
                 }
 
                 return true;
+            case IInvocationOperation invocation
+                when invocation.TargetMethod.Name == "GetAssembly"
+                     && invocation.TargetMethod.ContainingType.ToDisplayString()
+                     == AssemblyMetadataName
+                     && invocation.Arguments.FirstOrDefault()?.Value
+                         is ITypeOfOperation
+                     {
+                         TypeOperand: INamedTypeSymbol namedType,
+                     }:
+                scannedAssemblies.Add(namedType.ContainingAssembly);
+                return true;
             default:
                 return false;
         }
+    }
+
+    private static void TrackReachableRegistrations(
+        CompilationAnalysisContext context,
+        ConcurrentBag<(IInvocationOperation Invocation, IMethodSymbol? ContainingMethod)>
+            registrationInvocations,
+        ConcurrentBag<(ISimpleAssignmentOperation Assignment, IMethodSymbol? ContainingMethod)>
+            indexerAssignments,
+        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls,
+        ConcurrentBag<INamedTypeSymbol> registeredModules,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+    {
+        var reachableMethods = GetReachableStartupMethods(
+            context.Compilation,
+            registrationInvocations.Select(static item => item.ContainingMethod)
+                .Concat(indexerAssignments.Select(static item => item.ContainingMethod)),
+            methodCalls);
+
+        foreach (var (invocation, containingMethod) in registrationInvocations)
+        {
+            if (!IsReachableStartupMethod(containingMethod, reachableMethods))
+            {
+                continue;
+            }
+
+            TrackRegistrationInvocation(
+                invocation,
+                context.Compilation.Assembly,
+                IsApplication(context.Compilation.Options.OutputKind),
+                registeredModules,
+                instanceRegisteredModules,
+                scannedAssemblies);
+        }
+
+        foreach (var (assignment, containingMethod) in indexerAssignments)
+        {
+            if (!IsReachableStartupMethod(containingMethod, reachableMethods))
+            {
+                continue;
+            }
+
+            _ = TryTrackServiceDescriptor(
+                assignment.Value,
+                instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)]);
+        }
+    }
+
+    private static ImmutableHashSet<IMethodSymbol> GetReachableStartupMethods(
+        Compilation compilation,
+        IEnumerable<IMethodSymbol?> registrationMethods,
+        IEnumerable<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
+    {
+        var comparer = SymbolEqualityComparer.Default;
+        var calls = methodCalls.ToImmutableArray();
+        var candidateMethods = registrationMethods
+            .OfType<IMethodSymbol>()
+            .Select(NormalizeMethod)
+            .Concat(calls.SelectMany(static call => new[] { call.Caller, call.Callee }))
+            .Distinct<IMethodSymbol>(comparer)
+            .ToImmutableArray();
+        var entryPoint = compilation.GetEntryPoint(default);
+        var reachable = new HashSet<IMethodSymbol>(comparer);
+        var pending = new Queue<IMethodSymbol>();
+
+        foreach (var method in candidateMethods.Where(method =>
+                     IsStartupRoot(method, entryPoint)))
+        {
+            if (reachable.Add(method))
+            {
+                pending.Enqueue(method);
+            }
+        }
+
+        var callsByCaller = calls.ToLookup(
+            static call => call.Caller,
+            static call => call.Callee,
+            comparer);
+        while (pending.Count > 0)
+        {
+            foreach (var callee in callsByCaller[pending.Dequeue()])
+            {
+                if (reachable.Add(callee))
+                {
+                    pending.Enqueue(callee);
+                }
+            }
+        }
+
+        return ImmutableHashSet.CreateRange<IMethodSymbol>(comparer, reachable);
+    }
+
+    private static bool IsStartupRoot(
+        IMethodSymbol method,
+        IMethodSymbol? entryPoint)
+    {
+        return (entryPoint is not null
+                && SymbolEqualityComparer.Default.Equals(
+                    method,
+                    NormalizeMethod(entryPoint)))
+               || method.MethodKind == MethodKind.StaticConstructor
+               || method.DeclaredAccessibility is not
+                   (Accessibility.Private or Accessibility.NotApplicable);
+    }
+
+    private static bool IsReachableStartupMethod(
+        IMethodSymbol? method,
+        ImmutableHashSet<IMethodSymbol> reachableMethods)
+    {
+        return method is null || reachableMethods.Contains(NormalizeMethod(method));
+    }
+
+    private static IMethodSymbol NormalizeMethod(IMethodSymbol method)
+    {
+        return (method.ReducedFrom ?? method).OriginalDefinition;
+    }
+
+    private static IMethodSymbol? GetContainingMethod(ISymbol symbol)
+    {
+        for (var current = symbol; current is not null; current = current.ContainingSymbol)
+        {
+            if (current is IMethodSymbol method)
+            {
+                return method;
+            }
+        }
+
+        return null;
+    }
+
+    private static bool IsInReachableBranch(IOperation operation)
+    {
+        for (var current = operation; current.Parent is { } parent; current = parent)
+        {
+            if (parent is IConditionalOperation conditional)
+            {
+                var constantValue = conditional.Condition.ConstantValue;
+                if (constantValue.HasValue
+                    && constantValue.Value is bool condition
+                    && ((ReferenceEquals(current, conditional.WhenTrue) && !condition)
+                        || (ReferenceEquals(current, conditional.WhenFalse) && condition)))
+                {
+                    return false;
+                }
+            }
+
+            if (parent is IWhileLoopOperation { Condition: { } whileCondition } whileLoop)
+            {
+                var constantValue = whileCondition.ConstantValue;
+                if (constantValue.HasValue
+                    && constantValue.Value is false
+                    && ReferenceEquals(current, whileLoop.Body))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     private static void ReportModuleDiagnostics(
