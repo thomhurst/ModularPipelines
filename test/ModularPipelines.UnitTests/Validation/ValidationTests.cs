@@ -27,6 +27,13 @@ public class ValidationTests
             => Task.FromResult(42);
     }
 
+    [ModuleCategory("Build")]
+    private class CategorizedModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("categorized");
+    }
+
     // Module that depends on itself (invalid)
     [ModularPipelines.Attributes.DependsOn<SelfReferencingModule>]
     private class SelfReferencingModule : Module<string>
@@ -578,6 +585,96 @@ public class ValidationTests
         await Assert.That(result.Errors.Any(e =>
             e.Category == ValidationErrorCategory.Options &&
             e.Message.Contains("Category1"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithCaseInsensitiveCategoryConflict_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["Build"],
+            IgnoreCategories = ["build"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("Build", StringComparison.OrdinalIgnoreCase))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithUnknownRunOnlyCategory_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["Typo"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("RunOnlyCategories") &&
+            e.Message.Contains("zero registered modules") &&
+            e.Message.Contains("Typo"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithPartlyUnknownRunOnlyCategories_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["build", "Typo"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("RunOnlyCategories") &&
+            e.Message.Contains("Typo"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithUnknownIgnoreCategory_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            IgnoreCategories = ["Typo"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("IgnoreCategories") &&
+            e.Message.Contains("Typo"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithCaseInsensitiveCategoryMatch_ReturnsNoCategoryErrors()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["build"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("categor", StringComparison.OrdinalIgnoreCase))).IsFalse();
     }
 
     [Test]

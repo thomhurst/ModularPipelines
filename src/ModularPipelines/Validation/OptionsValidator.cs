@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Validation;
@@ -21,7 +23,10 @@ internal class OptionsValidator : IOptionsValidator
             return ValidationResult.Success();
         }
 
-        return ValidateOptions(optionsSnapshot.Value);
+        var options = optionsSnapshot.Value;
+        var result = ValidateOptions(options);
+        ValidateRegisteredCategories(services, options, result);
+        return result;
     }
 
     /// <inheritdoc />
@@ -84,7 +89,9 @@ internal class OptionsValidator : IOptionsValidator
         // Validate conflicting category filters
         if (options.RunOnlyCategories != null && options.IgnoreCategories != null)
         {
-            var conflicts = options.RunOnlyCategories.Intersect(options.IgnoreCategories).ToList();
+            var conflicts = options.RunOnlyCategories
+                .Intersect(options.IgnoreCategories, StringComparer.OrdinalIgnoreCase)
+                .ToList();
             if (conflicts.Count > 0)
             {
                 result.AddError(new ValidationError(
@@ -94,5 +101,86 @@ internal class OptionsValidator : IOptionsValidator
         }
 
         return result;
+    }
+
+    private static void ValidateRegisteredCategories(
+        IServiceProvider services,
+        PipelineOptions options,
+        ValidationResult result)
+    {
+        var modules = services.GetServices<IModule>().ToArray();
+        if (modules.Length == 0)
+        {
+            return;
+        }
+
+        var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
+        var registeredCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var module in modules)
+        {
+            var moduleType = module.GetType();
+            metadataRegistry.FinalizeMetadata(moduleType, module);
+            if (metadataRegistry.GetCategory(moduleType) is { } category)
+            {
+                registeredCategories.Add(category);
+            }
+        }
+
+        ValidateRunOnlyCategories(options.RunOnlyCategories, registeredCategories, result);
+        ValidateIgnoreCategories(options.IgnoreCategories, registeredCategories, result);
+    }
+
+    private static void ValidateRunOnlyCategories(
+        IReadOnlyList<string>? categories,
+        HashSet<string> registeredCategories,
+        ValidationResult result)
+    {
+        var configuredCategories = categories?
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray() ?? [];
+        if (configuredCategories.Length == 0)
+        {
+            return;
+        }
+
+        var unmatchedCategories = configuredCategories
+            .Where(category => !registeredCategories.Contains(category))
+            .ToArray();
+
+        if (unmatchedCategories.Length == configuredCategories.Length)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "RunOnlyCategories would select zero registered modules. " +
+                $"No registered module matches: {string.Join(", ", unmatchedCategories)}"));
+        }
+        else if (unmatchedCategories.Length > 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "RunOnlyCategories contains categories with no registered modules: " +
+                string.Join(", ", unmatchedCategories)));
+        }
+    }
+
+    private static void ValidateIgnoreCategories(
+        IReadOnlyList<string>? categories,
+        HashSet<string> registeredCategories,
+        ValidationResult result)
+    {
+        var unmatchedCategories = categories?
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Where(category => !registeredCategories.Contains(category))
+            .ToArray() ?? [];
+        if (unmatchedCategories.Length == 0)
+        {
+            return;
+        }
+
+        result.AddError(new ValidationError(
+            ValidationErrorCategory.Options,
+            "IgnoreCategories contains categories with no registered modules: " +
+            string.Join(", ", unmatchedCategories)));
     }
 }

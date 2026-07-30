@@ -65,7 +65,8 @@ public record PipelineOptions
     public TimeSpan DefaultModuleTimeout { get; init; } = TimeSpan.FromMinutes(30);
 
     /// <summary>
-    /// Gets the collection of module categories to run exclusively. If specified, only modules in these categories will run.
+    /// Gets the collection of module categories to run exclusively, matched case-insensitively.
+    /// If specified, only modules in these categories will run.
     /// </summary>
     public IReadOnlyList<string>? RunOnlyCategories
     {
@@ -76,7 +77,7 @@ public record PipelineOptions
     }
 
     /// <summary>
-    /// Gets the collection of module categories to ignore during execution.
+    /// Gets the collection of module categories to ignore during execution, matched case-insensitively.
     /// </summary>
     public IReadOnlyList<string>? IgnoreCategories
     {
