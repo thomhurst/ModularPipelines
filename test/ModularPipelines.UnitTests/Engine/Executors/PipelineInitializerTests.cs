@@ -38,12 +38,50 @@ public class PipelineInitializerTests
 
         var table = PipelineInitializer.CreateEnvironmentVariablesTable(
             variables,
-            value => value);
+            value => value,
+            consoleWidth: 40);
         var output = Render(table, width: 40);
 
         await Assert.That(output).Contains("LONG_VALUE");
         await Assert.That(output).Contains(LoggingConstants.SecretMask);
         await Assert.That(output).DoesNotContain("x");
+    }
+
+    [Test]
+    public async Task EnvironmentVariables_MaskRawValuesBasedOnActualRenderWidth()
+    {
+        var variables = new OrderedDictionary
+        {
+            ["CONFIG"] = new string('x', 32),
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            value => value,
+            consoleWidth: 40);
+        var output = Render(table, width: 40);
+
+        await Assert.That(output).Contains(LoggingConstants.SecretMask);
+        await Assert.That(output).DoesNotContain("x");
+    }
+
+    [Test]
+    public async Task EnvironmentVariables_RenderRawValuesThatFitActualWidth()
+    {
+        var rawValue = new string('x', 27);
+        var variables = new OrderedDictionary
+        {
+            ["CONFIG"] = rawValue,
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            value => value,
+            consoleWidth: 40);
+        var output = Render(table, width: 40);
+
+        await Assert.That(output).Contains(rawValue);
+        await Assert.That(output).DoesNotContain(LoggingConstants.SecretMask);
     }
 
     [Test]

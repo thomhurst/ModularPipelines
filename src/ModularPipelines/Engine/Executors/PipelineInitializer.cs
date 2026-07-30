@@ -24,7 +24,8 @@ internal class PipelineInitializer(
     ISecretObfuscator secretObfuscator,
     IOptions<SecretMaskingOptions> secretMaskingOptions) : IPipelineInitializer
 {
-    private const int MaximumUntransformedEnvironmentVariableLength = 32;
+    // Two outer borders, one separator, and one space of padding on each side of both columns.
+    private const int TableDecorationWidth = 7;
 
     private static readonly string[] SensitiveEnvironmentVariableNameParts =
     [
@@ -82,11 +83,23 @@ internal class PipelineInitializer(
     internal static Table CreateEnvironmentVariablesTable(
         IDictionary variables,
         Func<string, string> obfuscate,
-        string maskValue = LoggingConstants.SecretMask)
+        string maskValue = LoggingConstants.SecretMask,
+        int? consoleWidth = null)
     {
         var effectiveMaskValue = string.IsNullOrWhiteSpace(maskValue)
             ? LoggingConstants.SecretMask
             : maskValue;
+        var entries = variables
+            .Cast<DictionaryEntry>()
+            .OrderBy(entry => entry.Key?.ToString(), StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        var maximumNameWidth = entries
+            .Select(entry => GetMaximumCellWidth(entry.Key?.ToString() ?? string.Empty))
+            .DefaultIfEmpty()
+            .Max();
+        var maximumValueWidth = Math.Max(
+            0,
+            (consoleWidth ?? AnsiConsole.Console.Profile.Width) - maximumNameWidth - TableDecorationWidth);
         var table = new Table
         {
             Border = TableBorder.Rounded,
@@ -97,15 +110,13 @@ internal class PipelineInitializer(
         table.AddColumn(new TableColumn("[bold]Name[/]").LeftAligned());
         table.AddColumn(new TableColumn("[bold]Value[/]").LeftAligned());
 
-        foreach (var environmentVariable in variables
-                     .Cast<DictionaryEntry>()
-                     .OrderBy(entry => entry.Key?.ToString(), StringComparer.OrdinalIgnoreCase))
+        foreach (var environmentVariable in entries)
         {
             var name = environmentVariable.Key?.ToString() ?? string.Empty;
             var value = environmentVariable.Value?.ToString() ?? string.Empty;
             var obfuscatedValue = obfuscate(value);
             var displayValue = IsSensitiveEnvironmentVariableName(name)
-                               || RequiresUnsafeTransformation(value, obfuscatedValue)
+                               || RequiresUnsafeRendering(value, obfuscatedValue, maximumValueWidth)
                 ? effectiveMaskValue
                 : MakeSingleLine(obfuscatedValue);
 
@@ -117,12 +128,19 @@ internal class PipelineInitializer(
         return table;
     }
 
-    private static bool RequiresUnsafeTransformation(string value, string obfuscatedValue)
+    private static bool RequiresUnsafeRendering(
+        string value,
+        string obfuscatedValue,
+        int maximumValueWidth)
     {
         return value.Equals(obfuscatedValue, StringComparison.Ordinal)
-               && (value.Length > MaximumUntransformedEnvironmentVariableLength
-                   || value.Contains('\r')
-                   || value.Contains('\n'));
+               && (GetMaximumCellWidth(value) > maximumValueWidth
+                   || value.Any(char.IsControl));
+    }
+
+    private static int GetMaximumCellWidth(string value)
+    {
+        return value.Sum(character => char.IsAscii(character) ? 1 : 2);
     }
 
     private static bool IsSensitiveEnvironmentVariableName(string name)
