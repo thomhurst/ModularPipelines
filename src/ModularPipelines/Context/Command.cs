@@ -228,43 +228,22 @@ internal sealed class Command : ICommandContext
                         deferredOutputLogger,
                         command.WorkingDirPath));
 
-                if (e is OperationCanceledException && cancellationToken.IsCancellationRequested)
+                if (ShouldPreserveCallerCancellation(e, failure, cancellationToken))
                 {
-                    if (ReferenceEquals(failure, e))
-                    {
-                        throw;
-                    }
-
-                    throw new CommandException(
-                        CreateFailureResult(
-                            command,
-                            execOpts,
-                            inputToLog,
-                            -1,
-                            stopwatch.Elapsed,
-                            standardOutput,
-                            standardError),
-                        failure);
+                    throw;
                 }
 
-                if (e is OperationCanceledException
-                    && timeoutCancellationToken?.IsCancellationRequested is true)
-                {
-                    throw new TimeoutException(
-                        $"Command execution timed out after {execOpts.ExecutionTimeout!.Value}.",
-                        failure);
-                }
-
-                throw new CommandException(
-                    CreateFailureResult(
-                        command,
-                        execOpts,
-                        inputToLog,
-                        -1,
-                        stopwatch.Elapsed,
-                        standardOutput,
-                        standardError),
-                    failure);
+                throw CreateExecutionFailure(
+                    e,
+                    failure,
+                    command,
+                    execOpts,
+                    inputToLog,
+                    stopwatch.Elapsed,
+                    standardOutput,
+                    standardError,
+                    cancellationToken,
+                    timeoutCancellationToken);
             }
 
             var commandFailure = result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
@@ -324,6 +303,49 @@ internal sealed class Command : ICommandContext
         {
             return new AggregateException(executionFailure, completionFailure);
         }
+    }
+
+    private static bool ShouldPreserveCallerCancellation(
+        Exception executionFailure,
+        Exception combinedFailure,
+        CancellationToken cancellationToken)
+    {
+        return executionFailure is OperationCanceledException
+               && cancellationToken.IsCancellationRequested
+               && ReferenceEquals(combinedFailure, executionFailure);
+    }
+
+    private Exception CreateExecutionFailure(
+        Exception executionFailure,
+        Exception combinedFailure,
+        CliWrap.Command command,
+        CommandExecutionOptions execOpts,
+        string input,
+        TimeSpan duration,
+        string standardOutput,
+        string standardError,
+        CancellationToken cancellationToken,
+        CancellationTokenSource? timeoutCancellationToken)
+    {
+        if (executionFailure is OperationCanceledException
+            && !cancellationToken.IsCancellationRequested
+            && timeoutCancellationToken?.IsCancellationRequested is true)
+        {
+            return new TimeoutException(
+                $"Command execution timed out after {execOpts.ExecutionTimeout!.Value}.",
+                combinedFailure);
+        }
+
+        return new CommandException(
+            CreateFailureResult(
+                command,
+                execOpts,
+                input,
+                -1,
+                duration,
+                standardOutput,
+                standardError),
+            combinedFailure);
     }
 
     private CommandResult CreateFailureResult(
