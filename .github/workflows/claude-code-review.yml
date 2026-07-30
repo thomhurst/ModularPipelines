@@ -10,6 +10,10 @@ on:
         required: true
         type: number
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   claude-review:
     # Optional: Filter by PR author
