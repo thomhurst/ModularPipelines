@@ -27,6 +27,85 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
+    public void LogCommandStart(
+        CommandLineToolOptions? options,
+        CommandExecutionOptions? execOpts,
+        string? inputToLog,
+        string commandWorkingDirPath)
+    {
+        var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
+        if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent)
+        {
+            return;
+        }
+
+        if (execOpts?.InternalDryRun == true)
+        {
+            LogDryRunCommand(effectiveOptions, commandWorkingDirPath, inputToLog);
+            return;
+        }
+
+        var obfuscatedInput = ShouldShowInput(effectiveOptions)
+            ? _secretObfuscator.Obfuscate(inputToLog, null)
+            : LoggingConstants.CommandMask;
+        Logger.LogInformation(
+            "{WorkingDirectory}> {Input}",
+            commandWorkingDirPath,
+            obfuscatedInput);
+    }
+
+    public void LogCommandCompletion(
+        CommandLineToolOptions? options,
+        CommandExecutionOptions? execOpts,
+        string? inputToLog,
+        int? exitCode,
+        TimeSpan? runTime,
+        string standardOutput,
+        string standardError,
+        string commandWorkingDirPath)
+    {
+        var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
+        if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent
+            || execOpts?.InternalDryRun == true)
+        {
+            return;
+        }
+
+        var standardOutputToLog = execOpts?.OutputLoggingManipulator is not null
+            ? execOpts.OutputLoggingManipulator(standardOutput)
+            : standardOutput;
+        var standardErrorToLog = execOpts?.OutputLoggingManipulator is not null
+            ? execOpts.OutputLoggingManipulator(standardError)
+            : standardError;
+        var trimmedOutput = standardOutputToLog.Trim();
+        var isSuccess = exitCode == 0;
+
+        if (isSuccess && ShouldInlineOutput(effectiveOptions, trimmedOutput))
+        {
+            Logger.LogInformation(
+                "  → {CommandOutput}",
+                _secretObfuscator.Obfuscate(trimmedOutput, null));
+        }
+        else
+        {
+            LogCapturedOutput(effectiveOptions, trimmedOutput, wasInlined: false);
+        }
+
+        LogCapturedError(effectiveOptions, standardErrorToLog, exitCode);
+
+        var commandStatus = BuildCommandStatus(effectiveOptions, isSuccess, exitCode, runTime);
+        if (string.IsNullOrEmpty(commandStatus)
+            && effectiveOptions.Verbosity >= CommandLogVerbosity.Normal)
+        {
+            commandStatus = isSuccess ? "✓" : "✗";
+        }
+
+        if (!string.IsNullOrEmpty(commandStatus))
+        {
+            Logger.LogInformation("{CommandStatus}", commandStatus.TrimStart());
+        }
+    }
+
     public void Log(
         CommandLineToolOptions? options,
         CommandExecutionOptions? execOpts,

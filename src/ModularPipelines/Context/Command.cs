@@ -119,6 +119,11 @@ internal sealed class Command : ICommandContext
         var standardError = string.Empty;
 
         var inputToLog = GetInputToLog(command, execOpts);
+        _commandLogger.LogCommandStart(
+            options,
+            execOpts,
+            inputToLog,
+            command.WorkingDirPath);
 
         // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
@@ -945,7 +950,7 @@ internal sealed class Command : ICommandContext
     {
         var deferredOutput = deferredOutputLogger?.Complete();
         var hasStreamedOutput = deferredOutput?.HasStreamedOutput == true;
-        _commandLogger.Log(
+        _commandLogger.LogCommandCompletion(
             options,
             executionOptions,
             input,

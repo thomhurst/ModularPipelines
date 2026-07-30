@@ -26,7 +26,7 @@ internal sealed class LoggingCommandLineExecutor : ICommandLineExecutor
     private readonly ICommandLogger _commandLogger;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LoggingCommandLineExecutor"/> class.
+    /// Initialises a new instance of the <see cref="LoggingCommandLineExecutor"/> class.
     /// </summary>
     /// <param name="inner">The inner executor to wrap.</param>
     /// <param name="commandLogger">The command logger for consistent logging.</param>
@@ -46,11 +46,16 @@ internal sealed class LoggingCommandLineExecutor : ICommandLineExecutor
     {
         var workingDirectory = options?.WorkingDirectory ?? Environment.CurrentDirectory;
         var inputToLog = GetInputToLog(commandLine, options);
+        _commandLogger.LogCommandStart(
+            options: null,
+            execOpts: options,
+            inputToLog: inputToLog,
+            commandWorkingDirPath: workingDirectory);
 
         var result = await _inner.ExecuteAsync(commandLine, options, cancellationToken).ConfigureAwait(false);
 
         // Delegate to CommandLogger for consistent logging across all command execution paths
-        _commandLogger.Log(
+        _commandLogger.LogCommandCompletion(
             options: null, // Raw command line execution doesn't use CommandLineToolOptions
             execOpts: options,
             inputToLog: inputToLog,
