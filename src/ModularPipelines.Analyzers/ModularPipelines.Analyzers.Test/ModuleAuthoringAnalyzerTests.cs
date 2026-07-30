@@ -837,6 +837,28 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Branch_Assigned_Params_Type_Array()
+    {
+        var source = ModuleSource(
+            TestSourceConstants.SimpleAsyncExecuteBody,
+            """
+            Type[] moduleTypes;
+            if (DateTime.UtcNow.Ticks > 0)
+            {
+                moduleTypes = [typeof(BuildModule)];
+            }
+            else
+            {
+                moduleTypes = [typeof(BuildModule)];
+            }
+
+            Pipeline.CreateBuilder().AddModules(moduleTypes);
+            """);
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_When_Params_Type_Array_Property_Cannot_Be_Resolved()
     {
         var source = $$"""
@@ -907,6 +929,28 @@ public class ModuleAuthoringAnalyzerTests
             """
             System.Reflection.Assembly assembly;
             assembly = typeof(BuildModule).Assembly;
+            Pipeline.CreateBuilder().AddModulesFromAssembly(assembly);
+            """);
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Branch_Assigned_Assembly()
+    {
+        var source = ModuleSource(
+            TestSourceConstants.SimpleAsyncExecuteBody,
+            """
+            System.Reflection.Assembly assembly;
+            if (DateTime.UtcNow.Ticks > 0)
+            {
+                assembly = typeof(BuildModule).Assembly;
+            }
+            else
+            {
+                assembly = typeof(BuildModule).Assembly;
+            }
+
             Pipeline.CreateBuilder().AddModulesFromAssembly(assembly);
             """);
 
@@ -1905,6 +1949,34 @@ public class ModuleAuthoringAnalyzerTests
                 }
                 else
                 {
+                    token = cancellationToken;
+                }
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Ignores_Values_Overwritten_Inside_All_Branches()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token;
+                if (context is not null)
+                {
+                    token = CancellationToken.None;
+                    token = cancellationToken;
+                }
+                else
+                {
+                    token = CancellationToken.None;
                     token = cancellationToken;
                 }
 

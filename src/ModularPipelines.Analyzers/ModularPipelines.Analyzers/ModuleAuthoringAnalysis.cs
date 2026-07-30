@@ -1486,11 +1486,9 @@ internal static class ModuleAuthoringAnalysis
             case ITypeOfOperation { TypeOperand: INamedTypeSymbol moduleType }:
                 registeredModules.Add(moduleType.OriginalDefinition);
                 return true;
-            case ILocalReferenceOperation localReference
-                when visitedLocals.Add(localReference.Local)
-                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
-                return TryTrackModuleTypes(
-                    localValue,
+            case ILocalReferenceOperation localReference:
+                return TryTrackModuleTypesLocal(
+                    localReference,
                     registeredModules,
                     visitedLocals);
             case IArrayCreationOperation { Initializer: { } initializer }:
@@ -1547,6 +1545,32 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static bool TryTrackModuleTypesLocal(
+        ILocalReferenceOperation localReference,
+        ConcurrentBag<INamedTypeSymbol> registeredModules,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (!visitedLocals.Add(localReference.Local))
+        {
+            return false;
+        }
+
+        var localValues = FindReachingLocalValues(
+                localReference,
+                localReference.Local)
+            .ToArray();
+        var trackedAll = localValues.Length > 0;
+        foreach (var localValue in localValues)
+        {
+            trackedAll &= TryTrackModuleTypes(
+                localValue,
+                registeredModules,
+                CloneVisitedLocals(visitedLocals));
+        }
+
+        return trackedAll;
+    }
+
     private static bool TryTrackScannedAssembly(
         IOperation operation,
         IAssemblySymbol currentAssembly,
@@ -1563,11 +1587,9 @@ internal static class ModuleAuthoringAnalysis
                     isApplication,
                     scannedAssemblies,
                     visitedLocals);
-            case ILocalReferenceOperation localReference
-                when visitedLocals.Add(localReference.Local)
-                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
-                return TryTrackScannedAssembly(
-                    localValue,
+            case ILocalReferenceOperation localReference:
+                return TryTrackScannedAssemblyLocal(
+                    localReference,
                     currentAssembly,
                     isApplication,
                     scannedAssemblies,
@@ -1593,6 +1615,36 @@ internal static class ModuleAuthoringAnalysis
             default:
                 return false;
         }
+    }
+
+    private static bool TryTrackScannedAssemblyLocal(
+        ILocalReferenceOperation localReference,
+        IAssemblySymbol currentAssembly,
+        bool isApplication,
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (!visitedLocals.Add(localReference.Local))
+        {
+            return false;
+        }
+
+        var localValues = FindReachingLocalValues(
+                localReference,
+                localReference.Local)
+            .ToArray();
+        var trackedAll = localValues.Length > 0;
+        foreach (var localValue in localValues)
+        {
+            trackedAll &= TryTrackScannedAssembly(
+                localValue,
+                currentAssembly,
+                isApplication,
+                scannedAssemblies,
+                CloneVisitedLocals(visitedLocals));
+        }
+
+        return trackedAll;
     }
 
     private static bool TryTrackScannedAssemblyInvocation(
@@ -3059,6 +3111,19 @@ internal static class ModuleAuthoringAnalysis
             linearAssignment?.Syntax.SpanStart ?? int.MinValue,
             branchingAssignment?.Syntax.SpanStart ?? int.MinValue);
 
+        if (branchingAssignment is not null
+            && branchingAssignment.Syntax.SpanStart == lowerBound)
+        {
+            foreach (var assignment in GetDefinitelyReachingLocalAssignments(
+                         branchingAssignment,
+                         local))
+            {
+                yield return assignment.Value;
+            }
+
+            yield break;
+        }
+
         foreach (var assignment in assignments.Where(candidate =>
                      candidate.Syntax.SpanStart >= lowerBound))
         {
@@ -3074,6 +3139,72 @@ internal static class ModuleAuthoringAnalysis
         if (declarator?.Initializer?.Value is { } initialValue)
         {
             yield return initialValue;
+        }
+    }
+
+    private static IEnumerable<ISimpleAssignmentOperation>
+        GetDefinitelyReachingLocalAssignments(
+            IOperation operation,
+            ILocalSymbol local)
+    {
+        if (operation is ISimpleAssignmentOperation leafAssignment
+            && leafAssignment.Target is ILocalReferenceOperation localReference
+            && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
+        {
+            yield return leafAssignment;
+            yield break;
+        }
+
+        if (operation is IConditionalOperation conditional
+            && conditional.WhenFalse is { } whenFalse)
+        {
+            foreach (var reachingAssignment in GetDefinitelyReachingLocalAssignments(
+                         conditional.WhenTrue,
+                         local))
+            {
+                yield return reachingAssignment;
+            }
+
+            foreach (var reachingAssignment in GetDefinitelyReachingLocalAssignments(
+                         whenFalse,
+                         local))
+            {
+                yield return reachingAssignment;
+            }
+
+            yield break;
+        }
+
+        if (operation is IBlockOperation block)
+        {
+            foreach (var candidate in block.Operations.Reverse())
+            {
+                if (!DefinitelyAssignsLocal(candidate, local))
+                {
+                    continue;
+                }
+
+                foreach (var reachingAssignment in GetDefinitelyReachingLocalAssignments(
+                             candidate,
+                             local))
+                {
+                    yield return reachingAssignment;
+                }
+
+                yield break;
+            }
+
+            yield break;
+        }
+
+        if (operation is IExpressionStatementOperation expressionStatement)
+        {
+            foreach (var reachingAssignment in GetDefinitelyReachingLocalAssignments(
+                         expressionStatement.Operation,
+                         local))
+            {
+                yield return reachingAssignment;
+            }
         }
     }
 
