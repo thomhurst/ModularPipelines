@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Engine.Executors;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -32,11 +33,21 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
         executionContext.Status = Enums.Status.PipelineTerminated;
         executionContext.Exception = exception;
 
-        var result = GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime)
+        var hasGeneratedRuntime = GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime);
+        var result = hasGeneratedRuntime
             ? runtime.CreateFailure(exception, executionContext)
             : ModuleResultFactory.CreateException(resultType, exception, executionContext);
 
         _resultRegistry.RegisterResult(moduleType, result);
+
+        if (hasGeneratedRuntime)
+        {
+            runtime.SetCompletionSource(module, result);
+        }
+        else
+        {
+            CompletionSourceSetterCache.GetOrCreate(resultType)(module, result);
+        }
     }
 
     /// <inheritdoc />

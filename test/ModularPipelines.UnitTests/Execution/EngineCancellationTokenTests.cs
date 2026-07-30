@@ -21,6 +21,7 @@ public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
     private static TaskCompletionSource AwaitingPendingModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private static TaskCompletionSource AwaitingTerminatedModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private static TaskCompletionSource PeerModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private static string CommandReadyFile = string.Empty;
 
@@ -163,6 +164,40 @@ public class EngineCancellationTokenTests : TestBase
 
     [ModularPipelines.Attributes.DependsOn<CoordinatedFailingModule>]
     private class CancelledBeforeStartModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
+    private class AwaitingTerminatedModule : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            AwaitingTerminatedModuleStarted.TrySetResult();
+            var result = await context.GetModule<TerminatedBeforeExecutionModule>();
+            return result.ModuleStatus == Status.PipelineTerminated;
+        }
+    }
+
+    private class CoordinatedDependencyFailureModule : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await AwaitingTerminatedModuleStarted.Task.WaitAsync(cancellationToken);
+            throw new InvalidOperationException("Dependency failure");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<CoordinatedDependencyFailureModule>]
+    private class TerminatedBeforeExecutionModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(
             IModuleContext context,
@@ -325,6 +360,33 @@ public class EngineCancellationTokenTests : TestBase
 
         await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
         await Assert.That(exception.InnerException!).HasMessageEqualTo("Coordinated failure");
+    }
+
+    [Test]
+    public async Task TerminatedBeforeExecutionModule_UnblocksRuntimeAwaiter()
+    {
+        AwaitingTerminatedModuleStarted =
+            new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var builder = TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions(options => options with
+            {
+                DefaultModuleTimeout = TimeSpan.Zero,
+                ThrowOnPipelineFailure = true,
+                Concurrency = options.Concurrency with
+                {
+                    MaxParallelism = 2,
+                },
+            })
+            .AddModule<AwaitingTerminatedModule>()
+            .AddModule<CoordinatedDependencyFailureModule>()
+            .AddModule<TerminatedBeforeExecutionModule>();
+
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+            async () => await builder.ExecutePipelineAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+
+        await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
+        await Assert.That(exception.InnerException!).HasMessageEqualTo("Dependency failure");
     }
 
     [Test]

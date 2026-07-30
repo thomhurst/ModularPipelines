@@ -71,8 +71,10 @@ public class GeneratedModuleMetadataTests
         registrar.RegisterTerminatedResult(module, module.GetType(), exception);
 
         var result = registry.GetResult(module.GetType());
+        var awaitedResult = await ((IModule) module).ResultTask.WaitAsync(TimeSpan.FromSeconds(1));
         await Assert.That(result).IsAssignableTo<ModuleResult<bool>>();
         await Assert.That(result!.ExceptionOrDefault).IsSameReferenceAs(exception);
+        await Assert.That(awaitedResult).IsSameReferenceAs(result);
     }
 
     [Test]
