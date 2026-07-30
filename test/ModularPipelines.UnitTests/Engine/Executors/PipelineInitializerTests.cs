@@ -54,6 +54,8 @@ public class PipelineInitializerTests
     [Arguments("GITHUB_TOKEN")]
     [Arguments("client_secret")]
     [Arguments("DatabasePassword")]
+    [Arguments("GPG_PASSPHRASE")]
+    [Arguments("SSH_PASSPHRASE")]
     [Arguments("API_KEY")]
     [Arguments("SERVICE_PWD")]
     [Arguments("credential")]
@@ -64,6 +66,7 @@ public class PipelineInitializerTests
     [Arguments("ConnectionStrings__Default")]
     [Arguments("SQLCONNSTR_Main")]
     [Arguments("AzureWebJobsStorage")]
+    [Arguments("VSS_NUGET_EXTERNAL_FEED_ENDPOINTS")]
     public async Task EnvironmentVariables_MaskSensitiveNamesWithoutRegisteredSecret(
         string variableName)
     {
@@ -80,6 +83,28 @@ public class PipelineInitializerTests
 
         await Assert.That(output).Contains(LoggingConstants.SecretMask);
         await Assert.That(output).DoesNotContain(unregisteredSecret);
+    }
+
+    [Test]
+    [Arguments("[REDACTED]", "[REDACTED]")]
+    [Arguments(" ", LoggingConstants.SecretMask)]
+    public async Task EnvironmentVariables_HonorConfiguredSecretMask(
+        string configuredMask,
+        string expectedMask)
+    {
+        var variables = new OrderedDictionary
+        {
+            ["API_KEY"] = "unregistered-secret-value",
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            value => value,
+            configuredMask);
+        var output = Render(table);
+
+        await Assert.That(output).Contains(expectedMask);
+        await Assert.That(output).DoesNotContain("unregistered-secret-value");
     }
 
     [Test]

@@ -1,9 +1,11 @@
 using System.Collections;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Constants;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using Spectre.Console;
 
 namespace ModularPipelines.Engine.Executors;
@@ -19,13 +21,15 @@ internal class PipelineInitializer(
     IPipelineFileWriter pipelineFileWriter,
     ILogger<PipelineInitializer> logger,
     IConsoleWriter consoleWriter,
-    ISecretObfuscator secretObfuscator) : IPipelineInitializer
+    ISecretObfuscator secretObfuscator,
+    IOptions<SecretMaskingOptions> secretMaskingOptions) : IPipelineInitializer
 {
     private static readonly string[] SensitiveEnvironmentVariableNameParts =
     [
         "TOKEN",
         "SECRET",
         "PASSWORD",
+        "PASSPHRASE",
         "KEY",
         "PWD",
         "CREDENTIAL",
@@ -39,6 +43,7 @@ internal class PipelineInitializer(
     [
         "AzureWebJobsStorage",
         "REDIS_URL",
+        "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS",
     ];
 
     private static readonly Action<ILogger, BuildSystem, string, Exception?> LogDetectedBuildSystem =
@@ -64,6 +69,7 @@ internal class PipelineInitializer(
     private readonly ILogger<PipelineInitializer> _logger = logger;
     private readonly IConsoleWriter _consoleWriter = consoleWriter;
     private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
+    private readonly IOptions<SecretMaskingOptions> _secretMaskingOptions = secretMaskingOptions;
     private OrganizedModules? _organizedModules;
 
     public async Task<OrganizedModules> Initialize(CancellationToken cancellationToken = default)
@@ -73,8 +79,12 @@ internal class PipelineInitializer(
 
     internal static Table CreateEnvironmentVariablesTable(
         IDictionary variables,
-        Func<string, string> obfuscate)
+        Func<string, string> obfuscate,
+        string maskValue = LoggingConstants.SecretMask)
     {
+        var effectiveMaskValue = string.IsNullOrWhiteSpace(maskValue)
+            ? LoggingConstants.SecretMask
+            : maskValue;
         var table = new Table
         {
             Border = TableBorder.Rounded,
@@ -92,7 +102,7 @@ internal class PipelineInitializer(
             var name = environmentVariable.Key?.ToString() ?? string.Empty;
             var value = environmentVariable.Value?.ToString() ?? string.Empty;
             var displayValue = IsSensitiveEnvironmentVariableName(name)
-                ? LoggingConstants.SecretMask
+                ? effectiveMaskValue
                 : MakeSingleLine(obfuscate(value));
 
             table.AddRow(
@@ -158,6 +168,7 @@ internal class PipelineInitializer(
 
         _consoleWriter.Write(CreateEnvironmentVariablesTable(
             Environment.GetEnvironmentVariables(),
-            value => _secretObfuscator.Obfuscate(value, null)));
+            value => _secretObfuscator.Obfuscate(value, null),
+            _secretMaskingOptions.Value.MaskValue));
     }
 }
