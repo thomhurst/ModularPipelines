@@ -794,6 +794,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static void TrackRegistrationInvocation(
         IInvocationOperation invocation,
+        Compilation compilation,
         IAssemblySymbol currentAssembly,
         bool isApplication,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
@@ -803,6 +804,7 @@ internal static class ModuleAuthoringAnalysis
         var method = invocation.TargetMethod;
         if (TryTrackDirectModuleServiceRegistration(
                 invocation,
+                compilation,
                 instanceRegisteredModules))
         {
             return;
@@ -825,6 +827,7 @@ internal static class ModuleAuthoringAnalysis
 
         TrackGenericModuleRegistrations(
             invocation,
+            compilation,
             registeredModules,
             instanceRegisteredModules);
         if (method.Name == "AddModules")
@@ -851,6 +854,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackDirectModuleServiceRegistration(
         IInvocationOperation invocation,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         var method = invocation.TargetMethod;
@@ -859,6 +863,7 @@ internal static class ModuleAuthoringAnalysis
         {
             return TryTrackServiceDescriptorArguments(
                 invocation,
+                compilation,
                 instanceRegisteredModules);
         }
 
@@ -875,6 +880,7 @@ internal static class ModuleAuthoringAnalysis
         {
             TrackDirectImplementationValue(
                 invocation,
+                compilation,
                 instanceRegisteredModules);
         }
 
@@ -946,6 +952,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackServiceDescriptorArguments(
         IInvocationOperation invocation,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         var descriptorArguments = invocation.Arguments
@@ -955,12 +962,14 @@ internal static class ModuleAuthoringAnalysis
         return descriptorArguments.Any(argument =>
             TryTrackServiceDescriptor(
                 argument.Value,
+                compilation,
                 instanceRegisteredModules,
                 [with(SymbolEqualityComparer.Default)]));
     }
 
     private static bool TryTrackServiceDescriptor(
         IOperation operation,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         HashSet<ILocalSymbol> visitedLocals)
     {
@@ -969,6 +978,7 @@ internal static class ModuleAuthoringAnalysis
             case IConversionOperation conversion:
                 return TryTrackServiceDescriptor(
                     conversion.Operand,
+                    compilation,
                     instanceRegisteredModules,
                     visitedLocals);
             case ILocalReferenceOperation localReference
@@ -976,6 +986,7 @@ internal static class ModuleAuthoringAnalysis
                      && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
                 return TryTrackServiceDescriptor(
                     localValue,
+                    compilation,
                     instanceRegisteredModules,
                     visitedLocals);
             case IInvocationOperation descriptorFactory
@@ -983,6 +994,7 @@ internal static class ModuleAuthoringAnalysis
                 return TrackServiceDescriptor(
                     descriptorFactory.Arguments,
                     descriptorFactory.TargetMethod.TypeArguments,
+                    compilation,
                     instanceRegisteredModules);
             case IObjectCreationOperation objectCreation
                 when objectCreation.Type?.ToDisplayString()
@@ -991,20 +1003,24 @@ internal static class ModuleAuthoringAnalysis
                     objectCreation.Arguments,
                     objectCreation.Constructor?.TypeArguments
                     ?? [],
+                    compilation,
                     instanceRegisteredModules);
             case IArrayCreationOperation { Initializer: { } initializer }:
                 return TryTrackServiceDescriptorCollection(
                     initializer.ElementValues,
+                    compilation,
                     instanceRegisteredModules,
                     visitedLocals);
             case ICollectionExpressionOperation collection:
                 return TryTrackServiceDescriptorCollection(
                     collection.Elements,
+                    compilation,
                     instanceRegisteredModules,
                     visitedLocals);
             case ISpreadOperation spread:
                 return TryTrackServiceDescriptor(
                     spread.Operand,
+                    compilation,
                     instanceRegisteredModules,
                     visitedLocals);
             default:
@@ -1049,6 +1065,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackServiceDescriptorCollection(
         IEnumerable<IOperation> elements,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         HashSet<ILocalSymbol> visitedLocals)
     {
@@ -1057,6 +1074,7 @@ internal static class ModuleAuthoringAnalysis
         {
             tracked |= TryTrackServiceDescriptor(
                 element,
+                compilation,
                 instanceRegisteredModules,
                 CloneVisitedLocals(visitedLocals));
         }
@@ -1074,6 +1092,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool TrackServiceDescriptor(
         ImmutableArray<IArgumentOperation> arguments,
         ImmutableArray<ITypeSymbol> typeArguments,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         if (!RegistersModuleService(arguments, typeArguments))
@@ -1104,7 +1123,9 @@ internal static class ModuleAuthoringAnalysis
                 "implementationInstance" or "implementationFactory")
             .Any(argument => TryTrackInstanceModuleTypes(
                 argument.Value,
+                compilation,
                 instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]));
     }
 
@@ -1167,6 +1188,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static void TrackDirectImplementationValue(
         IInvocationOperation invocation,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
         _ = invocation.Arguments
@@ -1174,7 +1196,9 @@ internal static class ModuleAuthoringAnalysis
                 "implementationInstance" or "implementationFactory")
             .Any(argument => TryTrackInstanceModuleTypes(
                 argument.Value,
+                compilation,
                 instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]));
     }
 
@@ -1208,6 +1232,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static void TrackGenericModuleRegistrations(
         IInvocationOperation invocation,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
     {
@@ -1234,7 +1259,9 @@ internal static class ModuleAuthoringAnalysis
         {
             _ = TryTrackInstanceModuleTypes(
                 argument.Value,
+                compilation,
                 instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]);
         }
     }
@@ -1254,35 +1281,47 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackInstanceModuleTypes(
         IOperation operation,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         switch (operation)
         {
             case IConversionOperation conversion:
                 return TryTrackInstanceModuleTypes(
                     conversion.Operand,
+                    compilation,
                     instanceRegisteredModules,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMethods);
             case IDelegateCreationOperation delegateCreation:
                 return TryTrackInstanceModuleTypes(
                     delegateCreation.Target,
+                    compilation,
                     instanceRegisteredModules,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMethods);
             case IObjectCreationOperation { Type: INamedTypeSymbol moduleType }:
                 var normalizedType = moduleType.OriginalDefinition;
                 instanceRegisteredModules.Add(normalizedType);
                 return true;
-            case IInvocationOperation { Type: INamedTypeSymbol moduleType }:
-                instanceRegisteredModules.Add(moduleType.OriginalDefinition);
-                return true;
+            case IInvocationOperation invocation:
+                return TryTrackInvocationModuleTypes(
+                    invocation,
+                    compilation,
+                    instanceRegisteredModules,
+                    visitedLocals,
+                    visitedMethods);
             case ILocalReferenceOperation localReference
                 when visitedLocals.Add(localReference.Local)
                      && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
                 return TryTrackInstanceModuleTypes(
                     localValue,
+                    compilation,
                     instanceRegisteredModules,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMethods);
             case IAnonymousFunctionOperation anonymousFunction:
                 var returnValues = anonymousFunction.Body
                     .DescendantsAndSelf()
@@ -1298,18 +1337,24 @@ internal static class ModuleAuthoringAnalysis
                        && returnValues.All(returnValue =>
                            TryTrackInstanceModuleTypes(
                                returnValue,
+                               compilation,
                                instanceRegisteredModules,
-                               CloneVisitedLocals(visitedLocals)));
+                               CloneVisitedLocals(visitedLocals),
+                               CloneVisitedMethods(visitedMethods)));
             case IConditionalOperation conditional:
                 return TryTrackInstanceModuleTypes(
                            conditional.WhenTrue,
+                           compilation,
                            instanceRegisteredModules,
-                           CloneVisitedLocals(visitedLocals))
+                           CloneVisitedLocals(visitedLocals),
+                           CloneVisitedMethods(visitedMethods))
                        && conditional.WhenFalse is { } whenFalse
                        && TryTrackInstanceModuleTypes(
                            whenFalse,
+                           compilation,
                            instanceRegisteredModules,
-                           CloneVisitedLocals(visitedLocals));
+                           CloneVisitedLocals(visitedLocals),
+                           CloneVisitedMethods(visitedMethods));
             default:
                 return false;
         }
@@ -1328,6 +1373,53 @@ internal static class ModuleAuthoringAnalysis
                 [with(SymbolEqualityComparer.Default)]);
         }
     }
+
+    private static bool TryTrackInvocationModuleTypes(
+        IInvocationOperation invocation,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var method = invocation.TargetMethod.OriginalDefinition;
+        if (visitedMethods.Add(method)
+            && GetMethodOperation(method, compilation, default) is { } operation)
+        {
+            var returnValues = operation.DescendantsAndSelf()
+                .OfType<IReturnOperation>()
+                .Where(static returnOperation =>
+                    GetEnclosingCallable(returnOperation) is null)
+                .Select(static returnOperation => returnOperation.ReturnedValue)
+                .OfType<IOperation>()
+                .ToArray();
+            if (returnValues.Length > 0)
+            {
+                return returnValues.All(returnValue =>
+                    TryTrackInstanceModuleTypes(
+                        returnValue,
+                        compilation,
+                        instanceRegisteredModules,
+                        CloneVisitedLocals(visitedLocals),
+                        CloneVisitedMethods(visitedMethods)));
+            }
+        }
+
+        if (invocation.Type is not INamedTypeSymbol
+            {
+                TypeKind: TypeKind.Class,
+                IsAbstract: false,
+            } moduleType)
+        {
+            return false;
+        }
+
+        instanceRegisteredModules.Add(moduleType.OriginalDefinition);
+        return true;
+    }
+
+    private static HashSet<IMethodSymbol> CloneVisitedMethods(
+        HashSet<IMethodSymbol> visitedMethods) =>
+        new(visitedMethods, visitedMethods.Comparer);
 
     private static bool TryTrackModuleTypes(
         IOperation operation,
@@ -1521,6 +1613,7 @@ internal static class ModuleAuthoringAnalysis
 
             TrackRegistrationInvocation(
                 invocation,
+                context.Compilation,
                 context.Compilation.Assembly,
                 IsApplication(context.Compilation.Options.OutputKind),
                 registeredModules,
@@ -1537,6 +1630,7 @@ internal static class ModuleAuthoringAnalysis
 
             _ = TryTrackServiceDescriptor(
                 assignment.Value,
+                context.Compilation,
                 instanceRegisteredModules,
                 [with(SymbolEqualityComparer.Default)]);
         }
@@ -2463,12 +2557,26 @@ internal static class ModuleAuthoringAnalysis
         IPropertyReferenceOperation propertyReference,
         IMethodSymbol method)
     {
-        return propertyReference.Property.GetMethod is { } getter
-               && SymbolEqualityComparer.Default.Equals(
-                   getter.OriginalDefinition,
-                   method.OriginalDefinition)
-               && (propertyReference.Parent is not ISimpleAssignmentOperation assignment
-                   || !ReferenceEquals(assignment.Target, propertyReference));
+        if (propertyReference.Property.GetMethod is not { } getter
+            || (propertyReference.Parent is ISimpleAssignmentOperation assignment
+            && ReferenceEquals(assignment.Target, propertyReference)))
+        {
+            return false;
+        }
+
+        for (var candidate = method;
+             candidate is not null;
+             candidate = candidate.OverriddenMethod)
+        {
+            if (SymbolEqualityComparer.Default.Equals(
+                    getter.OriginalDefinition,
+                    candidate.OriginalDefinition))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool? GetLinqInvocationConsumption(
@@ -2744,7 +2852,7 @@ internal static class ModuleAuthoringAnalysis
         IParameterSymbol cancellationToken,
         HashSet<ILocalSymbol> visitedLocals)
     {
-        return IsCancellationCarrier(invocation.Type)
+        return IsKnownCancellationCarrierFactory(invocation)
                && invocation.Arguments.Any(argument =>
                    argument.Parameter is not null
                    && IsCancellationInput(argument.Parameter)
@@ -2752,6 +2860,15 @@ internal static class ModuleAuthoringAnalysis
                        argument.Value,
                        cancellationToken,
                        visitedLocals));
+    }
+
+    private static bool IsKnownCancellationCarrierFactory(
+        IInvocationOperation invocation)
+    {
+        return IsCancellationCarrier(invocation.Type)
+               && invocation.TargetMethod.Name == "CreateLinkedTokenSource"
+               && invocation.TargetMethod.ContainingType.ToDisplayString()
+               == "System.Threading.CancellationTokenSource";
     }
 
     private static bool IsCancellationInput(IParameterSymbol parameter)

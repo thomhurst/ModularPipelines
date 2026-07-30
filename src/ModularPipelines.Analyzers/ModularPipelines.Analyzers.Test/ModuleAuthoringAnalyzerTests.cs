@@ -284,6 +284,35 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Interface_Factory_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.AddSingleton<IModule>(_ => CreateModule());
+                }
+
+                private static IModule CreateModule() => new BuildModule();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Type_Based_DI()
     {
         var source = $$"""
@@ -1616,6 +1645,32 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Arbitrary_Cancellation_Carrier_Helper()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await {|#0:Task.Delay(
+                    1,
+                    Select(cancellationToken, CancellationToken.None))|};
+                return null;
+            }
+
+                private static CancellationToken Select(
+                    CancellationToken first,
+                    CancellationToken second) => second;
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Cancellation_Overload_For_Task_Property_Receiver()
     {
         var source = ModuleSource("""
@@ -2751,6 +2806,50 @@ public class ModuleAuthoringAnalyzerTests
             source,
             unflowedToken,
             blockingCall);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_In_Virtual_Property_Override()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public abstract class BaseModule : Module<List<string>?>
+            {
+                protected override async Task<List<string>?> ExecuteAsync(
+                    IModuleContext context,
+                    CancellationToken cancellationToken)
+                {
+                    await Pending;
+                    return null;
+                }
+
+                protected abstract Task Pending { get; }
+            }
+
+            public class BuildModule : BaseModule
+            {
+                protected override Task Pending
+                {
+                    get
+                    {
+                        {|#0:Thread.Sleep(1)|};
+                        return Task.CompletedTask;
+                    }
+                }
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+            """;
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
