@@ -95,8 +95,10 @@ internal class PipelineInitializer(
 
     private static bool IsSensitiveEnvironmentVariableName(string name)
     {
-        return SensitiveEnvironmentVariableNameParts.Any(
-            part => name.Contains(part, StringComparison.OrdinalIgnoreCase));
+        return !name.Equals("PWD", StringComparison.OrdinalIgnoreCase)
+               && !name.Equals("OLDPWD", StringComparison.OrdinalIgnoreCase)
+               && SensitiveEnvironmentVariableNameParts.Any(
+                   part => name.Contains(part, StringComparison.OrdinalIgnoreCase));
     }
 
     private static string MakeSingleLine(string value)

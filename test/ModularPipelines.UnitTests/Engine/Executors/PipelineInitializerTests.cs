@@ -76,6 +76,27 @@ public class PipelineInitializerTests
     }
 
     [Test]
+    [Arguments("PWD")]
+    [Arguments("OLDPWD")]
+    public async Task EnvironmentVariables_DoNotMaskStandardWorkingDirectoryNames(
+        string variableName)
+    {
+        const string workingDirectory = "/home/runner/work";
+        var variables = new OrderedDictionary
+        {
+            [variableName] = workingDirectory,
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            value => value);
+        var output = Render(table);
+
+        await Assert.That(output).Contains(workingDirectory);
+        await Assert.That(output).DoesNotContain(LoggingConstants.SecretMask);
+    }
+
+    [Test]
     public async Task EnvironmentVariables_RenderEmbeddedNewlinesAsText()
     {
         var variables = new OrderedDictionary
