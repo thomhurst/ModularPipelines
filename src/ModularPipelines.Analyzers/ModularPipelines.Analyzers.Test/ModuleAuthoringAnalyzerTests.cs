@@ -237,6 +237,40 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Module_Registered_Only_In_Dead_Switch_Case()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    switch (0)
+                    {
+                        case 1:
+                            Pipeline.CreateBuilder().AddModule<BuildModule>();
+                            break;
+                    }
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_In_Do_While_False()
     {
         var source = $$"""
@@ -961,6 +995,33 @@ public class ModuleAuthoringAnalyzerTests
             """;
 
         await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_When_Params_Type_Array_Is_Statically_Empty()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModules(new Type[0]);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -2113,6 +2174,53 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Throwing_Switch_Expression_Arm()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = (context is not null) switch
+                {
+                    true => cancellationToken,
+                    false => throw new InvalidOperationException(),
+                };
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Require_Token_Assignment_In_Returning_Switch_Case()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                switch (context is not null)
+                {
+                    case true:
+                        return null;
+                    default:
+                        token = cancellationToken;
+                        break;
+                }
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Ignores_Token_Initializer_Overwritten_In_All_Branches()
     {
         var source = ModuleSource("""
@@ -2366,6 +2474,36 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("FetchAsync");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Selector_In_Awaitable_Constructor()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await new Awaitable(GetValue());
+                return null;
+            }
+
+                private static int GetValue() => 1;
+
+                private static int GetValue(CancellationToken cancellationToken) => 1;
+
+                private readonly struct Awaitable
+                {
+                    public Awaitable(int value)
+                    {
+                    }
+
+                    public System.Runtime.CompilerServices.TaskAwaiter GetAwaiter() =>
+                        Task.CompletedTask.GetAwaiter();
+                }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
@@ -3248,6 +3386,30 @@ public class ModuleAuthoringAnalyzerTests
             source,
             blockingCall,
             unflowedToken);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_In_Invoked_Property_Setter()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Value = 1;
+                return Task.FromResult<List<string>?>(null);
+            }
+
+                private int Value
+                {
+                    set => {|#0:Thread.Sleep(value)|};
+                }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]

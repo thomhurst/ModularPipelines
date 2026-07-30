@@ -462,6 +462,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         if (operation is IArrayElementReferenceOperation
+            or IObjectCreationOperation
             or IPropertyReferenceOperation)
         {
             QueueChildOperations(operation, true, pending);
@@ -1529,6 +1530,11 @@ internal static class ModuleAuthoringAnalysis
                         element,
                         registeredModules,
                         CloneVisitedLocals(visitedLocals)));
+            case IArrayCreationOperation { Initializer: null } arrayCreation
+                when arrayCreation.DimensionSizes.Length == 1
+                     && arrayCreation.DimensionSizes[0].ConstantValue
+                         is { HasValue: true, Value: 0 }:
+                return true;
             case ICollectionExpressionOperation collection:
                 return collection.Elements.All(element =>
                     TryTrackModuleTypes(
@@ -1869,6 +1875,12 @@ internal static class ModuleAuthoringAnalysis
             {
                 return false;
             }
+
+            if (parent is ISwitchOperation switchOperation
+                && IsDeadSwitchCase(current, switchOperation))
+            {
+                return false;
+            }
         }
 
         return true;
@@ -1893,6 +1905,39 @@ internal static class ModuleAuthoringAnalysis
         return whileLoop.ConditionIsTop
                && constantValue is { HasValue: true, Value: false }
                && ReferenceEquals(current, whileLoop.Body);
+    }
+
+    private static bool IsDeadSwitchCase(
+        IOperation current,
+        ISwitchOperation switchOperation)
+    {
+        if (current is not ISwitchCaseOperation switchCase
+            || switchOperation.Value.ConstantValue
+                is not { HasValue: true } switchValue)
+        {
+            return false;
+        }
+
+        var matchingCase = switchOperation.Cases.FirstOrDefault(@case =>
+            @case.Clauses
+                .OfType<ISingleValueCaseClauseOperation>()
+                .Any(clause =>
+                    clause.Value.ConstantValue is { HasValue: true } caseValue
+                    && Equals(caseValue.Value, switchValue.Value)));
+        if (ReferenceEquals(switchCase, matchingCase))
+        {
+            return false;
+        }
+
+        if (matchingCase is not null
+            && switchCase.Clauses.Any(static clause =>
+                clause is IDefaultCaseClauseOperation))
+        {
+            return true;
+        }
+
+        return switchCase.Clauses.All(static clause =>
+            clause is ISingleValueCaseClauseOperation);
     }
 
     private static void ReportModuleDiagnostics(
@@ -2149,7 +2194,10 @@ internal static class ModuleAuthoringAnalysis
         OperationAnalysisContext context,
         IMethodSymbol method)
     {
-        if (method.MethodKind is not (MethodKind.Ordinary or MethodKind.PropertyGet)
+        if (method.MethodKind is not (
+                MethodKind.Ordinary
+                or MethodKind.PropertyGet
+                or MethodKind.PropertySet)
             || !TryGetReachableExecuteMethod(context, method, out var executeMethod))
         {
             return null;
@@ -2635,7 +2683,9 @@ internal static class ModuleAuthoringAnalysis
             .SelectMany(static type => type.GetMembers())
             .OfType<IMethodSymbol>()
             .Where(static method =>
-                method.MethodKind is MethodKind.Ordinary or MethodKind.PropertyGet
+                method.MethodKind is MethodKind.Ordinary
+                    or MethodKind.PropertyGet
+                    or MethodKind.PropertySet
                 && method.DeclaringSyntaxReferences.Length > 0)];
     }
 
@@ -2694,7 +2744,7 @@ internal static class ModuleAuthoringAnalysis
                 invocations,
                 memberMethods,
                 reachableNestedCallables)
-            .Concat(GetReferencedPropertyGetters(
+            .Concat(GetReferencedPropertyAccessors(
                 propertyReferences,
                 memberMethods,
                 reachableNestedCallables));
@@ -2722,7 +2772,7 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static IEnumerable<IMethodSymbol> GetReferencedPropertyGetters(
+    private static IEnumerable<IMethodSymbol> GetReferencedPropertyAccessors(
         ImmutableArray<IPropertyReferenceOperation> propertyReferences,
         ImmutableArray<IMethodSymbol> memberMethods,
         HashSet<IMethodSymbol> reachableNestedCallables)
@@ -2738,7 +2788,8 @@ internal static class ModuleAuthoringAnalysis
 
             foreach (var method in memberMethods)
             {
-                if (PropertyReferenceTargetsGetter(propertyReference, method))
+                if (PropertyReferenceTargetsGetter(propertyReference, method)
+                    || PropertyReferenceTargetsSetter(propertyReference, method))
                 {
                     yield return method;
                 }
@@ -2778,6 +2829,44 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool PropertyReferenceTargetsSetter(
+        IPropertyReferenceOperation propertyReference,
+        IMethodSymbol method)
+    {
+        if (propertyReference.Property.SetMethod is not { } setter
+            || !IsPropertyAssignmentTarget(propertyReference))
+        {
+            return false;
+        }
+
+        for (var candidate = method;
+             candidate is not null;
+             candidate = candidate.OverriddenMethod)
+        {
+            if (SymbolEqualityComparer.Default.Equals(
+                    setter.OriginalDefinition,
+                    candidate.OriginalDefinition))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsPropertyAssignmentTarget(
+        IPropertyReferenceOperation propertyReference)
+    {
+        return propertyReference.Parent switch
+        {
+            IAssignmentOperation assignment =>
+                ReferenceEquals(assignment.Target, propertyReference),
+            IIncrementOrDecrementOperation increment =>
+                ReferenceEquals(increment.Target, propertyReference),
+            _ => false,
+        };
     }
 
     private static bool? GetLinqInvocationConsumption(
@@ -3114,11 +3203,23 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals)
     {
         return switchExpression.Arms.Length > 0
-               && switchExpression.Arms.All(arm =>
-                   FlowsFromCancellationToken(
-                       arm.Value,
-                       cancellationToken,
-                       CloneVisitedLocals(visitedLocals)));
+               && switchExpression.Arms
+                   .Where(static arm => !AlwaysThrows(arm.Value))
+                   .All(arm =>
+                    FlowsFromCancellationToken(
+                        arm.Value,
+                        cancellationToken,
+                        CloneVisitedLocals(visitedLocals)));
+    }
+
+    private static bool AlwaysThrows(IOperation operation)
+    {
+        return operation switch
+        {
+            IConversionOperation conversion => AlwaysThrows(conversion.Operand),
+            IThrowOperation => true,
+            _ => false,
+        };
     }
 
     private static bool FlowsFromCancellationTokenCoalesce(
@@ -3384,8 +3485,30 @@ internal static class ModuleAuthoringAnalysis
                    @case.Clauses.Any(static clause =>
                        clause is IDefaultCaseClauseOperation))
                && switchOperation.Cases.All(@case =>
-                   @case.Body.Any(candidate =>
+                   SwitchCaseCannotReachFollowingOperation(@case)
+                   || @case.Body.Any(candidate =>
                        DefinitelyAssignsLocal(candidate, local)));
+    }
+
+    private static bool SwitchCaseCannotReachFollowingOperation(
+        ISwitchCaseOperation switchCase)
+    {
+        return switchCase.Body.Length > 0
+               && AlwaysExitsCallable(switchCase.Body[switchCase.Body.Length - 1]);
+    }
+
+    private static bool AlwaysExitsCallable(IOperation operation)
+    {
+        return operation switch
+        {
+            IReturnOperation or IThrowOperation => true,
+            IBlockOperation { Operations.Length: > 0 } block =>
+                AlwaysExitsCallable(block.Operations[block.Operations.Length - 1]),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                AlwaysExitsCallable(conditional.WhenTrue)
+                && AlwaysExitsCallable(whenFalse),
+            _ => false,
+        };
     }
 
     private static IOperation? FindReachingLocalValue(
