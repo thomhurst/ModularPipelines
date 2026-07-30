@@ -48,7 +48,7 @@ internal static class HttpContentPreviewReader
         var isTruncated = bytesRead > maxBytes;
         var previewLength = Math.Min(bytesRead, maxBytes);
         var encoding = GetEncoding(content);
-        var preview = encoding.GetString(buffer, 0, previewLength);
+        var preview = DecodeCompletePrefix(encoding, buffer, previewLength);
         var replayContent = CreateReplayContent(content, stream, buffer.AsSpan(0, bytesRead).ToArray());
 
         return (preview, isTruncated, replayContent, content.Headers.ContentLength);
@@ -70,6 +70,20 @@ internal static class HttpContentPreviewReader
         {
             return Encoding.UTF8;
         }
+    }
+
+    private static string DecodeCompletePrefix(Encoding encoding, byte[] buffer, int length)
+    {
+        var decoder = encoding.GetDecoder();
+        var characters = new char[encoding.GetMaxCharCount(length)];
+        decoder.Convert(
+            buffer.AsSpan(0, length),
+            characters,
+            flush: false,
+            out _,
+            out var charactersUsed,
+            out _);
+        return new string(characters, 0, charactersUsed);
     }
 
     private static StreamContent CreateReplayContent(

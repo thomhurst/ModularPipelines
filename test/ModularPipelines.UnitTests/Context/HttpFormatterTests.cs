@@ -154,6 +154,28 @@ public class HttpFormatterTests
         }
     }
 
+    [Test]
+    public async Task ResponseFormatter_RedactsSecretWhenPreviewSplitsMultibyteCharacter()
+    {
+        const string secret = "abcédef";
+        using var response = new HttpResponseMessage
+        {
+            Content = CreateTextContent(new MemoryStream(Encoding.UTF8.GetBytes($"prefix-{secret}-suffix"))),
+        };
+        var formatter = CreateResponseFormatter(secret);
+
+        var formatted = await formatter.FormatAsync(response, new HttpLoggingOptions
+        {
+            MaxBodySizeToLog = 11,
+        });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(formatted).Contains($"prefix-{LoggingConstants.SecretMask}");
+            await Assert.That(formatted).DoesNotContain("prefix-abc");
+        }
+    }
+
     private static StreamContent CreateTextContent(Stream stream)
     {
         var content = new StreamContent(stream);

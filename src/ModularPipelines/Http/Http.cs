@@ -116,7 +116,13 @@ internal class Http : IHttpContext
 
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Request))
         {
-            await _httpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger, loggingOptions).ConfigureAwait(false);
+            await _httpLogger
+                .PrintRequest(
+                    httpOptions.HttpRequestMessage,
+                    logger,
+                    loggingOptions,
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
 
         var stopWatch = Stopwatch.StartNew();
@@ -135,7 +141,9 @@ internal class Http : IHttpContext
 
             if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
             {
-                await _httpLogger.PrintResponse(response, logger, loggingOptions).ConfigureAwait(false);
+                await _httpLogger
+                    .PrintResponse(response, logger, loggingOptions, cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             if (!httpOptions.ThrowOnNonSuccessStatusCode)

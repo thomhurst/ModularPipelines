@@ -17,7 +17,9 @@ internal class RequestLoggingHttpHandler : DelegatingHandler
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var logger = _loggerProvider.GetLogger();
-        await _httpLogger.PrintRequest(request, logger).ConfigureAwait(false);
+        await _httpLogger
+            .PrintRequest(request, logger, cancellationToken)
+            .ConfigureAwait(false);
 
         var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 

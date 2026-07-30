@@ -18,9 +18,18 @@ internal class ResponseLoggingHttpHandler : DelegatingHandler
     {
         var response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
-        var logger = _loggerProvider.GetLogger();
-        await _httpLogger.PrintResponse(response, logger).ConfigureAwait(false);
-
-        return response;
+        try
+        {
+            var logger = _loggerProvider.GetLogger();
+            await _httpLogger
+                .PrintResponse(response, logger, cancellationToken)
+                .ConfigureAwait(false);
+            return response;
+        }
+        catch
+        {
+            response.Dispose();
+            throw;
+        }
     }
 }

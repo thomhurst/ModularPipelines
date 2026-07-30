@@ -1,13 +1,17 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Http;
+using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Helpers;
+using Moq;
 using NReco.Logging.File;
 using File = System.IO.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
@@ -76,6 +80,98 @@ public class HttpTests : TestBase
         finally
         {
             contentStream.Release();
+        }
+    }
+
+    [Test]
+    public async Task SendAsync_ConfiguredTimeoutCancelsFactoryResponseLogging()
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream();
+        var content = new StreamContent(contentStream);
+        content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+
+        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
+        moduleLoggerProvider
+            .Setup(x => x.GetLogger())
+            .Returns(Mock.Of<IModuleLogger>());
+        var httpLogger = new HttpLogger(
+            Mock.Of<IHttpRequestFormatter>(),
+            new HttpResponseFormatter(
+                Mock.Of<ISecretObfuscator>(),
+                Mock.Of<ISecretProvider>(),
+                Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions())));
+        var responseLoggingHandler = new ResponseLoggingHttpHandler(
+            moduleLoggerProvider.Object,
+            httpLogger)
+        {
+            InnerHandler = new ImmediateResponseHandler(content),
+        };
+        using var httpClient = new HttpClient(responseLoggingHandler);
+        var httpClientFactory = new Mock<IHttpClientFactory>();
+        httpClientFactory
+            .Setup(x => x.CreateClient(It.IsAny<string>()))
+            .Returns(httpClient);
+        var http = new ModularPipelines.Http.Http(
+            httpClientFactory.Object,
+            moduleLoggerProvider.Object,
+            httpLogger,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+                await http.SendAsync(new HttpOptions(
+                        new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-log-body"))
+                    {
+                        LoggingType = HttpLoggingType.Response,
+                        Timeout = timeout,
+                    })
+                    .WaitAsync(TimeSpan.FromSeconds(1)));
+        }
+        finally
+        {
+            contentStream.Release();
+        }
+    }
+
+    [Test]
+    public async Task ResilienceHandler_DisposesRetryableResponseBeforeNextAttempt()
+    {
+        var retryContent = new TrackingStringContent("retry");
+        var innerHandler = new SequenceResponseHandler(
+            new HttpResponseMessage(HttpStatusCode.ServiceUnavailable)
+            {
+                Content = retryContent,
+            },
+            new HttpResponseMessage(HttpStatusCode.OK));
+        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
+        moduleLoggerProvider
+            .Setup(x => x.GetLogger())
+            .Returns(Mock.Of<IModuleLogger>());
+        using var handler = new ResilienceHttpHandler(
+            moduleLoggerProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                DefaultHttpResilienceOptions = new HttpResilienceOptions
+                {
+                    MaxRetryAttempts = 1,
+                    InitialDelay = TimeSpan.Zero,
+                    JitterFactor = 0,
+                },
+            }))
+        {
+            InnerHandler = innerHandler,
+        };
+        using var invoker = new HttpMessageInvoker(handler);
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/retry");
+        using var response = await invoker.SendAsync(request, CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+            await Assert.That(innerHandler.CallCount).IsEqualTo(2);
+            await Assert.That(retryContent.IsDisposed).IsTrue();
         }
     }
 
@@ -274,6 +370,29 @@ public class HttpTests : TestBase
         {
             await _release.Task.WaitAsync(cancellationToken);
             return 0;
+        }
+    }
+
+    private sealed class SequenceResponseHandler(params HttpResponseMessage[] responses) : HttpMessageHandler
+    {
+        public int CallCount { get; private set; }
+
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(responses[CallCount++]);
+        }
+    }
+
+    private sealed class TrackingStringContent(string content) : StringContent(content)
+    {
+        public bool IsDisposed { get; private set; }
+
+        protected override void Dispose(bool disposing)
+        {
+            IsDisposed = true;
+            base.Dispose(disposing);
         }
     }
 }
