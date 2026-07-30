@@ -31,7 +31,8 @@ public interface IFileSystemProvider
     {
         if (overwrite && FileExists(destinationPath))
         {
-            DeleteFile(destinationPath);
+            throw new NotSupportedException(
+                "This file system provider does not support atomic overwrite moves.");
         }
 
         MoveFile(sourcePath, destinationPath);

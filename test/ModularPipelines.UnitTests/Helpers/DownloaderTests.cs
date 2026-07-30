@@ -69,6 +69,28 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    public async Task LegacyProviderFallbackDoesNotDeleteExistingDestination()
+    {
+        const string destination = "download.bin";
+        var fileSystemProvider = new Mock<IFileSystemProvider>
+        {
+            CallBase = true,
+        };
+        fileSystemProvider
+            .Setup(x => x.FileExists(destination))
+            .Returns(true);
+
+        var exception = Assert.Throws<NotSupportedException>(() =>
+            fileSystemProvider.Object.MoveFile("temporary.download", destination, overwrite: true));
+
+        await Assert.That(exception.Message).Contains("does not support atomic overwrite moves");
+        fileSystemProvider.Verify(x => x.DeleteFile(destination), Times.Never());
+        fileSystemProvider.Verify(
+            x => x.MoveFile(It.IsAny<string>(), It.IsAny<string>()),
+            Times.Never());
+    }
+
+    [Test]
     public async Task DownloadFileAsync_PreservesExistingFileWhenStreamingFails()
     {
         var directory = Path.Combine(Path.GetTempPath(), $"modular-pipelines-download-{Guid.NewGuid():N}");
