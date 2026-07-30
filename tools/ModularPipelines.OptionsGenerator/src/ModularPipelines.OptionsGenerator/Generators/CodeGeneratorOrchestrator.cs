@@ -781,22 +781,11 @@ public class CodeGeneratorOrchestrator
                    "Check the scraper's help-text parsing against the currently installed CLI version.";
         }
 
-        var completeToolDefinition = new CliToolDefinition
+        var completeToolDefinition = toolDefinition with
         {
-            ToolName = toolDefinition.ToolName,
-            NamespacePrefix = toolDefinition.NamespacePrefix,
-            TargetNamespace = toolDefinition.TargetNamespace,
-            OutputDirectory = toolDefinition.OutputDirectory,
             Commands = allCommands,
-            CommandGroupAliases = toolDefinition.CommandGroupAliases,
             ToolVersion = toolVersion,
-            CommandCoverage = toolDefinition.CommandCoverage,
-            GlobalOptions = toolDefinition.GlobalOptions,
-            SupplementalGlobalOptions = toolDefinition.SupplementalGlobalOptions,
-            PreferredDocumentationExampleCommand = toolDefinition.PreferredDocumentationExampleCommand,
-            ExecutablePrerequisite = toolDefinition.ExecutablePrerequisite,
-            ExecutablePrerequisiteMetadataExemption = toolDefinition.ExecutablePrerequisiteMetadataExemption,
-            Errors = []
+            Errors = [],
         };
 
         await GenerateForToolAsync(

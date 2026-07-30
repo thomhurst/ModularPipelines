@@ -11,6 +11,11 @@ public class DependencyRegistrationGenerator : ICodeGenerator
 {
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
+        if (!tool.GenerateCommandFacade)
+        {
+            return Task.FromResult<IReadOnlyList<GeneratedFile>>([]);
+        }
+
         var content = GenerateExtensionsClass(tool);
         var fileName = $"{tool.NamespacePrefix}Extensions.Generated.cs";
         var relativePath = Path.Combine(tool.OutputDirectory, "Extensions", fileName);

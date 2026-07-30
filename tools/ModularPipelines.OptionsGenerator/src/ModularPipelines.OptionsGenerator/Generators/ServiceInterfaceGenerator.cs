@@ -10,6 +10,11 @@ public class ServiceInterfaceGenerator : ICodeGenerator
 {
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
+        if (!tool.GenerateCommandFacade)
+        {
+            return Task.FromResult<IReadOnlyList<GeneratedFile>>([]);
+        }
+
         var content = GenerateInterface(tool);
         var fileName = $"I{tool.NamespacePrefix}.Generated.cs";
         var relativePath = Path.Combine(tool.OutputDirectory, "Services", fileName);
