@@ -125,9 +125,9 @@ return myModule switch
 {
     ModuleResult<MyOptionalResult>.Success { Value: var result }
         => await ProcessResult(result),
-    ModuleResult.Skipped { Decision: var skip }
+    ModuleResult<MyOptionalResult>.Skipped { Decision: var skip }
         => null,  // Module was skipped
-    ModuleResult.Failure { Exception: var ex }
+    ModuleResult<MyOptionalResult>.Failure { Exception: var ex }
         => throw new Exception("Dependency failed", ex),
     _ => null
 };

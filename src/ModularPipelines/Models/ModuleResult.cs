@@ -68,33 +68,23 @@ public abstract record ModuleResult : IModuleResult
 
     /// <inheritdoc />
     [JsonIgnore]
-    public Exception? ExceptionOrDefault => this switch
-    {
-        Failure f => f.Exception,
-        IFailureResult => GetExceptionFromWrapper(),
-        _ => null,
-    };
+    public Exception? ExceptionOrDefault => GetExceptionCore();
 
     /// <inheritdoc />
     [JsonIgnore]
-    public SkipDecision? SkipDecisionOrDefault => this switch
-    {
-        Skipped sk => sk.Decision,
-        ISkippedResult => GetSkipDecisionFromWrapper(),
-        _ => null,
-    };
+    public SkipDecision? SkipDecisionOrDefault => GetSkipDecisionCore();
 
     /// <summary>
-    /// Gets the exception from a failure wrapper. Override in derived classes.
+    /// Gets the exception from a failure variant. Override in derived classes.
     /// </summary>
-    /// <returns>The wrapped exception, or <c>null</c>.</returns>
-    protected virtual Exception? GetExceptionFromWrapper() => null;
+    /// <returns>The exception, or <c>null</c>.</returns>
+    protected virtual Exception? GetExceptionCore() => null;
 
     /// <summary>
-    /// Gets the skip decision from a skipped wrapper. Override in derived classes.
+    /// Gets the skip decision from a skipped variant. Override in derived classes.
     /// </summary>
-    /// <returns>The wrapped skip decision, or <c>null</c>.</returns>
-    protected virtual SkipDecision? GetSkipDecisionFromWrapper() => null;
+    /// <returns>The skip decision, or <c>null</c>.</returns>
+    protected virtual SkipDecision? GetSkipDecisionCore() => null;
 
     // === Internal: Module type tracking ===
 
@@ -118,6 +108,9 @@ public abstract record ModuleResult : IModuleResult
     {
         /// <inheritdoc />
         protected override object? GetValueOrDefault() => null;
+
+        /// <inheritdoc />
+        protected override Exception? GetExceptionCore() => Exception;
     }
 
     /// <summary>
@@ -132,6 +125,9 @@ public abstract record ModuleResult : IModuleResult
     {
         /// <inheritdoc />
         protected override object? GetValueOrDefault() => null;
+
+        /// <inheritdoc />
+        protected override SkipDecision? GetSkipDecisionCore() => Decision;
     }
 
     // === Internal factory methods for non-generic results ===
@@ -191,29 +187,15 @@ public abstract record ModuleResult : IModuleResult
 }
 
 /// <summary>
-/// Marker interface for failure results to enable pattern matching across generic types.
-/// </summary>
-internal interface IFailureResult
-{
-}
-
-/// <summary>
-/// Marker interface for skipped results to enable pattern matching across generic types.
-/// </summary>
-internal interface ISkippedResult
-{
-}
-
-/// <summary>
 /// Represents the result of a module execution as a discriminated union.
 /// Use pattern matching to handle Success, Failure, and Skipped cases.
 /// </summary>
 /// <typeparam name="T">The type of value returned on success.</typeparam>
 /// <remarks>
 /// <para>
-/// The type parameter T is only used by the <see cref="Success"/> variant.
-/// <see cref="ModuleResult.Failure"/> and <see cref="ModuleResult.Skipped"/> are non-generic
-/// and shared across all ModuleResult&lt;T&gt; types.
+/// The nested <see cref="Success"/>, <see cref="Failure"/>, and <see cref="Skipped"/>
+/// variants provide the canonical pattern-matching surface for a typed result.
+/// Non-generic failure and skipped results are converted to these variants at typed boundaries.
 /// </para>
 /// </remarks>
 /// <example>
@@ -224,10 +206,10 @@ internal interface ISkippedResult
 ///     case ModuleResult&lt;string&gt;.Success { Value: var value }:
 ///         Console.WriteLine($"Got: {value}");
 ///         break;
-///     case ModuleResult.Failure { Exception: var ex }:
+///     case ModuleResult&lt;string&gt;.Failure { Exception: var ex }:
 ///         Console.WriteLine($"Failed: {ex.Message}");
 ///         break;
-///     case ModuleResult.Skipped { Decision: var skip }:
+///     case ModuleResult&lt;string&gt;.Skipped { Decision: var skip }:
 ///         Console.WriteLine($"Skipped: {skip.Reason}");
 ///         break;
 /// }
@@ -283,8 +265,6 @@ public abstract record ModuleResult<T> : ModuleResult
             Success s => onSuccess(s.Value),
             Failure f => onFailure(f.Exception),
             Skipped sk => onSkipped(sk.Decision),
-            FailureWrapper fw => onFailure(fw.Exception),
-            SkippedWrapper sw => onSkipped(sw.Decision),
             _ => throw new InvalidOperationException("Unknown result type"),
         };
 
@@ -310,22 +290,39 @@ public abstract record ModuleResult<T> : ModuleResult
             case Skipped sk:
                 onSkipped(sk.Decision);
                 break;
-            case FailureWrapper fw:
-                onFailure(fw.Exception);
-                break;
-            case SkippedWrapper sw:
-                onSkipped(sw.Decision);
-                break;
         }
     }
 
-    // === Generic discriminated variant ===
+    // === Generic discriminated variants ===
 
     /// <summary>
     /// Represents a successful module execution with a value.
     /// </summary>
     /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
+    [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
     public sealed record Success(T? Value) : ModuleResult<T>;
+
+    /// <summary>
+    /// Represents a failed module execution with an exception.
+    /// </summary>
+    /// <param name="Exception">The exception that caused the failure.</param>
+    [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
+    public new sealed record Failure(Exception Exception) : ModuleResult<T>
+    {
+        /// <inheritdoc />
+        protected override Exception? GetExceptionCore() => Exception;
+    }
+
+    /// <summary>
+    /// Represents a skipped module execution.
+    /// </summary>
+    /// <param name="Decision">The skip decision containing the reason.</param>
+    [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
+    public new sealed record Skipped(SkipDecision Decision) : ModuleResult<T>
+    {
+        /// <inheritdoc />
+        protected override SkipDecision? GetSkipDecisionCore() => Decision;
+    }
 
     // === Implicit conversions from non-generic Failure/Skipped ===
 
@@ -333,69 +330,33 @@ public abstract record ModuleResult<T> : ModuleResult
     /// Implicitly converts a non-generic <see cref="ModuleResult.Failure"/> to <see cref="ModuleResult{T}"/>.
     /// </summary>
     /// <param name="failure">The failure result to convert.</param>
-    public static implicit operator ModuleResult<T>(Failure failure) => new FailureWrapper(failure);
+    public static implicit operator ModuleResult<T>(ModuleResult.Failure failure) =>
+        new Failure(failure.Exception)
+        {
+            ModuleName = failure.ModuleName,
+            ModuleTypeName = failure.ModuleTypeName,
+            ModuleDuration = failure.ModuleDuration,
+            ModuleStart = failure.ModuleStart,
+            ModuleEnd = failure.ModuleEnd,
+            ModuleStatus = failure.ModuleStatus,
+            ModuleType = failure.ModuleType,
+        };
 
     /// <summary>
     /// Implicitly converts a non-generic <see cref="ModuleResult.Skipped"/> to <see cref="ModuleResult{T}"/>.
     /// </summary>
     /// <param name="skipped">The skipped result to convert.</param>
-    public static implicit operator ModuleResult<T>(Skipped skipped) => new SkippedWrapper(skipped);
-
-    /// <summary>
-    /// Wrapper that allows non-generic Failure to be used as ModuleResult&lt;T&gt;.
-    /// </summary>
-    internal sealed record FailureWrapper : ModuleResult<T>, IFailureResult
-    {
-        private readonly Failure _inner;
-
-        [SetsRequiredMembers]
-        internal FailureWrapper(Failure inner)
+    public static implicit operator ModuleResult<T>(ModuleResult.Skipped skipped) =>
+        new Skipped(skipped.Decision)
         {
-            _inner = inner;
-            ModuleName = inner.ModuleName;
-            ModuleDuration = inner.ModuleDuration;
-            ModuleStart = inner.ModuleStart;
-            ModuleEnd = inner.ModuleEnd;
-            ModuleStatus = inner.ModuleStatus;
-            ModuleType = inner.ModuleType;
-        }
-
-        /// <summary>
-        /// Gets the wrapped exception.
-        /// </summary>
-        public Exception Exception => _inner.Exception;
-
-        /// <inheritdoc />
-        protected override Exception? GetExceptionFromWrapper() => Exception;
-    }
-
-    /// <summary>
-    /// Wrapper that allows non-generic Skipped to be used as ModuleResult&lt;T&gt;.
-    /// </summary>
-    internal sealed record SkippedWrapper : ModuleResult<T>, ISkippedResult
-    {
-        private readonly Skipped _inner;
-
-        [SetsRequiredMembers]
-        internal SkippedWrapper(Skipped inner)
-        {
-            _inner = inner;
-            ModuleName = inner.ModuleName;
-            ModuleDuration = inner.ModuleDuration;
-            ModuleStart = inner.ModuleStart;
-            ModuleEnd = inner.ModuleEnd;
-            ModuleStatus = inner.ModuleStatus;
-            ModuleType = inner.ModuleType;
-        }
-
-        /// <summary>
-        /// Gets the wrapped skip decision.
-        /// </summary>
-        public SkipDecision Decision => _inner.Decision;
-
-        /// <inheritdoc />
-        protected override SkipDecision? GetSkipDecisionFromWrapper() => Decision;
-    }
+            ModuleName = skipped.ModuleName,
+            ModuleTypeName = skipped.ModuleTypeName,
+            ModuleDuration = skipped.ModuleDuration,
+            ModuleStart = skipped.ModuleStart,
+            ModuleEnd = skipped.ModuleEnd,
+            ModuleStatus = skipped.ModuleStatus,
+            ModuleType = skipped.ModuleType,
+        };
 
     // === Internal factory methods ===
     internal static Success CreateSuccess(T? value, ModuleExecutionContext ctx)
@@ -413,22 +374,40 @@ public abstract record ModuleResult<T> : ModuleResult
         };
     }
 
-    internal static new FailureWrapper CreateFailure(Exception exception, ModuleExecutionContext ctx)
+    internal static new Failure CreateFailure(Exception exception, ModuleExecutionContext ctx)
     {
-        var failure = ModuleResult.CreateFailure(exception, ctx);
-        return new FailureWrapper(failure);
+        var (start, end, duration) = GetTimingInfo(ctx);
+        return new Failure(exception)
+        {
+            ModuleName = ctx.ModuleType.Name,
+            ModuleTypeName = ctx.ModuleType.FullName,
+            ModuleDuration = duration,
+            ModuleStart = start,
+            ModuleEnd = end,
+            ModuleStatus = ctx.Status,
+            ModuleType = ctx.ModuleType,
+        };
     }
 
-    internal static new SkippedWrapper CreateSkipped(SkipDecision decision, ModuleExecutionContext ctx)
+    internal static new Skipped CreateSkipped(SkipDecision decision, ModuleExecutionContext ctx)
     {
-        var skipped = ModuleResult.CreateSkipped(decision, ctx);
-        return new SkippedWrapper(skipped);
+        var (start, end, duration) = GetTimingInfo(ctx);
+        return new Skipped(decision)
+        {
+            ModuleName = ctx.ModuleType.Name,
+            ModuleTypeName = ctx.ModuleType.FullName,
+            ModuleDuration = duration,
+            ModuleStart = start,
+            ModuleEnd = end,
+            ModuleStatus = ctx.Status,
+            ModuleType = ctx.ModuleType,
+        };
     }
 
     /// <inheritdoc />
     protected override object? GetValueOrDefault() => ValueOrDefault;
 
-    // Prevent external inheritance - only Success, FailureWrapper, SkippedWrapper are valid
+    // Prevent external inheritance - only Success, Failure, and Skipped are valid
     private protected ModuleResult()
     {
     }
@@ -597,23 +576,23 @@ internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
             return new ModuleResultNonGenericJsonConverter();
         }
 
-        // For generic types, get the type argument
-        Type valueType;
         if (typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(ModuleResult<>))
         {
-            valueType = typeToConvert.GetGenericArguments()[0];
-        }
-        else if (typeToConvert.DeclaringType?.IsGenericType == true)
-        {
-            valueType = typeToConvert.DeclaringType.GetGenericArguments()[0];
-        }
-        else
-        {
-            return null;
+            var valueType = typeToConvert.GetGenericArguments()[0];
+            var converterType = typeof(ModuleResultJsonConverter<>).MakeGenericType(valueType);
+            return (JsonConverter?) Activator.CreateInstance(converterType);
         }
 
-        var converterType = typeof(ModuleResultJsonConverter<>).MakeGenericType(valueType);
-        return (JsonConverter?) Activator.CreateInstance(converterType);
+        if (typeToConvert.IsGenericType &&
+            typeToConvert.DeclaringType?.IsGenericType == true)
+        {
+            var valueType = typeToConvert.GetGenericArguments()[0];
+            var converterType = typeof(ModuleResultVariantJsonConverter<,>)
+                .MakeGenericType(valueType, typeToConvert);
+            return (JsonConverter?) Activator.CreateInstance(converterType);
+        }
+
+        return null;
     }
 }
 
@@ -878,7 +857,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 ModuleStatus = moduleStatus,
             },
             "Failure" => exception is not null
-                ? new ModuleResult<T>.FailureWrapper(new ModuleResult.Failure(exception)
+                ? new ModuleResult<T>.Failure(exception)
                 {
                     ModuleName = moduleName,
                     ModuleTypeName = moduleTypeName,
@@ -886,10 +865,10 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
                     ModuleStatus = moduleStatus,
-                })
+                }
                 : throw new JsonException("Failure result requires an Exception property in the JSON."),
             "Skipped" => skipDecision is not null
-                ? new ModuleResult<T>.SkippedWrapper(new ModuleResult.Skipped(skipDecision)
+                ? new ModuleResult<T>.Skipped(skipDecision)
                 {
                     ModuleName = moduleName,
                     ModuleTypeName = moduleTypeName,
@@ -897,7 +876,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
                     ModuleStatus = moduleStatus,
-                })
+                }
                 : throw new JsonException("Skipped result requires a Decision property in the JSON."),
             _ => throw new JsonException($"Unknown discriminator: {discriminator}"),
         };
@@ -916,10 +895,8 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         var discriminator = value switch
         {
             ModuleResult<T>.Success => "Success",
-            ModuleResult<T>.FailureWrapper => "Failure",
-            ModuleResult<T>.SkippedWrapper => "Skipped",
-            ModuleResult.Failure => "Failure",
-            ModuleResult.Skipped => "Skipped",
+            ModuleResult<T>.Failure => "Failure",
+            ModuleResult<T>.Skipped => "Skipped",
             _ => throw new JsonException("Unknown ModuleResult type"),
         };
         writer.WriteString("$type", discriminator);
@@ -945,24 +922,41 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 writer.WritePropertyName("Value");
                 JsonSerializer.Serialize(writer, success.Value, options);
                 break;
-            case ModuleResult<T>.FailureWrapper failureWrapper:
-                writer.WritePropertyName("Exception");
-                ExceptionConverter.Write(writer, failureWrapper.Exception, options);
-                break;
-            case ModuleResult<T>.SkippedWrapper skippedWrapper:
-                writer.WritePropertyName("Decision");
-                JsonSerializer.Serialize(writer, skippedWrapper.Decision, options);
-                break;
-            case ModuleResult.Failure failure:
+            case ModuleResult<T>.Failure failure:
                 writer.WritePropertyName("Exception");
                 ExceptionConverter.Write(writer, failure.Exception, options);
                 break;
-            case ModuleResult.Skipped skipped:
+            case ModuleResult<T>.Skipped skipped:
                 writer.WritePropertyName("Decision");
                 JsonSerializer.Serialize(writer, skipped.Decision, options);
                 break;
         }
 
         writer.WriteEndObject();
+    }
+}
+
+/// <summary>
+/// Adapts the canonical generic converter to a concrete nested result variant.
+/// </summary>
+internal sealed class ModuleResultVariantJsonConverter<T, TVariant> : JsonConverter<TVariant>
+    where TVariant : ModuleResult<T>
+{
+    private static readonly ModuleResultJsonConverter<T> Converter = new();
+
+    public override TVariant? Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options)
+    {
+        return (TVariant?) Converter.Read(ref reader, typeToConvert, options);
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        TVariant value,
+        JsonSerializerOptions options)
+    {
+        Converter.Write(writer, value, options);
     }
 }

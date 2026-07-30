@@ -288,7 +288,7 @@ public class DistributedModuleExecutorTests
             coordinator: noDequeue,
             resultCollector: resultCollector);
 
-        // Create a properly-typed failure result (FailureWrapper<SimpleResult>)
+        // Create a properly typed failure result.
         var failureResult = CreateTypedFailureResult(module, new InvalidOperationException("Worker error"));
         var serialized = serializer.Serialize(
             failureResult,
