@@ -1,5 +1,6 @@
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using Spectre.Console;
@@ -11,6 +12,8 @@ internal sealed class PipelineCommandHandler(
     IEnumerable<IModule> modules,
     IDependencyChainProvider dependencyChainProvider,
     IRegistrationEventExecutor registrationEventExecutor,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
     IConsoleWriter consoleWriter)
 {
     private readonly IReadOnlyList<IModule> _modules = modules
@@ -24,10 +27,10 @@ internal sealed class PipelineCommandHandler(
             case PipelineCommand.Run:
                 return null;
             case PipelineCommand.ListModules:
-                await registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
-                cancellationToken.ThrowIfCancellationRequested();
+                await FinalizeModulesAsync(cancellationToken).ConfigureAwait(false);
                 return ListModules();
             case PipelineCommand.Validate:
+                await FinalizeModulesAsync(cancellationToken).ConfigureAwait(false);
                 return ReportSuccessfulValidation();
             default:
                 throw new ArgumentOutOfRangeException(nameof(commandLineOptions));
@@ -36,7 +39,6 @@ internal sealed class PipelineCommandHandler(
 
     private PipelineSummary ListModules()
     {
-        dependencyChainProvider.Initialize(_modules);
         var table = new Table
         {
             Border = TableBorder.Rounded,
@@ -56,12 +58,20 @@ internal sealed class PipelineCommandHandler(
                 .ToArray();
             table.AddRow(
                 Markup.Escape(moduleType.FullName ?? moduleType.Name),
-                Markup.Escape(model.Module.Configuration.Category ?? string.Empty),
+                Markup.Escape(metadataRegistry.GetCategory(moduleType) ?? string.Empty),
                 Markup.Escape(string.Join(", ", dependencies)));
         }
 
         consoleWriter.Write(table);
         return CreateSummary();
+    }
+
+    private async Task FinalizeModulesAsync(CancellationToken cancellationToken)
+    {
+        await registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
+        ModuleDependencyValidator.Validate(_modules, dependencyRegistry, metadataRegistry);
+        dependencyChainProvider.Initialize(_modules);
     }
 
     private PipelineSummary ReportSuccessfulValidation()

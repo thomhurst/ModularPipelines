@@ -1,9 +1,13 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.UnitTests.PipelineCli;
 
@@ -14,6 +18,31 @@ public class PipelineCommandLineTests
     private static int _targetExecutions;
     private static int _unrelatedExecutions;
     private static int _categoryExecutions;
+
+    private sealed class CapturingConsoleWriter : IConsoleWriter
+    {
+        public IRenderable? Renderable { get; private set; }
+
+        public void LogToConsole(string value)
+        {
+        }
+
+        public void Write(IRenderable renderable)
+        {
+            Renderable = renderable;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
+        : Attribute, IModuleRegistrationEventReceiver
+    {
+        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        {
+            context.AddDependency(dependencyType);
+            return Task.CompletedTask;
+        }
+    }
 
     private sealed class DependencyModule : Module<string>
     {
@@ -47,6 +76,23 @@ public class PipelineCommandLineTests
             Interlocked.Increment(ref _unrelatedExecutions);
             return Task.FromResult<string?>("unrelated");
         }
+    }
+
+    private sealed class UnregisteredModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("unregistered");
+    }
+
+    [AddRegistrationDependency(typeof(UnregisteredModule))]
+    private sealed class InvalidDynamicDependencyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("invalid");
     }
 
     [ModuleCategory("selected")]
@@ -215,6 +261,38 @@ public class PipelineCommandLineTests
             await Assert.That(_targetExecutions).IsEqualTo(0);
             await Assert.That(_unrelatedExecutions).IsEqualTo(0);
         }
+    }
+
+    [Test]
+    public async Task ValidateCommandChecksRegistrationTimeDependencies()
+    {
+        using var builder = Pipeline.CreateBuilder(["--validate"]);
+        builder.AddModule<InvalidDynamicDependencyModule>();
+
+        await Assert.ThrowsAsync<ModuleNotRegisteredException>(
+            () => builder.ExecutePipelineAsync());
+    }
+
+    [Test]
+    public async Task ListModulesUsesFinalizedFluentCategory()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--list-modules"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+        builder.AddModule<UnrelatedModule>().WithCategory("configured-category");
+
+        await builder.ExecutePipelineAsync();
+
+        using var output = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Ansi = AnsiSupport.No,
+            ColorSystem = ColorSystemSupport.NoColors,
+            Out = new AnsiConsoleOutput(output),
+        });
+        console.Write(consoleWriter.Renderable!);
+
+        await Assert.That(output.ToString()).Contains("configured-category");
     }
 
     [Test]
