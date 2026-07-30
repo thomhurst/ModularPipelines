@@ -41,7 +41,8 @@ internal interface IModuleStateTracker
     /// Whether to cancel typed module result awaiters immediately. Set to <see langword="false"/>
     /// when terminated results will be registered after scheduler cancellation.
     /// </param>
-    void CancelPendingModules(bool cancelModuleResultAwaiters = true);
+    /// <returns>The modules transitioned to the completed state by cancellation.</returns>
+    IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true);
 
     /// <summary>
     /// Gets the state for a specific module.

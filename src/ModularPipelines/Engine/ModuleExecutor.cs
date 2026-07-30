@@ -224,11 +224,22 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
+                        var isFirstFailure = false;
+
                         if (!IsExpectedWorkerCancellation(ex, ct)
                             && recordedWorkerExceptions.TryAdd(ex, 0))
                         {
                             _secondaryExceptionContainer.RegisterException(ex);
-                            Interlocked.CompareExchange(ref firstException, ex, null);
+                            isFirstFailure = Interlocked.CompareExchange(ref firstException, ex, null) == null;
+                        }
+
+                        if (isFirstFailure)
+                        {
+                            var cancelledModules =
+                                scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+                            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(
+                                cancelledModules,
+                                ex);
                         }
 
                         EnsureCancellation(cancellationTokenSource);

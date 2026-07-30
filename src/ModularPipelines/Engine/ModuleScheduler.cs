@@ -337,14 +337,14 @@ internal class ModuleScheduler : IModuleScheduler
     /// <param name="cancelModuleResultAwaiters">
     /// Whether to cancel typed module result awaiters immediately.
     /// </param>
-    public void CancelPendingModules(bool cancelModuleResultAwaiters = true)
+    public IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true)
     {
         if (IsDisposed)
         {
-            return;
+            return [];
         }
 
-        _stateTracker.CancelPendingModules(cancelModuleResultAwaiters);
+        return _stateTracker.CancelPendingModules(cancelModuleResultAwaiters);
     }
 
     public void Dispose()

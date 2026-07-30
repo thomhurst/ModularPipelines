@@ -252,15 +252,15 @@ internal class ModuleStateTracker : IModuleStateTracker
     }
 
     /// <inheritdoc />
-    public void CancelPendingModules(bool cancelModuleResultAwaiters = true)
+    public IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true)
     {
-        List<(ModuleState Module, ModuleExecutionState OriginalState)> cancelledModules;
+        List<(ModuleState State, ModuleExecutionState OriginalState)> cancelledModules;
 
         _stateLock.EnterWriteLock();
         try
         {
             var pendingModules = _stateQueries.GetCancellablePendingModules().ToList();
-            cancelledModules = new List<(ModuleState, ModuleExecutionState)>();
+            cancelledModules = [];
 
             foreach (var moduleState in pendingModules)
             {
@@ -302,6 +302,8 @@ internal class ModuleStateTracker : IModuleStateTracker
                 moduleState.ModuleType.Name,
                 originalState);
         }
+
+        return [.. cancelledModules.Select(x => x.State.Module)];
     }
 
     /// <inheritdoc />

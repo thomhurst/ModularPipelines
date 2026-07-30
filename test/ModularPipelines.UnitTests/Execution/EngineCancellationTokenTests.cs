@@ -175,6 +175,10 @@ public class EngineCancellationTokenTests : TestBase
 
     private class AwaitingTerminatedModule : Module<bool>
     {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
         protected internal override async Task<bool> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
@@ -394,7 +398,7 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
-    public async Task TerminatedBeforeExecutionModule_UnblocksRuntimeAwaiter()
+    public async Task AlwaysRunModuleAwaitingTerminatedModule_UnblocksRuntimeAwaiter()
     {
         AwaitingTerminatedModuleStarted =
             new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -413,11 +417,20 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<CoordinatedDependencyFailureModule>()
             .AddModule<TerminatedBeforeExecutionModule>();
 
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await builder.ExecutePipelineAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+            async () => await host.RunAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+        var alwaysRunResult = resultRegistry.GetResult<bool>(typeof(AwaitingTerminatedModule));
 
-        await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
-        await Assert.That(exception.InnerException!).HasMessageEqualTo("Dependency failure");
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
+            await Assert.That(exception.InnerException!).HasMessageEqualTo("Dependency failure");
+            await Assert.That(alwaysRunResult).IsNotNull();
+            await Assert.That(alwaysRunResult!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(alwaysRunResult.ValueOrDefault).IsTrue();
+        }
     }
 
     [Test]
@@ -445,7 +458,7 @@ public class EngineCancellationTokenTests : TestBase
 
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
             async () => await host.RunAsync().WaitAsync(TimeSpan.FromSeconds(5)));
-        var awaitedResult = await ((IModule)pendingModule).ResultTask
+        var awaitedResult = await ((IModule) pendingModule).ResultTask
             .WaitAsync(TimeSpan.FromSeconds(1));
         var registeredResult = resultRegistry.GetResult(typeof(StopOnFirstPendingModule));
 
