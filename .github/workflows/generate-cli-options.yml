@@ -34,6 +34,9 @@ jobs:
       - name: Test exact generated-file staging
         shell: pwsh
         run: tools/ModularPipelines.OptionsGenerator/scripts/Test-StageGeneratedChanges.ps1
+      - name: Reject stale generated enum attributes
+        shell: pwsh
+        run: tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedEnumAttributes.ps1
 
   tool-catalog:
     needs: validate-generation-safety

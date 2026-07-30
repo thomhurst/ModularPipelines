@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Minikube.Enums;
 
@@ -16,21 +16,21 @@ namespace ModularPipelines.Minikube.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeStartHostOnlyNicType
 {
-    [Description("Am79C970A")]
+    [EnumValue("Am79C970A")]
     Am79c970a,
 
-    [Description("Am79C973")]
+    [EnumValue("Am79C973")]
     Am79c973,
 
-    [Description("82540EM")]
+    [EnumValue("82540EM")]
     __82540em,
 
-    [Description("82543GC")]
+    [EnumValue("82543GC")]
     __82543gc,
 
-    [Description("82545EM")]
+    [EnumValue("82545EM")]
     __82545em,
 
-    [Description("virtio")]
+    [EnumValue("virtio")]
     Virtio
 }

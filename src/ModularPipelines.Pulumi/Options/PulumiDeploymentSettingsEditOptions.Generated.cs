@@ -97,7 +97,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// AWS OIDC: replace the session policy ARN list (repeatable, comma-separated)
     /// </summary>
     [CliOption("--oidc-aws-policy-arn", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public PulumiDeploymentSettingsEditOidcAwsPolicyArn? OidcAwsPolicyArn { get; set; }
+    public IEnumerable<string>? OidcAwsPolicyArn { get; set; }
 
     /// <summary>
     /// AWS OIDC: IAM role ARN to assume
@@ -188,7 +188,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// GitHub: replace the path filter list (repeatable, comma-separated)
     /// </summary>
     [CliOption("--path-filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public PulumiDeploymentSettingsEditPathFilter? PathFilter { get; set; }
+    public IEnumerable<string>? PathFilter { get; set; }
 
     /// <summary>
     /// GitHub: use this stack as a template for PR review stacks
@@ -218,7 +218,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// Delete an environment variable by key (repeatable, comma-separated)
     /// </summary>
     [CliOption("--remove-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public PulumiDeploymentSettingsEditRemoveEnv? RemoveEnv { get; set; }
+    public IEnumerable<string>? RemoveEnv { get; set; }
 
     /// <summary>
     /// Deployment runner pool ID; empty string clears it to the Pulumi-hosted pool

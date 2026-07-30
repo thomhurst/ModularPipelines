@@ -13,6 +13,17 @@ public class DescriptionEnumValueParserTests
     }
 
     [Test]
+    [Arguments("AWS OIDC: replace the session policy ARN list (repeatable, comma-separated)")]
+    [Arguments("GitHub: replace the path filter list (repeatable, comma-separated)")]
+    [Arguments("Delete an environment variable by key (repeatable, comma-separated)")]
+    public async Task TryParse_Rejects_Repeatability_Annotations(string description)
+    {
+        var result = DescriptionEnumValueParser.TryParse(description);
+
+        await Assert.That(result).IsNull();
+    }
+
+    [Test]
     [Arguments("Output format (table, json, yaml)", "table,json,yaml")]
     [Arguments("Log types to enable (all, none, api, audit)", "all,none,api,audit")]
     [Arguments("""Set the logging level ("debug", "info", "warn", "error", "fatal")""", "debug,info,warn,error,fatal")]

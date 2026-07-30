@@ -43,7 +43,7 @@ public record DockerSwarmInitOptions : DockerOptions
     /// Validity period for node certificates (ns|us|ms|s|m|h) (default 2160h0m0s)
     /// </summary>
     [CliOption("--cert-expiry", Format = OptionFormat.EqualsSeparated)]
-    public DockerSwarmInitCertExpiry? CertExpiry { get; set; }
+    public string? CertExpiry { get; set; }
 
     /// <summary>
     /// Address or interface to use for data path traffic (format: "&lt;ip|interface&gt;")
@@ -73,7 +73,7 @@ public record DockerSwarmInitOptions : DockerOptions
     /// Dispatcher heartbeat period (ns|us|ms|s|m|h) (default 5s)
     /// </summary>
     [CliOption("--dispatcher-heartbeat", Format = OptionFormat.EqualsSeparated)]
-    public DockerSwarmInitDispatcherHeartbeat? DispatcherHeartbeat { get; set; }
+    public string? DispatcherHeartbeat { get; set; }
 
     /// <summary>
     /// Specifications of one or more certificate signing endpoints
