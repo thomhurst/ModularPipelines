@@ -200,6 +200,53 @@ public class HttpTests : TestBase
     }
 
     [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task SendAsync_NormalizesAsyncStreamFailureAfterPerReadCancellation(
+        bool throwIOExceptionWhenDisposed)
+    {
+        var contentStream = new BlockingReadStream(
+            throwIOExceptionWhenDisposed,
+            ignoreAsyncCancellation: true);
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(contentStream)))
+        {
+            Timeout = Timeout.InfiniteTimeSpan,
+        };
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IHttpLogger>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var response = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/read-cancellation"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.None,
+            Timeout = TimeSpan.FromMinutes(1),
+        });
+        var stream = response.Content.ReadAsStream();
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var readTask = stream
+            .ReadAsync(new byte[1], cancellationTokenSource.Token)
+            .AsTask();
+
+        await contentStream.ReadStarted.WaitAsync(TimeSpan.FromSeconds(1));
+        cancellationTokenSource.Cancel();
+
+        try
+        {
+            var exception = await Assert.ThrowsAsync<OperationCanceledException>(
+                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+            await Assert.That(exception!.CancellationToken.IsCancellationRequested).IsTrue();
+        }
+        finally
+        {
+            contentStream.Release();
+        }
+    }
+
+    [Test]
     [Arguments(true, true)]
     [Arguments(true, false)]
     [Arguments(false, true)]
@@ -720,6 +767,8 @@ public class HttpTests : TestBase
     {
         private readonly TaskCompletionSource _release =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly TaskCompletionSource _readStarted =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly ManualResetEventSlim _synchronousRelease = new();
         private bool _isDisposed;
 
@@ -736,6 +785,8 @@ public class HttpTests : TestBase
             get => throw new NotSupportedException();
             set => throw new NotSupportedException();
         }
+
+        public Task ReadStarted => _readStarted.Task;
 
         public void Release()
         {
@@ -761,6 +812,7 @@ public class HttpTests : TestBase
             Memory<byte> buffer,
             CancellationToken cancellationToken = default)
         {
+            _readStarted.TrySetResult();
             if (ignoreAsyncCancellation)
             {
                 await _release.Task;

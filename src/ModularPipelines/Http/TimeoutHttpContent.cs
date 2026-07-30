@@ -222,10 +222,12 @@ internal sealed class TimeoutHttpContent : HttpContent
                     .ConfigureAwait(false);
             }
             catch (Exception exception)
-                when (timeoutCancellationToken.IsCancellationRequested &&
+                when (effectiveCancellationToken.IsCancellationRequested &&
                       exception is ObjectDisposedException or IOException)
             {
-                throw CreateTimeoutException(exception);
+                throw CreateReadCancellationException(
+                    exception,
+                    effectiveCancellationToken);
             }
         }
 
@@ -276,6 +278,16 @@ internal sealed class TimeoutHttpContent : HttpContent
                 "The HTTP response body read timed out.",
                 exception,
                 timeoutCancellationToken);
+        }
+
+        private static OperationCanceledException CreateReadCancellationException(
+            Exception exception,
+            CancellationToken cancellationToken)
+        {
+            return new OperationCanceledException(
+                "The HTTP response body read was cancelled.",
+                exception,
+                cancellationToken);
         }
     }
 }
