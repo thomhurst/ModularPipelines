@@ -17,7 +17,6 @@ public sealed class RedisModuleCache : IModuleCacheStore
     private readonly TimeSpan _expiration;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="RedisModuleCache"/> class.
     /// Initializes a new instance of the <see cref="RedisModuleCache"/> class.
     /// </summary>
     public RedisModuleCache(
@@ -56,7 +55,9 @@ public sealed class RedisModuleCache : IModuleCacheStore
         ModuleCacheFingerprint.Validate(fingerprint);
         cancellationToken.ThrowIfCancellationRequested();
 
-        var metadata = await _database.StringGetAsync(MetadataKey(fingerprint)).ConfigureAwait(false);
+        var metadata = await _database.StringGetAsync(MetadataKey(fingerprint))
+            .WaitAsync(cancellationToken)
+            .ConfigureAwait(false);
         if (metadata.IsNull)
         {
             return null;
@@ -76,7 +77,9 @@ public sealed class RedisModuleCache : IModuleCacheStore
             for (var chunkIndex = 0; chunkIndex < chunkCount; chunkIndex++)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var chunk = await _database.StringGetAsync(ChunkKey(fingerprint, generation, chunkIndex)).ConfigureAwait(false);
+                var chunk = await _database.StringGetAsync(ChunkKey(fingerprint, generation, chunkIndex))
+                    .WaitAsync(cancellationToken)
+                    .ConfigureAwait(false);
                 if (chunk.IsNull)
                 {
                     throw new InvalidDataException(
@@ -125,6 +128,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
                     ChunkKey(fingerprint, generation, chunkCount),
                     new ReadOnlyMemory<byte>(buffer, 0, length),
                     _expiration)
+                .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
             chunkCount++;
             totalLength += length;
@@ -134,6 +138,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
             CultureInfo.InvariantCulture,
             $"{generation}:{chunkCount}:{totalLength}");
         await _database.StringSetAsync(MetadataKey(fingerprint), metadata, _expiration)
+            .WaitAsync(cancellationToken)
             .ConfigureAwait(false);
     }
 

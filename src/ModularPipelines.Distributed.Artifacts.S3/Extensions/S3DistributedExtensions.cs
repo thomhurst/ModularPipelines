@@ -17,7 +17,7 @@ public static class S3DistributedExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configureS3">Configures the S3-compatible service.</param>
-    /// <param name="configureCache">Optionally configures fingerprinting and local hash metadata.</param>
+    /// <param name="configureCache">Optionally configures fingerprinting behavior.</param>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddS3ModuleCache(
         this PipelineBuilder builder,
@@ -26,7 +26,7 @@ public static class S3DistributedExtensions
     {
         var options = new S3ArtifactOptions();
         configureS3(options);
-        builder.Services.AddSingleton(options);
+        builder.Services.AddSingleton(_ => new S3ModuleCache(options));
         return builder.AddModuleCache<S3ModuleCache>(configureCache);
     }
 

@@ -49,8 +49,6 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         _logger = logger;
     }
 
-    public bool IsEnabled => true;
-
     public void DiscardFingerprint(IModule module) =>
         _fingerprints.TryRemove(module, out _);
 
@@ -59,7 +57,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     public async Task SaveResultAsync<T>(
         Module<T> module,
         ModuleResult<T> moduleResult,
-        IPipelineContext pipelineContext)
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -70,7 +69,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
             if (!_fingerprints.TryGetValue(module, out var fingerprint))
             {
-                fingerprint = await ComputeFingerprintAsync(module, pipelineContext, CancellationToken.None)
+                fingerprint = await ComputeFingerprintAsync(module, pipelineContext, cancellationToken)
                     .ConfigureAwait(false);
             }
 
@@ -93,15 +92,16 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                             await JsonSerializer.SerializeAsync<ModuleResult<T>>(
                                     resultStream,
                                     moduleResult,
-                                    cancellationToken: CancellationToken.None)
+                                    cancellationToken: cancellationToken)
                                 .ConfigureAwait(false);
                         }
 
-                        AddArtifacts(archive, module.GetType());
+                        await AddArtifactsAsync(archive, module.GetType(), cancellationToken)
+                            .ConfigureAwait(false);
                     }
 
                     stream.Position = 0;
-                    await _store.WriteAsync(fingerprint, stream, CancellationToken.None).ConfigureAwait(false);
+                    await _store.WriteAsync(fingerprint, stream, cancellationToken).ConfigureAwait(false);
                 }
 
                 _logger.LogDebug(
@@ -124,17 +124,18 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Module result cache requires runtime result type metadata.")]
     public async Task<ModuleResult<T>?> GetResultAsync<T>(
         Module<T> module,
-        IPipelineContext pipelineContext)
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
     {
         if (!((IModule) module).Configuration.CacheEnabled)
         {
             return null;
         }
 
-        var fingerprint = await ComputeFingerprintAsync(module, pipelineContext, CancellationToken.None)
+        var fingerprint = await ComputeFingerprintAsync(module, pipelineContext, cancellationToken)
             .ConfigureAwait(false);
         _fingerprints[module] = fingerprint;
-        await using var cachedStream = await _store.OpenReadAsync(fingerprint, CancellationToken.None)
+        await using var cachedStream = await _store.OpenReadAsync(fingerprint, cancellationToken)
             .ConfigureAwait(false);
         if (cachedStream is null)
         {
@@ -156,7 +157,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                              64 * 1024,
                              FileOptions.Asynchronous))
             {
-                await cachedStream.CopyToAsync(output).ConfigureAwait(false);
+                await cachedStream.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
             }
 
             using var archive = ZipFile.OpenRead(temporary);
@@ -165,7 +166,9 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             ModuleResult<T>? result;
             await using (var resultStream = resultEntry.Open())
             {
-                result = await JsonSerializer.DeserializeAsync<ModuleResult<T>>(resultStream)
+                result = await JsonSerializer.DeserializeAsync<ModuleResult<T>>(
+                        resultStream,
+                        cancellationToken: cancellationToken)
                     .ConfigureAwait(false);
             }
 
@@ -174,7 +177,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 throw new InvalidDataException("Module cache result is empty.");
             }
 
-            RestoreArtifacts(archive);
+            await RestoreArtifactsAsync(archive, cancellationToken).ConfigureAwait(false);
             DiscardFingerprint(module);
             _logger.LogInformation(
                 "Module cache hit {Fingerprint} for {Module}",
@@ -199,7 +202,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var inputFiles = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
             configuration.CacheInputPatterns,
-            _options.MaximumInputFiles);
+            _options.MaximumInputFiles,
+            _options.CacheDirectory);
         var hashes = await _fileHasher.HashAsync(inputFiles, cancellationToken).ConfigureAwait(false);
 
         using var incrementalHash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
@@ -249,7 +253,9 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 continue;
             }
 
-            var dependencyResult = await dependencyModule.ResultTask.ConfigureAwait(false);
+            var dependencyResult = await dependencyModule.ResultTask
+                .WaitAsync(cancellationToken)
+                .ConfigureAwait(false);
             Append(incrementalHash, "dependency", dependencyType.AssemblyQualifiedName!);
             Append(
                 incrementalHash,
@@ -283,7 +289,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         return Convert.ToHexString(incrementalHash.GetHashAndReset());
     }
 
-    private void AddArtifacts(ZipArchive archive, Type moduleType)
+    private async Task AddArtifactsAsync(
+        ZipArchive archive,
+        Type moduleType,
+        CancellationToken cancellationToken)
     {
         var paths = moduleType
             .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
@@ -296,16 +305,31 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
         foreach (var file in files)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var relativePath = ModuleCacheFileResolver.GetRelativePath(_options.WorkingDirectory, file);
-            archive.CreateEntryFromFile(file, $"{ArtifactPrefix}{relativePath}", CompressionLevel.Fastest);
+            var entry = archive.CreateEntry(
+                $"{ArtifactPrefix}{relativePath}",
+                CompressionLevel.Fastest);
+            await using var input = new FileStream(
+                file,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read,
+                64 * 1024,
+                FileOptions.Asynchronous | FileOptions.SequentialScan);
+            await using var output = entry.Open();
+            await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
         }
     }
 
-    private void RestoreArtifacts(ZipArchive archive)
+    private async Task RestoreArtifactsAsync(
+        ZipArchive archive,
+        CancellationToken cancellationToken)
     {
         var root = Path.GetFullPath(_options.WorkingDirectory);
         foreach (var entry in archive.Entries.Where(entry => entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal)))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var relativePath = entry.FullName[ArtifactPrefix.Length..].Replace('/', Path.DirectorySeparatorChar);
             var destination = Path.GetFullPath(Path.Combine(root, relativePath));
             var verifiedRelativePath = Path.GetRelativePath(root, destination);
@@ -317,7 +341,15 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             }
 
             Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-            entry.ExtractToFile(destination, overwrite: true);
+            await using var input = entry.Open();
+            await using var output = new FileStream(
+                destination,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.None,
+                64 * 1024,
+                FileOptions.Asynchronous);
+            await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
         }
     }
 

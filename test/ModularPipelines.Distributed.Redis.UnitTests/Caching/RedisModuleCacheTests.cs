@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Distributed.Redis.Configuration;
 using Moq;
@@ -92,5 +94,66 @@ public class RedisModuleCacheTests
         var result = await _cache.OpenReadAsync(Fingerprint, CancellationToken.None);
 
         await Assert.That(result).IsNull();
+    }
+
+    [Test]
+    public async Task OpenReadCancellationInterruptsPendingRedisCall()
+    {
+        var pending = new TaskCompletionSource<RedisValue>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        _database.Setup(value => value.StringGetAsync(
+                It.IsAny<RedisKey>(),
+                It.IsAny<CommandFlags>()))
+            .Returns(pending.Task);
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        var readTask = _cache.OpenReadAsync(Fingerprint, cancellationTokenSource.Token);
+        await cancellationTokenSource.CancelAsync();
+
+        await Assert.That(async () => await readTask).Throws<OperationCanceledException>();
+    }
+
+    [Test]
+    public async Task CacheRegistrationDoesNotReplaceDistributedOptions()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddRedisDistributed(
+            options =>
+            {
+                options.ConnectionString = "distributed:6379";
+                options.KeyPrefix = "distributed";
+            },
+            options => options.ChunkSizeBytes = 123);
+        builder.AddRedisModuleCache(
+            options =>
+            {
+                options.ConnectionString = "cache:6379";
+                options.KeyPrefix = "cache";
+            },
+            options => options.ChunkSizeBytes = 456);
+
+        var redisOptions = builder.Services
+            .Where(descriptor => descriptor.ServiceType == typeof(RedisDistributedOptions)
+                                 && !descriptor.IsKeyedService)
+            .Select(descriptor => descriptor.ImplementationInstance)
+            .OfType<RedisDistributedOptions>()
+            .Single();
+        var artifactOptions = builder.Services
+            .Where(descriptor => descriptor.ServiceType == typeof(ArtifactOptions)
+                                 && !descriptor.IsKeyedService)
+            .Select(descriptor => descriptor.ImplementationInstance)
+            .OfType<ArtifactOptions>()
+            .Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(redisOptions.ConnectionString).IsEqualTo("distributed:6379");
+            await Assert.That(redisOptions.KeyPrefix).IsEqualTo("distributed");
+            await Assert.That(artifactOptions.ChunkSizeBytes).IsEqualTo(123);
+            await Assert.That(builder.Services.Count(descriptor =>
+                    descriptor.ServiceType == typeof(IConnectionMultiplexer)
+                    && descriptor.IsKeyedService))
+                .IsEqualTo(1);
+        }
     }
 }

@@ -17,7 +17,6 @@ public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
     private readonly Lazy<IAmazonS3> _client;
 
     /// <summary>
-    /// Initialises a new instance of the <see cref="S3ModuleCache"/> class.
     /// Initializes a new instance of the <see cref="S3ModuleCache"/> class.
     /// </summary>
     public S3ModuleCache(S3ArtifactOptions options)

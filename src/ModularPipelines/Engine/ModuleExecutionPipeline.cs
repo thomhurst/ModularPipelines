@@ -32,6 +32,7 @@ namespace ModularPipelines.Engine;
 internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 {
     private readonly IModuleResultRepository _resultRepository;
+    private readonly IModuleCacheResultRepository? _cacheResultRepository;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IDirectHookInvoker _directHookInvoker;
     private readonly IModuleConditionHandler _moduleConditionHandler;
@@ -42,9 +43,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         EngineCancellationToken engineCancellationToken,
         IDirectHookInvoker directHookInvoker,
         IModuleConditionHandler moduleConditionHandler,
-        IOptions<PipelineOptions> pipelineOptions)
+        IOptions<PipelineOptions> pipelineOptions,
+        IModuleCacheResultRepository? cacheResultRepository = null)
     {
         _resultRepository = resultRepository;
+        _cacheResultRepository = cacheResultRepository;
         _engineCancellationToken = engineCancellationToken;
         _directHookInvoker = directHookInvoker;
         _moduleConditionHandler = moduleConditionHandler;
@@ -71,9 +74,14 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Setup cancellation based on AlwaysRun behavior
             SetupCancellation(config, executionContext, engineCancellationToken);
 
-            if (config.CacheEnabled && _resultRepository is IModuleCacheResultRepository)
+            if (config.CacheEnabled && _cacheResultRepository is not null)
             {
-                var cachedResult = await TryGetHistoricalResult(module, moduleContext, logger).ConfigureAwait(false);
+                var cachedResult = await TryGetCachedResult(
+                        module,
+                        moduleContext,
+                        logger,
+                        executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
                 if (cachedResult is not null)
                 {
                     var cacheHit = SkipDecision.Skip("Module cache hit");
@@ -153,7 +161,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             module.CompletionSource.TrySetResult(moduleResult!);
 
             // Save to history if applicable
-            await SaveToHistory(module, moduleResult, moduleContext).ConfigureAwait(false);
+            await SaveResults(
+                    module,
+                    moduleResult,
+                    moduleContext,
+                    executionContext.ModuleCancellationTokenSource.Token)
+                .ConfigureAwait(false);
 
             executionContext.SetTypedResult(moduleResult);
 
@@ -200,10 +213,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
             finally
             {
-                if (_resultRepository is IModuleCacheResultRepository moduleCacheResultRepository)
-                {
-                    moduleCacheResultRepository.DiscardFingerprint(module);
-                }
+                _cacheResultRepository?.DiscardFingerprint(module);
 
                 var activeCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
                 activeCancellationTokenSource.Dispose();
@@ -290,6 +300,32 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             logger.LogWarning(
                 exception,
                 "Could not read a stored result for module {ModuleName}; executing normally",
+                module.GetType().Name);
+            return null;
+        }
+    }
+
+    private async Task<ModuleResult<T>?> TryGetCachedResult<T>(
+        Module<T> module,
+        IModuleContext moduleContext,
+        IModuleLogger logger,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await _cacheResultRepository!
+                .GetResultAsync(module, moduleContext, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        {
+            logger.LogWarning(
+                exception,
+                "Could not read a cached result for module {ModuleName}; executing normally",
                 module.GetType().Name);
             return null;
         }
@@ -413,23 +449,44 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         return null;
     }
 
-    private async Task SaveToHistory<T>(
+    private async Task SaveResults<T>(
         Module<T> module,
         ModuleResult<T> result,
-        IModuleContext moduleContext)
+        IModuleContext moduleContext,
+        CancellationToken cancellationToken)
     {
-        if (!_resultRepository.IsEnabled)
+        if (_resultRepository.IsEnabled)
+        {
+            try
+            {
+                await _resultRepository.SaveResultAsync(module, result, moduleContext).ConfigureAwait(false);
+            }
+            catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
+            {
+                moduleContext.Logger.LogError(e, "Error saving module result to repository");
+            }
+        }
+
+        if (!((IModule) module).Configuration.CacheEnabled || _cacheResultRepository is null)
         {
             return;
         }
 
         try
         {
-            await _resultRepository.SaveResultAsync(module, result, moduleContext).ConfigureAwait(false);
+            await _cacheResultRepository
+                .SaveResultAsync(module, result, moduleContext, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            moduleContext.Logger.LogDebug(
+                "Module cache save canceled for module {ModuleName}",
+                module.GetType().Name);
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
-            moduleContext.Logger.LogError(e, "Error saving module result to repository");
+            moduleContext.Logger.LogError(e, "Error saving module result to module cache");
         }
     }
 
@@ -490,7 +547,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 var ignoredResult = ModuleResult<T>.CreateFailure(exception, executionContext);
                 executionContext.SetTypedResult(ignoredResult);
 
-                await SaveToHistory(module, ignoredResult, moduleContext).ConfigureAwait(false);
+                await SaveResults(
+                        module,
+                        ignoredResult,
+                        moduleContext,
+                        executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
                 return ignoredResult;
             }
         }

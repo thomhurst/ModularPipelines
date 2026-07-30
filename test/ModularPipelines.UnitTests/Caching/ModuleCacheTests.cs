@@ -5,13 +5,35 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
+using OptionsFactory = Microsoft.Extensions.Options.Options;
 
 namespace ModularPipelines.UnitTests.Caching;
 
 public class ModuleCacheTests
 {
+    private sealed class TrackingResultRepository : IModuleResultRepository
+    {
+        public static int SaveCount;
+
+        public bool IsEnabled => true;
+
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext)
+        {
+            Interlocked.Increment(ref SaveCount);
+            return Task.CompletedTask;
+        }
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext) => Task.FromResult<ModuleResult<T>?>(null);
+    }
+
     [CacheInputs("input.txt")]
     [ProducesArtifact("output", "output.txt")]
     private sealed class CachedModule : Module<string>
@@ -38,6 +60,13 @@ public class ModuleCacheTests
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) => Task.FromResult<string?>(Value);
+    }
+
+    private sealed class UncachedModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>("uncached");
     }
 
     [CacheInputs("mutable.txt")]
@@ -142,6 +171,114 @@ public class ModuleCacheTests
                 ModuleCacheFileResolver.ResolveFiles(temporaryDirectory, ["**/*.cs"], maximumFiles: 1));
 
             await Assert.That(exception.Message).Contains("configured limit of 1");
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ContentChangesInvalidateHashWhenLengthAndTimestampAreUnchanged()
+    {
+        var temporaryDirectory = Path.Combine(Path.GetTempPath(), $"ModularPipelines-cache-hash-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+
+        try
+        {
+            var path = Path.Combine(temporaryDirectory, "input.txt");
+            await System.IO.File.WriteAllTextAsync(path, "first");
+            var timestamp = System.IO.File.GetLastWriteTimeUtc(path);
+            var hasher = new ModuleCacheFileHasher(OptionsFactory.Create(new ModuleCacheOptions()));
+            var firstHash = (await hasher.HashAsync([path], CancellationToken.None))[path];
+
+            await System.IO.File.WriteAllTextAsync(path, "other");
+            System.IO.File.SetLastWriteTimeUtc(path, timestamp);
+            var secondHash = (await hasher.HashAsync([path], CancellationToken.None))[path];
+
+            await Assert.That(secondHash).IsNotEqualTo(firstHash);
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task GlobExpansionExcludesConfiguredCacheDirectory()
+    {
+        var temporaryDirectory = Path.Combine(Path.GetTempPath(), $"ModularPipelines-cache-glob-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(cacheDirectory);
+
+        try
+        {
+            var input = Path.Combine(temporaryDirectory, "input.txt");
+            var cacheEntry = Path.Combine(cacheDirectory, "entry.zip");
+            await System.IO.File.WriteAllTextAsync(input, "input");
+            await System.IO.File.WriteAllTextAsync(cacheEntry, "cache");
+
+            var files = ModuleCacheFileResolver.ResolveFiles(
+                temporaryDirectory,
+                ["**/*"],
+                maximumFiles: 10,
+                excludedDirectory: cacheDirectory);
+
+            await Assert.That(files).IsEquivalentTo(new[] { input });
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CacheComposesWithResultRepositoryRegardlessOfRegistrationOrder(
+        bool cacheRegisteredFirst)
+    {
+        var temporaryDirectory = Path.Combine(Path.GetTempPath(), $"ModularPipelines-cache-compose-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        TrackingResultRepository.SaveCount = 0;
+
+        try
+        {
+            var builder = TestPipelineHostBuilder.Create();
+            if (cacheRegisteredFirst)
+            {
+                builder
+                    .AddModuleCache<FileSystemModuleCache>(options =>
+                    {
+                        options.WorkingDirectory = temporaryDirectory;
+                        options.CacheDirectory = Path.Combine(temporaryDirectory, "cache");
+                    })
+                    .AddResultsRepository<TrackingResultRepository>();
+            }
+            else
+            {
+                builder
+                    .AddResultsRepository<TrackingResultRepository>()
+                    .AddModuleCache<FileSystemModuleCache>(options =>
+                    {
+                        options.WorkingDirectory = temporaryDirectory;
+                        options.CacheDirectory = Path.Combine(temporaryDirectory, "cache");
+                    });
+            }
+
+            await using var host = await builder
+                .AddModule<UncachedModule>()
+                .BuildAsync();
+
+            await host.RunAsync();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(TrackingResultRepository.SaveCount).IsEqualTo(1);
+                await Assert.That(host.Services.GetRequiredService<IModuleResultRepository>())
+                    .IsTypeOf<TrackingResultRepository>();
+            }
         }
         finally
         {

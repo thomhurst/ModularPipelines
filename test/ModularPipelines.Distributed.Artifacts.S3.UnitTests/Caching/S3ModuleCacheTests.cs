@@ -1,6 +1,8 @@
 using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Distributed.Artifacts.S3.Extensions;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
 using Moq;
@@ -69,6 +71,37 @@ public class S3ModuleCacheTests
         var result = await cache.OpenReadAsync(Fingerprint, CancellationToken.None);
 
         await Assert.That(result).IsNull();
+    }
+
+    [Test]
+    public async Task CacheRegistrationDoesNotReplaceArtifactStoreOptions()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddS3DistributedArtifactStore(options =>
+        {
+            options.BucketName = "artifact-bucket";
+            options.KeyPrefix = "artifacts";
+        });
+        builder.AddS3ModuleCache(options =>
+        {
+            options.BucketName = "cache-bucket";
+            options.KeyPrefix = "cache";
+        });
+
+        var artifactOptions = builder.Services
+            .Where(descriptor => descriptor.ServiceType == typeof(S3ArtifactOptions))
+            .Select(descriptor => descriptor.ImplementationInstance)
+            .OfType<S3ArtifactOptions>()
+            .Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(artifactOptions.BucketName).IsEqualTo("artifact-bucket");
+            await Assert.That(artifactOptions.KeyPrefix).IsEqualTo("artifacts");
+            await Assert.That(builder.Services.Count(descriptor =>
+                    descriptor.ServiceType == typeof(S3ModuleCache)))
+                .IsEqualTo(1);
+        }
     }
 
     private static S3ModuleCache CreateCache(IAmazonS3 client) =>

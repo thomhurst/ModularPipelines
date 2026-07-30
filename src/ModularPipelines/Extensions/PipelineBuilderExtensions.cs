@@ -283,8 +283,8 @@ public static class PipelineBuilderExtensions
             serviceProvider => serviceProvider.GetRequiredService<TStore>()));
         builder.Services.TryAddSingleton<ModuleCacheFileHasher>();
         builder.Services.TryAddSingleton<ModuleCacheResultRepository>();
-        builder.Services.Replace(ServiceDescriptor.Singleton<IModuleResultRepository>(
-            serviceProvider => serviceProvider.GetRequiredService<ModuleCacheResultRepository>()));
+        builder.Services.TryAddSingleton<IModuleCacheResultRepository>(
+            serviceProvider => serviceProvider.GetRequiredService<ModuleCacheResultRepository>());
         return builder;
     }
 

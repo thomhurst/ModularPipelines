@@ -8,7 +8,8 @@ internal static class ModuleCacheFileResolver
     public static IReadOnlyList<string> ResolveFiles(
         string workingDirectory,
         IEnumerable<string> patterns,
-        int maximumFiles)
+        int maximumFiles,
+        string? excludedDirectory = null)
     {
         if (maximumFiles <= 0)
         {
@@ -16,6 +17,7 @@ internal static class ModuleCacheFileResolver
         }
 
         var root = Path.GetFullPath(workingDirectory);
+        var excludedRoot = excludedDirectory is null ? null : Path.GetFullPath(excludedDirectory);
         var files = new HashSet<string>(PathComparer);
         var globs = new List<Regex>();
 
@@ -33,13 +35,13 @@ internal static class ModuleCacheFileResolver
             var path = GetContainedPath(root, pattern);
             if (File.Exists(path))
             {
-                AddFile(files, path, maximumFiles);
+                AddFile(files, path, maximumFiles, excludedRoot);
             }
             else if (Directory.Exists(path))
             {
                 foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
                 {
-                    AddFile(files, file, maximumFiles);
+                    AddFile(files, file, maximumFiles, excludedRoot);
                 }
             }
         }
@@ -51,7 +53,7 @@ internal static class ModuleCacheFileResolver
                 var relativePath = NormalizeSeparators(Path.GetRelativePath(root, file));
                 if (globs.Any(regex => regex.IsMatch(relativePath)))
                 {
-                    AddFile(files, file, maximumFiles);
+                    AddFile(files, file, maximumFiles, excludedRoot);
                 }
             }
         }
@@ -105,15 +107,34 @@ internal static class ModuleCacheFileResolver
         }
     }
 
-    private static void AddFile(HashSet<string> files, string path, int maximumFiles)
+    private static void AddFile(
+        HashSet<string> files,
+        string path,
+        int maximumFiles,
+        string? excludedRoot)
     {
-        files.Add(Path.GetFullPath(path));
+        var fullPath = Path.GetFullPath(path);
+        if (excludedRoot is not null && IsWithin(excludedRoot, fullPath))
+        {
+            return;
+        }
+
+        files.Add(fullPath);
         if (files.Count > maximumFiles)
         {
             throw new InvalidOperationException(
                 $"Cache input expansion exceeded the configured limit of {maximumFiles:N0} files. "
                 + "Narrow the input globs or increase ModuleCacheOptions.MaximumInputFiles.");
         }
+    }
+
+    private static bool IsWithin(string root, string path)
+    {
+        var relative = Path.GetRelativePath(root, path);
+        return relative == "."
+               || (!relative.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
+                   && relative != ".."
+                   && !Path.IsPathRooted(relative));
     }
 
     private static Regex CreateGlobRegex(string glob)

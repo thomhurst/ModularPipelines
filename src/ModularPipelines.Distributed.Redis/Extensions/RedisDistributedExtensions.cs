@@ -15,13 +15,15 @@ namespace ModularPipelines.Distributed.Redis.Extensions;
 /// </summary>
 public static class RedisDistributedExtensions
 {
+    private static readonly object ModuleCacheConnectionKey = new();
+
     /// <summary>
     /// Enables a shareable Redis-backed module cache without enabling distributed execution.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configureRedis">Configures the Redis connection and key prefix.</param>
     /// <param name="configureArtifacts">Optionally configures cache chunking and expiry.</param>
-    /// <param name="configureCache">Optionally configures fingerprinting and local hash metadata.</param>
+    /// <param name="configureCache">Optionally configures fingerprinting behavior.</param>
     /// <returns>The same builder instance for chaining.</returns>
     public static PipelineBuilder AddRedisModuleCache(
         this PipelineBuilder builder,
@@ -34,13 +36,13 @@ public static class RedisDistributedExtensions
         var artifactOptions = new ArtifactOptions();
         configureArtifacts?.Invoke(artifactOptions);
 
-        builder.Services.AddSingleton(redisOptions);
-        builder.Services.AddSingleton(artifactOptions);
-        builder.Services.TryAddSingleton<IConnectionMultiplexer>(serviceProvider =>
-        {
-            var options = serviceProvider.GetRequiredService<RedisDistributedOptions>();
-            return ConnectionMultiplexer.Connect(options.ConnectionString);
-        });
+        builder.Services.TryAddKeyedSingleton<IConnectionMultiplexer>(
+            ModuleCacheConnectionKey,
+            (_, _) => ConnectionMultiplexer.Connect(redisOptions.ConnectionString));
+        builder.Services.TryAddSingleton(serviceProvider => new RedisModuleCache(
+            serviceProvider.GetRequiredKeyedService<IConnectionMultiplexer>(ModuleCacheConnectionKey),
+            redisOptions,
+            artifactOptions));
 
         return builder.AddModuleCache<RedisModuleCache>(configureCache);
     }
