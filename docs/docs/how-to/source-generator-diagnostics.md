@@ -54,9 +54,11 @@ Modular Pipelines uses runtime reflection for the missing metadata.
 
 Command or secret metadata generation was skipped because its declaring type is
 generic or inaccessible to generated code. Make the type and its containing types
-accessible and non-generic. Until fixed, Modular Pipelines uses runtime reflection.
+accessible and non-generic before publishing with trimming or Native AOT. Until
+fixed, Modular Pipelines uses runtime reflection, and required command or secret
+members may be removed by trimming.
 
-**Severity:** Info
+**Severity:** Warning
 
 ## MPG0007
 
