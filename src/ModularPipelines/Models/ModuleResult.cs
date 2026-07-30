@@ -68,25 +68,23 @@ public abstract record ModuleResult : IModuleResult
 
     /// <inheritdoc />
     [JsonIgnore]
-    public Exception? ExceptionOrDefault =>
-        this is Failure failure ? failure.Exception : GetExceptionFromWrapper();
+    public Exception? ExceptionOrDefault => GetExceptionCore();
 
     /// <inheritdoc />
     [JsonIgnore]
-    public SkipDecision? SkipDecisionOrDefault =>
-        this is Skipped skipped ? skipped.Decision : GetSkipDecisionFromWrapper();
+    public SkipDecision? SkipDecisionOrDefault => GetSkipDecisionCore();
 
     /// <summary>
-    /// Gets the exception from a typed failure variant. Override in derived classes.
+    /// Gets the exception from a failure variant. Override in derived classes.
     /// </summary>
-    /// <returns>The wrapped exception, or <c>null</c>.</returns>
-    protected virtual Exception? GetExceptionFromWrapper() => null;
+    /// <returns>The exception, or <c>null</c>.</returns>
+    protected virtual Exception? GetExceptionCore() => null;
 
     /// <summary>
-    /// Gets the skip decision from a typed skipped variant. Override in derived classes.
+    /// Gets the skip decision from a skipped variant. Override in derived classes.
     /// </summary>
-    /// <returns>The wrapped skip decision, or <c>null</c>.</returns>
-    protected virtual SkipDecision? GetSkipDecisionFromWrapper() => null;
+    /// <returns>The skip decision, or <c>null</c>.</returns>
+    protected virtual SkipDecision? GetSkipDecisionCore() => null;
 
     // === Internal: Module type tracking ===
 
@@ -110,6 +108,9 @@ public abstract record ModuleResult : IModuleResult
     {
         /// <inheritdoc />
         protected override object? GetValueOrDefault() => null;
+
+        /// <inheritdoc />
+        protected override Exception? GetExceptionCore() => Exception;
     }
 
     /// <summary>
@@ -124,6 +125,9 @@ public abstract record ModuleResult : IModuleResult
     {
         /// <inheritdoc />
         protected override object? GetValueOrDefault() => null;
+
+        /// <inheritdoc />
+        protected override SkipDecision? GetSkipDecisionCore() => Decision;
     }
 
     // === Internal factory methods for non-generic results ===
@@ -304,7 +308,7 @@ public abstract record ModuleResult<T> : ModuleResult
     public new sealed record Failure(Exception Exception) : ModuleResult<T>
     {
         /// <inheritdoc />
-        protected override Exception? GetExceptionFromWrapper() => Exception;
+        protected override Exception? GetExceptionCore() => Exception;
     }
 
     /// <summary>
@@ -314,7 +318,7 @@ public abstract record ModuleResult<T> : ModuleResult
     public new sealed record Skipped(SkipDecision Decision) : ModuleResult<T>
     {
         /// <inheritdoc />
-        protected override SkipDecision? GetSkipDecisionFromWrapper() => Decision;
+        protected override SkipDecision? GetSkipDecisionCore() => Decision;
     }
 
     // === Implicit conversions from non-generic Failure/Skipped ===
