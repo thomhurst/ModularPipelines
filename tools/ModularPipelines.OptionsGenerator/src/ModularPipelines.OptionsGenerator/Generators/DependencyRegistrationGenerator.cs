@@ -11,7 +11,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
 {
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
-        if (!tool.GenerateCommandFacade)
+        if (!tool.GenerateCommandFacade && tool.SubDomainGroups.Count == 0)
         {
             return Task.FromResult<IReadOnlyList<GeneratedFile>>([]);
         }
@@ -50,7 +50,11 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection.Extensions;");
         sb.AppendLine("using ModularPipelines.Attributes;");
-        sb.AppendLine("using ModularPipelines.Context;");
+        if (tool.GenerateCommandFacade)
+        {
+            sb.AppendLine("using ModularPipelines.Context;");
+        }
+
         sb.AppendLine($"using {tool.TargetNamespace}.Services;");
         sb.AppendLine();
 
@@ -80,9 +84,11 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         sb.AppendLine($"    public static IServiceCollection Register{serviceName}Context(this IServiceCollection services)");
         sb.AppendLine("    {");
 
-        // Register main service
-        // Use Services.{serviceName} to avoid ambiguity with namespace (e.g., ModularPipelines.Helm vs Helm class)
-        sb.AppendLine($"        services.TryAddScoped<{interfaceName}, Services.{serviceName}>();");
+        if (tool.GenerateCommandFacade)
+        {
+            // Use Services.{serviceName} to avoid ambiguity with namespace (e.g., ModularPipelines.Helm vs Helm class)
+            sb.AppendLine($"        services.TryAddScoped<{interfaceName}, Services.{serviceName}>();");
+        }
 
         // Register sub-domain services
         var subDomains = tool.SubDomainGroups.OrderBy(s => s).ToList();
@@ -107,13 +113,16 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         sb.AppendLine("    }");
         sb.AppendLine();
 
-        // Traditional extension method retained as a pre-C# 14 compatibility accessor.
-        sb.AppendLine("    /// <summary>");
-        sb.AppendLine($"    /// Gets the {tool.ToolName} service from the pipeline context for compatibility.");
-        sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    /// <param name=\"context\">The pipeline context.</param>");
-        sb.AppendLine($"    /// <returns>The <see cref=\"{interfaceName}\"/> service for executing {tool.ToolName} commands.</returns>");
-        sb.AppendLine($"    public static {interfaceName} {serviceName}(this IPipelineContext context) => context.Services.Get<{interfaceName}>();");
+        if (tool.GenerateCommandFacade)
+        {
+            // Traditional extension method retained as a pre-C# 14 compatibility accessor.
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// Gets the {tool.ToolName} service from the pipeline context for compatibility.");
+            sb.AppendLine("    /// </summary>");
+            sb.AppendLine("    /// <param name=\"context\">The pipeline context.</param>");
+            sb.AppendLine($"    /// <returns>The <see cref=\"{interfaceName}\"/> service for executing {tool.ToolName} commands.</returns>");
+            sb.AppendLine($"    public static {interfaceName} {serviceName}(this IPipelineContext context) => context.Services.Get<{interfaceName}>();");
+        }
 
         sb.AppendLine("}");
 
