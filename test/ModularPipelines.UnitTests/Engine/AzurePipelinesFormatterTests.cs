@@ -37,4 +37,16 @@ public class AzurePipelinesFormatterTests
         await Assert.That(command)
             .IsEqualTo("##vso[task.logissue type=warning;]50%AZP25%3B%5D%0D%0Anext");
     }
+
+    [Test]
+    public async Task GetMaskSecretCommand_EscapesReservedCharacters()
+    {
+        var command = new AzurePipelinesFormatter()
+            .GetMaskSecretCommand("50%;]\r\nnext");
+
+        await Assert.That(command)
+            .EndsWith(";issecret=true]50%AZP25%3B%5D%0D%0Anext");
+        await Assert.That(command).DoesNotContain("\r");
+        await Assert.That(command).DoesNotContain("\n");
+    }
 }

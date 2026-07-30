@@ -20,6 +20,8 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </example>
 internal class TeamCityFormatter : IBuildSystemFormatter
 {
+    public bool UsesRawCommands => true;
+
     public string GetStartBlockCommand(string name) => $"##teamcity[blockOpened name='{EscapeValue(name)}']";
 
     public string GetEndBlockCommand(string name) => $"##teamcity[blockClosed name='{EscapeValue(name)}']";

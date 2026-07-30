@@ -20,6 +20,8 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </example>
 internal class GitHubActionsFormatter : IBuildSystemFormatter
 {
+    public bool UsesRawCommands => true;
+
     public string GetStartBlockCommand(string name) => $"::group::{name}";
 
     public string GetEndBlockCommand(string name) => "::endgroup::";

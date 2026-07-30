@@ -9,18 +9,21 @@ internal class DependencyPrinter : IDependencyPrinter
 {
     private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly IConsoleWriter _consoleWriter;
+    private readonly IBuildSystemCommandWriter _commandWriter;
     private readonly IBuildSystemFormatter _formatter;
     private readonly IOptions<PipelineOptions> _options;
     private readonly IDependencyTreeFormatter _treeFormatter;
 
     public DependencyPrinter(IDependencyChainProvider dependencyChainProvider,
         IConsoleWriter consoleWriter,
+        IBuildSystemCommandWriter commandWriter,
         IBuildSystemFormatterProvider formatterProvider,
         IOptions<PipelineOptions> options,
         IDependencyTreeFormatter treeFormatter)
     {
         _dependencyChainProvider = dependencyChainProvider;
         _consoleWriter = consoleWriter;
+        _commandWriter = commandWriter;
         _formatter = formatterProvider.GetFormatter();
         _options = options;
         _treeFormatter = treeFormatter;
@@ -49,7 +52,7 @@ internal class DependencyPrinter : IDependencyPrinter
         var startCommand = _formatter.GetStartBlockCommand("Module Dependencies");
         if (startCommand != null)
         {
-            _consoleWriter.LogToConsole(startCommand);
+            WriteGroupCommand(startCommand);
         }
 
         _consoleWriter.Write(tree);
@@ -57,7 +60,19 @@ internal class DependencyPrinter : IDependencyPrinter
         var endCommand = _formatter.GetEndBlockCommand("Module Dependencies");
         if (endCommand != null)
         {
-            _consoleWriter.LogToConsole(endCommand);
+            WriteGroupCommand(endCommand);
+        }
+    }
+
+    private void WriteGroupCommand(string command)
+    {
+        if (_formatter.UsesRawCommands)
+        {
+            _commandWriter.WriteLine(command);
+        }
+        else
+        {
+            _consoleWriter.LogToConsole(command);
         }
     }
 }

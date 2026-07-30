@@ -9,6 +9,44 @@ namespace ModularPipelines.UnitTests.Console;
 public class ModuleOutputBufferTests
 {
     [Test]
+    public async Task Flush_Writes_Group_Commands_Without_Markup_Rendering()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new MarkupLikeBuildSystemFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        await Assert.That(writer.ToString()).Contains("[red]::group::[/]");
+    }
+
+    [Test]
+    public async Task Flush_Renders_Local_Group_Header_Markup()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new DefaultFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("▶");
+        await Assert.That(output).DoesNotContain("[bold cyan]");
+    }
+
+    [Test]
     public async Task Flush_Writes_Structured_Logs_Before_Group_End()
     {
         var writer = new StringWriter();
@@ -781,5 +819,16 @@ public class ModuleOutputBufferTests
         }
 
         public Task FlushAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+    }
+
+    private sealed class MarkupLikeBuildSystemFormatter : IBuildSystemFormatter
+    {
+        public bool UsesRawCommands => true;
+
+        public string GetStartBlockCommand(string name) => "[red]::group::[/]";
+
+        public string GetEndBlockCommand(string name) => "::endgroup::";
+
+        public string? GetMaskSecretCommand(string secret) => null;
     }
 }

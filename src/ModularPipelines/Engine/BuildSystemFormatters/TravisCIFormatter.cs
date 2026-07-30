@@ -18,6 +18,8 @@ namespace ModularPipelines.Engine.BuildSystemFormatters;
 /// </example>
 internal class TravisCIFormatter : IBuildSystemFormatter
 {
+    public bool UsesRawCommands => true;
+
     public string GetStartBlockCommand(string name)
     {
         var foldId = IdSanitizer.ToSectionId(name);

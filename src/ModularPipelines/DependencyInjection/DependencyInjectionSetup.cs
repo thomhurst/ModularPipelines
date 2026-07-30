@@ -294,6 +294,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<ISecretProvider>(sp => sp.GetRequiredService<SecretProvider>())
             .AddSingleton<ISecretRegistry>(sp => sp.GetRequiredService<SecretProvider>())
             .AddSingleton<ISecretObfuscator, SecretObfuscator>()
+            .AddSingleton<IBuildSystemCommandWriter, BuildSystemCommandWriter>()
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
             .AddSingleton<IBuildSystemFormatterProvider, BuildSystemFormatterProvider>();

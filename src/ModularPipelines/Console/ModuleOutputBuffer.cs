@@ -396,7 +396,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             // synchronous rendering, so unrelated logger calls cannot enter this group.
             if (startCommand != null)
             {
-                WriteDirect(directConsole, console, startCommand);
+                WriteGroupCommand(console, directConsole, formatter, startCommand);
                 groupStarted = true;
             }
 
@@ -418,7 +418,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             if (groupStarted && endCommand != null)
             {
-                console.WriteLine(endCommand);
+                WriteGroupCommand(console, directConsole, formatter, endCommand);
             }
 
             if (groupStarted || flushCompleted)
@@ -662,6 +662,22 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             // CI workflow commands and arbitrary output can contain brackets that are not Spectre markup.
             console.WriteLine(value);
+        }
+    }
+
+    private static void WriteGroupCommand(
+        TextWriter console,
+        IAnsiConsole directConsole,
+        IBuildSystemFormatter formatter,
+        string command)
+    {
+        if (formatter.UsesRawCommands)
+        {
+            console.WriteLine(command);
+        }
+        else
+        {
+            WriteDirect(directConsole, console, command);
         }
     }
 }
