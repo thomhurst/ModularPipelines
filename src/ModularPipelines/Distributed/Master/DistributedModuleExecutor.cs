@@ -25,6 +25,7 @@ internal class DistributedModuleExecutor(
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
+    IModuleResultRegistrar resultRegistrar,
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
@@ -41,6 +42,7 @@ internal class DistributedModuleExecutor(
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IModuleResultRegistrar _resultRegistrar = resultRegistrar;
     private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
@@ -89,7 +91,7 @@ internal class DistributedModuleExecutor(
                 _resultRegistry);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
-            cts.Token.Register(() => scheduler.CancelPendingModules());
+            cts.Token.Register(() => CompleteCancelledModules(scheduler, _resultRegistrar, cts.Token));
 
             var schedulerTask = scheduler.RunSchedulerAsync(cts.Token);
             var resultTasks = new List<Task>();
@@ -169,6 +171,17 @@ internal class DistributedModuleExecutor(
         }
 
         return modules;
+    }
+
+    internal static void CompleteCancelledModules(
+        IModuleScheduler scheduler,
+        IModuleResultRegistrar resultRegistrar,
+        CancellationToken cancellationToken)
+    {
+        var cancelledModules = scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+        resultRegistrar.RegisterTerminatedResultsForCancelledModules(
+            cancelledModules,
+            new OperationCanceledException(cancellationToken));
     }
 
     private async Task WaitForWorkersAsync(CancellationToken cancellationToken)
