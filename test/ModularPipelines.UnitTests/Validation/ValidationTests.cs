@@ -14,6 +14,18 @@ namespace ModularPipelines.UnitTests.Validation;
 
 public class ValidationTests
 {
+    private sealed class LegacyOptionsValidator : IOptionsValidator
+    {
+        public int Order => 0;
+
+        public ValidationResult Validate(IServiceProvider services) => ValidationResult.Success();
+
+        public ValidationResult ValidateOptions(PipelineOptions options) =>
+            ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "legacy validator called"));
+    }
+
     // Test modules for various scenarios
     private class SimpleModule : Module<string>
     {
@@ -25,6 +37,13 @@ public class ValidationTests
     {
         protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
+    }
+
+    [ModuleCategory("Build")]
+    private class CategorizedModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("categorized");
     }
 
     // Module that depends on itself (invalid)
@@ -578,6 +597,146 @@ public class ValidationTests
         await Assert.That(result.Errors.Any(e =>
             e.Category == ValidationErrorCategory.Options &&
             e.Message.Contains("Category1"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithCaseInsensitiveCategoryConflict_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["Build"],
+            IgnoreCategories = ["build"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("Build", StringComparison.OrdinalIgnoreCase))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithUnknownRunOnlyCategory_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["Typo"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("RunOnlyCategories") &&
+            e.Message.Contains("zero registered modules") &&
+            e.Message.Contains("Typo"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithPartlyUnknownRunOnlyCategories_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["build", "Typo"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("RunOnlyCategories") &&
+            e.Message.Contains("Typo"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithUnknownIgnoreCategory_ReturnsError()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            IgnoreCategories = ["Typo"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("IgnoreCategories") &&
+            e.Message.Contains("Typo"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithCaseInsensitiveCategoryMatch_ReturnsNoCategoryErrors()
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CategorizedModule>();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["build"],
+        });
+
+        var result = await builder.ValidateAsync();
+
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Options &&
+            e.Message.Contains("categor", StringComparison.OrdinalIgnoreCase))).IsFalse();
+    }
+
+    [Test]
+    public async Task ValidateOptions_WithRegisteredCategories_RejectsUnknownCategory()
+    {
+        IOptionsValidator validator = new OptionsValidator();
+        var options = new PipelineOptions
+        {
+            RunOnlyCategories = ["Typo"],
+        };
+
+        var result = validator.ValidateOptions(
+            options,
+            new HashSet<string>(["Build"], StringComparer.OrdinalIgnoreCase));
+
+        await Assert.That(result.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Options &&
+            error.Message.Contains("Typo"));
+    }
+
+    [Test]
+    public async Task ValidateOptions_WithCaseSensitiveCategorySet_MatchesIgnoringCase()
+    {
+        IOptionsValidator validator = new OptionsValidator();
+        var options = new PipelineOptions
+        {
+            RunOnlyCategories = ["build"],
+            IgnoreCategories = ["test"],
+        };
+
+        var result = validator.ValidateOptions(
+            options,
+            new HashSet<string>(["Build", "Test"]));
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options &&
+            error.Message.Contains("categor", StringComparison.OrdinalIgnoreCase))).IsFalse();
+    }
+
+    [Test]
+    public async Task CategoryAwareOverloadUsesLegacyValidatorImplementationByDefault()
+    {
+        IOptionsValidator validator = new LegacyOptionsValidator();
+
+        var result = validator.ValidateOptions(
+            new PipelineOptions(),
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+
+        await Assert.That(result.Errors).Contains(error =>
+            error.Message == "legacy validator called");
     }
 
     [Test]
