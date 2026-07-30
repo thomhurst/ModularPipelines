@@ -76,6 +76,8 @@ If you have a Redis instance accessible from the internet (or via a VPN), use it
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed.Extensions;
+using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
