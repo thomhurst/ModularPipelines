@@ -2304,6 +2304,10 @@ ModularPipelines modules can be authored and executed from an F# project. Inheri
 from `Module<'T>`, override `ExecuteAsync`, and open
 `ModularPipelines.Extensions` for pipeline-builder extension methods.
 
+F# pipelines currently require a JIT-compiled application. Trimming and Native AOT
+are not supported because the metadata generators run only for C# compilations. The
+package emits `MPAOT001` if an F# project enables `PublishTrimmed` or `PublishAot`.
+
 ```fsharp
 open System.Threading
 open System.Threading.Tasks
@@ -2983,6 +2987,82 @@ Logging settings are resolved in this order (highest to lowest priority):
 1. **Per-Call**: `CommandExecutionOptions.LogSettings` on individual command calls
 2. **Global Default**: `DefaultLoggingOptions` configured at pipeline level
 3. **System Default**: `CommandLoggingOptions.Default` (Normal verbosity)
+
+---
+
+## Trimming and Native AOT
+
+The core `ModularPipelines` package supports trimmed and Native AOT C# applications
+when the pipeline can be described at compile time. Its C# source generator emits the
+module, dependency, hook, command-option, and secret metadata needed by the runtime.
+
+F# pipeline projects are not trim or Native AOT certified. The package emits
+`MPAOT001` when an F# project enables `PublishTrimmed` or `PublishAot`, because the C#
+source generators cannot emit metadata for an `.fsproj`. Keep F# pipelines
+JIT-compiled, or move their module declarations and registrations into a C# project.
+
+## Supported pipeline shape
+
+Use generic registration for every module:
+
+```csharp
+using var builder = Pipeline.CreateBuilder(args);
+
+builder
+    .AddModule<BuildModule>()
+    .AddModule<TestModule>();
+
+await builder.ExecutePipelineAsync();
+```
+
+The source generator must run in the application project. Statically declared
+`DependsOn<TModule>` dependencies, module lifecycle attributes, command option
+attributes, and `SecretValue` properties then use generated metadata without runtime
+reflection.
+
+For JSON, use a source-generated `JsonSerializerContext` and the `JsonTypeInfo`
+overloads on `IJsonContext`. The convenience overloads that accept only a value or
+`JsonSerializerOptions` are marked as requiring dynamic code and unreferenced members.
+
+## Unsupported dynamic scenarios
+
+Native AOT does not support pipeline shapes introduced only at runtime:
+
+- assembly scanning through `AddModulesFromAssembly` or plugin assembly loading;
+- module or result types supplied dynamically after compilation;
+- selector dependencies such as `DependsOnAllModulesInheritingFrom<T>`,
+  `DependsOnModulesWithTag`, `DependsOnModulesInCategory`, custom
+  `DependsOnBaseAttribute` implementations, custom `DependsOnAttribute`
+  subclasses, and similar runtime predicates; use built-in explicit
+  `DependsOn<T>` dependencies instead;
+- distributed type-erased `ModuleResult` JSON serialization and runtime history
+  repositories;
+- reflection-based XML, YAML, or JSON serialization.
+
+These APIs remain available to JIT-compiled applications and carry trim/AOT
+annotations where appropriate. Tool integration packages are not AOT-certified unless
+their package explicitly declares `IsAotCompatible`.
+
+## Validate an application
+
+Enable the analyzers and publish for a concrete runtime identifier:
+
+```xml
+<PropertyGroup>
+  <PublishAot>true</PublishAot>
+  <PublishTrimmed>true</PublishTrimmed>
+  <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+  <EnableAotAnalyzer>true</EnableAotAnalyzer>
+</PropertyGroup>
+```
+
+```bash
+dotnet publish -c Release -r linux-x64 --self-contained true
+```
+
+The repository validates a representative pipeline with modules, dependencies,
+lifecycle hooks, command execution, generated command metadata, and secret masking in
+both trimmed and Native AOT CI lanes.
 
 ---
 
@@ -3922,9 +4002,11 @@ Modular Pipelines uses runtime reflection for the missing metadata.
 
 Command or secret metadata generation was skipped because its declaring type is
 generic or inaccessible to generated code. Make the type and its containing types
-accessible and non-generic. Until fixed, Modular Pipelines uses runtime reflection.
+accessible and non-generic before publishing with trimming or Native AOT. Until
+fixed, Modular Pipelines uses runtime reflection, and required command or secret
+members may be removed by trimming.
 
-**Severity:** Info
+**Severity:** Warning
 
 ## MPG0007
 
@@ -3955,6 +4037,63 @@ A tool accessor would generate a property whose name is already available on
 `IToolsContext` or `object`, such as `Get` or `GetType`. Rename the accessor.
 
 **Severity:** Error
+
+## MPG0011
+
+Module runtime metadata generation was skipped because the module or one of its
+containing types is inaccessible to generated code. Make the module and its
+containing types accessible before publishing with Native AOT. Runtime reflection
+remains available for ordinary JIT deployments.
+
+**Severity:** Warning
+
+## MPG0012
+
+A consumer references a closed generic module declared in another assembly, either
+through `AddModule<T>()` or a transitive `DependsOn<T>` chain. The consumer generator
+cannot add runtime metadata owned by that external assembly. Use a consumer-owned
+non-generic wrapper for the module before publishing with Native AOT.
+
+**Severity:** Warning
+
+## MPG0013
+
+An `AddModule<TModule>()` call uses a type parameter. The source generator cannot
+determine every closed construction that may flow through the generic helper, so
+trim-safe runtime metadata cannot be generated. Register each concrete module type
+directly, or use a non-generic helper that lists concrete registrations explicitly,
+before publishing with Native AOT.
+
+**Severity:** Warning
+
+## MPG0014
+
+A module has one or more partial declarations. Another source generator can add a
+partial declaration that this generator cannot observe, so dependency metadata
+remains incomplete and runtime reflection is used as a fallback. Avoid partial
+module declarations before publishing with Native AOT.
+
+**Severity:** Warning
+
+## MPG0015
+
+An `AddModule` call uses a non-concrete static module type, such as `IModule` or an
+abstract module base class. The source generator cannot determine the concrete runtime
+type, so trim-safe runtime metadata cannot be generated. Register the concrete module
+type directly before publishing with Native AOT.
+
+**Severity:** Warning
+
+## MPG0016
+
+A module, base class, or implemented interface uses dependency metadata that requires
+runtime reflection. This includes `DependsOnAllModulesInheritingFrom<T>`,
+`DependsOnModulesWithTag`, `DependsOnModulesInCategory`,
+`DependsOnModulesWithAttribute<T>`, a custom `DependsOnBaseAttribute`, or a custom
+`DependsOnAttribute` subclass. Trimming can remove this metadata. Replace it with the
+built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
+
+**Severity:** Warning
 
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
@@ -3991,6 +4130,10 @@ builder.AddResultsRepository<MyModuleRepository>();
 
 await builder.ExecutePipelineAsync();
 ```
+
+Result history resolves type-erased module results at runtime and is not supported for
+trimmed or Native AOT applications. `AddResultsRepository<TRepository>()` emits the
+corresponding trim and dynamic-code warnings.
 
 ```csharp
 public class MyModuleRepository : IModuleResultRepository

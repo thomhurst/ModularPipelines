@@ -35,6 +35,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Ignoring Failures](https://thomhurst.github.io/ModularPipelines/docs/how-to/ignoring-failures): Sometimes a module might throw an exception, but we simply don't care as it's not that important, or a specific error might be expected.
 - [Inheriting](https://thomhurst.github.io/ModularPipelines/docs/how-to/inheriting): Each 'Module' is expected to be registered only once. If you build a custom module that you'd like to instantiate multiple times but with different...
 - [Logging](https://thomhurst.github.io/ModularPipelines/docs/how-to/logging): This is because the `IModuleLogger` will perform many actions that will improve the output of your logs.
+- [Trimming and Native AOT](https://thomhurst.github.io/ModularPipelines/docs/next/how-to/native-aot): The core `ModularPipelines` package supports trimmed and Native AOT C# applications
 - [Parallelization](https://thomhurst.github.io/ModularPipelines/docs/how-to/parallelization): As mentioned, modules will try to run in parallel by default, waiting on any dependencies if they need to.
 - [Pipeline Host](https://thomhurst.github.io/ModularPipelines/docs/how-to/pipeline-host): To begin creating your pipeline, use the `Pipeline.CreateBuilder()` method.
 - [Pipeline Execution Modes](https://thomhurst.github.io/ModularPipelines/docs/how-to/pipeline-modes): A pipeline has two execution modes:
