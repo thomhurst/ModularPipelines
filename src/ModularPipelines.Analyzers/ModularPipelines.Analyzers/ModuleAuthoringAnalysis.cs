@@ -91,6 +91,11 @@ internal static class ModuleAuthoringAnalysis
                 instanceRegisteredModules,
                 scannedAssemblies),
             OperationKind.Invocation);
+        context.RegisterOperationAction(
+            operationContext => TrackServiceCollectionIndexerAssignment(
+                operationContext,
+                instanceRegisteredModules),
+            OperationKind.SimpleAssignment);
         context.RegisterCompilationEndAction(endContext =>
             ReportModuleDiagnostics(
                 endContext,
@@ -289,7 +294,7 @@ internal static class ModuleAuthoringAnalysis
     private static void AnalyzeReturn(OperationAnalysisContext context)
     {
         if (context.ContainingSymbol is not IMethodSymbol method
-            || method.MethodKind != MethodKind.Ordinary
+            || method.MethodKind is not (MethodKind.Ordinary or MethodKind.PropertyGet)
             || method.IsAsync
             || GetModuleExecutionMethod(context) is not { } executionMethod
             || context.Operation is not IReturnOperation { ReturnedValue: { } returnedValue })
@@ -787,6 +792,25 @@ internal static class ModuleAuthoringAnalysis
             default:
                 return false;
         }
+    }
+
+    private static void TrackServiceCollectionIndexerAssignment(
+        OperationAnalysisContext context,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
+    {
+        var assignment = (ISimpleAssignmentOperation) context.Operation;
+        if (assignment.Target is not IPropertyReferenceOperation indexer
+            || !indexer.Property.IsIndexer
+            || !IsServiceCollectionType(indexer.Instance?.Type)
+            || !IsServiceDescriptorType(indexer.Property.Type))
+        {
+            return;
+        }
+
+        TryTrackServiceDescriptor(
+            assignment.Value,
+            instanceRegisteredModules,
+            [with(SymbolEqualityComparer.Default)]);
     }
 
     private static bool TryTrackServiceDescriptorCollection(
@@ -1449,7 +1473,7 @@ internal static class ModuleAuthoringAnalysis
         OperationAnalysisContext context,
         IMethodSymbol method)
     {
-        if (method.MethodKind != MethodKind.Ordinary
+        if (method.MethodKind is not (MethodKind.Ordinary or MethodKind.PropertyGet)
             || !TryGetReachableExecuteMethod(context, method, out var executeMethod))
         {
             return null;
@@ -1600,6 +1624,20 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
+        for (var overridden = invocation.IsVirtual
+                 ? callable.OverriddenMethod
+                 : null;
+             overridden is not null;
+             overridden = overridden.OverriddenMethod)
+        {
+            if (SymbolEqualityComparer.Default.Equals(
+                    invocation.TargetMethod.OriginalDefinition,
+                    overridden.OriginalDefinition))
+            {
+                return true;
+            }
+        }
+
         if (invocation.Instance is not null
             && ValueContainsCallable(
                 invocation.Instance,
@@ -1734,15 +1772,31 @@ internal static class ModuleAuthoringAnalysis
             context.Compilation,
             static _ => new(SymbolEqualityComparer.Default));
 
-        foreach (var candidate in GetModuleExecuteMethods(context.Compilation)
-                     .Where(method =>
-                         method.ContainingType.InheritsFrom(targetMethod.ContainingType)))
+        foreach (var candidate in GetModuleExecuteMethods(context.Compilation))
         {
-            var rootExecuteMethod = candidate;
+            var analysisType = candidate.ContainingType.InheritsFrom(
+                targetMethod.ContainingType)
+                ? candidate.ContainingType
+                : targetMethod.ContainingType.InheritsFrom(candidate.ContainingType)
+                    ? targetMethod.ContainingType
+                    : null;
+            if (analysisType is null)
+            {
+                continue;
+            }
+
+            if (!SymbolEqualityComparer.Default.Equals(
+                    candidate,
+                    GetEffectiveModuleExecuteMethod(analysisType, context.Compilation)))
+            {
+                continue;
+            }
+
             var reachable = cache.GetOrAdd(
-                candidate.ContainingType,
+                analysisType,
                 _ => GetReachableMemberMethods(
-                    rootExecuteMethod,
+                    candidate,
+                    analysisType,
                     context.Compilation,
                     context.CancellationToken));
             if (reachable.Contains(targetMethod))
@@ -1754,6 +1808,17 @@ internal static class ModuleAuthoringAnalysis
 
         executeMethod = null!;
         return false;
+    }
+
+    private static IMethodSymbol? GetEffectiveModuleExecuteMethod(
+        INamedTypeSymbol moduleType,
+        Compilation compilation)
+    {
+        return GetModuleTypeHierarchy(moduleType, compilation)
+            .SelectMany(type => type.GetMembers(
+                AnalyzerConstants.MethodNames.ExecuteAsync))
+            .OfType<IMethodSymbol>()
+            .FirstOrDefault(method => IsModuleExecuteAsync(method, compilation));
     }
 
     private static ImmutableArray<IMethodSymbol> GetModuleExecuteMethods(
@@ -1794,14 +1859,15 @@ internal static class ModuleAuthoringAnalysis
 
     private static ImmutableHashSet<IMethodSymbol> GetReachableMemberMethods(
         IMethodSymbol executeMethod,
+        INamedTypeSymbol analysisType,
         Compilation compilation,
         CancellationToken cancellationToken)
     {
-        var memberMethods = GetModuleTypeHierarchy(executeMethod.ContainingType, compilation)
+        var memberMethods = GetModuleTypeHierarchy(analysisType, compilation)
             .SelectMany(static type => type.GetMembers())
             .OfType<IMethodSymbol>()
             .Where(static method =>
-                method.MethodKind == MethodKind.Ordinary
+                method.MethodKind is MethodKind.Ordinary or MethodKind.PropertyGet
                 && method.DeclaringSyntaxReferences.Length > 0)
             .ToImmutableArray();
         var reachable = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default)
@@ -1874,6 +1940,9 @@ internal static class ModuleAuthoringAnalysis
         var invocations = operation.DescendantsAndSelf()
             .OfType<IInvocationOperation>()
             .ToImmutableArray();
+        var propertyReferences = operation.DescendantsAndSelf()
+            .OfType<IPropertyReferenceOperation>()
+            .ToImmutableArray();
         var nestedCallables = operation.DescendantsAndSelf()
             .Select(GetCallableSymbol)
             .Where(static callable => callable is not null)
@@ -1901,6 +1970,36 @@ internal static class ModuleAuthoringAnalysis
                 }
             }
         }
+
+        foreach (var propertyReference in propertyReferences)
+        {
+            var caller = GetCallableSymbol(GetEnclosingCallable(propertyReference));
+            if (caller is not null
+                && !reachableNestedCallables.Contains(caller))
+            {
+                continue;
+            }
+
+            foreach (var method in memberMethods)
+            {
+                if (PropertyReferenceTargetsGetter(propertyReference, method))
+                {
+                    yield return method;
+                }
+            }
+        }
+    }
+
+    private static bool PropertyReferenceTargetsGetter(
+        IPropertyReferenceOperation propertyReference,
+        IMethodSymbol method)
+    {
+        return propertyReference.Property.GetMethod is { } getter
+               && SymbolEqualityComparer.Default.Equals(
+                   getter.OriginalDefinition,
+                   method.OriginalDefinition)
+               && (propertyReference.Parent is not ISimpleAssignmentOperation assignment
+                   || !ReferenceEquals(assignment.Target, propertyReference));
     }
 
     private static bool? GetLinqInvocationConsumption(

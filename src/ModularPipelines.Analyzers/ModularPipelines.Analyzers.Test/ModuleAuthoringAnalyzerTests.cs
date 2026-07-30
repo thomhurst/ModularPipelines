@@ -251,6 +251,34 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_With_Service_Collection_Indexer()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services[0] =
+                        ServiceDescriptor.Singleton<IModule, BuildModule>();
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Describe_Registration_Still_Reports_Unregistered_Module()
     {
         var source = $$"""
@@ -2405,6 +2433,95 @@ public class ModuleAuthoringAnalyzerTests
                 {
                     await WorkAsync(cancellationToken);
                     return null;
+                }
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+            """;
+
+        var unflowedToken = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        var blockingCall = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(1);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            unflowedToken,
+            blockingCall);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_In_Invoked_Property_Getter()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Pending;
+                return null;
+            }
+
+                private Task Pending
+                {
+                    get
+                    {
+                        {|#0:Thread.Sleep(1)|};
+                        return {|#1:FetchAsync()|};
+                    }
+                }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        var blockingCall = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        var unflowedToken = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(1)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            blockingCall,
+            unflowedToken);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_In_Virtual_Helper_Override()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public abstract class BaseModule : Module<List<string>?>
+            {
+                protected override async Task<List<string>?> ExecuteAsync(
+                    IModuleContext context,
+                    CancellationToken cancellationToken)
+                {
+                    await WorkAsync(cancellationToken);
+                    return null;
+                }
+
+                protected abstract Task WorkAsync(CancellationToken cancellationToken);
+            }
+
+            public class BuildModule : BaseModule
+            {
+                protected override async Task WorkAsync(
+                    CancellationToken cancellationToken)
+                {
+                    await {|#0:Task.Delay(1)|};
+                    {|#1:Thread.Sleep(1)|};
                 }
             }
 
