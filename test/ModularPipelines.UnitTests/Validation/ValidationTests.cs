@@ -678,6 +678,24 @@ public class ValidationTests
     }
 
     [Test]
+    public async Task ValidateOptions_WithRegisteredCategories_RejectsUnknownCategory()
+    {
+        IOptionsValidator validator = new OptionsValidator();
+        var options = new PipelineOptions
+        {
+            RunOnlyCategories = ["Typo"],
+        };
+
+        var result = validator.ValidateOptions(
+            options,
+            new HashSet<string>(["Build"], StringComparer.OrdinalIgnoreCase));
+
+        await Assert.That(result.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Options &&
+            error.Message.Contains("Typo"));
+    }
+
+    [Test]
     public async Task ValidateAsync_WithSelfReferencingModule_ReturnsError()
     {
         // Arrange

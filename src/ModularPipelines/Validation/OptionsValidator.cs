@@ -23,10 +23,9 @@ internal class OptionsValidator : IOptionsValidator
             return ValidationResult.Success();
         }
 
-        var options = optionsSnapshot.Value;
-        var result = ValidateOptions(options);
-        ValidateRegisteredCategories(services, options, result);
-        return result;
+        return ValidateOptions(
+            optionsSnapshot.Value,
+            GetRegisteredCategories(services));
     }
 
     /// <inheritdoc />
@@ -103,21 +102,26 @@ internal class OptionsValidator : IOptionsValidator
         return result;
     }
 
-    private static void ValidateRegisteredCategories(
-        IServiceProvider services,
+    /// <inheritdoc />
+    public ValidationResult ValidateOptions(
         PipelineOptions options,
-        ValidationResult result)
+        IReadOnlySet<string> registeredCategories)
     {
-        var modules = services.GetServices<IModule>().ToArray();
-        if (modules.Length == 0)
-        {
-            return;
-        }
+        ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(registeredCategories);
 
+        var result = ValidateOptions(options);
+        ValidateRunOnlyCategories(options.RunOnlyCategories, registeredCategories, result);
+        ValidateIgnoreCategories(options.IgnoreCategories, registeredCategories, result);
+        return result;
+    }
+
+    private static IReadOnlySet<string> GetRegisteredCategories(IServiceProvider services)
+    {
         var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
         var registeredCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        foreach (var module in modules)
+        foreach (var module in services.GetServices<IModule>())
         {
             var moduleType = module.GetType();
             metadataRegistry.FinalizeMetadata(moduleType, module);
@@ -127,13 +131,12 @@ internal class OptionsValidator : IOptionsValidator
             }
         }
 
-        ValidateRunOnlyCategories(options.RunOnlyCategories, registeredCategories, result);
-        ValidateIgnoreCategories(options.IgnoreCategories, registeredCategories, result);
+        return registeredCategories;
     }
 
     private static void ValidateRunOnlyCategories(
         IReadOnlyList<string>? categories,
-        HashSet<string> registeredCategories,
+        IReadOnlySet<string> registeredCategories,
         ValidationResult result)
     {
         var configuredCategories = categories?
@@ -166,7 +169,7 @@ internal class OptionsValidator : IOptionsValidator
 
     private static void ValidateIgnoreCategories(
         IReadOnlyList<string>? categories,
-        HashSet<string> registeredCategories,
+        IReadOnlySet<string> registeredCategories,
         ValidationResult result)
     {
         var unmatchedCategories = categories?
