@@ -29,12 +29,18 @@ public class YarnCliScraperTests
 
               yarn workspaces focus [--json] [-A,--all] ...
                 install a single workspace and its dependencies
+
+              yarn rebuild ...
+                rebuild native packages
+
+              yarn node …
+                run Node with Yarn's module resolution
             """;
 
         var commands = new TestYarnCliScraper().Extract(helpText);
 
         await Assert.That(commands).IsEquivalentTo(
-            ["add", "bin", "workspace", "workspaces", "workspaces focus"]);
+            ["add", "bin", "workspace", "workspaces", "workspaces focus", "rebuild", "node"]);
     }
 
     private sealed class TestYarnCliScraper : YarnCliScraper

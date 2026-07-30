@@ -259,7 +259,8 @@ public partial class YarnCliScraper : CliScraperBase
                 .TakeWhile(word =>
                     !word.StartsWith('[')
                     && !word.StartsWith('-')
-                    && !word.StartsWith('<'))
+                    && !word.StartsWith('<')
+                    && word is not "..." and not "…")
                 .ToArray();
 
             if (commandWords.Length == 0)
