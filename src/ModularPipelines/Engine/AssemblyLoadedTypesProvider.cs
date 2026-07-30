@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
@@ -11,14 +12,19 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
 
     public Type[] GetLoadedTypesAssignableTo(Type type)
     {
+        var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+        var knownTypes = RuntimeFeature.IsDynamicCodeSupported
+            ? loadedAssemblies
+                .Where(ReferencesModularPipelines)
+                .SelectMany(assembly => GetKnownTypes(assembly, type))
+            : loadedAssemblies
+                .SelectMany(assembly => GetGeneratedKnownTypes(assembly, type));
+
         return
         [
-            .. AppDomain.CurrentDomain
-            .GetAssemblies()
-            .Where(ReferencesModularPipelines)
-            .SelectMany(assembly => GetKnownTypes(assembly, type))
-            .Where(t => t.IsAssignableTo(type))
-            .Where(t => !t.IsAbstract),
+            .. knownTypes
+                .Where(t => t.IsAssignableTo(type))
+                .Where(t => !t.IsAbstract),
         ];
     }
 
@@ -39,16 +45,37 @@ internal class AssemblyLoadedTypesProvider : IAssemblyLoadedTypesProvider
         Justification = "Generated metadata is used when complete; reflection is the explicit compatibility fallback for dynamic assemblies.")]
     internal static IEnumerable<Type> GetKnownTypes(Assembly assembly, Type assignableTo)
     {
-        if (typeof(IModule).IsAssignableFrom(assignableTo)
-            && GeneratedModuleMetadata.TryGetModuleTypes(
-                assembly,
-                out var generatedModuleTypes,
-                out var generatedMetadataIsComplete)
-            && generatedMetadataIsComplete)
+        if (TryGetGeneratedKnownTypes(assembly, assignableTo, out var generatedModuleTypes))
         {
             return generatedModuleTypes;
         }
 
         return AssemblyTypeLoader.GetLoadableTypes(assembly);
+    }
+
+    internal static IEnumerable<Type> GetGeneratedKnownTypes(Assembly assembly, Type assignableTo)
+    {
+        return TryGetGeneratedKnownTypes(assembly, assignableTo, out var generatedModuleTypes)
+            ? generatedModuleTypes
+            : [];
+    }
+
+    private static bool TryGetGeneratedKnownTypes(
+        Assembly assembly,
+        Type assignableTo,
+        out IReadOnlyList<Type> generatedModuleTypes)
+    {
+        if (typeof(IModule).IsAssignableFrom(assignableTo)
+            && GeneratedModuleMetadata.TryGetModuleTypes(
+                assembly,
+                out generatedModuleTypes,
+                out var generatedMetadataIsComplete)
+            && generatedMetadataIsComplete)
+        {
+            return true;
+        }
+
+        generatedModuleTypes = [];
+        return false;
     }
 }

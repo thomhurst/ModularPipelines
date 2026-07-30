@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 
 namespace ModularPipelines.Context.Domains.Data;
@@ -14,6 +15,8 @@ public interface IXmlContext
     /// <param name="input">The object to serialize.</param>
     /// <param name="options">The save options to use when generating the XML string.</param>
     /// <returns>The XML string representation of the object.</returns>
+    [RequiresDynamicCode("XmlSerializer may require runtime code generation.")]
+    [RequiresUnreferencedCode("XmlSerializer requires members that trimming cannot statically discover.")]
     string ToXml<T>(T input, SaveOptions options = SaveOptions.None);
 
     /// <summary>
@@ -23,6 +26,8 @@ public interface IXmlContext
     /// <param name="input">The XML string to deserialize.</param>
     /// <param name="options">The load options to use when parsing the XML string.</param>
     /// <returns>The deserialized object, or null if deserialization fails.</returns>
+    [RequiresDynamicCode("XmlSerializer may require runtime code generation.")]
+    [RequiresUnreferencedCode("XmlSerializer requires members that trimming cannot statically discover.")]
     T? FromXml<T>(string input, LoadOptions options = LoadOptions.PreserveWhitespace)
         where T : class;
 
@@ -33,6 +38,8 @@ public interface IXmlContext
     /// <param name="element">The XElement to deserialize.</param>
     /// <param name="options">The load options to use when processing the element.</param>
     /// <returns>The deserialized object, or null if deserialization fails.</returns>
+    [RequiresDynamicCode("XmlSerializer may require runtime code generation.")]
+    [RequiresUnreferencedCode("XmlSerializer requires members that trimming cannot statically discover.")]
     T? FromXml<T>(XElement element, LoadOptions options = LoadOptions.PreserveWhitespace)
         where T : class;
 }

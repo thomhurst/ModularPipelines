@@ -11,7 +11,10 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     private readonly ConcurrentDictionary<Type, IReadOnlyList<PropertyCommandLinePart>> _cache = new();
 
     /// <inheritdoc/>
-    [RequiresUnreferencedCode("Calls ModularPipelines.Helpers.Internal.CommandModelProvider.BuildModel(Type)")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Generated command metadata handles statically known options; BuildModel is the documented reflection fallback for dynamic options.")]
     public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType)
     {
         return _cache.GetOrAdd(optionsType, static type =>

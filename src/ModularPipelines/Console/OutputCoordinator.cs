@@ -409,11 +409,20 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             .ConfigureAwait(false);
     }
 
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Generated runtime metadata handles statically known modules; MakeGenericType is the documented fallback for dynamic modules.")]
     private ILogger GetModuleLogger(Type moduleType)
     {
         if (moduleType == typeof(void))
         {
             return _loggerFactory.CreateLogger(OutputLoggerCategories.Pipeline);
+        }
+
+        if (GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime))
+        {
+            return runtime.GetOutputLogger(_serviceProvider);
         }
 
         var loggerType = typeof(ILogger<>).MakeGenericType(moduleType);

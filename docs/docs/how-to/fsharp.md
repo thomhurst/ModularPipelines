@@ -9,6 +9,10 @@ ModularPipelines modules can be authored and executed from an F# project. Inheri
 from `Module<'T>`, override `ExecuteAsync`, and open
 `ModularPipelines.Extensions` for pipeline-builder extension methods.
 
+F# pipelines currently require a JIT-compiled application. Trimming and Native AOT
+are not supported because the metadata generators run only for C# compilations. The
+package emits `MPAOT001` if an F# project enables `PublishTrimmed` or `PublishAot`.
+
 ```fsharp
 open System.Threading
 open System.Threading.Tasks

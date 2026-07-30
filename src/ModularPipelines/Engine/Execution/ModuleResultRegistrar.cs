@@ -32,8 +32,9 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
         executionContext.Status = Enums.Status.PipelineTerminated;
         executionContext.Exception = exception;
 
-        // Create ModuleResult<T> with the exception using compiled delegate factory
-        var result = ModuleResultFactory.CreateException(resultType, exception, executionContext);
+        var result = GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime)
+            ? runtime.CreateFailure(exception, executionContext)
+            : ModuleResultFactory.CreateException(resultType, exception, executionContext);
 
         _resultRegistry.RegisterResult(moduleType, result);
     }

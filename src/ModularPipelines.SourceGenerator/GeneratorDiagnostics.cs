@@ -47,8 +47,10 @@ internal static class GeneratorDiagnostics
         "MPG0006",
         "Runtime metadata generation skipped",
         "Runtime metadata generation for '{0}' was skipped because the type is generic or "
-        + "inaccessible; runtime reflection will be used",
-        DiagnosticSeverity.Info);
+        + "inaccessible; runtime reflection will be used and required members may be removed "
+        + "when trimming; make the type accessible and non-generic before publishing with "
+        + "Native AOT",
+        DiagnosticSeverity.Warning);
 
     public static DiagnosticDescriptor SkippedModuleEventMetadata { get; } = Create(
         "MPG0007",
@@ -76,6 +78,54 @@ internal static class GeneratorDiagnostics
         "Tool accessor '{0}' cannot generate property '{1}' because that name is already "
         + "available on IToolsContext or object",
         DiagnosticSeverity.Error);
+
+    public static DiagnosticDescriptor SkippedModuleRuntimeMetadata { get; } = Create(
+        "MPG0011",
+        "Module runtime metadata generation skipped",
+        "Runtime metadata generation for module '{0}' was skipped because the type is "
+        + "inaccessible to generated code; make the module and its containing types accessible "
+        + "before publishing with Native AOT",
+        DiagnosticSeverity.Warning);
+
+    public static DiagnosticDescriptor ExternalClosedGenericModuleRuntimeMetadata { get; } = Create(
+        "MPG0012",
+        "External closed generic module lacks runtime metadata",
+        "Runtime metadata for externally declared closed generic module '{0}' cannot be generated "
+        + "from this consumer usage; use a consumer-owned non-generic wrapper before publishing "
+        + "with Native AOT",
+        DiagnosticSeverity.Warning);
+
+    public static DiagnosticDescriptor GenericModuleRegistrationRuntimeMetadata { get; } = Create(
+        "MPG0013",
+        "Generic module registration lacks runtime metadata",
+        "Runtime metadata cannot be generated for AddModule<{0}> because the module type is a "
+        + "type parameter; register each concrete module type directly before publishing with "
+        + "Native AOT",
+        DiagnosticSeverity.Warning);
+
+    public static DiagnosticDescriptor PartialModuleRuntimeMetadata { get; } = Create(
+        "MPG0014",
+        "Partial module dependency metadata is incomplete",
+        "Runtime dependency metadata for partial module '{0}' is incomplete because another "
+        + "source generator can contribute partial declarations; avoid partial module "
+        + "declarations before publishing with Native AOT",
+        DiagnosticSeverity.Warning);
+
+    public static DiagnosticDescriptor NonConcreteModuleRegistrationRuntimeMetadata { get; } = Create(
+        "MPG0015",
+        "Non-concrete module registration lacks runtime metadata",
+        "Runtime metadata cannot be generated for AddModule because the static module type "
+        + "'{0}' is not concrete; register the concrete module type directly before publishing "
+        + "with Native AOT",
+        DiagnosticSeverity.Warning);
+
+    public static DiagnosticDescriptor SelectorDependencyRuntimeMetadata { get; } = Create(
+        "MPG0016",
+        "Dependency metadata requires reflection",
+        "Dependency metadata for module '{0}' requires runtime attribute reflection and may "
+        + "be removed by trimming; use built-in explicit DependsOn<T> dependencies before "
+        + "publishing with Native AOT",
+        DiagnosticSeverity.Warning);
 
     private static DiagnosticDescriptor Create(
         string id,

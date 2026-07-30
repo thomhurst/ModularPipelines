@@ -3,7 +3,12 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Extensions;
+using ModularPipelines.Logging;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
@@ -34,6 +39,28 @@ public static class GeneratedModuleMetadata
             static services => services.AddModule<TModule>(),
             dependencies.ToArray(),
             dependenciesComplete);
+    }
+
+    /// <summary>
+    /// Creates trim-safe registration and runtime metadata for one typed module.
+    /// </summary>
+    /// <returns>The generated registration metadata.</returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static GeneratedModuleRegistration CreateRegistration<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule,
+        TResult>(
+        IReadOnlyList<ModuleDependencyMetadata> dependencies,
+        bool dependenciesComplete = true)
+        where TModule : Module<TResult>
+    {
+        return new GeneratedModuleRegistration(
+            typeof(TModule),
+            static services => services.AddModule<TModule>(),
+            dependencies.ToArray(),
+            dependenciesComplete)
+        {
+            Runtime = new GeneratedModuleRuntime<TModule, TResult>(),
+        };
     }
 
     /// <summary>
@@ -130,6 +157,19 @@ public static class GeneratedModuleMetadata
         return true;
     }
 
+    internal static bool TryGetRuntime(Type moduleType, out IGeneratedModuleRuntime runtime)
+    {
+        if (Modules.TryGetValue(moduleType, out var registration)
+            && registration.Runtime is not null)
+        {
+            runtime = registration.Runtime;
+            return true;
+        }
+
+        runtime = null!;
+        return false;
+    }
+
     private sealed record AssemblyModuleMetadata(
         IReadOnlyList<GeneratedModuleRegistration> Registrations,
         bool IsComplete);
@@ -143,10 +183,92 @@ public sealed record GeneratedModuleRegistration(
     Type ModuleType,
     Action<IServiceCollection> Register,
     IReadOnlyList<ModuleDependencyMetadata> Dependencies,
-    bool DependenciesComplete = true);
+    bool DependenciesComplete = true)
+{
+    internal IGeneratedModuleRuntime? Runtime { get; init; }
+}
 
 /// <summary>
 /// Describes a statically declared module dependency.
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 public sealed record ModuleDependencyMetadata(Type DependencyType, bool Optional);
+
+internal interface IGeneratedModuleRuntime
+{
+    ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType);
+
+    IModuleResult CreateFailure(
+        Exception exception,
+        ModuleExecutionContext executionContext);
+
+    IModuleResult CreateSkipped(ModuleExecutionContext executionContext);
+
+    IModuleLogger GetLogger(IServiceProvider serviceProvider);
+
+    ILogger GetOutputLogger(IServiceProvider serviceProvider);
+
+    void SetCompletionSource(IModule module, IModuleResult result);
+
+    Task<IModuleResult> ExecuteAsync(
+        IModuleExecutionPipeline pipeline,
+        IModule module,
+        ModuleExecutionContext executionContext,
+        IModuleContext moduleContext,
+        CancellationToken cancellationToken);
+}
+
+internal sealed class GeneratedModuleRuntime<TModule, TResult> : IGeneratedModuleRuntime
+    where TModule : Module<TResult>
+{
+    public ModuleExecutionContext CreateExecutionContext(IModule module, Type moduleType)
+    {
+        return new ModuleExecutionContext<TResult>((Module<TResult>) module, moduleType);
+    }
+
+    public IModuleResult CreateFailure(
+        Exception exception,
+        ModuleExecutionContext executionContext)
+    {
+        return ModuleResult<TResult>.CreateFailure(
+            exception,
+            (ModuleExecutionContext<TResult>) executionContext);
+    }
+
+    public IModuleResult CreateSkipped(ModuleExecutionContext executionContext)
+    {
+        return ModuleResult<TResult>.CreateSkipped(
+            executionContext.SkipResult ?? SkipDecision.DoNotSkip,
+            (ModuleExecutionContext<TResult>) executionContext);
+    }
+
+    public IModuleLogger GetLogger(IServiceProvider serviceProvider)
+    {
+        return serviceProvider.GetRequiredService<ModuleLogger<TModule>>();
+    }
+
+    public ILogger GetOutputLogger(IServiceProvider serviceProvider)
+    {
+        return serviceProvider.GetRequiredService<ILogger<TModule>>();
+    }
+
+    public void SetCompletionSource(IModule module, IModuleResult result)
+    {
+        ((Module<TResult>) module).CompletionSource.TrySetResult((ModuleResult<TResult>) result);
+    }
+
+    public async Task<IModuleResult> ExecuteAsync(
+        IModuleExecutionPipeline pipeline,
+        IModule module,
+        ModuleExecutionContext executionContext,
+        IModuleContext moduleContext,
+        CancellationToken cancellationToken)
+    {
+        return await pipeline.ExecuteAsync(
+                (Module<TResult>) module,
+                (ModuleExecutionContext<TResult>) executionContext,
+                moduleContext,
+                cancellationToken)
+            .ConfigureAwait(false);
+    }
+}

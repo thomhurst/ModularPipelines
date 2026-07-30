@@ -54,9 +54,11 @@ Modular Pipelines uses runtime reflection for the missing metadata.
 
 Command or secret metadata generation was skipped because its declaring type is
 generic or inaccessible to generated code. Make the type and its containing types
-accessible and non-generic. Until fixed, Modular Pipelines uses runtime reflection.
+accessible and non-generic before publishing with trimming or Native AOT. Until
+fixed, Modular Pipelines uses runtime reflection, and required command or secret
+members may be removed by trimming.
 
-**Severity:** Info
+**Severity:** Warning
 
 ## MPG0007
 
@@ -87,6 +89,63 @@ A tool accessor would generate a property whose name is already available on
 `IToolsContext` or `object`, such as `Get` or `GetType`. Rename the accessor.
 
 **Severity:** Error
+
+## MPG0011
+
+Module runtime metadata generation was skipped because the module or one of its
+containing types is inaccessible to generated code. Make the module and its
+containing types accessible before publishing with Native AOT. Runtime reflection
+remains available for ordinary JIT deployments.
+
+**Severity:** Warning
+
+## MPG0012
+
+A consumer references a closed generic module declared in another assembly, either
+through `AddModule<T>()` or a transitive `DependsOn<T>` chain. The consumer generator
+cannot add runtime metadata owned by that external assembly. Use a consumer-owned
+non-generic wrapper for the module before publishing with Native AOT.
+
+**Severity:** Warning
+
+## MPG0013
+
+An `AddModule<TModule>()` call uses a type parameter. The source generator cannot
+determine every closed construction that may flow through the generic helper, so
+trim-safe runtime metadata cannot be generated. Register each concrete module type
+directly, or use a non-generic helper that lists concrete registrations explicitly,
+before publishing with Native AOT.
+
+**Severity:** Warning
+
+## MPG0014
+
+A module has one or more partial declarations. Another source generator can add a
+partial declaration that this generator cannot observe, so dependency metadata
+remains incomplete and runtime reflection is used as a fallback. Avoid partial
+module declarations before publishing with Native AOT.
+
+**Severity:** Warning
+
+## MPG0015
+
+An `AddModule` call uses a non-concrete static module type, such as `IModule` or an
+abstract module base class. The source generator cannot determine the concrete runtime
+type, so trim-safe runtime metadata cannot be generated. Register the concrete module
+type directly before publishing with Native AOT.
+
+**Severity:** Warning
+
+## MPG0016
+
+A module, base class, or implemented interface uses dependency metadata that requires
+runtime reflection. This includes `DependsOnAllModulesInheritingFrom<T>`,
+`DependsOnModulesWithTag`, `DependsOnModulesInCategory`,
+`DependsOnModulesWithAttribute<T>`, a custom `DependsOnBaseAttribute`, or a custom
+`DependsOnAttribute` subclass. Trimming can remove this metadata. Replace it with the
+built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
+
+**Severity:** Warning
 
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:

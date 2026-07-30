@@ -1,8 +1,13 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Extensions;
+using ModularPipelines.Logging;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -54,6 +59,44 @@ public class GeneratedModuleMetadataTests
     }
 
     [Test]
+    public async Task Generated_Runtime_Creates_Typed_Terminated_Result()
+    {
+        var module = new GeneratedMetadataDependencyModule();
+        var registry = new ModuleResultRegistry();
+        var registrar = new ModuleResultRegistrar(
+            registry,
+            NullLogger<ModuleResultRegistrar>.Instance);
+        var exception = new InvalidOperationException("Pipeline terminated");
+
+        registrar.RegisterTerminatedResult(module, module.GetType(), exception);
+
+        var result = registry.GetResult(module.GetType());
+        await Assert.That(result).IsAssignableTo<ModuleResult<bool>>();
+        await Assert.That(result!.ExceptionOrDefault).IsSameReferenceAs(exception);
+    }
+
+    [Test]
+    public async Task Generated_Runtime_Resolves_Unbuffered_Output_Logger()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging();
+        using var serviceProvider = services.BuildServiceProvider();
+
+        var found = GeneratedModuleMetadata.TryGetRuntime(
+            typeof(GeneratedMetadataDependencyModule),
+            out var runtime);
+        var logger = runtime.GetOutputLogger(serviceProvider);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(found).IsTrue();
+            await Assert.That(logger)
+                .IsAssignableTo<ILogger<GeneratedMetadataDependencyModule>>();
+            await Assert.That(logger).IsNotAssignableTo<ModuleLogger>();
+        }
+    }
+
+    [Test]
     public async Task Dynamic_Assembly_Uses_Reflection_Fallback()
     {
         var (assembly, _, module) = CreateDynamicModule("DynamicModule");
@@ -92,8 +135,45 @@ public class GeneratedModuleMetadataTests
         var knownTypes = AssemblyLoadedTypesProvider
             .GetKnownTypes(assembly, typeof(IModule))
             .ToArray();
+        var generatedKnownTypes = AssemblyLoadedTypesProvider
+            .GetGeneratedKnownTypes(assembly, typeof(IModule))
+            .ToArray();
 
-        await Assert.That(knownTypes).IsEquivalentTo([includedModule]);
+        using (Assert.Multiple())
+        {
+            await Assert.That(knownTypes).IsEquivalentTo([includedModule]);
+            await Assert.That(generatedKnownTypes).IsEquivalentTo([includedModule]);
+        }
+    }
+
+    [Test]
+    public async Task Incomplete_Generated_Metadata_Is_Skipped_Without_Reflection_Fallback()
+    {
+        var (_, _, module) = CreateDynamicModule("IncompleteModule");
+        var assembly = module.Assembly;
+        GeneratedModuleMetadata.Register(
+            assembly,
+            [
+                new GeneratedModuleRegistration(
+                    module,
+                    static _ => { },
+                    [],
+                    DependenciesComplete: true),
+            ],
+            isComplete: false);
+
+        var knownTypes = AssemblyLoadedTypesProvider
+            .GetKnownTypes(assembly, typeof(IModule))
+            .ToArray();
+        var generatedKnownTypes = AssemblyLoadedTypesProvider
+            .GetGeneratedKnownTypes(assembly, typeof(IModule))
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(knownTypes).Contains(module);
+            await Assert.That(generatedKnownTypes).IsEmpty();
+        }
     }
 
     private static (AssemblyBuilder Assembly, ModuleBuilder ModuleBuilder, Type Module)

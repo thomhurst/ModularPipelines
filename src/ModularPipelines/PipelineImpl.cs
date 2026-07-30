@@ -1,7 +1,5 @@
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,8 +18,6 @@ namespace ModularPipelines;
 /// </summary>
 internal sealed class PipelineImpl : IPipeline
 {
-    private static readonly ConcurrentDictionary<Type, PropertyInfo?> DisposablesPropertyCache = new();
-
     private readonly IHost _host;
     private readonly AsyncServiceScope _serviceScope;
 
@@ -82,18 +78,7 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
-        var servicesType = Services.GetType();
-        var disposablesProperty = DisposablesPropertyCache.GetOrAdd(
-            servicesType,
-            static type => type.GetProperty("Disposables", BindingFlags.Instance | BindingFlags.NonPublic));
-
-        var disposables = disposablesProperty?.GetValue(Services) as List<object>;
-
-        foreach (var disposable in disposables?.OfType<IDisposable>() ?? Array.Empty<IDisposable>())
-        {
-            await Disposer.DisposeObjectAsync(disposable).ConfigureAwait(false);
-        }
-
+        await _serviceScope.DisposeAsync().ConfigureAwait(false);
         await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
         GC.SuppressFinalize(this);
     }

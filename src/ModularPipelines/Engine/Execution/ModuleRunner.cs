@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -147,8 +148,7 @@ internal class ModuleRunner : IModuleRunner
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
         ApplyDependencySkip(moduleState, executionContext);
-        var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
-        var logger = (IModuleLogger) scopedServiceProvider.GetRequiredService(loggerType);
+        var logger = GetModuleLogger(scopedServiceProvider, moduleType);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
         // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)
@@ -228,7 +228,7 @@ internal class ModuleRunner : IModuleRunner
             // Invoke OnModuleStart lifecycle event
             await _lifecycleEventInvoker.InvokeStartEventAsync(lifecycleContext).ConfigureAwait(false);
 
-            // Execute via the ModuleExecutionPipeline using reflection to handle the generic type
+            // Execute through generated typed metadata when available.
             var result = await ExecuteTypedModule(module, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
 
             moduleState.Result = result;
@@ -319,9 +319,37 @@ internal class ModuleRunner : IModuleRunner
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        // Use compiled delegate instead of MakeGenericMethod + Invoke + GetProperty("Result")
+        if (GeneratedModuleMetadata.TryGetRuntime(module.GetType(), out var runtime))
+        {
+            return await runtime.ExecuteAsync(
+                    _executionPipeline,
+                    module,
+                    executionContext,
+                    moduleContext,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        // Dynamic/plugin modules retain the annotated reflection fallback.
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
         return await executor(_executionPipeline, module, executionContext, moduleContext, cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Generated runtime metadata handles statically known modules; MakeGenericType is the documented fallback for dynamic modules.")]
+    private static IModuleLogger GetModuleLogger(
+        IServiceProvider serviceProvider,
+        Type moduleType)
+    {
+        if (GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime))
+        {
+            return runtime.GetLogger(serviceProvider);
+        }
+
+        var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
+        return (IModuleLogger) serviceProvider.GetRequiredService(loggerType);
     }
 }

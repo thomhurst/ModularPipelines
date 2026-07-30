@@ -53,11 +53,11 @@ public class ModuleMetadataGeneratorTests
         using (Assert.Multiple())
         {
             await Assert.That(generated)
-                .Contains("CreateRegistration<global::Consumer.BuildModule>");
+                .Contains("CreateRegistration<global::Consumer.BuildModule, string>");
             await Assert.That(generated)
                 .Contains("new(typeof(global::Consumer.DependencyModule), true)");
             await Assert.That(generated)
-                .Contains("CreateRegistration<global::Consumer.DependencyModule>");
+                .Contains("CreateRegistration<global::Consumer.DependencyModule, string>");
             await Assert.That(generated).Contains("isComplete: false");
         }
     }
@@ -77,7 +77,7 @@ public class ModuleMetadataGeneratorTests
 
         await Assert.That(CountOccurrences(
             generated,
-            "CreateRegistration<global::Consumer.BuildModule>")).IsEqualTo(1);
+            "CreateRegistration<global::Consumer.BuildModule, string>")).IsEqualTo(1);
     }
 
     [Test]
@@ -100,6 +100,10 @@ public class ModuleMetadataGeneratorTests
             await Assert.That(generated)
                 .Contains("new(typeof(global::Consumer.DependencyModule), false)");
             await Assert.That(generated).Contains("dependenciesComplete: false");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0014"
+                                        && diagnostic.GetMessage()
+                                            .Contains("Consumer.BuildModule"));
         }
     }
 
@@ -142,9 +146,12 @@ public class ModuleMetadataGeneratorTests
         using (Assert.Multiple())
         {
             await Assert.That(generated)
-                .Contains("CreateRegistration<global::Consumer.BuildModule>");
+                .Contains("CreateRegistration<global::Consumer.BuildModule, string>");
             await Assert.That(generated).DoesNotContain("HiddenModule");
             await Assert.That(generated).Contains("isComplete: false");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0011"
+                                        && diagnostic.GetMessage().Contains("HiddenModule"));
         }
     }
 
@@ -189,9 +196,480 @@ public class ModuleMetadataGeneratorTests
                 .Contains("new(typeof(global::Consumer.GenericModule<string>), false)");
             await Assert.That(CountOccurrences(
                 generated,
-                "CreateRegistration<global::Consumer.GenericModule<string>>")).IsEqualTo(1);
+                "CreateRegistration<global::Consumer.GenericModule<string>, string>")).IsEqualTo(1);
             await Assert.That(generated).Contains("dependenciesComplete: true");
         }
+    }
+
+    [Test]
+    public async Task Inaccessible_Closed_Generic_Dependency_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                public static class Container
+                {
+                    private sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                    [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
+                    public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).DoesNotContain("GenericModule<int>");
+            await Assert.That(generated).Contains("dependenciesComplete: false");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0011"
+                                        && diagnostic.GetMessage()
+                                            .Contains("Container.GenericModule<int>"));
+        }
+    }
+
+    [Test]
+    public async Task Transitive_Closed_Generic_Dependency_Metadata_Is_Emitted()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                public sealed class LeafModule<T> : ModularPipelines.Modules.Module<T>;
+
+                [ModularPipelines.Attributes.DependsOn<LeafModule<string>>]
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                [ModularPipelines.Attributes.DependsOn<GenericModule<int>>]
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<int>, int>");
+            await Assert.That(generated)
+                .Contains("new(typeof(global::Consumer.LeafModule<string>), false)");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.LeafModule<string>, string>");
+            await Assert.That(CountOccurrences(
+                generated,
+                "dependenciesComplete: true")).IsEqualTo(3);
+        }
+    }
+
+    [Test]
+    public async Task Registered_Closed_Generic_Module_Is_Emitted()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        builder.AddModule<GenericModule<string>>();
+                    }
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        await Assert.That(CountOccurrences(
+            generated,
+            "CreateRegistration<global::Consumer.GenericModule<string>, string>")).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Inferred_Closed_Generic_Registrations_Are_Emitted()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder,
+                        TModule module)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder,
+                        System.Func<System.IServiceProvider, TModule> factory)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        builder.AddModule(new GenericModule<int>());
+                        builder.AddModule(_ => new GenericModule<string>());
+                        builder?.AddModule<GenericModule<long>>();
+                        builder?.AddModule(new GenericModule<decimal>());
+                        builder?.AddModule(_ => new GenericModule<bool>());
+                    }
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<int>, int>");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<string>, string>");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<long>, long>");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<decimal>, decimal>");
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<bool>, bool>");
+        }
+    }
+
+    [Test]
+    public async Task Generic_Helper_Module_Registration_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Register<TModule>(ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule
+                    {
+                        builder.AddModule<TModule>();
+                    }
+
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        Register<GenericModule<int>>(builder);
+                    }
+                }
+            }
+            """);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0013"
+                                        && diagnostic.GetMessage().Contains("AddModule<TModule>"));
+            await Assert.That(result.GeneratedTrees.Single().GetText().ToString())
+                .DoesNotContain("GenericModule<int>");
+        }
+    }
+
+    [Test]
+    public async Task NonConcrete_Module_Registrations_Report_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder,
+                        TModule module)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder,
+                        System.Func<System.IServiceProvider, TModule> factory)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        ModularPipelines.Modules.IModule module = new GenericModule<int>();
+                        builder.AddModule(module);
+                        builder.AddModule<ModularPipelines.Modules.IModule>(
+                            _ => new GenericModule<string>());
+                    }
+                }
+            }
+            """);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics.Count(diagnostic => diagnostic.Id == "MPG0015"))
+                .IsEqualTo(2);
+            await Assert.That(result.Diagnostics)
+                .All(diagnostic => diagnostic.Id != "MPG0015"
+                                   || diagnostic.GetMessage().Contains("IModule"));
+            await Assert.That(result.GeneratedTrees.Single().GetText().ToString())
+                .DoesNotContain("GenericModule<int>")
+                .And.DoesNotContain("GenericModule<string>");
+        }
+    }
+
+    [Test]
+    public async Task Inherited_Selector_Dependency_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines.Attributes
+            {
+                public class DependsOnAllModulesInheritingFromAttribute : System.Attribute;
+
+                public class DependsOnAllModulesInheritingFromAttribute<TModule>
+                    : DependsOnAllModulesInheritingFromAttribute;
+            }
+
+            namespace Consumer
+            {
+                public abstract class BaseModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
+                public interface IHasSelectorDependency;
+
+                public sealed class BuildModule
+                    : ModularPipelines.Modules.Module<string>, IHasSelectorDependency;
+            }
+            """);
+
+        await Assert.That(result.Diagnostics)
+            .Contains(diagnostic => diagnostic.Id == "MPG0016"
+                                    && diagnostic.GetMessage().Contains("Consumer.BuildModule")
+                                    && diagnostic.Descriptor.HelpLinkUri.EndsWith("#mpg0016"));
+    }
+
+    [Test]
+    public async Task Predicate_Selector_Dependencies_Report_Aot_Diagnostics()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines.Attributes
+            {
+                public abstract class DependsOnBaseAttribute : System.Attribute;
+
+                public sealed class DependsOnModulesWithTagAttribute(string tag)
+                    : DependsOnBaseAttribute;
+
+                public sealed class DependsOnModulesInCategoryAttribute(string category)
+                    : DependsOnBaseAttribute;
+
+                public sealed class DependsOnModulesWithAttributeAttribute<TAttribute>
+                    : DependsOnBaseAttribute
+                    where TAttribute : System.Attribute;
+
+                public sealed class CustomSelectorAttribute : DependsOnBaseAttribute;
+            }
+
+            namespace Consumer
+            {
+                public sealed class MarkerAttribute : System.Attribute;
+
+                [ModularPipelines.Attributes.DependsOnModulesWithTag("build")]
+                public sealed class TagModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOnModulesInCategory("deploy")]
+                public sealed class CategoryModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOnModulesWithAttribute<MarkerAttribute>]
+                public sealed class AttributeModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.CustomSelector]
+                public sealed class CustomModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        var diagnostics = result.Diagnostics
+            .Where(diagnostic => diagnostic.Id == "MPG0016")
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostics).Count().IsEqualTo(4);
+            await Assert.That(diagnostics.Select(static diagnostic => diagnostic.GetMessage()))
+                .Contains(message => message.Contains("Consumer.TagModule"))
+                .And.Contains(message => message.Contains("Consumer.CategoryModule"))
+                .And.Contains(message => message.Contains("Consumer.AttributeModule"))
+                .And.Contains(message => message.Contains("Consumer.CustomModule"));
+        }
+    }
+
+    [Test]
+    public async Task Custom_DependsOn_Subclass_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines.Attributes
+            {
+                public sealed class CustomDependsOnAttribute : DependsOnAttribute
+                {
+                    public CustomDependsOnAttribute()
+                        : base(typeof(Consumer.BaseModule))
+                    {
+                    }
+                }
+            }
+
+            namespace Consumer
+            {
+                public sealed class BaseModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.CustomDependsOn]
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        await Assert.That(result.Diagnostics)
+            .Contains(diagnostic => diagnostic.Id == "MPG0016"
+                                    && diagnostic.GetMessage().Contains("Consumer.BuildModule")
+                                    && diagnostic.Descriptor.HelpLinkUri.EndsWith("#mpg0016"));
+    }
+
+    [Test]
+    public async Task Registered_External_Closed_Generic_Module_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new ModuleMetadataGenerator(),
+            TestInfrastructure,
+            """
+            namespace ExternalModules
+            {
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+            }
+            """,
+            """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.PipelineBuilder AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule => builder;
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        builder.AddModule<ExternalModules.GenericModule<string>>();
+                    }
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).DoesNotContain("ExternalModules.GenericModule");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0012"
+                                        && diagnostic.GetMessage()
+                                            .Contains("ExternalModules.GenericModule<string>"));
+        }
+    }
+
+    [Test]
+    public async Task External_Closed_Generic_Dependency_Reports_Aot_Diagnostic()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new ModuleMetadataGenerator(),
+            TestInfrastructure,
+            """
+            namespace ExternalModules
+            {
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+            }
+            """,
+            """
+            namespace Consumer
+            {
+                [ModularPipelines.Attributes.DependsOn<ExternalModules.GenericModule<string>>]
+                public sealed class BuildModule : ModularPipelines.Modules.Module<bool>;
+            }
+            """);
+
+        await Assert.That(result.Diagnostics)
+            .Contains(diagnostic => diagnostic.Id == "MPG0012"
+                                    && diagnostic.GetMessage()
+                                        .Contains("ExternalModules.GenericModule<string>"));
     }
 
     [Test]

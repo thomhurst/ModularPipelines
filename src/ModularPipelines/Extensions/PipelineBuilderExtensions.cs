@@ -66,6 +66,10 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="moduleTypes">The module types to add.</param>
     /// <returns>The same builder instance for chaining.</returns>
+    [RequiresUnreferencedCode(
+        "Runtime type module registration relies on reflection. Use AddModule<TModule>() for trim-safe registration.")]
+    [RequiresDynamicCode(
+        "Runtime type module registration may require runtime code generation. Use AddModule<TModule>() for Native AOT.")]
     public static PipelineBuilder AddModules(this PipelineBuilder builder, params Type[] moduleTypes)
     {
         ArgumentNullException.ThrowIfNull(moduleTypes);
@@ -237,6 +241,10 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TRepository">The type of result repository to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
+    [RequiresUnreferencedCode(
+        "Result history resolves module result types through reflection.")]
+    [RequiresDynamicCode(
+        "Result history creates generic delegates for runtime module result types.")]
     public static PipelineBuilder AddResultsRepository<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRepository>(this PipelineBuilder builder)
         where TRepository : class, IModuleResultRepository
     {
@@ -361,7 +369,8 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="configureOptions">The configuration action.</param>
     /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder Configure<TOptions>(
+    public static PipelineBuilder Configure<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TOptions>(
         this PipelineBuilder builder,
         Action<TOptions> configureOptions)
         where TOptions : class

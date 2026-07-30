@@ -2,6 +2,8 @@
   <PropertyGroup>
     <ModularPipelineReadMeDescription>The base package for Modular Pipelines. This contains the framework for building, executing, controlling and reporting your modules.</ModularPipelineReadMeDescription>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
   <PropertyGroup>
     <Description>Write your pipelines in C#!</Description>

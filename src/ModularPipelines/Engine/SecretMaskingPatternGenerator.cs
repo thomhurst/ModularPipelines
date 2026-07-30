@@ -11,14 +11,14 @@ internal static class SecretMaskingPatternGenerator
 {
     public static IReadOnlyList<string> Generate(string secret)
     {
-        var json = JsonSerializer.Serialize(secret);
+        var jsonEscaped = JsonEncodedText.Encode(secret).ToString();
         var patterns = new HashSet<string>(StringComparer.Ordinal)
         {
             secret,
             Convert.ToBase64String(Encoding.UTF8.GetBytes(secret)),
             Uri.EscapeDataString(secret),
             WebUtility.UrlEncode(secret),
-            json[1..^1],
+            jsonEscaped,
         };
 
         return patterns.ToArray();

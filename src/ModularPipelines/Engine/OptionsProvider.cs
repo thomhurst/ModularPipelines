@@ -1,7 +1,12 @@
 using System.Collections.Concurrent;
-using System.Linq.Expressions;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using System.Runtime.ExceptionServices;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.Distributed;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
@@ -22,7 +27,7 @@ namespace ModularPipelines.Engine;
 internal class OptionsProvider : IOptionsProvider
 {
     /// <summary>
-    /// Cache of compiled property accessors for IOptions&lt;T&gt;.Value.
+    /// Cache of property accessors for IOptions&lt;T&gt;.Value.
     /// Avoids repeated reflection for property access.
     /// </summary>
     private static readonly ConcurrentDictionary<Type, Func<object, object?>> ValueGetterCache = new();
@@ -37,8 +42,8 @@ internal class OptionsProvider : IOptionsProvider
     /// Using a HashSet for O(1) lookup instead of multiple IsAssignableTo calls.
     /// This is read-only after static initialization so no synchronization needed.
     /// </summary>
-    private static readonly HashSet<Type> OptionsTypeDefinitions = new()
-    {
+    private static readonly HashSet<Type> OptionsTypeDefinitions =
+    [
         typeof(IConfigureOptions<>),
         typeof(IPostConfigureOptions<>),
         typeof(IOptions<>),
@@ -46,7 +51,7 @@ internal class OptionsProvider : IOptionsProvider
         typeof(IOptionsSnapshot<>),
         typeof(IValidateOptions<>),
         typeof(IConfigureNamedOptions<>),
-    };
+    ];
 
     private readonly IPipelineServiceContainerWrapper _pipelineServiceContainerWrapper;
     private readonly IServiceProvider _serviceProvider;
@@ -64,12 +69,11 @@ internal class OptionsProvider : IOptionsProvider
 
         // Use Lazy<T> for thread-safe initialization
         _cachedOptionTypes = new Lazy<IReadOnlyList<Type>>(
-            () => _pipelineServiceContainerWrapper.ServiceCollection
+            () => [.. _pipelineServiceContainerWrapper.ServiceCollection
                 .Select(sd => sd.ServiceType)
                 .Where(t => t.IsGenericType && t.IsConstructedGenericType && IsOptionsType(t.GetGenericTypeDefinition()))
                 .Select(s => s.GetGenericArguments()[0])
-                .Distinct()
-                .ToList(),
+                .Distinct()],
             LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
@@ -80,11 +84,20 @@ internal class OptionsProvider : IOptionsProvider
     /// <remarks>
     /// This method is thread-safe. The options type list is cached on first access.
     /// </remarks>
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(PipelineOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(SchedulerOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(ConcurrencyOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(HttpResilienceOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(ModuleRegistrationOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(SecretMaskingOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(DistributedOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(ArtifactOptions))]
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor, typeof(LoggerFilterOptions))]
     public IEnumerable<object?> GetOptions()
     {
         foreach (var t in _cachedOptionTypes.Value)
         {
-            var optionsType = IOptionsTypeCache.GetOrAdd(t, static innerType => typeof(IOptions<>).MakeGenericType(innerType));
+            var optionsType = IOptionsTypeCache.GetOrAdd(t, CreateOptionsType);
             var option = _serviceProvider.GetService(optionsType);
 
             if (option is null)
@@ -92,27 +105,53 @@ internal class OptionsProvider : IOptionsProvider
                 continue;
             }
 
-            // Use cached compiled delegate instead of reflection
-            var getter = ValueGetterCache.GetOrAdd(option.GetType(), CreateValueGetter);
+            // Cache the interface property lookup used for each options type
+            var getter = ValueGetterCache.GetOrAdd(optionsType, CreateValueGetter);
             yield return getter(option);
         }
     }
 
     /// <summary>
-    /// Creates a compiled delegate to access the Value property of an IOptions&lt;T&gt; instance.
+    /// Creates the closed IOptions type for a runtime-discovered options type.
     /// </summary>
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Options registered through the static DI path are rooted; runtime-discovered option types are unsupported in Native AOT.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2071",
+        Justification = "Options registered through the static DI path are rooted; runtime-discovered option types are unsupported when trimming.")]
+    private static Type CreateOptionsType(Type optionsType)
+    {
+        return typeof(IOptions<>).MakeGenericType(optionsType);
+    }
+
+    /// <summary>
+    /// Creates a delegate to access the Value property of an IOptions&lt;T&gt; instance.
+    /// </summary>
+    [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(IOptions<>))]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "Options registered through the static DI path are rooted; runtime-discovered option types are unsupported when trimming.")]
     private static Func<object, object?> CreateValueGetter(Type optionsType)
     {
         var valueProperty = optionsType.GetProperty("Value")
             ?? throw new InvalidOperationException($"Property 'Value' not found on type '{optionsType.Name}'.");
 
-        // Build: (object obj) => (object?)((OptionsType)obj).Value
-        var param = Expression.Parameter(typeof(object), "obj");
-        var cast = Expression.Convert(param, optionsType);
-        var propertyAccess = Expression.Property(cast, valueProperty);
-        var convertToObject = Expression.Convert(propertyAccess, typeof(object));
-
-        return Expression.Lambda<Func<object, object?>>(convertToObject, param).Compile();
+        return instance =>
+        {
+            try
+            {
+                return valueProperty.GetValue(instance);
+            }
+            catch (TargetInvocationException exception) when (exception.InnerException is not null)
+            {
+                ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+                throw;
+            }
+        };
     }
 
     /// <summary>

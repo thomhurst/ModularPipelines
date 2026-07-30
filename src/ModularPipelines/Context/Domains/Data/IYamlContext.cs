@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -14,6 +15,8 @@ public interface IYamlContext
     /// <typeparam name="T">The type of object to serialize.</typeparam>
     /// <param name="input">The object to serialize.</param>
     /// <returns>The YAML string representation of the object.</returns>
+    [RequiresDynamicCode("YamlDotNet serialization may require runtime code generation.")]
+    [RequiresUnreferencedCode("YamlDotNet serialization uses reflection over members that may be removed by trimming.")]
     string ToYaml<T>(T input) => ToYaml(input, CamelCaseNamingConvention.Instance);
 
     /// <summary>
@@ -23,6 +26,8 @@ public interface IYamlContext
     /// <param name="input">The object to serialize.</param>
     /// <param name="namingConvention">The naming convention to use for property names.</param>
     /// <returns>The YAML string representation of the object.</returns>
+    [RequiresDynamicCode("YamlDotNet serialization may require runtime code generation.")]
+    [RequiresUnreferencedCode("YamlDotNet serialization uses reflection over members that may be removed by trimming.")]
     string ToYaml<T>(T input, INamingConvention namingConvention);
 
     /// <summary>
@@ -31,6 +36,8 @@ public interface IYamlContext
     /// <typeparam name="T">The type to deserialize to.</typeparam>
     /// <param name="input">The YAML string to deserialize.</param>
     /// <returns>The deserialized object.</returns>
+    [RequiresDynamicCode("YamlDotNet deserialization may require runtime code generation.")]
+    [RequiresUnreferencedCode("YamlDotNet deserialization uses reflection over members that may be removed by trimming.")]
     T FromYaml<T>(string input) => FromYaml<T>(input, CamelCaseNamingConvention.Instance);
 
     /// <summary>
@@ -40,5 +47,7 @@ public interface IYamlContext
     /// <param name="input">The YAML string to deserialize.</param>
     /// <param name="namingConvention">The naming convention to use for property names.</param>
     /// <returns>The deserialized object.</returns>
+    [RequiresDynamicCode("YamlDotNet deserialization may require runtime code generation.")]
+    [RequiresUnreferencedCode("YamlDotNet deserialization uses reflection over members that may be removed by trimming.")]
     T FromYaml<T>(string input, INamingConvention namingConvention);
 }

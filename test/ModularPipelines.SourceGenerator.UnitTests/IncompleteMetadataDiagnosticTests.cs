@@ -91,7 +91,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Inaccessible_Command_Options_Type_Reports_Informational_Skip()
+    public async Task Inaccessible_Command_Options_Type_Reports_Warning()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -107,11 +107,12 @@ public class IncompleteMetadataDiagnosticTests
         await AssertSkippedDiagnostic(
             result,
             "MPG0006",
-            "global::Container.HiddenOptions");
+            "global::Container.HiddenOptions",
+            DiagnosticSeverity.Warning);
     }
 
     [Test]
-    public async Task Inaccessible_Secret_Type_Reports_Informational_Skip()
+    public async Task Inaccessible_Secret_Type_Reports_Warning()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -130,7 +131,8 @@ public class IncompleteMetadataDiagnosticTests
         await AssertSkippedDiagnostic(
             result,
             "MPG0006",
-            "global::Container.HiddenSecrets");
+            "global::Container.HiddenSecrets",
+            DiagnosticSeverity.Warning);
     }
 
     [Test]
@@ -147,7 +149,8 @@ public class IncompleteMetadataDiagnosticTests
         await AssertSkippedDiagnostic(
             result,
             "MPG0006",
-            "global::GenericOptions<T>");
+            "global::GenericOptions<T>",
+            DiagnosticSeverity.Warning);
     }
 
     [Test]
@@ -260,14 +263,15 @@ public class IncompleteMetadataDiagnosticTests
     private static async Task AssertSkippedDiagnostic(
         GeneratorDriverRunResult result,
         string diagnosticId,
-        string typeName)
+        string typeName,
+        DiagnosticSeverity severity = DiagnosticSeverity.Info)
     {
         var diagnostic = result.Diagnostics.Single();
 
         using (Assert.Multiple())
         {
             await Assert.That(diagnostic.Id).IsEqualTo(diagnosticId);
-            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Info);
+            await Assert.That(diagnostic.Severity).IsEqualTo(severity);
             await Assert.That(diagnostic.GetMessage()).Contains(typeName);
             await Assert.That(diagnostic.GetMessage()).Contains("runtime reflection");
             await Assert.That(diagnostic.Descriptor.HelpLinkUri).EndsWith($"#{diagnosticId.ToLowerInvariant()}");

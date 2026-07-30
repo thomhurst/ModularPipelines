@@ -5,5 +5,6 @@ namespace ModularPipelines.SourceGenerator;
 /// </summary>
 internal sealed record ModuleClassInfo(
     string ClassName,
-    string FullyQualifiedName
+    string FullyQualifiedName,
+    bool IsPublic
 );

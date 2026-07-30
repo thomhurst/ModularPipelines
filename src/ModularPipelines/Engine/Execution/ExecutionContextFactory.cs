@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -28,11 +29,20 @@ internal static class ExecutionContextFactory
     /// <returns>A typed ModuleExecutionContext.</returns>
     public static ModuleExecutionContext Create(IModule module, Type moduleType)
     {
+        if (GeneratedModuleMetadata.TryGetRuntime(moduleType, out var runtime))
+        {
+            return runtime.CreateExecutionContext(module, moduleType);
+        }
+
         var resultType = module.ResultType;
         var factory = ContextFactoryCache.GetOrAdd(resultType, CreateFactory);
         return factory(module, moduleType);
     }
 
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "Generated runtime metadata creates contexts for statically known modules; this factory is the documented fallback for dynamic modules.")]
     private static CreateContextDelegate CreateFactory(Type resultType)
     {
         // Parameters

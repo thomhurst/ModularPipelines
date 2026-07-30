@@ -57,6 +57,28 @@ public class ModuleExtensionsGeneratorTests
     }
 
     [Test]
+    public async Task Internal_Modules_Generate_Internal_Accessors()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                internal sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generated)
+                .Contains("internal static global::Consumer.BuildModule GetBuildModule(");
+            await Assert.That(generated)
+                .Contains("internal static global::Consumer.BuildModule? GetBuildModuleIfRegistered(");
+        }
+    }
+
+    [Test]
     public async Task Partial_Module_Declarations_Do_Not_Report_A_Collision()
     {
         var result = GeneratorTestHarness.Run(new ModuleExtensionsGenerator(), TestInfrastructure, """
