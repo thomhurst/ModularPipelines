@@ -372,6 +372,36 @@ public class Module1 : Module<int>
 }
 ";
 
+    private const string ModuleWithInExtensionReceiver = @"
+#nullable enable
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
+using ModularPipelines.Context;
+using ModularPipelines.Modules;
+
+public static class IntExtensions
+{
+    public static void Increment(this in int value)
+    {
+        Unsafe.AsRef(in value)++;
+    }
+}
+
+public class Module1 : Module<int>
+{
+    private int _state;
+
+    protected override Task<int> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        _state.Increment();
+        return Task.FromResult(_state);
+    }
+}
+";
+
     private const string ModuleWithImplicitInArgument = @"
 #nullable enable
 using System.Threading;
@@ -845,6 +875,14 @@ public class Module1 : Module<int>
     {
         await VerifyCS.VerifyNoCodeFixAsync(
             ModuleWithRefExtensionReceiver,
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_In_Extension_Receiver()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            ModuleWithInExtensionReceiver,
             StatefulModuleAnalyzer.DiagnosticId);
     }
 

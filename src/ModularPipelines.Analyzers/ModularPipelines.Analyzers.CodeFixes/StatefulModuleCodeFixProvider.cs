@@ -138,7 +138,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
         SemanticModel semanticModel,
         CancellationToken cancellationToken)
     {
-        if (IsWritableRefExtensionReceiver(identifier, semanticModel, cancellationToken))
+        if (IsByRefExtensionReceiver(identifier, semanticModel, cancellationToken))
         {
             return true;
         }
@@ -225,7 +225,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                    field);
     }
 
-    private static bool IsWritableRefExtensionReceiver(
+    private static bool IsByRefExtensionReceiver(
         IdentifierNameSyntax identifier,
         SemanticModel semanticModel,
         CancellationToken cancellationToken)
@@ -243,7 +243,7 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                    ReducedFrom: { Parameters.Length: > 0 } reducedFrom,
                }
 
-               && reducedFrom.Parameters[0].RefKind == RefKind.Ref;
+               && reducedFrom.Parameters[0].RefKind != RefKind.None;
     }
 
     private static bool ContainsFieldTarget(
