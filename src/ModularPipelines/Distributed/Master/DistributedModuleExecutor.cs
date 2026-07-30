@@ -408,7 +408,11 @@ internal class DistributedModuleExecutor(
 
         try
         {
-            scheduler.MarkModuleStarted(moduleType);
+            if (!scheduler.MarkModuleStarted(moduleType))
+            {
+                return;
+            }
+
             await CollectResultAsync(module, moduleType, scheduler, cts, timeoutCts?.Token ?? cts.Token);
         }
         catch (OperationCanceledException) when (!cts.IsCancellationRequested)

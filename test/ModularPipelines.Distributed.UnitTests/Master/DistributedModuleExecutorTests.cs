@@ -813,6 +813,36 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    public async Task Cancelled_Queued_Module_Does_Not_Collect_Or_Overwrite_Result()
+    {
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        scheduler.Setup(s => s.MarkModuleStarted(typeof(DistributedModule))).Returns(false);
+
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object);
+
+        await executor.ExecuteAsync([module]);
+
+        coordinator.Verify(
+            c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            Times.Never());
+        scheduler.Verify(
+            s => s.MarkModuleCompleted(
+                typeof(DistributedModule),
+                It.IsAny<bool>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<Status?>()),
+            Times.Never());
+    }
+
+    [Test]
     public async Task Distributed_Module_Failure_Marks_Scheduler_With_Success_False()
     {
         // Arrange
