@@ -9,11 +9,13 @@ namespace ModularPipelines.FileSystem;
 public sealed class SystemFileSystemProvider : IFileSystemProvider
 {
     /// <summary>
-    /// Singleton instance for use when no DI is available.
+    /// Gets singleton instance for use when no DI is available.
     /// </summary>
     public static SystemFileSystemProvider Instance { get; } = new();
 
-    private SystemFileSystemProvider() { }
+    private SystemFileSystemProvider()
+    {
+    }
 
     // File read operations
     public Task<string> ReadAllTextAsync(string path, CancellationToken cancellationToken = default)
