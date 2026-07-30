@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Pulumi.Enums;
 
@@ -16,12 +16,12 @@ namespace ModularPipelines.Pulumi.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum PulumiOrgUsageGetGranularity
 {
-    [Description("hourly")]
+    [EnumValue("hourly")]
     Hourly,
 
-    [Description("daily")]
+    [EnumValue("daily")]
     Daily,
 
-    [Description("monthly")]
+    [EnumValue("monthly")]
     Monthly
 }

@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Minikube.Enums;
 
@@ -16,9 +16,9 @@ namespace ModularPipelines.Minikube.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeServiceListOutput
 {
-    [Description("json")]
+    [EnumValue("json")]
     Json,
 
-    [Description("table")]
+    [EnumValue("table")]
     Table
 }

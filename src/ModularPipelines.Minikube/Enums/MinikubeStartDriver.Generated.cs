@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using System.ComponentModel;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Minikube.Enums;
 
@@ -16,30 +16,30 @@ namespace ModularPipelines.Minikube.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public enum MinikubeStartDriver
 {
-    [Description("virtualbox")]
+    [EnumValue("virtualbox")]
     Virtualbox,
 
-    [Description("kvm2")]
+    [EnumValue("kvm2")]
     Kvm2,
 
-    [Description("qemu2")]
+    [EnumValue("qemu2")]
     Qemu2,
 
-    [Description("qemu")]
+    [EnumValue("qemu")]
     Qemu,
 
-    [Description("vmware")]
+    [EnumValue("vmware")]
     Vmware,
 
-    [Description("none")]
+    [EnumValue("none")]
     None,
 
-    [Description("docker")]
+    [EnumValue("docker")]
     Docker,
 
-    [Description("podman")]
+    [EnumValue("podman")]
     Podman,
 
-    [Description("ssh")]
+    [EnumValue("ssh")]
     Ssh
 }
