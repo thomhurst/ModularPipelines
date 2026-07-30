@@ -51,6 +51,8 @@ public record PipelineOptions
 {
     private IReadOnlyList<string>? _runOnlyCategories;
     private IReadOnlyList<string>? _ignoreCategories;
+    private IReadOnlyList<string>? _targetModules;
+    private IReadOnlyList<string>? _skippedModules;
     private CommandExecutionOptions? _defaultExecutionOptions;
 
     /// <summary>
@@ -65,7 +67,8 @@ public record PipelineOptions
     public TimeSpan DefaultModuleTimeout { get; init; } = TimeSpan.FromMinutes(30);
 
     /// <summary>
-    /// Gets the collection of module categories to run exclusively. If specified, only modules in these categories will run.
+    /// Gets the collection of module categories to run exclusively, matched case-insensitively.
+    /// If specified, only modules in these categories will run.
     /// </summary>
     public IReadOnlyList<string>? RunOnlyCategories
     {
@@ -76,12 +79,36 @@ public record PipelineOptions
     }
 
     /// <summary>
-    /// Gets the collection of module categories to ignore during execution.
+    /// Gets the collection of module categories to ignore during execution, matched case-insensitively.
     /// </summary>
     public IReadOnlyList<string>? IgnoreCategories
     {
         get => _ignoreCategories;
         init => _ignoreCategories = value is null
+            ? null
+            : Array.AsReadOnly(value.ToArray());
+    }
+
+    /// <summary>
+    /// Gets module names to execute with their transitive dependency closures.
+    /// Names may be simple, full, or assembly-qualified module type names.
+    /// </summary>
+    public IReadOnlyList<string>? TargetModules
+    {
+        get => _targetModules;
+        init => _targetModules = value is null
+            ? null
+            : Array.AsReadOnly(value.ToArray());
+    }
+
+    /// <summary>
+    /// Gets module names to exclude from execution.
+    /// Names may be simple, full, or assembly-qualified module type names.
+    /// </summary>
+    public IReadOnlyList<string>? SkippedModules
+    {
+        get => _skippedModules;
+        init => _skippedModules = value is null
             ? null
             : Array.AsReadOnly(value.ToArray());
     }

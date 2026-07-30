@@ -28,6 +28,9 @@ builder
 await builder.ExecutePipelineAsync();
 ```
 
+Passing `args` also enables the [built-in pipeline command line](command-line.md)
+for listing, selecting, skipping, and validating modules.
+
 ## Configuration
 
 Add configuration sources directly via the `Configuration` property:
