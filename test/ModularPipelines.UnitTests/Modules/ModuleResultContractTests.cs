@@ -180,6 +180,21 @@ public class ModuleResultContractTests
     }
 
     [Test]
+    public async Task Success_Constructor_PreservesValueNamedArgument()
+    {
+        var success = new ModuleResult<int>.Success(Value: 42)
+        {
+            ModuleName = nameof(IntModule),
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Successful,
+        };
+
+        await Assert.That(success.Value).IsEqualTo(42);
+    }
+
+    [Test]
     public async Task Success_Value_SurvivesJsonRoundTrip()
     {
         ModuleResult<int> result = CreateSuccess(42);

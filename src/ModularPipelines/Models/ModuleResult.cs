@@ -324,10 +324,10 @@ public abstract record ModuleResult<T> : ModuleResult
         /// <summary>
         /// Initialises a new instance of the <see cref="Success"/> class.
         /// </summary>
-        /// <param name="value">The value produced by the module, which may be <c>null</c>.</param>
-        public Success(T? value)
+        /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
+        public Success(T? Value)
         {
-            Value = value;
+            this.Value = Value;
         }
 
         /// <summary>
