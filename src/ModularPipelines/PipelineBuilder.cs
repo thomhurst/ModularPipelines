@@ -18,6 +18,7 @@ using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
+using ModularPipelines.PipelineCli;
 using ModularPipelines.Plugins;
 using ModularPipelines.Validation;
 
@@ -36,6 +37,7 @@ public sealed class PipelineBuilder : IDisposable
     private readonly ServiceCollection _services;
     private readonly ConfigurationManager _configuration;
     private readonly PipelineHostEnvironment _environment;
+    private readonly PipelineCommandLineOptions _commandLineOptions;
     private PipelineOptions _options;
 
     internal Type? LastRegisteredModuleType { get; set; }
@@ -49,21 +51,33 @@ public sealed class PipelineBuilder : IDisposable
     {
         ArgumentNullException.ThrowIfNull(options);
 
-        var args = options.Args?.ToArray();
+        _commandLineOptions = options.EnableCommandLineOptions
+            ? PipelineCommandLineParser.Parse(options.Args)
+            : PipelineCommandLineOptions.Empty with
+            {
+                HostArguments = options.Args?.ToArray() ?? [],
+            };
+        var args = _commandLineOptions.HostArguments.ToArray();
         _services = new ServiceCollection();
         _configuration = new ConfigurationManager();
-        _options = new PipelineOptions();
+        _options = new PipelineOptions
+        {
+            TargetModules = NullIfEmpty(_commandLineOptions.TargetModules),
+            SkippedModules = NullIfEmpty(_commandLineOptions.SkippedModules),
+            RunOnlyCategories = NullIfEmpty(_commandLineOptions.RunOnlyCategories),
+            IgnoreCategories = NullIfEmpty(_commandLineOptions.IgnoreCategories),
+        };
 
         _hostBuilder = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args);
 
         // Add default configuration sources
         _configuration.AddEnvironmentVariables();
-        if (args is not null)
+        if (args.Length > 0)
         {
             _configuration.AddCommandLine(args);
         }
 
-        _environment = CreateHostEnvironment(options);
+        _environment = CreateHostEnvironment(options, args);
         _hostBuilder.UseEnvironment(_environment.EnvironmentName);
         _hostBuilder.UseContentRoot(_environment.ContentRootPath);
 
@@ -253,13 +267,15 @@ public sealed class PipelineBuilder : IDisposable
                ?? Task.FromResult(ValidationResult.Success());
     }
 
-    private static PipelineHostEnvironment CreateHostEnvironment(PipelineBuilderOptions options)
+    private static PipelineHostEnvironment CreateHostEnvironment(
+        PipelineBuilderOptions options,
+        IReadOnlyList<string> hostArguments)
     {
         var hostConfiguration = new ConfigurationManager();
         hostConfiguration.AddEnvironmentVariables(prefix: "DOTNET_");
-        if (options.Args is not null)
+        if (hostArguments.Count > 0)
         {
-            hostConfiguration.AddCommandLine([.. options.Args]);
+            hostConfiguration.AddCommandLine([.. hostArguments]);
         }
 
         var environmentName = FirstNonEmpty(
@@ -290,6 +306,9 @@ public sealed class PipelineBuilder : IDisposable
     {
         return candidates.FirstOrDefault(static value => !string.IsNullOrEmpty(value)) ?? fallback;
     }
+
+    private static IReadOnlyList<string>? NullIfEmpty(IReadOnlyList<string> values) =>
+        values.Count == 0 ? null : values;
 
     private async Task<IPipeline> BuildPipelineAsync()
     {
@@ -322,6 +341,7 @@ public sealed class PipelineBuilder : IDisposable
             ActivateDistributedModeIfConfigured(services);
 
             services
+                .AddSingleton(_commandLineOptions)
                 .AddSingleton(_options)
                 .AddTransient<IOptionsFactory<PipelineOptions>, PipelineOptionsFactory>();
 

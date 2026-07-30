@@ -2,6 +2,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
@@ -47,7 +48,9 @@ public class ModuleRetrieverTests
             modules,
             estimatedTimeProvider.Object,
             Mock.Of<IModuleDependencyRegistry>(),
-            Mock.Of<IModuleMetadataRegistry>());
+            Mock.Of<IModuleMetadataRegistry>(),
+            Mock.Of<IDependencyChainProvider>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
 
         var organizedModulesTask = retriever.GetOrganizedModules();
         var allStartedBeforeRelease = await Task.WhenAny(

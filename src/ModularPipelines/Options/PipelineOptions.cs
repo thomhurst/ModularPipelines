@@ -51,6 +51,8 @@ public record PipelineOptions
 {
     private IReadOnlyList<string>? _runOnlyCategories;
     private IReadOnlyList<string>? _ignoreCategories;
+    private IReadOnlyList<string>? _targetModules;
+    private IReadOnlyList<string>? _skippedModules;
     private CommandExecutionOptions? _defaultExecutionOptions;
 
     /// <summary>
@@ -82,6 +84,30 @@ public record PipelineOptions
     {
         get => _ignoreCategories;
         init => _ignoreCategories = value is null
+            ? null
+            : Array.AsReadOnly(value.ToArray());
+    }
+
+    /// <summary>
+    /// Gets module names to execute with their transitive dependency closures.
+    /// Names may be simple, full, or assembly-qualified module type names.
+    /// </summary>
+    public IReadOnlyList<string>? TargetModules
+    {
+        get => _targetModules;
+        init => _targetModules = value is null
+            ? null
+            : Array.AsReadOnly(value.ToArray());
+    }
+
+    /// <summary>
+    /// Gets module names to exclude from execution.
+    /// Names may be simple, full, or assembly-qualified module type names.
+    /// </summary>
+    public IReadOnlyList<string>? SkippedModules
+    {
+        get => _skippedModules;
+        init => _skippedModules = value is null
             ? null
             : Array.AsReadOnly(value.ToArray());
     }
