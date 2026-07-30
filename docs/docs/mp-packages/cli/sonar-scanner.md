@@ -13,7 +13,7 @@ title: sonar-scanner CLI reference
 dotnet add package ModularPipelines.SonarScanner
 ```
 
-Resolve the service with `context.Tools.SonarScanner`. The `context.SonarScanner()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.SonarScanner`. For projects older than C# 14, import `ModularPipelines.SonarScanner.Extensions` and use the `context.SonarScanner()` extension method as a compatibility fallback.
 
 ## Module example
 

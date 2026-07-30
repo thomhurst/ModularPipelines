@@ -13,7 +13,7 @@ title: liquibase CLI reference
 dotnet add package ModularPipelines.Liquibase
 ```
 
-Resolve the service with `context.Tools.Liquibase`. The `context.Liquibase()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Liquibase`. For projects older than C# 14, import `ModularPipelines.Liquibase.Extensions` and use the `context.Liquibase()` extension method as a compatibility fallback.
 
 ## Module example
 

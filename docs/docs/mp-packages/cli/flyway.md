@@ -13,7 +13,7 @@ title: flyway CLI reference
 dotnet add package ModularPipelines.Flyway
 ```
 
-Resolve the service with `context.Tools.Flyway`. The `context.Flyway()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Flyway`. For projects older than C# 14, import `ModularPipelines.Flyway.Extensions` and use the `context.Flyway()` extension method as a compatibility fallback.
 
 ## Module example
 

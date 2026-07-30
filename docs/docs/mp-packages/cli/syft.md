@@ -13,7 +13,7 @@ title: syft CLI reference
 dotnet add package ModularPipelines.Syft
 ```
 
-Resolve the service with `context.Tools.Syft`. The `context.Syft()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Syft`. For projects older than C# 14, import `ModularPipelines.Syft.Extensions` and use the `context.Syft()` extension method as a compatibility fallback.
 
 ## Module example
 

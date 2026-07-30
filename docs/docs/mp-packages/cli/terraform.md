@@ -13,7 +13,7 @@ title: terraform CLI reference
 dotnet add package ModularPipelines.Terraform
 ```
 
-Resolve the service with `context.Tools.Terraform`. The `context.Terraform()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Terraform`. For projects older than C# 14, import `ModularPipelines.Terraform.Extensions` and use the `context.Terraform()` extension method as a compatibility fallback.
 
 ## Module example
 

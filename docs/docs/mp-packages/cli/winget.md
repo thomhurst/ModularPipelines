@@ -13,7 +13,7 @@ title: winget CLI reference
 dotnet add package ModularPipelines.WinGet
 ```
 
-Resolve the service with `context.Tools.Winget`. The `context.Winget()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Winget`. For projects older than C# 14, import `ModularPipelines.WinGet.Extensions` and use the `context.Winget()` extension method as a compatibility fallback.
 
 ## Module example
 

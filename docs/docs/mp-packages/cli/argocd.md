@@ -13,7 +13,7 @@ title: argocd CLI reference
 dotnet add package ModularPipelines.ArgoCd
 ```
 
-Resolve the service with `context.Tools.ArgoCd`. The `context.ArgoCd()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.ArgoCd`. For projects older than C# 14, import `ModularPipelines.ArgoCd.Extensions` and use the `context.ArgoCd()` extension method as a compatibility fallback.
 
 ## Module example
 

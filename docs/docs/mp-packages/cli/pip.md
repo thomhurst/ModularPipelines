@@ -13,7 +13,7 @@ title: pip CLI reference
 dotnet add package ModularPipelines.Python
 ```
 
-Resolve the service with `context.Tools.Pip`. The `context.Pip()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Pip`. For projects older than C# 14, import `ModularPipelines.Python.Extensions` and use the `context.Pip()` extension method as a compatibility fallback.
 
 ## Module example
 

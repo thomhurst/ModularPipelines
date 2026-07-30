@@ -13,7 +13,7 @@ title: snyk CLI reference
 dotnet add package ModularPipelines.Snyk
 ```
 
-Resolve the service with `context.Tools.Snyk`. The `context.Snyk()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Snyk`. For projects older than C# 14, import `ModularPipelines.Snyk.Extensions` and use the `context.Snyk()` extension method as a compatibility fallback.
 
 ## Module example
 

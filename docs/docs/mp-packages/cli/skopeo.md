@@ -13,7 +13,7 @@ title: skopeo CLI reference
 dotnet add package ModularPipelines.Skopeo
 ```
 
-Resolve the service with `context.Tools.Skopeo`. The `context.Skopeo()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Skopeo`. For projects older than C# 14, import `ModularPipelines.Skopeo.Extensions` and use the `context.Skopeo()` extension method as a compatibility fallback.
 
 ## Module example
 

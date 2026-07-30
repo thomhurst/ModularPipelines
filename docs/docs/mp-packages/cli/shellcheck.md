@@ -13,7 +13,7 @@ title: shellcheck CLI reference
 dotnet add package ModularPipelines.Shellcheck
 ```
 
-Resolve the service with `context.Tools.Shellcheck`. The `context.Shellcheck()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Shellcheck`. For projects older than C# 14, import `ModularPipelines.Shellcheck.Extensions` and use the `context.Shellcheck()` extension method as a compatibility fallback.
 
 ## Module example
 

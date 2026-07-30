@@ -13,7 +13,7 @@ title: newman CLI reference
 dotnet add package ModularPipelines.Newman
 ```
 
-Resolve the service with `context.Tools.Newman`. The `context.Newman()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Newman`. For projects older than C# 14, import `ModularPipelines.Newman.Extensions` and use the `context.Newman()` extension method as a compatibility fallback.
 
 ## Module example
 

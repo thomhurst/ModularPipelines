@@ -13,7 +13,7 @@ title: vault CLI reference
 dotnet add package ModularPipelines.Vault
 ```
 
-Resolve the service with `context.Tools.Vault`. The `context.Vault()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Vault`. For projects older than C# 14, import `ModularPipelines.Vault.Extensions` and use the `context.Vault()` extension method as a compatibility fallback.
 
 ## Module example
 

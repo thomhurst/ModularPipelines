@@ -13,7 +13,7 @@ title: hadolint CLI reference
 dotnet add package ModularPipelines.Hadolint
 ```
 
-Resolve the service with `context.Tools.Hadolint`. The `context.Hadolint()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Hadolint`. For projects older than C# 14, import `ModularPipelines.Hadolint.Extensions` and use the `context.Hadolint()` extension method as a compatibility fallback.
 
 ## Module example
 

@@ -13,7 +13,7 @@ title: podman CLI reference
 dotnet add package ModularPipelines.Podman
 ```
 
-Resolve the service with `context.Tools.Podman`. The `context.Podman()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Podman`. For projects older than C# 14, import `ModularPipelines.Podman.Extensions` and use the `context.Podman()` extension method as a compatibility fallback.
 
 ## Module example
 

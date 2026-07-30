@@ -13,7 +13,7 @@ title: mvn CLI reference
 dotnet add package ModularPipelines.Java
 ```
 
-Resolve the service with `context.Tools.Maven`. The `context.Maven()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Maven`. For projects older than C# 14, import `ModularPipelines.Java.Extensions` and use the `context.Maven()` extension method as a compatibility fallback.
 
 ## Module example
 

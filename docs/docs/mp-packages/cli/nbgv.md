@@ -23,7 +23,7 @@ Install the nbgv .NET tool globally or in a tool path available on PATH.
 dotnet add package ModularPipelines.NerdbankGitVersioning
 ```
 
-Resolve the service with `context.Tools.Nbgv`. The `context.Nbgv()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Nbgv`. For projects older than C# 14, import `ModularPipelines.NerdbankGitVersioning.Extensions` and use the `context.Nbgv()` extension method as a compatibility fallback.
 
 ## Module example
 

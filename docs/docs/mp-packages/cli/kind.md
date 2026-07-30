@@ -13,7 +13,7 @@ title: kind CLI reference
 dotnet add package ModularPipelines.Kind
 ```
 
-Resolve the service with `context.Tools.Kind`. The `context.Kind()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Kind`. For projects older than C# 14, import `ModularPipelines.Kind.Extensions` and use the `context.Kind()` extension method as a compatibility fallback.
 
 ## Module example
 

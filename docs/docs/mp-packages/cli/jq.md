@@ -13,7 +13,7 @@ title: jq CLI reference
 dotnet add package ModularPipelines.Jq
 ```
 
-Resolve the service with `context.Tools.Jq`. The `context.Jq()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Jq`. For projects older than C# 14, import `ModularPipelines.Jq.Extensions` and use the `context.Jq()` extension method as a compatibility fallback.
 
 ## Module example
 

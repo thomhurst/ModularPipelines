@@ -13,7 +13,7 @@ title: helm CLI reference
 dotnet add package ModularPipelines.Helm
 ```
 
-Resolve the service with `context.Tools.Helm`. The `context.Helm()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Helm`. For projects older than C# 14, import `ModularPipelines.Helm.Extensions` and use the `context.Helm()` extension method as a compatibility fallback.
 
 ## Module example
 

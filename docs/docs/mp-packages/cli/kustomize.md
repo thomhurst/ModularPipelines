@@ -13,7 +13,7 @@ title: kustomize CLI reference
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Resolve the service with `context.Tools.Kustomize`. The `context.Kustomize()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Kustomize`. For projects older than C# 14, import `ModularPipelines.Kubernetes.Extensions` and use the `context.Kustomize()` extension method as a compatibility fallback.
 
 ## Module example
 

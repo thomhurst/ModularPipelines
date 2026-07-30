@@ -13,7 +13,7 @@ title: ansible CLI reference
 dotnet add package ModularPipelines.Ansible
 ```
 
-Resolve the service with `context.Tools.Ansible`. The `context.Ansible()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Ansible`. For projects older than C# 14, import `ModularPipelines.Ansible.Extensions` and use the `context.Ansible()` extension method as a compatibility fallback.
 
 ## Module example
 

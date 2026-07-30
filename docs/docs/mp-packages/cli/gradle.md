@@ -13,7 +13,7 @@ title: gradle CLI reference
 dotnet add package ModularPipelines.Java
 ```
 
-Resolve the service with `context.Tools.Gradle`. The `context.Gradle()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Gradle`. For projects older than C# 14, import `ModularPipelines.Java.Extensions` and use the `context.Gradle()` extension method as a compatibility fallback.
 
 ## Module example
 

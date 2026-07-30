@@ -13,7 +13,7 @@ title: grype CLI reference
 dotnet add package ModularPipelines.Grype
 ```
 
-Resolve the service with `context.Tools.Grype`. The `context.Grype()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Grype`. For projects older than C# 14, import `ModularPipelines.Grype.Extensions` and use the `context.Grype()` extension method as a compatibility fallback.
 
 ## Module example
 

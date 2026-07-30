@@ -13,7 +13,7 @@ title: cargo CLI reference
 dotnet add package ModularPipelines.Rust
 ```
 
-Resolve the service with `context.Tools.Cargo`. The `context.Cargo()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Cargo`. For projects older than C# 14, import `ModularPipelines.Rust.Extensions` and use the `context.Cargo()` extension method as a compatibility fallback.
 
 ## Module example
 

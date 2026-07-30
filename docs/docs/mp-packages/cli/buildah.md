@@ -13,7 +13,7 @@ title: buildah CLI reference
 dotnet add package ModularPipelines.Buildah
 ```
 
-Resolve the service with `context.Tools.Buildah`. The `context.Buildah()` extension method remains available as a compatibility fallback for projects older than C# 14.
+Resolve the service with `context.Tools.Buildah`. For projects older than C# 14, import `ModularPipelines.Buildah.Extensions` and use the `context.Buildah()` extension method as a compatibility fallback.
 
 ## Module example
 
