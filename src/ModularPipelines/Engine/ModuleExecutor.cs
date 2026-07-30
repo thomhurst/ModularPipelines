@@ -18,9 +18,9 @@ namespace ModularPipelines.Engine;
 /// <remarks>
 /// This class follows the Single Responsibility Principle by focusing solely on orchestration.
 /// Individual responsibilities are delegated to:
-/// - <see cref="IModuleRunner"/>: Executes individual modules
-/// - <see cref="IAlwaysRunHandler"/>: Handles AlwaysRun module completion
-/// - <see cref="IModuleResultRegistrar"/>: Registers module results
+/// - <see cref="IModuleRunner"/>: Executes individual modules.
+/// - <see cref="IAlwaysRunHandler"/>: Handles AlwaysRun module completion.
+/// - <see cref="IModuleResultRegistrar"/>: Registers module results.
 /// </remarks>
 internal class ModuleExecutor : IModuleExecutor
 {

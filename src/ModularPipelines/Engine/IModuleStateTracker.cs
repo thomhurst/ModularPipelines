@@ -10,9 +10,9 @@ namespace ModularPipelines.Engine;
 /// This interface encapsulates the state management responsibility previously
 /// embedded in ModuleScheduler, following the Single Responsibility Principle.
 /// State transitions include:
-/// - Marking modules as started (Pending/Queued -> Executing)
-/// - Marking modules as completed (Executing -> Completed)
-/// - Cancelling pending modules during pipeline cancellation
+/// - Marking modules as started (Pending/Queued -> Executing).
+/// - Marking modules as completed (Executing -> Completed).
+/// - Cancelling pending modules during pipeline cancellation.
 /// </remarks>
 internal interface IModuleStateTracker
 {
