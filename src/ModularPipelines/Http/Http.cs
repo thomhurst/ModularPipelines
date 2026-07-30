@@ -137,7 +137,6 @@ internal class Http : IHttpContext
                 cancellationToken)
             .ConfigureAwait(false);
 
-        response = wrapResponse(response);
         try
         {
             LogStatusCode(response.StatusCode, httpOptions, loggingOptions);
@@ -149,6 +148,8 @@ internal class Http : IHttpContext
                     .PrintResponse(response, logger, loggingOptions, cancellationToken)
                     .ConfigureAwait(false);
             }
+
+            response = wrapResponse(response);
 
             if (!httpOptions.ThrowOnNonSuccessStatusCode)
             {

@@ -25,6 +25,7 @@ internal sealed class TimeoutHttpContent : HttpContent
 
     protected override Task SerializeToStreamAsync(Stream stream, TransportContext? context)
     {
+        _linkedCancellationTokenSource.Token.ThrowIfCancellationRequested();
         return _innerContent.CopyToAsync(stream, _linkedCancellationTokenSource.Token);
     }
 
@@ -34,14 +35,18 @@ internal sealed class TimeoutHttpContent : HttpContent
         CancellationToken cancellationToken)
     {
         using var readCancellationTokenSource = CreateReadCancellationTokenSource(cancellationToken);
+        var effectiveCancellationToken =
+            readCancellationTokenSource?.Token ?? _linkedCancellationTokenSource.Token;
+        effectiveCancellationToken.ThrowIfCancellationRequested();
         await _innerContent.CopyToAsync(
                 stream,
-                readCancellationTokenSource?.Token ?? _linkedCancellationTokenSource.Token)
+                effectiveCancellationToken)
             .ConfigureAwait(false);
     }
 
     protected override async Task<Stream> CreateContentReadStreamAsync()
     {
+        _linkedCancellationTokenSource.Token.ThrowIfCancellationRequested();
         var stream = await _innerContent
             .ReadAsStreamAsync(_linkedCancellationTokenSource.Token)
             .ConfigureAwait(false);
@@ -53,6 +58,7 @@ internal sealed class TimeoutHttpContent : HttpContent
         using var readCancellationTokenSource = CreateReadCancellationTokenSource(cancellationToken);
         var effectiveCancellationToken =
             readCancellationTokenSource?.Token ?? _linkedCancellationTokenSource.Token;
+        effectiveCancellationToken.ThrowIfCancellationRequested();
         var stream = _innerContent.ReadAsStream(effectiveCancellationToken);
         return new TimeoutReadStream(stream, _linkedCancellationTokenSource.Token);
     }
@@ -63,6 +69,7 @@ internal sealed class TimeoutHttpContent : HttpContent
         using var readCancellationTokenSource = CreateReadCancellationTokenSource(cancellationToken);
         var effectiveCancellationToken =
             readCancellationTokenSource?.Token ?? _linkedCancellationTokenSource.Token;
+        effectiveCancellationToken.ThrowIfCancellationRequested();
         var stream = await _innerContent
             .ReadAsStreamAsync(effectiveCancellationToken)
             .ConfigureAwait(false);
@@ -141,8 +148,9 @@ internal sealed class TimeoutHttpContent : HttpContent
             {
                 return innerStream.Read(buffer, offset, count);
             }
-            catch (ObjectDisposedException exception)
-                when (timeoutCancellationToken.IsCancellationRequested)
+            catch (Exception exception)
+                when (timeoutCancellationToken.IsCancellationRequested &&
+                      exception is ObjectDisposedException or IOException)
             {
                 throw CreateTimeoutException(exception);
             }
@@ -155,8 +163,9 @@ internal sealed class TimeoutHttpContent : HttpContent
             {
                 return innerStream.Read(buffer);
             }
-            catch (ObjectDisposedException exception)
-                when (timeoutCancellationToken.IsCancellationRequested)
+            catch (Exception exception)
+                when (timeoutCancellationToken.IsCancellationRequested &&
+                      exception is ObjectDisposedException or IOException)
             {
                 throw CreateTimeoutException(exception);
             }
@@ -177,9 +186,12 @@ internal sealed class TimeoutHttpContent : HttpContent
         {
             using var readCancellationTokenSource =
                 CreateReadCancellationTokenSource(cancellationToken);
+            var effectiveCancellationToken =
+                readCancellationTokenSource?.Token ?? timeoutCancellationToken;
+            effectiveCancellationToken.ThrowIfCancellationRequested();
             return await innerStream.ReadAsync(
                     buffer,
-                    readCancellationTokenSource?.Token ?? timeoutCancellationToken)
+                    effectiveCancellationToken)
                 .ConfigureAwait(false);
         }
 

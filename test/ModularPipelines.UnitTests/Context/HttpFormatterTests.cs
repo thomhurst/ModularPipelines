@@ -38,7 +38,7 @@ public class HttpFormatterTests
     }
 
     [Test]
-    public async Task RequestFormatter_BoundsPreviewReadAndPreservesBody()
+    public async Task RequestFormatter_PreservesBodyForRepeatedSends()
     {
         const string body = "abcdefghijklmnopqrstuvwxyz";
         var stream = new CountingReadStream(Encoding.UTF8.GetBytes(body));
@@ -52,15 +52,18 @@ public class HttpFormatterTests
         {
             MaxBodySizeToLog = 5,
         });
-        var bytesReadForPreview = stream.BytesRead;
-        var replayedBody = await request.Content.ReadAsStringAsync();
+        using var firstSend = new MemoryStream();
+        using var secondSend = new MemoryStream();
+        await request.Content.CopyToAsync(firstSend);
+        await request.Content.CopyToAsync(secondSend);
 
         using (Assert.Multiple())
         {
-            await Assert.That(bytesReadForPreview).IsLessThanOrEqualTo(6);
             await Assert.That(formatted).Contains("\tabcde");
             await Assert.That(formatted).DoesNotContain("abcdef");
-            await Assert.That(replayedBody).IsEqualTo(body);
+            await Assert.That(Encoding.UTF8.GetString(firstSend.ToArray())).IsEqualTo(body);
+            await Assert.That(Encoding.UTF8.GetString(secondSend.ToArray())).IsEqualTo(body);
+            await Assert.That(stream.IsDisposed).IsTrue();
         }
     }
 
@@ -229,6 +232,8 @@ public class HttpFormatterTests
     {
         public int BytesRead { get; private set; }
 
+        public bool IsDisposed { get; private set; }
+
         public override async ValueTask<int> ReadAsync(
             Memory<byte> buffer,
             CancellationToken cancellationToken = default)
@@ -236,6 +241,12 @@ public class HttpFormatterTests
             var read = await base.ReadAsync(buffer, cancellationToken);
             BytesRead += read;
             return read;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            IsDisposed = true;
+            base.Dispose(disposing);
         }
     }
 }

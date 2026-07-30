@@ -125,12 +125,16 @@ public class HttpTests : TestBase
     }
 
     [Test]
-    [Arguments(true)]
-    [Arguments(false)]
-    public async Task SendAsync_ConfiguredTimeoutInterruptsSynchronousBodyRead(bool useCopyTo)
+    [Arguments(true, true)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(false, false)]
+    public async Task SendAsync_ConfiguredTimeoutInterruptsSynchronousBodyRead(
+        bool useCopyTo,
+        bool throwIOExceptionWhenDisposed)
     {
         var timeout = TimeSpan.FromMilliseconds(100);
-        var contentStream = new BlockingReadStream();
+        var contentStream = new BlockingReadStream(throwIOExceptionWhenDisposed);
         using var httpClient = new HttpClient(
             new ImmediateResponseHandler(new StreamContent(contentStream)));
         var result = await GetService<IHttpContext>((_, _) => { });
@@ -163,6 +167,85 @@ public class HttpTests : TestBase
         {
             contentStream.Release();
         }
+    }
+
+    [Test]
+    public async Task SendAsync_CustomClientLogsRawContentBeforeApplyingBodyTimeout()
+    {
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(new MemoryStream([1, 2, 3]))))
+        {
+            Timeout = TimeSpan.FromSeconds(5),
+        };
+        Type? loggedContentType = null;
+        var httpLogger = new Mock<IHttpLogger>();
+        httpLogger
+            .Setup(x => x.PrintResponse(
+                It.IsAny<HttpResponseMessage>(),
+                It.IsAny<IModuleLogger>(),
+                It.IsAny<HttpLoggingOptions>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<HttpResponseMessage, IModuleLogger, HttpLoggingOptions, CancellationToken>(
+                (response, _, _, _) => loggedContentType = response.Content.GetType())
+            .Returns(Task.CompletedTask);
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerProvider>(),
+            httpLogger.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+
+        using var response = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/binary"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.Response,
+        });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(loggedContentType).IsEqualTo(typeof(StreamContent));
+            await Assert.That(response.Content).IsTypeOf<TimeoutHttpContent>();
+        }
+    }
+
+    [Test]
+    public async Task SendAsync_CustomClientKeepsTimeoutOutsideLoggedReplayContent()
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var content = new StreamContent(
+            new MemoryStream("response body"u8.ToArray()));
+        content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+        using var httpClient = new HttpClient(new ImmediateResponseHandler(content));
+        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
+        moduleLoggerProvider
+            .Setup(x => x.GetLogger())
+            .Returns(Mock.Of<IModuleLogger>());
+        var httpLogger = new HttpLogger(
+            Mock.Of<IHttpRequestFormatter>(),
+            new HttpResponseFormatter(
+                Mock.Of<ISecretObfuscator>(),
+                Mock.Of<ISecretProvider>(),
+                Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions())));
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            moduleLoggerProvider.Object,
+            httpLogger,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var response = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/logged-timeout"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.Response,
+            Timeout = timeout,
+        });
+
+        await Task.Delay(timeout + TimeSpan.FromMilliseconds(50));
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+        {
+            var stream = await response.Content.ReadAsStreamAsync();
+            await stream.ReadExactlyAsync(new byte[1]);
+        });
     }
 
     [Test]
@@ -439,7 +522,7 @@ public class HttpTests : TestBase
         }
     }
 
-    private sealed class BlockingReadStream : MemoryStream
+    private sealed class BlockingReadStream(bool throwIOExceptionWhenDisposed = false) : MemoryStream
     {
         private readonly TaskCompletionSource _release =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -486,7 +569,9 @@ public class HttpTests : TestBase
             _synchronousRelease.Wait();
             if (_isDisposed)
             {
-                throw new ObjectDisposedException(nameof(BlockingReadStream));
+                throw throwIOExceptionWhenDisposed
+                    ? new IOException("The stream was interrupted.")
+                    : new ObjectDisposedException(nameof(BlockingReadStream));
             }
 
             return 0;

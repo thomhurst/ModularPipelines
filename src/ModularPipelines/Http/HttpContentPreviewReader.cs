@@ -54,6 +54,35 @@ internal static class HttpContentPreviewReader
         return (preview, isTruncated, replayContent, content.Headers.ContentLength);
     }
 
+    /// <summary>
+    /// Reads request content into replayable storage so redirects and authentication retries can resend it.
+    /// </summary>
+    /// <param name="content">The HTTP request content to preview.</param>
+    /// <param name="maxBytes">The maximum number of bytes to include in the preview.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The preview, truncation state, replayable content, and total length.</returns>
+    public static async Task<(string Preview, bool IsTruncated, HttpContent ReplayContent, long? TotalLength)>
+        ReadReplayableAsync(
+            HttpContent content,
+            int maxBytes,
+            CancellationToken cancellationToken)
+    {
+        var bytes = await content.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
+        var previewLength = maxBytes <= 0 || maxBytes == int.MaxValue
+            ? bytes.Length
+            : Math.Min(bytes.Length, maxBytes);
+        var isTruncated = previewLength < bytes.Length;
+        var preview = DecodeCompletePrefix(GetEncoding(content), bytes, previewLength);
+        var replayContent = new ByteArrayContent(bytes);
+        CopyHeaders(content, replayContent);
+
+        return (
+            preview,
+            isTruncated,
+            replayContent,
+            content.Headers.ContentLength ?? bytes.LongLength);
+    }
+
     private static Encoding GetEncoding(HttpContent content)
     {
         var charset = content.Headers.ContentType?.CharSet?.Trim('"');
@@ -93,12 +122,17 @@ internal static class HttpContentPreviewReader
     {
         var replayContent = new StreamContent(
             new PrefixReplayStream(prefix, remainingStream, originalContent));
-        foreach (var header in originalContent.Headers)
-        {
-            replayContent.Headers.TryAddWithoutValidation(header.Key, header.Value);
-        }
+        CopyHeaders(originalContent, replayContent);
 
         return replayContent;
+    }
+
+    private static void CopyHeaders(HttpContent source, HttpContent destination)
+    {
+        foreach (var header in source.Headers)
+        {
+            destination.Headers.TryAddWithoutValidation(header.Key, header.Value);
+        }
     }
 
     private sealed class PrefixReplayStream(
