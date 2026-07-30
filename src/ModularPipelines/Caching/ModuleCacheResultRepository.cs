@@ -21,6 +21,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 {
     private const string ResultEntryName = "result.json";
     private const string ArtifactPrefix = "artifacts/";
+    private const int UnixFileTypeRegular = 0x8000;
+    private const int UnixPermissionMask = 0x0FFF;
     private readonly IModuleCacheStore _store;
     private readonly ModuleCacheOptions _options;
     private readonly ModuleCacheFileHasher _fileHasher;
@@ -177,7 +179,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 throw new InvalidDataException("Module cache result is empty.");
             }
 
-            await RestoreArtifactsAsync(archive, cancellationToken).ConfigureAwait(false);
+            await RestoreArtifactsAsync(archive, module.GetType(), cancellationToken)
+                .ConfigureAwait(false);
             DiscardFingerprint(module);
             _logger.LogInformation(
                 "Module cache hit {Fingerprint} for {Module}",
@@ -294,14 +297,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         Type moduleType,
         CancellationToken cancellationToken)
     {
-        var paths = moduleType
-            .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
-            .Cast<ProducesArtifactAttribute>()
-            .Select(attribute => attribute.PathPattern);
         var files = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
-            paths,
-            _options.MaximumInputFiles);
+            GetArtifactPaths(moduleType),
+            _options.MaximumInputFiles,
+            _options.CacheDirectory);
 
         foreach (var file in files)
         {
@@ -310,6 +310,12 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var entry = archive.CreateEntry(
                 $"{ArtifactPrefix}{relativePath}",
                 CompressionLevel.Fastest);
+            if (!OperatingSystem.IsWindows())
+            {
+                entry.ExternalAttributes =
+                    (UnixFileTypeRegular | (int) File.GetUnixFileMode(file)) << 16;
+            }
+
             await using var input = new FileStream(
                 file,
                 FileMode.Open,
@@ -324,32 +330,91 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
     private async Task RestoreArtifactsAsync(
         ZipArchive archive,
+        Type moduleType,
         CancellationToken cancellationToken)
     {
         var root = Path.GetFullPath(_options.WorkingDirectory);
-        foreach (var entry in archive.Entries.Where(entry => entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal)))
+        var artifactEntries = archive.Entries
+            .Where(entry => entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal))
+            .Select(entry => (Entry: entry, Destination: GetArtifactDestination(root, entry)))
+            .ToArray();
+
+        ClearArtifacts(moduleType, cancellationToken);
+
+        foreach (var (entry, destination) in artifactEntries)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var relativePath = entry.FullName[ArtifactPrefix.Length..].Replace('/', Path.DirectorySeparatorChar);
-            var destination = Path.GetFullPath(Path.Combine(root, relativePath));
-            var verifiedRelativePath = Path.GetRelativePath(root, destination);
-            if (verifiedRelativePath == ".."
-                || verifiedRelativePath.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
-                || Path.IsPathRooted(verifiedRelativePath))
+            Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+            await using (var input = entry.Open())
+            await using (var output = new FileStream(
+                             destination,
+                             FileMode.Create,
+                             FileAccess.Write,
+                             FileShare.None,
+                             64 * 1024,
+                             FileOptions.Asynchronous))
             {
-                throw new InvalidDataException($"Cache artifact path '{entry.FullName}' escapes the working directory.");
+                await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
             }
 
-            Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-            await using var input = entry.Open();
-            await using var output = new FileStream(
-                destination,
-                FileMode.Create,
-                FileAccess.Write,
-                FileShare.None,
-                64 * 1024,
-                FileOptions.Asynchronous);
-            await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
+            RestoreUnixFileMode(entry, destination);
+        }
+    }
+
+    private void ClearArtifacts(Type moduleType, CancellationToken cancellationToken)
+    {
+        var files = ModuleCacheFileResolver.ResolveFiles(
+            _options.WorkingDirectory,
+            GetArtifactPaths(moduleType),
+            _options.MaximumInputFiles,
+            _options.CacheDirectory);
+
+        foreach (var file in files)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            File.Delete(file);
+        }
+    }
+
+    private static IEnumerable<string> GetArtifactPaths(Type moduleType) =>
+        moduleType
+            .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
+            .Cast<ProducesArtifactAttribute>()
+            .Select(attribute => attribute.PathPattern);
+
+    private static string GetArtifactDestination(string root, ZipArchiveEntry entry)
+    {
+        var relativePath = entry.FullName[ArtifactPrefix.Length..]
+            .Replace('/', Path.DirectorySeparatorChar);
+        var destination = Path.GetFullPath(Path.Combine(root, relativePath));
+        var verifiedRelativePath = Path.GetRelativePath(root, destination);
+        if (verifiedRelativePath == ".."
+            || verifiedRelativePath.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
+            || Path.IsPathRooted(verifiedRelativePath))
+        {
+            throw new InvalidDataException($"Cache artifact path '{entry.FullName}' escapes the working directory.");
+        }
+
+        return destination;
+    }
+
+    private static void RestoreUnixFileMode(ZipArchiveEntry entry, string destination)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
+        if ((unixAttributes & UnixFileTypeRegular) == UnixFileTypeRegular)
+        {
+            var permissions = Enum.ToObject(
+                typeof(UnixFileMode),
+                unixAttributes & UnixPermissionMask);
+            if (permissions is UnixFileMode unixFileMode)
+            {
+                File.SetUnixFileMode(destination, unixFileMode);
+            }
         }
     }
 

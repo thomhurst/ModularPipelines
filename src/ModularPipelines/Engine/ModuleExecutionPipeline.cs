@@ -64,6 +64,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var moduleName = executionContext.ModuleType.Name;
         ModuleResult<T>? moduleResult = null;
         var beforeHooksExecuted = false;
+        var afterHookInvoked = false;
         var originalCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
 
         // Get configuration once at the start
@@ -158,7 +159,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
 
-            module.CompletionSource.TrySetResult(moduleResult!);
+            afterHookInvoked = true;
+            moduleResult = await InvokeAfterExecuteAsync(
+                    module,
+                    moduleContext,
+                    moduleResult,
+                    executionContext.ModuleCancellationTokenSource.Token)
+                .ConfigureAwait(false);
 
             // Save to history if applicable
             await SaveResults(
@@ -169,6 +176,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 .ConfigureAwait(false);
 
             executionContext.SetTypedResult(moduleResult);
+            module.CompletionSource.TrySetResult(moduleResult);
 
             return moduleResult;
         }
@@ -192,21 +200,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             {
                 // Call direct OnAfterExecuteAsync hook - runs on both success and failure
                 // Only run if before hooks were executed (module actually started)
-                if (beforeHooksExecuted && moduleResult != null)
+                if (beforeHooksExecuted && moduleResult != null && !afterHookInvoked)
                 {
-                    try
-                    {
-                        var modifiedResult = await _directHookInvoker.InvokeAfterExecuteAsync(module, moduleContext, moduleResult, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
-                        if (modifiedResult != null)
-                        {
-                            moduleResult = modifiedResult;
-                            executionContext.SetTypedResult(moduleResult);
-                        }
-                    }
-                    catch (Exception afterHookException)
-                    {
-                        logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
-                    }
+                    afterHookInvoked = true;
+                    moduleResult = await InvokeAfterExecuteAsync(
+                            module,
+                            moduleContext,
+                            moduleResult,
+                            executionContext.ModuleCancellationTokenSource.Token)
+                        .ConfigureAwait(false);
+                    executionContext.SetTypedResult(moduleResult);
                 }
 
                 LogModuleStatus(executionContext, logger);
@@ -487,6 +490,26 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             moduleContext.Logger.LogError(e, "Error saving module result to module cache");
+        }
+    }
+
+    private async Task<ModuleResult<T>> InvokeAfterExecuteAsync<T>(
+        Module<T> module,
+        IModuleContext moduleContext,
+        ModuleResult<T> moduleResult,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await _directHookInvoker
+                       .InvokeAfterExecuteAsync(module, moduleContext, moduleResult, cancellationToken)
+                       .ConfigureAwait(false)
+                   ?? moduleResult;
+        }
+        catch (Exception afterHookException)
+        {
+            moduleContext.Logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
+            return moduleResult;
         }
     }
 

@@ -92,6 +92,89 @@ public class ModuleCacheTests
         }
     }
 
+    [CacheInputs("hook-input.txt")]
+    [ProducesArtifact("hook-output", "hook-output.txt")]
+    private sealed class AfterHookArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            System.IO.File.WriteAllText(
+                Path.Combine(WorkingDirectory, "hook-output.txt"),
+                "before-hook");
+            return Task.FromResult<string?>("result");
+        }
+
+        protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
+            IModuleContext context,
+            ModuleResult<string> result,
+            CancellationToken cancellationToken)
+        {
+            System.IO.File.WriteAllText(
+                Path.Combine(WorkingDirectory, "hook-output.txt"),
+                "after-hook");
+            return Task.FromResult<ModuleResult<string>?>(null);
+        }
+    }
+
+    [CacheInputs("set-input.txt")]
+    [ProducesArtifact("artifact-set", "artifact-set")]
+    private sealed class VaryingArtifactSetModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            var value = System.IO.File.ReadAllText(
+                Path.Combine(WorkingDirectory, "set-input.txt"));
+            var artifactDirectory = Path.Combine(WorkingDirectory, "artifact-set");
+            Directory.CreateDirectory(artifactDirectory);
+            System.IO.File.WriteAllText(Path.Combine(artifactDirectory, $"{value}.txt"), value);
+            return Task.FromResult<string?>(value);
+        }
+    }
+
+    [CacheInputs("mode-input.txt")]
+    [ProducesArtifact("executable", "run.sh")]
+    private sealed class ExecutableArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            var path = Path.Combine(WorkingDirectory, "run.sh");
+            System.IO.File.WriteAllText(path, "#!/bin/sh\nexit 0\n");
+            if (!OperatingSystem.IsWindows())
+            {
+                System.IO.File.SetUnixFileMode(
+                    path,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute
+                    | UnixFileMode.GroupRead
+                    | UnixFileMode.GroupExecute);
+            }
+
+            return Task.FromResult<string?>("result");
+        }
+    }
+
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     private sealed class CachedDependentModule : Module<string>
     {
@@ -374,6 +457,129 @@ public class ModuleCacheTests
         }
     }
 
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheCapturesArtifactsAfterAfterExecuteHook()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-after-hook-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        AfterHookArtifactModule.WorkingDirectory = temporaryDirectory;
+        AfterHookArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "hook-input.txt"),
+                "input");
+            var firstStatus = await RunAfterHookArtifactPipelineAsync(temporaryDirectory);
+            var outputPath = Path.Combine(temporaryDirectory, "hook-output.txt");
+            System.IO.File.Delete(outputPath);
+            var secondStatus = await RunAfterHookArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstStatus).IsEqualTo(Status.Successful);
+                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(AfterHookArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(await System.IO.File.ReadAllTextAsync(outputPath))
+                    .IsEqualTo("after-hook");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRemovesArtifactsAbsentFromSelectedEntry()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-artifact-set-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            var inputPath = Path.Combine(temporaryDirectory, "set-input.txt");
+            var artifactDirectory = Path.Combine(temporaryDirectory, "artifact-set");
+            await System.IO.File.WriteAllTextAsync(inputPath, "a");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            Directory.Delete(artifactDirectory, recursive: true);
+            await System.IO.File.WriteAllTextAsync(inputPath, "b");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            await System.IO.File.WriteAllTextAsync(inputPath, "a");
+            var restoredStatus = await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+                await Assert.That(System.IO.File.Exists(Path.Combine(artifactDirectory, "a.txt")))
+                    .IsTrue();
+                await Assert.That(System.IO.File.Exists(Path.Combine(artifactDirectory, "b.txt")))
+                    .IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestorePreservesUnixExecutableMode()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-unix-mode-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        ExecutableArtifactModule.WorkingDirectory = temporaryDirectory;
+        ExecutableArtifactModule.ExecutionCount = 0;
+        var expectedMode =
+            UnixFileMode.UserRead
+            | UnixFileMode.UserWrite
+            | UnixFileMode.UserExecute
+            | UnixFileMode.GroupRead
+            | UnixFileMode.GroupExecute;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "mode-input.txt"),
+                "input");
+            await RunExecutableArtifactPipelineAsync(temporaryDirectory);
+            var artifactPath = Path.Combine(temporaryDirectory, "run.sh");
+            System.IO.File.Delete(artifactPath);
+            var restoredStatus = await RunExecutableArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(ExecutableArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(System.IO.File.GetUnixFileMode(artifactPath))
+                    .IsEqualTo(expectedMode);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
     private static async Task<Status> RunPipelineAsync(string workingDirectory, string cacheDirectory)
     {
         await using var host = await TestPipelineHostBuilder.Create()
@@ -426,6 +632,60 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(InputMutatingModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunAfterHookArtifactPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<AfterHookArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(AfterHookArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunVaryingArtifactSetPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<VaryingArtifactSetModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(VaryingArtifactSetModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunExecutableArtifactPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<ExecutableArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(ExecutableArtifactModule))!
             .ModuleStatus;
     }
 }
