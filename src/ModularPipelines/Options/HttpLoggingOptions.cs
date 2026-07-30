@@ -67,7 +67,7 @@ public record HttpLoggingOptions
     public bool LogDuration { get; init; } = true;
 
     /// <summary>
-    /// Gets the maximum body size in characters to log. Default is 4096.
+    /// Gets the maximum body size in bytes to read and log. Default is 4096.
     /// Bodies larger than this will be truncated with a message indicating the full size.
     /// Set to 0 or negative to disable truncation.
     /// </summary>

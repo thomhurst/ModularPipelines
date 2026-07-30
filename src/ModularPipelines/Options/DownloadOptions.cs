@@ -21,5 +21,6 @@ public record DownloadOptions(Uri DownloadUri)
     /// <summary>
     /// Gets the type of HTTP logging to perform during the download.
     /// </summary>
-    public HttpLoggingType LoggingType { get; init; } = HttpLoggingType.Request | HttpLoggingType.Response | HttpLoggingType.StatusCode | HttpLoggingType.Duration;
+    public HttpLoggingType LoggingType { get; init; } =
+        HttpLoggingType.Request | HttpLoggingType.StatusCode | HttpLoggingType.Duration;
 }

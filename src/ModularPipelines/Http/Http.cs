@@ -50,7 +50,11 @@ internal class Http : IHttpContext
 
         var httpClient = GetHttpClient(httpOptions.LoggingType);
 
-        var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, effectiveCancellationToken).ConfigureAwait(false);
+        var response = await httpClient.SendAsync(
+                httpOptions.HttpRequestMessage,
+                HttpCompletionOption.ResponseHeadersRead,
+                effectiveCancellationToken)
+            .ConfigureAwait(false);
 
         if (!httpOptions.ThrowOnNonSuccessStatusCode)
         {
@@ -78,7 +82,11 @@ internal class Http : IHttpContext
 
         var stopWatch = Stopwatch.StartNew();
 
-        var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken).ConfigureAwait(false);
+        var response = await httpOptions.HttpClient!.SendAsync(
+                httpOptions.HttpRequestMessage,
+                HttpCompletionOption.ResponseHeadersRead,
+                cancellationToken)
+            .ConfigureAwait(false);
 
         LogStatusCode(response.StatusCode, httpOptions, loggingOptions);
         LogDuration(stopWatch.Elapsed, httpOptions, loggingOptions);

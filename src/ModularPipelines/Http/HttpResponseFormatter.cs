@@ -70,7 +70,7 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
 
         if (options.LogResponseBody)
         {
-            await AppendBodyAsync(sb, response.Content, options.MaxBodySizeToLog, cancellationToken).ConfigureAwait(false);
+            await AppendBodyAsync(sb, response, options.MaxBodySizeToLog, cancellationToken).ConfigureAwait(false);
         }
 
         return sb.ToString();
@@ -127,10 +127,15 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
         return false;
     }
 
-    private async Task AppendBodyAsync(StringBuilder sb, HttpContent? content, int maxBodySize, CancellationToken cancellationToken)
+    private async Task AppendBodyAsync(
+        StringBuilder sb,
+        HttpResponseMessage response,
+        int maxBodySize,
+        CancellationToken cancellationToken)
     {
         sb.AppendLine("Body");
 
+        var content = response.Content;
         if (content == null)
         {
             sb.AppendLine("\t(null)");
@@ -146,9 +151,12 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
             return;
         }
 
-        var body = await content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+        var (body, isTruncated, replayContent, totalLength) = await HttpContentPreviewReader
+            .ReadAsync(content, maxBodySize, cancellationToken)
+            .ConfigureAwait(false);
+        response.Content = replayContent;
 
-        if (string.IsNullOrWhiteSpace(body))
+        if (string.IsNullOrWhiteSpace(body) && !isTruncated)
         {
             sb.AppendLine("\t(empty)");
             return;
@@ -157,16 +165,22 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
         // Obfuscate sensitive values in the body
         var obfuscatedBody = _secretObfuscator.Obfuscate(body, null);
 
-        // Truncate if body is too large
-        if (maxBodySize > 0 && obfuscatedBody.Length > maxBodySize)
+        sb.AppendLine($"\t{obfuscatedBody}");
+        if (isTruncated)
         {
-            sb.AppendLine($"\t{obfuscatedBody[..maxBodySize]}");
-            sb.AppendLine($"\t... [truncated, total size: {obfuscatedBody.Length:N0} characters]");
+            AppendTruncationMessage(sb, maxBodySize, totalLength);
         }
-        else
-        {
-            sb.AppendLine($"\t{obfuscatedBody}");
-        }
+    }
+
+    private static void AppendTruncationMessage(
+        StringBuilder sb,
+        int maxBodySize,
+        long? totalLength)
+    {
+        var size = totalLength.HasValue
+            ? $"total size: {totalLength.Value:N0} bytes"
+            : $"after {maxBodySize:N0} bytes";
+        sb.AppendLine($"\t... [truncated, {size}]");
     }
 
     private static bool IsBinaryContent(HttpContent content)

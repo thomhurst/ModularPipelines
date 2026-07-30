@@ -1,3 +1,4 @@
+using System.Net;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,6 +15,35 @@ namespace ModularPipelines.UnitTests.Context;
 
 public class HttpTests : TestBase
 {
+    [Test]
+    public async Task SendAsync_ReturnsAfterHeadersWithoutBufferingResponseBody()
+    {
+        var content = new BlockingHttpContent();
+        var handler = new ImmediateResponseHandler(content);
+        using var httpClient = new HttpClient(handler);
+        var result = await GetService<IHttpContext>((_, _) => { });
+        var sendTask = result.T.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/large-file"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.None,
+        });
+
+        await handler.RequestReceived.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+        HttpResponseMessage? response = null;
+        try
+        {
+            response = await sendTask.WaitAsync(TimeSpan.FromSeconds(1));
+        }
+        finally
+        {
+            content.Release();
+            response ??= await sendTask;
+            response.Dispose();
+        }
+    }
+
     [Test]
     public async Task PublicApi_DoesNotExposeRawHttpClients()
     {
@@ -153,6 +183,46 @@ public class HttpTests : TestBase
             await Assert.That(indexOfRequest).IsLessThan(indexOfStatusCode);
             await Assert.That(indexOfStatusCode).IsLessThan(indexOfDuration);
             await Assert.That(indexOfDuration).IsLessThan(indexOfResponse);
+        }
+    }
+
+    private sealed class ImmediateResponseHandler(HttpContent content) : HttpMessageHandler
+    {
+        public TaskCompletionSource RequestReceived { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            RequestReceived.TrySetResult();
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = content,
+                RequestMessage = request,
+            });
+        }
+    }
+
+    private sealed class BlockingHttpContent : HttpContent
+    {
+        private readonly TaskCompletionSource _release =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void Release() => _release.TrySetResult();
+
+        protected override async Task SerializeToStreamAsync(
+            Stream stream,
+            TransportContext? context)
+        {
+            await _release.Task;
+            await stream.WriteAsync("response body"u8.ToArray());
+        }
+
+        protected override bool TryComputeLength(out long length)
+        {
+            length = 0;
+            return false;
         }
     }
 }

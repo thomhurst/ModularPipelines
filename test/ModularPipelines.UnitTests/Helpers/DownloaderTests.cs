@@ -9,6 +9,14 @@ namespace ModularPipelines.UnitTests.Helpers;
 public class DownloaderTests : TestBase
 {
     [Test]
+    public async Task DownloadOptions_DisableResponseBodyLoggingByDefault()
+    {
+        var options = new DownloadOptions(new Uri("https://example.test/file"));
+
+        await Assert.That(options.LoggingType.HasFlag(ModularPipelines.Http.HttpLoggingType.Response)).IsFalse();
+    }
+
+    [Test]
     public async Task Can_Download()
     {
         var downloader = await GetService<IDownloaderContext>();
