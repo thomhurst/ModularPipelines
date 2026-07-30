@@ -5,6 +5,14 @@ namespace ModularPipelines.Distributed.UnitTests.Configuration;
 public class DistributedOptionsTests
 {
     [Test]
+    public async Task ModuleResultTimeout_Defaults_To_Forty_Five_Minutes()
+    {
+        var options = new DistributedOptions();
+
+        await Assert.That(options.ModuleResultTimeoutSeconds).IsEqualTo(2700);
+    }
+
+    [Test]
     public async Task Capabilities_CanBeBoundFromConfiguration()
     {
         var configuration = new ConfigurationBuilder()

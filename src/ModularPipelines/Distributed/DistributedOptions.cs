@@ -16,7 +16,8 @@ public class DistributedOptions
 
     /// <summary>
     /// Gets or sets the default timeout in seconds for waiting for a distributed module result.
-    /// Applied when a module has no explicit Timeout configured. 0 = no timeout (wait forever).
+    /// Defaults to 2700 seconds (45 minutes) and applies when a module has no explicit Timeout configured.
+    /// Set to 0 to wait indefinitely.
     /// </summary>
-    public int ModuleResultTimeoutSeconds { get; set; }
+    public int ModuleResultTimeoutSeconds { get; set; } = 2700;
 }

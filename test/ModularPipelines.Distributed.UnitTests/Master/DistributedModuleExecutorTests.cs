@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Conditions;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Coordination;
@@ -41,6 +42,18 @@ public class DistributedModuleExecutorTests
 
     private class DistributedModule : Module<SimpleResult>
     {
+        protected internal override Task<SimpleResult?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<SimpleResult?>(new SimpleResult { Message = "done" });
+    }
+
+    private class ShortTimeoutDistributedModule : Module<SimpleResult>
+    {
+        protected override ModuleConfiguration Configure() =>
+            ModuleConfiguration.Create()
+                .WithTimeout(TimeSpan.FromMilliseconds(50))
+                .Build();
+
         protected internal override Task<SimpleResult?> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<SimpleResult?>(new SimpleResult { Message = "done" });
@@ -169,7 +182,8 @@ public class DistributedModuleExecutorTests
         IModuleResultRegistry? resultRegistry = null,
         IDistributedCoordinator? coordinator = null,
         DistributedResultCollector? resultCollector = null,
-        ArtifactLifecycleManager? artifactManager = null)
+        ArtifactLifecycleManager? artifactManager = null,
+        DistributedOptions? distributedOptions = null)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(CancellationToken.None);
@@ -202,7 +216,7 @@ public class DistributedModuleExecutorTests
             resultRegistry,
             NewDependencyRegistry(),
             NewMetadataRegistry(),
-            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
+            Microsoft.Extensions.Options.Options.Create(distributedOptions ?? new DistributedOptions()),
             artifactManager,
             NullLogger<DistributedModuleExecutor>.Instance);
     }
@@ -393,6 +407,93 @@ public class DistributedModuleExecutorTests
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
         await Assert.That(registeredResult!.ExceptionOrDefault).IsNotNull();
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task Missing_Result_Times_Out_And_Completes_Pipeline(CancellationToken testCancellation)
+    {
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var resultRegistry = new ModuleResultRegistry();
+        var coordinator = new NoDequeueCoordinator(new InMemoryDistributedCoordinator());
+        var options = new DistributedOptions { ModuleResultTimeoutSeconds = 1 };
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator,
+            distributedOptions: options);
+
+        await executor.ExecuteAsync([module]).WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
+
+        var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
+        await Assert.That(registeredResult).IsNotNull();
+        await Assert.That(registeredResult!.ExceptionOrDefault).IsTypeOf<TimeoutException>();
+        scheduler.Verify(
+            instance => instance.MarkModuleCompleted(typeof(DistributedModule), false, null, null),
+            Times.Once());
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task Module_Timeout_Takes_Precedence_Over_Default_Result_Timeout(CancellationToken testCancellation)
+    {
+        var module = new ShortTimeoutDistributedModule();
+        var moduleState = new ModuleState(module, typeof(ShortTimeoutDistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var resultRegistry = new ModuleResultRegistry();
+        var coordinator = new NoDequeueCoordinator(new InMemoryDistributedCoordinator());
+        var options = new DistributedOptions { ModuleResultTimeoutSeconds = 30 };
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator,
+            distributedOptions: options);
+
+        await executor.ExecuteAsync([module]).WaitAsync(TimeSpan.FromSeconds(2), testCancellation);
+
+        var registeredResult = resultRegistry.GetResult(typeof(ShortTimeoutDistributedModule));
+        await Assert.That(registeredResult).IsNotNull();
+        await Assert.That(registeredResult!.ExceptionOrDefault).IsTypeOf<TimeoutException>();
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task Zero_Result_Timeout_Waits_Until_Result_Is_Published(CancellationToken testCancellation)
+    {
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var resultRegistry = new ModuleResultRegistry();
+        var innerCoordinator = new InMemoryDistributedCoordinator();
+        var coordinator = new NoDequeueCoordinator(innerCoordinator);
+        var options = new DistributedOptions { ModuleResultTimeoutSeconds = 0 };
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator,
+            distributedOptions: options);
+
+        var execution = executor.ExecuteAsync([module]);
+
+        await Assert.That(async () => await execution.WaitAsync(TimeSpan.FromMilliseconds(100), testCancellation))
+            .Throws<TimeoutException>();
+
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var successResult = CreateSuccessResult(new SimpleResult { Message = "done" }, "DistributedModule");
+        var serialized = serializer.Serialize(
+            successResult,
+            typeof(DistributedModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            1);
+
+        await innerCoordinator.PublishResultAsync(serialized, testCancellation);
+        await execution.WaitAsync(TimeSpan.FromSeconds(2), testCancellation);
+
+        await Assert.That(resultRegistry.GetResult(typeof(DistributedModule))).IsNotNull();
     }
 
     // =================================================================
