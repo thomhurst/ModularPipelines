@@ -73,9 +73,7 @@ internal class PipelineInitializer(
         };
 
         table.AddColumn(new TableColumn("[bold]Name[/]").LeftAligned());
-        var valueColumn = new TableColumn("[bold]Value[/]").LeftAligned();
-        valueColumn.NoWrap = true;
-        table.AddColumn(valueColumn);
+        table.AddColumn(new TableColumn("[bold]Value[/]").LeftAligned());
 
         foreach (var environmentVariable in variables
                      .Cast<DictionaryEntry>()

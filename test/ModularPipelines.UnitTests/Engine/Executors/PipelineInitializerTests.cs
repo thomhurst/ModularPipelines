@@ -45,6 +45,7 @@ public class PipelineInitializerTests
             .Count(line => line.Contains('x'));
 
         await Assert.That(valueLineCount).IsLessThanOrEqualTo(1);
+        await Assert.That(output).Contains("LONG_VALUE");
         await Assert.That(output).Contains("…");
         await Assert.That(output).DoesNotContain(new string('x', 200));
     }
