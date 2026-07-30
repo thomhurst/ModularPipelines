@@ -22,5 +22,5 @@ public interface IOptionsValidator : IPipelineValidator
     /// <returns>A validation result containing any errors found.</returns>
     ValidationResult ValidateOptions(
         PipelineOptions options,
-        IReadOnlySet<string> registeredCategories);
+        IReadOnlySet<string> registeredCategories) => ValidateOptions(options);
 }

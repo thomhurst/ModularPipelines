@@ -14,6 +14,18 @@ namespace ModularPipelines.UnitTests.Validation;
 
 public class ValidationTests
 {
+    private sealed class LegacyOptionsValidator : IOptionsValidator
+    {
+        public int Order => 0;
+
+        public ValidationResult Validate(IServiceProvider services) => ValidationResult.Success();
+
+        public ValidationResult ValidateOptions(PipelineOptions options) =>
+            ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "legacy validator called"));
+    }
+
     // Test modules for various scenarios
     private class SimpleModule : Module<string>
     {
@@ -712,6 +724,19 @@ public class ValidationTests
         await Assert.That(result.Errors.Any(error =>
             error.Category == ValidationErrorCategory.Options &&
             error.Message.Contains("categor", StringComparison.OrdinalIgnoreCase))).IsFalse();
+    }
+
+    [Test]
+    public async Task CategoryAwareOverloadUsesLegacyValidatorImplementationByDefault()
+    {
+        IOptionsValidator validator = new LegacyOptionsValidator();
+
+        var result = validator.ValidateOptions(
+            new PipelineOptions(),
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+
+        await Assert.That(result.Errors).Contains(error =>
+            error.Message == "legacy validator called");
     }
 
     [Test]
