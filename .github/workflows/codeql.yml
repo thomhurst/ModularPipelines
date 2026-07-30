@@ -53,7 +53,7 @@ jobs:
             ${{ runner.os }}-nuget-codeql-
             ${{ runner.os }}-nuget-
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        uses: github/codeql-action/init@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
         with:
           languages: ${{ matrix.language }}
           build-mode: none
@@ -61,7 +61,7 @@ jobs:
         if: matrix.language == 'csharp'
         run: dotnet restore ModularPipelines.sln
       - name: Analyze
-        uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        uses: github/codeql-action/analyze@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
         with:
           category: /language:${{ matrix.language }}
           output: ${{ runner.temp }}/codeql-results
@@ -69,13 +69,13 @@ jobs:
       - name: Upload results
         id: upload
         continue-on-error: true
-        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        uses: github/codeql-action/upload-sarif@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
         with:
           category: /language:${{ matrix.language }}
           sarif_file: ${{ runner.temp }}/codeql-results
       - name: Retry results upload
         if: steps.upload.outcome == 'failure'
-        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        uses: github/codeql-action/upload-sarif@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4.37.4
         with:
           category: /language:${{ matrix.language }}
           sarif_file: ${{ runner.temp }}/codeql-results
