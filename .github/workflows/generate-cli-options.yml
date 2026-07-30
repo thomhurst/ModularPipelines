@@ -976,6 +976,7 @@ jobs:
     steps:
       - name: Create or update failure issue
         env:
+          GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ github.token }}
           ISSUE_TITLE: Generate CLI Options scheduled run failed
           RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
