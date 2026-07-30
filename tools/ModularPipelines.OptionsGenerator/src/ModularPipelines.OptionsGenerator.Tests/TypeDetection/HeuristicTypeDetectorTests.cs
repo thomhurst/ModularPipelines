@@ -416,6 +416,20 @@ public class HeuristicTypeDetectorTests
         await Assert.That(result.Confidence).IsEqualTo(80);
     }
 
+    [Test]
+    [Arguments("AWS OIDC: replace the session policy ARN list (repeatable, comma-separated)")]
+    [Arguments("GitHub: replace the path filter list (repeatable, comma-separated)")]
+    [Arguments("Delete an environment variable by key (repeatable, comma-separated)")]
+    public async Task DetectType_Treats_Repeatability_Annotations_As_StringList(string description)
+    {
+        var context = CreateContext("--value", description: description);
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.StringList);
+        await Assert.That(result.EnumValues).IsNull();
+    }
+
     #endregion
 
     #region Value Option Detection Tests - High Confidence Patterns
