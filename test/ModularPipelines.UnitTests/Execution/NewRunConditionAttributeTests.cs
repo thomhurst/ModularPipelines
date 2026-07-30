@@ -34,11 +34,19 @@ public class NewRunConditionAttributeTests : TestBase
         set => CurrentConditionState.SubsequentConditionWasEvaluated = value;
     }
 
+    private static bool DependencyWasExecuted
+    {
+        get => CurrentConditionState.DependencyWasExecuted;
+        set => CurrentConditionState.DependencyWasExecuted = value;
+    }
+
     private sealed class ConditionState
     {
         public CancellationTokenSource? CancellationTokenSource { get; set; }
 
         public bool SubsequentConditionWasEvaluated { get; set; }
+
+        public bool DependencyWasExecuted { get; set; }
     }
 
     #region Test Conditions
@@ -211,14 +219,27 @@ public class NewRunConditionAttributeTests : TestBase
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
     }
 
-    private class UnregisteredDependencyModule : SimpleTestModule<bool>
+    private class ConditionDependencyModule : SimpleTestModule<bool>
     {
-        protected override bool Result => true;
+        protected override bool Result
+        {
+            get
+            {
+                DependencyWasExecuted = true;
+                return true;
+            }
+        }
     }
 
-    [RunIfAll<AlwaysFalse>]
-    [ModularPipelines.Attributes.DependsOn<UnregisteredDependencyModule>]
-    private class SkippedModuleWithUnregisteredDependency : SimpleTestModule<bool>
+    private class DependencyCompletedCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context)
+            => Task.FromResult(DependencyWasExecuted);
+    }
+
+    [SkipIf<DependencyCompletedCondition>]
+    [ModularPipelines.Attributes.DependsOn<ConditionDependencyModule>]
+    private class ConditionAfterDependencyModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }
@@ -494,17 +515,23 @@ public class NewRunConditionAttributeTests : TestBase
     }
 
     [Test]
-    public async Task Attribute_Condition_Is_Evaluated_Before_Dependencies()
+    public async Task Attribute_Condition_Is_Evaluated_After_Dependencies()
     {
+        DependencyWasExecuted = false;
         var host = await TestPipelineHostBuilder.Create()
-            .AddModule<SkippedModuleWithUnregisteredDependency>()
+            .AddModule<ConditionDependencyModule>()
+            .AddModule<ConditionAfterDependencyModule>()
             .BuildAsync();
 
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        var moduleResult = resultRegistry.GetResult(typeof(SkippedModuleWithUnregisteredDependency))!;
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        var moduleResult = resultRegistry.GetResult(typeof(ConditionAfterDependencyModule))!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(DependencyWasExecuted).IsTrue();
+            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Skipped);
+        }
     }
 
     [Test]

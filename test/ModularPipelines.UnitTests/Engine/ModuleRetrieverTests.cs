@@ -17,7 +17,7 @@ public class ModuleRetrieverTests
             .ToArray();
         var conditionHandler = new Mock<IModuleConditionHandler>();
         conditionHandler
-            .Setup(x => x.ShouldIgnore(It.IsAny<IModule>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.ShouldIgnoreByCategory(It.IsAny<IModule>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((false, null));
         var registrationEventExecutor = new Mock<IRegistrationEventExecutor>();
         registrationEventExecutor

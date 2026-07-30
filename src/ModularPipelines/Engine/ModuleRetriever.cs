@@ -99,7 +99,9 @@ internal class ModuleRetriever
                 continue;
             }
 
-            var (shouldIgnore, skipDecision) = await _moduleConditionHandler.ShouldIgnore(module, cancellationToken).ConfigureAwait(false);
+            var (shouldIgnore, skipDecision) = await _moduleConditionHandler
+                .ShouldIgnoreByCategory(module, cancellationToken)
+                .ConfigureAwait(false);
             if (shouldIgnore)
             {
                 modulesToIgnore.Add(new IgnoredModule(module, skipDecision ?? SkipDecision.Skip("Module was ignored")));

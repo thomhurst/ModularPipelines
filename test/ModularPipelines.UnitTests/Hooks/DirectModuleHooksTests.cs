@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
+using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -84,6 +85,36 @@ public class DirectModuleHooksTests : TestBase
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
             return "Should not reach here";
+        }
+
+        protected override Task OnSkippedAsync(
+            IModuleContext context,
+            SkipDecision skipDecision,
+            CancellationToken cancellationToken)
+        {
+            HooksCalled.Add("OnSkippedAsync");
+            ReceivedSkipDecision = skipDecision;
+            return Task.CompletedTask;
+        }
+    }
+
+    private class AlwaysTrueCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
+    }
+
+    [ModularPipelines.Attributes.SkipIf<AlwaysTrueCondition>]
+    private class AttributeSkippableHookTrackingModule : Module<string>
+    {
+        public List<string> HooksCalled { get; } = [];
+        public SkipDecision? ReceivedSkipDecision { get; private set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            HooksCalled.Add("ExecuteAsync");
+            return Task.FromResult<string?>("Should not reach here");
         }
 
         protected override Task OnSkippedAsync(
@@ -227,6 +258,18 @@ public class DirectModuleHooksTests : TestBase
         await Assert.That(module.HooksCalled).DoesNotContain("ExecuteAsync");
         await Assert.That(module.ReceivedSkipDecision).IsNotNull();
         await Assert.That(module.ReceivedSkipDecision!.Reason).IsEqualTo("Test skip reason");
+    }
+
+    [Test]
+    public async Task OnSkippedAsync_CalledWhenAttributeSkipsModule()
+    {
+        var module = await RunModule<AttributeSkippableHookTrackingModule>();
+
+        await Assert.That(module.HooksCalled).Contains("OnSkippedAsync");
+        await Assert.That(module.HooksCalled).DoesNotContain("ExecuteAsync");
+        await Assert.That(module.ReceivedSkipDecision).IsNotNull();
+        await Assert.That(module.ReceivedSkipDecision!.Reason)
+            .IsEqualTo("SkipIf<AlwaysTrueCondition> returned true");
     }
 
     [Test]

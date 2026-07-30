@@ -33,17 +33,20 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     private readonly IModuleResultRepository _resultRepository;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IDirectHookInvoker _directHookInvoker;
+    private readonly IModuleConditionHandler _moduleConditionHandler;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
     public ModuleExecutionPipeline(
         IModuleResultRepository resultRepository,
         EngineCancellationToken engineCancellationToken,
         IDirectHookInvoker directHookInvoker,
+        IModuleConditionHandler moduleConditionHandler,
         IOptions<PipelineOptions> pipelineOptions)
     {
         _resultRepository = resultRepository;
         _engineCancellationToken = engineCancellationToken;
         _directHookInvoker = directHookInvoker;
+        _moduleConditionHandler = moduleConditionHandler;
         _pipelineOptions = pipelineOptions;
     }
 
@@ -67,8 +70,19 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Setup cancellation based on AlwaysRun behavior
             SetupCancellation(config, executionContext, engineCancellationToken);
 
-            // A required dependency can skip after discovery through a fluent condition.
+            // A required dependency can skip before this module reaches its own conditions.
             var skipDecision = executionContext.SkipResult;
+            if (!skipDecision.ShouldSkip)
+            {
+                var (shouldIgnore, attributeSkipDecision) = await _moduleConditionHandler
+                    .ShouldIgnore(module, executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
+                if (shouldIgnore)
+                {
+                    skipDecision = attributeSkipDecision ?? SkipDecision.Skip("Module was ignored");
+                }
+            }
+
             if (!skipDecision.ShouldSkip && config.SkipCondition != null)
             {
                 skipDecision = await config.SkipCondition(

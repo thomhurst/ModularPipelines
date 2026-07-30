@@ -62,9 +62,33 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
     }
 
+    public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreByCategory(
+        IModule module,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var result = EvaluateCategoryConditions(module);
+        return Task.FromResult(result);
+    }
+
     private async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> EvaluateShouldIgnore(
         IModule module,
         CancellationToken cancellationToken)
+    {
+        var categoryResult = EvaluateCategoryConditions(module);
+        if (categoryResult.ShouldIgnore)
+        {
+            return categoryResult;
+        }
+
+        var moduleType = module.GetType();
+        var conditionResult = await IsRunnableCondition(moduleType, cancellationToken).ConfigureAwait(false);
+        return conditionResult.IsRunnable
+            ? (false, null)
+            : (true, conditionResult.SkipDecision);
+    }
+
+    private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(IModule module)
     {
         var moduleType = module.GetType();
         _metadataRegistry.FinalizeMetadata(moduleType, module);
@@ -80,10 +104,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return (true, SkipDecision.Skip("The module was not in a runnable category"));
         }
 
-        var conditionResult = await IsRunnableCondition(moduleType, cancellationToken).ConfigureAwait(false);
-        return conditionResult.IsRunnable
-            ? (false, null)
-            : (true, conditionResult.SkipDecision);
+        return (false, null);
     }
 
     private bool IsRunnableCategory(string? category)

@@ -9,11 +9,9 @@ sidebar_position: 7
 
 The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
 
-Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) remain supported,
-but they run during module discovery, before dependency waiting. An ignored module receives a
-skipped result directly. Fluent `.WithSkipWhen(...)` conditions run in the execution pipeline,
-where skipped hooks and lifecycle notifications are invoked. Use the fluent API when consumers
-depend on those notifications.
+Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) remain supported.
+Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so
+both invoke skipped hooks and lifecycle notifications.
 
 ### Simple Condition
 
@@ -103,12 +101,11 @@ public class MyModule : Module<CommandResult>
 
 ## Combining with Other Behaviors
 
-Repeated skip conditions use AND-to-skip semantics. They run in registration order, and the module
-is skipped only when every condition returns `SkipDecision.Skip`. A `SkipDecision.DoNotSkip`
-result stops evaluation and keeps the module eligible to run. When every condition skips, their
-reasons are combined.
+Repeated `WithSkipWhen` conditions use OR-to-skip semantics, matching repeated `[SkipIf<T>]`
+attributes. They run in registration order, and evaluation stops when any condition returns
+`SkipDecision.Skip`.
 
-For example, this module skips cleanup only for CI builds that are not on the main branch:
+For example, this module skips cleanup for either CI builds or non-main branches:
 
 ```csharp
 public class CleanupModule : Module<CommandResult>
@@ -127,8 +124,23 @@ public class CleanupModule : Module<CommandResult>
 }
 ```
 
-When any one of several independent predicates should be enough to skip, combine them in a single
-condition and return `SkipDecision.Skip` when their OR expression is true.
+When every condition must match before the module is skipped, group them explicitly with
+`WithSkipWhenAll`:
+
+```csharp
+protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    .WithSkipWhenAll(
+        _ => Environment.GetEnvironmentVariable("CI") == "true"
+            ? SkipDecision.Skip("Running in CI")
+            : SkipDecision.DoNotSkip,
+        _ => Environment.GetEnvironmentVariable("DEPLOY_ENV") != "production"
+            ? SkipDecision.Skip("Not deploying to production")
+            : SkipDecision.DoNotSkip)
+    .Build();
+```
+
+Conditions inside a `WithSkipWhenAll` group use AND-to-skip semantics and combine their reasons.
+The group composes with other skip conditions using OR-to-skip semantics.
 
 ## History
 If a module was skipped, you can attempt to find its history from a previous run. See [History](storing-and-retrieving-results)
