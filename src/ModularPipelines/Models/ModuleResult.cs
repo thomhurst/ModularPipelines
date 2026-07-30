@@ -334,6 +334,11 @@ public abstract record ModuleResult<T> : ModuleResult
         /// <summary>
         /// Gets the value produced by the module, which may be <c>null</c>.
         /// </summary>
+        /// <remarks>
+        /// This property intentionally hides the required <see cref="ModuleResult{T}.Value"/>
+        /// accessor to preserve the nullable value carried by a known successful result.
+        /// Access through <see cref="ModuleResult{T}"/> uses the required accessor instead.
+        /// </remarks>
         public new T? Value { get; init; }
 
         /// <summary>
