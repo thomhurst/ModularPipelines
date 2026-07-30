@@ -121,7 +121,7 @@ public sealed class ModuleConfigurationBuilder
         ArgumentNullException.ThrowIfNull(conditions);
         ValidateSkipConditionGroup(conditions);
 
-        _skipConditions.Add(ComposeAllSkipConditions(conditions));
+        _skipConditions.Add(ComposeAllSkipConditions([.. conditions]));
         return this;
     }
 

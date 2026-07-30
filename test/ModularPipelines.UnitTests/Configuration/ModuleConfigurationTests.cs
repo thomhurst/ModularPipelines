@@ -258,6 +258,30 @@ public class ModuleConfigurationTests
     }
 
     [Test]
+    public async Task WithSkipWhenAll_SnapshotsAsyncConditionGroups()
+    {
+        Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>[] conditions =
+        [
+            (_, _) => ValueTask.FromResult(SkipDecision.Skip("Original reason")),
+        ];
+        var config = ModuleConfiguration.Create()
+            .WithSkipWhenAll(conditions)
+            .Build();
+
+        conditions[0] = (_, _) => ValueTask.FromResult(SkipDecision.DoNotSkip);
+
+        var decision = await config.SkipCondition!(
+            Mock.Of<IModuleContext>(),
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(decision.ShouldSkip).IsTrue();
+            await Assert.That(decision.Reason).IsEqualTo("Original reason");
+        }
+    }
+
+    [Test]
     public void WithSkipWhenAll_RejectsEmptyGroups()
     {
         var builder = ModuleConfiguration.Create();

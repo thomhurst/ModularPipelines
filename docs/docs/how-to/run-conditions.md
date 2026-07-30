@@ -34,6 +34,10 @@ Multiple condition attributes are evaluated in this order: `SkipIf`, `RunIfAll`,
 execution pipeline after dependency waiting. Both invoke skipped hooks and lifecycle
 notifications.
 
+Fluent dependencies are validated before execution conditions are evaluated. Every dependency
+declared with `DependsOn<T>()` must therefore be registered, even when an attribute condition
+will skip the consuming module on the current platform or environment.
+
 Built-in platform conditions include `OnLinux`, `OnWindows`, and `OnMacOS`:
 
 ```csharp
