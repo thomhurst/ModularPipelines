@@ -33,6 +33,9 @@ public class DistributedModuleExecutorTests
             Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
             new ModuleAttributeEventService());
 
+    private static IModuleResultRegistrar NewResultRegistrar() =>
+        Mock.Of<IModuleResultRegistrar>();
+
     // --- Test module types ---
 
     private class SimpleResult
@@ -214,6 +217,7 @@ public class DistributedModuleExecutorTests
             typeRegistry,
             serializer,
             resultRegistry,
+            NewResultRegistrar(),
             NewDependencyRegistry(),
             NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions ?? new DistributedOptions()),
@@ -882,7 +886,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewResultRegistrar(), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -930,7 +934,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             noDequeue, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewResultRegistrar(), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -1026,7 +1030,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewResultRegistrar(), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
