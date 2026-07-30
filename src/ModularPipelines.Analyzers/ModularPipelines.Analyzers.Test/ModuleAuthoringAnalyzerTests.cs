@@ -911,12 +911,12 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Reports_When_Params_Type_Array_Property_Cannot_Be_Resolved()
+    public async Task Does_Not_Report_When_Params_Type_Array_Property_Cannot_Be_Resolved()
     {
         var source = $$"""
             {{Header}}
 
-            public class {|#0:BuildModule|} : Module<List<string>>
+            internal class BuildModule : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }
@@ -933,11 +933,7 @@ public class ModuleAuthoringAnalyzerTests
             {{EntryPoint}}
             """;
 
-        var expected = VerifyRegistrationCS.Diagnostic(
-                ModuleRegistrationAnalyzer.UnregisteredModuleId)
-            .WithLocation(0)
-            .WithArguments("BuildModule");
-        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
     }
 
     [TestMethod]

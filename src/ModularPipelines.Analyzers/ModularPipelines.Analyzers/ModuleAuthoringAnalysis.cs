@@ -80,6 +80,7 @@ internal static class ModuleAuthoringAnalysis
         var registeredModules = new ConcurrentBag<INamedTypeSymbol>();
         var instanceRegisteredModules = new ConcurrentBag<INamedTypeSymbol>();
         var scannedAssemblies = new ConcurrentBag<IAssemblySymbol>();
+        var unresolvedModuleRegistrations = new ConcurrentBag<byte>();
         var registrationInvocations =
             new ConcurrentBag<(IInvocationOperation Invocation, IMethodSymbol? ContainingMethod)>();
         var indexerAssignments =
@@ -110,13 +111,15 @@ internal static class ModuleAuthoringAnalysis
                 methodCalls,
                 registeredModules,
                 instanceRegisteredModules,
-                scannedAssemblies);
+                scannedAssemblies,
+                unresolvedModuleRegistrations);
             ReportModuleDiagnostics(
                 endContext,
                 modules,
                 registeredModules,
                 instanceRegisteredModules,
-                scannedAssemblies);
+                scannedAssemblies,
+                unresolvedModuleRegistrations);
         });
     }
 
@@ -807,7 +810,8 @@ internal static class ModuleAuthoringAnalysis
         bool isApplication,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var method = invocation.TargetMethod;
         if (TryTrackDirectModuleServiceRegistration(
@@ -842,7 +846,8 @@ internal static class ModuleAuthoringAnalysis
         {
             TrackDynamicModuleRegistrations(
                 invocation,
-                registeredModules);
+                registeredModules,
+                unresolvedModuleRegistrations);
         }
     }
 
@@ -1414,15 +1419,19 @@ internal static class ModuleAuthoringAnalysis
 
     private static void TrackDynamicModuleRegistrations(
         IInvocationOperation invocation,
-        ConcurrentBag<INamedTypeSymbol> registeredModules)
+        ConcurrentBag<INamedTypeSymbol> registeredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         foreach (var argument in invocation.Arguments.Where(static argument =>
                      argument.Parameter?.Name == "moduleTypes"))
         {
-            _ = TryTrackModuleTypes(
-                argument.Value,
-                registeredModules,
-                [with(SymbolEqualityComparer.Default)]);
+            if (!TryTrackModuleTypes(
+                    argument.Value,
+                    registeredModules,
+                    [with(SymbolEqualityComparer.Default)]))
+            {
+                unresolvedModuleRegistrations.Add(0);
+            }
         }
     }
 
@@ -1698,7 +1707,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var reachableMethods = GetReachableStartupMethods(
             context.Compilation,
@@ -1720,7 +1730,8 @@ internal static class ModuleAuthoringAnalysis
                 IsApplication(context.Compilation.Options.OutputKind),
                 registeredModules,
                 instanceRegisteredModules,
-                scannedAssemblies);
+                scannedAssemblies,
+                unresolvedModuleRegistrations);
         }
 
         foreach (var (assignment, containingMethod) in indexerAssignments)
@@ -1866,8 +1877,15 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> modules,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<IAssemblySymbol> scannedAssemblies)
+        ConcurrentBag<IAssemblySymbol> scannedAssemblies,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
+        // A runtime-computed Type[] can register any module in this compilation.
+        if (!unresolvedModuleRegistrations.IsEmpty)
+        {
+            return;
+        }
+
         var moduleSet = modules
             .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
             .ToImmutableArray();
