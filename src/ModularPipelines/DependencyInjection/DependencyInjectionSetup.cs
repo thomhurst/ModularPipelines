@@ -90,6 +90,8 @@ internal static class DependencyInjectionSetup
     /// </summary>
     private static void RegisterBundledServices(IServiceCollection services)
     {
+        services.TryAddSingleton(PipelineCommandLineOptions.Empty);
+
         services
             .AddSingleton<PipelineCommandHandler>()
             .Configure<PipelineOptions>(_ => { })
