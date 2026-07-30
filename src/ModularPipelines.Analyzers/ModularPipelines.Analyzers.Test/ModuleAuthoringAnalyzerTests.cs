@@ -2563,6 +2563,34 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_When_Token_Position_Differs_Across_Helper_Calls()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await WorkAsync(CancellationToken.None, cancellationToken);
+                await WorkAsync(cancellationToken, CancellationToken.None);
+                return null;
+            }
+
+                private static async Task WorkAsync(
+                    CancellationToken firstToken,
+                    CancellationToken secondToken)
+                {
+                    await {|#0:Task.Delay(1, firstToken)|};
+                }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Unflowed_Token_In_Task_Returning_Member_Helper()
     {
         var source = ModuleSource("""

@@ -613,46 +613,87 @@ internal static class ModuleAuthoringAnalysis
             ? executeMethod.ContainingType
             : targetMethod.ContainingType;
         var memberMethods = GetModuleMemberMethods(analysisType, compilation);
-        var mappedTokens = ImmutableArray.CreateBuilder<IParameterSymbol>();
-        var visitedTokens = new HashSet<IParameterSymbol>(
-            SymbolEqualityComparer.Default)
-        {
-            executeCancellationToken,
-        };
-        var pending = new Queue<(IMethodSymbol Method, IParameterSymbol Token)>();
-        pending.Enqueue((executeMethod, executeCancellationToken));
-
-        while (pending.Count > 0)
-        {
-            var (method, token) = pending.Dequeue();
-            if (SymbolEqualityComparer.Default.Equals(method, targetMethod))
-            {
-                mappedTokens.Add(token);
-                continue;
-            }
-
-            if (GetMethodOperation(method, compilation, cancellationToken)
-                is not { } operation)
-            {
-                continue;
-            }
-
-            foreach (var invocation in GetReachableInvocations(operation))
-            {
-                foreach (var mapping in GetCancellationTokenMappings(
-                             invocation,
-                             memberMethods,
-                             token))
+        var mappedTokenPaths = FindMappedCancellationTokenPaths(
+                executeMethod,
+                targetMethod,
+                [executeCancellationToken],
+                memberMethods,
+                compilation,
+                cancellationToken,
+                new HashSet<IMethodSymbol>(
+                    SymbolEqualityComparer.Default)
                 {
-                    if (visitedTokens.Add(mapping.Token))
-                    {
-                        pending.Enqueue(mapping);
-                    }
+                    executeMethod,
+                })
+            .ToArray();
+        if (mappedTokenPaths.Length == 0)
+        {
+            return [];
+        }
+
+        var guaranteedTokens = new HashSet<IParameterSymbol>(
+            mappedTokenPaths[0],
+            SymbolEqualityComparer.Default);
+        foreach (var mappedTokens in mappedTokenPaths.Skip(1))
+        {
+            guaranteedTokens.IntersectWith(mappedTokens);
+        }
+
+        return [.. guaranteedTokens];
+    }
+
+    private static IEnumerable<ImmutableArray<IParameterSymbol>>
+        FindMappedCancellationTokenPaths(
+            IMethodSymbol currentMethod,
+            IMethodSymbol targetMethod,
+            ImmutableArray<IParameterSymbol> sourceTokens,
+            ImmutableArray<IMethodSymbol> memberMethods,
+            Compilation compilation,
+            CancellationToken cancellationToken,
+            HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (GetMethodOperation(currentMethod, compilation, cancellationToken)
+            is not { } operation)
+        {
+            yield break;
+        }
+
+        foreach (var invocation in GetReachableInvocations(operation))
+        {
+            foreach (var mapping in GetInvocationCancellationTokenMappings(
+                         invocation,
+                         memberMethods,
+                         sourceTokens))
+            {
+                if (SymbolEqualityComparer.Default.Equals(
+                        mapping.Method,
+                        targetMethod))
+                {
+                    yield return mapping.Tokens;
+                    continue;
+                }
+
+                var nextVisitedMethods = new HashSet<IMethodSymbol>(
+                    visitedMethods,
+                    SymbolEqualityComparer.Default);
+                if (!nextVisitedMethods.Add(mapping.Method))
+                {
+                    continue;
+                }
+
+                foreach (var mappedTokens in FindMappedCancellationTokenPaths(
+                             mapping.Method,
+                             targetMethod,
+                             mapping.Tokens,
+                             memberMethods,
+                             compilation,
+                             cancellationToken,
+                             nextVisitedMethods))
+                {
+                    yield return mappedTokens;
                 }
             }
         }
-
-        return mappedTokens.ToImmutable();
     }
 
     private static IEnumerable<IInvocationOperation> GetReachableInvocations(
@@ -677,30 +718,34 @@ internal static class ModuleAuthoringAnalysis
                 reachableNestedCallables));
     }
 
-    private static IEnumerable<(IMethodSymbol Method, IParameterSymbol Token)>
-        GetCancellationTokenMappings(
+    private static IEnumerable<(
+        IMethodSymbol Method,
+        ImmutableArray<IParameterSymbol> Tokens)>
+        GetInvocationCancellationTokenMappings(
             IInvocationOperation invocation,
             ImmutableArray<IMethodSymbol> memberMethods,
-            IParameterSymbol sourceToken)
+            ImmutableArray<IParameterSymbol> sourceTokens)
     {
         foreach (var method in memberMethods.Where(candidate =>
                      InvocationTargetsCallable(invocation, candidate)))
         {
-            foreach (var argument in invocation.Arguments.Where(argument =>
-                         argument.Parameter is not null
-                         && IsCancellationToken(argument.Parameter)
-                         && FlowsFromCancellationToken(
-                             argument.Value,
-                             sourceToken,
-                             [with(SymbolEqualityComparer.Default)])))
-            {
-                var targetToken = method.Parameters.ElementAtOrDefault(
-                    argument.Parameter!.Ordinal);
-                if (targetToken is not null && IsCancellationToken(targetToken))
-                {
-                    yield return (method, targetToken);
-                }
-            }
+            var mappedTokens = invocation.Arguments
+                .Where(argument =>
+                    argument.Parameter is not null
+                    && IsCancellationToken(argument.Parameter)
+                    && sourceTokens.Any(sourceToken =>
+                        FlowsFromCancellationToken(
+                            argument.Value,
+                            sourceToken,
+                            [with(SymbolEqualityComparer.Default)])))
+                .Select(argument => method.Parameters.ElementAtOrDefault(
+                    argument.Parameter!.Ordinal))
+                .Where(static token => token is not null)
+                .Cast<IParameterSymbol>()
+                .Where(IsCancellationToken)
+                .Distinct<IParameterSymbol>(SymbolEqualityComparer.Default)
+                .ToImmutableArray();
+            yield return (method, mappedTokens);
         }
     }
 
