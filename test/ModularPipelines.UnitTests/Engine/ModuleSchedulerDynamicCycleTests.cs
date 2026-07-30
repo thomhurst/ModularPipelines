@@ -293,6 +293,25 @@ public class ModuleSchedulerDynamicCycleTests
     }
 
     [Test]
+    public async Task MarkModuleStarted_AfterQueuedModuleIsCancelled_ReturnsFalse()
+    {
+        using var scheduler = CreateScheduler();
+        scheduler.InitializeModules([new CompletedDependencyModule()]);
+        var moduleState = scheduler.GetModuleState(typeof(CompletedDependencyModule))!;
+        moduleState.State = ModuleExecutionState.Queued;
+
+        var cancelledModules = scheduler.CancelPendingModules();
+        var started = scheduler.MarkModuleStarted(typeof(CompletedDependencyModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(cancelledModules).HasSingleItem();
+            await Assert.That(moduleState.State).IsEqualTo(ModuleExecutionState.Completed);
+            await Assert.That(started).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task AddModule_WhenExistingPredicateCreatesCycle_ThrowsAndRollsBack()
     {
         using var scheduler = CreateScheduler();

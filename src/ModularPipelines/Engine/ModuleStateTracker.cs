@@ -99,6 +99,11 @@ internal class ModuleStateTracker : IModuleStateTracker
                 return false;
             }
 
+            if (state.State is not (ModuleExecutionState.Pending or ModuleExecutionState.Queued))
+            {
+                return false;
+            }
+
             // Take snapshot of executing modules for constraint checking
             // The constraint evaluator operates on this snapshot, not the live collection
             var executingSnapshot = _executingModules.ToList();
