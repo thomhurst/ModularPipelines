@@ -29,7 +29,7 @@ public class PipelineInitializerTests
     }
 
     [Test]
-    public async Task EnvironmentVariables_DoNotWrapLongValues()
+    public async Task EnvironmentVariables_MaskLongValuesInsteadOfTruncatingThem()
     {
         var variables = new OrderedDictionary
         {
@@ -40,14 +40,27 @@ public class PipelineInitializerTests
             variables,
             value => value);
         var output = Render(table, width: 40);
-        var valueLineCount = output
-            .Split(Environment.NewLine)
-            .Count(line => line.Contains('x'));
 
-        await Assert.That(valueLineCount).IsLessThanOrEqualTo(1);
         await Assert.That(output).Contains("LONG_VALUE");
-        await Assert.That(output).Contains("…");
-        await Assert.That(output).DoesNotContain(new string('x', 200));
+        await Assert.That(output).Contains(LoggingConstants.SecretMask);
+        await Assert.That(output).DoesNotContain("x");
+    }
+
+    [Test]
+    public async Task EnvironmentVariables_RenderObfuscatedLongValues()
+    {
+        var variables = new OrderedDictionary
+        {
+            ["LONG_VALUE"] = new string('x', 200),
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            _ => "[REDACTED]");
+        var output = Render(table);
+
+        await Assert.That(output).Contains("[REDACTED]");
+        await Assert.That(output).DoesNotContain("x");
     }
 
     [Test]
@@ -130,7 +143,7 @@ public class PipelineInitializerTests
     }
 
     [Test]
-    public async Task EnvironmentVariables_RenderEmbeddedNewlinesAsText()
+    public async Task EnvironmentVariables_MaskValuesWithEmbeddedNewlines()
     {
         var variables = new OrderedDictionary
         {
@@ -142,7 +155,9 @@ public class PipelineInitializerTests
             value => value);
         var output = Render(table);
 
-        await Assert.That(output).Contains(@"first\r\nsecond");
+        await Assert.That(output).Contains(LoggingConstants.SecretMask);
+        await Assert.That(output).DoesNotContain("first");
+        await Assert.That(output).DoesNotContain("second");
     }
 
     private static string Render(Table table, int width = 120)

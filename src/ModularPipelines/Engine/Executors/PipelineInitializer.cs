@@ -24,6 +24,8 @@ internal class PipelineInitializer(
     ISecretObfuscator secretObfuscator,
     IOptions<SecretMaskingOptions> secretMaskingOptions) : IPipelineInitializer
 {
+    private const int MaximumUntransformedEnvironmentVariableLength = 32;
+
     private static readonly string[] SensitiveEnvironmentVariableNameParts =
     [
         "TOKEN",
@@ -101,9 +103,11 @@ internal class PipelineInitializer(
         {
             var name = environmentVariable.Key?.ToString() ?? string.Empty;
             var value = environmentVariable.Value?.ToString() ?? string.Empty;
+            var obfuscatedValue = obfuscate(value);
             var displayValue = IsSensitiveEnvironmentVariableName(name)
+                               || RequiresUnsafeTransformation(value, obfuscatedValue)
                 ? effectiveMaskValue
-                : MakeSingleLine(obfuscate(value));
+                : MakeSingleLine(obfuscatedValue);
 
             table.AddRow(
                 new Text(name),
@@ -111,6 +115,14 @@ internal class PipelineInitializer(
         }
 
         return table;
+    }
+
+    private static bool RequiresUnsafeTransformation(string value, string obfuscatedValue)
+    {
+        return value.Equals(obfuscatedValue, StringComparison.Ordinal)
+               && (value.Length > MaximumUntransformedEnvironmentVariableLength
+                   || value.Contains('\r')
+                   || value.Contains('\n'));
     }
 
     private static bool IsSensitiveEnvironmentVariableName(string name)
