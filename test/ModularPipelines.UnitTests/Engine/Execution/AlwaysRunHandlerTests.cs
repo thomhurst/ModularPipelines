@@ -85,11 +85,103 @@ public class AlwaysRunHandlerTests
     }
 
     [Test]
+    public async Task WaitForAlwaysRunModulesAsync_ExecutesQueuedModule()
+    {
+        var module = new FirstAlwaysRunModule();
+        var moduleState = new ModuleState(module, module.GetType())
+        {
+            State = ModuleExecutionState.Queued,
+        };
+        var scheduler = CreateScheduler(moduleState);
+        var moduleRunner = new Mock<IModuleRunner>();
+
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                moduleState,
+                scheduler.Object,
+                CancellationToken.None))
+            .Returns(() =>
+            {
+                moduleState.State = ModuleExecutionState.Completed;
+                moduleState.CompletionSource.TrySetResult(module);
+                return Task.CompletedTask;
+            });
+
+        var handler = CreateHandler(moduleRunner.Object);
+
+        await handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module]);
+
+        moduleRunner.Verify(
+            x => x.ExecuteWithoutDependencyWaitAsync(
+                moduleState,
+                scheduler.Object,
+                CancellationToken.None),
+            Times.Once());
+        await Assert.That(moduleState.State).IsEqualTo(ModuleExecutionState.Completed);
+    }
+
+    [Test]
     public async Task WaitForAlwaysRunModulesAsync_RetriesDeferredPendingModule()
     {
         var module = new FirstAlwaysRunModule();
         var blocker = new BlockingModule();
         var moduleState = new ModuleState(module, module.GetType());
+        var blockerState = new ModuleState(blocker, blocker.GetType())
+        {
+            State = ModuleExecutionState.Executing,
+        };
+        var scheduler = CreateScheduler(moduleState, blockerState);
+        var moduleRunner = new Mock<IModuleRunner>();
+        var blockerWaitObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var attempts = 0;
+
+        scheduler
+            .Setup(x => x.GetModuleCompletionTask(blocker.GetType()))
+            .Callback(() => blockerWaitObserved.TrySetResult())
+            .Returns(blockerState.CompletionSource.Task);
+        moduleRunner
+            .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
+                moduleState,
+                scheduler.Object,
+                CancellationToken.None))
+            .Returns(() =>
+            {
+                if (Interlocked.Increment(ref attempts) == 2)
+                {
+                    moduleState.State = ModuleExecutionState.Completed;
+                    moduleState.CompletionSource.TrySetResult(module);
+                }
+
+                return Task.CompletedTask;
+            });
+
+        var handler = CreateHandler(moduleRunner.Object);
+
+        var handlerTask = handler.WaitForAlwaysRunModulesAsync(scheduler.Object, [module, blocker]);
+        await blockerWaitObserved.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        var attemptsBeforeProgress = attempts;
+
+        blockerState.State = ModuleExecutionState.Completed;
+        blockerState.CompletionSource.TrySetResult(blocker);
+        await handlerTask;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(attemptsBeforeProgress).IsEqualTo(1);
+            await Assert.That(attempts).IsEqualTo(2);
+            await Assert.That(moduleState.State).IsEqualTo(ModuleExecutionState.Completed);
+        }
+    }
+
+    [Test]
+    public async Task WaitForAlwaysRunModulesAsync_RetriesDeferredQueuedModule()
+    {
+        var module = new FirstAlwaysRunModule();
+        var blocker = new BlockingModule();
+        var moduleState = new ModuleState(module, module.GetType())
+        {
+            State = ModuleExecutionState.Queued,
+        };
         var blockerState = new ModuleState(blocker, blocker.GetType())
         {
             State = ModuleExecutionState.Executing,
