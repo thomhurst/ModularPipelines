@@ -84,6 +84,88 @@ public class HttpTests : TestBase
     }
 
     [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task SendAsync_HttpClientTimeoutCancelsStreamedBody(bool useCustomClient)
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream();
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(contentStream)))
+        {
+            Timeout = timeout,
+        };
+        var httpClientFactory = new Mock<IHttpClientFactory>();
+        httpClientFactory
+            .Setup(x => x.CreateClient(It.IsAny<string>()))
+            .Returns(httpClient);
+        var http = new ModularPipelines.Http.Http(
+            httpClientFactory.Object,
+            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IHttpLogger>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var response = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/client-timeout"))
+        {
+            HttpClient = useCustomClient ? httpClient : null,
+            LoggingType = HttpLoggingType.None,
+        });
+        var stream = response.Content.ReadAsStream();
+        var readTask = stream.ReadAsync(new byte[1]).AsTask();
+
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+        }
+        finally
+        {
+            contentStream.Release();
+        }
+    }
+
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task SendAsync_ConfiguredTimeoutInterruptsSynchronousBodyRead(bool useCopyTo)
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream();
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(contentStream)));
+        var result = await GetService<IHttpContext>((_, _) => { });
+        using var response = await result.T.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/synchronous-read"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.None,
+            Timeout = timeout,
+        });
+        var stream = await response.Content.ReadAsStreamAsync();
+        var readTask = Task.Run(() =>
+        {
+            if (useCopyTo)
+            {
+                stream.CopyTo(Stream.Null);
+            }
+            else
+            {
+                stream.ReadExactly(new byte[1]);
+            }
+        });
+
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+        }
+        finally
+        {
+            contentStream.Release();
+        }
+    }
+
+    [Test]
     public async Task SendAsync_ConfiguredTimeoutCancelsFactoryResponseLogging()
     {
         var timeout = TimeSpan.FromMilliseconds(100);
@@ -361,14 +443,52 @@ public class HttpTests : TestBase
     {
         private readonly TaskCompletionSource _release =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly ManualResetEventSlim _synchronousRelease = new();
+        private bool _isDisposed;
 
-        public void Release() => _release.TrySetResult();
+        public void Release()
+        {
+            _release.TrySetResult();
+            _synchronousRelease.Set();
+        }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            return WaitForSynchronousRead();
+        }
+
+        public override int Read(Span<byte> buffer)
+        {
+            return WaitForSynchronousRead();
+        }
 
         public override async ValueTask<int> ReadAsync(
             Memory<byte> buffer,
             CancellationToken cancellationToken = default)
         {
             await _release.Task.WaitAsync(cancellationToken);
+            return 0;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _isDisposed = true;
+                Release();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private int WaitForSynchronousRead()
+        {
+            _synchronousRelease.Wait();
+            if (_isDisposed)
+            {
+                throw new ObjectDisposedException(nameof(BlockingReadStream));
+            }
+
             return 0;
         }
     }

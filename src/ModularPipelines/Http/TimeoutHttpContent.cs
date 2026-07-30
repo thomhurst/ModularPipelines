@@ -48,6 +48,15 @@ internal sealed class TimeoutHttpContent : HttpContent
         return new TimeoutReadStream(stream, _linkedCancellationTokenSource.Token);
     }
 
+    protected override Stream CreateContentReadStream(CancellationToken cancellationToken)
+    {
+        using var readCancellationTokenSource = CreateReadCancellationTokenSource(cancellationToken);
+        var effectiveCancellationToken =
+            readCancellationTokenSource?.Token ?? _linkedCancellationTokenSource.Token;
+        var stream = _innerContent.ReadAsStream(effectiveCancellationToken);
+        return new TimeoutReadStream(stream, _linkedCancellationTokenSource.Token);
+    }
+
     protected override async Task<Stream> CreateContentReadStreamAsync(
         CancellationToken cancellationToken)
     {
@@ -99,6 +108,11 @@ internal sealed class TimeoutHttpContent : HttpContent
         Stream innerStream,
         CancellationToken timeoutCancellationToken) : Stream
     {
+        private readonly CancellationTokenRegistration _timeoutRegistration =
+            timeoutCancellationToken.Register(
+                static state => ((Stream) state!).Dispose(),
+                innerStream);
+
         public override bool CanRead => innerStream.CanRead;
 
         public override bool CanSeek => innerStream.CanSeek;
@@ -123,13 +137,29 @@ internal sealed class TimeoutHttpContent : HttpContent
         public override int Read(byte[] buffer, int offset, int count)
         {
             timeoutCancellationToken.ThrowIfCancellationRequested();
-            return innerStream.Read(buffer, offset, count);
+            try
+            {
+                return innerStream.Read(buffer, offset, count);
+            }
+            catch (ObjectDisposedException exception)
+                when (timeoutCancellationToken.IsCancellationRequested)
+            {
+                throw CreateTimeoutException(exception);
+            }
         }
 
         public override int Read(Span<byte> buffer)
         {
             timeoutCancellationToken.ThrowIfCancellationRequested();
-            return innerStream.Read(buffer);
+            try
+            {
+                return innerStream.Read(buffer);
+            }
+            catch (ObjectDisposedException exception)
+                when (timeoutCancellationToken.IsCancellationRequested)
+            {
+                throw CreateTimeoutException(exception);
+            }
         }
 
         public override Task<int> ReadAsync(
@@ -167,6 +197,7 @@ internal sealed class TimeoutHttpContent : HttpContent
 
         public override async ValueTask DisposeAsync()
         {
+            _timeoutRegistration.Dispose();
             await innerStream.DisposeAsync().ConfigureAwait(false);
             GC.SuppressFinalize(this);
         }
@@ -175,6 +206,7 @@ internal sealed class TimeoutHttpContent : HttpContent
         {
             if (disposing)
             {
+                _timeoutRegistration.Dispose();
                 innerStream.Dispose();
             }
 
@@ -190,6 +222,14 @@ internal sealed class TimeoutHttpContent : HttpContent
                     cancellationToken,
                     timeoutCancellationToken)
                 : null;
+        }
+
+        private OperationCanceledException CreateTimeoutException(Exception exception)
+        {
+            return new OperationCanceledException(
+                "The HTTP response body read timed out.",
+                exception,
+                timeoutCancellationToken);
         }
     }
 }

@@ -28,8 +28,12 @@ internal class Http : IHttpContext
 
     public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default)
     {
-        // Priority: options property > pipeline default > no timeout
-        var effectiveTimeout = httpOptions.Timeout ?? _pipelineOptions.Value.DefaultHttpTimeout;
+        var httpClient = httpOptions.HttpClient ?? GetHttpClient(httpOptions.LoggingType);
+
+        // Priority: options property > pipeline default > HttpClient timeout
+        var effectiveTimeout = httpOptions.Timeout
+                               ?? _pipelineOptions.Value.DefaultHttpTimeout
+                               ?? GetFiniteTimeout(httpClient);
 
         // Create timeout token if timeout is specified
         var timeoutCts = effectiveTimeout.HasValue
@@ -61,13 +65,12 @@ internal class Http : IHttpContext
             if (httpOptions.HttpClient != null)
             {
                 return await SendAndWrapLogging(
+                        httpClient,
                         httpOptions,
                         WrapResponse,
                         effectiveCancellationToken)
                     .ConfigureAwait(false);
             }
-
-            var httpClient = GetHttpClient(httpOptions.LoggingType);
 
             var response = await httpClient.SendAsync(
                     httpOptions.HttpRequestMessage,
@@ -107,6 +110,7 @@ internal class Http : IHttpContext
     }
 
     private async Task<HttpResponseMessage> SendAndWrapLogging(
+        HttpClient httpClient,
         HttpOptions httpOptions,
         Func<HttpResponseMessage, HttpResponseMessage> wrapResponse,
         CancellationToken cancellationToken)
@@ -127,7 +131,7 @@ internal class Http : IHttpContext
 
         var stopWatch = Stopwatch.StartNew();
 
-        var response = await httpOptions.HttpClient!.SendAsync(
+        var response = await httpClient.SendAsync(
                 httpOptions.HttpRequestMessage,
                 HttpCompletionOption.ResponseHeadersRead,
                 cancellationToken)
@@ -174,6 +178,13 @@ internal class Http : IHttpContext
         }
 
         return HttpLoggingOptions.Default;
+    }
+
+    private static TimeSpan? GetFiniteTimeout(HttpClient httpClient)
+    {
+        return httpClient.Timeout == System.Threading.Timeout.InfiniteTimeSpan
+            ? null
+            : httpClient.Timeout;
     }
 
     private void LogDuration(TimeSpan duration, HttpOptions httpOptions, HttpLoggingOptions loggingOptions)
