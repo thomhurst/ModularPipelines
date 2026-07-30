@@ -46,6 +46,12 @@ public class ResultsRepositoryTests : TestBase
         protected override bool Result => true;
     }
 
+    [ModuleCategory("Other")]
+    private class OtherCategoryModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
     [Test]
     [TUnit.Core.NotInParallel(nameof(ResultsRepositoryTests), Order = 1)]
     public async Task RunOne()
@@ -77,6 +83,7 @@ public class ResultsRepositoryTests : TestBase
             .AddResultsRepository<JsonResultRepository>()
             .AddModule<Module1>()
             .AddModule<Module2>()
+            .AddModule<OtherCategoryModule>()
             .RunCategories("Other")
             .BuildAsync();
 

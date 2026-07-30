@@ -22,6 +22,15 @@ public class ModuleHistoryTests
         }
     }
 
+    [ModuleCategory("2")]
+    private class RunnableCategoryModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
     [ModularPipelines.Attributes.DependsOn<SkipFromCategory>]
     private class UsesCategoryDependency : Module<Status>
     {
@@ -135,6 +144,7 @@ public class ModuleHistoryTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
+            .AddModule<RunnableCategoryModule>()
             .RunCategories("2")
             .BuildAsync();
 
@@ -194,6 +204,7 @@ public class ModuleHistoryTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
+            .AddModule<RunnableCategoryModule>()
             .RunCategories("2")
             .AddResultsRepository<NotFoundModuleRepository>()
             .BuildAsync();
@@ -295,6 +306,7 @@ public class ModuleHistoryTests
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<SkipFromCategory>()
+            .AddModule<RunnableCategoryModule>()
             .RunCategories("2")
             .AddResultsRepository<GoodModuleRepository>()
             .BuildAsync();
