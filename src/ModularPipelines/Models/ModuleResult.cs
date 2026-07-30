@@ -299,12 +299,14 @@ public abstract record ModuleResult<T> : ModuleResult
     /// Represents a successful module execution with a value.
     /// </summary>
     /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
+    [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
     public sealed record Success(T? Value) : ModuleResult<T>;
 
     /// <summary>
     /// Represents a failed module execution with an exception.
     /// </summary>
     /// <param name="Exception">The exception that caused the failure.</param>
+    [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
     public new sealed record Failure(Exception Exception) : ModuleResult<T>
     {
         /// <inheritdoc />
@@ -315,6 +317,7 @@ public abstract record ModuleResult<T> : ModuleResult
     /// Represents a skipped module execution.
     /// </summary>
     /// <param name="Decision">The skip decision containing the reason.</param>
+    [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
     public new sealed record Skipped(SkipDecision Decision) : ModuleResult<T>
     {
         /// <inheritdoc />
@@ -573,23 +576,23 @@ internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
             return new ModuleResultNonGenericJsonConverter();
         }
 
-        // For generic types, get the type argument
-        Type valueType;
         if (typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(ModuleResult<>))
         {
-            valueType = typeToConvert.GetGenericArguments()[0];
-        }
-        else if (typeToConvert.DeclaringType?.IsGenericType == true)
-        {
-            valueType = typeToConvert.DeclaringType.GetGenericArguments()[0];
-        }
-        else
-        {
-            return null;
+            var valueType = typeToConvert.GetGenericArguments()[0];
+            var converterType = typeof(ModuleResultJsonConverter<>).MakeGenericType(valueType);
+            return (JsonConverter?) Activator.CreateInstance(converterType);
         }
 
-        var converterType = typeof(ModuleResultJsonConverter<>).MakeGenericType(valueType);
-        return (JsonConverter?) Activator.CreateInstance(converterType);
+        if (typeToConvert.IsGenericType &&
+            typeToConvert.DeclaringType?.IsGenericType == true)
+        {
+            var valueType = typeToConvert.GetGenericArguments()[0];
+            var converterType = typeof(ModuleResultVariantJsonConverter<,>)
+                .MakeGenericType(valueType, typeToConvert);
+            return (JsonConverter?) Activator.CreateInstance(converterType);
+        }
+
+        return null;
     }
 }
 
@@ -930,5 +933,30 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         }
 
         writer.WriteEndObject();
+    }
+}
+
+/// <summary>
+/// Adapts the canonical generic converter to a concrete nested result variant.
+/// </summary>
+internal sealed class ModuleResultVariantJsonConverter<T, TVariant> : JsonConverter<TVariant>
+    where TVariant : ModuleResult<T>
+{
+    private static readonly ModuleResultJsonConverter<T> Converter = new();
+
+    public override TVariant? Read(
+        ref Utf8JsonReader reader,
+        Type typeToConvert,
+        JsonSerializerOptions options)
+    {
+        return (TVariant?) Converter.Read(ref reader, typeToConvert, options);
+    }
+
+    public override void Write(
+        Utf8JsonWriter writer,
+        TVariant value,
+        JsonSerializerOptions options)
+    {
+        Converter.Write(writer, value, options);
     }
 }

@@ -134,6 +134,37 @@ public class ModuleResultContractTests
     }
 
     [Test]
+    public async Task Concrete_Generic_Failure_Serializes_Through_Json()
+    {
+        var result = (ModuleResult<int>.Failure) CreateFailure();
+
+        var json = JsonSerializer.Serialize(result);
+        var deserialized = JsonSerializer.Deserialize<ModuleResult<int>>(json);
+
+        await Assert.That(deserialized).IsTypeOf<ModuleResult<int>.Failure>();
+        await Assert.That(deserialized!.ExceptionOrDefault?.Message).IsEqualTo("Failed");
+    }
+
+    [Test]
+    public async Task Concrete_Generic_Skipped_Serializes_Through_Json()
+    {
+        var result = new ModuleResult<int>.Skipped(SkipDecision.Skip("Not needed"))
+        {
+            ModuleName = nameof(IntModule),
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Skipped,
+        };
+
+        var json = JsonSerializer.Serialize(result);
+        var deserialized = JsonSerializer.Deserialize<ModuleResult<int>>(json);
+
+        await Assert.That(deserialized).IsTypeOf<ModuleResult<int>.Skipped>();
+        await Assert.That(deserialized!.SkipDecisionOrDefault?.Reason).IsEqualTo("Not needed");
+    }
+
+    [Test]
     public async Task NullSuccess_TryGetValue_ReturnsTrue()
     {
         ModuleResult<string> result = new ModuleResult<string>.Success(null)
