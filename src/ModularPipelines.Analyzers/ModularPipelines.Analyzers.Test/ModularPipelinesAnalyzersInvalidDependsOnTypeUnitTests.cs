@@ -1,5 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.InvalidDependsOnTypeAnalyzer>;
+using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.InvalidDependsOnTypeAnalyzer,
+    ModularPipelines.Analyzers.ConflictingDependsOnAttributeCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -21,6 +23,15 @@ public class ModularPipelinesAnalyzersInvalidDependsOnTypeUnitTests
 public class NotAModule {{ }}
 
 [{{|#0:DependsOn(typeof(NotAModule))|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
+    private const string FixedModuleSourceGeneric = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class NotAModule {{ }}
+
 public class Module1 : Module<List<string>>
 {SimpleModuleBody}
 ";
@@ -50,5 +61,15 @@ public class Module2 : Module<List<string>>
     public async Task AnalyzerIsNotTriggered_When_DependsOn_Valid_Module()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Removes_Invalid_Dependency()
+    {
+        var expected = VerifyCS.Diagnostic(InvalidDependsOnTypeAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("NotAModule");
+
+        await VerifyCS.VerifyCodeFixAsync(BadModuleSourceGeneric, expected, FixedModuleSourceGeneric);
     }
 }

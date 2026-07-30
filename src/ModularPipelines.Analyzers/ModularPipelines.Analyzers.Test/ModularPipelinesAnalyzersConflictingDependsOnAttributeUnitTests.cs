@@ -4,6 +4,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ModularPipelines.Context;
 using System.Text;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ConflictingDependsOnAttributeAnalyzer>;
+using VerifyCodeFixCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.ConflictingDependsOnAttributeAnalyzer,
+    ModularPipelines.Analyzers.ConflictingDependsOnAttributeCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -317,6 +320,35 @@ public class Module2 : Module<List<string>>
     public async Task AnalyzerIsNotTriggered_When_No_Conflicting_Dependencies()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_When_Attribute_List_Contains_Directives()
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeaderWithLogging}}
+
+            public class Module1 : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            [
+            #if true
+            DependsOn<Module2>
+            #else
+            Obsolete
+            #endif
+            ]
+            public class Module2 : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+            """;
+
+        await VerifyCodeFixCS.VerifyNoCodeFixAsync(
+            source,
+            ConflictingDependsOnAttributeAnalyzer.DiagnosticId);
     }
 
     private static string CreateLongDependencyChain(int length)
