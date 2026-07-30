@@ -22,9 +22,15 @@ internal static class HttpContentPreviewReader
     {
         if (maxBytes <= 0 || maxBytes == int.MaxValue)
         {
-            // ReadAsStringAsync buffers HttpContent, so returning the same instance preserves replay.
-            var unboundedBody = await content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-            return (unboundedBody, false, content, content.Headers.ContentLength);
+            var totalLength = content.Headers.ContentLength;
+            var bytes = await ReadAllBytesAsync(content, cancellationToken).ConfigureAwait(false);
+            var unboundedReplayContent = new ByteArrayContent(bytes);
+            CopyHeaders(content, unboundedReplayContent);
+            content.Dispose();
+            return (DecodeCompletePrefix(GetEncoding(unboundedReplayContent), bytes, bytes.Length),
+                false,
+                unboundedReplayContent,
+                totalLength ?? bytes.LongLength);
         }
 
         var stream = await content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
@@ -82,7 +88,8 @@ internal static class HttpContentPreviewReader
             int maxBytes,
             CancellationToken cancellationToken)
     {
-        var bytes = await content.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
+        var totalLength = content.Headers.ContentLength;
+        var bytes = await ReadAllBytesAsync(content, cancellationToken).ConfigureAwait(false);
         var previewLength = maxBytes <= 0 || maxBytes == int.MaxValue
             ? bytes.Length
             : Math.Min(bytes.Length, maxBytes);
@@ -90,12 +97,39 @@ internal static class HttpContentPreviewReader
         var preview = DecodeCompletePrefix(GetEncoding(content), bytes, previewLength);
         var replayContent = new ByteArrayContent(bytes);
         CopyHeaders(content, replayContent);
+        content.Dispose();
 
         return (
             preview,
             isTruncated,
             replayContent,
-            content.Headers.ContentLength ?? bytes.LongLength);
+            totalLength ?? bytes.LongLength);
+    }
+
+    private static async Task<byte[]> ReadAllBytesAsync(
+        HttpContent content,
+        CancellationToken cancellationToken)
+    {
+        var stream = await content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        using var cancellationRegistration = cancellationToken.Register(
+            static state => ((Stream) state!).Dispose(),
+            stream);
+        using var buffer = new MemoryStream();
+
+        try
+        {
+            await stream.CopyToAsync(buffer, cancellationToken).ConfigureAwait(false);
+            return buffer.ToArray();
+        }
+        catch (Exception exception)
+            when (cancellationToken.IsCancellationRequested
+                  && exception is ObjectDisposedException or IOException)
+        {
+            throw new OperationCanceledException(
+                "The HTTP content read was cancelled.",
+                exception,
+                cancellationToken);
+        }
     }
 
     private static Encoding GetEncoding(HttpContent content)

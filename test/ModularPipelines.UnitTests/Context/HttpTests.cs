@@ -284,7 +284,10 @@ public class HttpTests : TestBase
     }
 
     [Test]
-    public async Task SendAsync_CustomClientTimeoutInterruptsNonCooperativeResponseLogging()
+    [Arguments(4096)]
+    [Arguments(0)]
+    public async Task SendAsync_CustomClientTimeoutInterruptsNonCooperativeResponseLogging(
+        int maxBodySizeToLog)
     {
         var timeout = TimeSpan.FromMilliseconds(100);
         var contentStream = new BlockingReadStream(ignoreAsyncCancellation: true);
@@ -313,9 +316,37 @@ public class HttpTests : TestBase
                 {
                     HttpClient = httpClient,
                     LoggingType = HttpLoggingType.Response,
+                    LogSettings = new HttpLoggingOptions
+                    {
+                        MaxBodySizeToLog = maxBodySizeToLog,
+                    },
                     Timeout = timeout,
                 })
                 .WaitAsync(TimeSpan.FromSeconds(1)));
+    }
+
+    [Test]
+    public async Task SendAsync_ConfiguredTimeoutInterruptsBufferedBodyCopy()
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream(ignoreAsyncCancellation: true);
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(contentStream)));
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IHttpLogger>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var response = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/buffered-timeout"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.None,
+            Timeout = timeout,
+        });
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await response.Content.ReadAsStringAsync().WaitAsync(TimeSpan.FromSeconds(1)));
     }
 
     [Test]

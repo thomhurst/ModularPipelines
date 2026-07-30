@@ -25,8 +25,7 @@ internal sealed class TimeoutHttpContent : HttpContent
 
     protected override Task SerializeToStreamAsync(Stream stream, TransportContext? context)
     {
-        _linkedCancellationTokenSource.Token.ThrowIfCancellationRequested();
-        return _innerContent.CopyToAsync(stream, _linkedCancellationTokenSource.Token);
+        return CopyInnerContentToAsync(stream, CancellationToken.None);
     }
 
     protected override async Task SerializeToStreamAsync(
@@ -34,14 +33,7 @@ internal sealed class TimeoutHttpContent : HttpContent
         TransportContext? context,
         CancellationToken cancellationToken)
     {
-        using var readCancellationTokenSource = CreateReadCancellationTokenSource(cancellationToken);
-        var effectiveCancellationToken =
-            readCancellationTokenSource?.Token ?? _linkedCancellationTokenSource.Token;
-        effectiveCancellationToken.ThrowIfCancellationRequested();
-        await _innerContent.CopyToAsync(
-                stream,
-                effectiveCancellationToken)
-            .ConfigureAwait(false);
+        await CopyInnerContentToAsync(stream, cancellationToken).ConfigureAwait(false);
     }
 
     protected override async Task<Stream> CreateContentReadStreamAsync()
@@ -98,6 +90,36 @@ internal sealed class TimeoutHttpContent : HttpContent
         }
 
         base.Dispose(disposing);
+    }
+
+    private async Task CopyInnerContentToAsync(
+        Stream destination,
+        CancellationToken cancellationToken)
+    {
+        using var readCancellationTokenSource = CreateReadCancellationTokenSource(cancellationToken);
+        var effectiveCancellationToken =
+            readCancellationTokenSource?.Token ?? _linkedCancellationTokenSource.Token;
+        effectiveCancellationToken.ThrowIfCancellationRequested();
+        var source = await _innerContent
+            .ReadAsStreamAsync(effectiveCancellationToken)
+            .ConfigureAwait(false);
+        using var cancellationRegistration = effectiveCancellationToken.Register(
+            static state => ((Stream) state!).Dispose(),
+            source);
+
+        try
+        {
+            await source.CopyToAsync(destination, effectiveCancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception exception)
+            when (effectiveCancellationToken.IsCancellationRequested
+                  && exception is ObjectDisposedException or IOException)
+        {
+            throw new OperationCanceledException(
+                "The HTTP response body copy was cancelled.",
+                exception,
+                effectiveCancellationToken);
+        }
     }
 
     private CancellationTokenSource? CreateReadCancellationTokenSource(
@@ -189,6 +211,9 @@ internal sealed class TimeoutHttpContent : HttpContent
             var effectiveCancellationToken =
                 readCancellationTokenSource?.Token ?? timeoutCancellationToken;
             effectiveCancellationToken.ThrowIfCancellationRequested();
+            using var cancellationRegistration = readCancellationTokenSource?.Token.Register(
+                static state => ((Stream) state!).Dispose(),
+                innerStream);
             try
             {
                 return await innerStream.ReadAsync(
