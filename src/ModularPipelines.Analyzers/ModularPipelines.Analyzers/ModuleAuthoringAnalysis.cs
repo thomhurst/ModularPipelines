@@ -1953,11 +1953,24 @@ internal static class ModuleAuthoringAnalysis
             invocations,
             nestedCallables);
 
+        return GetInvokedMethods(
+                invocations,
+                memberMethods,
+                reachableNestedCallables)
+            .Concat(GetReferencedPropertyGetters(
+                propertyReferences,
+                memberMethods,
+                reachableNestedCallables));
+    }
+
+    private static IEnumerable<IMethodSymbol> GetInvokedMethods(
+        ImmutableArray<IInvocationOperation> invocations,
+        ImmutableArray<IMethodSymbol> memberMethods,
+        HashSet<IMethodSymbol> reachableNestedCallables)
+    {
         foreach (var invocation in invocations)
         {
-            var caller = GetCallableSymbol(GetEnclosingCallable(invocation));
-            if (caller is not null
-                && !reachableNestedCallables.Contains(caller))
+            if (!IsInsideReachableCallable(invocation, reachableNestedCallables))
             {
                 continue;
             }
@@ -1970,12 +1983,18 @@ internal static class ModuleAuthoringAnalysis
                 }
             }
         }
+    }
 
+    private static IEnumerable<IMethodSymbol> GetReferencedPropertyGetters(
+        ImmutableArray<IPropertyReferenceOperation> propertyReferences,
+        ImmutableArray<IMethodSymbol> memberMethods,
+        HashSet<IMethodSymbol> reachableNestedCallables)
+    {
         foreach (var propertyReference in propertyReferences)
         {
-            var caller = GetCallableSymbol(GetEnclosingCallable(propertyReference));
-            if (caller is not null
-                && !reachableNestedCallables.Contains(caller))
+            if (!IsInsideReachableCallable(
+                    propertyReference,
+                    reachableNestedCallables))
             {
                 continue;
             }
@@ -1988,6 +2007,14 @@ internal static class ModuleAuthoringAnalysis
                 }
             }
         }
+    }
+
+    private static bool IsInsideReachableCallable(
+        IOperation operation,
+        HashSet<IMethodSymbol> reachableNestedCallables)
+    {
+        var caller = GetCallableSymbol(GetEnclosingCallable(operation));
+        return caller is null || reachableNestedCallables.Contains(caller);
     }
 
     private static bool PropertyReferenceTargetsGetter(
