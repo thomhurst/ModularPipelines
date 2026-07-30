@@ -187,6 +187,35 @@ public class ModularPipelinesIntegrationGeneratorTests
     }
 
     [Test]
+    public async Task Keyword_Tool_Accessor_On_Older_Language_Version_Is_Escaped_In_Diagnostic()
+    {
+        var result = RunGenerator("""
+            using ModularPipelines.Attributes;
+            using ModularPipelines.Context;
+            using Microsoft.Extensions.DependencyInjection;
+
+            public interface IClassTool
+            {
+            }
+
+            public static class ClassIntegration
+            {
+                [ModularPipelinesIntegration]
+                public static void Register(IServiceCollection services)
+                {
+                }
+
+                public static IClassTool @class(this IPipelineContext context) => throw null!;
+            }
+            """, LanguageVersion.CSharp13);
+
+        var diagnostic = result.Diagnostics.Single();
+
+        await Assert.That(diagnostic.Id).IsEqualTo("MPG0008");
+        await Assert.That(diagnostic.GetMessage()).Contains("context.@class()");
+    }
+
+    [Test]
     public async Task Referenced_Conflicts_On_Older_Language_Version_Are_Ignored()
     {
         var firstIntegration = CreateMetadataReference(
