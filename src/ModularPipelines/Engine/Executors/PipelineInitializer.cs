@@ -93,10 +93,12 @@ internal class PipelineInitializer(
             .Cast<DictionaryEntry>()
             .OrderBy(entry => entry.Key?.ToString(), StringComparer.OrdinalIgnoreCase)
             .ToArray();
-        var maximumNameWidth = entries
-            .Select(entry => GetMaximumCellWidth(entry.Key?.ToString() ?? string.Empty))
-            .DefaultIfEmpty()
-            .Max();
+        var maximumNameWidth = Math.Max(
+            GetMaximumCellWidth("Name"),
+            entries
+                .Select(entry => GetMaximumCellWidth(entry.Key?.ToString() ?? string.Empty))
+                .DefaultIfEmpty()
+                .Max());
         var maximumValueWidth = Math.Max(
             0,
             (consoleWidth ?? AnsiConsole.Console.Profile.Width) - maximumNameWidth - TableDecorationWidth);

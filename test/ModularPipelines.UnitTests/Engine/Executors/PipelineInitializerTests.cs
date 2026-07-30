@@ -66,6 +66,24 @@ public class PipelineInitializerTests
     }
 
     [Test]
+    public async Task EnvironmentVariables_IncludeHeaderWidthInRawValueSafety()
+    {
+        var variables = new OrderedDictionary
+        {
+            ["X"] = new string('x', 32),
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            value => value,
+            consoleWidth: 40);
+        var output = Render(table, width: 40);
+
+        await Assert.That(output).Contains(LoggingConstants.SecretMask);
+        await Assert.That(output).DoesNotContain(new string('x', 32));
+    }
+
+    [Test]
     public async Task EnvironmentVariables_RenderRawValuesThatFitActualWidth()
     {
         var rawValue = new string('x', 27);
