@@ -74,10 +74,12 @@ public class DependencyInjectionTests
 
         DependencyInjectionSetup.Initialize(serviceCollection);
 
-        serviceCollection.BuildServiceProvider(new ServiceProviderOptions
+        using var serviceProvider = serviceCollection.BuildServiceProvider(new ServiceProviderOptions
         {
             ValidateScopes = true,
             ValidateOnBuild = true,
         });
+
+        serviceProvider.GetRequiredService<global::ModularPipelines.PipelineCli.PipelineCommandHandler>();
     }
 }
