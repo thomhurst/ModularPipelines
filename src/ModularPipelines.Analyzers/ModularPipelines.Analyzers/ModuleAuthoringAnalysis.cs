@@ -2897,6 +2897,11 @@ internal static class ModuleAuthoringAnalysis
                     conditional,
                     cancellationToken,
                     visitedLocals),
+            ISwitchExpressionOperation switchExpression =>
+                FlowsFromCancellationTokenSwitchExpression(
+                    switchExpression,
+                    cancellationToken,
+                    visitedLocals),
             ICoalesceOperation coalesce =>
                 FlowsFromCancellationTokenCoalesce(
                     coalesce,
@@ -3004,6 +3009,19 @@ internal static class ModuleAuthoringAnalysis
                    CloneVisitedLocals(visitedLocals));
     }
 
+    private static bool FlowsFromCancellationTokenSwitchExpression(
+        ISwitchExpressionOperation switchExpression,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        return switchExpression.Arms.Length > 0
+               && switchExpression.Arms.All(arm =>
+                   FlowsFromCancellationToken(
+                       arm.Value,
+                       cancellationToken,
+                       CloneVisitedLocals(visitedLocals)));
+    }
+
     private static bool FlowsFromCancellationTokenCoalesce(
         ICoalesceOperation coalesce,
         IParameterSymbol cancellationToken,
@@ -3097,20 +3115,20 @@ internal static class ModuleAuthoringAnalysis
         var assignments = FindLocalAssignments(root, operation, local, callable);
         var linearAssignment = assignments.FirstOrDefault(candidate =>
             IsLinearPredecessor(candidate, operation));
-        var branchingAssignment = FindLatestDefinitelyAssigningBranch(
+        var branchingOperation = FindLatestDefinitelyAssigningBranch(
             root,
             operation,
             local,
             callable);
         var lowerBound = Math.Max(
             linearAssignment?.Syntax.SpanStart ?? int.MinValue,
-            branchingAssignment?.Syntax.SpanStart ?? int.MinValue);
+            branchingOperation?.Syntax.SpanStart ?? int.MinValue);
 
-        if (branchingAssignment is not null
-            && branchingAssignment.Syntax.SpanStart == lowerBound)
+        if (branchingOperation is not null
+            && branchingOperation.Syntax.SpanStart == lowerBound)
         {
             return GetDefinitelyReachingLocalAssignments(
-                    branchingAssignment,
+                    branchingOperation,
                     local)
                 .Select(static assignment => assignment.Value);
         }
@@ -3118,7 +3136,7 @@ internal static class ModuleAuthoringAnalysis
         var assignedValues = assignments
             .Where(candidate => candidate.Syntax.SpanStart >= lowerBound)
             .Select(static assignment => assignment.Value);
-        if (linearAssignment is not null || branchingAssignment is not null)
+        if (linearAssignment is not null || branchingOperation is not null)
         {
             return assignedValues;
         }
@@ -3129,20 +3147,19 @@ internal static class ModuleAuthoringAnalysis
             : [];
     }
 
-    private static IConditionalOperation? FindLatestDefinitelyAssigningBranch(
+    private static IOperation? FindLatestDefinitelyAssigningBranch(
         IOperation root,
         IOperation operation,
         ILocalSymbol local,
         IOperation? callable)
     {
         return root.DescendantsAndSelf()
-            .OfType<IConditionalOperation>()
+            .Where(static candidate =>
+                candidate is IConditionalOperation or ISwitchOperation)
             .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .Where(candidate => IsLinearPredecessor(candidate, operation))
-            .Where(candidate => candidate.WhenFalse is not null
-                && DefinitelyAssignsLocal(candidate.WhenTrue, local)
-                && DefinitelyAssignsLocal(candidate.WhenFalse, local))
+            .Where(candidate => DefinitelyAssignsLocal(candidate, local))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
             .FirstOrDefault();
     }
@@ -3160,8 +3177,11 @@ internal static class ModuleAuthoringAnalysis
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
                 GetDefinitelyReachingLocalAssignments(conditional.WhenTrue, local)
                     .Concat(GetDefinitelyReachingLocalAssignments(whenFalse, local)),
+            ISwitchOperation switchOperation =>
+                switchOperation.Cases.SelectMany(@case =>
+                    GetDefinitelyReachingSequenceAssignments(@case.Body, local)),
             IBlockOperation block =>
-                GetDefinitelyReachingBlockAssignments(block, local),
+                GetDefinitelyReachingSequenceAssignments(block.Operations, local),
             IExpressionStatementOperation expressionStatement =>
                 GetDefinitelyReachingLocalAssignments(
                     expressionStatement.Operation,
@@ -3171,11 +3191,11 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static IEnumerable<ISimpleAssignmentOperation>
-        GetDefinitelyReachingBlockAssignments(
-            IBlockOperation block,
+        GetDefinitelyReachingSequenceAssignments(
+            IEnumerable<IOperation> operations,
             ILocalSymbol local)
     {
-        var assignment = block.Operations
+        var assignment = operations
             .Reverse()
             .FirstOrDefault(candidate => DefinitelyAssignsLocal(candidate, local));
         return assignment is null
@@ -3212,10 +3232,24 @@ internal static class ModuleAuthoringAnalysis
         {
             IBlockOperation block => block.Operations.Any(candidate =>
                 DefinitelyAssignsLocal(candidate, local)),
+            ISwitchOperation switchOperation =>
+                DefinitelyAssignsLocalInSwitch(switchOperation, local),
             IExpressionStatementOperation expressionStatement =>
                 DefinitelyAssignsLocal(expressionStatement.Operation, local),
             _ => false,
         };
+    }
+
+    private static bool DefinitelyAssignsLocalInSwitch(
+        ISwitchOperation switchOperation,
+        ILocalSymbol local)
+    {
+        return switchOperation.Cases.Any(@case =>
+                   @case.Clauses.Any(static clause =>
+                       clause is IDefaultCaseClauseOperation))
+               && switchOperation.Cases.All(@case =>
+                   @case.Body.Any(candidate =>
+                       DefinitelyAssignsLocal(candidate, local)));
     }
 
     private static IOperation? FindReachingLocalValue(

@@ -859,6 +859,29 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Switch_Assigned_Params_Type_Array()
+    {
+        var source = ModuleSource(
+            TestSourceConstants.SimpleAsyncExecuteBody,
+            """
+            Type[] moduleTypes;
+            switch (DateTime.UtcNow.Day)
+            {
+                case 1:
+                    moduleTypes = [typeof(BuildModule)];
+                    break;
+                default:
+                    moduleTypes = [typeof(BuildModule)];
+                    break;
+            }
+
+            Pipeline.CreateBuilder().AddModules(moduleTypes);
+            """);
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_When_Params_Type_Array_Property_Cannot_Be_Resolved()
     {
         var source = $$"""
@@ -1926,6 +1949,54 @@ public class ModuleAuthoringAnalyzerTests
                     token = cancellationToken;
                 }
 
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_When_All_Switch_Tokens_Are_Flowed()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                switch (context is not null)
+                {
+                    case true:
+                        token = cancellationToken;
+                        break;
+                    default:
+                        token = cancellationToken;
+                        break;
+                }
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Switch_Expression_CancellationToken()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = (context is not null) switch
+                {
+                    true => cancellationToken,
+                    false => cancellationToken,
+                };
                 await Task.Delay(1, token);
                 return null;
             }
