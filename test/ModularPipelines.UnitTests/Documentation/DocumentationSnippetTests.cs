@@ -64,6 +64,40 @@ public class DocumentationSnippetTests
         await Assert.That(readme).Contains("await builder.ExecutePipelineAsync();");
     }
 
+    [Test]
+    public async Task Readme_Module_Sharing_Fence_Matches_Compiled_Current_Api_Shape()
+    {
+        var repositoryRoot = FindRepositoryRoot();
+        string[] currentApiShape =
+        [
+            "PublishModule : Module<None>",
+            "protected override async Task<None> ExecuteAsync(",
+            "return None.Value;",
+        ];
+        var compiledFixture = await File.ReadAllTextAsync(Path.Combine(
+                repositoryRoot,
+                "test/ModularPipelines.DocumentationSnippets/CurrentApiSnippets.cs"))
+            .ConfigureAwait(false);
+
+        foreach (var expected in currentApiShape)
+        {
+            await Assert.That(compiledFixture).Contains(expected);
+        }
+
+        foreach (var fileName in new[] { "README_Template.md", "README.md" })
+        {
+            var readme = await File.ReadAllTextAsync(Path.Combine(repositoryRoot, fileName))
+                .ConfigureAwait(false);
+
+            foreach (var expected in currentApiShape)
+            {
+                await Assert.That(readme).Contains(expected);
+            }
+
+            await Assert.That(readme).DoesNotContain("ExecuteModuleAsync(");
+        }
+    }
+
     private static string FindRepositoryRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
