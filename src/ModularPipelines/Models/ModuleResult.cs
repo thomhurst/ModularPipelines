@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ModularPipelines.Engine;
@@ -448,6 +449,9 @@ public abstract record ModuleResult<T> : ModuleResult
 
     /// <inheritdoc />
     protected override object? GetValueOrDefault() => ValueOrDefault;
+
+    /// <inheritdoc />
+    protected override bool PrintMembers(StringBuilder builder) => base.PrintMembers(builder);
 
     // Prevent external inheritance - only Success, Failure, and Skipped are valid
     private protected ModuleResult()

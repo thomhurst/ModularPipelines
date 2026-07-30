@@ -236,6 +236,56 @@ public class ModuleResultContractTests
     }
 
     [Test]
+    public async Task Failure_ToString_DoesNotEvaluateRequiredValue()
+    {
+        ModuleResult<int> result = CreateFailure(new InvalidOperationException("Compilation failed"));
+
+        var formatted = result.ToString();
+
+        await Assert.That(formatted).Contains("Compilation failed");
+    }
+
+    [Test]
+    public async Task Skipped_ToString_DoesNotEvaluateRequiredValue()
+    {
+        ModuleResult<int> result = CreateSkipped("No source changes");
+
+        var formatted = result.ToString();
+
+        await Assert.That(formatted).Contains("No source changes");
+    }
+
+    [Test]
+    public async Task NullSuccess_ToString_DoesNotEvaluateRequiredValue()
+    {
+        ModuleResult<string> result = new ModuleResult<string>.Success(null)
+        {
+            ModuleName = "NullableModule",
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Successful,
+        };
+
+        var formatted = result.ToString();
+
+        await Assert.That(formatted).Contains(nameof(ModuleResult<string>.Success));
+    }
+
+    [Test]
+    public async Task Success_ToString_PrintsValueOnce()
+    {
+        ModuleResult<int> result = CreateSuccess(42);
+
+        var formatted = result.ToString();
+        var valueOccurrences = formatted
+            .Split("Value = 42", StringSplitOptions.None)
+            .Length - 1;
+
+        await Assert.That(valueOccurrences).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task NullSuccess_TryGetValue_ReturnsTrue()
     {
         ModuleResult<string> result = new ModuleResult<string>.Success(null)
