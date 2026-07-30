@@ -105,6 +105,10 @@ internal class DistributedModuleExecutor(
                 await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(cts.Token))
                 {
                     var moduleType = moduleState.Module.GetType();
+                    if (!scheduler.MarkModuleStarted(moduleType))
+                    {
+                        continue;
+                    }
 
                     // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
                     // Modules with [MatrixTarget] will run once, not N times.
@@ -408,11 +412,6 @@ internal class DistributedModuleExecutor(
 
         try
         {
-            if (!scheduler.MarkModuleStarted(moduleType))
-            {
-                return;
-            }
-
             await CollectResultAsync(module, moduleType, scheduler, cts, timeoutCts?.Token ?? cts.Token);
         }
         catch (OperationCanceledException) when (!cts.IsCancellationRequested)

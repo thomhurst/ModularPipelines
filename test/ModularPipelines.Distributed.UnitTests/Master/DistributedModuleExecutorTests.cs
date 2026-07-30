@@ -813,7 +813,7 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
-    public async Task Cancelled_Queued_Module_Does_Not_Collect_Or_Overwrite_Result()
+    public async Task Rejected_Start_Does_Not_Publish_Or_Collect_Result()
     {
         var module = new DistributedModule();
         var moduleState = new ModuleState(module, typeof(DistributedModule));
@@ -831,6 +831,9 @@ public class DistributedModuleExecutorTests
         await executor.ExecuteAsync([module]);
 
         coordinator.Verify(
+            c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()),
+            Times.Never());
+        coordinator.Verify(
             c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
             Times.Never());
         scheduler.Verify(
@@ -840,6 +843,46 @@ public class DistributedModuleExecutorTests
                 It.IsAny<Exception?>(),
                 It.IsAny<Status?>()),
             Times.Never());
+    }
+
+    [Test]
+    public async Task Deferred_Start_Publishes_Only_After_Scheduler_Requeues_Module()
+    {
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState, moduleState);
+        scheduler.SetupSequence(s => s.MarkModuleStarted(typeof(DistributedModule)))
+            .Returns(false)
+            .Returns(true);
+        var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new NoDequeueCoordinator(coordinator);
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultCollector = new DistributedResultCollector(noDequeue, serializer);
+        var executor = CreateExecutor(
+            scheduler,
+            coordinator: noDequeue,
+            resultCollector: resultCollector);
+
+        var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
+        var serialized = serializer.Serialize(
+            successResult,
+            typeof(DistributedModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            1);
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(50);
+            await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        });
+
+        await executor.ExecuteAsync([module]);
+
+        scheduler.Verify(s => s.MarkModuleStarted(typeof(DistributedModule)), Times.Exactly(2));
+        scheduler.Verify(
+            s => s.MarkModuleCompleted(typeof(DistributedModule), true, null, null),
+            Times.Once());
     }
 
     [Test]
