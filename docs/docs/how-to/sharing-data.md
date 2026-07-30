@@ -41,9 +41,9 @@ return result switch
 {
     ModuleResult<MyResult>.Success { Value: var value }
         => await ProcessValue(value),
-    ModuleResult.Failure { Exception: var ex }
+    ModuleResult<MyResult>.Failure { Exception: var ex }
         => HandleFailure(ex),
-    ModuleResult.Skipped { Decision: var skip }
+    ModuleResult<MyResult>.Skipped { Decision: var skip }
         => HandleSkipped(skip.Reason),
     _ => null
 };
