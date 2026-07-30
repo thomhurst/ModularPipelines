@@ -10,6 +10,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.PipelineCli;
 
 namespace ModularPipelines;
 
@@ -70,6 +71,13 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
     {
+        if (await Services.GetRequiredService<PipelineCommandHandler>()
+                .TryExecuteAsync(cancellationToken)
+                .ConfigureAwait(false) is { } commandResult)
+        {
+            return commandResult;
+        }
+
         return await Services.GetRequiredService<IExecutionOrchestrator>()
             .ExecuteAsync(cancellationToken)
             .ConfigureAwait(false);
