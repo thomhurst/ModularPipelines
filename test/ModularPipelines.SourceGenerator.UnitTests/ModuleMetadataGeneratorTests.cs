@@ -509,6 +509,60 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Predicate_Selector_Dependencies_Report_Aot_Diagnostics()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines.Attributes
+            {
+                public abstract class DependsOnBaseAttribute : System.Attribute;
+
+                public sealed class DependsOnModulesWithTagAttribute(string tag)
+                    : DependsOnBaseAttribute;
+
+                public sealed class DependsOnModulesInCategoryAttribute(string category)
+                    : DependsOnBaseAttribute;
+
+                public sealed class DependsOnModulesWithAttributeAttribute<TAttribute>
+                    : DependsOnBaseAttribute
+                    where TAttribute : System.Attribute;
+
+                public sealed class CustomSelectorAttribute : DependsOnBaseAttribute;
+            }
+
+            namespace Consumer
+            {
+                public sealed class MarkerAttribute : System.Attribute;
+
+                [ModularPipelines.Attributes.DependsOnModulesWithTag("build")]
+                public sealed class TagModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOnModulesInCategory("deploy")]
+                public sealed class CategoryModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOnModulesWithAttribute<MarkerAttribute>]
+                public sealed class AttributeModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.CustomSelector]
+                public sealed class CustomModule : ModularPipelines.Modules.Module<string>;
+            }
+            """);
+
+        var diagnostics = result.Diagnostics
+            .Where(diagnostic => diagnostic.Id == "MPG0016")
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostics).Count().IsEqualTo(4);
+            await Assert.That(diagnostics.Select(static diagnostic => diagnostic.GetMessage()))
+                .Contains(message => message.Contains("Consumer.TagModule"))
+                .And.Contains(message => message.Contains("Consumer.CategoryModule"))
+                .And.Contains(message => message.Contains("Consumer.AttributeModule"))
+                .And.Contains(message => message.Contains("Consumer.CustomModule"));
+        }
+    }
+
+    [Test]
     public async Task Registered_External_Closed_Generic_Module_Reports_Aot_Diagnostic()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(

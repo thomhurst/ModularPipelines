@@ -20,6 +20,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string SelectorDependencyAttributeFullName =
         "ModularPipelines.Attributes.DependsOnAllModulesInheritingFromAttribute";
 
+    internal const string PredicateDependencyAttributeFullName =
+        "ModularPipelines.Attributes.DependsOnBaseAttribute";
+
     internal const string PipelineBuilderExtensionsFullName =
         "ModularPipelines.Extensions.PipelineBuilderExtensions";
 
@@ -421,7 +424,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     {
         for (var current = attribute.AttributeClass; current is not null; current = current.BaseType)
         {
-            if (current.ToDisplayString() == SelectorDependencyAttributeFullName)
+            if (current.ToDisplayString() is
+                SelectorDependencyAttributeFullName
+                or PredicateDependencyAttributeFullName)
             {
                 return true;
             }

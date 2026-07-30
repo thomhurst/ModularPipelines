@@ -241,6 +241,10 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TRepository">The type of result repository to add.</typeparam>
     /// <returns>The same builder instance for chaining.</returns>
+    [RequiresUnreferencedCode(
+        "Result history resolves module result types through reflection.")]
+    [RequiresDynamicCode(
+        "Result history creates generic delegates for runtime module result types.")]
     public static PipelineBuilder AddResultsRepository<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TRepository>(this PipelineBuilder builder)
         where TRepository : class, IModuleResultRepository
     {

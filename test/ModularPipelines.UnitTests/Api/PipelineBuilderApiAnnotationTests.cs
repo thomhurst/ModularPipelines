@@ -22,4 +22,22 @@ public class PipelineBuilderApiAnnotationTests
                 .IsNotNull();
         }
     }
+
+    [Test]
+    public async Task Result_History_Warns_Trim_And_Aot_Callers()
+    {
+        var method = typeof(PipelineBuilderExtensions)
+            .GetMethods()
+            .Single(candidate =>
+                candidate.Name == nameof(PipelineBuilderExtensions.AddResultsRepository)
+                && candidate.IsGenericMethodDefinition);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(method.GetCustomAttribute<RequiresUnreferencedCodeAttribute>())
+                .IsNotNull();
+            await Assert.That(method.GetCustomAttribute<RequiresDynamicCodeAttribute>())
+                .IsNotNull();
+        }
+    }
 }
