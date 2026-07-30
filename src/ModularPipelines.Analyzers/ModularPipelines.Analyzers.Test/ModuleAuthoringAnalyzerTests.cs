@@ -591,6 +591,43 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_With_Branch_Assigned_Descriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    ServiceDescriptor descriptor;
+                    if (flag)
+                    {
+                        descriptor = ServiceDescriptor.Singleton<IModule, BuildModule>();
+                    }
+                    else
+                    {
+                        descriptor = ServiceDescriptor.Singleton<IModule, BuildModule>();
+                    }
+
+                    builder.Services.Add(descriptor);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_TryAdd_Descriptor()
     {
         var source = $$"""
@@ -2585,6 +2622,27 @@ public class ModuleAuthoringAnalyzerTests
                 {
                     await Task.Delay(1, moduleToken);
                 }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Flowed_Token_In_Local_Function()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await WorkAsync(cancellationToken);
+                return null;
+
+                static async Task WorkAsync(CancellationToken token)
+                {
+                    await Task.Delay(1, token);
+                }
+            }
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);

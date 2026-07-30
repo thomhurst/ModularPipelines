@@ -569,7 +569,9 @@ internal static class ModuleAuthoringAnalysis
             return [];
         }
 
-        var containingMethod = GetContainingMemberMethod(context.ContainingSymbol);
+        var containingMethod = GetCallableSymbol(
+                GetEnclosingCallable(context.Operation))
+            ?? GetContainingMemberMethod(context.ContainingSymbol);
         if (containingMethod is null
             || SymbolEqualityComparer.Default.Equals(
                 containingMethod,
@@ -592,7 +594,8 @@ internal static class ModuleAuthoringAnalysis
              method is not null;
              method = method.ContainingSymbol as IMethodSymbol)
         {
-            if (method.MethodKind is MethodKind.Ordinary or MethodKind.PropertyGet)
+            if (method.MethodKind is
+                MethodKind.Ordinary or MethodKind.PropertyGet or MethodKind.LocalFunction)
             {
                 return method;
             }
@@ -613,6 +616,11 @@ internal static class ModuleAuthoringAnalysis
             ? executeMethod.ContainingType
             : targetMethod.ContainingType;
         var memberMethods = GetModuleMemberMethods(analysisType, compilation);
+        if (targetMethod.MethodKind == MethodKind.LocalFunction)
+        {
+            memberMethods = memberMethods.Add(targetMethod);
+        }
+
         var mappedTokenPaths = FindMappedCancellationTokenPaths(
                 executeMethod,
                 targetMethod,
@@ -981,11 +989,9 @@ internal static class ModuleAuthoringAnalysis
                     compilation,
                     instanceRegisteredModules,
                     visitedLocals);
-            case ILocalReferenceOperation localReference
-                when visitedLocals.Add(localReference.Local)
-                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
-                return TryTrackServiceDescriptor(
-                    localValue,
+            case ILocalReferenceOperation localReference:
+                return TryTrackServiceDescriptorLocal(
+                    localReference,
                     compilation,
                     instanceRegisteredModules,
                     visitedLocals);
@@ -1026,6 +1032,24 @@ internal static class ModuleAuthoringAnalysis
             default:
                 return false;
         }
+    }
+
+    private static bool TryTrackServiceDescriptorLocal(
+        ILocalReferenceOperation localReference,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (!visitedLocals.Add(localReference.Local))
+        {
+            return false;
+        }
+
+        return TryTrackServiceDescriptorCollection(
+            FindReachingLocalValues(localReference, localReference.Local),
+            compilation,
+            instanceRegisteredModules,
+            visitedLocals);
     }
 
     private static bool IsPotentialRegistrationInvocation(
@@ -1404,11 +1428,9 @@ internal static class ModuleAuthoringAnalysis
             }
         }
 
-        if (invocation.Type is not INamedTypeSymbol
-            {
-                TypeKind: TypeKind.Class,
-                IsAbstract: false,
-            } moduleType)
+        if (invocation.Type is not INamedTypeSymbol moduleType
+            || moduleType.TypeKind != TypeKind.Class
+            || moduleType.IsAbstract)
         {
             return false;
         }
