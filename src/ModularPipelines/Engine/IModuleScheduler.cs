@@ -52,5 +52,9 @@ internal interface IModuleScheduler : IDisposable
     /// Cancels all modules that are queued or pending (not yet executing)
     /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed.
     /// </summary>
-    void CancelPendingModules();
+    /// <param name="cancelModuleResultAwaiters">
+    /// Whether to cancel typed module result awaiters immediately. Set to <see langword="false"/>
+    /// when terminated results will be registered after scheduler cancellation.
+    /// </param>
+    void CancelPendingModules(bool cancelModuleResultAwaiters = true);
 }

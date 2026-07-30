@@ -86,10 +86,10 @@ internal class ModuleStateTracker : IModuleStateTracker
         // of lock recursion (the snapshot is a plain List, not protected by lock).
         // Releasing the lock between constraint check and state mutation would
         // create a race condition where another thread could start a conflicting module.
-        bool needsReschedule = false;
+        var needsReschedule = false;
         DateTimeOffset? executionStartTime = null;
-        int executingCount = 0;
-        bool result = false;
+        var executingCount = 0;
+        var result = false;
 
         _stateLock.EnterWriteLock();
         try
@@ -252,7 +252,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     }
 
     /// <inheritdoc />
-    public void CancelPendingModules()
+    public void CancelPendingModules(bool cancelModuleResultAwaiters = true)
     {
         List<(ModuleState Module, ModuleExecutionState OriginalState)> cancelledModules;
 
@@ -283,7 +283,10 @@ internal class ModuleStateTracker : IModuleStateTracker
         foreach (var (moduleState, _) in cancelledModules)
         {
             moduleState.CompletionSource.TrySetCanceled();
-            ModuleCompletionSourceCanceller.Cancel(moduleState.Module, moduleState.ModuleType);
+            if (cancelModuleResultAwaiters)
+            {
+                ModuleCompletionSourceCanceller.Cancel(moduleState.Module, moduleState.ModuleType);
+            }
         }
 
         // Logging outside lock

@@ -25,25 +25,7 @@ internal static class ModuleCompletionSourceCanceller
             return;
         }
 
-        var resultType = GetResultType(moduleType);
-        if (resultType is not null)
-        {
-            Cache.GetOrAdd(resultType, CreateCanceller)(module);
-        }
-    }
-
-    private static Type? GetResultType(Type moduleType)
-    {
-        for (var currentType = moduleType; currentType is not null; currentType = currentType.BaseType)
-        {
-            if (currentType.IsGenericType
-                && currentType.GetGenericTypeDefinition() == typeof(Module<>))
-            {
-                return currentType.GetGenericArguments()[0];
-            }
-        }
-
-        return null;
+        Cache.GetOrAdd(module.ResultType, CreateCanceller)(module);
     }
 
     [UnconditionalSuppressMessage(

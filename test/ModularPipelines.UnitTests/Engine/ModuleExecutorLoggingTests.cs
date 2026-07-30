@@ -103,7 +103,7 @@ public class ModuleExecutorLoggingTests
 
         var logOutput = logs.ToString();
         await Assert.That(logOutput).DoesNotContain("Cancellation triggered");
-        scheduler.Verify(x => x.CancelPendingModules(), Times.Once);
+        scheduler.Verify(x => x.CancelPendingModules(false), Times.Once);
     }
 
     [Test]
@@ -536,9 +536,8 @@ public class ModuleExecutorLoggingTests
     public async Task CancelPendingModules_WithPendingModule_LogsCancellation()
     {
         var logs = new StringBuilder();
-        var module = new Mock<IModule>();
-        module.SetupGet(x => x.ModuleRunType).Returns(ModuleRunType.OnSuccessfulDependencies);
-        var state = new ModuleState(module.Object, typeof(IModule));
+        var module = new LaterModule();
+        var state = new ModuleState(module, module.GetType());
         var moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         moduleStates[state.ModuleType] = state;
         var tracker = CreateModuleStateTracker(logs, moduleStates);

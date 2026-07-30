@@ -37,7 +37,11 @@ internal interface IModuleStateTracker
     /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed.
     /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete.
     /// </summary>
-    void CancelPendingModules();
+    /// <param name="cancelModuleResultAwaiters">
+    /// Whether to cancel typed module result awaiters immediately. Set to <see langword="false"/>
+    /// when terminated results will be registered after scheduler cancellation.
+    /// </param>
+    void CancelPendingModules(bool cancelModuleResultAwaiters = true);
 
     /// <summary>
     /// Gets the state for a specific module.
