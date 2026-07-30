@@ -8,7 +8,7 @@ internal sealed class LocalHttpServer : IAsyncDisposable
 {
     private static readonly byte[] DefaultResponseBody = "local HTTP response"u8.ToArray();
 
-    private readonly CancellationTokenSource _cancellationTokenSource = new(TimeSpan.FromSeconds(10));
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
     private readonly TcpListener _listener;
     private readonly byte[] _responseBody;
     private readonly Task _serverTask;
