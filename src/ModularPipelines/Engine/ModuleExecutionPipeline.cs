@@ -158,6 +158,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.Status = Status.Successful;
 
             moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
+            executionContext.SetTypedResult(moduleResult);
+            module.CompletionSource.TrySetResult(moduleResult);
 
             afterHookInvoked = true;
             moduleResult = await InvokeAfterExecuteAsync(
@@ -176,7 +178,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 .ConfigureAwait(false);
 
             executionContext.SetTypedResult(moduleResult);
-            module.CompletionSource.TrySetResult(moduleResult);
 
             return moduleResult;
         }

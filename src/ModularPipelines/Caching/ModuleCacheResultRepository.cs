@@ -22,6 +22,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     private const string ResultEntryName = "result.json";
     private const string ArtifactPrefix = "artifacts/";
     private const int UnixFileTypeRegular = 0x8000;
+    private const int UnixFileTypeDirectory = 0x4000;
     private const int UnixPermissionMask = 0x0FFF;
     private readonly IModuleCacheStore _store;
     private readonly ModuleCacheOptions _options;
@@ -315,7 +316,12 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var relativePath = ModuleCacheFileResolver.GetRelativePath(_options.WorkingDirectory, directory);
             if (relativePath != ".")
             {
-                archive.CreateEntry($"{ArtifactPrefix}{relativePath.TrimEnd('/')}/");
+                var entry = archive.CreateEntry($"{ArtifactPrefix}{relativePath.TrimEnd('/')}/");
+                if (!OperatingSystem.IsWindows())
+                {
+                    entry.ExternalAttributes =
+                        (UnixFileTypeDirectory | (int) File.GetUnixFileMode(directory)) << 16;
+                }
             }
         }
 
@@ -390,7 +396,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
             }
 
-            RestoreUnixFileMode(entry, destination);
+            RestoreUnixMode(entry, destination, UnixFileTypeRegular);
+        }
+
+        foreach (var (entry, destination, _) in artifactEntries
+                     .Where(artifact => artifact.IsDirectory)
+                     .OrderByDescending(artifact => artifact.Destination.Length))
+        {
+            RestoreUnixMode(entry, destination, UnixFileTypeDirectory);
         }
     }
 
@@ -449,7 +462,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         return destination;
     }
 
-    private static void RestoreUnixFileMode(ZipArchiveEntry entry, string destination)
+    private static void RestoreUnixMode(
+        ZipArchiveEntry entry,
+        string destination,
+        int expectedFileType)
     {
         if (OperatingSystem.IsWindows())
         {
@@ -457,7 +473,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         }
 
         var unixAttributes = (entry.ExternalAttributes >> 16) & 0xFFFF;
-        if ((unixAttributes & UnixFileTypeRegular) == UnixFileTypeRegular)
+        if ((unixAttributes & expectedFileType) == expectedFileType)
         {
             var permissions = Enum.ToObject(
                 typeof(UnixFileMode),

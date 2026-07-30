@@ -217,8 +217,20 @@ public class ModuleCacheTests
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
-            Directory.CreateDirectory(
+            var nestedDirectory = Directory.CreateDirectory(
                 Path.Combine(WorkingDirectory, "empty-tree", "nested-empty"));
+            if (!OperatingSystem.IsWindows())
+            {
+                System.IO.File.SetUnixFileMode(
+                    nestedDirectory.FullName,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute
+                    | UnixFileMode.GroupRead
+                    | UnixFileMode.GroupWrite
+                    | UnixFileMode.GroupExecute);
+            }
+
             return Task.FromResult<string?>("result");
         }
     }
@@ -696,6 +708,18 @@ public class ModuleCacheTests
                     .IsTrue();
                 await Assert.That(Directory.EnumerateFiles(artifactDirectory, "*", SearchOption.AllDirectories))
                     .IsEmpty();
+                if (!OperatingSystem.IsWindows())
+                {
+                    await Assert.That(System.IO.File.GetUnixFileMode(
+                            Path.Combine(artifactDirectory, "nested-empty")))
+                        .IsEqualTo(
+                            UnixFileMode.UserRead
+                            | UnixFileMode.UserWrite
+                            | UnixFileMode.UserExecute
+                            | UnixFileMode.GroupRead
+                            | UnixFileMode.GroupWrite
+                            | UnixFileMode.GroupExecute);
+                }
             }
         }
         finally

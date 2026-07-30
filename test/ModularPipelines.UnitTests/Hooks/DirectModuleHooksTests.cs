@@ -219,6 +219,18 @@ public class DirectModuleHooksTests : TestBase
         }
     }
 
+    private class SelfAwaitingAfterHookModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<string?>("Success");
+
+        protected override async Task<ModuleResult<string>?> OnAfterExecuteAsync(
+            IModuleContext context,
+            ModuleResult<string> result,
+            CancellationToken cancellationToken) => await this;
+    }
+
     #endregion
 
     #region Tests
@@ -247,6 +259,18 @@ public class DirectModuleHooksTests : TestBase
         var executeIndex = module.HooksCalled.IndexOf("ExecuteAsync");
         var afterIndex = module.HooksCalled.IndexOf("OnAfterExecuteAsync");
         await Assert.That(executeIndex).IsLessThan(afterIndex);
+    }
+
+    [Test]
+    [Timeout(30_000)]
+    public async Task OnAfterExecuteAsync_Can_Await_Its_Own_Module(
+        CancellationToken cancellationToken)
+    {
+        var module = await RunModule<SelfAwaitingAfterHookModule>()
+            .WaitAsync(cancellationToken);
+        var result = await module;
+
+        await Assert.That(result.ValueOrDefault).IsEqualTo("Success");
     }
 
     [Test]
