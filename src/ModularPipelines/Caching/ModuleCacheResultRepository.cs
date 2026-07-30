@@ -297,11 +297,27 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         Type moduleType,
         CancellationToken cancellationToken)
     {
-        var files = ModuleCacheFileResolver.ResolveFiles(
+        var artifactPaths = GetArtifactPaths(moduleType).ToArray();
+        var directories = ModuleCacheFileResolver.ResolveDirectories(
             _options.WorkingDirectory,
-            GetArtifactPaths(moduleType),
+            artifactPaths,
             _options.MaximumInputFiles,
             _options.CacheDirectory);
+        var files = ModuleCacheFileResolver.ResolveFiles(
+            _options.WorkingDirectory,
+            artifactPaths,
+            _options.MaximumInputFiles,
+            _options.CacheDirectory);
+
+        foreach (var directory in directories)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var relativePath = ModuleCacheFileResolver.GetRelativePath(_options.WorkingDirectory, directory);
+            if (relativePath != ".")
+            {
+                archive.CreateEntry($"{ArtifactPrefix}{relativePath.TrimEnd('/')}/");
+            }
+        }
 
         foreach (var file in files)
         {
@@ -336,14 +352,31 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var root = Path.GetFullPath(_options.WorkingDirectory);
         var artifactEntries = archive.Entries
             .Where(entry => entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal))
-            .Select(entry => (Entry: entry, Destination: GetArtifactDestination(root, entry)))
+            .Select(entry => (
+                Entry: entry,
+                Destination: GetArtifactDestination(root, entry),
+                IsDirectory: entry.FullName.EndsWith("/", StringComparison.Ordinal)))
             .ToArray();
 
         ClearArtifacts(moduleType, cancellationToken);
 
-        foreach (var (entry, destination) in artifactEntries)
+        foreach (var (_, destination, isDirectory) in artifactEntries)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            if (isDirectory)
+            {
+                Directory.CreateDirectory(destination);
+            }
+        }
+
+        foreach (var (entry, destination, isDirectory) in artifactEntries)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (isDirectory)
+            {
+                continue;
+            }
+
             Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
             await using (var input = entry.Open())
             await using (var output = new FileStream(
@@ -363,9 +396,15 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
     private void ClearArtifacts(Type moduleType, CancellationToken cancellationToken)
     {
+        var artifactPaths = GetArtifactPaths(moduleType).ToArray();
+        var directories = ModuleCacheFileResolver.ResolveDirectories(
+            _options.WorkingDirectory,
+            artifactPaths,
+            _options.MaximumInputFiles,
+            _options.CacheDirectory);
         var files = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
-            GetArtifactPaths(moduleType),
+            artifactPaths,
             _options.MaximumInputFiles,
             _options.CacheDirectory);
 
@@ -373,6 +412,18 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         {
             cancellationToken.ThrowIfCancellationRequested();
             File.Delete(file);
+        }
+
+        var root = Path.GetFullPath(_options.WorkingDirectory);
+        foreach (var directory in directories.OrderByDescending(path => path.Length))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!PathComparer.Equals(root, directory)
+                && Directory.Exists(directory)
+                && !Directory.EnumerateFileSystemEntries(directory).Any())
+            {
+                Directory.Delete(directory);
+            }
         }
     }
 
@@ -425,4 +476,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         hash.AppendData(Encoding.UTF8.GetBytes(value));
         hash.AppendData([0xFF]);
     }
+
+    private static StringComparer PathComparer =>
+        OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
 }

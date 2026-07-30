@@ -175,6 +175,54 @@ public class ModuleCacheTests
         }
     }
 
+    [ProducesArtifact("skippable-output", "skippable-output.txt")]
+    private sealed class SkippableCachedModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static bool ShouldSkip;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            System.IO.File.WriteAllText(
+                Path.Combine(WorkingDirectory, "skippable-output.txt"),
+                "created");
+            return Task.FromResult<string?>("result");
+        }
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheKeyPart("skippable-v1")
+                .WithSkipWhen(_ => ShouldSkip
+                    ? SkipDecision.Skip("gate closed")
+                    : SkipDecision.DoNotSkip)
+                .Build();
+    }
+
+    [CacheInputs("empty-directory-input.txt")]
+    [ProducesArtifact("empty-tree", "empty-tree")]
+    private sealed class EmptyDirectoryArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            Directory.CreateDirectory(
+                Path.Combine(WorkingDirectory, "empty-tree", "nested-empty"));
+            return Task.FromResult<string?>("result");
+        }
+    }
+
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     private sealed class CachedDependentModule : Module<string>
     {
@@ -235,6 +283,43 @@ public class ModuleCacheTests
         }
         finally
         {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task FluentSkipConditionTakesPrecedenceOverCacheHit()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-skip-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        SkippableCachedModule.WorkingDirectory = temporaryDirectory;
+        SkippableCachedModule.ShouldSkip = false;
+        SkippableCachedModule.ExecutionCount = 0;
+
+        try
+        {
+            var firstResult = await RunSkippableCachePipelineAsync(temporaryDirectory);
+            var outputPath = Path.Combine(temporaryDirectory, "skippable-output.txt");
+            System.IO.File.Delete(outputPath);
+            SkippableCachedModule.ShouldSkip = true;
+
+            var secondResult = await RunSkippableCachePipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstResult.ModuleStatus).IsEqualTo(Status.Successful);
+                await Assert.That(secondResult.ModuleStatus).IsEqualTo(Status.Skipped);
+                await Assert.That(secondResult.SkipDecisionOrDefault?.Reason).IsEqualTo("gate closed");
+                await Assert.That(SkippableCachedModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(System.IO.File.Exists(outputPath)).IsFalse();
+            }
+        }
+        finally
+        {
+            SkippableCachedModule.ShouldSkip = false;
             Directory.Delete(temporaryDirectory, recursive: true);
         }
     }
@@ -580,6 +665,45 @@ public class ModuleCacheTests
         }
     }
 
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestorePreservesEmptyArtifactDirectories()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-empty-directory-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        EmptyDirectoryArtifactModule.WorkingDirectory = temporaryDirectory;
+        EmptyDirectoryArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "empty-directory-input.txt"),
+                "input");
+            await RunEmptyDirectoryArtifactPipelineAsync(temporaryDirectory);
+            var artifactDirectory = Path.Combine(temporaryDirectory, "empty-tree");
+            Directory.Delete(artifactDirectory, recursive: true);
+
+            var restoredStatus = await RunEmptyDirectoryArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(EmptyDirectoryArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(Directory.Exists(artifactDirectory)).IsTrue();
+                await Assert.That(Directory.Exists(Path.Combine(artifactDirectory, "nested-empty")))
+                    .IsTrue();
+                await Assert.That(Directory.EnumerateFiles(artifactDirectory, "*", SearchOption.AllDirectories))
+                    .IsEmpty();
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
     private static async Task<Status> RunPipelineAsync(string workingDirectory, string cacheDirectory)
     {
         await using var host = await TestPipelineHostBuilder.Create()
@@ -686,6 +810,41 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(ExecutableArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<IModuleResult> RunSkippableCachePipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<SkippableCachedModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(SkippableCachedModule))!;
+    }
+
+    private static async Task<Status> RunEmptyDirectoryArtifactPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<EmptyDirectoryArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(EmptyDirectoryArtifactModule))!
             .ModuleStatus;
     }
 }

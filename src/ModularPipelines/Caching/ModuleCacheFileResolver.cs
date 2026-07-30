@@ -61,6 +61,63 @@ internal static class ModuleCacheFileResolver
         return files.Order(PathComparer).ToArray();
     }
 
+    public static IReadOnlyList<string> ResolveDirectories(
+        string workingDirectory,
+        IEnumerable<string> patterns,
+        int maximumDirectories,
+        string? excludedDirectory = null)
+    {
+        if (maximumDirectories <= 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(maximumDirectories),
+                "The maximum directory count must be positive.");
+        }
+
+        var root = Path.GetFullPath(workingDirectory);
+        var excludedRoot = excludedDirectory is null ? null : Path.GetFullPath(excludedDirectory);
+        var directories = new HashSet<string>(PathComparer);
+        var globs = new List<Regex>();
+
+        foreach (var rawPattern in patterns)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(rawPattern);
+            var pattern = NormalizePattern(root, rawPattern);
+
+            if (pattern.IndexOfAny(['*', '?']) >= 0)
+            {
+                globs.Add(CreateGlobRegex(pattern));
+                continue;
+            }
+
+            var path = GetContainedPath(root, pattern);
+            if (!Directory.Exists(path))
+            {
+                continue;
+            }
+
+            AddDirectory(directories, path, maximumDirectories, excludedRoot);
+            foreach (var directory in Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories))
+            {
+                AddDirectory(directories, directory, maximumDirectories, excludedRoot);
+            }
+        }
+
+        if (globs.Count > 0)
+        {
+            foreach (var directory in Directory.EnumerateDirectories(root, "*", SearchOption.AllDirectories))
+            {
+                var relativePath = NormalizeSeparators(Path.GetRelativePath(root, directory));
+                if (globs.Any(regex => regex.IsMatch(relativePath)))
+                {
+                    AddDirectory(directories, directory, maximumDirectories, excludedRoot);
+                }
+            }
+        }
+
+        return directories.Order(PathComparer).ToArray();
+    }
+
     public static string GetRelativePath(string workingDirectory, string path)
     {
         var root = Path.GetFullPath(workingDirectory);
@@ -125,6 +182,26 @@ internal static class ModuleCacheFileResolver
             throw new InvalidOperationException(
                 $"Cache input expansion exceeded the configured limit of {maximumFiles:N0} files. "
                 + "Narrow the input globs or increase ModuleCacheOptions.MaximumInputFiles.");
+        }
+    }
+
+    private static void AddDirectory(
+        HashSet<string> directories,
+        string path,
+        int maximumDirectories,
+        string? excludedRoot)
+    {
+        var fullPath = Path.GetFullPath(path);
+        if (excludedRoot is not null && IsWithin(excludedRoot, fullPath))
+        {
+            return;
+        }
+
+        directories.Add(fullPath);
+        if (directories.Count > maximumDirectories)
+        {
+            throw new InvalidOperationException(
+                $"Cache artifact expansion exceeded the configured limit of {maximumDirectories:N0} directories.");
         }
     }
 

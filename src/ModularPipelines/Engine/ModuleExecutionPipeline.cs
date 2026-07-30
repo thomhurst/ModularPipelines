@@ -75,33 +75,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Setup cancellation based on AlwaysRun behavior
             SetupCancellation(config, executionContext, engineCancellationToken);
 
-            if (config.CacheEnabled && _cacheResultRepository is not null)
-            {
-                var cachedResult = await TryGetCachedResult(
-                        module,
-                        moduleContext,
-                        logger,
-                        executionContext.ModuleCancellationTokenSource.Token)
-                    .ConfigureAwait(false);
-                if (cachedResult is not null)
-                {
-                    var cacheHit = SkipDecision.Skip("Module cache hit");
-                    await _directHookInvoker.InvokeSkippedAsync(
-                            module,
-                            moduleContext,
-                            cacheHit,
-                            executionContext.ModuleCancellationTokenSource.Token)
-                        .ConfigureAwait(false);
-                    return UseHistoricalResult(
-                        module,
-                        executionContext,
-                        cachedResult,
-                        cacheHit,
-                        logger,
-                        "Using cached module result");
-                }
-            }
-
             // A required dependency can skip before this module reaches its own conditions.
             var skipDecision = executionContext.SkipResult;
             if (!skipDecision.ShouldSkip)
@@ -129,6 +102,33 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 await _directHookInvoker.InvokeSkippedAsync(module, moduleContext, skipDecision, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
                 return await HandleSkipped(module, executionContext, moduleContext, skipDecision, logger).ConfigureAwait(false);
+            }
+
+            if (config.CacheEnabled && _cacheResultRepository is not null)
+            {
+                var cachedResult = await TryGetCachedResult(
+                        module,
+                        moduleContext,
+                        logger,
+                        executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
+                if (cachedResult is not null)
+                {
+                    var cacheHit = SkipDecision.Skip("Module cache hit");
+                    await _directHookInvoker.InvokeSkippedAsync(
+                            module,
+                            moduleContext,
+                            cacheHit,
+                            executionContext.ModuleCancellationTokenSource.Token)
+                        .ConfigureAwait(false);
+                    return UseHistoricalResult(
+                        module,
+                        executionContext,
+                        cachedResult,
+                        cacheHit,
+                        logger,
+                        "Using cached module result");
+                }
             }
 
             // Check for cancellation after skip check
