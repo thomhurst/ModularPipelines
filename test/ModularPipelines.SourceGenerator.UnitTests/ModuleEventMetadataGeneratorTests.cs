@@ -87,6 +87,44 @@ public class ModuleEventMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Registered_Closed_Generic_Module_With_Inaccessible_Argument_Is_Skipped()
+    {
+        var result = GeneratorTestRunner.Run(
+            new ModuleEventMetadataGenerator(),
+            Infrastructure,
+            """
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    private sealed class PrivatePayload;
+
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        builder.AddModule<GenericModule<PrivatePayload>>();
+                    }
+                }
+            }
+            """);
+
+        var generated = string.Join(
+            Environment.NewLine,
+            result.GeneratedTrees.Select(static tree => tree.GetText().ToString()));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).DoesNotContain("GenericModule<global::Consumer.Registration.PrivatePayload>");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0007"
+                                        && diagnostic.GetMessage().Contains("PrivatePayload"));
+        }
+    }
+
+    [Test]
     public async Task Closed_Generic_Dependency_Emits_Event_Metadata()
     {
         var result = GeneratorTestRunner.Run(
@@ -114,6 +152,39 @@ public class ModuleEventMetadataGeneratorTests
                 .Contains("typeof(global::Consumer.GenericModule<int>)");
             await Assert.That(generated)
                 .Contains("new global::Consumer.MarkerAttribute()");
+        }
+    }
+
+    [Test]
+    public async Task Closed_Generic_Dependency_With_Inaccessible_Argument_Is_Skipped()
+    {
+        var result = GeneratorTestRunner.Run(
+            new ModuleEventMetadataGenerator(),
+            Infrastructure,
+            """
+            namespace Consumer
+            {
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Container
+                {
+                    private sealed class PrivatePayload;
+
+                    [ModularPipelines.Attributes.DependsOn<GenericModule<PrivatePayload>>]
+                    public sealed class ParentModule : ModularPipelines.Modules.Module<bool>;
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).DoesNotContain("GenericModule<global::Consumer.Container.PrivatePayload>");
+            await Assert.That(generated).Contains("typeof(global::Consumer.Container.ParentModule)");
+            await Assert.That(result.Diagnostics)
+                .Contains(diagnostic => diagnostic.Id == "MPG0007"
+                                        && diagnostic.GetMessage().Contains("PrivatePayload"));
         }
     }
 

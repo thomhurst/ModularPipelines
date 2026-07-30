@@ -180,7 +180,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
         bool allowConstructedGeneric)
     {
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-        if (!IsTypeDeclarationAccessible(type, compilation.Assembly))
+        if (!IsTypeAccessible(type, compilation.Assembly))
         {
             return new ModuleEventMetadataCandidate(typeName, location, Metadata: null);
         }
