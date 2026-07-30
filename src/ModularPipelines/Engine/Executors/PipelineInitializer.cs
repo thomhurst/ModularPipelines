@@ -1,5 +1,6 @@
 using System.Collections;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Constants;
 using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
@@ -20,6 +21,16 @@ internal class PipelineInitializer(
     IConsoleWriter consoleWriter,
     ISecretObfuscator secretObfuscator) : IPipelineInitializer
 {
+    private static readonly string[] SensitiveEnvironmentVariableNameParts =
+    [
+        "TOKEN",
+        "SECRET",
+        "PASSWORD",
+        "KEY",
+        "PWD",
+        "CREDENTIAL",
+    ];
+
     private static readonly Action<ILogger, BuildSystem, string, Exception?> LogDetectedBuildSystem =
         LoggerMessage.Define<BuildSystem, string>(
             LogLevel.Information,
@@ -62,18 +73,39 @@ internal class PipelineInitializer(
         };
 
         table.AddColumn(new TableColumn("[bold]Name[/]").LeftAligned());
-        table.AddColumn(new TableColumn("[bold]Value[/]").LeftAligned());
+        var valueColumn = new TableColumn("[bold]Value[/]").LeftAligned();
+        valueColumn.NoWrap = true;
+        table.AddColumn(valueColumn);
 
         foreach (var environmentVariable in variables
                      .Cast<DictionaryEntry>()
                      .OrderBy(entry => entry.Key?.ToString(), StringComparer.OrdinalIgnoreCase))
         {
+            var name = environmentVariable.Key?.ToString() ?? string.Empty;
+            var value = environmentVariable.Value?.ToString() ?? string.Empty;
+            var displayValue = IsSensitiveEnvironmentVariableName(name)
+                ? LoggingConstants.SecretMask
+                : MakeSingleLine(obfuscate(value));
+
             table.AddRow(
-                Markup.Escape(environmentVariable.Key?.ToString() ?? string.Empty),
-                Markup.Escape(obfuscate(environmentVariable.Value?.ToString() ?? string.Empty)));
+                new Text(name),
+                new Text(displayValue).Ellipsis());
         }
 
         return table;
+    }
+
+    private static bool IsSensitiveEnvironmentVariableName(string name)
+    {
+        return SensitiveEnvironmentVariableNameParts.Any(
+            part => name.Contains(part, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static string MakeSingleLine(string value)
+    {
+        return value
+            .Replace("\r", "\\r", StringComparison.Ordinal)
+            .Replace("\n", "\\n", StringComparison.Ordinal);
     }
 
     private async Task<OrganizedModules> InitializeInternal(CancellationToken cancellationToken)
