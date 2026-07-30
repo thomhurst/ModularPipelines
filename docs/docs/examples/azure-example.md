@@ -20,7 +20,7 @@ public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityRe
 {
     protected override async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAssignedIdentityProvisionResponse = await context.Azure().Provisioner.Security.UserAssignedIdentity(
+        var userAssignedIdentityProvisionResponse = await context.Tools.Azure.Provisioner.Security.UserAssignedIdentity(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
             new UserAssignedIdentityData(AzureLocation.UKSouth)
         );
@@ -37,7 +37,7 @@ public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 {
     protected override async Task<StorageAccountResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var blobStorageAccountProvisionResponse = await context.Azure().Provisioner.Storage.StorageAccount(
+        var blobStorageAccountProvisionResponse = await context.Tools.Azure.Provisioner.Storage.StorageAccount(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
             new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth)
         );
@@ -57,7 +57,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
     {
         var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
-        var blobContainerProvisionResponse = await context.Azure().Provisioner.Storage.BlobContainer(
+        var blobContainerProvisionResponse = await context.Tools.Azure.Provisioner.Storage.BlobContainer(
             blobStorageAccount.ValueOrDefault!.Id,
             "MyContainer",
             new BlobContainerData()
@@ -81,7 +81,7 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 
         var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
-        var roleAssignmentResource = await context.Azure().Provisioner.Security.RoleAssignment(
+        var roleAssignmentResource = await context.Tools.Azure.Provisioner.Security.RoleAssignment(
             storageAccount.ValueOrDefault!.Id,
             new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.ValueOrDefault!.Data.PrincipalId!.Value)
         );
@@ -106,7 +106,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
         var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
         var blobContainer = await context.GetModule<ProvisionBlobStorageContainerModule>();
 
-        var functionProvisionResponse = await context.Azure().Provisioner.Compute.WebSite(
+        var functionProvisionResponse = await context.Tools.Azure.Provisioner.Compute.WebSite(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),
             new WebSiteData(AzureLocation.UKSouth)
             {

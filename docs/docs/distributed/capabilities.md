@@ -60,7 +60,7 @@ public class DockerBuildModule : Module<string>
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Only executes on workers that advertise "docker"
-        await context.Docker().BuildAsync(new());
+        await context.Tools.Docker.BuildAsync(new());
         return "built";
     }
 }

@@ -13,7 +13,7 @@ title: trivy CLI reference
 dotnet add package ModularPipelines.Trivy
 ```
 
-Import `ModularPipelines.Trivy.Extensions`, then resolve the service with `context.Trivy()`.
+Resolve the service with `context.Tools.Trivy`. The `context.Trivy()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Trivy.Extensions`, then resolve the service with `conte
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Trivy.Extensions;
 using ModularPipelines.Trivy.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Trivy().CleanAsync(
+        return await context.Tools.Trivy.CleanAsync(
             new TrivyCleanOptions(),
             cancellationToken: cancellationToken);
     }

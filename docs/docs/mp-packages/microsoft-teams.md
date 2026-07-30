@@ -14,14 +14,13 @@ dotnet add package ModularPipelines.MicrosoftTeams
 
 ## Context entry points
 
-Import `ModularPipelines.MicrosoftTeams.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.MicrosoftTeams()`
+- `context.Tools.MicrosoftTeams`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.MicrosoftTeams.Extensions;
 
 public class UseMicrosoftTeamsModule : SyncModule<None>
 {
@@ -29,7 +28,7 @@ public class UseMicrosoftTeamsModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var microsoftTeams = context.MicrosoftTeams();
+        var microsoftTeams = context.Tools.MicrosoftTeams;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("MicrosoftTeams integration is ready");

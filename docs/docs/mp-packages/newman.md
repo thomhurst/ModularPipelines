@@ -16,14 +16,13 @@ Required command-line tool: `newman`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.Newman.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Newman()`
+- `context.Tools.Newman`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Newman.Extensions;
 
 public class UseNewmanModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseNewmanModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var newman = context.Newman();
+        var newman = context.Tools.Newman;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Newman integration is ready");

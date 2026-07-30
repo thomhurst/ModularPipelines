@@ -16,14 +16,13 @@ Required command-line tool: `packer`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.Packer.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Packer()`
+- `context.Tools.Packer`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Packer.Extensions;
 
 public class UsePackerModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UsePackerModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var packer = context.Packer();
+        var packer = context.Tools.Packer;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Packer integration is ready");

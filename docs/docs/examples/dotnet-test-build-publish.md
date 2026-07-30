@@ -13,7 +13,7 @@ public class NugetVersionGeneratorModule : Module<string>
 {
     protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
+        var gitVersionInformation = await context.Tools.Git.Versioning.GetGitVersioningInformation();
         return gitVersionInformation.FullSemVer;
     }
 }
@@ -28,7 +28,7 @@ public class PackProjectsModule : Module<CommandResult[]>
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
-        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var projects = repositoryInfo.Root
             .GetFiles(x =>
@@ -37,7 +37,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         return await projects
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async projectFile => await context.DotNet().PackAsync(new DotNetPackOptions
+            .SelectAsync(async projectFile => await context.Tools.DotNet.PackAsync(new DotNetPackOptions
             {
                 TargetPath = projectFile.Path,
                 IncludeSource = true,
@@ -61,13 +61,13 @@ public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
     protected override async Task<DotNetTestResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         return await repositoryInfo.Root
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
                               && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase))
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async unitTestProjectFile => await context.DotNet().TestAsync(new DotNetTestOptions
+            .SelectAsync(async unitTestProjectFile => await context.Tools.DotNet.TestAsync(new DotNetTestOptions
             {
                 TargetPath = unitTestProjectFile.Path,
                 Collect = "XPlat Code Coverage",
@@ -96,7 +96,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
-        var repositoryInfo = await context.Git().Information.GetInfoAsync()
+        var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var packages = repositoryInfo.Root
             .GetFiles(x =>

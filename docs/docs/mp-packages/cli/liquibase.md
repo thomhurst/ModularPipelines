@@ -13,7 +13,7 @@ title: liquibase CLI reference
 dotnet add package ModularPipelines.Liquibase
 ```
 
-Import `ModularPipelines.Liquibase.Extensions`, then resolve the service with `context.Liquibase()`.
+Resolve the service with `context.Tools.Liquibase`. The `context.Liquibase()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Liquibase.Extensions`, then resolve the service with `c
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Liquibase.Extensions;
 using ModularPipelines.Liquibase.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Liquibase().CalculateChecksumAsync(
+        return await context.Tools.Liquibase.CalculateChecksumAsync(
             new LiquibaseCalculateChecksumOptions(),
             cancellationToken: cancellationToken);
     }

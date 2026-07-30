@@ -16,9 +16,9 @@ Required command-line tool: `terraform`. It must be installed and available on `
 
 ## Context entry points
 
-Import `ModularPipelines.Terraform.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Terraform()`
+- `context.Tools.Terraform`
 
 ## Module example
 
@@ -26,7 +26,6 @@ Import `ModularPipelines.Terraform.Extensions`, then use this service from a mod
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Terraform.Extensions;
 using ModularPipelines.Terraform.Options;
 
 public class UseTerraformModule : Module<CommandResult>
@@ -35,7 +34,7 @@ public class UseTerraformModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Terraform().ValidateAsync(
+        return await context.Tools.Terraform.ValidateAsync(
             new TerraformValidateOptions(),
             cancellationToken: cancellationToken);
     }

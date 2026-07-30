@@ -31,7 +31,7 @@ public class PublishModule : Module<CommandResult>
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // This is real C#. Set a breakpoint. Inspect variables. Debug locally.
-        return await context.DotNet().PublishAsync(new DotNetPublishOptions
+        return await context.Tools.DotNet.PublishAsync(new DotNetPublishOptions
         {
             ProjectSolution = "src/MyApp/MyApp.csproj",
             Configuration = "Release",
@@ -77,7 +77,7 @@ public class BuildModule : Module<BuildInfo>
 {
     protected override async Task<BuildInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(
+        await context.Tools.DotNet.BuildAsync(
             new DotNetBuildOptions { ProjectSolution = "MyApp.csproj" },
             cancellationToken: cancellationToken);
         return new BuildInfo { Version = "1.0.0", OutputPath = "bin/Release" };

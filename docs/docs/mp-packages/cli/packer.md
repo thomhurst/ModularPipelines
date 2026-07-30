@@ -13,7 +13,7 @@ title: packer CLI reference
 dotnet add package ModularPipelines.Packer
 ```
 
-Import `ModularPipelines.Packer.Extensions`, then resolve the service with `context.Packer()`.
+Resolve the service with `context.Tools.Packer`. The `context.Packer()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Packer.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Packer.Extensions;
 using ModularPipelines.Packer.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Packer().ConsoleAsync(
+        return await context.Tools.Packer.ConsoleAsync(
             new PackerConsoleOptions(),
             cancellationToken: cancellationToken);
     }

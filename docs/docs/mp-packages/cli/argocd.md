@@ -13,7 +13,7 @@ title: argocd CLI reference
 dotnet add package ModularPipelines.ArgoCd
 ```
 
-Import `ModularPipelines.ArgoCd.Extensions`, then resolve the service with `context.ArgoCd()`.
+Resolve the service with `context.Tools.ArgoCd`. The `context.ArgoCd()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.ArgoCd.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.ArgoCd.Extensions;
 using ModularPipelines.ArgoCd.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.ArgoCd().ConfigureAsync(
+        return await context.Tools.ArgoCd.ConfigureAsync(
             new ArgoCdConfigureOptions(),
             cancellationToken: cancellationToken);
     }

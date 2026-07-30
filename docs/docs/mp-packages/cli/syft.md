@@ -13,7 +13,7 @@ title: syft CLI reference
 dotnet add package ModularPipelines.Syft
 ```
 
-Import `ModularPipelines.Syft.Extensions`, then resolve the service with `context.Syft()`.
+Resolve the service with `context.Tools.Syft`. The `context.Syft()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Syft.Extensions`, then resolve the service with `contex
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Syft.Extensions;
 using ModularPipelines.Syft.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Syft().AttestAsync(
+        return await context.Tools.Syft.AttestAsync(
             new SyftAttestOptions("value"),
             cancellationToken: cancellationToken);
     }

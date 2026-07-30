@@ -170,7 +170,7 @@ or `GetType`, because instance-member lookup would hide the generated property.
 `context.Tools.*` is the preferred discoverable API; the original extension method remains
 available for compatibility. Generated tool properties use C# 14 extension members. On
 older language versions, registration metadata still generates and `MPG0008` explains why
-the optional `Tools` property was skipped.
+the optional `Tools` property was skipped and names the `context.X()` compatibility accessor.
 
 Referencing the `ModularPipelines` package includes the source generator as an analyzer.
 The generator emits immutable assembly registration metadata, which each pipeline consumes

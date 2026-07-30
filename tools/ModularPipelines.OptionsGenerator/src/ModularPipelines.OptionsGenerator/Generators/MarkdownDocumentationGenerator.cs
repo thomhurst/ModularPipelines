@@ -65,7 +65,10 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine($"dotnet add package {tool.TargetNamespace}");
         sb.AppendLine("```");
         sb.AppendLine();
-        sb.AppendLine($"Import `{tool.TargetNamespace}.Extensions`, then resolve the service with `context.{tool.NamespacePrefix}()`.");
+        sb.AppendLine(
+            $"Resolve the service with `context.Tools.{tool.NamespacePrefix}`. "
+            + $"The `context.{tool.NamespacePrefix}()` extension method remains available "
+            + "as a compatibility fallback for projects older than C# 14.");
         sb.AppendLine();
         AppendExample(sb, tool);
         AppendGlobalOptions(sb, tool);
@@ -190,9 +193,8 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 + "A runnable example is omitted when no command has complete safety metadata:");
             sb.AppendLine();
             sb.AppendLine("```csharp");
-            sb.AppendLine($"using {tool.TargetNamespace}.Extensions;");
-            sb.AppendLine();
-            sb.AppendLine($"var {ToCamelCase(tool.NamespacePrefix)} = context.{tool.NamespacePrefix}();");
+            sb.AppendLine(
+                $"var {ToCamelCase(tool.NamespacePrefix)} = context.Tools.{tool.NamespacePrefix};");
             sb.AppendLine("```");
             sb.AppendLine();
             return;
@@ -205,7 +207,6 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Modules;");
-        sb.AppendLine($"using {tool.TargetNamespace}.Extensions;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
         sb.AppendLine();
         sb.AppendLine("public class RunCommandModule : Module<CommandResult>");
@@ -281,10 +282,10 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 }
 
                 var subDomain = GeneratorUtils.GetCommandGroupIdentifier(subDomainParent);
-                return $"context.{tool.NamespacePrefix}().{subDomain}.ExecuteAsync";
+                return $"context.Tools.{tool.NamespacePrefix}.{subDomain}.ExecuteAsync";
             }
 
-            return $"context.{tool.NamespacePrefix}().{GeneratorUtils.EnsureAsyncSuffix(rootMethod)}";
+            return $"context.Tools.{tool.NamespacePrefix}.{GeneratorUtils.EnsureAsyncSuffix(rootMethod)}";
         }
 
         var navigationSegments = new List<string>
@@ -304,11 +305,11 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
                 && IsCommandPrefix(command, candidate)))
         {
             navigationSegments.Add(GeneratorUtils.ToPascalCase(command.CommandParts[^1]));
-            return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.ExecuteAsync";
+            return $"context.Tools.{tool.NamespacePrefix}.{string.Join('.', navigationSegments)}.ExecuteAsync";
         }
 
         var methodName = GeneratorUtils.GenerateMethodNameFromLastCommandPart(command);
-        return $"context.{tool.NamespacePrefix}().{string.Join('.', navigationSegments)}.{GeneratorUtils.EnsureAsyncSuffix(methodName)}";
+        return $"context.Tools.{tool.NamespacePrefix}.{string.Join('.', navigationSegments)}.{GeneratorUtils.EnsureAsyncSuffix(methodName)}";
     }
 
     private static bool IsCommandPrefix(

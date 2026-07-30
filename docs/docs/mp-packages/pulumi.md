@@ -16,14 +16,13 @@ Required command-line tool: `pulumi`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.Pulumi.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Pulumi()`
+- `context.Tools.Pulumi`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Pulumi.Extensions;
 
 public class UsePulumiModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UsePulumiModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var pulumi = context.Pulumi();
+        var pulumi = context.Tools.Pulumi;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Pulumi integration is ready");

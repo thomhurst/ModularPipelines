@@ -16,14 +16,13 @@ Required command-line tool: `choco`. It must be installed and available on `PATH
 
 ## Context entry points
 
-Import `ModularPipelines.Chocolatey.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Choco()`
+- `context.Tools.Choco`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Chocolatey.Extensions;
 
 public class UseChocoModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseChocoModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var choco = context.Choco();
+        var choco = context.Tools.Choco;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Choco integration is ready");

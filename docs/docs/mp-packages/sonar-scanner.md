@@ -18,10 +18,9 @@ The `sonar-scanner` executable must be installed and available on `PATH` when th
 ## Run analysis
 
 ```csharp
-using ModularPipelines.SonarScanner.Extensions;
 using ModularPipelines.SonarScanner.Options;
 
-var result = await context.SonarScanner().ExecuteAsync(
+var result = await context.Tools.SonarScanner.ExecuteAsync(
     new SonarScannerExecuteOptions
     {
         ProjectKey = "example-project",

@@ -16,9 +16,9 @@ Required command-line tool: `gcloud`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.Google.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Gcloud()`
+- `context.Tools.Gcloud`
 
 ## Module example
 
@@ -26,7 +26,6 @@ Import `ModularPipelines.Google.Extensions`, then use this service from a module
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Google.Extensions;
 using ModularPipelines.Google.Options;
 
 public class UseGcloudModule : Module<CommandResult>
@@ -35,7 +34,7 @@ public class UseGcloudModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gcloud().InfoAsync(
+        return await context.Tools.Gcloud.InfoAsync(
             new GcloudInfoOptions
             {
                 Anonymize = true,

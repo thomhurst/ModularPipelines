@@ -16,13 +16,13 @@ Required command-line tools: `node`, `npm`, `npx`, `nvm`, and `pnpm`. Install th
 
 ## Context entry points
 
-Import `ModularPipelines.Node.Extensions`, then use these services from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Node()`
-- `context.Node().Npm`
-- `context.Node().Npx`
-- `context.Node().Nvm`
-- `context.Pnpm()`
+- `context.Tools.Node`
+- `context.Tools.Node.Npm`
+- `context.Tools.Node.Npx`
+- `context.Tools.Node.Nvm`
+- `context.Tools.Pnpm`
 
 ## Module example
 
@@ -30,7 +30,6 @@ Import `ModularPipelines.Node.Extensions`, then use these services from a module
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Node.Extensions;
 
 public class UseNodeModule : Module<CommandResult>
 {
@@ -38,7 +37,7 @@ public class UseNodeModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Node().VersionAsync(cancellationToken);
+        return await context.Tools.Node.VersionAsync(cancellationToken);
     }
 }
 ```

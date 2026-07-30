@@ -13,7 +13,7 @@ title: gh CLI reference
 dotnet add package ModularPipelines.GitHub
 ```
 
-Import `ModularPipelines.GitHub.Extensions`, then resolve the service with `context.Gh()`.
+Resolve the service with `context.Tools.Gh`. The `context.Gh()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.GitHub.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.GitHub.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gh().Config.ListAsync(
+        return await context.Tools.Gh.Config.ListAsync(
             new GhConfigListOptions(),
             cancellationToken: cancellationToken);
     }

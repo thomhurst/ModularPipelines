@@ -16,14 +16,13 @@ Required command-line tool: `vault`. It must be installed and available on `PATH
 
 ## Context entry points
 
-Import `ModularPipelines.Vault.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Vault()`
+- `context.Tools.Vault`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Vault.Extensions;
 
 public class UseVaultModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseVaultModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var vault = context.Vault();
+        var vault = context.Tools.Vault;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Vault integration is ready");

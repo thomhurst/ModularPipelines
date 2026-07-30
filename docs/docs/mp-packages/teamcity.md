@@ -14,14 +14,13 @@ dotnet add package ModularPipelines.TeamCity
 
 ## Context entry points
 
-Import `ModularPipelines.TeamCity.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.TeamCity()`
+- `context.Tools.TeamCity`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.TeamCity.Extensions;
 
 public class UseTeamCityModule : SyncModule<None>
 {
@@ -29,7 +28,7 @@ public class UseTeamCityModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var teamCity = context.TeamCity();
+        var teamCity = context.Tools.TeamCity;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("TeamCity integration is ready");

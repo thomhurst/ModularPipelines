@@ -16,14 +16,13 @@ Required command-line tool: `yq`. It must be installed and available on `PATH` w
 
 ## Context entry points
 
-Import `ModularPipelines.Yq.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Yq()`
+- `context.Tools.Yq`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Yq.Extensions;
 
 public class UseYqModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseYqModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var yq = context.Yq();
+        var yq = context.Tools.Yq;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Yq integration is ready");

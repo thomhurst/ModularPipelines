@@ -179,6 +179,7 @@ public class ModularPipelinesIntegrationGeneratorTests
             await Assert.That(diagnostic.Id).IsEqualTo("MPG0008");
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Warning);
             await Assert.That(diagnostic.GetMessage()).Contains("C# 14");
+            await Assert.That(diagnostic.GetMessage()).Contains("context.Git()");
             await Assert.That(generatedSource).DoesNotContain("extension(");
             await Assert.That(generatedSource)
                 .Contains("global::GitIntegration.Register(services);");

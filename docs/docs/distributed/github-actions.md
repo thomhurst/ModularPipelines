@@ -76,8 +76,6 @@ If you have a Redis instance accessible from the internet (or via a VPN), use it
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Distributed.Extensions;
-using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -113,7 +111,7 @@ public class RestoreModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().RestoreAsync(new());
+        await context.Tools.DotNet.RestoreAsync(new());
         return "restored";
     }
 }
@@ -125,8 +123,8 @@ public class LinuxBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(new());
-        await context.DotNet().TestAsync(new());
+        await context.Tools.DotNet.BuildAsync(new());
+        await context.Tools.DotNet.TestAsync(new());
         return "linux-ok";
     }
 }
@@ -138,8 +136,8 @@ public class WindowsBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(new());
-        await context.DotNet().TestAsync(new());
+        await context.Tools.DotNet.BuildAsync(new());
+        await context.Tools.DotNet.TestAsync(new());
         return "windows-ok";
     }
 }
@@ -151,8 +149,8 @@ public class MacBuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(new());
-        await context.DotNet().TestAsync(new());
+        await context.Tools.DotNet.BuildAsync(new());
+        await context.Tools.DotNet.TestAsync(new());
         return "macos-ok";
     }
 }

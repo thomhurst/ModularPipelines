@@ -13,7 +13,7 @@ title: kustomize CLI reference
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Import `ModularPipelines.Kubernetes.Extensions`, then resolve the service with `context.Kustomize()`.
+Resolve the service with `context.Tools.Kustomize`. The `context.Kustomize()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Kubernetes.Extensions`, then resolve the service with `
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Kubernetes.Extensions;
 using ModularPipelines.Kubernetes.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kustomize().BuildAsync(
+        return await context.Tools.Kustomize.BuildAsync(
             new KustomizeBuildOptions(),
             cancellationToken: cancellationToken);
     }

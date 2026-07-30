@@ -16,14 +16,13 @@ Required command-line tool: `minikube`. It must be installed and available on `P
 
 ## Context entry points
 
-Import `ModularPipelines.Minikube.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Minikube()`
+- `context.Tools.Minikube`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Minikube.Extensions;
 
 public class UseMinikubeModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseMinikubeModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var minikube = context.Minikube();
+        var minikube = context.Tools.Minikube;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Minikube integration is ready");

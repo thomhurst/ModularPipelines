@@ -13,7 +13,7 @@ title: flyway CLI reference
 dotnet add package ModularPipelines.Flyway
 ```
 
-Import `ModularPipelines.Flyway.Extensions`, then resolve the service with `context.Flyway()`.
+Resolve the service with `context.Tools.Flyway`. The `context.Flyway()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Flyway.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Flyway.Extensions;
 using ModularPipelines.Flyway.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Flyway().InfoAsync(
+        return await context.Tools.Flyway.InfoAsync(
             new FlywayInfoOptions(),
             cancellationToken: cancellationToken);
     }

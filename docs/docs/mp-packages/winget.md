@@ -16,14 +16,13 @@ Required command-line tool: `winget`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.WinGet.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Winget()`
+- `context.Tools.Winget`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.WinGet.Extensions;
 
 public class UseWingetModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseWingetModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var winget = context.Winget();
+        var winget = context.Tools.Winget;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Winget integration is ready");

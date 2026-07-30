@@ -13,7 +13,7 @@ title: shellcheck CLI reference
 dotnet add package ModularPipelines.Shellcheck
 ```
 
-Import `ModularPipelines.Shellcheck.Extensions`, then resolve the service with `context.Shellcheck()`.
+Resolve the service with `context.Tools.Shellcheck`. The `context.Shellcheck()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Shellcheck.Extensions`, then resolve the service with `
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Shellcheck.Extensions;
 using ModularPipelines.Shellcheck.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Shellcheck().ExecuteAsync(
+        return await context.Tools.Shellcheck.ExecuteAsync(
             new ShellcheckExecuteOptions(),
             cancellationToken: cancellationToken);
     }

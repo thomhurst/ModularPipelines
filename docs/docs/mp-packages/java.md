@@ -18,11 +18,10 @@ The `mvn` or `gradle` executable must be installed and available on `PATH` when 
 
 ```csharp
 using ModularPipelines.Java.Enums;
-using ModularPipelines.Java.Extensions;
 using ModularPipelines.Java.Options;
 using ModularPipelines.Models;
 
-var result = await context.Maven().ExecuteAsync(
+var result = await context.Tools.Maven.ExecuteAsync(
     new MavenExecuteOptions
     {
         BatchMode = true,
@@ -42,7 +41,7 @@ mvn --batch-mode --color never --define skipTests=true clean verify
 ## Gradle
 
 ```csharp
-var result = await context.Gradle().ExecuteAsync(
+var result = await context.Tools.Gradle.ExecuteAsync(
     new GradleExecuteOptions
     {
         Console = GradleConsole.Plain,

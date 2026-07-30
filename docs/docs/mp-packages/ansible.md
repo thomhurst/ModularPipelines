@@ -17,10 +17,9 @@ The `ansible` executable must be installed and available on `PATH` when the pipe
 ## Run an ad-hoc command
 
 ```csharp
-using ModularPipelines.Ansible.Extensions;
 using ModularPipelines.Ansible.Options;
 
-var result = await context.Ansible().ExecuteAsync(
+var result = await context.Tools.Ansible.ExecuteAsync(
     new AnsibleExecuteOptions("webservers")
     {
         Inventory = ["hosts.ini"],

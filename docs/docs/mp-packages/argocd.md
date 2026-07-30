@@ -20,10 +20,9 @@ The `argocd` executable must be installed and available on `PATH` when the pipel
 
 ```csharp
 using ModularPipelines.ArgoCd.Enums;
-using ModularPipelines.ArgoCd.Extensions;
 using ModularPipelines.ArgoCd.Options;
 
-var result = await context.ArgoCd().App.GetAsync(
+var result = await context.Tools.ArgoCd.App.GetAsync(
     new ArgoCdAppGetOptions("guestbook")
     {
         AppNamespace = "argocd",
@@ -42,7 +41,7 @@ argocd app get guestbook --app-namespace=argocd --output=json --refresh
 ## Create ApplicationSets
 
 ```csharp
-var result = await context.ArgoCd().ApplicationSet.CreateAsync(
+var result = await context.Tools.ArgoCd.ApplicationSet.CreateAsync(
     new ArgoCdApplicationSetCreateOptions(["apps.yaml", "more-apps.yaml"])
     {
         DryRun = true,

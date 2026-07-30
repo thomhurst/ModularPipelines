@@ -13,7 +13,7 @@ title: helm CLI reference
 dotnet add package ModularPipelines.Helm
 ```
 
-Import `ModularPipelines.Helm.Extensions`, then resolve the service with `context.Helm()`.
+Resolve the service with `context.Tools.Helm`. The `context.Helm()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Helm.Extensions`, then resolve the service with `contex
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Helm.Extensions;
 using ModularPipelines.Helm.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Helm().EnvAsync(
+        return await context.Tools.Helm.EnvAsync(
             new HelmEnvOptions(),
             cancellationToken: cancellationToken);
     }

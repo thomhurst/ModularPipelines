@@ -13,7 +13,7 @@ title: az CLI reference
 dotnet add package ModularPipelines.Azure
 ```
 
-Import `ModularPipelines.Azure.Extensions`, then resolve the service with `context.Az()`.
+Resolve the service with `context.Tools.Az`. The `context.Az()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Azure.Extensions`, then resolve the service with `conte
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Azure.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Az().Account.ListAsync(
+        return await context.Tools.Az.Account.ListAsync(
             new AzAccountListOptions(),
             cancellationToken: cancellationToken);
     }

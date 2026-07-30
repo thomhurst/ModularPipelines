@@ -13,7 +13,7 @@ title: snyk CLI reference
 dotnet add package ModularPipelines.Snyk
 ```
 
-Import `ModularPipelines.Snyk.Extensions`, then resolve the service with `context.Snyk()`.
+Resolve the service with `context.Tools.Snyk`. The `context.Snyk()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Snyk.Extensions`, then resolve the service with `contex
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Snyk.Extensions;
 using ModularPipelines.Snyk.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Snyk().AuthAsync(
+        return await context.Tools.Snyk.AuthAsync(
             new SnykAuthOptions(),
             cancellationToken: cancellationToken);
     }

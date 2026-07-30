@@ -16,7 +16,6 @@ Install the package and invoke ShellCheck through the pipeline context:
 
 ```csharp
 using ModularPipelines.Shellcheck.Enums;
-using ModularPipelines.Shellcheck.Extensions;
 using ModularPipelines.Shellcheck.Options;
 
 public class CheckShellScriptsModule : Module<CommandResult>
@@ -25,7 +24,7 @@ public class CheckShellScriptsModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Shellcheck().ExecuteAsync(
+        return await context.Tools.Shellcheck.ExecuteAsync(
             new ShellcheckExecuteOptions
             {
                 Files = ["scripts/build.sh", "scripts/deploy.sh"],

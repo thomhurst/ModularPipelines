@@ -16,9 +16,9 @@ Required command-line tool: `docker`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.Docker.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Docker()`
+- `context.Tools.Docker`
 
 ## Module example
 
@@ -26,7 +26,6 @@ Import `ModularPipelines.Docker.Extensions`, then use this service from a module
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Docker.Extensions;
 using ModularPipelines.Docker.Options;
 
 public class UseDockerModule : Module<CommandResult>
@@ -35,7 +34,7 @@ public class UseDockerModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Docker().InfoAsync(
+        return await context.Tools.Docker.InfoAsync(
             new DockerInfoOptions(),
             cancellationToken: cancellationToken);
     }

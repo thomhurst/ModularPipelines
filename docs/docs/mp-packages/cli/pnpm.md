@@ -13,7 +13,7 @@ title: pnpm CLI reference
 dotnet add package ModularPipelines.Node
 ```
 
-Import `ModularPipelines.Node.Extensions`, then resolve the service with `context.Pnpm()`.
+Resolve the service with `context.Tools.Pnpm`. The `context.Pnpm()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Node.Extensions`, then resolve the service with `contex
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Node.Extensions;
 using ModularPipelines.Node.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pnpm().AuditAsync(
+        return await context.Tools.Pnpm.AuditAsync(
             new PnpmAuditOptions
             {
                 AuditLevel = "high",

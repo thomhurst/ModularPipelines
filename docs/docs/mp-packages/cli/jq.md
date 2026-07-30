@@ -13,7 +13,7 @@ title: jq CLI reference
 dotnet add package ModularPipelines.Jq
 ```
 
-Import `ModularPipelines.Jq.Extensions`, then resolve the service with `context.Jq()`.
+Resolve the service with `context.Tools.Jq`. The `context.Jq()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Jq.Extensions`, then resolve the service with `context.
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Jq.Extensions;
 using ModularPipelines.Jq.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Jq().ExecuteAsync(
+        return await context.Tools.Jq.ExecuteAsync(
             new JqExecuteOptions(),
             cancellationToken: cancellationToken);
     }

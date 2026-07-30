@@ -13,7 +13,7 @@ title: terraform CLI reference
 dotnet add package ModularPipelines.Terraform
 ```
 
-Import `ModularPipelines.Terraform.Extensions`, then resolve the service with `context.Terraform()`.
+Resolve the service with `context.Tools.Terraform`. The `context.Terraform()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Terraform.Extensions`, then resolve the service with `c
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Terraform.Extensions;
 using ModularPipelines.Terraform.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Terraform().ValidateAsync(
+        return await context.Tools.Terraform.ValidateAsync(
             new TerraformValidateOptions(),
             cancellationToken: cancellationToken);
     }

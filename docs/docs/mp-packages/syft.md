@@ -16,14 +16,13 @@ Required command-line tool: `syft`. It must be installed and available on `PATH`
 
 ## Context entry points
 
-Import `ModularPipelines.Syft.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Syft()`
+- `context.Tools.Syft`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Syft.Extensions;
 
 public class UseSyftModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseSyftModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var syft = context.Syft();
+        var syft = context.Tools.Syft;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Syft integration is ready");

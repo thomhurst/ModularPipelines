@@ -10,7 +10,6 @@ Install the package and access Liquibase through the pipeline context:
 
 ```csharp
 using ModularPipelines.Liquibase.Enums;
-using ModularPipelines.Liquibase.Extensions;
 using ModularPipelines.Liquibase.Options;
 using ModularPipelines.Models;
 
@@ -20,7 +19,7 @@ public class UpdateDatabaseModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Liquibase().UpdateAsync(
+        return await context.Tools.Liquibase.UpdateAsync(
             new LiquibaseUpdateOptions
             {
                 ChangelogFile = "db/changelog.xml",

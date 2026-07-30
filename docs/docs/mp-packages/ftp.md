@@ -14,14 +14,13 @@ dotnet add package ModularPipelines.Ftp
 
 ## Context entry points
 
-Import `ModularPipelines.Ftp.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Ftp()`
+- `context.Tools.Ftp`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Ftp.Extensions;
 
 public class UseFtpModule : SyncModule<None>
 {
@@ -29,7 +28,7 @@ public class UseFtpModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var ftp = context.Ftp();
+        var ftp = context.Tools.Ftp;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Ftp integration is ready");

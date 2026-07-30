@@ -13,7 +13,7 @@ title: sonar-scanner CLI reference
 dotnet add package ModularPipelines.SonarScanner
 ```
 
-Import `ModularPipelines.SonarScanner.Extensions`, then resolve the service with `context.SonarScanner()`.
+Resolve the service with `context.Tools.SonarScanner`. The `context.SonarScanner()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.SonarScanner.Extensions`, then resolve the service with
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.SonarScanner.Extensions;
 using ModularPipelines.SonarScanner.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.SonarScanner().ExecuteAsync(
+        return await context.Tools.SonarScanner.ExecuteAsync(
             new SonarScannerExecuteOptions(),
             cancellationToken: cancellationToken);
     }

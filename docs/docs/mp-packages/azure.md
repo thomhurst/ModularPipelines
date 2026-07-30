@@ -16,10 +16,10 @@ Required command-line tool: `az`. It must be installed and available on `PATH` w
 
 ## Context entry points
 
-Import `ModularPipelines.Azure.Extensions`, then use these services from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Azure()`
-- `context.Az()`
+- `context.Tools.Azure`
+- `context.Tools.Az`
 
 ## Module example
 
@@ -27,7 +27,6 @@ Import `ModularPipelines.Azure.Extensions`, then use these services from a modul
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Azure.Options;
 
 public class UseAzureModule : Module<CommandResult>
@@ -36,7 +35,7 @@ public class UseAzureModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Az().Account.ListAsync(
+        return await context.Tools.Az.Account.ListAsync(
             new AzAccountListOptions(),
             cancellationToken: cancellationToken);
     }

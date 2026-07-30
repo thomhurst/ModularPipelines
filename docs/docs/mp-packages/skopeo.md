@@ -16,14 +16,13 @@ Required command-line tool: `skopeo`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.Skopeo.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Skopeo()`
+- `context.Tools.Skopeo`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Skopeo.Extensions;
 
 public class UseSkopeoModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseSkopeoModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var skopeo = context.Skopeo();
+        var skopeo = context.Tools.Skopeo;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Skopeo integration is ready");

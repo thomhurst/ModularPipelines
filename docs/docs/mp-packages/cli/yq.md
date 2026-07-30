@@ -13,7 +13,7 @@ title: yq CLI reference
 dotnet add package ModularPipelines.Yq
 ```
 
-Import `ModularPipelines.Yq.Extensions`, then resolve the service with `context.Yq()`.
+Resolve the service with `context.Tools.Yq`. The `context.Yq()` extension method remains available as a compatibility fallback for projects older than C# 14.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Yq.Extensions`, then resolve the service with `context.
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Yq.Extensions;
 using ModularPipelines.Yq.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Yq().EvalAllAsync(
+        return await context.Tools.Yq.EvalAllAsync(
             new YqEvalAllOptions(),
             cancellationToken: cancellationToken);
     }

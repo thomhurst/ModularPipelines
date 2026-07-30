@@ -16,9 +16,9 @@ Required command-line tool: `cargo`. It must be installed and available on `PATH
 
 ## Context entry points
 
-Import `ModularPipelines.Rust.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Cargo()`
+- `context.Tools.Cargo`
 
 ## Module example
 
@@ -26,7 +26,6 @@ Import `ModularPipelines.Rust.Extensions`, then use this service from a module:
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Rust.Extensions;
 using ModularPipelines.Rust.Options;
 
 public class UseCargoModule : Module<CommandResult>
@@ -35,7 +34,7 @@ public class UseCargoModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Cargo().CheckAsync(
+        return await context.Tools.Cargo.CheckAsync(
             new CargoCheckOptions
             {
                 Quiet = true,

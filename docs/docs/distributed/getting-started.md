@@ -30,8 +30,6 @@ This brings in `ModularPipelines.Distributed` (core distributed abstractions) an
 In your `Program.cs`, enable distributed mode and register the Redis coordinator:
 
 ```csharp
-using ModularPipelines.Distributed.Extensions;
-using ModularPipelines.Distributed.Redis.Extensions;
 
 using var builder = Pipeline.CreateBuilder(args);
 
@@ -113,8 +111,6 @@ Here is a self-contained pipeline with three modules:
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Distributed.Extensions;
-using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -147,7 +143,7 @@ public class RestoreModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().RestoreAsync(new());
+        await context.Tools.DotNet.RestoreAsync(new());
         return "restored";
     }
 }
@@ -158,7 +154,7 @@ public class BuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(new());
+        await context.Tools.DotNet.BuildAsync(new());
         return "built";
     }
 }
@@ -169,7 +165,7 @@ public class TestModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().TestAsync(new());
+        await context.Tools.DotNet.TestAsync(new());
         return "tested";
     }
 }

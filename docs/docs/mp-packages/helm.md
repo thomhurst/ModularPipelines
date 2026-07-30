@@ -16,9 +16,9 @@ Required command-line tool: `helm`. It must be installed and available on `PATH`
 
 ## Context entry points
 
-Import `ModularPipelines.Helm.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Helm()`
+- `context.Tools.Helm`
 
 ## Module example
 
@@ -26,7 +26,6 @@ Import `ModularPipelines.Helm.Extensions`, then use this service from a module:
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Helm.Extensions;
 using ModularPipelines.Helm.Options;
 
 public class UseHelmModule : Module<CommandResult>
@@ -35,7 +34,7 @@ public class UseHelmModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Helm().EnvAsync(
+        return await context.Tools.Helm.EnvAsync(
             new HelmEnvOptions(),
             cancellationToken: cancellationToken);
     }

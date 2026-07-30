@@ -306,7 +306,8 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
                 UnsupportedToolsLanguageVersion,
                 firstProperty.Location,
                 firstProperty.MethodName,
-                GetLanguageVersionDisplay(parseOptions)));
+                GetLanguageVersionDisplay(parseOptions),
+                firstProperty.Name));
         }
         else if (uniqueToolProperties.Length > 0)
         {
