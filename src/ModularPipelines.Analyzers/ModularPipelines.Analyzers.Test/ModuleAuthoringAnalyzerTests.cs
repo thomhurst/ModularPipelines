@@ -2299,6 +2299,80 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Unflowed_Token_In_Task_Returning_Member_Helper()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await WorkAsync(cancellationToken);
+                return null;
+            }
+
+                private static Task WorkAsync(CancellationToken cancellationToken) =>
+                    {|#0:FetchAsync()|};
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_In_Inherited_Member_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public abstract class BaseModule : Module<List<string>?>
+            {
+                protected async Task WorkAsync(CancellationToken cancellationToken)
+                {
+                    await {|#0:Task.Delay(1)|};
+                    {|#1:Thread.Sleep(1)|};
+                }
+            }
+
+            public class BuildModule : BaseModule
+            {
+                protected override async Task<List<string>?> ExecuteAsync(
+                    IModuleContext context,
+                    CancellationToken cancellationToken)
+                {
+                    await WorkAsync(cancellationToken);
+                    return null;
+                }
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+            """;
+
+        var unflowedToken = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        var blockingCall = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(1);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            unflowedToken,
+            blockingCall);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Async_Safety_In_Unused_Member_Helper()
     {
         var source = ModuleSource("""

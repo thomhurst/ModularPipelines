@@ -49,6 +49,11 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentDictionary<INamedTypeSymbol, ImmutableHashSet<IMethodSymbol>>>
         ReachableMemberMethods = new();
 
+    private static readonly ConditionalWeakTable<
+        Compilation,
+        Lazy<ImmutableArray<IMethodSymbol>>>
+        ModuleExecuteMethods = new();
+
     public static void InitializeRegistrationAnalysis(AnalysisContext context)
     {
         context.RegisterCompilationStartAction(StartRegistrationAnalysis);
@@ -61,6 +66,7 @@ internal static class ModuleAuthoringAnalysis
         context.RegisterOperationAction(AnalyzePropertyReference, OperationKind.PropertyReference);
         context.RegisterOperationAction(AnalyzeAwait, OperationKind.Await);
         context.RegisterOperationAction(AnalyzeForEachLoop, OperationKind.Loop);
+        context.RegisterOperationAction(AnalyzeReturn, OperationKind.Return);
     }
 
     public static void InitializeDuplicateDependencyAnalysis(AnalysisContext context)
@@ -283,6 +289,23 @@ internal static class ModuleAuthoringAnalysis
             context,
             executionMethod,
             GetAwaitedInvocations(loop.Collection));
+    }
+
+    private static void AnalyzeReturn(OperationAnalysisContext context)
+    {
+        if (context.ContainingSymbol is not IMethodSymbol method
+            || method.MethodKind != MethodKind.Ordinary
+            || method.IsAsync
+            || GetModuleExecutionMethod(context) is not { } executionMethod
+            || context.Operation is not IReturnOperation { ReturnedValue: { } returnedValue })
+        {
+            return;
+        }
+
+        AnalyzeCancellationInvocations(
+            context,
+            executionMethod,
+            GetAwaitedInvocations(returnedValue));
     }
 
     private static void AnalyzeCancellationInvocations(
@@ -1778,29 +1801,66 @@ internal static class ModuleAuthoringAnalysis
         IMethodSymbol targetMethod,
         out IMethodSymbol executeMethod)
     {
-        executeMethod = targetMethod.ContainingType.GetMembers(
-                AnalyzerConstants.MethodNames.ExecuteAsync)
-            .OfType<IMethodSymbol>()
-            .FirstOrDefault(method =>
-                method.IsOverride
-                && method.OverriddenMethod?.ContainingType.IsModule(context.Compilation) == true)!;
-        if (executeMethod is null)
-        {
-            return false;
-        }
-
         var cache = ReachableMemberMethods.GetValue(
             context.Compilation,
             static _ => new(SymbolEqualityComparer.Default));
-        var rootExecuteMethod = executeMethod;
-        var reachable = cache.GetOrAdd(
-            targetMethod.ContainingType,
-            _ => GetReachableMemberMethods(
-                rootExecuteMethod,
-                context.Compilation,
-                context.CancellationToken));
 
-        return reachable.Contains(targetMethod);
+        foreach (var candidate in GetModuleExecuteMethods(context.Compilation)
+                     .Where(method =>
+                         method.ContainingType.InheritsFrom(targetMethod.ContainingType)))
+        {
+            var rootExecuteMethod = candidate;
+            var reachable = cache.GetOrAdd(
+                candidate.ContainingType,
+                _ => GetReachableMemberMethods(
+                    rootExecuteMethod,
+                    context.Compilation,
+                    context.CancellationToken));
+            if (reachable.Contains(targetMethod))
+            {
+                executeMethod = candidate;
+                return true;
+            }
+        }
+
+        executeMethod = null!;
+        return false;
+    }
+
+    private static ImmutableArray<IMethodSymbol> GetModuleExecuteMethods(
+        Compilation compilation)
+    {
+        return ModuleExecuteMethods.GetValue(
+            compilation,
+            static currentCompilation => new Lazy<ImmutableArray<IMethodSymbol>>(
+                () => [.. GetNamedTypes(currentCompilation.Assembly.GlobalNamespace)
+                    .SelectMany(type => type.GetMembers(
+                        AnalyzerConstants.MethodNames.ExecuteAsync))
+                    .OfType<IMethodSymbol>()
+                    .Where(method => IsModuleExecuteAsync(method, currentCompilation))])).Value;
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetNamedTypes(
+        INamespaceOrTypeSymbol container)
+    {
+        foreach (var member in container.GetMembers())
+        {
+            if (member is INamedTypeSymbol type)
+            {
+                yield return type;
+                foreach (var nestedType in GetNamedTypes(type))
+                {
+                    yield return nestedType;
+                }
+            }
+            else if (member is INamespaceSymbol namespaceSymbol)
+            {
+                foreach (var namespaceType in GetNamedTypes(namespaceSymbol))
+                {
+                    yield return namespaceType;
+                }
+            }
+        }
     }
 
     private static ImmutableHashSet<IMethodSymbol> GetReachableMemberMethods(
@@ -1808,7 +1868,8 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         CancellationToken cancellationToken)
     {
-        var memberMethods = executeMethod.ContainingType.GetMembers()
+        var memberMethods = GetModuleTypeHierarchy(executeMethod.ContainingType, compilation)
+            .SelectMany(static type => type.GetMembers())
             .OfType<IMethodSymbol>()
             .Where(static method =>
                 method.MethodKind == MethodKind.Ordinary
@@ -1844,6 +1905,18 @@ internal static class ModuleAuthoringAnalysis
         return ImmutableHashSet.CreateRange<IMethodSymbol>(
             SymbolEqualityComparer.Default,
             reachable);
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetModuleTypeHierarchy(
+        INamedTypeSymbol moduleType,
+        Compilation compilation)
+    {
+        for (var type = moduleType;
+             type is not null && type.IsModule(compilation);
+             type = type.BaseType)
+        {
+            yield return type;
+        }
     }
 
     private static IOperation? GetMethodOperation(
