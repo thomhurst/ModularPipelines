@@ -27,6 +27,16 @@ public interface IFileSystemProvider
     void DeleteFile(string path);
     void CopyFile(string sourcePath, string destinationPath, bool overwrite);
     void MoveFile(string sourcePath, string destinationPath);
+    void MoveFile(string sourcePath, string destinationPath, bool overwrite)
+    {
+        if (overwrite && FileExists(destinationPath))
+        {
+            DeleteFile(destinationPath);
+        }
+
+        MoveFile(sourcePath, destinationPath);
+    }
+
     bool FileExists(string path);
 
     // Directory operations

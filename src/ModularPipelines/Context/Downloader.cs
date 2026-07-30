@@ -44,10 +44,23 @@ internal class Downloader : IDownloaderContext
                 throw new IOException($"{filePathToSave} already exists and overwrite is false");
             }
 
-            var newFile = _fileSystemProvider.Create(filePathToSave);
-            await using (newFile.ConfigureAwait(false))
+            var temporaryPath = filePathToSave + "." + _fileSystemProvider.GetRandomFileName() + ".download";
+            try
             {
-                await stream.CopyToAsync(newFile, cancellationToken).ConfigureAwait(false);
+                var newFile = _fileSystemProvider.Create(temporaryPath);
+                await using (newFile.ConfigureAwait(false))
+                {
+                    await stream.CopyToAsync(newFile, cancellationToken).ConfigureAwait(false);
+                }
+
+                _fileSystemProvider.MoveFile(temporaryPath, filePathToSave, options.Overwrite);
+            }
+            finally
+            {
+                if (_fileSystemProvider.FileExists(temporaryPath))
+                {
+                    _fileSystemProvider.DeleteFile(temporaryPath);
+                }
             }
 
             _moduleLoggerProvider.GetLogger().LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);

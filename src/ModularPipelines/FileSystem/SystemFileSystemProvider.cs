@@ -61,6 +61,9 @@ public sealed class SystemFileSystemProvider : IFileSystemProvider
     public void MoveFile(string sourcePath, string destinationPath)
         => System.IO.File.Move(sourcePath, destinationPath);
 
+    public void MoveFile(string sourcePath, string destinationPath, bool overwrite)
+        => System.IO.File.Move(sourcePath, destinationPath, overwrite);
+
     public bool FileExists(string path)
         => System.IO.File.Exists(path);
 

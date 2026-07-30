@@ -69,6 +69,67 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    public async Task DownloadFileAsync_PreservesExistingFileWhenStreamingFails()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"modular-pipelines-download-{Guid.NewGuid():N}");
+        var destination = Path.Combine(directory, "download.bin");
+        Directory.CreateDirectory(directory);
+        await System.IO.File.WriteAllTextAsync(destination, "original");
+
+        try
+        {
+            var content = new StreamContent(new FailingReadStream("partial download"u8.ToArray()));
+            var downloader = CreateDownloader(content);
+
+            await Assert.ThrowsAsync<IOException>(() => downloader.DownloadFileAsync(new DownloadFileOptions(
+                new Uri("https://example.test/download"))
+            {
+                SavePath = destination,
+            }));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(await System.IO.File.ReadAllTextAsync(destination)).IsEqualTo("original");
+                await Assert.That(Directory.GetFiles(directory).Length).IsEqualTo(1);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task DownloadFileAsync_ReplacesExistingFileAfterStreamingSucceeds()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"modular-pipelines-download-{Guid.NewGuid():N}");
+        var destination = Path.Combine(directory, "download.bin");
+        Directory.CreateDirectory(directory);
+        await System.IO.File.WriteAllTextAsync(destination, "original");
+
+        try
+        {
+            var downloader = CreateDownloader(new StringContent("replacement"));
+
+            await downloader.DownloadFileAsync(new DownloadFileOptions(
+                new Uri("https://example.test/download"))
+            {
+                SavePath = destination,
+            });
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(await System.IO.File.ReadAllTextAsync(destination)).IsEqualTo("replacement");
+                await Assert.That(Directory.GetFiles(directory).Length).IsEqualTo(1);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task DownloadResponseAsync_DisposesResponseWhenStatusValidationFails()
     {
         var content = new TrackingStringContent("failure");
@@ -113,6 +174,22 @@ public class DownloaderTests : TestBase
         {
             IsDisposed = true;
             base.Dispose(disposing);
+        }
+    }
+
+    private sealed class FailingReadStream(byte[] content) : MemoryStream(content)
+    {
+        private bool _hasRead;
+
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            if (_hasRead)
+            {
+                throw new IOException("Simulated streaming failure");
+            }
+
+            _hasRead = true;
+            return base.ReadAsync(buffer, cancellationToken);
         }
     }
 }
