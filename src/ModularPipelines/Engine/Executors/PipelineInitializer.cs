@@ -32,6 +32,11 @@ internal class PipelineInitializer(
         "AUTH",
     ];
 
+    private static readonly string[] SensitiveEnvironmentVariableNames =
+    [
+        "REDIS_URL",
+    ];
+
     private static readonly Action<ILogger, BuildSystem, string, Exception?> LogDetectedBuildSystem =
         LoggerMessage.Define<BuildSystem, string>(
             LogLevel.Information,
@@ -99,8 +104,9 @@ internal class PipelineInitializer(
         return !name.Equals("PWD", StringComparison.OrdinalIgnoreCase)
                && !name.Equals("OLDPWD", StringComparison.OrdinalIgnoreCase)
                && !name.Equals("SSH_AUTH_SOCK", StringComparison.OrdinalIgnoreCase)
-               && SensitiveEnvironmentVariableNameParts.Any(
-                   part => name.Contains(part, StringComparison.OrdinalIgnoreCase));
+               && (SensitiveEnvironmentVariableNames.Contains(name, StringComparer.OrdinalIgnoreCase)
+                   || SensitiveEnvironmentVariableNameParts.Any(
+                       part => name.Contains(part, StringComparison.OrdinalIgnoreCase)));
     }
 
     private static string MakeSingleLine(string value)

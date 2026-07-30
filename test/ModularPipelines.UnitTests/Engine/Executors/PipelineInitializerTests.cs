@@ -59,6 +59,7 @@ public class PipelineInitializerTests
     [Arguments("credential")]
     [Arguments("DOCKER_AUTH_CONFIG")]
     [Arguments("NPM_CONFIG__AUTH")]
+    [Arguments("REDIS_URL")]
     public async Task EnvironmentVariables_MaskSensitiveNamesWithoutRegisteredSecret(
         string variableName)
     {
