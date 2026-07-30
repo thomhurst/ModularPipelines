@@ -68,6 +68,13 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     {
         cancellationToken.ThrowIfCancellationRequested();
         var result = EvaluateCategoryConditions(module);
+        if (!result.ShouldIgnore
+            && IsDistributedMaster()
+            && OperatingSystemConditions.HasImpossibleCombination(GetConditionAttributes(module.GetType()).All))
+        {
+            result = (true, SkipDecision.Skip("Module requires mutually exclusive operating systems"));
+        }
+
         return Task.FromResult(result);
     }
 

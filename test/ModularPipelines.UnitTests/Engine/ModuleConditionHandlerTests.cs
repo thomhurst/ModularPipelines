@@ -97,6 +97,36 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Discovery_Filters_Module_With_Contradictory_Os_Conditions()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreByCategory(new ContradictoryOsModule());
+
+        await Assert.That(result.ShouldIgnore).IsTrue();
+    }
+
+    [Test]
+    public async Task Distributed_Master_Discovery_Does_Not_Filter_Routable_Os_Condition()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreByCategory(CreateForeignOsModule());
+
+        await Assert.That(result.ShouldIgnore).IsFalse();
+    }
+
+    [Test]
     public async Task Distributed_Master_Does_Not_Filter_Unix_Condition_Group()
     {
         var handler = CreateHandler(new DistributedOptions
