@@ -1856,7 +1856,8 @@ internal static class ModuleAuthoringAnalysis
         IWhileLoopOperation whileLoop)
     {
         var constantValue = whileLoop.Condition?.ConstantValue;
-        return constantValue is { HasValue: true, Value: false }
+        return whileLoop.ConditionIsTop
+               && constantValue is { HasValue: true, Value: false }
                && ReferenceEquals(current, whileLoop.Body);
     }
 
@@ -3127,14 +3128,21 @@ internal static class ModuleAuthoringAnalysis
         if (branchingOperation is not null
             && branchingOperation.Syntax.SpanStart == lowerBound)
         {
-            return GetDefinitelyReachingLocalAssignments(
+            var branchValues = GetReachingLocalAssignments(
                     branchingOperation,
                     local)
                 .Select(static assignment => assignment.Value);
+            var subsequentValues = assignments
+                .Where(candidate =>
+                    candidate.Syntax.SpanStart > branchingOperation.Syntax.Span.End)
+                .Where(IsInReachableBranch)
+                .Select(static assignment => assignment.Value);
+            return subsequentValues.Concat(branchValues);
         }
 
         var assignedValues = assignments
             .Where(candidate => candidate.Syntax.SpanStart >= lowerBound)
+            .Where(IsInReachableBranch)
             .Select(static assignment => assignment.Value);
         if (linearAssignment is not null || branchingOperation is not null)
         {
@@ -3143,8 +3151,8 @@ internal static class ModuleAuthoringAnalysis
 
         var declarator = FindLocalDeclarator(root, operation, local, callable);
         return declarator?.Initializer?.Value is { } initialValue
-            ? [initialValue]
-            : [];
+            ? assignedValues.Append(initialValue)
+            : assignedValues;
     }
 
     private static IOperation? FindLatestDefinitelyAssigningBranch(
@@ -3165,25 +3173,32 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static IEnumerable<ISimpleAssignmentOperation>
-        GetDefinitelyReachingLocalAssignments(
+        GetReachingLocalAssignments(
             IOperation operation,
             ILocalSymbol local)
     {
+        if (!IsInReachableBranch(operation))
+        {
+            return [];
+        }
+
         return operation switch
         {
             ISimpleAssignmentOperation assignment
                 when AssignsLocal(assignment, local) =>
                 [assignment],
-            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
-                GetDefinitelyReachingLocalAssignments(conditional.WhenTrue, local)
-                    .Concat(GetDefinitelyReachingLocalAssignments(whenFalse, local)),
+            IConditionalOperation conditional =>
+                GetReachingLocalAssignments(conditional.WhenTrue, local)
+                    .Concat(conditional.WhenFalse is { } whenFalse
+                        ? GetReachingLocalAssignments(whenFalse, local)
+                        : []),
             ISwitchOperation switchOperation =>
                 switchOperation.Cases.SelectMany(@case =>
-                    GetDefinitelyReachingSequenceAssignments(@case.Body, local)),
+                    GetReachingSequenceAssignments(@case.Body, local)),
             IBlockOperation block =>
-                GetDefinitelyReachingSequenceAssignments(block.Operations, local),
+                GetReachingSequenceAssignments(block.Operations, local),
             IExpressionStatementOperation expressionStatement =>
-                GetDefinitelyReachingLocalAssignments(
+                GetReachingLocalAssignments(
                     expressionStatement.Operation,
                     local),
             _ => [],
@@ -3191,16 +3206,21 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static IEnumerable<ISimpleAssignmentOperation>
-        GetDefinitelyReachingSequenceAssignments(
+        GetReachingSequenceAssignments(
             IEnumerable<IOperation> operations,
             ILocalSymbol local)
     {
-        var assignment = operations
-            .Reverse()
-            .FirstOrDefault(candidate => DefinitelyAssignsLocal(candidate, local));
-        return assignment is null
-            ? []
-            : GetDefinitelyReachingLocalAssignments(assignment, local);
+        var assignments = new List<ISimpleAssignmentOperation>();
+        foreach (var operation in operations.Reverse())
+        {
+            assignments.AddRange(GetReachingLocalAssignments(operation, local));
+            if (DefinitelyAssignsLocal(operation, local))
+            {
+                break;
+            }
+        }
+
+        return assignments;
     }
 
     private static bool AssignsLocal(

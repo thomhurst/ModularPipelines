@@ -210,6 +210,35 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_In_Do_While_False()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    do
+                    {
+                        Pipeline.CreateBuilder().AddModule<BuildModule>();
+                    }
+                    while (false);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Repeated_Factory_Return_Local_Still_Reports_Unregistered_Module()
     {
         var source = $$"""
@@ -2071,6 +2100,137 @@ public class ModuleAuthoringAnalyzerTests
                 if (context is not null)
                 {
                     token = cancellationToken;
+                }
+
+                await {|#0:Task.Delay(1, token)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Conditional_Unflowed_Token_After_Flowed_Initializer()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = cancellationToken;
+                if (context is not null)
+                {
+                    token = CancellationToken.None;
+                }
+
+                await {|#0:Task.Delay(1, token)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Conditional_Unflowed_Token_After_Fully_Assigning_Branch()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token;
+                if (context is not null)
+                {
+                    token = cancellationToken;
+                }
+                else
+                {
+                    token = cancellationToken;
+                }
+
+                if (DateTime.UtcNow.Ticks > 0)
+                {
+                    token = CancellationToken.None;
+                }
+
+                await {|#0:Task.Delay(1, token)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Nested_Conditional_Unflowed_Token_In_Branch()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token;
+                if (context is not null)
+                {
+                    token = cancellationToken;
+                    if (DateTime.UtcNow.Ticks > 0)
+                    {
+                        token = CancellationToken.None;
+                    }
+                }
+                else
+                {
+                    token = cancellationToken;
+                }
+
+                await {|#0:Task.Delay(1, token)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Nested_Conditional_Unflowed_Token_In_Switch_Case()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token;
+                switch (context is not null)
+                {
+                    case true:
+                        token = cancellationToken;
+                        if (DateTime.UtcNow.Ticks > 0)
+                        {
+                            token = CancellationToken.None;
+                        }
+
+                        break;
+                    default:
+                        token = cancellationToken;
+                        break;
                 }
 
                 await {|#0:Task.Delay(1, token)|};
