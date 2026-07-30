@@ -65,6 +65,52 @@ public class HttpFormatterTests
     }
 
     [Test]
+    public async Task ResponseFormatter_UnboundedPreviewPreservesBody()
+    {
+        const string body = "abcdefghijklmnopqrstuvwxyz";
+        using var response = new HttpResponseMessage
+        {
+            Content = CreateTextContent(new MemoryStream(Encoding.UTF8.GetBytes(body))),
+        };
+        var formatter = CreateResponseFormatter();
+
+        var formatted = await formatter.FormatAsync(response, new HttpLoggingOptions
+        {
+            MaxBodySizeToLog = 0,
+        });
+        var replayedBody = await response.Content.ReadAsStringAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(formatted).Contains(body);
+            await Assert.That(replayedBody).IsEqualTo(body);
+        }
+    }
+
+    [Test]
+    public async Task RequestFormatter_UnboundedPreviewPreservesBody()
+    {
+        const string body = "abcdefghijklmnopqrstuvwxyz";
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test")
+        {
+            Content = CreateTextContent(new MemoryStream(Encoding.UTF8.GetBytes(body))),
+        };
+        var formatter = CreateRequestFormatter();
+
+        var formatted = await formatter.FormatAsync(request, new HttpLoggingOptions
+        {
+            MaxBodySizeToLog = 0,
+        });
+        var replayedBody = await request.Content.ReadAsStringAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(formatted).Contains(body);
+            await Assert.That(replayedBody).IsEqualTo(body);
+        }
+    }
+
+    [Test]
     public async Task ResponseFormatter_RedactsSecretCrossingPreviewBoundary()
     {
         const string secret = "secret-value";

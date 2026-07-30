@@ -22,6 +22,7 @@ internal static class HttpContentPreviewReader
     {
         if (maxBytes <= 0 || maxBytes == int.MaxValue)
         {
+            // ReadAsStringAsync buffers HttpContent, so returning the same instance preserves replay.
             var unboundedBody = await content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             return (unboundedBody, false, content, content.Headers.ContentLength);
         }
