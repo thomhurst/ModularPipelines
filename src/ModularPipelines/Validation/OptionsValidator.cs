@@ -111,8 +111,10 @@ internal class OptionsValidator : IOptionsValidator
         ArgumentNullException.ThrowIfNull(registeredCategories);
 
         var result = ValidateOptions(options);
-        ValidateRunOnlyCategories(options.RunOnlyCategories, registeredCategories, result);
-        ValidateIgnoreCategories(options.IgnoreCategories, registeredCategories, result);
+        var normalizedRegisteredCategories =
+            new HashSet<string>(registeredCategories, StringComparer.OrdinalIgnoreCase);
+        ValidateRunOnlyCategories(options.RunOnlyCategories, normalizedRegisteredCategories, result);
+        ValidateIgnoreCategories(options.IgnoreCategories, normalizedRegisteredCategories, result);
         return result;
     }
 

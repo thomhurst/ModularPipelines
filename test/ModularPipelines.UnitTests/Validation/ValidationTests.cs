@@ -696,6 +696,25 @@ public class ValidationTests
     }
 
     [Test]
+    public async Task ValidateOptions_WithCaseSensitiveCategorySet_MatchesIgnoringCase()
+    {
+        IOptionsValidator validator = new OptionsValidator();
+        var options = new PipelineOptions
+        {
+            RunOnlyCategories = ["build"],
+            IgnoreCategories = ["test"],
+        };
+
+        var result = validator.ValidateOptions(
+            options,
+            new HashSet<string>(["Build", "Test"]));
+
+        await Assert.That(result.Errors.Any(error =>
+            error.Category == ValidationErrorCategory.Options &&
+            error.Message.Contains("categor", StringComparison.OrdinalIgnoreCase))).IsFalse();
+    }
+
+    [Test]
     public async Task ValidateAsync_WithSelfReferencingModule_ReturnsError()
     {
         // Arrange
