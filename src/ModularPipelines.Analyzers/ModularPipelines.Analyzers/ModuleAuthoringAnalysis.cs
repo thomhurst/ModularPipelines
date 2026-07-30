@@ -3109,32 +3109,24 @@ internal static class ModuleAuthoringAnalysis
         if (branchingAssignment is not null
             && branchingAssignment.Syntax.SpanStart == lowerBound)
         {
-            foreach (var assignment in GetDefinitelyReachingLocalAssignments(
-                         branchingAssignment,
-                         local))
-            {
-                yield return assignment.Value;
-            }
-
-            yield break;
+            return GetDefinitelyReachingLocalAssignments(
+                    branchingAssignment,
+                    local)
+                .Select(static assignment => assignment.Value);
         }
 
-        foreach (var assignment in assignments.Where(candidate =>
-                     candidate.Syntax.SpanStart >= lowerBound))
-        {
-            yield return assignment.Value;
-        }
-
+        var assignedValues = assignments
+            .Where(candidate => candidate.Syntax.SpanStart >= lowerBound)
+            .Select(static assignment => assignment.Value);
         if (linearAssignment is not null || branchingAssignment is not null)
         {
-            yield break;
+            return assignedValues;
         }
 
         var declarator = FindLocalDeclarator(root, operation, local, callable);
-        if (declarator?.Initializer?.Value is { } initialValue)
-        {
-            yield return initialValue;
-        }
+        return declarator?.Initializer?.Value is { } initialValue
+            ? [initialValue]
+            : [];
     }
 
     private static IConditionalOperation? FindLatestDefinitelyAssigningBranch(
