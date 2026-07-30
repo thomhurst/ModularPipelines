@@ -228,6 +228,33 @@ internal sealed class Command : ICommandContext
                         deferredOutputLogger,
                         command.WorkingDirPath));
 
+                if (e is OperationCanceledException && cancellationToken.IsCancellationRequested)
+                {
+                    if (ReferenceEquals(failure, e))
+                    {
+                        throw;
+                    }
+
+                    throw new CommandException(
+                        CreateFailureResult(
+                            command,
+                            execOpts,
+                            inputToLog,
+                            -1,
+                            stopwatch.Elapsed,
+                            standardOutput,
+                            standardError),
+                        failure);
+                }
+
+                if (e is OperationCanceledException
+                    && timeoutCancellationToken?.IsCancellationRequested is true)
+                {
+                    throw new TimeoutException(
+                        $"Command execution timed out after {execOpts.ExecutionTimeout!.Value}.",
+                        failure);
+                }
+
                 throw new CommandException(
                     CreateFailureResult(
                         command,
