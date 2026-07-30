@@ -80,7 +80,7 @@ public class File : IEquatable<File>
     /// Failure to dispose the stream will result in resource leaks and may prevent other operations on the file.
     /// </para>
     /// <para>
-    /// Recommended usage with <c>await using</c> (async) or <c>using</c> (sync):
+    /// Recommended usage with <c>await using</c> (async) or <c>using</c> (sync).
     /// </para>
     /// <example>
     /// <code>
@@ -162,7 +162,7 @@ public class File : IEquatable<File>
     }
 
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>
-    public bool Exists => FileInfo.Exists;
+    public bool Exists => _provider.FileExists(Path);
 
     public bool Hidden => (FileInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
@@ -246,6 +246,7 @@ public class File : IEquatable<File>
     /// For true async I/O, consider using stream-based operations where available.
     /// </remarks>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A task that completes when the file has been deleted.</returns>
     public Task DeleteAsync(CancellationToken cancellationToken = default)
     {
         LogFileOperation("Deleting File: {Path}", this);

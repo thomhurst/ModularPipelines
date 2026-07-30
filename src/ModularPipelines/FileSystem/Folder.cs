@@ -49,7 +49,7 @@ public class Folder : IEquatable<Folder>
         _provider = provider;
     }
 
-    public bool Exists => DirectoryInfo.Exists;
+    public bool Exists => _provider.DirectoryExists(Path);
 
     public bool Hidden => (DirectoryInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
@@ -136,6 +136,7 @@ public class Folder : IEquatable<Folder>
     /// Uses thread pool offloading as no native async delete API exists in .NET.
     /// </remarks>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A task that completes when the folder has been deleted.</returns>
     public Task DeleteAsync(CancellationToken cancellationToken = default)
     {
         LogFolderOperation("Deleting Folder: {Path}", this);

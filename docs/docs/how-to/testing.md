@@ -3,95 +3,141 @@ title: Testing
 sidebar_position: 9
 ---
 
-## Testing with Mocked File System
+Install `ModularPipelines.Testing` to execute one module without starting the full
+pipeline scheduler:
 
-ModularPipelines supports mocking file system operations for unit testing. All file I/O goes through `IFileSystemProvider`, which can be replaced with a mock implementation.
+```bash
+dotnet add package ModularPipelines.Testing
+```
 
-### Why Mock the File System?
+The test harness uses the normal module execution pipeline, so skip conditions,
+timeouts, retries, and direct module hooks behave as they do in a pipeline. It
+provides test-safe defaults:
 
-- **Speed**: Tests run faster without actual disk I/O
-- **Isolation**: Tests don't depend on file system state
-- **Predictability**: No flaky tests due to file permissions or disk space
-- **CI-friendly**: Works in any environment without file system setup
+- external commands are intercepted and return a successful result;
+- file and directory operations use an isolated in-memory filesystem;
+- progress, logos, dependency chains, and result printing are disabled;
+- module failures are returned for assertions instead of escaping from the harness.
 
-### Example: Mocking File Reads
+## Execute a module
+
+Specify the module and result types for strongly typed value access:
 
 ```csharp
-using Moq;
-using ModularPipelines;
-using ModularPipelines.FileSystem;
-using ModularPipelines.Extensions;
+using ModularPipelines.Testing;
 
 [Test]
-public async Task MyModule_ReadsConfigFile()
+public async Task Build_returns_the_artifact()
 {
-    // Create a mock provider
-    var mockProvider = new Mock<IFileSystemProvider>();
-    mockProvider.Setup(p => p.ReadAllTextAsync(
-            It.IsAny<string>(),
-            It.IsAny<CancellationToken>()))
-        .ReturnsAsync("{\"setting\": \"value\"}");
+    var run = await ModuleTester.For<BuildModule, BuildArtifact>()
+        .ExecuteAsync();
 
-    // Run pipeline with mock
-    using var builder = Pipeline.CreateBuilder(args);
-
-    builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-    builder.AddModule<MyModule>();
-
-    var result = await builder.ExecutePipelineAsync();
-
-    // Assert results
-    Assert.That(result.Status, Is.EqualTo(PipelineStatus.Success));
+    await Assert.That(run.Value!.Name).IsEqualTo("application.zip");
+    await Assert.That(run.Exception).IsNull();
 }
 ```
 
-### Example: Verifying File Writes
+If only the module type is convenient, use the type-erased overload. `Value` is
+then `object?`, while `Result` still contains the full module metadata:
 
 ```csharp
-[Test]
-public async Task MyModule_WritesOutputFile()
-{
-    var mockProvider = new Mock<IFileSystemProvider>();
+var run = await ModuleTester.For<BuildModule>().ExecuteAsync();
 
-    using var builder = Pipeline.CreateBuilder(args);
-
-    builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-    builder.AddModule<OutputModule>();
-
-    await builder.ExecutePipelineAsync();
-
-    // Verify the write occurred with expected content
-    mockProvider.Verify(p => p.WriteAllTextAsync(
-        It.Is<string>(path => path.Contains("output")),
-        It.Is<string>(content => content.Contains("result")),
-        It.IsAny<CancellationToken>()));
-}
+var artifact = (BuildArtifact)run.Value!;
 ```
 
-### Important Notes
+## Seed dependency results
 
-- **Always use `context.Files`**: Files created via `context.Files.GetFile()` will use the injected provider. Files created directly via `new File("path")` use the real file system.
+Register a dependency result without executing that dependency:
 
-- **Provider Registration**: The mock provider must be registered before the pipeline runs. Using `services.AddSingleton<IFileSystemProvider>()` overrides the default `SystemFileSystemProvider`.
+```csharp
+var restoredPackages = CommandResult.Ok("Restore succeeded.");
 
-- **Mock ALL methods your code uses**: The mock provider only intercepts methods you explicitly set up. If your module calls `ReadAllTextAsync`, `FileExists`, and `Combine`, you must mock all three. Unmocked methods may throw or return default values depending on your mocking framework.
+var run = await ModuleTester.For<BuildModule, BuildArtifact>()
+    .WithDependencyResult<RestoreModule, CommandResult>(restoredPackages)
+    .ExecuteAsync();
+```
 
-- **Implicit operators bypass mocking**: Implicit conversions like `File file = "/path/to/file"` create instances using the default `SystemFileSystemProvider`, not your mock. For full testability, always use `context.Files.GetFile()`.
+The dependency module is registered normally, then its successful result is
+completed before the target module starts. Calls such as
+`await context.GetModule<RestoreModule>()` therefore receive the seeded value.
 
-- **Static methods are not mockable**: Methods like `File.GetNewTemporaryFilePath()` and `Folder.CreateTemporaryFolder()` use the real file system. Design your modules to receive paths via constructor or use `context.Files.CreateTemporaryFolder()` instead.
+## Intercept and inspect commands
 
-- **Mocking Path Operations**: If your code uses path operations, mock them too:
-  ```csharp
-  mockProvider.Setup(p => p.Combine(It.IsAny<string[]>()))
-      .Returns((string[] paths) => Path.Combine(paths));
-  ```
+Commands never start real processes unless you explicitly replace the test
+harness behavior. The default interceptor returns `CommandResult.Ok()`.
 
-### What Gets Mocked
+Provide a handler when a module needs command output:
 
-The `IFileSystemProvider` interface covers:
-- File reads: `ReadAllTextAsync`, `ReadLinesAsync`, `ReadAllBytesAsync`
-- File writes: `WriteAllTextAsync`, `WriteAllBytesAsync`, `WriteAllLinesAsync`, `AppendAllTextAsync`
-- File management: `DeleteFile`, `CopyFile`, `MoveFile`, `FileExists`
-- Directory operations: `CreateDirectory`, `DeleteDirectory`, `MoveDirectory`, `DirectoryExists`
-- Enumeration: `EnumerateFiles`, `EnumerateDirectories`
-- Path utilities: `GetTempPath`, `GetRandomFileName`, `Combine`, `GetRelativePath`
+```csharp
+var run = await ModuleTester.For<BuildModule, BuildArtifact>()
+    .InterceptCommands(invocation =>
+    {
+        if (invocation.CommandLine.Tool == "dotnet")
+        {
+            return CommandResult.Ok("Build succeeded.");
+        }
+
+        return CommandResult.Ok();
+    })
+    .ExecuteAsync();
+
+await Assert.That(run.Commands).Count().IsEqualTo(1);
+await Assert.That(run.Commands[0].CommandLine.Arguments)
+    .IsEquivalentTo(["build", "--configuration", "Release"]);
+```
+
+Each `RecordedCommand` contains the parsed `CommandInvocation` and the simulated
+`CommandResult`. This avoids assertions against a quoted display string.
+
+`ICommandInterceptor` is also a public framework seam. Register an implementation
+in a normal pipeline when command interception is needed outside
+`ModularPipelines.Testing`. Return `null` to let the next interceptor or the real
+process executor handle the command.
+
+## Use the in-memory filesystem
+
+Files obtained through `context.Files` automatically use the harness filesystem:
+
+```csharp
+var run = await ModuleTester.For<ManifestModule, string>()
+    .ExecuteAsync();
+
+var manifest = await run.FileSystem.ReadAllTextAsync("/output/manifest.json");
+```
+
+`InMemoryFileSystemProvider` implements `IFileSystemProvider`, including file and
+directory creation, reads, writes, streams, copies, moves, deletion, enumeration,
+and path helpers. You can also construct and register it directly in other tests.
+
+Code under test must obtain `File` and `Folder` instances from `context.Files`.
+Direct construction such as `new File("path")` intentionally uses the physical
+`SystemFileSystemProvider`.
+
+## Register constructor services
+
+Use `WithService` for module constructor dependencies:
+
+```csharp
+var settings = new BuildSettings { Configuration = "Release" };
+
+var run = await ModuleTester.For<BuildModule, BuildArtifact>()
+    .WithService(settings)
+    .ExecuteAsync();
+```
+
+## Assert skipped and failed runs
+
+The run object exposes safe outcome properties:
+
+```csharp
+var skipped = await ModuleTester.For<OptionalModule, string>().ExecuteAsync();
+await Assert.That(skipped.SkipDecision!.Reason).IsEqualTo("Feature disabled");
+
+var failed = await ModuleTester.For<FailingModule, string>().ExecuteAsync();
+await Assert.That(failed.Exception).IsTypeOf<InvalidOperationException>();
+await Assert.That(failed.Result).IsTypeOf<ModuleResult<string>.Failure>();
+```
+
+Use `Result` when assertions need timing, status, or the discriminated result
+variant. Use `Value`, `Exception`, and `SkipDecision` for concise safe access.

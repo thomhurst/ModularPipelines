@@ -11,6 +11,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 using CommandResult = ModularPipelines.Models.CommandResult;
 
@@ -24,6 +25,7 @@ internal sealed class Command : ICommandContext
 {
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandLineBuilder _commandLineBuilder;
+    private readonly IEnumerable<ICommandInterceptor> _commandInterceptors;
     private readonly ISecretProvider _secretProvider;
     private readonly ISecretRegistry _secretRegistry;
     private readonly ISecretObfuscator _secretObfuscator;
@@ -31,12 +33,14 @@ internal sealed class Command : ICommandContext
     public Command(
         ICommandLogger commandLogger,
         ICommandLineBuilder commandLineBuilder,
+        IEnumerable<ICommandInterceptor> commandInterceptors,
         ISecretProvider secretProvider,
         ISecretRegistry secretRegistry,
         ISecretObfuscator secretObfuscator)
     {
         _commandLogger = commandLogger;
         _commandLineBuilder = commandLineBuilder;
+        _commandInterceptors = commandInterceptors;
         _secretProvider = secretProvider;
         _secretRegistry = secretRegistry;
         _secretObfuscator = secretObfuscator;
@@ -79,6 +83,23 @@ internal sealed class Command : ICommandContext
             command = command.WithCredentials(execOpts.CommandLineCredentials.ToCliWrapCredentials());
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var invocation = new CommandInvocation(
+            new CommandLine(tool, parsedArgs),
+            options,
+            execOpts);
+
+        foreach (var interceptor in _commandInterceptors)
+        {
+            if (await interceptor.InterceptAsync(invocation, cancellationToken).ConfigureAwait(false) is { } intercepted)
+            {
+                var result = ApplyCommandMetadata(intercepted, command);
+                LogInterceptedCommand(options, execOpts, result);
+                return result;
+            }
+        }
+
         if (execOpts.InternalDryRun)
         {
             _commandLogger.Log(
@@ -96,6 +117,33 @@ internal sealed class Command : ICommandContext
         }
 
         return await Of(command, options, execOpts, cancellationToken).ConfigureAwait(false);
+    }
+
+    private static CommandResult ApplyCommandMetadata(CommandResult result, CliWrap.Command command)
+    {
+        var metadata = new CommandResult(command);
+        return result with
+        {
+            CommandInput = metadata.CommandInput,
+            WorkingDirectory = metadata.WorkingDirectory,
+            EnvironmentVariables = metadata.EnvironmentVariables,
+        };
+    }
+
+    private void LogInterceptedCommand(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        CommandResult result)
+    {
+        _commandLogger.Log(
+            options,
+            executionOptions,
+            executionOptions.InputLoggingManipulator?.Invoke(result.CommandInput) ?? result.CommandInput,
+            result.ExitCode,
+            result.Duration,
+            result.StandardOutput,
+            result.StandardError,
+            result.WorkingDirectory);
     }
 
     private async Task<CommandResult> Of(
