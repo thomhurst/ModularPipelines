@@ -138,12 +138,12 @@ type directly before publishing with Native AOT.
 
 ## MPG0016
 
-A module, base class, or implemented interface uses a runtime selector dependency,
-including `DependsOnAllModulesInheritingFrom<T>`, `DependsOnModulesWithTag`,
-`DependsOnModulesInCategory`, `DependsOnModulesWithAttribute<T>`, or a custom
-`DependsOnBaseAttribute`. These selectors are evaluated against the runtime module set
-and require attribute reflection, so trimming can remove their metadata. Replace them
-with explicit `DependsOn<T>` dependencies before publishing with Native AOT.
+A module, base class, or implemented interface uses dependency metadata that requires
+runtime reflection. This includes `DependsOnAllModulesInheritingFrom<T>`,
+`DependsOnModulesWithTag`, `DependsOnModulesInCategory`,
+`DependsOnModulesWithAttribute<T>`, a custom `DependsOnBaseAttribute`, or a custom
+`DependsOnAttribute` subclass. Trimming can remove this metadata. Replace it with the
+built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
 
 **Severity:** Warning
 

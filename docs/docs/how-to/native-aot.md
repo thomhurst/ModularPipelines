@@ -42,8 +42,9 @@ Native AOT does not support pipeline shapes introduced only at runtime:
 - module or result types supplied dynamically after compilation;
 - selector dependencies such as `DependsOnAllModulesInheritingFrom<T>`,
   `DependsOnModulesWithTag`, `DependsOnModulesInCategory`, custom
-  `DependsOnBaseAttribute` implementations, and similar runtime predicates; use
-  explicit `DependsOn<T>` dependencies instead;
+  `DependsOnBaseAttribute` implementations, custom `DependsOnAttribute`
+  subclasses, and similar runtime predicates; use built-in explicit
+  `DependsOn<T>` dependencies instead;
 - distributed type-erased `ModuleResult` JSON serialization and runtime history
   repositories;
 - reflection-based XML, YAML, or JSON serialization.
