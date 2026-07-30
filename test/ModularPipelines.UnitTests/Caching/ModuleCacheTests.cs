@@ -166,6 +166,17 @@ public class ModuleCacheTests
     }
 
     [Test]
+    public async Task FingerprintValidationRejectsNonSha256Values()
+    {
+        ModuleCacheFingerprint.Validate(new string('A', 64));
+
+        var exception = Assert.Throws<ArgumentException>(
+            () => ModuleCacheFingerprint.Validate("not-a-fingerprint"));
+
+        await Assert.That(exception.ParamName).IsEqualTo("fingerprint");
+    }
+
+    [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task DependencyValueInvalidatesDependentFingerprintWithoutTimingNoise()
     {

@@ -7,7 +7,7 @@ namespace ModularPipelines.Caching;
 
 internal sealed class ModuleCacheFileHasher
 {
-    private readonly ConcurrentDictionary<string, FileHashRecord> _records;
+    private readonly ConcurrentDictionary<string, ModuleCacheFileHashRecord> _records;
     private readonly string _indexPath;
     private readonly int _maximumConcurrency;
     private readonly SemaphoreSlim _saveLock = new(1, 1);
@@ -55,7 +55,7 @@ internal sealed class ModuleCacheFileHasher
                 }
 
                 hashes[path] = hash;
-                _records[path] = new FileHashRecord(after.Length, after.LastWriteTimeUtc.Ticks, hash);
+                _records[path] = new ModuleCacheFileHashRecord(after.Length, after.LastWriteTimeUtc.Ticks, hash);
                 Interlocked.Exchange(ref changed, 1);
             }).ConfigureAwait(false);
 
@@ -98,7 +98,15 @@ internal sealed class ModuleCacheFileHasher
                                  16 * 1024,
                                  FileOptions.Asynchronous))
                 {
-                    await JsonSerializer.SerializeAsync(stream, _records, cancellationToken: cancellationToken)
+                    var snapshot = _records.ToDictionary(
+                        pair => pair.Key,
+                        pair => pair.Value,
+                        GetPathComparer());
+                    await JsonSerializer.SerializeAsync(
+                            stream,
+                            snapshot,
+                            ModuleCacheJsonSerializerContext.Default.DictionaryStringModuleCacheFileHashRecord,
+                            cancellationToken)
                         .ConfigureAwait(false);
                 }
 
@@ -115,16 +123,18 @@ internal sealed class ModuleCacheFileHasher
         }
     }
 
-    private static ConcurrentDictionary<string, FileHashRecord> LoadIndex(string path)
+    private static ConcurrentDictionary<string, ModuleCacheFileHashRecord> LoadIndex(string path)
     {
         try
         {
             if (File.Exists(path))
             {
-                var records = JsonSerializer.Deserialize<Dictionary<string, FileHashRecord>>(File.ReadAllText(path));
+                var records = JsonSerializer.Deserialize(
+                    File.ReadAllText(path),
+                    ModuleCacheJsonSerializerContext.Default.DictionaryStringModuleCacheFileHashRecord);
                 if (records is not null)
                 {
-                    return new ConcurrentDictionary<string, FileHashRecord>(records, GetPathComparer());
+                    return new ConcurrentDictionary<string, ModuleCacheFileHashRecord>(records, GetPathComparer());
                 }
             }
         }
@@ -137,11 +147,11 @@ internal sealed class ModuleCacheFileHasher
             // A concurrently replaced optimization index only causes files to be re-hashed.
         }
 
-        return new ConcurrentDictionary<string, FileHashRecord>(GetPathComparer());
+        return new ConcurrentDictionary<string, ModuleCacheFileHashRecord>(GetPathComparer());
     }
 
     private static StringComparer GetPathComparer() =>
         OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
-
-    private sealed record FileHashRecord(long Length, long LastWriteUtcTicks, string Sha256);
 }
+
+internal sealed record ModuleCacheFileHashRecord(long Length, long LastWriteUtcTicks, string Sha256);

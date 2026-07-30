@@ -200,6 +200,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
             finally
             {
+                if (_resultRepository is IModuleCacheResultRepository moduleCacheResultRepository)
+                {
+                    moduleCacheResultRepository.DiscardFingerprint(module);
+                }
+
                 var activeCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
                 activeCancellationTokenSource.Dispose();
 

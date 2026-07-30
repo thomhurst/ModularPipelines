@@ -62,11 +62,7 @@ public sealed class FileSystemModuleCache : IModuleCacheStore
 
     private string GetEntryPath(string fingerprint)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(fingerprint);
-        if (fingerprint.Length != 64 || fingerprint.Any(character => !Uri.IsHexDigit(character)))
-        {
-            throw new ArgumentException("A module cache fingerprint must be a 64-character SHA-256 value.", nameof(fingerprint));
-        }
+        ModuleCacheFingerprint.Validate(fingerprint);
 
         return Path.Combine(_cacheDirectory, $"{fingerprint.ToLowerInvariant()}.zip");
     }

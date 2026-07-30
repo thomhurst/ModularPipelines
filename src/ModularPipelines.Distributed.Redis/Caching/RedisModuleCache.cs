@@ -53,7 +53,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
     /// <inheritdoc />
     public async Task<Stream?> OpenReadAsync(string fingerprint, CancellationToken cancellationToken)
     {
-        ValidateFingerprint(fingerprint);
+        ModuleCacheFingerprint.Validate(fingerprint);
         cancellationToken.ThrowIfCancellationRequested();
 
         var metadata = await _database.StringGetAsync(MetadataKey(fingerprint)).ConfigureAwait(false);
@@ -105,7 +105,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
     /// <inheritdoc />
     public async Task WriteAsync(string fingerprint, Stream content, CancellationToken cancellationToken)
     {
-        ValidateFingerprint(fingerprint);
+        ModuleCacheFingerprint.Validate(fingerprint);
         ArgumentNullException.ThrowIfNull(content);
 
         var buffer = new byte[_chunkSize];
@@ -187,13 +187,4 @@ public sealed class RedisModuleCache : IModuleCacheStore
 
     private string ChunkKey(string fingerprint, string generation, int chunkIndex) =>
         $"{_keyPrefix}:{fingerprint.ToLowerInvariant()}:entry:{generation}:chunk:{chunkIndex}";
-
-    private static void ValidateFingerprint(string fingerprint)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(fingerprint);
-        if (fingerprint.Length != 64 || fingerprint.Any(character => !Uri.IsHexDigit(character)))
-        {
-            throw new ArgumentException("A module cache fingerprint must be a 64-character SHA-256 value.", nameof(fingerprint));
-        }
-    }
 }

@@ -98,5 +98,6 @@ builder.AddRedisModuleCache(
 - Declare all file inputs. An undeclared input cannot invalidate a cache entry.
 - Add key parts for arguments, configuration objects, external service versions, and other non-file inputs.
 - Declare environment variables individually; the framework does not fingerprint the entire process environment.
+- The persistent file-hash index reuses a prior content hash when both file size and last-write timestamp are unchanged. Tools that rewrite files while preserving both values can produce stale cache hits.
 - Use `ProducesArtifact` for files a cache hit must recreate.
 - Do not cache modules whose result cannot be serialized to JSON.
