@@ -1337,11 +1337,9 @@ internal static class ModuleAuthoringAnalysis
                     instanceRegisteredModules,
                     visitedLocals,
                     visitedMethods);
-            case ILocalReferenceOperation localReference
-                when visitedLocals.Add(localReference.Local)
-                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
-                return TryTrackInstanceModuleTypes(
-                    localValue,
+            case ILocalReferenceOperation localReference:
+                return TryTrackInstanceModuleTypesLocal(
+                    localReference,
                     compilation,
                     instanceRegisteredModules,
                     visitedLocals,
@@ -1382,6 +1380,36 @@ internal static class ModuleAuthoringAnalysis
             default:
                 return false;
         }
+    }
+
+    private static bool TryTrackInstanceModuleTypesLocal(
+        ILocalReferenceOperation localReference,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (!visitedLocals.Add(localReference.Local))
+        {
+            return false;
+        }
+
+        var localValues = FindReachingLocalValues(
+                localReference,
+                localReference.Local)
+            .ToArray();
+        var trackedAll = localValues.Length > 0;
+        foreach (var localValue in localValues)
+        {
+            trackedAll &= TryTrackInstanceModuleTypes(
+                localValue,
+                compilation,
+                instanceRegisteredModules,
+                CloneVisitedLocals(visitedLocals),
+                CloneVisitedMethods(visitedMethods));
+        }
+
+        return trackedAll;
     }
 
     private static void TrackDynamicModuleRegistrations(
@@ -3017,7 +3045,19 @@ internal static class ModuleAuthoringAnalysis
         var assignments = FindLocalAssignments(root, operation, local, callable);
         var linearAssignment = assignments.FirstOrDefault(candidate =>
             IsLinearPredecessor(candidate, operation));
-        var lowerBound = linearAssignment?.Syntax.SpanStart ?? int.MinValue;
+        var branchingAssignment = root.DescendantsAndSelf()
+            .OfType<IConditionalOperation>()
+            .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
+            .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
+            .Where(candidate => IsLinearPredecessor(candidate, operation))
+            .Where(candidate => candidate.WhenFalse is not null
+                && DefinitelyAssignsLocal(candidate.WhenTrue, local)
+                && DefinitelyAssignsLocal(candidate.WhenFalse, local))
+            .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
+            .FirstOrDefault();
+        var lowerBound = Math.Max(
+            linearAssignment?.Syntax.SpanStart ?? int.MinValue,
+            branchingAssignment?.Syntax.SpanStart ?? int.MinValue);
 
         foreach (var assignment in assignments.Where(candidate =>
                      candidate.Syntax.SpanStart >= lowerBound))
@@ -3025,7 +3065,7 @@ internal static class ModuleAuthoringAnalysis
             yield return assignment.Value;
         }
 
-        if (linearAssignment is not null)
+        if (linearAssignment is not null || branchingAssignment is not null)
         {
             yield break;
         }
@@ -3035,6 +3075,34 @@ internal static class ModuleAuthoringAnalysis
         {
             yield return initialValue;
         }
+    }
+
+    private static bool DefinitelyAssignsLocal(
+        IOperation operation,
+        ILocalSymbol local)
+    {
+        if (operation is ISimpleAssignmentOperation assignment
+            && assignment.Target is ILocalReferenceOperation localReference
+            && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
+        {
+            return true;
+        }
+
+        if (operation is IConditionalOperation conditional)
+        {
+            return conditional.WhenFalse is not null
+                   && DefinitelyAssignsLocal(conditional.WhenTrue, local)
+                   && DefinitelyAssignsLocal(conditional.WhenFalse, local);
+        }
+
+        return operation switch
+        {
+            IBlockOperation block => block.Operations.Any(candidate =>
+                DefinitelyAssignsLocal(candidate, local)),
+            IExpressionStatementOperation expressionStatement =>
+                DefinitelyAssignsLocal(expressionStatement.Operation, local),
+            _ => false,
+        };
     }
 
     private static IOperation? FindReachingLocalValue(

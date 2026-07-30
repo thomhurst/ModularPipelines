@@ -1891,6 +1891,58 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Ignores_Token_Initializer_Overwritten_In_All_Branches()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                if (context is not null)
+                {
+                    token = cancellationToken;
+                }
+                else
+                {
+                    token = cancellationToken;
+                }
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Token_Initializer_Reaching_One_Branch()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                if (context is not null)
+                {
+                    token = cancellationToken;
+                }
+
+                await {|#0:Task.Delay(1, token)|};
+                return null;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Unflowed_CancellationToken_Inside_WhenAll()
     {
         var source = ModuleSource("""
@@ -3488,6 +3540,43 @@ public class ModuleAuthoringAnalyzerTests
                 {
                     IModule module = new BuildModule();
                     Pipeline.CreateBuilder().AddModule(module);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Branch_Assigned_Instance_Registration()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    IModule module;
+                    if (flag)
+                    {
+                        module = new BuildModule();
+                    }
+                    else
+                    {
+                        module = new BuildModule();
+                    }
+
+                    builder.Services.AddSingleton<IModule>(module);
                 }
             }
 
