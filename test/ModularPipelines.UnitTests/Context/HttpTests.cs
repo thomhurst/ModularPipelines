@@ -350,6 +350,55 @@ public class HttpTests : TestBase
     }
 
     [Test]
+    [Arguments(true, true)]
+    [Arguments(true, false)]
+    [Arguments(false, true)]
+    [Arguments(false, false)]
+    public async Task SendAsync_PreservesCancellationWhileReadingErrorContent(
+        bool useCustomClient,
+        bool useConfiguredTimeout)
+    {
+        var contentStream = new BlockingReadStream();
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(
+                new StreamContent(contentStream),
+                HttpStatusCode.InternalServerError))
+        {
+            Timeout = Timeout.InfiniteTimeSpan,
+        };
+        var httpClientFactory = new Mock<IHttpClientFactory>();
+        httpClientFactory
+            .Setup(x => x.CreateClient(It.IsAny<string>()))
+            .Returns(httpClient);
+        var http = new ModularPipelines.Http.Http(
+            httpClientFactory.Object,
+            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IHttpLogger>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.CancelAfter(TimeSpan.FromMilliseconds(100));
+
+        try
+        {
+            await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+                await http.SendAsync(new HttpOptions(
+                        new HttpRequestMessage(HttpMethod.Get, "https://example.test/stalled-error-body"))
+                    {
+                        HttpClient = useCustomClient ? httpClient : null,
+                        LoggingType = HttpLoggingType.None,
+                        ThrowOnNonSuccessStatusCode = true,
+                        Timeout = useConfiguredTimeout ? TimeSpan.FromMilliseconds(100) : null,
+                    },
+                    useConfiguredTimeout ? CancellationToken.None : cancellationTokenSource.Token)
+                    .WaitAsync(TimeSpan.FromSeconds(1)));
+        }
+        finally
+        {
+            contentStream.Release();
+        }
+    }
+
+    [Test]
     public async Task SendAsync_CustomClientKeepsTimeoutOutsideLoggedReplayContent()
     {
         var timeout = TimeSpan.FromMilliseconds(100);
@@ -623,7 +672,9 @@ public class HttpTests : TestBase
         }
     }
 
-    private sealed class ImmediateResponseHandler(HttpContent content) : HttpMessageHandler
+    private sealed class ImmediateResponseHandler(
+        HttpContent content,
+        HttpStatusCode statusCode = HttpStatusCode.OK) : HttpMessageHandler
     {
         public TaskCompletionSource RequestReceived { get; } =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -633,7 +684,7 @@ public class HttpTests : TestBase
             CancellationToken cancellationToken)
         {
             RequestReceived.TrySetResult();
-            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            return Task.FromResult(new HttpResponseMessage(statusCode)
             {
                 Content = content,
                 RequestMessage = request,
@@ -665,17 +716,35 @@ public class HttpTests : TestBase
 
     private sealed class BlockingReadStream(
         bool throwIOExceptionWhenDisposed = false,
-        bool ignoreAsyncCancellation = false) : MemoryStream
+        bool ignoreAsyncCancellation = false) : Stream
     {
         private readonly TaskCompletionSource _release =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly ManualResetEventSlim _synchronousRelease = new();
         private bool _isDisposed;
 
+        public override bool CanRead => true;
+
+        public override bool CanSeek => false;
+
+        public override bool CanWrite => false;
+
+        public override long Length => throw new NotSupportedException();
+
+        public override long Position
+        {
+            get => throw new NotSupportedException();
+            set => throw new NotSupportedException();
+        }
+
         public void Release()
         {
             _release.TrySetResult();
             _synchronousRelease.Set();
+        }
+
+        public override void Flush()
+        {
         }
 
         public override int Read(byte[] buffer, int offset, int count)
@@ -721,6 +790,21 @@ public class HttpTests : TestBase
             _synchronousRelease.Wait();
             ThrowIfDisposed();
             return 0;
+        }
+
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void SetLength(long value)
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            throw new NotSupportedException();
         }
 
         private void ThrowIfDisposed()
