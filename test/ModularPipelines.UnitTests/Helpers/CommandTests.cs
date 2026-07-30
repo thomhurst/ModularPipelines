@@ -344,7 +344,7 @@ public class CommandTests : TestBase
             childProcess = Process.GetProcessById(childProcessId);
             cancellationTokenSource.Cancel();
 
-            await Assert.ThrowsAsync<CommandException>(async () => await executionTask);
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await executionTask);
 
             var childExited = await WaitForExitAsync(childProcess, TimeSpan.FromSeconds(2));
             await Assert.That(childExited).IsTrue();
@@ -397,7 +397,7 @@ public class CommandTests : TestBase
             cancellationTokenSource.Cancel();
             await File.WriteAllTextAsync(parentExitFile, string.Empty);
 
-            await Assert.ThrowsAsync<CommandException>(async () => await executionTask);
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await executionTask);
 
             var childExited = await WaitForExitAsync(childProcess, TimeSpan.FromSeconds(2));
             await Assert.That(childExited).IsTrue();
@@ -447,13 +447,33 @@ public class CommandTests : TestBase
             cancellationTokenSource.Cancel();
             await File.WriteAllTextAsync(parentExitFile, string.Empty);
 
-            await Assert.ThrowsAsync<CommandException>(async () => await executionTask);
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await executionTask);
             await Assert.That(stopwatch.Elapsed).IsLessThan(TimeSpan.FromSeconds(5));
         }
         finally
         {
             File.Delete(parentExitFile);
         }
+    }
+
+    [Test]
+    public async Task ExecuteCommandLineToolAsync_ExecutionTimeout_ThrowsTimeoutException()
+    {
+        var command = await GetService<ICommandContext>();
+
+        var exception = await Assert.ThrowsAsync<TimeoutException>(() =>
+            command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("pwsh")
+                {
+                    Arguments = ["-NoProfile", "-Command", "Start-Sleep -Seconds 60"],
+                },
+                new CommandExecutionOptions
+                {
+                    ExecutionTimeout = TimeSpan.FromMilliseconds(100),
+                    GracefulShutdownTimeout = TimeSpan.FromMilliseconds(50),
+                }));
+
+        await Assert.That(exception!.Message).Contains("timed out after");
     }
 
     [Test]
@@ -511,7 +531,7 @@ public class CommandTests : TestBase
                 grandchildPidFile,
                 grandchildPidFileTimeout.Token);
             grandchildProcess = Process.GetProcessById(grandchildProcessId);
-            await Assert.ThrowsAsync<CommandException>(async () => await executionTask);
+            await Assert.ThrowsAsync<OperationCanceledException>(async () => await executionTask);
 
             var grandchildExited = await WaitForExitAsync(grandchildProcess, TimeSpan.FromSeconds(2));
             await Assert.That(grandchildExited).IsTrue();

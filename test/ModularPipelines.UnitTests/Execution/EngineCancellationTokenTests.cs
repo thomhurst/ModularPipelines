@@ -3,9 +3,11 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -19,6 +21,7 @@ public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
     private static TaskCompletionSource PeerModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private static string CommandReadyFile = string.Empty;
 
     private class BadModule : ThrowingTestModule<bool>
     {
@@ -72,6 +75,56 @@ public class EngineCancellationTokenTests : TestBase
             PeerModuleStarted.TrySetResult();
             await Task.Delay(WaitForCancellationDelay, cancellationToken);
             return true;
+        }
+    }
+
+    private class RunningCommandModule : Module<CommandResult>
+    {
+        protected internal override async Task<CommandResult?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return await context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("pwsh")
+                {
+                    Arguments =
+                    [
+                        "-NoProfile",
+                        "-Command",
+                        "Set-Content -LiteralPath $env:MP_COMMAND_READY_FILE -Value ready; Start-Sleep -Seconds 60",
+                    ],
+                },
+                new CommandExecutionOptions
+                {
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["MP_COMMAND_READY_FILE"] = CommandReadyFile,
+                    },
+                    ExecutionTimeout = null,
+                    GracefulShutdownTimeout = TimeSpan.FromMilliseconds(50),
+                },
+                cancellationToken);
+        }
+    }
+
+    private class FailAfterCommandStartsModule : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            while (!File.Exists(CommandReadyFile))
+            {
+                if (stopwatch.Elapsed > TimeSpan.FromSeconds(10))
+                {
+                    throw new TimeoutException("The command process did not signal readiness.");
+                }
+
+                await Task.Delay(10, cancellationToken);
+            }
+
+            throw new InvalidOperationException("Expected test failure");
         }
     }
 
@@ -150,6 +203,38 @@ public class EngineCancellationTokenTests : TestBase
         await Assert.That(longRunningModuleResult).IsNotNull();
         await Assert.That(longRunningModuleResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
         await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(5));
+    }
+
+    [Test]
+    public async Task Running_Command_Is_PipelineTerminated_When_Engine_Cancels()
+    {
+        CommandReadyFile = Path.Combine(
+            Path.GetTempPath(),
+            $"modular-pipelines-command-ready-{Guid.NewGuid():N}");
+
+        try
+        {
+            var builder = TestPipelineHostBuilder.Create()
+                .AddModule<RunningCommandModule>()
+                .AddModule<FailAfterCommandStartsModule>();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                ThrowOnPipelineFailure = true,
+            });
+
+            var host = await builder.BuildAsync();
+            var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+
+            await Assert.ThrowsAsync<ModuleFailedException>(async () => await host.RunAsync());
+
+            var commandResult = resultRegistry.GetResult(typeof(RunningCommandModule));
+            await Assert.That(commandResult).IsNotNull();
+            await Assert.That(commandResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        }
+        finally
+        {
+            File.Delete(CommandReadyFile);
+        }
     }
 
     [Test]

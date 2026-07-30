@@ -228,30 +228,31 @@ internal sealed class Command : ICommandContext
                         deferredOutputLogger,
                         command.WorkingDirPath));
 
-                throw new CommandException(
-                    CreateFailureResult(
-                        command,
-                        execOpts,
-                        inputToLog,
-                        -1,
-                        stopwatch.Elapsed,
-                        standardOutput,
-                        standardError),
-                    failure);
-            }
+                if (ShouldPreserveCallerCancellation(e, failure, cancellationToken))
+                {
+                    throw;
+                }
 
-            var commandFailure = result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
-                ? new CommandException(CreateFailureResult(
+                throw CreateExecutionFailure(
+                    e,
+                    failure,
                     command,
                     execOpts,
                     inputToLog,
-                    result.ExitCode,
-                    result.RunTime,
+                    stopwatch.Elapsed,
                     standardOutput,
                     standardError,
-                    result.StartTime,
-                    result.ExitTime))
-                : null;
+                    cancellationToken,
+                    timeoutCancellationToken);
+            }
+
+            var commandFailure = CreateCommandFailure(
+                command,
+                result,
+                execOpts,
+                inputToLog,
+                standardOutput,
+                standardError);
 
             try
             {
@@ -299,6 +300,49 @@ internal sealed class Command : ICommandContext
         }
     }
 
+    private static bool ShouldPreserveCallerCancellation(
+        Exception executionFailure,
+        Exception combinedFailure,
+        CancellationToken cancellationToken)
+    {
+        return executionFailure is OperationCanceledException
+               && cancellationToken.IsCancellationRequested
+               && ReferenceEquals(combinedFailure, executionFailure);
+    }
+
+    private Exception CreateExecutionFailure(
+        Exception executionFailure,
+        Exception combinedFailure,
+        CliWrap.Command command,
+        CommandExecutionOptions execOpts,
+        string input,
+        TimeSpan duration,
+        string standardOutput,
+        string standardError,
+        CancellationToken cancellationToken,
+        CancellationTokenSource? timeoutCancellationToken)
+    {
+        if (executionFailure is OperationCanceledException
+            && !cancellationToken.IsCancellationRequested
+            && timeoutCancellationToken?.IsCancellationRequested is true)
+        {
+            return new TimeoutException(
+                $"Command execution timed out after {execOpts.ExecutionTimeout!.Value}.",
+                combinedFailure);
+        }
+
+        return new CommandException(
+            CreateFailureResult(
+                command,
+                execOpts,
+                input,
+                -1,
+                duration,
+                standardOutput,
+                standardError),
+            combinedFailure);
+    }
+
     private CommandResult CreateFailureResult(
         CliWrap.Command command,
         CommandExecutionOptions execOpts,
@@ -329,6 +373,28 @@ internal sealed class Command : ICommandContext
             endTime: completedAt,
             duration: duration,
             exitCode: exitCode);
+    }
+
+    private CommandException? CreateCommandFailure(
+        CliWrap.Command command,
+        CliWrap.CommandResult result,
+        CommandExecutionOptions execOpts,
+        string input,
+        string standardOutput,
+        string standardError)
+    {
+        return result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
+            ? new CommandException(CreateFailureResult(
+                command,
+                execOpts,
+                input,
+                result.ExitCode,
+                result.RunTime,
+                standardOutput,
+                standardError,
+                result.StartTime,
+                result.ExitTime))
+            : null;
     }
 
     private static BoundedCommandOutputBuffer? CreateCompleteOutputBuffer(CommandExecutionOptions options)
