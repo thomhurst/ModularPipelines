@@ -1846,6 +1846,9 @@ If "Run Categories" have been set with some values, only Modules that have any o
 ## Ignore Categories
 If "Ignore Categories" have been set with some values, if a Module has one of those categories, it will not run.
 
+Category names are matched case-insensitively. Pipeline validation fails when a configured run or ignore category
+does not match any registered module, including when a `RunOnlyCategories` filter would select zero modules.
+
 ## Example of Running Specific Categories
 
 ```csharp

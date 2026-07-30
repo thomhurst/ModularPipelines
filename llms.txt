@@ -24,7 +24,7 @@ This file contains links to documentation sections following the llmstxt.org sta
 - [Analyzers](https://thomhurst.github.io/ModularPipelines/docs/how-to/analyzers): These include:
 - [Generate build server files](https://thomhurst.github.io/ModularPipelines/docs/how-to/build-server-files): The `ModularPipelines` package can create the minimal YAML needed to run a
 - [Cancellation Tokens](https://thomhurst.github.io/ModularPipelines/docs/how-to/cancellation-tokens): When you override a Module's `ExecuteAsync` method, you are provided a `CancellationToken` by the framework.
-- [Categories](https://thomhurst.github.io/ModularPipelines/docs/how-to/categories): ```csharp
+- [Categories](https://thomhurst.github.io/ModularPipelines/docs/how-to/categories): Category names are matched case-insensitively. Pipeline validation fails when a configured run or ignore category
 - [Command Line](https://thomhurst.github.io/ModularPipelines/docs/next/how-to/command-line): Pass the application's `args` to `Pipeline.CreateBuilder(args)` to enable the
 - [Console Progress](https://thomhurst.github.io/ModularPipelines/docs/how-to/console-progress): If you are using an interactive terminal, then a progress dialog will be displayed to you. This will attempt to show you estimated remaining time, ...
 - [Custom Commands](https://thomhurst.github.io/ModularPipelines/docs/how-to/custom-commands): If you want to run a command that isn't currently supported by strong objects, you can still run commands directly through the `ICommandContext` in...
