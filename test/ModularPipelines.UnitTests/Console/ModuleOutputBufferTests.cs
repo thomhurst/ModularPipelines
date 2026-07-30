@@ -27,6 +27,38 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task Flush_Preserves_Buffered_Raw_Group_Command_Order()
+    {
+        const string startCommand = "[red]::group::dynamic[name][/]";
+        const string body = "section body";
+        const string endCommand = "::endgroup::dynamic";
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var formatter = new MarkupLikeBuildSystemFormatter();
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+
+        buffer.WriteGroupCommand(formatter, startCommand);
+        buffer.WriteLine(body);
+        buffer.WriteGroupCommand(formatter, endCommand);
+
+        await buffer.FlushToAsync(
+            writer,
+            formatter,
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        var startIndex = output.IndexOf(startCommand, StringComparison.Ordinal);
+        var bodyIndex = output.IndexOf(body, StringComparison.Ordinal);
+        var endIndex = output.IndexOf(endCommand, StringComparison.Ordinal);
+
+        await Assert.That(startIndex).IsGreaterThanOrEqualTo(0);
+        await Assert.That(bodyIndex).IsGreaterThan(startIndex);
+        await Assert.That(endIndex).IsGreaterThan(bodyIndex);
+    }
+
+    [Test]
     public async Task Flush_Renders_Local_Group_Header_Markup()
     {
         var writer = new StringWriter();

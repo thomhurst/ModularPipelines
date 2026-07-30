@@ -50,29 +50,17 @@ internal class DependencyPrinter : IDependencyPrinter
     private void Print(Tree tree)
     {
         var startCommand = _formatter.GetStartBlockCommand("Module Dependencies");
-        if (startCommand != null)
-        {
-            WriteGroupCommand(startCommand);
-        }
+        _formatter.WriteGroupCommand(
+            startCommand,
+            _commandWriter.WriteLine,
+            _consoleWriter.LogToConsole);
 
         _consoleWriter.Write(tree);
 
         var endCommand = _formatter.GetEndBlockCommand("Module Dependencies");
-        if (endCommand != null)
-        {
-            WriteGroupCommand(endCommand);
-        }
-    }
-
-    private void WriteGroupCommand(string command)
-    {
-        if (_formatter.UsesRawCommands)
-        {
-            _commandWriter.WriteLine(command);
-        }
-        else
-        {
-            _consoleWriter.LogToConsole(command);
-        }
+        _formatter.WriteGroupCommand(
+            endCommand,
+            _commandWriter.WriteLine,
+            _consoleWriter.LogToConsole);
     }
 }
