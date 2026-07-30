@@ -9,11 +9,11 @@ internal sealed class BuildSystemCommandWriter : IBuildSystemCommandWriter
     private readonly Lock _writeLock = new();
 
     /// <summary>
-    /// Initialises a writer over the original standard output stream.
+    /// Initialises a new instance of the <see cref="BuildSystemCommandWriter"/> class.
     /// </summary>
     /// <remarks>
-    /// DI must construct this dependency before <c>ConsoleCoordinator.Install()</c> redirects
-    /// <see cref="System.Console.Out"/>.
+    /// The writer captures the original standard output stream. DI must construct this dependency
+    /// before <c>ConsoleCoordinator.Install()</c> redirects <see cref="System.Console.Out"/>.
     /// </remarks>
     public BuildSystemCommandWriter()
         : this(System.Console.Out)
