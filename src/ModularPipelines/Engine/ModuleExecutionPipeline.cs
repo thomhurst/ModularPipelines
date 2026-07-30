@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Execution;
@@ -69,6 +70,28 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         {
             // Setup cancellation based on AlwaysRun behavior
             SetupCancellation(config, executionContext, engineCancellationToken);
+
+            if (config.CacheEnabled && _resultRepository is IModuleCacheResultRepository)
+            {
+                var cachedResult = await TryGetHistoricalResult(module, moduleContext, logger).ConfigureAwait(false);
+                if (cachedResult is not null)
+                {
+                    var cacheHit = SkipDecision.Skip("Module cache hit");
+                    await _directHookInvoker.InvokeSkippedAsync(
+                            module,
+                            moduleContext,
+                            cacheHit,
+                            executionContext.ModuleCancellationTokenSource.Token)
+                        .ConfigureAwait(false);
+                    return UseHistoricalResult(
+                        module,
+                        executionContext,
+                        cachedResult,
+                        cacheHit,
+                        logger,
+                        "Using cached module result");
+                }
+            }
 
             // A required dependency can skip before this module reaches its own conditions.
             var skipDecision = executionContext.SkipResult;
@@ -224,17 +247,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         // For skipped modules with a history repository configured, check for cached results
         if (_resultRepository.IsEnabled)
         {
-            var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext).ConfigureAwait(false);
+            var historicalResult = await TryGetHistoricalResult(module, moduleContext, logger).ConfigureAwait(false);
             if (historicalResult != null)
             {
-                executionContext.Status = Status.UsedHistory;
-
-                // Create a new result with UsedHistory status using record's 'with' expression
-                var usedHistoryResult = historicalResult with { ModuleStatus = Status.UsedHistory };
-                executionContext.SetTypedResult(usedHistoryResult);
-                module.CompletionSource.TrySetResult(usedHistoryResult!);
-                logger.LogDebug("Using historical result for skipped module");
-                return usedHistoryResult;
+                return UseHistoricalResult(
+                    module,
+                    executionContext,
+                    historicalResult,
+                    skipDecision,
+                    logger,
+                    "Using historical result for skipped module");
             }
         }
 
@@ -247,6 +269,42 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             skipDecision.Reason ?? "No reason provided");
 
         return skippedResult;
+    }
+
+    private async Task<ModuleResult<T>?> TryGetHistoricalResult<T>(
+        Module<T> module,
+        IModuleContext moduleContext,
+        IModuleLogger logger)
+    {
+        try
+        {
+            return await _resultRepository.GetResultAsync<T>(module, moduleContext).ConfigureAwait(false);
+        }
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        {
+            logger.LogWarning(
+                exception,
+                "Could not read a stored result for module {ModuleName}; executing normally",
+                module.GetType().Name);
+            return null;
+        }
+    }
+
+    private static ModuleResult<T> UseHistoricalResult<T>(
+        Module<T> module,
+        ModuleExecutionContext<T> executionContext,
+        ModuleResult<T> historicalResult,
+        SkipDecision skipDecision,
+        IModuleLogger logger,
+        string message)
+    {
+        executionContext.Status = Status.UsedHistory;
+        executionContext.SkipResult = skipDecision;
+        var usedHistoryResult = historicalResult with { ModuleStatus = Status.UsedHistory };
+        executionContext.SetTypedResult(usedHistoryResult);
+        module.CompletionSource.TrySetResult(usedHistoryResult);
+        logger.LogDebug(message);
+        return usedHistoryResult;
     }
 
     private async Task<T?> ExecuteWithPolicies<T>(

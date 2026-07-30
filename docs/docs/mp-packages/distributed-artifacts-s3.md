@@ -31,3 +31,17 @@ builder.AddS3DistributedArtifactStore(options =>
 ```
 
 Credentials use the AWS SDK credential chain. Configure the optional service URL when targeting an S3-compatible provider.
+
+## Module caching
+
+Use the same package as a shareable, cross-run module cache:
+
+```csharp
+builder.AddS3ModuleCache(options =>
+{
+    options.BucketName = "pipeline-cache";
+    options.Region = "eu-west-2";
+});
+```
+
+See [Cache Module Results](../how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.

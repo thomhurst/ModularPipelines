@@ -110,6 +110,29 @@ public sealed class ModuleConfiguration
     public string? Category { get; init; }
 
     /// <summary>
+    /// Gets file paths and glob patterns included in the module cache fingerprint.
+    /// </summary>
+    public IReadOnlyList<string> CacheInputPatterns { get; init; } = [];
+
+    /// <summary>
+    /// Gets explicit values included in the module cache fingerprint.
+    /// </summary>
+    public IReadOnlyList<string> CacheKeyParts { get; init; } = [];
+
+    /// <summary>
+    /// Gets environment variable names whose current values are included in the module cache fingerprint.
+    /// </summary>
+    public IReadOnlyList<string> CacheEnvironmentVariables { get; init; } = [];
+
+    /// <summary>
+    /// Gets a value indicating whether fingerprint-based caching is enabled for this module.
+    /// </summary>
+    public bool CacheEnabled =>
+        CacheInputPatterns.Count > 0
+        || CacheKeyParts.Count > 0
+        || CacheEnvironmentVariables.Count > 0;
+
+    /// <summary>
     /// Gets dependencies declared through fluent configuration or attributes.
     /// </summary>
     internal IReadOnlyList<DeclaredDependency> Dependencies { get; init; } = [];
