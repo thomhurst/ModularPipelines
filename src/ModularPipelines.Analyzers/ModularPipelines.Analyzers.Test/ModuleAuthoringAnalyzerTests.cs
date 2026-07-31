@@ -4401,6 +4401,299 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Startup_Method_Group()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.ConfigureServices(RegisterModules);
+                }
+
+                private static void RegisterModules(IServiceCollection services) =>
+                    services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Startup_Property_Getter()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static bool IsRegistered
+                {
+                    get
+                    {
+                        Pipeline.CreateBuilder().Services
+                            .AddSingleton<IModule, BuildModule>();
+                        return true;
+                    }
+                }
+
+                public static void Register() => _ = IsRegistered;
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_Registered_Only_In_Constant_False_For_Loop()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    for (; false;)
+                    {
+                        Pipeline.CreateBuilder().AddModule<BuildModule>();
+                    }
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Branch_Assigned_Module_Service_Type()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    Type serviceType;
+                    if (flag)
+                    {
+                        serviceType = typeof(IModule);
+                    }
+                    else
+                    {
+                        serviceType = typeof(IModule);
+                    }
+
+                    Pipeline.CreateBuilder().Services.AddSingleton(
+                        serviceType,
+                        typeof(BuildModule));
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Branch_Assigned_Descriptor_Implementation_Type()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    Type implementationType;
+                    if (flag)
+                    {
+                        implementationType = typeof(BuildModule);
+                    }
+                    else
+                    {
+                        implementationType = typeof(BuildModule);
+                    }
+
+                    Pipeline.CreateBuilder().Services.Add(
+                        ServiceDescriptor.Singleton(
+                            typeof(IModule),
+                            implementationType));
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_In_Interface_Dispatched_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public interface IWorker
+            {
+                Task WorkAsync();
+            }
+
+            public class BuildModule : Module<List<string>>, IWorker
+            {
+                protected override async Task<List<string>?> ExecuteAsync(
+                    IModuleContext context,
+                    CancellationToken cancellationToken)
+                {
+                    await ((IWorker)this).WorkAsync();
+                    return null;
+                }
+
+                async Task IWorker.WorkAsync()
+                {
+                    {|#0:Thread.Sleep(1)|};
+                    await {|#1:FetchAsync()|};
+                }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+            """;
+
+        var blockingCall = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        var unflowedToken = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(1)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            blockingCall,
+            unflowedToken);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Field_Stored_Source_Callback()
+    {
+        var source = ModuleSource("""
+            private Func<Task>? _callback;
+
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await RunAsync(async () =>
+                {
+                    {|#0:Thread.Sleep(1)|};
+                    await {|#1:FetchAsync()|};
+                });
+                return null;
+            }
+
+                private Task RunAsync(Func<Task> callback)
+                {
+                    _callback = callback;
+                    return _callback();
+                }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        var blockingCall = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        var unflowedToken = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(1)
+            .WithArguments("FetchAsync");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            blockingCall,
+            unflowedToken);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Token_Assigned_In_Finally_Block()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                try
+                {
+                }
+                finally
+                {
+                    token = cancellationToken;
+                }
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Duplicate_DependsOn()
     {
         var source = $$"""
