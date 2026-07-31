@@ -411,7 +411,7 @@ public class File : IEquatable<File>
     /// <inheritdoc/>
     public bool Equals(File? other)
     {
-        if (ReferenceEquals(null, other))
+        if (other is null)
         {
             return false;
         }

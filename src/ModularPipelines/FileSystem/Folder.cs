@@ -589,7 +589,7 @@ public class Folder : IEquatable<Folder>
     /// <inheritdoc/>
     public bool Equals(Folder? other)
     {
-        if (ReferenceEquals(null, other))
+        if (other is null)
         {
             return false;
         }
