@@ -208,6 +208,7 @@ public class PipelineInitializerTests
     [Arguments("PWD")]
     [Arguments("OLDPWD")]
     [Arguments("SSH_AUTH_SOCK")]
+    [Arguments("XAUTHORITY")]
     [Arguments("GIT_AUTHOR_NAME")]
     [Arguments("GIT_AUTHOR_EMAIL")]
     [Arguments("GIT_AUTHOR_DATE")]

@@ -166,6 +166,7 @@ internal class PipelineInitializer(
         return !name.Equals("PWD", StringComparison.OrdinalIgnoreCase)
                && !name.Equals("OLDPWD", StringComparison.OrdinalIgnoreCase)
                && !name.Equals("SSH_AUTH_SOCK", StringComparison.OrdinalIgnoreCase)
+               && !name.Equals("XAUTHORITY", StringComparison.OrdinalIgnoreCase)
                && !name.StartsWith("GIT_AUTHOR_", StringComparison.OrdinalIgnoreCase)
                && (SensitiveEnvironmentVariableNames.Contains(name, StringComparer.OrdinalIgnoreCase)
                    || SensitiveEnvironmentVariableNameParts.Any(
