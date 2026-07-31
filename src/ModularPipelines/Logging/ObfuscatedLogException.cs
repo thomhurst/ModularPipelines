@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Logging;
@@ -20,6 +22,7 @@ internal sealed class ObfuscatedLogException : Exception
     {
         _obfuscatedStackTrace = ObfuscateNullable(exception.StackTrace, secretObfuscator);
         _obfuscatedText = secretObfuscator.Obfuscate(exception.ToString(), null);
+        GetExceptionMethod(this) = exception.TargetSite;
         HResult = exception.HResult;
         HelpLink = ObfuscateNullable(exception.HelpLink, secretObfuscator);
         Source = ObfuscateNullable(exception.Source, secretObfuscator);
@@ -38,4 +41,8 @@ internal sealed class ObfuscatedLogException : Exception
         string? value,
         ISecretObfuscator secretObfuscator) =>
         value is null ? null : secretObfuscator.Obfuscate(value, null);
+
+    // TargetSite is non-virtual and has no public copy API; this is its .NET 10 backing field.
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_exceptionMethod")]
+    private static extern ref MethodBase? GetExceptionMethod(Exception exception);
 }

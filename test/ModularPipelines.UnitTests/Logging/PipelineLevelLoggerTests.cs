@@ -163,6 +163,7 @@ public class PipelineLevelLoggerTests
         {
             await Assert.That(exception?.StackTrace).Contains(nameof(CaptureException));
             await Assert.That(exception?.StackTrace).DoesNotContain(secret);
+            await Assert.That(exception?.TargetSite).IsEqualTo(originalException.TargetSite);
             await Assert.That(exception?.InnerException).IsNotNull();
             await Assert.That(exception?.InnerException?.Message).IsEqualTo("Inner: ********");
             await Assert.That(exception?.InnerException).IsNotSameReferenceAs(innerException);
