@@ -46,9 +46,8 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
                 continue;
             }
 
-            var originalValue = property.Value.ToString() ?? string.Empty;
-            var obfuscatedValue = _secretObfuscator.Obfuscate(originalValue, null);
-            if (obfuscatedValue.Equals(originalValue, StringComparison.Ordinal))
+            var obfuscatedValue = ObfuscateValue(property.Value);
+            if (ReferenceEquals(obfuscatedValue, property.Value))
             {
                 continue;
             }
@@ -62,7 +61,16 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
 
     private object ObfuscateValue(object value)
     {
-        var originalValue = value.ToString() ?? string.Empty;
+        string originalValue;
+        try
+        {
+            originalValue = value.ToString() ?? string.Empty;
+        }
+        catch (Exception)
+        {
+            return value;
+        }
+
         var obfuscatedValue = _secretObfuscator.Obfuscate(originalValue, null);
         return obfuscatedValue.Equals(originalValue, StringComparison.Ordinal)
             ? value

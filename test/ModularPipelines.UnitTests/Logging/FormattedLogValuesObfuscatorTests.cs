@@ -108,4 +108,24 @@ public class FormattedLogValuesObfuscatorTests
 
         await Assert.That(obfuscatedState).IsEqualTo("Value: ********");
     }
+
+    [Test]
+    public async Task TryObfuscateValues_PreservesStateWhenToStringThrows()
+    {
+        var state = new ThrowingToStringState();
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object)
+            .TryObfuscateValues(state);
+
+        await Assert.That(obfuscatedState).IsSameReferenceAs(state);
+        secretObfuscator.Verify(
+            x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()),
+            Times.Never);
+    }
+
+    private sealed class ThrowingToStringState
+    {
+        public override string ToString() => throw new InvalidOperationException("Cannot format state.");
+    }
 }

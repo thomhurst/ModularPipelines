@@ -173,6 +173,35 @@ public class PipelineLevelLoggerTests
     }
 
     [Test]
+    public async Task Log_PreservesEverySanitizedAggregateExceptionBranch()
+    {
+        const string secret = "pipeline-secret";
+        var underlyingLogger = new RecordingLogger();
+        var firstException = new InvalidOperationException($"First: {secret}");
+        var secondException = new ArgumentException($"Second: {secret}");
+        var originalException = new AggregateException(
+            $"Aggregate: {secret}",
+            firstException,
+            secondException);
+        var pipelineLevelLogger = CreateLogger(
+            underlyingLogger,
+            value => value?.Replace(secret, "********", StringComparison.Ordinal) ?? string.Empty);
+
+        pipelineLevelLogger.LogError(originalException, "Failure");
+
+        var aggregateException = underlyingLogger.Exception as AggregateException;
+        using (Assert.Multiple())
+        {
+            await Assert.That(aggregateException).IsNotNull();
+            await Assert.That(aggregateException!.InnerExceptions).Count().IsEqualTo(2);
+            await Assert.That(aggregateException.InnerExceptions[0].Message).IsEqualTo("First: ********");
+            await Assert.That(aggregateException.InnerExceptions[1].Message).IsEqualTo("Second: ********");
+            await Assert.That(aggregateException.InnerExceptions[0]).IsNotSameReferenceAs(firstException);
+            await Assert.That(aggregateException.InnerExceptions[1]).IsNotSameReferenceAs(secondException);
+        }
+    }
+
+    [Test]
     public async Task BeginScope_ObfuscatesStateBeforeDelegating()
     {
         const string secret = "scope-secret";
