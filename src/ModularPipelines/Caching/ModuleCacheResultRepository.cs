@@ -448,6 +448,18 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 IsDirectorySymbolicLink: IsDirectorySymbolicLink(entry)))
             .ToArray();
 
+        foreach (var directoryLink in artifactEntries
+                     .Where(artifact => artifact.IsDirectorySymbolicLink))
+        {
+            if (artifactEntries.Any(artifact =>
+                    IsNestedPath(directoryLink.Destination, artifact.Destination)))
+            {
+                throw new InvalidDataException(
+                    $"Cache artifact entry '{directoryLink.Entry.FullName}' is a directory link "
+                    + "with nested artifact entries.");
+            }
+        }
+
         try
         {
             ClearArtifacts(moduleType, cancellationToken);
@@ -563,6 +575,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             _options.MaximumInputFiles,
             _options.CacheDirectory);
 
+        MakeDirectoriesWritable(directories);
+
         foreach (var directoryLink in directoryLinks.OrderByDescending(path => path.Length))
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -583,6 +597,25 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 && !Directory.EnumerateFileSystemEntries(directory).Any())
             {
                 Directory.Delete(directory);
+            }
+        }
+    }
+
+    private static void MakeDirectoriesWritable(IEnumerable<string> directories)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        const UnixFileMode requiredMode =
+            UnixFileMode.UserWrite | UnixFileMode.UserExecute;
+        foreach (var directory in directories.OrderBy(path => path.Length))
+        {
+            var mode = File.GetUnixFileMode(directory);
+            if ((mode & requiredMode) != requiredMode)
+            {
+                File.SetUnixFileMode(directory, mode | requiredMode);
             }
         }
     }
@@ -680,6 +713,17 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         }
 
         return destination;
+    }
+
+    private static bool IsNestedPath(string parent, string candidate)
+    {
+        var relativePath = Path.GetRelativePath(parent, candidate);
+        return relativePath != "."
+               && relativePath != ".."
+               && !relativePath.StartsWith(
+                   $"..{Path.DirectorySeparatorChar}",
+                   StringComparison.Ordinal)
+               && !Path.IsPathRooted(relativePath);
     }
 
     private static void RestoreUnixMode(
