@@ -127,6 +127,10 @@ public sealed class ModuleConfiguration
     /// <summary>
     /// Gets a value indicating whether fingerprint-based caching is enabled for this module.
     /// </summary>
+    /// <remarks>
+    /// The fingerprint includes direct dependency results. A dependency's result must change whenever
+    /// upstream state relevant to a cached dependent changes; transitive dependencies are not fingerprinted directly.
+    /// </remarks>
     public bool CacheEnabled =>
         CacheInputPatterns.Count > 0
         || CacheKeyParts.Count > 0

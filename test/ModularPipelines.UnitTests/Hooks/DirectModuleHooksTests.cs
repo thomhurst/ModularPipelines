@@ -62,9 +62,9 @@ public class DirectModuleHooksTests : TestBase
             CancellationToken cancellationToken)
         {
             await Task.Yield();
-            // We can't easily modify the internal result here, so we just verify the hook was called
-            // In production, users could use this to log, transform, or wrap results
-            return null; // null means keep original result
+            return result is ModuleResult<string>.Success success
+                ? success with { Value = "Transformed" }
+                : null;
         }
     }
 
@@ -271,6 +271,15 @@ public class DirectModuleHooksTests : TestBase
         var result = await module;
 
         await Assert.That(result.ValueOrDefault).IsEqualTo("Success");
+    }
+
+    [Test]
+    public async Task OnAfterExecuteAsync_PublishesTransformedResult()
+    {
+        var module = await RunModule<ResultModifyingModule>();
+        var result = await module;
+
+        await Assert.That(result.ValueOrDefault).IsEqualTo("Transformed");
     }
 
     [Test]

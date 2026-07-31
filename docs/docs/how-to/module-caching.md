@@ -97,6 +97,7 @@ builder.AddRedisModuleCache(
 
 - Declare all file inputs. An undeclared input cannot invalidate a cache entry.
 - Add key parts for arguments, configuration objects, external service versions, and other non-file inputs.
+- Return dependency values that change whenever relevant upstream state changes. Only direct dependency results are fingerprinted, so constant or `Unit` results do not propagate transitive invalidation.
 - Declare environment variables individually; the framework does not fingerprint the entire process environment.
 - Input files are content-hashed on every fingerprint calculation. File size and timestamps are not treated as proof that content is unchanged.
 - Use `ProducesArtifact` for files a cache hit must recreate.

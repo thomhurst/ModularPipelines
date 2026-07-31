@@ -6,6 +6,8 @@ namespace ModularPipelines.Attributes;
 /// <remarks>
 /// Patterns are evaluated relative to <see cref="Caching.ModuleCacheOptions.WorkingDirectory"/>.
 /// Standard <c>*</c>, <c>?</c>, and recursive <c>**</c> glob wildcards are supported.
+/// Cache fingerprints also include direct dependency results. A dependency's result must change
+/// whenever upstream state relevant to a cached dependent changes.
 /// </remarks>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
 public sealed class CacheInputsAttribute : Attribute
@@ -17,7 +19,6 @@ public sealed class CacheInputsAttribute : Attribute
 
     /// <summary>
     /// Initialises a new instance of the <see cref="CacheInputsAttribute"/> class.
-    /// Initializes a new instance of the <see cref="CacheInputsAttribute"/> class.
     /// </summary>
     /// <param name="patterns">One or more input file paths or glob patterns.</param>
     public CacheInputsAttribute(params string[] patterns)

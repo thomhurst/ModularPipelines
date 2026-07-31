@@ -158,8 +158,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.Status = Status.Successful;
 
             moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
-            executionContext.SetTypedResult(moduleResult);
-            module.CompletionSource.TrySetResult(moduleResult);
 
             afterHookInvoked = true;
             moduleResult = await InvokeAfterExecuteAsync(
@@ -169,6 +167,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     executionContext.ModuleCancellationTokenSource.Token)
                 .ConfigureAwait(false);
 
+            executionContext.SetTypedResult(moduleResult);
+            module.CompletionSource.TrySetResult(moduleResult);
+
             // Save to history if applicable
             await SaveResults(
                     module,
@@ -176,8 +177,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     moduleContext,
                     executionContext.ModuleCancellationTokenSource.Token)
                 .ConfigureAwait(false);
-
-            executionContext.SetTypedResult(moduleResult);
 
             return moduleResult;
         }
@@ -500,6 +499,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleResult<T> moduleResult,
         CancellationToken cancellationToken)
     {
+        var previousProvisionalResult = module.SetProvisionalResult(moduleResult);
         try
         {
             return await _directHookInvoker
@@ -511,6 +511,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         {
             moduleContext.Logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
             return moduleResult;
+        }
+        finally
+        {
+            module.RestoreProvisionalResult(previousProvisionalResult);
         }
     }
 

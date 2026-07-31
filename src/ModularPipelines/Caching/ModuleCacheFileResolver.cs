@@ -33,13 +33,18 @@ internal static class ModuleCacheFileResolver
             }
 
             var path = GetContainedPath(root, pattern);
+            if (HasLinkedDirectoryComponent(root, path))
+            {
+                continue;
+            }
+
             if (File.Exists(path))
             {
                 AddFile(files, path, maximumFiles, excludedRoot);
             }
             else if (Directory.Exists(path))
             {
-                foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
+                foreach (var file in EnumerateFilesWithoutFollowingDirectoryLinks(path))
                 {
                     AddFile(files, file, maximumFiles, excludedRoot);
                 }
@@ -48,7 +53,7 @@ internal static class ModuleCacheFileResolver
 
         if (globs.Count > 0)
         {
-            foreach (var file in Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories))
+            foreach (var file in EnumerateFilesWithoutFollowingDirectoryLinks(root))
             {
                 var relativePath = NormalizeSeparators(Path.GetRelativePath(root, file));
                 if (globs.Any(regex => regex.IsMatch(relativePath)))
@@ -91,13 +96,13 @@ internal static class ModuleCacheFileResolver
             }
 
             var path = GetContainedPath(root, pattern);
-            if (!Directory.Exists(path))
+            if (HasLinkedDirectoryComponent(root, path) || !Directory.Exists(path))
             {
                 continue;
             }
 
             AddDirectory(directories, path, maximumDirectories, excludedRoot);
-            foreach (var directory in Directory.EnumerateDirectories(path, "*", SearchOption.AllDirectories))
+            foreach (var directory in EnumerateDirectoriesWithoutFollowingLinks(path))
             {
                 AddDirectory(directories, directory, maximumDirectories, excludedRoot);
             }
@@ -105,7 +110,7 @@ internal static class ModuleCacheFileResolver
 
         if (globs.Count > 0)
         {
-            foreach (var directory in Directory.EnumerateDirectories(root, "*", SearchOption.AllDirectories))
+            foreach (var directory in EnumerateDirectoriesWithoutFollowingLinks(root))
             {
                 var relativePath = NormalizeSeparators(Path.GetRelativePath(root, directory));
                 if (globs.Any(regex => regex.IsMatch(relativePath)))
@@ -124,6 +129,79 @@ internal static class ModuleCacheFileResolver
         var fullPath = Path.GetFullPath(path);
         EnsureContained(root, fullPath);
         return NormalizeSeparators(Path.GetRelativePath(root, fullPath));
+    }
+
+    private static IEnumerable<string> EnumerateFilesWithoutFollowingDirectoryLinks(string root)
+    {
+        if (IsDirectoryLink(root))
+        {
+            yield break;
+        }
+
+        var pendingDirectories = new Stack<string>();
+        pendingDirectories.Push(root);
+
+        while (pendingDirectories.TryPop(out var directory))
+        {
+            foreach (var entry in Directory.EnumerateFileSystemEntries(directory))
+            {
+                var attributes = File.GetAttributes(entry);
+                if ((attributes & FileAttributes.Directory) == 0)
+                {
+                    yield return entry;
+                }
+                else if ((attributes & FileAttributes.ReparsePoint) == 0)
+                {
+                    pendingDirectories.Push(entry);
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<string> EnumerateDirectoriesWithoutFollowingLinks(string root)
+    {
+        var pendingDirectories = new Stack<string>();
+        pendingDirectories.Push(root);
+
+        while (pendingDirectories.TryPop(out var directory))
+        {
+            foreach (var entry in Directory.EnumerateDirectories(directory))
+            {
+                if (IsDirectoryLink(entry))
+                {
+                    continue;
+                }
+
+                yield return entry;
+                pendingDirectories.Push(entry);
+            }
+        }
+    }
+
+    private static bool IsDirectoryLink(string path)
+    {
+        var attributes = File.GetAttributes(path);
+        return (attributes & (FileAttributes.Directory | FileAttributes.ReparsePoint))
+               == (FileAttributes.Directory | FileAttributes.ReparsePoint);
+    }
+
+    private static bool HasLinkedDirectoryComponent(string root, string path)
+    {
+        var relativePath = Path.GetRelativePath(root, path);
+        var currentPath = root;
+
+        foreach (var component in relativePath.Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            currentPath = Path.Combine(currentPath, component);
+            if (Directory.Exists(currentPath) && IsDirectoryLink(currentPath))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static string NormalizePattern(string root, string pattern)

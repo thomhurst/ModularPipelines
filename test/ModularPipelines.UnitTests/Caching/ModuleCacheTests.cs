@@ -123,6 +123,47 @@ public class ModuleCacheTests
         }
     }
 
+    private sealed class ResultTransformingCachedModule : Module<string>
+    {
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            return Task.FromResult<string?>("original");
+        }
+
+        protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
+            IModuleContext context,
+            ModuleResult<string> result,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<ModuleResult<string>?>(
+                result is ModuleResult<string>.Success success
+                    ? success with { Value = "transformed" }
+                    : null);
+        }
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheKeyPart("result-transform-v1")
+                .Build();
+    }
+
+    [ModularPipelines.Attributes.DependsOn<ResultTransformingCachedModule>]
+    private sealed class TransformedResultDependentModule : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var dependency = await context.GetModule<ResultTransformingCachedModule>();
+            return dependency.ValueOrDefault;
+        }
+    }
+
     [CacheInputs("set-input.txt")]
     [ProducesArtifact("artifact-set", "artifact-set")]
     private sealed class VaryingArtifactSetModule : Module<string>
@@ -438,6 +479,55 @@ public class ModuleCacheTests
     }
 
     [Test]
+    public async Task ArtifactExpansionDoesNotTraverseDirectorySymbolicLinks()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-directory-link-{Guid.NewGuid():N}");
+        var workingDirectory = Path.Combine(temporaryDirectory, "working");
+        var artifactDirectory = Path.Combine(workingDirectory, "artifacts");
+        var externalDirectory = Path.Combine(temporaryDirectory, "external");
+        Directory.CreateDirectory(artifactDirectory);
+        Directory.CreateDirectory(externalDirectory);
+
+        try
+        {
+            var localFile = Path.Combine(artifactDirectory, "local.txt");
+            await System.IO.File.WriteAllTextAsync(localFile, "local");
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(externalDirectory, "external.txt"),
+                "external");
+            Directory.CreateSymbolicLink(
+                Path.Combine(artifactDirectory, "external-link"),
+                externalDirectory);
+
+            var files = ModuleCacheFileResolver.ResolveFiles(
+                workingDirectory,
+                ["artifacts"],
+                maximumFiles: 10);
+            var exactLinkedFile = ModuleCacheFileResolver.ResolveFiles(
+                workingDirectory,
+                ["artifacts/external-link/external.txt"],
+                maximumFiles: 10);
+            var directories = ModuleCacheFileResolver.ResolveDirectories(
+                workingDirectory,
+                ["artifacts"],
+                maximumDirectories: 10);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(files).IsEquivalentTo(new[] { localFile });
+                await Assert.That(exactLinkedFile).IsEmpty();
+                await Assert.That(directories).IsEquivalentTo(new[] { artifactDirectory });
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     [Arguments(false)]
     [Arguments(true)]
@@ -607,6 +697,38 @@ public class ModuleCacheTests
                 await Assert.That(AfterHookArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(await System.IO.File.ReadAllTextAsync(outputPath))
                     .IsEqualTo("after-hook");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task TransformedResultIsConsistentForFreshAndCachedExecution()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-transformed-result-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        ResultTransformingCachedModule.ExecutionCount = 0;
+
+        try
+        {
+            var first = await RunTransformedResultPipelineAsync(temporaryDirectory);
+            var second = await RunTransformedResultPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(first.ModuleResult.ModuleStatus).IsEqualTo(Status.Successful);
+                await Assert.That(second.ModuleResult.ModuleStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(first.ModuleResult.ValueOrDefault).IsEqualTo("transformed");
+                await Assert.That(second.ModuleResult.ValueOrDefault).IsEqualTo("transformed");
+                await Assert.That(first.DependentValue).IsEqualTo("transformed");
+                await Assert.That(second.DependentValue).IsEqualTo("transformed");
+                await Assert.That(ResultTransformingCachedModule.ExecutionCount).IsEqualTo(1);
             }
         }
         finally
@@ -867,6 +989,31 @@ public class ModuleCacheTests
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(AfterHookArtifactModule))!
             .ModuleStatus;
+    }
+
+    private static async Task<(ModuleResult<string> ModuleResult, string? DependentValue)>
+        RunTransformedResultPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<ResultTransformingCachedModule>()
+            .AddModule<TransformedResultDependentModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        var module = host.Services
+            .GetServices<IModule>()
+            .OfType<ResultTransformingCachedModule>()
+            .Single();
+        var moduleResult = await module;
+        var dependentResult = host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(TransformedResultDependentModule))!;
+        return (moduleResult, dependentResult.ValueOrDefault as string);
     }
 
     private static async Task<Status> RunVaryingArtifactSetPipelineAsync(string workingDirectory)
