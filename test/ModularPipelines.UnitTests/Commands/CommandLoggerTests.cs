@@ -313,7 +313,7 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
-    public async Task Fast_Command_Logs_Complete_Output_When_Result_Is_Truncated()
+    public async Task Command_Logs_Complete_Output_When_Result_Is_Truncated()
     {
         const string output = "complete-output";
         var file = await RunPowershellCommandWithLoggingOptions(
@@ -322,7 +322,7 @@ public class CommandLoggerTests : TestBase
             maxCapturedOutputLength: 4);
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Contains($"→ {output}");
+        await Assert.That(Regex.Matches(logFile, $"(?:→|↳) {output}").Count).IsEqualTo(1);
         await Assert.That(logFile).DoesNotContain("truncated");
     }
 
