@@ -42,6 +42,11 @@ internal class PipelineInitializer(
         "CONNSTR",
     ];
 
+    private static readonly string[] SensitiveEnvironmentVariableDelimitedNameParts =
+    [
+        "PASS",
+    ];
+
     private static readonly string[] SensitiveEnvironmentVariableNames =
     [
         "AzureWebJobsStorage",
@@ -184,7 +189,33 @@ internal class PipelineInitializer(
                    StringComparer.OrdinalIgnoreCase)
                && (SensitiveEnvironmentVariableNames.Contains(name, StringComparer.OrdinalIgnoreCase)
                    || SensitiveEnvironmentVariableNameParts.Any(
-                       part => name.Contains(part, StringComparison.OrdinalIgnoreCase)));
+                       part => name.Contains(part, StringComparison.OrdinalIgnoreCase))
+                   || SensitiveEnvironmentVariableDelimitedNameParts.Any(
+                       part => ContainsDelimitedNamePart(name, part)));
+    }
+
+    private static bool ContainsDelimitedNamePart(string name, string part)
+    {
+        var searchStart = 0;
+        while (searchStart <= name.Length - part.Length)
+        {
+            var index = name.IndexOf(part, searchStart, StringComparison.OrdinalIgnoreCase);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            var end = index + part.Length;
+            if ((index == 0 || !char.IsLetterOrDigit(name[index - 1]))
+                && (end == name.Length || !char.IsLetterOrDigit(name[end])))
+            {
+                return true;
+            }
+
+            searchStart = index + 1;
+        }
+
+        return false;
     }
 
     private static string MakeSingleLine(string value)
