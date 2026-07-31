@@ -218,6 +218,7 @@ public class PipelineInitializerTests
     [Arguments("AZURE_FEDERATED_TOKEN_FILE")]
     [Arguments("CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE")]
     [Arguments("GOOGLE_APPLICATION_CREDENTIALS")]
+    [Arguments("NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED")]
     [Arguments("GIT_AUTHOR_NAME")]
     [Arguments("GIT_AUTHOR_EMAIL")]
     [Arguments("GIT_AUTHOR_DATE")]
