@@ -67,7 +67,14 @@ internal static class ModuleCacheFileResolver
         }
 
         var root = Path.GetFullPath(workingDirectory);
-        var excludedRoot = excludedDirectory is null ? null : Path.GetFullPath(excludedDirectory);
+        var excludedRoot = excludedDirectory is null
+            ? null
+            : Path.GetFullPath(excludedDirectory);
+        if (excludedRoot is not null && !IsWithin(root, excludedRoot))
+        {
+            excludedRoot = null;
+        }
+
         var paths = new HashSet<string>(PathComparer);
         var globs = new List<Regex>();
 
@@ -144,11 +151,6 @@ internal static class ModuleCacheFileResolver
         string root,
         bool includeDirectories)
     {
-        if (IsDirectoryLink(root))
-        {
-            yield break;
-        }
-
         var pendingDirectories = new Stack<string>();
         pendingDirectories.Push(root);
 
@@ -326,9 +328,15 @@ internal static class ModuleCacheFileResolver
         }
 
         expression.Append('$');
+        var options = RegexOptions.CultureInvariant | RegexOptions.Compiled;
+        if (OperatingSystem.IsWindows())
+        {
+            options |= RegexOptions.IgnoreCase;
+        }
+
         return new Regex(
             expression.ToString(),
-            RegexOptions.CultureInvariant | RegexOptions.Compiled,
+            options,
             TimeSpan.FromSeconds(1));
     }
 

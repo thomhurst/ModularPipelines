@@ -54,6 +54,8 @@ public abstract class Module<T> : IModule, ITaggedModule
 {
     private readonly Lazy<ModuleConfiguration> _configuration;
     private readonly Lazy<FrozenSet<string>> _tags;
+
+    // Exposes hook-transformed results to self-awaits without completing the public result early.
     private readonly AsyncLocal<ModuleResult<T>?> _provisionalResult = new();
 
     /// <summary>

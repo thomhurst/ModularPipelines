@@ -479,6 +479,98 @@ public class ModuleCacheTests
     }
 
     [Test]
+    public async Task GlobExpansionDoesNotExcludeWorkingTreeWhenCacheIsAncestor()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-ancestor-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        var workingDirectory = Path.Combine(cacheDirectory, "job");
+        Directory.CreateDirectory(workingDirectory);
+
+        try
+        {
+            var input = Path.Combine(workingDirectory, "input.txt");
+            await System.IO.File.WriteAllTextAsync(input, "input");
+
+            var files = ModuleCacheFileResolver.ResolveFiles(
+                workingDirectory,
+                ["**/*"],
+                maximumFiles: 10,
+                excludedDirectory: cacheDirectory);
+
+            await Assert.That(files).IsEquivalentTo(new[] { input });
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task GlobExpansionTraversesSymbolicLinkedWorkingDirectoryRoot()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-linked-root-{Guid.NewGuid():N}");
+        var targetDirectory = Path.Combine(temporaryDirectory, "target");
+        var workingDirectory = Path.Combine(temporaryDirectory, "working");
+        Directory.CreateDirectory(targetDirectory);
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(targetDirectory, "input.txt"),
+                "input");
+            Directory.CreateSymbolicLink(workingDirectory, targetDirectory);
+
+            var files = ModuleCacheFileResolver.ResolveFiles(
+                workingDirectory,
+                ["**/*"],
+                maximumFiles: 10);
+
+            await Assert.That(files.Select(path => Path.GetFileName(path)!))
+                .IsEquivalentTo(new[] { "input.txt" });
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task GlobExpansionIsCaseInsensitiveOnWindows()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-case-{Guid.NewGuid():N}");
+        var sourceDirectory = Path.Combine(temporaryDirectory, "src");
+        Directory.CreateDirectory(sourceDirectory);
+
+        try
+        {
+            var sourceFile = Path.Combine(sourceDirectory, "App.cs");
+            await System.IO.File.WriteAllTextAsync(sourceFile, "source");
+
+            var files = ModuleCacheFileResolver.ResolveFiles(
+                temporaryDirectory,
+                ["SRC/**/*.CS"],
+                maximumFiles: 10);
+
+            await Assert.That(files).IsEquivalentTo(new[] { sourceFile });
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task ArtifactExpansionDoesNotTraverseDirectorySymbolicLinks()
     {
         var temporaryDirectory = Path.Combine(
@@ -770,6 +862,93 @@ public class ModuleCacheTests
                     .IsTrue();
                 await Assert.That(System.IO.File.Exists(Path.Combine(artifactDirectory, "b.txt")))
                     .IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreReplacesStaleDirectorySymbolicLink()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-stale-directory-link-{Guid.NewGuid():N}");
+        var externalDirectory = Path.Combine(temporaryDirectory, "external");
+        Directory.CreateDirectory(temporaryDirectory);
+        Directory.CreateDirectory(externalDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            var inputPath = Path.Combine(temporaryDirectory, "set-input.txt");
+            var artifactDirectory = Path.Combine(temporaryDirectory, "artifact-set");
+            var externalArtifact = Path.Combine(externalDirectory, "a.txt");
+            var externalSentinel = Path.Combine(externalDirectory, "sentinel.txt");
+            await System.IO.File.WriteAllTextAsync(inputPath, "a");
+            await System.IO.File.WriteAllTextAsync(externalSentinel, "untouched");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            Directory.Delete(artifactDirectory, recursive: true);
+            Directory.CreateSymbolicLink(artifactDirectory, externalDirectory);
+            var restoredStatus = await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(new DirectoryInfo(artifactDirectory).LinkTarget).IsNull();
+                await Assert.That(await System.IO.File.ReadAllTextAsync(
+                        Path.Combine(artifactDirectory, "a.txt")))
+                    .IsEqualTo("a");
+                await Assert.That(System.IO.File.Exists(externalArtifact)).IsFalse();
+                await Assert.That(await System.IO.File.ReadAllTextAsync(externalSentinel))
+                    .IsEqualTo("untouched");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreReplacesDanglingArtifactSymbolicLink()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-dangling-link-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        CachedModule.WorkingDirectory = temporaryDirectory;
+        CachedModule.ExecutionCount = 0;
+
+        try
+        {
+            var inputPath = Path.Combine(temporaryDirectory, "input.txt");
+            var outputPath = Path.Combine(temporaryDirectory, "output.txt");
+            var externalPath = Path.Combine(temporaryDirectory, "external", "escaped.txt");
+            await System.IO.File.WriteAllTextAsync(inputPath, "input");
+            await RunPipelineAsync(temporaryDirectory, Path.Combine(temporaryDirectory, "cache"));
+
+            System.IO.File.Delete(outputPath);
+            System.IO.File.CreateSymbolicLink(outputPath, externalPath);
+            var restoredStatus = await RunPipelineAsync(
+                temporaryDirectory,
+                Path.Combine(temporaryDirectory, "cache"));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(CachedModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(new FileInfo(outputPath).LinkTarget).IsNull();
+                await Assert.That(await System.IO.File.ReadAllTextAsync(outputPath))
+                    .IsEqualTo("output:input");
+                await Assert.That(System.IO.File.Exists(externalPath)).IsFalse();
             }
         }
         finally

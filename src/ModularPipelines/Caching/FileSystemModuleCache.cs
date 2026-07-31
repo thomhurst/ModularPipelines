@@ -11,7 +11,6 @@ public sealed class FileSystemModuleCache : IModuleCacheStore
 
     /// <summary>
     /// Initialises a new instance of the <see cref="FileSystemModuleCache"/> class.
-    /// Initializes a new instance of the <see cref="FileSystemModuleCache"/> class.
     /// </summary>
     public FileSystemModuleCache(IOptions<ModuleCacheOptions> options)
     {

@@ -381,6 +381,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
         ClearArtifacts(moduleType, cancellationToken);
 
+        foreach (var destination in artifactEntries
+                     .Select(artifact => artifact.Destination)
+                     .Distinct(PathComparer))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            RemoveLinkedDestinationComponents(root, destination);
+        }
+
         foreach (var (_, destination, isDirectory, _) in artifactEntries)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -468,6 +476,53 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             {
                 Directory.Delete(directory);
             }
+        }
+    }
+
+    private static void RemoveLinkedDestinationComponents(string root, string destination)
+    {
+        var relativePath = Path.GetRelativePath(root, destination);
+        var currentPath = root;
+
+        foreach (var component in relativePath.Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            currentPath = Path.Combine(currentPath, component);
+            if (!TryGetReparsePointAttributes(currentPath, out var attributes))
+            {
+                continue;
+            }
+
+            if ((attributes & FileAttributes.Directory) != 0)
+            {
+                Directory.Delete(currentPath);
+            }
+            else
+            {
+                File.Delete(currentPath);
+            }
+        }
+    }
+
+    private static bool TryGetReparsePointAttributes(
+        string path,
+        out FileAttributes attributes)
+    {
+        try
+        {
+            attributes = File.GetAttributes(path);
+            return (attributes & FileAttributes.ReparsePoint) != 0;
+        }
+        catch (FileNotFoundException)
+        {
+            attributes = default;
+            return false;
+        }
+        catch (DirectoryNotFoundException)
+        {
+            attributes = default;
+            return false;
         }
     }
 
