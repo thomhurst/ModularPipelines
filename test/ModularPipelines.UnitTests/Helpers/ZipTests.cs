@@ -1,4 +1,6 @@
+using System.IO.Compression;
 using ModularPipelines.Context;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -155,6 +157,38 @@ public class ZipTests : TestBase
         {
             await Assert.That(expectedFolder.Exists).IsTrue();
             await Assert.That(expectedFolder.GetFiles("*", SearchOption.AllDirectories)).Count().IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task PhysicalProviderPreservesFileLastWriteTimes()
+    {
+        var root = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-zip-timestamp-{Guid.NewGuid():N}");
+        var sourceDirectory = Path.Combine(root, "source");
+        var sourceFile = Path.Combine(sourceDirectory, "artifact.txt");
+        var zipPath = Path.Combine(root, "artifact.zip");
+        var destinationDirectory = Path.Combine(root, "destination");
+        var extractedFile = Path.Combine(destinationDirectory, "artifact.txt");
+        var expectedTimestamp = new DateTime(2020, 1, 2, 3, 4, 6);
+        Directory.CreateDirectory(sourceDirectory);
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(sourceFile, "contents");
+            System.IO.File.SetLastWriteTime(sourceFile, expectedTimestamp);
+            var zip = new Zip(SystemFileSystemProvider.Instance);
+
+            zip.ZipFolder(new Folder(sourceDirectory), zipPath, CompressionLevel.Optimal);
+            zip.UnZipToFolder(zipPath, destinationDirectory, overwriteFiles: true);
+
+            await Assert.That(System.IO.File.GetLastWriteTime(extractedFile))
+                .IsEqualTo(expectedTimestamp);
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
         }
     }
 }

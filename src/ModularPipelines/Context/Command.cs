@@ -104,9 +104,11 @@ internal sealed class Command : ICommandContext
 
             foreach (var interceptor in _commandInterceptors)
             {
-                if (await interceptor
-                        .InterceptAsync(invocation, linkedCancellationToken.Token)
-                        .ConfigureAwait(false) is { } intercepted)
+                var intercepted = await interceptor
+                    .InterceptAsync(invocation, linkedCancellationToken.Token)
+                    .ConfigureAwait(false);
+                linkedCancellationToken.Token.ThrowIfCancellationRequested();
+                if (intercepted is not null)
                 {
                     var result = ApplyCommandMetadata(intercepted, command);
                     LogInterceptedCommand(options, execOpts, result);

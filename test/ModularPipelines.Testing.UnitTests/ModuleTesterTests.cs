@@ -101,6 +101,22 @@ public class ModuleTesterTests
 
     [Test]
     [Timeout(5_000)]
+    public async Task SynchronousInterceptorCannotReturnAfterExecutionTimeout(
+        CancellationToken cancellationToken)
+    {
+        var run = await ModuleTester.For<TimedCommandModule, string>()
+            .InterceptCommands(_ =>
+            {
+                Thread.Sleep(200);
+                return CommandResult.Ok();
+            })
+            .ExecuteAsync(cancellationToken);
+
+        await Assert.That(run.Exception).IsTypeOf<TimeoutException>();
+    }
+
+    [Test]
+    [Timeout(5_000)]
     public async Task MissingRequiredDependencyFailsFast(CancellationToken cancellationToken)
     {
         async Task Act() =>

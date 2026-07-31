@@ -43,6 +43,11 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
                 var entryName = NormalizeEntryName(
                     _fileSystemProvider.GetRelativePath(folder.Path, file));
                 var entry = archive.CreateEntry(entryName, compressionLevel);
+                if (_fileSystemProvider is SystemFileSystemProvider)
+                {
+                    entry.LastWriteTime = System.IO.File.GetLastWriteTime(file);
+                }
+
                 using var source = _fileSystemProvider.OpenRead(file);
                 using var destination = entry.Open();
                 source.CopyTo(destination);
@@ -105,12 +110,21 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
                         $"The file '{destinationPath}' already exists.");
                 }
 
-                using var source = entry.Open();
-                using var destination = _fileSystemProvider.Open(
-                    destinationPath,
-                    FileMode.Create,
-                    FileAccess.Write);
-                source.CopyTo(destination);
+                using (var source = entry.Open())
+                using (var destination = _fileSystemProvider.Open(
+                           destinationPath,
+                           FileMode.Create,
+                           FileAccess.Write))
+                {
+                    source.CopyTo(destination);
+                }
+
+                if (_fileSystemProvider is SystemFileSystemProvider)
+                {
+                    System.IO.File.SetLastWriteTime(
+                        destinationPath,
+                        entry.LastWriteTime.LocalDateTime);
+                }
             }
         }
         catch (InvalidDataException ex)

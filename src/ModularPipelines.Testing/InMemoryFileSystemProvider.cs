@@ -487,10 +487,21 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
     private byte[] GetFile(string path)
     {
-        var normalized = Normalize(path);
-        return _files.TryGetValue(normalized, out var contents)
-            ? contents
-            : throw new FileNotFoundException("The in-memory file does not exist.", normalized);
+        lock (_sync)
+        {
+            var normalized = Normalize(path);
+            if (_exclusiveOpenFiles.Contains(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
+            return _files.TryGetValue(normalized, out var contents)
+                ? contents
+                : throw new FileNotFoundException(
+                    "The in-memory file does not exist.",
+                    normalized);
+        }
     }
 
     private void SetFile(string path, byte[] contents, bool allowOpenFile = false)

@@ -116,6 +116,25 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task GenericOpenRejectsDirectReadsAndCopies()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "exclusive-direct-read.txt");
+        var copy = Path.Combine(provider.GetTempPath(), "exclusive-direct-read-copy.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        using var stream = provider.Open(path, FileMode.Open, FileAccess.Read);
+
+        async Task ReadTextAsync() => _ = await provider.ReadAllTextAsync(path);
+        async Task ReadBytesAsync() => _ = await provider.ReadAllBytesAsync(path);
+
+        await Assert.That(ReadTextAsync).Throws<IOException>();
+        await Assert.That(ReadBytesAsync).Throws<IOException>();
+        await Assert.That(() => provider.CopyFile(path, copy, overwrite: false))
+            .Throws<IOException>();
+    }
+
+    [Test]
     public async Task OpenHandlesRejectDirectWrites()
     {
         var provider = new InMemoryFileSystemProvider();
