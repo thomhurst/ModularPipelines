@@ -47,6 +47,8 @@ internal class PipelineInitializer(
         "AzureWebJobsStorage",
         "DATABASE_URL",
         "MONGODB_URI",
+        "PIP_EXTRA_INDEX_URL",
+        "PIP_INDEX_URL",
         "REDIS_URL",
         "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS",
     ];

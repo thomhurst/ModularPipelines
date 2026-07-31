@@ -153,6 +153,8 @@ public class PipelineInitializerTests
     [Arguments("NPM_CONFIG__AUTH")]
     [Arguments("DATABASE_URL")]
     [Arguments("MONGODB_URI")]
+    [Arguments("PIP_EXTRA_INDEX_URL")]
+    [Arguments("PIP_INDEX_URL")]
     [Arguments("REDIS_URL")]
     [Arguments("AZURE_APPCONFIG_CONNECTION_STRING")]
     [Arguments("ConnectionStrings__Default")]
