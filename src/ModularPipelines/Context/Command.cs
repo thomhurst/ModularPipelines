@@ -120,12 +120,6 @@ internal sealed class Command : ICommandContext
 
         var inputToLog = GetInputToLog(command, execOpts);
         var loggingFailures = new DeferredCommandLoggingFailures();
-        loggingFailures.Capture(
-            () => _commandLogger.LogCommandStart(
-                options,
-                execOpts,
-                inputToLog,
-                command.WorkingDirPath));
 
         // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
@@ -140,6 +134,12 @@ internal sealed class Command : ICommandContext
 
         var registration = linkedCancellationToken.Token.Register(
             () => ScheduleForcefulCancellation(forcefulCancellationToken, execOpts.GracefulShutdownTimeout));
+        loggingFailures.Capture(
+            () => _commandLogger.LogCommandStart(
+                options,
+                execOpts,
+                inputToLog,
+                command.WorkingDirPath));
         await using (registration.ConfigureAwait(false))
         {
             CliWrap.CommandResult result;

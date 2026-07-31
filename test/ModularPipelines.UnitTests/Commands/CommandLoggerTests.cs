@@ -483,6 +483,33 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
+    public async Task InvalidExecutionTimeoutDoesNotLogCommandStart()
+    {
+        var marker = $"invalid-timeout-{Guid.NewGuid():N}";
+        var file = Path.Combine(
+            TestContext.WorkingDirectory,
+            Guid.NewGuid().ToString("N") + ".txt");
+        var result = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddFile(file));
+        });
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+            result.T.ExecuteCommandLineToolAsync(
+                new PowershellScriptOptions("Write-Output 'not-executed'"),
+                new CommandExecutionOptions
+                {
+                    ExecutionTimeout = TimeSpan.FromMilliseconds(-2),
+                    InputLoggingManipulator = _ => marker,
+                }));
+        await result.Host.DisposeAsync();
+
+        await Assert.That(await File.ReadAllTextAsync(file)).DoesNotContain(marker);
+    }
+
+    [Test]
     public async Task Deferred_Logging_Failure_After_NonZero_Exit_Preserves_Command_Failure()
     {
         var marker = $"throwing-failure-output-{Guid.NewGuid():N}";
