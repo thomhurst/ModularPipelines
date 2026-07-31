@@ -13,7 +13,7 @@ title: kubectl CLI reference
 dotnet add package ModularPipelines.Kubernetes
 ```
 
-Import `ModularPipelines.Kubernetes.Extensions`, then resolve the service with `context.Kubernetes()`.
+Resolve the service with `context.Tools.Kubernetes`. For projects older than C# 14, import `ModularPipelines.Kubernetes.Extensions` and use the `context.Kubernetes()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Kubernetes.Extensions`, then resolve the service with `
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Kubernetes.Extensions;
 using ModularPipelines.Kubernetes.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kubernetes().Config.ViewAsync(
+        return await context.Tools.Kubernetes.Config.ViewAsync(
             new KubernetesConfigViewOptions(),
             cancellationToken: cancellationToken);
     }

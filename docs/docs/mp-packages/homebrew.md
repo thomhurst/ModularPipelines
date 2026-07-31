@@ -16,9 +16,9 @@ Required command-line tool: `brew`. It must be installed and available on `PATH`
 
 ## Context entry points
 
-Import `ModularPipelines.Homebrew.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Brew()`
+- `context.Tools.Brew`
 
 ## Module example
 
@@ -26,7 +26,6 @@ Import `ModularPipelines.Homebrew.Extensions`, then use this service from a modu
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Homebrew.Extensions;
 using ModularPipelines.Homebrew.Options;
 
 public class UseBrewModule : Module<CommandResult>
@@ -35,7 +34,7 @@ public class UseBrewModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Brew().ListAsync(
+        return await context.Tools.Brew.ListAsync(
             new BrewListOptions(),
             cancellationToken: cancellationToken);
     }

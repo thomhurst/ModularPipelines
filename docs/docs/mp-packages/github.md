@@ -25,8 +25,8 @@ public class GitHubModule : Module<string?>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var info = context.GitHub().RepositoryInfo;
-        var user = await context.GitHub().Client.User.Get(info.Owner);
+        var info = context.Tools.GitHub.RepositoryInfo;
+        var user = await context.Tools.GitHub.Client.User.Get(info.Owner);
 
         context.Logger.LogInformation("User location: {Location}", user.Location);
 
@@ -43,11 +43,11 @@ This feature is really important because many services in the GitHub API need de
 
 ```cs
 // Let's delete GitHub release with Id 12
-var info = context.GitHub().RepositoryInfo;
+var info = context.Tools.GitHub.RepositoryInfo;
 var owner = info.Owner;
 var repo = info.RepositoryName;
 
-await context.GitHub().Client.Repository.Release.Delete(owner, repo, 12);
+await context.Tools.GitHub.Client.Repository.Release.Delete(owner, repo, 12);
 ```
 
 ## Client Auth

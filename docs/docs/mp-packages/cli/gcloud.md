@@ -13,7 +13,7 @@ title: gcloud CLI reference
 dotnet add package ModularPipelines.Google
 ```
 
-Import `ModularPipelines.Google.Extensions`, then resolve the service with `context.Gcloud()`.
+Resolve the service with `context.Tools.Gcloud`. For projects older than C# 14, import `ModularPipelines.Google.Extensions` and use the `context.Gcloud()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Google.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Google.Extensions;
 using ModularPipelines.Google.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gcloud().InfoAsync(
+        return await context.Tools.Gcloud.InfoAsync(
             new GcloudInfoOptions
             {
                 Anonymize = true,

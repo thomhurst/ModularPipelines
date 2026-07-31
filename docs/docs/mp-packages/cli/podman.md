@@ -13,7 +13,7 @@ title: podman CLI reference
 dotnet add package ModularPipelines.Podman
 ```
 
-Import `ModularPipelines.Podman.Extensions`, then resolve the service with `context.Podman()`.
+Resolve the service with `context.Tools.Podman`. For projects older than C# 14, import `ModularPipelines.Podman.Extensions` and use the `context.Podman()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Podman.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Podman.Extensions;
 using ModularPipelines.Podman.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Podman().AttachAsync(
+        return await context.Tools.Podman.AttachAsync(
             new PodmanAttachOptions(),
             cancellationToken: cancellationToken);
     }

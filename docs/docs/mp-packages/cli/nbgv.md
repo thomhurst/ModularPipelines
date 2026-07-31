@@ -23,7 +23,7 @@ Install the nbgv .NET tool globally or in a tool path available on PATH.
 dotnet add package ModularPipelines.NerdbankGitVersioning
 ```
 
-Import `ModularPipelines.NerdbankGitVersioning.Extensions`, then resolve the service with `context.Nbgv()`.
+Resolve the service with `context.Tools.Nbgv`. For projects older than C# 14, import `ModularPipelines.NerdbankGitVersioning.Extensions` and use the `context.Nbgv()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -31,7 +31,6 @@ Import `ModularPipelines.NerdbankGitVersioning.Extensions`, then resolve the ser
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.NerdbankGitVersioning.Extensions;
 using ModularPipelines.NerdbankGitVersioning.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -40,7 +39,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Nbgv().GetVersionAsync(
+        return await context.Tools.Nbgv.GetVersionAsync(
             new NbgvGetVersionOptions(),
             cancellationToken: cancellationToken);
     }

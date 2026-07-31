@@ -16,14 +16,13 @@ Required command-line tool: `kind`. It must be installed and available on `PATH`
 
 ## Context entry points
 
-Import `ModularPipelines.Kind.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Kind()`
+- `context.Tools.Kind`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Kind.Extensions;
 
 public class UseKindModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseKindModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var kind = context.Kind();
+        var kind = context.Tools.Kind;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Kind integration is ready");

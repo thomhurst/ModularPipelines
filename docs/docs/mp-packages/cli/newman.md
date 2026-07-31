@@ -13,7 +13,7 @@ title: newman CLI reference
 dotnet add package ModularPipelines.Newman
 ```
 
-Import `ModularPipelines.Newman.Extensions`, then resolve the service with `context.Newman()`.
+Resolve the service with `context.Tools.Newman`. For projects older than C# 14, import `ModularPipelines.Newman.Extensions` and use the `context.Newman()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Newman.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Newman.Extensions;
 using ModularPipelines.Newman.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Newman().UrlAsync(
+        return await context.Tools.Newman.UrlAsync(
             new NewmanUrlOptions(),
             cancellationToken: cancellationToken);
     }

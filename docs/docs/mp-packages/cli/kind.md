@@ -13,16 +13,15 @@ title: kind CLI reference
 dotnet add package ModularPipelines.Kind
 ```
 
-Import `ModularPipelines.Kind.Extensions`, then resolve the service with `context.Kind()`.
+Resolve the service with `context.Tools.Kind`. For projects older than C# 14, import `ModularPipelines.Kind.Extensions` and use the `context.Kind()` extension method as a compatibility fallback.
 
 ## Module example
 
 Resolve the service in a module, then select a generated sub-domain and command from the table below:
 
 ```csharp
-using ModularPipelines.Kind.Extensions;
 
-var kind = context.Kind();
+var kind = context.Tools.Kind;
 ```
 
 ## Commands

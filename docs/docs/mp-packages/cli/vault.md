@@ -13,7 +13,7 @@ title: vault CLI reference
 dotnet add package ModularPipelines.Vault
 ```
 
-Import `ModularPipelines.Vault.Extensions`, then resolve the service with `context.Vault()`.
+Resolve the service with `context.Tools.Vault`. For projects older than C# 14, import `ModularPipelines.Vault.Extensions` and use the `context.Vault()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Vault.Extensions`, then resolve the service with `conte
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Vault.Extensions;
 using ModularPipelines.Vault.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Vault().DeleteAsync(
+        return await context.Tools.Vault.DeleteAsync(
             new VaultDeleteOptions(),
             cancellationToken: cancellationToken);
     }

@@ -13,7 +13,7 @@ title: go CLI reference
 dotnet add package ModularPipelines.Go
 ```
 
-Import `ModularPipelines.Go.Extensions`, then resolve the service with `context.Go()`.
+Resolve the service with `context.Tools.Go`. For projects older than C# 14, import `ModularPipelines.Go.Extensions` and use the `context.Go()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Go.Extensions`, then resolve the service with `context.
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Go.Extensions;
 using ModularPipelines.Go.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Go().VetAsync(
+        return await context.Tools.Go.VetAsync(
             new GoVetOptions(),
             cancellationToken: cancellationToken);
     }

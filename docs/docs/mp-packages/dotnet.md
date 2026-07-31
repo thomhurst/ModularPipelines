@@ -16,10 +16,10 @@ Required command-line tool: `dotnet`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.DotNet.Extensions`, then use these services from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.DotNet()`
-- `context.Trx()`
+- `context.Tools.DotNet`
+- `context.Tools.Trx`
 
 ## Module example
 
@@ -27,7 +27,6 @@ Import `ModularPipelines.DotNet.Extensions`, then use these services from a modu
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 
 public class UseDotNetModule : Module<CommandResult>
@@ -36,7 +35,7 @@ public class UseDotNetModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().Workload.ListAsync(
+        return await context.Tools.DotNet.Workload.ListAsync(
             new DotNetWorkloadListOptions(),
             cancellationToken: cancellationToken);
     }

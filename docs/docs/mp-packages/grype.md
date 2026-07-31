@@ -16,14 +16,13 @@ Required command-line tool: `grype`. It must be installed and available on `PATH
 
 ## Context entry points
 
-Import `ModularPipelines.Grype.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Grype()`
+- `context.Tools.Grype`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Grype.Extensions;
 
 public class UseGrypeModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseGrypeModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var grype = context.Grype();
+        var grype = context.Tools.Grype;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Grype integration is ready");

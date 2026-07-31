@@ -16,9 +16,9 @@ Required command-line tool: `go`. It must be installed and available on `PATH` w
 
 ## Context entry points
 
-Import `ModularPipelines.Go.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Go()`
+- `context.Tools.Go`
 
 ## Module example
 
@@ -26,7 +26,6 @@ Import `ModularPipelines.Go.Extensions`, then use this service from a module:
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Go.Extensions;
 using ModularPipelines.Go.Options;
 
 public class UseGoModule : Module<CommandResult>
@@ -35,7 +34,7 @@ public class UseGoModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Go().VetAsync(
+        return await context.Tools.Go.VetAsync(
             new GoVetOptions(),
             cancellationToken: cancellationToken);
     }

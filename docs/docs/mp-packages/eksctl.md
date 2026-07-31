@@ -18,10 +18,9 @@ The `eksctl` executable must be installed and available on `PATH` when the pipel
 ## Create a cluster
 
 ```csharp
-using ModularPipelines.Eksctl.Extensions;
 using ModularPipelines.Eksctl.Options;
 
-var result = await context.Eksctl().Create.ClusterAsync(
+var result = await context.Tools.Eksctl.Create.ClusterAsync(
     new EksctlCreateClusterOptions
     {
         Name = "production",
@@ -44,7 +43,7 @@ eksctl create cluster --name=production --region=eu-west-2 --zones=eu-west-2a --
 ```csharp
 using ModularPipelines.Eksctl.Enums;
 
-var result = await context.Eksctl().Utils.UpdateClusterLoggingAsync(
+var result = await context.Tools.Eksctl.Utils.UpdateClusterLoggingAsync(
     new EksctlUtilsUpdateClusterLoggingOptions
     {
         Cluster = "production",

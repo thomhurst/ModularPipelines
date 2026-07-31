@@ -13,7 +13,7 @@ title: grype CLI reference
 dotnet add package ModularPipelines.Grype
 ```
 
-Import `ModularPipelines.Grype.Extensions`, then resolve the service with `context.Grype()`.
+Resolve the service with `context.Tools.Grype`. For projects older than C# 14, import `ModularPipelines.Grype.Extensions` and use the `context.Grype()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Grype.Extensions`, then resolve the service with `conte
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Grype.Extensions;
 using ModularPipelines.Grype.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Grype().ExplainAsync(
+        return await context.Tools.Grype.ExplainAsync(
             new GrypeExplainOptions(),
             cancellationToken: cancellationToken);
     }

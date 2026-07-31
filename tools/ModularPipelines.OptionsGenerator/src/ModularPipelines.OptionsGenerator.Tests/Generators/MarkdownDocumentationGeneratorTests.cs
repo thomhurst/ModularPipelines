@@ -55,13 +55,18 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(files[0].Content)
             .Contains("This package does not install the `fake-cli` executable");
         await Assert.That(files[0].Content).Contains("`fake-cli` is available on `PATH`");
-        await Assert.That(files[0].Content).Contains("context.Fake()");
+        await Assert.That(files[0].Content).Contains("context.Tools.Fake");
+        await Assert.That(files[0].Content).Contains("compatibility fallback");
+        await Assert.That(files[0].Content)
+            .Contains("import `ModularPipelines.Fake.Extensions`");
+        await Assert.That(files[0].Content)
+            .DoesNotContain("using ModularPipelines.Fake.Extensions;");
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Context;");
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Models;");
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Modules;");
         await Assert.That(files[0].Content).Contains("Module<CommandResult>");
         await Assert.That(files[0].Content).Contains("Task<CommandResult?> ExecuteAsync");
-        await Assert.That(files[0].Content).Contains("return await context.Fake()");
+        await Assert.That(files[0].Content).Contains("return await context.Tools.Fake");
         await Assert.That(files[0].Content).Contains("| `fake-cli run` | `FakeRunOptions` |");
         await Assert.That(files[0].Content).Contains("new FakeRunOptions(\"sample.csproj\")");
     }
@@ -203,11 +208,11 @@ public class MarkdownDocumentationGeneratorTests
         var testCases = new[]
         {
             (Tool: rootCollisionTool,
-                Invocation: "context.Fake().App.ExecuteAsync(",
+                Invocation: "context.Tools.Fake.App.ExecuteAsync(",
                 ServiceFile: "FakeApp.Generated.cs",
                 OptionsType: "FakeAppOptions"),
             (Tool: nestedCollisionTool,
-                Invocation: "context.Fake().App.Get.ExecuteAsync(",
+                Invocation: "context.Tools.Fake.App.Get.ExecuteAsync(",
                 ServiceFile: "FakeAppGet.Generated.cs",
                 OptionsType: "FakeAppGetOptions"),
         };
@@ -314,8 +319,8 @@ public class MarkdownDocumentationGeneratorTests
 
         var documentation = await new MarkdownDocumentationGenerator().GenerateAsync(tool);
 
-        await Assert.That(documentation[0].Content).Contains("context.Fake().ZetaAsync(");
-        await Assert.That(documentation[0].Content).DoesNotContain("context.Fake().AlphaAsync(");
+        await Assert.That(documentation[0].Content).Contains("context.Tools.Fake.ZetaAsync(");
+        await Assert.That(documentation[0].Content).DoesNotContain("context.Tools.Fake.AlphaAsync(");
     }
 
     [Test]
@@ -393,7 +398,7 @@ public class MarkdownDocumentationGeneratorTests
 
         await Assert.That(documentation[0].Content)
             .Contains("A runnable example is omitted when no command has complete safety metadata");
-        await Assert.That(documentation[0].Content).DoesNotContain("context.Fake().DeleteAsync(");
+        await Assert.That(documentation[0].Content).DoesNotContain("context.Tools.Fake.DeleteAsync(");
     }
 
     [Test]
@@ -475,7 +480,7 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(documentation[0].Content)
             .Contains("A runnable example is omitted when no command has complete safety metadata");
         await Assert.That(documentation[0].Content)
-            .DoesNotContain("context.Fake().VersionAsync(");
+            .DoesNotContain("context.Tools.Fake.VersionAsync(");
     }
 
     [Test]
@@ -566,17 +571,17 @@ public class MarkdownDocumentationGeneratorTests
 
         await Assert.That(ansibleDocumentation).Contains("new AnsibleExecuteOptions(\"localhost\")");
         await Assert.That(ansibleDocumentation).Contains("ListHosts = true");
-        await Assert.That(buildahDocumentation).Contains("context.Fake().ContainersAsync(");
-        await Assert.That(buildahDocumentation).DoesNotContain("context.Fake().AddAsync(");
+        await Assert.That(buildahDocumentation).Contains("context.Tools.Fake.ContainersAsync(");
+        await Assert.That(buildahDocumentation).DoesNotContain("context.Tools.Fake.AddAsync(");
         await Assert.That(jqDocumentation).Contains("Filter = \".\"");
         await Assert.That(jqDocumentation).Contains("InputFiles = [\"input.json\"]");
         await Assert.That(newmanDocumentation)
             .Contains("A runnable example is omitted when no command has complete safety metadata");
-        await Assert.That(newmanDocumentation).DoesNotContain("context.Fake().RunAsync(");
-        await Assert.That(newmanDocumentation).DoesNotContain("context.Fake().UrlAsync(");
-        await Assert.That(packerDocumentation).DoesNotContain("context.Fake().ConsoleAsync(");
-        await Assert.That(vaultDocumentation).Contains("context.Fake().StatusAsync(");
-        await Assert.That(vaultDocumentation).DoesNotContain("context.Fake().DeleteAsync(");
+        await Assert.That(newmanDocumentation).DoesNotContain("context.Tools.Fake.RunAsync(");
+        await Assert.That(newmanDocumentation).DoesNotContain("context.Tools.Fake.UrlAsync(");
+        await Assert.That(packerDocumentation).DoesNotContain("context.Tools.Fake.ConsoleAsync(");
+        await Assert.That(vaultDocumentation).Contains("context.Tools.Fake.StatusAsync(");
+        await Assert.That(vaultDocumentation).DoesNotContain("context.Tools.Fake.DeleteAsync(");
 
         foreach (var tool in new[] { ansible, buildah, jq, vault })
         {
@@ -590,43 +595,43 @@ public class MarkdownDocumentationGeneratorTests
         var testCases = new[]
         {
             (Tool("az", Command("az account list", "AzAccountListOptions", ["account", "list"], "account")),
-                "context.Fake().Account.ListAsync("),
+                "context.Tools.Fake.Account.ListAsync("),
             (Tool("cargo", Command("cargo check", "CargoCheckOptions", ["check"]) with
                 {
                     Options = [Option("--quiet", "Quiet", "bool?")],
                 }),
-                "context.Fake().CheckAsync("),
+                "context.Tools.Fake.CheckAsync("),
             (Tool("docker", Command("docker info", "DockerInfoOptions", ["info"])),
-                "context.Fake().InfoAsync("),
+                "context.Tools.Fake.InfoAsync("),
             (Tool("dotnet", Command("dotnet workload list", "DotNetWorkloadListOptions", ["workload", "list"], "workload")),
-                "context.Fake().Workload.ListAsync("),
+                "context.Tools.Fake.Workload.ListAsync("),
             (Tool("gcloud", Command("gcloud info", "GcloudInfoOptions", ["info"]) with
                 {
                     Options = [Option("--anonymize", "Anonymize", "bool?")],
                 }),
-                "context.Fake().InfoAsync("),
+                "context.Tools.Fake.InfoAsync("),
             (Tool("gh", Command("gh config list", "GhConfigListOptions", ["config", "list"], "config")),
-                "context.Fake().Config.ListAsync("),
+                "context.Tools.Fake.Config.ListAsync("),
             (Tool("git", Command("git status", "GitStatusOptions", ["status"]) with
                 {
                     Options = [Option("--short", "Short", "bool?")],
                 }),
-                "context.Fake().StatusAsync("),
+                "context.Tools.Fake.StatusAsync("),
             (Tool("go", Command("go vet", "GoVetOptions", ["vet"])),
-                "context.Fake().VetAsync("),
+                "context.Tools.Fake.VetAsync("),
             (Tool("helm", Command("helm env", "HelmEnvOptions", ["env"])),
-                "context.Fake().EnvAsync("),
+                "context.Tools.Fake.EnvAsync("),
             (Tool("kubectl", Command("kubectl config view", "KubernetesConfigViewOptions", ["config", "view"], "config")),
-                "context.Fake().Config.ViewAsync("),
+                "context.Tools.Fake.Config.ViewAsync("),
             (Tool("pip", Command("pip freeze", "PipFreezeOptions", ["freeze"])),
-                "context.Fake().FreezeAsync("),
+                "context.Tools.Fake.FreezeAsync("),
             (Tool("pnpm", Command("pnpm audit", "PnpmAuditOptions", ["audit"]) with
                 {
                     Options = [Option("--audit-level", "AuditLevel", "string?")],
                 }),
-                "context.Fake().AuditAsync("),
+                "context.Tools.Fake.AuditAsync("),
             (Tool("terraform", Command("terraform validate", "TerraformValidateOptions", ["validate"])),
-                "context.Fake().ValidateAsync("),
+                "context.Tools.Fake.ValidateAsync("),
         };
 
         foreach (var (tool, expectedInvocation) in testCases)
@@ -731,6 +736,7 @@ public class MarkdownDocumentationGeneratorTests
             {
                 public interface IModuleContext
                 {
+                    {{tool.TargetNamespace}}.Extensions.I{{tool.NamespacePrefix}}Tools Tools { get; }
                 }
             }
 
@@ -770,6 +776,11 @@ public class MarkdownDocumentationGeneratorTests
             {{serviceMembers.RootMember}}
                 }
 
+                public interface I{{tool.NamespacePrefix}}Tools
+                {
+                    I{{tool.NamespacePrefix}}Service {{tool.NamespacePrefix}} { get; }
+                }
+
             {{serviceMembers.NavigationTypes}}
 
                 public static class {{tool.NamespacePrefix}}Extensions
@@ -787,7 +798,7 @@ public class MarkdownDocumentationGeneratorTests
         CliCommandDefinition command)
     {
         var invocation = MarkdownDocumentationGenerator.BuildInvocation(tool, command);
-        var prefix = $"context.{tool.NamespacePrefix}().";
+        var prefix = $"context.Tools.{tool.NamespacePrefix}.";
         return invocation[prefix.Length..].Split('.');
     }
 

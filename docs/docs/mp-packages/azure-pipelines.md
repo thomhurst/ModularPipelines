@@ -14,14 +14,13 @@ dotnet add package ModularPipelines.Azure.Pipelines
 
 ## Context entry points
 
-Import `ModularPipelines.Azure.Pipelines.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.AzurePipeline()`
+- `context.Tools.AzurePipeline`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Azure.Pipelines.Extensions;
 
 public class UseAzurePipelineModule : SyncModule<None>
 {
@@ -29,7 +28,7 @@ public class UseAzurePipelineModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var azurePipeline = context.AzurePipeline();
+        var azurePipeline = context.Tools.AzurePipeline;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("AzurePipeline integration is ready");

@@ -16,14 +16,13 @@ Required command-line tool: `podman`. It must be installed and available on `PAT
 
 ## Context entry points
 
-Import `ModularPipelines.Podman.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Podman()`
+- `context.Tools.Podman`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Podman.Extensions;
 
 public class UsePodmanModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UsePodmanModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var podman = context.Podman();
+        var podman = context.Tools.Podman;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Podman integration is ready");

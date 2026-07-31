@@ -13,7 +13,7 @@ title: winget CLI reference
 dotnet add package ModularPipelines.WinGet
 ```
 
-Import `ModularPipelines.WinGet.Extensions`, then resolve the service with `context.Winget()`.
+Resolve the service with `context.Tools.Winget`. For projects older than C# 14, import `ModularPipelines.WinGet.Extensions` and use the `context.Winget()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.WinGet.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.WinGet.Extensions;
 using ModularPipelines.WinGet.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Winget().InstallAsync(
+        return await context.Tools.Winget.InstallAsync(
             new WingetInstallOptions(),
             cancellationToken: cancellationToken);
     }

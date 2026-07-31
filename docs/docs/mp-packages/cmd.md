@@ -16,14 +16,13 @@ Required command-line tool: `cmd`. It must be installed and available on `PATH` 
 
 ## Context entry points
 
-Import `ModularPipelines.Cmd.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Cmd()`
+- `context.Tools.Cmd`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Cmd.Extensions;
 
 public class UseCmdModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseCmdModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var cmd = context.Cmd();
+        var cmd = context.Tools.Cmd;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Cmd integration is ready");

@@ -16,14 +16,13 @@ Required command-line tool: `buildah`. It must be installed and available on `PA
 
 ## Context entry points
 
-Import `ModularPipelines.Buildah.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Buildah()`
+- `context.Tools.Buildah`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Buildah.Extensions;
 
 public class UseBuildahModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseBuildahModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var buildah = context.Buildah();
+        var buildah = context.Tools.Buildah;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Buildah integration is ready");

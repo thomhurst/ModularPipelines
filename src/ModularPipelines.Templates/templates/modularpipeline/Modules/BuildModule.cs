@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -16,7 +15,7 @@ public sealed class BuildModule(IOptions<BuildSettings> settings) : Module<Comma
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().BuildAsync(
+        return await context.Tools.DotNet.BuildAsync(
             new DotNetBuildOptions
             {
                 ProjectSolution = settings.Value.Solution,

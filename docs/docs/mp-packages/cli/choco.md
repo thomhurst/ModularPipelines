@@ -13,7 +13,7 @@ title: choco CLI reference
 dotnet add package ModularPipelines.Chocolatey
 ```
 
-Import `ModularPipelines.Chocolatey.Extensions`, then resolve the service with `context.Choco()`.
+Resolve the service with `context.Tools.Choco`. For projects older than C# 14, import `ModularPipelines.Chocolatey.Extensions` and use the `context.Choco()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Chocolatey.Extensions`, then resolve the service with `
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Chocolatey.Extensions;
 using ModularPipelines.Chocolatey.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Choco().ApikeyAsync(
+        return await context.Tools.Choco.ApikeyAsync(
             new ChocoApikeyOptions(),
             cancellationToken: cancellationToken);
     }

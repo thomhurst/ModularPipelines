@@ -16,9 +16,9 @@ Required command-line tool: `pip`. It must be installed and available on `PATH` 
 
 ## Context entry points
 
-Import `ModularPipelines.Python.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Pip()`
+- `context.Tools.Pip`
 
 ## Module example
 
@@ -26,7 +26,6 @@ Import `ModularPipelines.Python.Extensions`, then use this service from a module
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Python.Extensions;
 using ModularPipelines.Python.Options;
 
 public class UsePipModule : Module<CommandResult>
@@ -35,7 +34,7 @@ public class UsePipModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Pip().FreezeAsync(
+        return await context.Tools.Pip.FreezeAsync(
             new PipFreezeOptions(),
             cancellationToken: cancellationToken);
     }

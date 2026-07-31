@@ -13,7 +13,7 @@ title: mvn CLI reference
 dotnet add package ModularPipelines.Java
 ```
 
-Import `ModularPipelines.Java.Extensions`, then resolve the service with `context.Maven()`.
+Resolve the service with `context.Tools.Maven`. For projects older than C# 14, import `ModularPipelines.Java.Extensions` and use the `context.Maven()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Java.Extensions`, then resolve the service with `contex
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Java.Extensions;
 using ModularPipelines.Java.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Maven().ExecuteAsync(
+        return await context.Tools.Maven.ExecuteAsync(
             new MavenExecuteOptions(),
             cancellationToken: cancellationToken);
     }

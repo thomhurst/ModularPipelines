@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -16,7 +15,7 @@ public sealed class PublishModule(IOptions<BuildSettings> settings) : Module<Com
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().PublishAsync(
+        return await context.Tools.DotNet.PublishAsync(
             new DotNetPublishOptions
             {
                 ProjectSolution = settings.Value.PublishProject,

@@ -16,14 +16,13 @@ Required command-line tool: `flux`. It must be installed and available on `PATH`
 
 ## Context entry points
 
-Import `ModularPipelines.Flux.Extensions`, then use this service from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Flux()`
+- `context.Tools.Flux`
 
 ## Module example
 
 ```csharp
-using ModularPipelines.Flux.Extensions;
 
 public class UseFluxModule : SyncModule<None>
 {
@@ -31,7 +30,7 @@ public class UseFluxModule : SyncModule<None>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        var flux = context.Flux();
+        var flux = context.Tools.Flux;
 
         // Call the integration's strongly typed operations here.
         context.Logger.LogInformation("Flux integration is ready");

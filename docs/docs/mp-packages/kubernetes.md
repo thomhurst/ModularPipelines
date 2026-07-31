@@ -16,10 +16,10 @@ Required command-line tools: `kubectl`, `kustomize`. They must be installed and 
 
 ## Context entry points
 
-Import `ModularPipelines.Kubernetes.Extensions`, then use these services from a module:
+Use the discoverable `context.Tools` surface from a module:
 
-- `context.Kubernetes()`
-- `context.Kustomize()`
+- `context.Tools.Kubernetes`
+- `context.Tools.Kustomize`
 
 ## Module example
 
@@ -27,7 +27,6 @@ Import `ModularPipelines.Kubernetes.Extensions`, then use these services from a 
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Kubernetes.Extensions;
 using ModularPipelines.Kubernetes.Options;
 
 public class UseKubernetesModule : Module<CommandResult>
@@ -36,7 +35,7 @@ public class UseKubernetesModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Kubernetes().Config.ViewAsync(
+        return await context.Tools.Kubernetes.Config.ViewAsync(
             new KubernetesConfigViewOptions(),
             cancellationToken: cancellationToken);
     }

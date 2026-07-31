@@ -13,7 +13,7 @@ title: flux CLI reference
 dotnet add package ModularPipelines.Flux
 ```
 
-Import `ModularPipelines.Flux.Extensions`, then resolve the service with `context.Flux()`.
+Resolve the service with `context.Tools.Flux`. For projects older than C# 14, import `ModularPipelines.Flux.Extensions` and use the `context.Flux()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Flux.Extensions`, then resolve the service with `contex
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Flux.Extensions;
 using ModularPipelines.Flux.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Flux().CheckAsync(
+        return await context.Tools.Flux.CheckAsync(
             new FluxCheckOptions(),
             cancellationToken: cancellationToken);
     }

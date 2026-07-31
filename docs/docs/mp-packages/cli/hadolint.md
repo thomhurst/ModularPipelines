@@ -13,7 +13,7 @@ title: hadolint CLI reference
 dotnet add package ModularPipelines.Hadolint
 ```
 
-Import `ModularPipelines.Hadolint.Extensions`, then resolve the service with `context.Hadolint()`.
+Resolve the service with `context.Tools.Hadolint`. For projects older than C# 14, import `ModularPipelines.Hadolint.Extensions` and use the `context.Hadolint()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Hadolint.Extensions`, then resolve the service with `co
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Hadolint.Extensions;
 using ModularPipelines.Hadolint.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Hadolint().ExecuteAsync(
+        return await context.Tools.Hadolint.ExecuteAsync(
             new HadolintExecuteOptions(),
             cancellationToken: cancellationToken);
     }

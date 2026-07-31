@@ -102,9 +102,9 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         sb.AppendLine("    }");
         sb.AppendLine();
 
-        // Extension method for context access (traditional extension method syntax for compatibility)
+        // Traditional extension method retained as a pre-C# 14 compatibility accessor.
         sb.AppendLine("    /// <summary>");
-        sb.AppendLine($"    /// Gets the {tool.ToolName} service from the pipeline context.");
+        sb.AppendLine($"    /// Gets the {tool.ToolName} service from the pipeline context for compatibility.");
         sb.AppendLine("    /// </summary>");
         sb.AppendLine("    /// <param name=\"context\">The pipeline context.</param>");
         sb.AppendLine($"    /// <returns>The <see cref=\"{interfaceName}\"/> service for executing {tool.ToolName} commands.</returns>");

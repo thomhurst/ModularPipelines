@@ -147,7 +147,7 @@ public class RestoreModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().RestoreAsync(new());
+        await context.Tools.DotNet.RestoreAsync(new());
         return "restored";
     }
 }
@@ -158,7 +158,7 @@ public class BuildModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().BuildAsync(new());
+        await context.Tools.DotNet.BuildAsync(new());
         return "built";
     }
 }
@@ -169,7 +169,7 @@ public class TestModule : Module<string>
     protected override async Task<string?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.DotNet().TestAsync(new());
+        await context.Tools.DotNet.TestAsync(new());
         return "tested";
     }
 }

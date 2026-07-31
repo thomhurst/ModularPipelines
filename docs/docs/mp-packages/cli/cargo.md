@@ -13,7 +13,7 @@ title: cargo CLI reference
 dotnet add package ModularPipelines.Rust
 ```
 
-Import `ModularPipelines.Rust.Extensions`, then resolve the service with `context.Cargo()`.
+Resolve the service with `context.Tools.Cargo`. For projects older than C# 14, import `ModularPipelines.Rust.Extensions` and use the `context.Cargo()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Rust.Extensions`, then resolve the service with `contex
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Rust.Extensions;
 using ModularPipelines.Rust.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Cargo().CheckAsync(
+        return await context.Tools.Cargo.CheckAsync(
             new CargoCheckOptions
             {
                 Quiet = true,

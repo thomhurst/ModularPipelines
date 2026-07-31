@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -16,7 +15,7 @@ public sealed class TestModule(IOptions<BuildSettings> settings) : Module<Comman
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.DotNet().TestAsync(
+        return await context.Tools.DotNet.TestAsync(
             new DotNetTestOptions
             {
                 Arguments = [settings.Value.Solution],

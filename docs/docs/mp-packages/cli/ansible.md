@@ -13,7 +13,7 @@ title: ansible CLI reference
 dotnet add package ModularPipelines.Ansible
 ```
 
-Import `ModularPipelines.Ansible.Extensions`, then resolve the service with `context.Ansible()`.
+Resolve the service with `context.Tools.Ansible`. For projects older than C# 14, import `ModularPipelines.Ansible.Extensions` and use the `context.Ansible()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Ansible.Extensions`, then resolve the service with `con
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Ansible.Extensions;
 using ModularPipelines.Ansible.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Ansible().ExecuteAsync(
+        return await context.Tools.Ansible.ExecuteAsync(
             new AnsibleExecuteOptions("value"),
             cancellationToken: cancellationToken);
     }

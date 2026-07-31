@@ -18,10 +18,9 @@ The `nbgv` executable must be available on `PATH` when the pipeline runs.
 ## Read version information
 
 ```csharp
-using ModularPipelines.NerdbankGitVersioning.Extensions;
 using ModularPipelines.NerdbankGitVersioning.Options;
 
-var result = await context.Nbgv().GetVersionAsync(
+var result = await context.Tools.Nbgv.GetVersionAsync(
     new NbgvGetVersionOptions
     {
         Project = "src/MyProject",
@@ -33,7 +32,7 @@ var result = await context.Nbgv().GetVersionAsync(
 ## Set cloud build variables
 
 ```csharp
-var result = await context.Nbgv().CloudAsync(
+var result = await context.Tools.Nbgv.CloudAsync(
     new NbgvCloudOptions
     {
         CommonVars = true,

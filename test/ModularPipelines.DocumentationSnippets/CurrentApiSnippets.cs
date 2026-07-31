@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
-using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -46,7 +45,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            await context.DotNet().BuildAsync(
+            await context.Tools.DotNet.BuildAsync(
                 new DotNetBuildOptions
                 {
                     ProjectSolution = "MySolution.sln",
@@ -65,7 +64,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.DotNet().TestAsync(
+            return await context.Tools.DotNet.TestAsync(
                 new DotNetTestOptions
                 {
                     Project = "MySolution.sln",
@@ -94,7 +93,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return await context.DotNet().PublishAsync(
+            return await context.Tools.DotNet.PublishAsync(
                 new DotNetPublishOptions
                 {
                     ProjectSolution = "src/MyApp/MyApp.csproj",

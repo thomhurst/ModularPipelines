@@ -13,7 +13,7 @@ title: gradle CLI reference
 dotnet add package ModularPipelines.Java
 ```
 
-Import `ModularPipelines.Java.Extensions`, then resolve the service with `context.Gradle()`.
+Resolve the service with `context.Tools.Gradle`. For projects older than C# 14, import `ModularPipelines.Java.Extensions` and use the `context.Gradle()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Java.Extensions`, then resolve the service with `contex
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Java.Extensions;
 using ModularPipelines.Java.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Gradle().ExecuteAsync(
+        return await context.Tools.Gradle.ExecuteAsync(
             new GradleExecuteOptions(),
             cancellationToken: cancellationToken);
     }

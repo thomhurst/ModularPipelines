@@ -13,7 +13,7 @@ title: buildah CLI reference
 dotnet add package ModularPipelines.Buildah
 ```
 
-Import `ModularPipelines.Buildah.Extensions`, then resolve the service with `context.Buildah()`.
+Resolve the service with `context.Tools.Buildah`. For projects older than C# 14, import `ModularPipelines.Buildah.Extensions` and use the `context.Buildah()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Buildah.Extensions`, then resolve the service with `con
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Buildah.Extensions;
 using ModularPipelines.Buildah.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Buildah().AddAsync(
+        return await context.Tools.Buildah.AddAsync(
             new BuildahAddOptions(),
             cancellationToken: cancellationToken);
     }

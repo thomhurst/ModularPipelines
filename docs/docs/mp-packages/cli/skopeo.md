@@ -13,7 +13,7 @@ title: skopeo CLI reference
 dotnet add package ModularPipelines.Skopeo
 ```
 
-Import `ModularPipelines.Skopeo.Extensions`, then resolve the service with `context.Skopeo()`.
+Resolve the service with `context.Tools.Skopeo`. For projects older than C# 14, import `ModularPipelines.Skopeo.Extensions` and use the `context.Skopeo()` extension method as a compatibility fallback.
 
 ## Module example
 
@@ -21,7 +21,6 @@ Import `ModularPipelines.Skopeo.Extensions`, then resolve the service with `cont
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Skopeo.Extensions;
 using ModularPipelines.Skopeo.Options;
 
 public class RunCommandModule : Module<CommandResult>
@@ -30,7 +29,7 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Skopeo().GenerateSigstoreKeyAsync(
+        return await context.Tools.Skopeo.GenerateSigstoreKeyAsync(
             new SkopeoGenerateSigstoreKeyOptions(),
             cancellationToken: cancellationToken);
     }
