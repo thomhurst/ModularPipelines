@@ -231,6 +231,39 @@ public class ModuleTesterTests
         await Assert.That(run.Value).IsEqualTo(2);
     }
 
+    [Test]
+    [Timeout(5_000)]
+    public async Task CallerCancellationStopsRunningModule(CancellationToken cancellationToken)
+    {
+        var started = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        using var cancellationTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var executionTask = ModuleTester.For<CancellableModule, string>()
+            .WithService(started)
+            .ExecuteAsync(cancellationTokenSource.Token);
+
+        await started.Task.WaitAsync(cancellationToken);
+        await cancellationTokenSource.CancelAsync();
+        var run = await executionTask.WaitAsync(cancellationToken);
+
+        await Assert.That(run.Exception).IsTypeOf<OperationCanceledException>();
+    }
+
+    [Test]
+    public async Task ZipOutputTypeUsesVirtualFileSystem()
+    {
+        var root = Path.Combine(
+            Path.GetTempPath(),
+            $"zip-output-{Guid.NewGuid():N}");
+
+        var run = await ModuleTester.For<ZipOutputModule, string>()
+            .WithService(new FilePath(root))
+            .ExecuteAsync();
+
+        await Assert.That(run.Value).IsEqualTo("True:True");
+    }
+
     public sealed class ValueModule : Module<string>
     {
         protected override Task<string?> ExecuteAsync(
@@ -418,6 +451,40 @@ public class ModuleTesterTests
             return root.GetFiles(
                 _ => true,
                 candidate => candidate.Path == root.Path).Count();
+        }
+    }
+
+    public sealed class CancellableModule(TaskCompletionSource started) : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            started.TrySetResult();
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return "unreachable";
+        }
+    }
+
+    public sealed class ZipOutputModule(FilePath rootPath) : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var root = context.Files.GetFolder(rootPath.Value).Create();
+            var source = root.CreateFolder("source");
+            await source.GetFile("artifact.txt").WriteAsync("contents", cancellationToken);
+
+            var dottedDirectory = root.CreateFolder("archives.v1");
+            var directoryZip = context.Files.Zip.ZipFolder(source, dottedDirectory.Path);
+
+            var extensionlessFile = root.GetFile("archive");
+            await extensionlessFile.WriteAsync(Array.Empty<byte>(), cancellationToken);
+            var fileZip = context.Files.Zip.ZipFolder(source, extensionlessFile.Path);
+
+            return $"{directoryZip.Folder?.Path == dottedDirectory.Path}:"
+                   + $"{fileZip.Path == extensionlessFile.Path}";
         }
     }
 

@@ -236,13 +236,20 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
+            var source = Normalize(sourcePath);
             var destination = Normalize(destinationPath);
+            if (_pathComparer.Equals(source, destination))
+            {
+                throw new IOException(
+                    $"The source and destination paths are the same: '{source}'.");
+            }
+
             if (!overwrite && _files.ContainsKey(destination))
             {
                 throw new IOException($"The in-memory file '{destination}' already exists.");
             }
 
-            SetFile(destination, GetFile(sourcePath));
+            SetFile(destination, GetFile(source));
         }
     }
 

@@ -12,7 +12,10 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
 
     public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel)
     {
-        if (outputPath.GetPathType() == PathType.Directory)
+        var outputIsDirectory = _fileSystemProvider.DirectoryExists(outputPath)
+                                || (!_fileSystemProvider.FileExists(outputPath)
+                                    && outputPath.GetPathType() == PathType.Directory);
+        if (outputIsDirectory)
         {
             outputPath = _fileSystemProvider.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
         }

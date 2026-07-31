@@ -199,11 +199,14 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         {
             // Create a linked token source that cancels when:
             // - The engine singleton is cancelled (module failures, external cancellation via Ctrl+C or test timeout)
+            // - The execution caller is cancelled
             // - The original module token is cancelled (preserves any existing cancellation on the module)
-            // All external cancellation flows through _engineCancellationToken (see ExecutionOrchestrator line 108)
+            // Pipeline-wide external cancellation flows through _engineCancellationToken
+            // (see ExecutionOrchestrator line 108).
             var originalToken = executionContext.ModuleCancellationTokenSource.Token;
             executionContext.ModuleCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(
                 _engineCancellationToken.Token,
+                engineCancellationToken,
                 originalToken);
         }
 

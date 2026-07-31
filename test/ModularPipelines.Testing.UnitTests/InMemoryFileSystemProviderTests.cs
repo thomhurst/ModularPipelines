@@ -36,6 +36,18 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task RejectsCopyingFileOntoItself()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "same-file.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        await Assert.That(() => provider.CopyFile(path, path, overwrite: true))
+            .Throws<IOException>();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("contents");
+    }
+
+    [Test]
     public async Task CommitsWritableStreamsOnDispose()
     {
         var provider = new InMemoryFileSystemProvider();
