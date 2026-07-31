@@ -203,7 +203,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             initial,
             access,
             mode == FileMode.Append,
-            bytes => SetFile(normalizedPath, bytes),
+            bytes => SetFile(normalizedPath, bytes, allowOpenFile: true),
             () => ReleaseOpenFile(normalizedPath));
 
         if (mode == FileMode.Append)
@@ -440,11 +440,17 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             : throw new FileNotFoundException("The in-memory file does not exist.", normalized);
     }
 
-    private void SetFile(string path, byte[] contents)
+    private void SetFile(string path, byte[] contents, bool allowOpenFile = false)
     {
         lock (_sync)
         {
             var normalized = Normalize(path);
+            if (!allowOpenFile && _openFiles.Contains(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
             ValidateFileDestination(normalized);
             _files[normalized] = [.. contents];
         }

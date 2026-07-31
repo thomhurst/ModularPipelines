@@ -104,6 +104,24 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task OpenHandlesRejectDirectWrites()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "direct-write.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        using (provider.OpenRead(path))
+        {
+            await Assert.That(() => provider.WriteAllTextAsync(path, "replacement"))
+                .Throws<IOException>();
+            await Assert.That(() => provider.AppendAllTextAsync(path, " appended"))
+                .Throws<IOException>();
+        }
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
     public async Task MovesDirectoryTrees()
     {
         var provider = new InMemoryFileSystemProvider();
