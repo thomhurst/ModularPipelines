@@ -39,6 +39,11 @@ public class CodeGeneratorOrchestratorTests
             CommandName = "fake",
         };
 
+        public string? DocumentationOutputDirectory { get; init; } =
+            Path.Combine("docs", "docs", "mp-packages", "cli");
+
+        public bool GenerateCommandFacade { get; init; } = true;
+
         public string? ExecutablePrerequisiteMetadataExemption { get; init; }
 
         public Task<bool> IsAvailableAsync(CancellationToken cancellationToken = default) => Task.FromResult(Available);
@@ -66,6 +71,8 @@ public class CodeGeneratorOrchestratorTests
             Commands = [],
             CommandCoverage = CommandCoverage,
             GlobalOptions = GlobalOptions,
+            DocumentationOutputDirectory = DocumentationOutputDirectory,
+            GenerateCommandFacade = GenerateCommandFacade,
             ExecutablePrerequisite = ExecutablePrerequisite,
             ExecutablePrerequisiteMetadataExemption = ExecutablePrerequisiteMetadataExemption,
         };
@@ -109,6 +116,8 @@ public class CodeGeneratorOrchestratorTests
         var scraper = new FakeCliScraper
         {
             Commands = [FakeCommand()],
+            DocumentationOutputDirectory = null,
+            GenerateCommandFacade = false,
             ExecutablePrerequisite = prerequisite,
         };
         var generator = new FakeGenerator
@@ -126,6 +135,8 @@ public class CodeGeneratorOrchestratorTests
 
             await Assert.That(result.HasErrors).IsFalse();
             await Assert.That(generatedTool).IsNotNull();
+            await Assert.That(generatedTool!.DocumentationOutputDirectory).IsNull();
+            await Assert.That(generatedTool.GenerateCommandFacade).IsFalse();
             await Assert.That(generatedTool!.ExecutablePrerequisite).IsSameReferenceAs(prerequisite);
         }
         finally

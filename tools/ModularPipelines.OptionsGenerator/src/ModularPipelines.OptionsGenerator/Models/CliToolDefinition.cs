@@ -39,6 +39,12 @@ public record CliToolDefinition
         Path.Combine("docs", "docs", "mp-packages", "cli");
 
     /// <summary>
+    /// Gets or sets a value indicating whether to generate the root command facade,
+    /// its implementation, and its dependency-injection registration.
+    /// </summary>
+    public bool GenerateCommandFacade { get; init; } = true;
+
+    /// <summary>
     /// All commands for this tool.
     /// </summary>
     public required IReadOnlyList<CliCommandDefinition> Commands { get; init; }

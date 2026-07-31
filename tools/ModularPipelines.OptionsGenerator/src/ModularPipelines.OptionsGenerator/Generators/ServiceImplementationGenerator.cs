@@ -11,6 +11,11 @@ public class ServiceImplementationGenerator : ICodeGenerator
 {
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
+        if (!tool.GenerateCommandFacade)
+        {
+            return Task.FromResult<IReadOnlyList<GeneratedFile>>([]);
+        }
+
         var files = new List<GeneratedFile>();
 
         // Generate the main service implementation

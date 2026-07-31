@@ -45,6 +45,51 @@ public class GeneratorHardeningTests
             Commands = commands,
         };
 
+    [Test]
+    public async Task Command_Facade_Generation_Can_Be_Disabled_Independently_Of_Options()
+    {
+        var tool = Tool(Command("ToolRunOptions", "ToolOptions", ["run"])) with
+        {
+            GenerateCommandFacade = false,
+        };
+
+        var interfaceFiles = await new ServiceInterfaceGenerator().GenerateAsync(tool);
+        var implementationFiles = await new ServiceImplementationGenerator().GenerateAsync(tool);
+        var registrationFiles = await new DependencyRegistrationGenerator().GenerateAsync(tool);
+        var optionFiles = await new OptionsClassGenerator().GenerateAsync(tool);
+
+        await Assert.That(interfaceFiles).IsEmpty();
+        await Assert.That(implementationFiles).IsEmpty();
+        await Assert.That(registrationFiles).IsEmpty();
+        await Assert.That(optionFiles).HasSingleItem();
+    }
+
+    [Test]
+    public async Task Disabled_Command_Facade_Still_Registers_SubDomain_Services()
+    {
+        var tool = Tool(Command(
+            "ToolGroupRunOptions",
+            "ToolOptions",
+            ["group", "run"],
+            subDomainGroup: "Group")) with
+        {
+            GenerateCommandFacade = false,
+        };
+
+        var registrationFile = (await new DependencyRegistrationGenerator()
+            .GenerateAsync(tool))
+            .Single();
+
+        await Assert.That(registrationFile.Content)
+            .Contains("services.TryAddScoped<IToolGroup, ToolGroup>();");
+        await Assert.That(registrationFile.Content)
+            .Contains("public static IServiceCollection RegisterToolContext");
+        await Assert.That(registrationFile.Content)
+            .DoesNotContain("services.TryAddScoped<ITool, Services.Tool>();");
+        await Assert.That(registrationFile.Content)
+            .DoesNotContain("public static ITool Tool(this IPipelineContext context)");
+    }
+
     #region NormalizeCommandClassNames
 
     [Test]

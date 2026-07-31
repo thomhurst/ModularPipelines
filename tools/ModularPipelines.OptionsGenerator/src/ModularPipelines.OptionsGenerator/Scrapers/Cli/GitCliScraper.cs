@@ -42,8 +42,10 @@ public partial class GitCliScraper : ICliScraper
             NamespacePrefix = "Git",
             TargetNamespace = "ModularPipelines.Git",
             OutputDirectory = "src/ModularPipelines.Git",
+            DocumentationOutputDirectory = null,
+            GenerateCommandFacade = false,
             Commands = [],
-            Errors = []
+            Errors = [],
         };
     }
 
