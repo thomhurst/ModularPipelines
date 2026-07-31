@@ -324,6 +324,40 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Module_Registered_Only_In_Dead_Logical_Pattern_Case()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    switch (0)
+                    {
+                        case > 0 and < 10:
+                            Pipeline.CreateBuilder().AddModule<BuildModule>();
+                            break;
+                    }
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_In_Do_While_False()
     {
         var source = $$"""
@@ -3617,6 +3651,50 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Async_Safety_In_Interface_Property_Implementation()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public interface IWorker
+            {
+                Task Pending { get; }
+            }
+
+            public class BuildModule : Module<List<string>?>, IWorker
+            {
+                protected override async Task<List<string>?> ExecuteAsync(
+                    IModuleContext context,
+                    CancellationToken cancellationToken)
+                {
+                    await ((IWorker)this).Pending;
+                    return null;
+                }
+
+                Task IWorker.Pending
+                {
+                    get
+                    {
+                        {|#0:Thread.Sleep(1)|};
+                        return Task.CompletedTask;
+                    }
+                }
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+            """;
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Async_Safety_In_Unused_Member_Helper()
     {
         var source = ModuleSource("""
@@ -4681,6 +4759,37 @@ public class ModuleAuthoringAnalyzerTests
                 {
                 }
                 finally
+                {
+                    token = cancellationToken;
+                }
+
+                await Task.Delay(1, token);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Token_Assigned_In_Try_And_Catch()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = CancellationToken.None;
+                try
+                {
+                    if (DateTime.UtcNow.Ticks == 0)
+                    {
+                        throw new InvalidOperationException();
+                    }
+
+                    token = cancellationToken;
+                }
+                catch
                 {
                     token = cancellationToken;
                 }

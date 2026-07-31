@@ -2114,9 +2114,40 @@ internal static class ModuleAuthoringAnalysis
                 ConstantEquals(constantPattern.Value, switchValue),
             IRelationalPatternOperation relationalPattern =>
                 RelationalPatternMatchesConstant(relationalPattern, switchValue),
+            IBinaryPatternOperation binaryPattern =>
+                BinaryPatternMatchesConstant(binaryPattern, switchValue),
+            INegatedPatternOperation negatedPattern =>
+                Negate(PatternMatchesConstant(negatedPattern.Pattern, switchValue)),
             _ => null,
         };
     }
+
+    private static bool? BinaryPatternMatchesConstant(
+        IBinaryPatternOperation pattern,
+        object? switchValue)
+    {
+        var left = PatternMatchesConstant(pattern.LeftPattern, switchValue);
+        var right = PatternMatchesConstant(pattern.RightPattern, switchValue);
+        return pattern.OperatorKind switch
+        {
+            BinaryOperatorKind.And or BinaryOperatorKind.ConditionalAnd =>
+                left is false || right is false
+                    ? false
+                    : left is true && right is true
+                        ? true
+                        : null,
+            BinaryOperatorKind.Or or BinaryOperatorKind.ConditionalOr =>
+                left is true || right is true
+                    ? true
+                    : left is false && right is false
+                        ? false
+                        : null,
+            _ => null,
+        };
+    }
+
+    private static bool? Negate(bool? value) =>
+        value.HasValue ? !value.Value : null;
 
     private static bool? ConstantEquals(
         IOperation operation,
@@ -3202,19 +3233,7 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        for (var candidate = method;
-             candidate is not null;
-             candidate = candidate.OverriddenMethod)
-        {
-            if (SymbolEqualityComparer.Default.Equals(
-                    getter.OriginalDefinition,
-                    candidate.OriginalDefinition))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return PropertyAccessorTargetsCallable(getter, method);
     }
 
     private static bool PropertyReferenceTargetsSetter(
@@ -3227,12 +3246,24 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        for (var candidate = method;
+        return PropertyAccessorTargetsCallable(setter, method);
+    }
+
+    private static bool PropertyAccessorTargetsCallable(
+        IMethodSymbol accessor,
+        IMethodSymbol callable)
+    {
+        if (CallableImplementsInterfaceMethod(accessor, callable))
+        {
+            return true;
+        }
+
+        for (var candidate = callable;
              candidate is not null;
              candidate = candidate.OverriddenMethod)
         {
             if (SymbolEqualityComparer.Default.Equals(
-                    setter.OriginalDefinition,
+                    accessor.OriginalDefinition,
                     candidate.OriginalDefinition))
             {
                 return true;
@@ -3753,7 +3784,7 @@ internal static class ModuleAuthoringAnalysis
                 candidate is IConditionalOperation
                     or ISwitchOperation
                     or IWhileLoopOperation { ConditionIsTop: false }
-                    or ITryOperation { Finally: not null })
+                    or ITryOperation)
             .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .Where(candidate => IsLinearPredecessor(candidate, operation))
@@ -3787,8 +3818,8 @@ internal static class ModuleAuthoringAnalysis
                     GetReachingSequenceAssignments(@case.Body, local)),
             IWhileLoopOperation { ConditionIsTop: false } whileLoop =>
                 GetReachingLocalAssignments(whileLoop.Body, local),
-            ITryOperation { Finally: { } finallyBlock } =>
-                GetReachingLocalAssignments(finallyBlock, local),
+            ITryOperation tryOperation =>
+                GetReachingLocalAssignments(tryOperation, local),
             IBlockOperation block =>
                 GetReachingSequenceAssignments(block.Operations, local),
             IExpressionStatementOperation expressionStatement =>
@@ -3797,6 +3828,27 @@ internal static class ModuleAuthoringAnalysis
                     local),
             _ => [],
         };
+    }
+
+    private static IEnumerable<ISimpleAssignmentOperation>
+        GetReachingLocalAssignments(
+            ITryOperation tryOperation,
+            ILocalSymbol local)
+    {
+        if (tryOperation.Finally is { } finallyBlock
+            && DefinitelyAssignsLocal(finallyBlock, local))
+        {
+            return GetReachingLocalAssignments(finallyBlock, local);
+        }
+
+        var tryAndCatchAssignments =
+            GetReachingLocalAssignments(tryOperation.Body, local)
+                .Concat(tryOperation.Catches.SelectMany(catchClause =>
+                    GetReachingLocalAssignments(catchClause.Handler, local)));
+        return tryOperation.Finally is { } partialFinally
+            ? tryAndCatchAssignments.Concat(
+                GetReachingLocalAssignments(partialFinally, local))
+            : tryAndCatchAssignments;
     }
 
     private static List<ISimpleAssignmentOperation>
@@ -3850,12 +3902,28 @@ internal static class ModuleAuthoringAnalysis
                 DefinitelyAssignsLocalInSwitch(switchOperation, local),
             IWhileLoopOperation { ConditionIsTop: false } whileLoop =>
                 DefinitelyAssignsLocalInDoLoop(whileLoop, local),
-            ITryOperation { Finally: { } finallyBlock } =>
-                DefinitelyAssignsLocal(finallyBlock, local),
+            ITryOperation tryOperation =>
+                DefinitelyAssignsLocalInTry(tryOperation, local),
             IExpressionStatementOperation expressionStatement =>
                 DefinitelyAssignsLocal(expressionStatement.Operation, local),
             _ => false,
         };
+    }
+
+    private static bool DefinitelyAssignsLocalInTry(
+        ITryOperation tryOperation,
+        ILocalSymbol local)
+    {
+        if (tryOperation.Finally is { } finallyBlock
+            && DefinitelyAssignsLocal(finallyBlock, local))
+        {
+            return true;
+        }
+
+        return DefinitelyAssignsLocal(tryOperation.Body, local)
+               && tryOperation.Catches.All(catchClause =>
+                   DefinitelyAssignsLocal(catchClause.Handler, local)
+                   || AlwaysExitsCallable(catchClause.Handler));
     }
 
     private static bool DefinitelyAssignsLocalInDoLoop(
