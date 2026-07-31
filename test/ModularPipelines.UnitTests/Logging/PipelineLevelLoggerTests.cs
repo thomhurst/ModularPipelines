@@ -279,6 +279,19 @@ public class PipelineLevelLoggerTests
         await Assert.That(underlyingLogger.Scope?.ToString()).IsEqualTo(LoggingConstants.SecretMask);
     }
 
+    [Test]
+    public async Task BeginScope_GuardsHostileStructuredTraversal()
+    {
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(underlyingLogger);
+
+        await Assert.That(
+                () => pipelineLevelLogger.BeginScope(new ThrowingCountStructuredScopeState()))
+            .ThrowsNothing();
+
+        await Assert.That(underlyingLogger.Scope).IsEqualTo(LoggingConstants.SecretMask);
+    }
+
     private static PipelineLevelLogger CreateLogger(
         ILogger logger,
         Func<string?, string>? obfuscate = null)
@@ -326,6 +339,20 @@ public class PipelineLevelLoggerTests
             GetEnumerator();
 
         public override string ToString() => throw new InvalidOperationException("Cannot format scope.");
+    }
+
+    private sealed class ThrowingCountStructuredScopeState
+        : IReadOnlyList<KeyValuePair<string, object?>>
+    {
+        public int Count => throw new InvalidOperationException("Cannot count scope values.");
+
+        public KeyValuePair<string, object?> this[int index] =>
+            throw new InvalidOperationException("Cannot read scope value.");
+
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() =>
+            throw new InvalidOperationException("Cannot enumerate scope values.");
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     private sealed class ThrowingToStringValue

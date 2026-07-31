@@ -63,16 +63,7 @@ internal sealed class PipelineLevelLogger : IModuleLogger
     public IDisposable? BeginScope<TState>(TState state)
         where TState : notnull
     {
-        var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state);
-        if (!ReferenceEquals(obfuscatedState, state)
-            && obfuscatedState is IReadOnlyList<KeyValuePair<string, object?>> obfuscatedValues
-            && state is IReadOnlyList<KeyValuePair<string, object?>>)
-        {
-            return _logger.BeginScope(new ObfuscatedScopeState(
-                obfuscatedValues,
-                TryRenderScope(state)));
-        }
-
+        var obfuscatedState = TryObfuscateScopeState(state);
         return obfuscatedState is TState typedState
             ? _logger.BeginScope(typedState)
             : _logger.BeginScope(obfuscatedState);
@@ -82,6 +73,29 @@ internal sealed class PipelineLevelLogger : IModuleLogger
     public void Dispose()
     {
         // Nothing to dispose - the underlying logger is managed by the LoggerFactory
+    }
+
+    private object TryObfuscateScopeState<TState>(TState state)
+        where TState : notnull
+    {
+        try
+        {
+            var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state);
+            if (!ReferenceEquals(obfuscatedState, state)
+                && obfuscatedState is IReadOnlyList<KeyValuePair<string, object?>> obfuscatedValues
+                && state is IReadOnlyList<KeyValuePair<string, object?>>)
+            {
+                return new ObfuscatedScopeState(
+                    obfuscatedValues,
+                    TryRenderScope(state));
+            }
+
+            return obfuscatedState;
+        }
+        catch (Exception)
+        {
+            return LoggingConstants.SecretMask;
+        }
     }
 
     private string TryRenderScope<TState>(TState state)
