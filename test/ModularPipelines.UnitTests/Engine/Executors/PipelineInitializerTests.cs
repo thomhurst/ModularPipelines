@@ -147,6 +147,7 @@ public class PipelineInitializerTests
     [Arguments("GPG_PASSPHRASE")]
     [Arguments("SSH_PASSPHRASE")]
     [Arguments("RABBITMQ_DEFAULT_PASS")]
+    [Arguments("P4PASSWD")]
     [Arguments("API_KEY")]
     [Arguments("SERVICE_PWD")]
     [Arguments("credential")]

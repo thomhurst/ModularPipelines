@@ -32,6 +32,7 @@ internal class PipelineInitializer(
         "TOKEN",
         "SECRET",
         "PASSWORD",
+        "PASSWD",
         "PASSPHRASE",
         "KEY",
         "PWD",
