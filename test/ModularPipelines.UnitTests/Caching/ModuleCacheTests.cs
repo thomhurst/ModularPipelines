@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
@@ -172,6 +173,8 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
+        public static bool SawStaleArtifact;
+
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
@@ -180,9 +183,26 @@ public class ModuleCacheTests
             var value = System.IO.File.ReadAllText(
                 Path.Combine(WorkingDirectory, "set-input.txt"));
             var artifactDirectory = Path.Combine(WorkingDirectory, "artifact-set");
+            SawStaleArtifact = System.IO.File.Exists(
+                Path.Combine(artifactDirectory, "stale.txt"));
             Directory.CreateDirectory(artifactDirectory);
             System.IO.File.WriteAllText(Path.Combine(artifactDirectory, $"{value}.txt"), value);
             return Task.FromResult<string?>(value);
+        }
+    }
+
+    [CacheInputs("glob-link-input.txt")]
+    [ProducesArtifact("glob-links", "glob-links/**/*")]
+    private sealed class GlobOptionalArtifactModule : Module<string>
+    {
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            return Task.FromResult<string?>("result");
         }
     }
 
@@ -1059,6 +1079,111 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreClearsGlobMatchedDirectoryLinkAbsentFromSnapshot()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-glob-link-{Guid.NewGuid():N}");
+        var externalDirectory = Path.Combine(temporaryDirectory, "external");
+        var externalSentinel = Path.Combine(externalDirectory, "sentinel.txt");
+        var artifactDirectory = Path.Combine(temporaryDirectory, "glob-links");
+        var staleLink = Path.Combine(artifactDirectory, "stale");
+        Directory.CreateDirectory(temporaryDirectory);
+        Directory.CreateDirectory(externalDirectory);
+        GlobOptionalArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "glob-link-input.txt"),
+                "input");
+            await System.IO.File.WriteAllTextAsync(externalSentinel, "untouched");
+            await RunGlobOptionalArtifactPipelineAsync(temporaryDirectory);
+
+            Directory.CreateDirectory(artifactDirectory);
+            Directory.CreateSymbolicLink(staleLink, externalDirectory);
+            var restoredStatus =
+                await RunGlobOptionalArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(GlobOptionalArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(Directory.Exists(staleLink)).IsFalse();
+                await Assert.That(await System.IO.File.ReadAllTextAsync(externalSentinel))
+                    .IsEqualTo("untouched");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task FailedCacheRestoreRollsBackPartialArtifacts()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-restore-rollback-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+        VaryingArtifactSetModule.SawStaleArtifact = false;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();
+            using (var archive = ZipFile.Open(cacheEntry, ZipArchiveMode.Update))
+            {
+                await using (var staleEntry = archive
+                                 .CreateEntry("artifacts/artifact-set/stale.txt")
+                                 .Open())
+                {
+                    await staleEntry.WriteAsync("stale"u8.ToArray());
+                }
+
+                await using (var failingEntry = archive
+                                 .CreateEntry("artifacts/blocked/child.txt")
+                                 .Open())
+                {
+                    await failingEntry.WriteAsync("blocked"u8.ToArray());
+                }
+            }
+
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "blocked"),
+                "pre-existing file");
+            var restoredStatus =
+                await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+                await Assert.That(VaryingArtifactSetModule.SawStaleArtifact).IsFalse();
+                await Assert.That(System.IO.File.Exists(Path.Combine(
+                        temporaryDirectory,
+                        "artifact-set",
+                        "stale.txt")))
+                    .IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task CacheRestorePreservesUnixExecutableMode()
     {
         if (OperatingSystem.IsWindows())
@@ -1105,13 +1230,8 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
-    public async Task CacheRestorePreservesUnixSymbolicLinks()
+    public async Task CacheRestorePreservesSymbolicLinks()
     {
-        if (OperatingSystem.IsWindows())
-        {
-            return;
-        }
-
         var temporaryDirectory = Path.Combine(
             Path.GetTempPath(),
             $"ModularPipelines-cache-symlink-{Guid.NewGuid():N}");
@@ -1137,6 +1257,49 @@ public class ModuleCacheTests
                 await Assert.That(SymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(link.LinkTarget).IsEqualTo("tool-v2");
                 await Assert.That(await System.IO.File.ReadAllTextAsync(link.FullName))
+                    .IsEqualTo("version two");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestorePreservesDirectorySymbolicLinks()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-directory-link-{Guid.NewGuid():N}");
+        var artifactDirectory = Path.Combine(
+            temporaryDirectory,
+            "directory-symlink-artifacts");
+        Directory.CreateDirectory(temporaryDirectory);
+        DirectorySymbolicLinkArtifactModule.WorkingDirectory = temporaryDirectory;
+        DirectorySymbolicLinkArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "directory-symlink-input.txt"),
+                "input");
+            await RunDirectorySymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            Directory.Delete(artifactDirectory, recursive: true);
+
+            var restoredStatus =
+                await RunDirectorySymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            var directoryLink = new DirectoryInfo(
+                Path.Combine(artifactDirectory, "current"));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(DirectorySymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(directoryLink.LinkTarget).IsEqualTo("version-2");
+                await Assert.That(await System.IO.File.ReadAllTextAsync(
+                        Path.Combine(directoryLink.FullName, "payload.txt")))
                     .IsEqualTo("version two");
             }
         }
@@ -1451,6 +1614,25 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(OptionalArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunGlobOptionalArtifactPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<GlobOptionalArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(GlobOptionalArtifactModule))!
             .ModuleStatus;
     }
 
