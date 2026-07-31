@@ -320,10 +320,12 @@ internal static class ModuleCacheFileResolver
             var searchRoot = wildcardIndex < 0
                 ? GetContainedPath(root, pattern)
                 : GetGlobSearchRoot(root, pattern, wildcardIndex);
-            var linkedPath = GetLinkedComponent(root, searchRoot)
-                             ?? (Directory.Exists(searchRoot)
-                                 ? EnumerateLinksWithoutFollowing(searchRoot).FirstOrDefault()
-                                 : null);
+            var linkedPath = wildcardIndex < 0
+                ? GetLinkedComponent(root, searchRoot)
+                  ?? (Directory.Exists(searchRoot)
+                      ? EnumerateLinksWithoutFollowing(searchRoot).FirstOrDefault()
+                      : null)
+                : GetLinkedPathMatchingGlob(root, searchRoot, pattern);
             if (linkedPath is not null)
             {
                 throw new InvalidOperationException(
@@ -332,6 +334,47 @@ internal static class ModuleCacheFileResolver
                     + "cannot be fingerprinted safely.");
             }
         }
+    }
+
+    private static string? GetLinkedPathMatchingGlob(
+        string root,
+        string searchRoot,
+        string pattern)
+    {
+        var glob = CreateGlobRegex(
+            pattern,
+            GetPathComparer(root) == StringComparer.OrdinalIgnoreCase);
+        var linkedComponent = GetLinkedComponent(root, searchRoot);
+        if (linkedComponent is not null)
+        {
+            return LinkedPathMatchesGlob(root, linkedComponent, glob)
+                ? linkedComponent
+                : null;
+        }
+
+        if (!Directory.Exists(searchRoot))
+        {
+            return null;
+        }
+
+        return EnumerateLinksWithoutFollowing(searchRoot)
+            .FirstOrDefault(linkedPath => LinkedPathMatchesGlob(root, linkedPath, glob));
+    }
+
+    private static bool LinkedPathMatchesGlob(string root, string linkedPath, Regex glob)
+    {
+        var relativePath = NormalizeSeparators(Path.GetRelativePath(root, linkedPath));
+        if (!IsDirectoryLink(linkedPath))
+        {
+            return glob.IsMatch(relativePath);
+        }
+
+        return Directory.Exists(linkedPath)
+               && EnumerateWithoutFollowingDirectoryLinks(
+                       linkedPath,
+                       includeDirectories: false)
+                   .Select(path => NormalizeSeparators(Path.GetRelativePath(root, path)))
+                   .Any(glob.IsMatch);
     }
 
     private static string GetGlobSearchRoot(string root, string pattern, int wildcardIndex)

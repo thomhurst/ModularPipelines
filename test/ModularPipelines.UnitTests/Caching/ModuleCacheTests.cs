@@ -1169,6 +1169,57 @@ public class ModuleCacheTests
     }
 
     [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreReplacesReadOnlyArtifactFilesOnWindows()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-read-only-file-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        var outputPath = Path.Combine(temporaryDirectory, "output.txt");
+        Directory.CreateDirectory(temporaryDirectory);
+        CachedModule.WorkingDirectory = temporaryDirectory;
+        CachedModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "input.txt"),
+                "input");
+            await RunPipelineAsync(temporaryDirectory, cacheDirectory);
+            System.IO.File.SetAttributes(
+                outputPath,
+                System.IO.File.GetAttributes(outputPath) | FileAttributes.ReadOnly);
+
+            var restoredStatus = await RunPipelineAsync(temporaryDirectory, cacheDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(CachedModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(await System.IO.File.ReadAllTextAsync(outputPath))
+                    .IsEqualTo("output:input");
+            }
+        }
+        finally
+        {
+            if (System.IO.File.Exists(outputPath))
+            {
+                System.IO.File.SetAttributes(
+                    outputPath,
+                    System.IO.File.GetAttributes(outputPath) & ~FileAttributes.ReadOnly);
+            }
+
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task GlobExpansionAndHashingPreserveCaseDistinctFiles()
     {
         var temporaryDirectory = Path.Combine(
@@ -1250,6 +1301,43 @@ public class ModuleCacheTests
                 await Assert.That(exactException.Message).Contains("linked-input");
                 await Assert.That(globException.Message).Contains("linked-input");
             }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task InputExpansionIgnoresSymbolicLinksOutsideGlob()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-unrelated-link-{Guid.NewGuid():N}");
+        var workingDirectory = Path.Combine(temporaryDirectory, "working");
+        var sourceDirectory = Path.Combine(workingDirectory, "src");
+        var externalDirectory = Path.Combine(temporaryDirectory, "external");
+        Directory.CreateDirectory(sourceDirectory);
+        Directory.CreateDirectory(externalDirectory);
+
+        try
+        {
+            var sourceFile = Path.Combine(sourceDirectory, "Program.cs");
+            await System.IO.File.WriteAllTextAsync(sourceFile, "class Program;");
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(externalDirectory, "logo.png"),
+                "logo");
+            Directory.CreateSymbolicLink(
+                Path.Combine(sourceDirectory, "assets"),
+                externalDirectory);
+
+            var files = ModuleCacheFileResolver.ResolveFiles(
+                workingDirectory,
+                ["src/*.cs"],
+                maximumFiles: 10,
+                rejectLinkedPaths: true);
+
+            await Assert.That(files).IsEquivalentTo([sourceFile]);
         }
         finally
         {

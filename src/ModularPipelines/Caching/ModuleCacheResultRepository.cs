@@ -658,6 +658,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             _options.CacheDirectory);
 
         MakeDirectoriesWritable(directories);
+        MakeFilesWritable(files);
 
         foreach (var directoryLink in directoryLinks.OrderByDescending(path => path.Length))
         {
@@ -698,6 +699,24 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             if ((mode & requiredMode) != requiredMode)
             {
                 File.SetUnixFileMode(directory, mode | requiredMode);
+            }
+        }
+    }
+
+    private static void MakeFilesWritable(IEnumerable<string> files)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        foreach (var file in files)
+        {
+            var attributes = File.GetAttributes(file);
+            if ((attributes & (FileAttributes.ReadOnly | FileAttributes.ReparsePoint))
+                == FileAttributes.ReadOnly)
+            {
+                File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
             }
         }
     }
