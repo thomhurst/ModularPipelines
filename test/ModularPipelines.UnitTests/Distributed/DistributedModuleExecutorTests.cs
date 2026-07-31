@@ -1,4 +1,6 @@
+using ModularPipelines.Context;
 using ModularPipelines.Distributed.Master;
+using ModularPipelines.Enums;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Modules;
@@ -8,6 +10,16 @@ namespace ModularPipelines.UnitTests.Distributed;
 
 public class DistributedModuleExecutorTests
 {
+    private sealed class TestModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
     [Test]
     public void CompleteCancelledModules_RegistersTerminatedResults()
     {
@@ -32,5 +44,26 @@ public class DistributedModuleExecutorTests
                 It.Is<OperationCanceledException>(
                     exception => exception.CancellationToken == cancellationToken)),
             Times.Once);
+    }
+
+    [Test]
+    [Arguments(Status.TimedOut)]
+    [Arguments(Status.Failed)]
+    public async Task CreateCollectorFailureResult_PreservesTerminalStatus(Status status)
+    {
+        var module = new TestModule();
+        var exception = new InvalidOperationException("Collector failed");
+
+        var result = DistributedModuleExecutor.CreateCollectorFailureResult(
+            module,
+            typeof(TestModule),
+            exception,
+            status);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ModuleStatus).IsEqualTo(status);
+            await Assert.That(result.ExceptionOrDefault).IsSameReferenceAs(exception);
+        }
     }
 }

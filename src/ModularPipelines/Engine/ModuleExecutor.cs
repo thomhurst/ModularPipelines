@@ -155,6 +155,15 @@ internal class ModuleExecutor : IModuleExecutor
         {
             firstException = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource).ConfigureAwait(false);
         }
+        catch (Exception exception)
+        {
+            var cancelledModules =
+                scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(
+                cancelledModules,
+                exception);
+            throw;
+        }
         finally
         {
             EnsureCancellation(cancellationTokenSource);

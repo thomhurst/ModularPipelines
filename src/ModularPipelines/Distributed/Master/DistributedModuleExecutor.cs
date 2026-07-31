@@ -188,6 +188,23 @@ internal class DistributedModuleExecutor(
             new OperationCanceledException(cancellationToken));
     }
 
+    internal static IModuleResult CreateCollectorFailureResult(
+        IModule module,
+        Type moduleType,
+        Exception exception,
+        Enums.Status status)
+    {
+        var executionContext = new ModuleExecutionContext(module, moduleType)
+        {
+            Status = status,
+            Exception = exception,
+        };
+        return ModuleResultFactory.CreateException(
+            module.ResultType,
+            exception,
+            executionContext);
+    }
+
     private async Task WaitForWorkersAsync(CancellationToken cancellationToken)
     {
         var expectedWorkers = _options.Value.TotalInstances - 1;
@@ -428,20 +445,24 @@ internal class DistributedModuleExecutor(
         {
             // Timeout expired (not pipeline cancellation)
             _logger.LogError("Distributed module {Module} timed out waiting for result — worker may have died", moduleType.Name);
-            RegisterFailureResult(module, moduleType, new TimeoutException(
-                $"Module {moduleType.Name} did not produce a result within the configured timeout"));
+            RegisterFailureResult(
+                module,
+                moduleType,
+                new TimeoutException(
+                    $"Module {moduleType.Name} did not produce a result within the configured timeout"),
+                Enums.Status.TimedOut);
             scheduler.MarkModuleCompleted(moduleType, false);
             await cts.CancelAsync();
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException exception)
         {
-            RegisterFailureResult(module, moduleType, new OperationCanceledException("Module was cancelled"));
+            _resultRegistrar.RegisterTerminatedResult(module, moduleType, exception);
             scheduler.MarkModuleCompleted(moduleType, false);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
-            RegisterFailureResult(module, moduleType, ex);
+            RegisterFailureResult(module, moduleType, ex, Enums.Status.Failed);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             await cts.CancelAsync();
         }
@@ -489,14 +510,19 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private void RegisterFailureResult(IModule module, Type moduleType, Exception exception)
+    private void RegisterFailureResult(
+        IModule module,
+        Type moduleType,
+        Exception exception,
+        Enums.Status status)
     {
         try
         {
-            var failureResult = ModuleResultFactory.CreateException(
-                module.ResultType,
+            var failureResult = CreateCollectorFailureResult(
+                module,
+                moduleType,
                 exception,
-                new ModuleExecutionContext(module, moduleType));
+                status);
             ModuleCompletionSourceApplicator.TryApply(module, failureResult);
             _resultRegistry.RegisterResult(moduleType, failureResult);
         }
