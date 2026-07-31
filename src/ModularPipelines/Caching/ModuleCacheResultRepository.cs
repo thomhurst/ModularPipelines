@@ -213,6 +213,30 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var hashes = await _fileHasher.HashAsync(inputFiles, cancellationToken).ConfigureAwait(false);
 
         using var incrementalHash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        AppendModuleFingerprintData(
+            incrementalHash,
+            module,
+            configuration,
+            inputFiles,
+            hashes);
+        var dependencyTypes = GetDependencyTypes(module);
+        await AppendDependencyFingerprintsAsync(
+                incrementalHash,
+                dependencyTypes,
+                pipelineContext,
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        return Convert.ToHexString(incrementalHash.GetHashAndReset());
+    }
+
+    private void AppendModuleFingerprintData<T>(
+        IncrementalHash incrementalHash,
+        Module<T> module,
+        ModuleConfiguration configuration,
+        IReadOnlyList<string> inputFiles,
+        IReadOnlyDictionary<string, string> hashes)
+    {
         Append(incrementalHash, "format", "1");
         Append(incrementalHash, "module", module.GetType().AssemblyQualifiedName ?? module.GetType().FullName!);
         Append(incrementalHash, "module-version", module.GetType().Assembly.ManifestModule.ModuleVersionId.ToString("N"));
@@ -237,18 +261,28 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         {
             Append(incrementalHash, $"environment:{variableName}", Environment.GetEnvironmentVariable(variableName) ?? "<null>");
         }
+    }
 
+    private Type[] GetDependencyTypes<T>(Module<T> module)
+    {
         var availableModuleTypes = _moduleLookup.Modules
             .Select(registeredModule => registeredModule.GetType())
             .Distinct()
             .ToArray();
-        var dependencyTypes = ModuleDependencyResolver
+        return ModuleDependencyResolver
             .GetAllDependencies(module, availableModuleTypes, _dependencyRegistry, _metadataRegistry)
             .Select(dependency => dependency.DependencyType)
             .Distinct()
             .OrderBy(dependencyType => dependencyType.FullName, StringComparer.Ordinal)
             .ToArray();
+    }
 
+    private static async Task AppendDependencyFingerprintsAsync(
+        IncrementalHash incrementalHash,
+        IEnumerable<Type> dependencyTypes,
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
         var internalContext = (IInternalPipelineContext) pipelineContext;
         foreach (var dependencyType in dependencyTypes)
         {
@@ -262,37 +296,45 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var dependencyResult = await dependencyModule.ResultTask
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
-            Append(incrementalHash, "dependency", dependencyType.AssemblyQualifiedName!);
-            Append(
-                incrementalHash,
-                "dependency-status",
-                dependencyResult.ModuleStatus == Status.UsedHistory
-                    ? Status.Successful.ToString()
-                    : dependencyResult.ModuleStatus.ToString());
+            AppendDependencyFingerprint(incrementalHash, dependencyType, dependencyResult);
+        }
+    }
 
-            if (dependencyResult.ValueOrDefault is { } value)
-            {
-                var valueBytes = JsonSerializer.SerializeToUtf8Bytes(value, value.GetType());
-                Append(incrementalHash, "dependency-value", Convert.ToHexString(SHA256.HashData(valueBytes)));
-            }
-            else
-            {
-                Append(incrementalHash, "dependency-value", "<null>");
-            }
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Dependency result fingerprints require runtime result type metadata.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Dependency result fingerprints require runtime result type metadata.")]
+    private static void AppendDependencyFingerprint(
+        IncrementalHash incrementalHash,
+        Type dependencyType,
+        IModuleResult dependencyResult)
+    {
+        Append(incrementalHash, "dependency", dependencyType.AssemblyQualifiedName!);
+        Append(
+            incrementalHash,
+            "dependency-status",
+            dependencyResult.ModuleStatus == Status.UsedHistory
+                ? Status.Successful.ToString()
+                : dependencyResult.ModuleStatus.ToString());
 
-            if (dependencyResult.ExceptionOrDefault is { } exception)
-            {
-                Append(incrementalHash, "dependency-exception-type", exception.GetType().FullName!);
-                Append(incrementalHash, "dependency-exception-message", exception.Message);
-            }
-
-            if (dependencyResult.SkipDecisionOrDefault is { } skipDecision)
-            {
-                Append(incrementalHash, "dependency-skip", skipDecision.Reason ?? string.Empty);
-            }
+        if (dependencyResult.ValueOrDefault is { } value)
+        {
+            var valueBytes = JsonSerializer.SerializeToUtf8Bytes(value, value.GetType());
+            Append(incrementalHash, "dependency-value", Convert.ToHexString(SHA256.HashData(valueBytes)));
+        }
+        else
+        {
+            Append(incrementalHash, "dependency-value", "<null>");
         }
 
-        return Convert.ToHexString(incrementalHash.GetHashAndReset());
+        if (dependencyResult.ExceptionOrDefault is { } exception)
+        {
+            Append(incrementalHash, "dependency-exception-type", exception.GetType().FullName!);
+            Append(incrementalHash, "dependency-exception-message", exception.Message);
+        }
+
+        if (dependencyResult.SkipDecisionOrDefault is { } skipDecision)
+        {
+            Append(incrementalHash, "dependency-skip", skipDecision.Reason ?? string.Empty);
+        }
     }
 
     private async Task AddArtifactsAsync(
