@@ -85,10 +85,14 @@ internal sealed class Command : ICommandContext
 
         cancellationToken.ThrowIfCancellationRequested();
 
+        var commandMetadata = new CommandResult(command);
         var invocation = new CommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
-            execOpts);
+            execOpts,
+            commandMetadata.CommandInput,
+            commandMetadata.WorkingDirectory,
+            commandMetadata.EnvironmentVariables);
 
         foreach (var interceptor in _commandInterceptors)
         {

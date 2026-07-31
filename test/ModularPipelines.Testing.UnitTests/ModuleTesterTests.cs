@@ -50,6 +50,10 @@ public class ModuleTesterTests
                 .IsEquivalentTo(["build", "--configuration", "Release"]);
             await Assert.That(run.Commands[0].Result.StandardOutput)
                 .IsEqualTo("stubbed imaginary-tool");
+            await Assert.That(run.Commands[0].Result.WorkingDirectory)
+                .IsEqualTo(Path.GetTempPath());
+            await Assert.That(run.Commands[0].Result.EnvironmentVariables["RECORDED_VALUE"])
+                .IsEqualTo("effective");
         }
     }
 
@@ -170,6 +174,25 @@ public class ModuleTesterTests
         await Assert.That(run.Exception).IsTypeOf<NotSupportedException>();
     }
 
+    [Test]
+    public async Task CopiesFoldersInVirtualFileSystem()
+    {
+        var root = Path.Combine(
+            Path.GetTempPath(),
+            $"modular-pipelines-test-{Guid.NewGuid():N}");
+
+        var run = await ModuleTester.For<FolderCopyModule, string>()
+            .WithService(new FilePath(root))
+            .ExecuteAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(run.Value).IsEqualTo("contents");
+            await Assert.That(run.Exception).IsNull();
+            await Assert.That(Directory.Exists(root)).IsFalse();
+        }
+    }
+
     public sealed class ValueModule : Module<string>
     {
         protected override Task<string?> ExecuteAsync(
@@ -224,6 +247,14 @@ public class ModuleTesterTests
                 {
                     Arguments = ["build", "--configuration", "Release"],
                 },
+                new CommandExecutionOptions
+                {
+                    WorkingDirectory = Path.GetTempPath(),
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["RECORDED_VALUE"] = "effective",
+                    },
+                },
                 cancellationToken: cancellationToken);
 
             return result.StandardOutput;
@@ -257,6 +288,7 @@ public class ModuleTesterTests
             CancellationToken cancellationToken)
         {
             var file = context.Files.GetFile(filePath.Value);
+            file.Folder!.Create();
             await file.WriteAsync("contents", cancellationToken);
             return file.Exists ? await file.ReadAsync(cancellationToken) : null;
         }
@@ -287,8 +319,24 @@ public class ModuleTesterTests
             CancellationToken cancellationToken)
         {
             var file = context.Files.GetFile(filePath.Value);
+            file.Folder!.Create();
             await file.WriteAsync("contents", cancellationToken);
             return file.Length;
+        }
+    }
+
+    public sealed class FolderCopyModule(FilePath rootPath) : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var root = context.Files.GetFolder(rootPath.Value).Create();
+            var source = root.CreateFolder("source");
+            await source.GetFile("artifact.txt").WriteAsync("contents", cancellationToken);
+
+            var copy = source.CopyTo(root.GetFolder("copy").Path);
+            return await copy.GetFile("artifact.txt").ReadAsync(cancellationToken);
         }
     }
 

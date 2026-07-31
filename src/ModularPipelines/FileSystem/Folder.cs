@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.JsonUtils;
 using ModularPipelines.Logging;
@@ -269,61 +270,43 @@ public class Folder : IEquatable<Folder>
     public Folder CopyTo(string targetPath, bool preserveTimestamps)
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
-        EnsurePhysicalMetadataSupported();
+        var copyPhysicalMetadata = ReferenceEquals(_provider, SystemFileSystemProvider.Instance);
+        if (preserveTimestamps && !copyPhysicalMetadata)
+        {
+            EnsurePhysicalMetadataSupported();
+        }
 
         _provider.CreateDirectory(targetPath);
 
         // Copy all subdirectories first
         foreach (var dirPath in _provider.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
         {
-            var sourceDir = new DirectoryInfo(dirPath);
             var relativePath = _provider.GetRelativePath(this, dirPath);
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CreateDirectory(newPath);
 
-            var targetDir = new DirectoryInfo(newPath);
-
-            // Preserve directory attributes
-            targetDir.Attributes = sourceDir.Attributes;
-
-            if (preserveTimestamps)
+            if (copyPhysicalMetadata)
             {
-                targetDir.CreationTimeUtc = sourceDir.CreationTimeUtc;
-                targetDir.LastWriteTimeUtc = sourceDir.LastWriteTimeUtc;
-                targetDir.LastAccessTimeUtc = sourceDir.LastAccessTimeUtc;
+                CopyDirectoryMetadata(dirPath, newPath, preserveTimestamps);
             }
         }
 
         // Copy all files
         foreach (var filePath in _provider.EnumerateFiles(this, "*", SearchOption.AllDirectories))
         {
-            var sourceFile = new FileInfo(filePath);
             var relativePath = _provider.GetRelativePath(this, filePath);
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CopyFile(filePath, newPath, overwrite: true);
 
-            var targetFile = new FileInfo(newPath);
-
-            // Preserve file attributes
-            targetFile.Attributes = sourceFile.Attributes;
-
-            if (preserveTimestamps)
+            if (copyPhysicalMetadata)
             {
-                targetFile.CreationTimeUtc = sourceFile.CreationTimeUtc;
-                targetFile.LastWriteTimeUtc = sourceFile.LastWriteTimeUtc;
-                targetFile.LastAccessTimeUtc = sourceFile.LastAccessTimeUtc;
+                CopyFileMetadata(filePath, newPath, preserveTimestamps);
             }
         }
 
-        // Preserve root directory attributes and timestamps after all content is copied
-        var targetRootDir = new DirectoryInfo(targetPath);
-        targetRootDir.Attributes = DirectoryInfo.Attributes;
-
-        if (preserveTimestamps)
+        if (copyPhysicalMetadata)
         {
-            targetRootDir.CreationTimeUtc = DirectoryInfo.CreationTimeUtc;
-            targetRootDir.LastWriteTimeUtc = DirectoryInfo.LastWriteTimeUtc;
-            targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
+            CopyDirectoryMetadata(Path, targetPath, preserveTimestamps);
         }
 
         return new Folder(targetPath, _provider);
@@ -353,7 +336,11 @@ public class Folder : IEquatable<Folder>
     public async Task<Folder> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
-        EnsurePhysicalMetadataSupported();
+        var copyPhysicalMetadata = ReferenceEquals(_provider, SystemFileSystemProvider.Instance);
+        if (preserveTimestamps && !copyPhysicalMetadata)
+        {
+            EnsurePhysicalMetadataSupported();
+        }
 
         _provider.CreateDirectory(targetPath);
 
@@ -362,19 +349,13 @@ public class Folder : IEquatable<Folder>
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var sourceDir = new DirectoryInfo(dirPath);
             var relativePath = _provider.GetRelativePath(this, dirPath);
             var newPath = _provider.Combine(targetPath, relativePath);
             _provider.CreateDirectory(newPath);
 
-            var targetDir = new DirectoryInfo(newPath);
-            targetDir.Attributes = sourceDir.Attributes;
-
-            if (preserveTimestamps)
+            if (copyPhysicalMetadata)
             {
-                targetDir.CreationTimeUtc = sourceDir.CreationTimeUtc;
-                targetDir.LastWriteTimeUtc = sourceDir.LastWriteTimeUtc;
-                targetDir.LastAccessTimeUtc = sourceDir.LastAccessTimeUtc;
+                CopyDirectoryMetadata(dirPath, newPath, preserveTimestamps);
             }
         }
 
@@ -383,7 +364,6 @@ public class Folder : IEquatable<Folder>
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var sourceFile = new FileInfo(filePath);
             var relativePath = _provider.GetRelativePath(this, filePath);
             var newPath = _provider.Combine(targetPath, relativePath);
 
@@ -397,26 +377,15 @@ public class Folder : IEquatable<Folder>
                 }
             }
 
-            var targetFile = new FileInfo(newPath);
-            targetFile.Attributes = sourceFile.Attributes;
-
-            if (preserveTimestamps)
+            if (copyPhysicalMetadata)
             {
-                targetFile.CreationTimeUtc = sourceFile.CreationTimeUtc;
-                targetFile.LastWriteTimeUtc = sourceFile.LastWriteTimeUtc;
-                targetFile.LastAccessTimeUtc = sourceFile.LastAccessTimeUtc;
+                CopyFileMetadata(filePath, newPath, preserveTimestamps);
             }
         }
 
-        // Preserve root directory attributes and timestamps
-        var targetRootDir = new DirectoryInfo(targetPath);
-        targetRootDir.Attributes = DirectoryInfo.Attributes;
-
-        if (preserveTimestamps)
+        if (copyPhysicalMetadata)
         {
-            targetRootDir.CreationTimeUtc = DirectoryInfo.CreationTimeUtc;
-            targetRootDir.LastWriteTimeUtc = DirectoryInfo.LastWriteTimeUtc;
-            targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
+            CopyDirectoryMetadata(Path, targetPath, preserveTimestamps);
         }
 
         return new Folder(targetPath, _provider);
@@ -490,9 +459,7 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperationWithExpression("Searching Folders in: {Path} > {Expression}", this, predicateExpression);
 
-        return _provider.EnumerateDirectories(Path, "*", SearchOption.AllDirectories)
-            .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: true, exclusionFilters))
-            .Select(path => new Folder(path, _provider))
+        return EnumerateFolders(exclusionFilters)
             .Distinct()
             .Where(predicate);
     }
@@ -501,9 +468,7 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperationWithExpression("Searching Files in: {Path} > {Expression}", this, predicateExpression);
 
-        return _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories)
-            .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: false, directoryExclusionFilters))
-            .Select(path => new File(path, _provider))
+        return EnumerateFiles(directoryExclusionFilters)
             .Distinct()
             .Where(predicate);
     }
@@ -637,6 +602,70 @@ public class Folder : IEquatable<Folder>
     public static bool operator !=(Folder? left, Folder? right)
     {
         return !Equals(left, right);
+    }
+
+    private IEnumerable<Folder> EnumerateFolders(Func<Folder, bool> exclusionFilter)
+    {
+        if (ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
+        {
+            return SafeWalk.EnumerateFolders(this, exclusionFilter)
+                .Select(path => new Folder(path, _provider));
+        }
+
+        return _provider.EnumerateDirectories(Path, "*", SearchOption.AllDirectories)
+            .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: true, exclusionFilter))
+            .Select(path => new Folder(path, _provider));
+    }
+
+    private IEnumerable<File> EnumerateFiles(Func<Folder, bool> exclusionFilter)
+    {
+        if (ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
+        {
+            return SafeWalk.EnumerateFiles(this, exclusionFilter)
+                .Select(path => new File(path, _provider));
+        }
+
+        return _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories)
+            .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: false, exclusionFilter))
+            .Select(path => new File(path, _provider));
+    }
+
+    private static void CopyDirectoryMetadata(
+        string sourcePath,
+        string targetPath,
+        bool preserveTimestamps)
+    {
+        var source = new DirectoryInfo(sourcePath);
+        var target = new DirectoryInfo(targetPath)
+        {
+            Attributes = source.Attributes,
+        };
+
+        if (preserveTimestamps)
+        {
+            target.CreationTimeUtc = source.CreationTimeUtc;
+            target.LastWriteTimeUtc = source.LastWriteTimeUtc;
+            target.LastAccessTimeUtc = source.LastAccessTimeUtc;
+        }
+    }
+
+    private static void CopyFileMetadata(
+        string sourcePath,
+        string targetPath,
+        bool preserveTimestamps)
+    {
+        var source = new FileInfo(sourcePath);
+        var target = new FileInfo(targetPath)
+        {
+            Attributes = source.Attributes,
+        };
+
+        if (preserveTimestamps)
+        {
+            target.CreationTimeUtc = source.CreationTimeUtc;
+            target.LastWriteTimeUtc = source.LastWriteTimeUtc;
+            target.LastAccessTimeUtc = source.LastAccessTimeUtc;
+        }
     }
 
     private bool IsExcludedByDirectoryFilter(

@@ -182,7 +182,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         var stream = new CommittingMemoryStream(
             initial,
-            access != FileAccess.Read,
+            access,
+            mode == FileMode.Append,
             bytes => SetFile(normalizedPath, bytes));
 
         if (mode == FileMode.Append)
@@ -229,6 +230,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 throw new IOException($"The in-memory file '{destination}' already exists.");
             }
 
+            ValidateFileDestination(destination);
+
             if (!_files.TryRemove(source, out var contents))
             {
                 throw new FileNotFoundException("The in-memory file does not exist.", source);
@@ -247,9 +250,16 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         lock (_sync)
         {
             var current = Normalize(path);
+            var directoriesToCreate = new List<string>();
             while (!string.IsNullOrEmpty(current))
             {
-                _directories.TryAdd(current, 0);
+                if (_files.ContainsKey(current))
+                {
+                    throw new IOException(
+                        $"The in-memory path '{current}' is already a file.");
+                }
+
+                directoriesToCreate.Add(current);
                 var parent = Path.GetDirectoryName(current);
                 if (string.IsNullOrEmpty(parent) || _pathComparer.Equals(parent, current))
                 {
@@ -257,6 +267,11 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 }
 
                 current = parent;
+            }
+
+            foreach (var directory in directoriesToCreate)
+            {
+                _directories.TryAdd(directory, 0);
             }
         }
     }
@@ -308,9 +323,21 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 throw new IOException($"The in-memory directory '{destination}' already exists.");
             }
 
+            if (_files.ContainsKey(destination))
+            {
+                throw new IOException($"The in-memory path '{destination}' is already a file.");
+            }
+
             if (IsDescendant(destination, source))
             {
                 throw new IOException("A directory cannot be moved inside itself.");
+            }
+
+            var destinationParent = Path.GetDirectoryName(destination);
+            if (string.IsNullOrEmpty(destinationParent)
+                || !_directories.ContainsKey(destinationParent))
+            {
+                throw new DirectoryNotFoundException(destinationParent);
             }
 
             CreateDirectory(destination);
@@ -362,8 +389,13 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     public string GetRelativePath(string relativeTo, string path) =>
         Path.GetRelativePath(relativeTo, path);
 
-    private static string JoinLines(IEnumerable<string> contents) =>
-        string.Join(Environment.NewLine, contents) + Environment.NewLine;
+    private static string JoinLines(IEnumerable<string> contents)
+    {
+        string[] lines = [.. contents];
+        return lines.Length == 0
+            ? string.Empty
+            : string.Join(Environment.NewLine, lines) + Environment.NewLine;
+    }
 
     private byte[] GetFile(string path)
     {
@@ -378,8 +410,23 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         lock (_sync)
         {
             var normalized = Normalize(path);
-            CreateDirectory(Path.GetDirectoryName(normalized) ?? normalized);
+            ValidateFileDestination(normalized);
             _files[normalized] = [.. contents];
+        }
+    }
+
+    private void ValidateFileDestination(string normalizedPath)
+    {
+        if (_directories.ContainsKey(normalizedPath))
+        {
+            throw new IOException(
+                $"The in-memory path '{normalizedPath}' is already a directory.");
+        }
+
+        var parent = Path.GetDirectoryName(normalizedPath);
+        if (string.IsNullOrEmpty(parent) || !_directories.ContainsKey(parent))
+        {
+            throw new DirectoryNotFoundException(parent);
         }
     }
 
@@ -440,24 +487,90 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     private sealed class CommittingMemoryStream : MemoryStream
     {
         private readonly Action<byte[]> _commit;
+        private readonly bool _readable;
         private readonly bool _writable;
+        private readonly long _appendStart;
         private readonly bool _initializing = true;
         private bool _committed;
 
         public CommittingMemoryStream(
             byte[] contents,
-            bool writable,
+            FileAccess access,
+            bool append,
             Action<byte[]> commit)
             : base(Math.Max(contents.Length, 256))
         {
-            _writable = writable;
+            _readable = access != FileAccess.Write;
+            _writable = access != FileAccess.Read;
+            _appendStart = append ? contents.Length : 0;
             _commit = commit;
             base.Write(contents, 0, contents.Length);
             Position = 0;
             _initializing = false;
         }
 
+        public override bool CanRead => _readable && base.CanRead;
+
         public override bool CanWrite => (_initializing || _writable) && base.CanWrite;
+
+        public override long Position
+        {
+            get => base.Position;
+            set
+            {
+                EnsureValidPosition(value);
+                base.Position = value;
+            }
+        }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            EnsureReadable();
+            return base.Read(buffer, offset, count);
+        }
+
+        public override int Read(Span<byte> buffer)
+        {
+            EnsureReadable();
+            return base.Read(buffer);
+        }
+
+        public override ValueTask<int> ReadAsync(
+            Memory<byte> buffer,
+            CancellationToken cancellationToken = default)
+        {
+            EnsureReadable();
+            return base.ReadAsync(buffer, cancellationToken);
+        }
+
+        public override Task<int> ReadAsync(
+            byte[] buffer,
+            int offset,
+            int count,
+            CancellationToken cancellationToken)
+        {
+            EnsureReadable();
+            return base.ReadAsync(buffer, offset, count, cancellationToken);
+        }
+
+        public override int ReadByte()
+        {
+            EnsureReadable();
+            return base.ReadByte();
+        }
+
+        public override long Seek(long offset, SeekOrigin loc)
+        {
+            var position = loc switch
+            {
+                SeekOrigin.Begin => offset,
+                SeekOrigin.Current => Position + offset,
+                SeekOrigin.End => Length + offset,
+                _ => throw new ArgumentOutOfRangeException(nameof(loc)),
+            };
+            EnsureValidPosition(position);
+            return base.Seek(offset, loc);
+        }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
@@ -488,6 +601,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         public override void SetLength(long value)
         {
             EnsureWritable();
+            EnsureValidPosition(value);
             base.SetLength(value);
         }
 
@@ -507,6 +621,24 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             if (!_writable)
             {
                 throw new NotSupportedException("The in-memory stream does not support writing.");
+            }
+
+            EnsureValidPosition(Position);
+        }
+
+        private void EnsureReadable()
+        {
+            if (!_readable)
+            {
+                throw new NotSupportedException("The in-memory stream does not support reading.");
+            }
+        }
+
+        private void EnsureValidPosition(long position)
+        {
+            if (!_initializing && position < _appendStart)
+            {
+                throw new IOException("Cannot seek before the append boundary.");
             }
         }
     }

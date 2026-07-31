@@ -22,7 +22,13 @@ internal sealed class RecordingCommandInterceptor : ICommandInterceptor
         CancellationToken cancellationToken = default)
     {
         var result = await _handler(invocation, cancellationToken).ConfigureAwait(false);
-        _commands.Enqueue(new RecordedCommand(invocation, result));
+        var effectiveResult = result with
+        {
+            CommandInput = invocation.CommandInput,
+            WorkingDirectory = invocation.WorkingDirectory,
+            EnvironmentVariables = invocation.EnvironmentVariables,
+        };
+        _commands.Enqueue(new RecordedCommand(invocation, effectiveResult));
         return result;
     }
 }

@@ -13,6 +13,7 @@ public class InMemoryFileSystemProviderTests
         var copy = Path.Combine(root, "copy.txt");
         var moved = Path.Combine(root, "moved.txt");
 
+        provider.CreateDirectory(root);
         await provider.WriteAllTextAsync(source, "first");
         await provider.AppendAllTextAsync(source, " second");
         provider.CopyFile(source, copy, overwrite: false);
@@ -71,6 +72,7 @@ public class InMemoryFileSystemProviderTests
         var sourceFile = Path.Combine(child, "artifact.txt");
         var destinationFile = Path.Combine(destination, "child", "artifact.txt");
 
+        provider.CreateDirectory(child);
         await provider.WriteAllTextAsync(sourceFile, "artifact");
         provider.MoveDirectory(source, destination);
 
@@ -131,5 +133,88 @@ public class InMemoryFileSystemProviderTests
             .Select(_ => provider.AppendAllTextAsync(path, "x")));
 
         await Assert.That((await provider.ReadAllTextAsync(path)).Length).IsEqualTo(100);
+    }
+
+    [Test]
+    public async Task RejectsFilesWithoutExistingParent()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "missing", "artifact.txt");
+
+        await Assert.That(() => provider.WriteAllTextAsync(path, "contents"))
+            .Throws<DirectoryNotFoundException>();
+    }
+
+    [Test]
+    public async Task RejectsFileAndDirectoryPathCollisions()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var filePath = Path.Combine(provider.GetTempPath(), "artifact");
+        await provider.WriteAllTextAsync(filePath, "contents");
+        var nestedDirectoryPath = Path.Combine(filePath, "child");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => provider.CreateDirectory(nestedDirectoryPath))
+                .Throws<IOException>();
+            await Assert.That(provider.DirectoryExists(nestedDirectoryPath)).IsFalse();
+        }
+
+        var directoryPath = Path.Combine(provider.GetTempPath(), "directory");
+        provider.CreateDirectory(directoryPath);
+
+        await Assert.That(() => provider.WriteAllTextAsync(directoryPath, "contents"))
+            .Throws<IOException>();
+    }
+
+    [Test]
+    public async Task MoveDirectoryRequiresExistingDestinationParent()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var source = Path.Combine(provider.GetTempPath(), "source");
+        var destination = Path.Combine(provider.GetTempPath(), "missing", "destination");
+        provider.CreateDirectory(source);
+
+        await Assert.That(() => provider.MoveDirectory(source, destination))
+            .Throws<DirectoryNotFoundException>();
+    }
+
+    [Test]
+    public async Task EmptyLineSequenceWritesEmptyFile()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "empty.txt");
+
+        await provider.WriteAllLinesAsync(path, []);
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEmpty();
+    }
+
+    [Test]
+    public async Task WriteOnlyStreamsRejectReads()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "write-only.txt");
+
+        using var stream = provider.Open(path, FileMode.Create, FileAccess.Write);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => stream.ReadByte()).Throws<NotSupportedException>();
+            await Assert.That(async () => await stream.ReadAsync(new byte[1]))
+                .Throws<NotSupportedException>();
+        }
+    }
+
+    [Test]
+    public async Task AppendStreamsRejectSeekingBeforeOriginalEnd()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "append.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        using var stream = provider.Open(path, FileMode.Append, FileAccess.Write);
+
+        await Assert.That(() => stream.Position = 0).Throws<IOException>();
     }
 }
