@@ -230,10 +230,10 @@ public abstract record ModuleResult<T> : ModuleResult
     {
         Success { Value: not null } success => success.Value,
         Success => throw new InvalidOperationException($"{ModuleName} succeeded but returned null"),
-        FailureWrapper failure => throw new InvalidOperationException(
+        Failure failure => throw new InvalidOperationException(
             $"{ModuleName} failed: {failure.Exception.Message}",
             failure.Exception),
-        SkippedWrapper skipped => throw new InvalidOperationException(
+        Skipped skipped => throw new InvalidOperationException(
             $"{ModuleName} was skipped: {skipped.Decision.Reason ?? "No reason was provided"}"),
         _ => throw new InvalidOperationException($"{ModuleName} has an unknown result type"),
     };
