@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Engine;
 using ModularPipelines.Logging;
 using Moq;
 
@@ -14,7 +15,7 @@ public class PipelineLevelLoggerTests
     {
         // Arrange
         var mockLogger = new Mock<ILogger>();
-        var pipelineLevelLogger = new PipelineLevelLogger(mockLogger.Object);
+        var pipelineLevelLogger = CreateLogger(mockLogger.Object);
         var eventId = new EventId(1, "TestEvent");
         const string message = "Test message";
 
@@ -37,7 +38,7 @@ public class PipelineLevelLoggerTests
         var mockLogger = new Mock<ILogger>();
         mockLogger.Setup(x => x.IsEnabled(LogLevel.Warning)).Returns(true);
         mockLogger.Setup(x => x.IsEnabled(LogLevel.Trace)).Returns(false);
-        var pipelineLevelLogger = new PipelineLevelLogger(mockLogger.Object);
+        var pipelineLevelLogger = CreateLogger(mockLogger.Object);
 
         // Act & Assert
         await Assert.That(pipelineLevelLogger.IsEnabled(LogLevel.Warning)).IsTrue();
@@ -51,7 +52,7 @@ public class PipelineLevelLoggerTests
         var mockLogger = new Mock<ILogger>();
         var expectedScope = new Mock<IDisposable>();
         mockLogger.Setup(x => x.BeginScope("test scope")).Returns(expectedScope.Object);
-        var pipelineLevelLogger = new PipelineLevelLogger(mockLogger.Object);
+        var pipelineLevelLogger = CreateLogger(mockLogger.Object);
 
         // Act
         var scope = pipelineLevelLogger.BeginScope("test scope");
@@ -65,9 +66,91 @@ public class PipelineLevelLoggerTests
     {
         // Arrange
         var mockLogger = new Mock<ILogger>();
-        var pipelineLevelLogger = new PipelineLevelLogger(mockLogger.Object);
+        var pipelineLevelLogger = CreateLogger(mockLogger.Object);
 
         // Act & Assert - should not throw
         pipelineLevelLogger.Dispose();
+    }
+
+    [Test]
+    public async Task Log_ObfuscatesStateMessageAndExceptionBeforeDelegating()
+    {
+        const string secret = "pipeline-secret";
+        var underlyingLogger = new RecordingLogger();
+        var originalException = new InvalidOperationException($"Failure: {secret}");
+        var pipelineLevelLogger = CreateLogger(
+            underlyingLogger,
+            value => value?.Replace(secret, "********", StringComparison.Ordinal) ?? string.Empty);
+
+        pipelineLevelLogger.LogError(
+            originalException,
+            "Token {Token}",
+            secret);
+
+        await Assert.That(underlyingLogger.State?.ToString()).DoesNotContain(secret);
+        await Assert.That(underlyingLogger.Message).DoesNotContain(secret);
+        await Assert.That(underlyingLogger.Exception).IsNotSameReferenceAs(originalException);
+        await Assert.That(underlyingLogger.Exception?.ToString()).DoesNotContain(secret);
+    }
+
+    [Test]
+    public async Task BeginScope_ObfuscatesStateBeforeDelegating()
+    {
+        const string secret = "scope-secret";
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(
+            underlyingLogger,
+            value => value?.Replace(secret, "********", StringComparison.Ordinal) ?? string.Empty);
+
+        pipelineLevelLogger.BeginScope($"Scope: {secret}");
+
+        await Assert.That(underlyingLogger.Scope?.ToString()).IsEqualTo("Scope: ********");
+    }
+
+    private static PipelineLevelLogger CreateLogger(
+        ILogger logger,
+        Func<string?, string>? obfuscate = null)
+    {
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => obfuscate?.Invoke(value) ?? value ?? string.Empty);
+
+        return new PipelineLevelLogger(
+            logger,
+            secretObfuscator.Object,
+            new FormattedLogValuesObfuscator(secretObfuscator.Object));
+    }
+
+    private sealed class RecordingLogger : ILogger
+    {
+        public object? State { get; private set; }
+
+        public object? Scope { get; private set; }
+
+        public string? Message { get; private set; }
+
+        public Exception? Exception { get; private set; }
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull
+        {
+            Scope = state;
+            return null;
+        }
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            State = state;
+            Exception = exception;
+            Message = formatter(state, exception);
+        }
     }
 }

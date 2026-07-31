@@ -92,4 +92,20 @@ public class FormattedLogValuesObfuscatorTests
 
         await Assert.That(properties["ModuleName"]).IsEqualTo("********");
     }
+
+    [Test]
+    public async Task TryObfuscateValues_MasksUnstructuredState()
+    {
+        const string secret = "plain-state-secret";
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) =>
+                (value ?? string.Empty).Replace(secret, "********", StringComparison.Ordinal));
+
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object)
+            .TryObfuscateValues($"Value: {secret}");
+
+        await Assert.That(obfuscatedState).IsEqualTo("Value: ********");
+    }
 }

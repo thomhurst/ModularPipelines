@@ -36,6 +36,35 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
+    public async Task Masks_Secret_Values_From_Dry_Run_Command()
+    {
+        const string secret = "dry-run-command-secret";
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var result = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddFile(file));
+        });
+
+        await result.T.ExecuteCommandLineToolAsync(
+            new SecretCommandOptions { Secret = secret },
+            new CommandExecutionOptions
+            {
+                InternalDryRun = true,
+                LogSettings = new CommandLoggingOptions
+                {
+                    ShowCommandArguments = true,
+                },
+            });
+        await result.Host.DisposeAsync();
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("[DRY-RUN]");
+        await Assert.That(logFile).DoesNotContain(secret);
+        await Assert.That(logFile).Contains("********");
+    }
+
+    [Test]
     public async Task OutputLoggingManipulator_Does_Not_Change_Command_Result()
     {
         const string rawOutput = "raw-output";

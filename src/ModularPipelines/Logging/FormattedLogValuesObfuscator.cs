@@ -33,7 +33,7 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
     {
         if (state is not IReadOnlyList<KeyValuePair<string, object?>> values)
         {
-            return state;
+            return ObfuscateValue(state);
         }
 
         KeyValuePair<string, object?>[]? obfuscatedValues = null;
@@ -58,6 +58,15 @@ internal class FormattedLogValuesObfuscator : IFormattedLogValuesObfuscator
         }
 
         return obfuscatedValues ?? state;
+    }
+
+    private object ObfuscateValue(object value)
+    {
+        var originalValue = value.ToString() ?? string.Empty;
+        var obfuscatedValue = _secretObfuscator.Obfuscate(originalValue, null);
+        return obfuscatedValue.Equals(originalValue, StringComparison.Ordinal)
+            ? value
+            : obfuscatedValue;
     }
 }
 

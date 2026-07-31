@@ -551,7 +551,7 @@ public class ModuleOutputBufferTests
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
         var fallbackLogger = new RecordingLogger();
-        var logException = new InvalidOperationException("structured failure");
+        var logException = new InvalidOperationException("structured secret failure");
         var buffer = CreateBufferWithStructuredLog(
             TimeSpan.FromMilliseconds(50),
             "structured secret",
@@ -595,11 +595,12 @@ public class ModuleOutputBufferTests
         await Assert.That(output).Contains("[WARN] structured ***");
         await Assert.That(output).DoesNotContain("structured secret");
         await Assert.That(output).Contains(nameof(InvalidOperationException));
-        await Assert.That(output).Contains("structured failure");
+        await Assert.That(output).Contains("structured *** failure");
         await Assert.That(output).Contains("direct output");
         await Assert.That(loggerControl.LogCallCount).IsEqualTo(0);
         await Assert.That(fallbackLogger.Entries).HasSingleItem();
-        await Assert.That(fallbackLogger.Entries[0].Exception).IsSameReferenceAs(logException);
+        await Assert.That(fallbackLogger.Entries[0].Exception).IsNotSameReferenceAs(logException);
+        await Assert.That(fallbackLogger.Entries[0].Exception?.ToString()).DoesNotContain("secret");
         await Assert.That(buffer.HasOutput).IsFalse();
     }
 

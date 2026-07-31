@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Console;
+using ModularPipelines.Engine;
 
 namespace ModularPipelines.Logging;
 
@@ -14,16 +16,32 @@ namespace ModularPipelines.Logging;
 internal sealed class PipelineLevelLogger : IModuleLogger
 {
     private readonly ILogger _logger;
+    private readonly ISecretObfuscator _secretObfuscator;
+    private readonly IFormattedLogValuesObfuscator _formattedLogValuesObfuscator;
 
-    public PipelineLevelLogger(ILogger logger)
+    public PipelineLevelLogger(
+        ILogger logger,
+        ISecretObfuscator secretObfuscator,
+        IFormattedLogValuesObfuscator formattedLogValuesObfuscator)
     {
         _logger = logger;
+        _secretObfuscator = secretObfuscator;
+        _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
     }
 
     /// <inheritdoc />
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
-        _logger.Log(logLevel, eventId, state, exception, formatter);
+        var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state!);
+        new BufferedLogEvent<TState>(
+                logLevel,
+                eventId,
+                state,
+                obfuscatedState,
+                exception,
+                formatter,
+                _secretObfuscator)
+            .WriteTo(_logger);
     }
 
     /// <inheritdoc />
@@ -36,7 +54,10 @@ internal sealed class PipelineLevelLogger : IModuleLogger
     public IDisposable? BeginScope<TState>(TState state)
         where TState : notnull
     {
-        return _logger.BeginScope(state);
+        var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state);
+        return obfuscatedState is TState typedState
+            ? _logger.BeginScope(typedState)
+            : _logger.BeginScope(obfuscatedState);
     }
 
     /// <inheritdoc />

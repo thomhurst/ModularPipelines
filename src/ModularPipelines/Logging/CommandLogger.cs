@@ -85,14 +85,15 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     private void LogDryRunCommand(CommandLoggingOptions options, string workingDirectory, string? input)
     {
-        if (!ShouldShowInput(options))
+        var logger = Logger;
+        if (!ShouldShowInput(options) || !logger.IsEnabled(LogLevel.Information))
         {
             return;
         }
 
-        Logger.LogInformation("{WorkingDirectory}> {Input} [DRY-RUN]",
+        logger.LogInformation("{WorkingDirectory}> {Input} [DRY-RUN]",
             workingDirectory,
-            input);
+            _secretObfuscator.Obfuscate(input, null));
     }
 
     private void LogOutputLine(
