@@ -45,6 +45,8 @@ internal class PipelineInitializer(
     private static readonly string[] SensitiveEnvironmentVariableNames =
     [
         "AzureWebJobsStorage",
+        "DATABASE_URL",
+        "MONGODB_URI",
         "REDIS_URL",
         "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS",
     ];

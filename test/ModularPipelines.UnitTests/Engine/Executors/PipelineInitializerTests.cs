@@ -151,6 +151,8 @@ public class PipelineInitializerTests
     [Arguments("credential")]
     [Arguments("DOCKER_AUTH_CONFIG")]
     [Arguments("NPM_CONFIG__AUTH")]
+    [Arguments("DATABASE_URL")]
+    [Arguments("MONGODB_URI")]
     [Arguments("REDIS_URL")]
     [Arguments("AZURE_APPCONFIG_CONNECTION_STRING")]
     [Arguments("ConnectionStrings__Default")]
