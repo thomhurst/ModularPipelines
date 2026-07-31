@@ -46,6 +46,7 @@ internal class PipelineInitializer(
     private static readonly string[] SensitiveEnvironmentVariableDelimitedNameParts =
     [
         "PASS",
+        "PIN",
     ];
 
     private static readonly string[] SensitiveEnvironmentVariableNames =
@@ -75,6 +76,7 @@ internal class PipelineInitializer(
         "NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED",
         "OLDPWD",
         "PWD",
+        "REGISTRY_AUTH_FILE",
         "SSH_AUTH_SOCK",
         "TOKENIZERS_PARALLELISM",
         "XAUTHORITY",

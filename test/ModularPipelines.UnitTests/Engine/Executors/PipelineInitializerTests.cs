@@ -148,6 +148,7 @@ public class PipelineInitializerTests
     [Arguments("SSH_PASSPHRASE")]
     [Arguments("RABBITMQ_DEFAULT_PASS")]
     [Arguments("P4PASSWD")]
+    [Arguments("COSIGN_PKCS11_PIN")]
     [Arguments("API_KEY")]
     [Arguments("SERVICE_PWD")]
     [Arguments("credential")]
@@ -228,6 +229,7 @@ public class PipelineInitializerTests
     [Arguments("GIT_AUTHOR_DATE")]
     [Arguments("GIT_ASKPASS")]
     [Arguments("TOKENIZERS_PARALLELISM")]
+    [Arguments("REGISTRY_AUTH_FILE")]
     public async Task EnvironmentVariables_DoNotMaskKnownNonSecretNames(
         string variableName)
     {
