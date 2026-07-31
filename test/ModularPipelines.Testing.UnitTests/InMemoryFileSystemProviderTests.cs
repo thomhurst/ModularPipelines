@@ -60,6 +60,35 @@ public class InMemoryFileSystemProviderTests
         using var stream = provider.OpenRead(path);
 
         await Assert.That(() => stream.WriteByte(1)).Throws<NotSupportedException>();
+#pragma warning disable CA1835 // The legacy overload is the behavior under test.
+        await Assert.That(async () =>
+                await stream.WriteAsync([1], 0, 1, CancellationToken.None))
+            .Throws<NotSupportedException>();
+#pragma warning restore CA1835
+    }
+
+    [Test]
+    public async Task SeedsCurrentDirectoryHierarchy()
+    {
+        var provider = new InMemoryFileSystemProvider();
+
+        await Assert.That(provider.DirectoryExists(Environment.CurrentDirectory)).IsTrue();
+    }
+
+    [Test]
+    public async Task EnforcesExclusiveOpenHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "exclusive.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        using (provider.OpenRead(path))
+        {
+            await Assert.That(() => provider.OpenRead(path)).Throws<IOException>();
+        }
+
+        using var reopened = provider.OpenRead(path);
+        await Assert.That(reopened.CanRead).IsTrue();
     }
 
     [Test]
@@ -217,4 +246,5 @@ public class InMemoryFileSystemProviderTests
 
         await Assert.That(() => stream.Position = 0).Throws<IOException>();
     }
+
 }

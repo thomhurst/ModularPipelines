@@ -12,6 +12,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 {
     private readonly ConcurrentDictionary<string, byte[]> _files;
     private readonly ConcurrentDictionary<string, byte> _directories;
+    private readonly HashSet<string> _openFiles;
     private readonly Lock _sync = new();
     private readonly StringComparer _pathComparer;
     private readonly StringComparison _pathComparison;
@@ -29,7 +30,10 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             : StringComparison.Ordinal;
         _files = new ConcurrentDictionary<string, byte[]>(_pathComparer);
         _directories = new ConcurrentDictionary<string, byte>(_pathComparer);
-        CreateDirectory(Path.GetPathRoot(Environment.CurrentDirectory) ?? Environment.CurrentDirectory);
+#pragma warning disable IDE0028 // Collection expressions cannot retain the platform path comparer.
+        _openFiles = new HashSet<string>(_pathComparer);
+#pragma warning restore IDE0028
+        CreateDirectory(Environment.CurrentDirectory);
         CreateDirectory(GetTempPath());
     }
 
@@ -127,13 +131,28 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             var exists = _files.TryGetValue(normalized, out var existing);
 
             ValidateOpenArguments(mode, access, exists, normalized);
+            if (_openFiles.Contains(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
             var initial = GetInitialContents(mode, existing);
             if (ShouldInitializeFile(mode, exists))
             {
                 SetFile(normalized, initial);
             }
 
-            return CreateStream(normalized, mode, access, initial);
+            _openFiles.Add(normalized);
+            try
+            {
+                return CreateStream(normalized, mode, access, initial);
+            }
+            catch
+            {
+                _openFiles.Remove(normalized);
+                throw;
+            }
         }
     }
 
@@ -184,7 +203,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             initial,
             access,
             mode == FileMode.Append,
-            bytes => SetFile(normalizedPath, bytes));
+            bytes => SetFile(normalizedPath, bytes),
+            () => ReleaseOpenFile(normalizedPath));
 
         if (mode == FileMode.Append)
         {
@@ -192,6 +212,14 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         }
 
         return stream;
+    }
+
+    private void ReleaseOpenFile(string normalizedPath)
+    {
+        lock (_sync)
+        {
+            _openFiles.Remove(normalizedPath);
+        }
     }
 
     /// <inheritdoc />
@@ -492,18 +520,22 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         private readonly long _appendStart;
         private readonly bool _initializing = true;
         private bool _committed;
+        private readonly Action _release;
+        private bool _released;
 
         public CommittingMemoryStream(
             byte[] contents,
             FileAccess access,
             bool append,
-            Action<byte[]> commit)
+            Action<byte[]> commit,
+            Action release)
             : base(Math.Max(contents.Length, 256))
         {
             _readable = access != FileAccess.Write;
             _writable = access != FileAccess.Read;
             _appendStart = append ? contents.Length : 0;
             _commit = commit;
+            _release = release;
             base.Write(contents, 0, contents.Length);
             Position = 0;
             _initializing = false;
@@ -592,6 +624,16 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             return base.WriteAsync(buffer, cancellationToken);
         }
 
+        public override Task WriteAsync(
+            byte[] buffer,
+            int offset,
+            int count,
+            CancellationToken cancellationToken)
+        {
+            EnsureWritable();
+            return base.WriteAsync(buffer, offset, count, cancellationToken);
+        }
+
         public override void WriteByte(byte value)
         {
             EnsureWritable();
@@ -607,13 +649,24 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _writable && !_committed)
+            try
             {
-                _committed = true;
-                _commit(ToArray());
+                if (disposing && _writable && !_committed)
+                {
+                    _committed = true;
+                    _commit(ToArray());
+                }
             }
+            finally
+            {
+                if (disposing && !_released)
+                {
+                    _released = true;
+                    _release();
+                }
 
-            base.Dispose(disposing);
+                base.Dispose(disposing);
+            }
         }
 
         private void EnsureWritable()

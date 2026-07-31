@@ -6,25 +6,45 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
-internal class Zip : IZipContext
+internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
 {
-    private readonly IFileSystemProvider _fileSystemProvider;
-
-    public Zip(IFileSystemProvider fileSystemProvider)
-    {
-        _fileSystemProvider = fileSystemProvider;
-    }
+    private readonly IFileSystemProvider _fileSystemProvider = fileSystemProvider;
 
     public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel)
     {
-        _fileSystemProvider.CreateDirectory(outputPath.GetDirectory()!);
-
         if (outputPath.GetPathType() == PathType.Directory)
         {
             outputPath = _fileSystemProvider.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
         }
 
-        ZipFile.CreateFromDirectory(folder.Path, outputPath, compressionLevel, false);
+        _fileSystemProvider.CreateDirectory(outputPath.GetDirectory()!);
+        var directories = _fileSystemProvider
+            .EnumerateDirectories(folder.Path, "*", SearchOption.AllDirectories)
+            .ToArray();
+        var files = _fileSystemProvider
+            .EnumerateFiles(folder.Path, "*", SearchOption.AllDirectories)
+            .ToArray();
+
+        using (var output = _fileSystemProvider.Create(outputPath))
+        using (var archive = new ZipArchive(output, ZipArchiveMode.Create))
+        {
+            foreach (var directory in directories)
+            {
+                var entryName = NormalizeEntryName(
+                    _fileSystemProvider.GetRelativePath(folder.Path, directory)) + "/";
+                archive.CreateEntry(entryName);
+            }
+
+            foreach (var file in files)
+            {
+                var entryName = NormalizeEntryName(
+                    _fileSystemProvider.GetRelativePath(folder.Path, file));
+                var entry = archive.CreateEntry(entryName, compressionLevel);
+                using var source = _fileSystemProvider.OpenRead(file);
+                using var destination = entry.Open();
+                source.CopyTo(destination);
+            }
+        }
 
         if (!_fileSystemProvider.FileExists(outputPath))
         {
@@ -49,7 +69,8 @@ internal class Zip : IZipContext
 
         try
         {
-            using var archive = ZipFile.OpenRead(zipPath);
+            using var zipStream = _fileSystemProvider.OpenRead(zipPath);
+            using var archive = new ZipArchive(zipStream, ZipArchiveMode.Read);
             foreach (var entry in archive.Entries)
             {
                 var destinationPath = Path.GetFullPath(Path.Combine(destinationDir, entry.FullName));
@@ -75,8 +96,18 @@ internal class Zip : IZipContext
                     _fileSystemProvider.CreateDirectory(parentDir);
                 }
 
-                // Extract file
-                entry.ExtractToFile(destinationPath, overwriteFiles);
+                if (_fileSystemProvider.FileExists(destinationPath) && !overwriteFiles)
+                {
+                    throw new IOException(
+                        $"The file '{destinationPath}' already exists.");
+                }
+
+                using var source = entry.Open();
+                using var destination = _fileSystemProvider.Open(
+                    destinationPath,
+                    FileMode.Create,
+                    FileAccess.Write);
+                source.CopyTo(destination);
             }
         }
         catch (InvalidDataException ex)
@@ -94,4 +125,7 @@ internal class Zip : IZipContext
 
         return new Folder(outputFolderPath, _fileSystemProvider);
     }
+
+    private static string NormalizeEntryName(string path) =>
+        path.Replace(Path.DirectorySeparatorChar, '/');
 }

@@ -193,6 +193,44 @@ public class ModuleTesterTests
         }
     }
 
+    [Test]
+    public async Task VirtualizesCompleteFilesContext()
+    {
+        var relativeRoot = $"module-tester-{Guid.NewGuid():N}";
+        var physicalRoot = Path.Combine(Environment.CurrentDirectory, relativeRoot);
+
+        var run = await ModuleTester.For<FilesContextModule, string>()
+            .WithService(new FilePath(relativeRoot))
+            .ExecuteAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(run.Value).IsEqualTo("contents:1:1:1:1");
+            await Assert.That(run.Exception).IsNull();
+            await Assert.That(run.FileSystem.FileExists(
+                Path.Combine(physicalRoot, "artifact.txt"))).IsTrue();
+            await Assert.That(run.FileSystem.FileExists($"{physicalRoot}.zip")).IsTrue();
+            await Assert.That(run.FileSystem.FileExists(
+                Path.Combine($"{physicalRoot}-unzipped", "artifact.txt"))).IsTrue();
+            await Assert.That(Directory.Exists(physicalRoot)).IsFalse();
+            await Assert.That(System.IO.File.Exists($"{physicalRoot}.zip")).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task RootMatchingExclusionDoesNotHideDescendants()
+    {
+        var root = Path.Combine(
+            Path.GetTempPath(),
+            $"root-exclusion-{Guid.NewGuid():N}");
+
+        var run = await ModuleTester.For<FolderExclusionModule, int>()
+            .WithService(new FilePath(root))
+            .ExecuteAsync();
+
+        await Assert.That(run.Value).IsEqualTo(2);
+    }
+
     public sealed class ValueModule : Module<string>
     {
         protected override Task<string?> ExecuteAsync(
@@ -337,6 +375,49 @@ public class ModuleTesterTests
 
             var copy = source.CopyTo(root.GetFolder("copy").Path);
             return await copy.GetFile("artifact.txt").ReadAsync(cancellationToken);
+        }
+    }
+
+    public sealed class FilesContextModule(FilePath rootPath) : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var root = context.Files.GetFolder(rootPath.Value).Create();
+            var filePath = Path.Combine(rootPath.Value, "artifact.txt");
+            await context.Files.WriteAsync(filePath, "contents", cancellationToken);
+            var contents = await context.Files.ReadAsync(filePath, cancellationToken);
+            var exists = await context.Files.ExistsAsync(filePath, cancellationToken);
+            var files = context.Files.Glob($"{rootPath.Value}/**/*.txt").Count();
+            var folders = context.Files.GlobFolders(rootPath.Value).Count();
+            var checksum = context.Files.Checksum.Md5(filePath);
+
+            var zipPath = Path.GetFullPath($"{rootPath.Value}.zip");
+            context.Files.Zip.ZipFolder(root, zipPath);
+            context.Files.Zip.UnZipToFolder(
+                zipPath,
+                Path.GetFullPath($"{rootPath.Value}-unzipped"));
+
+            return $"{contents}:{(exists ? 1 : 0)}:{files}:{folders}:{checksum.Length / 32}";
+        }
+    }
+
+    public sealed class FolderExclusionModule(FilePath rootPath) : Module<int>
+    {
+        protected override async Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var root = context.Files.GetFolder(rootPath.Value).Create();
+            await root.GetFile("root.txt").WriteAsync("root", cancellationToken);
+            await root.CreateFolder("nested")
+                .GetFile("nested.txt")
+                .WriteAsync("nested", cancellationToken);
+
+            return root.GetFiles(
+                _ => true,
+                candidate => candidate.Path == root.Path).Count();
         }
     }
 

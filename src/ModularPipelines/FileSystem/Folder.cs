@@ -678,14 +678,14 @@ public class Folder : IEquatable<Folder>
             : System.IO.Path.GetDirectoryName(entryPath);
         while (current is not null)
         {
-            if (exclusionFilter(new Folder(current, _provider)))
-            {
-                return true;
-            }
-
             if (_provider.GetRelativePath(Path, current) == ".")
             {
                 break;
+            }
+
+            if (exclusionFilter(new Folder(current, _provider)))
+            {
+                return true;
             }
 
             current = System.IO.Path.GetDirectoryName(

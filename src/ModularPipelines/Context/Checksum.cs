@@ -1,20 +1,21 @@
 using System.Security.Cryptography;
 using ModularPipelines.Context.Domains.Files;
+using ModularPipelines.FileSystem;
 
 namespace ModularPipelines.Context;
 
-internal class Checksum : IChecksumContext
+internal class Checksum(IFileSystemProvider fileSystemProvider) : IChecksumContext
 {
     public string Md5(string filePath)
     {
-        if (!File.Exists(filePath))
+        if (!fileSystemProvider.FileExists(filePath))
         {
             throw new FileNotFoundException($"Cannot calculate MD5 checksum: file not found at '{filePath}'", filePath);
         }
 
         using var md5 = MD5.Create();
-        using var stream = File.OpenRead(filePath);
+        using var stream = fileSystemProvider.OpenRead(filePath);
         var hash = md5.ComputeHash(stream);
-        return BitConverter.ToString(hash).Replace("-", string.Empty);
+        return Convert.ToHexString(hash);
     }
 }
