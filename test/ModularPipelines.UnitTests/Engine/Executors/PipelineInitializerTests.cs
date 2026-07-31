@@ -222,6 +222,7 @@ public class PipelineInitializerTests
     [Arguments("GIT_AUTHOR_EMAIL")]
     [Arguments("GIT_AUTHOR_DATE")]
     [Arguments("GIT_ASKPASS")]
+    [Arguments("TOKENIZERS_PARALLELISM")]
     public async Task EnvironmentVariables_DoNotMaskKnownNonSecretNames(
         string variableName)
     {

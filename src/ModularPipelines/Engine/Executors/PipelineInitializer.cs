@@ -75,6 +75,7 @@ internal class PipelineInitializer(
         "OLDPWD",
         "PWD",
         "SSH_AUTH_SOCK",
+        "TOKENIZERS_PARALLELISM",
         "XAUTHORITY",
     ];
 
