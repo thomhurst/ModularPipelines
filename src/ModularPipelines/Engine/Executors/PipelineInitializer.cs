@@ -56,6 +56,22 @@ internal class PipelineInitializer(
         "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS",
     ];
 
+    private static readonly string[] NonSensitiveEnvironmentVariableNames =
+    [
+        "AWS_SHARED_CREDENTIALS_FILE",
+        "AWS_WEB_IDENTITY_TOKEN_FILE",
+        "AZURE_FEDERATED_TOKEN_FILE",
+        "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE",
+        "GIT_AUTHOR_DATE",
+        "GIT_AUTHOR_EMAIL",
+        "GIT_AUTHOR_NAME",
+        "GOOGLE_APPLICATION_CREDENTIALS",
+        "OLDPWD",
+        "PWD",
+        "SSH_AUTH_SOCK",
+        "XAUTHORITY",
+    ];
+
     private static readonly Action<ILogger, BuildSystem, string, Exception?> LogDetectedBuildSystem =
         LoggerMessage.Define<BuildSystem, string>(
             LogLevel.Information,
@@ -163,11 +179,9 @@ internal class PipelineInitializer(
 
     private static bool IsSensitiveEnvironmentVariableName(string name)
     {
-        return !name.Equals("PWD", StringComparison.OrdinalIgnoreCase)
-               && !name.Equals("OLDPWD", StringComparison.OrdinalIgnoreCase)
-               && !name.Equals("SSH_AUTH_SOCK", StringComparison.OrdinalIgnoreCase)
-               && !name.Equals("XAUTHORITY", StringComparison.OrdinalIgnoreCase)
-               && !name.StartsWith("GIT_AUTHOR_", StringComparison.OrdinalIgnoreCase)
+        return !NonSensitiveEnvironmentVariableNames.Contains(
+                   name,
+                   StringComparer.OrdinalIgnoreCase)
                && (SensitiveEnvironmentVariableNames.Contains(name, StringComparer.OrdinalIgnoreCase)
                    || SensitiveEnvironmentVariableNameParts.Any(
                        part => name.Contains(part, StringComparison.OrdinalIgnoreCase)));
