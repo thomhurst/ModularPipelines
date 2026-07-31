@@ -71,39 +71,15 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        var standardOutputToLog = execOpts?.OutputLoggingManipulator is not null
-            ? execOpts.OutputLoggingManipulator(standardOutput)
-            : standardOutput;
-        var standardErrorToLog = execOpts?.OutputLoggingManipulator is not null
-            ? execOpts.OutputLoggingManipulator(standardError)
-            : standardError;
-        var trimmedOutput = standardOutputToLog.Trim();
+        var (outputToLog, errorToLog) = ManipulateOutput(
+            execOpts?.OutputLoggingManipulator,
+            standardOutput,
+            standardError);
         var isSuccess = exitCode == 0;
 
-        if (isSuccess && ShouldInlineOutput(effectiveOptions, trimmedOutput))
-        {
-            Logger.LogInformation(
-                "  → {CommandOutput}",
-                _secretObfuscator.Obfuscate(trimmedOutput, null));
-        }
-        else
-        {
-            LogCapturedOutput(effectiveOptions, trimmedOutput, wasInlined: false);
-        }
-
-        LogCapturedError(effectiveOptions, standardErrorToLog, exitCode);
-
-        var commandStatus = BuildCommandStatus(effectiveOptions, isSuccess, exitCode, runTime);
-        if (string.IsNullOrEmpty(commandStatus)
-            && effectiveOptions.Verbosity >= CommandLogVerbosity.Normal)
-        {
-            commandStatus = isSuccess ? "✓" : "✗";
-        }
-
-        if (!string.IsNullOrEmpty(commandStatus))
-        {
-            Logger.LogInformation("{CommandStatus}", commandStatus.TrimStart());
-        }
+        LogCapturedOutput(effectiveOptions, outputToLog.Trim(), isSuccess);
+        LogCapturedError(effectiveOptions, errorToLog, exitCode);
+        LogCommandStatus(effectiveOptions, isSuccess, exitCode, runTime);
     }
 
     public void Log(
@@ -198,6 +174,19 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
                && options.ShowStandardOutput;
     }
 
+    private static (string Output, string Error) ManipulateOutput(
+        Func<string, string>? manipulator,
+        string standardOutput,
+        string standardError)
+    {
+        if (manipulator is null)
+        {
+            return (standardOutput, standardError);
+        }
+
+        return (manipulator(standardOutput), manipulator(standardError));
+    }
+
     private static string BuildCommandStatus(
         CommandLoggingOptions options,
         bool isSuccess,
@@ -235,10 +224,17 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
     private void LogCapturedOutput(
         CommandLoggingOptions options,
         string output,
-        bool wasInlined)
+        bool isSuccess)
     {
-        if (wasInlined
-            || string.IsNullOrWhiteSpace(output)
+        if (isSuccess && ShouldInlineOutput(options, output))
+        {
+            Logger.LogInformation(
+                "  → {CommandOutput}",
+                _secretObfuscator.Obfuscate(output, null));
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(output)
             || options.Verbosity < CommandLogVerbosity.Normal
             || !options.ShowStandardOutput)
         {
@@ -262,6 +258,25 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         }
 
         Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(error, null));
+    }
+
+    private void LogCommandStatus(
+        CommandLoggingOptions options,
+        bool isSuccess,
+        int? exitCode,
+        TimeSpan? runTime)
+    {
+        var commandStatus = BuildCommandStatus(options, isSuccess, exitCode, runTime);
+        if (string.IsNullOrEmpty(commandStatus)
+            && options.Verbosity >= CommandLogVerbosity.Normal)
+        {
+            commandStatus = isSuccess ? "✓" : "✗";
+        }
+
+        if (!string.IsNullOrEmpty(commandStatus))
+        {
+            Logger.LogInformation("{CommandStatus}", commandStatus.TrimStart());
+        }
     }
 
     private static bool ShouldShowInput(CommandLoggingOptions options)
