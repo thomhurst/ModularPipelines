@@ -29,7 +29,7 @@ public interface IHttpLogger
         IModuleLogger logger,
         CancellationToken cancellationToken)
     {
-        return PrintRequest(request, logger);
+        return PrintRequest(request, logger).WaitAsync(cancellationToken);
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public interface IHttpLogger
         HttpLoggingOptions options,
         CancellationToken cancellationToken)
     {
-        return PrintRequest(request, logger, options);
+        return PrintRequest(request, logger, options).WaitAsync(cancellationToken);
     }
 
     /// <summary>

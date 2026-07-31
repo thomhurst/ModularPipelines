@@ -296,7 +296,7 @@ public class HttpTests : TestBase
         var http = new ModularPipelines.Http.Http(
             Mock.Of<IHttpClientFactory>(),
             Mock.Of<IModuleLoggerProvider>(),
-            new LegacyResponseBodyLogger(),
+            new LegacyBodyLogger(logRequest: false),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
@@ -311,16 +311,50 @@ public class HttpTests : TestBase
     }
 
     [Test]
-    [Arguments(true, true)]
-    [Arguments(true, false)]
-    [Arguments(false, true)]
-    [Arguments(false, false)]
-    public async Task SendAsync_ConfiguredTimeoutInterruptsSynchronousBodyRead(
-        bool useCopyTo,
-        bool throwIOExceptionWhenDisposed)
+    public async Task SendAsync_CancelsLegacyRequestLogger()
     {
         var timeout = TimeSpan.FromMilliseconds(100);
-        var contentStream = new BlockingReadStream(throwIOExceptionWhenDisposed);
+        var contentStream = new BlockingReadStream(ignoreAsyncCancellation: true);
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StringContent("response")));
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerProvider>(),
+            new LegacyBodyLogger(logRequest: true),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var request = new HttpRequestMessage(
+            HttpMethod.Post,
+            "https://example.test/legacy-request-logger")
+        {
+            Content = new StreamContent(contentStream),
+        };
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await http.SendAsync(new HttpOptions(request)
+                {
+                    HttpClient = httpClient,
+                    LoggingType = HttpLoggingType.Request,
+                    Timeout = timeout,
+                })
+                .WaitAsync(TimeSpan.FromSeconds(1)));
+    }
+
+    [Test]
+    [Arguments(true, true, false)]
+    [Arguments(true, false, false)]
+    [Arguments(false, true, false)]
+    [Arguments(false, false, false)]
+    [Arguments(true, false, true)]
+    [Arguments(false, false, true)]
+    public async Task SendAsync_ConfiguredTimeoutInterruptsSynchronousBodyRead(
+        bool useCopyTo,
+        bool throwIOExceptionWhenDisposed,
+        bool returnEofWhenDisposed)
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream(
+            throwIOExceptionWhenDisposed,
+            returnEofWhenDisposed: returnEofWhenDisposed);
         using var httpClient = new HttpClient(
             new ImmediateResponseHandler(new StreamContent(contentStream)));
         var result = await GetService<IHttpContext>((_, _) => { });
@@ -395,13 +429,17 @@ public class HttpTests : TestBase
     }
 
     [Test]
-    [Arguments(4096)]
-    [Arguments(0)]
+    [Arguments(4096, false)]
+    [Arguments(0, false)]
+    [Arguments(0, true)]
     public async Task SendAsync_CustomClientTimeoutInterruptsNonCooperativeResponseLogging(
-        int maxBodySizeToLog)
+        int maxBodySizeToLog,
+        bool returnEofWhenDisposed)
     {
         var timeout = TimeSpan.FromMilliseconds(100);
-        var contentStream = new BlockingReadStream(ignoreAsyncCancellation: true);
+        var contentStream = new BlockingReadStream(
+            ignoreAsyncCancellation: true,
+            returnEofWhenDisposed: returnEofWhenDisposed);
         var content = new StreamContent(contentStream);
         content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
         using var httpClient = new HttpClient(new ImmediateResponseHandler(content));
@@ -938,11 +976,13 @@ public class HttpTests : TestBase
         }
     }
 
-    private sealed class LegacyResponseBodyLogger : IHttpLogger
+    private sealed class LegacyBodyLogger(bool logRequest) : IHttpLogger
     {
         public Task PrintRequest(HttpRequestMessage request, IModuleLogger logger)
         {
-            return Task.CompletedTask;
+            return logRequest
+                ? request.Content!.ReadAsStringAsync()
+                : Task.CompletedTask;
         }
 
         public Task PrintRequest(
@@ -950,12 +990,16 @@ public class HttpTests : TestBase
             IModuleLogger logger,
             HttpLoggingOptions options)
         {
-            return Task.CompletedTask;
+            return logRequest
+                ? request.Content!.ReadAsStringAsync()
+                : Task.CompletedTask;
         }
 
         public Task PrintResponse(HttpResponseMessage response, IModuleLogger logger)
         {
-            return response.Content.ReadAsStringAsync();
+            return logRequest
+                ? Task.CompletedTask
+                : response.Content.ReadAsStringAsync();
         }
 
         public Task PrintResponse(
@@ -963,7 +1007,9 @@ public class HttpTests : TestBase
             IModuleLogger logger,
             HttpLoggingOptions options)
         {
-            return response.Content.ReadAsStringAsync();
+            return logRequest
+                ? Task.CompletedTask
+                : response.Content.ReadAsStringAsync();
         }
 
         public void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)

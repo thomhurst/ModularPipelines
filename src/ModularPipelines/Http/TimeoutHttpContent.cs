@@ -169,7 +169,9 @@ internal sealed class TimeoutHttpContent : HttpContent
             timeoutCancellationToken.ThrowIfCancellationRequested();
             try
             {
-                return innerStream.Read(buffer, offset, count);
+                var bytesRead = innerStream.Read(buffer, offset, count);
+                timeoutCancellationToken.ThrowIfCancellationRequested();
+                return bytesRead;
             }
             catch (Exception exception)
                 when (timeoutCancellationToken.IsCancellationRequested &&
@@ -184,7 +186,9 @@ internal sealed class TimeoutHttpContent : HttpContent
             timeoutCancellationToken.ThrowIfCancellationRequested();
             try
             {
-                return innerStream.Read(buffer);
+                var bytesRead = innerStream.Read(buffer);
+                timeoutCancellationToken.ThrowIfCancellationRequested();
+                return bytesRead;
             }
             catch (Exception exception)
                 when (timeoutCancellationToken.IsCancellationRequested &&

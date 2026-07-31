@@ -135,6 +135,7 @@ internal static class HttpContentPreviewReader
         try
         {
             await stream.CopyToAsync(buffer, cancellationToken).ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
             return buffer.ToArray();
         }
         catch (Exception exception)
