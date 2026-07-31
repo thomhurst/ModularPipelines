@@ -104,8 +104,12 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         cancellationToken.ThrowIfCancellationRequested();
         lock (_sync)
         {
-            var existing = FileExists(path) ? Encoding.UTF8.GetString(GetFile(path)) : string.Empty;
-            SetFile(path, Encoding.UTF8.GetBytes(existing + contents));
+            var normalized = Normalize(path);
+            var existing = _files.TryGetValue(normalized, out var bytes) ? bytes : [];
+            var appended = new byte[existing.Length + Encoding.UTF8.GetByteCount(contents)];
+            existing.CopyTo(appended, 0);
+            Encoding.UTF8.GetBytes(contents, appended.AsSpan(existing.Length));
+            SetFile(normalized, appended);
         }
 
         return Task.CompletedTask;
@@ -280,7 +284,14 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            _files.TryRemove(Normalize(path), out _);
+            var normalized = Normalize(path);
+            if (_directories.ContainsKey(normalized))
+            {
+                throw new UnauthorizedAccessException(
+                    $"The in-memory path '{normalized}' is a directory.");
+            }
+
+            _files.TryRemove(normalized, out _);
         }
     }
 

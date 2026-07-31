@@ -36,6 +36,32 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task AppendAllTextPreservesExistingBytes()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "binary-prefix.txt");
+        await provider.WriteAllBytesAsync(path, [0xFF, 0xFE]);
+
+        await provider.AppendAllTextAsync(path, "x");
+
+        var bytes = await provider.ReadAllBytesAsync(path);
+        byte[] expected = [0xFF, 0xFE, (byte) 'x'];
+        await Assert.That(bytes.SequenceEqual(expected)).IsTrue();
+    }
+
+    [Test]
+    public async Task DeleteFileRejectsDirectoryPaths()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "directory-as-file");
+        provider.CreateDirectory(path);
+
+        await Assert.That(() => provider.DeleteFile(path))
+            .Throws<UnauthorizedAccessException>();
+        await Assert.That(provider.DirectoryExists(path)).IsTrue();
+    }
+
+    [Test]
     public async Task RejectsCopyingFileOntoItself()
     {
         var provider = new InMemoryFileSystemProvider();
