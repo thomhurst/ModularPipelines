@@ -94,38 +94,62 @@ internal sealed class Command : ICommandContext
             commandMetadata.WorkingDirectory,
             commandMetadata.EnvironmentVariables);
 
-        foreach (var interceptor in _commandInterceptors)
+        using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
+        using var linkedCancellationToken =
+            CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
+
+        try
         {
-            if (await interceptor.InterceptAsync(invocation, cancellationToken).ConfigureAwait(false) is { } intercepted)
+            linkedCancellationToken.Token.ThrowIfCancellationRequested();
+
+            foreach (var interceptor in _commandInterceptors)
             {
-                var result = ApplyCommandMetadata(intercepted, command);
-                LogInterceptedCommand(options, execOpts, result);
-                if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
+                if (await interceptor
+                        .InterceptAsync(invocation, linkedCancellationToken.Token)
+                        .ConfigureAwait(false) is { } intercepted)
                 {
-                    throw new CommandException(result);
+                    var result = ApplyCommandMetadata(intercepted, command);
+                    LogInterceptedCommand(options, execOpts, result);
+                    if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
+                    {
+                        throw new CommandException(result);
+                    }
+
+                    return result;
                 }
-
-                return result;
             }
-        }
 
-        if (execOpts.InternalDryRun)
+            if (execOpts.InternalDryRun)
+            {
+                _commandLogger.Log(
+                    options: options,
+                    execOpts: execOpts,
+                    inputToLog: execOpts.InputLoggingManipulator == null ? command.ToString() : execOpts.InputLoggingManipulator(command.ToString()),
+                    exitCode: 0,
+                    runTime: TimeSpan.Zero,
+                    standardOutput: "Dummy Output Response",
+                    standardError: "Dummy Error Response",
+                    commandWorkingDirPath: command.WorkingDirPath
+                );
+
+                return new CommandResult(command);
+            }
+
+            return await Of(
+                    command,
+                    options,
+                    execOpts,
+                    linkedCancellationToken.Token,
+                    cancellationToken,
+                    timeoutCancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException exception)
+            when (!cancellationToken.IsCancellationRequested
+                  && timeoutCancellationToken?.IsCancellationRequested is true)
         {
-            _commandLogger.Log(
-                options: options,
-                execOpts: execOpts,
-                inputToLog: execOpts.InputLoggingManipulator == null ? command.ToString() : execOpts.InputLoggingManipulator(command.ToString()),
-                exitCode: 0,
-                runTime: TimeSpan.Zero,
-                standardOutput: "Dummy Output Response",
-                standardError: "Dummy Error Response",
-                commandWorkingDirPath: command.WorkingDirPath
-            );
-
-            return new CommandResult(command);
+            throw CreateTimeoutException(execOpts, exception);
         }
-
-        return await Of(command, options, execOpts, cancellationToken).ConfigureAwait(false);
     }
 
     private static CommandResult ApplyCommandMetadata(CommandResult result, CliWrap.Command command)
@@ -159,7 +183,9 @@ internal sealed class Command : ICommandContext
         CliWrap.Command command,
         CommandLineToolOptions options,
         CommandExecutionOptions execOpts,
-        CancellationToken cancellationToken = default)
+        CancellationToken executionCancellationToken,
+        CancellationToken callerCancellationToken,
+        CancellationTokenSource? timeoutCancellationToken)
     {
         var standardOutputBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
         var standardErrorBuffer = new BoundedCommandOutputBuffer(execOpts.MaxCapturedOutputLength);
@@ -177,18 +203,12 @@ internal sealed class Command : ICommandContext
 
         var inputToLog = GetInputToLog(command, execOpts);
 
-        // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
-        using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
-
-        // Link the timeout token with the passed cancellation token, or just wrap the original if no timeout
-        using var linkedCancellationToken = CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
-
         using var forcefulCancellationToken = new CancellationTokenSource();
         using var processTreeTerminator = new ProcessTreeTerminator();
         using var processTreeCancellationRegistration =
             forcefulCancellationToken.Token.Register(processTreeTerminator.Kill);
 
-        var registration = linkedCancellationToken.Token.Register(
+        var registration = executionCancellationToken.Register(
             () => ScheduleForcefulCancellation(forcefulCancellationToken, execOpts.GracefulShutdownTimeout));
         await using (registration.ConfigureAwait(false))
         {
@@ -211,14 +231,14 @@ internal sealed class Command : ICommandContext
                         configureStartInfo: ConfigureStartInfo,
                         configureProcess: processTreeTerminator.Attach,
                         forcefulCancellationToken: CancellationToken.None,
-                        gracefulCancellationToken: linkedCancellationToken.Token);
+                        gracefulCancellationToken: executionCancellationToken);
                 using var descendantCaptureRegistration =
-                    linkedCancellationToken.Token.Register(processTreeTerminator.BeginGracefulShutdown);
+                    executionCancellationToken.Register(processTreeTerminator.BeginGracefulShutdown);
                 result = await executionTask.ConfigureAwait(false);
 
                 await WaitForForcefulCancellationAsync(
                     processTreeTerminator,
-                    linkedCancellationToken.Token,
+                    executionCancellationToken,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
                 standardOutput = standardOutputBuffer.ToString();
@@ -228,7 +248,7 @@ internal sealed class Command : ICommandContext
             {
                 await WaitForForcefulCancellationAsync(
                     processTreeTerminator,
-                    linkedCancellationToken.Token,
+                    executionCancellationToken,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
                 standardOutput = standardOutputBuffer.ToString();
@@ -264,7 +284,7 @@ internal sealed class Command : ICommandContext
             {
                 await WaitForForcefulCancellationAsync(
                     processTreeTerminator,
-                    linkedCancellationToken.Token,
+                    executionCancellationToken,
                     forcefulCancellationToken.Token).ConfigureAwait(false);
 
                 standardOutput = standardOutputBuffer.ToString();
@@ -285,7 +305,7 @@ internal sealed class Command : ICommandContext
                         deferredOutputLogger,
                         command.WorkingDirPath));
 
-                if (ShouldPreserveCallerCancellation(e, failure, cancellationToken))
+                if (ShouldPreserveCallerCancellation(e, failure, callerCancellationToken))
                 {
                     throw;
                 }
@@ -299,7 +319,7 @@ internal sealed class Command : ICommandContext
                     stopwatch.Elapsed,
                     standardOutput,
                     standardError,
-                    cancellationToken,
+                    callerCancellationToken,
                     timeoutCancellationToken);
             }
 
@@ -383,9 +403,7 @@ internal sealed class Command : ICommandContext
             && !cancellationToken.IsCancellationRequested
             && timeoutCancellationToken?.IsCancellationRequested is true)
         {
-            return new TimeoutException(
-                $"Command execution timed out after {execOpts.ExecutionTimeout!.Value}.",
-                combinedFailure);
+            return CreateTimeoutException(execOpts, combinedFailure);
         }
 
         return new CommandException(
@@ -399,6 +417,13 @@ internal sealed class Command : ICommandContext
                 standardError),
             combinedFailure);
     }
+
+    private static TimeoutException CreateTimeoutException(
+        CommandExecutionOptions executionOptions,
+        Exception innerException) =>
+        new(
+            $"Command execution timed out after {executionOptions.ExecutionTimeout!.Value}.",
+            innerException);
 
     private CommandResult CreateFailureResult(
         CliWrap.Command command,

@@ -12,7 +12,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 {
     private readonly ConcurrentDictionary<string, byte[]> _files;
     private readonly ConcurrentDictionary<string, byte> _directories;
-    private readonly HashSet<string> _openFiles;
+    private readonly HashSet<string> _exclusiveOpenFiles;
+    private readonly Dictionary<string, int> _openReaders;
     private readonly Lock _sync = new();
     private readonly StringComparer _pathComparer;
     private readonly StringComparison _pathComparison;
@@ -31,7 +32,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         _files = new ConcurrentDictionary<string, byte[]>(_pathComparer);
         _directories = new ConcurrentDictionary<string, byte>(_pathComparer);
 #pragma warning disable IDE0028 // Collection expressions cannot retain the platform path comparer.
-        _openFiles = new HashSet<string>(_pathComparer);
+        _exclusiveOpenFiles = new HashSet<string>(_pathComparer);
+        _openReaders = new Dictionary<string, int>(_pathComparer);
 #pragma warning restore IDE0028
         CreateDirectory(Environment.CurrentDirectory);
         CreateDirectory(GetTempPath());
@@ -117,7 +119,36 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         AppendAllTextAsync(path, JoinLines(contents), cancellationToken);
 
     /// <inheritdoc />
-    public Stream OpenRead(string path) => Open(path, FileMode.Open, FileAccess.Read);
+    public Stream OpenRead(string path)
+    {
+        lock (_sync)
+        {
+            var normalized = Normalize(path);
+            var initial = GetFile(normalized);
+            if (_exclusiveOpenFiles.Contains(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
+            _openReaders.TryGetValue(normalized, out var readerCount);
+            _openReaders[normalized] = readerCount + 1;
+            try
+            {
+                return CreateStream(
+                    normalized,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    initial,
+                    () => ReleaseOpenReader(normalized));
+            }
+            catch
+            {
+                ReleaseOpenReader(normalized);
+                throw;
+            }
+        }
+    }
 
     /// <inheritdoc />
     public Stream Create(string path) => Open(path, FileMode.Create, FileAccess.ReadWrite);
@@ -131,7 +162,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             var exists = _files.TryGetValue(normalized, out var existing);
 
             ValidateOpenArguments(mode, access, exists, normalized);
-            if (_openFiles.Contains(normalized))
+            if (IsOpen(normalized))
             {
                 throw new IOException(
                     $"The in-memory file '{normalized}' is already open.");
@@ -143,14 +174,19 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 SetFile(normalized, initial);
             }
 
-            _openFiles.Add(normalized);
+            _exclusiveOpenFiles.Add(normalized);
             try
             {
-                return CreateStream(normalized, mode, access, initial);
+                return CreateStream(
+                    normalized,
+                    mode,
+                    access,
+                    initial,
+                    () => ReleaseExclusiveOpenFile(normalized));
             }
             catch
             {
-                _openFiles.Remove(normalized);
+                _exclusiveOpenFiles.Remove(normalized);
                 throw;
             }
         }
@@ -197,14 +233,15 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         string normalizedPath,
         FileMode mode,
         FileAccess access,
-        byte[] initial)
+        byte[] initial,
+        Action release)
     {
         var stream = new CommittingMemoryStream(
             initial,
             access,
             mode == FileMode.Append,
             bytes => SetFile(normalizedPath, bytes, allowOpenFile: true),
-            () => ReleaseOpenFile(normalizedPath));
+            release);
 
         if (mode == FileMode.Append)
         {
@@ -214,11 +251,27 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         return stream;
     }
 
-    private void ReleaseOpenFile(string normalizedPath)
+    private void ReleaseExclusiveOpenFile(string normalizedPath)
     {
         lock (_sync)
         {
-            _openFiles.Remove(normalizedPath);
+            _exclusiveOpenFiles.Remove(normalizedPath);
+        }
+    }
+
+    private void ReleaseOpenReader(string normalizedPath)
+    {
+        lock (_sync)
+        {
+            var readerCount = _openReaders[normalizedPath];
+            if (readerCount == 1)
+            {
+                _openReaders.Remove(normalizedPath);
+            }
+            else
+            {
+                _openReaders[normalizedPath] = readerCount - 1;
+            }
         }
     }
 
@@ -445,7 +498,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         lock (_sync)
         {
             var normalized = Normalize(path);
-            if (!allowOpenFile && _openFiles.Contains(normalized))
+            if (!allowOpenFile && IsOpen(normalized))
             {
                 throw new IOException(
                     $"The in-memory file '{normalized}' is already open.");
@@ -470,6 +523,10 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             throw new DirectoryNotFoundException(parent);
         }
     }
+
+    private bool IsOpen(string normalizedPath) =>
+        _exclusiveOpenFiles.Contains(normalizedPath)
+        || _openReaders.ContainsKey(normalizedPath);
 
     private string Normalize(string path)
     {

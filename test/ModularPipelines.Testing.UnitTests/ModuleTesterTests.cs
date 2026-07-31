@@ -85,6 +85,22 @@ public class ModuleTesterTests
 
     [Test]
     [Timeout(5_000)]
+    public async Task InterceptedCommandHonorsExecutionTimeout(
+        CancellationToken cancellationToken)
+    {
+        var run = await ModuleTester.For<TimedCommandModule, string>()
+            .InterceptCommands(async (_, token) =>
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, token);
+                return CommandResult.Ok();
+            })
+            .ExecuteAsync(cancellationToken);
+
+        await Assert.That(run.Exception).IsTypeOf<TimeoutException>();
+    }
+
+    [Test]
+    [Timeout(5_000)]
     public async Task MissingRequiredDependencyFailsFast(CancellationToken cancellationToken)
     {
         async Task Act() =>
@@ -240,6 +256,25 @@ public class ModuleTesterTests
         using var cancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         var executionTask = ModuleTester.For<CancellableModule, string>()
+            .WithService(started)
+            .ExecuteAsync(cancellationTokenSource.Token);
+
+        await started.Task.WaitAsync(cancellationToken);
+        await cancellationTokenSource.CancelAsync();
+        var run = await executionTask.WaitAsync(cancellationToken);
+
+        await Assert.That(run.Exception).IsTypeOf<OperationCanceledException>();
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task CallerCancellationStopsAlwaysRunModule(CancellationToken cancellationToken)
+    {
+        var started = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        using var cancellationTokenSource =
+            CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var executionTask = ModuleTester.For<CancellableAlwaysRunModule, string>()
             .WithService(started)
             .ExecuteAsync(cancellationTokenSource.Token);
 
@@ -411,6 +446,24 @@ public class ModuleTesterTests
         }
     }
 
+    public sealed class TimedCommandModule : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("imaginary-tool"),
+                new CommandExecutionOptions
+                {
+                    ExecutionTimeout = TimeSpan.FromMilliseconds(100),
+                },
+                cancellationToken: cancellationToken);
+
+            return result.StandardOutput;
+        }
+    }
+
     public sealed class FilesContextModule(FilePath rootPath) : Module<string>
     {
         protected override async Task<string?> ExecuteAsync(
@@ -456,6 +509,22 @@ public class ModuleTesterTests
 
     public sealed class CancellableModule(TaskCompletionSource started) : Module<string>
     {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            started.TrySetResult();
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return "unreachable";
+        }
+    }
+
+    public sealed class CancellableAlwaysRunModule(TaskCompletionSource started) : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
         protected override async Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)

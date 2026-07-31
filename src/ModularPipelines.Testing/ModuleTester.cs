@@ -165,6 +165,15 @@ public class ModuleTestBuilder<TModule>
             .Single();
         ValidateRequiredDependencyResults(module, pipeline.Services);
         var executionContext = ExecutionContextFactory.Create(module, typeof(TModule));
+        if (cancellationToken.CanBeCanceled)
+        {
+            var originalCancellationTokenSource =
+                executionContext.ModuleCancellationTokenSource;
+            executionContext.ModuleCancellationTokenSource =
+                CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            originalCancellationTokenSource.Dispose();
+        }
+
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
         var logger = GetModuleLogger(pipeline.Services);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
@@ -181,7 +190,7 @@ public class ModuleTestBuilder<TModule>
                     module,
                     executionContext,
                     moduleContext,
-                    cancellationToken)
+                    CancellationToken.None)
                 .ConfigureAwait(false);
         }
         catch when (executionContext.ExecutionTask.IsCompletedSuccessfully)

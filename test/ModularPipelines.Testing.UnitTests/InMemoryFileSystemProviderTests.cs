@@ -88,19 +88,31 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
-    public async Task EnforcesExclusiveOpenHandles()
+    public async Task OpenReadAllowsSharedReadHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "shared-read.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        using var first = provider.OpenRead(path);
+        using var second = provider.OpenRead(path);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(first.CanRead).IsTrue();
+            await Assert.That(second.CanRead).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task GenericOpenEnforcesExclusiveHandles()
     {
         var provider = new InMemoryFileSystemProvider();
         var path = Path.Combine(provider.GetTempPath(), "exclusive.txt");
         await provider.WriteAllTextAsync(path, "contents");
 
-        using (provider.OpenRead(path))
-        {
-            await Assert.That(() => provider.OpenRead(path)).Throws<IOException>();
-        }
-
-        using var reopened = provider.OpenRead(path);
-        await Assert.That(reopened.CanRead).IsTrue();
+        using var stream = provider.Open(path, FileMode.Open, FileAccess.Read);
+        await Assert.That(() => provider.OpenRead(path)).Throws<IOException>();
     }
 
     [Test]
