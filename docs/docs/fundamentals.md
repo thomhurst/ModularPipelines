@@ -51,16 +51,22 @@ Modules are strongly typed, so we can return clear, concrete objects, and other 
 // Get a module's result
 var myModule = await context.GetModule<MyFirstModule>();
 
-// Access the value using pattern matching (recommended)
-if (myModule is ModuleResult<MyFirstModuleResult>.Success { Value: var result })
+// Access a required dependency value directly.
+// This throws with module context if it failed, was skipped, or returned null.
+var requiredValue = myModule.Value;
+var firstString = requiredValue.MyFirstString;
+var secondString = requiredValue.MySecondString;
+
+// Or use pattern matching when every outcome needs different handling
+if (myModule is ModuleResult<MyFirstModuleResult>.Success { Value: var successfulValue })
 {
-    var string1 = result.MyFirstString;
-    var string2 = result.MySecondString;
+    Console.WriteLine(successfulValue.MyFirstString);
+    Console.WriteLine(successfulValue.MySecondString);
 }
 
-// Or use ValueOrDefault for simpler access
-var string1 = myModule.ValueOrDefault?.MyFirstString;
-var string2 = myModule.ValueOrDefault?.MySecondString;
+// ValueOrDefault remains available when missing data is expected
+var optionalFirstString = myModule.ValueOrDefault?.MyFirstString;
+var optionalSecondString = myModule.ValueOrDefault?.MySecondString;
 ```
 
 ## Custom Types
