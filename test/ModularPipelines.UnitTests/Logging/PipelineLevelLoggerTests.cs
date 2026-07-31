@@ -156,6 +156,24 @@ public class PipelineLevelLoggerTests
         await Assert.That(underlyingLogger.Scope?.ToString()).IsEqualTo("Scope: ********");
     }
 
+    [Test]
+    public async Task BeginScope_PreservesStructuredFormattedRenderingAfterObfuscation()
+    {
+        const string secret = "scope-secret";
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(
+            underlyingLogger,
+            value => value?.Replace(secret, "********", StringComparison.Ordinal) ?? string.Empty);
+
+        pipelineLevelLogger.BeginScope("Token {Token}", secret);
+
+        await Assert.That(underlyingLogger.Scope?.ToString()).IsEqualTo("Token ********");
+        var structuredScope = underlyingLogger.Scope
+            as IReadOnlyList<KeyValuePair<string, object?>>;
+        await Assert.That(structuredScope).IsNotNull();
+        await Assert.That(structuredScope![0].Value?.ToString()).IsEqualTo("********");
+    }
+
     private static PipelineLevelLogger CreateLogger(
         ILogger logger,
         Func<string?, string>? obfuscate = null)

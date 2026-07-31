@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
@@ -62,6 +63,15 @@ internal sealed class PipelineLevelLogger : IModuleLogger
         where TState : notnull
     {
         var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state);
+        if (!ReferenceEquals(obfuscatedState, state)
+            && obfuscatedState is IReadOnlyList<KeyValuePair<string, object?>> obfuscatedValues
+            && state is IReadOnlyList<KeyValuePair<string, object?>>)
+        {
+            return _logger.BeginScope(new ObfuscatedScopeState(
+                obfuscatedValues,
+                _secretObfuscator.Obfuscate(state.ToString(), null)));
+        }
+
         return obfuscatedState is TState typedState
             ? _logger.BeginScope(typedState)
             : _logger.BeginScope(obfuscatedState);
@@ -71,5 +81,20 @@ internal sealed class PipelineLevelLogger : IModuleLogger
     public void Dispose()
     {
         // Nothing to dispose - the underlying logger is managed by the LoggerFactory
+    }
+
+    private sealed class ObfuscatedScopeState(
+        IReadOnlyList<KeyValuePair<string, object?>> values,
+        string formattedValue) : IReadOnlyList<KeyValuePair<string, object?>>
+    {
+        public int Count => values.Count;
+
+        public KeyValuePair<string, object?> this[int index] => values[index];
+
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() => values.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public override string ToString() => formattedValue;
     }
 }
