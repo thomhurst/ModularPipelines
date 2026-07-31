@@ -20,6 +20,11 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
             outputPath = _fileSystemProvider.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
         }
 
+        if (_fileSystemProvider.FileExists(outputPath))
+        {
+            throw new IOException($"The file '{outputPath}' already exists.");
+        }
+
         _fileSystemProvider.CreateDirectory(outputPath.GetDirectory()!);
         var directories = _fileSystemProvider
             .EnumerateDirectories(folder.Path, "*", SearchOption.AllDirectories)
@@ -28,7 +33,10 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
             .EnumerateFiles(folder.Path, "*", SearchOption.AllDirectories)
             .ToArray();
 
-        using (var output = _fileSystemProvider.Create(outputPath))
+        using (var output = _fileSystemProvider.Open(
+                   outputPath,
+                   FileMode.CreateNew,
+                   FileAccess.ReadWrite))
         using (var archive = new ZipArchive(output, ZipArchiveMode.Create))
         {
             foreach (var directory in directories)

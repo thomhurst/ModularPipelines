@@ -191,4 +191,36 @@ public class ZipTests : TestBase
             Directory.Delete(root, recursive: true);
         }
     }
+
+    [Test]
+    public async Task ZipFolderRejectsExistingOutputWithoutChangingIt()
+    {
+        var root = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-existing-zip-{Guid.NewGuid():N}");
+        var sourceDirectory = Path.Combine(root, "source");
+        var sourceFile = Path.Combine(sourceDirectory, "artifact.txt");
+        var zipPath = Path.Combine(root, "artifact.zip");
+        Directory.CreateDirectory(sourceDirectory);
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(sourceFile, "contents");
+            await System.IO.File.WriteAllTextAsync(zipPath, "existing");
+            var zip = new Zip(SystemFileSystemProvider.Instance);
+
+            await Assert.That(() =>
+                    zip.ZipFolder(
+                        new Folder(sourceDirectory),
+                        zipPath,
+                        CompressionLevel.Optimal))
+                .Throws<IOException>();
+            await Assert.That(await System.IO.File.ReadAllTextAsync(zipPath))
+                .IsEqualTo("existing");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
 }
