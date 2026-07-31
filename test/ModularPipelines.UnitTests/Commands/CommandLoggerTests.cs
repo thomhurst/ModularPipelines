@@ -363,7 +363,7 @@ public class CommandLoggerTests : TestBase
         var completionLine = lines.Last(line =>
             line.Contains("✓ [", StringComparison.Ordinal));
         await Assert.That(headerLine).DoesNotContain("✓");
-        await Assert.That(completionLine).DoesNotContain("pwsh");
+        await Assert.That(completionLine).Contains("pwsh");
     }
 
     [Test]
@@ -444,6 +444,42 @@ public class CommandLoggerTests : TestBase
         await Assert.That(exception.InnerExceptions[0]).IsTypeOf<InvalidOperationException>();
         await Assert.That(exception.InnerExceptions[0].Message).IsEqualTo("Logging failed.");
         await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task HeaderLoggingFailureDoesNotPreventCommandExecution()
+    {
+        var marker = $"header-failure-{Guid.NewGuid():N}";
+        var sideEffectFile = Path.Combine(
+            TestContext.WorkingDirectory,
+            Guid.NewGuid().ToString("N") + ".txt");
+        using var loggingProvider =
+            new SelectiveThrowingLoggerProvider($"{Environment.CurrentDirectory}> {marker}");
+        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(() =>
+            commandContext.ExecuteCommandLineToolAsync(
+                new PowershellScriptOptions(
+                    $"[System.IO.File]::WriteAllText('{sideEffectFile}', 'executed')"),
+                new CommandExecutionOptions
+                {
+                    InputLoggingManipulator = _ => marker,
+                }));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Flatten().InnerExceptions)
+                .Contains(failure =>
+                    failure is InvalidOperationException
+                    && failure.Message == "Logging failed.");
+            await Assert.That(await File.ReadAllTextAsync(sideEffectFile)).IsEqualTo("executed");
+            await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+        }
     }
 
     [Test]

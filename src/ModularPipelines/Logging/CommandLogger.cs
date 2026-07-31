@@ -79,7 +79,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
         LogCapturedOutput(effectiveOptions, outputToLog.Trim(), isSuccess);
         LogCapturedError(effectiveOptions, errorToLog, exitCode);
-        LogCommandStatus(effectiveOptions, isSuccess, exitCode, runTime);
+        LogCommandStatus(effectiveOptions, inputToLog, isSuccess, exitCode, runTime);
     }
 
     public void Log(
@@ -262,6 +262,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     private void LogCommandStatus(
         CommandLoggingOptions options,
+        string? inputToLog,
         bool isSuccess,
         int? exitCode,
         TimeSpan? runTime)
@@ -275,7 +276,13 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
         if (!string.IsNullOrEmpty(commandStatus))
         {
-            Logger.LogInformation("{CommandStatus}", commandStatus.TrimStart());
+            var obfuscatedInput = ShouldShowInput(options)
+                ? _secretObfuscator.Obfuscate(inputToLog, null)
+                : LoggingConstants.CommandMask;
+            Logger.LogInformation(
+                "{CommandStatus} {Input}",
+                commandStatus.TrimStart(),
+                obfuscatedInput);
         }
     }
 

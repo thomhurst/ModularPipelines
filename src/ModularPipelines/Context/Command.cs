@@ -119,11 +119,13 @@ internal sealed class Command : ICommandContext
         var standardError = string.Empty;
 
         var inputToLog = GetInputToLog(command, execOpts);
-        _commandLogger.LogCommandStart(
-            options,
-            execOpts,
-            inputToLog,
-            command.WorkingDirPath);
+        var loggingFailures = new DeferredCommandLoggingFailures();
+        loggingFailures.Capture(
+            () => _commandLogger.LogCommandStart(
+                options,
+                execOpts,
+                inputToLog,
+                command.WorkingDirPath));
 
         // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
@@ -182,8 +184,7 @@ internal sealed class Command : ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                var failure = CombineWithCompletionFailure(
-                    e,
+                loggingFailures.Capture(
                     () => LogCommandCompletion(
                         options,
                         execOpts,
@@ -196,6 +197,7 @@ internal sealed class Command : ICommandContext
                         completeStandardErrorBuffer,
                         deferredOutputLogger,
                         command.WorkingDirPath));
+                var failure = loggingFailures.CombineWith(e);
 
                 throw new CommandException(
                     CreateFailureResult(
@@ -218,8 +220,7 @@ internal sealed class Command : ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                var failure = CombineWithCompletionFailure(
-                    e,
+                loggingFailures.Capture(
                     () => LogCommandCompletion(
                         options,
                         execOpts,
@@ -232,6 +233,7 @@ internal sealed class Command : ICommandContext
                         completeStandardErrorBuffer,
                         deferredOutputLogger,
                         command.WorkingDirPath));
+                var failure = loggingFailures.CombineWith(e);
 
                 if (ShouldPreserveCallerCancellation(e, failure, cancellationToken))
                 {
@@ -259,9 +261,8 @@ internal sealed class Command : ICommandContext
                 standardOutput,
                 standardError);
 
-            try
-            {
-                LogCommandCompletion(
+            loggingFailures.Capture(
+                () => LogCommandCompletion(
                     options,
                     execOpts,
                     inputToLog,
@@ -272,13 +273,12 @@ internal sealed class Command : ICommandContext
                     completeStandardOutputBuffer,
                     completeStandardErrorBuffer,
                     deferredOutputLogger,
-                    command.WorkingDirPath);
-            }
-            catch (Exception completionFailure) when (commandFailure is not null)
+                    command.WorkingDirPath));
+            if (commandFailure is not null && loggingFailures.HasFailures)
             {
                 throw new CommandException(
                     commandFailure.Result,
-                    new AggregateException(commandFailure, completionFailure));
+                    loggingFailures.CombineWith(commandFailure));
             }
 
             if (commandFailure is not null)
@@ -286,22 +286,8 @@ internal sealed class Command : ICommandContext
                 throw commandFailure;
             }
 
+            loggingFailures.Throw();
             return new CommandResult(command, result, standardOutput, standardError);
-        }
-    }
-
-    private static Exception CombineWithCompletionFailure(
-        Exception executionFailure,
-        Action complete)
-    {
-        try
-        {
-            complete();
-            return executionFailure;
-        }
-        catch (Exception completionFailure)
-        {
-            return new AggregateException(executionFailure, completionFailure);
         }
     }
 
