@@ -5,6 +5,9 @@ namespace ModularPipelines.Logging;
 /// <summary>
 /// Provides downstream loggers with an exception whose public text is safe to render.
 /// </summary>
+/// <remarks>
+/// Wrapping intentionally replaces the original exception type identity.
+/// </remarks>
 internal sealed class ObfuscatedLogException : Exception
 {
     private readonly string _obfuscatedText;

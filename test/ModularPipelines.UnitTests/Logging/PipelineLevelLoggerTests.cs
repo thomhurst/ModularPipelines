@@ -15,6 +15,7 @@ public class PipelineLevelLoggerTests
     {
         // Arrange
         var mockLogger = new Mock<ILogger>();
+        mockLogger.Setup(x => x.IsEnabled(LogLevel.Information)).Returns(true);
         var pipelineLevelLogger = CreateLogger(mockLogger.Object);
         var eventId = new EventId(1, "TestEvent");
         const string message = "Test message";
@@ -29,6 +30,34 @@ public class PipelineLevelLoggerTests
             message,
             null,
             It.IsAny<Func<string, Exception?, string>>()), Times.Once);
+    }
+
+    [Test]
+    public void Log_DoesNotObfuscateWhenDisabled()
+    {
+        var mockLogger = new Mock<ILogger>();
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        var pipelineLevelLogger = new PipelineLevelLogger(
+            mockLogger.Object,
+            secretObfuscator.Object,
+            new FormattedLogValuesObfuscator(secretObfuscator.Object));
+
+        pipelineLevelLogger.LogError(
+            new InvalidOperationException("secret"),
+            "Token {Token}",
+            "secret");
+
+        secretObfuscator.Verify(
+            x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()),
+            Times.Never);
+        mockLogger.Verify(
+            x => x.Log(
+                It.IsAny<LogLevel>(),
+                It.IsAny<EventId>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Exception?>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+            Times.Never);
     }
 
     [Test]

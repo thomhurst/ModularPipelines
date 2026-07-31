@@ -32,6 +32,11 @@ internal sealed class PipelineLevelLogger : IModuleLogger
     /// <inheritdoc />
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
+        if (!IsEnabled(logLevel))
+        {
+            return;
+        }
+
         var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state!);
         new BufferedLogEvent<TState>(
                 logLevel,
