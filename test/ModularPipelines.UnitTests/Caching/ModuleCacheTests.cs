@@ -713,7 +713,8 @@ public class ModuleCacheTests
             var files = ModuleCacheFileResolver.ResolveFiles(
                 workingDirectory,
                 ["**/*"],
-                maximumFiles: 10);
+                maximumFiles: 10,
+                rejectLinkedPaths: true);
 
             await Assert.That(files.Select(path => Path.GetFileName(path)!))
                 .IsEquivalentTo(new[] { "input.txt" });

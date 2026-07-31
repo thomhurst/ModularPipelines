@@ -335,12 +335,12 @@ internal static class ModuleCacheFileResolver
 
     private static string? GetLinkedComponent(string root, string path)
     {
-        if (IsLink(root))
+        var relativePath = Path.GetRelativePath(root, path);
+        if (relativePath == ".")
         {
-            return root;
+            return null;
         }
 
-        var relativePath = Path.GetRelativePath(root, path);
         var currentPath = root;
         foreach (var component in relativePath.Split(
                      [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
