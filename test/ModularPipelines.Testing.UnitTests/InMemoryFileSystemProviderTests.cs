@@ -108,4 +108,28 @@ public class InMemoryFileSystemProviderTests
         await Assert.That(() => provider.MoveDirectory(source, destination))
             .Throws<IOException>();
     }
+
+    [Test]
+    public async Task EnumeratesFilesUnderFileSystemRoot()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.GetPathRoot(Environment.CurrentDirectory)!;
+        var path = Path.Combine(root, $"root-{Guid.NewGuid():N}.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        await Assert.That(provider.EnumerateFiles(root, "*.txt", SearchOption.AllDirectories))
+            .Contains(path);
+    }
+
+    [Test]
+    public async Task ConcurrentAppendsDoNotLoseWrites()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "concurrent.txt");
+
+        await Task.WhenAll(Enumerable.Range(0, 100)
+            .Select(_ => provider.AppendAllTextAsync(path, "x")));
+
+        await Assert.That((await provider.ReadAllTextAsync(path)).Length).IsEqualTo(100);
+    }
 }

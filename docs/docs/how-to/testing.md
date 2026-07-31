@@ -61,6 +61,8 @@ var run = await ModuleTester.For<BuildModule, BuildArtifact>()
 The dependency module is registered normally, then its successful result is
 completed before the target module starts. Calls such as
 `await context.GetModule<RestoreModule>()` therefore receive the seeded value.
+If a required dependency has no seeded result, `ExecuteAsync` fails immediately
+and names the missing dependency instead of waiting for the module timeout.
 
 ## Intercept and inspect commands
 
@@ -89,6 +91,8 @@ await Assert.That(run.Commands[0].CommandLine.Arguments)
 
 Each `RecordedCommand` contains the parsed `CommandInvocation` and the simulated
 `CommandResult`. This avoids assertions against a quoted display string.
+Intercepted nonzero exit codes follow `CommandExecutionOptions` normally and
+throw `CommandException` when `ThrowOnNonZeroExitCode` is enabled.
 
 `ICommandInterceptor` is also a public framework seam. Register an implementation
 in a normal pipeline when command interception is needed outside
@@ -109,6 +113,9 @@ var manifest = await run.FileSystem.ReadAllTextAsync("/output/manifest.json");
 `InMemoryFileSystemProvider` implements `IFileSystemProvider`, including file and
 directory creation, reads, writes, streams, copies, moves, deletion, enumeration,
 and path helpers. You can also construct and register it directly in other tests.
+Physical metadata such as attributes, timestamps, and file length is not part of
+`IFileSystemProvider`; accessing it through an in-memory-backed `File` or `Folder`
+throws `NotSupportedException` rather than reading the real filesystem.
 
 Code under test must obtain `File` and `Folder` instances from `context.Files`.
 Direct construction such as `new File("path")` intentionally uses the physical

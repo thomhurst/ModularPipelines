@@ -12,6 +12,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 {
     private readonly ConcurrentDictionary<string, byte[]> _files;
     private readonly ConcurrentDictionary<string, byte> _directories;
+    private readonly Lock _sync = new();
     private readonly StringComparer _pathComparer;
     private readonly StringComparison _pathComparison;
 
@@ -95,8 +96,12 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var existing = FileExists(path) ? Encoding.UTF8.GetString(GetFile(path)) : string.Empty;
-        SetFile(path, Encoding.UTF8.GetBytes(existing + contents));
+        lock (_sync)
+        {
+            var existing = FileExists(path) ? Encoding.UTF8.GetString(GetFile(path)) : string.Empty;
+            SetFile(path, Encoding.UTF8.GetBytes(existing + contents));
+        }
+
         return Task.CompletedTask;
     }
 
@@ -116,87 +121,99 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     /// <inheritdoc />
     public Stream Open(string path, FileMode mode, FileAccess access)
     {
-        var normalized = Normalize(path);
-        var exists = _files.TryGetValue(normalized, out var existing);
-
-        if (mode == FileMode.Append && access != FileAccess.Write)
+        lock (_sync)
         {
-            throw new ArgumentException("Append mode requires write-only access.", nameof(access));
+            var normalized = Normalize(path);
+            var exists = _files.TryGetValue(normalized, out var existing);
+
+            if (mode == FileMode.Append && access != FileAccess.Write)
+            {
+                throw new ArgumentException("Append mode requires write-only access.", nameof(access));
+            }
+
+            if (mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+                && access == FileAccess.Read)
+            {
+                throw new ArgumentException($"{mode} mode requires write access.", nameof(access));
+            }
+
+            if (mode is FileMode.Open or FileMode.Truncate && !exists)
+            {
+                throw new FileNotFoundException("The in-memory file does not exist.", normalized);
+            }
+
+            if (mode == FileMode.CreateNew && exists)
+            {
+                throw new IOException($"The in-memory file '{normalized}' already exists.");
+            }
+
+            var initial = mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+                ? []
+                : existing ?? [];
+
+            if (mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+                || !exists && mode is FileMode.OpenOrCreate or FileMode.Append)
+            {
+                SetFile(normalized, initial);
+            }
+
+            var stream = new CommittingMemoryStream(
+                initial,
+                access != FileAccess.Read,
+                bytes => SetFile(normalized, bytes));
+
+            if (mode == FileMode.Append)
+            {
+                stream.Position = stream.Length;
+            }
+
+            return stream;
         }
-
-        if (mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
-            && access == FileAccess.Read)
-        {
-            throw new ArgumentException($"{mode} mode requires write access.", nameof(access));
-        }
-
-        if (mode is FileMode.Open or FileMode.Truncate && !exists)
-        {
-            throw new FileNotFoundException("The in-memory file does not exist.", normalized);
-        }
-
-        if (mode == FileMode.CreateNew && exists)
-        {
-            throw new IOException($"The in-memory file '{normalized}' already exists.");
-        }
-
-        byte[] initial = mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
-            ? []
-            : existing ?? [];
-
-        if (mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
-            || !exists && mode is FileMode.OpenOrCreate or FileMode.Append)
-        {
-            SetFile(normalized, initial);
-        }
-
-        var stream = new CommittingMemoryStream(
-            initial,
-            access != FileAccess.Read,
-            bytes => SetFile(normalized, bytes));
-
-        if (mode == FileMode.Append)
-        {
-            stream.Position = stream.Length;
-        }
-
-        return stream;
     }
 
     /// <inheritdoc />
     public void DeleteFile(string path)
     {
-        _files.TryRemove(Normalize(path), out _);
+        lock (_sync)
+        {
+            _files.TryRemove(Normalize(path), out _);
+        }
     }
 
     /// <inheritdoc />
     public void CopyFile(string sourcePath, string destinationPath, bool overwrite)
     {
-        var destination = Normalize(destinationPath);
-        if (!overwrite && _files.ContainsKey(destination))
+        lock (_sync)
         {
-            throw new IOException($"The in-memory file '{destination}' already exists.");
-        }
+            var destination = Normalize(destinationPath);
+            if (!overwrite && _files.ContainsKey(destination))
+            {
+                throw new IOException($"The in-memory file '{destination}' already exists.");
+            }
 
-        SetFile(destination, GetFile(sourcePath));
+            SetFile(destination, GetFile(sourcePath));
+        }
     }
 
     /// <inheritdoc />
     public void MoveFile(string sourcePath, string destinationPath)
     {
-        var source = Normalize(sourcePath);
-        var destination = Normalize(destinationPath);
-        if (_files.ContainsKey(destination))
+        lock (_sync)
         {
-            throw new IOException($"The in-memory file '{destination}' already exists.");
-        }
+            var source = Normalize(sourcePath);
+            var destination = Normalize(destinationPath);
+            if (_files.ContainsKey(destination))
+            {
+                throw new IOException($"The in-memory file '{destination}' already exists.");
+            }
 
-        if (!_files.TryRemove(source, out var contents))
-        {
-            throw new FileNotFoundException("The in-memory file does not exist.", source);
-        }
+            if (!_files.TryRemove(source, out var contents))
+            {
+                throw new FileNotFoundException("The in-memory file does not exist.", source);
+            }
 
-        SetFile(destination, contents);
+            SetFile(destination, contents);
+        }
     }
 
     /// <inheritdoc />
@@ -205,81 +222,90 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     /// <inheritdoc />
     public void CreateDirectory(string path)
     {
-        var current = Normalize(path);
-        while (!string.IsNullOrEmpty(current))
+        lock (_sync)
         {
-            _directories.TryAdd(current, 0);
-            var parent = Path.GetDirectoryName(current);
-            if (string.IsNullOrEmpty(parent) || _pathComparer.Equals(parent, current))
+            var current = Normalize(path);
+            while (!string.IsNullOrEmpty(current))
             {
-                break;
-            }
+                _directories.TryAdd(current, 0);
+                var parent = Path.GetDirectoryName(current);
+                if (string.IsNullOrEmpty(parent) || _pathComparer.Equals(parent, current))
+                {
+                    break;
+                }
 
-            current = parent;
+                current = parent;
+            }
         }
     }
 
     /// <inheritdoc />
     public void DeleteDirectory(string path, bool recursive)
     {
-        var normalized = Normalize(path);
-        if (!_directories.ContainsKey(normalized))
+        lock (_sync)
         {
-            throw new DirectoryNotFoundException(normalized);
-        }
+            var normalized = Normalize(path);
+            if (!_directories.ContainsKey(normalized))
+            {
+                throw new DirectoryNotFoundException(normalized);
+            }
 
-        var descendants = GetDescendantDirectories(normalized).ToArray();
-        var files = GetDescendantFiles(normalized).ToArray();
-        if (!recursive && (descendants.Length > 0 || files.Length > 0))
-        {
-            throw new IOException($"The in-memory directory '{normalized}' is not empty.");
-        }
+            var descendants = GetDescendantDirectories(normalized).ToArray();
+            var files = GetDescendantFiles(normalized).ToArray();
+            if (!recursive && (descendants.Length > 0 || files.Length > 0))
+            {
+                throw new IOException($"The in-memory directory '{normalized}' is not empty.");
+            }
 
-        foreach (var file in files)
-        {
-            _files.TryRemove(file, out _);
-        }
+            foreach (var file in files)
+            {
+                _files.TryRemove(file, out _);
+            }
 
-        foreach (var directory in descendants.Append(normalized))
-        {
-            _directories.TryRemove(directory, out _);
+            foreach (var directory in descendants.Append(normalized))
+            {
+                _directories.TryRemove(directory, out _);
+            }
         }
     }
 
     /// <inheritdoc />
     public void MoveDirectory(string sourcePath, string destinationPath)
     {
-        var source = Normalize(sourcePath);
-        var destination = Normalize(destinationPath);
-        if (!_directories.ContainsKey(source))
+        lock (_sync)
         {
-            throw new DirectoryNotFoundException(source);
-        }
+            var source = Normalize(sourcePath);
+            var destination = Normalize(destinationPath);
+            if (!_directories.ContainsKey(source))
+            {
+                throw new DirectoryNotFoundException(source);
+            }
 
-        if (_directories.ContainsKey(destination))
-        {
-            throw new IOException($"The in-memory directory '{destination}' already exists.");
-        }
+            if (_directories.ContainsKey(destination))
+            {
+                throw new IOException($"The in-memory directory '{destination}' already exists.");
+            }
 
-        if (IsDescendant(destination, source))
-        {
-            throw new IOException("A directory cannot be moved inside itself.");
-        }
+            if (IsDescendant(destination, source))
+            {
+                throw new IOException("A directory cannot be moved inside itself.");
+            }
 
-        CreateDirectory(destination);
-        foreach (var directory in GetDescendantDirectories(source).ToArray())
-        {
-            CreateDirectory(ReplacePrefix(directory, source, destination));
-        }
+            CreateDirectory(destination);
+            foreach (var directory in GetDescendantDirectories(source).ToArray())
+            {
+                CreateDirectory(ReplacePrefix(directory, source, destination));
+            }
 
-        foreach (var file in GetDescendantFiles(source).ToArray())
-        {
-            MoveFile(file, ReplacePrefix(file, source, destination));
-        }
+            foreach (var file in GetDescendantFiles(source).ToArray())
+            {
+                MoveFile(file, ReplacePrefix(file, source, destination));
+            }
 
-        foreach (var directory in GetDescendantDirectories(source).Append(source).ToArray())
-        {
-            _directories.TryRemove(directory, out _);
+            foreach (var directory in GetDescendantDirectories(source).Append(source).ToArray())
+            {
+                _directories.TryRemove(directory, out _);
+            }
         }
     }
 
@@ -327,9 +353,12 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
     private void SetFile(string path, byte[] contents)
     {
-        var normalized = Normalize(path);
-        CreateDirectory(Path.GetDirectoryName(normalized) ?? normalized);
-        _files[normalized] = [.. contents];
+        lock (_sync)
+        {
+            var normalized = Normalize(path);
+            CreateDirectory(Path.GetDirectoryName(normalized) ?? normalized);
+            _files[normalized] = [.. contents];
+        }
     }
 
     private string Normalize(string path)
@@ -379,7 +408,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             return false;
         }
 
-        return candidate[parent.Length] is '/' or '\\';
+        return parent[^1] is '/' or '\\'
+            || candidate[parent.Length] is '/' or '\\';
     }
 
     private static string ReplacePrefix(string path, string source, string destination) =>
@@ -389,7 +419,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         private readonly Action<byte[]> _commit;
         private readonly bool _writable;
-        private bool _initializing = true;
+        private readonly bool _initializing = true;
         private bool _committed;
 
         public CommittingMemoryStream(

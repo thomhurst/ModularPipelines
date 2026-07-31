@@ -1,5 +1,6 @@
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -66,6 +67,33 @@ public class ModuleTesterTests
     }
 
     [Test]
+    public async Task InterceptedCommandHonorsThrowOnNonZeroExitCode()
+    {
+        var run = await ModuleTester.For<CommandModule, string>()
+            .InterceptCommands(_ => CommandResult.Ok(standardError: "failed") with
+            {
+                ExitCode = 1,
+            })
+            .ExecuteAsync();
+
+        await Assert.That(run.Exception).IsTypeOf<CommandException>();
+    }
+
+    [Test]
+    [Timeout(5_000)]
+    public async Task MissingRequiredDependencyFailsFast(CancellationToken cancellationToken)
+    {
+        async Task Act() =>
+            _ = await ModuleTester.For<AttributedDependentModule>()
+                .ExecuteAsync(cancellationToken);
+
+        var exception = await Assert.That(Act)
+            .Throws<InvalidOperationException>();
+
+        await Assert.That(exception!.Message).Contains(nameof(DependencyModule));
+    }
+
+    [Test]
     public async Task ReportsSkipDecisionWithoutExecutingModule()
     {
         var run = await ModuleTester.For<SkippedModule, string>().ExecuteAsync();
@@ -110,6 +138,38 @@ public class ModuleTesterTests
         }
     }
 
+    [Test]
+    public async Task VirtualizesFolderEnumerationAndCleaning()
+    {
+        var root = Path.Combine(
+            Path.GetTempPath(),
+            $"modular-pipelines-test-{Guid.NewGuid():N}");
+
+        var run = await ModuleTester.For<FolderModule, string>()
+            .WithService(new FilePath(root))
+            .ExecuteAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(run.Value).IsEqualTo("1:2:0");
+            await Assert.That(Directory.Exists(root)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task UnsupportedVirtualMetadataFailsLoudly()
+    {
+        var root = Path.Combine(
+            Path.GetTempPath(),
+            $"modular-pipelines-test-{Guid.NewGuid():N}");
+
+        var run = await ModuleTester.For<FileMetadataModule, long>()
+            .WithService(new FilePath(Path.Combine(root, "artifact.txt")))
+            .ExecuteAsync();
+
+        await Assert.That(run.Exception).IsTypeOf<NotSupportedException>();
+    }
+
     public sealed class ValueModule : Module<string>
     {
         protected override Task<string?> ExecuteAsync(
@@ -132,6 +192,18 @@ public class ModuleTesterTests
             .DependsOn<DependencyModule>()
             .Build();
 
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var dependency = await context.GetModule<DependencyModule>();
+            return $"{dependency.ValueOrDefault} consumed";
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    public sealed class AttributedDependentModule : Module<string>
+    {
         protected override async Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
@@ -187,6 +259,36 @@ public class ModuleTesterTests
             var file = context.Files.GetFile(filePath.Value);
             await file.WriteAsync("contents", cancellationToken);
             return file.Exists ? await file.ReadAsync(cancellationToken) : null;
+        }
+    }
+
+    public sealed class FolderModule(FilePath rootPath) : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var folder = context.Files.GetFolder(rootPath.Value).Create();
+            await folder.GetFile("first.txt").WriteAsync("first", cancellationToken);
+            var nested = folder.CreateFolder("nested");
+            await nested.GetFile("second.txt").WriteAsync("second", cancellationToken);
+
+            var listedCount = folder.ListFiles().Count();
+            var recursiveCount = folder.GetFiles(file => file.Extension == ".txt").Count();
+            folder.Clean();
+            return $"{listedCount}:{recursiveCount}:{folder.ListFiles().Count()}";
+        }
+    }
+
+    public sealed class FileMetadataModule(FilePath filePath) : Module<long>
+    {
+        protected override async Task<long> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var file = context.Files.GetFile(filePath.Value);
+            await file.WriteAsync("contents", cancellationToken);
+            return file.Length;
         }
     }
 

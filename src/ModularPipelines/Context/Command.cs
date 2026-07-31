@@ -96,6 +96,11 @@ internal sealed class Command : ICommandContext
             {
                 var result = ApplyCommandMetadata(intercepted, command);
                 LogInterceptedCommand(options, execOpts, result);
+                if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
+                {
+                    throw new CommandException(result);
+                }
+
                 return result;
             }
         }

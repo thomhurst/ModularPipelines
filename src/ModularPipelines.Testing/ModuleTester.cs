@@ -5,6 +5,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
@@ -162,6 +163,7 @@ public class ModuleTestBuilder<TModule>
         var module = pipeline.Services.GetServices<IModule>()
             .OfType<TModule>()
             .Single();
+        ValidateRequiredDependencyResults(module, pipeline.Services);
         var executionContext = ExecutionContextFactory.Create(module, typeof(TModule));
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
         var logger = GetModuleLogger(pipeline.Services);
@@ -201,6 +203,39 @@ public class ModuleTestBuilder<TModule>
         }
 
         return services.GetRequiredService<ModuleLogger<TModule>>();
+    }
+
+    private static void ValidateRequiredDependencyResults(
+        IModule module,
+        IServiceProvider services)
+    {
+        var registeredModuleTypes = services.GetServices<IModule>()
+            .Select(static registeredModule => registeredModule.GetType())
+            .ToArray();
+        var dependencyRegistry = services.GetRequiredService<IModuleDependencyRegistry>();
+        var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
+        var resultRegistry = services.GetRequiredService<IModuleResultRegistry>();
+        var missingDependencies = ModuleDependencyResolver
+            .GetAllDependencies(
+                module,
+                registeredModuleTypes,
+                dependencyRegistry,
+                metadataRegistry)
+            .Where(static dependency => !dependency.Optional)
+            .Select(static dependency => dependency.DependencyType)
+            .Distinct()
+            .Where(dependencyType => resultRegistry.GetResult(dependencyType) is null)
+            .Select(static dependencyType => dependencyType.Name)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+
+        if (missingDependencies.Length > 0)
+        {
+            throw new InvalidOperationException(
+                $"Required dependency results must be seeded before testing {typeof(TModule).Name}: "
+                + string.Join(", ", missingDependencies)
+                + ". Call WithDependencyResult for each dependency.");
+        }
     }
 
     internal sealed record ExecutionOutcome(

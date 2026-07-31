@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileSystemGlobbing;
-using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.JsonUtils;
 using ModularPipelines.Logging;
@@ -51,14 +50,19 @@ public class Folder : IEquatable<Folder>
 
     public bool Exists => _provider.DirectoryExists(Path);
 
-    public bool Hidden => (DirectoryInfo.Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+    public bool Hidden => (GetPhysicalDirectoryInfo().Attributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 
-    public string Name => DirectoryInfo.Name;
+    public string Name => _directoryInfo.Name;
 
     [JsonConverter(typeof(FolderPathJsonConverter))]
-    public Folder? Parent => DirectoryInfo.Parent;
+    public Folder? Parent => System.IO.Path.GetDirectoryName(
+        Path.TrimEnd(
+            System.IO.Path.DirectorySeparatorChar,
+            System.IO.Path.AltDirectorySeparatorChar)) is { } parent
+        ? new Folder(parent, _provider)
+        : null;
 
-    public string Path => DirectoryInfo.FullName;
+    public string Path => _directoryInfo.FullName;
 
     /// <summary>
     /// Gets the original path string that was used to construct this Folder instance.
@@ -71,8 +75,8 @@ public class Folder : IEquatable<Folder>
 
     public FileAttributes Attributes
     {
-        get => DirectoryInfo.Attributes;
-        set => DirectoryInfo.Attributes = value;
+        get => GetPhysicalDirectoryInfo().Attributes;
+        set => GetPhysicalDirectoryInfo().Attributes = value;
     }
 
     [JsonConverter(typeof(FolderPathJsonConverter))]
@@ -80,20 +84,21 @@ public class Folder : IEquatable<Folder>
     {
         get
         {
-            if (DirectoryInfo.Root.FullName == Path)
+            var rootPath = System.IO.Path.GetPathRoot(Path)!;
+            if (rootPath == Path)
             {
                 return this;
             }
 
-            return DirectoryInfo.Root;
+            return new Folder(rootPath, _provider);
         }
     }
 
-    public DateTimeOffset CreationTime => DirectoryInfo.CreationTime;
+    public DateTimeOffset CreationTime => GetPhysicalDirectoryInfo().CreationTime;
 
-    public DateTimeOffset LastWriteTimeUtc => DirectoryInfo.LastWriteTimeUtc;
+    public DateTimeOffset LastWriteTimeUtc => GetPhysicalDirectoryInfo().LastWriteTimeUtc;
 
-    public string Extension => DirectoryInfo.Extension;
+    public string Extension => System.IO.Path.GetExtension(Path);
 
     public Folder Create()
     {
@@ -188,40 +193,50 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperation("Cleaning Folder: {Path}", this);
 
+        if (removeReadOnlyAttribute)
+        {
+            EnsurePhysicalMetadataSupported();
+        }
+
         var errors = new List<Exception>();
 
-        foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
+        foreach (var directoryPath in _provider
+                     .EnumerateDirectories(Path, "*", SearchOption.TopDirectoryOnly)
+                     .ToArray())
         {
             try
             {
                 if (removeReadOnlyAttribute)
                 {
-                    RemoveReadOnlyAttributeRecursively(directory);
+                    RemoveReadOnlyAttributeRecursively(new DirectoryInfo(directoryPath));
                 }
 
-                directory.Delete(true);
+                _provider.DeleteDirectory(directoryPath, recursive: true);
             }
             catch (Exception ex) when (continueOnError)
             {
-                LogFolderWarning(ex, "Failed to delete directory: {Path}", directory.FullName);
+                LogFolderWarning(ex, "Failed to delete directory: {Path}", directoryPath);
                 errors.Add(ex);
             }
         }
 
-        foreach (var file in DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
+        foreach (var filePath in _provider
+                     .EnumerateFiles(Path, "*", SearchOption.TopDirectoryOnly)
+                     .ToArray())
         {
             try
             {
+                var file = new FileInfo(filePath);
                 if (removeReadOnlyAttribute && (file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
                 {
                     file.Attributes &= ~FileAttributes.ReadOnly;
                 }
 
-                file.Delete();
+                _provider.DeleteFile(filePath);
             }
             catch (Exception ex) when (continueOnError)
             {
-                LogFolderWarning(ex, "Failed to delete file: {Path}", file.FullName);
+                LogFolderWarning(ex, "Failed to delete file: {Path}", filePath);
                 errors.Add(ex);
             }
         }
@@ -254,6 +269,7 @@ public class Folder : IEquatable<Folder>
     public Folder CopyTo(string targetPath, bool preserveTimestamps)
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
+        EnsurePhysicalMetadataSupported();
 
         _provider.CreateDirectory(targetPath);
 
@@ -337,6 +353,7 @@ public class Folder : IEquatable<Folder>
     public async Task<Folder> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
+        EnsurePhysicalMetadataSupported();
 
         _provider.CreateDirectory(targetPath);
 
@@ -473,8 +490,9 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperationWithExpression("Searching Folders in: {Path} > {Expression}", this, predicateExpression);
 
-        return SafeWalk.EnumerateFolders(this, exclusionFilters)
-            .Select(x => new Folder(x))
+        return _provider.EnumerateDirectories(Path, "*", SearchOption.AllDirectories)
+            .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: true, exclusionFilters))
+            .Select(path => new Folder(path, _provider))
             .Distinct()
             .Where(predicate);
     }
@@ -483,8 +501,9 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperationWithExpression("Searching Files in: {Path} > {Expression}", this, predicateExpression);
 
-        return SafeWalk.EnumerateFiles(this, directoryExclusionFilters)
-            .Select(x => new File(x))
+        return _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories)
+            .Where(path => !IsExcludedByDirectoryFilter(path, includeEntry: false, directoryExclusionFilters))
+            .Select(path => new File(path, _provider))
             .Distinct()
             .Where(predicate);
     }
@@ -493,11 +512,11 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperationWithExpression("Searching Files in: {Path} > {Glob}", this, globPattern);
 
-        return new Matcher(StringComparison.OrdinalIgnoreCase)
-            .AddInclude(globPattern)
-            .Execute(new DirectoryInfoWrapper(DirectoryInfo))
-            .Files
-            .Select(x => new File(System.IO.Path.Combine(this, x.Path)))
+        var matcher = new Matcher(StringComparison.OrdinalIgnoreCase)
+            .AddInclude(globPattern);
+        return _provider.EnumerateFiles(Path, "*", SearchOption.AllDirectories)
+            .Where(path => matcher.Match(_provider.GetRelativePath(Path, path)).HasMatches)
+            .Select(path => new File(path, _provider))
             .Distinct();
     }
 
@@ -511,15 +530,15 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<File> ListFiles()
     {
-        return DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-            .Select(x => new File(x))
+        return _provider.EnumerateFiles(Path, "*", SearchOption.TopDirectoryOnly)
+            .Select(path => new File(path, _provider))
             .Distinct();
     }
 
     public IEnumerable<Folder> ListFolders()
     {
-        return DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
-            .Select(x => new Folder(x))
+        return _provider.EnumerateDirectories(Path, "*", SearchOption.TopDirectoryOnly)
+            .Select(path => new Folder(path, _provider))
             .Distinct();
     }
 
@@ -618,6 +637,50 @@ public class Folder : IEquatable<Folder>
     public static bool operator !=(Folder? left, Folder? right)
     {
         return !Equals(left, right);
+    }
+
+    private bool IsExcludedByDirectoryFilter(
+        string entryPath,
+        bool includeEntry,
+        Func<Folder, bool> exclusionFilter)
+    {
+        var current = includeEntry
+            ? entryPath
+            : System.IO.Path.GetDirectoryName(entryPath);
+        while (current is not null)
+        {
+            if (exclusionFilter(new Folder(current, _provider)))
+            {
+                return true;
+            }
+
+            if (_provider.GetRelativePath(Path, current) == ".")
+            {
+                break;
+            }
+
+            current = System.IO.Path.GetDirectoryName(
+                current.TrimEnd(
+                    System.IO.Path.DirectorySeparatorChar,
+                    System.IO.Path.AltDirectorySeparatorChar));
+        }
+
+        return false;
+    }
+
+    private DirectoryInfo GetPhysicalDirectoryInfo()
+    {
+        EnsurePhysicalMetadataSupported();
+        return DirectoryInfo;
+    }
+
+    private void EnsurePhysicalMetadataSupported()
+    {
+        if (!ReferenceEquals(_provider, SystemFileSystemProvider.Instance))
+        {
+            throw new NotSupportedException(
+                "Folder metadata is unavailable through the configured IFileSystemProvider.");
+        }
     }
 
     private static void RemoveReadOnlyAttributeRecursively(DirectoryInfo directory)
