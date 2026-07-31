@@ -414,14 +414,15 @@ internal class DistributedModuleExecutor(
         CancellationTokenSource cts)
     {
         using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
+        var lifecycleToken = timeoutCts?.Token ?? cts.Token;
 
         try
         {
             // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
             // Modules with [MatrixTarget] will run once, not N times.
             _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
-            await _publisher.PublishAsync(assignment, cts.Token);
-            await CollectResultAsync(module, moduleType, scheduler, cts, timeoutCts?.Token ?? cts.Token);
+            await _publisher.PublishAsync(assignment, lifecycleToken);
+            await CollectResultAsync(module, moduleType, scheduler, cts, lifecycleToken);
         }
         catch (OperationCanceledException) when (!cts.IsCancellationRequested)
         {
