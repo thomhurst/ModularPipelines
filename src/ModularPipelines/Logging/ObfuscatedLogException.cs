@@ -20,11 +20,13 @@ internal sealed class ObfuscatedLogException : Exception
 
     private ObfuscatedLogException(Exception exception, ISecretObfuscator secretObfuscator)
         : base(
-            secretObfuscator.Obfuscate(exception.Message, null),
+            GetObfuscatedMessage(exception, secretObfuscator),
             Create(exception.InnerException, secretObfuscator))
     {
-        _obfuscatedStackTrace = ObfuscateNullable(exception.StackTrace, secretObfuscator);
-        _obfuscatedText = secretObfuscator.Obfuscate(exception.ToString(), null);
+        _obfuscatedStackTrace = GetObfuscatedDiagnostic(
+            () => exception.StackTrace,
+            secretObfuscator);
+        _obfuscatedText = GetObfuscatedText(exception, secretObfuscator);
         CopyDiagnostics(this, exception, secretObfuscator);
     }
 
@@ -46,6 +48,48 @@ internal sealed class ObfuscatedLogException : Exception
         ISecretObfuscator secretObfuscator) =>
         value is null ? null : secretObfuscator.Obfuscate(value, null);
 
+    private static string GetObfuscatedMessage(
+        Exception exception,
+        ISecretObfuscator secretObfuscator)
+    {
+        try
+        {
+            return secretObfuscator.Obfuscate(exception.Message, null);
+        }
+        catch (Exception)
+        {
+            return LoggingConstants.SecretMask;
+        }
+    }
+
+    private static string GetObfuscatedText(
+        Exception exception,
+        ISecretObfuscator secretObfuscator)
+    {
+        try
+        {
+            return secretObfuscator.Obfuscate(exception.ToString(), null);
+        }
+        catch (Exception)
+        {
+            return $"{exception.GetType().FullName}: {GetObfuscatedMessage(exception, secretObfuscator)}";
+        }
+    }
+
+    private static string? GetObfuscatedDiagnostic(
+        Func<string?> getValue,
+        ISecretObfuscator secretObfuscator)
+    {
+        try
+        {
+            return ObfuscateNullable(getValue(), secretObfuscator);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
     private static void CopyDiagnostics(
         Exception destination,
         Exception source,
@@ -53,8 +97,12 @@ internal sealed class ObfuscatedLogException : Exception
     {
         TryCopyTargetSite(destination, source);
         destination.HResult = source.HResult;
-        destination.HelpLink = ObfuscateNullable(source.HelpLink, secretObfuscator);
-        destination.Source = ObfuscateNullable(source.Source, secretObfuscator);
+        destination.HelpLink = GetObfuscatedDiagnostic(
+            () => source.HelpLink,
+            secretObfuscator);
+        destination.Source = GetObfuscatedDiagnostic(
+            () => source.Source,
+            secretObfuscator);
         CopyData(destination, source, secretObfuscator);
     }
 
@@ -62,6 +110,7 @@ internal sealed class ObfuscatedLogException : Exception
     {
         if (!RuntimeFeature.IsDynamicCodeSupported)
         {
+            TryCopyNativeAotTargetSiteState(destination, source);
             return;
         }
 
@@ -72,6 +121,19 @@ internal sealed class ObfuscatedLogException : Exception
         catch (MissingFieldException)
         {
             // The private runtime field is unavailable under some runtimes.
+        }
+    }
+
+    private static void TryCopyNativeAotTargetSiteState(Exception destination, Exception source)
+    {
+        try
+        {
+            GetNativeAotStackTrace(destination) = GetNativeAotStackTrace(source)?.ToArray();
+            GetNativeAotStackTraceCount(destination) = GetNativeAotStackTraceCount(source);
+        }
+        catch (MissingFieldException)
+        {
+            // The private runtime fields are unavailable under some runtimes.
         }
     }
 
@@ -149,6 +211,13 @@ internal sealed class ObfuscatedLogException : Exception
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_exceptionMethod")]
     private static extern ref MethodBase? GetExceptionMethod(Exception exception);
 
+    // NativeAOT computes TargetSite from the first captured native stack trace entry.
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_corDbgStackTrace")]
+    private static extern ref IntPtr[]? GetNativeAotStackTrace(Exception exception);
+
+    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_idxFirstFreeStackTraceEntry")]
+    private static extern ref int GetNativeAotStackTraceCount(Exception exception);
+
     private sealed class ObfuscatedAggregateLogException : AggregateException
     {
         private readonly string? _obfuscatedStackTrace;
@@ -158,11 +227,13 @@ internal sealed class ObfuscatedLogException : Exception
             AggregateException exception,
             ISecretObfuscator secretObfuscator)
             : base(
-                secretObfuscator.Obfuscate(exception.Message, null),
+                GetObfuscatedMessage(exception, secretObfuscator),
                 exception.InnerExceptions.Select(inner => Create(inner, secretObfuscator)!))
         {
-            _obfuscatedStackTrace = ObfuscateNullable(exception.StackTrace, secretObfuscator);
-            _obfuscatedText = secretObfuscator.Obfuscate(exception.ToString(), null);
+            _obfuscatedStackTrace = GetObfuscatedDiagnostic(
+                () => exception.StackTrace,
+                secretObfuscator);
+            _obfuscatedText = GetObfuscatedText(exception, secretObfuscator);
             CopyDiagnostics(this, exception, secretObfuscator);
         }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
@@ -180,6 +181,25 @@ public class PipelineLevelLoggerTests
     }
 
     [Test]
+    public async Task Log_GuardsHostileExceptionDiagnostics()
+    {
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(underlyingLogger);
+
+        await Assert.That(
+                () => pipelineLevelLogger.LogError(new ThrowingDiagnosticException(), "Failure"))
+            .ThrowsNothing();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(underlyingLogger.Exception?.Message)
+                .IsEqualTo(LoggingConstants.SecretMask);
+            await Assert.That(underlyingLogger.Exception?.ToString())
+                .Contains(nameof(ThrowingDiagnosticException));
+        }
+    }
+
+    [Test]
     public async Task Log_PreservesEverySanitizedAggregateExceptionBranch()
     {
         const string secret = "pipeline-secret";
@@ -311,6 +331,30 @@ public class PipelineLevelLoggerTests
     private sealed class ThrowingToStringValue
     {
         public override string ToString() => throw new InvalidOperationException("Cannot format value.");
+    }
+
+    private sealed class ThrowingDiagnosticException : Exception
+    {
+        public override string Message => throw new InvalidOperationException("Cannot read message.");
+
+        public override IDictionary Data => throw new InvalidOperationException("Cannot read data.");
+
+        public override string? HelpLink
+        {
+            get => throw new InvalidOperationException("Cannot read help link.");
+            set => base.HelpLink = value;
+        }
+
+        public override string? Source
+        {
+            get => throw new InvalidOperationException("Cannot read source.");
+            set => base.Source = value;
+        }
+
+        public override string? StackTrace =>
+            throw new InvalidOperationException("Cannot read stack trace.");
+
+        public override string ToString() => throw new InvalidOperationException("Cannot format exception.");
     }
 
     private sealed class RecordingLogger : ILogger
