@@ -237,6 +237,44 @@ public class ModuleCacheTests
         }
     }
 
+    [CacheInputs("file-parent-input.txt")]
+    [ProducesArtifact("file-only", "read-only-parent/tool")]
+    private sealed class ReadOnlyFileParentArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            var parent = Directory.CreateDirectory(
+                Path.Combine(WorkingDirectory, "read-only-parent"));
+            if (!OperatingSystem.IsWindows())
+            {
+                System.IO.File.SetUnixFileMode(
+                    parent.FullName,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute);
+            }
+
+            System.IO.File.WriteAllText(
+                Path.Combine(parent.FullName, "tool"),
+                "artifact");
+            if (!OperatingSystem.IsWindows())
+            {
+                System.IO.File.SetUnixFileMode(
+                    parent.FullName,
+                    UnixFileMode.UserRead | UnixFileMode.UserExecute);
+            }
+
+            return Task.FromResult<string?>("result");
+        }
+    }
+
     [CacheInputs("symlink-input.txt")]
     [ProducesArtifact("symlink-artifacts", "symlink-artifacts")]
     private sealed class SymbolicLinkArtifactModule : Module<string>
@@ -1185,6 +1223,53 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRejectsUndeclaredArtifactEntries()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-undeclared-artifact-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        var sourceFile = Path.Combine(temporaryDirectory, "source.txt");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            await System.IO.File.WriteAllTextAsync(sourceFile, "original");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();
+            using (var archive = ZipFile.Open(cacheEntry, ZipArchiveMode.Update))
+            await using (var output = archive
+                             .CreateEntry("artifacts/source.txt")
+                             .Open())
+            {
+                await output.WriteAsync("poisoned"u8.ToArray());
+            }
+
+            var restoredStatus =
+                await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+                await Assert.That(await System.IO.File.ReadAllTextAsync(sourceFile))
+                    .IsEqualTo("original");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task CacheRestoreRejectsEntriesNestedUnderDirectoryLinks()
     {
         var temporaryDirectory = Path.Combine(
@@ -1209,8 +1294,7 @@ public class ModuleCacheTests
             {
                 var directoryLink =
                     archive.CreateEntry("artifacts/artifact-set/escape");
-                directoryLink.ExternalAttributes =
-                    (0xA000 << 16) | (int) FileAttributes.Directory;
+                directoryLink.ExternalAttributes = 0xA000 << 16;
                 await using (var output = directoryLink.Open())
                 {
                     await output.WriteAsync(
@@ -1497,6 +1581,59 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreClearsFilesUnderReadOnlyParentDirectories()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-read-only-file-parent-{Guid.NewGuid():N}");
+        var artifactParent = Path.Combine(temporaryDirectory, "read-only-parent");
+        Directory.CreateDirectory(temporaryDirectory);
+        ReadOnlyFileParentArtifactModule.WorkingDirectory = temporaryDirectory;
+        ReadOnlyFileParentArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "file-parent-input.txt"),
+                "input");
+            await RunReadOnlyFileParentArtifactPipelineAsync(temporaryDirectory);
+
+            var restoredStatus =
+                await RunReadOnlyFileParentArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(ReadOnlyFileParentArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(await System.IO.File.ReadAllTextAsync(
+                        Path.Combine(artifactParent, "tool")))
+                    .IsEqualTo("artifact");
+                await Assert.That(System.IO.File.GetUnixFileMode(artifactParent))
+                    .IsEqualTo(UnixFileMode.UserRead | UnixFileMode.UserExecute);
+            }
+        }
+        finally
+        {
+            if (Directory.Exists(artifactParent))
+            {
+                System.IO.File.SetUnixFileMode(
+                    artifactParent,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute);
+            }
+
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task CacheRestorePreservesEmptyArtifactDirectories()
     {
         var temporaryDirectory = Path.Combine(
@@ -1677,6 +1814,25 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(ExecutableArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunReadOnlyFileParentArtifactPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<ReadOnlyFileParentArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(ReadOnlyFileParentArtifactModule))!
             .ModuleStatus;
     }
 

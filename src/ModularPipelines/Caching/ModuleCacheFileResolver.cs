@@ -69,6 +69,40 @@ internal static class ModuleCacheFileResolver
         return NormalizeSeparators(Path.GetRelativePath(root, fullPath));
     }
 
+    public static bool IsWithinDeclaredArtifactScope(
+        string workingDirectory,
+        string path,
+        IEnumerable<string> patterns)
+    {
+        var root = Path.GetFullPath(workingDirectory);
+        var fullPath = Path.GetFullPath(path);
+        EnsureContained(root, fullPath);
+        var relativePath = NormalizeSeparators(Path.GetRelativePath(root, fullPath));
+
+        foreach (var rawPattern in patterns)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(rawPattern);
+            var pattern = NormalizePattern(root, rawPattern);
+            if (pattern.IndexOfAny(['*', '?']) >= 0)
+            {
+                if (CreateGlobRegex(pattern).IsMatch(relativePath))
+                {
+                    return true;
+                }
+
+                continue;
+            }
+
+            var declaredRoot = GetContainedPath(root, pattern);
+            if (IsWithin(declaredRoot, fullPath))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private static string[] ResolvePaths(
         string workingDirectory,
         IEnumerable<string> patterns,

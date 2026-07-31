@@ -438,6 +438,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         CancellationToken cancellationToken)
     {
         var root = Path.GetFullPath(_options.WorkingDirectory);
+        var artifactPaths = GetArtifactPaths(moduleType).ToArray();
         var artifactEntries = archive.Entries
             .Where(entry => entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal))
             .Select(entry => (
@@ -448,18 +449,35 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 IsDirectorySymbolicLink: IsDirectorySymbolicLink(entry)))
             .ToArray();
 
-        foreach (var directoryLink in artifactEntries
-                     .Where(artifact => artifact.IsDirectorySymbolicLink))
+        foreach (var artifact in artifactEntries)
         {
-            if (artifactEntries.Any(artifact =>
-                    IsNestedPath(directoryLink.Destination, artifact.Destination)))
+            if (!ModuleCacheFileResolver.IsWithinDeclaredArtifactScope(
+                    root,
+                    artifact.Destination,
+                    artifactPaths))
             {
                 throw new InvalidDataException(
-                    $"Cache artifact entry '{directoryLink.Entry.FullName}' is a directory link "
+                    $"Cache artifact entry '{artifact.Entry.FullName}' is outside "
+                    + "the module's declared artifact paths.");
+            }
+        }
+
+        foreach (var symbolicLink in artifactEntries
+                     .Where(artifact => artifact.IsSymbolicLink))
+        {
+            if (artifactEntries.Any(artifact =>
+                    IsNestedPath(symbolicLink.Destination, artifact.Destination)))
+            {
+                throw new InvalidDataException(
+                    $"Cache artifact entry '{symbolicLink.Entry.FullName}' is a symbolic link "
                     + "with nested artifact entries.");
             }
         }
 
+        using var writableArtifactParents = MakeArtifactParentsTemporarilyWritable(
+            root,
+            artifactPaths,
+            artifactEntries.Select(artifact => artifact.Destination));
         try
         {
             ClearArtifacts(moduleType, cancellationToken);
@@ -551,6 +569,47 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
             throw;
         }
+    }
+
+    private UnixDirectoryModeScope MakeArtifactParentsTemporarilyWritable(
+        string root,
+        IReadOnlyCollection<string> artifactPaths,
+        IEnumerable<string> destinations)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return new UnixDirectoryModeScope([]);
+        }
+
+        var artifactDirectories = ModuleCacheFileResolver.ResolveDirectories(
+                root,
+                artifactPaths,
+                _options.MaximumInputFiles,
+                _options.CacheDirectory)
+            .ToHashSet(PathComparer);
+        var parentDirectories = new HashSet<string>(PathComparer);
+        foreach (var destination in destinations)
+        {
+            for (var current = Path.GetDirectoryName(destination);
+                 current is not null;
+                 current = Path.GetDirectoryName(current))
+            {
+                ModuleCacheFileResolver.GetRelativePath(root, current);
+                if (Directory.Exists(current)
+                    && !artifactDirectories.Contains(current)
+                    && !TryGetReparsePointAttributes(current, out _))
+                {
+                    parentDirectories.Add(current);
+                }
+
+                if (PathComparer.Equals(current, root))
+                {
+                    break;
+                }
+            }
+        }
+
+        return new UnixDirectoryModeScope(parentDirectories);
     }
 
     private void ClearArtifacts(Type moduleType, CancellationToken cancellationToken)
@@ -765,4 +824,54 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
     private static StringComparer PathComparer =>
         OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+
+    private sealed class UnixDirectoryModeScope : IDisposable
+    {
+        private readonly IReadOnlyList<(string Path, UnixFileMode Mode)> _originalModes;
+
+        public UnixDirectoryModeScope(IEnumerable<string> directories)
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                _originalModes = [];
+                return;
+            }
+
+            const UnixFileMode requiredMode =
+                UnixFileMode.UserWrite | UnixFileMode.UserExecute;
+            var originalModes = new List<(string Path, UnixFileMode Mode)>();
+            foreach (var path in directories
+                         .Distinct(PathComparer)
+                         .OrderBy(path => path.Length))
+            {
+                originalModes.Add((path, File.GetUnixFileMode(path)));
+            }
+
+            _originalModes = originalModes;
+            foreach (var (path, mode) in _originalModes)
+            {
+                if ((mode & requiredMode) != requiredMode)
+                {
+                    File.SetUnixFileMode(path, mode | requiredMode);
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                return;
+            }
+
+            foreach (var (path, mode) in _originalModes
+                         .OrderByDescending(item => item.Path.Length))
+            {
+                if (Directory.Exists(path))
+                {
+                    File.SetUnixFileMode(path, mode);
+                }
+            }
+        }
+    }
 }
