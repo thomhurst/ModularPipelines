@@ -151,7 +151,10 @@ public class PipelineInitializerTests
     [Arguments("credential")]
     [Arguments("DOCKER_AUTH_CONFIG")]
     [Arguments("NPM_CONFIG__AUTH")]
+    [Arguments("ALL_PROXY")]
     [Arguments("DATABASE_URL")]
+    [Arguments("HTTP_PROXY")]
+    [Arguments("HTTPS_PROXY")]
     [Arguments("MONGODB_URI")]
     [Arguments("PIP_EXTRA_INDEX_URL")]
     [Arguments("PIP_INDEX_URL")]
@@ -205,6 +208,9 @@ public class PipelineInitializerTests
     [Arguments("PWD")]
     [Arguments("OLDPWD")]
     [Arguments("SSH_AUTH_SOCK")]
+    [Arguments("GIT_AUTHOR_NAME")]
+    [Arguments("GIT_AUTHOR_EMAIL")]
+    [Arguments("GIT_AUTHOR_DATE")]
     public async Task EnvironmentVariables_DoNotMaskKnownNonSecretNames(
         string variableName)
     {

@@ -45,7 +45,10 @@ internal class PipelineInitializer(
     private static readonly string[] SensitiveEnvironmentVariableNames =
     [
         "AzureWebJobsStorage",
+        "ALL_PROXY",
         "DATABASE_URL",
+        "HTTP_PROXY",
+        "HTTPS_PROXY",
         "MONGODB_URI",
         "PIP_EXTRA_INDEX_URL",
         "PIP_INDEX_URL",
@@ -163,6 +166,7 @@ internal class PipelineInitializer(
         return !name.Equals("PWD", StringComparison.OrdinalIgnoreCase)
                && !name.Equals("OLDPWD", StringComparison.OrdinalIgnoreCase)
                && !name.Equals("SSH_AUTH_SOCK", StringComparison.OrdinalIgnoreCase)
+               && !name.StartsWith("GIT_AUTHOR_", StringComparison.OrdinalIgnoreCase)
                && (SensitiveEnvironmentVariableNames.Contains(name, StringComparer.OrdinalIgnoreCase)
                    || SensitiveEnvironmentVariableNameParts.Any(
                        part => name.Contains(part, StringComparison.OrdinalIgnoreCase)));
