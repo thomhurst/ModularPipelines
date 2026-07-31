@@ -11,12 +11,31 @@ public class RedisModuleCacheTests
 {
     private const string Fingerprint = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     private Mock<IDatabase> _database = null!;
+    private Mock<ITransaction> _transaction = null!;
     private RedisModuleCache _cache = null!;
 
     [Before(Test)]
     public void Setup()
     {
         _database = new Mock<IDatabase>();
+        _transaction = new Mock<ITransaction>();
+        _database.Setup(value => value.CreateTransaction(It.IsAny<object>()))
+            .Returns(_transaction.Object);
+        _transaction.Setup(value => value.ExecuteAsync(It.IsAny<CommandFlags>()))
+            .ReturnsAsync(true);
+        _transaction.Setup(value => value.KeyExpireAsync(
+                It.IsAny<RedisKey>(),
+                It.IsAny<TimeSpan?>(),
+                It.IsAny<ExpireWhen>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(true);
+        _transaction.Setup(value => value.StringSetAsync(
+                It.IsAny<RedisKey>(),
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                It.IsAny<ValueCondition>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(true);
         var connection = new Mock<IConnectionMultiplexer>();
         connection.Setup(value => value.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
             .Returns(_database.Object);
@@ -41,8 +60,14 @@ public class RedisModuleCacheTests
 
         await _cache.WriteAsync(Fingerprint, content, CancellationToken.None);
 
-        var keys = _database.Invocations
+        var databaseWrites = _database.Invocations
             .Where(invocation => invocation.Method.Name == nameof(IDatabase.StringSetAsync))
+            .ToArray();
+        var transactionWrites = _transaction.Invocations
+            .Where(invocation => invocation.Method.Name == nameof(IDatabase.StringSetAsync))
+            .ToArray();
+        var keys = databaseWrites
+            .Concat(transactionWrites)
             .Select(invocation => invocation.Arguments[0].ToString()!)
             .ToList();
         var fingerprintPrefix = $"custom-prefix:module-cache:v1:{Fingerprint.ToLowerInvariant()}";
@@ -56,6 +81,15 @@ public class RedisModuleCacheTests
         await Assert.That(keys.Any(key => key.EndsWith(":chunk:0", StringComparison.Ordinal))).IsTrue();
         await Assert.That(keys.Any(key => key.EndsWith(":chunk:1", StringComparison.Ordinal))).IsTrue();
         await Assert.That(keys.Any(key => key.Contains("must-not-appear", StringComparison.Ordinal))).IsFalse();
+        await Assert.That(databaseWrites.All(invocation =>
+            invocation.Arguments[2].Equals(Expiration.Default))).IsTrue();
+        _transaction.Verify(value => value.KeyExpireAsync(
+                It.Is<RedisKey>(key => key.ToString().Contains(":entry:", StringComparison.Ordinal)),
+                TimeSpan.FromSeconds(60),
+                ExpireWhen.Always,
+                CommandFlags.None),
+            Times.Exactly(2));
+        _transaction.Verify(value => value.ExecuteAsync(CommandFlags.None), Times.Once);
     }
 
     [Test]

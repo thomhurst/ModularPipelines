@@ -115,31 +115,65 @@ public sealed class RedisModuleCache : IModuleCacheStore
         var generation = Guid.NewGuid().ToString("N");
         var chunkCount = 0;
         var totalLength = 0L;
-        while (true)
+        var chunkKeys = new List<RedisKey>();
+        try
         {
-            var length = await ReadFullBufferAsync(content, buffer, cancellationToken).ConfigureAwait(false);
-            if (length == 0)
+            while (true)
             {
-                break;
+                var length = await ReadFullBufferAsync(content, buffer, cancellationToken).ConfigureAwait(false);
+                if (length == 0)
+                {
+                    break;
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+                var chunkKey = ChunkKey(fingerprint, generation, chunkCount);
+                await _database.StringSetAsync(
+                        chunkKey,
+                        new ReadOnlyMemory<byte>(buffer, 0, length))
+                    .WaitAsync(cancellationToken)
+                    .ConfigureAwait(false);
+                chunkKeys.Add(chunkKey);
+                chunkCount++;
+                totalLength += length;
             }
 
+            var metadata = string.Create(
+                CultureInfo.InvariantCulture,
+                $"{generation}:{chunkCount}:{totalLength}");
+            var transaction = _database.CreateTransaction();
+            var expirationTasks = chunkKeys
+                .Select(chunkKey => transaction.KeyExpireAsync(chunkKey, _expiration))
+                .ToArray();
+            var metadataTask = transaction.StringSetAsync(
+                MetadataKey(fingerprint),
+                metadata,
+                _expiration);
             cancellationToken.ThrowIfCancellationRequested();
-            await _database.StringSetAsync(
-                    ChunkKey(fingerprint, generation, chunkCount),
-                    new ReadOnlyMemory<byte>(buffer, 0, length),
-                    _expiration)
-                .WaitAsync(cancellationToken)
-                .ConfigureAwait(false);
-            chunkCount++;
-            totalLength += length;
-        }
+            var transactionCommitted = await transaction.ExecuteAsync().ConfigureAwait(false);
+            if (!transactionCommitted)
+            {
+                throw new IOException(
+                    $"Redis could not publish module cache entry '{fingerprint}'.");
+            }
 
-        var metadata = string.Create(
-            CultureInfo.InvariantCulture,
-            $"{generation}:{chunkCount}:{totalLength}");
-        await _database.StringSetAsync(MetadataKey(fingerprint), metadata, _expiration)
-            .WaitAsync(cancellationToken)
-            .ConfigureAwait(false);
+            var expirationResults = await Task.WhenAll(expirationTasks).ConfigureAwait(false);
+            var metadataWritten = await metadataTask.ConfigureAwait(false);
+            if (expirationResults.Any(success => !success) || !metadataWritten)
+            {
+                throw new IOException(
+                    $"Redis could not expire module cache entry '{fingerprint}'.");
+            }
+        }
+        catch
+        {
+            if (chunkKeys.Count > 0)
+            {
+                await _database.KeyDeleteAsync([.. chunkKeys]).ConfigureAwait(false);
+            }
+
+            throw;
+        }
     }
 
     private static async Task<int> ReadFullBufferAsync(
