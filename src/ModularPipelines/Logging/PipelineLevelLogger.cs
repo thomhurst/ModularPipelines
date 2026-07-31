@@ -1,6 +1,7 @@
 using System.Collections;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
+using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Logging;
@@ -69,7 +70,7 @@ internal sealed class PipelineLevelLogger : IModuleLogger
         {
             return _logger.BeginScope(new ObfuscatedScopeState(
                 obfuscatedValues,
-                _secretObfuscator.Obfuscate(state.ToString(), null)));
+                TryRenderScope(state)));
         }
 
         return obfuscatedState is TState typedState
@@ -81,6 +82,18 @@ internal sealed class PipelineLevelLogger : IModuleLogger
     public void Dispose()
     {
         // Nothing to dispose - the underlying logger is managed by the LoggerFactory
+    }
+
+    private string TryRenderScope<TState>(TState state)
+    {
+        try
+        {
+            return _secretObfuscator.Obfuscate(state?.ToString(), null);
+        }
+        catch (Exception)
+        {
+            return LoggingConstants.SecretMask;
+        }
     }
 
     private sealed class ObfuscatedScopeState(

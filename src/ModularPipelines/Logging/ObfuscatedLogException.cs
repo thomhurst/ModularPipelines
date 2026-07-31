@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 
 namespace ModularPipelines.Logging;
@@ -49,10 +51,92 @@ internal sealed class ObfuscatedLogException : Exception
         Exception source,
         ISecretObfuscator secretObfuscator)
     {
-        GetExceptionMethod(destination) = GetTargetSite(source);
+        TryCopyTargetSite(destination, source);
         destination.HResult = source.HResult;
         destination.HelpLink = ObfuscateNullable(source.HelpLink, secretObfuscator);
         destination.Source = ObfuscateNullable(source.Source, secretObfuscator);
+        CopyData(destination, source, secretObfuscator);
+    }
+
+    private static void TryCopyTargetSite(Exception destination, Exception source)
+    {
+        if (!RuntimeFeature.IsDynamicCodeSupported)
+        {
+            return;
+        }
+
+        try
+        {
+            GetExceptionMethod(destination) = GetTargetSite(source);
+        }
+        catch (MissingFieldException)
+        {
+            // The private runtime field is unavailable under some runtimes.
+        }
+    }
+
+    private static void CopyData(
+        Exception destination,
+        Exception source,
+        ISecretObfuscator secretObfuscator)
+    {
+        try
+        {
+            foreach (DictionaryEntry entry in source.Data)
+            {
+                var key = SanitizeDataValue(entry.Key, secretObfuscator);
+                if (key is null)
+                {
+                    continue;
+                }
+
+                destination.Data[GetUniqueDataKey(destination.Data, key)] =
+                    SanitizeDataValue(entry.Value, secretObfuscator);
+            }
+        }
+        catch (Exception)
+        {
+            // Diagnostic data must never make logging fail.
+        }
+    }
+
+    private static object GetUniqueDataKey(IDictionary data, object key)
+    {
+        if (!data.Contains(key))
+        {
+            return key;
+        }
+
+        var baseKey = key.ToString() ?? string.Empty;
+        for (var suffix = 2; ; suffix++)
+        {
+            var candidate = $"{baseKey} ({suffix})";
+            if (!data.Contains(candidate))
+            {
+                return candidate;
+            }
+        }
+    }
+
+    private static object? SanitizeDataValue(
+        object? value,
+        ISecretObfuscator secretObfuscator)
+    {
+        if (value is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            var text = value.ToString() ?? string.Empty;
+            var obfuscated = secretObfuscator.Obfuscate(text, null);
+            return obfuscated.Equals(text, StringComparison.Ordinal) ? value : obfuscated;
+        }
+        catch (Exception)
+        {
+            return LoggingConstants.SecretMask;
+        }
     }
 
     [UnconditionalSuppressMessage(

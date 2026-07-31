@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 using ModularPipelines.Logging;
 using Moq;
@@ -152,6 +153,9 @@ public class PipelineLevelLoggerTests
             new InvalidOperationException($"Outer: {secret}", innerException));
         originalException.HelpLink = $"https://example.invalid/{secret}";
         originalException.Source = $"source-{secret}";
+        originalException.Data[$"key-{secret}"] = $"value-{secret}";
+        originalException.Data["number"] = 42;
+        originalException.Data["hostile"] = new ThrowingToStringValue();
         var pipelineLevelLogger = CreateLogger(
             underlyingLogger,
             value => value?.Replace(secret, "********", StringComparison.Ordinal) ?? string.Empty);
@@ -169,6 +173,9 @@ public class PipelineLevelLoggerTests
             await Assert.That(exception?.InnerException).IsNotSameReferenceAs(innerException);
             await Assert.That(exception?.HelpLink).IsEqualTo("https://example.invalid/********");
             await Assert.That(exception?.Source).IsEqualTo("source-********");
+            await Assert.That(exception?.Data["key-********"]).IsEqualTo("value-********");
+            await Assert.That(exception?.Data["number"]).IsEqualTo(42);
+            await Assert.That(exception?.Data["hostile"]).IsEqualTo(LoggingConstants.SecretMask);
         }
     }
 
@@ -233,6 +240,25 @@ public class PipelineLevelLoggerTests
         await Assert.That(structuredScope![0].Value?.ToString()).IsEqualTo("********");
     }
 
+    [Test]
+    public async Task BeginScope_PreservesStructuredStateWhenRenderingThrows()
+    {
+        const string secret = "scope-secret";
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(
+            underlyingLogger,
+            value => value?.Replace(secret, "********", StringComparison.Ordinal) ?? string.Empty);
+        var state = new ThrowingStructuredScopeState("Token", secret);
+
+        await Assert.That(() => pipelineLevelLogger.BeginScope(state)).ThrowsNothing();
+
+        var structuredScope = underlyingLogger.Scope
+            as IReadOnlyList<KeyValuePair<string, object?>>;
+        await Assert.That(structuredScope).IsNotNull();
+        await Assert.That(structuredScope![0].Value).IsEqualTo("********");
+        await Assert.That(underlyingLogger.Scope?.ToString()).IsEqualTo(LoggingConstants.SecretMask);
+    }
+
     private static PipelineLevelLogger CreateLogger(
         ILogger logger,
         Func<string?, string>? obfuscate = null)
@@ -258,6 +284,33 @@ public class PipelineLevelLoggerTests
         {
             return captured;
         }
+    }
+
+    private sealed class ThrowingStructuredScopeState(
+        string key,
+        object? value) : IReadOnlyList<KeyValuePair<string, object?>>
+    {
+        private readonly KeyValuePair<string, object?>[] _values =
+        [
+            new(key, value),
+        ];
+
+        public int Count => _values.Length;
+
+        public KeyValuePair<string, object?> this[int index] => _values[index];
+
+        public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() =>
+            ((IEnumerable<KeyValuePair<string, object?>>) _values).GetEnumerator();
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() =>
+            GetEnumerator();
+
+        public override string ToString() => throw new InvalidOperationException("Cannot format scope.");
+    }
+
+    private sealed class ThrowingToStringValue
+    {
+        public override string ToString() => throw new InvalidOperationException("Cannot format value.");
     }
 
     private sealed class RecordingLogger : ILogger
