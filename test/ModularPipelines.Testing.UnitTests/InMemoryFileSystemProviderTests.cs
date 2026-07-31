@@ -238,6 +238,34 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task DeleteDirectoryRejectsOpenDescendantHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "open-delete-directory");
+        var path = Path.Combine(root, "child", "artifact.txt");
+        provider.CreateDirectory(Path.GetDirectoryName(path)!);
+        await provider.WriteAllTextAsync(path, "original");
+
+        await using (var stream = provider.Open(path, FileMode.Open, FileAccess.ReadWrite))
+        {
+            stream.SetLength(0);
+            await stream.WriteAsync(Encoding.UTF8.GetBytes("updated"));
+
+            await Assert.That(() => provider.DeleteDirectory(root, recursive: true))
+                .Throws<IOException>();
+            using (Assert.Multiple())
+            {
+                await Assert.That(provider.DirectoryExists(root)).IsTrue();
+                await Assert.That(provider.FileExists(path)).IsTrue();
+            }
+        }
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("updated");
+        provider.DeleteDirectory(root, recursive: true);
+        await Assert.That(provider.DirectoryExists(root)).IsFalse();
+    }
+
+    [Test]
     public async Task OpenHandlesRejectDirectWrites()
     {
         var provider = new InMemoryFileSystemProvider();
@@ -274,6 +302,40 @@ public class InMemoryFileSystemProviderTests
             await Assert.That(provider.DirectoryExists(source)).IsFalse();
             await Assert.That(provider.DirectoryExists(Path.Combine(destination, "child"))).IsTrue();
             await Assert.That(await provider.ReadAllTextAsync(destinationFile)).IsEqualTo("artifact");
+        }
+    }
+
+    [Test]
+    public async Task MoveDirectoryRejectsOpenDescendantHandlesAtomically()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var source = Path.Combine(provider.GetTempPath(), "open-move-directory");
+        var destination = Path.Combine(provider.GetTempPath(), "moved-directory");
+        var firstFile = Path.Combine(source, "first.txt");
+        var openFile = Path.Combine(source, "second.txt");
+        provider.CreateDirectory(source);
+        await provider.WriteAllTextAsync(firstFile, "first");
+        await provider.WriteAllTextAsync(openFile, "second");
+
+        await using (provider.Open(openFile, FileMode.Open, FileAccess.ReadWrite))
+        {
+            await Assert.That(() => provider.MoveDirectory(source, destination))
+                .Throws<IOException>();
+            using (Assert.Multiple())
+            {
+                await Assert.That(provider.DirectoryExists(source)).IsTrue();
+                await Assert.That(provider.DirectoryExists(destination)).IsFalse();
+                await Assert.That(provider.FileExists(firstFile)).IsTrue();
+                await Assert.That(provider.FileExists(openFile)).IsTrue();
+            }
+        }
+
+        provider.MoveDirectory(source, destination);
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.DirectoryExists(source)).IsFalse();
+            await Assert.That(provider.FileExists(Path.Combine(destination, "first.txt"))).IsTrue();
+            await Assert.That(provider.FileExists(Path.Combine(destination, "second.txt"))).IsTrue();
         }
     }
 

@@ -415,6 +415,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 throw new IOException($"The in-memory directory '{normalized}' is not empty.");
             }
 
+            ValidateFilesAreClosed(files);
+
             foreach (var file in files)
             {
                 _files.TryRemove(file, out _);
@@ -461,18 +463,22 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 throw new DirectoryNotFoundException(destinationParent);
             }
 
+            var descendants = GetDescendantDirectories(source).ToArray();
+            var files = GetDescendantFiles(source).ToArray();
+            ValidateFilesAreClosed(files);
+
             CreateDirectory(destination);
-            foreach (var directory in GetDescendantDirectories(source).ToArray())
+            foreach (var directory in descendants)
             {
                 CreateDirectory(ReplacePrefix(directory, source, destination));
             }
 
-            foreach (var file in GetDescendantFiles(source).ToArray())
+            foreach (var file in files)
             {
                 MoveFile(file, ReplacePrefix(file, source, destination));
             }
 
-            foreach (var directory in GetDescendantDirectories(source).Append(source).ToArray())
+            foreach (var directory in descendants.Append(source))
             {
                 _directories.TryRemove(directory, out _);
             }
@@ -516,6 +522,18 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         return lines.Length == 0
             ? string.Empty
             : string.Join(Environment.NewLine, lines) + Environment.NewLine;
+    }
+
+    private void ValidateFilesAreClosed(IEnumerable<string> files)
+    {
+        foreach (var file in files)
+        {
+            if (IsOpen(file))
+            {
+                throw new IOException(
+                    $"The in-memory file '{file}' is already open.");
+            }
+        }
     }
 
     private byte[] GetFile(string path)
