@@ -126,49 +126,71 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             var normalized = Normalize(path);
             var exists = _files.TryGetValue(normalized, out var existing);
 
-            if (mode == FileMode.Append && access != FileAccess.Write)
-            {
-                throw new ArgumentException("Append mode requires write-only access.", nameof(access));
-            }
-
-            if (mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
-                && access == FileAccess.Read)
-            {
-                throw new ArgumentException($"{mode} mode requires write access.", nameof(access));
-            }
-
-            if (mode is FileMode.Open or FileMode.Truncate && !exists)
-            {
-                throw new FileNotFoundException("The in-memory file does not exist.", normalized);
-            }
-
-            if (mode == FileMode.CreateNew && exists)
-            {
-                throw new IOException($"The in-memory file '{normalized}' already exists.");
-            }
-
-            var initial = mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
-                ? []
-                : existing ?? [];
-
-            if (mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
-                || !exists && mode is FileMode.OpenOrCreate or FileMode.Append)
+            ValidateOpenArguments(mode, access, exists, normalized);
+            var initial = GetInitialContents(mode, existing);
+            if (ShouldInitializeFile(mode, exists))
             {
                 SetFile(normalized, initial);
             }
 
-            var stream = new CommittingMemoryStream(
-                initial,
-                access != FileAccess.Read,
-                bytes => SetFile(normalized, bytes));
-
-            if (mode == FileMode.Append)
-            {
-                stream.Position = stream.Length;
-            }
-
-            return stream;
+            return CreateStream(normalized, mode, access, initial);
         }
+    }
+
+    private static void ValidateOpenArguments(
+        FileMode mode,
+        FileAccess access,
+        bool exists,
+        string normalizedPath)
+    {
+        if (mode == FileMode.Append && access != FileAccess.Write)
+        {
+            throw new ArgumentException("Append mode requires write-only access.", nameof(access));
+        }
+
+        if (mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+            && access == FileAccess.Read)
+        {
+            throw new ArgumentException($"{mode} mode requires write access.", nameof(access));
+        }
+
+        if (mode is FileMode.Open or FileMode.Truncate && !exists)
+        {
+            throw new FileNotFoundException("The in-memory file does not exist.", normalizedPath);
+        }
+
+        if (mode == FileMode.CreateNew && exists)
+        {
+            throw new IOException($"The in-memory file '{normalizedPath}' already exists.");
+        }
+    }
+
+    private static byte[] GetInitialContents(FileMode mode, byte[]? existing) =>
+        mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+            ? []
+            : existing ?? [];
+
+    private static bool ShouldInitializeFile(FileMode mode, bool exists) =>
+        mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+        || (!exists && mode is (FileMode.OpenOrCreate or FileMode.Append));
+
+    private CommittingMemoryStream CreateStream(
+        string normalizedPath,
+        FileMode mode,
+        FileAccess access,
+        byte[] initial)
+    {
+        var stream = new CommittingMemoryStream(
+            initial,
+            access != FileAccess.Read,
+            bytes => SetFile(normalizedPath, bytes));
+
+        if (mode == FileMode.Append)
+        {
+            stream.Position = stream.Length;
+        }
+
+        return stream;
     }
 
     /// <inheritdoc />
