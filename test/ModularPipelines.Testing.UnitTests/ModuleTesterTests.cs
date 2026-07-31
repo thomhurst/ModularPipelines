@@ -302,7 +302,7 @@ public class ModuleTesterTests
     }
 
     [Test]
-    public async Task ZipOutputTypeUsesVirtualFileSystem()
+    public async Task ZipOutputHandlingUsesVirtualFileSystem()
     {
         var root = Path.Combine(
             Path.GetTempPath(),
@@ -565,11 +565,22 @@ public class ModuleTesterTests
             var directoryZip = context.Files.Zip.ZipFolder(source, dottedDirectory.Path);
 
             var extensionlessFile = root.GetFile("archive");
-            await extensionlessFile.WriteAsync(Array.Empty<byte>(), cancellationToken);
-            var fileZip = context.Files.Zip.ZipFolder(source, extensionlessFile.Path);
+            await extensionlessFile.WriteAsync("existing", cancellationToken);
+            var rejectedExistingFile = false;
+            try
+            {
+                context.Files.Zip.ZipFolder(source, extensionlessFile.Path);
+            }
+            catch (IOException)
+            {
+                rejectedExistingFile = true;
+            }
+
+            var preservedExistingFile =
+                await extensionlessFile.ReadAsync(cancellationToken) == "existing";
 
             return $"{directoryZip.Folder?.Path == dottedDirectory.Path}:"
-                   + $"{fileZip.Path == extensionlessFile.Path}";
+                   + $"{rejectedExistingFile && preservedExistingFile}";
         }
     }
 

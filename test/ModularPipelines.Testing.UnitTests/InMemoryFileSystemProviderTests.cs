@@ -410,5 +410,4 @@ public class InMemoryFileSystemProviderTests
 
         await Assert.That(() => stream.Position = 0).Throws<IOException>();
     }
-
 }

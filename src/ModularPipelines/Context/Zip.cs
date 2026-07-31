@@ -89,50 +89,7 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
             using var archive = new ZipArchive(zipStream, ZipArchiveMode.Read);
             foreach (var entry in archive.Entries)
             {
-                var destinationPath = Path.GetFullPath(Path.Combine(destinationDir, entry.FullName));
-
-                // Validate against Zip Slip attack (path traversal)
-                if (!destinationPath.StartsWith(destinationDir + Path.DirectorySeparatorChar, StringComparison.Ordinal) &&
-                    !destinationPath.Equals(destinationDir, StringComparison.Ordinal))
-                {
-                    throw new InvalidOperationException($"Zip entry '{entry.FullName}' would extract outside the target directory.");
-                }
-
-                // Handle directory entries
-                if (string.IsNullOrEmpty(entry.Name))
-                {
-                    _fileSystemProvider.CreateDirectory(destinationPath);
-                    continue;
-                }
-
-                // Ensure parent directory exists
-                var parentDir = Path.GetDirectoryName(destinationPath);
-                if (!string.IsNullOrEmpty(parentDir))
-                {
-                    _fileSystemProvider.CreateDirectory(parentDir);
-                }
-
-                if (_fileSystemProvider.FileExists(destinationPath) && !overwriteFiles)
-                {
-                    throw new IOException(
-                        $"The file '{destinationPath}' already exists.");
-                }
-
-                using (var source = entry.Open())
-                using (var destination = _fileSystemProvider.Open(
-                           destinationPath,
-                           FileMode.Create,
-                           FileAccess.Write))
-                {
-                    source.CopyTo(destination);
-                }
-
-                if (_fileSystemProvider is SystemFileSystemProvider)
-                {
-                    System.IO.File.SetLastWriteTime(
-                        destinationPath,
-                        entry.LastWriteTime.LocalDateTime);
-                }
+                ExtractEntry(entry, destinationDir, overwriteFiles);
             }
         }
         catch (InvalidDataException ex)
@@ -149,6 +106,64 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
         }
 
         return new Folder(outputFolderPath, _fileSystemProvider);
+    }
+
+    private void ExtractEntry(
+        ZipArchiveEntry entry,
+        string destinationDirectory,
+        bool overwriteFiles)
+    {
+        var destinationPath = GetValidatedDestinationPath(entry, destinationDirectory);
+        if (string.IsNullOrEmpty(entry.Name))
+        {
+            _fileSystemProvider.CreateDirectory(destinationPath);
+            return;
+        }
+
+        var parentDirectory = Path.GetDirectoryName(destinationPath);
+        if (!string.IsNullOrEmpty(parentDirectory))
+        {
+            _fileSystemProvider.CreateDirectory(parentDirectory);
+        }
+
+        if (_fileSystemProvider.FileExists(destinationPath) && !overwriteFiles)
+        {
+            throw new IOException($"The file '{destinationPath}' already exists.");
+        }
+
+        using (var source = entry.Open())
+        using (var destination = _fileSystemProvider.Open(
+                   destinationPath,
+                   FileMode.Create,
+                   FileAccess.Write))
+        {
+            source.CopyTo(destination);
+        }
+
+        if (_fileSystemProvider is SystemFileSystemProvider)
+        {
+            System.IO.File.SetLastWriteTime(
+                destinationPath,
+                entry.LastWriteTime.LocalDateTime);
+        }
+    }
+
+    private static string GetValidatedDestinationPath(
+        ZipArchiveEntry entry,
+        string destinationDirectory)
+    {
+        var destinationPath = Path.GetFullPath(
+            Path.Combine(destinationDirectory, entry.FullName));
+        if (!destinationPath.StartsWith(
+                destinationDirectory + Path.DirectorySeparatorChar,
+                StringComparison.Ordinal)
+            && !destinationPath.Equals(destinationDirectory, StringComparison.Ordinal))
+        {
+            throw new InvalidOperationException(
+                $"Zip entry '{entry.FullName}' would extract outside the target directory.");
+        }
+
+        return destinationPath;
     }
 
     private static string NormalizeEntryName(string path) =>

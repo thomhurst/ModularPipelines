@@ -102,39 +102,21 @@ internal sealed class Command : ICommandContext
         {
             linkedCancellationToken.Token.ThrowIfCancellationRequested();
 
-            foreach (var interceptor in _commandInterceptors)
+            var intercepted = await TryInterceptAsync(
+                    invocation,
+                    command,
+                    options,
+                    execOpts,
+                    linkedCancellationToken.Token)
+                .ConfigureAwait(false);
+            if (intercepted is not null)
             {
-                var intercepted = await interceptor
-                    .InterceptAsync(invocation, linkedCancellationToken.Token)
-                    .ConfigureAwait(false);
-                linkedCancellationToken.Token.ThrowIfCancellationRequested();
-                if (intercepted is not null)
-                {
-                    var result = ApplyCommandMetadata(intercepted, command);
-                    LogInterceptedCommand(options, execOpts, result);
-                    if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
-                    {
-                        throw new CommandException(result);
-                    }
-
-                    return result;
-                }
+                return intercepted;
             }
 
             if (execOpts.InternalDryRun)
             {
-                _commandLogger.Log(
-                    options: options,
-                    execOpts: execOpts,
-                    inputToLog: execOpts.InputLoggingManipulator == null ? command.ToString() : execOpts.InputLoggingManipulator(command.ToString()),
-                    exitCode: 0,
-                    runTime: TimeSpan.Zero,
-                    standardOutput: "Dummy Output Response",
-                    standardError: "Dummy Error Response",
-                    commandWorkingDirPath: command.WorkingDirPath
-                );
-
-                return new CommandResult(command);
+                return ExecuteDryRun(command, options, execOpts);
             }
 
             return await Of(
@@ -152,6 +134,56 @@ internal sealed class Command : ICommandContext
         {
             throw CreateTimeoutException(execOpts, exception);
         }
+    }
+
+    private async Task<CommandResult?> TryInterceptAsync(
+        CommandInvocation invocation,
+        CliWrap.Command command,
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        CancellationToken cancellationToken)
+    {
+        foreach (var interceptor in _commandInterceptors)
+        {
+            var intercepted = await interceptor
+                .InterceptAsync(invocation, cancellationToken)
+                .ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            if (intercepted is null)
+            {
+                continue;
+            }
+
+            var result = ApplyCommandMetadata(intercepted, command);
+            LogInterceptedCommand(options, executionOptions, result);
+            if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
+            {
+                throw new CommandException(result);
+            }
+
+            return result;
+        }
+
+        return null;
+    }
+
+    private CommandResult ExecuteDryRun(
+        CliWrap.Command command,
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        var commandText = command.ToString();
+        _commandLogger.Log(
+            options: options,
+            execOpts: executionOptions,
+            inputToLog: executionOptions.InputLoggingManipulator?.Invoke(commandText) ?? commandText,
+            exitCode: 0,
+            runTime: TimeSpan.Zero,
+            standardOutput: "Dummy Output Response",
+            standardError: "Dummy Error Response",
+            commandWorkingDirPath: command.WorkingDirPath);
+
+        return new CommandResult(command);
     }
 
     private static CommandResult ApplyCommandMetadata(CommandResult result, CliWrap.Command command)
