@@ -143,6 +143,35 @@ public class PipelineLevelLoggerTests
     }
 
     [Test]
+    public async Task Log_PreservesSanitizedExceptionDiagnostics()
+    {
+        const string secret = "pipeline-secret";
+        var underlyingLogger = new RecordingLogger();
+        var innerException = new ArgumentException($"Inner: {secret}");
+        var originalException = CaptureException(
+            new InvalidOperationException($"Outer: {secret}", innerException));
+        originalException.HelpLink = $"https://example.invalid/{secret}";
+        originalException.Source = $"source-{secret}";
+        var pipelineLevelLogger = CreateLogger(
+            underlyingLogger,
+            value => value?.Replace(secret, "********", StringComparison.Ordinal) ?? string.Empty);
+
+        pipelineLevelLogger.LogError(originalException, "Failure");
+
+        var exception = underlyingLogger.Exception;
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception?.StackTrace).Contains(nameof(CaptureException));
+            await Assert.That(exception?.StackTrace).DoesNotContain(secret);
+            await Assert.That(exception?.InnerException).IsNotNull();
+            await Assert.That(exception?.InnerException?.Message).IsEqualTo("Inner: ********");
+            await Assert.That(exception?.InnerException).IsNotSameReferenceAs(innerException);
+            await Assert.That(exception?.HelpLink).IsEqualTo("https://example.invalid/********");
+            await Assert.That(exception?.Source).IsEqualTo("source-********");
+        }
+    }
+
+    [Test]
     public async Task BeginScope_ObfuscatesStateBeforeDelegating()
     {
         const string secret = "scope-secret";
@@ -187,6 +216,18 @@ public class PipelineLevelLoggerTests
             logger,
             secretObfuscator.Object,
             new FormattedLogValuesObfuscator(secretObfuscator.Object));
+    }
+
+    private static Exception CaptureException(Exception exception)
+    {
+        try
+        {
+            throw exception;
+        }
+        catch (Exception captured)
+        {
+            return captured;
+        }
     }
 
     private sealed class RecordingLogger : ILogger
