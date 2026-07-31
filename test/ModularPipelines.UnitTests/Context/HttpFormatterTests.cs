@@ -42,9 +42,10 @@ public class HttpFormatterTests
     {
         const string body = "abcdefghijklmnopqrstuvwxyz";
         var stream = new CountingReadStream(Encoding.UTF8.GetBytes(body));
+        var content = CreateTextContent(stream);
         using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test")
         {
-            Content = CreateTextContent(stream),
+            Content = content,
         };
         var formatter = CreateRequestFormatter();
 
@@ -64,6 +65,7 @@ public class HttpFormatterTests
             await Assert.That(Encoding.UTF8.GetString(firstSend.ToArray())).IsEqualTo(body);
             await Assert.That(Encoding.UTF8.GetString(secondSend.ToArray())).IsEqualTo(body);
             await Assert.That(stream.IsDisposed).IsTrue();
+            await Assert.That(content.DisposeCount).IsEqualTo(1);
         }
     }
 
@@ -179,14 +181,25 @@ public class HttpFormatterTests
         }
     }
 
-    private static StreamContent CreateTextContent(Stream stream)
+    private static CountingStreamContent CreateTextContent(Stream stream)
     {
-        var content = new StreamContent(stream);
+        var content = new CountingStreamContent(stream);
         content.Headers.ContentType = new MediaTypeHeaderValue("text/plain")
         {
             CharSet = "utf-8",
         };
         return content;
+    }
+
+    private sealed class CountingStreamContent(Stream stream) : StreamContent(stream)
+    {
+        public int DisposeCount { get; private set; }
+
+        protected override void Dispose(bool disposing)
+        {
+            DisposeCount++;
+            base.Dispose(disposing);
+        }
     }
 
     private static ISecretObfuscator CreateObfuscator(params string[] secrets)

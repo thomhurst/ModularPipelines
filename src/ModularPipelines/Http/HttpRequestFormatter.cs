@@ -163,7 +163,6 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
             .ReadReplayableAsync(content, maxBodySize, cancellationToken)
             .ConfigureAwait(false);
         request.Content = replayContent;
-        content.Dispose();
 
         if (string.IsNullOrWhiteSpace(body) && !isTruncated)
         {

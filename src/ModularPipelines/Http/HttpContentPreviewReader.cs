@@ -82,6 +82,7 @@ internal static class HttpContentPreviewReader
     /// <param name="maxBytes">The maximum number of bytes to include in the preview.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The preview, truncation state, replayable content, and total length.</returns>
+    /// <remarks>This method takes ownership of and disposes <paramref name="content"/>.</remarks>
     public static async Task<(string Preview, bool IsTruncated, HttpContent ReplayContent, long? TotalLength)>
         ReadReplayableAsync(
             HttpContent content,
