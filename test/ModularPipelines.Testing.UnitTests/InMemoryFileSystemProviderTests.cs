@@ -135,6 +135,36 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task MoveFileRejectsOpenSourceHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var source = Path.Combine(provider.GetTempPath(), "open-move-source.txt");
+        var destination = Path.Combine(provider.GetTempPath(), "open-move-destination.txt");
+        await provider.WriteAllTextAsync(source, "original");
+
+        await using (var stream = provider.Open(source, FileMode.Open, FileAccess.ReadWrite))
+        {
+            stream.SetLength(0);
+            await stream.WriteAsync(Encoding.UTF8.GetBytes("updated"));
+
+            await Assert.That(() => provider.MoveFile(source, destination))
+                .Throws<IOException>();
+            using (Assert.Multiple())
+            {
+                await Assert.That(provider.FileExists(source)).IsTrue();
+                await Assert.That(provider.FileExists(destination)).IsFalse();
+            }
+        }
+
+        provider.MoveFile(source, destination);
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.FileExists(source)).IsFalse();
+            await Assert.That(await provider.ReadAllTextAsync(destination)).IsEqualTo("updated");
+        }
+    }
+
+    [Test]
     public async Task OpenHandlesRejectDirectWrites()
     {
         var provider = new InMemoryFileSystemProvider();

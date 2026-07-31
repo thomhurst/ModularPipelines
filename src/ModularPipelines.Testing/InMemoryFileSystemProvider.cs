@@ -313,6 +313,12 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         {
             var source = Normalize(sourcePath);
             var destination = Normalize(destinationPath);
+            if (IsOpen(source))
+            {
+                throw new IOException(
+                    $"The in-memory file '{source}' is already open.");
+            }
+
             if (_files.ContainsKey(destination))
             {
                 throw new IOException($"The in-memory file '{destination}' already exists.");
