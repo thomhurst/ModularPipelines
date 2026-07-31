@@ -120,7 +120,7 @@ public class ValidationTests
     }
 
     [RunIfAll<NeverRun>]
-    private class SkippedModuleWithFluentMissingDependency : Module<string>
+    private class ExecutionSkippedModuleWithFluentMissingDependency : Module<string>
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .DependsOn<FluentMissingDependencyModule>()
@@ -315,26 +315,21 @@ public class ValidationTests
     }
 
     [Test]
-    public async Task BuildAsync_Ignores_Fluent_Dependencies_For_Discovery_Skipped_Modules()
+    public async Task BuildAsync_Rejects_Fluent_Missing_Dependency_For_Execution_Skipped_Module()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddModule<SkippedModuleWithFluentMissingDependency>();
+        builder.AddModule<ExecutionSkippedModuleWithFluentMissingDependency>();
 
-        await using var pipeline = await builder.BuildAsync();
-
-        await Assert.That(pipeline).IsNotNull();
+        await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
     }
 
     [Test]
-    public async Task ValidateAsync_Ignores_Fluent_Dependencies_For_Discovery_Skipped_Modules()
+    public async Task ValidateAsync_Rejects_Fluent_Missing_Dependency_For_Execution_Skipped_Module()
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddModule<SkippedModuleWithFluentMissingDependency>();
+        builder.AddModule<ExecutionSkippedModuleWithFluentMissingDependency>();
 
-        var result = await builder.ValidateAsync();
-
-        await Assert.That(result.Errors).DoesNotContain(error =>
-            error.Category == ValidationErrorCategory.Dependency);
+        await AssertDependencyValidationError(builder);
     }
 
     [Test]

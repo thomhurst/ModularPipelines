@@ -55,10 +55,15 @@ public class ModuleExecutionPipelineTests
             .ReturnsAsync((ModuleResult<int>?) null);
         using var engineCancellationToken =
             new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var moduleConditionHandler = new Mock<IModuleConditionHandler>();
+        moduleConditionHandler
+            .Setup(x => x.ShouldIgnore(module, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((false, null));
         var pipeline = new ModuleExecutionPipeline(
             resultRepository.Object,
             engineCancellationToken,
             directHookInvoker.Object,
+            moduleConditionHandler.Object,
             OptionsFactory.Create(new PipelineOptions()));
 
         await pipeline.ExecuteAsync(

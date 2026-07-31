@@ -92,19 +92,35 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task WithSkipWhen_RepeatedCalls_AndComposeAndShortCircuit()
+    public async Task WithSkipWhenAll_ExposesSyncAndAsyncGroups()
+    {
+        var parameterTypes = typeof(ModuleConfigurationBuilder)
+            .GetMethods()
+            .Where(method => method.Name == nameof(ModuleConfigurationBuilder.WithSkipWhenAll))
+            .Select(method => method.GetParameters().Single().ParameterType)
+            .ToArray();
+
+        await Assert.That(parameterTypes).IsEquivalentTo(
+        [
+            typeof(Func<IModuleContext, SkipDecision>[]),
+            typeof(Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>[]),
+        ]);
+    }
+
+    [Test]
+    public async Task WithSkipWhen_RepeatedCalls_OrComposeAndShortCircuit()
     {
         var evaluatedConditions = new List<string>();
         var config = ModuleConfiguration.Create()
             .WithSkipWhen(_ =>
             {
                 evaluatedConditions.Add("first");
-                return SkipDecision.DoNotSkip;
+                return SkipDecision.Skip("First reason");
             })
             .WithSkipWhen(_ =>
             {
                 evaluatedConditions.Add("second");
-                return SkipDecision.Skip("Should not be evaluated");
+                return SkipDecision.DoNotSkip;
             })
             .Build();
 
@@ -112,8 +128,26 @@ public class ModuleConfigurationTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(decision.ShouldSkip).IsFalse();
+            await Assert.That(decision.ShouldSkip).IsTrue();
+            await Assert.That(decision.Reason).IsEqualTo("First reason");
             await Assert.That(evaluatedConditions).IsEquivalentTo(["first"]);
+        }
+    }
+
+    [Test]
+    public async Task WithSkipWhen_RepeatedCalls_SkipWhenLaterConditionMatches()
+    {
+        var config = ModuleConfiguration.Create()
+            .WithSkipWhen(_ => SkipDecision.DoNotSkip)
+            .WithSkipWhen(_ => SkipDecision.Skip("Second reason"))
+            .Build();
+
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(decision.ShouldSkip).IsTrue();
+            await Assert.That(decision.Reason).IsEqualTo("Second reason");
         }
     }
 
@@ -179,11 +213,12 @@ public class ModuleConfigurationTests
     }
 
     [Test]
-    public async Task WithSkipWhen_AllConditionsSkip_CombinesReasons()
+    public async Task WithSkipWhenAll_AllConditionsSkip_CombinesReasons()
     {
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("First reason"))
-            .WithSkipWhen(_ => SkipDecision.Skip("Second reason"))
+            .WithSkipWhenAll(
+                _ => SkipDecision.Skip("First reason"),
+                _ => SkipDecision.Skip("Second reason"))
             .Build();
 
         var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
@@ -196,13 +231,73 @@ public class ModuleConfigurationTests
     }
 
     [Test]
+    public async Task WithSkipWhenAll_StopsWhenConditionDoesNotSkip()
+    {
+        var evaluatedConditions = new List<string>();
+        var config = ModuleConfiguration.Create()
+            .WithSkipWhenAll(
+                _ =>
+                {
+                    evaluatedConditions.Add("first");
+                    return SkipDecision.DoNotSkip;
+                },
+                _ =>
+                {
+                    evaluatedConditions.Add("second");
+                    return SkipDecision.Skip("Should not be evaluated");
+                })
+            .Build();
+
+        var decision = await config.SkipCondition!(Mock.Of<IModuleContext>(), CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(decision.ShouldSkip).IsFalse();
+            await Assert.That(evaluatedConditions).IsEquivalentTo(["first"]);
+        }
+    }
+
+    [Test]
+    public async Task WithSkipWhenAll_SnapshotsAsyncConditionGroups()
+    {
+        Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>[] conditions =
+        [
+            (_, _) => ValueTask.FromResult(SkipDecision.Skip("Original reason")),
+        ];
+        var config = ModuleConfiguration.Create()
+            .WithSkipWhenAll(conditions)
+            .Build();
+
+        conditions[0] = (_, _) => ValueTask.FromResult(SkipDecision.DoNotSkip);
+
+        var decision = await config.SkipCondition!(
+            Mock.Of<IModuleContext>(),
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(decision.ShouldSkip).IsTrue();
+            await Assert.That(decision.Reason).IsEqualTo("Original reason");
+        }
+    }
+
+    [Test]
+    public void WithSkipWhenAll_RejectsEmptyGroups()
+    {
+        var builder = ModuleConfiguration.Create();
+
+        Assert.Throws<ArgumentException>(() =>
+            builder.WithSkipWhenAll(Array.Empty<Func<IModuleContext, SkipDecision>>()));
+    }
+
+    [Test]
     public async Task Build_SnapshotsSkipConditions()
     {
         var builder = ModuleConfiguration.Create()
-            .WithSkipWhen(_ => SkipDecision.Skip("First reason"));
+            .WithSkipWhen(_ => SkipDecision.DoNotSkip);
         var firstConfig = builder.Build();
 
-        builder.WithSkipWhen(_ => SkipDecision.DoNotSkip);
+        builder.WithSkipWhen(_ => SkipDecision.Skip("Second reason"));
         var secondConfig = builder.Build();
 
         var context = Mock.Of<IModuleContext>();
@@ -211,8 +306,8 @@ public class ModuleConfigurationTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(firstDecision.ShouldSkip).IsTrue();
-            await Assert.That(secondDecision.ShouldSkip).IsFalse();
+            await Assert.That(firstDecision.ShouldSkip).IsFalse();
+            await Assert.That(secondDecision.ShouldSkip).IsTrue();
         }
     }
 
