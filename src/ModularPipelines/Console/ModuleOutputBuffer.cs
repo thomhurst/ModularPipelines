@@ -762,7 +762,7 @@ internal sealed class BufferedLogEvent<TState>(
     LogLevel level,
     EventId eventId,
     TState originalState,
-    object obfuscatedState,
+    object? obfuscatedState,
     Exception? exception,
     Func<TState, Exception?, string> formatter,
     ISecretObfuscator secretObfuscator) : IBufferedLogEvent
@@ -800,7 +800,7 @@ internal sealed class BufferedLogEvent<TState>(
             ? null
             : secretObfuscator.Obfuscate(exception.ToString(), null);
 
-    private string Format(object state, Exception? logException)
+    private string Format(object? state, Exception? logException)
     {
         var formatted = formatter(originalState, exception);
         return secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;

@@ -61,6 +61,26 @@ public class PipelineLevelLoggerTests
     }
 
     [Test]
+    public async Task Log_PreservesNullState()
+    {
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(underlyingLogger);
+
+        pipelineLevelLogger.Log<string?>(
+            LogLevel.Information,
+            new EventId(2, "NullState"),
+            null,
+            null,
+            static (state, _) => state ?? "null-state");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(underlyingLogger.State).IsNull();
+            await Assert.That(underlyingLogger.Message).IsEqualTo("null-state");
+        }
+    }
+
+    [Test]
     public async Task IsEnabled_DelegatesToUnderlyingLogger()
     {
         // Arrange
