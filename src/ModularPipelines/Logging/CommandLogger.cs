@@ -116,23 +116,16 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         string standardError,
         string commandWorkingDirPath)
     {
-        // Determine effective logging options
-        var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
-
-        // Silent = no logging at all
-        if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent)
-        {
-            return;
-        }
-
-        if (execOpts?.InternalDryRun == true)
-        {
-            LogDryRunCommand(effectiveOptions, commandWorkingDirPath, inputToLog);
-            return;
-        }
-
-        // Use compact logging format for cleaner output
-        LogCompact(effectiveOptions, execOpts, commandWorkingDirPath, inputToLog, exitCode, runTime, standardOutput, standardError);
+        LogCommandStart(options, execOpts, inputToLog, commandWorkingDirPath);
+        LogCommandCompletion(
+            options,
+            execOpts,
+            inputToLog,
+            exitCode,
+            runTime,
+            standardOutput,
+            standardError,
+            commandWorkingDirPath);
     }
 
     void ICommandOutputLogger.LogStandardOutputLine(
@@ -194,51 +187,6 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         Logger.LogInformation(
             isError ? "  ↳ {CommandError}" : "  ↳ {CommandOutput}",
             obfuscatedOutput);
-    }
-
-    private void LogCompact(
-        CommandLoggingOptions options,
-        CommandExecutionOptions? execOpts,
-        string workingDirectory,
-        string? input,
-        int? exitCode,
-        TimeSpan? runTime,
-        string standardOutput,
-        string standardError)
-    {
-        var isSuccess = exitCode == 0;
-        var obfuscatedInput = ShouldShowInput(options)
-            ? _secretObfuscator.Obfuscate(input, null)
-            : LoggingConstants.CommandMask;
-
-        var commandMessage = new StringBuilder();
-        commandMessage.Append(workingDirectory);
-        commandMessage.Append("> ");
-        commandMessage.Append(obfuscatedInput);
-
-        var standardOutputToLog = execOpts?.OutputLoggingManipulator is not null
-            ? execOpts.OutputLoggingManipulator(standardOutput)
-            : standardOutput;
-        var standardErrorToLog = execOpts?.OutputLoggingManipulator is not null
-            ? execOpts.OutputLoggingManipulator(standardError)
-            : standardError;
-
-        var trimmedOutput = standardOutputToLog.Trim();
-        var hasShortOutput = ShouldInlineOutput(options, trimmedOutput);
-        var hasInlineOutput = hasShortOutput && isSuccess;
-        var inlineOutput = hasInlineOutput
-            ? $" → {_secretObfuscator.Obfuscate(trimmedOutput, null)}"
-            : string.Empty;
-        var commandStatus = BuildCommandStatus(options, isSuccess, exitCode, runTime);
-
-        Logger.LogInformation(
-            "{CommandMessage}{CommandOutput}{CommandStatus}",
-            commandMessage.ToString(),
-            inlineOutput,
-            commandStatus);
-
-        LogCapturedOutput(options, trimmedOutput, hasInlineOutput);
-        LogCapturedError(options, standardErrorToLog, exitCode);
     }
 
     private static bool ShouldInlineOutput(CommandLoggingOptions options, string output)
