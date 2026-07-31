@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -5,15 +6,25 @@ namespace ModularPipelines.Caching;
 
 internal static class ModuleCacheFileResolver
 {
+    private static readonly ConcurrentDictionary<string, StringComparer> PathComparers =
+        new(StringComparer.Ordinal);
+
     public static IReadOnlyList<string> ResolveFiles(
         string workingDirectory,
         IEnumerable<string> patterns,
         int maximumFiles,
-        string? excludedDirectory = null)
+        string? excludedDirectory = null,
+        bool rejectLinkedPaths = false)
     {
+        var patternArray = patterns.ToArray();
+        if (rejectLinkedPaths)
+        {
+            RejectLinkedPaths(workingDirectory, patternArray);
+        }
+
         return ResolvePaths(
             workingDirectory,
-            patterns,
+            patternArray,
             maximumFiles,
             nameof(maximumFiles),
             "The maximum input file count must be positive.",
@@ -78,6 +89,7 @@ internal static class ModuleCacheFileResolver
         var fullPath = Path.GetFullPath(path);
         EnsureContained(root, fullPath);
         var relativePath = NormalizeSeparators(Path.GetRelativePath(root, fullPath));
+        var ignoreCase = GetPathComparer(root) == StringComparer.OrdinalIgnoreCase;
 
         foreach (var rawPattern in patterns)
         {
@@ -85,7 +97,7 @@ internal static class ModuleCacheFileResolver
             var pattern = NormalizePattern(root, rawPattern);
             if (pattern.IndexOfAny(['*', '?']) >= 0)
             {
-                if (CreateGlobRegex(pattern).IsMatch(relativePath))
+                if (CreateGlobRegex(pattern, ignoreCase).IsMatch(relativePath))
                 {
                     return true;
                 }
@@ -129,7 +141,8 @@ internal static class ModuleCacheFileResolver
             excludedRoot = null;
         }
 
-        var paths = new HashSet<string>(PathComparer);
+        var pathComparer = GetPathComparer(root);
+        var paths = new HashSet<string>(pathComparer);
         var globs = new List<Regex>();
 
         foreach (var rawPattern in patterns)
@@ -139,7 +152,9 @@ internal static class ModuleCacheFileResolver
 
             if (pattern.IndexOfAny(['*', '?']) >= 0)
             {
-                globs.Add(CreateGlobRegex(pattern));
+                globs.Add(CreateGlobRegex(
+                    pattern,
+                    pathComparer == StringComparer.OrdinalIgnoreCase));
                 continue;
             }
 
@@ -169,7 +184,7 @@ internal static class ModuleCacheFileResolver
             }
         }
 
-        return [.. paths.Order(PathComparer)];
+        return [.. paths.Order(pathComparer)];
     }
 
     private static IEnumerable<string> ResolveExactFilePattern(string path)
@@ -287,6 +302,88 @@ internal static class ModuleCacheFileResolver
         }
     }
 
+    private static void RejectLinkedPaths(string workingDirectory, IEnumerable<string> patterns)
+    {
+        var root = Path.GetFullPath(workingDirectory);
+        foreach (var rawPattern in patterns)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(rawPattern);
+            var pattern = NormalizePattern(root, rawPattern);
+            var wildcardIndex = pattern.IndexOfAny(['*', '?']);
+            var searchRoot = wildcardIndex < 0
+                ? GetContainedPath(root, pattern)
+                : GetGlobSearchRoot(root, pattern, wildcardIndex);
+            var linkedPath = GetLinkedComponent(root, searchRoot)
+                             ?? (Directory.Exists(searchRoot)
+                                 ? EnumerateLinksWithoutFollowing(searchRoot).FirstOrDefault()
+                                 : null);
+            if (linkedPath is not null)
+            {
+                throw new InvalidOperationException(
+                    $"Cache input pattern '{rawPattern}' traverses symbolic link "
+                    + $"'{GetRelativePath(root, linkedPath)}'. Symbolic-linked cache inputs "
+                    + "cannot be fingerprinted safely.");
+            }
+        }
+    }
+
+    private static string GetGlobSearchRoot(string root, string pattern, int wildcardIndex)
+    {
+        var separatorIndex = pattern.LastIndexOf('/', wildcardIndex);
+        return GetContainedPath(root, separatorIndex < 0 ? "." : pattern[..separatorIndex]);
+    }
+
+    private static string? GetLinkedComponent(string root, string path)
+    {
+        if (IsLink(root))
+        {
+            return root;
+        }
+
+        var relativePath = Path.GetRelativePath(root, path);
+        var currentPath = root;
+        foreach (var component in relativePath.Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            currentPath = Path.Combine(currentPath, component);
+            if (IsLink(currentPath))
+            {
+                return currentPath;
+            }
+        }
+
+        return null;
+    }
+
+    private static IEnumerable<string> EnumerateLinksWithoutFollowing(string root)
+    {
+        var pendingDirectories = new Stack<string>();
+        pendingDirectories.Push(root);
+
+        while (pendingDirectories.TryPop(out var directory))
+        {
+            foreach (var entry in Directory.EnumerateFileSystemEntries(directory))
+            {
+                var attributes = File.GetAttributes(entry);
+                if ((attributes & FileAttributes.ReparsePoint) != 0)
+                {
+                    yield return entry;
+                    continue;
+                }
+
+                if ((attributes & FileAttributes.Directory) != 0)
+                {
+                    pendingDirectories.Push(entry);
+                }
+            }
+        }
+    }
+
+    private static bool IsLink(string path) =>
+        new FileInfo(path).LinkTarget is not null
+        || new DirectoryInfo(path).LinkTarget is not null;
+
     private static bool IsDirectoryLink(string path)
     {
         var attributes = File.GetAttributes(path);
@@ -399,7 +496,7 @@ internal static class ModuleCacheFileResolver
                    && !Path.IsPathRooted(relative));
     }
 
-    private static Regex CreateGlobRegex(string glob)
+    private static Regex CreateGlobRegex(string glob, bool ignoreCase)
     {
         var expression = new StringBuilder("^");
         for (var index = 0; index < glob.Length; index++)
@@ -437,7 +534,7 @@ internal static class ModuleCacheFileResolver
 
         expression.Append('$');
         var options = RegexOptions.CultureInvariant | RegexOptions.Compiled;
-        if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS())
+        if (ignoreCase)
         {
             options |= RegexOptions.IgnoreCase;
         }
@@ -450,8 +547,68 @@ internal static class ModuleCacheFileResolver
 
     private static string NormalizeSeparators(string path) => path.Replace('\\', '/');
 
-    private static StringComparer PathComparer =>
-        OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
-            ? StringComparer.OrdinalIgnoreCase
-            : StringComparer.Ordinal;
+    private static StringComparer GetPathComparer(string root) =>
+        PathComparers.GetOrAdd(
+            Path.GetFullPath(root),
+            static path => IsCaseSensitiveFileSystem(path)
+                ? StringComparer.Ordinal
+                : StringComparer.OrdinalIgnoreCase);
+
+    private static bool IsCaseSensitiveFileSystem(string root)
+    {
+        for (var current = new DirectoryInfo(Path.GetFullPath(root));
+             current.Parent is not null;
+             current = current.Parent)
+        {
+            var actualName = Directory
+                .EnumerateFileSystemEntries(current.Parent.FullName)
+                .Select(Path.GetFileName)
+                .FirstOrDefault(name =>
+                    string.Equals(name, current.Name, StringComparison.OrdinalIgnoreCase));
+            if (actualName is null || !TryToggleAsciiLetter(actualName, out var alternateName))
+            {
+                continue;
+            }
+
+            var alternatePath = Path.Combine(current.Parent.FullName, alternateName);
+            if (!Directory.Exists(alternatePath))
+            {
+                return true;
+            }
+
+            var siblingNames = Directory
+                .EnumerateFileSystemEntries(current.Parent.FullName)
+                .Select(Path.GetFileName)
+                .ToHashSet(StringComparer.Ordinal);
+            return siblingNames.Contains(actualName) && siblingNames.Contains(alternateName);
+        }
+
+        return true;
+    }
+
+    private static bool TryToggleAsciiLetter(string value, out string toggled)
+    {
+        for (var index = 0; index < value.Length; index++)
+        {
+            var character = value[index];
+            if (character is >= 'a' and <= 'z')
+            {
+                toggled = value[..index]
+                          + char.ToUpperInvariant(character)
+                          + value[(index + 1)..];
+                return true;
+            }
+
+            if (character is >= 'A' and <= 'Z')
+            {
+                toggled = value[..index]
+                          + char.ToLowerInvariant(character)
+                          + value[(index + 1)..];
+                return true;
+            }
+        }
+
+        toggled = value;
+        return false;
+    }
 }

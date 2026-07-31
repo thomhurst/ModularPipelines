@@ -1150,6 +1150,83 @@ public class ModuleCacheTests
     }
 
     [Test]
+    public async Task GlobExpansionPreservesCaseDistinctFilesOnCaseSensitiveVolumes()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-case-sensitive-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+
+        try
+        {
+            var upperCaseFile = Path.Combine(temporaryDirectory, "Input.txt");
+            var lowerCaseFile = Path.Combine(temporaryDirectory, "input.txt");
+            await System.IO.File.WriteAllTextAsync(upperCaseFile, "upper");
+            await System.IO.File.WriteAllTextAsync(lowerCaseFile, "lower");
+            if (Directory.EnumerateFiles(temporaryDirectory).Count() != 2)
+            {
+                return;
+            }
+
+            var files = ModuleCacheFileResolver.ResolveFiles(
+                temporaryDirectory,
+                ["*.txt"],
+                maximumFiles: 10);
+
+            await Assert.That(files).IsEquivalentTo([upperCaseFile, lowerCaseFile]);
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task InputExpansionRejectsSymbolicLinkedPaths()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-linked-input-{Guid.NewGuid():N}");
+        var workingDirectory = Path.Combine(temporaryDirectory, "working");
+        var externalDirectory = Path.Combine(temporaryDirectory, "external");
+        Directory.CreateDirectory(workingDirectory);
+        Directory.CreateDirectory(externalDirectory);
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(externalDirectory, "input.txt"),
+                "input");
+            Directory.CreateSymbolicLink(
+                Path.Combine(workingDirectory, "linked-input"),
+                externalDirectory);
+
+            var exactException = Assert.Throws<InvalidOperationException>(() =>
+                ModuleCacheFileResolver.ResolveFiles(
+                    workingDirectory,
+                    ["linked-input"],
+                    maximumFiles: 10,
+                    rejectLinkedPaths: true));
+            var globException = Assert.Throws<InvalidOperationException>(() =>
+                ModuleCacheFileResolver.ResolveFiles(
+                    workingDirectory,
+                    ["**/*.txt"],
+                    maximumFiles: 10,
+                    rejectLinkedPaths: true));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exactException.Message).Contains("linked-input");
+                await Assert.That(globException.Message).Contains("linked-input");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task CacheRestoreClearsExactArtifactLinkAbsentFromSnapshot()
     {

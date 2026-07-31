@@ -209,7 +209,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             _options.WorkingDirectory,
             configuration.CacheInputPatterns,
             _options.MaximumInputFiles,
-            _options.CacheDirectory);
+            _options.CacheDirectory,
+            rejectLinkedPaths: true);
         var hashes = await _fileHasher.HashAsync(inputFiles, cancellationToken).ConfigureAwait(false);
 
         using var incrementalHash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
