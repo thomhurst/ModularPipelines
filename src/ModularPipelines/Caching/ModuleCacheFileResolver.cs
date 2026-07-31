@@ -174,7 +174,7 @@ internal static class ModuleCacheFileResolver
 
     private static IEnumerable<string> ResolveExactFilePattern(string path)
     {
-        if (File.Exists(path))
+        if (File.Exists(path) || new FileInfo(path).LinkTarget is not null)
         {
             return [path];
         }

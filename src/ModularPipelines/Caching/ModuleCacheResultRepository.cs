@@ -477,7 +477,9 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         using var writableArtifactParents = MakeArtifactParentsTemporarilyWritable(
             root,
             artifactPaths,
-            artifactEntries.Select(artifact => artifact.Destination));
+            artifactEntries
+                .Select(artifact => artifact.Destination)
+                .Concat(GetExactArtifactDestinations(root, artifactPaths)));
         try
         {
             ClearArtifacts(moduleType, cancellationToken);
@@ -684,9 +686,19 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         IEnumerable<string> artifactPaths,
         CancellationToken cancellationToken)
     {
-        foreach (var artifactPath in artifactPaths)
+        foreach (var destination in GetExactArtifactDestinations(root, artifactPaths))
         {
             cancellationToken.ThrowIfCancellationRequested();
+            RemoveLinkedDestinationComponents(root, destination);
+        }
+    }
+
+    private static IEnumerable<string> GetExactArtifactDestinations(
+        string root,
+        IEnumerable<string> artifactPaths)
+    {
+        foreach (var artifactPath in artifactPaths)
+        {
             ArgumentException.ThrowIfNullOrWhiteSpace(artifactPath);
             if (artifactPath.IndexOfAny(['*', '?']) >= 0)
             {
@@ -697,7 +709,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 ? Path.GetFullPath(artifactPath)
                 : Path.GetFullPath(Path.Combine(root, artifactPath));
             ModuleCacheFileResolver.GetRelativePath(root, destination);
-            RemoveLinkedDestinationComponents(root, destination);
+            yield return destination;
         }
     }
 

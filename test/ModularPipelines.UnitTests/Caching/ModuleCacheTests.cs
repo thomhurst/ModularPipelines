@@ -352,6 +352,41 @@ public class ModuleCacheTests
         }
     }
 
+    [CacheInputs("nested-optional-artifact-input.txt")]
+    [ProducesArtifact("nested-optional-artifact", "read-only-optional/optional.txt")]
+    private sealed class NestedOptionalArtifactModule : Module<string>
+    {
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            return Task.FromResult<string?>("result");
+        }
+    }
+
+    [CacheInputs("dangling-artifact-input.txt")]
+    [ProducesArtifact("dangling-artifact", "dangling-output")]
+    private sealed class DanglingSymbolicLinkArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            System.IO.File.CreateSymbolicLink(
+                Path.Combine(WorkingDirectory, "dangling-output"),
+                "missing-target");
+            return Task.FromResult<string?>("result");
+        }
+    }
+
     [ProducesArtifact("skippable-output", "skippable-output.txt")]
     private sealed class SkippableCachedModule : Module<string>
     {
@@ -1108,6 +1143,100 @@ public class ModuleCacheTests
                 await Assert.That(await System.IO.File.ReadAllTextAsync(
                         Path.Combine(externalDirectory, "sentinel.txt")))
                     .IsEqualTo("untouched");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreClearsEmptySnapshotArtifactUnderReadOnlyParent()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-empty-read-only-parent-{Guid.NewGuid():N}");
+        var artifactParent = Path.Combine(temporaryDirectory, "read-only-optional");
+        var artifactPath = Path.Combine(artifactParent, "optional.txt");
+        Directory.CreateDirectory(temporaryDirectory);
+        NestedOptionalArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "nested-optional-artifact-input.txt"),
+                "input");
+            await RunNestedOptionalArtifactPipelineAsync(temporaryDirectory);
+
+            Directory.CreateDirectory(artifactParent);
+            await System.IO.File.WriteAllTextAsync(artifactPath, "stale");
+            System.IO.File.SetUnixFileMode(
+                artifactParent,
+                UnixFileMode.UserRead | UnixFileMode.UserExecute);
+
+            var restoredStatus =
+                await RunNestedOptionalArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(NestedOptionalArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(System.IO.File.Exists(artifactPath)).IsFalse();
+                await Assert.That(System.IO.File.GetUnixFileMode(artifactParent))
+                    .IsEqualTo(UnixFileMode.UserRead | UnixFileMode.UserExecute);
+            }
+        }
+        finally
+        {
+            if (Directory.Exists(artifactParent))
+            {
+                System.IO.File.SetUnixFileMode(
+                    artifactParent,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute);
+            }
+
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestorePreservesExactDanglingSymbolicLink()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-dangling-artifact-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        DanglingSymbolicLinkArtifactModule.WorkingDirectory = temporaryDirectory;
+        DanglingSymbolicLinkArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "dangling-artifact-input.txt"),
+                "input");
+            await RunDanglingSymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            var artifactPath = Path.Combine(temporaryDirectory, "dangling-output");
+            System.IO.File.Delete(artifactPath);
+
+            var restoredStatus =
+                await RunDanglingSymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(DanglingSymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(new FileInfo(artifactPath).LinkTarget)
+                    .IsEqualTo("missing-target");
             }
         }
         finally
@@ -1888,6 +2017,44 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(OptionalArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunNestedOptionalArtifactPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<NestedOptionalArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(NestedOptionalArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunDanglingSymbolicLinkArtifactPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<DanglingSymbolicLinkArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(DanglingSymbolicLinkArtifactModule))!
             .ModuleStatus;
     }
 
