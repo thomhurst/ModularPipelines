@@ -187,9 +187,12 @@ internal class PipelineInitializer(
 
     private static bool IsSensitiveEnvironmentVariableName(string name)
     {
-        return !NonSensitiveEnvironmentVariableNames.Contains(
-                   name,
-                   StringComparer.OrdinalIgnoreCase)
+        if (name.StartsWith("GIT_CONFIG_VALUE_", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        return !NonSensitiveEnvironmentVariableNames.Contains(name, StringComparer.Ordinal)
                && (SensitiveEnvironmentVariableNames.Contains(name, StringComparer.OrdinalIgnoreCase)
                    || SensitiveEnvironmentVariableNameParts.Any(
                        part => name.Contains(part, StringComparison.OrdinalIgnoreCase))
