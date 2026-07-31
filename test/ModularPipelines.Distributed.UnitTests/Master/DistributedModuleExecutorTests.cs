@@ -33,8 +33,8 @@ public class DistributedModuleExecutorTests
             Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
             new ModuleAttributeEventService());
 
-    private static IModuleResultRegistrar NewResultRegistrar() =>
-        Mock.Of<IModuleResultRegistrar>();
+    private static ModuleResultRegistrar NewResultRegistrar(IModuleResultRegistry resultRegistry) =>
+        new ModuleResultRegistrar(resultRegistry, NullLogger<ModuleResultRegistrar>.Instance);
 
     // --- Test module types ---
 
@@ -175,6 +175,7 @@ public class DistributedModuleExecutorTests
                 return tcs.Task;
             });
         scheduler.Setup(s => s.MarkModuleStarted(It.IsAny<Type>())).Returns(true);
+        scheduler.Setup(s => s.CancelPendingModules(It.IsAny<bool>())).Returns([]);
 
         return scheduler;
     }
@@ -218,7 +219,7 @@ public class DistributedModuleExecutorTests
             typeRegistry,
             serializer,
             resultRegistry,
-            NewResultRegistrar(),
+            NewResultRegistrar(resultRegistry),
             NewDependencyRegistry(),
             NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions ?? new DistributedOptions()),
@@ -917,7 +918,7 @@ public class DistributedModuleExecutorTests
         coordinator.Setup(c => c.DequeueModuleAsync(
                 It.IsAny<IReadOnlySet<string>>(),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((ModuleAssignment?)null);
+            .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
@@ -930,7 +931,7 @@ public class DistributedModuleExecutorTests
 
         await executor.ExecuteAsync([module])
             .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
-        var moduleResult = await ((IModule)module).ResultTask
+        var moduleResult = await ((IModule) module).ResultTask
             .WaitAsync(TimeSpan.FromSeconds(1), testCancellation);
 
         await Assert.That(moduleResult).IsNotNull();
@@ -963,7 +964,7 @@ public class DistributedModuleExecutorTests
         coordinator.Setup(c => c.DequeueModuleAsync(
                 It.IsAny<IReadOnlySet<string>>(),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((ModuleAssignment?)null);
+            .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
@@ -975,7 +976,7 @@ public class DistributedModuleExecutorTests
 
         await executor.ExecuteAsync([module])
             .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
-        var moduleResult = await ((IModule)module).ResultTask
+        var moduleResult = await ((IModule) module).ResultTask
             .WaitAsync(TimeSpan.FromSeconds(1), testCancellation);
 
         await Assert.That(moduleResult).IsNotNull();
@@ -1009,7 +1010,7 @@ public class DistributedModuleExecutorTests
         coordinator.Setup(c => c.DequeueModuleAsync(
                 It.IsAny<IReadOnlySet<string>>(),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((ModuleAssignment?)null);
+            .ReturnsAsync((ModuleAssignment?) null);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
@@ -1021,7 +1022,7 @@ public class DistributedModuleExecutorTests
 
         await executor.ExecuteAsync([module])
             .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
-        var moduleResult = await ((IModule)module).ResultTask
+        var moduleResult = await ((IModule) module).ResultTask
             .WaitAsync(TimeSpan.FromSeconds(1), testCancellation);
 
         await Assert.That(moduleResult.ExceptionOrDefault)
@@ -1110,7 +1111,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, NewResultRegistrar(), NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -1158,7 +1159,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             noDequeue, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, NewResultRegistrar(), NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -1254,7 +1255,7 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
-            resultRegistry, NewResultRegistrar(), NewDependencyRegistry(), NewMetadataRegistry(),
+            resultRegistry, NewResultRegistrar(resultRegistry), NewDependencyRegistry(), NewMetadataRegistry(),
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
