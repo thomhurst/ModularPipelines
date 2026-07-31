@@ -1538,16 +1538,22 @@ Modules are strongly typed, so we can return clear, concrete objects, and other 
 // Get a module's result
 var myModule = await context.GetModule<MyFirstModule>();
 
-// Access the value using pattern matching (recommended)
-if (myModule is ModuleResult<MyFirstModuleResult>.Success { Value: var result })
+// Access a required dependency value directly.
+// This throws with module context if it failed, was skipped, or returned null.
+var requiredValue = myModule.Value;
+var firstString = requiredValue.MyFirstString;
+var secondString = requiredValue.MySecondString;
+
+// Or use pattern matching when every outcome needs different handling
+if (myModule is ModuleResult<MyFirstModuleResult>.Success { Value: var successfulValue })
 {
-    var string1 = result.MyFirstString;
-    var string2 = result.MySecondString;
+    Console.WriteLine(successfulValue.MyFirstString);
+    Console.WriteLine(successfulValue.MySecondString);
 }
 
-// Or use ValueOrDefault for simpler access
-var string1 = myModule.ValueOrDefault?.MyFirstString;
-var string2 = myModule.ValueOrDefault?.MySecondString;
+// ValueOrDefault remains available when missing data is expected
+var optionalFirstString = myModule.ValueOrDefault?.MyFirstString;
+var optionalSecondString = myModule.ValueOrDefault?.MySecondString;
 ```
 
 ## Custom Types
@@ -3826,8 +3832,9 @@ public class DeployModule : Module<DeployResult>
         // Get the build module's result
         var buildResult = await context.GetModule<BuildModule>();
 
-        // Access the value safely
-        var artifact = buildResult.ValueOrDefault?.ArtifactPath;
+        // Access the required dependency value. This throws with module context
+        // if the module failed, was skipped, or returned null.
+        var artifact = buildResult.Value.ArtifactPath;
 
         return await Deploy(artifact);
     }
@@ -3868,9 +3875,20 @@ return result.Match(
 );
 ```
 
+## Accessing Required Values
+
+Use `Value` when the dependency must have produced a non-null value. It returns `T`
+without a null-forgiveness operator. If the module failed, was skipped, or returned
+`null`, it throws an `InvalidOperationException` that identifies the module and outcome:
+
+```csharp
+var result = await context.GetModule<MyModule>();
+var value = result.Value;
+```
+
 ## Safe Accessors
 
-For simpler checks, inspect the union through its safe accessors:
+When an absent value is expected, inspect the union through its non-throwing accessors:
 
 ```csharp
 var result = await context.GetModule<MyModule>();
