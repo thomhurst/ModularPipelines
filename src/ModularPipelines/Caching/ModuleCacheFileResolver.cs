@@ -42,6 +42,25 @@ internal static class ModuleCacheFileResolver
             maximum => $"Cache artifact expansion exceeded the configured limit of {maximum:N0} directories.");
     }
 
+    public static IReadOnlyList<string> ResolveDirectoryLinks(
+        string workingDirectory,
+        IEnumerable<string> patterns,
+        int maximumLinks,
+        string? excludedDirectory = null)
+    {
+        return ResolvePaths(
+            workingDirectory,
+            patterns,
+            maximumLinks,
+            nameof(maximumLinks),
+            "The maximum directory link count must be positive.",
+            excludedDirectory,
+            ResolveExactDirectoryLinkPattern,
+            EnumerateDirectoryLinksWithoutFollowing,
+            maximum => $"Cache artifact expansion exceeded the configured limit of {maximum:N0} directory links.",
+            allowFinalLinkedComponent: true);
+    }
+
     public static string GetRelativePath(string workingDirectory, string path)
     {
         var root = Path.GetFullPath(workingDirectory);
@@ -59,7 +78,8 @@ internal static class ModuleCacheFileResolver
         string? excludedDirectory,
         Func<string, IEnumerable<string>> resolveExactPattern,
         Func<string, IEnumerable<string>> enumeratePaths,
-        Func<int, string> expansionLimitMessage)
+        Func<int, string> expansionLimitMessage,
+        bool allowFinalLinkedComponent = false)
     {
         if (maximumPaths <= 0)
         {
@@ -90,7 +110,7 @@ internal static class ModuleCacheFileResolver
             }
 
             var path = GetContainedPath(root, pattern);
-            if (HasLinkedDirectoryComponent(root, path))
+            if (HasLinkedDirectoryComponent(root, path, allowFinalLinkedComponent))
             {
                 continue;
             }
@@ -135,6 +155,18 @@ internal static class ModuleCacheFileResolver
         return Directory.Exists(path)
             ? EnumerateDirectoryAndDescendants(path)
             : [];
+    }
+
+    private static IEnumerable<string> ResolveExactDirectoryLinkPattern(string path)
+    {
+        if (!Directory.Exists(path))
+        {
+            return [];
+        }
+
+        return IsDirectoryLink(path)
+            ? [path]
+            : EnumerateDirectoryLinksWithoutFollowing(path);
     }
 
     private static IEnumerable<string> EnumerateDirectoryAndDescendants(string root)
@@ -185,6 +217,32 @@ internal static class ModuleCacheFileResolver
         }
     }
 
+    private static IEnumerable<string> EnumerateDirectoryLinksWithoutFollowing(string root)
+    {
+        var pendingDirectories = new Stack<string>();
+        pendingDirectories.Push(root);
+
+        while (pendingDirectories.TryPop(out var directory))
+        {
+            foreach (var entry in Directory.EnumerateFileSystemEntries(directory))
+            {
+                var attributes = File.GetAttributes(entry);
+                if ((attributes & FileAttributes.Directory) == 0)
+                {
+                    continue;
+                }
+
+                if ((attributes & FileAttributes.ReparsePoint) != 0)
+                {
+                    yield return entry;
+                    continue;
+                }
+
+                pendingDirectories.Push(entry);
+            }
+        }
+    }
+
     private static bool IsDirectoryLink(string path)
     {
         var attributes = File.GetAttributes(path);
@@ -192,17 +250,23 @@ internal static class ModuleCacheFileResolver
                == (FileAttributes.Directory | FileAttributes.ReparsePoint);
     }
 
-    private static bool HasLinkedDirectoryComponent(string root, string path)
+    private static bool HasLinkedDirectoryComponent(
+        string root,
+        string path,
+        bool allowFinalLinkedComponent)
     {
         var relativePath = Path.GetRelativePath(root, path);
         var currentPath = root;
+        var components = relativePath.Split(
+            [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+            StringSplitOptions.RemoveEmptyEntries);
 
-        foreach (var component in relativePath.Split(
-                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
-                     StringSplitOptions.RemoveEmptyEntries))
+        for (var index = 0; index < components.Length; index++)
         {
-            currentPath = Path.Combine(currentPath, component);
-            if (Directory.Exists(currentPath) && IsDirectoryLink(currentPath))
+            currentPath = Path.Combine(currentPath, components[index]);
+            if (Directory.Exists(currentPath)
+                && IsDirectoryLink(currentPath)
+                && (!allowFinalLinkedComponent || index < components.Length - 1))
             {
                 return true;
             }

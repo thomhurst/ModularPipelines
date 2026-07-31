@@ -348,6 +348,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             artifactPaths,
             _options.MaximumInputFiles,
             _options.CacheDirectory);
+        var directoryLinks = ModuleCacheFileResolver.ResolveDirectoryLinks(
+            _options.WorkingDirectory,
+            artifactPaths,
+            _options.MaximumInputFiles,
+            _options.CacheDirectory);
         var files = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
             artifactPaths,
@@ -367,6 +372,28 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                         (UnixFileTypeDirectory | (int) File.GetUnixFileMode(directory)) << 16;
                 }
             }
+        }
+
+        foreach (var directoryLink in directoryLinks)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var linkTarget = new DirectoryInfo(directoryLink).LinkTarget;
+            if (linkTarget is null)
+            {
+                continue;
+            }
+
+            var relativePath = ModuleCacheFileResolver.GetRelativePath(
+                _options.WorkingDirectory,
+                directoryLink);
+            var entry = archive.CreateEntry($"{ArtifactPrefix}{relativePath}");
+            entry.ExternalAttributes =
+                (UnixFileTypeSymbolicLink << 16) | (int) FileAttributes.Directory;
+            await using var linkOutput = entry.Open();
+            await linkOutput.WriteAsync(
+                    Encoding.UTF8.GetBytes(linkTarget),
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
 
         foreach (var file in files)
@@ -418,7 +445,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 Entry: entry,
                 Destination: GetArtifactDestination(root, entry),
                 IsDirectory: entry.FullName.EndsWith('/'),
-                IsSymbolicLink: IsUnixSymbolicLink(entry)))
+                IsSymbolicLink: IsUnixSymbolicLink(entry),
+                IsDirectorySymbolicLink: IsDirectorySymbolicLink(entry)))
             .ToArray();
 
         ClearArtifacts(moduleType, cancellationToken);
@@ -431,7 +459,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             RemoveLinkedDestinationComponents(root, destination);
         }
 
-        foreach (var (_, destination, isDirectory, _) in artifactEntries)
+        foreach (var (_, destination, isDirectory, _, _) in artifactEntries)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (isDirectory)
@@ -440,7 +468,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             }
         }
 
-        foreach (var (entry, destination, isDirectory, isSymbolicLink) in artifactEntries)
+        foreach (var (entry, destination, isDirectory, isSymbolicLink, _) in artifactEntries)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (isDirectory || isSymbolicLink)
@@ -464,14 +492,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             RestoreUnixMode(entry, destination, UnixFileTypeRegular);
         }
 
-        foreach (var (entry, destination, _, _) in artifactEntries
-                     .Where(artifact => artifact.IsDirectory)
-                     .OrderByDescending(artifact => artifact.Destination.Length))
-        {
-            RestoreUnixMode(entry, destination, UnixFileTypeDirectory);
-        }
-
-        foreach (var (entry, destination, _, _) in artifactEntries
+        foreach (var (entry, destination, _, _, isDirectorySymbolicLink) in artifactEntries
                      .Where(artifact => artifact.IsSymbolicLink))
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -484,13 +505,30 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 bufferSize: 1024,
                 leaveOpen: false);
             var linkTarget = await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
-            File.CreateSymbolicLink(destination, linkTarget);
+            if (isDirectorySymbolicLink)
+            {
+                Directory.CreateSymbolicLink(destination, linkTarget);
+            }
+            else
+            {
+                File.CreateSymbolicLink(destination, linkTarget);
+            }
+        }
+
+        foreach (var (entry, destination, _, _, _) in artifactEntries
+                     .Where(artifact => artifact.IsDirectory)
+                     .OrderByDescending(artifact => artifact.Destination.Length))
+        {
+            RestoreUnixMode(entry, destination, UnixFileTypeDirectory);
         }
     }
 
     private void ClearArtifacts(Type moduleType, CancellationToken cancellationToken)
     {
         var artifactPaths = GetArtifactPaths(moduleType).ToArray();
+        var root = Path.GetFullPath(_options.WorkingDirectory);
+        RemoveExactArtifactLinks(root, artifactPaths, cancellationToken);
+
         var directories = ModuleCacheFileResolver.ResolveDirectories(
             _options.WorkingDirectory,
             artifactPaths,
@@ -508,7 +546,6 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             File.Delete(file);
         }
 
-        var root = Path.GetFullPath(_options.WorkingDirectory);
         foreach (var directory in directories.OrderByDescending(path => path.Length))
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -518,6 +555,28 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             {
                 Directory.Delete(directory);
             }
+        }
+    }
+
+    private static void RemoveExactArtifactLinks(
+        string root,
+        IEnumerable<string> artifactPaths,
+        CancellationToken cancellationToken)
+    {
+        foreach (var artifactPath in artifactPaths)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ArgumentException.ThrowIfNullOrWhiteSpace(artifactPath);
+            if (artifactPath.IndexOfAny(['*', '?']) >= 0)
+            {
+                continue;
+            }
+
+            var destination = Path.IsPathRooted(artifactPath)
+                ? Path.GetFullPath(artifactPath)
+                : Path.GetFullPath(Path.Combine(root, artifactPath));
+            ModuleCacheFileResolver.GetRelativePath(root, destination);
+            RemoveLinkedDestinationComponents(root, destination);
         }
     }
 
@@ -567,6 +626,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             return false;
         }
     }
+
+    private static bool IsDirectorySymbolicLink(ZipArchiveEntry entry) =>
+        IsUnixSymbolicLink(entry)
+        && (entry.ExternalAttributes & (int) FileAttributes.Directory) != 0;
 
     private static IEnumerable<string> GetArtifactPaths(Type moduleType) =>
         moduleType

@@ -241,6 +241,58 @@ public class ModuleCacheTests
         }
     }
 
+    [CacheInputs("directory-symlink-input.txt")]
+    [ProducesArtifact("directory-symlink-artifacts", "directory-symlink-artifacts")]
+    private sealed class DirectorySymbolicLinkArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            var artifactDirectory = Directory.CreateDirectory(
+                Path.Combine(WorkingDirectory, "directory-symlink-artifacts"));
+            var versionDirectory = Directory.CreateDirectory(
+                Path.Combine(artifactDirectory.FullName, "version-2"));
+            System.IO.File.WriteAllText(
+                Path.Combine(versionDirectory.FullName, "payload.txt"),
+                "version two");
+            Directory.CreateSymbolicLink(
+                Path.Combine(artifactDirectory.FullName, "current"),
+                "version-2");
+            if (!OperatingSystem.IsWindows())
+            {
+                System.IO.File.SetUnixFileMode(
+                    artifactDirectory.FullName,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserExecute
+                    | UnixFileMode.GroupRead
+                    | UnixFileMode.GroupExecute);
+            }
+
+            return Task.FromResult<string?>("result");
+        }
+    }
+
+    [CacheInputs("optional-artifact-input.txt")]
+    [ProducesArtifact("optional-artifact", "optional-artifact")]
+    private sealed class OptionalArtifactModule : Module<string>
+    {
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            return Task.FromResult<string?>("result");
+        }
+    }
+
     [ProducesArtifact("skippable-output", "skippable-output.txt")]
     private sealed class SkippableCachedModule : Module<string>
     {
@@ -605,12 +657,18 @@ public class ModuleCacheTests
                 workingDirectory,
                 ["artifacts"],
                 maximumDirectories: 10);
+            var directoryLinks = ModuleCacheFileResolver.ResolveDirectoryLinks(
+                workingDirectory,
+                ["artifacts"],
+                maximumLinks: 10);
 
             using (Assert.Multiple())
             {
                 await Assert.That(files).IsEquivalentTo(new[] { localFile });
                 await Assert.That(exactLinkedFile).IsEmpty();
                 await Assert.That(directories).IsEquivalentTo(new[] { artifactDirectory });
+                await Assert.That(directoryLinks).IsEquivalentTo(
+                    new[] { Path.Combine(artifactDirectory, "external-link") });
             }
         }
         finally
@@ -959,6 +1017,48 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreClearsExactArtifactLinkAbsentFromSnapshot()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-absent-artifact-link-{Guid.NewGuid():N}");
+        var externalDirectory = Path.Combine(temporaryDirectory, "external");
+        Directory.CreateDirectory(temporaryDirectory);
+        Directory.CreateDirectory(externalDirectory);
+        OptionalArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "optional-artifact-input.txt"),
+                "input");
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(externalDirectory, "sentinel.txt"),
+                "untouched");
+            await RunOptionalArtifactPipelineAsync(temporaryDirectory);
+
+            var artifactPath = Path.Combine(temporaryDirectory, "optional-artifact");
+            Directory.CreateSymbolicLink(artifactPath, externalDirectory);
+            var restoredStatus = await RunOptionalArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(OptionalArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(Directory.Exists(artifactPath)).IsFalse();
+                await Assert.That(await System.IO.File.ReadAllTextAsync(
+                        Path.Combine(externalDirectory, "sentinel.txt")))
+                    .IsEqualTo("untouched");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task CacheRestorePreservesUnixExecutableMode()
     {
         if (OperatingSystem.IsWindows())
@@ -1042,6 +1142,74 @@ public class ModuleCacheTests
         }
         finally
         {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreCreatesDirectoryLinksBeforeReadOnlyDirectoryModes()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-directory-symlink-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        DirectorySymbolicLinkArtifactModule.WorkingDirectory = temporaryDirectory;
+        DirectorySymbolicLinkArtifactModule.ExecutionCount = 0;
+        var artifactDirectory = Path.Combine(
+            temporaryDirectory,
+            "directory-symlink-artifacts");
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "directory-symlink-input.txt"),
+                "input");
+            await RunDirectorySymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            System.IO.File.SetUnixFileMode(
+                artifactDirectory,
+                UnixFileMode.UserRead
+                | UnixFileMode.UserWrite
+                | UnixFileMode.UserExecute);
+            Directory.Delete(artifactDirectory, recursive: true);
+
+            var restoredStatus =
+                await RunDirectorySymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            var directoryLink = new DirectoryInfo(
+                Path.Combine(artifactDirectory, "current"));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(DirectorySymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(directoryLink.LinkTarget).IsEqualTo("version-2");
+                await Assert.That(await System.IO.File.ReadAllTextAsync(
+                        Path.Combine(directoryLink.FullName, "payload.txt")))
+                    .IsEqualTo("version two");
+                await Assert.That(System.IO.File.GetUnixFileMode(artifactDirectory))
+                    .IsEqualTo(
+                        UnixFileMode.UserRead
+                        | UnixFileMode.UserExecute
+                        | UnixFileMode.GroupRead
+                        | UnixFileMode.GroupExecute);
+            }
+        }
+        finally
+        {
+            if (Directory.Exists(artifactDirectory))
+            {
+                System.IO.File.SetUnixFileMode(
+                    artifactDirectory,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute);
+            }
+
             Directory.Delete(temporaryDirectory, recursive: true);
         }
     }
@@ -1246,6 +1414,43 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(SymbolicLinkArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunDirectorySymbolicLinkArtifactPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<DirectorySymbolicLinkArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(DirectorySymbolicLinkArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunOptionalArtifactPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<OptionalArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(OptionalArtifactModule))!
             .ModuleStatus;
     }
 
