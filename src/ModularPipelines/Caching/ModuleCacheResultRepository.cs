@@ -592,6 +592,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var parentDirectories = new HashSet<string>(PathComparer);
         foreach (var destination in destinations)
         {
+            if (PathComparer.Equals(destination, root))
+            {
+                continue;
+            }
+
             for (var current = Path.GetDirectoryName(destination);
                  current is not null;
                  current = Path.GetDirectoryName(current))

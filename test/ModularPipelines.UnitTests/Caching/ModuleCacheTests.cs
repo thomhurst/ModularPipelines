@@ -387,6 +387,46 @@ public class ModuleCacheTests
         }
     }
 
+    [CacheInputs("working-directory-input.txt")]
+    [ProducesArtifact("working-directory", ".")]
+    private sealed class WorkingDirectoryArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            System.IO.File.WriteAllText(
+                Path.Combine(WorkingDirectory, "root-artifact.txt"),
+                "artifact");
+            return Task.FromResult<string?>("result");
+        }
+    }
+
+    [CacheInputs("dangling-directory-link-input.txt")]
+    [ProducesArtifact("dangling-directory-link", "dangling-directory-link")]
+    private sealed class DanglingDirectorySymbolicLinkArtifactModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            Directory.CreateSymbolicLink(
+                Path.Combine(WorkingDirectory, "dangling-directory-link"),
+                "missing-directory");
+            return Task.FromResult<string?>("result");
+        }
+    }
+
     [ProducesArtifact("skippable-output", "skippable-output.txt")]
     private sealed class SkippableCachedModule : Module<string>
     {
@@ -685,9 +725,9 @@ public class ModuleCacheTests
     }
 
     [Test]
-    public async Task GlobExpansionIsCaseInsensitiveOnWindows()
+    public async Task GlobExpansionIsCaseInsensitiveOnDefaultDesktopFileSystems()
     {
-        if (!OperatingSystem.IsWindows())
+        if (!OperatingSystem.IsWindows() && !OperatingSystem.IsMacOS())
         {
             return;
         }
@@ -1237,6 +1277,79 @@ public class ModuleCacheTests
                 await Assert.That(DanglingSymbolicLinkArtifactModule.ExecutionCount).IsEqualTo(1);
                 await Assert.That(new FileInfo(artifactPath).LinkTarget)
                     .IsEqualTo("missing-target");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreSupportsWorkingDirectoryArtifact()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-working-directory-artifact-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        WorkingDirectoryArtifactModule.WorkingDirectory = temporaryDirectory;
+        WorkingDirectoryArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "working-directory-input.txt"),
+                "input");
+            await RunWorkingDirectoryArtifactPipelineAsync(temporaryDirectory);
+            var restoredStatus =
+                await RunWorkingDirectoryArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(WorkingDirectoryArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(await System.IO.File.ReadAllTextAsync(
+                        Path.Combine(temporaryDirectory, "root-artifact.txt")))
+                    .IsEqualTo("artifact");
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestorePreservesExactDanglingDirectorySymbolicLink()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-dangling-directory-artifact-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        DanglingDirectorySymbolicLinkArtifactModule.WorkingDirectory = temporaryDirectory;
+        DanglingDirectorySymbolicLinkArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "dangling-directory-link-input.txt"),
+                "input");
+            await RunDanglingDirectorySymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            var artifactPath = Path.Combine(temporaryDirectory, "dangling-directory-link");
+            Directory.Delete(artifactPath);
+
+            var restoredStatus =
+                await RunDanglingDirectorySymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(DanglingDirectorySymbolicLinkArtifactModule.ExecutionCount)
+                    .IsEqualTo(1);
+                await Assert.That(new DirectoryInfo(artifactPath).LinkTarget)
+                    .IsEqualTo("missing-directory");
             }
         }
         finally
@@ -2055,6 +2168,44 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(DanglingSymbolicLinkArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunWorkingDirectoryArtifactPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<WorkingDirectoryArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(WorkingDirectoryArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunDanglingDirectorySymbolicLinkArtifactPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<DanglingDirectorySymbolicLinkArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(DanglingDirectorySymbolicLinkArtifactModule))!
             .ModuleStatus;
     }
 

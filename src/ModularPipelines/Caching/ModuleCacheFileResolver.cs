@@ -174,6 +174,11 @@ internal static class ModuleCacheFileResolver
 
     private static IEnumerable<string> ResolveExactFilePattern(string path)
     {
+        if (new DirectoryInfo(path).LinkTarget is not null)
+        {
+            return [];
+        }
+
         if (File.Exists(path) || new FileInfo(path).LinkTarget is not null)
         {
             return [path];
@@ -193,6 +198,11 @@ internal static class ModuleCacheFileResolver
 
     private static IEnumerable<string> ResolveExactDirectoryLinkPattern(string path)
     {
+        if (new DirectoryInfo(path).LinkTarget is not null)
+        {
+            return [path];
+        }
+
         if (!Directory.Exists(path))
         {
             return [];
@@ -427,7 +437,7 @@ internal static class ModuleCacheFileResolver
 
         expression.Append('$');
         var options = RegexOptions.CultureInvariant | RegexOptions.Compiled;
-        if (OperatingSystem.IsWindows())
+        if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS())
         {
             options |= RegexOptions.IgnoreCase;
         }
@@ -441,5 +451,7 @@ internal static class ModuleCacheFileResolver
     private static string NormalizeSeparators(string path) => path.Replace('\\', '/');
 
     private static StringComparer PathComparer =>
-        OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+        OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+            ? StringComparer.OrdinalIgnoreCase
+            : StringComparer.Ordinal;
 }
