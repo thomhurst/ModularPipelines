@@ -50,6 +50,31 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task ReadAllTextDetectsByteOrderMarks()
+    {
+        Encoding[] encodings =
+        [
+            new UTF8Encoding(encoderShouldEmitUTF8Identifier: true),
+            Encoding.Unicode,
+            Encoding.BigEndianUnicode,
+            new UTF32Encoding(bigEndian: false, byteOrderMark: true),
+            new UTF32Encoding(bigEndian: true, byteOrderMark: true),
+        ];
+
+        var provider = new InMemoryFileSystemProvider();
+        foreach (var encoding in encodings)
+        {
+            var path = Path.Combine(provider.GetTempPath(), $"{encoding.CodePage}.txt");
+            var contents = encoding.GetPreamble()
+                .Concat(encoding.GetBytes("contents"))
+                .ToArray();
+            await provider.WriteAllBytesAsync(path, contents);
+
+            await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("contents");
+        }
+    }
+
+    [Test]
     public async Task DeleteFileRejectsDirectoryPaths()
     {
         var provider = new InMemoryFileSystemProvider();
@@ -188,6 +213,28 @@ public class InMemoryFileSystemProviderTests
             await Assert.That(provider.FileExists(source)).IsFalse();
             await Assert.That(await provider.ReadAllTextAsync(destination)).IsEqualTo("updated");
         }
+    }
+
+    [Test]
+    public async Task DeleteFileRejectsOpenWritableHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "open-delete.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        await using (var stream = provider.Open(path, FileMode.Open, FileAccess.ReadWrite))
+        {
+            stream.SetLength(0);
+            await stream.WriteAsync(Encoding.UTF8.GetBytes("updated"));
+
+            await Assert.That(() => provider.DeleteFile(path)).Throws<IOException>();
+            await Assert.That(provider.FileExists(path)).IsTrue();
+        }
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("updated");
+
+        provider.DeleteFile(path);
+        await Assert.That(provider.FileExists(path)).IsFalse();
     }
 
     [Test]

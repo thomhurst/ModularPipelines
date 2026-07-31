@@ -45,7 +45,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromResult(Encoding.UTF8.GetString(GetFile(path)));
+        return Task.FromResult(DecodeText(GetFile(path)));
     }
 
     /// <inheritdoc />
@@ -233,6 +233,16 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
         || (!exists && mode is (FileMode.OpenOrCreate or FileMode.Append));
 
+    private static string DecodeText(byte[] contents)
+    {
+        using var stream = new MemoryStream(contents, writable: false);
+        using var reader = new StreamReader(
+            stream,
+            Encoding.UTF8,
+            detectEncodingFromByteOrderMarks: true);
+        return reader.ReadToEnd();
+    }
+
     private CommittingMemoryStream CreateStream(
         string normalizedPath,
         FileMode mode,
@@ -289,6 +299,12 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             {
                 throw new UnauthorizedAccessException(
                     $"The in-memory path '{normalized}' is a directory.");
+            }
+
+            if (IsOpen(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
             }
 
             _files.TryRemove(normalized, out _);
