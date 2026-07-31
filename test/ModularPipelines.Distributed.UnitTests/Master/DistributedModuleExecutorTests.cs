@@ -944,6 +944,54 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    [Timeout(5_000)]
+    public async Task Publish_Failure_Completes_Module_Result(
+        CancellationToken testCancellation)
+    {
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        scheduler.Setup(s => s.CancelPendingModules(false))
+            .Returns([]);
+
+        var publishException = new InvalidOperationException("Broker unavailable");
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(c => c.EnqueueModuleAsync(
+                It.IsAny<ModuleAssignment>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(publishException);
+        coordinator.Setup(c => c.DequeueModuleAsync(
+                It.IsAny<IReadOnlySet<string>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleAssignment?)null);
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object);
+
+        await executor.ExecuteAsync([module])
+            .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
+        var moduleResult = await ((IModule)module).ResultTask
+            .WaitAsync(TimeSpan.FromSeconds(1), testCancellation);
+
+        await Assert.That(moduleResult).IsNotNull();
+        await Assert.That(moduleResult!.ExceptionOrDefault)
+            .IsSameReferenceAs(publishException);
+        await Assert.That(resultRegistry.GetResult(typeof(DistributedModule)))
+            .IsSameReferenceAs(moduleResult);
+        coordinator.Verify(
+            c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            Times.Never());
+        scheduler.Verify(
+            s => s.MarkModuleCompleted(typeof(DistributedModule), false, publishException, null),
+            Times.Once());
+    }
+
+    [Test]
     public async Task Distributed_Module_Failure_Marks_Scheduler_With_Success_False()
     {
         // Arrange

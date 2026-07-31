@@ -111,13 +111,13 @@ internal class DistributedModuleExecutor(
                         continue;
                     }
 
-                    var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts);
+                    var collectTask = PublishAndCollectDistributedResultAsync(
+                        assignment,
+                        moduleState.Module,
+                        moduleType,
+                        scheduler,
+                        cts);
                     resultTasks.Add(collectTask);
-
-                    // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
-                    // Modules with [MatrixTarget] will run once, not N times.
-                    _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
-                    await _publisher.PublishAsync(assignment, cts.Token);
                 }
             }
             catch (OperationCanceledException)
@@ -406,12 +406,21 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task CollectDistributedResultAsync(IModule module, Type moduleType, IModuleScheduler scheduler, CancellationTokenSource cts)
+    private async Task PublishAndCollectDistributedResultAsync(
+        ModuleAssignment assignment,
+        IModule module,
+        Type moduleType,
+        IModuleScheduler scheduler,
+        CancellationTokenSource cts)
     {
         using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
 
         try
         {
+            // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
+            // Modules with [MatrixTarget] will run once, not N times.
+            _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
+            await _publisher.PublishAsync(assignment, cts.Token);
             await CollectResultAsync(module, moduleType, scheduler, cts, timeoutCts?.Token ?? cts.Token);
         }
         catch (OperationCanceledException) when (!cts.IsCancellationRequested)
@@ -430,7 +439,7 @@ internal class DistributedModuleExecutor(
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to collect result for distributed module {Module}", moduleType.Name);
+            _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
             RegisterFailureResult(module, moduleType, ex);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             await cts.CancelAsync();
