@@ -211,7 +211,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             _options.MaximumInputFiles,
             _options.CacheDirectory,
             rejectLinkedPaths: true);
-        var hashes = await _fileHasher.HashAsync(inputFiles, cancellationToken).ConfigureAwait(false);
+        var hashes = await _fileHasher.HashAsync(
+                inputFiles,
+                _options.WorkingDirectory,
+                cancellationToken)
+            .ConfigureAwait(false);
 
         using var incrementalHash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         AppendModuleFingerprintData(
@@ -364,14 +368,14 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         {
             cancellationToken.ThrowIfCancellationRequested();
             var relativePath = ModuleCacheFileResolver.GetRelativePath(_options.WorkingDirectory, directory);
-            if (relativePath != ".")
+            var entry = archive.CreateEntry(
+                relativePath == "."
+                    ? ArtifactPrefix
+                    : $"{ArtifactPrefix}{relativePath.TrimEnd('/')}/");
+            if (!OperatingSystem.IsWindows())
             {
-                var entry = archive.CreateEntry($"{ArtifactPrefix}{relativePath.TrimEnd('/')}/");
-                if (!OperatingSystem.IsWindows())
-                {
-                    entry.ExternalAttributes =
-                        (UnixFileTypeDirectory | (int) File.GetUnixFileMode(directory)) << 16;
-                }
+                entry.ExternalAttributes =
+                    (UnixFileTypeDirectory | (int) File.GetUnixFileMode(directory)) << 16;
             }
         }
 
@@ -590,8 +594,19 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 _options.MaximumInputFiles,
                 _options.CacheDirectory)
             .ToHashSet(PathComparer);
+        var existingArtifactDestinations = artifactDirectories
+            .Concat(ModuleCacheFileResolver.ResolveDirectoryLinks(
+                root,
+                artifactPaths,
+                _options.MaximumInputFiles,
+                _options.CacheDirectory))
+            .Concat(ModuleCacheFileResolver.ResolveFiles(
+                root,
+                artifactPaths,
+                _options.MaximumInputFiles,
+                _options.CacheDirectory));
         var parentDirectories = new HashSet<string>(PathComparer);
-        foreach (var destination in destinations)
+        foreach (var destination in destinations.Concat(existingArtifactDestinations))
         {
             if (PathComparer.Equals(destination, root))
             {

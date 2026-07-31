@@ -403,6 +403,18 @@ public class ModuleCacheTests
             System.IO.File.WriteAllText(
                 Path.Combine(WorkingDirectory, "root-artifact.txt"),
                 "artifact");
+            if (!OperatingSystem.IsWindows())
+            {
+                System.IO.File.SetUnixFileMode(
+                    WorkingDirectory,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserExecute
+                    | UnixFileMode.GroupRead
+                    | UnixFileMode.GroupExecute
+                    | UnixFileMode.OtherRead
+                    | UnixFileMode.OtherExecute);
+            }
+
             return Task.FromResult<string?>("result");
         }
     }
@@ -622,11 +634,17 @@ public class ModuleCacheTests
             await System.IO.File.WriteAllTextAsync(path, "first");
             var timestamp = System.IO.File.GetLastWriteTimeUtc(path);
             var hasher = new ModuleCacheFileHasher(OptionsFactory.Create(new ModuleCacheOptions()));
-            var firstHash = (await hasher.HashAsync([path], CancellationToken.None))[path];
+            var firstHash = (await hasher.HashAsync(
+                [path],
+                temporaryDirectory,
+                CancellationToken.None))[path];
 
             await System.IO.File.WriteAllTextAsync(path, "other");
             System.IO.File.SetLastWriteTimeUtc(path, timestamp);
-            var secondHash = (await hasher.HashAsync([path], CancellationToken.None))[path];
+            var secondHash = (await hasher.HashAsync(
+                [path],
+                temporaryDirectory,
+                CancellationToken.None))[path];
 
             await Assert.That(secondHash).IsNotEqualTo(firstHash);
         }
@@ -1151,7 +1169,7 @@ public class ModuleCacheTests
     }
 
     [Test]
-    public async Task GlobExpansionPreservesCaseDistinctFilesOnCaseSensitiveVolumes()
+    public async Task GlobExpansionAndHashingPreserveCaseDistinctFiles()
     {
         var temporaryDirectory = Path.Combine(
             Path.GetTempPath(),
@@ -1173,8 +1191,20 @@ public class ModuleCacheTests
                 temporaryDirectory,
                 ["*.txt"],
                 maximumFiles: 10);
+            var hasher = new ModuleCacheFileHasher(
+                OptionsFactory.Create(new ModuleCacheOptions()));
+            var hashes = await hasher.HashAsync(
+                files,
+                temporaryDirectory,
+                CancellationToken.None);
 
-            await Assert.That(files).IsEquivalentTo([upperCaseFile, lowerCaseFile]);
+            using (Assert.Multiple())
+            {
+                await Assert.That(files).IsEquivalentTo([upperCaseFile, lowerCaseFile]);
+                await Assert.That(hashes).Count().IsEqualTo(2);
+                await Assert.That(hashes[upperCaseFile])
+                    .IsNotEqualTo(hashes[lowerCaseFile]);
+            }
         }
         finally
         {
@@ -1390,10 +1420,30 @@ public class ModuleCacheTests
                 await Assert.That(await System.IO.File.ReadAllTextAsync(
                         Path.Combine(temporaryDirectory, "root-artifact.txt")))
                     .IsEqualTo("artifact");
+                if (!OperatingSystem.IsWindows())
+                {
+                    await Assert.That(System.IO.File.GetUnixFileMode(temporaryDirectory))
+                        .IsEqualTo(
+                            UnixFileMode.UserRead
+                            | UnixFileMode.UserExecute
+                            | UnixFileMode.GroupRead
+                            | UnixFileMode.GroupExecute
+                            | UnixFileMode.OtherRead
+                            | UnixFileMode.OtherExecute);
+                }
             }
         }
         finally
         {
+            if (!OperatingSystem.IsWindows() && Directory.Exists(temporaryDirectory))
+            {
+                System.IO.File.SetUnixFileMode(
+                    temporaryDirectory,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute);
+            }
+
             Directory.Delete(temporaryDirectory, recursive: true);
         }
     }
@@ -1475,6 +1525,74 @@ public class ModuleCacheTests
         }
         finally
         {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreClearsGlobMatchedFileUnderReadOnlyParent()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-glob-read-only-{Guid.NewGuid():N}");
+        var artifactDirectory = Path.Combine(temporaryDirectory, "glob-links");
+        var staleFile = Path.Combine(artifactDirectory, "stale.txt");
+        Directory.CreateDirectory(temporaryDirectory);
+        GlobOptionalArtifactModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "glob-link-input.txt"),
+                "input");
+            await RunGlobOptionalArtifactPipelineAsync(temporaryDirectory);
+
+            Directory.CreateDirectory(artifactDirectory);
+            await System.IO.File.WriteAllTextAsync(staleFile, "stale");
+            System.IO.File.SetUnixFileMode(
+                artifactDirectory,
+                UnixFileMode.UserRead
+                | UnixFileMode.UserExecute
+                | UnixFileMode.GroupRead
+                | UnixFileMode.GroupExecute
+                | UnixFileMode.OtherRead
+                | UnixFileMode.OtherExecute);
+
+            var restoredStatus =
+                await RunGlobOptionalArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(GlobOptionalArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(System.IO.File.Exists(staleFile)).IsFalse();
+                await Assert.That(System.IO.File.GetUnixFileMode(artifactDirectory))
+                    .IsEqualTo(
+                        UnixFileMode.UserRead
+                        | UnixFileMode.UserExecute
+                        | UnixFileMode.GroupRead
+                        | UnixFileMode.GroupExecute
+                        | UnixFileMode.OtherRead
+                        | UnixFileMode.OtherExecute);
+            }
+        }
+        finally
+        {
+            if (Directory.Exists(artifactDirectory))
+            {
+                System.IO.File.SetUnixFileMode(
+                    artifactDirectory,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute);
+            }
+
             Directory.Delete(temporaryDirectory, recursive: true);
         }
     }

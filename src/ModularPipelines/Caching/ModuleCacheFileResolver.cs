@@ -115,6 +115,13 @@ internal static class ModuleCacheFileResolver
         return false;
     }
 
+    internal static StringComparer GetPathComparer(string root) =>
+        PathComparers.GetOrAdd(
+            Path.GetFullPath(root),
+            static path => IsCaseSensitiveFileSystem(path)
+                ? StringComparer.Ordinal
+                : StringComparer.OrdinalIgnoreCase);
+
     private static string[] ResolvePaths(
         string workingDirectory,
         IEnumerable<string> patterns,
@@ -546,13 +553,6 @@ internal static class ModuleCacheFileResolver
     }
 
     private static string NormalizeSeparators(string path) => path.Replace('\\', '/');
-
-    private static StringComparer GetPathComparer(string root) =>
-        PathComparers.GetOrAdd(
-            Path.GetFullPath(root),
-            static path => IsCaseSensitiveFileSystem(path)
-                ? StringComparer.Ordinal
-                : StringComparer.OrdinalIgnoreCase);
 
     private static bool IsCaseSensitiveFileSystem(string root)
     {

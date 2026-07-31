@@ -15,9 +15,11 @@ internal sealed class ModuleCacheFileHasher
 
     public async Task<IReadOnlyDictionary<string, string>> HashAsync(
         IReadOnlyList<string> paths,
+        string workingDirectory,
         CancellationToken cancellationToken)
     {
-        var hashes = new ConcurrentDictionary<string, string>(GetPathComparer());
+        var hashes = new ConcurrentDictionary<string, string>(
+            ModuleCacheFileResolver.GetPathComparer(workingDirectory));
 
         await Parallel.ForEachAsync(
             paths,
@@ -56,7 +58,4 @@ internal sealed class ModuleCacheFileHasher
         var hash = await SHA256.HashDataAsync(stream, cancellationToken).ConfigureAwait(false);
         return Convert.ToHexString(hash);
     }
-
-    private static StringComparer GetPathComparer() =>
-        OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
 }
