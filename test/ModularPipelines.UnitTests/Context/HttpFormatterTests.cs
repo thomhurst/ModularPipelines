@@ -38,6 +38,24 @@ public class HttpFormatterTests
     }
 
     [Test]
+    public async Task ResponseFormatter_DoesNotAllocateEntireLargePreviewLimit()
+    {
+        var stream = new CountingReadStream([]);
+        using var response = new HttpResponseMessage
+        {
+            Content = CreateTextContent(stream),
+        };
+        var formatter = CreateResponseFormatter();
+
+        await formatter.FormatAsync(response, new HttpLoggingOptions
+        {
+            MaxBodySizeToLog = 64 * 1024 * 1024,
+        });
+
+        await Assert.That(stream.MaximumRequestedReadSize).IsLessThanOrEqualTo(81920);
+    }
+
+    [Test]
     public async Task RequestFormatter_PreservesBodyForRepeatedSends()
     {
         const string body = "abcdefghijklmnopqrstuvwxyz";
@@ -245,12 +263,15 @@ public class HttpFormatterTests
     {
         public int BytesRead { get; private set; }
 
+        public int MaximumRequestedReadSize { get; private set; }
+
         public bool IsDisposed { get; private set; }
 
         public override async ValueTask<int> ReadAsync(
             Memory<byte> buffer,
             CancellationToken cancellationToken = default)
         {
+            MaximumRequestedReadSize = Math.Max(MaximumRequestedReadSize, buffer.Length);
             var read = await base.ReadAsync(buffer, cancellationToken);
             BytesRead += read;
             return read;

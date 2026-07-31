@@ -44,7 +44,10 @@ internal class Downloader : IDownloaderContext
                 throw new IOException($"{filePathToSave} already exists and overwrite is false");
             }
 
-            var temporaryPath = filePathToSave + "." + _fileSystemProvider.GetRandomFileName() + ".download";
+            var destinationDirectory = Path.GetDirectoryName(filePathToSave);
+            var temporaryPath = Path.Combine(
+                destinationDirectory ?? string.Empty,
+                _fileSystemProvider.GetRandomFileName());
             try
             {
                 var newFile = _fileSystemProvider.Create(temporaryPath);

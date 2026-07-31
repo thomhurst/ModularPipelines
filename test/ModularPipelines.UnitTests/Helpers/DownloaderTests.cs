@@ -57,6 +57,9 @@ public class DownloaderTests : TestBase
         fileSystemProvider
             .Setup(x => x.Create(It.IsAny<string>()))
             .Returns(() => new MemoryStream());
+        fileSystemProvider
+            .Setup(x => x.GetRandomFileName())
+            .Returns("random.tmp");
         var downloader = CreateDownloader(content, fileSystemProvider.Object);
 
         await downloader.DownloadFileAsync(new DownloadFileOptions(
@@ -66,6 +69,36 @@ public class DownloaderTests : TestBase
         });
 
         await Assert.That(content.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task DownloadFileAsync_UsesBoundedSiblingTemporaryName()
+    {
+        var destination = Path.Combine(
+            "downloads",
+            new string('x', 240) + ".bin");
+        var expectedTemporaryPath = Path.Combine("downloads", "random.tmp");
+        var fileSystemProvider = new Mock<IFileSystemProvider>();
+        fileSystemProvider
+            .Setup(x => x.GetRandomFileName())
+            .Returns("random.tmp");
+        fileSystemProvider
+            .Setup(x => x.Create(expectedTemporaryPath))
+            .Returns(() => new MemoryStream());
+        var downloader = CreateDownloader(
+            new StringContent("download"),
+            fileSystemProvider.Object);
+
+        await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/download"))
+        {
+            SavePath = destination,
+        });
+
+        fileSystemProvider.Verify(x => x.Create(expectedTemporaryPath), Times.Once());
+        fileSystemProvider.Verify(
+            x => x.MoveFile(expectedTemporaryPath, destination, true),
+            Times.Once());
     }
 
     [Test]

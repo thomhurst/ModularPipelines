@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Text;
 
 namespace ModularPipelines.Http;
@@ -7,6 +8,8 @@ namespace ModularPipelines.Http;
 /// </summary>
 internal static class HttpContentPreviewReader
 {
+    private const int MaximumPreviewBufferSize = 81920;
+
     /// <summary>
     /// Reads at most one byte beyond the configured preview limit.
     /// </summary>
@@ -37,23 +40,29 @@ internal static class HttpContentPreviewReader
         using var cancellationRegistration = cancellationToken.Register(
             static state => ((Stream) state!).Dispose(),
             stream);
-        var buffer = new byte[maxBytes + 1];
-        var bytesRead = 0;
+        var probeLength = maxBytes + 1;
+        var readBuffer = ArrayPool<byte>.Shared.Rent(
+            Math.Min(probeLength, MaximumPreviewBufferSize));
+        using var buffer = new MemoryStream(GetInitialCapacity(content, probeLength));
 
         try
         {
-            while (bytesRead < buffer.Length)
+            while (buffer.Length < probeLength)
             {
+                var bytesRemaining = probeLength - (int) buffer.Length;
                 var read = await stream.ReadAsync(
-                        buffer.AsMemory(bytesRead, buffer.Length - bytesRead),
+                        readBuffer.AsMemory(
+                            0,
+                            Math.Min(MaximumPreviewBufferSize, bytesRemaining)),
                         cancellationToken)
                     .ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
                 if (read == 0)
                 {
                     break;
                 }
 
-                bytesRead += read;
+                buffer.Write(readBuffer, 0, read);
             }
         }
         catch (Exception exception)
@@ -65,12 +74,18 @@ internal static class HttpContentPreviewReader
                 exception,
                 cancellationToken);
         }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(readBuffer);
+        }
 
+        var bufferedBytes = buffer.ToArray();
+        var bytesRead = bufferedBytes.Length;
         var isTruncated = bytesRead > maxBytes;
         var previewLength = Math.Min(bytesRead, maxBytes);
         var encoding = GetEncoding(content);
-        var preview = DecodeCompletePrefix(encoding, buffer, previewLength);
-        var replayContent = CreateReplayContent(content, stream, buffer.AsSpan(0, bytesRead).ToArray());
+        var preview = DecodeCompletePrefix(encoding, bufferedBytes, previewLength);
+        var replayContent = CreateReplayContent(content, stream, bufferedBytes);
 
         return (preview, isTruncated, replayContent, content.Headers.ContentLength);
     }
@@ -131,6 +146,14 @@ internal static class HttpContentPreviewReader
                 exception,
                 cancellationToken);
         }
+    }
+
+    private static int GetInitialCapacity(HttpContent content, int probeLength)
+    {
+        var declaredLength = content.Headers.ContentLength;
+        return declaredLength is >= 0
+            ? (int) Math.Min(Math.Min(declaredLength.Value, probeLength), MaximumPreviewBufferSize)
+            : Math.Min(probeLength, MaximumPreviewBufferSize);
     }
 
     private static Encoding GetEncoding(HttpContent content)

@@ -247,6 +247,70 @@ public class HttpTests : TestBase
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task SendAsync_DoesNotTreatCancellationAsSuccessfulEndOfStream(
+        bool useBufferedCopy)
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream(
+            ignoreAsyncCancellation: true,
+            returnEofWhenDisposed: true);
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(contentStream)));
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerProvider>(),
+            Mock.Of<IHttpLogger>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+        using var response = await http.SendAsync(new HttpOptions(
+            new HttpRequestMessage(HttpMethod.Get, "https://example.test/cancelled-eof"))
+        {
+            HttpClient = httpClient,
+            LoggingType = HttpLoggingType.None,
+            Timeout = timeout,
+        });
+
+        Task readTask;
+        if (useBufferedCopy)
+        {
+            readTask = response.Content.ReadAsStringAsync();
+        }
+        else
+        {
+            var stream = await response.Content.ReadAsStreamAsync();
+            readTask = stream.ReadAsync(new byte[1]).AsTask();
+        }
+
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            async () => await readTask.WaitAsync(TimeSpan.FromSeconds(1)));
+    }
+
+    [Test]
+    public async Task SendAsync_CancelsLegacyResponseLogger()
+    {
+        var timeout = TimeSpan.FromMilliseconds(100);
+        var contentStream = new BlockingReadStream(ignoreAsyncCancellation: true);
+        using var httpClient = new HttpClient(
+            new ImmediateResponseHandler(new StreamContent(contentStream)));
+        var http = new ModularPipelines.Http.Http(
+            Mock.Of<IHttpClientFactory>(),
+            Mock.Of<IModuleLoggerProvider>(),
+            new LegacyResponseBodyLogger(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()));
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () =>
+            await http.SendAsync(new HttpOptions(
+                    new HttpRequestMessage(HttpMethod.Get, "https://example.test/legacy-logger"))
+                {
+                    HttpClient = httpClient,
+                    LoggingType = HttpLoggingType.Response,
+                    Timeout = timeout,
+                })
+                .WaitAsync(TimeSpan.FromSeconds(1)));
+    }
+
+    [Test]
     [Arguments(true, true)]
     [Arguments(true, false)]
     [Arguments(false, true)]
@@ -763,7 +827,8 @@ public class HttpTests : TestBase
 
     private sealed class BlockingReadStream(
         bool throwIOExceptionWhenDisposed = false,
-        bool ignoreAsyncCancellation = false) : Stream
+        bool ignoreAsyncCancellation = false,
+        bool returnEofWhenDisposed = false) : Stream
     {
         private readonly TaskCompletionSource _release =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -816,7 +881,10 @@ public class HttpTests : TestBase
             if (ignoreAsyncCancellation)
             {
                 await _release.Task;
-                ThrowIfDisposed();
+                if (!returnEofWhenDisposed)
+                {
+                    ThrowIfDisposed();
+                }
             }
             else
             {
@@ -867,6 +935,43 @@ public class HttpTests : TestBase
                     ? new IOException("The stream was interrupted.")
                     : new ObjectDisposedException(nameof(BlockingReadStream));
             }
+        }
+    }
+
+    private sealed class LegacyResponseBodyLogger : IHttpLogger
+    {
+        public Task PrintRequest(HttpRequestMessage request, IModuleLogger logger)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task PrintRequest(
+            HttpRequestMessage request,
+            IModuleLogger logger,
+            HttpLoggingOptions options)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task PrintResponse(HttpResponseMessage response, IModuleLogger logger)
+        {
+            return response.Content.ReadAsStringAsync();
+        }
+
+        public Task PrintResponse(
+            HttpResponseMessage response,
+            IModuleLogger logger,
+            HttpLoggingOptions options)
+        {
+            return response.Content.ReadAsStringAsync();
+        }
+
+        public void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
+        {
+        }
+
+        public void PrintDuration(TimeSpan duration, IModuleLogger logger)
+        {
         }
     }
 

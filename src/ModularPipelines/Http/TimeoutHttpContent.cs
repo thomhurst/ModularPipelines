@@ -110,6 +110,7 @@ internal sealed class TimeoutHttpContent : HttpContent
         try
         {
             await source.CopyToAsync(destination, effectiveCancellationToken).ConfigureAwait(false);
+            effectiveCancellationToken.ThrowIfCancellationRequested();
         }
         catch (Exception exception)
             when (effectiveCancellationToken.IsCancellationRequested
@@ -216,10 +217,12 @@ internal sealed class TimeoutHttpContent : HttpContent
                 innerStream);
             try
             {
-                return await innerStream.ReadAsync(
+                var bytesRead = await innerStream.ReadAsync(
                         buffer,
                         effectiveCancellationToken)
                     .ConfigureAwait(false);
+                effectiveCancellationToken.ThrowIfCancellationRequested();
+                return bytesRead;
             }
             catch (Exception exception)
                 when (effectiveCancellationToken.IsCancellationRequested &&
