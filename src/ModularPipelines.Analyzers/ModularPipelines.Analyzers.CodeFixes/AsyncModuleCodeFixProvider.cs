@@ -64,9 +64,16 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         // Cache the semantic model to avoid duplicate async calls
         var semanticModel = await context.Document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
+        if (methodDeclarationSyntax.ExpressionBody is { Expression: var expression })
+        {
+            editor.ReplaceNode(
+                expression,
+                RewriteReturnExpression(expression, semanticModel));
+        }
+
         foreach (var returnStatement in GetReturnStatements(methodDeclarationSyntax))
         {
-            var expressionSyntax = returnStatement.ChildNodes().OfType<ExpressionSyntax>().FirstOrDefault();
+            var expressionSyntax = returnStatement.Expression;
 
             // Skip return statements without expressions (e.g., bare "return;")
             if (expressionSyntax is null)
@@ -74,30 +81,9 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
                 continue;
             }
 
-            if (IsTaskFromResult(expressionSyntax, semanticModel))
-            {
-                var argumentList = expressionSyntax.ChildNodes().OfType<ArgumentListSyntax>().FirstOrDefault();
-                var firstArgument = argumentList?.Arguments.FirstOrDefault();
-                var firstInnerExpression = firstArgument?.Expression;
-
-                // Skip if we can't find the inner expression to unwrap
-                if (firstInnerExpression is null)
-                {
-                    continue;
-                }
-
-                var newReturnStatement = returnStatement.ReplaceNode(expressionSyntax, firstInnerExpression);
-
-                editor.ReplaceNode(returnStatement, newReturnStatement);
-
-                continue;
-            }
-
-            var awaitExpressionSyntax = SyntaxFactory.AwaitExpression(expressionSyntax).NormalizeWhitespace();
-
-            var awaitedReturnStatement = returnStatement.ReplaceNode(expressionSyntax, awaitExpressionSyntax);
-
-            editor.ReplaceNode(returnStatement, awaitedReturnStatement);
+            editor.ReplaceNode(
+                expressionSyntax,
+                RewriteReturnExpression(expressionSyntax, semanticModel));
         }
 
         return editor.GetChangedDocument();
@@ -106,35 +92,67 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
     private static ReturnStatementSyntax[] GetReturnStatements(MethodDeclarationSyntax newMethodDeclarationSyntax)
     {
         return newMethodDeclarationSyntax.Body
-                   ?.DescendantNodes()
+                   ?.DescendantNodes(ShouldDescendInto)
                    .OfType<ReturnStatementSyntax>()
                    .Reverse()
                    .ToArray()
                ?? Array.Empty<ReturnStatementSyntax>();
     }
 
-    private static bool IsTaskFromResult(ExpressionSyntax expressionSyntax, SemanticModel? semanticModel)
+    private static bool ShouldDescendInto(SyntaxNode node) =>
+        node is not AnonymousFunctionExpressionSyntax
+            and not LocalFunctionStatementSyntax;
+
+    private static ExpressionSyntax RewriteReturnExpression(
+        ExpressionSyntax expression,
+        SemanticModel? semanticModel)
     {
-        if (expressionSyntax is not InvocationExpressionSyntax invocationExpressionSyntax)
+        if (IsTargetTypedReturnExpression(expression))
         {
-            return false;
+            return expression;
         }
 
-        if (semanticModel is null)
+        if (expression is InvocationExpressionSyntax invocation
+            && semanticModel?.GetSymbolInfo(invocation).Symbol is IMethodSymbol
+            {
+                Name: AnalyzerConstants.MethodNames.FromResult,
+                ContainingType.Name: AnalyzerConstants.TypeNames.Task,
+            } method
+            && method.ContainingNamespace.ToDisplayString()
+            == AnalyzerConstants.Namespaces.SystemThreadingTasks
+            && invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is { } innerExpression)
         {
-            return false;
+            return innerExpression;
         }
 
-        var symbol = semanticModel.GetSymbolInfo(invocationExpressionSyntax).Symbol;
-
-        if (symbol is not IMethodSymbol methodSymbol)
+        var awaitOperand = expression.WithoutTrivia();
+        var parsedAwaitExpression = SyntaxFactory.ParseExpression($"await {awaitOperand}");
+        if (parsedAwaitExpression is not AwaitExpressionSyntax
+            || parsedAwaitExpression.ContainsDiagnostics)
         {
-            return false;
+            awaitOperand = SyntaxFactory.ParenthesizedExpression(awaitOperand);
         }
 
-        return
-            methodSymbol.Name == AnalyzerConstants.MethodNames.FromResult
-            && methodSymbol.ContainingType.Name == AnalyzerConstants.TypeNames.Task
-            && methodSymbol.ContainingNamespace.ToDisplayString() == AnalyzerConstants.Namespaces.SystemThreadingTasks;
+        return SyntaxFactory
+            .AwaitExpression(awaitOperand)
+            .WithTriviaFrom(expression);
+    }
+
+    private static bool IsTargetTypedReturnExpression(ExpressionSyntax expression)
+    {
+        return expression switch
+        {
+            ThrowExpressionSyntax => true,
+            ParenthesizedExpressionSyntax parenthesized =>
+                IsTargetTypedReturnExpression(parenthesized.Expression),
+            ConditionalExpressionSyntax conditional =>
+                IsTargetTypedReturnExpression(conditional.WhenTrue)
+                && IsTargetTypedReturnExpression(conditional.WhenFalse),
+            SwitchExpressionSyntax switchExpression =>
+                switchExpression.Arms.All(arm =>
+                    IsTargetTypedReturnExpression(arm.Expression)),
+            _ => expression.IsKind(SyntaxKind.NullLiteralExpression)
+                 || expression.IsKind(SyntaxKind.DefaultLiteralExpression),
+        };
     }
 }
