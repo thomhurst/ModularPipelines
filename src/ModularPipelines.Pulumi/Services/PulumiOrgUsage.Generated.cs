@@ -32,6 +32,21 @@ public class PulumiOrgUsage
     #region Commands
 
     /// <summary>
+    /// [EXPERIMENTAL] Inspect organization resource usage.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PulumiOrgUsageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiOrgUsageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// [EXPERIMENTAL] Fetch the resources-under-management summary for an organization.
     /// </summary>
     /// <param name="options">The command options.</param>

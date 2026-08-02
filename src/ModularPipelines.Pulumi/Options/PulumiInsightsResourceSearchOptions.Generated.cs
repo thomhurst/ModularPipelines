@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Pulumi.Options;
+using ModularPipelines.Pulumi.Enums;
 
 namespace ModularPipelines.Pulumi.Options;
 
@@ -77,14 +78,14 @@ public record PulumiInsightsResourceSearchOptions : PulumiOptions
     /// <summary>
     /// Search query in Pulumi query syntax
     /// </summary>
-    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
-    public string? Query { get; set; }
+    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Query { get; set; }
 
     /// <summary>
     /// Field(s) to sort results by; repeat or comma-separate for multiple. Allowed values: category, created, custom, delete, dependencies, id, managed, modified, module, name, package, parentUrn, project, protected, providerUrn, stack, type, urn
     /// </summary>
     [CliOption("--sort", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Sort { get; set; }
+    public IEnumerable<PulumiInsightsResourceSearchSort>? Sort { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -141,7 +142,7 @@ public record PulumiInsightsResourceSearchOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

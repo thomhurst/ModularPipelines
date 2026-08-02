@@ -18,7 +18,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "clone")]
-public record PulumiEnvCloneOptions : PulumiOptions
+public record PulumiEnvCloneOptions(
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string DestEnvironmentName
+) : PulumiOptions
 {
     /// <summary>
     /// help for clone
@@ -111,7 +113,7 @@ public record PulumiEnvCloneOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
@@ -133,5 +135,11 @@ public record PulumiEnvCloneOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The [&lt;org-name&gt; Or ]&lt;src-project-name&gt; Or &lt;src-environment-name&gt; operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? OrgNameOrSrcProjectNameOrSrcEnvironmentName { get; set; }
 
 }

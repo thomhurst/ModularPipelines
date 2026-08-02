@@ -53,7 +53,7 @@ public record PulumiImportOptions : PulumiOptions
     /// <summary>
     /// Generate resource declaration code for the imported resources (default true)
     /// </summary>
-    [CliFlag("--generate-code")]
+    [CliOption("--generate-code", Format = OptionFormat.EqualsSeparated)]
     public bool? GenerateCode { get; set; }
 
     /// <summary>
@@ -113,7 +113,7 @@ public record PulumiImportOptions : PulumiOptions
     /// <summary>
     /// Allow resources to be imported with protection from deletion enabled (default true)
     /// </summary>
-    [CliFlag("--protect")]
+    [CliOption("--protect", Format = OptionFormat.EqualsSeparated)]
     public bool? Protect { get; set; }
 
     /// <summary>
@@ -149,7 +149,7 @@ public record PulumiImportOptions : PulumiOptions
     /// <summary>
     /// Suppress display of the state permalink
     /// </summary>
-    [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? SuppressPermalink { get; set; }
 
     /// <summary>
@@ -225,7 +225,7 @@ public record PulumiImportOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
@@ -247,5 +247,11 @@ public record PulumiImportOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The [arg] operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public IEnumerable<string>? Arg { get; set; }
 
 }

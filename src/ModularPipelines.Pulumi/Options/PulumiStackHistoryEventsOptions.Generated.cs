@@ -18,7 +18,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "history", "events")]
-public record PulumiStackHistoryEventsOptions : PulumiOptions
+public record PulumiStackHistoryEventsOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string UpdateId
+) : PulumiOptions
 {
     /// <summary>
     /// Return every event for the update
@@ -61,6 +63,12 @@ public record PulumiStackHistoryEventsOptions : PulumiOptions
     /// </summary>
     [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Stack { get; set; }
+
+    /// <summary>
+    /// Reduce the update's events to a single summary document with error diagnostics; implies --all
+    /// </summary>
+    [CliFlag("--summary")]
+    public bool? Summary { get; set; }
 
     /// <summary>
     /// Filter by resource URN
@@ -123,7 +131,7 @@ public record PulumiStackHistoryEventsOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

@@ -13,48 +13,47 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Deletes one or more resources from a stack's state
+/// [EXPERIMENTAL] Add an Azure OIDC login provider to an environment
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("state", "delete")]
-public record PulumiStateDeleteOptions : PulumiOptions
+[CliSubCommand("env", "provider", "azure-login", "oidc")]
+public record PulumiEnvProviderAzureLoginOidcOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string TenantId,
+    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string SubscriptionId,
+    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string ClientId
+) : PulumiOptions
 {
     /// <summary>
-    /// Delete all resources in the stack
+    /// create the environment if it does not already exist
     /// </summary>
-    [CliFlag("--all")]
-    public bool? All { get; set; }
+    [CliFlag("--create")]
+    public bool? Create { get; set; }
 
     /// <summary>
-    /// Force deletion of protected resources
+    /// set flag without a value (--draft) to create a draft rather than saving changes directly. --draft=&lt;change-request-id&gt; to update an existing change request.
     /// </summary>
-    [CliFlag("--force")]
-    public bool? Force { get; set; }
+    [CliOption("--draft", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
+    public string? Draft { get; set; }
 
     /// <summary>
-    /// help for delete
+    /// help for oidc
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// The name of the stack to operate on. Defaults to the current stack
+    /// property path under values where the provider block is written (default "azure.login")
     /// </summary>
-    [CliOption("--stack", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Stack { get; set; }
+    [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
+    public string? Path { get; set; }
 
     /// <summary>
-    /// Delete the URN and all its dependents
+    /// OIDC subject attribute to include in the federated token (repeatable)
     /// </summary>
-    [CliFlag("--target-dependents")]
-    public bool? TargetDependents { get; set; }
-
-    /// <summary>
-    /// Skip confirmation prompts
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
+    [CliOption("--subject-attribute", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? SubjectAttribute { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -79,6 +78,12 @@ public record PulumiStateDeleteOptions : PulumiOptions
     /// </summary>
     [CliFlag("--emoji", ShortForm = "-e")]
     public bool? Emoji { get; set; }
+
+    /// <summary>
+    /// The name of the environment to operate on.
+    /// </summary>
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
+    public string? Env { get; set; }
 
     /// <summary>
     /// Show fully-qualified stack names
@@ -111,7 +116,7 @@ public record PulumiStateDeleteOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

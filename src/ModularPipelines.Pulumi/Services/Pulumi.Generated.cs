@@ -31,6 +31,7 @@ internal partial class Pulumi : IPulumi
         IPulumiEnv env,
         IPulumiInsights insights,
         IPulumiLogs logs,
+        IPulumiNeo neo,
         IPulumiOrg org,
         IPulumiPackage package,
         IPulumiPlugin plugin,
@@ -48,6 +49,7 @@ internal partial class Pulumi : IPulumi
         Env = env;
         Insights = insights;
         Logs = logs;
+        Neo = neo;
         Org = org;
         Package = package;
         Plugin = plugin;
@@ -78,6 +80,9 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public IPulumiLogs Logs { get; }
+
+    /// <inheritdoc />
+    public IPulumiNeo Neo { get; }
 
     /// <inheritdoc />
     public IPulumiOrg Org { get; }
@@ -145,11 +150,11 @@ internal partial class Pulumi : IPulumi
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> DoAsync(
-        PulumiDoOptions? options = null,
+        PulumiDoOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiDoOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -186,15 +191,6 @@ internal partial class Pulumi : IPulumi
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiLogoutOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> NeoAsync(
-        PulumiNeoOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiNeoOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

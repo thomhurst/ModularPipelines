@@ -45,7 +45,7 @@ public record PulumiOrgSearchOptions : PulumiOptions
     public string? Output { get; set; }
 
     /// <summary>
-    /// A Pulumi Query to send to Pulumi Cloud for resource search.May be formatted as a single query, or multiple:
+    /// A Pulumi Query to send to Pulumi Cloud for resource search.May be formatted as a single query, or multiple: -q "type:aws:s3/bucketv2:BucketV2 modified:&gt;=2023-09-01" -q "type:aws:s3/bucketv2:BucketV2" -q "modified:&gt;=2023-09-01" See https://www.pulumi.com/docs/pulumi-cloud/insights/search/#query-syntax for syntax reference.
     /// </summary>
     [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Query { get; set; }
@@ -111,7 +111,7 @@ public record PulumiOrgSearchOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

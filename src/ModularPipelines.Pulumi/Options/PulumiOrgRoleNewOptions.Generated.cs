@@ -18,7 +18,10 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "role", "new")]
-public record PulumiOrgRoleNewOptions : PulumiOptions
+public record PulumiOrgRoleNewOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string DetailsFile
+) : PulumiOptions
 {
     /// <summary>
     /// A description for the role
@@ -105,7 +108,7 @@ public record PulumiOrgRoleNewOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

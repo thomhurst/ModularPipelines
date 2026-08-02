@@ -19,7 +19,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "schedule", "edit")]
-public record PulumiStackScheduleEditOptions : PulumiOptions
+public record PulumiStackScheduleEditOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ScheduleId
+) : PulumiOptions
 {
     /// <summary>
     /// (drift only) Automatically run a remediation update when drift is detected
@@ -124,7 +126,7 @@ public record PulumiStackScheduleEditOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

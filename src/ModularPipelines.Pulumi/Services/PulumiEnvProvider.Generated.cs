@@ -21,6 +21,7 @@ public class PulumiEnvProvider
 {
     private readonly ICommandContext _command;
     private PulumiEnvProviderAwsLogin? _awsLogin;
+    private PulumiEnvProviderAzureLogin? _azureLogin;
     private PulumiEnvProviderGcpLogin? _gcpLogin;
 
     /// <summary>
@@ -39,9 +40,33 @@ public class PulumiEnvProvider
     public PulumiEnvProviderAwsLogin AwsLogin => _awsLogin ??= new PulumiEnvProviderAwsLogin(_command);
 
     /// <summary>
+    /// pulumi azure-login sub-commands.
+    /// </summary>
+    public PulumiEnvProviderAzureLogin AzureLogin => _azureLogin ??= new PulumiEnvProviderAzureLogin(_command);
+
+    /// <summary>
     /// pulumi gcp-login sub-commands.
     /// </summary>
     public PulumiEnvProviderGcpLogin GcpLogin => _gcpLogin ??= new PulumiEnvProviderGcpLogin(_command);
+
+    #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// [EXPERIMENTAL] Manage providers within an environment
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PulumiEnvProviderOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiEnvProviderOptions(), executionOptions, cancellationToken);
+    }
 
     #endregion
 }

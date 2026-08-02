@@ -18,8 +18,16 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "gen-sdk")]
-public record PulumiPackageGenSdkOptions : PulumiOptions
+public record PulumiPackageGenSdkOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SchemaSource
+) : PulumiOptions
 {
+    /// <summary>
+    /// Add an extension layered onto a base provider rather than a replacement. The value is the extension's provider-defined parameters as one shell-quoted string, e.g. --extension "key=value ..."
+    /// </summary>
+    [CliOption("--extension", Format = OptionFormat.EqualsSeparated)]
+    public string? Extension { get; set; }
+
     /// <summary>
     /// help for gen-sdk
     /// </summary>
@@ -105,7 +113,7 @@ public record PulumiPackageGenSdkOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
@@ -127,5 +135,11 @@ public record PulumiPackageGenSdkOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The [provider-parameter] operand.
+    /// </summary>
+    [CliArgument(0, PrependOptionTerminator = true)]
+    public IEnumerable<string>? ProviderParameter { get; set; }
 
 }

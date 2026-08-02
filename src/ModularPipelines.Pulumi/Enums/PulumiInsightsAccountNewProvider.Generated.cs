@@ -17,17 +17,17 @@ namespace ModularPipelines.Pulumi.Enums;
 public enum PulumiInsightsAccountNewProvider
 {
     [EnumValue("aws")]
-    Aws,
+    Aws = 0,
 
     [EnumValue("gcp")]
-    Gcp,
+    Gcp = 1,
 
     [EnumValue("azure-native")]
-    AzureNative,
+    AzureNative = 2,
 
     [EnumValue("oci")]
-    Oci,
+    Oci = 3,
 
     [EnumValue("kubernetes")]
-    Kubernetes
+    Kubernetes = 4
 }

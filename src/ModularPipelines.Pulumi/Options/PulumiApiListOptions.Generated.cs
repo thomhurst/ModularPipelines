@@ -35,7 +35,7 @@ public record PulumiApiListOptions : PulumiOptions
     /// <summary>
     /// Include endpoints marked as preview (default true)
     /// </summary>
-    [CliFlag("--include-preview")]
+    [CliOption("--include-preview", Format = OptionFormat.EqualsSeparated)]
     public bool? IncludePreview { get; set; }
 
     /// <summary>
@@ -99,7 +99,7 @@ public record PulumiApiListOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

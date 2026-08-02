@@ -47,21 +47,6 @@ public class PulumiState : IPulumiState
     }
 
     /// <summary>
-    /// Deletes one or more resources from a stack's state
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteAsync(
-        PulumiStateDeleteOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStateDeleteOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Move resources from one stack to another
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -69,11 +54,11 @@ public class PulumiState : IPulumiState
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MoveAsync(
-        PulumiStateMoveOptions? options = null,
+        PulumiStateMoveOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStateMoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -89,6 +74,21 @@ public class PulumiState : IPulumiState
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStateProtectOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// Deletes one or more resources from a stack's state
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> RemoveAsync(
+        PulumiStateRemoveOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStateRemoveOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>

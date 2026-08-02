@@ -18,7 +18,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "webhook", "get")]
-public record PulumiStackWebhookGetOptions : PulumiOptions
+public record PulumiStackWebhookGetOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Id
+) : PulumiOptions
 {
     /// <summary>
     /// help for get
@@ -93,7 +95,7 @@ public record PulumiStackWebhookGetOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

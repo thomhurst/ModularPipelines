@@ -18,12 +18,14 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "webhook", "edit")]
-public record PulumiOrgWebhookEditOptions : PulumiOptions
+public record PulumiOrgWebhookEditOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Id
+) : PulumiOptions
 {
     /// <summary>
     /// Whether the webhook is active (default true)
     /// </summary>
-    [CliFlag("--active")]
+    [CliOption("--active", Format = OptionFormat.EqualsSeparated)]
     public bool? Active { get; set; }
 
     /// <summary>
@@ -148,7 +150,7 @@ public record PulumiOrgWebhookEditOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

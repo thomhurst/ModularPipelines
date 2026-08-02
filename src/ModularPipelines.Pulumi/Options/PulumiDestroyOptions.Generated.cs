@@ -93,6 +93,12 @@ public record PulumiDestroyOptions : PulumiOptions
     public bool? Neo { get; set; }
 
     /// <summary>
+    /// [EXPERIMENTAL] Override an imported environment for this run only, as &lt;env&gt;=&lt;replacement&gt;; repeatable
+    /// </summary>
+    [CliOption("--override-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? OverrideEnv { get; set; }
+
+    /// <summary>
     /// Allow P resource operations to run in parallel at once (1 for no parallelism). (default 16)
     /// </summary>
     [CliOption("--parallel", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
@@ -107,7 +113,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// <summary>
     /// Refresh the state of the stack's resources before this update
     /// </summary>
-    [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? Refresh { get; set; }
 
     /// <summary>
@@ -179,7 +185,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// <summary>
     /// Suppress display of the state permalink
     /// </summary>
-    [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? SuppressPermalink { get; set; }
 
     /// <summary>
@@ -267,7 +273,7 @@ public record PulumiDestroyOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
