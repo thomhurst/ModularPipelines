@@ -142,6 +142,20 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task PodmanTraversal_Uses_ComposeProvider_Help()
+    {
+        var executor = new ComposeProviderExecutor();
+        var scraper = new TestPodmanCliScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .Contains("podman compose build");
+        await Assert.That(executor.Invocations)
+            .Contains(("docker-compose-shim", "build --help"));
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """
@@ -256,6 +270,67 @@ public class CliScraperTraversalTests
         public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 
         public IReadOnlyList<string> GetSubcommands(string helpText) => ExtractSubcommands(helpText).ToList();
+    }
+
+    private sealed class TestPodmanCliScraper(ICliCommandExecutor executor)
+        : PodmanCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<PodmanCliScraper>.Instance)
+    {
+        protected override string? ComposeProviderPath => "docker-compose-shim";
+    }
+
+    private sealed class ComposeProviderExecutor : ICliCommandExecutor
+    {
+        public List<(string Command, string Arguments)> Invocations { get; } = [];
+
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            Invocations.Add((command, arguments));
+            var helpText = (command, arguments) switch
+            {
+                ("podman", "--help") => """
+                    Usage: podman [OPTIONS] COMMAND
+
+                    Commands:
+                      compose    Run Compose workloads
+                    """,
+                ("docker-compose-shim", "--help") => """
+                    Usage: docker compose [OPTIONS] COMMAND
+
+                    Options:
+                      --ansi string    Control ANSI output
+
+                    Commands:
+                      build    Build services
+                    """,
+                ("docker-compose-shim", "build --help") => """
+                    Usage: docker compose build [OPTIONS] [SERVICE...]
+
+                    Options:
+                      --pull    Always attempt to pull
+                    """,
+                _ => throw new InvalidOperationException(
+                    $"Unexpected invocation: {command} {arguments}"),
+            };
+
+            return Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = helpText,
+                StandardError = string.Empty,
+            });
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private sealed class ShapeMismatchScraper : CliScraperBase

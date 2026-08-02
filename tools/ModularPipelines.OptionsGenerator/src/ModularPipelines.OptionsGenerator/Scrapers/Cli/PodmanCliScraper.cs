@@ -37,6 +37,54 @@ public partial class PodmanCliScraper : CobraCliScraper
 
     public override string OutputDirectory => "src/ModularPipelines.Podman";
 
+    protected virtual string? ComposeProviderPath =>
+        Environment.GetEnvironmentVariable("PODMAN_COMPOSE_PROVIDER");
+
+    protected override async Task<string?> GetHelpTextAsync(
+        string[] commandPath,
+        CancellationToken cancellationToken)
+    {
+        var composeProvider = ComposeProviderPath;
+        if (commandPath.Length < 2
+            || !commandPath[1].Equals("compose", StringComparison.OrdinalIgnoreCase)
+            || string.IsNullOrWhiteSpace(composeProvider))
+        {
+            return await base.GetHelpTextAsync(commandPath, cancellationToken);
+        }
+
+        var cacheKey = string.Join(" ", commandPath);
+        if (HelpCache.TryGet(cacheKey, out var cached))
+        {
+            return cached;
+        }
+
+        var arguments = commandPath.Length > 2
+            ? string.Join(" ", commandPath.Skip(2)) + " --help"
+            : "--help";
+        var result = await Executor.ExecuteAsync(
+            composeProvider,
+            arguments,
+            cancellationToken);
+        var helpText = !string.IsNullOrEmpty(result.StandardOutput)
+            ? result.StandardOutput
+            : result.StandardError;
+        if (string.IsNullOrWhiteSpace(helpText))
+        {
+            Logger.LogWarning("No compose provider help text for command: {Command}", cacheKey);
+            return null;
+        }
+
+        helpText = NormalizeComposeProviderHelp(helpText);
+        HelpCache.Set(cacheKey, helpText);
+        return helpText;
+    }
+
+    private static string NormalizeComposeProviderHelp(string helpText) =>
+        helpText
+            .Replace("docker compose", "podman compose", StringComparison.OrdinalIgnoreCase)
+            .Replace("docker-compose", "podman compose", StringComparison.OrdinalIgnoreCase)
+            .Replace("podman-compose", "podman compose", StringComparison.OrdinalIgnoreCase);
+
     /// <summary>
     /// Skip utility commands.
     /// </summary>
