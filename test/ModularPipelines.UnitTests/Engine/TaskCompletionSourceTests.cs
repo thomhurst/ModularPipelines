@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Models;
@@ -12,12 +13,37 @@ namespace ModularPipelines.UnitTests.Engine;
 [TUnit.Core.NotInParallel]
 public class TaskCompletionSourceTests
 {
+    private sealed class TestModule : Module<int>
+    {
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(1);
+    }
+
     [Test]
     public async Task ModuleState_CompletionSource_RunsContinuationsAsynchronously()
     {
         var state = new ModuleState(Mock.Of<IModule>(), typeof(IModule));
 
         await Assert.That(RunsContinuationsAsynchronously(state.CompletionSource.Task)).IsTrue();
+    }
+
+    [Test]
+    public async Task ModuleAndExecutionContext_CompletionSources_RunContinuationsAsynchronously()
+    {
+        var module = new TestModule();
+        var context = new ModuleExecutionContext<int>(module, module.GetType());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(RunsContinuationsAsynchronously(module.CompletionSource.Task))
+                .IsTrue();
+            await Assert.That(RunsContinuationsAsynchronously(context.ExecutionTask))
+                .IsTrue();
+            await Assert.That(RunsContinuationsAsynchronously(context.TypedExecutionTask))
+                .IsTrue();
+        }
     }
 
     [Test]
