@@ -36,10 +36,19 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
         }
 
         var diagnostic = context.Diagnostics.First();
-        var diagnosticSpan = diagnostic.Location.SourceSpan;
+        if (!diagnostic.Properties.TryGetValue("ModuleDeclarationStart", out var declarationStartValue)
+            || !int.TryParse(declarationStartValue, out var declarationStart))
+        {
+            return;
+        }
 
-        // Find the type declaration identified by the diagnostic.
-        var declaration = root.FindToken(diagnosticSpan.Start).Parent?.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
+        // The analyzer records the enclosing module so nested helper diagnostics fix the module itself.
+        var declaration = root
+            .FindToken(declarationStart)
+            .Parent?
+            .AncestorsAndSelf()
+            .OfType<TypeDeclarationSyntax>()
+            .FirstOrDefault(typeDeclaration => typeDeclaration.SpanStart == declarationStart);
 
         if (declaration is null)
         {
