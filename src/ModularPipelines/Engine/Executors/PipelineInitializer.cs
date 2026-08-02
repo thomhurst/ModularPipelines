@@ -51,6 +51,7 @@ internal class PipelineInitializer(
 
     private static readonly string[] SensitiveEnvironmentVariableNames =
     [
+        "AZURE_DEVOPS_EXT_PAT",
         "AzureWebJobsStorage",
         "ALL_PROXY",
         "DATABASE_URL",

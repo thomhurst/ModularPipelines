@@ -168,6 +168,7 @@ public class PipelineInitializerTests
     [Arguments("PIP_EXTRA_INDEX_URL")]
     [Arguments("PIP_INDEX_URL")]
     [Arguments("REDIS_URL")]
+    [Arguments("AZURE_DEVOPS_EXT_PAT")]
     [Arguments("AZURE_APPCONFIG_CONNECTION_STRING")]
     [Arguments("ConnectionStrings__Default")]
     [Arguments("SQLCONNSTR_Main")]
