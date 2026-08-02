@@ -264,12 +264,17 @@ internal class ModuleRunner : IModuleRunner
                 _resultRegistry.RegisterResult(moduleType, result);
             }
 
-            // Invoke OnModuleFailed lifecycle event
-            await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, ex).ConfigureAwait(false);
+            try
+            {
+                // Invoke OnModuleFailed lifecycle event
+                await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, ex).ConfigureAwait(false);
 
-            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
-
-            await _mediator.Publish(new ModuleCompletedNotification(moduleState, false)).ConfigureAwait(false);
+                await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
+            }
+            finally
+            {
+                await _mediator.Publish(new ModuleCompletedNotification(moduleState, false)).ConfigureAwait(false);
+            }
 
             throw;
         }
