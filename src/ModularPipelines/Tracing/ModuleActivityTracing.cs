@@ -160,7 +160,7 @@ public static class ModuleActivityTracing
         };
 
         ModuleDuration.Record(duration.TotalSeconds, tags);
-        if (status.Equals("Failed", StringComparison.Ordinal))
+        if (status is "Failed" or "TimedOut")
         {
             ModulesFailed.Add(1, tags);
         }

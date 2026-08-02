@@ -355,14 +355,16 @@ public class TelemetryIntegrationTests
     }
 
     [Test]
-    public async Task Failed_Module_Increments_Failure_Counter()
+    [Arguments("Failed")]
+    [Arguments("TimedOut")]
+    public async Task Failed_Module_Status_Increments_Failure_Counter(string status)
     {
         var measurements = new ConcurrentBag<(string Name, double Value)>();
         using var listener = CreateMeterListener(measurements);
 
         ModuleActivityTracing.RecordModuleMetrics(
             typeof(RetriedModule),
-            "Failed",
+            status,
             TimeSpan.Zero);
 
         await Assert.That(measurements.Single(measurement =>
