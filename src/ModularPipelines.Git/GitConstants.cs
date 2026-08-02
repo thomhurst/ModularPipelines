@@ -15,9 +15,9 @@ internal static class GitConstants
     /// Using %B would duplicate the subject in the body field.
     /// </remarks>
     public const string CommitLogFormat =
-        $"'%aN {GitEscapedLineSeparator} %aE {GitEscapedLineSeparator} %aI {GitEscapedLineSeparator} " +
+        $"%aN {GitEscapedLineSeparator} %aE {GitEscapedLineSeparator} %aI {GitEscapedLineSeparator} " +
         $"%cN {GitEscapedLineSeparator} %cE {GitEscapedLineSeparator} %cI {GitEscapedLineSeparator} " +
-        $"%H {GitEscapedLineSeparator} %h {GitEscapedLineSeparator} %s {GitEscapedLineSeparator} %b'";
+        $"%H {GitEscapedLineSeparator} %h {GitEscapedLineSeparator} %s {GitEscapedLineSeparator} %b";
 
     /// <summary>
     /// Git format specifier for Unix timestamp of author date.

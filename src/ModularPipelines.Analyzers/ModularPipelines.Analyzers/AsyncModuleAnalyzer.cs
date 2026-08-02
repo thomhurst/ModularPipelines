@@ -59,9 +59,10 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var returnStatementSyntaxes = methodDeclarationSyntax.Body?.DescendantNodes().OfType<ReturnStatementSyntax>().ToArray() ?? Array.Empty<ReturnStatementSyntax>();
+        var returnExpressions = GetReturnExpressions(methodDeclarationSyntax);
 
-        if (returnStatementSyntaxes.All(x => IsSynchronousObjectWrappedInTask(x, context)))
+        if (returnExpressions.All(expression =>
+                IsSynchronousObjectWrappedInTask(expression, context)))
         {
             return;
         }
@@ -69,11 +70,35 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
         context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation()));
     }
 
-    private bool IsSynchronousObjectWrappedInTask(ReturnStatementSyntax returnStatementSyntax,
+    private static ExpressionSyntax[] GetReturnExpressions(
+        MethodDeclarationSyntax methodDeclaration)
+    {
+        if (methodDeclaration.ExpressionBody is { Expression: var expression })
+        {
+            return [expression];
+        }
+
+        return methodDeclaration.Body is null
+            ? []
+            :
+            [
+                .. methodDeclaration.Body
+                    .DescendantNodes(ShouldDescendInto)
+                    .OfType<ReturnStatementSyntax>()
+                    .Select(static statement => statement.Expression)
+                    .OfType<ExpressionSyntax>(),
+            ];
+    }
+
+    private static bool ShouldDescendInto(SyntaxNode node) =>
+        node is not AnonymousFunctionExpressionSyntax
+            and not LocalFunctionStatementSyntax;
+
+    private static bool IsSynchronousObjectWrappedInTask(
+        ExpressionSyntax expression,
         SyntaxNodeAnalysisContext context)
     {
-        if (returnStatementSyntax.ChildNodes().FirstOrDefault() is not InvocationExpressionSyntax
-            invocationExpressionSyntax)
+        if (expression is not InvocationExpressionSyntax invocationExpressionSyntax)
         {
             return false;
         }

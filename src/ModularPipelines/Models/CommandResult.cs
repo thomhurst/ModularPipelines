@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using CliWrap;
 
@@ -5,6 +6,30 @@ namespace ModularPipelines.Models;
 
 public record CommandResult
 {
+    private static readonly IReadOnlyDictionary<string, string?> EmptyEnvironmentVariables =
+        new ReadOnlyDictionary<string, string?>(new Dictionary<string, string?>());
+
+    /// <summary>
+    /// Creates a successful command result for command interceptors and tests.
+    /// </summary>
+    /// <param name="standardOutput">The simulated standard output.</param>
+    /// <param name="standardError">The simulated standard error.</param>
+    /// <returns>A successful command result.</returns>
+    public static CommandResult Ok(string standardOutput = "", string standardError = "")
+    {
+        var completedAt = DateTimeOffset.UtcNow;
+        return new CommandResult(
+            commandInput: string.Empty,
+            workingDirectory: Environment.CurrentDirectory,
+            standardOutput: standardOutput,
+            standardError: standardError,
+            environmentVariables: EmptyEnvironmentVariables,
+            startTime: completedAt,
+            endTime: completedAt,
+            duration: TimeSpan.Zero,
+            exitCode: 0);
+    }
+
     /// <summary>
     /// Gets the command that was executed.
     /// </summary>

@@ -1,0 +1,979 @@
+using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
+using System.Text;
+using ModularPipelines.FileSystem;
+
+namespace ModularPipelines.Testing;
+
+/// <summary>
+/// Thread-safe in-memory implementation of <see cref="IFileSystemProvider"/>.
+/// </summary>
+public sealed class InMemoryFileSystemProvider : IFileSystemProvider
+{
+    private readonly ConcurrentDictionary<string, byte[]> _files;
+    private readonly ConcurrentDictionary<string, byte> _directories;
+    private readonly HashSet<string> _exclusiveOpenFiles;
+    private readonly Dictionary<string, int> _openReaders;
+    private readonly Lock _sync = new();
+    private readonly StringComparer _pathComparer;
+    private readonly StringComparison _pathComparison;
+
+    /// <summary>
+    /// Initializes an empty in-memory filesystem.
+    /// </summary>
+    public InMemoryFileSystemProvider()
+    {
+        _pathComparer = OperatingSystem.IsWindows()
+            ? StringComparer.OrdinalIgnoreCase
+            : StringComparer.Ordinal;
+        _pathComparison = OperatingSystem.IsWindows()
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
+        _files = new ConcurrentDictionary<string, byte[]>(_pathComparer);
+        _directories = new ConcurrentDictionary<string, byte>(_pathComparer);
+#pragma warning disable IDE0028 // Collection expressions cannot retain the platform path comparer.
+        _exclusiveOpenFiles = new HashSet<string>(_pathComparer);
+        _openReaders = new Dictionary<string, int>(_pathComparer);
+#pragma warning restore IDE0028
+        CreateDirectory(Environment.CurrentDirectory);
+        CreateDirectory(GetTempPath());
+    }
+
+    /// <inheritdoc />
+    public Task<string> ReadAllTextAsync(
+        string path,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(DecodeText(GetFile(path)));
+    }
+
+    /// <inheritdoc />
+    public async IAsyncEnumerable<string> ReadLinesAsync(
+        string path,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        using var stream = OpenRead(path);
+        using var reader = new StreamReader(
+            stream,
+            Encoding.UTF8,
+            detectEncodingFromByteOrderMarks: true);
+        while (await reader.ReadLineAsync(cancellationToken).ConfigureAwait(false) is { } line)
+        {
+            yield return line;
+        }
+    }
+
+    /// <inheritdoc />
+    public Task<byte[]> ReadAllBytesAsync(
+        string path,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromResult(GetFile(path).ToArray());
+    }
+
+    /// <inheritdoc />
+    public Task WriteAllTextAsync(
+        string path,
+        string contents,
+        CancellationToken cancellationToken = default) =>
+        WriteAllBytesAsync(path, Encoding.UTF8.GetBytes(contents), cancellationToken);
+
+    /// <inheritdoc />
+    public Task WriteAllBytesAsync(
+        string path,
+        byte[] contents,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        SetFile(path, contents);
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    public async Task WriteAllLinesAsync(
+        string path,
+        IEnumerable<string> contents,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        await using var stream = Open(path, FileMode.Create, FileAccess.Write);
+        await WriteLinesAsync(stream, contents, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public Task AppendAllTextAsync(
+        string path,
+        string contents,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        lock (_sync)
+        {
+            var normalized = NormalizeFilePath(path);
+            var existing = _files.TryGetValue(normalized, out var bytes) ? bytes : [];
+            var appended = new byte[existing.Length + Encoding.UTF8.GetByteCount(contents)];
+            existing.CopyTo(appended, 0);
+            Encoding.UTF8.GetBytes(contents, appended.AsSpan(existing.Length));
+            SetFile(normalized, appended);
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    public async Task AppendAllLinesAsync(
+        string path,
+        IEnumerable<string> contents,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        await using var stream = Open(path, FileMode.Append, FileAccess.Write);
+        await WriteLinesAsync(stream, contents, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public Stream OpenRead(string path)
+    {
+        lock (_sync)
+        {
+            var normalized = NormalizeFilePath(path);
+            var initial = GetFile(normalized);
+            if (_exclusiveOpenFiles.Contains(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
+            _openReaders.TryGetValue(normalized, out var readerCount);
+            _openReaders[normalized] = readerCount + 1;
+            try
+            {
+                return CreateStream(
+                    normalized,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    initial,
+                    () => ReleaseOpenReader(normalized));
+            }
+            catch
+            {
+                ReleaseOpenReader(normalized);
+                throw;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public Stream Create(string path) => Open(path, FileMode.Create, FileAccess.ReadWrite);
+
+    /// <inheritdoc />
+    public Stream Open(string path, FileMode mode, FileAccess access)
+    {
+        lock (_sync)
+        {
+            var normalized = NormalizeFilePath(path);
+            var exists = _files.TryGetValue(normalized, out var existing);
+
+            ValidateOpenArguments(mode, access, exists, normalized);
+            if (IsOpen(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
+            var initial = GetInitialContents(mode, existing);
+            if (ShouldInitializeFile(mode, exists))
+            {
+                SetFile(normalized, initial);
+            }
+
+            _exclusiveOpenFiles.Add(normalized);
+            try
+            {
+                return CreateStream(
+                    normalized,
+                    mode,
+                    access,
+                    initial,
+                    () => ReleaseExclusiveOpenFile(normalized));
+            }
+            catch
+            {
+                _exclusiveOpenFiles.Remove(normalized);
+                throw;
+            }
+        }
+    }
+
+    private static void ValidateOpenArguments(
+        FileMode mode,
+        FileAccess access,
+        bool exists,
+        string normalizedPath)
+    {
+        if (mode == FileMode.Append && access != FileAccess.Write)
+        {
+            throw new ArgumentException("Append mode requires write-only access.", nameof(access));
+        }
+
+        if (mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+            && access == FileAccess.Read)
+        {
+            throw new ArgumentException($"{mode} mode requires write access.", nameof(access));
+        }
+
+        if (mode is FileMode.Open or FileMode.Truncate && !exists)
+        {
+            throw new FileNotFoundException("The in-memory file does not exist.", normalizedPath);
+        }
+
+        if (mode == FileMode.CreateNew && exists)
+        {
+            throw new IOException($"The in-memory file '{normalizedPath}' already exists.");
+        }
+    }
+
+    private static byte[] GetInitialContents(FileMode mode, byte[]? existing) =>
+        mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+            ? []
+            : existing ?? [];
+
+    private static bool ShouldInitializeFile(FileMode mode, bool exists) =>
+        mode is FileMode.Create or FileMode.CreateNew or FileMode.Truncate
+        || (!exists && mode is (FileMode.OpenOrCreate or FileMode.Append));
+
+    private static string DecodeText(byte[] contents)
+    {
+        using var stream = new MemoryStream(contents, writable: false);
+        using var reader = new StreamReader(
+            stream,
+            Encoding.UTF8,
+            detectEncodingFromByteOrderMarks: true);
+        return reader.ReadToEnd();
+    }
+
+    private CommittingMemoryStream CreateStream(
+        string normalizedPath,
+        FileMode mode,
+        FileAccess access,
+        byte[] initial,
+        Action release)
+    {
+        var stream = new CommittingMemoryStream(
+            initial,
+            access,
+            mode == FileMode.Append,
+            bytes => SetFile(normalizedPath, bytes, allowOpenFile: true),
+            release);
+
+        if (mode == FileMode.Append)
+        {
+            stream.Position = stream.Length;
+        }
+
+        return stream;
+    }
+
+    private void ReleaseExclusiveOpenFile(string normalizedPath)
+    {
+        lock (_sync)
+        {
+            _exclusiveOpenFiles.Remove(normalizedPath);
+        }
+    }
+
+    private void ReleaseOpenReader(string normalizedPath)
+    {
+        lock (_sync)
+        {
+            var readerCount = _openReaders[normalizedPath];
+            if (readerCount == 1)
+            {
+                _openReaders.Remove(normalizedPath);
+            }
+            else
+            {
+                _openReaders[normalizedPath] = readerCount - 1;
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public void DeleteFile(string path)
+    {
+        lock (_sync)
+        {
+            var normalized = NormalizeFilePath(path);
+            var directoryForm = NormalizeDirectoryPath(normalized);
+            if (_directories.ContainsKey(directoryForm))
+            {
+                throw new UnauthorizedAccessException(
+                    $"The in-memory path '{directoryForm}' is a directory.");
+            }
+
+            if (IsOpen(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
+            _files.TryRemove(normalized, out _);
+        }
+    }
+
+    /// <inheritdoc />
+    public void CopyFile(string sourcePath, string destinationPath, bool overwrite)
+    {
+        lock (_sync)
+        {
+            var source = NormalizeFilePath(sourcePath);
+            var destination = NormalizeFilePath(destinationPath);
+            if (_pathComparer.Equals(source, destination))
+            {
+                throw new IOException(
+                    $"The source and destination paths are the same: '{source}'.");
+            }
+
+            if (!overwrite && _files.ContainsKey(destination))
+            {
+                throw new IOException($"The in-memory file '{destination}' already exists.");
+            }
+
+            SetFile(destination, GetFile(source));
+        }
+    }
+
+    /// <inheritdoc />
+    public void MoveFile(string sourcePath, string destinationPath)
+    {
+        lock (_sync)
+        {
+            var source = NormalizeFilePath(sourcePath);
+            var destination = NormalizeFilePath(destinationPath);
+            if (IsOpen(source))
+            {
+                throw new IOException(
+                    $"The in-memory file '{source}' is already open.");
+            }
+
+            if (_files.ContainsKey(destination))
+            {
+                throw new IOException($"The in-memory file '{destination}' already exists.");
+            }
+
+            ValidateFileDestination(destination);
+
+            if (!_files.TryRemove(source, out var contents))
+            {
+                throw new FileNotFoundException("The in-memory file does not exist.", source);
+            }
+
+            SetFile(destination, contents);
+        }
+    }
+
+    /// <inheritdoc />
+    public bool FileExists(string path)
+    {
+        try
+        {
+            return !string.IsNullOrWhiteSpace(path)
+                && _files.ContainsKey(NormalizeFilePath(path));
+        }
+        catch (Exception exception) when (IsPathProbeException(exception))
+        {
+            return false;
+        }
+    }
+
+    /// <inheritdoc />
+    public void CreateDirectory(string path)
+    {
+        lock (_sync)
+        {
+            var current = NormalizeDirectoryPath(path);
+            var directoriesToCreate = new List<string>();
+            while (!string.IsNullOrEmpty(current))
+            {
+                if (_files.ContainsKey(current))
+                {
+                    throw new IOException(
+                        $"The in-memory path '{current}' is already a file.");
+                }
+
+                directoriesToCreate.Add(current);
+                var parent = Path.GetDirectoryName(current);
+                if (string.IsNullOrEmpty(parent) || _pathComparer.Equals(parent, current))
+                {
+                    break;
+                }
+
+                current = parent;
+            }
+
+            foreach (var directory in directoriesToCreate)
+            {
+                _directories.TryAdd(directory, 0);
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public void DeleteDirectory(string path, bool recursive)
+    {
+        lock (_sync)
+        {
+            var normalized = NormalizeDirectoryPath(path);
+            if (!_directories.ContainsKey(normalized))
+            {
+                throw new DirectoryNotFoundException(normalized);
+            }
+
+            var descendants = GetDescendantDirectories(normalized).ToArray();
+            var files = GetDescendantFiles(normalized).ToArray();
+            if (!recursive && (descendants.Length > 0 || files.Length > 0))
+            {
+                throw new IOException($"The in-memory directory '{normalized}' is not empty.");
+            }
+
+            ValidateFilesAreClosed(files);
+
+            foreach (var file in files)
+            {
+                _files.TryRemove(file, out _);
+            }
+
+            foreach (var directory in descendants.Append(normalized))
+            {
+                _directories.TryRemove(directory, out _);
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public void MoveDirectory(string sourcePath, string destinationPath)
+    {
+        lock (_sync)
+        {
+            var source = NormalizeDirectoryPath(sourcePath);
+            var destination = NormalizeDirectoryPath(destinationPath);
+            if (!_directories.ContainsKey(source))
+            {
+                throw new DirectoryNotFoundException(source);
+            }
+
+            if (_directories.ContainsKey(destination))
+            {
+                throw new IOException($"The in-memory directory '{destination}' already exists.");
+            }
+
+            if (_files.ContainsKey(destination))
+            {
+                throw new IOException($"The in-memory path '{destination}' is already a file.");
+            }
+
+            if (IsDescendant(destination, source))
+            {
+                throw new IOException("A directory cannot be moved inside itself.");
+            }
+
+            var destinationParent = Path.GetDirectoryName(destination);
+            if (string.IsNullOrEmpty(destinationParent)
+                || !_directories.ContainsKey(destinationParent))
+            {
+                throw new DirectoryNotFoundException(destinationParent);
+            }
+
+            var descendants = GetDescendantDirectories(source).ToArray();
+            var files = GetDescendantFiles(source).ToArray();
+            ValidateFilesAreClosed(files);
+
+            CreateDirectory(destination);
+            foreach (var directory in descendants)
+            {
+                CreateDirectory(ReplacePrefix(directory, source, destination));
+            }
+
+            foreach (var file in files)
+            {
+                MoveFile(file, ReplacePrefix(file, source, destination));
+            }
+
+            foreach (var directory in descendants.Append(source))
+            {
+                _directories.TryRemove(directory, out _);
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public bool DirectoryExists(string path)
+    {
+        try
+        {
+            return !string.IsNullOrWhiteSpace(path)
+                && _directories.ContainsKey(NormalizeDirectoryPath(path));
+        }
+        catch (Exception exception) when (IsPathProbeException(exception))
+        {
+            return false;
+        }
+    }
+
+    /// <inheritdoc />
+    public IEnumerable<string> EnumerateFiles(
+        string path,
+        string searchPattern,
+        SearchOption searchOption) =>
+        EnumerateEntries(_files.Keys, path, searchPattern, searchOption);
+
+    /// <inheritdoc />
+    public IEnumerable<string> EnumerateDirectories(
+        string path,
+        string searchPattern,
+        SearchOption searchOption) =>
+        EnumerateEntries(_directories.Keys, path, searchPattern, searchOption);
+
+    /// <inheritdoc />
+    public string GetTempPath() =>
+        Path.Combine(Path.GetTempPath(), "ModularPipelines.Testing")
+        + Path.DirectorySeparatorChar;
+
+    /// <inheritdoc />
+    public string GetRandomFileName() => Path.GetRandomFileName();
+
+    /// <inheritdoc />
+    public string Combine(params string[] paths) => Path.Combine(paths);
+
+    /// <inheritdoc />
+    public string GetRelativePath(string relativeTo, string path) =>
+        Path.GetRelativePath(relativeTo, path);
+
+    private static async Task WriteLinesAsync(
+        Stream stream,
+        IEnumerable<string> contents,
+        CancellationToken cancellationToken)
+    {
+        await using var writer = new StreamWriter(
+            stream,
+            new UTF8Encoding(encoderShouldEmitUTF8Identifier: false),
+            leaveOpen: true);
+        using var enumerator = contents.GetEnumerator();
+        while (true)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var hasNext = enumerator.MoveNext();
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!hasNext)
+            {
+                return;
+            }
+
+            await writer.WriteLineAsync(
+                    (enumerator.Current ?? string.Empty).AsMemory(),
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private void ValidateFilesAreClosed(IEnumerable<string> files)
+    {
+        foreach (var file in files)
+        {
+            if (IsOpen(file))
+            {
+                throw new IOException(
+                    $"The in-memory file '{file}' is already open.");
+            }
+        }
+    }
+
+    private byte[] GetFile(string path)
+    {
+        lock (_sync)
+        {
+            var normalized = NormalizeFilePath(path);
+            if (_exclusiveOpenFiles.Contains(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
+            return _files.TryGetValue(normalized, out var contents)
+                ? contents
+                : throw new FileNotFoundException(
+                    "The in-memory file does not exist.",
+                    normalized);
+        }
+    }
+
+    private void SetFile(string path, byte[] contents, bool allowOpenFile = false)
+    {
+        lock (_sync)
+        {
+            var normalized = NormalizeFilePath(path);
+            if (!allowOpenFile && IsOpen(normalized))
+            {
+                throw new IOException(
+                    $"The in-memory file '{normalized}' is already open.");
+            }
+
+            ValidateFileDestination(normalized);
+            _files[normalized] = [.. contents];
+        }
+    }
+
+    private void ValidateFileDestination(string normalizedPath)
+    {
+        var directoryForm = NormalizeDirectoryPath(normalizedPath);
+        if (Path.EndsInDirectorySeparator(normalizedPath)
+            || _directories.ContainsKey(directoryForm))
+        {
+            throw new IOException(
+                $"The in-memory path '{directoryForm}' is a directory or directory-form path.");
+        }
+
+        var parent = Path.GetDirectoryName(normalizedPath);
+        if (string.IsNullOrEmpty(parent) || !_directories.ContainsKey(parent))
+        {
+            throw new DirectoryNotFoundException(parent);
+        }
+    }
+
+    private bool IsOpen(string normalizedPath) =>
+        _exclusiveOpenFiles.Contains(normalizedPath)
+        || _openReaders.ContainsKey(normalizedPath);
+
+    private static bool IsPathProbeException(Exception exception) =>
+        exception is ArgumentException
+            or NotSupportedException
+            or PathTooLongException
+            or DirectoryNotFoundException;
+
+    private string NormalizeDirectoryPath(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        ValidateFileNameSegments(path);
+        ValidatePathTraversal(path);
+        var fullPath = Path.GetFullPath(path);
+        var root = Path.GetPathRoot(fullPath);
+        return root is not null && _pathComparer.Equals(root, fullPath)
+            ? fullPath
+            : fullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+    }
+
+    private string NormalizeFilePath(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        if (path.Length >= 2
+            && path[^1] == '.'
+            && IsDirectorySeparator(path[^2]))
+        {
+            throw new ArgumentException(
+                "A file path cannot end in a current-directory segment.",
+                nameof(path));
+        }
+
+        ValidateFileNameSegments(path);
+        ValidatePathTraversal(path);
+        return Path.GetFullPath(path);
+    }
+
+    private static void ValidateFileNameSegments(string path)
+    {
+        var unresolvedPath = Path.IsPathFullyQualified(path)
+            ? path
+            : Path.Combine(Environment.CurrentDirectory, path);
+        var root = Path.GetPathRoot(unresolvedPath);
+        var pathWithoutRoot = string.IsNullOrEmpty(root)
+            ? unresolvedPath
+            : unresolvedPath[root.Length..];
+        var invalidCharacters = Path.GetInvalidFileNameChars();
+
+        foreach (var segment in pathWithoutRoot.Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (segment.IndexOfAny(invalidCharacters) >= 0)
+            {
+                throw new ArgumentException(
+                    $"The path contains an invalid file-name character: '{segment}'.",
+                    nameof(path));
+            }
+        }
+    }
+
+    private void ValidatePathTraversal(string path)
+    {
+        var unresolvedPath = Path.IsPathFullyQualified(path)
+            ? path
+            : Path.Combine(Environment.CurrentDirectory, path);
+        var root = Path.GetPathRoot(unresolvedPath);
+        if (string.IsNullOrEmpty(root))
+        {
+            return;
+        }
+
+        var current = root;
+        foreach (var segment in unresolvedPath[root.Length..].Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (_files.ContainsKey(current))
+            {
+                throw new DirectoryNotFoundException(current);
+            }
+
+            current = segment switch
+            {
+                "." => current,
+                ".." => Path.GetDirectoryName(current) ?? current,
+                _ => Path.Combine(current, segment),
+            };
+        }
+    }
+
+    private IEnumerable<string> EnumerateEntries(
+        IEnumerable<string> entries,
+        string path,
+        string searchPattern,
+        SearchOption searchOption)
+    {
+        var root = NormalizeDirectoryPath(path);
+        var separatorIndex = searchPattern.LastIndexOfAny(
+            [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
+        var expression = searchPattern;
+        if (separatorIndex >= 0)
+        {
+            root = NormalizeDirectoryPath(Path.Combine(root, searchPattern[..separatorIndex]));
+            expression = searchPattern[(separatorIndex + 1)..];
+        }
+
+        if (!_directories.ContainsKey(root))
+        {
+            throw new DirectoryNotFoundException(root);
+        }
+
+        return [.. entries
+            .Where(entry => IsDescendant(entry, root))
+            .Where(entry => searchOption == SearchOption.AllDirectories
+                || !Path.GetRelativePath(root, entry)
+                    .Contains(Path.DirectorySeparatorChar, StringComparison.Ordinal))
+            .Where(entry => System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(
+                expression,
+                Path.GetFileName(entry),
+                _pathComparison == StringComparison.OrdinalIgnoreCase))
+            .OrderBy(static entry => entry, _pathComparer)];
+    }
+
+    private IEnumerable<string> GetDescendantFiles(string path) =>
+        _files.Keys.Where(entry => IsDescendant(entry, path));
+
+    private IEnumerable<string> GetDescendantDirectories(string path) =>
+        _directories.Keys.Where(entry => IsDescendant(entry, path));
+
+    private bool IsDescendant(string candidate, string parent)
+    {
+        if (!candidate.StartsWith(parent, _pathComparison) || candidate.Length <= parent.Length)
+        {
+            return false;
+        }
+
+        return Path.EndsInDirectorySeparator(parent)
+            || IsDirectorySeparator(candidate[parent.Length]);
+    }
+
+    private static bool IsDirectorySeparator(char value) =>
+        value == Path.DirectorySeparatorChar || value == Path.AltDirectorySeparatorChar;
+
+    private static string ReplacePrefix(string path, string source, string destination) =>
+        destination + path[source.Length..];
+
+    private sealed class CommittingMemoryStream : MemoryStream
+    {
+        private readonly Action<byte[]> _commit;
+        private readonly bool _append;
+        private readonly bool _readable;
+        private readonly bool _writable;
+        private readonly long _appendStart;
+        private readonly bool _initializing = true;
+        private bool _committed;
+        private readonly Action _release;
+        private bool _released;
+
+        public CommittingMemoryStream(
+            byte[] contents,
+            FileAccess access,
+            bool append,
+            Action<byte[]> commit,
+            Action release)
+            : base(Math.Max(contents.Length, 256))
+        {
+            _append = append;
+            _readable = access != FileAccess.Write;
+            _writable = access != FileAccess.Read;
+            _appendStart = append ? contents.Length : 0;
+            _commit = commit;
+            _release = release;
+            base.Write(contents, 0, contents.Length);
+            Position = 0;
+            _initializing = false;
+        }
+
+        public override bool CanRead => _readable && base.CanRead;
+
+        public override bool CanWrite => (_initializing || _writable) && base.CanWrite;
+
+        public override long Position
+        {
+            get => base.Position;
+            set
+            {
+                EnsureValidPosition(value);
+                base.Position = value;
+            }
+        }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            EnsureReadable();
+            return base.Read(buffer, offset, count);
+        }
+
+        public override int Read(Span<byte> buffer)
+        {
+            EnsureReadable();
+            return base.Read(buffer);
+        }
+
+        public override ValueTask<int> ReadAsync(
+            Memory<byte> buffer,
+            CancellationToken cancellationToken = default)
+        {
+            EnsureReadable();
+            return base.ReadAsync(buffer, cancellationToken);
+        }
+
+        public override Task<int> ReadAsync(
+            byte[] buffer,
+            int offset,
+            int count,
+            CancellationToken cancellationToken)
+        {
+            EnsureReadable();
+            return base.ReadAsync(buffer, offset, count, cancellationToken);
+        }
+
+        public override int ReadByte()
+        {
+            EnsureReadable();
+            return base.ReadByte();
+        }
+
+        public override long Seek(long offset, SeekOrigin loc)
+        {
+            var position = loc switch
+            {
+                SeekOrigin.Begin => offset,
+                SeekOrigin.Current => Position + offset,
+                SeekOrigin.End => Length + offset,
+                _ => throw new ArgumentOutOfRangeException(nameof(loc)),
+            };
+            EnsureValidPosition(position);
+            return base.Seek(offset, loc);
+        }
+
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+            EnsureWritable();
+            base.Write(buffer, offset, count);
+        }
+
+        public override void Write(ReadOnlySpan<byte> buffer)
+        {
+            EnsureWritable();
+            base.Write(buffer);
+        }
+
+        public override ValueTask WriteAsync(
+            ReadOnlyMemory<byte> buffer,
+            CancellationToken cancellationToken = default)
+        {
+            EnsureWritable();
+            return base.WriteAsync(buffer, cancellationToken);
+        }
+
+        public override Task WriteAsync(
+            byte[] buffer,
+            int offset,
+            int count,
+            CancellationToken cancellationToken)
+        {
+            EnsureWritable();
+            return base.WriteAsync(buffer, offset, count, cancellationToken);
+        }
+
+        public override void WriteByte(byte value)
+        {
+            EnsureWritable();
+            base.WriteByte(value);
+        }
+
+        public override void SetLength(long value)
+        {
+            EnsureWritable();
+            EnsureValidPosition(value);
+            base.SetLength(value);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (disposing && _writable && !_committed)
+                {
+                    _committed = true;
+                    _commit(ToArray());
+                }
+            }
+            finally
+            {
+                if (disposing && !_released)
+                {
+                    _released = true;
+                    _release();
+                }
+
+                base.Dispose(disposing);
+            }
+        }
+
+        private void EnsureWritable()
+        {
+            if (!_writable)
+            {
+                throw new NotSupportedException("The in-memory stream does not support writing.");
+            }
+
+            EnsureValidPosition(Position);
+        }
+
+        private void EnsureReadable()
+        {
+            if (!_readable)
+            {
+                throw new NotSupportedException("The in-memory stream does not support reading.");
+            }
+        }
+
+        private void EnsureValidPosition(long position)
+        {
+            if (!_initializing && _append && position < _appendStart)
+            {
+                throw new IOException("Cannot seek before the append boundary.");
+            }
+        }
+    }
+}

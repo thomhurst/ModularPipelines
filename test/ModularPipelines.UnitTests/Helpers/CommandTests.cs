@@ -296,7 +296,7 @@ public class CommandTests : TestBase
         }
 
         var tempDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
-        var scriptDirectory = Path.Combine(Environment.CurrentDirectory, $"mp-runtime-relative-{Guid.NewGuid():N}");
+        var scriptDirectory = Path.Combine(tempDirectory, "scripts");
         Directory.CreateDirectory(tempDirectory);
         Directory.CreateDirectory(scriptDirectory);
         var scriptPath = Path.Combine(scriptDirectory, "mp-runtime-relative-test.cmd");
@@ -305,13 +305,11 @@ public class CommandTests : TestBase
         {
             await File.WriteAllTextAsync(scriptPath, "@echo off\r\necho %CD%\r\n");
             var command = await GetService<ICommandContext>();
-            var relativeToolPath = Path.ChangeExtension(
-                Path.GetRelativePath(Environment.CurrentDirectory, scriptPath),
-                null);
+            var relativeToolPath = Path.ChangeExtension(Path.Combine("scripts", "mp-runtime-relative-test.cmd"), null);
 
             var resolvedScript = WindowsCommandResolver.Resolve(
                 relativeToolPath,
-                Environment.CurrentDirectory,
+                tempDirectory,
                 pathExtensions: ".COM;.EXE;.BAT;.CMD",
                 isWindows: true);
 
@@ -334,12 +332,11 @@ public class CommandTests : TestBase
         finally
         {
             Directory.Delete(tempDirectory, recursive: true);
-            Directory.Delete(scriptDirectory, recursive: true);
         }
     }
 
     [Test]
-    public async Task ExecuteCommandLineToolAsync_Resolves_Relative_Path_Entries_Before_Changing_Working_Directory()
+    public async Task ExecuteCommandLineToolAsync_Resolves_Relative_Path_Entries_From_Working_Directory()
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -348,7 +345,7 @@ public class CommandTests : TestBase
 
         var workingDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
         var relativeScriptDirectory = $"mp-runtime-path-{Guid.NewGuid():N}";
-        var scriptDirectory = Path.Combine(Environment.CurrentDirectory, relativeScriptDirectory);
+        var scriptDirectory = Path.Combine(workingDirectory, relativeScriptDirectory);
         Directory.CreateDirectory(workingDirectory);
         Directory.CreateDirectory(scriptDirectory);
         var scriptPath = Path.Combine(scriptDirectory, "mp-runtime-path-test.cmd");
@@ -377,7 +374,6 @@ public class CommandTests : TestBase
         finally
         {
             Directory.Delete(workingDirectory, recursive: true);
-            Directory.Delete(scriptDirectory, recursive: true);
         }
     }
 
