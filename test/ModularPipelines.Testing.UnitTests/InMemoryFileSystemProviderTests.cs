@@ -524,4 +524,21 @@ public class InMemoryFileSystemProviderTests
 
         await Assert.That(() => stream.Position = 0).Throws<IOException>();
     }
+
+    [Test]
+    public async Task RegularStreamsPreserveNegativeArgumentExceptions()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "regular.txt");
+
+        using var stream = provider.Open(path, FileMode.Create, FileAccess.ReadWrite);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => stream.Position = -1)
+                .Throws<ArgumentOutOfRangeException>();
+            await Assert.That(() => stream.SetLength(-1))
+                .Throws<ArgumentOutOfRangeException>();
+        }
+    }
 }

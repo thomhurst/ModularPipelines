@@ -681,6 +681,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     private sealed class CommittingMemoryStream : MemoryStream
     {
         private readonly Action<byte[]> _commit;
+        private readonly bool _append;
         private readonly bool _readable;
         private readonly bool _writable;
         private readonly long _appendStart;
@@ -697,6 +698,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             Action release)
             : base(Math.Max(contents.Length, 256))
         {
+            _append = append;
             _readable = access != FileAccess.Write;
             _writable = access != FileAccess.Read;
             _appendStart = append ? contents.Length : 0;
@@ -855,7 +857,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
         private void EnsureValidPosition(long position)
         {
-            if (!_initializing && position < _appendStart)
+            if (!_initializing && _append && position < _appendStart)
             {
                 throw new IOException("Cannot seek before the append boundary.");
             }
