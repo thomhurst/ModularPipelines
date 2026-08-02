@@ -104,13 +104,16 @@ internal static class TimeoutHelper
             var tcs = new TaskCompletionSource<T>(
                 TaskCreationOptions.RunContinuationsAsynchronously);
             using var reg = cancellationToken.Register(
-                static state => ((TaskCompletionSource<T>)state!).TrySetCanceled(),
+                static state => ((TaskCompletionSource<T>) state!).TrySetCanceled(),
                 tcs);
 
-            // await await: first gets winning task, then awaits it
-            // (propagates result or exception)
-            var winningResult = await await Task.WhenAny(task, tcs.Task)
-                .ConfigureAwait(false);
+            var fastPathWinner = await Task.WhenAny(task, tcs.Task).ConfigureAwait(false);
+            if (fastPathWinner != task)
+            {
+                TaskObservation.ObserveFault(task);
+            }
+
+            var winningResult = await fastPathWinner.ConfigureAwait(false);
             return TimeoutExecutionResult<T>.Success(winningResult, stopwatch.Elapsed);
         }
 
@@ -125,7 +128,7 @@ internal static class TimeoutHelper
         var cancelledTcs = new TaskCompletionSource<T>(
             TaskCreationOptions.RunContinuationsAsynchronously);
         using var registration = timeoutCts.Token.Register(
-            static state => ((TaskCompletionSource<T>)state!)
+            static state => ((TaskCompletionSource<T>) state!)
                 .TrySetCanceled(),
             cancelledTcs);
 
@@ -142,6 +145,7 @@ internal static class TimeoutHelper
             // Determine if it was external cancellation or timeout
             if (cancellationToken.IsCancellationRequested)
             {
+                TaskObservation.ObserveFault(executionTask);
                 throw new OperationCanceledException(cancellationToken);
             }
 
@@ -160,6 +164,7 @@ internal static class TimeoutHelper
             {
                 // Task still didn't complete - definitely not respecting the token
                 taskRespondedDuringGrace = false;
+                TaskObservation.ObserveFault(executionTask);
             }
             catch (OperationCanceledException)
             {
