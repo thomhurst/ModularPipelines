@@ -78,16 +78,30 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
             endOfLine = Environment.NewLine;
         }
 
-        var attributes = typeDecl.AttributeLists.Add(
-            SyntaxFactory.AttributeList(SyntaxFactory.SingletonSeparatedList(CreateDependsOnAttribute(name, syntaxTree!, isOptional)))
-                .WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine))
-                .NormalizeWhitespace(eol: endOfLine));
+        var originalTypeDecl = typeDecl;
+        var attribute = SyntaxFactory.AttributeList(
+                SyntaxFactory.SingletonSeparatedList(
+                    CreateDependsOnAttribute(name, syntaxTree!, isOptional)))
+            .NormalizeWhitespace(eol: endOfLine)
+            .WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine));
+        if (typeDecl.AttributeLists.Count == 0)
+        {
+            var leadingTrivia = typeDecl.GetLeadingTrivia();
+            var indentation = SyntaxFactory.TriviaList(
+                leadingTrivia
+                    .Reverse()
+                    .TakeWhile(static trivia => trivia.IsKind(SyntaxKind.WhitespaceTrivia))
+                    .Reverse());
+            attribute = attribute.WithLeadingTrivia(leadingTrivia);
+            typeDecl = typeDecl.WithLeadingTrivia(indentation);
+        }
+
+        var attributes = typeDecl.AttributeLists.Add(attribute);
 
         return document.WithSyntaxRoot(
             documentRoot
-                .ReplaceNode(typeDecl, typeDecl.WithAttributeLists(attributes).WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine)))
+                .ReplaceNode(originalTypeDecl, typeDecl.WithAttributeLists(attributes))
                 .AddUsings()
-                .NormalizeWhitespace(eol: endOfLine)
         );
     }
 

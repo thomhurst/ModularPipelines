@@ -76,7 +76,8 @@ public class Module2 : Module<IDictionary<string, object>>
     }
 }";
 
-    private const string FixedModuleSource = @"#nullable enable
+    private const string FixedModuleSource = @"
+#nullable enable
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -87,6 +88,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Examples.Modules;
+
 public class Module1 : Module<IDictionary<string, object>>
 {
     protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -157,8 +159,7 @@ public class Module2 : Module<IDictionary<string, object>>
                 "[DependsOn<Module1>(Optional = true)]\n    public class Module2 : Module<string>")
             .Replace(
                 "{|#0:context.GetModule1ModuleIfRegistered()|}",
-                "context.GetModule1ModuleIfRegistered()")
-            .TrimStart();
+                "context.GetModule1ModuleIfRegistered()");
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
@@ -219,6 +220,74 @@ public class Module2 : Module<string>
             BadModuleSource.ReplaceLineEndings("\n"),
             expected,
             FixedModuleSource.ReplaceLineEndings("\n"));
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Unrelated_Formatting()
+    {
+        var source = """
+            #nullable enable
+            using System.Threading;
+            using System.Threading.Tasks;
+            using ModularPipelines.Context;
+            using ModularPipelines.Modules;
+
+            namespace Example;
+
+            public class Dependency : Module<string>
+            {
+                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string?>(null);
+            }
+
+
+            // Keep this comment and the unusual token spacing below.
+            public   class Consumer : Module<string>
+            {
+                private const string Alignment = "keep";       // aligned comment
+
+                protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    var dependency = await {|#0:context.GetModule<Dependency>()|}; // trailing comment
+                    return Alignment;
+                }
+            }
+            """.ReplaceLineEndings("\n");
+        var fixedSource = """
+            #nullable enable
+            using System.Threading;
+            using System.Threading.Tasks;
+            using ModularPipelines.Context;
+            using ModularPipelines.Modules;
+            using ModularPipelines.Attributes;
+
+            namespace Example;
+
+            public class Dependency : Module<string>
+            {
+                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string?>(null);
+            }
+
+
+            // Keep this comment and the unusual token spacing below.
+            [DependsOn<Dependency>]
+            public   class Consumer : Module<string>
+            {
+                private const string Alignment = "keep";       // aligned comment
+
+                protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    var dependency = await context.GetModule<Dependency>(); // trailing comment
+                    return Alignment;
+                }
+            }
+            """.ReplaceLineEndings("\n");
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithArguments("Dependency")
+            .WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
     }
 
     [TestMethod]
