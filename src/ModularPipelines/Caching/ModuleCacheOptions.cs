@@ -34,6 +34,11 @@ public sealed class ModuleCacheOptions
     public long MaximumArtifactBytes { get; set; } = 10L * 1024 * 1024 * 1024;
 
     /// <summary>
+    /// Gets or sets the maximum compressed size of one cache entry read from a cache store.
+    /// </summary>
+    public long MaximumCacheEntryBytes { get; set; } = 10L * 1024 * 1024 * 1024;
+
+    /// <summary>
     /// Gets or sets the maximum number of files hashed concurrently.
     /// </summary>
     public int MaximumHashConcurrency { get; set; } = Math.Max(1, Environment.ProcessorCount);

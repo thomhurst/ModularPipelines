@@ -68,6 +68,13 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 nameof(options),
                 "ModuleCacheOptions.MaximumArtifactBytes must be positive.");
         }
+
+        if (_options.MaximumCacheEntryBytes <= 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(options),
+                "ModuleCacheOptions.MaximumCacheEntryBytes must be positive.");
+        }
     }
 
     public void DiscardFingerprint(IModule module) =>
@@ -180,7 +187,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                              64 * 1024,
                              FileOptions.Asynchronous))
             {
-                await cachedStream.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
+                await CopyCacheEntryToAsync(cachedStream, output, cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             ValidateArchiveEntryCount(temporary);
@@ -489,6 +497,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         CancellationToken cancellationToken)
     {
         var root = Path.GetFullPath(_options.WorkingDirectory);
+        var pathComparer = ModuleCacheFileResolver.GetPathComparer(root);
         var artifactPaths = GetArtifactPaths(moduleType).ToArray();
         var archivedArtifacts = new List<ZipArchiveEntry>();
         foreach (var entry in archive.Entries.Where(entry =>
@@ -532,7 +541,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                      .Where(artifact => artifact.IsSymbolicLink))
         {
             if (artifactEntries.Any(artifact =>
-                    IsNestedPath(symbolicLink.Destination, artifact.Destination)))
+                    IsNestedPath(
+                        symbolicLink.Destination,
+                        artifact.Destination,
+                        pathComparer)))
             {
                 throw new InvalidDataException(
                     $"Cache artifact entry '{symbolicLink.Entry.FullName}' is a symbolic link "
@@ -929,15 +941,62 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         return destination;
     }
 
-    private static bool IsNestedPath(string parent, string candidate)
+    private static bool IsNestedPath(
+        string parent,
+        string candidate,
+        StringComparer pathComparer)
     {
-        var relativePath = Path.GetRelativePath(parent, candidate);
-        return relativePath != "."
-               && relativePath != ".."
-               && !relativePath.StartsWith(
-                   $"..{Path.DirectorySeparatorChar}",
-                   StringComparison.Ordinal)
-               && !Path.IsPathRooted(relativePath);
+        var normalizedParent = parent.TrimEnd(
+            Path.DirectorySeparatorChar,
+            Path.AltDirectorySeparatorChar);
+        return candidate.Length > normalizedParent.Length
+               && pathComparer.Equals(
+                   normalizedParent,
+                   candidate[..normalizedParent.Length])
+               && candidate[normalizedParent.Length] is var separator
+               && (separator == Path.DirectorySeparatorChar
+                   || separator == Path.AltDirectorySeparatorChar);
+    }
+
+    private async Task CopyCacheEntryToAsync(
+        Stream input,
+        Stream output,
+        CancellationToken cancellationToken)
+    {
+        const int bufferSize = 64 * 1024;
+        var buffer = ArrayPool<byte>.Shared.Rent(bufferSize);
+        var totalBytes = 0L;
+        try
+        {
+            while (true)
+            {
+                var bytesRead = await input.ReadAsync(
+                        buffer.AsMemory(0, bufferSize),
+                        cancellationToken)
+                    .ConfigureAwait(false);
+                if (bytesRead == 0)
+                {
+                    return;
+                }
+
+                if (totalBytes > _options.MaximumCacheEntryBytes - bytesRead)
+                {
+                    throw new InvalidDataException(
+                        $"Cache entry exceeded the configured limit of "
+                        + $"{_options.MaximumCacheEntryBytes:N0} bytes.");
+                }
+
+                totalBytes += bytesRead;
+                await output.WriteAsync(
+                        buffer.AsMemory(0, bytesRead),
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
+        }
     }
 
     private static void RestoreUnixMode(

@@ -125,6 +125,24 @@ public class ModuleCacheTests
                 .Build();
     }
 
+    private sealed class RuntimeTypedCachedResultModule : Module<object>
+    {
+        public static int ExecutionCount;
+
+        protected internal override Task<object?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            return Task.FromResult<object?>(1);
+        }
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheKeyPart("runtime-typed-result-v1")
+                .Build();
+    }
+
     private sealed class EnvironmentCachedModule : Module<string>
     {
         public const string EnvironmentVariableName =
@@ -1318,6 +1336,36 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestorePreservesResultRuntimeType()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-result-type-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        RuntimeTypedCachedResultModule.ExecutionCount = 0;
+
+        try
+        {
+            var first = await RunRuntimeTypedResultPipelineAsync(temporaryDirectory);
+            var second = await RunRuntimeTypedResultPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(first.Status).IsEqualTo(Status.Successful);
+                await Assert.That(second.Status).IsEqualTo(Status.UsedHistory);
+                await Assert.That(second.Value).IsTypeOf<int>();
+                await Assert.That(second.Value).IsEqualTo(1);
+                await Assert.That(RuntimeTypedCachedResultModule.ExecutionCount).IsEqualTo(1);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task UnsetAndLiteralNullEnvironmentValuesHaveDifferentFingerprints()
     {
         var temporaryDirectory = Path.Combine(
@@ -2163,6 +2211,40 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRejectsCacheEntryAboveConfiguredLimit()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-download-limit-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            var restoredStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumCacheEntryBytes: 1);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task FailedWorkingDirectoryRestoreRestoresModeBeforeExecution()
     {
         if (OperatingSystem.IsWindows())
@@ -2315,8 +2397,13 @@ public class ModuleCacheTests
                         Encoding.UTF8.GetBytes(externalDirectory));
                 }
 
-                var nestedLink =
-                    archive.CreateEntry("artifacts/artifact-set/escape/child");
+                var nestedParent = ModuleCacheFileResolver
+                    .GetPathComparer(temporaryDirectory)
+                    .Equals("escape", "ESCAPE")
+                    ? "ESCAPE"
+                    : "escape";
+                var nestedLink = archive.CreateEntry(
+                    $"artifacts/artifact-set/{nestedParent}/child");
                 nestedLink.ExternalAttributes = 0xA000 << 16;
                 await using (var output = nestedLink.Open())
                 {
@@ -2809,6 +2896,25 @@ public class ModuleCacheTests
             .ModuleStatus;
     }
 
+    private static async Task<(Status Status, object? Value)>
+        RunRuntimeTypedResultPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<RuntimeTypedCachedResultModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        var result = host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(RuntimeTypedCachedResultModule))!;
+        return (result.ModuleStatus, result.ValueOrDefault);
+    }
+
     private static async Task<Status> RunEnvironmentPipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineHostBuilder.Create()
@@ -2893,7 +2999,8 @@ public class ModuleCacheTests
         string workingDirectory,
         int maximumInputFiles = 100_000,
         int maximumArtifactEntries = 100_000,
-        long maximumArtifactBytes = 10L * 1024 * 1024 * 1024)
+        long maximumArtifactBytes = 10L * 1024 * 1024 * 1024,
+        long maximumCacheEntryBytes = 10L * 1024 * 1024 * 1024)
     {
         await using var host = await TestPipelineHostBuilder.Create()
             .AddModuleCache<FileSystemModuleCache>(options =>
@@ -2903,6 +3010,7 @@ public class ModuleCacheTests
                 options.MaximumInputFiles = maximumInputFiles;
                 options.MaximumArtifactEntries = maximumArtifactEntries;
                 options.MaximumArtifactBytes = maximumArtifactBytes;
+                options.MaximumCacheEntryBytes = maximumCacheEntryBytes;
             })
             .AddModule<VaryingArtifactSetModule>()
             .BuildAsync();
