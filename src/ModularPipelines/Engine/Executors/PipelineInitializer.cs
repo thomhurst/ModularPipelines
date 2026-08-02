@@ -69,6 +69,7 @@ internal class PipelineInitializer(
         "AWS_WEB_IDENTITY_TOKEN_FILE",
         "AZURE_FEDERATED_TOKEN_FILE",
         "AZURE_STORAGE_AUTH_MODE",
+        "CI_COMMIT_AUTHOR",
         "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE",
         "GIT_AUTHOR_DATE",
         "GIT_AUTHOR_EMAIL",

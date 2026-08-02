@@ -222,6 +222,7 @@ public class PipelineInitializerTests
     [Arguments("AWS_WEB_IDENTITY_TOKEN_FILE")]
     [Arguments("AZURE_FEDERATED_TOKEN_FILE")]
     [Arguments("AZURE_STORAGE_AUTH_MODE")]
+    [Arguments("CI_COMMIT_AUTHOR")]
     [Arguments("CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE")]
     [Arguments("GOOGLE_APPLICATION_CREDENTIALS")]
     [Arguments("NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED")]
