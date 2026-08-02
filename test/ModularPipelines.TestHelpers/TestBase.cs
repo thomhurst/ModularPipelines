@@ -43,6 +43,23 @@ public abstract class TestBase
     }
 
     /// <summary>
+    /// Runs a single module with additional test-specific services.
+    /// </summary>
+    /// <typeparam name="T">The module type to run.</typeparam>
+    /// <param name="configureServices">Action to configure services for this test host.</param>
+    /// <returns>The executed module instance.</returns>
+    public Task<T> RunModule<T>(Action<IServiceCollection> configureServices)
+        where T : class, IModule
+    {
+        return ExecuteModulesAsync<T>(
+            new TestHostSettings(),
+            builder => builder
+                .AddModule<T>()
+                .ConfigureServices(configureServices),
+            modules => modules.OfType<T>().Single());
+    }
+
+    /// <summary>
     /// Runs two modules with default test settings.
     /// </summary>
     /// <typeparam name="T">The first module type to run.</typeparam>
