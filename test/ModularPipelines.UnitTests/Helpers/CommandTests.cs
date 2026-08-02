@@ -175,6 +175,40 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Successful_And_Dry_Run_Commands_Preserve_Unix_Environment_Name_Casing(
+        bool dryRun)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var command = await GetService<ICommandContext>();
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("pwsh")
+            {
+                Arguments = ["-NoProfile", "-Command", "exit 0"],
+            },
+            new CommandExecutionOptions
+            {
+                InternalDryRun = dryRun,
+                EnvironmentVariables = new Dictionary<string, string?>(StringComparer.Ordinal)
+                {
+                    ["FOO"] = "upper",
+                    ["foo"] = "lower",
+                },
+            });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.EnvironmentVariables["FOO"]).IsEqualTo("upper");
+            await Assert.That(result.EnvironmentVariables["foo"]).IsEqualTo("lower");
+        }
+    }
+
+    [Test]
     public async Task ExecuteCommandLineToolAsync_Resolves_Windows_Command_Scripts_From_Path()
     {
         if (!OperatingSystem.IsWindows())

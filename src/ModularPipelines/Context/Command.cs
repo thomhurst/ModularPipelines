@@ -373,7 +373,9 @@ internal sealed class Command : ICommandContext
             .ToDictionary(
                 pair => pair.Key,
                 pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
-                StringComparer.OrdinalIgnoreCase);
+                OperatingSystem.IsWindows()
+                    ? StringComparer.OrdinalIgnoreCase
+                    : StringComparer.Ordinal);
     }
 
     private CommandException? CreateCommandFailure(
