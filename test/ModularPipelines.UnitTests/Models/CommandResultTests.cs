@@ -22,7 +22,10 @@ public class CommandResultTests
     [Test]
     public async Task Dry_Run_Result_Contains_Completed_Result_Data()
     {
-        var result = new CommandResult(Cli.Wrap("tool"), "tool");
+        var result = new CommandResult(
+            Cli.Wrap("tool"),
+            "tool",
+            new Dictionary<string, string?>());
 
         using (Assert.Multiple())
         {

@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using CliWrap;
-using ModularPipelines.Helpers.Internal;
 
 namespace ModularPipelines.Models;
 
@@ -65,13 +64,16 @@ public record CommandResult
     }
 
     [SetsRequiredMembers]
-    internal CommandResult(Command command, string commandInput)
+    internal CommandResult(
+        Command command,
+        string commandInput,
+        IReadOnlyDictionary<string, string?> environmentVariables)
     {
         var completedAt = DateTimeOffset.UtcNow;
 
         CommandInput = commandInput;
         WorkingDirectory = command.WorkingDirPath;
-        EnvironmentVariables = GetPublicEnvironmentVariables(command);
+        EnvironmentVariables = environmentVariables;
         StandardOutput = string.Empty;
         StandardError = string.Empty;
         ExitCode = 0;
@@ -86,11 +88,12 @@ public record CommandResult
         CliWrap.CommandResult commandResult,
         string commandInput,
         string standardOutput,
-        string standardError)
+        string standardError,
+        IReadOnlyDictionary<string, string?> environmentVariables)
     {
         CommandInput = commandInput;
         WorkingDirectory = command.WorkingDirPath;
-        EnvironmentVariables = GetPublicEnvironmentVariables(command);
+        EnvironmentVariables = environmentVariables;
 
         StandardOutput = standardOutput;
         StandardError = standardError;
@@ -99,16 +102,6 @@ public record CommandResult
         Duration = commandResult.RunTime;
 
         ExitCode = commandResult.ExitCode;
-    }
-
-    private static IReadOnlyDictionary<string, string?> GetPublicEnvironmentVariables(Command command)
-    {
-        var environmentVariables = command.EnvironmentVariables;
-        return environmentVariables.Keys.Any(CliCommandFactory.IsInternalEnvironmentVariable)
-            ? environmentVariables
-                .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
-                .ToDictionary(StringComparer.OrdinalIgnoreCase)
-            : environmentVariables;
     }
 
     /// <summary>

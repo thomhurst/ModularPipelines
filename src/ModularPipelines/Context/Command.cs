@@ -87,7 +87,10 @@ internal sealed class Command : ICommandContext
         cancellationToken.ThrowIfCancellationRequested();
 
         var obfuscatedCommandInput = _secretObfuscator.Obfuscate(preparedCommand.Input, execOpts);
-        var commandMetadata = new CommandResult(command, obfuscatedCommandInput);
+        var commandMetadata = new CommandResult(
+            command,
+            obfuscatedCommandInput,
+            GetPublicEnvironmentVariables(command, execOpts));
         var invocation = new CommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
@@ -159,7 +162,11 @@ internal sealed class Command : ICommandContext
                 continue;
             }
 
-            var result = ApplyCommandMetadata(intercepted, command, commandInput);
+            var result = ApplyCommandMetadata(
+                intercepted,
+                command,
+                commandInput,
+                executionOptions);
             LogInterceptedCommand(options, executionOptions, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
@@ -199,15 +206,20 @@ internal sealed class Command : ICommandContext
 
         return new CommandResult(
             command,
-            _secretObfuscator.Obfuscate(commandInput, executionOptions));
+            _secretObfuscator.Obfuscate(commandInput, executionOptions),
+            GetPublicEnvironmentVariables(command, executionOptions));
     }
 
-    private static CommandResult ApplyCommandMetadata(
+    private CommandResult ApplyCommandMetadata(
         CommandResult result,
         CliWrap.Command command,
-        string commandInput)
+        string commandInput,
+        CommandExecutionOptions executionOptions)
     {
-        var metadata = new CommandResult(command, commandInput);
+        var metadata = new CommandResult(
+            command,
+            commandInput,
+            GetPublicEnvironmentVariables(command, executionOptions));
         return result with
         {
             CommandInput = metadata.CommandInput,
@@ -423,7 +435,8 @@ internal sealed class Command : ICommandContext
                 result,
                 _secretObfuscator.Obfuscate(commandInput, execOpts),
                 standardOutput,
-                standardError);
+                standardError,
+                GetPublicEnvironmentVariables(command, execOpts));
         }
     }
 
@@ -488,23 +501,30 @@ internal sealed class Command : ICommandContext
     {
         var completedAt = endTime ?? DateTimeOffset.UtcNow;
         var startedAt = startTime ?? completedAt - duration;
-        var environmentVariables = command.EnvironmentVariables
-            .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
-            .ToDictionary(
-                pair => pair.Key,
-                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
-                StringComparer.OrdinalIgnoreCase);
-
         return new CommandResult(
             commandInput: _secretObfuscator.Obfuscate(input, execOpts),
             workingDirectory: command.WorkingDirPath,
             standardOutput: _secretObfuscator.Obfuscate(standardOutput, execOpts),
             standardError: _secretObfuscator.Obfuscate(standardError, execOpts),
-            environmentVariables: environmentVariables,
+            environmentVariables: GetPublicEnvironmentVariables(command, execOpts),
             startTime: startedAt,
             endTime: completedAt,
             duration: duration,
             exitCode: exitCode);
+    }
+
+    private Dictionary<string, string?> GetPublicEnvironmentVariables(
+        CliWrap.Command command,
+        CommandExecutionOptions execOpts)
+    {
+        return command.EnvironmentVariables
+            .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
+            .ToDictionary(
+                pair => pair.Key,
+                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
+                OperatingSystem.IsWindows()
+                    ? StringComparer.OrdinalIgnoreCase
+                    : StringComparer.Ordinal);
     }
 
     private CommandException? CreateCommandFailure(
