@@ -149,7 +149,13 @@ internal class ModuleRunner : IModuleRunner
         var executionContext = CreateExecutionContext(module, moduleType);
         ApplyDependencySkip(moduleState, executionContext);
         var logger = GetModuleLogger(scopedServiceProvider, moduleType);
-        var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
+        var moduleContext = new ModuleContext(
+            pipelineContext,
+            module,
+            executionContext,
+            logger,
+            _mediator,
+            _moduleEstimatedTimeProvider);
 
         // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
@@ -264,10 +270,17 @@ internal class ModuleRunner : IModuleRunner
                 _resultRegistry.RegisterResult(moduleType, result);
             }
 
-            // Invoke OnModuleFailed lifecycle event
-            await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, ex).ConfigureAwait(false);
+            try
+            {
+                // Invoke OnModuleFailed lifecycle event
+                await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, ex).ConfigureAwait(false);
 
-            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
+                await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
+            }
+            finally
+            {
+                await _mediator.Publish(new ModuleCompletedNotification(moduleState, false)).ConfigureAwait(false);
+            }
 
             throw;
         }

@@ -36,7 +36,6 @@ internal class ModuleExecutionContext : IModuleExecutionContext
         ModuleType = moduleType;
         Stopwatch = new Stopwatch();
         ModuleCancellationTokenSource = new CancellationTokenSource();
-        SubModules = new List<SubModuleTracker>();
     }
 
     /// <summary>
@@ -92,11 +91,6 @@ internal class ModuleExecutionContext : IModuleExecutionContext
     /// to combine external and engine-level cancellation.
     /// </remarks>
     public CancellationTokenSource ModuleCancellationTokenSource { get; set; }
-
-    /// <summary>
-    /// Gets the list of sub-module trackers.
-    /// </summary>
-    public List<SubModuleTracker> SubModules { get; }
 
     /// <summary>
     /// Gets or sets the matrix target value for this module instance, if it was expanded via MatrixTargetAttribute.
@@ -251,8 +245,6 @@ internal interface IModuleExecutionContext
     Stopwatch Stopwatch { get; }
 
     CancellationTokenSource ModuleCancellationTokenSource { get; set; }
-
-    List<SubModuleTracker> SubModules { get; }
 
     Task<IModuleResult> ExecutionTask { get; }
 
