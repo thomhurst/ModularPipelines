@@ -200,6 +200,27 @@ public class PipelineLevelLoggerTests
     }
 
     [Test]
+    public async Task Log_GuardsHostileStructuredTraversal()
+    {
+        var underlyingLogger = new RecordingLogger();
+        var pipelineLevelLogger = CreateLogger(underlyingLogger);
+
+        await Assert.That(() => pipelineLevelLogger.Log(
+                LogLevel.Information,
+                new EventId(3, "HostileState"),
+                new ThrowingCountStructuredState(),
+                null,
+                static (_, _) => throw new InvalidOperationException("Cannot format state.")))
+            .ThrowsNothing();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(underlyingLogger.State).IsEqualTo(LoggingConstants.SecretMask);
+            await Assert.That(underlyingLogger.Message).IsEqualTo(LoggingConstants.SecretMask);
+        }
+    }
+
+    [Test]
     public async Task Log_PreservesEverySanitizedAggregateExceptionBranch()
     {
         const string secret = "pipeline-secret";
@@ -286,7 +307,7 @@ public class PipelineLevelLoggerTests
         var pipelineLevelLogger = CreateLogger(underlyingLogger);
 
         await Assert.That(
-                () => pipelineLevelLogger.BeginScope(new ThrowingCountStructuredScopeState()))
+                () => pipelineLevelLogger.BeginScope(new ThrowingCountStructuredState()))
             .ThrowsNothing();
 
         await Assert.That(underlyingLogger.Scope).IsEqualTo(LoggingConstants.SecretMask);
@@ -341,7 +362,7 @@ public class PipelineLevelLoggerTests
         public override string ToString() => throw new InvalidOperationException("Cannot format scope.");
     }
 
-    private sealed class ThrowingCountStructuredScopeState
+    private sealed class ThrowingCountStructuredState
         : IReadOnlyList<KeyValuePair<string, object?>>
     {
         public int Count => throw new InvalidOperationException("Cannot count scope values.");

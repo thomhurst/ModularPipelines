@@ -39,9 +39,27 @@ internal sealed class PipelineLevelLogger : IModuleLogger
             return;
         }
 
-        var obfuscatedState = state is null
-            ? null
-            : _formattedLogValuesObfuscator.TryObfuscateValues(state);
+        object? obfuscatedState;
+        try
+        {
+            obfuscatedState = state is null
+                ? null
+                : _formattedLogValuesObfuscator.TryObfuscateValues(state);
+        }
+        catch (Exception)
+        {
+            new BufferedLogEvent<string>(
+                    logLevel,
+                    eventId,
+                    LoggingConstants.SecretMask,
+                    LoggingConstants.SecretMask,
+                    exception,
+                    static (message, _) => message,
+                    _secretObfuscator)
+                .WriteTo(_logger);
+            return;
+        }
+
         new BufferedLogEvent<TState>(
                 logLevel,
                 eventId,
