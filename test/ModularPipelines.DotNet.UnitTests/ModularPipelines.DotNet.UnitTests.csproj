@@ -4,6 +4,11 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
+    <ProjectReference Include="..\ModularPipelines.DocumentationSnippets\ModularPipelines.DocumentationSnippets.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\ModularPipelines.TestsForTests\ModularPipelines.TestsForTests.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Moq" />
   </ItemGroup>
   <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
 </Project>

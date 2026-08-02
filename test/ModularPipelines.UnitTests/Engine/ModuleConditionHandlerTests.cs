@@ -6,9 +6,6 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
-using ModularPipelines.Git;
-using ModularPipelines.Git.Attributes;
-using ModularPipelines.Git.Models;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -162,25 +159,13 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
-    public async Task Mandatory_Branch_Condition_Is_Not_Overridden_By_Optional_Alternative()
+    public async Task Mandatory_Condition_Is_Not_Overridden_By_Optional_Alternative()
     {
-        var gitInformation = new Mock<IGitInformation>();
-        gitInformation.Setup(x => x.GetInfoAsync())
-            .ReturnsAsync(new GitRepositoryInfo(
-                new ModularPipelines.FileSystem.Folder(TestContext.WorkingDirectory))
-            {
-                BranchName = "release/1.0",
-            });
-        var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
-        var services = new Mock<IServicesContext>();
-        services.Setup(x => x.Get<IGit>()).Returns(git);
         var logger = Mock.Of<IModuleLogger>();
-        var context = Mock.Of<IPipelineContext>(x =>
-            x.Logger == logger &&
-            x.Services == services.Object);
+        var context = Mock.Of<IPipelineContext>(x => x.Logger == logger);
         var handler = CreateHandler(new DistributedOptions(), context);
 
-        var result = await handler.ShouldIgnore(new MandatoryMainOptionalReleaseModule());
+        var result = await handler.ShouldIgnore(new MandatoryFalseOptionalTrueModule());
 
         await Assert.That(result.ShouldIgnore).IsTrue();
     }
@@ -296,9 +281,9 @@ public class ModuleConditionHandlerTests
         }
     }
 
-    [RunOnlyOnBranch("main")]
-    [RunIfBranchStartsWith("release/")]
-    private sealed class MandatoryMainOptionalReleaseModule : Module<string>
+    [MandatoryCondition(false)]
+    [AlternativeCondition(true)]
+    private sealed class MandatoryFalseOptionalTrueModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -316,6 +301,15 @@ public class ModuleConditionHandlerTests
         public Type ConditionGroupType => typeof(AlternativeConditionAttribute);
 
         public string ConditionNames => nameof(AlternativeConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(result);
+    }
+
+    private sealed class MandatoryConditionAttribute(bool result) : Attribute, IConditionAttribute
+    {
+        public ConditionLogic Logic => ConditionLogic.All;
+
+        public string ConditionNames => nameof(MandatoryConditionAttribute);
 
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(result);
     }

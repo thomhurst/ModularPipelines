@@ -7,7 +7,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
-namespace ModularPipelines.UnitTests.Context;
+namespace ModularPipelines.Git.UnitTests;
 
 public class GitInformationTests : TestBase
 {

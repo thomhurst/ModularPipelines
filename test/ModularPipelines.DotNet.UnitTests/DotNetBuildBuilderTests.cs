@@ -8,7 +8,7 @@ using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using Moq;
 
-namespace ModularPipelines.UnitTests.Builders;
+namespace ModularPipelines.DotNet.UnitTests;
 
 public class DotNetBuildBuilderTests : TestBase
 {

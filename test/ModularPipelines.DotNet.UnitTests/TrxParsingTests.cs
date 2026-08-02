@@ -7,13 +7,12 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
-namespace ModularPipelines.UnitTests.Models;
+namespace ModularPipelines.DotNet.UnitTests;
 
 public class TrxParsingTests : TestBase
 {
@@ -53,10 +52,7 @@ public class TrxParsingTests : TestBase
 
         protected internal override async Task<DotNetTestResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            var testProject = repositoryInfo.Root
-                .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
+            var testProject = TestProjectPaths.TestsForTestsProject;
 
             // Create a temp directory for test results
             var resultsDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
