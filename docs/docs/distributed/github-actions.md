@@ -7,6 +7,39 @@ sidebar_position: 5
 
 This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination.
 
+## Generate the Workflow
+
+The `ModularPipelines.GitHub` package can generate the matrix from the operating-system
+capabilities declared by registered modules. Call `WriteDistributedWorkflow` after registering
+the modules so regeneration reflects capability changes:
+
+```csharp
+using ModularPipelines.GitHub.Extensions;
+using ModularPipelines.GitHub.PipelineWriters;
+
+builder.AddModule<RestoreModule>();
+builder.AddModule<LinuxBuildModule>();
+builder.AddModule<WindowsBuildModule>();
+builder.AddModule<MacBuildModule>();
+builder.AddModule<AggregateResultsModule>();
+
+builder.WriteDistributedWorkflow(new DistributedWorkflowOptions
+{
+    Backend = DistributedBackend.Redis,
+    ExtraWorkers = 1,
+    PipelineProjectPath = new("src/MyPipeline"),
+});
+```
+
+The generated matrix contains a Linux master, one worker for every `linux`, `windows`, or
+`macos` capability used by a registered module, and the requested additional workers. It wires
+`INSTANCE_INDEX`, `TOTAL_INSTANCES`, and `REDIS_URL` automatically. Set the repository secret
+named `REDIS_URL`, or change `RedisSecretName` in the options. Commit the generated file at
+`.github/workflows/modular-pipelines.yml`; regenerate it whenever module registration or
+capability requirements change.
+
+The following hand-written workflow is equivalent and can be customized directly.
+
 ## Workflow File
 
 ```yaml
@@ -36,9 +69,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: "10.0.x"
 
