@@ -86,14 +86,13 @@ public class BuildModule : Module<BuildInfo>
 
 // PublishModule retrieves and uses it
 [DependsOn<BuildModule>]
-public class PublishModule : Module<None>
+public class PublishModule : Module
 {
-    protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var buildResult = await context.GetModule<BuildModule>();
         var outputPath = buildResult.Value.OutputPath; // Throws with module context if unavailable
         // Publish using the build output...
-        return None.Value;
     }
 }
 ```

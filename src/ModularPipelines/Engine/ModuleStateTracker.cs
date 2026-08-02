@@ -376,16 +376,15 @@ internal class ModuleStateTracker : IModuleStateTracker
         }
 
         _logger.LogDebug(
-            "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
+            "Module {ModuleName} completion unblocks {Count} dependents",
             state.ModuleType.Name,
-            updates.Count,
-            string.Join(", ", updates.Select(u => u.Dependent.ModuleType.Name)));
+            updates.Count);
 
         foreach (var (dependent, isReady) in updates)
         {
             if (isReady)
             {
-                _logger.LogDebug(
+                _logger.LogTrace(
                     "Dependent module {DependentName} now ready to execute (all dependencies met)",
                     dependent.ModuleType.Name);
             }

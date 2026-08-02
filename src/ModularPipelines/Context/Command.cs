@@ -85,7 +85,9 @@ internal sealed class Command : ICommandContext
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var commandMetadata = new CommandResult(command);
+        var commandMetadata = new CommandResult(
+            command,
+            GetPublicEnvironmentVariables(command, execOpts));
         var invocation = new CommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
@@ -154,7 +156,7 @@ internal sealed class Command : ICommandContext
                 continue;
             }
 
-            var result = ApplyCommandMetadata(intercepted, command);
+            var result = ApplyCommandMetadata(intercepted, command, executionOptions);
             LogInterceptedCommand(options, executionOptions, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
@@ -192,12 +194,19 @@ internal sealed class Command : ICommandContext
             standardError: "Dummy Error Response",
             commandWorkingDirPath: command.WorkingDirPath);
 
-        return new CommandResult(command);
+        return new CommandResult(
+            command,
+            GetPublicEnvironmentVariables(command, executionOptions));
     }
 
-    private static CommandResult ApplyCommandMetadata(CommandResult result, CliWrap.Command command)
+    private CommandResult ApplyCommandMetadata(
+        CommandResult result,
+        CliWrap.Command command,
+        CommandExecutionOptions executionOptions)
     {
-        var metadata = new CommandResult(command);
+        var metadata = new CommandResult(
+            command,
+            GetPublicEnvironmentVariables(command, executionOptions));
         return result with
         {
             CommandInput = metadata.CommandInput,
@@ -407,7 +416,12 @@ internal sealed class Command : ICommandContext
             }
 
             loggingFailures.Throw();
-            return new CommandResult(command, result, standardOutput, standardError);
+            return new CommandResult(
+                command,
+                result,
+                standardOutput,
+                standardError,
+                GetPublicEnvironmentVariables(command, execOpts));
         }
     }
 
@@ -472,23 +486,30 @@ internal sealed class Command : ICommandContext
     {
         var completedAt = endTime ?? DateTimeOffset.UtcNow;
         var startedAt = startTime ?? completedAt - duration;
-        var environmentVariables = command.EnvironmentVariables
-            .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
-            .ToDictionary(
-                pair => pair.Key,
-                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
-                StringComparer.OrdinalIgnoreCase);
-
         return new CommandResult(
             commandInput: _secretObfuscator.Obfuscate(input, execOpts),
             workingDirectory: command.WorkingDirPath,
             standardOutput: _secretObfuscator.Obfuscate(standardOutput, execOpts),
             standardError: _secretObfuscator.Obfuscate(standardError, execOpts),
-            environmentVariables: environmentVariables,
+            environmentVariables: GetPublicEnvironmentVariables(command, execOpts),
             startTime: startedAt,
             endTime: completedAt,
             duration: duration,
             exitCode: exitCode);
+    }
+
+    private Dictionary<string, string?> GetPublicEnvironmentVariables(
+        CliWrap.Command command,
+        CommandExecutionOptions execOpts)
+    {
+        return command.EnvironmentVariables
+            .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
+            .ToDictionary(
+                pair => pair.Key,
+                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
+                OperatingSystem.IsWindows()
+                    ? StringComparer.OrdinalIgnoreCase
+                    : StringComparer.Ordinal);
     }
 
     private CommandException? CreateCommandFailure(

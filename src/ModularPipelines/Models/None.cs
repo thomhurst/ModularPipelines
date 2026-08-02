@@ -5,8 +5,9 @@ namespace ModularPipelines.Models;
 /// </summary>
 /// <remarks>
 /// This is similar to <c>void</c> but can be used as a generic type parameter.
-/// Use <see cref="Modules.Module{T}"/> with <see cref="None"/> for modules that perform
-/// actions without returning results.
+/// The non-generic <see cref="Modules.Module"/> uses <see cref="None"/> internally for modules
+/// that perform actions without returning results. Use <see cref="Modules.SyncModule{T}"/> with
+/// <see cref="None"/> for synchronous modules without a result value.
 /// </remarks>
 public readonly struct None : IEquatable<None>, IEquatable<None?>
 {

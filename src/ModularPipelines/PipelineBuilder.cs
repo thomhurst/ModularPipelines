@@ -40,8 +40,6 @@ public sealed class PipelineBuilder : IDisposable
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private PipelineOptions _options;
 
-    internal Type? LastRegisteredModuleType { get; set; }
-
     internal PipelineBuilder(string[]? args)
         : this(new PipelineBuilderOptions { Args = args })
     {
