@@ -75,6 +75,7 @@ internal class PipelineInitializer(
         "GIT_AUTHOR_EMAIL",
         "GIT_AUTHOR_NAME",
         "GOOGLE_APPLICATION_CREDENTIALS",
+        "NPM_CONFIG_AUTH_TYPE",
         "NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED",
         "OLDPWD",
         "PWD",

@@ -225,6 +225,7 @@ public class PipelineInitializerTests
     [Arguments("CI_COMMIT_AUTHOR")]
     [Arguments("CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE")]
     [Arguments("GOOGLE_APPLICATION_CREDENTIALS")]
+    [Arguments("NPM_CONFIG_AUTH_TYPE")]
     [Arguments("NUGET_CREDENTIALPROVIDER_SESSIONTOKENCACHE_ENABLED")]
     [Arguments("GIT_AUTHOR_NAME")]
     [Arguments("GIT_AUTHOR_EMAIL")]
