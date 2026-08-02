@@ -16,7 +16,6 @@ internal sealed class LocalFtpServer : IAsyncDisposable
     private readonly ConcurrentQueue<string> _commands = new();
     private readonly TcpListener _listener;
     private readonly Task _serverTask;
-    private TcpListener? _dataListener;
 
     private LocalFtpServer()
     {
@@ -34,7 +33,6 @@ internal sealed class LocalFtpServer : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         await _cancellationTokenSource.CancelAsync();
-        _dataListener?.Stop();
         _listener.Stop();
         await _serverTask;
         await Task.WhenAll(_clientTasks);
@@ -88,6 +86,7 @@ internal sealed class LocalFtpServer : IAsyncDisposable
             AutoFlush = true,
             NewLine = "\r\n",
         };
+        using var session = new FtpSession(writer);
 
         await writer.WriteLineAsync("220 localhost FTP ready");
 
@@ -139,13 +138,13 @@ internal sealed class LocalFtpServer : IAsyncDisposable
                     await writer.WriteLineAsync("350 Restart position accepted");
                     break;
                 case "PASV":
-                    await StartPassiveListenerAsync(writer, extended: false);
+                    await session.StartPassiveListenerAsync(extended: false);
                     break;
                 case "EPSV":
-                    await StartPassiveListenerAsync(writer, extended: true);
+                    await session.StartPassiveListenerAsync(extended: true);
                     break;
                 case "RETR":
-                    await SendFileAsync(writer, argument, cancellationToken);
+                    await session.SendFileAsync(argument, cancellationToken);
                     break;
                 case "AUTH":
                     await writer.WriteLineAsync("502 TLS not supported");
@@ -160,44 +159,48 @@ internal sealed class LocalFtpServer : IAsyncDisposable
         }
     }
 
-    private async Task StartPassiveListenerAsync(StreamWriter writer, bool extended)
+    private sealed class FtpSession(StreamWriter writer) : IDisposable
     {
-        _dataListener?.Stop();
-        _dataListener = new TcpListener(IPAddress.Loopback, 0);
-        _dataListener.Start();
-        var port = ((IPEndPoint) _dataListener.LocalEndpoint).Port;
+        private TcpListener? _dataListener;
 
-        await writer.WriteLineAsync(extended
-            ? $"229 Entering Extended Passive Mode (|||{port}|)"
-            : $"227 Entering Passive Mode (127,0,0,1,{port / 256},{port % 256})");
-    }
-
-    private async Task SendFileAsync(
-        StreamWriter writer,
-        string remotePath,
-        CancellationToken cancellationToken)
-    {
-        if (remotePath != RemotePath)
+        public async Task StartPassiveListenerAsync(bool extended)
         {
-            await writer.WriteLineAsync("550 File unavailable");
-            return;
+            _dataListener?.Stop();
+            _dataListener = new TcpListener(IPAddress.Loopback, 0);
+            _dataListener.Start();
+            var port = ((IPEndPoint) _dataListener.LocalEndpoint).Port;
+
+            await writer.WriteLineAsync(extended
+                ? $"229 Entering Extended Passive Mode (|||{port}|)"
+                : $"227 Entering Passive Mode (127,0,0,1,{port / 256},{port % 256})");
         }
 
-        if (_dataListener is null)
+        public async Task SendFileAsync(string remotePath, CancellationToken cancellationToken)
         {
-            await writer.WriteLineAsync("425 Use PASV or EPSV first");
-            return;
+            if (remotePath != RemotePath)
+            {
+                await writer.WriteLineAsync("550 File unavailable");
+                return;
+            }
+
+            if (_dataListener is null)
+            {
+                await writer.WriteLineAsync("425 Use PASV or EPSV first");
+                return;
+            }
+
+            await writer.WriteLineAsync("150 Opening binary data connection");
+            using var dataClient = await _dataListener.AcceptTcpClientAsync(cancellationToken);
+            await using (var dataStream = dataClient.GetStream())
+            {
+                await dataStream.WriteAsync(ContentBytes, cancellationToken);
+            }
+
+            _dataListener.Stop();
+            _dataListener = null;
+            await writer.WriteLineAsync("226 Transfer complete");
         }
 
-        await writer.WriteLineAsync("150 Opening binary data connection");
-        using var dataClient = await _dataListener.AcceptTcpClientAsync(cancellationToken);
-        await using (var dataStream = dataClient.GetStream())
-        {
-            await dataStream.WriteAsync(ContentBytes, cancellationToken);
-        }
-
-        _dataListener.Stop();
-        _dataListener = null;
-        await writer.WriteLineAsync("226 Transfer complete");
+        public void Dispose() => _dataListener?.Stop();
     }
 }

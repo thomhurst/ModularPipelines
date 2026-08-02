@@ -2,9 +2,9 @@ using System.Net;
 using FluentFTP;
 using ModularPipelines.Ftp;
 using ModularPipelines.Ftp.Options;
+using ModularPipelines.FileSystem;
 using ModularPipelines.TestHelpers;
 using Disposer = ModularPipelines.Helpers.Disposer;
-using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Ftp.UnitTests.Helpers;
 
@@ -18,30 +18,20 @@ public class FtpTests : TestBase
 
         var client = await ftp.GetFtpClientAsync(CreateOptions(ftpServer.Port));
 
-        var localPath = File.GetNewTemporaryFilePath();
+        await using var tempFile = new TempFile();
 
-        try
-        {
-            var response = await client.DownloadFile(
-                localPath,
-                LocalFtpServer.RemotePath,
-                FtpLocalExists.Overwrite);
-            var fileContents = await localPath.ReadAsync();
+        var response = await client.DownloadFile(
+            tempFile.File,
+            LocalFtpServer.RemotePath,
+            FtpLocalExists.Overwrite);
+        var fileContents = await tempFile.File.ReadAsync();
 
-            using (Assert.Multiple())
-            {
-                await Assert.That(response).IsEqualTo(FtpStatus.Success);
-                await Assert.That(fileContents).IsEqualTo(LocalFtpServer.Contents);
-                await Assert.That(ftpServer.Commands).Contains(command =>
-                    command.Equals($"RETR {LocalFtpServer.RemotePath}", StringComparison.Ordinal));
-            }
-        }
-        finally
+        using (Assert.Multiple())
         {
-            if (localPath.Exists)
-            {
-                localPath.Delete();
-            }
+            await Assert.That(response).IsEqualTo(FtpStatus.Success);
+            await Assert.That(fileContents).IsEqualTo(LocalFtpServer.Contents);
+            await Assert.That(ftpServer.Commands).Contains(command =>
+                command.Equals($"RETR {LocalFtpServer.RemotePath}", StringComparison.Ordinal));
         }
     }
 
