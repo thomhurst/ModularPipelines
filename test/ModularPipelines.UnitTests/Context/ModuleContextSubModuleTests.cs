@@ -92,6 +92,37 @@ public class ModuleContextSubModuleTests
             Times.Never);
     }
 
+    [Test]
+    public async Task SubModule_LoadsEstimatesOncePerModuleExecution()
+    {
+        var module = Mock.Of<IModule>();
+        var executionContext = new ModuleExecutionContext(module, module.GetType());
+        var mediator = new Mock<IMediator>();
+        var estimatedTimeProvider = new Mock<ISafeModuleEstimatedTimeProvider>();
+
+        mediator
+            .Setup(x => x.Publish(It.IsAny<SubModuleCreatedNotification>(), It.IsAny<CancellationToken>()))
+            .Returns(ValueTask.CompletedTask);
+        mediator
+            .Setup(x => x.Publish(It.IsAny<SubModuleCompletedNotification>(), It.IsAny<CancellationToken>()))
+            .Returns(ValueTask.CompletedTask);
+        estimatedTimeProvider
+            .Setup(x => x.GetSubModuleEstimatedTimesAsync(module.GetType()))
+            .ReturnsAsync([]);
+        estimatedTimeProvider
+            .Setup(x => x.SaveSubModuleTimeAsync(module.GetType(), It.IsAny<SubModuleEstimation>()))
+            .Returns(Task.CompletedTask);
+        var context = CreateContext(module, executionContext, mediator.Object, estimatedTimeProvider.Object);
+
+        await Task.WhenAll(
+            context.SubModule("First", () => Task.CompletedTask),
+            context.SubModule("Second", () => Task.CompletedTask));
+
+        estimatedTimeProvider.Verify(
+            x => x.GetSubModuleEstimatedTimesAsync(module.GetType()),
+            Times.Once);
+    }
+
     private static ModuleContext CreateContext(
         IModule module,
         ModuleExecutionContext executionContext,

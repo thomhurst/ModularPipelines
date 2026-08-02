@@ -26,6 +26,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     private readonly IModuleLogger _logger;
     private readonly IMediator _mediator;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
+    private readonly Lazy<Task<SubModuleEstimation[]>> _subModuleEstimations;
 
     public ModuleContext(
         IPipelineContext pipelineContext,
@@ -42,6 +43,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         _logger = logger;
         _mediator = mediator;
         _estimatedTimeProvider = estimatedTimeProvider;
+        _subModuleEstimations = new Lazy<Task<SubModuleEstimation[]>>(LoadSubModuleEstimationsAsync);
     }
 
     #region IModuleContext specific methods
@@ -108,9 +110,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     {
         var moduleType = _currentModule.GetType();
         var tracker = new SubModuleTracker(name, moduleType);
-        var estimates = await _estimatedTimeProvider
-            .GetSubModuleEstimatedTimesAsync(moduleType)
-            .ConfigureAwait(false);
+        var estimates = await _subModuleEstimations.Value.ConfigureAwait(false);
         var estimatedDuration = estimates
             .FirstOrDefault(x => string.Equals(x.SubModuleName, name, StringComparison.Ordinal))
             ?.EstimatedDuration ?? DefaultSubModuleEstimatedDuration;
@@ -137,6 +137,15 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
                 new SubModuleCompletedNotification(_currentModule, tracker, isSuccessful))
                 .ConfigureAwait(false);
         }
+    }
+
+    private async Task<SubModuleEstimation[]> LoadSubModuleEstimationsAsync()
+    {
+        var estimates = await _estimatedTimeProvider
+            .GetSubModuleEstimatedTimesAsync(_currentModule.GetType())
+            .ConfigureAwait(false);
+
+        return estimates.ToArray();
     }
 
     #endregion
