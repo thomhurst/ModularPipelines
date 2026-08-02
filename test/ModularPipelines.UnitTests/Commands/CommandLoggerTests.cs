@@ -339,6 +339,54 @@ public class CommandLoggerTests : TestBase
     }
 
     [Test]
+    public async Task Command_Header_Precedes_Streamed_Output_And_Completion()
+    {
+        var marker = $"ordered-output-{Guid.NewGuid():N}";
+        var file = await RunPowershellCommandWithLoggingOptions(
+            $"Write-Output '{marker}'; Start-Sleep -Milliseconds 750",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        var headerIndex = logFile.IndexOf(
+            $"{Environment.CurrentDirectory}> pwsh",
+            StringComparison.Ordinal);
+        var outputIndex = logFile.IndexOf($"↳ {marker}", StringComparison.Ordinal);
+        var completionIndex = logFile.LastIndexOf("✓ [", StringComparison.Ordinal);
+
+        await Assert.That(headerIndex).IsGreaterThanOrEqualTo(0);
+        await Assert.That(outputIndex).IsGreaterThan(headerIndex);
+        await Assert.That(completionIndex).IsGreaterThan(outputIndex);
+
+        var lines = logFile.Split(Environment.NewLine);
+        var headerLine = lines.Single(line =>
+            line.Contains($"{Environment.CurrentDirectory}> pwsh", StringComparison.Ordinal));
+        var completionLine = lines.Last(line =>
+            line.Contains("✓ [", StringComparison.Ordinal));
+        await Assert.That(headerLine).DoesNotContain("✓");
+        await Assert.That(completionLine).Contains("pwsh");
+    }
+
+    [Test]
+    public async Task Failed_Command_Logs_Error_Before_Completion()
+    {
+        var marker = $"ordered-error-{Guid.NewGuid():N}";
+        var file = await RunPowershellCommandWithLoggingOptions(
+            $"[Console]::Error.WriteLine('{marker}'); Start-Sleep -Milliseconds 750; exit 7",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        var headerIndex = logFile.IndexOf(
+            $"{Environment.CurrentDirectory}> pwsh",
+            StringComparison.Ordinal);
+        var errorIndex = logFile.IndexOf($"↳ {marker}", StringComparison.Ordinal);
+        var completionIndex = logFile.LastIndexOf("✗ [", StringComparison.Ordinal);
+
+        await Assert.That(headerIndex).IsGreaterThanOrEqualTo(0);
+        await Assert.That(errorIndex).IsGreaterThan(headerIndex);
+        await Assert.That(completionIndex).IsGreaterThan(errorIndex);
+    }
+
+    [Test]
     public async Task Command_Output_Is_Logged_Before_Command_Completes()
     {
         var marker = $"live-output-{Guid.NewGuid():N}";
@@ -396,6 +444,69 @@ public class CommandLoggerTests : TestBase
         await Assert.That(exception.InnerExceptions[0]).IsTypeOf<InvalidOperationException>();
         await Assert.That(exception.InnerExceptions[0].Message).IsEqualTo("Logging failed.");
         await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task HeaderLoggingFailureDoesNotPreventCommandExecution()
+    {
+        var marker = $"header-failure-{Guid.NewGuid():N}";
+        var sideEffectFile = Path.Combine(
+            TestContext.WorkingDirectory,
+            Guid.NewGuid().ToString("N") + ".txt");
+        using var loggingProvider =
+            new SelectiveThrowingLoggerProvider($"{Environment.CurrentDirectory}> {marker}");
+        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddProvider(loggingProvider));
+        });
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(() =>
+            commandContext.ExecuteCommandLineToolAsync(
+                new PowershellScriptOptions(
+                    $"[System.IO.File]::WriteAllText('{sideEffectFile}', 'executed')"),
+                new CommandExecutionOptions
+                {
+                    InputLoggingManipulator = _ => marker,
+                }));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Flatten().InnerExceptions)
+                .Contains(failure =>
+                    failure is InvalidOperationException
+                    && failure.Message == "Logging failed.");
+            await Assert.That(await File.ReadAllTextAsync(sideEffectFile)).IsEqualTo("executed");
+            await Assert.That(loggingProvider.ThrowCount).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task InvalidExecutionTimeoutDoesNotLogCommandStart()
+    {
+        var marker = $"invalid-timeout-{Guid.NewGuid():N}";
+        var file = Path.Combine(
+            TestContext.WorkingDirectory,
+            Guid.NewGuid().ToString("N") + ".txt");
+        var result = await GetService<ICommandContext>((_, collection) =>
+        {
+            collection.Configure<LoggerFilterOptions>(
+                options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => builder.AddFile(file));
+        });
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+            result.T.ExecuteCommandLineToolAsync(
+                new PowershellScriptOptions("Write-Output 'not-executed'"),
+                new CommandExecutionOptions
+                {
+                    ExecutionTimeout = TimeSpan.FromMilliseconds(-2),
+                    InputLoggingManipulator = _ => marker,
+                }));
+        await result.Host.DisposeAsync();
+
+        await Assert.That(await File.ReadAllTextAsync(file)).DoesNotContain(marker);
     }
 
     [Test]
