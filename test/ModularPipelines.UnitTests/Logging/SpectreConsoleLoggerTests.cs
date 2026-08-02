@@ -13,6 +13,22 @@ namespace ModularPipelines.UnitTests.Logging;
 public class SpectreConsoleLoggerTests
 {
     [Test]
+    public async Task Configuration_Uses_Registered_Console()
+    {
+        var console = Mock.Of<IAnsiConsole>();
+        var services = new ServiceCollection();
+        DependencyInjectionSetup.Initialize(services);
+        services.AddSingleton(console);
+        await using var provider = services.BuildServiceProvider();
+
+        var options = provider
+            .GetRequiredService<Microsoft.Extensions.Options.IOptions<SpectreConsoleLoggerOptions>>()
+            .Value;
+
+        await Assert.That(options.Console).IsSameReferenceAs(console);
+    }
+
+    [Test]
     public async Task Configuration_Uses_Synchronous_Output()
     {
         var options = new SpectreConsoleLoggerOptions();
