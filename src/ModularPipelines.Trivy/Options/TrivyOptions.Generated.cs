@@ -19,6 +19,7 @@ namespace ModularPipelines.Trivy.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("trivy")]
+[CliGlobalOptions]
 public abstract record TrivyOptions : CommandLineToolOptions
 {
 }

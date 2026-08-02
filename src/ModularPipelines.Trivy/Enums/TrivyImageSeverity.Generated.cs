@@ -17,17 +17,17 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyImageSeverity
 {
     [EnumValue("UNKNOWN")]
-    Unknown,
+    Unknown = 0,
 
     [EnumValue("LOW")]
-    Low,
+    Low = 1,
 
     [EnumValue("MEDIUM")]
-    Medium,
+    Medium = 2,
 
     [EnumValue("HIGH")]
-    High,
+    High = 3,
 
     [EnumValue("CRITICAL")]
-    Critical
+    Critical = 4
 }

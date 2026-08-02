@@ -80,4 +80,10 @@ public record TrivyVexRepoOptions : TrivyOptions
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
 
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Command { get; set; }
+
 }

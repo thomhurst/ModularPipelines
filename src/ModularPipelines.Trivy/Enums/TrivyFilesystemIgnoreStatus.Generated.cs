@@ -17,26 +17,26 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyFilesystemIgnoreStatus
 {
     [EnumValue("unknown")]
-    Unknown,
+    Unknown = 0,
 
     [EnumValue("not_affected")]
-    NotAffected,
+    NotAffected = 1,
 
     [EnumValue("affected")]
-    Affected,
+    Affected = 2,
 
     [EnumValue("fixed")]
-    Fixed,
+    Fixed = 3,
 
     [EnumValue("under_investigation")]
-    UnderInvestigation,
+    UnderInvestigation = 4,
 
     [EnumValue("will_not_fix")]
-    WillNotFix,
+    WillNotFix = 5,
 
     [EnumValue("fix_deferred")]
-    FixDeferred,
+    FixDeferred = 6,
 
     [EnumValue("end_of_life")]
-    EndOfLife
+    EndOfLife = 7
 }

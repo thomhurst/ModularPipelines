@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyVmSbomSources
 {
     [EnumValue("oci")]
-    Oci,
+    Oci = 0,
 
     [EnumValue("rekor")]
-    Rekor
+    Rekor = 1
 }

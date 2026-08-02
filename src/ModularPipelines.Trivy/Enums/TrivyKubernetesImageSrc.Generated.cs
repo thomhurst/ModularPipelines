@@ -17,14 +17,14 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyKubernetesImageSrc
 {
     [EnumValue("docker")]
-    Docker,
+    Docker = 0,
 
     [EnumValue("containerd")]
-    Containerd,
+    Containerd = 1,
 
     [EnumValue("podman")]
-    Podman,
+    Podman = 2,
 
     [EnumValue("remote")]
-    Remote
+    Remote = 3
 }

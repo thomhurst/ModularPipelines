@@ -87,7 +87,7 @@ public record TrivyServerOptions : TrivyOptions
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
-    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;\\.trivy\\modules")
+    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;/.trivy/modules")
     /// </summary>
     [CliOption("--module-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ModuleDir { get; set; }

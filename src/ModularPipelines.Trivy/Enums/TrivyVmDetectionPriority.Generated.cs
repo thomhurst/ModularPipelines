@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyVmDetectionPriority
 {
     [EnumValue("precise")]
-    Precise,
+    Precise = 0,
 
     [EnumValue("comprehensive")]
-    Comprehensive
+    Comprehensive = 1
 }
