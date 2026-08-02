@@ -198,6 +198,7 @@ public class PipelineInitializerTests
     [Arguments("SLACK_WEBHOOK_URL")]
     [Arguments("VCAP_SERVICES")]
     [Arguments("AzureWebJobsStorage")]
+    [Arguments("AWS_CONTAINER_AUTHORIZATION_TOKEN")]
     [Arguments("VSS_NUGET_EXTERNAL_FEED_ENDPOINTS")]
     public async Task EnvironmentVariables_MaskSensitiveNamesWithoutRegisteredSecret(
         string variableName)
@@ -246,6 +247,7 @@ public class PipelineInitializerTests
     [Arguments("XAUTHORITY")]
     [Arguments("APPVEYOR_REPO_COMMIT_AUTHOR")]
     [Arguments("APPVEYOR_REPO_COMMIT_AUTHOR_EMAIL")]
+    [Arguments("AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE")]
     [Arguments("AWS_SHARED_CREDENTIALS_FILE")]
     [Arguments("AWS_WEB_IDENTITY_TOKEN_FILE")]
     [Arguments("AZURE_FEDERATED_TOKEN_FILE")]
