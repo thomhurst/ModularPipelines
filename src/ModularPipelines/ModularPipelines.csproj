@@ -7,8 +7,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <Description>Write your pipelines in C#!</Description>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
     <WarningsAsErrors>$(WarningsAsErrors);CS1574</WarningsAsErrors>
   </PropertyGroup>
   <!--
