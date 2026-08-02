@@ -2,9 +2,12 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Conditions;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Spectre.Console;
@@ -125,6 +128,78 @@ public class PipelineCommandLineTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("conditional");
+    }
+
+    private sealed class NeverRunCondition : IRunCondition
+    {
+        public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(false);
+    }
+
+    [RunIfAll<NeverRunCondition>]
+    private sealed class AttributeSkippedModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("attribute-skipped");
+    }
+
+    private sealed class FluentlySkippedModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCategory("selected")
+            .WithSkipWhen(_ => SkipDecision.Skip("fluent skip"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
+    private sealed class SkippedDependencyModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCategory("selected")
+            .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
+    private sealed class DependentOnSkippedModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCategory("selected")
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
+    private sealed class PlanEstimatedTimeProvider : IModuleEstimatedTimeProvider
+    {
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType) => Task.FromResult(moduleType.Name switch
+        {
+            nameof(DependencyModule) => TimeSpan.FromMinutes(2),
+            nameof(UnrelatedModule) => TimeSpan.FromMinutes(5),
+            nameof(TargetModule) => TimeSpan.FromMinutes(3),
+            _ => TimeSpan.Zero,
+        });
+
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration) => Task.CompletedTask;
+
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
+            Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
+
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation) =>
+            Task.CompletedTask;
     }
 
     [Before(Test)]
@@ -316,6 +391,107 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task PlanAsyncBuildsDependencyOrderedWavesWithoutExecutingModules()
+    {
+        using var builder = CreateExecutionBuilder();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plan.Waves).Count().IsEqualTo(2);
+            await Assert.That(plan.Waves[0].Modules.Select(module => module.Module.GetType()))
+                .IsEquivalentTo([typeof(DependencyModule), typeof(UnrelatedModule)]);
+            await Assert.That(plan.Waves[1].Modules.Select(module => module.Module.GetType()))
+                .IsEquivalentTo([typeof(TargetModule)]);
+            await Assert.That(plan.Waves[0].EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(5));
+            await Assert.That(plan.Waves[1].EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(3));
+            await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(8));
+            await Assert.That(_dependencyExecutions).IsEqualTo(0);
+            await Assert.That(_targetExecutions).IsEqualTo(0);
+            await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task PlanAsyncEvaluatesAllSkipSourcesAndCascadesDependencies()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["selected"],
+        });
+        builder.AddModule<FluentlySkippedModule>();
+        builder.AddModule<AttributeSkippedModule>()
+            .WithCategory("selected");
+        builder.AddModule<SkippedDependencyModule>();
+        builder.AddModule<DependentOnSkippedModule>();
+        builder.AddModule<UnrelatedModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var modules = plan.Waves.SelectMany(wave => wave.Modules).ToDictionary(module => module.Module.GetType());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(modules[typeof(FluentlySkippedModule)].SkipDecision.Reason)
+                .IsEqualTo("fluent skip");
+            await Assert.That(modules[typeof(AttributeSkippedModule)].SkipDecision.Reason)
+                .Contains("RunIfAll");
+            await Assert.That(modules[typeof(SkippedDependencyModule)].SkipDecision.Reason)
+                .IsEqualTo("dependency unavailable");
+            await Assert.That(modules[typeof(DependentOnSkippedModule)].SkipDecision.Reason)
+                .Contains(nameof(SkippedDependencyModule));
+            await Assert.That(modules[typeof(UnrelatedModule)].SkipDecision.Reason)
+                .Contains("runnable category");
+            await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.Zero);
+        }
+    }
+
+    [Test]
+    public async Task DryRunOptionPrintsPlanAndDoesNotExecuteModules()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = CreateExecutionBuilder(["--dry-run"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+
+        var summary = await builder.ExecutePipelineAsync();
+        var output = Render(consoleWriter.Renderable!);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(builder.Options.DryRun).IsTrue();
+            await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(consoleWriter.Renderable).IsNotNull();
+            await Assert.That(output).Contains("Pipeline dry-run plan");
+            await Assert.That(output).Contains("Wave ETA");
+            await Assert.That(output).Contains(nameof(TargetModule));
+            await Assert.That(_dependencyExecutions).IsEqualTo(0);
+            await Assert.That(_targetExecutions).IsEqualTo(0);
+            await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task ProgrammaticDryRunOptionDoesNotExecuteModules()
+    {
+        using var builder = CreateExecutionBuilder();
+        builder.ConfigurePipelineOptions(options => options with { DryRun = true });
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(_dependencyExecutions).IsEqualTo(0);
+            await Assert.That(_targetExecutions).IsEqualTo(0);
+            await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task ValidateCommandChecksRegistrationTimeDependencies()
     {
         using var builder = Pipeline.CreateBuilder(["--validate"]);
@@ -335,6 +511,13 @@ public class PipelineCommandLineTests
 
         await builder.ExecutePipelineAsync();
 
+        var output = Render(consoleWriter.Renderable!);
+
+        await Assert.That(output).Contains("configured-category");
+    }
+
+    private static string Render(IRenderable renderable)
+    {
         using var output = new StringWriter();
         var console = AnsiConsole.Create(new AnsiConsoleSettings
         {
@@ -342,15 +525,22 @@ public class PipelineCommandLineTests
             ColorSystem = ColorSystemSupport.NoColors,
             Out = new AnsiConsoleOutput(output),
         });
-        console.Write(consoleWriter.Renderable!);
-
-        await Assert.That(output.ToString()).Contains("configured-category");
+        console.Profile.Width = 200;
+        console.Write(renderable);
+        return output.ToString();
     }
 
     [Test]
     public async Task PipelineCommandsAreMutuallyExclusive()
     {
         await Assert.That(() => Pipeline.CreateBuilder(["--list-modules", "--validate"]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
+    public async Task DryRunCannotBeCombinedWithAnotherPipelineCommand()
+    {
+        await Assert.That(() => Pipeline.CreateBuilder(["--dry-run", "--validate"]))
             .Throws<ArgumentException>();
     }
 

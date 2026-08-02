@@ -7,6 +7,10 @@ sidebar_position: 5
 
 Reusable run conditions implement `IRunCondition`:
 
+Run conditions may be evaluated both during execution and by `PlanAsync()` or `--dry-run`.
+Keep them side-effect-free: they must not mutate external state or rely on being evaluated
+exactly once.
+
 ```csharp
 public class ServiceIsAvailable : IRunCondition
 {

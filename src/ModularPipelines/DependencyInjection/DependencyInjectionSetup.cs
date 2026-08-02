@@ -94,6 +94,7 @@ internal static class DependencyInjectionSetup
 
         services
             .AddSingleton<PipelineCommandHandler>()
+            .AddSingleton<PipelinePlanPrinter>()
             .Configure<PipelineOptions>(_ => { })
             .Configure<SchedulerOptions>(_ => { })
             .Configure<ConcurrencyOptions>(_ => { })
@@ -246,6 +247,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IFileSystemContext, FileSystemContext>()
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<ModuleRetriever>()
+            .AddSingleton<PipelinePlanner>()
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()

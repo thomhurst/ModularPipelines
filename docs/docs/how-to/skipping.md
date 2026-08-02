@@ -13,6 +13,9 @@ Attribute conditions (`[SkipIf<T>]`, `[RunIfAll<T>]`, and `[RunIfAny<T>]`) remai
 Attribute and fluent conditions run in the same execution pipeline after dependency waiting, so
 both invoke skipped hooks and lifecycle notifications.
 
+`PlanAsync()` and `--dry-run` also evaluate these conditions before execution. Conditions must be
+side-effect-free and must not rely on being evaluated exactly once.
+
 ### Simple Condition
 
 ```csharp

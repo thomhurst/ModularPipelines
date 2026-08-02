@@ -60,7 +60,7 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Adds a synchronous skip condition.
     /// </summary>
-    /// <param name="condition">A function that receives the module context and returns a <see cref="SkipDecision"/>.</param>
+    /// <param name="condition">A side-effect-free function that receives the module context and returns a <see cref="SkipDecision"/>. It may be evaluated while building a dry-run plan.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Repeated conditions use OR-to-skip semantics. Evaluation stops when a condition returns
@@ -76,7 +76,7 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Adds an asynchronous skip condition.
     /// </summary>
-    /// <param name="condition">A function that receives the module context and cancellation token and returns a <see cref="SkipDecision"/>.</param>
+    /// <param name="condition">A side-effect-free function that receives the module context and cancellation token and returns a <see cref="SkipDecision"/>. It may be evaluated while building a dry-run plan.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Repeated conditions use OR-to-skip semantics. Evaluation stops when a condition returns
@@ -93,7 +93,7 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Adds a synchronous group of conditions that must all return skip decisions to skip the module.
     /// </summary>
-    /// <param name="conditions">Conditions evaluated in registration order with AND-to-skip semantics.</param>
+    /// <param name="conditions">Side-effect-free conditions evaluated in registration order with AND-to-skip semantics. They may be evaluated while building a dry-run plan.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Each call adds one AND group. The group composes with other skip conditions using OR-to-skip semantics.
@@ -112,7 +112,7 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Adds an asynchronous group of conditions that must all return skip decisions to skip the module.
     /// </summary>
-    /// <param name="conditions">Conditions evaluated in registration order with AND-to-skip semantics.</param>
+    /// <param name="conditions">Side-effect-free conditions evaluated in registration order with AND-to-skip semantics. They may be evaluated while building a dry-run plan.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Each call adds one AND group. The group composes with other skip conditions using OR-to-skip semantics.
