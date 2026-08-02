@@ -201,16 +201,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                var secretAttribute = FindAttribute(
-                    property,
-                    attribute => IsAttribute(attribute, SecretValueAttributeFullName));
+                var secretAttribute = FindAttribute(property, IsSecretAttribute);
                 if (secretAttribute is null)
                 {
                     continue;
                 }
 
                 hasAttributes = true;
-                if (!IsPropertyAccessible(property, currentAssembly))
+                if (!IsAttribute(secretAttribute, SecretValueAttributeFullName)
+                    || !IsPropertyAccessible(property, currentAssembly))
                 {
                     isComplete = false;
                     continue;
@@ -500,6 +499,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var name = attribute.AttributeClass?.ToDisplayString();
         return name == CliArgumentAttributeFullName || name == CliFlagAttributeFullName || name == CliOptionAttributeFullName;
     }
+
+    private static bool IsSecretAttribute(AttributeData attribute) =>
+        attribute.AttributeClass is { } attributeClass
+        && InheritsFrom(attributeClass, SecretValueAttributeFullName);
 
     private static bool IsAttribute(AttributeData attribute, string fullName) =>
         attribute.AttributeClass?.ToDisplayString() == fullName;
