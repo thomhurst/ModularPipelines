@@ -3,6 +3,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -35,6 +36,37 @@ public static class CurrentApiSnippets
         });
 
         return builder.ExecutePipelineAsync();
+    }
+
+    public static async Task<int> RunPipelineAndMapExitCode(string[] args)
+    {
+        using var builder = Pipeline.CreateBuilder(args);
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = false,
+        });
+        builder.AddModule<BuildModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+        var summary = await pipeline.RunAsync();
+
+        return summary.Status == Status.Failed ? 1 : 0;
+    }
+
+    public static async Task VerifySuccessfulPipeline(string[] args)
+    {
+        using var builder = Pipeline.CreateBuilder(args);
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            ThrowOnPipelineFailure = false,
+        });
+        builder.AddModule<BuildModule>();
+
+        var result = await builder.ExecutePipelineAsync();
+        if (result.Status != Status.Successful)
+        {
+            throw new InvalidOperationException("Expected a successful pipeline.");
+        }
     }
 
     public sealed record BuildInfo(string Version, string OutputPath);
@@ -82,7 +114,7 @@ public static class CurrentApiSnippets
             CancellationToken cancellationToken)
         {
             var buildResult = await context.GetModule<BuildModule>();
-            _ = buildResult.ValueOrDefault!.OutputPath;
+            _ = buildResult.Value.OutputPath;
             return None.Value;
         }
     }
@@ -137,7 +169,7 @@ public static class CurrentApiSnippets
             CancellationToken cancellationToken)
         {
             var buildResult = await context.GetModule<BuildModule>();
-            return Path.Combine(buildResult.ValueOrDefault!.OutputPath, "artifacts");
+            return Path.Combine(buildResult.Value.OutputPath, "artifacts");
         }
     }
 }

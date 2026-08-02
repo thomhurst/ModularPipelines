@@ -35,6 +35,7 @@ public class DocumentationSnippetTests
                 .ConfigureAwait(false);
 
             await Assert.That(contents).DoesNotContain("PipelineHostBuilder.Create()");
+            await Assert.That(contents).DoesNotContain("PipelineStatus");
             await Assert.That(contents).DoesNotContain("ExecuteAsync(IPipelineContext");
             await Assert.That(contents).DoesNotContain("await GetModule<");
 
@@ -96,6 +97,40 @@ public class DocumentationSnippetTests
 
             await Assert.That(readme).DoesNotContain("ExecuteModuleAsync(");
         }
+    }
+
+    [Test]
+    public async Task Pipeline_Status_Documentation_Matches_Compiled_Current_Api_Shape()
+    {
+        var repositoryRoot = FindRepositoryRoot();
+        var pipelineHost = await File.ReadAllTextAsync(Path.Combine(
+                repositoryRoot,
+                "docs/docs/how-to/pipeline-host.md"))
+            .ConfigureAwait(false);
+        var testing = await File.ReadAllTextAsync(Path.Combine(
+                repositoryRoot,
+                "docs/docs/how-to/testing.md"))
+            .ConfigureAwait(false);
+        var azure = await File.ReadAllTextAsync(Path.Combine(
+                repositoryRoot,
+                "docs/docs/examples/azure-example.md"))
+            .ConfigureAwait(false);
+        var compiledFixture = await File.ReadAllTextAsync(Path.Combine(
+                repositoryRoot,
+                "test/ModularPipelines.DocumentationSnippets/CurrentApiSnippets.cs"))
+            .ConfigureAwait(false);
+
+        await Assert.That(pipelineHost).Contains("Status.Failed");
+        await Assert.That(pipelineHost).Contains("ThrowOnPipelineFailure = false");
+        await Assert.That(testing).Contains("ThrowOnPipelineFailure = false");
+        await Assert.That(testing).Contains("Status.Successful");
+        await Assert.That(azure).DoesNotContain("ValueOrDefault!");
+        await Assert.That(azure).Contains(".Value.");
+
+        await Assert.That(compiledFixture).Contains("Status.Failed");
+        await Assert.That(compiledFixture).Contains("ThrowOnPipelineFailure = false");
+        await Assert.That(compiledFixture).Contains("Status.Successful");
+        await Assert.That(compiledFixture).Contains("buildResult.Value.OutputPath");
     }
 
     private static string FindRepositoryRoot()
