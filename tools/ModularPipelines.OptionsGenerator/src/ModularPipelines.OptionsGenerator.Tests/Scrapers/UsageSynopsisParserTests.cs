@@ -140,6 +140,25 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Preserves_Required_Core_Inside_Optional_Operand_Qualifiers()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: pulumi env get [<org-name>/][<project-name>/]<environment-name>[@<version>] [property-path]",
+            ["pulumi", "env", "get"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(result.PositionalArguments[0].PropertyName).IsEqualTo("EnvironmentName");
+            await Assert.That(result.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(result.PositionalArguments[0].CSharpType).IsEqualTo("string");
+            await Assert.That(result.PositionalArguments[1].PropertyName).IsEqualTo("PropertyPath");
+            await Assert.That(result.PositionalArguments[1].IsRequired).IsFalse();
+            await Assert.That(result.PositionalArguments[1].CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
     public async Task Preserves_Operands_Grouped_Behind_Option_Terminator()
     {
         var result = UsageSynopsisParser.Parse(

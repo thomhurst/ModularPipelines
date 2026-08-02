@@ -454,7 +454,15 @@ public static class UsageSynopsisParser
         var isRequired = !trimmed.StartsWith('[');
         var content = TrimWrapper(trimmed).Trim();
         var canonicalName = SelectCanonicalAlternative(content);
-        var isVariadic = canonicalName.EndsWith("...", StringComparison.Ordinal)
+        if (TrySelectRequiredCompoundPlaceholder(trimmed, out var requiredPlaceholder))
+        {
+            isRequired = true;
+            canonicalName = requiredPlaceholder;
+        }
+
+        var isVariadic = trimmed.EndsWith("...", StringComparison.Ordinal)
+                         || trimmed.EndsWith('…')
+                         || canonicalName.EndsWith("...", StringComparison.Ordinal)
                          || canonicalName.EndsWith('…')
                          || canonicalName.EndsWith(" ...", StringComparison.Ordinal);
         canonicalName = canonicalName.TrimEnd('.', '…').Trim();
@@ -481,6 +489,61 @@ public static class UsageSynopsisParser
             Placement = placement,
             Description = $"The {canonicalName} operand.",
         };
+    }
+
+    private static bool TrySelectRequiredCompoundPlaceholder(
+        string token,
+        out string requiredPlaceholder)
+    {
+        var optionalDepth = 0;
+        var requiredPlaceholders = new List<string>();
+        var hasOptionalPlaceholder = false;
+
+        for (var index = 0; index < token.Length; index++)
+        {
+            if (token[index] == '[')
+            {
+                optionalDepth++;
+                continue;
+            }
+
+            if (token[index] == ']')
+            {
+                optionalDepth = Math.Max(0, optionalDepth - 1);
+                continue;
+            }
+
+            if (token[index] != '<')
+            {
+                continue;
+            }
+
+            var end = token.IndexOf('>', index + 1);
+            if (end < 0)
+            {
+                break;
+            }
+
+            var placeholder = token[(index + 1)..end].Trim();
+            if (!string.IsNullOrWhiteSpace(placeholder))
+            {
+                if (optionalDepth == 0)
+                {
+                    requiredPlaceholders.Add(placeholder);
+                }
+                else
+                {
+                    hasOptionalPlaceholder = true;
+                }
+            }
+
+            index = end;
+        }
+
+        requiredPlaceholder = requiredPlaceholders.Count == 1
+            ? requiredPlaceholders[0]
+            : string.Empty;
+        return hasOptionalPlaceholder && requiredPlaceholders.Count == 1;
     }
 
     private static string SelectCanonicalAlternative(string content)
