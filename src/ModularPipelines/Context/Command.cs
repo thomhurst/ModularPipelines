@@ -59,12 +59,14 @@ internal sealed class Command : ICommandContext
     {
         var execOpts = executionOptions ?? new CommandExecutionOptions();
         RegisterSecrets(options, execOpts);
-        var (command, tool, parsedArgs) = CreateCommand(options, execOpts);
+        var (command, commandInput, tool, parsedArgs) = CreateCommand(options, execOpts);
 
         cancellationToken.ThrowIfCancellationRequested();
 
+        var obfuscatedCommandInput = _secretObfuscator.Obfuscate(commandInput, execOpts);
         var commandMetadata = new CommandResult(
             command,
+            obfuscatedCommandInput,
             GetPublicEnvironmentVariables(command, execOpts));
         var invocation = new CommandInvocation(
             new CommandLine(tool, parsedArgs),
@@ -77,7 +79,7 @@ internal sealed class Command : ICommandContext
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
         using var linkedCancellationToken =
             CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
-        var inputToLog = new Lazy<string>(() => GetInputToLog(command, execOpts));
+        var inputToLog = new Lazy<string>(() => GetInputToLog(commandInput, execOpts));
         using var activity = ModuleActivityTracing.StartCommandActivity(tool);
         RecordTelemetryCommandInput(activity, inputToLog, execOpts);
 
@@ -86,6 +88,7 @@ internal sealed class Command : ICommandContext
             var result = await ExecuteCommandCoreAsync(
                     invocation,
                     command,
+                    commandInput,
                     options,
                     execOpts,
                     inputToLog,
@@ -125,7 +128,7 @@ internal sealed class Command : ICommandContext
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions));
     }
 
-    private (CliWrap.Command Command, string Tool, List<string> Arguments) CreateCommand(
+    private (CliWrap.Command Command, string CommandInput, string Tool, List<string> Arguments) CreateCommand(
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions)
     {
@@ -138,7 +141,8 @@ internal sealed class Command : ICommandContext
             tool = "sudo";
         }
 
-        var command = CliCommandFactory.Create(tool, arguments, executionOptions);
+        var preparedCommand = CliCommandFactory.Create(tool, arguments, executionOptions);
+        var command = preparedCommand.Command;
         if (executionOptions.WorkingDirectory is not null)
         {
             command = command.WithWorkingDirectory(executionOptions.WorkingDirectory);
@@ -149,12 +153,13 @@ internal sealed class Command : ICommandContext
             command = command.WithCredentials(executionOptions.CommandLineCredentials.ToCliWrapCredentials());
         }
 
-        return (command, tool, arguments);
+        return (command, preparedCommand.Input, tool, arguments);
     }
 
     private async Task<CommandResult> ExecuteCommandCoreAsync(
         CommandInvocation invocation,
         CliWrap.Command command,
+        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
         Lazy<string> inputToLog,
@@ -167,6 +172,7 @@ internal sealed class Command : ICommandContext
         var intercepted = await TryInterceptAsync(
                 invocation,
                 command,
+                invocation.CommandInput,
                 options,
                 executionOptions,
                 inputToLog,
@@ -178,9 +184,10 @@ internal sealed class Command : ICommandContext
         }
 
         return executionOptions.InternalDryRun
-            ? ExecuteDryRun(command, options, executionOptions, inputToLog)
+            ? ExecuteDryRun(command, commandInput, options, executionOptions, inputToLog)
             : await Of(
                     command,
+                    commandInput,
                     options,
                     executionOptions,
                     inputToLog,
@@ -208,6 +215,7 @@ internal sealed class Command : ICommandContext
     private async Task<CommandResult?> TryInterceptAsync(
         CommandInvocation invocation,
         CliWrap.Command command,
+        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
         Lazy<string> inputToLog,
@@ -224,7 +232,11 @@ internal sealed class Command : ICommandContext
                 continue;
             }
 
-            var result = ApplyCommandMetadata(intercepted, command, executionOptions);
+            var result = ApplyCommandMetadata(
+                intercepted,
+                command,
+                commandInput,
+                executionOptions);
             LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
@@ -248,6 +260,7 @@ internal sealed class Command : ICommandContext
 
     private CommandResult ExecuteDryRun(
         CliWrap.Command command,
+        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
         Lazy<string> inputToLog)
@@ -264,16 +277,19 @@ internal sealed class Command : ICommandContext
 
         return new CommandResult(
             command,
+            _secretObfuscator.Obfuscate(commandInput, executionOptions),
             GetPublicEnvironmentVariables(command, executionOptions));
     }
 
     private CommandResult ApplyCommandMetadata(
         CommandResult result,
         CliWrap.Command command,
+        string commandInput,
         CommandExecutionOptions executionOptions)
     {
         var metadata = new CommandResult(
             command,
+            commandInput,
             GetPublicEnvironmentVariables(command, executionOptions));
         return result with
         {
@@ -302,6 +318,7 @@ internal sealed class Command : ICommandContext
 
     private async Task<CommandResult> Of(
         CliWrap.Command command,
+        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions execOpts,
         Lazy<string> lazyInputToLog,
@@ -402,7 +419,7 @@ internal sealed class Command : ICommandContext
                     CreateFailureResult(
                         command,
                         execOpts,
-                        inputToLog,
+                        commandInput,
                         e.ExitCode,
                         stopwatch.Elapsed,
                         standardOutput,
@@ -444,7 +461,7 @@ internal sealed class Command : ICommandContext
                     failure,
                     command,
                     execOpts,
-                    inputToLog,
+                    commandInput,
                     stopwatch.Elapsed,
                     standardOutput,
                     standardError,
@@ -456,7 +473,7 @@ internal sealed class Command : ICommandContext
                 command,
                 result,
                 execOpts,
-                inputToLog,
+                commandInput,
                 standardOutput,
                 standardError);
 
@@ -489,6 +506,7 @@ internal sealed class Command : ICommandContext
             return new CommandResult(
                 command,
                 result,
+                _secretObfuscator.Obfuscate(commandInput, execOpts),
                 standardOutput,
                 standardError,
                 GetPublicEnvironmentVariables(command, execOpts));
@@ -611,12 +629,11 @@ internal sealed class Command : ICommandContext
             : new BoundedCommandOutputBuffer(maximumLength: 0);
     }
 
-    private static string GetInputToLog(CliWrap.Command command, CommandExecutionOptions options)
+    private static string GetInputToLog(string commandInput, CommandExecutionOptions options)
     {
-        var commandText = command.ToString();
         return options.InputLoggingManipulator is null
-            ? commandText
-            : options.InputLoggingManipulator(commandText);
+            ? commandInput
+            : options.InputLoggingManipulator(commandInput);
     }
 
     private string GetTelemetryCommandInput(string inputToLog, CommandExecutionOptions options)
