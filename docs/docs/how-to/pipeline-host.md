@@ -126,6 +126,7 @@ The pipeline follows a two-step build-then-run pattern:
 using var builder = Pipeline.CreateBuilder(args);
 builder.ConfigurePipelineOptions(options => options with
 {
+    ExecutionMode = ExecutionMode.WaitForAllModules,
     ThrowOnPipelineFailure = false,
 });
 builder.AddModule<MyModule>();
@@ -142,6 +143,9 @@ if (summary.Status == ModularPipelines.Enums.Status.Failed)
     Environment.Exit(1);
 }
 ```
+
+Use `WaitForAllModules` with `ThrowOnPipelineFailure = false` when you need to inspect
+the returned summary after a module fails. Fail-fast mode rethrows the module exception.
 
 `BuildAsync()` always validates the pipeline configuration before returning:
 

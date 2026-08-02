@@ -43,6 +43,7 @@ public static class CurrentApiSnippets
         using var builder = Pipeline.CreateBuilder(args);
         builder.ConfigurePipelineOptions(options => options with
         {
+            ExecutionMode = ExecutionMode.WaitForAllModules,
             ThrowOnPipelineFailure = false,
         });
         builder.AddModule<BuildModule>();

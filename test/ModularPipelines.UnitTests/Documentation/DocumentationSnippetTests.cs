@@ -121,6 +121,7 @@ public class DocumentationSnippetTests
             .ConfigureAwait(false);
 
         await Assert.That(pipelineHost).Contains("Status.Failed");
+        await Assert.That(pipelineHost).Contains("ExecutionMode = ExecutionMode.WaitForAllModules");
         await Assert.That(pipelineHost).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(testing).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(testing).Contains("Status.Successful");
@@ -128,6 +129,7 @@ public class DocumentationSnippetTests
         await Assert.That(azure).Contains(".Value.");
 
         await Assert.That(compiledFixture).Contains("Status.Failed");
+        await Assert.That(compiledFixture).Contains("ExecutionMode = ExecutionMode.WaitForAllModules");
         await Assert.That(compiledFixture).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(compiledFixture).Contains("Status.Successful");
         await Assert.That(compiledFixture).Contains("buildResult.Value.OutputPath");
