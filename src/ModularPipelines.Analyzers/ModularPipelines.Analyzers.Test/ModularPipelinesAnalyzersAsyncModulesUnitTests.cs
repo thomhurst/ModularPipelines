@@ -216,4 +216,70 @@ public class Module1 : Module<string>
             expected,
             FixedExpressionBodiedModuleSource);
     }
+
+    [TestMethod]
+    public async Task CodeFixParenthesizesConditionalExpressionBody()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<string>
+{{
+    {{|#0:protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => context is null ? ExecuteCommand() : ExecuteCommand();|}}
+
+    private static Task<string?> ExecuteCommand()
+        => Task.FromResult<string?>(""Foo"");
+}}
+";
+        var fixedSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<string>
+{{
+    {{|#0:protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => await (context is null ? ExecuteCommand() : ExecuteCommand());|}}
+
+    private static Task<string?> ExecuteCommand()
+        => Task.FromResult<string?>(""Foo"");
+}}
+";
+        var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFixParenthesizesSwitchExpressionBody()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<string>
+{{
+    {{|#0:protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => context switch {{ null => ExecuteCommand(), _ => ExecuteCommand() }};|}}
+
+    private static Task<string?> ExecuteCommand()
+        => Task.FromResult<string?>(""Foo"");
+}}
+";
+        var fixedSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<string>
+{{
+    {{|#0:protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => await (context switch {{ null => ExecuteCommand(), _ => ExecuteCommand() }});|}}
+
+    private static Task<string?> ExecuteCommand()
+        => Task.FromResult<string?>(""Foo"");
+}}
+";
+        var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
+    }
 }

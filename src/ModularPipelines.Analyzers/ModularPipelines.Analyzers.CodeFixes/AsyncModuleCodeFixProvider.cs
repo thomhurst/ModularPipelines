@@ -120,8 +120,14 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
             return innerExpression;
         }
 
+        var awaitOperand = expression.WithoutTrivia();
+        if (awaitOperand is ConditionalExpressionSyntax or SwitchExpressionSyntax)
+        {
+            awaitOperand = SyntaxFactory.ParenthesizedExpression(awaitOperand);
+        }
+
         return SyntaxFactory
-            .AwaitExpression(expression.WithoutTrivia())
+            .AwaitExpression(awaitOperand)
             .WithTriviaFrom(expression);
     }
 }
