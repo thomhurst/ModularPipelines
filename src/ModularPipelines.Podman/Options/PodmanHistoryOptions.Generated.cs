@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("history")]
-public record PodmanHistoryOptions : PodmanOptions
+public record PodmanHistoryOptions(
+    [property: CliArgument(0)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// Change the output to JSON or a Go template

@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "attach")]
-public record PodmanContainerAttachOptions : PodmanOptions
+public record PodmanContainerAttachOptions(
+    [property: CliArgument(0)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// Select the key sequence for detaching a container. Format is a single character [a-Z] or a comma separated sequence of `ctrl-&lt;value&gt;`, where `&lt;value&gt;` is one of: `a-z`, `@`, `^`, `[`, `\`, `]`, `^` or `_` (default "ctrl-p,ctrl-q")

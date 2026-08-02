@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "rm")]
-public record PodmanSecretRmOptions : PodmanOptions
+public record PodmanSecretRmOptions(
+    [property: CliArgument(0)] IEnumerable<string> Secret
+) : PodmanOptions
 {
     /// <summary>
     /// Remove all secrets
@@ -31,8 +33,5 @@ public record PodmanSecretRmOptions : PodmanOptions
     /// </summary>
     [CliFlag("--ignore", ShortForm = "-i")]
     public bool? Ignore { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Secret { get; set; }
 
 }

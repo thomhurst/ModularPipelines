@@ -18,15 +18,14 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "inspect")]
-public record PodmanNetworkInspectOptions : PodmanOptions
+public record PodmanNetworkInspectOptions(
+    [property: CliArgument(0)] IEnumerable<string> Network
+) : PodmanOptions
 {
     /// <summary>
     /// Pretty-print network to JSON or using a Go template
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Network { get; set; }
 
 }

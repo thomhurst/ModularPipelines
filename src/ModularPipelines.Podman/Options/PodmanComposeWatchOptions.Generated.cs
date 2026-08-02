@@ -44,6 +44,9 @@ public record PodmanComposeWatchOptions : PodmanOptions
     [CliFlag("--quiet")]
     public bool? Quiet { get; set; }
 
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public IEnumerable<string>? Service { get; set; }
 

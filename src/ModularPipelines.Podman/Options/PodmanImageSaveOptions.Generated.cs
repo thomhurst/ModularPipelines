@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
-public record PodmanImageSaveOptions : PodmanOptions
+public record PodmanImageSaveOptions(
+    [property: CliArgument(0)] IEnumerable<string> Image
+) : PodmanOptions
 {
     /// <summary>
     /// Compress tarball image layers when saving to a directory using the 'dir' transport. (default is same compression type as source)
@@ -55,8 +57,5 @@ public record PodmanImageSaveOptions : PodmanOptions
     /// </summary>
     [CliFlag("--uncompressed")]
     public bool? Uncompressed { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Image { get; set; }
 
 }

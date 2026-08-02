@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "exists")]
-public record PodmanContainerExistsOptions : PodmanOptions
+public record PodmanContainerExistsOptions(
+    [property: CliArgument(0)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// Check external storage containers as well as Podman containers

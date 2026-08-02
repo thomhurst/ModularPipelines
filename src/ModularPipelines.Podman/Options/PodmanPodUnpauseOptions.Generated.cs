@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "unpause")]
-public record PodmanPodUnpauseOptions : PodmanOptions
+public record PodmanPodUnpauseOptions(
+    [property: CliArgument(0)] IEnumerable<string> Pod
+) : PodmanOptions
 {
     /// <summary>
     /// Unpause all running pods
@@ -31,8 +33,5 @@ public record PodmanPodUnpauseOptions : PodmanOptions
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Pod { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "start")]
-public record PodmanContainerStartOptions : PodmanOptions
+public record PodmanContainerStartOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Start all containers regardless of their state or configuration
@@ -61,8 +63,5 @@ public record PodmanContainerStartOptions : PodmanOptions
     /// </summary>
     [CliFlag("--sig-proxy")]
     public bool? SigProxy { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

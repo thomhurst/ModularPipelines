@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logs")]
-public record PodmanLogsOptions : PodmanOptions
+public record PodmanLogsOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Output the containers with different colors in the log.
@@ -67,8 +69,5 @@ public record PodmanLogsOptions : PodmanOptions
     /// </summary>
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

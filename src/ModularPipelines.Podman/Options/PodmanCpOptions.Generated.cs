@@ -32,4 +32,16 @@ public record PodmanCpOptions : PodmanOptions
     [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
 
+    /// <summary>
+    /// The [CONTAINER:]SRC_PATH operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? ContainerSrcPath { get; set; }
+
+    /// <summary>
+    /// The [CONTAINER:]DEST_PATH operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? ContainerDestPath { get; set; }
+
 }

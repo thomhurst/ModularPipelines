@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "start")]
-public record PodmanPodStartOptions : PodmanOptions
+public record PodmanPodStartOptions(
+    [property: CliArgument(0)] IEnumerable<string> Pod
+) : PodmanOptions
 {
     /// <summary>
     /// Restart all running pods
@@ -37,8 +39,5 @@ public record PodmanPodStartOptions : PodmanOptions
     /// </summary>
     [CliOption("--pod-id-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? PodIdFile { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Pod { get; set; }
 
 }

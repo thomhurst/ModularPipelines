@@ -60,13 +60,13 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// CPUs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetCpus { get; set; }
+    public string? CpuSetCpus { get; set; }
 
     /// <summary>
     /// Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetMems { get; set; }
+    public string? CpuSetMems { get; set; }
 
     /// <summary>
     /// Add a host device to the container

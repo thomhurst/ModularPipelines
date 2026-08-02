@@ -32,7 +32,10 @@ public record PodmanNetworkReloadOptions : PodmanOptions
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0)]
     public IEnumerable<string>? Container { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "commit")]
-public record PodmanComposeCommitOptions : PodmanOptions
+public record PodmanComposeCommitOptions(
+    [property: CliArgument(0)] string Service
+) : PodmanOptions
 {
     /// <summary>
     /// Author (e.g., "John Hannibal Smith &lt;hannibal@a-team.com&gt;")
@@ -56,7 +58,10 @@ public record PodmanComposeCommitOptions : PodmanOptions
     [CliOption("--pause", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public bool? Pause { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
+    /// <summary>
+    /// The REPOSITORY[:TAG] operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? RepositoryTag { get; set; }
 
 }

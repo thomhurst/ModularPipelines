@@ -74,7 +74,10 @@ public record PodmanImagesOptions : PodmanOptions
     [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
     public string? Sort { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Image { get; set; }
 
 }

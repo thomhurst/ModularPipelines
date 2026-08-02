@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "tree")]
-public record PodmanImageTreeOptions : PodmanOptions
+public record PodmanImageTreeOptions(
+    [property: CliArgument(0)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// Show all child images and layers of the specified image

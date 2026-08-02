@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "update")]
-public record PodmanNetworkUpdateOptions : PodmanOptions
+public record PodmanNetworkUpdateOptions(
+    [property: CliArgument(0)] string Network
+) : PodmanOptions
 {
     /// <summary>
     /// add network level nameservers

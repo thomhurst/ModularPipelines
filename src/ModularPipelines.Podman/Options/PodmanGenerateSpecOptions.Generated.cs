@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate", "spec")]
-public record PodmanGenerateSpecOptions : PodmanOptions
+public record PodmanGenerateSpecOptions(
+    [property: CliArgument(0)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// Print the json in a compact format for consumption

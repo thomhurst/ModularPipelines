@@ -44,7 +44,10 @@ public record PodmanMachineRmOptions : PodmanOptions
     [CliFlag("--save-keys")]
     public bool? SaveKeys { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The MACHINE operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Machine { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "rm")]
-public record PodmanPodRmOptions : PodmanOptions
+public record PodmanPodRmOptions(
+    [property: CliArgument(0)] IEnumerable<string> Pod
+) : PodmanOptions
 {
     /// <summary>
     /// Remove all running pods
@@ -55,8 +57,5 @@ public record PodmanPodRmOptions : PodmanOptions
     /// </summary>
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Time { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Pod { get; set; }
 
 }

@@ -13,12 +13,15 @@ using ModularPipelines.Podman.Options;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// docker compose cp [OPTIONS] SRC_PATH|- SERVICE:DEST_PATH
+/// podman compose cp [OPTIONS] SRC_PATH|- SERVICE:DEST_PATH
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "cp")]
-public record PodmanComposeCpOptions : PodmanOptions
+public record PodmanComposeCpOptions(
+    [property: CliArgument(0)] string ServiceSrcPath,
+    [property: CliArgument(1)] string DestPath
+) : PodmanOptions
 {
     /// <summary>
     /// Include containers created by the run command
@@ -49,8 +52,5 @@ public record PodmanComposeCpOptions : PodmanOptions
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public int? Index { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

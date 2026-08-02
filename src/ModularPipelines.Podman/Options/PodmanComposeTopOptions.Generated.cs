@@ -26,6 +26,9 @@ public record PodmanComposeTopOptions : PodmanOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
+    /// <summary>
+    /// The SERVICES operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public IEnumerable<string>? Services { get; set; }
 

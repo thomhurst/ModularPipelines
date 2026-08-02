@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "connection", "add")]
-public record PodmanSystemConnectionAddOptions : PodmanOptions
+public record PodmanSystemConnectionAddOptions(
+    [property: CliArgument(0)] string Name,
+    [property: CliArgument(1)] string Destination
+) : PodmanOptions
 {
     /// <summary>
     /// Set connection to be default

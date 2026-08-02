@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "clone")]
-public record PodmanPodCloneOptions : PodmanOptions
+public record PodmanPodCloneOptions(
+    [property: CliArgument(0)] string Pod,
+    [property: CliArgument(1)] string Name
+) : PodmanOptions
 {
     /// <summary>
     /// Block IO weight (relative weight) accepts a weight value between 10 and 1000.
@@ -54,13 +57,13 @@ public record PodmanPodCloneOptions : PodmanOptions
     /// CPUs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetCpus { get; set; }
+    public string? CpuSetCpus { get; set; }
 
     /// <summary>
     /// Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetMems { get; set; }
+    public string? CpuSetMems { get; set; }
 
     /// <summary>
     /// destroy the original pod
@@ -142,12 +145,6 @@ public record PodmanPodCloneOptions : PodmanOptions
     /// </summary>
     [CliOption("--memory-swap", Format = OptionFormat.EqualsSeparated)]
     public string? MemorySwap { get; set; }
-
-    /// <summary>
-    /// name the new pod
-    /// </summary>
-    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Name { get; set; }
 
     /// <summary>
     /// PID namespace to use
