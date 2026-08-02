@@ -55,6 +55,7 @@ internal class PipelineInitializer(
         "AZURE_DEVOPS_EXT_PAT",
         "AzureWebJobsStorage",
         "ALL_PROXY",
+        "CLOUDAMQP_URL",
         "DATABASE_URL",
         "HTTP_PROXY",
         "HTTPS_PROXY",
@@ -228,6 +229,11 @@ internal class PipelineInitializer(
 
     private static bool IsSensitiveEnvironmentVariableName(string name)
     {
+        if (IsGitConfigKeyName(name))
+        {
+            return false;
+        }
+
         if (name.StartsWith("GIT_CONFIG_VALUE_", StringComparison.OrdinalIgnoreCase)
             || (name.StartsWith("OTEL_EXPORTER_OTLP_", StringComparison.OrdinalIgnoreCase)
                 && name.EndsWith("_HEADERS", StringComparison.OrdinalIgnoreCase)))
@@ -241,6 +247,14 @@ internal class PipelineInitializer(
                        part => name.Contains(part, StringComparison.OrdinalIgnoreCase))
                    || SensitiveEnvironmentVariableDelimitedNameParts.Any(
                        part => ContainsDelimitedNamePart(name, part)));
+    }
+
+    private static bool IsGitConfigKeyName(string name)
+    {
+        const string prefix = "GIT_CONFIG_KEY_";
+        return name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+               && name.Length > prefix.Length
+               && name[prefix.Length..].All(char.IsAsciiDigit);
     }
 
     private static bool ContainsDelimitedNamePart(string name, string part)
