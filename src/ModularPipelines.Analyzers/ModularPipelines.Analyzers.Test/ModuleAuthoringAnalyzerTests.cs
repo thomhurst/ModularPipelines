@@ -237,6 +237,62 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Module_Registered_Only_By_Unconstructed_Instance_Initializer()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public sealed class Registration
+            {
+                private readonly object _registration =
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Constructed_Instance_Initializer()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public sealed class Registration
+            {
+                private readonly object _registration =
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+
+                private Registration()
+                {
+                }
+
+                public static void Register() => _ = new Registration();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Module_Registered_Only_In_Dead_Branch()
     {
         var source = $$"""
@@ -322,6 +378,40 @@ public class ModuleAuthoringAnalyzerTests
                     {
                         1 => builder.AddModule<BuildModule>(),
                         _ => builder,
+                    };
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_Registered_Only_In_Shadowed_Switch_Expression_Arm()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    _ = 0 switch
+                    {
+                        0 => builder,
+                        _ => builder.AddModule<BuildModule>(),
                     };
                 }
             }
@@ -2102,6 +2192,26 @@ public class ModuleAuthoringAnalyzerTests
                 await Task.Delay(1, true
                     ? cancellationToken
                     : CancellationToken.None);
+                return null;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_CancellationToken_From_Constant_Switch_Arm()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.Delay(1, 0 switch
+                {
+                    0 => cancellationToken,
+                    _ => CancellationToken.None,
+                });
                 return null;
             }
             """);
@@ -4732,6 +4842,41 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Module_From_Unselected_Constant_Factory_Branch()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:DeployModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() => Pipeline.CreateBuilder().Services
+                    .AddSingleton<IModule>(_ => true
+                        ? new BuildModule()
+                        : new DeployModule());
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DeployModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_NonPublic_Module_Registered_By_Assembly()
     {
         var source = $$"""
@@ -4773,6 +4918,37 @@ public class ModuleAuthoringAnalyzerTests
                 {
                     var builder = Pipeline.CreateBuilder();
                     builder.ConfigureServices(RegisterModules);
+                }
+
+                private static void RegisterModules(IServiceCollection services) =>
+                    services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Local_Startup_Method_Group()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    Action<IServiceCollection> callback = RegisterModules;
+                    builder.ConfigureServices(callback);
                 }
 
                 private static void RegisterModules(IServiceCollection services) =>

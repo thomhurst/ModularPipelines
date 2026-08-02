@@ -228,8 +228,8 @@ internal static class ModuleAuthoringAnalysis
             return;
         }
 
-        var containingMethod = GetContainingMethod(context.ContainingSymbol);
-        if (containingMethod is not null)
+        var containingMethods = GetContainingExecutionMethods(context.ContainingSymbol);
+        foreach (var containingMethod in containingMethods.OfType<IMethodSymbol>())
         {
             methodCalls.Add((
                 NormalizeMethod(containingMethod),
@@ -243,7 +243,10 @@ internal static class ModuleAuthoringAnalysis
 
         if (IsPotentialRegistrationInvocation(invocation))
         {
-            registrations.Add((invocation, containingMethod));
+            foreach (var containingMethod in containingMethods)
+            {
+                registrations.Add((invocation, containingMethod));
+            }
         }
     }
 
@@ -252,17 +255,20 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var objectCreation = (IObjectCreationOperation) context.Operation;
-        var containingMethod = GetContainingMethod(context.ContainingSymbol);
         if (objectCreation.Constructor is null
-            || containingMethod is null
             || !IsInReachableBranch(objectCreation))
         {
             return;
         }
 
-        methodCalls.Add((
-            NormalizeMethod(containingMethod),
-            NormalizeMethod(objectCreation.Constructor)));
+        foreach (var containingMethod in
+                 GetContainingExecutionMethods(context.ContainingSymbol)
+                     .OfType<IMethodSymbol>())
+        {
+            methodCalls.Add((
+                NormalizeMethod(containingMethod),
+                NormalizeMethod(objectCreation.Constructor)));
+        }
     }
 
     private static void CollectPropertyAccessorCall(
@@ -270,25 +276,29 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var propertyReference = (IPropertyReferenceOperation) context.Operation;
-        var containingMethod = GetContainingMethod(context.ContainingSymbol);
-        if (containingMethod is null || !IsInReachableBranch(propertyReference))
+        if (!IsInReachableBranch(propertyReference))
         {
             return;
         }
 
-        var caller = NormalizeMethod(containingMethod);
-        var isAssignmentTarget = IsPropertyAssignmentTarget(propertyReference);
-        if ((!isAssignmentTarget
-             || propertyReference.Parent is not ISimpleAssignmentOperation)
-            && propertyReference.Property.GetMethod is { } getter)
+        foreach (var containingMethod in
+                 GetContainingExecutionMethods(context.ContainingSymbol)
+                     .OfType<IMethodSymbol>())
         {
-            methodCalls.Add((caller, NormalizeMethod(getter)));
-        }
+            var caller = NormalizeMethod(containingMethod);
+            var isAssignmentTarget = IsPropertyAssignmentTarget(propertyReference);
+            if ((!isAssignmentTarget
+                 || propertyReference.Parent is not ISimpleAssignmentOperation)
+                && propertyReference.Property.GetMethod is { } getter)
+            {
+                methodCalls.Add((caller, NormalizeMethod(getter)));
+            }
 
-        if (isAssignmentTarget
-            && propertyReference.Property.SetMethod is { } setter)
-        {
-            methodCalls.Add((caller, NormalizeMethod(setter)));
+            if (isAssignmentTarget
+                && propertyReference.Property.SetMethod is { } setter)
+            {
+                methodCalls.Add((caller, NormalizeMethod(setter)));
+            }
         }
     }
 
@@ -312,7 +322,10 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            foreach (var methodReference in argument.Value.DescendantsAndSelf()
+            foreach (var methodReference in GetValueAndReachingLocalValues(
+                             argument.Value,
+                             [with(SymbolEqualityComparer.Default)])
+                         .SelectMany(static value => value.DescendantsAndSelf())
                          .OfType<IMethodReferenceOperation>())
             {
                 methodCalls.Add((
@@ -1364,7 +1377,11 @@ internal static class ModuleAuthoringAnalysis
             return;
         }
 
-        assignments.Add((assignment, GetContainingMethod(context.ContainingSymbol)));
+        foreach (var containingMethod in
+                 GetContainingExecutionMethods(context.ContainingSymbol))
+        {
+            assignments.Add((assignment, containingMethod));
+        }
     }
 
     private static bool IsServiceCollectionIndexerAssignment(
@@ -1695,6 +1712,21 @@ internal static class ModuleAuthoringAnalysis
                                CloneVisitedLocals(visitedLocals),
                                CloneVisitedMethods(visitedMethods)));
             case IConditionalOperation conditional:
+                if (conditional.Condition.ConstantValue is
+                    { HasValue: true, Value: bool condition })
+                {
+                    var selectedBranch = condition
+                        ? conditional.WhenTrue
+                        : conditional.WhenFalse;
+                    return selectedBranch is not null
+                           && TryTrackInstanceModuleTypes(
+                               selectedBranch,
+                               compilation,
+                               instanceRegisteredModules,
+                               visitedLocals,
+                               visitedMethods);
+                }
+
                 return TryTrackInstanceModuleTypes(
                            conditional.WhenTrue,
                            compilation,
@@ -2134,8 +2166,9 @@ internal static class ModuleAuthoringAnalysis
                     method,
                     NormalizeMethod(entryPoint)))
                || method.MethodKind == MethodKind.StaticConstructor
-               || method.DeclaredAccessibility is not
-                   (Accessibility.Private or Accessibility.NotApplicable);
+               || (method.MethodKind != MethodKind.Constructor
+                   && method.DeclaredAccessibility is not
+                       (Accessibility.Private or Accessibility.NotApplicable));
     }
 
     private static bool IsReachableStartupMethod(
@@ -2161,6 +2194,37 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return null;
+    }
+
+    private static ImmutableArray<IMethodSymbol?> GetContainingExecutionMethods(
+        ISymbol symbol)
+    {
+        if (GetContainingMethod(symbol) is { } method)
+        {
+            return [method];
+        }
+
+        for (var current = symbol; current is not null; current = current.ContainingSymbol)
+        {
+            var initializer = current switch
+            {
+                IFieldSymbol field => (field.IsStatic, field.ContainingType),
+                IPropertySymbol property => (property.IsStatic, property.ContainingType),
+                IEventSymbol @event => (@event.IsStatic, @event.ContainingType),
+                _ => ((bool IsStatic, INamedTypeSymbol Type)?) null,
+            };
+            if (initializer is not { } initializerOwner)
+            {
+                continue;
+            }
+
+            var constructors = initializerOwner.IsStatic
+                ? initializerOwner.Type.StaticConstructors
+                : initializerOwner.Type.InstanceConstructors;
+            return [.. constructors.Cast<IMethodSymbol?>()];
+        }
+
+        return [null];
     }
 
     private static bool IsInReachableBranch(IOperation operation)
@@ -2255,13 +2319,27 @@ internal static class ModuleAuthoringAnalysis
         IOperation current,
         ISwitchExpressionOperation switchExpression)
     {
-        return current is ISwitchExpressionArmOperation arm
-               && switchExpression.Value.ConstantValue
-                   is { HasValue: true } switchValue
-               && PatternAndGuardMatchesConstant(
-                   arm.Pattern,
-                   arm.Guard,
-                   switchValue.Value) is false;
+        if (current is not ISwitchExpressionArmOperation arm
+            || switchExpression.Value.ConstantValue
+                is not { HasValue: true } switchValue)
+        {
+            return false;
+        }
+
+        if (PatternAndGuardMatchesConstant(
+                arm.Pattern,
+                arm.Guard,
+                switchValue.Value) is false)
+        {
+            return true;
+        }
+
+        return switchExpression.Arms
+            .TakeWhile(candidate => !ReferenceEquals(candidate, arm))
+            .Any(candidate => PatternAndGuardMatchesConstant(
+                candidate.Pattern,
+                candidate.Guard,
+                switchValue.Value) is true);
     }
 
     private static bool? SwitchCaseMatchesConstant(
@@ -3990,6 +4068,7 @@ internal static class ModuleAuthoringAnalysis
     {
         return switchExpression.Arms.Length > 0
                && switchExpression.Arms
+                   .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
                    .Where(static arm => !AlwaysThrows(arm.Value))
                    .All(arm =>
                     FlowsFromCancellationToken(
