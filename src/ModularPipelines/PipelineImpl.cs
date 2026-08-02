@@ -6,11 +6,13 @@ using Microsoft.Extensions.Hosting;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.PipelineCli;
+using ModularPipelines.Tracing;
 
 namespace ModularPipelines;
 
@@ -71,16 +73,36 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
     {
-        if (await Services.GetRequiredService<PipelineCommandHandler>()
-                .TryExecuteAsync(cancellationToken)
-                .ConfigureAwait(false) is { } commandResult)
-        {
-            return commandResult;
-        }
+        var pipelineName = Services.GetRequiredService<IHostEnvironment>().ApplicationName;
+        using var activity = ModuleActivityTracing.StartPipelineActivity(pipelineName);
 
-        return await Services.GetRequiredService<IExecutionOrchestrator>()
-            .ExecuteAsync(cancellationToken)
-            .ConfigureAwait(false);
+        try
+        {
+            PipelineSummary summary;
+            if (await Services.GetRequiredService<PipelineCommandHandler>()
+                    .TryExecuteAsync(cancellationToken)
+                    .ConfigureAwait(false) is { } commandResult)
+            {
+                summary = commandResult;
+            }
+            else
+            {
+                summary = await Services.GetRequiredService<IExecutionOrchestrator>()
+                    .ExecuteAsync(cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            ModuleActivityTracing.RecordPipelineCompletion(
+                activity,
+                summary.Status.ToString(),
+                summary.Status == Status.Failed);
+            return summary;
+        }
+        catch (Exception exception)
+        {
+            ModuleActivityTracing.RecordPipelineFailure(activity, exception);
+            throw;
+        }
     }
 
     /// <inheritdoc />

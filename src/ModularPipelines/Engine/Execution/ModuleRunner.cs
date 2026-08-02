@@ -157,7 +157,8 @@ internal class ModuleRunner : IModuleRunner
             _mediator,
             _moduleEstimatedTimeProvider);
 
-        // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)
+        var telemetryStart = Stopwatch.GetTimestamp();
+        var telemetryStatus = "Failed";
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
 
         // Set up logging and module type context using scope wrapper for proper cleanup
@@ -170,15 +171,18 @@ internal class ModuleRunner : IModuleRunner
             // Record success, skip, or ignored failure status on the Activity
             if (executionContext.Status == Enums.Status.Skipped)
             {
+                telemetryStatus = "Skipped";
                 ModuleActivityTracing.RecordSkipped(activity);
             }
             else if (executionContext.Status == Enums.Status.IgnoredFailure)
             {
-                activity?.SetTag("module.status", "IgnoredFailure");
-                activity?.SetStatus(System.Diagnostics.ActivityStatusCode.Ok, "Module failed but failure was ignored");
+                telemetryStatus = "IgnoredFailure";
+                activity?.SetTag(ModuleActivityTracing.ModuleStatusTag, telemetryStatus);
+                activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
             }
             else
             {
+                telemetryStatus = "Successful";
                 ModuleActivityTracing.RecordSuccess(activity);
             }
         }
@@ -187,6 +191,13 @@ internal class ModuleRunner : IModuleRunner
             // Record failure on the Activity before re-throwing
             ModuleActivityTracing.RecordFailure(activity, ex);
             throw;
+        }
+        finally
+        {
+            ModuleActivityTracing.RecordModuleMetrics(
+                moduleType,
+                telemetryStatus,
+                Stopwatch.GetElapsedTime(telemetryStart));
         }
     }
 

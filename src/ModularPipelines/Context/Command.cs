@@ -13,6 +13,7 @@ using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Tracing;
 using CommandResult = ModularPipelines.Models.CommandResult;
 
 namespace ModularPipelines.Context;
@@ -97,6 +98,9 @@ internal sealed class Command : ICommandContext
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
         using var linkedCancellationToken =
             CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
+        using var activity = ModuleActivityTracing.StartCommandActivity(
+            tool,
+            _secretObfuscator.Obfuscate(GetInputToLog(command, execOpts), execOpts));
 
         try
         {
@@ -111,15 +115,18 @@ internal sealed class Command : ICommandContext
                 .ConfigureAwait(false);
             if (intercepted is not null)
             {
+                ModuleActivityTracing.RecordCommandResult(activity, intercepted);
                 return intercepted;
             }
 
             if (execOpts.InternalDryRun)
             {
-                return ExecuteDryRun(command, options, execOpts);
+                var dryRunResult = ExecuteDryRun(command, options, execOpts);
+                ModuleActivityTracing.RecordCommandResult(activity, dryRunResult);
+                return dryRunResult;
             }
 
-            return await Of(
+            var result = await Of(
                     command,
                     options,
                     execOpts,
@@ -127,12 +134,21 @@ internal sealed class Command : ICommandContext
                     cancellationToken,
                     timeoutCancellationToken)
                 .ConfigureAwait(false);
+            ModuleActivityTracing.RecordCommandResult(activity, result);
+            return result;
         }
         catch (OperationCanceledException exception)
             when (!cancellationToken.IsCancellationRequested
                   && timeoutCancellationToken?.IsCancellationRequested is true)
         {
-            throw CreateTimeoutException(execOpts, exception);
+            var timeoutException = CreateTimeoutException(execOpts, exception);
+            ModuleActivityTracing.RecordCommandFailure(activity, timeoutException);
+            throw timeoutException;
+        }
+        catch (Exception exception)
+        {
+            ModuleActivityTracing.RecordCommandFailure(activity, exception);
+            throw;
         }
     }
 
