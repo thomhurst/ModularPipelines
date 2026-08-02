@@ -10,9 +10,9 @@ namespace ModularPipelines.Engine;
 /// This interface encapsulates the state management responsibility previously
 /// embedded in ModuleScheduler, following the Single Responsibility Principle.
 /// State transitions include:
-/// - Marking modules as started (Pending/Queued -> Executing)
-/// - Marking modules as completed (Executing -> Completed)
-/// - Cancelling pending modules during pipeline cancellation
+/// - Marking modules as started (Pending/Queued -> Executing).
+/// - Marking modules as completed (Executing -> Completed).
+/// - Cancelling pending modules during pipeline cancellation.
 /// </remarks>
 internal interface IModuleStateTracker
 {
@@ -37,7 +37,12 @@ internal interface IModuleStateTracker
     /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed.
     /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete.
     /// </summary>
-    void CancelPendingModules();
+    /// <param name="cancelModuleResultAwaiters">
+    /// Whether to cancel typed module result awaiters immediately. Set to <see langword="false"/>
+    /// when terminated results will be registered after scheduler cancellation.
+    /// </param>
+    /// <returns>The modules transitioned to the completed state by cancellation.</returns>
+    IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true);
 
     /// <summary>
     /// Gets the state for a specific module.

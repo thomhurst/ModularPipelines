@@ -3,6 +3,8 @@ using System.Reflection.Emit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Configuration;
+using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Extensions;
@@ -71,8 +73,45 @@ public class GeneratedModuleMetadataTests
         registrar.RegisterTerminatedResult(module, module.GetType(), exception);
 
         var result = registry.GetResult(module.GetType());
+        var awaitedResult = await ((IModule) module).ResultTask.WaitAsync(TimeSpan.FromSeconds(1));
         await Assert.That(result).IsAssignableTo<ModuleResult<bool>>();
         await Assert.That(result!.ExceptionOrDefault).IsSameReferenceAs(exception);
+        await Assert.That(awaitedResult).IsSameReferenceAs(result);
+    }
+
+    [Test]
+    public async Task Cancelled_Result_Registration_Defers_AlwaysRun_Completion()
+    {
+        var module = new GeneratedAlwaysRunModule();
+        var registry = new ModuleResultRegistry();
+        var registrar = new ModuleResultRegistrar(
+            registry,
+            NullLogger<ModuleResultRegistrar>.Instance);
+
+        registrar.RegisterTerminatedResultsForCancelledModules(
+            [module],
+            new InvalidOperationException("Pipeline terminated"));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(registry.GetResult(module.GetType())).IsNull();
+            await Assert.That(module.CompletionSource.Task.IsCompleted).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Generated_Runtime_Cancels_Typed_Completion_Source()
+    {
+        var module = new GeneratedMetadataDependencyModule();
+
+        var found = GeneratedModuleMetadata.TryGetRuntime(module.GetType(), out var runtime);
+        runtime.CancelCompletionSource(module);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(found).IsTrue();
+            await Assert.That(module.CompletionSource.Task.IsCanceled).IsTrue();
+        }
     }
 
     [Test]
@@ -201,6 +240,20 @@ public class GeneratedModuleMetadataTests
         il.Emit(OpCodes.Call, typeof(TrueModule).GetConstructor(Type.EmptyTypes)!);
         il.Emit(OpCodes.Ret);
         return typeBuilder.CreateType()!;
+    }
+
+    private sealed class GeneratedAlwaysRunModule : Module<bool>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
     }
 }
 
