@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
+using ModularPipelines.Constants;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
@@ -20,6 +21,8 @@ namespace ModularPipelines.UnitTests.Tracing;
 public class TelemetryIntegrationTests
 {
     private const string Secret = "telemetry-secret-value";
+    private const string UnregisteredSensitiveArgument = "unregistered-sensitive-argument";
+    private static int _inputManipulatorInvocations;
 
     private sealed class SuccessfulCommandInterceptor : ICommandInterceptor
     {
@@ -54,6 +57,60 @@ public class TelemetryIntegrationTests
                     Arguments = [Secret],
                 },
                 cancellationToken: cancellationToken);
+        }
+    }
+
+    private sealed class HiddenArgumentsCommandModule : Module<CommandResult>
+    {
+        protected internal override async Task<CommandResult?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return await context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("hidden-arguments-tool")
+                {
+                    Arguments = [UnregisteredSensitiveArgument],
+                },
+                new CommandExecutionOptions
+                {
+                    LogSettings = new CommandLoggingOptions { ShowCommandArguments = false },
+                },
+                cancellationToken);
+        }
+    }
+
+    private sealed class DefaultLoggingCommandModule : Module<CommandResult>
+    {
+        protected internal override async Task<CommandResult?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return await context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("silent-tool")
+                {
+                    Arguments = [UnregisteredSensitiveArgument],
+                },
+                cancellationToken: cancellationToken);
+        }
+    }
+
+    private sealed class ManipulatedInputCommandModule : Module<CommandResult>
+    {
+        protected internal override async Task<CommandResult?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return await context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("manipulated-input-tool"),
+                new CommandExecutionOptions
+                {
+                    InputLoggingManipulator = _ =>
+                    {
+                        Interlocked.Increment(ref _inputManipulatorInvocations);
+                        return "manipulated-command-input";
+                    },
+                },
+                cancellationToken);
         }
     }
 
@@ -100,6 +157,63 @@ public class TelemetryIntegrationTests
                 .IsEqualTo(0);
             await Assert.That(commandInput).Contains("**********");
             await Assert.That(commandInput).DoesNotContain(Secret);
+        }
+    }
+
+    [Test]
+    public async Task Hidden_Command_Arguments_Are_Not_Exported()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
+        await builder.AddModule<HiddenArgumentsCommandModule>().ExecutePipelineAsync();
+
+        var commandActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == "Command.hidden-arguments-tool");
+        await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.CommandInputTag))
+            .IsEqualTo(LoggingConstants.CommandMask);
+    }
+
+    [Test]
+    public async Task Silent_Default_Command_Logging_Does_Not_Export_Arguments()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        var builder = TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions(options => options with
+            {
+                DefaultLoggingOptions = CommandLoggingOptions.Silent,
+            });
+        builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
+        await builder.AddModule<DefaultLoggingCommandModule>().ExecutePipelineAsync();
+
+        var commandActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == "Command.silent-tool");
+        await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.CommandInputTag))
+            .IsEqualTo(LoggingConstants.CommandMask);
+    }
+
+    [Test]
+    public async Task Command_Input_Manipulator_Is_Reused_For_Logging_And_Telemetry()
+    {
+        _inputManipulatorInvocations = 0;
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
+        await builder.AddModule<ManipulatedInputCommandModule>().ExecutePipelineAsync();
+
+        var commandActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == "Command.manipulated-input-tool");
+        using (Assert.Multiple())
+        {
+            await Assert.That(_inputManipulatorInvocations).IsEqualTo(1);
+            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.CommandInputTag))
+                .IsEqualTo("manipulated-command-input");
         }
     }
 
@@ -169,6 +283,23 @@ public class TelemetryIntegrationTests
         await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
             .IsEqualTo("UsedHistory");
         await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Ok);
+    }
+
+    [Test]
+    public async Task PipelineTerminated_Is_Preserved_In_Module_Activity()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
+        {
+            ModuleActivityTracing.RecordPipelineTerminated(activity);
+        }
+
+        var moduleActivity = stoppedActivities.Single();
+        await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
+            .IsEqualTo("PipelineTerminated");
+        await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Error);
     }
 
     [Test]

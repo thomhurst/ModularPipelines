@@ -188,6 +188,11 @@ internal class ModuleRunner : IModuleRunner
                 telemetryStatus = "UsedHistory";
                 ModuleActivityTracing.RecordUsedHistory(activity);
             }
+            else if (executionContext.Status == Enums.Status.PipelineTerminated)
+            {
+                telemetryStatus = "PipelineTerminated";
+                ModuleActivityTracing.RecordPipelineTerminated(activity);
+            }
             else
             {
                 telemetryStatus = "Successful";

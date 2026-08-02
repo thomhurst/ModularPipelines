@@ -114,12 +114,16 @@ public static class ModuleActivityTracing
         RecordException(activity, exception, obfuscatedMessage);
     }
 
-    internal static Activity? StartCommandActivity(string tool, string obfuscatedCommandInput)
+    internal static Activity? StartCommandActivity(string tool)
     {
         var activity = CommandSource.StartActivity($"Command.{tool}", ActivityKind.Internal);
         activity?.SetTag(CommandToolTag, tool);
-        activity?.SetTag(CommandInputTag, obfuscatedCommandInput);
         return activity;
+    }
+
+    internal static void RecordCommandInput(Activity? activity, string obfuscatedCommandInput)
+    {
+        activity?.SetTag(CommandInputTag, obfuscatedCommandInput);
     }
 
     internal static void RecordCommandResult(Activity? activity, CommandResult result)
@@ -212,6 +216,12 @@ public static class ModuleActivityTracing
     {
         activity?.SetTag(ModuleStatusTag, "UsedHistory");
         activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from history");
+    }
+
+    internal static void RecordPipelineTerminated(Activity? activity)
+    {
+        activity?.SetTag(ModuleStatusTag, "PipelineTerminated");
+        activity?.SetStatus(ActivityStatusCode.Error, "Module terminated because the pipeline failed");
     }
 
     /// <summary>
