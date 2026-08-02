@@ -58,6 +58,11 @@ public class DistributedPipelineWriterTests : TestBase
             "run: echo \"value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\" >> \"$GITHUB_OUTPUT\"");
         await Assert.That(yaml).Contains(
             "RUN_IDENTIFIER: ${{ needs.initialize.outputs.run-identifier }}");
+        await Assert.That(yaml).Contains("name: Validate retry scope");
+        await Assert.That(yaml).Contains(
+            "if [ \"${{ needs.initialize.outputs.run-identifier }}\" != \"${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\" ]; then");
+        await Assert.That(yaml).Contains(
+            "Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix.");
         await Assert.That(yaml).Contains(
             "run: dotnet run --project 'src/MyPipeline' -c Release --framework net10.0");
         await Assert.That(yaml).DoesNotContain("pull_request:");

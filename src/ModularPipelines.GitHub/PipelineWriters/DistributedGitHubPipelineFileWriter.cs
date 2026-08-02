@@ -13,6 +13,12 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     private const string Windows = "windows";
     private const string MacOS = "macos";
     private const string AlternativeOperatingSystemPrefix = "operating-system:";
+    private const string ValidateRetryScopeCommand = """
+        if [ "${{ needs.initialize.outputs.run-identifier }}" != "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" ]; then
+          echo "::error::Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix."
+          exit 1
+        fi
+        """;
 
     private static readonly IReadOnlyDictionary<string, string> RunnerByOperatingSystem =
         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -91,6 +97,12 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
                     RunsOn = "${{ matrix.os }}",
                     Steps = new object?[]
                     {
+                        new
+                        {
+                            Name = "Validate retry scope",
+                            Shell = "bash",
+                            Run = ValidateRetryScopeCommand,
+                        },
                         new
                         {
                             Name = "Checkout",

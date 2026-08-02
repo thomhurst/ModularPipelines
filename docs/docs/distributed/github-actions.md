@@ -86,6 +86,14 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      - name: Validate retry scope
+        shell: bash
+        run: |
+          if [ "${{ needs.initialize.outputs.run-identifier }}" != "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" ]; then
+            echo "::error::Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix."
+            exit 1
+          fi
+
       - uses: actions/checkout@v7.0.1
 
       - uses: actions/setup-dotnet@v6.0.0
@@ -242,9 +250,10 @@ public class AggregateResultsModule : Module<string>
 - **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
 - **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpirationSeconds` accordingly if you have very long pipelines.
 - **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
-- **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. A full rerun creates
-  a fresh namespace and reruns the whole matrix. "Re-run failed jobs" reuses the successful
-  initializer output, so the retried subset can coordinate with results from the original attempt.
+- **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. Use
+  **Re-run all jobs** after a failure so GitHub reruns the initializer and complete worker matrix
+  with a fresh Redis namespace. Partial retries cannot recreate successful worker jobs, so the
+  generated validation step rejects **Re-run failed jobs** before any stale coordination state is read.
 - **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
 
 ## Azure DevOps
