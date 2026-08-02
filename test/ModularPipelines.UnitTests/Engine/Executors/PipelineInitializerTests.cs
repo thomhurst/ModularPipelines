@@ -283,6 +283,26 @@ public class PipelineInitializerTests
     }
 
     [Test]
+    [Arguments("url.https://oauth2:secret@gitlab.example/.insteadOf")]
+    [Arguments("url.https://token@gitlab.example/.insteadOf")]
+    public async Task EnvironmentVariables_MaskGitConfigKeysWithEmbeddedCredentials(
+        string gitConfigKey)
+    {
+        var variables = new OrderedDictionary
+        {
+            ["GIT_CONFIG_KEY_0"] = gitConfigKey,
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            value => value);
+        var output = Render(table);
+
+        await Assert.That(output).Contains(LoggingConstants.SecretMask);
+        await Assert.That(output).DoesNotContain(gitConfigKey);
+    }
+
+    [Test]
     public async Task EnvironmentVariables_MaskValuesWithEmbeddedNewlines()
     {
         var variables = new OrderedDictionary

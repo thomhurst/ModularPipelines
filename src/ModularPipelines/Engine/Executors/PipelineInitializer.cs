@@ -170,7 +170,7 @@ internal class PipelineInitializer(
                     value,
                     obfuscatedValue,
                     effectiveMaskValue,
-                    IsSensitiveEnvironmentVariableName(name),
+                    IsSensitiveEnvironmentVariable(name, value),
                     configuredMaximumValueWidth));
         }
 
@@ -227,11 +227,11 @@ internal class PipelineInitializer(
         }
     }
 
-    private static bool IsSensitiveEnvironmentVariableName(string name)
+    private static bool IsSensitiveEnvironmentVariable(string name, string value)
     {
         if (IsGitConfigKeyName(name))
         {
-            return false;
+            return ContainsUriUserInfo(value);
         }
 
         if (name.StartsWith("GIT_CONFIG_VALUE_", StringComparison.OrdinalIgnoreCase)
@@ -255,6 +255,25 @@ internal class PipelineInitializer(
         return name.StartsWith(prefix, StringComparison.Ordinal)
                && name.Length > prefix.Length
                && name[prefix.Length..].All(char.IsAsciiDigit);
+    }
+
+    private static bool ContainsUriUserInfo(string value)
+    {
+        var schemeSeparator = value.IndexOf("://", StringComparison.Ordinal);
+        if (schemeSeparator < 0)
+        {
+            return false;
+        }
+
+        var authorityStart = schemeSeparator + 3;
+        var authorityEnd = value.IndexOfAny(['/', '?', '#'], authorityStart);
+        if (authorityEnd < 0)
+        {
+            authorityEnd = value.Length;
+        }
+
+        var userInfoSeparator = value.IndexOf('@', authorityStart, authorityEnd - authorityStart);
+        return userInfoSeparator > authorityStart;
     }
 
     private static bool ContainsDelimitedNamePart(string name, string part)
