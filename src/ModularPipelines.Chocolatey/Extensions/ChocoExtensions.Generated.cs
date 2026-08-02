@@ -33,7 +33,7 @@ public static class ChocoExtensions
     }
 
     /// <summary>
-    /// Gets the choco service from the pipeline context.
+    /// Gets the choco service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IChoco"/> service for executing choco commands.</returns>
