@@ -117,7 +117,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     private static string? ResolveExecutablePath(string command)
     {
         var configuredPath = Environment.GetEnvironmentVariable(ExecutableOverrideVariableName);
-        if (!string.IsNullOrWhiteSpace(configuredPath))
+        if (!string.IsNullOrWhiteSpace(configuredPath)
+            && IsOverrideForCommand(command, configuredPath))
         {
             return Path.GetFullPath(configuredPath);
         }
@@ -129,6 +130,12 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             OperatingSystem.IsWindows(),
             Environment.CurrentDirectory);
     }
+
+    internal static bool IsOverrideForCommand(string command, string configuredPath) =>
+        Path.GetFileNameWithoutExtension(command)
+            .Equals(
+                Path.GetFileNameWithoutExtension(configuredPath),
+                StringComparison.OrdinalIgnoreCase);
 
     internal static string? ResolveExecutablePath(
         string command,
@@ -217,7 +224,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             // Try to get version/help to check if command exists
             var result = await ExecuteAsync(command, "--version", cancellationToken);
             if (result.Success)
+            {
                 return true;
+            }
 
             // Some commands don't support --version, try --help
             result = await ExecuteAsync(command, "--help", cancellationToken);

@@ -88,7 +88,8 @@ Use a comma-separated list for `--tools`, or `all`. Useful options are:
 
 For reproducible CI scraping, set `MODULARPIPELINES_CLI_EXECUTABLE` to the verified absolute
 path of the requested tool. The generator rejects an executable override when more than one
-tool is requested.
+tool is requested. The override applies only when that tool is executed; helper programs used
+by its scraper continue to resolve independently.
 
 ## Add a scraper
 

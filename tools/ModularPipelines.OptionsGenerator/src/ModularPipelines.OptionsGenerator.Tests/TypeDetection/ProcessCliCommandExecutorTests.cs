@@ -13,6 +13,26 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task ExecutableOverride_Applies_To_Matching_Command()
+    {
+        var applies = ProcessCliCommandExecutor.IsOverrideForCommand(
+            "podman",
+            "/usr/bin/podman");
+
+        await Assert.That(applies).IsTrue();
+    }
+
+    [Test]
+    public async Task ExecutableOverride_Does_Not_Redirect_Helper_Command()
+    {
+        var applies = ProcessCliCommandExecutor.IsOverrideForCommand(
+            "/tmp/docker-compose",
+            "/usr/bin/podman");
+
+        await Assert.That(applies).IsFalse();
+    }
+
+    [Test]
     public async Task Resolves_Each_Path_Directory_Before_Trying_The_Next_Extension()
     {
         var root = Path.Combine(Path.GetTempPath(), "mp-cli-executor-tests", Guid.NewGuid().ToString("N"));
