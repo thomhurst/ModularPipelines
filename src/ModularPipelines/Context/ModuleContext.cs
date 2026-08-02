@@ -1,6 +1,9 @@
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
+using ModularPipelines.Events;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
@@ -14,23 +17,31 @@ namespace ModularPipelines.Context;
 /// </summary>
 internal class ModuleContext : IModuleContext, IInternalPipelineContext
 {
+    private static readonly TimeSpan DefaultSubModuleEstimatedDuration = TimeSpan.FromMinutes(2);
+
     private readonly IPipelineContext _pipelineContext;
     private readonly IInternalPipelineContext _internalContext;
     private readonly IModule _currentModule;
     private readonly ModuleExecutionContext _executionContext;
     private readonly IModuleLogger _logger;
+    private readonly IMediator _mediator;
+    private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
 
     public ModuleContext(
         IPipelineContext pipelineContext,
         IModule currentModule,
         ModuleExecutionContext executionContext,
-        IModuleLogger logger)
+        IModuleLogger logger,
+        IMediator mediator,
+        ISafeModuleEstimatedTimeProvider estimatedTimeProvider)
     {
         _pipelineContext = pipelineContext;
         _internalContext = (IInternalPipelineContext) pipelineContext;
         _currentModule = currentModule;
         _executionContext = executionContext;
         _logger = logger;
+        _mediator = mediator;
+        _estimatedTimeProvider = estimatedTimeProvider;
     }
 
     #region IModuleContext specific methods
@@ -84,18 +95,48 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         return _executionContext.MatrixTarget;
     }
 
-    public async Task<T> SubModule<T>(string name, Func<Task<T>> action)
-    {
-        var tracker = new SubModuleTracker(name, _currentModule.GetType());
-        _executionContext.SubModules.Add(tracker);
-        return await tracker.ExecuteAsync(action).ConfigureAwait(false);
-    }
+    public Task<T> SubModule<T>(string name, Func<Task<T>> action) => ExecuteSubModule(name, action);
 
-    public async Task SubModule(string name, Func<Task> action)
+    public Task SubModule(string name, Func<Task> action) =>
+        ExecuteSubModule(name, async () =>
+        {
+            await action().ConfigureAwait(false);
+            return 0;
+        });
+
+    private async Task<T> ExecuteSubModule<T>(string name, Func<Task<T>> action)
     {
-        var tracker = new SubModuleTracker(name, _currentModule.GetType());
-        _executionContext.SubModules.Add(tracker);
-        await tracker.ExecuteAsync(action).ConfigureAwait(false);
+        var moduleType = _currentModule.GetType();
+        var tracker = new SubModuleTracker(name, moduleType);
+        var estimates = await _estimatedTimeProvider
+            .GetSubModuleEstimatedTimesAsync(moduleType)
+            .ConfigureAwait(false);
+        var estimatedDuration = estimates
+            .FirstOrDefault(x => string.Equals(x.SubModuleName, name, StringComparison.Ordinal))
+            ?.EstimatedDuration ?? DefaultSubModuleEstimatedDuration;
+
+        await _mediator.Publish(
+            new SubModuleCreatedNotification(_currentModule, tracker, estimatedDuration))
+            .ConfigureAwait(false);
+
+        try
+        {
+            return await tracker.ExecuteAsync(action).ConfigureAwait(false);
+        }
+        finally
+        {
+            var isSuccessful = tracker.Status == Status.Successful;
+            if (isSuccessful)
+            {
+                await _estimatedTimeProvider.SaveSubModuleTimeAsync(
+                    moduleType,
+                    new SubModuleEstimation(name, tracker.Duration)).ConfigureAwait(false);
+            }
+
+            await _mediator.Publish(
+                new SubModuleCompletedNotification(_currentModule, tracker, isSuccessful))
+                .ConfigureAwait(false);
+        }
     }
 
     #endregion
