@@ -177,13 +177,15 @@ public class ModuleTestBuilder<TModule>
 
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
         var logger = GetModuleLogger(pipeline.Services);
+        var mediator = pipeline.Services.GetRequiredService<IMediator>();
+        var estimatedTimeProvider = pipeline.Services.GetRequiredService<ISafeModuleEstimatedTimeProvider>();
         var moduleContext = new ModuleContext(
             pipelineContext,
             module,
             executionContext,
             logger,
-            pipeline.Services.GetRequiredService<IMediator>(),
-            pipeline.Services.GetRequiredService<ISafeModuleEstimatedTimeProvider>());
+            mediator,
+            estimatedTimeProvider);
         var executionPipeline = pipeline.Services.GetRequiredService<IModuleExecutionPipeline>();
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
 
