@@ -40,7 +40,7 @@ public static class HelmExtensions
     }
 
     /// <summary>
-    /// Gets the helm service from the pipeline context.
+    /// Gets the helm service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IHelm"/> service for executing helm commands.</returns>

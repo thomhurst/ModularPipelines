@@ -7,7 +7,13 @@ title: helm CLI reference
 
 `ModularPipelines.Helm` provides strongly typed access to the `helm` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `helm` executable. Install it separately and ensure `helm` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Helm
@@ -41,10 +47,12 @@ public class RunCommandModule : Module<CommandResult>
 | CLI command | Options record |
 | --- | --- |
 | `helm create` | `HelmCreateOptions` |
+| `helm dependency` | `HelmDependencyOptions` |
 | `helm dependency build` | `HelmDependencyBuildOptions` |
 | `helm dependency list` | `HelmDependencyListOptions` |
 | `helm dependency update` | `HelmDependencyUpdateOptions` |
 | `helm env` | `HelmEnvOptions` |
+| `helm get` | `HelmGetOptions` |
 | `helm get all` | `HelmGetAllOptions` |
 | `helm get hooks` | `HelmGetHooksOptions` |
 | `helm get manifest` | `HelmGetManifestOptions` |
@@ -56,22 +64,27 @@ public class RunCommandModule : Module<CommandResult>
 | `helm lint` | `HelmLintOptions` |
 | `helm list` | `HelmListOptions` |
 | `helm package` | `HelmPackageOptions` |
+| `helm plugin` | `HelmPluginOptions` |
 | `helm plugin install` | `HelmPluginInstallOptions` |
 | `helm plugin list` | `HelmPluginListOptions` |
 | `helm plugin uninstall` | `HelmPluginUninstallOptions` |
 | `helm plugin update` | `HelmPluginUpdateOptions` |
 | `helm pull` | `HelmPullOptions` |
 | `helm push` | `HelmPushOptions` |
+| `helm registry` | `HelmRegistryOptions` |
 | `helm registry login` | `HelmRegistryLoginOptions` |
 | `helm registry logout` | `HelmRegistryLogoutOptions` |
+| `helm repo` | `HelmRepoOptions` |
 | `helm repo add` | `HelmRepoAddOptions` |
 | `helm repo index` | `HelmRepoIndexOptions` |
 | `helm repo list` | `HelmRepoListOptions` |
 | `helm repo remove` | `HelmRepoRemoveOptions` |
 | `helm repo update` | `HelmRepoUpdateOptions` |
 | `helm rollback` | `HelmRollbackOptions` |
+| `helm search` | `HelmSearchOptions` |
 | `helm search hub` | `HelmSearchHubOptions` |
 | `helm search repo` | `HelmSearchRepoOptions` |
+| `helm show` | `HelmShowOptions` |
 | `helm show all` | `HelmShowAllOptions` |
 | `helm show chart` | `HelmShowChartOptions` |
 | `helm show crds` | `HelmShowCrdsOptions` |
