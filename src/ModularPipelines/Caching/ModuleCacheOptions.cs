@@ -24,6 +24,16 @@ public sealed class ModuleCacheOptions
     public int MaximumInputFiles { get; set; } = 100_000;
 
     /// <summary>
+    /// Gets or sets the maximum number of entries stored in one module's artifact snapshot.
+    /// </summary>
+    public int MaximumArtifactEntries { get; set; } = 100_000;
+
+    /// <summary>
+    /// Gets or sets the maximum uncompressed size of one module's artifact snapshot.
+    /// </summary>
+    public long MaximumArtifactBytes { get; set; } = 10L * 1024 * 1024 * 1024;
+
+    /// <summary>
     /// Gets or sets the maximum number of files hashed concurrently.
     /// </summary>
     public int MaximumHashConcurrency { get; set; } = Math.Max(1, Environment.ProcessorCount);

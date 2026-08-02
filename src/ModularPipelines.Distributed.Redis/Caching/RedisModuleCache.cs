@@ -11,12 +11,15 @@ namespace ModularPipelines.Distributed.Redis.Caching;
 /// </summary>
 public sealed class RedisModuleCache : IModuleCacheStore
 {
+    private static readonly TimeSpan MinimumProvisionalExpiration = TimeSpan.FromHours(1);
     private readonly IDatabase _database;
     private readonly string _keyPrefix;
     private readonly int _chunkSize;
     private readonly TimeSpan _expiration;
+    private readonly TimeSpan _provisionalExpiration;
 
     /// <summary>
+    /// Initialises a new instance of the <see cref="RedisModuleCache"/> class.
     /// Initializes a new instance of the <see cref="RedisModuleCache"/> class.
     /// </summary>
     public RedisModuleCache(
@@ -33,6 +36,9 @@ public sealed class RedisModuleCache : IModuleCacheStore
         _keyPrefix = $"{redisOptions.KeyPrefix}:module-cache:v1";
         _chunkSize = artifactOptions.ChunkSizeBytes;
         _expiration = TimeSpan.FromSeconds(artifactOptions.TimeToLiveSeconds);
+        _provisionalExpiration = _expiration > MinimumProvisionalExpiration
+            ? _expiration
+            : MinimumProvisionalExpiration;
 
         if (_chunkSize <= 0)
         {
@@ -130,7 +136,8 @@ public sealed class RedisModuleCache : IModuleCacheStore
                 var chunkKey = ChunkKey(fingerprint, generation, chunkCount);
                 await _database.StringSetAsync(
                         chunkKey,
-                        new ReadOnlyMemory<byte>(buffer, 0, length))
+                        new ReadOnlyMemory<byte>(buffer, 0, length),
+                        _provisionalExpiration)
                     .WaitAsync(cancellationToken)
                     .ConfigureAwait(false);
                 chunkKeys.Add(chunkKey);

@@ -82,7 +82,7 @@ public class RedisModuleCacheTests
         await Assert.That(keys.Any(key => key.EndsWith(":chunk:1", StringComparison.Ordinal))).IsTrue();
         await Assert.That(keys.Any(key => key.Contains("must-not-appear", StringComparison.Ordinal))).IsFalse();
         await Assert.That(databaseWrites.All(invocation =>
-            invocation.Arguments[2].Equals(Expiration.Default))).IsTrue();
+            invocation.Arguments[2].Equals(new Expiration(TimeSpan.FromHours(1))))).IsTrue();
         _transaction.Verify(value => value.KeyExpireAsync(
                 It.Is<RedisKey>(key => key.ToString().Contains(":entry:", StringComparison.Ordinal)),
                 TimeSpan.FromSeconds(60),

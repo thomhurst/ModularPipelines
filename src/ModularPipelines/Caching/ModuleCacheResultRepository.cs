@@ -1,3 +1,5 @@
+using System.Buffers;
+using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
@@ -52,6 +54,20 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
         _logger = logger;
+
+        if (_options.MaximumArtifactEntries <= 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(options),
+                "ModuleCacheOptions.MaximumArtifactEntries must be positive.");
+        }
+
+        if (_options.MaximumArtifactBytes <= 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(options),
+                "ModuleCacheOptions.MaximumArtifactBytes must be positive.");
+        }
     }
 
     public void DiscardFingerprint(IModule module) =>
@@ -167,6 +183,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 await cachedStream.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
             }
 
+            ValidateArchiveEntryCount(temporary);
             using var archive = ZipFile.OpenRead(temporary);
             var resultEntry = archive.GetEntry(ResultEntryName)
                               ?? throw new InvalidDataException("Module cache entry does not contain result.json.");
@@ -244,7 +261,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         IReadOnlyList<string> inputFiles,
         IReadOnlyDictionary<string, string> hashes)
     {
-        Append(incrementalHash, "format", "1");
+        Append(incrementalHash, "format", "2");
         Append(incrementalHash, "module", module.GetType().AssemblyQualifiedName ?? module.GetType().FullName!);
         Append(incrementalHash, "module-version", module.GetType().Assembly.ManifestModule.ModuleVersionId.ToString("N"));
 
@@ -266,7 +283,15 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
         foreach (var variableName in configuration.CacheEnvironmentVariables.Order(StringComparer.Ordinal))
         {
-            Append(incrementalHash, $"environment:{variableName}", Environment.GetEnvironmentVariable(variableName) ?? "<null>");
+            var value = Environment.GetEnvironmentVariable(variableName);
+            Append(
+                incrementalHash,
+                $"environment:{variableName}:presence",
+                value is null ? "unset" : "set");
+            if (value is not null)
+            {
+                Append(incrementalHash, $"environment:{variableName}:value", value);
+            }
         }
     }
 
@@ -324,11 +349,16 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
         if (dependencyResult.ValueOrDefault is { } value)
         {
+            Append(
+                incrementalHash,
+                "dependency-value-type",
+                value.GetType().AssemblyQualifiedName ?? value.GetType().FullName!);
             var valueBytes = JsonSerializer.SerializeToUtf8Bytes(value, value.GetType());
             Append(incrementalHash, "dependency-value", Convert.ToHexString(SHA256.HashData(valueBytes)));
         }
         else
         {
+            Append(incrementalHash, "dependency-value-type", "<null>");
             Append(incrementalHash, "dependency-value", "<null>");
         }
 
@@ -366,6 +396,16 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             _options.MaximumInputFiles,
             _options.CacheDirectory);
 
+        var entryCount = checked(directories.Count + directoryLinks.Count + files.Count);
+        if (entryCount > _options.MaximumArtifactEntries)
+        {
+            throw new InvalidDataException(
+                $"Cache artifact entry count exceeded the configured limit of "
+                + $"{_options.MaximumArtifactEntries:N0} entries.");
+        }
+
+        var byteBudget = new ArtifactByteBudget(_options.MaximumArtifactBytes);
+
         foreach (var directory in directories)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -396,9 +436,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var entry = archive.CreateEntry($"{ArtifactPrefix}{relativePath}");
             entry.ExternalAttributes =
                 (UnixFileTypeSymbolicLink << 16) | (int) FileAttributes.Directory;
+            var linkTargetBytes = Encoding.UTF8.GetBytes(linkTarget);
+            byteBudget.Consume(linkTargetBytes.Length);
             await using var linkOutput = entry.Open();
             await linkOutput.WriteAsync(
-                    Encoding.UTF8.GetBytes(linkTarget),
+                    linkTargetBytes,
                     cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -413,9 +455,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             if (new FileInfo(file).LinkTarget is { } linkTarget)
             {
                 entry.ExternalAttributes = UnixFileTypeSymbolicLink << 16;
+                var linkTargetBytes = Encoding.UTF8.GetBytes(linkTarget);
+                byteBudget.Consume(linkTargetBytes.Length);
                 await using var linkOutput = entry.Open();
                 await linkOutput.WriteAsync(
-                        Encoding.UTF8.GetBytes(linkTarget),
+                        linkTargetBytes,
                         cancellationToken)
                     .ConfigureAwait(false);
                 continue;
@@ -435,7 +479,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 64 * 1024,
                 FileOptions.Asynchronous | FileOptions.SequentialScan);
             await using var output = entry.Open();
-            await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
+            await byteBudget.CopyToAsync(input, output, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -450,10 +494,11 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         foreach (var entry in archive.Entries.Where(entry =>
                      entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal)))
         {
-            if (archivedArtifacts.Count >= _options.MaximumInputFiles)
+            if (archivedArtifacts.Count >= _options.MaximumArtifactEntries)
             {
                 throw new InvalidDataException(
-                    $"Cache artifact entry count exceeded the configured limit of {_options.MaximumInputFiles:N0} entries.");
+                    $"Cache artifact entry count exceeded the configured limit of "
+                    + $"{_options.MaximumArtifactEntries:N0} entries.");
             }
 
             archivedArtifacts.Add(entry);
@@ -467,6 +512,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 IsSymbolicLink: IsSymbolicLink(entry),
                 IsDirectorySymbolicLink: IsDirectorySymbolicLink(entry)))
             .ToArray();
+        ValidateDeclaredArtifactBytes(artifactEntries.Select(artifact => artifact.Entry));
+        var byteBudget = new ArtifactByteBudget(_options.MaximumArtifactBytes);
 
         foreach (var artifact in artifactEntries)
         {
@@ -544,7 +591,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                                  64 * 1024,
                                  FileOptions.Asynchronous))
                 {
-                    await input.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
+                    await byteBudget.CopyToAsync(input, output, cancellationToken)
+                        .ConfigureAwait(false);
                 }
 
                 RestoreUnixMode(entry, destination, UnixFileTypeRegular);
@@ -556,13 +604,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 cancellationToken.ThrowIfCancellationRequested();
                 Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
                 await using var input = entry.Open();
-                using var reader = new StreamReader(
-                    input,
-                    Encoding.UTF8,
-                    detectEncodingFromByteOrderMarks: false,
-                    bufferSize: 1024,
-                    leaveOpen: false);
-                var linkTarget = await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
+                var linkTarget = await byteBudget.ReadSymbolicLinkTargetAsync(
+                        input,
+                        cancellationToken)
+                    .ConfigureAwait(false);
                 if (isDirectorySymbolicLink)
                 {
                     Directory.CreateSymbolicLink(destination, linkTarget);
@@ -597,6 +642,43 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             }
 
             throw;
+        }
+    }
+
+    private void ValidateArchiveEntryCount(string path)
+    {
+        var entryCount = ZipCentralDirectory.ReadEntryCount(path);
+        var maximumEntryCount = (long) _options.MaximumArtifactEntries + 1;
+        if (entryCount > maximumEntryCount)
+        {
+            throw new InvalidDataException(
+                $"Cache archive entry count exceeded the configured artifact limit of "
+                + $"{_options.MaximumArtifactEntries:N0} entries.");
+        }
+    }
+
+    private void ValidateDeclaredArtifactBytes(IEnumerable<ZipArchiveEntry> entries)
+    {
+        var totalBytes = 0L;
+        foreach (var entry in entries)
+        {
+            try
+            {
+                totalBytes = checked(totalBytes + entry.Length);
+            }
+            catch (OverflowException exception)
+            {
+                throw new InvalidDataException(
+                    "Cache artifact uncompressed size is invalid.",
+                    exception);
+            }
+
+            if (totalBytes > _options.MaximumArtifactBytes)
+            {
+                throw new InvalidDataException(
+                    $"Cache artifact data exceeded the configured limit of "
+                    + $"{_options.MaximumArtifactBytes:N0} bytes.");
+            }
         }
     }
 
@@ -678,7 +760,6 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             artifactPaths,
             _options.MaximumInputFiles,
             _options.CacheDirectory);
-
         MakeDirectoriesWritable(directories);
         MakeFilesWritable(files);
 
@@ -890,14 +971,105 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
     private static void Append(IncrementalHash hash, string name, string value)
     {
-        hash.AppendData(Encoding.UTF8.GetBytes(name));
-        hash.AppendData([0]);
-        hash.AppendData(Encoding.UTF8.GetBytes(value));
-        hash.AppendData([0xFF]);
+        AppendLengthPrefixed(hash, Encoding.UTF8.GetBytes(name));
+        AppendLengthPrefixed(hash, Encoding.UTF8.GetBytes(value));
+    }
+
+    private static void AppendLengthPrefixed(IncrementalHash hash, byte[] value)
+    {
+        Span<byte> length = stackalloc byte[sizeof(int)];
+        BinaryPrimitives.WriteInt32LittleEndian(length, value.Length);
+        hash.AppendData(length);
+        hash.AppendData(value);
     }
 
     private static StringComparer PathComparer =>
         OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+
+    private sealed class ArtifactByteBudget
+    {
+        private const int BufferSize = 64 * 1024;
+        private const int MaximumSymbolicLinkTargetBytes = 64 * 1024;
+        private long _remainingBytes;
+
+        public ArtifactByteBudget(long maximumBytes)
+        {
+            _remainingBytes = maximumBytes;
+        }
+
+        public void Consume(int byteCount)
+        {
+            if (byteCount > _remainingBytes)
+            {
+                throw new InvalidDataException(
+                    "Cache artifact data exceeded the configured uncompressed-size limit.");
+            }
+
+            _remainingBytes -= byteCount;
+        }
+
+        public Task CopyToAsync(
+            Stream input,
+            Stream output,
+            CancellationToken cancellationToken) =>
+            CopyToAsync(input, output, maximumEntryBytes: null, cancellationToken);
+
+        public async Task<string> ReadSymbolicLinkTargetAsync(
+            Stream input,
+            CancellationToken cancellationToken)
+        {
+            using var output = new MemoryStream();
+            await CopyToAsync(
+                    input,
+                    output,
+                    MaximumSymbolicLinkTargetBytes,
+                    cancellationToken)
+                .ConfigureAwait(false);
+            return Encoding.UTF8.GetString(output.ToArray());
+        }
+
+        private async Task CopyToAsync(
+            Stream input,
+            Stream output,
+            int? maximumEntryBytes,
+            CancellationToken cancellationToken)
+        {
+            var buffer = ArrayPool<byte>.Shared.Rent(BufferSize);
+            var entryBytes = 0;
+            try
+            {
+                while (true)
+                {
+                    var bytesRead = await input.ReadAsync(
+                            buffer.AsMemory(0, BufferSize),
+                            cancellationToken)
+                        .ConfigureAwait(false);
+                    if (bytesRead == 0)
+                    {
+                        return;
+                    }
+
+                    if (maximumEntryBytes is { } maximum
+                        && entryBytes > maximum - bytesRead)
+                    {
+                        throw new InvalidDataException(
+                            "Cache artifact symbolic-link target exceeded the configured limit.");
+                    }
+
+                    Consume(bytesRead);
+                    entryBytes += bytesRead;
+                    await output.WriteAsync(
+                            buffer.AsMemory(0, bytesRead),
+                            cancellationToken)
+                        .ConfigureAwait(false);
+                }
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
+        }
+    }
 
     private sealed class UnixDirectoryModeScope : IDisposable
     {

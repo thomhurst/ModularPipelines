@@ -96,6 +96,56 @@ public class ModuleCacheTests
             CancellationToken cancellationToken) => Task.FromResult<string?>(Value);
     }
 
+    private sealed class RuntimeTypedDependencyModule : Module<object>
+    {
+        public static object Value { get; set; } = 1;
+
+        protected internal override Task<object?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult<object?>(Value);
+    }
+
+    [ModularPipelines.Attributes.DependsOn<RuntimeTypedDependencyModule>]
+    private sealed class RuntimeTypedCachedDependentModule : Module<string>
+    {
+        public static int ExecutionCount;
+
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            var dependency = await context.GetModule<RuntimeTypedDependencyModule>();
+            return dependency.ValueOrDefault?.GetType().FullName;
+        }
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheKeyPart("runtime-typed-dependency-v1")
+                .Build();
+    }
+
+    private sealed class EnvironmentCachedModule : Module<string>
+    {
+        public const string EnvironmentVariableName =
+            "MODULAR_PIPELINES_CACHE_NULL_SENTINEL_TEST";
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            return Task.FromResult(Environment.GetEnvironmentVariable(EnvironmentVariableName));
+        }
+
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheEnvironmentVariable(EnvironmentVariableName)
+                .Build();
+    }
+
     private sealed class UncachedModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -1236,6 +1286,79 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task DependencyRuntimeTypeInvalidatesDependentFingerprint()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-dependency-type-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        RuntimeTypedDependencyModule.Value = 1;
+        RuntimeTypedCachedDependentModule.ExecutionCount = 0;
+
+        try
+        {
+            var firstStatus = await RunRuntimeTypedDependencyPipelineAsync(temporaryDirectory);
+            var secondStatus = await RunRuntimeTypedDependencyPipelineAsync(temporaryDirectory);
+            RuntimeTypedDependencyModule.Value = 1L;
+            var thirdStatus = await RunRuntimeTypedDependencyPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstStatus).IsEqualTo(Status.Successful);
+                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(thirdStatus).IsEqualTo(Status.Successful);
+                await Assert.That(RuntimeTypedCachedDependentModule.ExecutionCount).IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task UnsetAndLiteralNullEnvironmentValuesHaveDifferentFingerprints()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-environment-presence-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        var previousValue = Environment.GetEnvironmentVariable(
+            EnvironmentCachedModule.EnvironmentVariableName);
+        EnvironmentCachedModule.ExecutionCount = 0;
+
+        try
+        {
+            Environment.SetEnvironmentVariable(
+                EnvironmentCachedModule.EnvironmentVariableName,
+                null);
+            var firstStatus = await RunEnvironmentPipelineAsync(temporaryDirectory);
+            var secondStatus = await RunEnvironmentPipelineAsync(temporaryDirectory);
+            Environment.SetEnvironmentVariable(
+                EnvironmentCachedModule.EnvironmentVariableName,
+                "<null>");
+            var thirdStatus = await RunEnvironmentPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstStatus).IsEqualTo(Status.Successful);
+                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(thirdStatus).IsEqualTo(Status.Successful);
+                await Assert.That(EnvironmentCachedModule.ExecutionCount).IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(
+                EnvironmentCachedModule.EnvironmentVariableName,
+                previousValue);
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task LookupFingerprintFailureSkipsPostExecutionCacheSave()
     {
         var temporaryDirectory = Path.Combine(
@@ -1886,6 +2009,31 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task ZipCentralDirectoryReadsEntryCountWithoutMaterializingEntries()
+    {
+        var archivePath = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-central-directory-{Guid.NewGuid():N}.zip");
+
+        try
+        {
+            using (var archive = ZipFile.Open(archivePath, ZipArchiveMode.Create))
+            {
+                archive.CreateEntry("result.json");
+                archive.CreateEntry("artifacts/output/");
+                archive.CreateEntry("artifacts/output/value.txt");
+            }
+
+            await Assert.That(ZipCentralDirectory.ReadEntryCount(archivePath)).IsEqualTo(3);
+        }
+        finally
+        {
+            System.IO.File.Delete(archivePath);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task CacheRestoreRejectsArtifactEntryCountAboveConfiguredLimit()
     {
         var temporaryDirectory = Path.Combine(
@@ -1901,7 +2049,9 @@ public class ModuleCacheTests
             await System.IO.File.WriteAllTextAsync(
                 Path.Combine(temporaryDirectory, "set-input.txt"),
                 "a");
-            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory, maximumInputFiles: 2);
+            await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumArtifactEntries: 2);
 
             var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();
             using (var archive = ZipFile.Open(cacheEntry, ZipArchiveMode.Update))
@@ -1914,7 +2064,90 @@ public class ModuleCacheTests
 
             var restoredStatus = await RunVaryingArtifactSetPipelineAsync(
                 temporaryDirectory,
-                maximumInputFiles: 2);
+                maximumArtifactEntries: 2);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreSeparatesInputAndArtifactEntryLimits()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-separate-entry-limits-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+
+            var firstStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumInputFiles: 1);
+            var secondStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumInputFiles: 1);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstStatus).IsEqualTo(Status.Successful);
+                await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(1);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRejectsArtifactBytesAboveConfiguredLimit()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-byte-limit-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumArtifactBytes: 1);
+
+            var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();
+            using (var archive = ZipFile.Open(cacheEntry, ZipArchiveMode.Update))
+            await using (var output = archive
+                             .CreateEntry("artifacts/artifact-set/extra.txt")
+                             .Open())
+            {
+                await output.WriteAsync("x"u8.ToArray());
+            }
+
+            var restoredStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumArtifactBytes: 1);
 
             using (Assert.Multiple())
             {
@@ -2556,6 +2789,44 @@ public class ModuleCacheTests
             .ModuleStatus;
     }
 
+    private static async Task<Status> RunRuntimeTypedDependencyPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<RuntimeTypedDependencyModule>()
+            .AddModule<RuntimeTypedCachedDependentModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(RuntimeTypedCachedDependentModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunEnvironmentPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<EnvironmentCachedModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(EnvironmentCachedModule))!
+            .ModuleStatus;
+    }
+
     private static async Task<Status> RunLookupFailurePipelineAsync(string workingDirectory)
     {
         await using var host = await TestPipelineHostBuilder.Create()
@@ -2620,7 +2891,9 @@ public class ModuleCacheTests
 
     private static async Task<Status> RunVaryingArtifactSetPipelineAsync(
         string workingDirectory,
-        int maximumInputFiles = 100_000)
+        int maximumInputFiles = 100_000,
+        int maximumArtifactEntries = 100_000,
+        long maximumArtifactBytes = 10L * 1024 * 1024 * 1024)
     {
         await using var host = await TestPipelineHostBuilder.Create()
             .AddModuleCache<FileSystemModuleCache>(options =>
@@ -2628,6 +2901,8 @@ public class ModuleCacheTests
                 options.WorkingDirectory = workingDirectory;
                 options.CacheDirectory = Path.Combine(workingDirectory, "cache");
                 options.MaximumInputFiles = maximumInputFiles;
+                options.MaximumArtifactEntries = maximumArtifactEntries;
+                options.MaximumArtifactBytes = maximumArtifactBytes;
             })
             .AddModule<VaryingArtifactSetModule>()
             .BuildAsync();
