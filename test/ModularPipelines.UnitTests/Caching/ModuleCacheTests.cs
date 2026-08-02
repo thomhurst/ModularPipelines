@@ -2213,6 +2213,15 @@ public class ModuleCacheTests
                 Path.Combine(temporaryDirectory, "directory-symlink-input.txt"),
                 "input");
             await RunDirectorySymbolicLinkArtifactPipelineAsync(temporaryDirectory);
+            if (!OperatingSystem.IsWindows())
+            {
+                System.IO.File.SetUnixFileMode(
+                    artifactDirectory,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute);
+            }
+
             Directory.Delete(artifactDirectory, recursive: true);
 
             var restoredStatus =
