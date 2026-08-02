@@ -22,6 +22,11 @@ on:
         required: false
         default: false
         type: boolean
+      approve-api-breaking-changes:
+        description: 'Explicitly approve generated API breaking changes for this run'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   validate-generation-safety:
@@ -651,7 +656,7 @@ jobs:
 
             ## Verification
             - [x] Solution builds successfully
-            - API compatibility gate: **${{ steps.api-compat.outcome }}**
+            - API compatibility gate: **${{ steps.api-compat.outcome }}${{ steps.api-compat.outcome == 'failure' && github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes'] && ' (explicitly approved)' || '' }}**
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
@@ -671,10 +676,14 @@ jobs:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
       - name: Report breaking generated API
-        if: steps.api-compat.outcome == 'failure'
+        if: steps.api-compat.outcome == 'failure' && !(github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes'])
         run: |
           echo "Generated API is not backward compatible. Auto-merge was not enabled." >&2
           exit 1
+
+      - name: Acknowledge approved breaking generated API
+        if: steps.api-compat.outcome == 'failure' && github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes']
+        run: echo "::warning::Generated API breaking changes were explicitly approved. Auto-merge remains disabled."
 
   # Generate options for Windows-only tools
   generate-windows:
@@ -936,7 +945,7 @@ jobs:
 
             ## Verification
             - [x] Solution builds successfully
-            - API compatibility gate: **${{ steps.api-compat.outcome }}**
+            - API compatibility gate: **${{ steps.api-compat.outcome }}${{ steps.api-compat.outcome == 'failure' && github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes'] && ' (explicitly approved)' || '' }}**
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
@@ -957,9 +966,14 @@ jobs:
           GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
       - name: Report breaking generated API
-        if: steps.api-compat.outcome == 'failure'
+        if: steps.api-compat.outcome == 'failure' && !(github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes'])
         shell: pwsh
         run: throw "Generated API is not backward compatible. Auto-merge was not enabled."
+
+      - name: Acknowledge approved breaking generated API
+        if: steps.api-compat.outcome == 'failure' && github.event_name == 'workflow_dispatch' && inputs['approve-api-breaking-changes']
+        shell: pwsh
+        run: Write-Warning "Generated API breaking changes were explicitly approved. Auto-merge remains disabled."
 
   report-scheduled-failure:
     name: Report scheduled failure
