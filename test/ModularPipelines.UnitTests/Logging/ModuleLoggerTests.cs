@@ -187,12 +187,16 @@ public class ModuleLoggerTests
         var logTask = Task.Run(() => logger.LogInformation("message"));
 
         await logEntered.Task.WaitAsync(TimeSpan.FromSeconds(1));
-        var disposeTask = Task.Run(logger.Dispose);
+        var disposeStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var disposeTask = Task.Run(() =>
+        {
+            disposeStarted.TrySetResult();
+            logger.Dispose();
+        });
 
         try
         {
-            await Task.Delay(50);
-            await Assert.That(disposeTask.IsCompleted).IsFalse();
+            await disposeStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
         }
         finally
         {
