@@ -19,6 +19,7 @@ namespace ModularPipelines.Chocolatey.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("choco")]
+[CliGlobalOptions]
 public abstract record ChocoOptions : CommandLineToolOptions
 {
 }
