@@ -363,8 +363,18 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     }
 
     /// <inheritdoc />
-    public bool FileExists(string path) =>
-        !string.IsNullOrEmpty(path) && _files.ContainsKey(NormalizeFilePath(path));
+    public bool FileExists(string path)
+    {
+        try
+        {
+            return !string.IsNullOrWhiteSpace(path)
+                && _files.ContainsKey(NormalizeFilePath(path));
+        }
+        catch (Exception exception) when (IsInvalidPathException(exception))
+        {
+            return false;
+        }
+    }
 
     /// <inheritdoc />
     public void CreateDirectory(string path)
@@ -487,8 +497,18 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     }
 
     /// <inheritdoc />
-    public bool DirectoryExists(string path) =>
-        !string.IsNullOrEmpty(path) && _directories.ContainsKey(NormalizeDirectoryPath(path));
+    public bool DirectoryExists(string path)
+    {
+        try
+        {
+            return !string.IsNullOrWhiteSpace(path)
+                && _directories.ContainsKey(NormalizeDirectoryPath(path));
+        }
+        catch (Exception exception) when (IsInvalidPathException(exception))
+        {
+            return false;
+        }
+    }
 
     /// <inheritdoc />
     public IEnumerable<string> EnumerateFiles(
@@ -591,6 +611,9 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     private bool IsOpen(string normalizedPath) =>
         _exclusiveOpenFiles.Contains(normalizedPath)
         || _openReaders.ContainsKey(normalizedPath);
+
+    private static bool IsInvalidPathException(Exception exception) =>
+        exception is ArgumentException or NotSupportedException or PathTooLongException;
 
     private string NormalizeDirectoryPath(string path)
     {

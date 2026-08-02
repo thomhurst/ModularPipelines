@@ -139,14 +139,17 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
-    public async Task EmptyPathsDoNotExist()
+    [Arguments("")]
+    [Arguments(" ")]
+    [Arguments("\0")]
+    public async Task InvalidPathsDoNotExist(string path)
     {
         var provider = new InMemoryFileSystemProvider();
 
         using (Assert.Multiple())
         {
-            await Assert.That(provider.FileExists(string.Empty)).IsFalse();
-            await Assert.That(provider.DirectoryExists(string.Empty)).IsFalse();
+            await Assert.That(provider.FileExists(path)).IsFalse();
+            await Assert.That(provider.DirectoryExists(path)).IsFalse();
         }
     }
 
