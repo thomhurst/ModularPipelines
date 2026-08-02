@@ -9,6 +9,19 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Command_Group_Placeholders_Are_Not_Operands()
+    {
+        var parsed = UsageSynopsisParser.Parse(
+            "Usage: docker buildx [OPTIONS] COMMAND",
+            ["docker", "buildx"]);
+
+        var result = UsageSynopsisParser.RemoveCommandGroupPlaceholders(parsed);
+
+        await Assert.That(result.PositionalArguments).IsEmpty();
+        await Assert.That(result.HasOperandTokens).IsFalse();
+    }
+
+    [Test]
     public async Task Parses_Regression_Operand_Syntax_Through_One_Model()
     {
         var fixtures = new[]

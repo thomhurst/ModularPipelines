@@ -37,6 +37,14 @@ public static class UsageSynopsisParser
         "options",
     };
 
+    private static readonly HashSet<string> CommandGroupPlaceholderNames = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Command",
+        "Commands",
+        "Subcommand",
+        "Subcommands",
+    };
+
     /// <summary>
     /// Parses the best matching synopsis for a command.
     /// </summary>
@@ -112,6 +120,20 @@ public static class UsageSynopsisParser
                || trimmed.EndsWith("...", StringComparison.Ordinal)
                || (trimmed.Length > 1 && trimmed.All(character =>
                    !char.IsLetter(character) || char.IsUpper(character)));
+    }
+
+    internal static UsageSynopsisParseResult RemoveCommandGroupPlaceholders(
+        UsageSynopsisParseResult result)
+    {
+        var positionalArguments = result.PositionalArguments
+            .Where(argument => !CommandGroupPlaceholderNames.Contains(argument.PropertyName))
+            .ToList();
+
+        return result with
+        {
+            HasOperandTokens = positionalArguments.Count > 0 || result.UnparsedOperandTokens.Count > 0,
+            PositionalArguments = positionalArguments,
+        };
     }
 
     private static UsageSynopsisParseResult ParseSynopsis(
