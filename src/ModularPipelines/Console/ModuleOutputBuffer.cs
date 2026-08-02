@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using MEL.Spectre;
@@ -27,15 +26,14 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class ModuleOutputBuffer : IModuleOutputBuffer
 {
-    private static readonly TimeSpan DefaultSynchronizationLockTimeout = TimeSpan.FromSeconds(1);
-    private static readonly TimeSpan SynchronizationLockPollInterval = TimeSpan.FromMilliseconds(50);
+    private static readonly TimeSpan DefaultRenderGateTimeout = TimeSpan.FromSeconds(1);
     private readonly List<BufferedOutput> _outputs = [];
     private readonly List<StructuredDeliveryRetry> _structuredDeliveryRetries = [];
     private readonly Lock _lock = new();
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
     private readonly int _outputFlushThreshold;
-    private readonly TimeSpan _synchronizationLockTimeout;
+    private readonly TimeSpan _renderGateTimeout;
     private readonly Func<LogLevel, bool> _isSpectreEnabled;
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
@@ -55,20 +53,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="moduleType">The module type.</param>
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
-    /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
+    /// <param name="renderGateTimeout">Maximum time to wait for the Spectre logger render gate.</param>
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
-        TimeSpan? synchronizationLockTimeout = null,
+        TimeSpan? renderGateTimeout = null,
         Func<LogLevel, bool>? isSpectreEnabled = null)
         : this(
             moduleType.Name,
             moduleType,
             outputFlushThreshold,
             requestIncrementalFlush,
-            synchronizationLockTimeout,
+            renderGateTimeout,
             isSpectreEnabled)
     {
     }
@@ -81,14 +79,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="moduleType">Placeholder type.</param>
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
-    /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
+    /// <param name="renderGateTimeout">Maximum time to wait for the Spectre logger render gate.</param>
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
-        TimeSpan? synchronizationLockTimeout = null,
+        TimeSpan? renderGateTimeout = null,
         Func<LogLevel, bool>? isSpectreEnabled = null)
     {
         ModuleType = moduleType;
@@ -96,7 +94,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _startTimeUtc = DateTime.UtcNow;
         _outputFlushThreshold = outputFlushThreshold;
         _requestIncrementalFlush = requestIncrementalFlush;
-        _synchronizationLockTimeout = synchronizationLockTimeout ?? DefaultSynchronizationLockTimeout;
+        _renderGateTimeout = renderGateTimeout ?? DefaultRenderGateTimeout;
         _isSpectreEnabled = isSpectreEnabled ?? (static _ => true);
     }
 
@@ -193,7 +191,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
-    public Task FlushToAsync(
+    public async Task FlushToAsync(
         TextWriter console,
         IBuildSystemFormatter formatter,
         ILogger logger,
@@ -209,7 +207,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 out var shouldRenderOutputGroup,
                 out var exception))
         {
-            return Task.CompletedTask;
+            return;
         }
 
         var directConsole = GetDirectConsole(console);
@@ -227,12 +225,16 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             if (shouldRenderOutputGroup)
             {
+                using var renderGate = await loggerControl
+                    .TryAcquireRenderGateAsync(_renderGateTimeout, cancellationToken)
+                    .ConfigureAwait(false);
                 RenderOutputs(
                     console,
                     directConsole,
                     formatter,
                     logger,
-                    loggerControl.SynchronizationLock,
+                    loggerControl,
+                    renderGate,
                     exception,
                     flushKind,
                     outputs,
@@ -258,7 +260,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         RecordRenderedOutput(flushKind, renderedCount);
-        return Task.CompletedTask;
     }
 
     internal IAnsiConsole GetDirectConsole(TextWriter writer)
@@ -339,7 +340,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IAnsiConsole directConsole,
         IBuildSystemFormatter formatter,
         ILogger logger,
-        object synchronizationLock,
+        ISpectreConsoleLoggerControl loggerControl,
+        IDisposable? renderGate,
         Exception? exception,
         OutputFlushKind flushKind,
         List<BufferedOutput> outputs,
@@ -348,14 +350,27 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        var lockTaken = TryEnterSynchronizationLock(synchronizationLock, cancellationToken);
-        if (!lockTaken)
+        if (renderGate is null)
         {
             console.WriteLine(
-                $"Timed out waiting for the console logger lock for {_moduleName}; writing buffered output directly.");
+                $"Timed out waiting for the console logger render gate for {_moduleName}; writing buffered output directly.");
+            RenderOutputGroup(
+                console,
+                directConsole,
+                formatter,
+                logger,
+                exception,
+                flushKind,
+                outputs,
+                fallbackLoggers,
+                failedStructuredDeliveries,
+                writeStructuredLogsDirectly: true,
+                ref renderedCount,
+                cancellationToken);
+            return;
         }
 
-        try
+        lock (loggerControl.SynchronizationLock)
         {
             RenderOutputGroup(
                 console,
@@ -367,16 +382,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 outputs,
                 fallbackLoggers,
                 failedStructuredDeliveries,
-                writeStructuredLogsDirectly: !lockTaken,
+                writeStructuredLogsDirectly: false,
                 ref renderedCount,
                 cancellationToken);
-        }
-        finally
-        {
-            if (lockTaken)
-            {
-                Monitor.Exit(synchronizationLock);
-            }
         }
     }
 
@@ -519,36 +527,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 }
             }
         }
-    }
-
-    private bool TryEnterSynchronizationLock(
-        object synchronizationLock,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        var stopwatch = Stopwatch.StartNew();
-
-        while (stopwatch.Elapsed < _synchronizationLockTimeout)
-        {
-            var remaining = _synchronizationLockTimeout - stopwatch.Elapsed;
-            if (remaining <= TimeSpan.Zero)
-            {
-                return false;
-            }
-
-            var wait = remaining < SynchronizationLockPollInterval
-                ? remaining
-                : SynchronizationLockPollInterval;
-
-            if (Monitor.TryEnter(synchronizationLock, wait))
-            {
-                return true;
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-        }
-
-        return false;
     }
 
     private static IReadOnlyList<ILogger> WriteToFallbackLoggers(

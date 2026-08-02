@@ -24,22 +24,22 @@ public class FindAFileModule : Module<FileInfo>
 
 ### Modules Without Return Values
 
-For modules that perform actions without returning meaningful data, use `Module<None>`:
+For modules that perform actions without returning meaningful data, use the non-generic `Module`:
 
 ```csharp
-public class CleanupModule : Module<None>
+public class CleanupModule : Module
 {
-    protected override async Task<None> ExecuteAsync(
+    protected override Task ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         var folder = context.Files.GetFolder("./temp");
         folder.Delete();
-        return None.Value;
+        return Task.CompletedTask;
     }
 }
 ```
 
-For synchronous operations, use `SyncModule<None>`:
+For synchronous operations, `SyncModule<None>` remains available:
 
 ```csharp
 public class LoggingModule : SyncModule<None>
@@ -53,7 +53,8 @@ public class LoggingModule : SyncModule<None>
 }
 ```
 
-The `None` struct represents the absence of a value. It is semantically equivalent to `null`, meaning `None.Value.Equals(null)` returns `true`.
+The pipeline represents a non-generic module's successful result internally with `None.Value`.
+You only need to return that sentinel yourself when using `SyncModule<None>`.
 
 ## Configuring Module Behavior
 

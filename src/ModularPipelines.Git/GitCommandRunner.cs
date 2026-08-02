@@ -18,7 +18,16 @@ public class GitCommandRunner : IGitCommandRunner
     }
 
     /// <inheritdoc />
-    public async Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+    public Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+    {
+        return RunCommands(commandEnvironmentOptions, default, commands);
+    }
+
+    /// <inheritdoc />
+    public async Task<string> RunCommands(
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken,
+        params string?[] commands)
     {
         commandEnvironmentOptions ??= new CommandExecutionOptions();
 
@@ -29,19 +38,31 @@ public class GitCommandRunner : IGitCommandRunner
             LogSettings = CommandLoggingOptions.Silent,
         };
 
-        var commandResult = await _context.Shell.Command.ExecuteCommandLineToolAsync(commandLineToolOptions, executionOptions).ConfigureAwait(false);
+        var commandResult = await _context.Shell.Command.ExecuteCommandLineToolAsync(
+            commandLineToolOptions,
+            executionOptions,
+            cancellationToken).ConfigureAwait(false);
 
         return commandResult.StandardOutput.Trim();
     }
 
     /// <inheritdoc />
-    public async Task<string?> RunCommandsOrNull(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+    public Task<string?> RunCommandsOrNull(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
+    {
+        return RunCommandsOrNull(commandEnvironmentOptions, default, commands);
+    }
+
+    /// <inheritdoc />
+    public async Task<string?> RunCommandsOrNull(
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken,
+        params string?[] commands)
     {
         try
         {
-            return await RunCommands(commandEnvironmentOptions, commands).ConfigureAwait(false);
+            return await RunCommands(commandEnvironmentOptions, cancellationToken, commands).ConfigureAwait(false);
         }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        catch (Exception ex) when (ex is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {
             _logger.LogDebug(ex, "Git command failed: {Commands}", string.Join(" ", commands.Where(c => c != null)));
             return null;

@@ -21,9 +21,17 @@ public class RunIfBranchAttribute : RunIfAnyAttribute, IGroupedConditionAttribut
 
     public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
+        return EvaluateAsync(pipelineContext, default);
+    }
+
+    public override Task<bool> EvaluateAsync(
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
         return BranchConditionHelper.CheckBranchMatches(
             pipelineContext,
             BranchName,
-            "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}");
+            "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}",
+            cancellationToken);
     }
 }

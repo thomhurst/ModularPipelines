@@ -17,11 +17,19 @@ public class SkipIfBranchAttribute : SkipIfAttribute
         BranchName = branchName;
     }
 
-    public override async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
-        return await BranchConditionHelper.CheckBranchMatches(
+        return EvaluateAsync(pipelineContext, default);
+    }
+
+    public override Task<bool> EvaluateAsync(
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
+    {
+        return BranchConditionHelper.CheckBranchMatches(
             pipelineContext,
             BranchName,
-            "Current Branch: {CurrentBranch} | Will skip on: {SkipBranch}").ConfigureAwait(false);
+            "Current Branch: {CurrentBranch} | Will skip on: {SkipBranch}",
+            cancellationToken);
     }
 }

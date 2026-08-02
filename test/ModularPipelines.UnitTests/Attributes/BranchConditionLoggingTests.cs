@@ -35,7 +35,7 @@ public class BranchConditionLoggingTests
         var logger = new Mock<IModuleLogger>();
         logger.Setup(x => x.IsEnabled(LogLevel.Debug)).Returns(true);
         var gitInformation = new Mock<IGitInformation>();
-        gitInformation.Setup(x => x.GetInfoAsync())
+        gitInformation.Setup(x => x.GetInfoAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new GitRepositoryInfo(
                 new ModularPipelines.FileSystem.Folder(TestContext.WorkingDirectory)));
         var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
@@ -53,5 +53,29 @@ public class BranchConditionLoggingTests
 
         await Assert.That(result).IsFalse();
         await Assert.That(logMessage).IsEqualTo("Current Branch: (detached) | Can run on: main");
+    }
+
+    [Test]
+    public async Task RunIfBranch_Propagates_Cancellation_Token()
+    {
+        var gitInformation = new Mock<IGitInformation>();
+        gitInformation.Setup(x => x.GetInfoAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new GitRepositoryInfo(
+                new ModularPipelines.FileSystem.Folder(TestContext.WorkingDirectory)));
+        var git = Mock.Of<IGit>(x => x.Information == gitInformation.Object);
+        var services = new Mock<IServicesContext>();
+        services.Setup(x => x.Get<IGit>()).Returns(git);
+        var logger = Mock.Of<IModuleLogger>();
+        var context = Mock.Of<IPipelineContext>(x =>
+            x.Logger == logger &&
+            x.Services == services.Object);
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        await new RunIfBranchAttribute("main")
+            .EvaluateAsync(context, cancellationTokenSource.Token);
+
+        gitInformation.Verify(
+            x => x.GetInfoAsync(cancellationTokenSource.Token),
+            Times.Once);
     }
 }
