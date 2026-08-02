@@ -51,6 +51,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly ISpectreConsoleLoggerControl _loggerControl;
     private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory;
     private readonly ISpectreLoggerFilter _spectreLoggerFilter;
+    private readonly IAnsiConsole _ansiConsole;
     private TextWriter? _originalConsoleOut;
     private TextWriter? _originalConsoleError;
     private IAnsiConsole? _originalAnsiConsole;
@@ -73,7 +74,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IOutputCoordinator outputCoordinator,
         ISpectreConsoleLoggerControl loggerControl,
         INonSpectreLoggerFactory nonSpectreLoggerFactory,
-        ISpectreLoggerFilter spectreLoggerFilter)
+        ISpectreLoggerFilter spectreLoggerFilter,
+        IAnsiConsole ansiConsole)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
@@ -87,6 +89,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _loggerControl = loggerControl;
         _nonSpectreLoggerFactory = nonSpectreLoggerFactory;
         _spectreLoggerFilter = spectreLoggerFilter;
+        _ansiConsole = ansiConsole;
         _unattributedBuffer = new ModuleOutputBuffer(
             "Pipeline",
             typeof(void),
@@ -120,10 +123,15 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
                 // Configure Spectre.Console to use the REAL console directly
                 // This bypasses our interception for progress rendering
-                var configuredAnsiConsole = AnsiConsole.Create(
-                    CreateAnsiConsoleSettings(_originalConsoleOut, _buildSystemDetector.IsKnownBuildAgent));
+                var configuredAnsiConsole = UsesGlobalAnsiConsole
+                    ? AnsiConsole.Create(
+                        CreateAnsiConsoleSettings(_originalConsoleOut, _buildSystemDetector.IsKnownBuildAgent))
+                    : _ansiConsole;
                 configuredAnsiConsole.Profile.Capabilities.Interactive = _options.Value.ShowProgressInConsole;
-                AnsiConsole.Console = configuredAnsiConsole;
+                if (UsesGlobalAnsiConsole)
+                {
+                    AnsiConsole.Console = configuredAnsiConsole;
+                }
 
                 // Configure console width for CI environments
                 // Spectre.Console defaults to 80 characters when it can't detect terminal width,
@@ -160,7 +168,10 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 // Restore original streams on failure
                 System.Console.SetOut(originalOut);
                 System.Console.SetError(originalError);
-                AnsiConsole.Console = originalAnsi;
+                if (UsesGlobalAnsiConsole)
+                {
+                    AnsiConsole.Console = originalAnsi;
+                }
 
                 _originalConsoleOut = null;
                 _originalConsoleError = null;
@@ -198,7 +209,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 System.Console.SetError(_originalConsoleError);
             }
 
-            if (_originalAnsiConsole != null)
+            if (UsesGlobalAnsiConsole && _originalAnsiConsole != null)
             {
                 AnsiConsole.Console = _originalAnsiConsole;
             }
@@ -267,6 +278,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 modules,
                 _options,
                 _loggerFactory,
+                _ansiConsole,
                 cancellationToken);
 
             // Wire up the progress controller for output coordination
@@ -276,7 +288,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         }
 
         // Start the progress display
-        session.Start();
+        await session.StartAsync().ConfigureAwait(false);
 
         return session;
     }
@@ -538,6 +550,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         return settings;
     }
 
+    private bool UsesGlobalAnsiConsole => ReferenceEquals(_ansiConsole, DelegatingAnsiConsole.Instance);
+
     private async Task<IReadOnlyList<IModuleOutputBuffer>> FlushPendingWritesAsync(OutputFlushKind flushKind)
     {
         var populatedBeforeFlush = _moduleBuffers.Values
@@ -653,13 +667,13 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         if (configuredWidth.HasValue)
         {
             // User explicitly configured a width
-            AnsiConsole.Console.Profile.Width = configuredWidth.Value;
+            _ansiConsole.Profile.Width = configuredWidth.Value;
         }
         else if (_buildSystemDetector.IsKnownBuildAgent)
         {
             // Running in a known CI environment - use expanded width
             // CI environments typically don't have a TTY, causing Spectre.Console to default to 80 chars
-            AnsiConsole.Console.Profile.Width = DefaultCiConsoleWidth;
+            _ansiConsole.Profile.Width = DefaultCiConsoleWidth;
         }
 
         // Otherwise, leave Spectre.Console's auto-detected width (works well for local terminals)

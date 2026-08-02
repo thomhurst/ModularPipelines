@@ -22,10 +22,16 @@ internal static class ModuleConfigurationAttributeAdapter
         var notInParallel = moduleType.GetCustomAttribute<NotInParallelAttribute>(inherit: true);
         var priority = moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true);
         var executionHint = moduleType.GetCustomAttribute<ExecutionHintAttribute>(inherit: true);
+        var cacheInputPatterns = moduleType
+            .GetCustomAttributes<CacheInputsAttribute>(inherit: true)
+            .SelectMany(attribute => attribute.Patterns)
+            .Concat(configured.CacheInputPatterns)
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
         var category = configured.Category
             ?? declaredCategory
             ?? moduleType.GetCustomAttribute<ModuleCategoryAttribute>(inherit: true)?.Category;
-        if (IsUnchanged(configured, notInParallel, priority, executionHint, tags, category, dependencies))
+        if (IsUnchanged(configured, notInParallel, priority, executionHint, tags, category, cacheInputPatterns, dependencies))
         {
             return configured;
         }
@@ -44,6 +50,9 @@ internal static class ModuleConfigurationAttributeAdapter
             ExecutionType = configured.ExecutionType ?? executionHint?.ExecutionType,
             Tags = tags,
             Category = category,
+            CacheInputPatterns = cacheInputPatterns,
+            CacheKeyParts = configured.CacheKeyParts,
+            CacheEnvironmentVariables = configured.CacheEnvironmentVariables,
             Dependencies = dependencies,
         };
     }
@@ -90,6 +99,7 @@ internal static class ModuleConfigurationAttributeAdapter
         ExecutionHintAttribute? executionHint,
         IReadOnlySet<string> tags,
         string? category,
+        IReadOnlyList<string> cacheInputPatterns,
         IReadOnlyList<DeclaredDependency> dependencies)
     {
         return configured.ParallelConstraintKeys is null
@@ -100,6 +110,7 @@ internal static class ModuleConfigurationAttributeAdapter
                && executionHint is null
                && tags.Count == 0
                && category is null
+               && cacheInputPatterns.Count == 0
                && dependencies.Count == 0;
     }
 }
