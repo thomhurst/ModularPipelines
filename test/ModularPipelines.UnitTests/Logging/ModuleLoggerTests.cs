@@ -197,6 +197,7 @@ public class ModuleLoggerTests
         try
         {
             await disposeStarted.Task.WaitAsync(TimeSpan.FromSeconds(1));
+            await Assert.That(disposeTask.IsCompleted).IsFalse();
         }
         finally
         {
