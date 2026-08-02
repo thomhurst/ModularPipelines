@@ -58,6 +58,7 @@ internal class PipelineInitializer(
         "DATABASE_URL",
         "HTTP_PROXY",
         "HTTPS_PROXY",
+        "IDENTITY_HEADER",
         "MONGODB_URI",
         "PIP_EXTRA_INDEX_URL",
         "PIP_INDEX_URL",

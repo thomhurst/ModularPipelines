@@ -189,6 +189,7 @@ public class PipelineInitializerTests
     [Arguments("REDIS_URL")]
     [Arguments("AZURE_DEVOPS_EXT_PAT")]
     [Arguments("AZURE_APPCONFIG_CONNECTION_STRING")]
+    [Arguments("IDENTITY_HEADER")]
     [Arguments("ConnectionStrings__Default")]
     [Arguments("SQLCONNSTR_Main")]
     [Arguments("AzureWebJobsStorage")]
