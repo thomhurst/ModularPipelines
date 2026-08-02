@@ -93,7 +93,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         string path,
         IEnumerable<string> contents,
         CancellationToken cancellationToken = default) =>
-        WriteAllTextAsync(path, JoinLines(contents), cancellationToken);
+        WriteAllTextAsync(path, JoinLines(contents, cancellationToken), cancellationToken);
 
     /// <inheritdoc />
     public Task AppendAllTextAsync(
@@ -120,7 +120,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         string path,
         IEnumerable<string> contents,
         CancellationToken cancellationToken = default) =>
-        AppendAllTextAsync(path, JoinLines(contents), cancellationToken);
+        AppendAllTextAsync(path, JoinLines(contents, cancellationToken), cancellationToken);
 
     /// <inheritdoc />
     public Stream OpenRead(string path)
@@ -538,12 +538,24 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     public string GetRelativePath(string relativeTo, string path) =>
         Path.GetRelativePath(relativeTo, path);
 
-    private static string JoinLines(IEnumerable<string> contents)
+    private static string JoinLines(
+        IEnumerable<string> contents,
+        CancellationToken cancellationToken)
     {
-        string[] lines = [.. contents];
-        return lines.Length == 0
-            ? string.Empty
-            : string.Join(Environment.NewLine, lines) + Environment.NewLine;
+        var builder = new StringBuilder();
+        using var enumerator = contents.GetEnumerator();
+        while (true)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var hasNext = enumerator.MoveNext();
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!hasNext)
+            {
+                return builder.ToString();
+            }
+
+            builder.AppendLine(enumerator.Current);
+        }
     }
 
     private void ValidateFilesAreClosed(IEnumerable<string> files)

@@ -50,6 +50,61 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task LineWritesCheckCancellationBeforeEnumeration(bool append)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "cancel-lines-before.txt");
+        await provider.WriteAllTextAsync(path, "original");
+        var enumerated = false;
+        using var cancellationTokenSource = new CancellationTokenSource();
+        await cancellationTokenSource.CancelAsync();
+
+        IEnumerable<string> GetLines()
+        {
+            enumerated = true;
+            yield return "replacement";
+        }
+
+        Task WriteAsync() => append
+            ? provider.AppendAllLinesAsync(path, GetLines(), cancellationTokenSource.Token)
+            : provider.WriteAllLinesAsync(path, GetLines(), cancellationTokenSource.Token);
+
+        await Assert.That(WriteAsync).Throws<OperationCanceledException>();
+        await Assert.That(enumerated).IsFalse();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task LineWritesCheckCancellationDuringEnumeration(bool append)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "cancel-lines-during.txt");
+        await provider.WriteAllTextAsync(path, "original");
+        var continuedAfterCancellation = false;
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        IEnumerable<string> GetLines()
+        {
+            cancellationTokenSource.Cancel();
+            yield return "replacement";
+            continuedAfterCancellation = true;
+            yield return "should-not-be-enumerated";
+        }
+
+        Task WriteAsync() => append
+            ? provider.AppendAllLinesAsync(path, GetLines(), cancellationTokenSource.Token)
+            : provider.WriteAllLinesAsync(path, GetLines(), cancellationTokenSource.Token);
+
+        await Assert.That(WriteAsync).Throws<OperationCanceledException>();
+        await Assert.That(continuedAfterCancellation).IsFalse();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
     public async Task ReadAllTextDetectsByteOrderMarks()
     {
         Encoding[] encodings =
