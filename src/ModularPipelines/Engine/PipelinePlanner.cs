@@ -385,45 +385,77 @@ internal sealed class PipelinePlanner
 
     private TimeSpan CalculateEstimatedDuration(IReadOnlyList<PipelinePlanWave> waves)
     {
-        var plannedModules = waves
-            .SelectMany(wave => wave.Modules
-                .OrderByDescending(plannedModule => GetPriority(plannedModule.Module)))
-            .ToArray();
+        var unscheduledModules = waves
+            .SelectMany(wave => wave.Modules)
+            .ToList();
         var dependencyModels = CreateDependencyModelLookup();
         var finishTimes = new Dictionary<IModule, TimeSpan>(ReferenceEqualityComparer.Instance);
         var scheduledModules = new List<ScheduledModule>();
         var concurrency = _options.Value.Concurrency;
 
-        foreach (var plannedModule in plannedModules)
+        while (unscheduledModules.Count > 0)
         {
-            var module = plannedModule.Module;
-            var duration = plannedModule.ShouldSkip
-                ? TimeSpan.Zero
-                : plannedModule.EstimatedDuration;
-            var dependencyFinish = dependencyModels[module].IsDependentOn
-                .Select(dependency => finishTimes.GetValueOrDefault(dependency.Module, TimeSpan.Zero))
-                .DefaultIfEmpty(TimeSpan.Zero)
-                .Max();
-            var schedulingProfile = new SchedulingProfile(
-                GetConstraintKeys(module),
-                GetExecutionType(module),
-                GetParallelLimiter(module));
-            var timing = FindModuleTiming(
-                dependencyFinish,
-                duration,
-                schedulingProfile,
-                scheduledModules,
-                concurrency);
-            var finish = timing.ExecutionStart + duration;
-            finishTimes[module] = finish;
+            var readyModules = unscheduledModules
+                .Where(plannedModule => dependencyModels[plannedModule.Module].IsDependentOn
+                    .All(dependency => finishTimes.ContainsKey(dependency.Module)))
+                .ToArray();
+            if (readyModules.Length == 0)
+            {
+                readyModules = unscheduledModules.ToArray();
+            }
+
+            var selected = readyModules
+                .Select(plannedModule => CreateSchedulingCandidate(
+                    plannedModule,
+                    dependencyModels,
+                    finishTimes,
+                    scheduledModules,
+                    concurrency))
+                .OrderBy(candidate => candidate.Timing.WorkerStart)
+                .ThenByDescending(candidate => GetPriority(candidate.PlannedModule.Module))
+                .ThenBy(candidate => candidate.PlannedModule.Module.GetType().FullName, StringComparer.Ordinal)
+                .First();
+            var module = selected.PlannedModule.Module;
+            var finish = selected.Timing.ExecutionStart + selected.Duration;
+            unscheduledModules.Remove(selected.PlannedModule);
+            finishTimes.Add(module, finish);
             scheduledModules.Add(new ScheduledModule(
-                timing.WorkerStart,
-                timing.ExecutionStart,
+                selected.Timing.WorkerStart,
+                selected.Timing.LimiterStart,
+                selected.Timing.ExecutionStart,
                 finish,
-                schedulingProfile));
+                selected.Profile));
         }
 
         return finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
+    }
+
+    private static SchedulingCandidate CreateSchedulingCandidate(
+        PipelinePlanModule plannedModule,
+        IReadOnlyDictionary<IModule, ModuleDependencyModel> dependencyModels,
+        IReadOnlyDictionary<IModule, TimeSpan> finishTimes,
+        IReadOnlyList<ScheduledModule> scheduledModules,
+        ConcurrencyOptions concurrency)
+    {
+        var module = plannedModule.Module;
+        var duration = plannedModule.ShouldSkip
+            ? TimeSpan.Zero
+            : plannedModule.EstimatedDuration;
+        var dependencyFinish = dependencyModels[module].IsDependentOn
+            .Select(dependency => finishTimes.GetValueOrDefault(dependency.Module, TimeSpan.Zero))
+            .DefaultIfEmpty(TimeSpan.Zero)
+            .Max();
+        var profile = new SchedulingProfile(
+            GetConstraintKeys(module),
+            GetExecutionType(module),
+            GetParallelLimiter(module));
+        var timing = FindModuleTiming(
+            dependencyFinish,
+            duration,
+            profile,
+            scheduledModules,
+            concurrency);
+        return new SchedulingCandidate(plannedModule, duration, profile, timing);
     }
 
     private static IReadOnlyCollection<string>? GetConstraintKeys(IModule module)
@@ -499,37 +531,42 @@ internal sealed class PipelinePlanner
     {
         if (duration <= TimeSpan.Zero)
         {
-            return new ModuleTiming(dependencyFinish, dependencyFinish);
+            return new ModuleTiming(dependencyFinish, dependencyFinish, dependencyFinish);
         }
 
         var workerStart = dependencyFinish;
+        var workerOccupiedDuration = duration;
+        var limiterOccupiedDuration = duration;
         while (true)
         {
             workerStart = FindEarliestWorkerStart(
                 workerStart,
-                duration,
+                workerOccupiedDuration,
                 profile,
                 scheduledModules,
                 concurrency);
+            var limiterStart = FindEarliestLimiterStart(
+                workerStart,
+                limiterOccupiedDuration,
+                profile,
+                scheduledModules);
             var executionStart = FindEarliestExecutionStart(
-                workerStart,
+                limiterStart,
                 duration,
                 profile,
                 scheduledModules,
                 concurrency);
-            var occupiedDuration = executionStart + duration - workerStart;
-            var adjustedWorkerStart = FindEarliestWorkerStart(
-                workerStart,
-                occupiedDuration,
-                profile,
-                scheduledModules,
-                concurrency);
-            if (adjustedWorkerStart == workerStart)
+            var finish = executionStart + duration;
+            var adjustedWorkerOccupiedDuration = finish - workerStart;
+            var adjustedLimiterOccupiedDuration = finish - limiterStart;
+            if (adjustedWorkerOccupiedDuration == workerOccupiedDuration
+                && adjustedLimiterOccupiedDuration == limiterOccupiedDuration)
             {
-                return new ModuleTiming(workerStart, executionStart);
+                return new ModuleTiming(workerStart, limiterStart, executionStart);
             }
 
-            workerStart = adjustedWorkerStart;
+            workerOccupiedDuration = adjustedWorkerOccupiedDuration;
+            limiterOccupiedDuration = adjustedLimiterOccupiedDuration;
         }
     }
 
@@ -618,16 +655,52 @@ internal sealed class PipelinePlanner
                             module => module.Profile.ExecutionType == profile.ExecutionType));
                 }
 
-                if (profile.ParallelLimiter is { } parallelLimiter)
+                if (blockedUntil > checkpoint)
                 {
-                    blockedUntil = Max(
-                        blockedUntil,
-                        GetCapacityBlocker(
-                            activeModules,
-                            parallelLimiter.Limit,
-                            module => module.Profile.ParallelLimiter?.Type == parallelLimiter.Type));
+                    break;
                 }
+            }
 
+            if (blockedUntil <= start)
+            {
+                return start;
+            }
+
+            start = blockedUntil;
+        }
+    }
+
+    private static TimeSpan FindEarliestLimiterStart(
+        TimeSpan earliestStart,
+        TimeSpan occupiedDuration,
+        SchedulingProfile profile,
+        IReadOnlyList<ScheduledModule> scheduledModules)
+    {
+        if (profile.ParallelLimiter is not { } parallelLimiter)
+        {
+            return earliestStart;
+        }
+
+        var start = earliestStart;
+        while (true)
+        {
+            var finish = start + occupiedDuration;
+            var checkpoints = scheduledModules
+                .Where(module => module.LimiterStart > start && module.LimiterStart < finish)
+                .Select(module => module.LimiterStart)
+                .Append(start)
+                .Distinct()
+                .Order();
+            var blockedUntil = TimeSpan.Zero;
+            foreach (var checkpoint in checkpoints)
+            {
+                var activeModules = scheduledModules
+                    .Where(module => module.LimiterStart <= checkpoint && module.Finish > checkpoint)
+                    .ToArray();
+                blockedUntil = GetCapacityBlocker(
+                    activeModules,
+                    parallelLimiter.Limit,
+                    module => module.Profile.ParallelLimiter?.Type == parallelLimiter.Type);
                 if (blockedUntil > checkpoint)
                 {
                     break;
@@ -693,9 +766,19 @@ internal sealed class PipelinePlanner
 
     private sealed record ScheduledModule(
         TimeSpan WorkerStart,
+        TimeSpan LimiterStart,
         TimeSpan ExecutionStart,
         TimeSpan Finish,
         SchedulingProfile Profile);
 
-    private sealed record ModuleTiming(TimeSpan WorkerStart, TimeSpan ExecutionStart);
+    private sealed record ModuleTiming(
+        TimeSpan WorkerStart,
+        TimeSpan LimiterStart,
+        TimeSpan ExecutionStart);
+
+    private sealed record SchedulingCandidate(
+        PipelinePlanModule PlannedModule,
+        TimeSpan Duration,
+        SchedulingProfile Profile,
+        ModuleTiming Timing);
 }

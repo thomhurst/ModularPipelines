@@ -261,6 +261,13 @@ public class PipelineCommandLineTests
             nameof(SecondLimitedModule) => TimeSpan.FromMinutes(10),
             nameof(IndependentRootModule) => TimeSpan.FromMinutes(10),
             nameof(LongTailModule) => TimeSpan.FromMinutes(100),
+            nameof(CpuHolderModule) => TimeSpan.FromMinutes(10),
+            nameof(CpuAndLimiterWaiterModule) => TimeSpan.FromMinutes(10),
+            nameof(LimiterOnlyModule) => TimeSpan.FromMinutes(10),
+            nameof(PriorityConstraintRootModule) => TimeSpan.FromMinutes(1),
+            nameof(PriorityConstraintDependentModule) => TimeSpan.FromMinutes(1),
+            nameof(PriorityConstraintLowRootModule) => TimeSpan.FromMinutes(10),
+            nameof(PriorityConstraintTailModule) => TimeSpan.FromMinutes(100),
             _ => TimeSpan.Zero,
         });
 
@@ -400,6 +407,48 @@ public class PipelineCommandLineTests
 
     [ModularPipelines.Attributes.DependsOn<IndependentRootModule>]
     private sealed class LongTailModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.Critical)]
+    [ExecutionHint(ExecutionType.CpuIntensive)]
+    private sealed class CpuHolderModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.High)]
+    [ExecutionHint(ExecutionType.CpuIntensive)]
+    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    private sealed class CpuAndLimiterWaiterModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    private sealed class LimiterOnlyModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.High)]
+    [ModularPipelines.Attributes.NotInParallel("priority-plan-lock")]
+    private sealed class PriorityConstraintRootModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.High)]
+    [ModularPipelines.Attributes.NotInParallel("priority-plan-lock")]
+    [ModularPipelines.Attributes.DependsOn<PriorityConstraintRootModule>]
+    private sealed class PriorityConstraintDependentModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.Low)]
+    [ModularPipelines.Attributes.NotInParallel("priority-plan-lock")]
+    private sealed class PriorityConstraintLowRootModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.DependsOn<PriorityConstraintDependentModule>]
+    private sealed class PriorityConstraintTailModule : DryRunModule
     {
     }
 
@@ -786,6 +835,49 @@ public class PipelineCommandLineTests
         var plan = await pipeline.PlanAsync();
 
         await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(120));
+    }
+
+    [Test]
+    public async Task PlanAsyncModelsLimiterAcquisitionBeforeExecutionTypeWait()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Concurrency = options.Concurrency with
+            {
+                MaxParallelism = 3,
+                MaxCpuIntensiveModules = 1,
+            },
+        });
+        builder.AddModule<CpuHolderModule>();
+        builder.AddModule<CpuAndLimiterWaiterModule>();
+        builder.AddModule<LimiterOnlyModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(30));
+    }
+
+    [Test]
+    public async Task PlanAsyncReprioritizesModulesWhenConstraintReleases()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Concurrency = options.Concurrency with { MaxParallelism = 2 },
+        });
+        builder.AddModule<PriorityConstraintRootModule>();
+        builder.AddModule<PriorityConstraintDependentModule>();
+        builder.AddModule<PriorityConstraintLowRootModule>();
+        builder.AddModule<PriorityConstraintTailModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(102));
     }
 
     [Test]
