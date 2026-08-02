@@ -256,8 +256,12 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             FileShare.None,
             64 * 1024,
             FileOptions.Asynchronous);
-        using (var archive = new ZipArchive(stream, ZipArchiveMode.Create, leaveOpen: true))
+        try
         {
+            var limitedStream = new MaximumLengthWriteStream(
+                stream,
+                _options.MaximumCacheEntryBytes);
+            using var archive = new ZipArchive(limitedStream, ZipArchiveMode.Create, leaveOpen: true);
             var resultEntry = archive.CreateEntry(ResultEntryName, CompressionLevel.Fastest);
             await using (var resultEntryStream = resultEntry.Open())
             {
@@ -273,8 +277,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             await AddArtifactsAsync(archive, moduleType, cancellationToken)
                 .ConfigureAwait(false);
         }
-
-        if (stream.Length > _options.MaximumCacheEntryBytes)
+        catch (MaximumLengthExceededException)
         {
             _logger.LogDebug(
                 "Skipping module cache save for {Module} because its archive exceeded the configured limit of {MaximumCacheEntryBytes} bytes",
@@ -709,7 +712,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 RestoreUnixMode(entry, destination, UnixFileTypeDirectory);
             }
 
-            artifactDirectoryModeRollback.Complete();
+            artifactDirectoryModeRollback.Complete(
+                artifactEntries
+                    .Where(artifact => artifact.IsDirectory)
+                    .Select(artifact => artifact.Destination));
         }
         catch (Exception restoreException)
         {
@@ -1350,6 +1356,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     private sealed class UnixDirectoryModeRollback : IDisposable
     {
         private readonly IReadOnlyList<(string Path, UnixFileMode Mode)> _originalModes;
+        private readonly StringComparer _pathComparer;
         private bool _completed;
 
         public UnixDirectoryModeRollback(
@@ -1359,6 +1366,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             if (OperatingSystem.IsWindows())
             {
                 _originalModes = [];
+                _pathComparer = pathComparer;
                 return;
             }
 
@@ -1369,9 +1377,15 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             }
 
             _originalModes = originalModes;
+            _pathComparer = pathComparer;
         }
 
-        public void Complete() => _completed = true;
+        public void Complete(IEnumerable<string> restoredDirectories)
+        {
+            var restored = restoredDirectories.ToHashSet(_pathComparer);
+            RestoreOriginalModes(item => !restored.Contains(item.Path));
+            _completed = true;
+        }
 
         public void Dispose()
         {
@@ -1380,7 +1394,19 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 return;
             }
 
+            RestoreOriginalModes(static _ => true);
+        }
+
+        private void RestoreOriginalModes(
+            Func<(string Path, UnixFileMode Mode), bool> predicate)
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                return;
+            }
+
             foreach (var (path, mode) in _originalModes
+                         .Where(predicate)
                          .OrderByDescending(item => item.Path.Length))
             {
                 if (Directory.Exists(path))

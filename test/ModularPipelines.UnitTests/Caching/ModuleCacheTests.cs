@@ -351,6 +351,21 @@ public class ModuleCacheTests
         }
     }
 
+    [CacheInputs("shallow-glob-input.txt")]
+    [ProducesArtifact("shallow-glob", "shallow-glob/*")]
+    private sealed class ShallowGlobArtifactModule : Module<string>
+    {
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            return Task.FromResult<string?>("result");
+        }
+    }
+
     [CacheInputs("mode-input.txt")]
     [ProducesArtifact("executable", "run.sh")]
     private sealed class ExecutableArtifactModule : Module<string>
@@ -2370,6 +2385,62 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRestoresModeForNonEmptyStaleGlobDirectory()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-shallow-glob-mode-{Guid.NewGuid():N}");
+        var staleDirectory = Path.Combine(temporaryDirectory, "shallow-glob", "old");
+        Directory.CreateDirectory(temporaryDirectory);
+        ShallowGlobArtifactModule.ExecutionCount = 0;
+        var expectedMode = UnixFileMode.UserRead | UnixFileMode.UserExecute;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "shallow-glob-input.txt"),
+                "input");
+            await RunShallowGlobArtifactPipelineAsync(temporaryDirectory);
+
+            Directory.CreateDirectory(staleDirectory);
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(staleDirectory, "keep.bin"),
+                "undeclared");
+            System.IO.File.SetUnixFileMode(staleDirectory, expectedMode);
+
+            var restoredStatus =
+                await RunShallowGlobArtifactPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.UsedHistory);
+                await Assert.That(ShallowGlobArtifactModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(System.IO.File.GetUnixFileMode(staleDirectory))
+                    .IsEqualTo(expectedMode);
+            }
+        }
+        finally
+        {
+            if (Directory.Exists(staleDirectory))
+            {
+                System.IO.File.SetUnixFileMode(
+                    staleDirectory,
+                    UnixFileMode.UserRead
+                    | UnixFileMode.UserWrite
+                    | UnixFileMode.UserExecute);
+            }
+
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task CacheRestoreRejectsResultAboveConfiguredLimit()
     {
         var temporaryDirectory = Path.Combine(
@@ -3572,6 +3643,25 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(GlobOptionalArtifactModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunShallowGlobArtifactPipelineAsync(
+        string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+            })
+            .AddModule<ShallowGlobArtifactModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(ShallowGlobArtifactModule))!
             .ModuleStatus;
     }
 
