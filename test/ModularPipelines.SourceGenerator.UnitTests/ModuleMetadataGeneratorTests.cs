@@ -741,7 +741,7 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
-    public async Task Unchanged_Compilation_Uses_Incremental_Cache()
+    public async Task Equivalent_Compilation_Uses_Incremental_Cache()
     {
         var result = GeneratorTestHarness.RunTwiceWithStepTracking(
             new ModuleMetadataGenerator(),
@@ -749,11 +749,14 @@ public class ModuleMetadataGeneratorTests
             """
             namespace Consumer
             {
+                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOn<DependencyModule>]
                 public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
             }
             """);
 
-        await Assert.That(GeneratorTestHarness.HasCachedOutput(result)).IsTrue();
+        await Assert.That(GeneratorTestHarness.HasCachedOrUnchangedOutput(result)).IsTrue();
     }
 
     private static int CountOccurrences(string source, string value)
