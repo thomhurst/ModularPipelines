@@ -7,13 +7,13 @@ using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
 
-namespace ModularPipelines.UnitTests.Helpers;
+namespace ModularPipelines.Git.UnitTests;
 
 public class GitTests : TestBase
 {
     private class GitVersionModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Git().Commands.Repository.GitAsync(new GitBaseOptions
             {

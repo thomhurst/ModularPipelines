@@ -1,7 +1,7 @@
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Helpers.Internal;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.DotNet.UnitTests;
 
 public class DotNetBuildOptionsCompatibilityTests
 {

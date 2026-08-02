@@ -73,12 +73,20 @@ internal static class GeneratorTestHarness
                 trackIncrementalGeneratorSteps: true));
 
         driver = driver.RunGenerators(compilation);
-        driver = driver.RunGenerators(compilation);
+        var sourceTree = compilation.SyntaxTrees.Last();
+        var equivalentSourceTree = CSharpSyntaxTree.ParseText(
+            sourceTree.GetText().ToString() + Environment.NewLine,
+            (CSharpParseOptions) sourceTree.Options);
+        var equivalentCompilation = compilation.ReplaceSyntaxTree(
+            sourceTree,
+            equivalentSourceTree);
+        ThrowForCompilationErrors(equivalentCompilation);
+        driver = driver.RunGenerators(equivalentCompilation);
 
         return driver.GetRunResult();
     }
 
-    public static bool HasCachedOutput(GeneratorDriverRunResult result)
+    public static bool HasCachedOrUnchangedOutput(GeneratorDriverRunResult result)
     {
         var outputReasons = result.Results.Single().TrackedOutputSteps.Values
             .SelectMany(static steps => steps)
@@ -87,7 +95,9 @@ internal static class GeneratorTestHarness
             .ToArray();
 
         return outputReasons.Length > 0
-               && outputReasons.All(static reason => reason == IncrementalStepRunReason.Cached);
+               && outputReasons.All(static reason => reason is
+                   IncrementalStepRunReason.Cached
+                   or IncrementalStepRunReason.Unchanged);
     }
 
     private static CSharpCompilation CreateCompilation(string infrastructure, string source)

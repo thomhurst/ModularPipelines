@@ -1,7 +1,6 @@
 using System.IO.Compression;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
@@ -74,12 +73,10 @@ public class ZipTests : TestBase
     {
         protected internal override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            var directory = repositoryInfo.Root.GetFolder("test")
-                .GetFolder("ModularPipelines.UnitTests")
-                .GetFolder("Data")
-                .GetFolder("Zip");
+            var directory = context.Files.GetFolder(Path.Combine(
+                TestContext.OutputDirectory!,
+                "Data",
+                "Zip"));
 
             var fileToWrite = context.Files.GetFile(Path.Combine(context.Environment.WorkingDirectory, "LoremData.zip"));
 

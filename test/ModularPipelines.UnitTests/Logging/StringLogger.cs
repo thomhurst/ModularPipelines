@@ -7,15 +7,22 @@ namespace ModularPipelines.UnitTests.Logging;
 public class StringLogger<T> : ILogger<T>
 {
     private readonly StringBuilder _stringBuilder;
+    private readonly LogLevel _minimumLevel;
 
-    public StringLogger(StringBuilder stringBuilder)
+    public StringLogger(StringBuilder stringBuilder, LogLevel minimumLevel = LogLevel.Trace)
     {
         _stringBuilder = stringBuilder;
+        _minimumLevel = minimumLevel;
     }
 
     /// <inheritdoc/>
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
     {
+        if (!IsEnabled(logLevel))
+        {
+            return;
+        }
+
         var log = formatter.Invoke(state, exception);
         _stringBuilder.AppendLine(log);
     }
@@ -23,7 +30,7 @@ public class StringLogger<T> : ILogger<T>
     /// <inheritdoc/>
     public bool IsEnabled(LogLevel logLevel)
     {
-        return true;
+        return logLevel >= _minimumLevel && logLevel != LogLevel.None;
     }
 
     /// <inheritdoc/>

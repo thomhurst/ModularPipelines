@@ -6,7 +6,6 @@ using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -14,7 +13,7 @@ using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
 using File = ModularPipelines.FileSystem.File;
 
-namespace ModularPipelines.UnitTests.Helpers;
+namespace ModularPipelines.DotNet.UnitTests;
 
 [TUnit.Core.NotInParallel]
 public class DotNetTestResultsTests : TestBase
@@ -26,12 +25,7 @@ public class DotNetTestResultsTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            var testProject = repositoryInfo.Root.GetFolder("test")
-                .GetFolder("ModularPipelines.TestsForTests")
-                .GetFile("ModularPipelines.TestsForTests.csproj")
-                .AssertExists();
+            var testProject = TestProjectPaths.TestsForTestsProject;
 
             return await context.DotNet().TestAsync(
                 new DotNetTestOptions
@@ -70,7 +64,7 @@ public class DotNetTestResultsTests : TestBase
     public async Task Can_Parse_Trx_Using_Helper()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .AddModule<DotNetTestWithFailureModule>()
+            .AddModule<TrueModule>()
             .BuildAsync();
 
         // Get the Trx helper from a pipeline context

@@ -17,10 +17,42 @@ public interface IGitCommandRunner
     Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands);
 
     /// <summary>
+    /// Executes git commands and returns the trimmed standard output.
+    /// </summary>
+    /// <param name="commandEnvironmentOptions">Optional command environment configuration.</param>
+    /// <param name="cancellationToken">The token used to cancel command execution.</param>
+    /// <param name="commands">Git command arguments to execute.</param>
+    /// <returns>The trimmed standard output from the git command.</returns>
+    Task<string> RunCommands(
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken,
+        params string?[] commands)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return RunCommands(commandEnvironmentOptions, commands);
+    }
+
+    /// <summary>
     /// Executes git commands and returns the trimmed standard output, or null if the command fails.
     /// </summary>
     /// <param name="commandEnvironmentOptions">Optional command environment configuration.</param>
     /// <param name="commands">Git command arguments to execute.</param>
     /// <returns>The trimmed standard output from the git command, or null if the command failed.</returns>
     Task<string?> RunCommandsOrNull(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands);
+
+    /// <summary>
+    /// Executes git commands and returns the trimmed standard output, or null if the command fails.
+    /// </summary>
+    /// <param name="commandEnvironmentOptions">Optional command environment configuration.</param>
+    /// <param name="cancellationToken">The token used to cancel command execution.</param>
+    /// <param name="commands">Git command arguments to execute.</param>
+    /// <returns>The trimmed standard output from the git command, or null if the command failed.</returns>
+    Task<string?> RunCommandsOrNull(
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken,
+        params string?[] commands)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return RunCommandsOrNull(commandEnvironmentOptions, commands);
+    }
 }

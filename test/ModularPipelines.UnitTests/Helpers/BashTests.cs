@@ -1,5 +1,4 @@
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -23,10 +22,13 @@ public class BashTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            var file = repositoryInfo.Root.FindFile(x => x.Name == "BashTest.sh");
-            return await context.Shell.Bash.FromFileAsync(new BashFileOptions(file!), cancellationToken: cancellationToken);
+            var file = context.Files.GetFile(Path.Combine(
+                TestContext.OutputDirectory!,
+                "Data",
+                "BashTest.sh"));
+            return await context.Shell.Bash.FromFileAsync(
+                new BashFileOptions(file),
+                cancellationToken: cancellationToken);
         }
     }
 

@@ -34,6 +34,9 @@ namespace ModularPipelines.Modules;
 /// Dependencies can be declared through <see cref="Configure"/> or statically via
 /// <see cref="Attributes.DependsOnAttribute"/> attributes.
 /// </para>
+/// <para>
+/// Inherit from the non-generic <see cref="Module"/> when the module does not return a value.
+/// </para>
 /// </remarks>
 /// <example>
 /// <code>

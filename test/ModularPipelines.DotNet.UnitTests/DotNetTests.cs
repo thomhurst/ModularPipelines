@@ -1,14 +1,12 @@
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Extensions;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
 
-namespace ModularPipelines.UnitTests.Helpers;
+namespace ModularPipelines.DotNet.UnitTests;
 
 public class DotNetTests : TestBase
 {
@@ -16,13 +14,10 @@ public class DotNetTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-
-            // Use the main solution explicitly rather than searching the repository.
+            // Use the main solution explicitly; the repository contains several solutions.
             return await context.DotNet().Package.ListAsync(new DotNetPackageListOptions
             {
-                Project = repositoryInfo.Root.GetFile("ModularPipelines.sln").AssertExists(),
+                Project = TestProjectPaths.CoreSolution,
             }, cancellationToken: cancellationToken);
         }
     }
@@ -31,15 +26,9 @@ public class DotNetTests : TestBase
     {
         protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-
             return await context.DotNet().FormatAsync(new DotNetFormatOptions
             {
-                ProjectSolution = repositoryInfo.Root.GetFolder("test")
-                    .GetFolder("ModularPipelines.TestsForTests")
-                    .GetFile("ModularPipelines.TestsForTests.csproj")
-                    .AssertExists(),
+                ProjectSolution = TestProjectPaths.TestsForTestsProject,
             }, cancellationToken: cancellationToken);
         }
     }
