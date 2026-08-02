@@ -10,10 +10,11 @@ namespace ModularPipelines.Build.Modules;
 
 public class PrintGitInformationModule : Module<None>
 {
-    protected override Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("Git Info: {GitInfo}", JsonSerializer.Serialize(context.Git().Information, DiagnosticSerializerOptions.Instance));
+        var gitInformation = await context.Git().Information.GetInfoAsync(cancellationToken);
+        context.Logger.LogInformation("Git Info: {GitInfo}", JsonSerializer.Serialize(gitInformation, DiagnosticSerializerOptions.Instance));
 
-        return Task.FromResult(None.Value);
+        return None.Value;
     }
 }

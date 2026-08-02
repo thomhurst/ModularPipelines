@@ -1,19 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class RunIfBranchStartsWithAttribute : Attribute, IGroupedConditionAttribute
+public class RunIfBranchStartsWithAttribute : RunIfAnyAttribute, IGroupedConditionAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.Any;
-
     public Type ConditionGroupType => typeof(BranchConditionHelper);
 
-    public string ConditionNames => $"{nameof(RunIfBranchStartsWithAttribute)}({BranchNamePrefix})";
+    public override string ConditionNames => $"{nameof(RunIfBranchStartsWithAttribute)}({BranchNamePrefix})";
 
     public string BranchNamePrefix { get; }
 
@@ -22,12 +19,14 @@ public class RunIfBranchStartsWithAttribute : Attribute, IGroupedConditionAttrib
         BranchNamePrefix = branchNamePrefix;
     }
 
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public override Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         return EvaluateAsync(pipelineContext, default);
     }
 
-    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
+    public override Task<bool> EvaluateAsync(
+        IPipelineContext pipelineContext,
+        CancellationToken cancellationToken)
     {
         return BranchConditionHelper.CheckBranchStartsWith(
             pipelineContext,

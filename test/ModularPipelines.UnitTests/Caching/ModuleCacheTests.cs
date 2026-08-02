@@ -1402,7 +1402,7 @@ public class ModuleCacheTests
     }
 
     [Test]
-    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    [TUnit.Core.NotInParallel("ProcessEnvironment")]
     public async Task UnsetAndLiteralNullEnvironmentValuesHaveDifferentFingerprints()
     {
         var temporaryDirectory = Path.Combine(

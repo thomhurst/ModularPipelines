@@ -66,11 +66,12 @@ public record CommandResult
     [SetsRequiredMembers]
     internal CommandResult(
         Command command,
+        string commandInput,
         IReadOnlyDictionary<string, string?> environmentVariables)
     {
         var completedAt = DateTimeOffset.UtcNow;
 
-        CommandInput = command.ToString();
+        CommandInput = commandInput;
         WorkingDirectory = command.WorkingDirPath;
         EnvironmentVariables = environmentVariables;
         StandardOutput = string.Empty;
@@ -85,11 +86,12 @@ public record CommandResult
     internal CommandResult(
         Command command,
         CliWrap.CommandResult commandResult,
+        string commandInput,
         string standardOutput,
         string standardError,
         IReadOnlyDictionary<string, string?> environmentVariables)
     {
-        CommandInput = command.ToString();
+        CommandInput = commandInput;
         WorkingDirectory = command.WorkingDirPath;
         EnvironmentVariables = environmentVariables;
 
