@@ -19,6 +19,9 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "write")]
-public record VaultPolicyWriteOptions : VaultOptions
+public record VaultPolicyWriteOptions(
+    [property: CliArgument(0)] string Name,
+    [property: CliArgument(1)] string Path
+) : VaultOptions
 {
 }

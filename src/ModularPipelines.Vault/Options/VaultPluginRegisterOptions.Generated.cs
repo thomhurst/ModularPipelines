@@ -19,6 +19,9 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "register")]
-public record VaultPluginRegisterOptions : VaultOptions
+public record VaultPluginRegisterOptions(
+    [property: CliArgument(0)] string Type,
+    [property: CliArgument(1)] string Name
+) : VaultOptions
 {
 }

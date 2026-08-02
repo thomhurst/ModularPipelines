@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lease", "lookup")]
-public record VaultLeaseLookupOptions : VaultOptions
+public record VaultLeaseLookupOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Id
+) : VaultOptions
 {
 }

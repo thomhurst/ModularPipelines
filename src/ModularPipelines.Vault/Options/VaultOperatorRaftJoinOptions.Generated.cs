@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "join")]
-public record VaultOperatorRaftJoinOptions : VaultOptions
+public record VaultOperatorRaftJoinOptions(
+    [property: CliArgument(0)] string LeaderApiAddr
+) : VaultOptions
 {
 }

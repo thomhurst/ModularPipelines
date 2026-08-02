@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("events", "subscribe")]
-public record VaultEventsSubscribeOptions : VaultOptions
+public record VaultEventsSubscribeOptions(
+    [property: CliArgument(0)] string EventType
+) : VaultOptions
 {
 }

@@ -19,6 +19,15 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transit", "import")]
-public record VaultTransitImportOptions : VaultOptions
+public record VaultTransitImportOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Key
+) : VaultOptions
 {
+    /// <summary>
+    /// The options operand.
+    /// </summary>
+    [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
+    public IEnumerable<string>? Options { get; set; }
+
 }

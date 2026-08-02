@@ -21,4 +21,10 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("agent", "generate-config")]
 public record VaultAgentGenerateConfigOptions : VaultOptions
 {
+    /// <summary>
+    /// The path Or to Or config.hcl operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? PathOrToOrConfigHcl { get; set; }
+
 }

@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "undelete")]
-public record VaultKvUndeleteOptions : VaultOptions
+public record VaultKvUndeleteOptions(
+    [property: CliArgument(0)] string Key
+) : VaultOptions
 {
 }

@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "disable")]
-public record VaultSecretsDisableOptions : VaultOptions
+public record VaultSecretsDisableOptions(
+    [property: CliArgument(0)] string Path
+) : VaultOptions
 {
 }

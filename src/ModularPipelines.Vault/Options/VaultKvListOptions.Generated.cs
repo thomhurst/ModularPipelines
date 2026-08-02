@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "list")]
-public record VaultKvListOptions : VaultOptions
+public record VaultKvListOptions(
+    [property: CliArgument(0)] string Path
+) : VaultOptions
 {
 }

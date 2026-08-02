@@ -21,4 +21,10 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("operator", "unseal")]
 public record VaultOperatorUnsealOptions : VaultOptions
 {
+    /// <summary>
+    /// The KEY operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? Key { get; set; }
+
 }

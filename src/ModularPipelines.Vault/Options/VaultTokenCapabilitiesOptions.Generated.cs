@@ -19,6 +19,14 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("token", "capabilities")]
-public record VaultTokenCapabilitiesOptions : VaultOptions
+public record VaultTokenCapabilitiesOptions(
+    [property: CliArgument(1)] string Path
+) : VaultOptions
 {
+    /// <summary>
+    /// The TOKEN operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? Token { get; set; }
+
 }

@@ -19,6 +19,9 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "verify-sign")]
-public record VaultPkiVerifySignOptions : VaultOptions
+public record VaultPkiVerifySignOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PossibleIssuer,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string PossibleIssued
+) : VaultOptions
 {
 }
