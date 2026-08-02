@@ -305,6 +305,70 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Chained_Registration_Handles_Are_Recognized()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace ModularPipelines
+            {
+                public sealed class PipelineBuilder;
+
+                public sealed class ModuleRegistration<TModule>
+                    where TModule : class, Modules.IModule
+                {
+                    public ModuleRegistration<TNextModule> AddModule<TNextModule>()
+                        where TNextModule : class, Modules.IModule => new();
+                }
+            }
+
+            namespace ModularPipelines.Extensions
+            {
+                public static class PipelineBuilderExtensions
+                {
+                    public static ModularPipelines.ModuleRegistration<TModule> AddModule<TModule>(
+                        this ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule => new();
+                }
+            }
+
+            namespace Consumer
+            {
+                using ModularPipelines.Extensions;
+
+                public sealed class StarterModule : ModularPipelines.Modules.Module<string>;
+                public sealed class GenericModule<T> : ModularPipelines.Modules.Module<T>;
+
+                public static class Registration
+                {
+                    public static void Configure(ModularPipelines.PipelineBuilder builder)
+                    {
+                        builder.AddModule<StarterModule>()
+                            .AddModule<GenericModule<string>>()
+                            .AddModule<ModularPipelines.Modules.IModule>();
+                    }
+
+                    public static void Register<TModule>(ModularPipelines.PipelineBuilder builder)
+                        where TModule : class, ModularPipelines.Modules.IModule
+                    {
+                        builder.AddModule<StarterModule>().AddModule<TModule>();
+                    }
+                }
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated)
+                .Contains("CreateRegistration<global::Consumer.GenericModule<string>, string>");
+            await Assert.That(result.Diagnostics.Count(diagnostic => diagnostic.Id == "MPG0013"))
+                .IsEqualTo(1);
+            await Assert.That(result.Diagnostics.Count(diagnostic => diagnostic.Id == "MPG0015"))
+                .IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task Inferred_Closed_Generic_Registrations_Are_Emitted()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """

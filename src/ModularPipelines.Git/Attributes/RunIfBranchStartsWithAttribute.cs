@@ -24,9 +24,15 @@ public class RunIfBranchStartsWithAttribute : Attribute, IGroupedConditionAttrib
 
     public Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
+        return EvaluateAsync(pipelineContext, default);
+    }
+
+    public Task<bool> EvaluateAsync(IPipelineContext pipelineContext, CancellationToken cancellationToken)
+    {
         return BranchConditionHelper.CheckBranchStartsWith(
             pipelineContext,
             BranchNamePrefix,
-            "Current Branch: {CurrentBranch} | Can run if starts with: {ExpectedPrefix}");
+            "Current Branch: {CurrentBranch} | Can run if starts with: {ExpectedPrefix}",
+            cancellationToken);
     }
 }

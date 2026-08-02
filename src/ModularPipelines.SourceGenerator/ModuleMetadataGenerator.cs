@@ -26,6 +26,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string PipelineBuilderExtensionsFullName =
         "ModularPipelines.Extensions.PipelineBuilderExtensions";
 
+    internal const string ModuleRegistrationNamespace = "ModularPipelines";
+    internal const string ModuleRegistrationTypeName = "ModuleRegistration";
+
     private static readonly DiagnosticDescriptor SkippedModuleRuntimeMetadata =
         GeneratorDiagnostics.SkippedModuleRuntimeMetadata;
 
@@ -163,8 +166,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     {
         if (context.Node is not InvocationExpressionSyntax invocation
             || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
-            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
-            != PipelineBuilderExtensionsFullName
+            || !IsModuleRegistrationMethod(method)
             || method.TypeArguments.Length != 1
             || method.TypeArguments[0] is not INamedTypeSymbol type
             || !type.IsGenericType
@@ -203,8 +205,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     {
         if (context.Node is not InvocationExpressionSyntax invocation
             || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
-            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
-            != PipelineBuilderExtensionsFullName
+            || !IsModuleRegistrationMethod(method)
             || method.TypeArguments.Length != 1
             || method.TypeArguments[0] is not ITypeParameterSymbol typeParameter)
         {
@@ -221,8 +222,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     {
         if (context.Node is not InvocationExpressionSyntax invocation
             || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
-            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
-            != PipelineBuilderExtensionsFullName
+            || !IsModuleRegistrationMethod(method)
             || method.TypeArguments.Length != 1
             || method.TypeArguments[0] is not INamedTypeSymbol type
             || !ImplementsModule(type, context.SemanticModel.Compilation)
@@ -234,6 +234,15 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         return new NonConcreteModuleRegistrationInfo(
             type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
             invocation.GetLocation());
+    }
+
+    private static bool IsModuleRegistrationMethod(IMethodSymbol method)
+    {
+        var containingType = (method.ReducedFrom ?? method).ContainingType.OriginalDefinition;
+        return containingType.ToDisplayString() == PipelineBuilderExtensionsFullName
+               || (containingType.Name == ModuleRegistrationTypeName
+                   && containingType.Arity == 1
+                   && containingType.ContainingNamespace.ToDisplayString() == ModuleRegistrationNamespace);
     }
 
     private static bool IsCandidate(SyntaxNode node)
