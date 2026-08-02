@@ -66,6 +66,25 @@ public class PipelineInitializerTests
     }
 
     [Test]
+    public async Task EnvironmentVariables_RecheckSafetyWhenRenderWidthShrinks()
+    {
+        var rawValue = new string('x', 60);
+        var variables = new OrderedDictionary
+        {
+            ["CONFIG"] = rawValue,
+        };
+
+        var table = PipelineInitializer.CreateEnvironmentVariablesTable(
+            variables,
+            value => value,
+            consoleWidth: 120);
+        var output = Render(table, width: 40);
+
+        await Assert.That(output).Contains(LoggingConstants.SecretMask);
+        await Assert.That(output).DoesNotContain("x");
+    }
+
+    [Test]
     public async Task EnvironmentVariables_IncludeHeaderWidthInRawValueSafety()
     {
         var variables = new OrderedDictionary

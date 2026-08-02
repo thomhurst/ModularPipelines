@@ -7,6 +7,7 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -140,9 +141,9 @@ internal class PipelineInitializer(
                 .Select(entry => GetMaximumCellWidth(entry.Key?.ToString() ?? string.Empty))
                 .DefaultIfEmpty()
                 .Max());
-        var maximumValueWidth = Math.Max(
-            0,
-            (consoleWidth ?? AnsiConsole.Console.Profile.Width) - maximumNameWidth - TableDecorationWidth);
+        int? configuredMaximumValueWidth = consoleWidth is { } width
+            ? Math.Max(0, width - maximumNameWidth - TableDecorationWidth)
+            : null;
         var table = new Table
         {
             Border = TableBorder.Rounded,
@@ -158,18 +159,15 @@ internal class PipelineInitializer(
             var name = environmentVariable.Key?.ToString() ?? string.Empty;
             var value = environmentVariable.Value?.ToString() ?? string.Empty;
             var obfuscatedValue = obfuscate(value);
-            var displayValue = IsSensitiveEnvironmentVariableName(name)
-                               || RequiresUnsafeRendering(
-                                   value,
-                                   obfuscatedValue,
-                                   effectiveMaskValue,
-                                   maximumValueWidth)
-                ? effectiveMaskValue
-                : MakeSingleLine(obfuscatedValue);
 
             table.AddRow(
                 new Text(name),
-                new Text(displayValue).Ellipsis());
+                new SafeEnvironmentValueRenderable(
+                    value,
+                    obfuscatedValue,
+                    effectiveMaskValue,
+                    IsSensitiveEnvironmentVariableName(name),
+                    configuredMaximumValueWidth));
         }
 
         return table;
@@ -193,6 +191,36 @@ internal class PipelineInitializer(
     private static int GetMaximumCellWidth(string value)
     {
         return value.Sum(character => char.IsAscii(character) ? 1 : 2);
+    }
+
+    private sealed class SafeEnvironmentValueRenderable(
+        string value,
+        string obfuscatedValue,
+        string maskValue,
+        bool isSensitiveName,
+        int? configuredMaximumWidth) : IRenderable
+    {
+        public Measurement Measure(RenderOptions options, int maxWidth) =>
+            CreateRenderable(maxWidth).Measure(options, maxWidth);
+
+        public IEnumerable<Segment> Render(RenderOptions options, int maxWidth) =>
+            CreateRenderable(maxWidth).Render(options, maxWidth);
+
+        private IRenderable CreateRenderable(int maxWidth)
+        {
+            var effectiveMaximumWidth = configuredMaximumWidth is { } configured
+                ? Math.Min(configured, maxWidth)
+                : maxWidth;
+            var displayValue = isSensitiveName
+                               || RequiresUnsafeRendering(
+                                   value,
+                                   obfuscatedValue,
+                                   maskValue,
+                                   effectiveMaximumWidth)
+                ? maskValue
+                : MakeSingleLine(obfuscatedValue);
+            return new Text(displayValue).Ellipsis();
+        }
     }
 
     private static bool IsSensitiveEnvironmentVariableName(string name)
