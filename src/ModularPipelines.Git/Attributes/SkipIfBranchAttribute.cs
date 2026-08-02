@@ -1,17 +1,14 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 
 namespace ModularPipelines.Git.Attributes;
 
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-public class SkipIfBranchAttribute : Attribute, IConditionAttribute
+public class SkipIfBranchAttribute : SkipIfAttribute
 {
-    public ConditionLogic Logic => ConditionLogic.Skip;
-
-    public string ConditionNames => $"{nameof(SkipIfBranchAttribute)}({BranchName})";
+    public override string ConditionNames => $"{nameof(SkipIfBranchAttribute)}({BranchName})";
 
     public string BranchName { get; }
 
@@ -20,7 +17,7 @@ public class SkipIfBranchAttribute : Attribute, IConditionAttribute
         BranchName = branchName;
     }
 
-    public async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
+    public override async Task<bool> EvaluateAsync(IPipelineContext pipelineContext)
     {
         return await BranchConditionHelper.CheckBranchMatches(
             pipelineContext,

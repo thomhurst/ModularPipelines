@@ -23,6 +23,8 @@ public class BranchConditionLoggingTests
         {
             await Assert.That(exactBranch.Logic).IsEqualTo(ConditionLogic.Any);
             await Assert.That(branchPrefix.Logic).IsEqualTo(ConditionLogic.Any);
+            await Assert.That(exactBranch).IsAssignableTo<RunIfAnyAttribute>();
+            await Assert.That(branchPrefix).IsAssignableTo<RunIfAnyAttribute>();
             await Assert.That(exactBranch.ConditionGroupType).IsEqualTo(branchPrefix.ConditionGroupType);
         }
     }
