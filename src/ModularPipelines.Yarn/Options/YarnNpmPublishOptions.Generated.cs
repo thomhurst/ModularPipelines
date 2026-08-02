@@ -8,18 +8,13 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Yarn.Options;
 
 namespace ModularPipelines.Yarn.Options;
 
-/// <summary>
-/// Base options class for yarn CLI commands.
-/// Contains global flags that apply to all commands.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("yarn")]
-[CliGlobalOptions]
-public abstract record YarnOptions : CommandLineToolOptions
+[CliSubCommand("npm publish")]
+public record YarnNpmPublishOptions : YarnOptions
 {
 }
