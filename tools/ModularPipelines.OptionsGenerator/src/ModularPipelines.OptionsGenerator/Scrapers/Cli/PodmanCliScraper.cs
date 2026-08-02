@@ -75,6 +75,14 @@ public partial class PodmanCliScraper : CobraCliScraper
         }
 
         helpText = NormalizeComposeProviderHelp(helpText);
+        if (!IsValidCommandHelp(helpText, commandPath.Skip(1).ToArray()))
+        {
+            Logger.LogWarning(
+                "Compose provider returned help for the wrong command: {Command}",
+                cacheKey);
+            return null;
+        }
+
         HelpCache.Set(cacheKey, helpText);
         return helpText;
     }

@@ -358,9 +358,13 @@ jobs:
       - name: Install Podman
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'podman'
         run: |
+          docker_cli="$(command -v docker)"
+          cp "$docker_cli" "$CLI_TOOLS_ROOT/bin/docker-cli"
+          chmod +x "$CLI_TOOLS_ROOT/bin/docker-cli"
           sudo apt-get update
           sudo apt-get install -y podman
-          printf '#!/usr/bin/env bash\nexec docker compose "$@"\n' > "$CLI_TOOLS_ROOT/bin/docker-compose"
+          printf '#!/usr/bin/env bash\nexec "%s" compose "$@"\n' \
+            "$CLI_TOOLS_ROOT/bin/docker-cli" > "$CLI_TOOLS_ROOT/bin/docker-compose"
           chmod +x "$CLI_TOOLS_ROOT/bin/docker-compose"
           echo "PODMAN_COMPOSE_PROVIDER=$CLI_TOOLS_ROOT/bin/docker-compose" >> "$GITHUB_ENV"
 

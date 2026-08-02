@@ -156,6 +156,16 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task PodmanTraversal_Rejects_Recursive_ComposeProvider_Help()
+    {
+        var scraper = new TestPodmanCliScraper(new RecursiveComposeProviderExecutor());
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands).IsEmpty();
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """
@@ -319,6 +329,44 @@ public class CliScraperTraversalTests
                     $"Unexpected invocation: {command} {arguments}"),
             };
 
+            return Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = helpText,
+                StandardError = string.Empty,
+            });
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class RecursiveComposeProviderExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var helpText = command switch
+            {
+                "podman" => """
+                    Usage: podman [OPTIONS] COMMAND
+
+                    Commands:
+                      compose    Run Compose workloads
+                    """,
+                "docker-compose-shim" => """
+                    Usage: podman [OPTIONS] COMMAND
+
+                    Commands:
+                      compose    Run Compose workloads
+                    """,
+                _ => throw new InvalidOperationException($"Unexpected invocation: {command} {arguments}"),
+            };
             return Task.FromResult(new CliCommandResult
             {
                 ExitCode = 0,
