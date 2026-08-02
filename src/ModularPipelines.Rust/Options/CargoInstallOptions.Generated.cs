@@ -135,4 +135,10 @@ public record CargoInstallOptions : CargoOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The [CRATE[@&lt;VER&gt;]] operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? CrateVer { get; set; }
+
 }

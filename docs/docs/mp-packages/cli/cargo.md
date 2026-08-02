@@ -7,7 +7,13 @@ title: cargo CLI reference
 
 `ModularPipelines.Rust` provides strongly typed access to the `cargo` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `cargo` executable. Install it separately and ensure `cargo` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Rust
@@ -30,7 +36,7 @@ public class RunCommandModule : Module<CommandResult>
         CancellationToken cancellationToken)
     {
         return await context.Tools.Cargo.CheckAsync(
-            new CargoCheckOptions
+            new CargoCheckOptions()
             {
                 Quiet = true,
             },

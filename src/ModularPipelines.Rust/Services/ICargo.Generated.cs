@@ -27,7 +27,7 @@ public partial interface ICargo
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AddAsync(CargoAddOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AddAsync(CargoAddOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute all benchmarks of a local package
@@ -99,7 +99,7 @@ public partial interface ICargo
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NewAsync(CargoNewOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NewAsync(CargoNewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upload a package to the registry
@@ -117,7 +117,7 @@ public partial interface ICargo
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RemoveAsync(CargoRemoveOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> RemoveAsync(CargoRemoveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run a binary or example of the local package

@@ -19,7 +19,9 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("remove")]
-public record CargoRemoveOptions : CargoOptions
+public record CargoRemoveOptions(
+    [property: CliArgument(0)] IEnumerable<string> DepId
+) : CargoOptions
 {
     /// <summary>
     /// Don't actually write the manifest
