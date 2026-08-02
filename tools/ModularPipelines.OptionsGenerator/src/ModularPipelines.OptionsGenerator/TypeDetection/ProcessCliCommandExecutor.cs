@@ -64,6 +64,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             try
             {
                 await process.WaitForExitAsync(cts.Token);
+                await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
             }
             catch (OperationCanceledException)
             {
