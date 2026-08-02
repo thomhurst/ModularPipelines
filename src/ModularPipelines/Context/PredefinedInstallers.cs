@@ -6,6 +6,7 @@ using ModularPipelines.Context.Domains.Installers;
 using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.FileSystem;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Linux;
@@ -195,8 +196,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
         }
 
         // Linux/Mac: Use shell escaping since BashCommandOptions uses string interpolation.
-        // The validation regex ensures no single quotes in version, making this escaping safe.
-        var escapedVersion = EscapeShellArgument(version);
+        var escapedVersion = ShellArgumentEscaper.Escape(version);
         return await _bash.CommandAsync(new BashCommandOptions($"nvm install {escapedVersion}")).ConfigureAwait(false);
     }
 
@@ -218,18 +218,6 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
                 "Expected formats: --lts, --latest, v18.0.0, 18.0.0, lts/*, node, system, or similar.",
                 nameof(version));
         }
-    }
-
-    /// <summary>
-    /// Escapes a string for safe use as a shell argument.
-    /// </summary>
-    /// <param name="argument">The argument to escape.</param>
-    /// <returns>The escaped argument wrapped in single quotes.</returns>
-    private static string EscapeShellArgument(string argument)
-    {
-        // Single-quote the argument and escape any embedded single quotes
-        // by ending the quote, adding an escaped quote, and starting a new quote
-        return "'" + argument.Replace("'", "'\\''") + "'";
     }
 
     // Matches valid nvm version formats:
