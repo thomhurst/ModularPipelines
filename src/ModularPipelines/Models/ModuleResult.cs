@@ -804,6 +804,8 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
 /// </summary>
 internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<T>>
 {
+    private static readonly Type DeclaredValueType =
+        Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
     private static readonly ExceptionJsonConverter ExceptionConverter = new();
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
@@ -819,13 +821,14 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         }
 
         string? discriminator = null;
+        string? valueTypeName = null;
         string? moduleName = null;
         string? moduleTypeName = null;
         var moduleDuration = TimeSpan.Zero;
         var moduleStart = DateTimeOffset.MinValue;
         var moduleEnd = DateTimeOffset.MinValue;
         var moduleStatus = Status.NotYetStarted;
-        T? value = default;
+        JsonElement? valueElement = null;
         Exception? exception = null;
         SkipDecision? skipDecision = null;
 
@@ -851,6 +854,9 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     case "$type":
                         discriminator = reader.GetString();
                         break;
+                    case "$valueType":
+                        valueTypeName = reader.GetString();
+                        break;
                     case "ModuleName":
                         moduleName = reader.GetString();
                         break;
@@ -870,7 +876,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                         moduleStatus = JsonSerializer.Deserialize<Status>(ref reader, options);
                         break;
                     case "Value":
-                        value = JsonSerializer.Deserialize<T>(ref reader, options);
+                        valueElement = JsonElement.ParseValue(ref reader);
                         break;
                     case "Exception":
                         exception = ExceptionConverter.Read(ref reader, typeof(Exception), options);
@@ -889,7 +895,10 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         return discriminator switch
         {
-            "Success" => new ModuleResult<T>.Success(value!)
+            "Success" when valueElement is null => throw new JsonException(
+                "Success result requires a Value property in the JSON."),
+            "Success" => new ModuleResult<T>.Success(
+                DeserializeSuccessValue(valueElement, valueTypeName, options)!)
             {
                 ModuleName = moduleName,
                 ModuleTypeName = moduleTypeName,
@@ -922,6 +931,32 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 : throw new JsonException("Skipped result requires a Decision property in the JSON."),
             _ => throw new JsonException($"Unknown discriminator: {discriminator}"),
         };
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2057", Justification = "The serialized runtime value type is validated against the declared module result type.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Reflection-based ModuleResult JSON conversion is unsupported in Native AOT; use source-generated serialization metadata.")]
+    private static T? DeserializeSuccessValue(
+        JsonElement? valueElement,
+        string? valueTypeName,
+        JsonSerializerOptions options)
+    {
+        if (valueElement is null)
+        {
+            return default;
+        }
+
+        var valueType = valueTypeName is null
+            ? typeof(T)
+            : Type.GetType(valueTypeName, throwOnError: false)
+              ?? throw new JsonException($"Unknown module result value type '{valueTypeName}'.");
+        if (valueTypeName is not null && !DeclaredValueType.IsAssignableFrom(valueType))
+        {
+            throw new JsonException(
+                $"Module result value type '{valueType}' is not assignable to '{typeof(T)}'.");
+        }
+
+        return (T?) valueElement.Value.Deserialize(valueType, options);
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result serialization requires runtime type metadata.")]
@@ -961,8 +996,16 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         switch (value)
         {
             case ModuleResult<T>.Success success:
+                var runtimeValueType = success.Value?.GetType();
+                if (runtimeValueType is not null && runtimeValueType != DeclaredValueType)
+                {
+                    writer.WriteString(
+                        "$valueType",
+                        runtimeValueType.AssemblyQualifiedName);
+                }
+
                 writer.WritePropertyName("Value");
-                JsonSerializer.Serialize(writer, success.Value, options);
+                JsonSerializer.Serialize(writer, success.Value, runtimeValueType ?? typeof(T), options);
                 break;
             case ModuleResult<T>.Failure failure:
                 writer.WritePropertyName("Exception");

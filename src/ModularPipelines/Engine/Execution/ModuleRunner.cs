@@ -256,7 +256,7 @@ internal class ModuleRunner : IModuleRunner
             // Invoke OnModuleEnd lifecycle event
             await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
-            var isSuccessful = executionContext.Status == Enums.Status.Successful;
+            var isSuccessful = executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory;
             await _mediator.Publish(new ModuleCompletedNotification(moduleState, isSuccessful)).ConfigureAwait(false);
         }
         catch (Exception ex)

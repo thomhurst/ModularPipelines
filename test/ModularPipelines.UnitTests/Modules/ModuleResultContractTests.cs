@@ -206,6 +206,62 @@ public class ModuleResultContractTests
     }
 
     [Test]
+    public async Task Success_Without_Value_Is_Rejected()
+    {
+        const string json = """
+                            {
+                              "$type": "Success",
+                              "ModuleName": "MissingValueModule"
+                            }
+                            """;
+
+        var exception = await Assert.That(() => JsonSerializer.Deserialize<ModuleResult<string>>(json))
+            .Throws<JsonException>();
+
+        await Assert.That(exception!.Message).Contains("requires a Value property");
+    }
+
+    [Test]
+    public async Task Success_RuntimeValueContract_SurvivesJsonRoundTrip()
+    {
+        ModuleResult<IRuntimeValue> result = new ModuleResult<IRuntimeValue>.Success(
+            new RuntimeValue("common", "derived"))
+        {
+            ModuleName = nameof(RuntimeValue),
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Successful,
+        };
+
+        var json = JsonSerializer.Serialize(result);
+        var deserialized = JsonSerializer.Deserialize<ModuleResult<IRuntimeValue>>(json);
+
+        var value = deserialized!.Value;
+        await Assert.That(value).IsTypeOf<RuntimeValue>();
+        await Assert.That(((RuntimeValue) value).Derived).IsEqualTo("derived");
+    }
+
+    [Test]
+    public async Task Success_NullableNull_SurvivesJsonRoundTrip()
+    {
+        ModuleResult<int?> result = new ModuleResult<int?>.Success(null)
+        {
+            ModuleName = nameof(IntModule),
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = DateTimeOffset.UtcNow,
+            ModuleEnd = DateTimeOffset.UtcNow,
+            ModuleStatus = Status.Successful,
+        };
+
+        var json = JsonSerializer.Serialize(result);
+        var deserialized = JsonSerializer.Deserialize<ModuleResult<int?>>(json);
+
+        await Assert.That(deserialized!.TryGetValue(out var value)).IsTrue();
+        await Assert.That(value).IsNull();
+    }
+
+    [Test]
     public async Task Failure_Value_ThrowsWithModuleContext()
     {
         var failure = new InvalidOperationException("Compilation failed");
@@ -369,4 +425,11 @@ public class ModuleResultContractTests
             return Task.FromResult(42);
         }
     }
+
+    private interface IRuntimeValue
+    {
+        string Common { get; }
+    }
+
+    private sealed record RuntimeValue(string Common, string Derived) : IRuntimeValue;
 }
