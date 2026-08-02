@@ -140,13 +140,17 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     var temporary = Path.GetTempFileName();
                     try
                     {
-                        await WriteCacheEntryAsync(
+                        var saved = await WriteCacheEntryAsync(
                                 temporary,
                                 resultStream,
                                 module.GetType(),
                                 fingerprint,
                                 cancellationToken)
                             .ConfigureAwait(false);
+                        if (!saved)
+                        {
+                            return;
+                        }
                     }
                     finally
                     {
@@ -238,7 +242,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         }
     }
 
-    private async Task WriteCacheEntryAsync(
+    private async Task<bool> WriteCacheEntryAsync(
         string path,
         Stream serializedResult,
         Type moduleType,
@@ -270,8 +274,18 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 .ConfigureAwait(false);
         }
 
+        if (stream.Length > _options.MaximumCacheEntryBytes)
+        {
+            _logger.LogDebug(
+                "Skipping module cache save for {Module} because its archive exceeded the configured limit of {MaximumCacheEntryBytes} bytes",
+                moduleType.Name,
+                _options.MaximumCacheEntryBytes);
+            return false;
+        }
+
         stream.Position = 0;
         await _store.WriteAsync(fingerprint, stream, cancellationToken).ConfigureAwait(false);
+        return true;
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Dependency result fingerprints require runtime result type metadata.")]
@@ -618,7 +632,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 root,
                 artifactPaths,
                 _options.MaximumArtifactEntries,
-                _options.CacheDirectory));
+                _options.CacheDirectory),
+            pathComparer);
         using var writableArtifactParents = MakeArtifactParentsTemporarilyWritable(
             root,
             artifactPaths,
@@ -761,12 +776,13 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             return new UnixDirectoryModeScope([]);
         }
 
+        var pathComparer = ModuleCacheFileResolver.GetPathComparer(root);
         var artifactDirectories = ModuleCacheFileResolver.ResolveDirectories(
                 root,
                 artifactPaths,
                 _options.MaximumArtifactEntries,
                 _options.CacheDirectory)
-            .ToHashSet(PathComparer);
+            .ToHashSet(pathComparer);
         var existingArtifactDestinations = artifactDirectories
             .Concat(ModuleCacheFileResolver.ResolveDirectoryLinks(
                 root,
@@ -778,10 +794,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 artifactPaths,
                 _options.MaximumArtifactEntries,
                 _options.CacheDirectory));
-        var parentDirectories = new HashSet<string>(PathComparer);
+        var parentDirectories = new HashSet<string>(pathComparer);
         foreach (var destination in destinations.Concat(existingArtifactDestinations))
         {
-            if (PathComparer.Equals(destination, root))
+            if (pathComparer.Equals(destination, root))
             {
                 continue;
             }
@@ -798,7 +814,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     parentDirectories.Add(current);
                 }
 
-                if (PathComparer.Equals(current, root))
+                if (pathComparer.Equals(current, root))
                 {
                     break;
                 }
@@ -812,6 +828,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     {
         var artifactPaths = GetArtifactPaths(moduleType).ToArray();
         var root = Path.GetFullPath(_options.WorkingDirectory);
+        var pathComparer = ModuleCacheFileResolver.GetPathComparer(root);
         RemoveExactArtifactLinks(root, artifactPaths, cancellationToken);
 
         var directoryLinks = ModuleCacheFileResolver.ResolveDirectoryLinks(
@@ -847,7 +864,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         foreach (var directory in directories.OrderByDescending(path => path.Length))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            if (!PathComparer.Equals(root, directory)
+            if (!pathComparer.Equals(root, directory)
                 && Directory.Exists(directory)
                 && !Directory.EnumerateFileSystemEntries(directory).Any())
             {
@@ -1197,9 +1214,6 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         hash.AppendData(value);
     }
 
-    private static StringComparer PathComparer =>
-        OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
-
     private sealed class ArtifactByteBudget
     {
         private const int BufferSize = 64 * 1024;
@@ -1300,9 +1314,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             const UnixFileMode requiredMode =
                 UnixFileMode.UserWrite | UnixFileMode.UserExecute;
             var originalModes = new List<(string Path, UnixFileMode Mode)>();
-            foreach (var path in directories
-                         .Distinct(PathComparer)
-                         .OrderBy(path => path.Length))
+            foreach (var path in directories.OrderBy(path => path.Length))
             {
                 originalModes.Add((path, File.GetUnixFileMode(path)));
             }
@@ -1340,7 +1352,9 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         private readonly IReadOnlyList<(string Path, UnixFileMode Mode)> _originalModes;
         private bool _completed;
 
-        public UnixDirectoryModeRollback(IEnumerable<string> directories)
+        public UnixDirectoryModeRollback(
+            IEnumerable<string> directories,
+            StringComparer pathComparer)
         {
             if (OperatingSystem.IsWindows())
             {
@@ -1349,7 +1363,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             }
 
             var originalModes = new List<(string Path, UnixFileMode Mode)>();
-            foreach (var path in directories.Distinct(PathComparer))
+            foreach (var path in directories.Distinct(pathComparer))
             {
                 originalModes.Add((path, File.GetUnixFileMode(path)));
             }

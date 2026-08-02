@@ -2425,46 +2425,17 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
-    public async Task CacheSaveSkipsResultAboveConfiguredLimit()
-    {
-        var temporaryDirectory = Path.Combine(
-            Path.GetTempPath(),
-            $"ModularPipelines-cache-save-result-limit-{Guid.NewGuid():N}");
-        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
-        Directory.CreateDirectory(temporaryDirectory);
-        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
-        VaryingArtifactSetModule.ExecutionCount = 0;
+    public Task CacheSaveSkipsResultAboveConfiguredLimit() =>
+        AssertCacheSaveSkippedAsync(
+            maximumCacheEntryBytes: 10L * 1024 * 1024 * 1024,
+            maximumResultBytes: 1);
 
-        try
-        {
-            await System.IO.File.WriteAllTextAsync(
-                Path.Combine(temporaryDirectory, "set-input.txt"),
-                "a");
-            var firstStatus = await RunVaryingArtifactSetPipelineAsync(
-                temporaryDirectory,
-                maximumResultBytes: 1);
-
-            var cacheEntries = Directory.Exists(cacheDirectory)
-                ? Directory.GetFiles(cacheDirectory, "*.zip")
-                : [];
-            await Assert.That(cacheEntries).IsEmpty();
-
-            var secondStatus = await RunVaryingArtifactSetPipelineAsync(
-                temporaryDirectory,
-                maximumResultBytes: 1);
-
-            using (Assert.Multiple())
-            {
-                await Assert.That(firstStatus).IsEqualTo(Status.Successful);
-                await Assert.That(secondStatus).IsEqualTo(Status.Successful);
-                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
-            }
-        }
-        finally
-        {
-            Directory.Delete(temporaryDirectory, recursive: true);
-        }
-    }
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public Task CacheSaveSkipsEntryAboveConfiguredLimit() =>
+        AssertCacheSaveSkippedAsync(
+            maximumCacheEntryBytes: 1,
+            maximumResultBytes: 64L * 1024 * 1024);
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
@@ -3320,6 +3291,51 @@ public class ModuleCacheTests
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(TransformedResultDependentModule))!;
         return (moduleResult, dependentResult.ValueOrDefault as string);
+    }
+
+    private static async Task AssertCacheSaveSkippedAsync(
+        long maximumCacheEntryBytes,
+        long maximumResultBytes)
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-save-limit-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            var firstStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumCacheEntryBytes: maximumCacheEntryBytes,
+                maximumResultBytes: maximumResultBytes);
+
+            var cacheEntries = Directory.Exists(cacheDirectory)
+                ? Directory.GetFiles(cacheDirectory, "*.zip")
+                : [];
+            await Assert.That(cacheEntries).IsEmpty();
+
+            var secondStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumCacheEntryBytes: maximumCacheEntryBytes,
+                maximumResultBytes: maximumResultBytes);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstStatus).IsEqualTo(Status.Successful);
+                await Assert.That(secondStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
     }
 
     private static async Task<Status> RunVaryingArtifactSetPipelineAsync(
