@@ -17,17 +17,17 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyKubernetesPkgRelationships
 {
     [EnumValue("unknown")]
-    Unknown,
+    Unknown = 0,
 
     [EnumValue("root")]
-    Root,
+    Root = 1,
 
     [EnumValue("workspace")]
-    Workspace,
+    Workspace = 2,
 
     [EnumValue("direct")]
-    Direct,
+    Direct = 3,
 
     [EnumValue("indirect")]
-    Indirect
+    Indirect = 4
 }

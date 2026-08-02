@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rootfs")]
 public record TrivyRootfsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RootDirectory
+    [property: CliArgument(0)] string Rootdir
 ) : TrivyOptions
 {
     /// <summary>
@@ -234,7 +234,7 @@ public record TrivyRootfsOptions(
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
-    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;\\.trivy\\modules")
+    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;/.trivy/modules")
     /// </summary>
     [CliOption("--module-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ModuleDir { get; set; }

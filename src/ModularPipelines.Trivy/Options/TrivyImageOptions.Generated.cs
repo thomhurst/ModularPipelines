@@ -268,7 +268,7 @@ public record TrivyImageOptions : TrivyOptions
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
-    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;\\.trivy\\modules")
+    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;/.trivy/modules")
     /// </summary>
     [CliOption("--module-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ModuleDir { get; set; }
@@ -632,7 +632,10 @@ public record TrivyImageOptions : TrivyOptions
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The IMAGE_NAME operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? ImageName { get; set; }
 
 }

@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyImageImageConfigScanners
 {
     [EnumValue("misconfig")]
-    Misconfig,
+    Misconfig = 0,
 
     [EnumValue("secret")]
-    Secret
+    Secret = 1
 }

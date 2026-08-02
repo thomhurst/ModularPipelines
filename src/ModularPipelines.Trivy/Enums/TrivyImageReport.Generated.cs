@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivyImageReport
 {
     [EnumValue("all")]
-    All,
+    All = 0,
 
     [EnumValue("summary")]
-    Summary
+    Summary = 1
 }

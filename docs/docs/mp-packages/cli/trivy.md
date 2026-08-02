@@ -7,7 +7,13 @@ title: trivy CLI reference
 
 `ModularPipelines.Trivy` provides strongly typed access to the `trivy` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `trivy` executable. Install it separately and ensure `trivy` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Trivy
@@ -17,23 +23,10 @@ Resolve the service with `context.Tools.Trivy`. For projects older than C# 14, i
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Trivy.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Trivy.CleanAsync(
-            new TrivyCleanOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var trivy = context.Tools.Trivy;
 ```
 
 ## Commands
@@ -46,8 +39,10 @@ public class RunCommandModule : Module<CommandResult>
 | `trivy filesystem` | `TrivyFilesystemOptions` |
 | `trivy image` | `TrivyImageOptions` |
 | `trivy kubernetes` | `TrivyKubernetesOptions` |
+| `trivy module` | `TrivyModuleOptions` |
 | `trivy module install` | `TrivyModuleInstallOptions` |
 | `trivy module uninstall` | `TrivyModuleUninstallOptions` |
+| `trivy plugin` | `TrivyPluginOptions` |
 | `trivy plugin info` | `TrivyPluginInfoOptions` |
 | `trivy plugin install` | `TrivyPluginInstallOptions` |
 | `trivy plugin list` | `TrivyPluginListOptions` |
@@ -56,12 +51,14 @@ public class RunCommandModule : Module<CommandResult>
 | `trivy plugin uninstall` | `TrivyPluginUninstallOptions` |
 | `trivy plugin update` | `TrivyPluginUpdateOptions` |
 | `trivy plugin upgrade` | `TrivyPluginUpgradeOptions` |
+| `trivy registry` | `TrivyRegistryOptions` |
 | `trivy registry login` | `TrivyRegistryLoginOptions` |
 | `trivy registry logout` | `TrivyRegistryLogoutOptions` |
 | `trivy repository` | `TrivyRepositoryOptions` |
 | `trivy rootfs` | `TrivyRootfsOptions` |
 | `trivy sbom` | `TrivySbomOptions` |
 | `trivy server` | `TrivyServerOptions` |
+| `trivy vex` | `TrivyVexOptions` |
 | `trivy vex repo` | `TrivyVexRepoOptions` |
 | `trivy vex repo download` | `TrivyVexRepoDownloadOptions` |
 | `trivy vex repo init` | `TrivyVexRepoInitOptions` |

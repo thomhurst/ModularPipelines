@@ -37,7 +37,7 @@ public static class TrivyExtensions
     }
 
     /// <summary>
-    /// Gets the trivy service from the pipeline context.
+    /// Gets the trivy service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ITrivy"/> service for executing trivy commands.</returns>
