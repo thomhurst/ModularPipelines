@@ -84,15 +84,18 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
                     CreateDependsOnAttribute(name, syntaxTree!, isOptional)))
             .NormalizeWhitespace(eol: endOfLine)
             .WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine));
+        var leadingTrivia = typeDecl.AttributeLists.Count == 0
+            ? typeDecl.GetLeadingTrivia()
+            : typeDecl.AttributeLists.Last().GetLeadingTrivia();
+        var indentation = SyntaxFactory.TriviaList(
+            leadingTrivia
+                .Reverse()
+                .TakeWhile(static trivia => trivia.IsKind(SyntaxKind.WhitespaceTrivia))
+                .Reverse());
+        attribute = attribute.WithLeadingTrivia(
+            typeDecl.AttributeLists.Count == 0 ? leadingTrivia : indentation);
         if (typeDecl.AttributeLists.Count == 0)
         {
-            var leadingTrivia = typeDecl.GetLeadingTrivia();
-            var indentation = SyntaxFactory.TriviaList(
-                leadingTrivia
-                    .Reverse()
-                    .TakeWhile(static trivia => trivia.IsKind(SyntaxKind.WhitespaceTrivia))
-                    .Reverse());
-            attribute = attribute.WithLeadingTrivia(leadingTrivia);
             typeDecl = typeDecl.WithLeadingTrivia(indentation);
         }
 

@@ -291,6 +291,70 @@ public class Module2 : Module<string>
     }
 
     [TestMethod]
+    public async Task CodeFix_Indents_Attribute_Appended_To_Existing_List()
+    {
+        var source = """
+            #nullable enable
+            using System.Threading;
+            using System.Threading.Tasks;
+            using ModularPipelines.Context;
+            using ModularPipelines.Modules;
+
+            namespace Example
+            {
+                public class Dependency : Module<string>
+                {
+                    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                        => Task.FromResult<string?>(null);
+                }
+
+                [System.Obsolete]
+                public class Consumer : Module<string>
+                {
+                    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    {
+                        var dependency = await {|#0:context.GetModule<Dependency>()|};
+                        return null;
+                    }
+                }
+            }
+            """.ReplaceLineEndings("\n");
+        var fixedSource = """
+            #nullable enable
+            using System.Threading;
+            using System.Threading.Tasks;
+            using ModularPipelines.Context;
+            using ModularPipelines.Modules;
+            using ModularPipelines.Attributes;
+
+            namespace Example
+            {
+                public class Dependency : Module<string>
+                {
+                    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                        => Task.FromResult<string?>(null);
+                }
+
+                [System.Obsolete]
+                [DependsOn<Dependency>]
+                public class Consumer : Module<string>
+                {
+                    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    {
+                        var dependency = await context.GetModule<Dependency>();
+                        return null;
+                    }
+                }
+            }
+            """.ReplaceLineEndings("\n");
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithArguments("Dependency")
+            .WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
+    }
+
+    [TestMethod]
     public async Task OptionalCodeFixWorks()
     {
         var source = BadModuleSource
