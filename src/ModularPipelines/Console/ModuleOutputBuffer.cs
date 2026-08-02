@@ -175,8 +175,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             {
                 return _outputs.Count > 0
                        || _structuredDeliveryRetries.Count > 0
-                       || _isIncrementalFlushInProgress
-                       || _hasRenderedIncrementalOutput;
+                       || _isIncrementalFlushInProgress;
             }
         }
     }
@@ -205,6 +204,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 out var outputs,
                 out var structuredDeliveryRetries,
                 out var shouldRenderOutputGroup,
+                out var isContinuation,
                 out var exception))
         {
             return;
@@ -237,6 +237,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                     renderGate,
                     exception,
                     flushKind,
+                    isContinuation,
                     outputs,
                     effectiveFallbackLoggers,
                     failedStructuredDeliveries,
@@ -297,6 +298,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         out List<BufferedOutput> outputs,
         out List<StructuredDeliveryRetry> structuredDeliveryRetries,
         out bool shouldRenderOutputGroup,
+        out bool isContinuation,
         out Exception? exception)
     {
         lock (_lock)
@@ -306,26 +308,31 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 outputs = null!;
                 structuredDeliveryRetries = null!;
                 shouldRenderOutputGroup = false;
+                isContinuation = false;
                 exception = null;
                 return false;
             }
 
             if (_outputs.Count == 0
-                && _structuredDeliveryRetries.Count == 0
-                && (flushKind is OutputFlushKind.Incremental || !_hasRenderedIncrementalOutput))
+                && _structuredDeliveryRetries.Count == 0)
             {
+                if (flushKind is OutputFlushKind.Complete)
+                {
+                    _hasRenderedIncrementalOutput = false;
+                }
+
                 outputs = null!;
                 structuredDeliveryRetries = null!;
                 shouldRenderOutputGroup = false;
+                isContinuation = false;
                 exception = null;
                 return false;
             }
 
             outputs = [.. _outputs];
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
-            shouldRenderOutputGroup = _outputs.Count > 0
-                                      || (flushKind is OutputFlushKind.Complete
-                                          && _hasRenderedIncrementalOutput);
+            shouldRenderOutputGroup = _outputs.Count > 0;
+            isContinuation = _hasRenderedIncrementalOutput;
             _outputs.Clear();
             _structuredDeliveryRetries.Clear();
             _thresholdFlushRequested = false;
@@ -344,6 +351,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IDisposable? renderGate,
         Exception? exception,
         OutputFlushKind flushKind,
+        bool isContinuation,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
@@ -361,6 +369,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 logger,
                 exception,
                 flushKind,
+                isContinuation,
                 outputs,
                 fallbackLoggers,
                 failedStructuredDeliveries,
@@ -379,6 +388,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 logger,
                 exception,
                 flushKind,
+                isContinuation,
                 outputs,
                 fallbackLoggers,
                 failedStructuredDeliveries,
@@ -395,6 +405,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ILogger logger,
         Exception? exception,
         OutputFlushKind flushKind,
+        bool isContinuation,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
@@ -402,7 +413,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        var header = FormatHeader(exception, flushKind);
+        var header = FormatHeader(exception, flushKind, isContinuation);
         var startCommand = formatter.GetStartBlockCommand(header);
         var endCommand = formatter.GetEndBlockCommand(header);
         var groupStarted = false;
@@ -612,19 +623,23 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private string FormatHeader(Exception? exception, OutputFlushKind flushKind)
+    private string FormatHeader(
+        Exception? exception,
+        OutputFlushKind flushKind,
+        bool isContinuation)
     {
         var duration = DateTime.UtcNow - _startTimeUtc;
         var durationText = duration.ToDisplayString();
+        var continuationText = isContinuation ? " (continued)" : string.Empty;
 
         if (exception != null)
         {
-            return $"{_moduleName} \u2717 ({durationText}) - {exception.GetType().Name}";
+            return $"{_moduleName} \u2717{continuationText} ({durationText}) - {exception.GetType().Name}";
         }
 
         return flushKind is OutputFlushKind.Complete
-            ? $"{_moduleName} \u2713 ({durationText})"
-            : $"{_moduleName} \u2026 ({durationText})";
+            ? $"{_moduleName} \u2713{continuationText} ({durationText})"
+            : $"{_moduleName} \u2026{continuationText} ({durationText})";
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)

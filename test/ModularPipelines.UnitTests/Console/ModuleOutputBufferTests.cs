@@ -229,7 +229,7 @@ public class ModuleOutputBufferTests
         await Assert.That(output).Contains("partial output");
         await Assert.That(output).DoesNotContain("ModuleOutputBufferTests ✓");
         await Assert.That(buffer.HasOutput).IsFalse();
-        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
     }
 
     [Test]
@@ -288,7 +288,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task CompleteFlush_WritesFinalHeaderAfterIncrementalDrain()
+    public async Task CompleteFlush_SuppressesEmptyGroupAfterIncrementalDrain()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
@@ -311,9 +311,64 @@ public class ModuleOutputBufferTests
 
         var output = writer.ToString();
         await Assert.That(output).Contains("ModuleOutputBufferTests …");
-        await Assert.That(output).Contains("ModuleOutputBufferTests ✓");
+        await Assert.That(output).DoesNotContain("ModuleOutputBufferTests ✓");
         await Assert.That(output).Contains("partial output");
         await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
+    public async Task LaterFlushes_AreLabelledAsContinued()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("first output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.WriteLine("second output");
+        buffer.MarkComplete();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests … (");
+        await Assert.That(output).Contains("ModuleOutputBufferTests ✓ (continued) (");
+        await Assert.That(output).Contains("first output");
+        await Assert.That(output).Contains("second output");
+    }
+
+    [Test]
+    public async Task LaterIncrementalFlushes_AreLabelledAsContinued()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("first output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.WriteLine("second output");
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        await Assert.That(writer.ToString()).Contains("ModuleOutputBufferTests … (continued) (");
     }
 
     [Test]
@@ -357,7 +412,7 @@ public class ModuleOutputBufferTests
             loggerControl,
             OutputFlushKind.Complete);
 
-        await Assert.That(writer.ToString()).Contains("ModuleOutputBufferTests ✓");
+        await Assert.That(writer.ToString()).DoesNotContain("ModuleOutputBufferTests ✓");
         await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
     }
 
