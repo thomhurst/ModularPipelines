@@ -42,17 +42,17 @@ public record GitRemoteSetUrlOptions : GitRemoteOptions
     /// The name of the remote to configure (e.g., "origin").
     /// </summary>
     [CliArgument(0)]
-    public required string Remote { get; init; }
+    public required virtual string Remote { get; init; }
 
     /// <summary>
     /// The new URL to set for the remote.
     /// </summary>
     [CliArgument(1)]
-    public required string NewUrl { get; init; }
+    public required virtual string NewUrl { get; init; }
 
     /// <summary>
     /// Optional old URL pattern to match when changing URLs.
     /// </summary>
     [CliArgument(2)]
-    public string? OldUrl { get; set; }
+    public virtual string? OldUrl { get; set; }
 }
