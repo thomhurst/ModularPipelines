@@ -10,5 +10,10 @@
   <ItemGroup>
     <PackageReference Include="Moq" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Data\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
 </Project>
