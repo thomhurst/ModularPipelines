@@ -2,6 +2,9 @@ using Azure;
 using Azure.ResourceManager;
 using Azure.ResourceManager.AppService;
 using ModularPipelines.Azure.Scopes;
+using AppServiceDomainData = Azure.ResourceManager.DomainRegistration.AppServiceDomainData;
+using AppServiceDomainResource = Azure.ResourceManager.DomainRegistration.AppServiceDomainResource;
+using DomainRegistrationExtensions = Azure.ResourceManager.DomainRegistration.DomainRegistrationExtensions;
 
 namespace ModularPipelines.Azure.Provisioning.Compute;
 
@@ -71,7 +74,7 @@ public class AzureComputeProvisioner : BaseAzureProvisioner
         ArgumentNullException.ThrowIfNull(properties);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
 
-        return await GetResourceGroup(azureResourceIdentifier).GetAppServiceDomains()
+        return await DomainRegistrationExtensions.GetAppServiceDomains(GetResourceGroup(azureResourceIdentifier))
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 

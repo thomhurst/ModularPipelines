@@ -12,6 +12,7 @@
     <PackageReference Include="Azure.ResourceManager.ContainerRegistry" />
     <PackageReference Include="Azure.ResourceManager.CosmosDB" />
     <PackageReference Include="Azure.ResourceManager.DataLakeStore" />
+    <PackageReference Include="Azure.ResourceManager.DomainRegistration" />
     <PackageReference Include="Azure.ResourceManager.KeyVault" />
     <PackageReference Include="Azure.ResourceManager.Kubernetes" />
     <PackageReference Include="Azure.ResourceManager.KubernetesConfiguration" />
