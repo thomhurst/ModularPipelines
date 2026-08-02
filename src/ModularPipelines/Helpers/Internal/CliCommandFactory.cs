@@ -7,7 +7,7 @@ internal static class CliCommandFactory
 {
     private const string InternalEnvironmentVariablePrefix = "MODULAR_PIPELINES_CMD_";
 
-    public static Command Create(
+    public static PreparedCommand Create(
         string tool,
         IEnumerable<string> arguments,
         CommandExecutionOptions? executionOptions = null)
@@ -16,9 +16,11 @@ internal static class CliCommandFactory
         var commandScript = ResolveWindowsCommandScript(tool, executionOptions?.EnvironmentVariables);
         if (commandScript is null)
         {
-            return ApplyEnvironmentVariables(
+            var directCommand = ApplyEnvironmentVariables(
                 Cli.Wrap(tool).WithArguments(argumentList),
                 executionOptions?.EnvironmentVariables);
+
+            return new PreparedCommand(directCommand, directCommand.ToString());
         }
 
         var environmentVariables = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
@@ -41,9 +43,15 @@ internal static class CliCommandFactory
 
         var invocation = string.Join(" ", variableNames.Select(name => $"\"%{name}%\""));
 
-        return Cli.Wrap(Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe")
+        var wrappedCommand = Cli.Wrap(Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe")
             .WithArguments($"/d /s /v:off /c \"{invocation}\"")
             .WithEnvironmentVariables(environmentVariables);
+
+        var displayCommand = Cli.Wrap(commandScript)
+            .WithArguments(argumentList)
+            .ToString();
+
+        return new PreparedCommand(wrappedCommand, displayCommand);
     }
 
     internal static bool IsInternalEnvironmentVariable(string name) =>
@@ -60,11 +68,18 @@ internal static class CliCommandFactory
     }
 
     private static void AddCommandValue(
-        IDictionary<string, string?> environmentVariables,
-        ICollection<string> variableNames,
+        Dictionary<string, string?> environmentVariables,
+        List<string> variableNames,
         string variableName,
         string value)
     {
+        if (value.Contains('\r') || value.Contains('\n'))
+        {
+            throw new ArgumentException(
+                "Windows command script paths and arguments cannot contain CR or LF characters.",
+                nameof(value));
+        }
+
         variableNames.Add(variableName);
         environmentVariables[variableName] = value.Replace("\"", "\"\"");
     }
@@ -97,3 +112,5 @@ internal static class CliCommandFactory
             .Value;
     }
 }
+
+internal readonly record struct PreparedCommand(Command Command, string Input);

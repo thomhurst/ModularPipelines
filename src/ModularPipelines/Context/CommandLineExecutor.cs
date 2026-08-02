@@ -20,10 +20,11 @@ internal sealed class CommandLineExecutor : ICommandLineExecutor
         CommandExecutionOptions? options = null,
         CancellationToken cancellationToken = default)
     {
-        var command = CliCommandFactory.Create(commandLine.Tool, commandLine.Arguments, options);
+        var preparedCommand = CliCommandFactory.Create(commandLine.Tool, commandLine.Arguments, options);
+        var command = preparedCommand.Command;
 
         var workingDirectory = Environment.CurrentDirectory;
-        IReadOnlyDictionary<string, string?> environmentVariables = EmptyEnvironmentVariables;
+        var environmentVariables = EmptyEnvironmentVariables;
 
         if (options?.WorkingDirectory is not null)
         {

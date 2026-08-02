@@ -40,11 +40,11 @@ public record CommandResult
     }
 
     [SetsRequiredMembers]
-    internal CommandResult(Command command)
+    internal CommandResult(Command command, string commandInput)
     {
         var completedAt = DateTimeOffset.UtcNow;
 
-        CommandInput = command.ToString();
+        CommandInput = commandInput;
         WorkingDirectory = command.WorkingDirPath;
         EnvironmentVariables = GetPublicEnvironmentVariables(command);
         StandardOutput = string.Empty;
@@ -56,9 +56,14 @@ public record CommandResult
     }
 
     [SetsRequiredMembers]
-    internal CommandResult(Command command, CliWrap.CommandResult commandResult, string standardOutput, string standardError)
+    internal CommandResult(
+        Command command,
+        CliWrap.CommandResult commandResult,
+        string commandInput,
+        string standardOutput,
+        string standardError)
     {
-        CommandInput = command.ToString();
+        CommandInput = commandInput;
         WorkingDirectory = command.WorkingDirPath;
         EnvironmentVariables = GetPublicEnvironmentVariables(command);
 

@@ -67,7 +67,8 @@ internal sealed class Command : ICommandContext
             tool = resolvedTool;
         }
 
-        var command = CliCommandFactory.Create(tool, parsedArgs, execOpts);
+        var preparedCommand = CliCommandFactory.Create(tool, parsedArgs, execOpts);
+        var command = preparedCommand.Command;
 
         if (execOpts.WorkingDirectory != null)
         {
@@ -81,10 +82,11 @@ internal sealed class Command : ICommandContext
 
         if (execOpts.InternalDryRun)
         {
+            var inputToLog = GetInputToLog(preparedCommand.Input, execOpts);
             _commandLogger.Log(
                 options: options,
                 execOpts: execOpts,
-                inputToLog: execOpts.InputLoggingManipulator == null ? command.ToString() : execOpts.InputLoggingManipulator(command.ToString()),
+                inputToLog: inputToLog,
                 exitCode: 0,
                 runTime: TimeSpan.Zero,
                 standardOutput: "Dummy Output Response",
@@ -92,14 +94,22 @@ internal sealed class Command : ICommandContext
                 commandWorkingDirPath: command.WorkingDirPath
             );
 
-            return new CommandResult(command);
+            return new CommandResult(
+                command,
+                _secretObfuscator.Obfuscate(preparedCommand.Input, execOpts));
         }
 
-        return await Of(command, options, execOpts, cancellationToken).ConfigureAwait(false);
+        return await Of(
+            command,
+            preparedCommand.Input,
+            options,
+            execOpts,
+            cancellationToken).ConfigureAwait(false);
     }
 
     private async Task<CommandResult> Of(
         CliWrap.Command command,
+        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions execOpts,
         CancellationToken cancellationToken = default)
@@ -118,7 +128,7 @@ internal sealed class Command : ICommandContext
         var standardOutput = string.Empty;
         var standardError = string.Empty;
 
-        var inputToLog = GetInputToLog(command, execOpts);
+        var inputToLog = GetInputToLog(commandInput, execOpts);
         var loggingFailures = new DeferredCommandLoggingFailures();
 
         // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
@@ -203,7 +213,7 @@ internal sealed class Command : ICommandContext
                     CreateFailureResult(
                         command,
                         execOpts,
-                        inputToLog,
+                        commandInput,
                         e.ExitCode,
                         stopwatch.Elapsed,
                         standardOutput,
@@ -245,7 +255,7 @@ internal sealed class Command : ICommandContext
                     failure,
                     command,
                     execOpts,
-                    inputToLog,
+                    commandInput,
                     stopwatch.Elapsed,
                     standardOutput,
                     standardError,
@@ -257,7 +267,7 @@ internal sealed class Command : ICommandContext
                 command,
                 result,
                 execOpts,
-                inputToLog,
+                commandInput,
                 standardOutput,
                 standardError);
 
@@ -287,7 +297,12 @@ internal sealed class Command : ICommandContext
             }
 
             loggingFailures.Throw();
-            return new CommandResult(command, result, standardOutput, standardError);
+            return new CommandResult(
+                command,
+                result,
+                _secretObfuscator.Obfuscate(commandInput, execOpts),
+                standardOutput,
+                standardError);
         }
     }
 
@@ -395,12 +410,11 @@ internal sealed class Command : ICommandContext
             : new BoundedCommandOutputBuffer(maximumLength: 0);
     }
 
-    private static string GetInputToLog(CliWrap.Command command, CommandExecutionOptions options)
+    private static string GetInputToLog(string commandInput, CommandExecutionOptions options)
     {
-        var commandText = command.ToString();
         return options.InputLoggingManipulator is null
-            ? commandText
-            : options.InputLoggingManipulator(commandText);
+            ? commandInput
+            : options.InputLoggingManipulator(commandInput);
     }
 
     private static CancellationTokenSource? CreateTimeoutCancellationToken(CommandExecutionOptions options)

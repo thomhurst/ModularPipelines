@@ -140,6 +140,29 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    public async Task Successful_Command_Exposes_Obfuscated_Input()
+    {
+        const string secret = "successful-command-input-secret";
+        const string logOnlyInput = "manipulated-log-input";
+        var (command, pipeline) = await GetService<ICommandContext>(_ => { });
+        pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("pwsh")
+            {
+                Arguments = ["-NoProfile", "-Command", $"Write-Output '{secret}'"],
+            },
+            new CommandExecutionOptions
+            {
+                InputLoggingManipulator = _ => logOnlyInput,
+            });
+
+        await Assert.That(result.CommandInput).DoesNotContain(secret);
+        await Assert.That(result.CommandInput).DoesNotContain(logOnlyInput);
+        await Assert.That(result.CommandInput).Contains("Write-Output");
+    }
+
+    [Test]
     public async Task ExecuteCommandLineToolAsync_Resolves_Windows_Command_Scripts_From_Path()
     {
         if (!OperatingSystem.IsWindows())
@@ -172,9 +195,44 @@ public class CommandTests : TestBase
 
             await Assert.That(result.ExitCode).IsEqualTo(0);
             await Assert.That(result.StandardOutput.Trim()).IsEqualTo("hello world");
+            await Assert.That(result.CommandInput).Contains(scriptPath);
+            await Assert.That(result.CommandInput).Contains("hello world");
+            await Assert.That(result.CommandInput).DoesNotContain("MODULAR_PIPELINES_CMD_");
             await Assert.That(result.EnvironmentVariables["PATH"]).IsEqualTo(tempDirectory);
             await Assert.That(result.EnvironmentVariables.Keys.Any(key =>
                 key.StartsWith("MODULAR_PIPELINES_CMD_", StringComparison.OrdinalIgnoreCase))).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(tempDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ExecuteCommandLineToolAsync_Rejects_Newlines_In_Windows_Command_Script_Arguments()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var tempDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDirectory);
+        var scriptPath = Path.Combine(tempDirectory, "mp-runtime-newline-test.cmd");
+
+        try
+        {
+            await File.WriteAllTextAsync(scriptPath, "@echo off\r\n");
+            var command = await GetService<ICommandContext>();
+
+            var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
+                command.ExecuteCommandLineToolAsync(
+                    new GenericCommandLineToolOptions(scriptPath)
+                    {
+                        Arguments = ["first line\r\nsecond line"],
+                    }));
+
+            await Assert.That(exception!.Message).Contains("cannot contain CR or LF");
         }
         finally
         {
