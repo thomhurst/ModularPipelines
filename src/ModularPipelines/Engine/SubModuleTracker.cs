@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using ModularPipelines.Enums;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
@@ -12,45 +13,14 @@ namespace ModularPipelines.Engine;
 /// This class is internal because it is only used within the engine infrastructure
 /// and is not intended for direct use by external consumers.
 /// </remarks>
-internal class SubModuleTracker
+internal sealed class SubModuleTracker : SubModuleBase
 {
     private readonly Stopwatch _stopwatch = new();
 
     public SubModuleTracker(string name, Type parentModuleType)
+        : base(parentModuleType, name)
     {
-        Name = name;
-        ParentModuleType = parentModuleType;
     }
-
-    /// <summary>
-    /// Gets the name of this sub-operation.
-    /// </summary>
-    public string Name { get; }
-
-    /// <summary>
-    /// Gets the type of the parent module.
-    /// </summary>
-    public Type ParentModuleType { get; }
-
-    /// <summary>
-    /// Gets the current status.
-    /// </summary>
-    public Status Status { get; private set; } = Status.NotYetStarted;
-
-    /// <summary>
-    /// Gets when the sub-operation started.
-    /// </summary>
-    public DateTimeOffset StartTime { get; private set; }
-
-    /// <summary>
-    /// Gets when the sub-operation ended.
-    /// </summary>
-    public DateTimeOffset EndTime { get; private set; }
-
-    /// <summary>
-    /// Gets the duration of the sub-operation.
-    /// </summary>
-    public TimeSpan Duration { get; private set; }
 
     /// <summary>
     /// Executes an action and tracks its progress.

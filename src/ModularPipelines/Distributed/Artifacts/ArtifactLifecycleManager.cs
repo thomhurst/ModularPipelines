@@ -15,6 +15,7 @@ internal class ArtifactLifecycleManager
     private readonly IDistributedArtifactStore _store;
     private readonly ArtifactOptions _options;
     private readonly ILogger<ArtifactLifecycleManager> _logger;
+    private readonly string _workingDirectory;
 
     /// <summary>
     /// Tracks completed and in-flight restores keyed by "{producerType}:{artifactName}:{normalizedRestorePath}".
@@ -26,10 +27,20 @@ internal class ArtifactLifecycleManager
         IDistributedArtifactStore store,
         IOptions<ArtifactOptions> options,
         ILogger<ArtifactLifecycleManager> logger)
+        : this(store, options, logger, Directory.GetCurrentDirectory())
+    {
+    }
+
+    internal ArtifactLifecycleManager(
+        IDistributedArtifactStore store,
+        IOptions<ArtifactOptions> options,
+        ILogger<ArtifactLifecycleManager> logger,
+        string workingDirectory)
     {
         _store = store;
         _options = options.Value;
         _logger = logger;
+        _workingDirectory = Path.GetFullPath(workingDirectory);
     }
 
     /// <summary>
@@ -148,7 +159,7 @@ internal class ArtifactLifecycleManager
         foreach (var attr in attributes)
         {
             var producerTypeName = attr.ProducerModule.FullName!;
-            var restorePath = attr.RestorePath ?? Directory.GetCurrentDirectory();
+            var restorePath = attr.RestorePath ?? _workingDirectory;
             await DownloadConsumedArtifactsForPathAsync(producerTypeName, attr.ArtifactName, restorePath, moduleType, cancellationToken);
         }
     }
@@ -165,14 +176,14 @@ internal class ArtifactLifecycleManager
         Type consumerModuleType,
         CancellationToken cancellationToken)
     {
-        var normalizedPath = Path.GetFullPath(restorePath);
+        var normalizedPath = ResolvePath(restorePath);
         var restoreKey = $"{producerTypeName}:{artifactName}:{normalizedPath}";
 
         // Use CancellationToken.None for the shared download so one caller's cancellation
         // doesn't abort the download for other modules consuming the same artifact.
         var lazyTask = _completedRestores.GetOrAdd(
             restoreKey,
-            _ => new Lazy<Task>(() => RestoreArtifactAsync(producerTypeName, artifactName, restorePath, consumerModuleType, CancellationToken.None)));
+            _ => new Lazy<Task>(() => RestoreArtifactAsync(producerTypeName, artifactName, normalizedPath, consumerModuleType, CancellationToken.None)));
 
         try
         {
@@ -237,8 +248,10 @@ internal class ArtifactLifecycleManager
     /// Resolves a path pattern to concrete paths. Supports simple glob patterns.
     /// Returns a list of matched files/directories.
     /// </summary>
-    internal static IReadOnlyList<string> ResolvePathPattern(string pathPattern)
+    internal IReadOnlyList<string> ResolvePathPattern(string pathPattern)
     {
+        pathPattern = ResolvePath(pathPattern);
+
         // If the path exists directly, return it
         if (Directory.Exists(pathPattern) || File.Exists(pathPattern))
         {
@@ -281,4 +294,7 @@ internal class ArtifactLifecycleManager
         var dirMatches = Directory.GetDirectories(baseDir, searchPattern, SearchOption.AllDirectories);
         return dirMatches;
     }
+
+    private string ResolvePath(string path) =>
+        Path.GetFullPath(Path.IsPathRooted(path) ? path : Path.Combine(_workingDirectory, path));
 }

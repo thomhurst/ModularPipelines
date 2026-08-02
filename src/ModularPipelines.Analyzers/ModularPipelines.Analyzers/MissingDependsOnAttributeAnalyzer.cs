@@ -61,14 +61,16 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var classContainingGetModuleCallSyntax = GetClassDeclarationSyntax(invocationExpressionSyntax);
+        var moduleDeclaration = GetModuleDeclarationSyntax(
+            context,
+            invocationExpressionSyntax);
 
-        if (classContainingGetModuleCallSyntax is null)
+        if (moduleDeclaration is null)
         {
             return;
         }
 
-        var classSymbol = context.SemanticModel.GetDeclaredSymbol(classContainingGetModuleCallSyntax);
+        var classSymbol = context.SemanticModel.GetDeclaredSymbol(moduleDeclaration);
 
         if (classSymbol is null)
         {
@@ -83,6 +85,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             {
                 ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
                 ["Optional"] = IsOptionalAccessor(methodSymbol).ToString(),
+                ["ModuleDeclarationStart"] = moduleDeclaration.SpanStart.ToString(),
             }.ToImmutableDictionary();
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
@@ -181,8 +184,15 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         => (methodSymbol.ReducedFrom ?? methodSymbol).Name
             .EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal);
 
-    private static ClassDeclarationSyntax? GetClassDeclarationSyntax(InvocationExpressionSyntax invocationExpressionSyntax)
+    private static TypeDeclarationSyntax? GetModuleDeclarationSyntax(
+        SyntaxNodeAnalysisContext context,
+        InvocationExpressionSyntax invocationExpressionSyntax)
     {
-        return invocationExpressionSyntax.Ancestors().OfType<ClassDeclarationSyntax>().FirstOrDefault();
+        return invocationExpressionSyntax
+            .Ancestors()
+            .OfType<TypeDeclarationSyntax>()
+            .FirstOrDefault(declaration => context.SemanticModel
+                .GetDeclaredSymbol(declaration, context.CancellationToken)
+                .IsModule(context.Compilation));
     }
 }

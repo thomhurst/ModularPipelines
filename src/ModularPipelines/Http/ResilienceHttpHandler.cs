@@ -36,17 +36,15 @@ internal class ResilienceHttpHandler : DelegatingHandler
 
         // Buffer content upfront if present, so it can be reused across retries
         byte[]? contentBytes = null;
-        string? contentType = null;
         if (request.Content != null)
         {
             contentBytes = await request.Content.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
-            contentType = request.Content.Headers.ContentType?.ToString();
         }
 
         var retryPolicy = BuildRetryPolicy(options);
 
         return await retryPolicy.ExecuteAsync(
-            async ct => await base.SendAsync(CloneRequest(request, contentBytes, contentType), ct).ConfigureAwait(false),
+            async ct => await base.SendAsync(CloneRequest(request, contentBytes), ct).ConfigureAwait(false),
             cancellationToken).ConfigureAwait(false);
     }
 
@@ -131,8 +129,7 @@ internal class ResilienceHttpHandler : DelegatingHandler
     /// </summary>
     /// <param name="original">The original request to clone.</param>
     /// <param name="contentBytes">Pre-buffered content bytes, or null if no content.</param>
-    /// <param name="contentType">The content type header value, or null if no content.</param>
-    private static HttpRequestMessage CloneRequest(HttpRequestMessage original, byte[]? contentBytes, string? contentType)
+    private static HttpRequestMessage CloneRequest(HttpRequestMessage original, byte[]? contentBytes)
     {
         var clone = new HttpRequestMessage(original.Method, original.RequestUri)
         {
@@ -146,9 +143,9 @@ internal class ResilienceHttpHandler : DelegatingHandler
         if (contentBytes != null)
         {
             clone.Content = new ByteArrayContent(contentBytes);
-            if (!string.IsNullOrEmpty(contentType))
+            foreach (var header in original.Content!.Headers)
             {
-                clone.Content.Headers.TryAddWithoutValidation("Content-Type", contentType);
+                clone.Content.Headers.TryAddWithoutValidation(header.Key, header.Value);
             }
         }
 

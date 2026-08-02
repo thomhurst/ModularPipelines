@@ -1,3 +1,4 @@
+using System.Text;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Models;
 
@@ -5,6 +6,8 @@ namespace ModularPipelines.Engine;
 
 internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvider
 {
+    private const string EncodedSubModuleNamePrefix = "B64-";
+
     private static readonly TimeSpan CacheRetention = TimeSpan.FromDays(90);
     private static readonly TimeSpan IndexRefreshInterval = TimeSpan.FromMinutes(1);
 
@@ -62,7 +65,8 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
                         return null;
                     }
 
-                    var name = fileNameWithoutExtension[(subIndex + 5)..]; // 5 = length of "-Sub-"
+                    var encodedName = fileNameWithoutExtension[(subIndex + 5)..]; // 5 = length of "-Sub-"
+                    var name = DecodeSubModuleName(encodedName);
                     var time = await GetEstimatedTimeAsync(file.FullName).ConfigureAwait(false);
                     return new SubModuleEstimation(name, time);
                 }
@@ -79,9 +83,12 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
 
     public async Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
     {
-        var fileName = $"Mod-{GetModuleName(moduleType)}-Sub-{subModuleEstimation.SubModuleName}.txt";
+        var moduleName = GetModuleName(moduleType);
+        var encodedSubModuleName = EncodeSubModuleName(subModuleEstimation.SubModuleName);
+        var fileName = $"Mod-{moduleName}-Sub-{encodedSubModuleName}.txt";
 
         await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName).ConfigureAwait(false);
+        DeleteLegacySubModuleFile(moduleName, subModuleEstimation.SubModuleName, fileName);
 
         lock (_subModuleIndexLock)
         {
@@ -168,6 +175,52 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
     }
 
     private static string GetModuleName(Type moduleType) => moduleType.FullName ?? moduleType.Name;
+
+    private static string EncodeSubModuleName(string name)
+    {
+        var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(name))
+            .TrimEnd('=')
+            .Replace('+', '-')
+            .Replace('/', '_');
+
+        return $"{EncodedSubModuleNamePrefix}{base64}";
+    }
+
+    private static string DecodeSubModuleName(string name)
+    {
+        if (!name.StartsWith(EncodedSubModuleNamePrefix, StringComparison.Ordinal))
+        {
+            return name;
+        }
+
+        var base64 = name[EncodedSubModuleNamePrefix.Length..]
+            .Replace('-', '+')
+            .Replace('_', '/');
+        base64 = base64.PadRight(base64.Length + ((4 - (base64.Length % 4)) % 4), '=');
+
+        try
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(base64));
+        }
+        catch (FormatException)
+        {
+            return name;
+        }
+    }
+
+    private void DeleteLegacySubModuleFile(string moduleName, string subModuleName, string encodedFileName)
+    {
+        var legacyFileName = $"Mod-{moduleName}-Sub-{subModuleName}.txt";
+        if (legacyFileName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0
+            || legacyFileName.Contains('/')
+            || legacyFileName.Contains('\\')
+            || string.Equals(legacyFileName, encodedFileName, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        TryDelete(new FileInfo(Path.Combine(_directory, legacyFileName)));
+    }
 
     private static void TryDelete(FileInfo file)
     {

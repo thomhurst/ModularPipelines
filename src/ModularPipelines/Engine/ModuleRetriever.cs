@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Options;
@@ -140,9 +139,7 @@ internal class ModuleRetriever
             {
                 var estimatedTime = await _estimatedTimeProvider.GetModuleEstimatedTimeAsync(module.GetType());
 
-                var subModules = await _estimatedTimeProvider.GetSubModuleEstimatedTimesAsync(module.GetType());
-
-                return new RunnableModule(module, estimatedTime, subModules.ToImmutableList());
+                return new RunnableModule(module, estimatedTime);
             })
             .ProcessInParallel();
 

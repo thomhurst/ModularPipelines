@@ -1,7 +1,6 @@
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using ModularPipelines.Analyzers.Extensions;
@@ -38,21 +37,24 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze);
         context.EnableConcurrentExecution();
 
-        context.RegisterSyntaxNodeAction(AnalyzeLoggersInConstructors, SyntaxKind.ConstructorDeclaration);
+        context.RegisterSymbolAction(AnalyzeLoggersInConstructors, SymbolKind.NamedType);
     }
 
-    private static void AnalyzeLoggersInConstructors(SyntaxNodeAnalysisContext context)
+    private static void AnalyzeLoggersInConstructors(SymbolAnalysisContext context)
     {
-        if (context.Node is not ConstructorDeclarationSyntax constructorDeclarationSyntax)
+        if (context.Symbol is not INamedTypeSymbol namedType
+            || !namedType.IsModule(context.Compilation))
         {
             return;
         }
 
-        foreach (var parameter in constructorDeclarationSyntax.ParameterList.Parameters)
+        foreach (var parameter in namedType.InstanceConstructors
+                     .SelectMany(static constructor => constructor.Parameters))
         {
-            if (TryGetProhibitedLoggerType(context, parameter, out var parameterSymbol))
+            if (TryGetProhibitedLoggerType(context, parameter, out var parameterSymbol)
+                && GetParameterLocation(parameter, context.CancellationToken) is { } location)
             {
-                ReportDiagnostic(context, parameter.GetLocation(), parameterSymbol!);
+                ReportDiagnostic(context, location, parameterSymbol);
             }
         }
     }
@@ -61,25 +63,16 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
     /// Checks if the parameter type is a prohibited logging type from Microsoft.Extensions.Logging.
     /// </summary>
     private static bool TryGetProhibitedLoggerType(
-        SyntaxNodeAnalysisContext context,
-        ParameterSyntax parameter,
-        out INamedTypeSymbol? parameterSymbol)
+        SymbolAnalysisContext context,
+        IParameterSymbol parameter,
+        out INamedTypeSymbol parameterSymbol)
     {
-        parameterSymbol = null;
-
-        if (parameter.Type is null)
+        if (parameter.Type is not INamedTypeSymbol namedTypeSymbol
+            || !namedTypeSymbol.IsAnyType(
+                context.Compilation,
+                LoggingTypeMetadataNames.AsSpan()))
         {
-            return false;
-        }
-
-        var typeSymbol = context.SemanticModel.GetSymbolInfo(parameter.Type).Symbol;
-        if (typeSymbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return false;
-        }
-
-        if (!namedTypeSymbol.IsAnyType(context.Compilation, LoggingTypeMetadataNames.AsSpan()))
-        {
+            parameterSymbol = null!;
             return false;
         }
 
@@ -87,7 +80,21 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
         return true;
     }
 
-    private static void ReportDiagnostic(SyntaxNodeAnalysisContext context, Location location, INamedTypeSymbol namedTypeSymbol)
+    private static Location? GetParameterLocation(
+        IParameterSymbol parameter,
+        CancellationToken cancellationToken)
+    {
+        return parameter.DeclaringSyntaxReferences
+            .Select(reference => reference.GetSyntax(cancellationToken))
+            .OfType<ParameterSyntax>()
+            .Select(static syntax => syntax.GetLocation())
+            .FirstOrDefault();
+    }
+
+    private static void ReportDiagnostic(
+        SymbolAnalysisContext context,
+        Location location,
+        INamedTypeSymbol namedTypeSymbol)
     {
         var properties = new Dictionary<string, string?>
         {

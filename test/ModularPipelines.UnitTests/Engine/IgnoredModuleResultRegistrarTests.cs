@@ -33,7 +33,7 @@ public class IgnoredModuleResultRegistrarTests
             var dependency = new ForeignOperatingSystemModule();
             var dependent = new CrossPlatformDependentModule();
             var organizedModules = new OrganizedModules(
-                [new RunnableModule(dependent, TimeSpan.Zero, [])],
+                [new RunnableModule(dependent, TimeSpan.Zero)],
                 [new IgnoredModule(dependency, SkipDecision.Skip("Unavailable on this worker"))]);
             var contextProvider = new Mock<IPipelineContextProvider>();
             contextProvider
