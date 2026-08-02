@@ -33,7 +33,7 @@ public static class YqExtensions
     }
 
     /// <summary>
-    /// Gets the yq service from the pipeline context.
+    /// Gets the yq service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IYq"/> service for executing yq commands.</returns>
