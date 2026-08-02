@@ -118,6 +118,7 @@ The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
+builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
 builder.Options.ThrowOnPipelineFailure = false;
 builder.Services.AddModule<MyModule>();
 

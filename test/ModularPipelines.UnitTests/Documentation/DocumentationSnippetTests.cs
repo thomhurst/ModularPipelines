@@ -107,6 +107,10 @@ public class DocumentationSnippetTests
                 repositoryRoot,
                 "docs/docs/how-to/pipeline-host.md"))
             .ConfigureAwait(false);
+        var versionedPipelineHost = await File.ReadAllTextAsync(Path.Combine(
+                repositoryRoot,
+                "docs/versioned_docs/version-3.x/how-to/pipeline-host.md"))
+            .ConfigureAwait(false);
         var testing = await File.ReadAllTextAsync(Path.Combine(
                 repositoryRoot,
                 "docs/docs/how-to/testing.md"))
@@ -123,6 +127,9 @@ public class DocumentationSnippetTests
         await Assert.That(pipelineHost).Contains("Status.Failed");
         await Assert.That(pipelineHost).Contains("ExecutionMode = ExecutionMode.WaitForAllModules");
         await Assert.That(pipelineHost).Contains("ThrowOnPipelineFailure = false");
+        await Assert.That(versionedPipelineHost)
+            .Contains("ExecutionMode = ExecutionMode.WaitForAllModules");
+        await Assert.That(versionedPipelineHost).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(testing).Contains("ThrowOnPipelineFailure = false");
         await Assert.That(testing).Contains("Status.Successful");
         await Assert.That(azure).DoesNotContain("ValueOrDefault!");
