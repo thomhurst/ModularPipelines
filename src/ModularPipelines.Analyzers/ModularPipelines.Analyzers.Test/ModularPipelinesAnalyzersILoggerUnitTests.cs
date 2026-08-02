@@ -851,6 +851,59 @@ public class Module1 : Module<List<string>>
     }
 
     [TestMethod]
+    public async Task AnalyzerIsTriggered_When_ILogger_In_Primary_Constructor()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Module1({{|#0:ILogger<Module1> logger|}}) : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+        => Task.FromResult<List<string>?>([]);
+}}
+";
+        var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsNotTriggered_For_Non_Module_Constructors()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithLogging}
+
+public class Service
+{{
+    public Service(ILogger<Service> logger)
+    {{
+    }}
+}}
+
+public class PrimaryService(ILogger<PrimaryService> logger)
+{{
+}}
+
+public class Module1 : Module<List<string>>
+{{
+    private class NestedService(ILogger<NestedService> logger)
+    {{
+    }}
+
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+        => Task.FromResult<List<string>?>([]);
+}}
+";
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task AnalyzerIsNotTriggered_When_No_Logger_In_Constructor()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
