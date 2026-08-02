@@ -45,3 +45,35 @@ public class UseGitModule : Module<CommandResult>
 ```
 
 The package exposes generated options records for its supported CLI commands.
+
+## Run only when paths change
+
+Use `RunIfChangedAttribute` to run a module when at least one repository-relative glob matches a
+path changed since the merge base with `origin/main`:
+
+```csharp
+using ModularPipelines.Git.Attributes;
+
+[RunIfChanged("src/MyService/**", "test/MyService.Tests/**")]
+public class TestMyServiceModule : Module<CommandResult>
+{
+    // ...
+}
+```
+
+Set another base revision with the named `Base` property:
+
+```csharp
+[RunIfChanged("src/**", Base = "origin/release")]
+```
+
+For imperative checks, use the same cached changed-path set through the Git context:
+
+```csharp
+var shouldBuild = await context.Tools.Git.Changes.HasChangesAsync(
+    ["src/MyService/**", "Directory.Packages.props"],
+    cancellationToken: cancellationToken);
+```
+
+Each base revision is resolved with `git merge-base`, and its `git diff --name-only` result is
+computed once per pipeline run.
