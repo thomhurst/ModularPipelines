@@ -64,6 +64,7 @@ internal class PipelineInitializer(
         "PIP_INDEX_URL",
         "REDIS_URL",
         "SLACK_WEBHOOK_URL",
+        "VCAP_SERVICES",
         "VSS_NUGET_EXTERNAL_FEED_ENDPOINTS",
     ];
 

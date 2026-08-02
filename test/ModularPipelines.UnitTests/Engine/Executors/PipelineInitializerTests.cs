@@ -193,6 +193,7 @@ public class PipelineInitializerTests
     [Arguments("ConnectionStrings__Default")]
     [Arguments("SQLCONNSTR_Main")]
     [Arguments("SLACK_WEBHOOK_URL")]
+    [Arguments("VCAP_SERVICES")]
     [Arguments("AzureWebJobsStorage")]
     [Arguments("VSS_NUGET_EXTERNAL_FEED_ENDPOINTS")]
     public async Task EnvironmentVariables_MaskSensitiveNamesWithoutRegisteredSecret(
