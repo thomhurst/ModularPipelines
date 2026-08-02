@@ -11,6 +11,10 @@ on:
       - '**/*.targets'
       - '**/*.sln'
       - '**/*.slnx'
+      - 'docs/**/*.js'
+      - 'docs/**/*.jsx'
+      - 'docs/**/*.ts'
+      - 'docs/**/*.tsx'
   pull_request:
     branches: ["main"]
     paths:
@@ -21,6 +25,10 @@ on:
       - '**/*.targets'
       - '**/*.sln'
       - '**/*.slnx'
+      - 'docs/**/*.js'
+      - 'docs/**/*.jsx'
+      - 'docs/**/*.ts'
+      - 'docs/**/*.tsx'
   schedule:
     - cron: "17 4 * * 1"
   workflow_dispatch:
@@ -47,6 +55,7 @@ jobs:
         language:
           - actions
           - csharp
+          - javascript-typescript
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
