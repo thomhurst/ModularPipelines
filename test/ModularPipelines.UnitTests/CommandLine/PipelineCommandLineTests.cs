@@ -126,6 +126,15 @@ public class PipelineCommandLineTests
             throw new InvalidOperationException("Dry-run must not execute modules.");
     }
 
+    [ModularPipelines.Attributes.DependsOn<ResultDependentSkipModule>]
+    private sealed class DependentOnUnknownModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
     [ModuleCategory("selected")]
     private sealed class SelectedCategoryModule : Module<string>
     {
@@ -201,6 +210,23 @@ public class PipelineCommandLineTests
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithCategory("selected")
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
+    private sealed class ResultDependentOnSkippedModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(async (context, _) =>
+            {
+                await context.GetModule<SkippedDependencyModule>();
+                return SkipDecision.DoNotSkip;
+            })
             .Build();
 
         protected internal override Task<string?> ExecuteAsync(
@@ -478,6 +504,45 @@ public class PipelineCommandLineTests
             await Assert.That(plannedModule.ShouldSkip).IsFalse();
             await Assert.That((object?) plannedModule.SkipDecision).IsNull();
             await Assert.That(_dependencyExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task PlanAsyncPropagatesUnknownDecisionsToRequiredDependents()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<ResultDependentSkipModule>();
+        builder.AddModule<DependentOnUnknownModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var plannedModule = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is DependentOnUnknownModule);
+
+        await Assert.That(plannedModule.IsSkipDecisionKnown).IsFalse();
+    }
+
+    [Test]
+    public async Task PlanAsyncPrefersCascadeSkipOverUnknownDecision()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SkippedDependencyModule>();
+        builder.AddModule<ResultDependentOnSkippedModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var plannedModule = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is ResultDependentOnSkippedModule);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plannedModule.IsSkipDecisionKnown).IsTrue();
+            await Assert.That(plannedModule.ShouldSkip).IsTrue();
+            await Assert.That(plannedModule.SkipDecision!.Reason)
+                .Contains(nameof(SkippedDependencyModule));
         }
     }
 

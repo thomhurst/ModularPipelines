@@ -102,6 +102,10 @@ internal sealed class PipelinePlanner
         {
             skipDecisions.Add(ignoredModule.Module, ignoredModule.SkipDecision);
         }
+
+        modulesWithUnknownSkipDecisions = PropagateUnknownSkipDecisions(
+            skipDecisions,
+            modulesWithUnknownSkipDecisions);
         var estimates = await GetEstimatesAsync(cascadeResult.RunnableModules).ConfigureAwait(false);
 
         _dependencyChainProvider.Initialize(_modules);
@@ -236,15 +240,65 @@ internal sealed class PipelinePlanner
         return waves;
     }
 
+    private HashSet<IModule> PropagateUnknownSkipDecisions(
+        IReadOnlyDictionary<IModule, SkipDecision> skipDecisions,
+        IReadOnlySet<IModule> initialUnknownModules)
+    {
+        var unknownModules = initialUnknownModules
+            .Where(module => !skipDecisions.ContainsKey(module))
+            .ToHashSet<IModule>(ReferenceEqualityComparer.Instance);
+        var availableModuleTypes = _modules
+            .Select(module => module.GetType())
+            .Distinct()
+            .ToArray();
+        var modulesByType = _modules
+            .GroupBy(module => module.GetType())
+            .ToDictionary(group => group.Key, group => group.ToArray());
+
+        bool changed;
+        do
+        {
+            changed = false;
+            foreach (var module in _modules)
+            {
+                if (skipDecisions.ContainsKey(module) || unknownModules.Contains(module))
+                {
+                    continue;
+                }
+
+                var dependsOnUnknownModule = ModuleDependencyResolver
+                    .GetAllDependencies(
+                        module,
+                        availableModuleTypes,
+                        _dependencyRegistry,
+                        _metadataRegistry)
+                    .Where(dependency => !dependency.Optional)
+                    .Select(dependency => dependency.DependencyType)
+                    .Any(dependencyType => modulesByType[dependencyType]
+                        .Where(dependency => !skipDecisions.ContainsKey(dependency))
+                        .All(unknownModules.Contains));
+                if (dependsOnUnknownModule)
+                {
+                    changed |= unknownModules.Add(module);
+                }
+            }
+        }
+        while (changed);
+
+        return unknownModules;
+    }
+
     private PipelinePlanModule CreatePlannedModule(
         IModule module,
         IReadOnlyDictionary<IModule, SkipDecision> skipDecisions,
         IReadOnlySet<IModule> modulesWithUnknownSkipDecisions,
         IReadOnlyDictionary<IModule, TimeSpan> estimates)
     {
-        var skipDecision = modulesWithUnknownSkipDecisions.Contains(module)
-            ? null
-            : skipDecisions.GetValueOrDefault(module, SkipDecision.DoNotSkip);
+        var skipDecision = skipDecisions.TryGetValue(module, out var knownSkipDecision)
+            ? knownSkipDecision
+            : modulesWithUnknownSkipDecisions.Contains(module)
+                ? null
+                : SkipDecision.DoNotSkip;
         var estimatedDuration = estimates.GetValueOrDefault(module, TimeSpan.Zero);
         return new PipelinePlanModule(
             module,
