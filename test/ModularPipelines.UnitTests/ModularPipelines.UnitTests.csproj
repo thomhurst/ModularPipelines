@@ -20,20 +20,15 @@
     <PackageReference Include="TUnit" />
   </ItemGroup>
   <!--
-    Core framework tests only reference the core framework plus the handful of integrations
-    used as test infrastructure: Cmd (base command execution), Git (nearly every test resolves
-    paths from the git root) and DotNet (TRX/test-result parsing is exercised here). Tool
-    integration tests live in one test project per integration so this project does not have
-    to reference every integration - referencing all 50+ made it one oversized compilation
-    unit that stalled the CI runner (#3179). Do not add tool integration references here; add
-    each test to the matching ModularPipelines.<Integration>.UnitTests project instead.
+    Core framework tests only reference the core framework and Cmd, which provides base command
+    execution. Tool integration tests live in one test project per integration so this project
+    does not have to reference every integration - referencing all 50+ made it one oversized
+    compilation unit that stalled the CI runner (#3179). Do not add tool integration references
+    here; add each test to the matching ModularPipelines.<Integration>.UnitTests project instead.
   -->
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.Cmd\ModularPipelines.Cmd.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.DotNet\ModularPipelines.DotNet.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
-    <ProjectReference Include="..\ModularPipelines.DocumentationSnippets\ModularPipelines.DocumentationSnippets.csproj" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\ModularPipelines.FSharp.TestFixtures\ModularPipelines.FSharp.TestFixtures.fsproj" />
     <ProjectReference Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
   </ItemGroup>

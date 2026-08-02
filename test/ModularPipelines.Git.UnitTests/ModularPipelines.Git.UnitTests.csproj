@@ -5,5 +5,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines.Git\ModularPipelines.Git.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Moq" />
+  </ItemGroup>
   <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.props" />
 </Project>
