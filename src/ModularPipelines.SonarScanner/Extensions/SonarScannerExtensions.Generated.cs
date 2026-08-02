@@ -33,7 +33,7 @@ public static class SonarScannerExtensions
     }
 
     /// <summary>
-    /// Gets the sonar-scanner service from the pipeline context.
+    /// Gets the sonar-scanner service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISonarScanner"/> service for executing sonar-scanner commands.</returns>
