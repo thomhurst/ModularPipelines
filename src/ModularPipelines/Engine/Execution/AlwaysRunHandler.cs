@@ -16,12 +16,14 @@ internal class AlwaysRunHandler(
     IModuleRunner moduleRunner,
     IParallelLimitProvider parallelLimitProvider,
     IOptions<PipelineOptions> pipelineOptions,
-    ILogger<AlwaysRunHandler> logger) : IAlwaysRunHandler
+    ILogger<AlwaysRunHandler> logger,
+    TimeProvider timeProvider) : IAlwaysRunHandler
 {
     private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IParallelLimitProvider _parallelLimitProvider = parallelLimitProvider;
     private readonly TimeSpan _schedulerProgressTimeout = pipelineOptions.Value.DefaultModuleTimeout;
     private readonly ILogger<AlwaysRunHandler> _logger = logger;
+    private readonly TimeProvider _timeProvider = timeProvider;
 
     /// <inheritdoc />
     public async Task WaitForAlwaysRunModulesAsync(IModuleScheduler scheduler, IReadOnlyList<IModule> modules)
@@ -31,51 +33,55 @@ internal class AlwaysRunHandler(
 
         var exceptions = new ConcurrentQueue<Exception>();
         var remainingModules = alwaysRunModules;
-        using var schedulerProgressTimeoutSource = _schedulerProgressTimeout > TimeSpan.Zero
-            ? new CancellationTokenSource()
-            : null;
-        var schedulerProgressTimeoutStarted = false;
-
-        while (remainingModules.Count > 0)
+        CancellationTokenSource? schedulerProgressTimeoutSource = null;
+        try
         {
-            var modulesToProcess = GetDependencyReadyModules(scheduler, remainingModules);
-            if (modulesToProcess.Count == 0)
+            while (remainingModules.Count > 0)
             {
-                exceptions.Enqueue(new InvalidOperationException(
-                    "AlwaysRun modules could not make progress because their dependency graph has no ready modules."));
-                break;
-            }
-
-            await ProcessAlwaysRunModulesAsync(scheduler, modulesToProcess, exceptions).ConfigureAwait(false);
-
-            var deferredModules = modulesToProcess
-                .Where(module =>
+                var modulesToProcess = GetDependencyReadyModules(scheduler, remainingModules);
+                if (modulesToProcess.Count == 0)
                 {
-                    var moduleState = scheduler.GetModuleState(module.GetType());
-                    return moduleState != null && CanLateStartAlwaysRunModule(moduleState);
-                })
-                .ToList();
-            var processedModules = modulesToProcess.Except(deferredModules).ToHashSet();
-            remainingModules.RemoveAll(processedModules.Contains);
-
-            if (deferredModules.Count > 0 && processedModules.Count == 0)
-            {
-                if (schedulerProgressTimeoutSource != null && !schedulerProgressTimeoutStarted)
-                {
-                    schedulerProgressTimeoutSource.CancelAfter(_schedulerProgressTimeout);
-                    schedulerProgressTimeoutStarted = true;
-                }
-
-                if (!await WaitForSchedulerProgressAsync(
-                        scheduler,
-                        modules,
-                        deferredModules,
-                        exceptions,
-                        schedulerProgressTimeoutSource?.Token ?? CancellationToken.None).ConfigureAwait(false))
-                {
+                    exceptions.Enqueue(new InvalidOperationException(
+                        "AlwaysRun modules could not make progress because their dependency graph has no ready modules."));
                     break;
                 }
+
+                await ProcessAlwaysRunModulesAsync(scheduler, modulesToProcess, exceptions).ConfigureAwait(false);
+
+                var deferredModules = modulesToProcess
+                    .Where(module =>
+                    {
+                        var moduleState = scheduler.GetModuleState(module.GetType());
+                        return moduleState != null && CanLateStartAlwaysRunModule(moduleState);
+                    })
+                    .ToList();
+                var processedModules = modulesToProcess.Except(deferredModules).ToHashSet();
+                remainingModules.RemoveAll(processedModules.Contains);
+
+                if (deferredModules.Count > 0 && processedModules.Count == 0)
+                {
+                    if (_schedulerProgressTimeout > TimeSpan.Zero)
+                    {
+                        schedulerProgressTimeoutSource ??= new CancellationTokenSource(
+                            _schedulerProgressTimeout,
+                            _timeProvider);
+                    }
+
+                    if (!await WaitForSchedulerProgressAsync(
+                            scheduler,
+                            modules,
+                            deferredModules,
+                            exceptions,
+                            schedulerProgressTimeoutSource?.Token ?? CancellationToken.None).ConfigureAwait(false))
+                    {
+                        break;
+                    }
+                }
             }
+        }
+        finally
+        {
+            schedulerProgressTimeoutSource?.Dispose();
         }
 
         if (!exceptions.IsEmpty)
