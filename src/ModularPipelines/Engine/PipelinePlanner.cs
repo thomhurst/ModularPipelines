@@ -224,7 +224,10 @@ internal sealed class PipelinePlanner
             try
             {
                 using var planningResultAccess = PlanningModuleResultAccess.Enter();
-                return await configuration.SkipCondition!(moduleContext, cancellationToken).ConfigureAwait(false);
+                var planningCondition = configuration.PlanningSkipCondition;
+                return planningCondition is null
+                    ? await configuration.SkipCondition!(moduleContext, cancellationToken).ConfigureAwait(false)
+                    : await planningCondition(moduleContext, cancellationToken).ConfigureAwait(false);
             }
             catch (PlanningModuleResultUnavailableException)
             {
@@ -392,39 +395,73 @@ internal sealed class PipelinePlanner
         var finishTimes = new Dictionary<IModule, TimeSpan>(ReferenceEqualityComparer.Instance);
         var scheduledModules = new List<ScheduledModule>();
         var concurrency = _options.Value.Concurrency;
+        var currentTime = TimeSpan.Zero;
 
         while (unscheduledModules.Count > 0)
         {
             var readyModules = unscheduledModules
                 .Where(plannedModule => dependencyModels[plannedModule.Module].IsDependentOn
-                    .All(dependency => finishTimes.ContainsKey(dependency.Module)))
+                    .All(dependency => finishTimes.TryGetValue(dependency.Module, out var finish)
+                                       && finish <= currentTime))
+                .OrderByDescending(plannedModule => GetPriority(plannedModule.Module))
+                .ThenBy(plannedModule => plannedModule.Module.GetType().FullName, StringComparer.Ordinal)
                 .ToArray();
             if (readyModules.Length == 0)
             {
-                readyModules = unscheduledModules.ToArray();
+                var nextFinish = scheduledModules
+                    .Where(module => module.Finish > currentTime)
+                    .Select(module => module.Finish)
+                    .DefaultIfEmpty(TimeSpan.Zero)
+                    .Min();
+                if (nextFinish > currentTime)
+                {
+                    currentTime = nextFinish;
+                    continue;
+                }
+
+                readyModules = unscheduledModules
+                    .OrderByDescending(plannedModule => GetPriority(plannedModule.Module))
+                    .ThenBy(plannedModule => plannedModule.Module.GetType().FullName, StringComparer.Ordinal)
+                    .ToArray();
             }
 
-            var selected = readyModules
-                .Select(plannedModule => CreateSchedulingCandidate(
+            var queuedAny = false;
+            foreach (var plannedModule in readyModules)
+            {
+                var profile = CreateSchedulingProfile(plannedModule.Module);
+                if (scheduledModules.Any(module => module.QueueTime <= currentTime
+                                                   && module.Finish > currentTime
+                                                   && HasConstraintConflict(profile, module.Profile)))
+                {
+                    continue;
+                }
+
+                var selected = CreateSchedulingCandidate(
                     plannedModule,
-                    dependencyModels,
-                    finishTimes,
+                    currentTime,
+                    profile,
                     scheduledModules,
-                    concurrency))
-                .OrderBy(candidate => candidate.Timing.WorkerStart)
-                .ThenByDescending(candidate => GetPriority(candidate.PlannedModule.Module))
-                .ThenBy(candidate => candidate.PlannedModule.Module.GetType().FullName, StringComparer.Ordinal)
-                .First();
-            var module = selected.PlannedModule.Module;
-            var finish = selected.Timing.ExecutionStart + selected.Duration;
-            unscheduledModules.Remove(selected.PlannedModule);
-            finishTimes.Add(module, finish);
-            scheduledModules.Add(new ScheduledModule(
-                selected.Timing.WorkerStart,
-                selected.Timing.LimiterStart,
-                selected.Timing.ExecutionStart,
-                finish,
-                selected.Profile));
+                    concurrency);
+                var module = selected.PlannedModule.Module;
+                var finish = selected.Timing.ExecutionStart + selected.Duration;
+                unscheduledModules.Remove(selected.PlannedModule);
+                finishTimes.Add(module, finish);
+                scheduledModules.Add(new ScheduledModule(
+                    currentTime,
+                    selected.Timing.WorkerStart,
+                    selected.Timing.LimiterStart,
+                    selected.Timing.ExecutionStart,
+                    finish,
+                    selected.Profile));
+                queuedAny = true;
+            }
+
+            if (!queuedAny)
+            {
+                currentTime = scheduledModules
+                    .Where(module => module.Finish > currentTime)
+                    .Min(module => module.Finish);
+            }
         }
 
         return finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
@@ -432,8 +469,8 @@ internal sealed class PipelinePlanner
 
     private static SchedulingCandidate CreateSchedulingCandidate(
         PipelinePlanModule plannedModule,
-        IReadOnlyDictionary<IModule, ModuleDependencyModel> dependencyModels,
-        IReadOnlyDictionary<IModule, TimeSpan> finishTimes,
+        TimeSpan queueTime,
+        SchedulingProfile profile,
         IReadOnlyList<ScheduledModule> scheduledModules,
         ConcurrencyOptions concurrency)
     {
@@ -441,22 +478,19 @@ internal sealed class PipelinePlanner
         var duration = plannedModule.ShouldSkip
             ? TimeSpan.Zero
             : plannedModule.EstimatedDuration;
-        var dependencyFinish = dependencyModels[module].IsDependentOn
-            .Select(dependency => finishTimes.GetValueOrDefault(dependency.Module, TimeSpan.Zero))
-            .DefaultIfEmpty(TimeSpan.Zero)
-            .Max();
-        var profile = new SchedulingProfile(
-            GetConstraintKeys(module),
-            GetExecutionType(module),
-            GetParallelLimiter(module));
         var timing = FindModuleTiming(
-            dependencyFinish,
+            queueTime,
             duration,
             profile,
             scheduledModules,
             concurrency);
         return new SchedulingCandidate(plannedModule, duration, profile, timing);
     }
+
+    private static SchedulingProfile CreateSchedulingProfile(IModule module) => new(
+        GetConstraintKeys(module),
+        GetExecutionType(module),
+        GetParallelLimiter(module));
 
     private static IReadOnlyCollection<string>? GetConstraintKeys(IModule module)
     {
@@ -765,6 +799,7 @@ internal sealed class PipelinePlanner
     private sealed record ParallelLimiterProfile(Type Type, int Limit);
 
     private sealed record ScheduledModule(
+        TimeSpan QueueTime,
         TimeSpan WorkerStart,
         TimeSpan LimiterStart,
         TimeSpan ExecutionStart,

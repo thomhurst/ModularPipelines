@@ -128,6 +128,33 @@ public class PipelineCommandLineTests
             throw new InvalidOperationException("Dry-run must not execute modules.");
     }
 
+    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    private sealed class UnknownThenSkippedModule : DryRunModule
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(async (context, _) =>
+            {
+                await context.GetModule<DependencyModule>();
+                return SkipDecision.DoNotSkip;
+            })
+            .WithSkipWhen(_ => SkipDecision.Skip("later condition"))
+            .Build();
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    private sealed class UnknownAndDoNotSkipModule : DryRunModule
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhenAll(
+                async (context, _) =>
+                {
+                    await context.GetModule<DependencyModule>();
+                    return SkipDecision.Skip("result matched");
+                },
+                (_, _) => ValueTask.FromResult(SkipDecision.DoNotSkip))
+            .Build();
+    }
+
     [ModularPipelines.Attributes.DependsOn<ResultDependentSkipModule>]
     private sealed class DependentOnUnknownModule : Module<string>
     {
@@ -268,6 +295,11 @@ public class PipelineCommandLineTests
             nameof(PriorityConstraintDependentModule) => TimeSpan.FromMinutes(1),
             nameof(PriorityConstraintLowRootModule) => TimeSpan.FromMinutes(10),
             nameof(PriorityConstraintTailModule) => TimeSpan.FromMinutes(100),
+            nameof(QueuedCriticalRootModule) => TimeSpan.FromMinutes(1),
+            nameof(QueuedHighRootModule) => TimeSpan.FromMinutes(100),
+            nameof(QueuedLowRootModule) => TimeSpan.FromMinutes(100),
+            nameof(QueuedCriticalChildModule) => TimeSpan.FromMinutes(1),
+            nameof(QueuedLongTailModule) => TimeSpan.FromMinutes(1000),
             _ => TimeSpan.Zero,
         });
 
@@ -449,6 +481,32 @@ public class PipelineCommandLineTests
 
     [ModularPipelines.Attributes.DependsOn<PriorityConstraintDependentModule>]
     private sealed class PriorityConstraintTailModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.Critical)]
+    private sealed class QueuedCriticalRootModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.High)]
+    private sealed class QueuedHighRootModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.Low)]
+    private sealed class QueuedLowRootModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.Critical)]
+    [ModularPipelines.Attributes.DependsOn<QueuedCriticalRootModule>]
+    private sealed class QueuedCriticalChildModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.DependsOn<QueuedCriticalChildModule>]
+    private sealed class QueuedLongTailModule : DryRunModule
     {
     }
 
@@ -881,6 +939,27 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task PlanAsyncPreservesReadyChannelQueueOrder()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Concurrency = options.Concurrency with { MaxParallelism = 2 },
+        });
+        builder.AddModule<QueuedCriticalRootModule>();
+        builder.AddModule<QueuedHighRootModule>();
+        builder.AddModule<QueuedLowRootModule>();
+        builder.AddModule<QueuedCriticalChildModule>();
+        builder.AddModule<QueuedLongTailModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(1101));
+    }
+
+    [Test]
     public async Task PlanAsyncEvaluatesOptionalRegistrationChecks()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -1037,6 +1116,47 @@ public class PipelineCommandLineTests
             await Assert.That(plannedModule.ShouldSkip).IsFalse();
             await Assert.That((object?) plannedModule.SkipDecision).IsNull();
             await Assert.That(_dependencyExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task PlanAsyncContinuesOrConditionsAfterUnknownDecision()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<UnknownThenSkippedModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var plannedModule = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is UnknownThenSkippedModule);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plannedModule.IsSkipDecisionKnown).IsTrue();
+            await Assert.That(plannedModule.ShouldSkip).IsTrue();
+            await Assert.That(plannedModule.SkipDecision!.Reason).IsEqualTo("later condition");
+        }
+    }
+
+    [Test]
+    public async Task PlanAsyncContinuesAndConditionsAfterUnknownDecision()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<UnknownAndDoNotSkipModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var plannedModule = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is UnknownAndDoNotSkipModule);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plannedModule.IsSkipDecisionKnown).IsTrue();
+            await Assert.That(plannedModule.ShouldSkip).IsFalse();
         }
     }
 
