@@ -142,6 +142,18 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task DeleteFileRejectsDirectoryPathsWithTrailingSeparators()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "directory-form-delete");
+        provider.CreateDirectory(path);
+
+        await Assert.That(() => provider.DeleteFile(path + Path.DirectorySeparatorChar))
+            .Throws<UnauthorizedAccessException>();
+        await Assert.That(provider.DirectoryExists(path)).IsTrue();
+    }
+
+    [Test]
     public async Task RejectsCopyingFileOntoItself()
     {
         var provider = new InMemoryFileSystemProvider();

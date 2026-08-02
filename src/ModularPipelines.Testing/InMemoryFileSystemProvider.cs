@@ -298,10 +298,11 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         lock (_sync)
         {
             var normalized = NormalizeFilePath(path);
-            if (_directories.ContainsKey(normalized))
+            var directoryForm = NormalizeDirectoryPath(normalized);
+            if (_directories.ContainsKey(directoryForm))
             {
                 throw new UnauthorizedAccessException(
-                    $"The in-memory path '{normalized}' is a directory.");
+                    $"The in-memory path '{directoryForm}' is a directory.");
             }
 
             if (IsOpen(normalized))

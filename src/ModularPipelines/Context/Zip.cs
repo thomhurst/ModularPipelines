@@ -14,7 +14,7 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
     {
         var outputIsDirectory = _fileSystemProvider.DirectoryExists(outputPath)
                                 || (!_fileSystemProvider.FileExists(outputPath)
-                                    && outputPath.GetPathType() == PathType.Directory);
+                                    && IsDirectoryPath(outputPath));
         if (outputIsDirectory)
         {
             outputPath = _fileSystemProvider.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
@@ -168,4 +168,7 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
 
     private static string NormalizeEntryName(string path) =>
         path.Replace(Path.DirectorySeparatorChar, '/');
+
+    private static bool IsDirectoryPath(string path) =>
+        PathHelpers.EndsWithDirectorySeparator(path) || !Path.HasExtension(path);
 }

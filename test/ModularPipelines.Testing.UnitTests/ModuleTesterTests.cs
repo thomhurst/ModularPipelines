@@ -327,12 +327,21 @@ public class ModuleTesterTests
         var root = Path.Combine(
             Path.GetTempPath(),
             $"zip-output-{Guid.NewGuid():N}");
+        var hostCollision = Path.Combine(root, "host-collision.zip");
+        Directory.CreateDirectory(hostCollision);
 
-        var run = await ModuleTester.For<ZipOutputModule, string>()
-            .WithService(new FilePath(root))
-            .ExecuteAsync();
+        try
+        {
+            var run = await ModuleTester.For<ZipOutputModule, string>()
+                .WithService(new FilePath(root))
+                .ExecuteAsync();
 
-        await Assert.That(run.Value).IsEqualTo("True:True");
+            await Assert.That(run.Value).IsEqualTo("True:True:True");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
     }
 
     public sealed class ValueModule : Module<string>
@@ -598,9 +607,12 @@ public class ModuleTesterTests
 
             var preservedExistingFile =
                 await extensionlessFile.ReadAsync(cancellationToken) == "existing";
+            var collidingOutput = root.GetFile("host-collision.zip");
+            var isolatedZip = context.Files.Zip.ZipFolder(source, collidingOutput.Path);
 
             return $"{directoryZip.Folder?.Path == dottedDirectory.Path}:"
-                   + $"{rejectedExistingFile && preservedExistingFile}";
+                   + $"{rejectedExistingFile && preservedExistingFile}:"
+                   + $"{isolatedZip.Path == collidingOutput.Path}";
         }
     }
 
