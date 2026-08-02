@@ -1,4 +1,3 @@
-using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
@@ -24,26 +23,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
 
     public async Task<IDistributedArtifactStore> CreateAsync(CancellationToken cancellationToken)
     {
-        var config = new AmazonS3Config
-        {
-            RegionEndpoint = RegionEndpoint.GetBySystemName(_s3Options.Region),
-            ForcePathStyle = _s3Options.ForcePathStyle,
-        };
-
-        if (!string.IsNullOrEmpty(_s3Options.ServiceUrl))
-        {
-            config.ServiceURL = _s3Options.ServiceUrl;
-        }
-
-        IAmazonS3 s3;
-        if (!string.IsNullOrEmpty(_s3Options.AccessKey) && !string.IsNullOrEmpty(_s3Options.SecretKey))
-        {
-            s3 = new AmazonS3Client(_s3Options.AccessKey, _s3Options.SecretKey, config);
-        }
-        else
-        {
-            s3 = new AmazonS3Client(config);
-        }
+        var s3 = S3ClientFactory.Create(_s3Options);
 
         var runId = RunIdentifierResolver.Resolve(_s3Options.RunIdentifier);
 

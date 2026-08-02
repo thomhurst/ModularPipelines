@@ -55,6 +55,9 @@ public abstract class Module<T> : IModule, ITaggedModule
     private readonly Lazy<ModuleConfiguration> _configuration;
     private readonly Lazy<FrozenSet<string>> _tags;
 
+    // Exposes hook-transformed results to self-awaits without completing the public result early.
+    private readonly AsyncLocal<ModuleResult<T>?> _provisionalResult = new();
+
     /// <summary>
     /// Initialises a new instance of the <see cref="Module{T}"/> class.
     /// </summary>
@@ -72,8 +75,20 @@ public abstract class Module<T> : IModule, ITaggedModule
         new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     /// <inheritdoc />
-    Task<IModuleResult> IModule.ResultTask => CompletionSource.Task.ContinueWith(
-        static t => (IModuleResult) t.Result, TaskContinuationOptions.ExecuteSynchronously);
+    Task<IModuleResult> IModule.ResultTask
+    {
+        get
+        {
+            if (_provisionalResult.Value is { } provisionalResult)
+            {
+                return Task.FromResult<IModuleResult>(provisionalResult);
+            }
+
+            return CompletionSource.Task.ContinueWith(
+                static t => (IModuleResult) t.Result,
+                TaskContinuationOptions.ExecuteSynchronously);
+        }
+    }
 
     /// <inheritdoc />
     Type IModule.ResultType => typeof(T);
@@ -265,11 +280,28 @@ public abstract class Module<T> : IModule, ITaggedModule
         return CompletionSource.TrySetResult((ModuleResult<T>) result);
     }
 
+    internal ModuleResult<T>? SetProvisionalResult(ModuleResult<T> result)
+    {
+        var previousResult = _provisionalResult.Value;
+        _provisionalResult.Value = result;
+        return previousResult;
+    }
+
+    internal void RestoreProvisionalResult(ModuleResult<T>? result)
+    {
+        _provisionalResult.Value = result;
+    }
+
     /// <summary>
     /// Gets an awaiter for this module's result.
     /// </summary>
     /// <returns>An awaiter for the module result.</returns>
-    public TaskAwaiter<ModuleResult<T>> GetAwaiter() => CompletionSource.Task.GetAwaiter();
+    public TaskAwaiter<ModuleResult<T>> GetAwaiter()
+    {
+        return _provisionalResult.Value is { } provisionalResult
+            ? Task.FromResult(provisionalResult).GetAwaiter()
+            : CompletionSource.Task.GetAwaiter();
+    }
 
     private ModuleConfiguration CreateConfiguration() =>
         ModuleConfigurationAttributeAdapter.Apply(

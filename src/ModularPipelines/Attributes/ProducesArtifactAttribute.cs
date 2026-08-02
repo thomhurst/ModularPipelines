@@ -1,9 +1,9 @@
 namespace ModularPipelines.Attributes;
 
 /// <summary>
-/// Declares that a module produces a file or directory artifact that should be shared in distributed mode.
-/// The framework automatically uploads matching artifacts after module completion.
-/// In non-distributed mode, this attribute has no effect.
+/// Declares that a module produces a file or directory artifact.
+/// The framework automatically uploads matching artifacts in distributed mode and stores them
+/// with fingerprint-based module cache entries when module caching is enabled.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
 public sealed class ProducesArtifactAttribute : Attribute

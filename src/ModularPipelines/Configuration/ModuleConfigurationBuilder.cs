@@ -38,6 +38,8 @@ public sealed class ModuleConfigurationBuilder
     private readonly HashSet<string> _tags = [with(StringComparer.OrdinalIgnoreCase)];
     private readonly List<DeclaredDependency> _dependencies = [];
     private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _skipConditions = [];
+    private readonly List<string> _cacheKeyParts = [];
+    private readonly HashSet<string> _cacheEnvironmentVariables = [with(StringComparer.Ordinal)];
     private TimeSpan? _timeout;
     private ModuleRetryConfiguration? _retryConfiguration;
     private Func<IModuleContext, IAsyncPolicy>? _advancedRetryPolicyFactory;
@@ -122,6 +124,34 @@ public sealed class ModuleConfigurationBuilder
         ValidateSkipConditionGroup(conditions);
 
         _skipConditions.Add(ComposeAllSkipConditions([.. conditions]));
+        return this;
+    }
+
+    #endregion
+
+    #region Caching
+
+    /// <summary>
+    /// Adds an explicit value to this module's cache fingerprint.
+    /// </summary>
+    /// <param name="value">A stable value representing configuration or another logical input.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithCacheKeyPart(string value)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
+        _cacheKeyParts.Add(value);
+        return this;
+    }
+
+    /// <summary>
+    /// Includes the current value of an environment variable in this module's cache fingerprint.
+    /// </summary>
+    /// <param name="variableName">The environment variable name.</param>
+    /// <returns>This builder instance for method chaining.</returns>
+    public ModuleConfigurationBuilder WithCacheEnvironmentVariable(string variableName)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(variableName);
+        _cacheEnvironmentVariables.Add(variableName);
         return this;
     }
 
@@ -385,6 +415,8 @@ public sealed class ModuleConfigurationBuilder
             ExecutionType = _executionType,
             Tags = new HashSet<string>(_tags, StringComparer.OrdinalIgnoreCase),
             Category = _category,
+            CacheKeyParts = [.. _cacheKeyParts],
+            CacheEnvironmentVariables = [.. _cacheEnvironmentVariables],
             Dependencies = [.. _dependencies],
         };
     }
