@@ -80,6 +80,9 @@ public record TrivyPluginSearchOptions : TrivyOptions
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
 
+    /// <summary>
+    /// The KEYWORD operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Keyword { get; set; }
 

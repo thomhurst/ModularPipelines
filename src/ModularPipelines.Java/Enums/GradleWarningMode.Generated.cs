@@ -17,14 +17,14 @@ namespace ModularPipelines.Java.Enums;
 public enum GradleWarningMode
 {
     [EnumValue("all")]
-    All,
+    All = 0,
 
     [EnumValue("fail")]
-    Fail,
+    Fail = 1,
 
     [EnumValue("summary")]
-    Summary,
+    Summary = 2,
 
     [EnumValue("none")]
-    None
+    None = 3
 }

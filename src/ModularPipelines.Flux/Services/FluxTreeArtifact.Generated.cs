@@ -32,6 +32,21 @@ public class FluxTreeArtifact
     #region Commands
 
     /// <summary>
+    /// The tree artifact sub-commands print a list of artifact objects.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxTreeArtifactOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxTreeArtifactOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The tree command prints the ExternalArtifact list managed by an ArtifactGenerator.'
     /// </summary>
     /// <param name="options">The command options.</param>

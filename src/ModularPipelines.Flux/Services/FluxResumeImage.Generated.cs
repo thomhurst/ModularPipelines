@@ -32,6 +32,21 @@ public class FluxResumeImage
     #region Commands
 
     /// <summary>
+    /// The resume image sub-commands resume suspended image automation objects.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxResumeImageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxResumeImageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The resume image policy command resumes a suspended ImagePolicy resource.
     /// </summary>
     /// <param name="options">The command options.</param>

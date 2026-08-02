@@ -18,7 +18,9 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("list-tags")]
-public record SkopeoListTagsOptions : SkopeoOptions
+public record SkopeoListTagsOptions(
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string SourceImage
+) : SkopeoOptions
 {
     /// <summary>
     /// path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
@@ -81,5 +83,11 @@ public record SkopeoListTagsOptions : SkopeoOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// The command options operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? CommandOptions { get; set; }
 
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateHelmreleaseSource
 {
     [EnumValue("HelmRepository")]
-    Helmrepository,
+    HelmRepository = 0,
 
     [EnumValue("GitRepository")]
-    Gitrepository,
+    GitRepository = 1,
 
     [EnumValue("Bucket")]
-    Bucket
+    Bucket = 2
 }

@@ -19,6 +19,7 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("vault")]
+[CliGlobalOptions]
 public abstract record VaultOptions : CommandLineToolOptions
 {
 }

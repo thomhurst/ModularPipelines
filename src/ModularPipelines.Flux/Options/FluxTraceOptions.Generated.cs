@@ -18,7 +18,10 @@ namespace ModularPipelines.Flux.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trace")]
-public record FluxTraceOptions : FluxOptions
+public record FluxTraceOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Resource,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Name
+) : FluxOptions
 {
     /// <summary>
     /// the Kubernetes object API version, e.g. 'apps/v1'
@@ -126,7 +129,7 @@ public record FluxTraceOptions : FluxOptions
     /// Path to the kubeconfig file to use for CLI requests.
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request (default "flux-system")

@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "metadata", "get")]
-public record VaultKvMetadataGetOptions : VaultOptions
+public record VaultKvMetadataGetOptions(
+    [property: CliArgument(0)] string Key
+) : VaultOptions
 {
 }

@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("namespace", "lookup")]
-public record VaultNamespaceLookupOptions : VaultOptions
+public record VaultNamespaceLookupOptions(
+    [property: CliArgument(0)] string Path
+) : VaultOptions
 {
 }

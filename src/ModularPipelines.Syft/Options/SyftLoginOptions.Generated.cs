@@ -69,10 +69,10 @@ public record SyftLoginOptions : SyftOptions
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The SERVER operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Server { get; set; }
 
 }

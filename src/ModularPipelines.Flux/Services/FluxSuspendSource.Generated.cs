@@ -32,6 +32,21 @@ public class FluxSuspendSource
     #region Commands
 
     /// <summary>
+    /// The suspend sub-commands suspend the reconciliation of a source.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxSuspendSourceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxSuspendSourceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The suspend command disables the reconciliation of a Bucket resource.
     /// </summary>
     /// <param name="options">The command options.</param>

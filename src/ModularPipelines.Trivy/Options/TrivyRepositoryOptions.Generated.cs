@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repository")]
 public record TrivyRepositoryOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Repository
+    [property: CliArgument(0)] string RepoPath
 ) : TrivyOptions
 {
     /// <summary>
@@ -234,7 +234,7 @@ public record TrivyRepositoryOptions(
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
-    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;\\.trivy\\modules")
+    /// specify directory to the wasm modules that will be loaded (default "&lt;home&gt;/.trivy/modules")
     /// </summary>
     [CliOption("--module-dir", Format = OptionFormat.EqualsSeparated)]
     public string? ModuleDir { get; set; }

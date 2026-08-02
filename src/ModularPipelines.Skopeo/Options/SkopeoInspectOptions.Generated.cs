@@ -18,7 +18,9 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
-public record SkopeoInspectOptions : SkopeoOptions
+public record SkopeoInspectOptions(
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ImageName
+) : SkopeoOptions
 {
     /// <summary>
     /// path of the authentication file. Default is ${XDG_RUNTIME_DIR}/containers/auth.json
@@ -117,5 +119,11 @@ public record SkopeoInspectOptions : SkopeoOptions
     /// </summary>
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
+
+    /// <summary>
+    /// The command options operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? CommandOptions { get; set; }
 
 }

@@ -32,6 +32,21 @@ public class FluxReconcileSource
     #region Commands
 
     /// <summary>
+    /// The reconcile source sub-commands trigger a reconciliation of sources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxReconcileSourceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxReconcileSourceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The reconcile source command triggers a reconciliation of a Bucket resource and waits for it to finish.
     /// </summary>
     /// <param name="options">The command options.</param>

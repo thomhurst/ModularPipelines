@@ -151,7 +151,7 @@ public record FluxCreateImageRepositoryOptions : FluxOptions
     /// Path to the kubeconfig file to use for CLI requests.
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// set labels on the resource (can specify multiple labels with commas: label1=value1,label2=value2)
@@ -207,5 +207,11 @@ public record FluxCreateImageRepositoryOptions : FluxOptions
     /// </summary>
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Name { get; set; }
 
 }

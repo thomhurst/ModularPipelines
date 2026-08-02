@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -26,7 +27,7 @@ internal sealed class LoggingCommandLineExecutor : ICommandLineExecutor
     private readonly ICommandLogger _commandLogger;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LoggingCommandLineExecutor"/> class.
+    /// Initialises a new instance of the <see cref="LoggingCommandLineExecutor"/> class.
     /// </summary>
     /// <param name="inner">The inner executor to wrap.</param>
     /// <param name="commandLogger">The command logger for consistent logging.</param>
@@ -46,20 +47,50 @@ internal sealed class LoggingCommandLineExecutor : ICommandLineExecutor
     {
         var workingDirectory = options?.WorkingDirectory ?? Environment.CurrentDirectory;
         var inputToLog = GetInputToLog(commandLine, options);
+        var stopwatch = Stopwatch.StartNew();
+        var loggingFailures = new DeferredCommandLoggingFailures();
+        loggingFailures.Capture(
+            () => _commandLogger.LogCommandStart(
+                options: null,
+                execOpts: options,
+                inputToLog: inputToLog,
+                commandWorkingDirPath: workingDirectory));
 
-        var result = await _inner.ExecuteAsync(commandLine, options, cancellationToken).ConfigureAwait(false);
+        CommandResult result;
+        try
+        {
+            result = await _inner.ExecuteAsync(commandLine, options, cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception executionFailure)
+        {
+            loggingFailures.Capture(
+                () => LogCompletion(
+                    options,
+                    inputToLog,
+                    workingDirectory,
+                    exitCode: -1,
+                    runTime: stopwatch.Elapsed,
+                    standardOutput: string.Empty,
+                    standardError: executionFailure.Message));
 
-        // Delegate to CommandLogger for consistent logging across all command execution paths
-        _commandLogger.Log(
-            options: null, // Raw command line execution doesn't use CommandLineToolOptions
-            execOpts: options,
-            inputToLog: inputToLog,
-            exitCode: result.ExitCode,
-            runTime: result.Duration,
-            standardOutput: result.StandardOutput,
-            standardError: result.StandardError,
-            commandWorkingDirPath: workingDirectory);
+            if (!loggingFailures.HasFailures)
+            {
+                throw;
+            }
 
+            throw loggingFailures.CombineWith(executionFailure);
+        }
+
+        loggingFailures.Capture(
+            () => LogCompletion(
+                options,
+                inputToLog,
+                workingDirectory,
+                result.ExitCode,
+                result.Duration,
+                result.StandardOutput,
+                result.StandardError));
+        loggingFailures.Throw();
         return result;
     }
 
@@ -69,5 +100,25 @@ internal sealed class LoggingCommandLineExecutor : ICommandLineExecutor
         return options?.InputLoggingManipulator is not null
             ? options.InputLoggingManipulator(input)
             : input;
+    }
+
+    private void LogCompletion(
+        CommandExecutionOptions? options,
+        string inputToLog,
+        string workingDirectory,
+        int exitCode,
+        TimeSpan runTime,
+        string standardOutput,
+        string standardError)
+    {
+        _commandLogger.LogCommandCompletion(
+            options: null,
+            execOpts: options,
+            inputToLog: inputToLog,
+            exitCode: exitCode,
+            runTime: runTime,
+            standardOutput: standardOutput,
+            standardError: standardError,
+            commandWorkingDirPath: workingDirectory);
     }
 }

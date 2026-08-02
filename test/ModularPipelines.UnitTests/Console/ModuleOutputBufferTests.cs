@@ -180,6 +180,24 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task BufferedLogEvent_PreservesGenericTypeForNullState()
+    {
+        var logger = new RecordingLogger();
+        var logEvent = new BufferedLogEvent<string?>(
+            LogLevel.Information,
+            default,
+            null,
+            null,
+            null,
+            static (state, _) => state ?? "null-state",
+            new PassthroughSecretObfuscator());
+
+        logEvent.WriteTo(logger);
+
+        await Assert.That(logger.StateTypes).HasSingleItem().And.IsEquivalentTo([typeof(string)]);
+    }
+
+    [Test]
     public async Task ConsoleOutputAddedAfterCompletion_IsRetained()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
@@ -551,7 +569,7 @@ public class ModuleOutputBufferTests
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
         var fallbackLogger = new RecordingLogger();
-        var logException = new InvalidOperationException("structured failure");
+        var logException = new InvalidOperationException("structured secret failure");
         var buffer = CreateBufferWithStructuredLog(
             TimeSpan.FromMilliseconds(50),
             "structured secret",
@@ -595,11 +613,12 @@ public class ModuleOutputBufferTests
         await Assert.That(output).Contains("[WARN] structured ***");
         await Assert.That(output).DoesNotContain("structured secret");
         await Assert.That(output).Contains(nameof(InvalidOperationException));
-        await Assert.That(output).Contains("structured failure");
+        await Assert.That(output).Contains("structured *** failure");
         await Assert.That(output).Contains("direct output");
         await Assert.That(loggerControl.LogCallCount).IsEqualTo(0);
         await Assert.That(fallbackLogger.Entries).HasSingleItem();
-        await Assert.That(fallbackLogger.Entries[0].Exception).IsSameReferenceAs(logException);
+        await Assert.That(fallbackLogger.Entries[0].Exception).IsNotSameReferenceAs(logException);
+        await Assert.That(fallbackLogger.Entries[0].Exception?.ToString()).DoesNotContain("secret");
         await Assert.That(buffer.HasOutput).IsFalse();
     }
 
@@ -759,6 +778,8 @@ public class ModuleOutputBufferTests
     {
         public List<(string Message, Exception? Exception)> Entries { get; } = [];
 
+        public List<Type> StateTypes { get; } = [];
+
         public Exception? LogException { get; set; }
 
         public IDisposable? BeginScope<TState>(TState state)
@@ -779,6 +800,7 @@ public class ModuleOutputBufferTests
                 throw LogException;
             }
 
+            StateTypes.Add(typeof(TState));
             Entries.Add((formatter(state, exception), exception));
         }
     }

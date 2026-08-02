@@ -17,8 +17,8 @@ namespace ModularPipelines.Trivy.Enums;
 public enum TrivySbomScanners
 {
     [EnumValue("vuln")]
-    Vuln,
+    Vuln = 0,
 
     [EnumValue("license")]
-    License
+    License = 1
 }

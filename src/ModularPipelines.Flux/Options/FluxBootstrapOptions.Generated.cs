@@ -155,7 +155,7 @@ public record FluxBootstrapOptions : FluxOptions
     /// list of directories to be included in the GitRepository sparse checkout, the configured --path must be one of them, accepts comma-separated values
     /// </summary>
     [CliOption("--sparse-checkout", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<FluxBootstrapSparseCheckout>? SparseCheckout { get; set; }
+    public IEnumerable<string>? SparseCheckout { get; set; }
 
     /// <summary>
     /// SSH ECDSA public key curve (default p384)
@@ -318,7 +318,7 @@ public record FluxBootstrapOptions : FluxOptions
     /// Path to the kubeconfig file to use for CLI requests.
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request (default "flux-system")
@@ -368,5 +368,11 @@ public record FluxBootstrapOptions : FluxOptions
     /// </summary>
     [CliFlag("--verbose")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Command { get; set; }
 
 }

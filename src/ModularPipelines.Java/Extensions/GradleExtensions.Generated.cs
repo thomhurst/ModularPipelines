@@ -33,7 +33,7 @@ public static class GradleExtensions
     }
 
     /// <summary>
-    /// Gets the gradle service from the pipeline context.
+    /// Gets the gradle service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGradle"/> service for executing gradle commands.</returns>

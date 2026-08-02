@@ -19,6 +19,14 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("audit", "enable")]
-public record VaultAuditEnableOptions : VaultOptions
+public record VaultAuditEnableOptions(
+    [property: CliArgument(0)] string Type
+) : VaultOptions
 {
+    /// <summary>
+    /// The CONFIG K=V operand.
+    /// </summary>
+    [CliArgument(1)]
+    public IEnumerable<string>? ConfigKV { get; set; }
+
 }

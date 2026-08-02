@@ -32,6 +32,21 @@ public class FluxDeleteSource
     #region Commands
 
     /// <summary>
+    /// The delete source sub-commands delete sources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxDeleteSourceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxDeleteSourceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The delete source bucket command deletes the given Bucket from the cluster.
     /// </summary>
     /// <param name="options">The command options.</param>

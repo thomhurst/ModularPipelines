@@ -501,7 +501,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             Status.Successful => LogLevel.Information,
             Status.Failed => LogLevel.Error,
             Status.TimedOut => LogLevel.Error,
-            Status.Skipped => LogLevel.Warning,
+            Status.Skipped => LogLevel.Information,
             Status.Unknown => LogLevel.Error,
             Status.IgnoredFailure => LogLevel.Warning,
             Status.PipelineTerminated => LogLevel.Error,

@@ -236,6 +236,7 @@ internal sealed class Command : ICommandContext
         var standardError = string.Empty;
 
         var inputToLog = GetInputToLog(command, execOpts);
+        var loggingFailures = new DeferredCommandLoggingFailures();
 
         using var forcefulCancellationToken = new CancellationTokenSource();
         using var processTreeTerminator = new ProcessTreeTerminator();
@@ -244,6 +245,12 @@ internal sealed class Command : ICommandContext
 
         var registration = executionCancellationToken.Register(
             () => ScheduleForcefulCancellation(forcefulCancellationToken, execOpts.GracefulShutdownTimeout));
+        loggingFailures.Capture(
+            () => _commandLogger.LogCommandStart(
+                options,
+                execOpts,
+                inputToLog,
+                command.WorkingDirPath));
         await using (registration.ConfigureAwait(false))
         {
             CliWrap.CommandResult result;
@@ -288,8 +295,7 @@ internal sealed class Command : ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                var failure = CombineWithCompletionFailure(
-                    e,
+                loggingFailures.Capture(
                     () => LogCommandCompletion(
                         options,
                         execOpts,
@@ -302,6 +308,7 @@ internal sealed class Command : ICommandContext
                         completeStandardErrorBuffer,
                         deferredOutputLogger,
                         command.WorkingDirPath));
+                var failure = loggingFailures.CombineWith(e);
 
                 throw new CommandException(
                     CreateFailureResult(
@@ -324,8 +331,7 @@ internal sealed class Command : ICommandContext
                 standardOutput = standardOutputBuffer.ToString();
                 standardError = standardErrorBuffer.ToString();
 
-                var failure = CombineWithCompletionFailure(
-                    e,
+                loggingFailures.Capture(
                     () => LogCommandCompletion(
                         options,
                         execOpts,
@@ -338,6 +344,7 @@ internal sealed class Command : ICommandContext
                         completeStandardErrorBuffer,
                         deferredOutputLogger,
                         command.WorkingDirPath));
+                var failure = loggingFailures.CombineWith(e);
 
                 if (ShouldPreserveCallerCancellation(e, failure, callerCancellationToken))
                 {
@@ -365,9 +372,8 @@ internal sealed class Command : ICommandContext
                 standardOutput,
                 standardError);
 
-            try
-            {
-                LogCommandCompletion(
+            loggingFailures.Capture(
+                () => LogCommandCompletion(
                     options,
                     execOpts,
                     inputToLog,
@@ -378,13 +384,12 @@ internal sealed class Command : ICommandContext
                     completeStandardOutputBuffer,
                     completeStandardErrorBuffer,
                     deferredOutputLogger,
-                    command.WorkingDirPath);
-            }
-            catch (Exception completionFailure) when (commandFailure is not null)
+                    command.WorkingDirPath));
+            if (commandFailure is not null && loggingFailures.HasFailures)
             {
                 throw new CommandException(
                     commandFailure.Result,
-                    new AggregateException(commandFailure, completionFailure));
+                    loggingFailures.CombineWith(commandFailure));
             }
 
             if (commandFailure is not null)
@@ -392,22 +397,8 @@ internal sealed class Command : ICommandContext
                 throw commandFailure;
             }
 
+            loggingFailures.Throw();
             return new CommandResult(command, result, standardOutput, standardError);
-        }
-    }
-
-    private static Exception CombineWithCompletionFailure(
-        Exception executionFailure,
-        Action complete)
-    {
-        try
-        {
-            complete();
-            return executionFailure;
-        }
-        catch (Exception completionFailure)
-        {
-            return new AggregateException(executionFailure, completionFailure);
         }
     }
 
@@ -1061,7 +1052,7 @@ internal sealed class Command : ICommandContext
     {
         var deferredOutput = deferredOutputLogger?.Complete();
         var hasStreamedOutput = deferredOutput?.HasStreamedOutput == true;
-        _commandLogger.Log(
+        _commandLogger.LogCommandCompletion(
             options,
             executionOptions,
             input,

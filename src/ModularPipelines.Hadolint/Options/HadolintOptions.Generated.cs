@@ -19,6 +19,7 @@ namespace ModularPipelines.Hadolint.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("hadolint")]
+[CliGlobalOptions]
 public abstract record HadolintOptions : CommandLineToolOptions
 {
 }

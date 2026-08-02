@@ -18,7 +18,9 @@ namespace ModularPipelines.Flux.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "install")]
-public record FluxPluginInstallOptions : FluxOptions
+public record FluxPluginInstallOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string NameVersion
+) : FluxOptions
 {
     /// <summary>
     /// help for install
@@ -114,7 +116,7 @@ public record FluxPluginInstallOptions : FluxOptions
     /// Path to the kubeconfig file to use for CLI requests.
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request (default "flux-system")

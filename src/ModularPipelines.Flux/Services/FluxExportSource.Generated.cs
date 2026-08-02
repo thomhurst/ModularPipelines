@@ -32,6 +32,21 @@ public class FluxExportSource
     #region Commands
 
     /// <summary>
+    /// The export source sub-commands export sources in YAML format.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxExportSourceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxExportSourceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The export source git command exports one or all Bucket sources in YAML format.
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -32,6 +32,21 @@ public class FluxCreateImage
     #region Commands
 
     /// <summary>
+    /// The create image sub-commands work with image automation objects;
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxCreateImageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxCreateImageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The create image policy command generates an ImagePolicy resource.
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "install")]
 public record TrivyPluginInstallOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Source
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : TrivyOptions
 {
     /// <summary>

@@ -6,19 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
+using ModularPipelines.Yarn.Options;
 
-namespace ModularPipelines.Flux.Enums;
+namespace ModularPipelines.Yarn.Options;
 
-/// <summary>
-/// Allowed values for the --sparsecheckout option.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum FluxBootstrapGiteaSparseCheckout
+[ExcludeFromCodeCoverage]
+[CliSubCommand("constraints source")]
+public record YarnConstraintsSourceOptions : YarnOptions
 {
-    [EnumValue("them")]
-    Them,
-
-    [EnumValue("accepts")]
-    Accepts
 }

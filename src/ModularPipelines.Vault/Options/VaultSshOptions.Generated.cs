@@ -19,6 +19,14 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ssh")]
-public record VaultSshOptions : VaultOptions
+public record VaultSshOptions(
+    [property: CliArgument(0)] string UsernameIp
+) : VaultOptions
 {
+    /// <summary>
+    /// The ssh options operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? SshOptions { get; set; }
+
 }

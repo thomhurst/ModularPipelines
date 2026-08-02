@@ -92,4 +92,40 @@ public class FormattedLogValuesObfuscatorTests
 
         await Assert.That(properties["ModuleName"]).IsEqualTo("********");
     }
+
+    [Test]
+    public async Task TryObfuscateValues_MasksUnstructuredState()
+    {
+        const string secret = "plain-state-secret";
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) =>
+                (value ?? string.Empty).Replace(secret, "********", StringComparison.Ordinal));
+
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object)
+            .TryObfuscateValues($"Value: {secret}");
+
+        await Assert.That(obfuscatedState).IsEqualTo("Value: ********");
+    }
+
+    [Test]
+    public async Task TryObfuscateValues_PreservesStateWhenToStringThrows()
+    {
+        var state = new ThrowingToStringState();
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+
+        var obfuscatedState = new FormattedLogValuesObfuscator(secretObfuscator.Object)
+            .TryObfuscateValues(state);
+
+        await Assert.That(obfuscatedState).IsSameReferenceAs(state);
+        secretObfuscator.Verify(
+            x => x.Obfuscate(It.IsAny<string?>(), It.IsAny<object?>()),
+            Times.Never);
+    }
+
+    private sealed class ThrowingToStringState
+    {
+        public override string ToString() => throw new InvalidOperationException("Cannot format state.");
+    }
 }

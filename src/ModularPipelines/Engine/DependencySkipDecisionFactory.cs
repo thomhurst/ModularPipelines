@@ -4,13 +4,17 @@ namespace ModularPipelines.Engine;
 
 internal static class DependencySkipDecisionFactory
 {
+    private const string DependencyReasonPrefix = "Required dependency '";
+    private const string DependencyReasonSeparator = " was skipped: ";
+    private const string DependencyReasonSuffix = "' was skipped";
+
     public static SkipDecision Create(
         IReadOnlyList<(Type ModuleType, SkipDecision? SkipDecision)> skippedDependencies)
     {
         if (skippedDependencies.Count == 1)
         {
             var dependency = skippedDependencies[0];
-            var dependencyReason = dependency.SkipDecision?.Reason;
+            var dependencyReason = GetRootReason(dependency.SkipDecision?.Reason);
             var reasonSuffix = string.IsNullOrWhiteSpace(dependencyReason)
                 ? string.Empty
                 : $": {dependencyReason}";
@@ -22,5 +26,26 @@ internal static class DependencySkipDecisionFactory
             ", ",
             skippedDependencies.Select(dependency => $"'{dependency.ModuleType.Name}'"));
         return SkipDecision.Skip($"Required dependencies {dependencyNames} were skipped");
+    }
+
+    private static string? GetRootReason(string? reason)
+    {
+        while (reason?.StartsWith(DependencyReasonPrefix, StringComparison.Ordinal) == true)
+        {
+            var separatorIndex = reason.IndexOf(
+                DependencyReasonSeparator,
+                DependencyReasonPrefix.Length,
+                StringComparison.Ordinal);
+            if (separatorIndex < 0)
+            {
+                return reason.EndsWith(DependencyReasonSuffix, StringComparison.Ordinal)
+                    ? null
+                    : reason;
+            }
+
+            reason = reason[(separatorIndex + DependencyReasonSeparator.Length)..];
+        }
+
+        return reason;
     }
 }

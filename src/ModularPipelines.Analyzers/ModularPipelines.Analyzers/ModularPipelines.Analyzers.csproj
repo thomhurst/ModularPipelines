@@ -5,6 +5,8 @@
     <!-- Avoid ID conflicts with the package project. -->
     <PackageId>*$(MSBuildProjectFile)*</PackageId>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <!-- Descriptor creation is centralized, which release tracking cannot statically associate with analyzers. -->
+    <NoWarn>$(NoWarn);RS2002;RS2003</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers">

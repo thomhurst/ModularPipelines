@@ -18,7 +18,12 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-verify")]
-public record SkopeoStandaloneVerifyOptions : SkopeoOptions
+public record SkopeoStandaloneVerifyOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Manifest,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string DockerReference,
+    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string KeyFingerprints,
+    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string Signature
+) : SkopeoOptions
 {
     /// <summary>
     /// help for standalone-verify

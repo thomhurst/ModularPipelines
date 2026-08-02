@@ -124,6 +124,11 @@ The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
 using var builder = Pipeline.CreateBuilder(args);
+builder.ConfigurePipelineOptions(options => options with
+{
+    ExecutionMode = ExecutionMode.WaitForAllModules,
+    ThrowOnPipelineFailure = false,
+});
 builder.AddModule<MyModule>();
 
 // Step 1: Build and validate the pipeline
@@ -133,11 +138,14 @@ await using var pipeline = await builder.BuildAsync();
 var summary = await pipeline.RunAsync();
 
 // Check results
-if (summary.Status == PipelineStatus.Failed)
+if (summary.Status == ModularPipelines.Enums.Status.Failed)
 {
     Environment.Exit(1);
 }
 ```
+
+Use `WaitForAllModules` with `ThrowOnPipelineFailure = false` when you need to inspect
+the returned summary after a module fails. Fail-fast mode rethrows the module exception.
 
 `BuildAsync()` always validates the pipeline configuration before returning:
 

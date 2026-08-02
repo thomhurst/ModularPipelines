@@ -33,11 +33,11 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AddAsync(
-        CargoAddOptions? options = null,
+        CargoAddOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new CargoAddOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -105,11 +105,11 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NewAsync(
-        CargoNewOptions? options = null,
+        CargoNewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new CargoNewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -123,11 +123,11 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> RemoveAsync(
-        CargoRemoveOptions? options = null,
+        CargoRemoveOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new CargoRemoveOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

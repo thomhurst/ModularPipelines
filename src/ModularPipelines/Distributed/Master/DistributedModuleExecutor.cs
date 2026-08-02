@@ -25,6 +25,7 @@ internal class DistributedModuleExecutor(
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
+    IModuleResultRegistrar resultRegistrar,
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
     IOptions<DistributedOptions> options,
@@ -41,6 +42,7 @@ internal class DistributedModuleExecutor(
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IModuleResultRegistrar _resultRegistrar = resultRegistrar;
     private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
@@ -89,7 +91,7 @@ internal class DistributedModuleExecutor(
                 _resultRegistry);
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
-            cts.Token.Register(() => scheduler.CancelPendingModules());
+            cts.Token.Register(() => CompleteCancelledModules(scheduler, _resultRegistrar, cts.Token));
 
             var schedulerTask = scheduler.RunSchedulerAsync(cts.Token);
             var resultTasks = new List<Task>();
@@ -103,14 +105,18 @@ internal class DistributedModuleExecutor(
                 await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(cts.Token))
                 {
                     var moduleType = moduleState.Module.GetType();
-
-                    // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
-                    // Modules with [MatrixTarget] will run once, not N times.
-                    _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
                     var assignment = _publisher.CreateAssignment(moduleState.Module);
-                    await _publisher.PublishAsync(assignment, cts.Token);
+                    if (!scheduler.MarkModuleStarted(moduleType))
+                    {
+                        continue;
+                    }
 
-                    var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts);
+                    var collectTask = PublishAndCollectDistributedResultAsync(
+                        assignment,
+                        moduleState.Module,
+                        moduleType,
+                        scheduler,
+                        cts);
                     resultTasks.Add(collectTask);
                 }
             }
@@ -169,6 +175,34 @@ internal class DistributedModuleExecutor(
         }
 
         return modules;
+    }
+
+    internal static void CompleteCancelledModules(
+        IModuleScheduler scheduler,
+        IModuleResultRegistrar resultRegistrar,
+        CancellationToken cancellationToken)
+    {
+        var cancelledModules = scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+        resultRegistrar.RegisterTerminatedResultsForCancelledModules(
+            cancelledModules,
+            new OperationCanceledException(cancellationToken));
+    }
+
+    internal static IModuleResult CreateCollectorFailureResult(
+        IModule module,
+        Type moduleType,
+        Exception exception,
+        Enums.Status status)
+    {
+        var executionContext = new ModuleExecutionContext(module, moduleType)
+        {
+            Status = status,
+            Exception = exception,
+        };
+        return ModuleResultFactory.CreateException(
+            module.ResultType,
+            exception,
+            executionContext);
     }
 
     private async Task WaitForWorkersAsync(CancellationToken cancellationToken)
@@ -389,33 +423,46 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task CollectDistributedResultAsync(IModule module, Type moduleType, IModuleScheduler scheduler, CancellationTokenSource cts)
+    private async Task PublishAndCollectDistributedResultAsync(
+        ModuleAssignment assignment,
+        IModule module,
+        Type moduleType,
+        IModuleScheduler scheduler,
+        CancellationTokenSource cts)
     {
         using var timeoutCts = CreateResultTimeoutSource(module.Configuration.Timeout, cts.Token);
+        var lifecycleToken = timeoutCts?.Token ?? cts.Token;
 
         try
         {
-            scheduler.MarkModuleStarted(moduleType);
-            await CollectResultAsync(module, moduleType, scheduler, cts, timeoutCts?.Token ?? cts.Token);
+            // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
+            // Modules with [MatrixTarget] will run once, not N times.
+            _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
+            await _publisher.PublishAsync(assignment, lifecycleToken);
+            await CollectResultAsync(module, moduleType, scheduler, cts, lifecycleToken);
         }
         catch (OperationCanceledException) when (!cts.IsCancellationRequested)
         {
             // Timeout expired (not pipeline cancellation)
             _logger.LogError("Distributed module {Module} timed out waiting for result — worker may have died", moduleType.Name);
-            RegisterFailureResult(module, moduleType, new TimeoutException(
-                $"Module {moduleType.Name} did not produce a result within the configured timeout"));
+            RegisterFailureResult(
+                module,
+                moduleType,
+                new TimeoutException(
+                    $"Module {moduleType.Name} did not produce a result within the configured timeout"),
+                Enums.Status.TimedOut);
             scheduler.MarkModuleCompleted(moduleType, false);
             await cts.CancelAsync();
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException exception)
         {
-            RegisterFailureResult(module, moduleType, new OperationCanceledException("Module was cancelled"));
+            _resultRegistrar.RegisterTerminatedResult(module, moduleType, exception);
             scheduler.MarkModuleCompleted(moduleType, false);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to collect result for distributed module {Module}", moduleType.Name);
-            RegisterFailureResult(module, moduleType, ex);
+            _logger.LogError(ex, "Failed to publish or collect distributed module {Module}", moduleType.Name);
+            RegisterFailureResult(module, moduleType, ex, Enums.Status.Failed);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             await cts.CancelAsync();
         }
@@ -463,14 +510,20 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private void RegisterFailureResult(IModule module, Type moduleType, Exception exception)
+    private void RegisterFailureResult(
+        IModule module,
+        Type moduleType,
+        Exception exception,
+        Enums.Status status)
     {
         try
         {
-            var failureResult = ModuleResultFactory.CreateException(
-                module.ResultType,
+            var failureResult = CreateCollectorFailureResult(
+                module,
+                moduleType,
                 exception,
-                new ModuleExecutionContext(module, moduleType));
+                status);
+            ModuleCompletionSourceApplicator.TryApply(module, failureResult);
             _resultRegistry.RegisterResult(moduleType, failureResult);
         }
         catch (Exception ex)

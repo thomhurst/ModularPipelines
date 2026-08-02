@@ -18,7 +18,9 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate-sigstore-key")]
-public record SkopeoGenerateSigstoreKeyOptions : SkopeoOptions
+public record SkopeoGenerateSigstoreKeyOptions(
+    [property: CliArgument(0)] string Prefix
+) : SkopeoOptions
 {
     /// <summary>
     /// help for generate-sigstore-key
@@ -38,5 +40,11 @@ public record SkopeoGenerateSigstoreKeyOptions : SkopeoOptions
     [SecretValue]
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
+
+    /// <summary>
+    /// The command options operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? CommandOptions { get; set; }
 
 }

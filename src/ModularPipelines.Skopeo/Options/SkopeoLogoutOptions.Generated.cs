@@ -18,7 +18,9 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logout")]
-public record SkopeoLogoutOptions : SkopeoOptions
+public record SkopeoLogoutOptions(
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Registry
+) : SkopeoOptions
 {
     /// <summary>
     /// Remove the cached credentials for all registries in the auth file
@@ -49,5 +51,11 @@ public record SkopeoLogoutOptions : SkopeoOptions
     /// </summary>
     [CliFlag("--tls-verify")]
     public bool? TlsVerify { get; set; }
+
+    /// <summary>
+    /// The command options operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? CommandOptions { get; set; }
 
 }

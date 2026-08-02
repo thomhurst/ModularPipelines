@@ -18,7 +18,9 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest-digest")]
-public record SkopeoManifestDigestOptions : SkopeoOptions
+public record SkopeoManifestDigestOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ManifestFile
+) : SkopeoOptions
 {
     /// <summary>
     /// help for manifest-digest

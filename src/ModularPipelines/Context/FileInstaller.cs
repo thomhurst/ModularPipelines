@@ -1,5 +1,6 @@
 using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
@@ -30,8 +31,8 @@ public class FileInstaller : IFileInstaller
             }, null, cancellationToken).ConfigureAwait(false);
         }
 
-        var escapedPath = options.Path.Replace("'", "'\''");
-        await _bash.CommandAsync(new BashCommandOptions($"chmod u+x '{escapedPath}'"), cancellationToken).ConfigureAwait(false);
+        var escapedPath = ShellArgumentEscaper.Escape(options.Path);
+        await _bash.CommandAsync(new BashCommandOptions($"chmod u+x {escapedPath}"), cancellationToken).ConfigureAwait(false);
 
         return await _bash.FromFileAsync(new BashFileOptions(options.Path), cancellationToken).ConfigureAwait(false);
     }

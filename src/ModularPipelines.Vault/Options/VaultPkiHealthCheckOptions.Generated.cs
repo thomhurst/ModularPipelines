@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "health-check")]
-public record VaultPkiHealthCheckOptions : VaultOptions
+public record VaultPkiHealthCheckOptions(
+    [property: CliArgument(0)] string Mount
+) : VaultOptions
 {
 }

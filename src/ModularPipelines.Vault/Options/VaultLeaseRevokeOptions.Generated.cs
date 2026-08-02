@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lease", "revoke")]
-public record VaultLeaseRevokeOptions : VaultOptions
+public record VaultLeaseRevokeOptions(
+    [property: CliArgument(0)] string Id
+) : VaultOptions
 {
 }

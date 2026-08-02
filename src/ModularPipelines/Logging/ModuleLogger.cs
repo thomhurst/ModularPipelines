@@ -119,7 +119,9 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
                 return;
             }
 
-            var obfuscatedState = _formattedLogValuesObfuscator.TryObfuscateValues(state!);
+            var obfuscatedState = state is null
+                ? null
+                : _formattedLogValuesObfuscator.TryObfuscateValues(state);
             var logEvent = new BufferedLogEvent<TState>(
                 logLevel,
                 eventId,
