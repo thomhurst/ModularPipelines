@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Artifacts;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
@@ -26,7 +27,9 @@ public static class S3DistributedExtensions
     {
         var options = new S3ArtifactOptions();
         configureS3(options);
-        builder.Services.AddSingleton(_ => new S3ModuleCache(options));
+        builder.Services.AddSingleton(serviceProvider => new S3ModuleCache(
+            options,
+            serviceProvider.GetRequiredService<IOptions<ModuleCacheOptions>>().Value));
         return builder.AddModuleCache<S3ModuleCache>(configureCache);
     }
 

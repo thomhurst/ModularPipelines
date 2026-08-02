@@ -2,6 +2,7 @@ using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Extensions;
 using ModularPipelines.Distributed.Artifacts.S3.Caching;
 using ModularPipelines.Distributed.Artifacts.S3.Configuration;
@@ -55,6 +56,25 @@ public class S3ModuleCacheTests
     }
 
     [Test]
+    public async Task OpenReadRejectsContentAboveConfiguredLimit()
+    {
+        var s3 = new Mock<IAmazonS3>();
+        s3.Setup(client => client.GetObjectAsync(
+                "cache-bucket",
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new GetObjectResponse
+            {
+                ResponseStream = new MemoryStream([4, 5, 6]),
+            });
+        using var cache = CreateCache(s3.Object, maximumCacheEntryBytes: 2);
+
+        await Assert.That(() => cache.OpenReadAsync(Fingerprint, CancellationToken.None))
+            .Throws<InvalidDataException>()
+            .WithMessageContaining("configured limit of 2 bytes");
+    }
+
+    [Test]
     public async Task OpenReadReturnsNullForMissingObject()
     {
         var s3 = new Mock<IAmazonS3>();
@@ -104,12 +124,18 @@ public class S3ModuleCacheTests
         }
     }
 
-    private static S3ModuleCache CreateCache(IAmazonS3 client) =>
+    private static S3ModuleCache CreateCache(
+        IAmazonS3 client,
+        long maximumCacheEntryBytes = 10L * 1024 * 1024 * 1024) =>
         new(
             new S3ArtifactOptions
             {
                 BucketName = "cache-bucket",
                 KeyPrefix = "custom-prefix",
             },
-            client);
+            client,
+            new ModuleCacheOptions
+            {
+                MaximumCacheEntryBytes = maximumCacheEntryBytes,
+            });
 }

@@ -14,23 +14,37 @@ namespace ModularPipelines.Distributed.Artifacts.S3.Caching;
 public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
 {
     private readonly S3ArtifactOptions _options;
+    private readonly long _maximumCacheEntryBytes;
     private readonly Lazy<IAmazonS3> _client;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="S3ModuleCache"/> class.
     /// </summary>
     public S3ModuleCache(S3ArtifactOptions options)
+        : this(options, new ModuleCacheOptions())
+    {
+    }
+
+    internal S3ModuleCache(S3ArtifactOptions options, ModuleCacheOptions cacheOptions)
     {
         ValidateOptions(options);
+        ValidateCacheOptions(cacheOptions);
         _options = options;
+        _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
         _client = new Lazy<IAmazonS3>(() => S3ClientFactory.Create(options));
     }
 
-    internal S3ModuleCache(S3ArtifactOptions options, IAmazonS3 client)
+    internal S3ModuleCache(
+        S3ArtifactOptions options,
+        IAmazonS3 client,
+        ModuleCacheOptions? cacheOptions = null)
     {
         ValidateOptions(options);
         ArgumentNullException.ThrowIfNull(client);
+        cacheOptions ??= new ModuleCacheOptions();
+        ValidateCacheOptions(cacheOptions);
         _options = options;
+        _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
         _client = new Lazy<IAmazonS3>(() => client);
     }
 
@@ -53,6 +67,11 @@ public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
 
         using (response)
         {
+            if (response.ContentLength > _maximumCacheEntryBytes)
+            {
+                throw CreateEntryLimitException();
+            }
+
             var temporary = Path.GetTempFileName();
             var stream = new FileStream(
                 temporary,
@@ -63,7 +82,8 @@ public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
                 FileOptions.Asynchronous | FileOptions.DeleteOnClose);
             try
             {
-                await response.ResponseStream.CopyToAsync(stream, cancellationToken).ConfigureAwait(false);
+                await CopyResponseToAsync(response.ResponseStream, stream, cancellationToken)
+                    .ConfigureAwait(false);
                 stream.Position = 0;
                 return stream;
             }
@@ -105,10 +125,51 @@ public sealed class S3ModuleCache : IModuleCacheStore, IDisposable
     private string BuildObjectKey(string fingerprint) =>
         $"{_options.KeyPrefix.TrimEnd('/')}/module-cache/v1/{fingerprint.ToLowerInvariant()}.zip";
 
+    private async Task CopyResponseToAsync(
+        Stream input,
+        Stream output,
+        CancellationToken cancellationToken)
+    {
+        const int bufferSize = 64 * 1024;
+        var buffer = new byte[bufferSize];
+        var totalBytes = 0L;
+        while (true)
+        {
+            var bytesRead = await input.ReadAsync(buffer, cancellationToken).ConfigureAwait(false);
+            if (bytesRead == 0)
+            {
+                return;
+            }
+
+            if (totalBytes > _maximumCacheEntryBytes - bytesRead)
+            {
+                throw CreateEntryLimitException();
+            }
+
+            totalBytes += bytesRead;
+            await output.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private InvalidDataException CreateEntryLimitException() =>
+        new($"S3 module cache entry exceeded the configured limit of {_maximumCacheEntryBytes:N0} bytes.");
+
     private static void ValidateOptions(S3ArtifactOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentException.ThrowIfNullOrWhiteSpace(options.BucketName);
         ArgumentException.ThrowIfNullOrWhiteSpace(options.KeyPrefix);
+    }
+
+    private static void ValidateCacheOptions(ModuleCacheOptions options)
+    {
+        ArgumentNullException.ThrowIfNull(options);
+        if (options.MaximumCacheEntryBytes <= 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(options),
+                "ModuleCacheOptions.MaximumCacheEntryBytes must be positive.");
+        }
     }
 }
