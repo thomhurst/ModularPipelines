@@ -24,7 +24,7 @@ public class GitChangesTests
         await Assert.That(runner.Commands[0].OfType<string>())
             .IsEquivalentTo(["merge-base", "origin/main", "HEAD"]);
         await Assert.That(runner.Commands[1].OfType<string>()).IsEquivalentTo(
-            ["diff", "--name-only", "-z", "0123456789abcdef", "HEAD", "--"]);
+            ["diff", "--name-only", "--no-renames", "-z", "0123456789abcdef", "HEAD", "--"]);
     }
 
     [Test]
@@ -84,6 +84,20 @@ public class GitChangesTests
         await changes.HasChangesAsync(["src/**"]);
 
         await Assert.That(runner.ExecutionOptions[1]?.MaxCapturedOutputLength).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Includes_Source_And_Destination_Paths_For_Renames()
+    {
+        var runner = new RecordingGitCommandRunner(
+            "merge-base",
+            "src/A/file.cs\0src/B/file.cs\0");
+        var changes = CreateChanges(runner);
+
+        var sourceChanged = await changes.HasChangesAsync(["src/A/**"]);
+
+        await Assert.That(sourceChanged).IsTrue();
+        await Assert.That(runner.Commands[1].OfType<string>()).Contains("--no-renames");
     }
 
     [Test]

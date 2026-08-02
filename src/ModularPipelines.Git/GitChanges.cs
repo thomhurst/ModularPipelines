@@ -82,6 +82,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                     cancellationToken,
                     "diff",
                     "--name-only",
+                    "--no-renames",
                     "-z",
                     mergeBase,
                     "HEAD",
