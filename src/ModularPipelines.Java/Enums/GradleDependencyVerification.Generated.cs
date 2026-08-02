@@ -17,11 +17,11 @@ namespace ModularPipelines.Java.Enums;
 public enum GradleDependencyVerification
 {
     [EnumValue("strict")]
-    Strict,
+    Strict = 0,
 
     [EnumValue("lenient")]
-    Lenient,
+    Lenient = 1,
 
     [EnumValue("off")]
-    Off
+    Off = 2
 }

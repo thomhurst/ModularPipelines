@@ -17,8 +17,8 @@ namespace ModularPipelines.Java.Enums;
 public enum GradlePriority
 {
     [EnumValue("normal")]
-    Normal,
+    Normal = 0,
 
     [EnumValue("low")]
-    Low
+    Low = 1
 }
