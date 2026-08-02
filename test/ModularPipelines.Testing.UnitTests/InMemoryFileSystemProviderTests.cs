@@ -89,8 +89,9 @@ public class InMemoryFileSystemProviderTests
 
         IEnumerable<string> GetLines()
         {
+            yield return "first";
             cancellationTokenSource.Cancel();
-            yield return "replacement";
+            yield return "should-not-be-written";
             continuedAfterCancellation = true;
             yield return "should-not-be-enumerated";
         }
@@ -101,7 +102,32 @@ public class InMemoryFileSystemProviderTests
 
         await Assert.That(WriteAsync).Throws<OperationCanceledException>();
         await Assert.That(continuedAfterCancellation).IsFalse();
-        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+        await Assert.That(await provider.ReadAllTextAsync(path))
+            .IsEqualTo($"{(append ? "original" : string.Empty)}first{Environment.NewLine}");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task LineWritesPreserveLinesWrittenBeforeEnumerationFails(bool append)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "partial-lines.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        static IEnumerable<string> GetLines()
+        {
+            yield return "first";
+            throw new InvalidOperationException("enumeration failed");
+        }
+
+        Task WriteAsync() => append
+            ? provider.AppendAllLinesAsync(path, GetLines())
+            : provider.WriteAllLinesAsync(path, GetLines());
+
+        await Assert.That(WriteAsync).Throws<InvalidOperationException>();
+        await Assert.That(await provider.ReadAllTextAsync(path))
+            .IsEqualTo($"{(append ? "original" : string.Empty)}first{Environment.NewLine}");
     }
 
     [Test]

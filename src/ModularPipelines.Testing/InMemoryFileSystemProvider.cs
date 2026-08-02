@@ -92,11 +92,15 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     }
 
     /// <inheritdoc />
-    public Task WriteAllLinesAsync(
+    public async Task WriteAllLinesAsync(
         string path,
         IEnumerable<string> contents,
-        CancellationToken cancellationToken = default) =>
-        WriteAllTextAsync(path, JoinLines(contents, cancellationToken), cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        await using var stream = Open(path, FileMode.Create, FileAccess.Write);
+        await WriteLinesAsync(stream, contents, cancellationToken).ConfigureAwait(false);
+    }
 
     /// <inheritdoc />
     public Task AppendAllTextAsync(
@@ -119,11 +123,15 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     }
 
     /// <inheritdoc />
-    public Task AppendAllLinesAsync(
+    public async Task AppendAllLinesAsync(
         string path,
         IEnumerable<string> contents,
-        CancellationToken cancellationToken = default) =>
-        AppendAllTextAsync(path, JoinLines(contents, cancellationToken), cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        await using var stream = Open(path, FileMode.Append, FileAccess.Write);
+        await WriteLinesAsync(stream, contents, cancellationToken).ConfigureAwait(false);
+    }
 
     /// <inheritdoc />
     public Stream OpenRead(string path)
@@ -543,11 +551,15 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     public string GetRelativePath(string relativeTo, string path) =>
         Path.GetRelativePath(relativeTo, path);
 
-    private static string JoinLines(
+    private static async Task WriteLinesAsync(
+        Stream stream,
         IEnumerable<string> contents,
         CancellationToken cancellationToken)
     {
-        var builder = new StringBuilder();
+        await using var writer = new StreamWriter(
+            stream,
+            new UTF8Encoding(encoderShouldEmitUTF8Identifier: false),
+            leaveOpen: true);
         using var enumerator = contents.GetEnumerator();
         while (true)
         {
@@ -556,10 +568,13 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             cancellationToken.ThrowIfCancellationRequested();
             if (!hasNext)
             {
-                return builder.ToString();
+                return;
             }
 
-            builder.AppendLine(enumerator.Current);
+            await writer.WriteLineAsync(
+                    (enumerator.Current ?? string.Empty).AsMemory(),
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 
