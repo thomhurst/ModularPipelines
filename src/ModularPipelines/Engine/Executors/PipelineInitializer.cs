@@ -82,6 +82,7 @@ internal class PipelineInitializer(
         "SSH_AUTH_SOCK",
         "TOKENIZERS_PARALLELISM",
         "XAUTHORITY",
+        "YARN_NPM_ALWAYS_AUTH",
     ];
 
     private static readonly Action<ILogger, BuildSystem, string, Exception?> LogDetectedBuildSystem =

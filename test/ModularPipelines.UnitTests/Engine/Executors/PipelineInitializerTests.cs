@@ -232,6 +232,7 @@ public class PipelineInitializerTests
     [Arguments("GIT_ASKPASS")]
     [Arguments("TOKENIZERS_PARALLELISM")]
     [Arguments("REGISTRY_AUTH_FILE")]
+    [Arguments("YARN_NPM_ALWAYS_AUTH")]
     public async Task EnvironmentVariables_DoNotMaskKnownNonSecretNames(
         string variableName)
     {
