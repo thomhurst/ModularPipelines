@@ -1,6 +1,7 @@
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -222,6 +223,25 @@ public class ModuleTesterTests
             await Assert.That(run.Value).IsEqualTo("contents");
             await Assert.That(run.Exception).IsNull();
             await Assert.That(Directory.Exists(root)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task ReturnsOverriddenFileSystemProvider()
+    {
+        var fileSystem = new InMemoryFileSystemProvider();
+        var path = Path.Combine(fileSystem.GetTempPath(), "overridden-provider.txt");
+
+        var run = await ModuleTester.For<FileModule, string>()
+            .WithService<IFileSystemProvider>(fileSystem)
+            .WithService(new FilePath(path))
+            .ExecuteAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(run.Value).IsEqualTo("contents");
+            await Assert.That(run.FileSystem).IsSameReferenceAs(fileSystem);
+            await Assert.That(fileSystem.FileExists(path)).IsTrue();
         }
     }
 

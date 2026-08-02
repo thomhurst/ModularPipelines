@@ -11,7 +11,7 @@ public class ModuleTestRun
     internal ModuleTestRun(
         IModuleResult result,
         IReadOnlyList<RecordedCommand> commands,
-        InMemoryFileSystemProvider fileSystem)
+        IFileSystemProvider fileSystem)
     {
         Result = result;
         Commands = commands;
@@ -46,7 +46,7 @@ public class ModuleTestRun
     /// <summary>
     /// Gets the isolated filesystem used during the run.
     /// </summary>
-    public InMemoryFileSystemProvider FileSystem { get; }
+    public IFileSystemProvider FileSystem { get; }
 }
 
 /// <summary>
@@ -58,7 +58,7 @@ public sealed class ModuleTestRun<T> : ModuleTestRun
     internal ModuleTestRun(
         ModuleResult<T> result,
         IReadOnlyList<RecordedCommand> commands,
-        InMemoryFileSystemProvider fileSystem)
+        IFileSystemProvider fileSystem)
         : base(result, commands, fileSystem)
     {
         Result = result;

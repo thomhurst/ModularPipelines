@@ -201,7 +201,8 @@ public class ModuleTestBuilder<TModule>
         pipeline.Services.GetRequiredService<IModuleResultRegistry>()
             .RegisterResult(typeof(TModule), result);
 
-        return new ExecutionOutcome(result, recorder.Commands, fileSystem);
+        var effectiveFileSystem = pipeline.Services.GetRequiredService<IFileSystemProvider>();
+        return new ExecutionOutcome(result, recorder.Commands, effectiveFileSystem);
     }
 
     private static IModuleLogger GetModuleLogger(IServiceProvider services)
@@ -250,7 +251,7 @@ public class ModuleTestBuilder<TModule>
     internal sealed record ExecutionOutcome(
         IModuleResult Result,
         IReadOnlyList<RecordedCommand> Commands,
-        InMemoryFileSystemProvider FileSystem);
+        IFileSystemProvider FileSystem);
 
     private interface IDependencySeed
     {

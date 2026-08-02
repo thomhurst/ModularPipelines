@@ -630,6 +630,15 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     private static string NormalizeFilePath(string path)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        if (path.Length >= 2
+            && path[^1] == '.'
+            && IsDirectorySeparator(path[^2]))
+        {
+            throw new ArgumentException(
+                "A file path cannot end in a current-directory segment.",
+                nameof(path));
+        }
+
         return Path.GetFullPath(path);
     }
 

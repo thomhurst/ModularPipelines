@@ -171,6 +171,23 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task TerminalCurrentDirectorySegmentDoesNotResolveAsFile()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "terminal-dot.txt");
+        var directoryForm = Path.Combine(path, ".");
+        await provider.WriteAllTextAsync(path, "original");
+
+        async Task ReadAsync() => _ = await provider.ReadAllTextAsync(directoryForm);
+        async Task WriteAsync() => await provider.WriteAllTextAsync(directoryForm, "replacement");
+
+        await Assert.That(provider.FileExists(directoryForm)).IsFalse();
+        await Assert.That(ReadAsync).ThrowsException();
+        await Assert.That(WriteAsync).ThrowsException();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
     public async Task OpenReadAllowsSharedReadHandles()
     {
         var provider = new InMemoryFileSystemProvider();
