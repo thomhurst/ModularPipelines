@@ -123,6 +123,24 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    [Arguments("archive.zip%20")]
+    public async Task DownloadFileAsync_Removes_Windows_Forbidden_Extension_Endings(string uriPath)
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri($"https://example.test/{uriPath}")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zip");
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
     public async Task DownloadFileAsync_UsesBoundedSiblingTemporaryName()
     {
         var destination = Path.Combine(
