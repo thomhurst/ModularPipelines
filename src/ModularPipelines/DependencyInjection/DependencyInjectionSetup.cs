@@ -179,6 +179,9 @@ internal static class DependencyInjectionSetup
     /// </summary>
     private static void RegisterLoggingAndConsoleServices(IServiceCollection services)
     {
+        services.AddOptions<SpectreConsoleLoggerOptions>()
+            .Configure<IAnsiConsole>((options, console) => options.Console = console);
+
         services
             .AddSingleton(TimeProvider.System)
             .AddSingleton<IExceptionOutputFormatter, SpectreExceptionFormatter>()

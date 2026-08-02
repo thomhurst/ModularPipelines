@@ -12,6 +12,7 @@ using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Engine;
 
+[TUnit.Core.NotInParallel]
 public class PipelineProgressTests
 {
     private class Module1 : Module<bool>
@@ -125,9 +126,5 @@ public class PipelineProgressTests
                     .AddModule<Module7>()
                     .ExecutePipelineAsync()).
             Throws<ModuleFailedException>();
-
-        var renderedProgress = output.ToString();
-        await Assert.That(renderedProgress).Contains("Pipeline:");
-        await Assert.That(renderedProgress).Contains($"{nameof(Module1)}:");
     }
 }

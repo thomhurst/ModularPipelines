@@ -288,7 +288,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         }
 
         // Start the progress display
-        session.Start();
+        await session.StartAsync().ConfigureAwait(false);
 
         return session;
     }

@@ -2,18 +2,57 @@ using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;
+using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
+using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using Moq;
+using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Console;
 
 [TUnit.Core.NotInParallel]
 public class ProgressSessionTests
 {
+    [Test]
+    public async Task StartAsync_Renders_Pipeline_And_Module_Rows()
+    {
+        using var output = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Ansi = AnsiSupport.Yes,
+            ColorSystem = ColorSystemSupport.Standard,
+            Interactive = InteractionSupport.Yes,
+            Out = new AnsiConsoleOutput(output),
+        });
+        var outputCoordinator = new Mock<IOutputCoordinator>();
+        var coordinator = CreateCoordinator(outputCoordinator.Object, console);
+        var module = new RenderingModule();
+        var organizedModules = new OrganizedModules(
+            [new RunnableModule(module, TimeSpan.Zero, [])],
+            []);
+        await using var session = new ProgressSession(
+            coordinator,
+            organizedModules,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            NullLoggerFactory.Instance,
+            console,
+            CancellationToken.None);
+
+        await session.StartAsync();
+        var moduleState = new ModuleState(module, module.GetType());
+        session.OnModuleStarted(moduleState, TimeSpan.Zero);
+        session.OnModuleCompleted(moduleState, true);
+        await session.DisposeAsync();
+
+        var renderedProgress = output.ToString();
+        await Assert.That(renderedProgress).Contains("Pipeline");
+        await Assert.That(renderedProgress).Contains("Rendering");
+    }
+
     [Test]
     public async Task PauseAsync_CompletesImmediatelyWhenNoRefreshIsActive()
     {
@@ -33,7 +72,9 @@ public class ProgressSessionTests
         await session.ResumeAsync();
     }
 
-    private static ConsoleCoordinator CreateCoordinator(IOutputCoordinator outputCoordinator)
+    private static ConsoleCoordinator CreateCoordinator(
+        IOutputCoordinator outputCoordinator,
+        IAnsiConsole? console = null)
     {
         var secretProvider = new Mock<ISecretProvider>();
         secretProvider.SetupGet(provider => provider.Secrets).Returns([]);
@@ -63,6 +104,16 @@ public class ProgressSessionTests
             Mock.Of<ISpectreConsoleLoggerControl>(),
             nonSpectreLoggerFactory.Object,
             spectreLoggerFilter.Object,
-            DelegatingAnsiConsole.Instance);
+            console ?? DelegatingAnsiConsole.Instance);
+    }
+
+    private sealed class RenderingModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
     }
 }
