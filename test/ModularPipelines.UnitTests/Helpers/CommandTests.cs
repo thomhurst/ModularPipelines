@@ -168,10 +168,15 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    public Task Dry_Run_Command_Exposes_Obfuscated_Environment_Variables() =>
+        AssertCommandExposesObfuscatedEnvironmentVariables(dryRun: true);
+
+    [Test]
     [RequiresTool("pwsh")]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Successful_And_Dry_Run_Commands_Expose_Obfuscated_Environment_Variables(bool dryRun)
+    public Task Successful_Command_Exposes_Obfuscated_Environment_Variables() =>
+        AssertCommandExposesObfuscatedEnvironmentVariables(dryRun: false);
+
+    private async Task AssertCommandExposesObfuscatedEnvironmentVariables(bool dryRun)
     {
         const string secret = "command-result-secret-value";
         var (command, pipeline) = await GetService<ICommandContext>(_ => { });
@@ -204,11 +209,15 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    public Task Dry_Run_Command_Preserves_Unix_Environment_Name_Casing() =>
+        AssertCommandPreservesUnixEnvironmentNameCasing(dryRun: true);
+
+    [Test]
     [RequiresTool("pwsh")]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Successful_And_Dry_Run_Commands_Preserve_Unix_Environment_Name_Casing(
-        bool dryRun)
+    public Task Successful_Command_Preserves_Unix_Environment_Name_Casing() =>
+        AssertCommandPreservesUnixEnvironmentNameCasing(dryRun: false);
+
+    private async Task AssertCommandPreservesUnixEnvironmentNameCasing(bool dryRun)
     {
         if (OperatingSystem.IsWindows())
         {
