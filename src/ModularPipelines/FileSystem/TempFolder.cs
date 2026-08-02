@@ -61,7 +61,7 @@ public sealed class TempFolder : IAsyncDisposable, IDisposable
 
         if (Folder.Exists)
         {
-            await Folder.DeleteAsync().ConfigureAwait(false);
+            await Task.Run(DeleteFolder).ConfigureAwait(false);
         }
     }
 
@@ -77,7 +77,28 @@ public sealed class TempFolder : IAsyncDisposable, IDisposable
 
         if (Folder.Exists)
         {
+            DeleteFolder();
+        }
+    }
+
+    private void DeleteFolder()
+    {
+        try
+        {
+            Folder.Clean(removeReadOnlyAttribute: true, continueOnError: true);
+        }
+        catch
+        {
+            // Temporary cleanup is best effort and must not mask the pipeline result.
+        }
+
+        try
+        {
             Folder.Delete();
+        }
+        catch
+        {
+            // Temporary cleanup is best effort and must not mask the pipeline result.
         }
     }
 }
