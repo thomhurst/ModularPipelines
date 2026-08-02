@@ -252,7 +252,7 @@ internal class PipelineInitializer(
     private static bool IsGitConfigKeyName(string name)
     {
         const string prefix = "GIT_CONFIG_KEY_";
-        return name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+        return name.StartsWith(prefix, StringComparison.Ordinal)
                && name.Length > prefix.Length
                && name[prefix.Length..].All(char.IsAsciiDigit);
     }

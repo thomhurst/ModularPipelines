@@ -176,6 +176,8 @@ public class PipelineInitializerTests
     [Arguments("GIT_AUTHOR_TOKEN")]
     [Arguments("GIT_AUTHOR_PASSWORD")]
     [Arguments("GIT_CONFIG_VALUE_0")]
+    [Arguments("git_config_key_0")]
+    [Arguments("Git_CONFIG_KEY_0")]
     [Arguments("OTEL_EXPORTER_OTLP_HEADERS")]
     [Arguments("OTEL_EXPORTER_OTLP_TRACES_HEADERS")]
     [Arguments("pwd")]
