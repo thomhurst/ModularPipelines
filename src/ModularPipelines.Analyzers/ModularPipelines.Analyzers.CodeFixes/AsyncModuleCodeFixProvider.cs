@@ -107,6 +107,11 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         ExpressionSyntax expression,
         SemanticModel? semanticModel)
     {
+        if (expression is ThrowExpressionSyntax)
+        {
+            return expression;
+        }
+
         if (expression is InvocationExpressionSyntax invocation
             && semanticModel?.GetSymbolInfo(invocation).Symbol is IMethodSymbol
             {
@@ -121,7 +126,9 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         }
 
         var awaitOperand = expression.WithoutTrivia();
-        if (awaitOperand is ConditionalExpressionSyntax or SwitchExpressionSyntax)
+        var parsedAwaitExpression = SyntaxFactory.ParseExpression($"await {awaitOperand}");
+        if (parsedAwaitExpression is not AwaitExpressionSyntax
+            || parsedAwaitExpression.ContainsDiagnostics)
         {
             awaitOperand = SyntaxFactory.ParenthesizedExpression(awaitOperand);
         }

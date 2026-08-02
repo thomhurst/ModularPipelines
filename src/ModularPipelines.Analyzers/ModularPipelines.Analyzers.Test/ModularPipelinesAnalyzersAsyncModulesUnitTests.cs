@@ -220,38 +220,46 @@ public class Module1 : Module<string>
     [TestMethod]
     public async Task CodeFixParenthesizesConditionalExpressionBody()
     {
-        var source = $@"
-{TestSourceConstants.StandardModuleHeaderWithOptions}
-
-public class Module1 : Module<string>
-{{
-    {{|#0:protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        => context is null ? ExecuteCommand() : ExecuteCommand();|}}
-
-    private static Task<string?> ExecuteCommand()
-        => Task.FromResult<string?>(""Foo"");
-}}
-";
-        var fixedSource = $@"
-{TestSourceConstants.StandardModuleHeaderWithOptions}
-
-public class Module1 : Module<string>
-{{
-    {{|#0:protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        => await (context is null ? ExecuteCommand() : ExecuteCommand());|}}
-
-    private static Task<string?> ExecuteCommand()
-        => Task.FromResult<string?>(""Foo"");
-}}
-";
-        var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId)
-            .WithLocation(0);
-
-        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
+        await VerifyExpressionBodiedCodeFixAsync(
+            "context is null ? ExecuteCommand() : ExecuteCommand()",
+            "await (context is null ? ExecuteCommand() : ExecuteCommand())");
     }
 
     [TestMethod]
     public async Task CodeFixParenthesizesSwitchExpressionBody()
+    {
+        await VerifyExpressionBodiedCodeFixAsync(
+            "context switch { null => ExecuteCommand(), _ => ExecuteCommand() }",
+            "await (context switch { null => ExecuteCommand(), _ => ExecuteCommand() })");
+    }
+
+    [TestMethod]
+    public async Task CodeFixParenthesizesCoalescingExpressionBody()
+    {
+        await VerifyExpressionBodiedCodeFixAsync(
+            "PendingTask ?? ExecuteCommand()",
+            "await (PendingTask ?? ExecuteCommand())");
+    }
+
+    [TestMethod]
+    public async Task CodeFixParenthesizesAssignmentExpressionBody()
+    {
+        await VerifyExpressionBodiedCodeFixAsync(
+            "PendingTask = ExecuteCommand()",
+            "await (PendingTask = ExecuteCommand())");
+    }
+
+    [TestMethod]
+    public async Task CodeFixPreservesThrowExpressionBody()
+    {
+        await VerifyExpressionBodiedCodeFixAsync(
+            "throw new InvalidOperationException()",
+            "throw new InvalidOperationException()");
+    }
+
+    private static async Task VerifyExpressionBodiedCodeFixAsync(
+        string expression,
+        string fixedExpression)
     {
         var source = $@"
 {TestSourceConstants.StandardModuleHeaderWithOptions}
@@ -259,7 +267,9 @@ public class Module1 : Module<string>
 public class Module1 : Module<string>
 {{
     {{|#0:protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        => context switch {{ null => ExecuteCommand(), _ => ExecuteCommand() }};|}}
+        => {expression};|}}
+
+    private static Task<string?>? PendingTask {{ get; set; }}
 
     private static Task<string?> ExecuteCommand()
         => Task.FromResult<string?>(""Foo"");
@@ -271,7 +281,9 @@ public class Module1 : Module<string>
 public class Module1 : Module<string>
 {{
     {{|#0:protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        => await (context switch {{ null => ExecuteCommand(), _ => ExecuteCommand() }});|}}
+        => {fixedExpression};|}}
+
+    private static Task<string?>? PendingTask {{ get; set; }}
 
     private static Task<string?> ExecuteCommand()
         => Task.FromResult<string?>(""Foo"");
