@@ -107,9 +107,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         ExpressionSyntax expression,
         SemanticModel? semanticModel)
     {
-        if (expression is ThrowExpressionSyntax
-            || expression.IsKind(SyntaxKind.NullLiteralExpression)
-            || expression.IsKind(SyntaxKind.DefaultLiteralExpression))
+        if (IsTargetTypedReturnExpression(expression))
         {
             return expression;
         }
@@ -138,5 +136,23 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         return SyntaxFactory
             .AwaitExpression(awaitOperand)
             .WithTriviaFrom(expression);
+    }
+
+    private static bool IsTargetTypedReturnExpression(ExpressionSyntax expression)
+    {
+        return expression switch
+        {
+            ThrowExpressionSyntax => true,
+            ParenthesizedExpressionSyntax parenthesized =>
+                IsTargetTypedReturnExpression(parenthesized.Expression),
+            ConditionalExpressionSyntax conditional =>
+                IsTargetTypedReturnExpression(conditional.WhenTrue)
+                && IsTargetTypedReturnExpression(conditional.WhenFalse),
+            SwitchExpressionSyntax switchExpression =>
+                switchExpression.Arms.All(arm =>
+                    IsTargetTypedReturnExpression(arm.Expression)),
+            _ => expression.IsKind(SyntaxKind.NullLiteralExpression)
+                 || expression.IsKind(SyntaxKind.DefaultLiteralExpression),
+        };
     }
 }

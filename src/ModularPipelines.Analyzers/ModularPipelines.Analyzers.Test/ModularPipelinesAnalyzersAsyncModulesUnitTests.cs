@@ -275,6 +275,24 @@ public class Module1 : Module<string>
             suppressNullReturnWarning: true);
     }
 
+    [TestMethod]
+    public async Task CodeFixPreservesTargetTypedConditionalExpressionBody()
+    {
+        await VerifyExpressionBodiedCodeFixAsync(
+            "context is null ? null : throw new InvalidOperationException()",
+            "context is null ? null : throw new InvalidOperationException()",
+            suppressNullReturnWarning: true);
+    }
+
+    [TestMethod]
+    public async Task CodeFixPreservesTargetTypedSwitchExpressionBody()
+    {
+        await VerifyExpressionBodiedCodeFixAsync(
+            "context switch { null => null, _ => default }",
+            "context switch { null => null, _ => default }",
+            suppressNullReturnWarning: true);
+    }
+
     private static async Task VerifyExpressionBodiedCodeFixAsync(
         string expression,
         string fixedExpression,
