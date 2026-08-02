@@ -132,6 +132,21 @@ public class TelemetryIntegrationTests
         }
     }
 
+    private sealed class TimedOutModule : Module<bool>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMilliseconds(10))
+            .Build();
+
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return true;
+        }
+    }
+
     [Test]
     public async Task Pipeline_Module_And_Command_Activities_Are_Parented_And_Obfuscated()
     {
@@ -299,6 +314,24 @@ public class TelemetryIntegrationTests
         var moduleActivity = stoppedActivities.Single();
         await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
             .IsEqualTo("PipelineTerminated");
+        await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Error);
+    }
+
+    [Test]
+    public async Task TimedOut_Is_Preserved_In_Module_Activity()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        await Assert.ThrowsAsync<ModuleFailedException>(async () =>
+            await TestPipelineHostBuilder.Create()
+                .AddModule<TimedOutModule>()
+                .ExecutePipelineAsync());
+
+        var moduleActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Module.{nameof(TimedOutModule)}");
+        await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
+            .IsEqualTo("TimedOut");
         await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Error);
     }
 

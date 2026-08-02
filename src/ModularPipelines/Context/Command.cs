@@ -58,36 +58,8 @@ internal sealed class Command : ICommandContext
         CancellationToken cancellationToken = default)
     {
         var execOpts = executionOptions ?? new CommandExecutionOptions();
-
-        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
-        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(execOpts));
-
-        var commandLine = _commandLineBuilder.Build(options);
-        var resolvedTool = commandLine.Tool;
-        var parsedArgs = commandLine.Arguments.ToList();
-
-        string tool;
-        if (execOpts.Sudo)
-        {
-            tool = "sudo";
-            parsedArgs.Insert(0, resolvedTool);
-        }
-        else
-        {
-            tool = resolvedTool;
-        }
-
-        var command = CliCommandFactory.Create(tool, parsedArgs, execOpts);
-
-        if (execOpts.WorkingDirectory != null)
-        {
-            command = command.WithWorkingDirectory(execOpts.WorkingDirectory);
-        }
-
-        if (execOpts.CommandLineCredentials != null)
-        {
-            command = command.WithCredentials(execOpts.CommandLineCredentials.ToCliWrapCredentials());
-        }
+        RegisterSecrets(options, execOpts);
+        var (command, tool, parsedArgs) = CreateCommand(options, execOpts);
 
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -105,39 +77,12 @@ internal sealed class Command : ICommandContext
             CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
         var inputToLog = new Lazy<string>(() => GetInputToLog(command, execOpts));
         using var activity = ModuleActivityTracing.StartCommandActivity(tool);
-        if (activity is not null)
-        {
-            ModuleActivityTracing.RecordCommandInput(
-                activity,
-                GetTelemetryCommandInput(inputToLog.Value, execOpts));
-        }
+        RecordTelemetryCommandInput(activity, inputToLog, execOpts);
 
         try
         {
-            linkedCancellationToken.Token.ThrowIfCancellationRequested();
-
-            var intercepted = await TryInterceptAsync(
+            var result = await ExecuteCommandCoreAsync(
                     invocation,
-                    command,
-                    options,
-                    execOpts,
-                    inputToLog,
-                    linkedCancellationToken.Token)
-                .ConfigureAwait(false);
-            if (intercepted is not null)
-            {
-                ModuleActivityTracing.RecordCommandResult(activity, intercepted);
-                return intercepted;
-            }
-
-            if (execOpts.InternalDryRun)
-            {
-                var dryRunResult = ExecuteDryRun(command, options, execOpts, inputToLog);
-                ModuleActivityTracing.RecordCommandResult(activity, dryRunResult);
-                return dryRunResult;
-            }
-
-            var result = await Of(
                     command,
                     options,
                     execOpts,
@@ -168,6 +113,94 @@ internal sealed class Command : ICommandContext
                 _secretObfuscator.Obfuscate(exception.Message, execOpts));
             throw;
         }
+    }
+
+    private void RegisterSecrets(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions));
+    }
+
+    private (CliWrap.Command Command, string Tool, List<string> Arguments) CreateCommand(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        var commandLine = _commandLineBuilder.Build(options);
+        var tool = commandLine.Tool;
+        var arguments = commandLine.Arguments.ToList();
+        if (executionOptions.Sudo)
+        {
+            arguments.Insert(0, tool);
+            tool = "sudo";
+        }
+
+        var command = CliCommandFactory.Create(tool, arguments, executionOptions);
+        if (executionOptions.WorkingDirectory is not null)
+        {
+            command = command.WithWorkingDirectory(executionOptions.WorkingDirectory);
+        }
+
+        if (executionOptions.CommandLineCredentials is not null)
+        {
+            command = command.WithCredentials(executionOptions.CommandLineCredentials.ToCliWrapCredentials());
+        }
+
+        return (command, tool, arguments);
+    }
+
+    private async Task<CommandResult> ExecuteCommandCoreAsync(
+        CommandInvocation invocation,
+        CliWrap.Command command,
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        Lazy<string> inputToLog,
+        CancellationToken executionCancellationToken,
+        CancellationToken callerCancellationToken,
+        CancellationTokenSource? timeoutCancellationToken)
+    {
+        executionCancellationToken.ThrowIfCancellationRequested();
+
+        var intercepted = await TryInterceptAsync(
+                invocation,
+                command,
+                options,
+                executionOptions,
+                inputToLog,
+                executionCancellationToken)
+            .ConfigureAwait(false);
+        if (intercepted is not null)
+        {
+            return intercepted;
+        }
+
+        return executionOptions.InternalDryRun
+            ? ExecuteDryRun(command, options, executionOptions, inputToLog)
+            : await Of(
+                    command,
+                    options,
+                    executionOptions,
+                    inputToLog,
+                    executionCancellationToken,
+                    callerCancellationToken,
+                    timeoutCancellationToken)
+                .ConfigureAwait(false);
+    }
+
+    private void RecordTelemetryCommandInput(
+        Activity? activity,
+        Lazy<string> inputToLog,
+        CommandExecutionOptions executionOptions)
+    {
+        if (activity is null)
+        {
+            return;
+        }
+
+        ModuleActivityTracing.RecordCommandInput(
+            activity,
+            GetTelemetryCommandInput(inputToLog.Value, executionOptions));
     }
 
     private async Task<CommandResult?> TryInterceptAsync(

@@ -201,11 +201,17 @@ internal class ModuleRunner : IModuleRunner
         }
         catch (Exception ex)
         {
-            // Record failure on the Activity before re-throwing
-            ModuleActivityTracing.RecordFailure(
-                activity,
-                ex,
-                _secretObfuscator.Obfuscate(ex.Message, null));
+            var obfuscatedMessage = _secretObfuscator.Obfuscate(ex.Message, null);
+            if (executionContext.Status == Enums.Status.TimedOut)
+            {
+                telemetryStatus = "TimedOut";
+                ModuleActivityTracing.RecordTimedOut(activity, ex, obfuscatedMessage);
+            }
+            else
+            {
+                ModuleActivityTracing.RecordFailure(activity, ex, obfuscatedMessage);
+            }
+
             throw;
         }
         finally

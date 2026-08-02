@@ -224,6 +224,15 @@ public static class ModuleActivityTracing
         activity?.SetStatus(ActivityStatusCode.Error, "Module terminated because the pipeline failed");
     }
 
+    internal static void RecordTimedOut(
+        Activity? activity,
+        Exception exception,
+        string obfuscatedMessage)
+    {
+        activity?.SetTag(ModuleStatusTag, "TimedOut");
+        RecordException(activity, exception, obfuscatedMessage);
+    }
+
     /// <summary>
     /// Records a skipped module on the activity.
     /// </summary>
