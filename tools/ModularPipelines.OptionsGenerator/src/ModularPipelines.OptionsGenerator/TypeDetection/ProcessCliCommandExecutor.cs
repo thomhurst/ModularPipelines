@@ -56,6 +56,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             cts.CancelAfter(_timeout);
 
             process.Start();
+            process.StandardInput.Close();
 
             var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
             var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
@@ -66,7 +67,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             }
             catch (OperationCanceledException)
             {
-                // Kill the process to prevent resource leak
+                // Kill the direct process without synchronously walking its process tree.
+                // Some plugin-based CLIs leave descendants in states where whole-tree
+                // enumeration can block the generator after the timeout has fired.
                 TryKillProcess(process, command, arguments);
                 throw;
             }
@@ -173,6 +176,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
+            RedirectStandardInput = true,
             CreateNoWindow = true
         };
 
@@ -249,7 +253,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             if (!process.HasExited)
             {
                 _logger.LogDebug("Killing timed-out process: {Command} {Arguments}", command, arguments);
-                process.Kill(entireProcessTree: true);
+                process.Kill();
             }
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))

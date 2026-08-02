@@ -110,6 +110,29 @@ public class ProcessCliCommandExecutorTests
         await Assert.That(startInfo.UseShellExecute).IsFalse();
         await Assert.That(startInfo.RedirectStandardOutput).IsTrue();
         await Assert.That(startInfo.RedirectStandardError).IsTrue();
+        await Assert.That(startInfo.RedirectStandardInput).IsTrue();
+    }
+
+    [Test]
+    public async Task Timeout_Returns_When_Command_Has_Long_Running_Child()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var executor = new ProcessCliCommandExecutor(
+            NullLogger<ProcessCliCommandExecutor>.Instance,
+            TimeSpan.FromMilliseconds(100));
+
+        var execution = executor.ExecuteAsync("/bin/sh", "-c \"sleep 30 & wait\"");
+        var result = await execution.WaitAsync(TimeSpan.FromSeconds(5));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ExitCode).IsEqualTo(-1);
+            await Assert.That(result.StandardError).Contains("timed out");
+        }
     }
 
     [Test]
