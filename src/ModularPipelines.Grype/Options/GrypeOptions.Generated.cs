@@ -19,6 +19,7 @@ namespace ModularPipelines.Grype.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("grype")]
+[CliGlobalOptions]
 public abstract record GrypeOptions : CommandLineToolOptions
 {
 }

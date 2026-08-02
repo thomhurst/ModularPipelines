@@ -34,7 +34,7 @@ public static class GrypeExtensions
     }
 
     /// <summary>
-    /// Gets the grype service from the pipeline context.
+    /// Gets the grype service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGrype"/> service for executing grype commands.</returns>

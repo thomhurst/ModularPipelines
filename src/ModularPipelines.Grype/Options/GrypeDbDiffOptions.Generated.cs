@@ -18,7 +18,9 @@ namespace ModularPipelines.Grype.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "diff")]
-public record GrypeDbDiffOptions : GrypeOptions
+public record GrypeDbDiffOptions(
+    [property: CliArgument(0)] string OldDbUrlOrPath
+) : GrypeOptions
 {
     /// <summary>
     /// help for diff
@@ -67,5 +69,11 @@ public record GrypeDbDiffOptions : GrypeOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The new_db_url_or_path operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? NewDbUrlOrPath { get; set; }
 
 }

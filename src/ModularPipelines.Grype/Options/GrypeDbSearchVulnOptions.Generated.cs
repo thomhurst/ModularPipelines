@@ -18,7 +18,9 @@ namespace ModularPipelines.Grype.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "search", "vuln")]
-public record GrypeDbSearchVulnOptions : GrypeOptions
+public record GrypeDbSearchVulnOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Id
+) : GrypeOptions
 {
     /// <summary>
     /// only show vulnerabilities with the given fix state (fixed, not-fixed, unknown, wont-fix)
