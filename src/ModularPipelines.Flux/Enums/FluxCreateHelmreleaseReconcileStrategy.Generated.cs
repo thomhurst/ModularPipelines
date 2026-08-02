@@ -17,8 +17,8 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateHelmreleaseReconcileStrategy
 {
     [EnumValue("Revision")]
-    Revision,
+    Revision = 0,
 
     [EnumValue("ChartRevision")]
-    Chartrevision
+    ChartRevision = 1
 }

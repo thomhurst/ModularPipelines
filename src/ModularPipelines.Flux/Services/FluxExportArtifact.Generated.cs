@@ -32,6 +32,21 @@ public class FluxExportArtifact
     #region Commands
 
     /// <summary>
+    /// The export artifact sub-commands export artifacts objects in YAML format.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxExportArtifactOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxExportArtifactOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The export artifact generator command exports one or all ArtifactGenerator resources in YAML format.
     /// </summary>
     /// <param name="options">The command options.</param>

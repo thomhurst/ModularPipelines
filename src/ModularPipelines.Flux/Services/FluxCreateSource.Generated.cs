@@ -32,6 +32,21 @@ public class FluxCreateSource
     #region Commands
 
     /// <summary>
+    /// The create source sub-commands generate sources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxCreateSourceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxCreateSourceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The create source bucket command generates a Bucket resource and waits for it to be downloaded.
     /// </summary>
     /// <param name="options">The command options.</param>

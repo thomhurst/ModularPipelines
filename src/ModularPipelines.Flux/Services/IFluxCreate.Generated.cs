@@ -15,6 +15,9 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux create commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IFluxCreate
 {
@@ -40,10 +43,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        FluxCreateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecuteAsync(FluxCreateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create alert command generates a Alert resource.
@@ -52,10 +52,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AlertAsync(
-        FluxCreateAlertOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> AlertAsync(FluxCreateAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create alert-provider command generates a Provider resource.
@@ -64,10 +61,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AlertProviderAsync(
-        FluxCreateAlertProviderOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> AlertProviderAsync(FluxCreateAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The helmrelease create command generates a HelmRelease resource for a given HelmRepository source.
@@ -76,10 +70,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> HelmreleaseAsync(
-        FluxCreateHelmreleaseOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> HelmreleaseAsync(FluxCreateHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create command generates a Kustomization resource for a given source.
@@ -88,10 +79,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KustomizationAsync(
-        FluxCreateKustomizationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> KustomizationAsync(FluxCreateKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create receiver command generates a Receiver resource.
@@ -100,10 +88,7 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ReceiverAsync(
-        FluxCreateReceiverOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ReceiverAsync(FluxCreateReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The create tenant command generates namespaces, service accounts and role bindings to limit the
@@ -112,9 +97,6 @@ public interface IFluxCreate
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TenantAsync(
-        FluxCreateTenantOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> TenantAsync(FluxCreateTenantOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

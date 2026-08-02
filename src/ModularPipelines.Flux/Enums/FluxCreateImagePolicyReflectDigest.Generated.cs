@@ -17,8 +17,8 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateImagePolicyReflectDigest
 {
     [EnumValue("Never")]
-    Never,
+    Never = 0,
 
     [EnumValue("IfNotPresent")]
-    Ifnotpresent
+    IfNotPresent = 1
 }

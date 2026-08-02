@@ -32,6 +32,21 @@ public class FluxExportImage
     #region Commands
 
     /// <summary>
+    /// The export image sub-commands export image automation objects in YAML format.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxExportImageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxExportImageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The export image policy command exports one or all ImagePolicy resources in YAML format.
     /// </summary>
     /// <param name="options">The command options.</param>

@@ -15,6 +15,9 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux reconcile commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IFluxReconcile
 {
@@ -35,10 +38,7 @@ public interface IFluxReconcile
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        FluxReconcileOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecuteAsync(FluxReconcileOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The reconcile helmrelease command triggers a reconciliation of a HelmRelease resource and waits for it to finish.
@@ -47,10 +47,7 @@ public interface IFluxReconcile
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> HelmreleaseAsync(
-        FluxReconcileHelmreleaseOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> HelmreleaseAsync(FluxReconcileHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The reconcile kustomization command triggers a reconciliation of a Kustomization resource and waits for it to finish.
@@ -59,10 +56,7 @@ public interface IFluxReconcile
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KustomizationAsync(
-        FluxReconcileKustomizationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> KustomizationAsync(FluxReconcileKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The reconcile receiver command triggers a reconciliation of a Receiver resource and waits for it to finish.
@@ -71,9 +65,6 @@ public interface IFluxReconcile
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ReceiverAsync(
-        FluxReconcileReceiverOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ReceiverAsync(FluxReconcileReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

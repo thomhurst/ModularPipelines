@@ -54,11 +54,11 @@ public class FluxPlugin : IFluxPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InstallAsync(
-        FluxPluginInstallOptions? options = null,
+        FluxPluginInstallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxPluginInstallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -99,11 +99,11 @@ public class FluxPlugin : IFluxPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UninstallAsync(
-        FluxPluginUninstallOptions? options = null,
+        FluxPluginUninstallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxPluginUninstallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

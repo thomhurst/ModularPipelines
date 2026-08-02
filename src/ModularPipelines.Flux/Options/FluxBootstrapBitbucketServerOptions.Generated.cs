@@ -261,7 +261,7 @@ public record FluxBootstrapBitbucketServerOptions : FluxOptions
     /// Path to the kubeconfig file to use for CLI requests.
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// log level (default info)
@@ -329,7 +329,7 @@ public record FluxBootstrapBitbucketServerOptions : FluxOptions
     /// list of directories to be included in the GitRepository sparse checkout, the configured --path must be one of them, accepts comma-separated values
     /// </summary>
     [CliOption("--sparse-checkout", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<FluxBootstrapBitbucketServerSparseCheckout>? SparseCheckout { get; set; }
+    public IEnumerable<string>? SparseCheckout { get; set; }
 
     /// <summary>
     /// SSH ECDSA public key curve (default p384)

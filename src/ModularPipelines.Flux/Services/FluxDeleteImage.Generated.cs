@@ -32,6 +32,21 @@ public class FluxDeleteImage
     #region Commands
 
     /// <summary>
+    /// The delete image sub-commands delete image automation objects.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxDeleteImageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxDeleteImageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The delete image policy command deletes the given ImagePolicy from the cluster.
     /// </summary>
     /// <param name="options">The command options.</param>

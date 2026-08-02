@@ -133,7 +133,7 @@ public record FluxTagArtifactOptions : FluxOptions
     /// Path to the kubeconfig file to use for CLI requests.
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request (default "flux-system")

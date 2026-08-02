@@ -15,6 +15,9 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux suspend commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IFluxSuspend
 {
@@ -35,10 +38,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        FluxSuspendOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecuteAsync(FluxSuspendOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a Alert resource.
@@ -47,10 +47,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AlertAsync(
-        FluxSuspendAlertOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> AlertAsync(FluxSuspendAlertOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a Provider resource.
@@ -59,10 +56,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AlertProviderAsync(
-        FluxSuspendAlertProviderOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> AlertProviderAsync(FluxSuspendAlertProviderOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a HelmRelease resource.
@@ -71,10 +65,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> HelmreleaseAsync(
-        FluxSuspendHelmreleaseOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> HelmreleaseAsync(FluxSuspendHelmreleaseOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a Kustomization resource.
@@ -83,10 +74,7 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KustomizationAsync(
-        FluxSuspendKustomizationOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> KustomizationAsync(FluxSuspendKustomizationOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The suspend command disables the reconciliation of a Receiver resource.
@@ -95,9 +83,6 @@ public interface IFluxSuspend
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ReceiverAsync(
-        FluxSuspendReceiverOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ReceiverAsync(FluxSuspendReceiverOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

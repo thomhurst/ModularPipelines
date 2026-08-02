@@ -15,6 +15,9 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux plugin commands.
 /// </summary>
+/// <remarks>
+/// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
+/// </remarks>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public interface IFluxPlugin
 {
@@ -25,10 +28,7 @@ public interface IFluxPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ExecuteAsync(
-        FluxPluginOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ExecuteAsync(FluxPluginOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The plugin install command downloads and installs a plugin from the Flux plugin catalog.
@@ -37,10 +37,7 @@ public interface IFluxPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> InstallAsync(
-        FluxPluginInstallOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> InstallAsync(FluxPluginInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The plugin list command shows all installed plugins with their versions and paths.
@@ -49,10 +46,7 @@ public interface IFluxPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ListAsync(
-        FluxPluginListOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> ListAsync(FluxPluginListOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The plugin search command lists available plugins from the Flux plugin catalog.
@@ -61,10 +55,7 @@ public interface IFluxPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SearchAsync(
-        FluxPluginSearchOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> SearchAsync(FluxPluginSearchOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The plugin uninstall command removes a plugin binary and its receipt from the plugin directory.
@@ -73,10 +64,7 @@ public interface IFluxPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UninstallAsync(
-        FluxPluginUninstallOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UninstallAsync(FluxPluginUninstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The plugin update command updates installed plugins to their latest versions.
@@ -85,9 +73,6 @@ public interface IFluxPlugin
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> UpdateAsync(
-        FluxPluginUpdateOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default);
+    Task<CommandResult> UpdateAsync(FluxPluginUpdateOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

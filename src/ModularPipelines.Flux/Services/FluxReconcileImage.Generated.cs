@@ -32,6 +32,21 @@ public class FluxReconcileImage
     #region Commands
 
     /// <summary>
+    /// The reconcile sub-commands trigger a reconciliation of image automation objects.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxReconcileImageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxReconcileImageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The reconcile image policy command triggers a reconciliation of an ImagePolicy resource and waits for it to finish.
     /// </summary>
     /// <param name="options">The command options.</param>
