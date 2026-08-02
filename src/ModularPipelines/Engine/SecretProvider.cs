@@ -305,14 +305,9 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
     private static IEnumerable<string?> GetLeafValues(IConfigurationSection section)
     {
-        var children = section.GetChildren().ToArray();
-        if (children.Length == 0)
-        {
-            yield return section.Value;
-            yield break;
-        }
+        yield return section.Value;
 
-        foreach (var child in children)
+        foreach (var child in section.GetChildren())
         {
             foreach (var value in GetLeafValues(child))
             {

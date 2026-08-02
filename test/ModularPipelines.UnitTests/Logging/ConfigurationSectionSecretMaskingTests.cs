@@ -20,6 +20,7 @@ public class ConfigurationSectionSecretMaskingTests
         {
             context.Logger.LogInformation("First secret: {Secret}", configuration["Secrets:ApiKey"]);
             context.Logger.LogInformation("Nested secret: {Secret}", configuration["Secrets:Database:Password"]);
+            context.Logger.LogInformation("Section secret: {Secret}", configuration["Secrets"]);
             context.Logger.LogInformation("Connection: {Secret}", configuration["ConnectionStrings:Database"]);
             context.Logger.LogInformation("Public value: {Value}", configuration["Public:Value"]);
             return Task.FromResult(true);
@@ -27,7 +28,7 @@ public class ConfigurationSectionSecretMaskingTests
     }
 
     [Test]
-    public async Task FluentConfigurationMasksNestedLeavesOnly()
+    public async Task FluentConfigurationMasksSectionValuesAndNestedLeaves()
     {
         var output = new StringBuilder();
         using var builder = CreateBuilder(output);
@@ -38,6 +39,7 @@ public class ConfigurationSectionSecretMaskingTests
         var log = output.ToString();
         await Assert.That(log).DoesNotContain("api-secret-123");
         await Assert.That(log).DoesNotContain("database-secret-456");
+        await Assert.That(log).DoesNotContain("section-secret-789");
         await Assert.That(log).Contains("connection-visible");
         await Assert.That(log).Contains("public-visible");
         await Assert.That(log).Contains("**********");
@@ -56,6 +58,7 @@ public class ConfigurationSectionSecretMaskingTests
         var log = output.ToString();
         await Assert.That(log).DoesNotContain("api-secret-123");
         await Assert.That(log).DoesNotContain("database-secret-456");
+        await Assert.That(log).DoesNotContain("section-secret-789");
         await Assert.That(log).DoesNotContain("connection-visible");
         await Assert.That(log).Contains("public-visible");
     }
@@ -77,6 +80,7 @@ public class ConfigurationSectionSecretMaskingTests
         var builder = TestPipelineHostBuilder.Create();
         builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
         {
+            ["Secrets"] = "section-secret-789",
             ["Secrets:ApiKey"] = "api-secret-123",
             ["Secrets:Database:Password"] = "database-secret-456",
             ["ConnectionStrings:Database"] = "connection-visible",
