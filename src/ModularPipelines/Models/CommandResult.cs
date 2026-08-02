@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using CliWrap;
-using ModularPipelines.Helpers.Internal;
 
 namespace ModularPipelines.Models;
 
@@ -40,13 +39,15 @@ public record CommandResult
     }
 
     [SetsRequiredMembers]
-    internal CommandResult(Command command)
+    internal CommandResult(
+        Command command,
+        IReadOnlyDictionary<string, string?> environmentVariables)
     {
         var completedAt = DateTimeOffset.UtcNow;
 
         CommandInput = command.ToString();
         WorkingDirectory = command.WorkingDirPath;
-        EnvironmentVariables = GetPublicEnvironmentVariables(command);
+        EnvironmentVariables = environmentVariables;
         StandardOutput = string.Empty;
         StandardError = string.Empty;
         ExitCode = 0;
@@ -56,11 +57,16 @@ public record CommandResult
     }
 
     [SetsRequiredMembers]
-    internal CommandResult(Command command, CliWrap.CommandResult commandResult, string standardOutput, string standardError)
+    internal CommandResult(
+        Command command,
+        CliWrap.CommandResult commandResult,
+        string standardOutput,
+        string standardError,
+        IReadOnlyDictionary<string, string?> environmentVariables)
     {
         CommandInput = command.ToString();
         WorkingDirectory = command.WorkingDirPath;
-        EnvironmentVariables = GetPublicEnvironmentVariables(command);
+        EnvironmentVariables = environmentVariables;
 
         StandardOutput = standardOutput;
         StandardError = standardError;
@@ -69,16 +75,6 @@ public record CommandResult
         Duration = commandResult.RunTime;
 
         ExitCode = commandResult.ExitCode;
-    }
-
-    private static IReadOnlyDictionary<string, string?> GetPublicEnvironmentVariables(Command command)
-    {
-        var environmentVariables = command.EnvironmentVariables;
-        return environmentVariables.Keys.Any(CliCommandFactory.IsInternalEnvironmentVariable)
-            ? environmentVariables
-                .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
-                .ToDictionary(StringComparer.OrdinalIgnoreCase)
-            : environmentVariables;
     }
 
     /// <summary>
