@@ -38,7 +38,10 @@ public record PodmanLogoutOptions : PodmanOptions
     [CliOption("--compat-auth-file", Format = OptionFormat.EqualsSeparated)]
     public string? CompatAuthFile { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The REGISTRY operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Registry { get; set; }
 
 }

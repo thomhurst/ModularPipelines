@@ -146,5 +146,20 @@ public class PodmanMachine : IPodmanMachine
         return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanMachineStartOptions(), executionOptions, cancellationToken);
     }
 
+    /// <summary>
+    /// Stop an existing machine
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> StopAsync(
+        PodmanMachineStopOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanMachineStopOptions(), executionOptions, cancellationToken);
+    }
+
     #endregion
 }

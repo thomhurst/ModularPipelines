@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wait")]
-public record PodmanWaitOptions : PodmanOptions
+public record PodmanWaitOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Condition to wait on
@@ -43,8 +45,5 @@ public record PodmanWaitOptions : PodmanOptions
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

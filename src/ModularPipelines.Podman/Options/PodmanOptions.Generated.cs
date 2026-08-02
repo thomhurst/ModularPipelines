@@ -19,6 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("podman")]
+[CliGlobalOptions]
 public abstract record PodmanOptions : CommandLineToolOptions
 {
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "create")]
-public record PodmanManifestCreateOptions : PodmanOptions
+public record PodmanManifestCreateOptions(
+    [property: CliArgument(0)] string List
+) : PodmanOptions
 {
     /// <summary>
     /// add all of the lists' images if the images to add are lists
@@ -38,7 +40,10 @@ public record PodmanManifestCreateOptions : PodmanOptions
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(1)]
     public IEnumerable<string>? Image { get; set; }
 
 }

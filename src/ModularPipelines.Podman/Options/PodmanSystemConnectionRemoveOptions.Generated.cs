@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "connection", "remove")]
-public record PodmanSystemConnectionRemoveOptions : PodmanOptions
+public record PodmanSystemConnectionRemoveOptions(
+    [property: CliArgument(0)] string Name
+) : PodmanOptions
 {
     /// <summary>
     /// Remove all connections

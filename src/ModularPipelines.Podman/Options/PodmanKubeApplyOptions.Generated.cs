@@ -36,7 +36,7 @@ public record PodmanKubeApplyOptions : PodmanOptions
     /// Path to the kubeconfig file for the Kubernetes cluster
     /// </summary>
     [CliOption("--kubeconfig", ShortForm = "-k", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// The namespace to deploy the workload to on the Kubernetes cluster
@@ -49,5 +49,11 @@ public record PodmanKubeApplyOptions : PodmanOptions
     /// </summary>
     [CliFlag("--service", ShortForm = "-s")]
     public bool? Service { get; set; }
+
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Container { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "rm")]
-public record PodmanVolumeRmOptions : PodmanOptions
+public record PodmanVolumeRmOptions(
+    [property: CliArgument(0)] IEnumerable<string> Volume
+) : PodmanOptions
 {
     /// <summary>
     /// Remove all volumes
@@ -37,8 +39,5 @@ public record PodmanVolumeRmOptions : PodmanOptions
     /// </summary>
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Time { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Volume { get; set; }
 
 }

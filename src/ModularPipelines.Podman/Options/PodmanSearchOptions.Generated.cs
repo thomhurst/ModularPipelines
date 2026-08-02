@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record PodmanSearchOptions : PodmanOptions
+public record PodmanSearchOptions(
+    [property: CliArgument(0)] string Term
+) : PodmanOptions
 {
     /// <summary>
     /// Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override

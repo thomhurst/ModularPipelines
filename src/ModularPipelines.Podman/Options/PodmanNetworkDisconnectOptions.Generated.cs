@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "disconnect")]
-public record PodmanNetworkDisconnectOptions : PodmanOptions
+public record PodmanNetworkDisconnectOptions(
+    [property: CliArgument(0)] string Network,
+    [property: CliArgument(1)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// force removal of container from network

@@ -17,11 +17,11 @@ namespace ModularPipelines.Podman.Enums;
 public enum PodmanContainerRunSystemd
 {
     [EnumValue("true")]
-    True,
+    True = 0,
 
     [EnumValue("false")]
-    False,
+    False = 1,
 
     [EnumValue("always")]
-    Always
+    Always = 2
 }

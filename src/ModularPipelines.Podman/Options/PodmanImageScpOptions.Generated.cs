@@ -18,12 +18,20 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "scp")]
-public record PodmanImageScpOptions : PodmanOptions
+public record PodmanImageScpOptions(
+    [property: CliArgument(0)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// Suppress the output
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// The HOST:: operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? Host { get; set; }
 
 }

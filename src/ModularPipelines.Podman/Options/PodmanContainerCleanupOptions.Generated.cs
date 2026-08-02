@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "cleanup")]
-public record PodmanContainerCleanupOptions : PodmanOptions
+public record PodmanContainerCleanupOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Cleans up all containers
@@ -49,8 +51,5 @@ public record PodmanContainerCleanupOptions : PodmanOptions
     /// </summary>
     [CliFlag("--rmi")]
     public bool? Rmi { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

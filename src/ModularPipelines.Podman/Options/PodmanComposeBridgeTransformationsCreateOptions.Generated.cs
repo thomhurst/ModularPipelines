@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "bridge", "transformations", "create")]
-public record PodmanComposeBridgeTransformationsCreateOptions : PodmanOptions
+public record PodmanComposeBridgeTransformationsCreateOptions(
+    [property: CliArgument(0)] string Path
+) : PodmanOptions
 {
     /// <summary>
     /// Execute command in dry run mode
@@ -31,8 +33,5 @@ public record PodmanComposeBridgeTransformationsCreateOptions : PodmanOptions
     /// </summary>
     [CliOption("--from", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? From { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Option { get; set; }
 
 }

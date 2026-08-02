@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stop")]
-public record PodmanStopOptions : PodmanOptions
+public record PodmanStopOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Stop all running containers
@@ -55,8 +57,5 @@ public record PodmanStopOptions : PodmanOptions
     /// </summary>
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Time { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

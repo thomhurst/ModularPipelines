@@ -150,13 +150,13 @@ public record PodmanImageBuildOptions : PodmanOptions
     /// CPUs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetCpus { get; set; }
+    public string? CpuSetCpus { get; set; }
 
     /// <summary>
     /// memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetMems { get; set; }
+    public string? CpuSetMems { get; set; }
 
     /// <summary>
     /// use [username[:password]] for accessing the registry
@@ -585,7 +585,10 @@ public record PodmanImageBuildOptions : PodmanOptions
     [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Volume { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Context { get; set; }
 
 }

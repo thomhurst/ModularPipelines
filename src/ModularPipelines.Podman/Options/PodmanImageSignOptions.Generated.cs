@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "sign")]
-public record PodmanImageSignOptions : PodmanOptions
+public record PodmanImageSignOptions(
+    [property: CliArgument(0)] IEnumerable<string> Image
+) : PodmanOptions
 {
     /// <summary>
     /// Sign all the manifests of the multi-architecture image
@@ -49,8 +51,5 @@ public record PodmanImageSignOptions : PodmanOptions
     /// </summary>
     [CliOption("--sign-by", Format = OptionFormat.EqualsSeparated)]
     public string? SignBy { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Image { get; set; }
 
 }

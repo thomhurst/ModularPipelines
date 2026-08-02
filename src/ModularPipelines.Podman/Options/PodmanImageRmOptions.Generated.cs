@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "rm")]
-public record PodmanImageRmOptions : PodmanOptions
+public record PodmanImageRmOptions(
+    [property: CliArgument(0)] IEnumerable<string> Image
+) : PodmanOptions
 {
     /// <summary>
     /// Remove all images
@@ -43,8 +45,5 @@ public record PodmanImageRmOptions : PodmanOptions
     /// </summary>
     [CliFlag("--no-prune")]
     public bool? NoPrune { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Image { get; set; }
 
 }

@@ -50,7 +50,10 @@ public record PodmanPodStatsOptions : PodmanOptions
     [CliFlag("--no-stream")]
     public bool? NoStream { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The POD operand.
+    /// </summary>
+    [CliArgument(0)]
     public IEnumerable<string>? Pod { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("init")]
-public record PodmanInitOptions : PodmanOptions
+public record PodmanInitOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Initialize all containers
@@ -31,8 +33,5 @@ public record PodmanInitOptions : PodmanOptions
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

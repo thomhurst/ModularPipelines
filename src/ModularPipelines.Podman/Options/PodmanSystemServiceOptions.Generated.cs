@@ -32,7 +32,10 @@ public record PodmanSystemServiceOptions : PodmanOptions
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Time { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The URI operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Uri { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "run")]
-public record PodmanComposeRunOptions : PodmanOptions
+public record PodmanComposeRunOptions(
+    [property: CliArgument(0)] string Service
+) : PodmanOptions
 {
     /// <summary>
     /// Build image before starting container
@@ -170,13 +172,16 @@ public record PodmanComposeRunOptions : PodmanOptions
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Command { get; set; }
 
-    [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The ARGS operand.
+    /// </summary>
+    [CliArgument(2)]
     public IEnumerable<string>? Args { get; set; }
 
 }

@@ -32,7 +32,10 @@ public record PodmanMachineStartOptions : PodmanOptions
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The MACHINE operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Machine { get; set; }
 
 }

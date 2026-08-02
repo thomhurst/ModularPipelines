@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "export")]
-public record PodmanComposeExportOptions : PodmanOptions
+public record PodmanComposeExportOptions(
+    [property: CliArgument(0)] string Service
+) : PodmanOptions
 {
     /// <summary>
     /// Execute command in dry run mode
@@ -37,8 +39,5 @@ public record PodmanComposeExportOptions : PodmanOptions
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

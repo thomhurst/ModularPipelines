@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "add")]
-public record PodmanManifestAddOptions : PodmanOptions
+public record PodmanManifestAddOptions(
+    [property: CliArgument(0)] string List,
+    [property: CliArgument(1)] IEnumerable<string> Image
+) : PodmanOptions
 {
     /// <summary>
     /// add all of the list's images if the image is a list
@@ -85,8 +88,5 @@ public record PodmanManifestAddOptions : PodmanOptions
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Image { get; set; }
 
 }

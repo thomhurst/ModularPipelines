@@ -26,7 +26,10 @@ public record PodmanUnshareOptions : PodmanOptions
     [CliFlag("--rootless-netns")]
     public bool? RootlessNetns { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Arg { get; set; }
+    /// <summary>
+    /// The COMMAND [ARG...] operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? CommandArg { get; set; }
 
 }

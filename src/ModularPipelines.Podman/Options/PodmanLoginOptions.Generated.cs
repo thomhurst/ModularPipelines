@@ -82,7 +82,10 @@ public record PodmanLoginOptions : PodmanOptions
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The REGISTRY operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Registry { get; set; }
 
 }

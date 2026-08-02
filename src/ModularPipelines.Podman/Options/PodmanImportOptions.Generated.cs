@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
-public record PodmanImportOptions : PodmanOptions
+public record PodmanImportOptions(
+    [property: CliArgument(0)] string Path
+) : PodmanOptions
 {
     /// <summary>
     /// Set the architecture of the imported image
@@ -56,7 +58,10 @@ public record PodmanImportOptions : PodmanOptions
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The REFERENCE operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Reference { get; set; }
 
 }

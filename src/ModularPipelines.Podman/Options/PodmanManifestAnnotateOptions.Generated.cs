@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "annotate")]
-public record PodmanManifestAnnotateOptions : PodmanOptions
+public record PodmanManifestAnnotateOptions(
+    [property: CliArgument(0)] string List,
+    [property: CliArgument(1)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// set an annotation for the specified image

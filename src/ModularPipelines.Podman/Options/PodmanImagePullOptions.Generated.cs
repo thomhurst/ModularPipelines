@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "pull")]
-public record PodmanImagePullOptions : PodmanOptions
+public record PodmanImagePullOptions(
+    [property: CliArgument(0)] IEnumerable<string> Image
+) : PodmanOptions
 {
     /// <summary>
     /// All tagged images in the repository will be pulled
@@ -91,8 +93,5 @@ public record PodmanImagePullOptions : PodmanOptions
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Image { get; set; }
 
 }

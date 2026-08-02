@@ -26,7 +26,16 @@ public record PodmanMachineSshOptions : PodmanOptions
     [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Name { get; set; }
+
+    /// <summary>
+    /// The COMMAND [ARG ...] operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? CommandArg { get; set; }
 
 }

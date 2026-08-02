@@ -14,7 +14,7 @@ using ModularPipelines.Podman.Enums;
 namespace ModularPipelines.Podman.Options;
 
 /// <summary>
-/// Run compose workloads via an external provider such as docker-compose or podman-compose
+/// Define and run multi-container applications with Docker
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
