@@ -34,6 +34,10 @@ and analyzers only). Each tool/CLI integration has its **own** solution next to 
 pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
   -DotNetArguments @('build', 'ModularPipelines.sln', '-c', 'Release')
 
+# Core build including ModularPipelines.UnitTests
+pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
+  -DotNetArguments @('build', 'ModularPipelines.Tests.slnf', '-c', 'Release')
+
 # Tool-specific build
 pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
   -DotNetArguments @(
@@ -51,8 +55,11 @@ pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
 # framework, Cmd, source generator, and analyzers only.
 dotnet build ModularPipelines.sln -c Release
 
+# Build the core library and its unit-test project without building the full solution.
+dotnet build ModularPipelines.Tests.slnf -c Release
+
 # Working on a tool/CLI integration? Build that tool's own solution.
-# (Most tool integrations have auto-generated options - see the code generation notes below.)
+# It includes the tool's matching unit-test project when one exists.
 dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.sln -c Release
 
 # Other solutions - only when working on those areas.
@@ -73,9 +80,11 @@ dotnet build ModularPipelines.Analyzers.sln -c Release
 
 Every tool/CLI integration (Docker, DotNet, Git, Helm, Terraform, Azure, AWS, etc.) is a
 separate package whose options are largely auto-generated, and each has its own
-`src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln`. Build the specific tool
-solution when working on it. `ModularPipelines.All.sln` exists for CI's full build only —
-see the caution above; agents should not build it.
+`src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln`. Each tool solution includes
+its matching unit-test project when one exists. Build the specific tool solution when
+working on it. `ModularPipelines.Tests.slnf` provides the equivalent test-building loop
+for the lightweight core. `ModularPipelines.All.sln` exists for CI's full build only — see
+the caution above; agents should not build it.
 
 ### Running Tests
 ```powershell

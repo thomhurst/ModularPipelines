@@ -5,8 +5,6 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Git;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
@@ -36,12 +34,12 @@ public class FolderTests : TestBase
 
     private class FindFileModule : Module<ModularPipelines.FileSystem.File>
     {
-        protected internal override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            return repositoryInfo.Root.FindFile(x => x.Name == "README.md");
-        }
+        protected internal override Task<ModularPipelines.FileSystem.File?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(context.Files
+                .GetFolder(Path.Combine(TestContext.OutputDirectory!, "Data"))
+                .FindFile(x => x.Name == "Foo.txt"));
     }
 
     [Test]
@@ -64,11 +62,10 @@ public class FolderTests : TestBase
     [Test]
     public async Task FindFile()
     {
-        var git = await GetService<IGit>();
-        var repositoryInfo = await git.Information.GetInfoAsync();
-        var readme = repositoryInfo?.Root.FindFile(x => x.Name == "README.md");
-        await Assert.That(readme).IsNotNull();
-        await Assert.That(readme!.Exists).IsTrue();
+        var data = new Folder(Path.Combine(TestContext.OutputDirectory!, "Data"));
+        var file = data.FindFile(x => x.Name == "Foo.txt");
+        await Assert.That(file).IsNotNull();
+        await Assert.That(file!.Exists).IsTrue();
     }
 
     [Test]
@@ -87,17 +84,16 @@ public class FolderTests : TestBase
             .ExecutePipelineAsync();
 
         var actualLogResult = stringBuilder.ToString().Trim();
-        await Assert.That(actualLogResult).Contains("x => x.Name == \"README.md\"");
+        await Assert.That(actualLogResult).Contains("x => x.Name == \"Foo.txt\"");
     }
 
     [Test]
     public async Task FindFolder()
     {
-        var git = await GetService<IGit>();
-        var repositoryInfo = await git.Information.GetInfoAsync();
-        var src = repositoryInfo?.Root.FindFolder(x => x.Name == "src");
-        await Assert.That(src).IsNotNull();
-        await Assert.That(src!.Exists).IsTrue();
+        var data = new Folder(Path.Combine(TestContext.OutputDirectory!, "Data"));
+        var zip = data.FindFolder(x => x.Name == "Zip");
+        await Assert.That(zip).IsNotNull();
+        await Assert.That(zip!.Exists).IsTrue();
     }
 
     [Test]

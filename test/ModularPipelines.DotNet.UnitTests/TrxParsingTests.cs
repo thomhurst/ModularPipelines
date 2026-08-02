@@ -2,7 +2,7 @@ using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Enums;
 using ModularPipelines.DotNet.Parsers.Trx;
 
-namespace ModularPipelines.UnitTests.Models;
+namespace ModularPipelines.DotNet.UnitTests;
 
 public class TrxParsingTests
 {
