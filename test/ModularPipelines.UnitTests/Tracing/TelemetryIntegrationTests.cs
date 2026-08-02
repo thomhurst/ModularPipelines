@@ -7,6 +7,7 @@ using ModularPipelines.Constants;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -14,6 +15,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.Tracing;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Tracing;
 
@@ -281,6 +283,34 @@ public class TelemetryIntegrationTests
             await Assert.That(activity.StatusDescription).Contains("**********");
             await Assert.That(activity.StatusDescription).DoesNotContain(Secret);
         }
+    }
+
+    [Test]
+    public async Task Thrown_Pipeline_Failure_Preserves_Summary_Status()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+        var moduleException = new InvalidOperationException("Module failed");
+        var failedResult = Mock.Of<IModuleResult>(result =>
+            result.ExceptionOrDefault == moduleException
+            && result.ModuleStatus == Status.Failed);
+        var summary = new PipelineSummary(
+            [],
+            [failedResult],
+            TimeSpan.Zero,
+            DateTimeOffset.UtcNow,
+            DateTimeOffset.UtcNow);
+        var exception = new PipelineFailedException(summary, ["FailedModule"]);
+
+        using (var activity = ModuleActivityTracing.StartPipelineActivity("TestPipeline"))
+        {
+            ModuleActivityTracing.RecordPipelineFailure(activity, exception, exception.Message);
+        }
+
+        var pipelineActivity = stoppedActivities.Single();
+        await Assert.That(pipelineActivity.GetTagItem(ModuleActivityTracing.PipelineStatusTag))
+            .IsEqualTo("Failed");
+        await Assert.That(pipelineActivity.Status).IsEqualTo(ActivityStatusCode.Error);
     }
 
     [Test]

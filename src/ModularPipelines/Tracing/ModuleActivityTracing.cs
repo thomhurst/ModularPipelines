@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 
@@ -111,6 +112,10 @@ public static class ModuleActivityTracing
         Exception exception,
         string obfuscatedMessage)
     {
+        var status = exception is PipelineFailedException pipelineFailedException
+            ? pipelineFailedException.Summary.Status
+            : Status.Failed;
+        activity?.SetTag(PipelineStatusTag, status.ToString());
         RecordException(activity, exception, obfuscatedMessage);
     }
 
