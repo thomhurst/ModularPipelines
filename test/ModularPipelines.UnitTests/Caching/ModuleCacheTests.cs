@@ -2245,6 +2245,61 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRejectsResultAboveConfiguredLimit()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-result-limit-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();
+            string resultJson;
+            using (var archive = ZipFile.OpenRead(cacheEntry))
+            using (var reader = new StreamReader(
+                       archive.GetEntry("result.json")!.Open()))
+            {
+                resultJson = await reader.ReadToEndAsync();
+            }
+
+            var oversizedResult = resultJson.Insert(
+                1,
+                $"\"Padding\":\"{new string('x', 4 * 1024)}\",");
+            using (var archive = ZipFile.Open(cacheEntry, ZipArchiveMode.Update))
+            {
+                archive.GetEntry("result.json")!.Delete();
+                await using var writer = new StreamWriter(
+                    archive.CreateEntry("result.json", CompressionLevel.Optimal).Open());
+                await writer.WriteAsync(oversizedResult);
+            }
+
+            var restoredStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumResultBytes: 1024);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task FailedWorkingDirectoryRestoreRestoresModeBeforeExecution()
     {
         if (OperatingSystem.IsWindows())
@@ -3000,7 +3055,8 @@ public class ModuleCacheTests
         int maximumInputFiles = 100_000,
         int maximumArtifactEntries = 100_000,
         long maximumArtifactBytes = 10L * 1024 * 1024 * 1024,
-        long maximumCacheEntryBytes = 10L * 1024 * 1024 * 1024)
+        long maximumCacheEntryBytes = 10L * 1024 * 1024 * 1024,
+        long maximumResultBytes = 64L * 1024 * 1024)
     {
         await using var host = await TestPipelineHostBuilder.Create()
             .AddModuleCache<FileSystemModuleCache>(options =>
@@ -3011,6 +3067,7 @@ public class ModuleCacheTests
                 options.MaximumArtifactEntries = maximumArtifactEntries;
                 options.MaximumArtifactBytes = maximumArtifactBytes;
                 options.MaximumCacheEntryBytes = maximumCacheEntryBytes;
+                options.MaximumResultBytes = maximumResultBytes;
             })
             .AddModule<VaryingArtifactSetModule>()
             .BuildAsync();

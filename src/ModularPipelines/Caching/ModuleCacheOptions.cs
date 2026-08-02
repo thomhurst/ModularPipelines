@@ -39,6 +39,11 @@ public sealed class ModuleCacheOptions
     public long MaximumCacheEntryBytes { get; set; } = 10L * 1024 * 1024 * 1024;
 
     /// <summary>
+    /// Gets or sets the maximum uncompressed size of a cached module result restored from a cache store.
+    /// </summary>
+    public long MaximumResultBytes { get; set; } = 64L * 1024 * 1024;
+
+    /// <summary>
     /// Gets or sets the maximum number of files hashed concurrently.
     /// </summary>
     public int MaximumHashConcurrency { get; set; } = Math.Max(1, Environment.ProcessorCount);

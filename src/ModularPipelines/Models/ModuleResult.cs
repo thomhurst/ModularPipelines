@@ -955,7 +955,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             ? typeof(T)
             : Type.GetType(valueTypeName, throwOnError: false)
               ?? throw new JsonException($"Unknown module result value type '{valueTypeName}'.");
-        if (!DeclaredValueType.IsAssignableFrom(valueType))
+        if (valueTypeName is not null && !DeclaredValueType.IsAssignableFrom(valueType))
         {
             throw new JsonException(
                 $"Module result value type '{valueType}' is not assignable to '{typeof(T)}'.");
@@ -1001,16 +1001,16 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         switch (value)
         {
             case ModuleResult<T>.Success success:
-                if (success.Value is { } successValue
-                    && successValue.GetType() != DeclaredValueType)
+                var runtimeValueType = success.Value?.GetType();
+                if (runtimeValueType is not null && runtimeValueType != DeclaredValueType)
                 {
                     writer.WriteString(
                         "$valueType",
-                        successValue.GetType().AssemblyQualifiedName);
+                        runtimeValueType.AssemblyQualifiedName);
                 }
 
                 writer.WritePropertyName("Value");
-                JsonSerializer.Serialize(writer, success.Value, options);
+                JsonSerializer.Serialize(writer, success.Value, runtimeValueType ?? typeof(T), options);
                 break;
             case ModuleResult<T>.Failure failure:
                 writer.WritePropertyName("Exception");

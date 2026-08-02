@@ -75,6 +75,13 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 nameof(options),
                 "ModuleCacheOptions.MaximumCacheEntryBytes must be positive.");
         }
+
+        if (_options.MaximumResultBytes <= 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(options),
+                "ModuleCacheOptions.MaximumResultBytes must be positive.");
+        }
     }
 
     public void DiscardFingerprint(IModule module) =>
@@ -195,14 +202,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             using var archive = ZipFile.OpenRead(temporary);
             var resultEntry = archive.GetEntry(ResultEntryName)
                               ?? throw new InvalidDataException("Module cache entry does not contain result.json.");
-            ModuleResult<T>? result;
-            await using (var resultStream = resultEntry.Open())
-            {
-                result = await JsonSerializer.DeserializeAsync<ModuleResult<T>>(
-                        resultStream,
-                        cancellationToken: cancellationToken)
-                    .ConfigureAwait(false);
-            }
+            var result = await DeserializeResultAsync<T>(resultEntry, cancellationToken)
+                .ConfigureAwait(false);
 
             if (result is null)
             {
@@ -963,6 +964,73 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         Stream output,
         CancellationToken cancellationToken)
     {
+        await CopyWithLimitAsync(
+                input,
+                output,
+                _options.MaximumCacheEntryBytes,
+                "Cache entry",
+                cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Module result cache requires runtime result type metadata.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Module result cache requires runtime result type metadata.")]
+    private async Task<ModuleResult<T>?> DeserializeResultAsync<T>(
+        ZipArchiveEntry resultEntry,
+        CancellationToken cancellationToken)
+    {
+        if (resultEntry.Length > _options.MaximumResultBytes)
+        {
+            throw new InvalidDataException(
+                $"Cache result exceeded the configured limit of {_options.MaximumResultBytes:N0} bytes.");
+        }
+
+        var temporaryResult = Path.GetTempFileName();
+        try
+        {
+            await using (var input = resultEntry.Open())
+            await using (var output = new FileStream(
+                             temporaryResult,
+                             FileMode.Create,
+                             FileAccess.Write,
+                             FileShare.None,
+                             64 * 1024,
+                             FileOptions.Asynchronous))
+            {
+                await CopyWithLimitAsync(
+                        input,
+                        output,
+                        _options.MaximumResultBytes,
+                        "Cache result",
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            await using var validatedResult = new FileStream(
+                temporaryResult,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read,
+                64 * 1024,
+                FileOptions.Asynchronous | FileOptions.SequentialScan);
+            return await JsonSerializer.DeserializeAsync<ModuleResult<T>>(
+                    validatedResult,
+                    cancellationToken: cancellationToken)
+                .ConfigureAwait(false);
+        }
+        finally
+        {
+            File.Delete(temporaryResult);
+        }
+    }
+
+    private static async Task CopyWithLimitAsync(
+        Stream input,
+        Stream output,
+        long maximumBytes,
+        string description,
+        CancellationToken cancellationToken)
+    {
         const int bufferSize = 64 * 1024;
         var buffer = ArrayPool<byte>.Shared.Rent(bufferSize);
         var totalBytes = 0L;
@@ -979,11 +1047,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                     return;
                 }
 
-                if (totalBytes > _options.MaximumCacheEntryBytes - bytesRead)
+                if (totalBytes > maximumBytes - bytesRead)
                 {
                     throw new InvalidDataException(
-                        $"Cache entry exceeded the configured limit of "
-                        + $"{_options.MaximumCacheEntryBytes:N0} bytes.");
+                        $"{description} exceeded the configured limit of {maximumBytes:N0} bytes.");
                 }
 
                 totalBytes += bytesRead;
