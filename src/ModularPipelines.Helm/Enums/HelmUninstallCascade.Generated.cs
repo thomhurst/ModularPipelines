@@ -11,17 +11,17 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Helm.Enums;
 
 /// <summary>
-/// Allowed values for the --output option.
+/// Allowed values for the --cascade option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum HelmStatusOutput
+public enum HelmUninstallCascade
 {
-    [EnumValue("table")]
-    Table = 0,
+    [EnumValue("background")]
+    Background = 0,
 
-    [EnumValue("json")]
-    Json = 1,
+    [EnumValue("orphan")]
+    Orphan = 1,
 
-    [EnumValue("yaml")]
-    Yaml = 2
+    [EnumValue("foreground")]
+    Foreground = 2
 }
