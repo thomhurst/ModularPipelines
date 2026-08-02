@@ -21,4 +21,10 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("policy", "read")]
 public record VaultPolicyReadOptions : VaultOptions
 {
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? Name { get; set; }
+
 }

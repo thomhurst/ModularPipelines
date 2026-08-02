@@ -19,6 +19,14 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "put")]
-public record VaultKvPutOptions : VaultOptions
+public record VaultKvPutOptions(
+    [property: CliArgument(0)] string Key
+) : VaultOptions
 {
+    /// <summary>
+    /// The DATA operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? Data { get; set; }
+
 }

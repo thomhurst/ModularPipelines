@@ -19,6 +19,9 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transform", "import-version")]
-public record VaultTransformImportVersionOptions : VaultOptions
+public record VaultTransformImportVersionOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Key
+) : VaultOptions
 {
 }

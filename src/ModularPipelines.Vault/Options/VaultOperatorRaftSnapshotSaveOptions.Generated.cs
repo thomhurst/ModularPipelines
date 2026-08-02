@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "snapshot", "save")]
-public record VaultOperatorRaftSnapshotSaveOptions : VaultOptions
+public record VaultOperatorRaftSnapshotSaveOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SnapshotFile
+) : VaultOptions
 {
 }

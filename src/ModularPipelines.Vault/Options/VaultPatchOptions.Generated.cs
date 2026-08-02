@@ -19,6 +19,14 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("patch")]
-public record VaultPatchOptions : VaultOptions
+public record VaultPatchOptions(
+    [property: CliArgument(0)] string Path
+) : VaultOptions
 {
+    /// <summary>
+    /// The DATA K=V operand.
+    /// </summary>
+    [CliArgument(1)]
+    public IEnumerable<string>? DataKV { get; set; }
+
 }

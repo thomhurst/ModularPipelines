@@ -33,7 +33,7 @@ public static class VaultExtensions
     }
 
     /// <summary>
-    /// Gets the vault service from the pipeline context.
+    /// Gets the vault service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IVault"/> service for executing vault commands.</returns>

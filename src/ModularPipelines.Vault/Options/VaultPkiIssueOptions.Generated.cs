@@ -19,6 +19,9 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "issue")]
-public record VaultPkiIssueOptions : VaultOptions
+public record VaultPkiIssueOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Parent,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ChildMount
+) : VaultOptions
 {
 }

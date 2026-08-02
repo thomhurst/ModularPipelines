@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "runtime", "deregister")]
-public record VaultPluginRuntimeDeregisterOptions : VaultOptions
+public record VaultPluginRuntimeDeregisterOptions(
+    [property: CliArgument(0)] string Name
+) : VaultOptions
 {
 }
