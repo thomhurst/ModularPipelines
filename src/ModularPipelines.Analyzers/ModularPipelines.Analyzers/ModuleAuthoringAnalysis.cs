@@ -222,7 +222,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var invocation = (IInvocationOperation) context.Operation;
-        if (!IsInReachableBranch(invocation))
+        if (!IsInReachableBranch(invocation)
+            || !IsInsideReachableNestedCallable(invocation))
         {
             return;
         }
@@ -1096,6 +1097,12 @@ internal static class ModuleAuthoringAnalysis
                 instanceRegisteredModules,
                 visitedLocals,
                 visitedMethods),
+            IConditionalOperation conditional => TryTrackServiceDescriptorConditional(
+                conditional,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
             IInvocationOperation descriptorFactory
                 when IsServiceDescriptorFactory(descriptorFactory.TargetMethod) =>
                 TrackServiceDescriptor(
@@ -1140,6 +1147,44 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
+    private static bool TryTrackServiceDescriptorConditional(
+        IConditionalOperation conditional,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            var selectedBranch = condition
+                ? conditional.WhenTrue
+                : conditional.WhenFalse;
+            return selectedBranch is not null
+                   && TryTrackServiceDescriptor(
+                       selectedBranch,
+                       compilation,
+                       instanceRegisteredModules,
+                       visitedLocals,
+                       visitedMethods);
+        }
+
+        return (AlwaysThrows(conditional.WhenTrue)
+                || TryTrackServiceDescriptor(
+                    conditional.WhenTrue,
+                    compilation,
+                    instanceRegisteredModules,
+                    CloneVisitedLocals(visitedLocals),
+                    CloneVisitedMethods(visitedMethods)))
+               && conditional.WhenFalse is { } whenFalse
+               && (AlwaysThrows(whenFalse)
+                   || TryTrackServiceDescriptor(
+                       whenFalse,
+                       compilation,
+                       instanceRegisteredModules,
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)));
+    }
+
     private static bool TryTrackServiceDescriptorLocal(
         ILocalReferenceOperation localReference,
         Compilation compilation,
@@ -1182,12 +1227,93 @@ internal static class ModuleAuthoringAnalysis
             .OfType<IOperation>()
             .ToArray();
         return returnValues.Length > 0
-               && returnValues.All(returnValue => TryTrackServiceDescriptor(
-                   returnValue,
-                   compilation,
-                   instanceRegisteredModules,
-                   CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods)));
+               && returnValues.All(returnValue =>
+                   TryTrackServiceDescriptorInvocationReturn(
+                       returnValue,
+                       invocation,
+                       compilation,
+                       instanceRegisteredModules,
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static bool TryTrackServiceDescriptorInvocationReturn(
+        IOperation returnValue,
+        IInvocationOperation invocation,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (returnValue is IConversionOperation conversion)
+        {
+            return TryTrackServiceDescriptorInvocationReturn(
+                conversion.Operand,
+                invocation,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods);
+        }
+
+        if (returnValue is IParameterReferenceOperation parameterReference)
+        {
+            var targetMethod = NormalizeMethod(invocation.TargetMethod);
+            var argument = invocation.Arguments.FirstOrDefault(candidate =>
+                SymbolEqualityComparer.Default.Equals(
+                    GetTargetParameter(targetMethod, candidate.Parameter),
+                    parameterReference.Parameter));
+            return argument is not null
+                   && TryTrackServiceDescriptor(
+                       argument.Value,
+                       compilation,
+                       instanceRegisteredModules,
+                       visitedLocals,
+                       visitedMethods);
+        }
+
+        if (returnValue is IConditionalOperation conditional)
+        {
+            if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+            {
+                var selectedBranch = condition
+                    ? conditional.WhenTrue
+                    : conditional.WhenFalse;
+                return selectedBranch is not null
+                       && TryTrackServiceDescriptorInvocationReturn(
+                           selectedBranch,
+                           invocation,
+                           compilation,
+                           instanceRegisteredModules,
+                           visitedLocals,
+                           visitedMethods);
+            }
+
+            return (AlwaysThrows(conditional.WhenTrue)
+                    || TryTrackServiceDescriptorInvocationReturn(
+                        conditional.WhenTrue,
+                        invocation,
+                        compilation,
+                        instanceRegisteredModules,
+                        CloneVisitedLocals(visitedLocals),
+                        CloneVisitedMethods(visitedMethods)))
+                   && conditional.WhenFalse is { } whenFalse
+                   && (AlwaysThrows(whenFalse)
+                       || TryTrackServiceDescriptorInvocationReturn(
+                           whenFalse,
+                           invocation,
+                           compilation,
+                           instanceRegisteredModules,
+                           CloneVisitedLocals(visitedLocals),
+                           CloneVisitedMethods(visitedMethods)));
+        }
+
+        return TryTrackServiceDescriptor(
+            returnValue,
+            compilation,
+            instanceRegisteredModules,
+            visitedLocals,
+            visitedMethods);
     }
 
     private static bool IsPotentialRegistrationInvocation(
@@ -2571,6 +2697,12 @@ internal static class ModuleAuthoringAnalysis
         return nestedCallables.All(reachableCallables.Contains);
     }
 
+    private static bool IsInsideReachableNestedCallable(IOperation operation)
+    {
+        return GetCallableSymbol(GetEnclosingCallable(operation)) is not { } callable
+               || NestedCallablesAreInvoked(operation, [callable]);
+    }
+
     private static HashSet<IMethodSymbol> GetReachableCallables(
         ImmutableArray<IInvocationOperation> invocations,
         ImmutableArray<IMethodSymbol> callables)
@@ -3677,7 +3809,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        var method = invocation.TargetMethod.OriginalDefinition;
+        var method = NormalizeMethod(invocation.TargetMethod);
         if (!visitedMethods.Add(method)
             || invocation.SemanticModel?.Compilation is not { } compilation
             || GetMethodOperation(method, compilation, default)
@@ -3686,18 +3818,33 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        var flowedParameters = invocation.Arguments
-            .Where(static argument =>
-                argument.Parameter is not null
-                && IsCancellationToken(argument.Parameter))
-            .Where(argument => FlowsFromCancellationToken(
-                argument.Value,
+        var flowedParameters = new HashSet<IParameterSymbol>(
+            invocation.Arguments
+                .Where(static argument =>
+                    argument.Parameter is not null
+                    && IsCancellationToken(argument.Parameter))
+                .Where(argument => FlowsFromCancellationToken(
+                    argument.Value,
+                    cancellationToken,
+                    CloneVisitedLocals(visitedLocals),
+                    CloneVisitedMethods(visitedMethods)))
+                .Select(argument => GetTargetParameter(method, argument.Parameter))
+                .OfType<IParameterSymbol>(),
+            SymbolEqualityComparer.Default);
+        if (invocation.TargetMethod.ReducedFrom is not null
+            && invocation.Instance is { } instance
+            && method.Parameters.FirstOrDefault() is { } receiverParameter
+            && IsCancellationToken(receiverParameter)
+            && FlowsFromCancellationToken(
+                instance,
                 cancellationToken,
                 CloneVisitedLocals(visitedLocals),
                 CloneVisitedMethods(visitedMethods)))
-            .Select(static argument => argument.Parameter!)
-            .ToArray();
-        if (flowedParameters.Length == 0)
+        {
+            flowedParameters.Add(receiverParameter);
+        }
+
+        if (flowedParameters.Count == 0)
         {
             return false;
         }
@@ -3748,6 +3895,20 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            var selectedBranch = condition
+                ? conditional.WhenTrue
+                : conditional.WhenFalse;
+            return selectedBranch is not null
+                   && (AlwaysThrows(selectedBranch)
+                       || FlowsFromCancellationToken(
+                           selectedBranch,
+                           cancellationToken,
+                           visitedLocals,
+                           visitedMethods));
+        }
+
         return (AlwaysThrows(conditional.WhenTrue)
                 || FlowsFromCancellationToken(
                     conditional.WhenTrue,

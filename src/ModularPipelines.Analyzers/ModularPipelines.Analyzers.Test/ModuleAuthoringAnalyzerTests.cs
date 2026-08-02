@@ -153,6 +153,38 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Module_Registered_Only_Inside_Uninvoked_Lambda()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    Action<IServiceCollection> register = services =>
+                        services.AddSingleton<IModule, BuildModule>();
+                    _ = register;
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_By_Called_Private_Helper()
     {
         var source = $$"""
@@ -660,6 +692,65 @@ public class ModuleAuthoringAnalyzerTests
 
                 private static ServiceDescriptor CreateDescriptor() =>
                     ServiceDescriptor.Singleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_With_Passed_Through_ServiceDescriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.Add(Pass(
+                        ServiceDescriptor.Singleton<IModule, BuildModule>()));
+                }
+
+                private static ServiceDescriptor Pass(ServiceDescriptor descriptor) => descriptor;
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_With_Conditional_ServiceDescriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.Add(flag
+                        ? ServiceDescriptor.Singleton<IModule, BuildModule>()
+                        : ServiceDescriptor.Singleton<IModule, BuildModule>());
+                }
             }
 
             {{EntryPoint}}
@@ -1969,6 +2060,50 @@ public class ModuleAuthoringAnalyzerTests
             }
 
                 private static CancellationToken Pass(CancellationToken token) => token;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_CancellationToken_Returned_By_Reduced_Extension_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public static class CancellationTokenExtensions
+            {
+                public static CancellationToken Pass(this CancellationToken token) => token;
+            }
+
+            public class BuildModule : Module<List<string>>
+            {
+                protected override async Task<List<string>?> ExecuteAsync(
+                    IModuleContext context,
+                    CancellationToken cancellationToken)
+                {
+                    await Task.Delay(1, cancellationToken.Pass());
+                    return null;
+                }
+            }
+            """;
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_CancellationToken_From_Constant_Selected_Arm()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.Delay(1, true
+                    ? cancellationToken
+                    : CancellationToken.None);
+                return null;
+            }
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
