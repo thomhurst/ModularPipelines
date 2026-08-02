@@ -17,17 +17,17 @@ namespace ModularPipelines.Java.Enums;
 public enum GradleConsole
 {
     [EnumValue("plain")]
-    Plain,
+    Plain = 0,
 
     [EnumValue("colored")]
-    Colored,
+    Colored = 1,
 
     [EnumValue("auto")]
-    Auto,
+    Auto = 2,
 
     [EnumValue("rich")]
-    Rich,
+    Rich = 3,
 
     [EnumValue("verbose")]
-    Verbose
+    Verbose = 4
 }
