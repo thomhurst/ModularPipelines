@@ -29,3 +29,15 @@ builder.AddRedisDistributed(
 ```
 
 `AddRedisDistributedCoordinator` and `AddRedisDistributedArtifactStore` are also available when only one Redis service is required.
+
+## Module caching
+
+Redis can provide a shareable, cross-run module cache without enabling distributed execution:
+
+```csharp
+builder.AddRedisModuleCache(
+    redis => redis.ConnectionString = "localhost:6379",
+    cacheEntries => cacheEntries.TimeToLiveSeconds = 86_400);
+```
+
+See [Cache Module Results](../how-to/module-caching.md) for input declarations, artifact restoration, and fingerprint configuration.

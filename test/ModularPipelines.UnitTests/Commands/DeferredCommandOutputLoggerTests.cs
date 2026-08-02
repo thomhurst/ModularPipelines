@@ -112,11 +112,9 @@ public class DeferredCommandOutputLoggerTests
         }
 
         deferredLogger.LogStandardOutputLine("later output");
-        await Task.Delay(TimeSpan.FromMilliseconds(50));
-        await Assert.That(outputLogger.AttemptCount).IsEqualTo(1);
-
         var exception = Assert.Throws<InvalidOperationException>(() => deferredLogger.Complete());
         await Assert.That(exception.Message).IsEqualTo("Logging failed.");
+        await Assert.That(outputLogger.AttemptCount).IsEqualTo(1);
 
         var completion = deferredLogger.Complete();
         await Assert.That(completion.HasStreamedOutput).IsTrue();

@@ -33,6 +33,8 @@ internal sealed class ModuleLookup
             .ToDictionary(x => x.Key, x => x.Value);
     }
 
+    public IReadOnlyList<IModule> Modules => _modules;
+
     public IModule? GetAssignable(Type type)
     {
         if (type.IsSealed)
