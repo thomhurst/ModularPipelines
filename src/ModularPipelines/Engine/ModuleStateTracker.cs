@@ -375,7 +375,7 @@ internal class ModuleStateTracker : IModuleStateTracker
             return;
         }
 
-        _logger.LogDebug(
+        _logger.LogTrace(
             "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
             state.ModuleType.Name,
             updates.Count,
