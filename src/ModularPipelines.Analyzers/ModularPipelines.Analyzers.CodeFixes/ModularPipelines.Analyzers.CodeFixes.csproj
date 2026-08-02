@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <RootNamespace>ModularPipelines.Analyzers</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
