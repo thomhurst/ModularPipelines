@@ -33,7 +33,7 @@ public static class ShellcheckExtensions
     }
 
     /// <summary>
-    /// Gets the shellcheck service from the pipeline context.
+    /// Gets the shellcheck service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IShellcheck"/> service for executing shellcheck commands.</returns>

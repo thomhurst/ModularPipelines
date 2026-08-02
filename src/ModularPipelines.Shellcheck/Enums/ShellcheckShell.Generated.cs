@@ -17,17 +17,17 @@ namespace ModularPipelines.Shellcheck.Enums;
 public enum ShellcheckShell
 {
     [EnumValue("sh")]
-    Sh,
+    Sh = 0,
 
     [EnumValue("bash")]
-    Bash,
+    Bash = 1,
 
     [EnumValue("dash")]
-    Dash,
+    Dash = 2,
 
     [EnumValue("ksh")]
-    Ksh,
+    Ksh = 3,
 
     [EnumValue("busybox")]
-    Busybox
+    Busybox = 4
 }
