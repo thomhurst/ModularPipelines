@@ -1,3 +1,4 @@
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -176,7 +177,15 @@ public class ModuleTestBuilder<TModule>
 
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
         var logger = GetModuleLogger(pipeline.Services);
-        var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
+        var mediator = pipeline.Services.GetRequiredService<IMediator>();
+        var estimatedTimeProvider = pipeline.Services.GetRequiredService<ISafeModuleEstimatedTimeProvider>();
+        var moduleContext = new ModuleContext(
+            pipelineContext,
+            module,
+            executionContext,
+            logger,
+            mediator,
+            estimatedTimeProvider);
         var executionPipeline = pipeline.Services.GetRequiredService<IModuleExecutionPipeline>();
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
 
