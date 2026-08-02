@@ -65,6 +65,12 @@ public class DistributedPipelineWriterTests : TestBase
             "Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix.");
         await Assert.That(yaml).Contains(
             "run: dotnet run --project 'src/MyPipeline' -c Release --framework net10.0");
+        var lines = yaml.Split('\n');
+        var runPipelineStepIndex = Array.FindIndex(
+            lines,
+            line => line.Trim() == "- name: Run Pipeline");
+        await Assert.That(runPipelineStepIndex).IsGreaterThanOrEqualTo(0);
+        await Assert.That(lines[runPipelineStepIndex + 1].Trim()).IsEqualTo("shell: bash");
         await Assert.That(yaml).DoesNotContain("pull_request:");
     }
 

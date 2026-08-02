@@ -136,6 +136,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
                         new
                         {
                             Name = "Run Pipeline",
+                            Shell = "bash",
                             Run = BuildRunCommand(),
                             Env = environmentVariables,
                         },
