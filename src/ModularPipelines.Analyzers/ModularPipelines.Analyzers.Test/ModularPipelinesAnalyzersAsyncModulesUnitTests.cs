@@ -76,6 +76,32 @@ public class Module1 : Module<string>
 }}
 ";
 
+    private const string ExpressionBodiedModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<string>
+{{
+    {{|#0:protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => ExecuteCommand(context);|}}
+
+    private static Task<string?> ExecuteCommand(IModuleContext context)
+        => Task.FromResult<string?>(""Foo"");
+}}
+";
+
+    private const string FixedExpressionBodiedModuleSource = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<string>
+{{
+    {{|#0:protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => await ExecuteCommand(context);|}}
+
+    private static Task<string?> ExecuteCommand(IModuleContext context)
+        => Task.FromResult<string?>(""Foo"");
+}}
+";
+
     private const string BadModuleSource2Fixed = $@"
 {TestSourceConstants.StandardModuleHeaderWithOptions}
 
@@ -120,6 +146,50 @@ public class Module1 : Module<string>
     }
 
     [TestMethod]
+    public async Task AnalyzerIsNotTriggered_For_Returns_In_Lambdas_Or_Local_Functions()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<string>
+{{
+    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        Func<string> getLambdaValue = () =>
+        {{
+            return ""lambda"";
+        }};
+
+        string GetLocalValue()
+        {{
+            return ""local"";
+        }}
+
+        return Task.FromResult<string?>(getLambdaValue() + GetLocalValue());
+    }}
+}}
+";
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsNotTriggered_When_Expression_Body_Uses_TaskFromResult()
+    {
+        var source = $@"
+{TestSourceConstants.StandardModuleHeaderWithOptions}
+
+public class Module1 : Module<string>
+{{
+    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult<string?>(""Foo"");
+}}
+";
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task CodeFixWorks()
     {
         var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId).WithLocation(0);
@@ -133,5 +203,17 @@ public class Module1 : Module<string>
         var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyCodeFixAsync(BadModuleSource2, expected, BadModuleSource2Fixed);
+    }
+
+    [TestMethod]
+    public async Task CodeFixWorks_For_Expression_Bodied_Method()
+    {
+        var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(
+            ExpressionBodiedModuleSource,
+            expected,
+            FixedExpressionBodiedModuleSource);
     }
 }
