@@ -3,8 +3,24 @@ name: CodeQL
 on:
   push:
     branches: ["main"]
+    paths:
+      - '.github/**'
+      - '**/*.cs'
+      - '**/*.csproj'
+      - '**/*.props'
+      - '**/*.targets'
+      - '**/*.sln'
+      - '**/*.slnx'
   pull_request:
     branches: ["main"]
+    paths:
+      - '.github/**'
+      - '**/*.cs'
+      - '**/*.csproj'
+      - '**/*.props'
+      - '**/*.targets'
+      - '**/*.sln'
+      - '**/*.slnx'
   schedule:
     - cron: "17 4 * * 1"
   workflow_dispatch:
@@ -31,8 +47,6 @@ jobs:
         language:
           - actions
           - csharp
-          - javascript-typescript
-          - python
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
