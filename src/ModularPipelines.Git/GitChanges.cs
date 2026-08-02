@@ -91,7 +91,6 @@ internal sealed class GitChanges : IGitChanges, IDisposable
 
             cacheEntry.Paths = output
                 .Split('\0', StringSplitOptions.RemoveEmptyEntries)
-                .Select(NormalizePath)
                 .ToArray();
             return cacheEntry.Paths;
         }
@@ -104,7 +103,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
     private static string NormalizePattern(string pattern)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(pattern);
-        var normalized = NormalizePath(pattern).TrimStart('/');
+        var normalized = NormalizePatternSeparators(pattern).TrimStart('/');
         if (normalized == ".." || normalized.StartsWith("../", StringComparison.Ordinal))
         {
             throw new ArgumentException("Path patterns must be relative to the repository root.", nameof(pattern));
@@ -113,7 +112,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         return normalized;
     }
 
-    private static string NormalizePath(string path) => path.Replace('\\', '/');
+    private static string NormalizePatternSeparators(string pattern) => pattern.Replace('\\', '/');
 
     private static Task<string> RunCommandsUntrimmed(
         IGitCommandRunner gitCommandRunner,

@@ -65,6 +65,33 @@ public class GitChangesTests
     }
 
     [Test]
+    public async Task Preserves_Literal_Backslashes_In_Git_Paths()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var runner = new RecordingGitCommandRunner(
+            "merge-base",
+            "src\\MyService\\Program.cs\0");
+        var changes = CreateChanges(runner);
+
+        var exactMatch = await changes.HasChangesAsync(["src/MyService/Program.cs"]);
+        var childMatch = await changes.HasChangesAsync(["src/**"]);
+        var rootNameMatch = await changes.HasChangesAsync(["src*"]);
+        var repositoryMatch = await changes.HasChangesAsync(["**"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exactMatch).IsFalse();
+            await Assert.That(childMatch).IsFalse();
+            await Assert.That(rootNameMatch).IsTrue();
+            await Assert.That(repositoryMatch).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task Preserves_Whitespace_In_Null_Delimited_Paths_And_Patterns()
     {
         var runner = new RecordingGitCommandRunner(

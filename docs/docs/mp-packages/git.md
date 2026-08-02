@@ -77,3 +77,15 @@ var shouldBuild = await context.Tools.Git.Changes.HasChangesAsync(
 
 Each base revision is resolved with `git merge-base`, and its `git diff --name-only` result is
 computed once per pipeline run.
+
+### Custom command runners
+
+If you replace `IGitCommandRunner` and use changed-path checks, implement
+`IRawGitCommandRunner` on the same class. `GitChanges` uses its untrimmed output to preserve
+NUL-delimited Git paths exactly, including leading or trailing whitespace.
+
+```csharp
+builder.Services.AddSingleton<IGitCommandRunner, CustomGitCommandRunner>();
+```
+
+`CustomGitCommandRunner` must implement both interfaces on the same class.
