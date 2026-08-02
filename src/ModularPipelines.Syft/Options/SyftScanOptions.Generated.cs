@@ -140,6 +140,9 @@ public record SyftScanOptions : SyftOptions
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
+    /// <summary>
+    /// The SOURCE operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Source { get; set; }
 
