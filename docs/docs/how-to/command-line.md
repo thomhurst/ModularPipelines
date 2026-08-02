@@ -99,9 +99,10 @@ foreach (var wave in plan.Waves)
 The planner validates the dependency graph, evaluates module selection, category filters,
 attribute and fluent skip conditions, cascades required dependency skips, and obtains duration
 estimates. It does not invoke module bodies or execution lifecycle hooks. A wave estimate is the
-longest runnable module estimate in that wave; the plan estimate is the sum of all wave estimates.
-Fluent conditions that await module results have an unknown skip decision because those results do
-not exist until execution.
+longest runnable module estimate in that wave. The plan estimate simulates eager dependency
+scheduling with the configured `MaxParallelism`, CPU/I/O execution limits, and `NotInParallel`
+constraints; waves are presentation layers, not execution barriers. Fluent conditions that await
+module results have an unknown skip decision because those results do not exist until execution.
 
 ## Disable Built-In Parsing
 

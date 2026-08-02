@@ -5,6 +5,7 @@ using ModularPipelines.Conditions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
@@ -244,6 +245,14 @@ public class PipelineCommandLineTests
             nameof(TargetModule) => TimeSpan.FromMinutes(3),
             nameof(FirstLockedModule) => TimeSpan.FromMinutes(2),
             nameof(SecondLockedModule) => TimeSpan.FromMinutes(3),
+            nameof(FirstParallelRootModule) => TimeSpan.FromMinutes(10),
+            nameof(SecondParallelRootModule) => TimeSpan.FromMinutes(10),
+            nameof(ThirdParallelRootModule) => TimeSpan.FromMinutes(10),
+            nameof(ParallelJoinModule) => TimeSpan.FromMinutes(10),
+            nameof(FirstCpuModule) => TimeSpan.FromMinutes(10),
+            nameof(SecondCpuModule) => TimeSpan.FromMinutes(10),
+            nameof(FirstIoModule) => TimeSpan.FromMinutes(10),
+            nameof(SecondIoModule) => TimeSpan.FromMinutes(10),
             _ => TimeSpan.Zero,
         });
 
@@ -298,6 +307,63 @@ public class PipelineCommandLineTests
             .WithNotInParallel("shared-plan-lock")
             .Build();
 
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
+    private sealed class FirstParallelRootModule : DryRunModule
+    {
+    }
+
+    private sealed class SecondParallelRootModule : DryRunModule
+    {
+    }
+
+    private sealed class ThirdParallelRootModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.DependsOn<FirstParallelRootModule>]
+    [ModularPipelines.Attributes.DependsOn<SecondParallelRootModule>]
+    [ModularPipelines.Attributes.DependsOn<ThirdParallelRootModule>]
+    private sealed class ParallelJoinModule : DryRunModule
+    {
+    }
+
+    [ExecutionHint(ExecutionType.CpuIntensive)]
+    private sealed class FirstCpuModule : DryRunModule
+    {
+    }
+
+    [ExecutionHint(ExecutionType.CpuIntensive)]
+    private sealed class SecondCpuModule : DryRunModule
+    {
+    }
+
+    [ExecutionHint(ExecutionType.IoIntensive)]
+    private sealed class FirstIoModule : DryRunModule
+    {
+    }
+
+    [ExecutionHint(ExecutionType.IoIntensive)]
+    private sealed class SecondIoModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedCycleBModule>]
+    private sealed class SkippedCycleAModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedCycleAModule>]
+    private sealed class SkippedCycleBModule : DryRunModule
+    {
+    }
+
+    private abstract class DryRunModule : Module<string>
+    {
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
@@ -529,6 +595,78 @@ public class PipelineCommandLineTests
         var plan = await pipeline.PlanAsync();
 
         await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(5));
+    }
+
+    [Test]
+    public async Task PlanAsyncSimulatesMaxParallelismSlotsInEstimate()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Concurrency = options.Concurrency with { MaxParallelism = 2 },
+        });
+        builder.AddModule<FirstParallelRootModule>();
+        builder.AddModule<SecondParallelRootModule>();
+        builder.AddModule<ThirdParallelRootModule>();
+        builder.AddModule<ParallelJoinModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(30));
+    }
+
+    [Test]
+    public async Task PlanAsyncAppliesExecutionTypeLimitsInEstimate()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Concurrency = options.Concurrency with
+            {
+                MaxParallelism = 10,
+                MaxCpuIntensiveModules = 1,
+                MaxIoIntensiveModules = 1,
+            },
+        });
+        builder.AddModule<FirstCpuModule>();
+        builder.AddModule<SecondCpuModule>();
+        builder.AddModule<FirstIoModule>();
+        builder.AddModule<SecondIoModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(20));
+    }
+
+    [Test]
+    public async Task PlanAsyncKeepsExcludedDependencyCyclesVisible()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["selected"],
+        });
+        builder.AddModule<SkippedCycleAModule>().WithCategory("excluded");
+        builder.AddModule<SkippedCycleBModule>().WithCategory("excluded");
+        builder.AddModule<UnrelatedModule>().WithCategory("selected");
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var modules = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .ToDictionary(module => module.Module.GetType());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(modules).ContainsKey(typeof(SkippedCycleAModule));
+            await Assert.That(modules).ContainsKey(typeof(SkippedCycleBModule));
+            await Assert.That(modules[typeof(SkippedCycleAModule)].ShouldSkip).IsTrue();
+            await Assert.That(modules[typeof(SkippedCycleBModule)].ShouldSkip).IsTrue();
+        }
     }
 
     [Test]

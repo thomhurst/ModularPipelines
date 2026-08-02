@@ -7,6 +7,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -277,6 +278,19 @@ internal sealed class PipelinePlanner
                 .ToArray();
         }
 
+        if (remainingDependencies.Count > 0)
+        {
+            var unresolvedModules = remainingDependencies.Keys
+                .OrderBy(model => model.Module.GetType().FullName, StringComparer.Ordinal)
+                .Select(model => CreatePlannedModule(
+                    model.Module,
+                    skipDecisions,
+                    modulesWithUnknownSkipDecisions,
+                    estimates))
+                .ToArray();
+            waves.Add(new PipelinePlanWave(waves.Count + 1, unresolvedModules));
+        }
+
         return waves;
     }
 
@@ -356,41 +370,34 @@ internal sealed class PipelinePlanner
             .ToArray();
         var dependencyModels = CreateDependencyModelLookup();
         var finishTimes = new Dictionary<IModule, TimeSpan>(ReferenceEqualityComparer.Instance);
-        var lockFinishTimes = new Dictionary<string, TimeSpan>(StringComparer.Ordinal);
-        var globalSequentialFinish = TimeSpan.Zero;
-        var totalWork = TimeSpan.Zero;
+        var scheduledModules = new List<ScheduledModule>();
+        var concurrency = _options.Value.Concurrency;
 
         foreach (var plannedModule in plannedModules)
         {
             var module = plannedModule.Module;
-            var constraintKeys = GetConstraintKeys(module);
-            var start = CalculateStartTime(
-                module,
-                constraintKeys,
-                dependencyModels,
-                finishTimes,
-                lockFinishTimes,
-                globalSequentialFinish);
-
             var duration = plannedModule.ShouldSkip
                 ? TimeSpan.Zero
                 : plannedModule.EstimatedDuration;
+            var dependencyFinish = dependencyModels[module].IsDependentOn
+                .Select(dependency => finishTimes.GetValueOrDefault(dependency.Module, TimeSpan.Zero))
+                .DefaultIfEmpty(TimeSpan.Zero)
+                .Max();
+            var schedulingProfile = new SchedulingProfile(
+                GetConstraintKeys(module),
+                GetExecutionType(module));
+            var start = FindEarliestStart(
+                dependencyFinish,
+                duration,
+                schedulingProfile,
+                scheduledModules,
+                concurrency);
             var finish = start + duration;
             finishTimes[module] = finish;
-            totalWork += duration;
-
-            RecordConstraintFinishTime(
-                constraintKeys,
-                finish,
-                lockFinishTimes,
-                ref globalSequentialFinish);
+            scheduledModules.Add(new ScheduledModule(start, finish, schedulingProfile));
         }
 
-        var criticalPath = finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
-        var maxParallelism = _options.Value.Concurrency.MaxParallelism;
-        var parallelismLowerBound = TimeSpan.FromTicks(
-            (long) Math.Ceiling((double) totalWork.Ticks / maxParallelism));
-        return criticalPath > parallelismLowerBound ? criticalPath : parallelismLowerBound;
+        return finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
     }
 
     private static IReadOnlyCollection<string>? GetConstraintKeys(IModule module)
@@ -419,59 +426,143 @@ internal sealed class PipelinePlanner
         return dependencyModels;
     }
 
-    private static TimeSpan CalculateStartTime(
-        IModule module,
-        IReadOnlyCollection<string>? constraintKeys,
-        IReadOnlyDictionary<IModule, ModuleDependencyModel> dependencyModels,
-        IReadOnlyDictionary<IModule, TimeSpan> finishTimes,
-        IReadOnlyDictionary<string, TimeSpan> lockFinishTimes,
-        TimeSpan globalSequentialFinish)
+    private static ExecutionType GetExecutionType(IModule module) =>
+        module.Configuration.ExecutionType
+        ?? module.GetType()
+            .GetCustomAttributes(typeof(ExecutionHintAttribute), inherit: true)
+            .Cast<ExecutionHintAttribute>()
+            .FirstOrDefault()
+            ?.ExecutionType
+        ?? ExecutionType.Default;
+
+    private static TimeSpan FindEarliestStart(
+        TimeSpan dependencyFinish,
+        TimeSpan duration,
+        SchedulingProfile profile,
+        IReadOnlyList<ScheduledModule> scheduledModules,
+        ConcurrencyOptions concurrency)
     {
-        var dependencyFinish = dependencyModels[module].IsDependentOn
-            .Select(dependency => finishTimes.GetValueOrDefault(dependency.Module, TimeSpan.Zero))
-            .DefaultIfEmpty(TimeSpan.Zero)
-            .Max();
-        var start = dependencyFinish > globalSequentialFinish
-            ? dependencyFinish
-            : globalSequentialFinish;
-
-        if (constraintKeys is { Count: 0 })
+        if (duration <= TimeSpan.Zero)
         {
-            return finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
+            return dependencyFinish;
         }
 
-        if (constraintKeys is null)
+        var start = dependencyFinish;
+        while (true)
         {
-            return start;
-        }
+            var blockedUntil = GetBlockedUntil(
+                start,
+                duration,
+                profile,
+                scheduledModules,
+                concurrency);
+            if (blockedUntil <= start)
+            {
+                return start;
+            }
 
-        var constraintFinish = constraintKeys
-            .Select(key => lockFinishTimes.GetValueOrDefault(key, TimeSpan.Zero))
-            .DefaultIfEmpty(TimeSpan.Zero)
-            .Max();
-        return constraintFinish > start ? constraintFinish : start;
+            start = blockedUntil;
+        }
     }
 
-    private static void RecordConstraintFinishTime(
-        IReadOnlyCollection<string>? constraintKeys,
-        TimeSpan finish,
-        IDictionary<string, TimeSpan> lockFinishTimes,
-        ref TimeSpan globalSequentialFinish)
+    private static TimeSpan GetBlockedUntil(
+        TimeSpan start,
+        TimeSpan duration,
+        SchedulingProfile profile,
+        IReadOnlyList<ScheduledModule> scheduledModules,
+        ConcurrencyOptions concurrency)
     {
-        if (constraintKeys is { Count: 0 })
+        var finish = start + duration;
+        var checkpoints = scheduledModules
+            .Where(module => module.Start > start && module.Start < finish)
+            .Select(module => module.Start)
+            .Append(start)
+            .Distinct()
+            .Order()
+            .ToArray();
+
+        foreach (var checkpoint in checkpoints)
         {
-            globalSequentialFinish = finish;
-            return;
+            var activeModules = scheduledModules
+                .Where(module => module.Start <= checkpoint && module.Finish > checkpoint)
+                .ToArray();
+            var blockedUntil = GetCapacityBlocker(
+                activeModules,
+                concurrency.MaxParallelism,
+                static _ => true);
+            var executionTypeLimit = GetExecutionTypeLimit(profile.ExecutionType, concurrency);
+            if (executionTypeLimit is { } limit)
+            {
+                blockedUntil = Max(
+                    blockedUntil,
+                    GetCapacityBlocker(
+                        activeModules,
+                        limit,
+                        module => module.Profile.ExecutionType == profile.ExecutionType));
+            }
+
+            var constraintBlocker = activeModules
+                .Where(module => HasConstraintConflict(profile, module.Profile))
+                .Select(module => module.Finish)
+                .DefaultIfEmpty(TimeSpan.Zero)
+                .Max();
+            blockedUntil = Max(blockedUntil, constraintBlocker);
+            if (blockedUntil > checkpoint)
+            {
+                return blockedUntil;
+            }
         }
 
-        if (constraintKeys is null)
-        {
-            return;
-        }
-
-        foreach (var key in constraintKeys)
-        {
-            lockFinishTimes[key] = finish;
-        }
+        return start;
     }
+
+    private static TimeSpan GetCapacityBlocker(
+        IReadOnlyCollection<ScheduledModule> activeModules,
+        int limit,
+        Func<ScheduledModule, bool> predicate)
+    {
+        var constrainedModules = activeModules.Where(predicate).ToArray();
+        return constrainedModules.Length >= limit
+            ? constrainedModules.Min(module => module.Finish)
+            : TimeSpan.Zero;
+    }
+
+    private static int? GetExecutionTypeLimit(
+        ExecutionType executionType,
+        ConcurrencyOptions concurrency) =>
+        executionType switch
+        {
+            ExecutionType.CpuIntensive => concurrency.MaxCpuIntensiveModules,
+            ExecutionType.IoIntensive => concurrency.MaxIoIntensiveModules,
+            _ => null,
+        };
+
+    private static bool HasConstraintConflict(
+        SchedulingProfile candidate,
+        SchedulingProfile scheduled)
+    {
+        if (candidate.ConstraintKeys is { Count: 0 }
+            || scheduled.ConstraintKeys is { Count: 0 })
+        {
+            return true;
+        }
+
+        return candidate.ConstraintKeys is not null
+               && scheduled.ConstraintKeys is not null
+               && candidate.ConstraintKeys.Intersect(
+                   scheduled.ConstraintKeys,
+                   StringComparer.Ordinal).Any();
+    }
+
+    private static TimeSpan Max(TimeSpan first, TimeSpan second) =>
+        first > second ? first : second;
+
+    private sealed record SchedulingProfile(
+        IReadOnlyCollection<string>? ConstraintKeys,
+        ExecutionType ExecutionType);
+
+    private sealed record ScheduledModule(
+        TimeSpan Start,
+        TimeSpan Finish,
+        SchedulingProfile Profile);
 }
