@@ -680,6 +680,57 @@ public class HttpTests : TestBase
     }
 
     [Test]
+    public async Task ResilienceHandler_PreservesContentHeadersAcrossAttempts()
+    {
+        var innerHandler = new SequenceResponseHandler(
+            new HttpResponseMessage(HttpStatusCode.ServiceUnavailable),
+            new HttpResponseMessage(HttpStatusCode.OK));
+        var moduleLoggerProvider = new Mock<IModuleLoggerProvider>();
+        moduleLoggerProvider
+            .Setup(x => x.GetLogger())
+            .Returns(Mock.Of<IModuleLogger>());
+        using var handler = new ResilienceHttpHandler(
+            moduleLoggerProvider.Object,
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions
+            {
+                DefaultHttpResilienceOptions = new HttpResilienceOptions
+                {
+                    MaxRetryAttempts = 1,
+                    InitialDelay = TimeSpan.Zero,
+                    JitterFactor = 0,
+                },
+            }))
+        {
+            InnerHandler = innerHandler,
+        };
+        using var invoker = new HttpMessageInvoker(handler);
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test/upload")
+        {
+            Content = new ByteArrayContent([1, 2, 3]),
+        };
+        request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        request.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+        {
+            FileName = "artifact.bin",
+        };
+        request.Content.Headers.ContentEncoding.Add("gzip");
+        request.Content.Headers.ContentLanguage.Add("en-GB");
+        request.Content.Headers.ContentMD5 = [1, 2, 3, 4];
+        request.Content.Headers.TryAddWithoutValidation("X-Content-Metadata", ["first", "second"]);
+        var expectedHeaders = SnapshotContentHeaders(request);
+
+        using var response = await invoker.SendAsync(request, CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+            await Assert.That(innerHandler.ContentHeaderSnapshots).Count().IsEqualTo(2);
+            await Assert.That(innerHandler.ContentHeaderSnapshots[0]).IsEquivalentTo(expectedHeaders);
+            await Assert.That(innerHandler.ContentHeaderSnapshots[1]).IsEquivalentTo(expectedHeaders);
+        }
+    }
+
+    [Test]
     public async Task PublicApi_DoesNotExposeRawHttpClients()
     {
         var rawClientMembers = typeof(IHttpContext)
@@ -820,6 +871,16 @@ public class HttpTests : TestBase
             await Assert.That(indexOfDuration).IsLessThan(indexOfResponse);
         }
     }
+
+    private static string[] SnapshotContentHeaders(HttpRequestMessage request) =>
+        request.Content?.Headers
+            .Where(static header => !header.Key.Equals(
+                "Content-Length",
+                StringComparison.OrdinalIgnoreCase))
+            .OrderBy(static header => header.Key, StringComparer.OrdinalIgnoreCase)
+            .Select(static header => $"{header.Key}:{string.Join("|", header.Value)}")
+            .ToArray()
+        ?? [];
 
     private sealed class ImmediateResponseHandler(
         HttpContent content,
@@ -1025,10 +1086,13 @@ public class HttpTests : TestBase
     {
         public int CallCount { get; private set; }
 
+        public List<string[]> ContentHeaderSnapshots { get; } = [];
+
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
+            ContentHeaderSnapshots.Add(SnapshotContentHeaders(request));
             return Task.FromResult(responses[CallCount++]);
         }
     }
