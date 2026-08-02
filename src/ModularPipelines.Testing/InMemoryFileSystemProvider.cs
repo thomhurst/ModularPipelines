@@ -53,8 +53,11 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         string path,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        var text = await ReadAllTextAsync(path, cancellationToken).ConfigureAwait(false);
-        using var reader = new StringReader(text);
+        using var stream = OpenRead(path);
+        using var reader = new StreamReader(
+            stream,
+            Encoding.UTF8,
+            detectEncodingFromByteOrderMarks: true);
         while (await reader.ReadLineAsync(cancellationToken).ConfigureAwait(false) is { } line)
         {
             yield return line;
@@ -370,7 +373,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             return !string.IsNullOrWhiteSpace(path)
                 && _files.ContainsKey(NormalizeFilePath(path));
         }
-        catch (Exception exception) when (IsInvalidPathException(exception))
+        catch (Exception exception) when (IsPathProbeException(exception))
         {
             return false;
         }
@@ -504,7 +507,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             return !string.IsNullOrWhiteSpace(path)
                 && _directories.ContainsKey(NormalizeDirectoryPath(path));
         }
-        catch (Exception exception) when (IsInvalidPathException(exception))
+        catch (Exception exception) when (IsPathProbeException(exception))
         {
             return false;
         }
@@ -626,12 +629,16 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         _exclusiveOpenFiles.Contains(normalizedPath)
         || _openReaders.ContainsKey(normalizedPath);
 
-    private static bool IsInvalidPathException(Exception exception) =>
-        exception is ArgumentException or NotSupportedException or PathTooLongException;
+    private static bool IsPathProbeException(Exception exception) =>
+        exception is ArgumentException
+            or NotSupportedException
+            or PathTooLongException
+            or DirectoryNotFoundException;
 
     private string NormalizeDirectoryPath(string path)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        ValidatePathTraversal(path);
         var fullPath = Path.GetFullPath(path);
         var root = Path.GetPathRoot(fullPath);
         return root is not null && _pathComparer.Equals(root, fullPath)
@@ -639,7 +646,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             : fullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
     }
 
-    private static string NormalizeFilePath(string path)
+    private string NormalizeFilePath(string path)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
         if (path.Length >= 2
@@ -651,7 +658,38 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 nameof(path));
         }
 
+        ValidatePathTraversal(path);
         return Path.GetFullPath(path);
+    }
+
+    private void ValidatePathTraversal(string path)
+    {
+        var unresolvedPath = Path.IsPathFullyQualified(path)
+            ? path
+            : Path.Combine(Environment.CurrentDirectory, path);
+        var root = Path.GetPathRoot(unresolvedPath);
+        if (string.IsNullOrEmpty(root))
+        {
+            return;
+        }
+
+        var current = root;
+        foreach (var segment in unresolvedPath[root.Length..].Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (_files.ContainsKey(current))
+            {
+                throw new DirectoryNotFoundException(current);
+            }
+
+            current = segment switch
+            {
+                "." => current,
+                ".." => Path.GetDirectoryName(current) ?? current,
+                _ => Path.Combine(current, segment),
+            };
+        }
     }
 
     private IEnumerable<string> EnumerateEntries(
@@ -661,6 +699,15 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         SearchOption searchOption)
     {
         var root = NormalizeDirectoryPath(path);
+        var separatorIndex = searchPattern.LastIndexOfAny(
+            [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
+        var expression = searchPattern;
+        if (separatorIndex >= 0)
+        {
+            root = NormalizeDirectoryPath(Path.Combine(root, searchPattern[..separatorIndex]));
+            expression = searchPattern[(separatorIndex + 1)..];
+        }
+
         if (!_directories.ContainsKey(root))
         {
             throw new DirectoryNotFoundException(root);
@@ -672,7 +719,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 || !Path.GetRelativePath(root, entry)
                     .Contains(Path.DirectorySeparatorChar, StringComparison.Ordinal))
             .Where(entry => System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(
-                searchPattern,
+                expression,
                 Path.GetFileName(entry),
                 _pathComparison == StringComparison.OrdinalIgnoreCase))
             .OrderBy(static entry => entry, _pathComparer)];

@@ -243,6 +243,51 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task ParentSegmentsCannotTraverseFiles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "file-parent-segment");
+        var file = Path.Combine(root, "file");
+        var target = Path.Combine(root, "target.txt");
+        var malformedPath = Path.Combine(file, "..", "target.txt");
+        provider.CreateDirectory(root);
+        await provider.WriteAllTextAsync(file, "not a directory");
+        await provider.WriteAllTextAsync(target, "original");
+
+        async Task ReadAsync() => _ = await provider.ReadAllTextAsync(malformedPath);
+        async Task WriteAsync() => await provider.WriteAllTextAsync(malformedPath, "replacement");
+
+        await Assert.That(provider.FileExists(malformedPath)).IsFalse();
+        await Assert.That(ReadAsync).Throws<DirectoryNotFoundException>();
+        await Assert.That(WriteAsync).Throws<DirectoryNotFoundException>();
+        await Assert.That(await provider.ReadAllTextAsync(target)).IsEqualTo("original");
+    }
+
+    [Test]
+    public async Task ReadLinesKeepsSharedHandleOpenUntilEnumeratorIsDisposed()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "read-lines-handle.txt");
+        await provider.WriteAllLinesAsync(path, ["first", "second"]);
+        var enumerator = provider.ReadLinesAsync(path).GetAsyncEnumerator();
+
+        try
+        {
+            await Assert.That(await enumerator.MoveNextAsync()).IsTrue();
+            await Assert.That(() => provider.DeleteFile(path)).Throws<IOException>();
+            await Assert.That(() => provider.WriteAllTextAsync(path, "replacement"))
+                .Throws<IOException>();
+        }
+        finally
+        {
+            await enumerator.DisposeAsync();
+        }
+
+        await provider.WriteAllTextAsync(path, "replacement");
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("replacement");
+    }
+
+    [Test]
     public async Task OpenReadAllowsSharedReadHandles()
     {
         var provider = new InMemoryFileSystemProvider();
@@ -480,6 +525,50 @@ public class InMemoryFileSystemProviderTests
 
         await Assert.That(provider.EnumerateFiles(root, "*.txt", SearchOption.AllDirectories))
             .Contains(path);
+    }
+
+    [Test]
+    [Arguments(SearchOption.TopDirectoryOnly, 1)]
+    [Arguments(SearchOption.AllDirectories, 2)]
+    public async Task FileEnumerationHonorsDirectoriesInSearchPatterns(
+        SearchOption searchOption,
+        int expectedCount)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "file-pattern-directory");
+        var subdirectory = Path.Combine(root, "sub");
+        var nested = Path.Combine(subdirectory, "nested");
+        provider.CreateDirectory(nested);
+        await provider.WriteAllTextAsync(Path.Combine(subdirectory, "first.json"), "first");
+        await provider.WriteAllTextAsync(Path.Combine(nested, "second.json"), "second");
+
+        var entries = provider.EnumerateFiles(
+            root,
+            Path.Combine("sub", "*.json"),
+            searchOption);
+
+        await Assert.That(entries.Count()).IsEqualTo(expectedCount);
+    }
+
+    [Test]
+    [Arguments(SearchOption.TopDirectoryOnly, 1)]
+    [Arguments(SearchOption.AllDirectories, 2)]
+    public async Task DirectoryEnumerationHonorsDirectoriesInSearchPatterns(
+        SearchOption searchOption,
+        int expectedCount)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "directory-pattern-directory");
+        var subdirectory = Path.Combine(root, "sub");
+        provider.CreateDirectory(Path.Combine(subdirectory, "target-one"));
+        provider.CreateDirectory(Path.Combine(subdirectory, "nested", "target-two"));
+
+        var entries = provider.EnumerateDirectories(
+            root,
+            Path.Combine("sub", "target-*"),
+            searchOption);
+
+        await Assert.That(entries.Count()).IsEqualTo(expectedCount);
     }
 
     [Test]
