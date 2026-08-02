@@ -145,7 +145,7 @@ internal class Downloader : IDownloaderContext
 
     private static string GetExtension(Uri downloadUri)
     {
-        var extension = Path.GetExtension(Uri.UnescapeDataString(downloadUri.AbsolutePath));
+        var extension = Uri.UnescapeDataString(Path.GetExtension(downloadUri.AbsolutePath));
         if (string.IsNullOrEmpty(extension))
         {
             return string.Empty;

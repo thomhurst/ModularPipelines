@@ -106,6 +106,23 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    public async Task DownloadFileAsync_Preserves_Extension_Before_Decoding_Encoded_Separators()
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/archive.zip%2Fsuffix")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zipsuffix");
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
     public async Task DownloadFileAsync_UsesBoundedSiblingTemporaryName()
     {
         var destination = Path.Combine(
