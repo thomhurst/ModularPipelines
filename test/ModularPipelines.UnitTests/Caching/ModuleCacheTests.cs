@@ -1612,6 +1612,38 @@ public class ModuleCacheTests
     }
 
     [Test]
+    public async Task ArtifactScopeRequiresExactDeclarationForWorkingRoot()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-root-scope-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(temporaryDirectory);
+
+        try
+        {
+            await Assert.That(ModuleCacheFileResolver.IsWithinDeclaredArtifactScope(
+                    temporaryDirectory,
+                    temporaryDirectory,
+                    ["*"]))
+                .IsFalse();
+            await Assert.That(ModuleCacheFileResolver.IsWithinDeclaredArtifactScope(
+                    temporaryDirectory,
+                    temporaryDirectory,
+                    ["**/*"]))
+                .IsFalse();
+            await Assert.That(ModuleCacheFileResolver.IsWithinDeclaredArtifactScope(
+                    temporaryDirectory,
+                    temporaryDirectory,
+                    ["."]))
+                .IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task InputExpansionRejectsSymbolicLinkedPaths()
     {
         var temporaryDirectory = Path.Combine(
@@ -2393,6 +2425,49 @@ public class ModuleCacheTests
 
     [Test]
     [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheSaveSkipsResultAboveConfiguredLimit()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-save-result-limit-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            var firstStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumResultBytes: 1);
+
+            var cacheEntries = Directory.Exists(cacheDirectory)
+                ? Directory.GetFiles(cacheDirectory, "*.zip")
+                : [];
+            await Assert.That(cacheEntries).IsEmpty();
+
+            var secondStatus = await RunVaryingArtifactSetPipelineAsync(
+                temporaryDirectory,
+                maximumResultBytes: 1);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstStatus).IsEqualTo(Status.Successful);
+                await Assert.That(secondStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
     public async Task FailedWorkingDirectoryRestoreRestoresModeBeforeExecution()
     {
         if (OperatingSystem.IsWindows())
@@ -2557,6 +2632,110 @@ public class ModuleCacheTests
                 {
                     await output.WriteAsync("escaped.txt"u8.ToArray());
                 }
+            }
+
+            var restoredStatus =
+                await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+                await Assert.That(Directory.EnumerateFileSystemEntries(externalDirectory))
+                    .IsEmpty();
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+            Directory.Delete(externalDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRejectsSymbolicLinkTargetsOutsideWorkingDirectory()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-external-link-{Guid.NewGuid():N}");
+        var externalDirectory = $"{temporaryDirectory}-external";
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        Directory.CreateDirectory(externalDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();
+            using (var archive = ZipFile.Open(cacheEntry, ZipArchiveMode.Update))
+            {
+                var link = archive.CreateEntry("artifacts/artifact-set/escape");
+                link.ExternalAttributes = 0xA000 << 16;
+                await using var output = link.Open();
+                await output.WriteAsync(Encoding.UTF8.GetBytes(Path.GetRelativePath(
+                    Path.Combine(temporaryDirectory, "artifact-set"),
+                    externalDirectory)));
+            }
+
+            var restoredStatus =
+                await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+                await Assert.That(System.IO.File.Exists(Path.Combine(
+                        temporaryDirectory,
+                        "artifact-set",
+                        "escape")))
+                    .IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+            Directory.Delete(externalDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRejectsTargetsThroughExistingSymbolicLinks()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-linked-target-{Guid.NewGuid():N}");
+        var externalDirectory = $"{temporaryDirectory}-external";
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        Directory.CreateDirectory(externalDirectory);
+        Directory.CreateSymbolicLink(
+            Path.Combine(temporaryDirectory, "linked-target"),
+            externalDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();
+            using (var archive = ZipFile.Open(cacheEntry, ZipArchiveMode.Update))
+            {
+                var link = archive.CreateEntry("artifacts/artifact-set/escape");
+                link.ExternalAttributes = 0xA000 << 16;
+                await using var output = link.Open();
+                await output.WriteAsync("../linked-target"u8.ToArray());
             }
 
             var restoredStatus =

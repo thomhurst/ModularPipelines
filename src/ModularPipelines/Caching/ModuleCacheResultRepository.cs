@@ -110,35 +110,48 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
                 return;
             }
 
-            var temporary = Path.GetTempFileName();
+            var serializedResult = Path.GetTempFileName();
             try
             {
-                await using (var stream = new FileStream(
-                                 temporary,
+                await using (var resultStream = new FileStream(
+                                 serializedResult,
                                  FileMode.Create,
                                  FileAccess.ReadWrite,
                                  FileShare.None,
                                  64 * 1024,
                                  FileOptions.Asynchronous))
                 {
-                    using (var archive = new ZipArchive(stream, ZipArchiveMode.Create, leaveOpen: true))
-                    {
-                        var resultEntry = archive.CreateEntry(ResultEntryName, CompressionLevel.Fastest);
-                        await using (var resultStream = resultEntry.Open())
-                        {
-                            await JsonSerializer.SerializeAsync<ModuleResult<T>>(
-                                    resultStream,
-                                    moduleResult,
-                                    cancellationToken: cancellationToken)
-                                .ConfigureAwait(false);
-                        }
+                    await JsonSerializer.SerializeAsync<ModuleResult<T>>(
+                            resultStream,
+                            moduleResult,
+                            cancellationToken: cancellationToken)
+                        .ConfigureAwait(false);
 
-                        await AddArtifactsAsync(archive, module.GetType(), cancellationToken)
-                            .ConfigureAwait(false);
+                    if (resultStream.Length > _options.MaximumResultBytes)
+                    {
+                        _logger.LogDebug(
+                            "Skipping module cache save for {Module} because its serialized result exceeded the configured limit of {MaximumResultBytes} bytes",
+                            module.GetType().Name,
+                            _options.MaximumResultBytes);
+                        return;
                     }
 
-                    stream.Position = 0;
-                    await _store.WriteAsync(fingerprint, stream, cancellationToken).ConfigureAwait(false);
+                    resultStream.Position = 0;
+                    var temporary = Path.GetTempFileName();
+                    try
+                    {
+                        await WriteCacheEntryAsync(
+                                temporary,
+                                resultStream,
+                                module.GetType(),
+                                fingerprint,
+                                cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        File.Delete(temporary);
+                    }
                 }
 
                 _logger.LogDebug(
@@ -148,7 +161,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             }
             finally
             {
-                File.Delete(temporary);
+                File.Delete(serializedResult);
             }
         }
         finally
@@ -223,6 +236,42 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         {
             File.Delete(temporary);
         }
+    }
+
+    private async Task WriteCacheEntryAsync(
+        string path,
+        Stream serializedResult,
+        Type moduleType,
+        string fingerprint,
+        CancellationToken cancellationToken)
+    {
+        await using var stream = new FileStream(
+            path,
+            FileMode.Create,
+            FileAccess.ReadWrite,
+            FileShare.None,
+            64 * 1024,
+            FileOptions.Asynchronous);
+        using (var archive = new ZipArchive(stream, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            var resultEntry = archive.CreateEntry(ResultEntryName, CompressionLevel.Fastest);
+            await using (var resultEntryStream = resultEntry.Open())
+            {
+                await CopyWithLimitAsync(
+                        serializedResult,
+                        resultEntryStream,
+                        _options.MaximumResultBytes,
+                        "Cache result",
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            await AddArtifactsAsync(archive, moduleType, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        stream.Position = 0;
+        await _store.WriteAsync(fingerprint, stream, cancellationToken).ConfigureAwait(false);
     }
 
     [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Dependency result fingerprints require runtime result type metadata.")]
@@ -524,6 +573,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             .ToArray();
         ValidateDeclaredArtifactBytes(artifactEntries.Select(artifact => artifact.Entry));
         var byteBudget = new ArtifactByteBudget(_options.MaximumArtifactBytes);
+        var symbolicLinkTargets = new Dictionary<ZipArchiveEntry, string>();
 
         foreach (var artifact in artifactEntries)
         {
@@ -541,6 +591,16 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         foreach (var symbolicLink in artifactEntries
                      .Where(artifact => artifact.IsSymbolicLink))
         {
+            await using (var input = symbolicLink.Entry.Open())
+            {
+                var linkTarget = await byteBudget.ReadSymbolicLinkTargetAsync(
+                        input,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+                ValidateSymbolicLinkTarget(root, symbolicLink.Destination, linkTarget);
+                symbolicLinkTargets.Add(symbolicLink.Entry, linkTarget);
+            }
+
             if (artifactEntries.Any(artifact =>
                     IsNestedPath(
                         symbolicLink.Destination,
@@ -616,11 +676,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-                await using var input = entry.Open();
-                var linkTarget = await byteBudget.ReadSymbolicLinkTargetAsync(
-                        input,
-                        cancellationToken)
-                    .ConfigureAwait(false);
+                var linkTarget = symbolicLinkTargets[entry];
                 if (isDirectorySymbolicLink)
                 {
                     Directory.CreateSymbolicLink(destination, linkTarget);
@@ -925,6 +981,41 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
             .Cast<ProducesArtifactAttribute>()
             .Select(attribute => attribute.PathPattern);
+
+    private static void ValidateSymbolicLinkTarget(
+        string root,
+        string destination,
+        string linkTarget)
+    {
+        var parent = Path.GetDirectoryName(destination)!;
+        var resolvedTarget = Path.IsPathRooted(linkTarget)
+            ? Path.GetFullPath(linkTarget)
+            : Path.GetFullPath(Path.Combine(parent, linkTarget));
+        if (!ModuleCacheFileResolver.IsWithin(root, resolvedTarget))
+        {
+            throw new InvalidDataException(
+                $"Cache artifact symbolic-link target '{linkTarget}' escapes the working directory.");
+        }
+
+        var relativeTarget = Path.GetRelativePath(root, resolvedTarget);
+        var currentPath = root;
+        foreach (var component in relativeTarget.Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (component == ".")
+            {
+                continue;
+            }
+
+            currentPath = Path.Combine(currentPath, component);
+            if (TryGetReparsePointAttributes(currentPath, out _))
+            {
+                throw new InvalidDataException(
+                    $"Cache artifact symbolic-link target '{linkTarget}' traverses a linked path.");
+            }
+        }
+    }
 
     private static string GetArtifactDestination(string root, ZipArchiveEntry entry)
     {

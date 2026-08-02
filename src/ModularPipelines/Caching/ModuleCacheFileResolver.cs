@@ -97,7 +97,8 @@ internal static class ModuleCacheFileResolver
             var pattern = NormalizePattern(root, rawPattern);
             if (pattern.IndexOfAny(['*', '?']) >= 0)
             {
-                if (CreateGlobRegex(pattern, ignoreCase).IsMatch(relativePath))
+                if (relativePath != "."
+                    && CreateGlobRegex(pattern, ignoreCase).IsMatch(relativePath))
                 {
                     return true;
                 }
@@ -121,6 +122,12 @@ internal static class ModuleCacheFileResolver
             static path => IsCaseSensitiveFileSystem(path)
                 ? StringComparer.Ordinal
                 : StringComparer.OrdinalIgnoreCase);
+
+    internal static bool IsWithin(string root, string path)
+    {
+        var fullRoot = Path.GetFullPath(root);
+        return IsWithin(fullRoot, Path.GetFullPath(path), GetPathComparer(fullRoot));
+    }
 
     private static string[] ResolvePaths(
         string workingDirectory,
@@ -532,12 +539,6 @@ internal static class ModuleCacheFileResolver
         {
             throw new InvalidOperationException(expansionLimitMessage(maximumPaths));
         }
-    }
-
-    internal static bool IsWithin(string root, string path)
-    {
-        var fullRoot = Path.GetFullPath(root);
-        return IsWithin(fullRoot, Path.GetFullPath(path), GetPathComparer(fullRoot));
     }
 
     private static bool IsWithin(string root, string path, StringComparer pathComparer)
