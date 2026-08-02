@@ -9,7 +9,7 @@ using ModularPipelines.Git.Models;
 using ModularPipelines.Logging;
 using Moq;
 
-namespace ModularPipelines.UnitTests.Attributes;
+namespace ModularPipelines.Git.UnitTests;
 
 public class BranchConditionLoggingTests
 {

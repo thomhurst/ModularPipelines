@@ -1,19 +1,18 @@
-using ModularPipelines.Context;
+namespace ModularPipelines.Git.UnitTests;
 
-namespace ModularPipelines.UnitTests.Api;
-
-public class CancellationTokenApiTests
+public class GitCancellationTokenApiTests
 {
     [Test]
     public async Task PublicMethods_UseStandardCancellationTokenParameterName()
     {
-        var nonstandardParameters = typeof(IModuleContext).Assembly
+        var nonstandardParameters = typeof(IGitCommands).Assembly
             .GetExportedTypes()
             .SelectMany(type => type.GetMethods())
             .SelectMany(method => method.GetParameters())
             .Where(parameter => parameter.ParameterType == typeof(CancellationToken))
             .Where(parameter => parameter.Name != "cancellationToken")
-            .Select(parameter => $"{parameter.Member.DeclaringType?.FullName}.{parameter.Member.Name}({parameter.Name})")
+            .Select(parameter =>
+                $"{parameter.Member.DeclaringType?.FullName}.{parameter.Member.Name}({parameter.Name})")
             .Distinct()
             .Order()
             .ToArray();
