@@ -257,12 +257,35 @@ public class Module1 : Module<string>
             "throw new InvalidOperationException()");
     }
 
+    [TestMethod]
+    public async Task CodeFixPreservesTargetTypedNullExpressionBody()
+    {
+        await VerifyExpressionBodiedCodeFixAsync(
+            "null",
+            "null",
+            suppressNullReturnWarning: true);
+    }
+
+    [TestMethod]
+    public async Task CodeFixPreservesTargetTypedDefaultExpressionBody()
+    {
+        await VerifyExpressionBodiedCodeFixAsync(
+            "default",
+            "default",
+            suppressNullReturnWarning: true);
+    }
+
     private static async Task VerifyExpressionBodiedCodeFixAsync(
         string expression,
-        string fixedExpression)
+        string fixedExpression,
+        bool suppressNullReturnWarning = false)
     {
+        var nullableWarningDirective = suppressNullReturnWarning
+            ? "#pragma warning disable CS8603"
+            : string.Empty;
         var source = $@"
 {TestSourceConstants.StandardModuleHeaderWithOptions}
+{nullableWarningDirective}
 
 public class Module1 : Module<string>
 {{
@@ -277,6 +300,7 @@ public class Module1 : Module<string>
 ";
         var fixedSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithOptions}
+{nullableWarningDirective}
 
 public class Module1 : Module<string>
 {{

@@ -107,7 +107,9 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         ExpressionSyntax expression,
         SemanticModel? semanticModel)
     {
-        if (expression is ThrowExpressionSyntax)
+        if (expression is ThrowExpressionSyntax
+            || expression.IsKind(SyntaxKind.NullLiteralExpression)
+            || expression.IsKind(SyntaxKind.DefaultLiteralExpression))
         {
             return expression;
         }
