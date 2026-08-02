@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -185,6 +186,33 @@ public class CliScraperTraversalTests
 
         await Assert.That(tag.AcceptsMultipleValues).IsTrue();
         await Assert.That(tag.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    public async Task SharedShapeInference_Models_Optional_Cobra_Option_Values()
+    {
+        const string helpText = """
+            Create a provider.
+
+            Usage:
+              fake provider [flags]
+
+            Flags:
+              --draft string[="new"]   Set without a value to create a draft
+            """;
+        var scraper = new TestCobraScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        var command = await scraper.Parse(["fake", "provider"], helpText);
+        var draft = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(draft.CSharpType).IsEqualTo("string?");
+            await Assert.That(draft.IsFlag).IsFalse();
+            await Assert.That(draft.ValueSeparator).IsEqualTo("=");
+            await Assert.That(draft.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        }
     }
 
     [Test]

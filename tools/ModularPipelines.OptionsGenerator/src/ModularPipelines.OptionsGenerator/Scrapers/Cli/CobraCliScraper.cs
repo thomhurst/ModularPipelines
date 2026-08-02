@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -277,6 +278,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
                 var shortForm = match.Groups["short"].Value.Trim();
                 var longForm = match.Groups["long"].Value.Trim();
                 var typeHint = match.Groups["type"].Value.Trim();
+                var hasOptionalValue = TryNormalizeOptionalValueTypeHint(ref typeHint);
                 var hasDefaultValue = match.Groups["default"].Success;
                 var description = match.Groups["desc"].Value.Trim();
 
@@ -348,6 +350,9 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     IsKeyValue = isKeyValue,
                     IsNumeric = isInteger || isFloat,
                     ValueSeparator = separator,
+                    ValueArity = hasOptionalValue
+                        ? CliOptionValueArity.Optional
+                        : CliOptionValueArity.Required,
                     EnumDefinition = enumDef,
                     IsSecret = !isBoolean && IsSecretOption(propertyName, isFlag)
                 });
@@ -355,6 +360,18 @@ public abstract partial class CobraCliScraper : CliScraperBase
         }
 
         return options;
+    }
+
+    private static bool TryNormalizeOptionalValueTypeHint(ref string typeHint)
+    {
+        var optionalValueStart = typeHint.IndexOf("[=", StringComparison.Ordinal);
+        if (optionalValueStart <= 0 || !typeHint.EndsWith(']'))
+        {
+            return false;
+        }
+
+        typeHint = typeHint[..optionalValueStart];
+        return true;
     }
 
     private static string NormalizeTypeHint(string typeHint, bool hasDefaultValue)
