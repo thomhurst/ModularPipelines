@@ -475,6 +475,28 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task RejectsDirectoryFormFileDestinations()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var directoryPath = Path.Combine(provider.GetTempPath(), "directory-form");
+        var directoryForm = directoryPath + Path.DirectorySeparatorChar;
+        var sourcePath = Path.Combine(provider.GetTempPath(), "source.txt");
+        provider.CreateDirectory(directoryPath);
+        await provider.WriteAllTextAsync(sourcePath, "contents");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => provider.WriteAllTextAsync(directoryForm, "contents"))
+                .Throws<IOException>();
+            await Assert.That(() => provider.Create(directoryForm)).Throws<IOException>();
+            await Assert.That(() => provider.CopyFile(sourcePath, directoryForm, overwrite: true))
+                .Throws<IOException>();
+            await Assert.That(provider.DirectoryExists(directoryPath)).IsTrue();
+            await Assert.That(provider.FileExists(directoryForm)).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task MoveDirectoryRequiresExistingDestinationParent()
     {
         var provider = new InMemoryFileSystemProvider();

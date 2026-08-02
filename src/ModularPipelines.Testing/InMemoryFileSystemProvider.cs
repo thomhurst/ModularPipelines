@@ -595,10 +595,12 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
     private void ValidateFileDestination(string normalizedPath)
     {
-        if (_directories.ContainsKey(normalizedPath))
+        var directoryForm = NormalizeDirectoryPath(normalizedPath);
+        if (Path.EndsInDirectorySeparator(normalizedPath)
+            || _directories.ContainsKey(directoryForm))
         {
             throw new IOException(
-                $"The in-memory path '{normalizedPath}' is already a directory.");
+                $"The in-memory path '{directoryForm}' is a directory or directory-form path.");
         }
 
         var parent = Path.GetDirectoryName(normalizedPath);
