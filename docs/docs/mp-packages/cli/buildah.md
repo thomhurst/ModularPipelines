@@ -7,7 +7,13 @@ title: buildah CLI reference
 
 `ModularPipelines.Buildah` provides strongly typed access to the `buildah` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `buildah` executable. Install it separately and ensure `buildah` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Buildah
@@ -29,8 +35,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Tools.Buildah.AddAsync(
-            new BuildahAddOptions(),
+        return await context.Tools.Buildah.ContainersAsync(
+            new BuildahContainersOptions(),
             cancellationToken: cancellationToken);
     }
 }
@@ -51,6 +57,7 @@ public class RunCommandModule : Module<CommandResult>
 | `buildah inspect` | `BuildahInspectOptions` |
 | `buildah login` | `BuildahLoginOptions` |
 | `buildah logout` | `BuildahLogoutOptions` |
+| `buildah manifest` | `BuildahManifestOptions` |
 | `buildah manifest add` | `BuildahManifestAddOptions` |
 | `buildah manifest annotate` | `BuildahManifestAnnotateOptions` |
 | `buildah manifest create` | `BuildahManifestCreateOptions` |
@@ -68,6 +75,7 @@ public class RunCommandModule : Module<CommandResult>
 | `buildah rm` | `BuildahRmOptions` |
 | `buildah rmi` | `BuildahRmiOptions` |
 | `buildah run` | `BuildahRunOptions` |
+| `buildah source` | `BuildahSourceOptions` |
 | `buildah source add` | `BuildahSourceAddOptions` |
 | `buildah source create` | `BuildahSourceCreateOptions` |
 | `buildah source pull` | `BuildahSourcePullOptions` |

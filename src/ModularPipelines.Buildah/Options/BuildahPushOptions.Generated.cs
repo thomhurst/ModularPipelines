@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Buildah.Options;
+using ModularPipelines.Buildah.Enums;
 
 namespace ModularPipelines.Buildah.Options;
 
@@ -90,7 +91,7 @@ public record BuildahPushOptions : BuildahOptions
     /// manifest type (oci, v2s1, or v2s2) to use in the destination (default is manifest type of source, with fallbacks)
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public BuildahPushFormat? Format { get; set; }
 
     /// <summary>
     /// help for push

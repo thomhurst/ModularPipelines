@@ -19,6 +19,7 @@ namespace ModularPipelines.Buildah.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("buildah")]
+[CliGlobalOptions]
 public abstract record BuildahOptions : CommandLineToolOptions
 {
 }
