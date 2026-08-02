@@ -360,6 +360,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y podman
+          printf '#!/usr/bin/env bash\nexec docker compose "$@"\n' > "$CLI_TOOLS_ROOT/bin/docker-compose"
+          chmod +x "$CLI_TOOLS_ROOT/bin/docker-compose"
+          echo "PODMAN_COMPOSE_PROVIDER=$CLI_TOOLS_ROOT/bin/docker-compose" >> "$GITHUB_ENV"
 
       - name: Install Buildah
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'buildah'

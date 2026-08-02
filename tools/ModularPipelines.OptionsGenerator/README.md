@@ -220,6 +220,11 @@ Do not build `ModularPipelines.All.sln` for generator work.
 
 `.github/workflows/generate-cli-options.yml` runs weekly and on demand:
 
+This regenerate-and-diff workflow is the authoritative staleness check. Generated-code
+version attributes identify the generator release that produced a file, but matching a
+version attribute does not prove that the committed content matches the current parser.
+Regenerate outputs instead of changing version attributes in place.
+
 1. Test the exact-path staging safety script.
 2. Fan out one installed CLI per Linux or Windows matrix job.
 3. install and verify the requested executable, then pin its resolved path;
