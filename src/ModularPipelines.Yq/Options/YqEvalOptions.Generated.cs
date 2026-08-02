@@ -162,7 +162,7 @@ public record YqEvalOptions : YqOptions
     /// pretty print, shorthand for '... style = ""'
     /// </summary>
     [CliFlag("--prettyPrint", ShortForm = "-P")]
-    public bool? Prettyprint { get; set; }
+    public bool? PrettyPrint { get; set; }
 
     /// <summary>
     /// use [x] in array paths (e.g. for SpringBoot)
@@ -228,7 +228,7 @@ public record YqEvalOptions : YqOptions
     /// unwrap scalar, print the value with no quotes, colours or comments. Defaults to true for yaml (default true)
     /// </summary>
     [CliOption("--unwrapScalar", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
-    public bool? Unwrapscalar { get; set; }
+    public bool? UnwrapScalar { get; set; }
 
     /// <summary>
     /// verbose mode
@@ -301,5 +301,11 @@ public record YqEvalOptions : YqOptions
     /// </summary>
     [CliFlag("--yaml-fix-merge-anchor-to-spec")]
     public bool? YamlFixMergeAnchorToSpec { get; set; }
+
+    /// <summary>
+    /// The [yaml_file1] operand.
+    /// </summary>
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public IEnumerable<string>? YamlFile1 { get; set; }
 
 }

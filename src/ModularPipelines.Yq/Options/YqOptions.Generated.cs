@@ -19,6 +19,7 @@ namespace ModularPipelines.Yq.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("yq")]
+[CliGlobalOptions]
 public abstract record YqOptions : CommandLineToolOptions
 {
 }
