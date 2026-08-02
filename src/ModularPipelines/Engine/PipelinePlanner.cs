@@ -1,6 +1,7 @@
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
@@ -19,6 +20,7 @@ internal sealed class PipelinePlanner
     private readonly IServiceProvider _serviceProvider;
     private readonly IReadOnlyList<IModule> _modules;
     private readonly IRegistrationEventExecutor _registrationEventExecutor;
+    private readonly ModuleRetriever _moduleRetriever;
     private readonly IModuleConditionHandler _conditionHandler;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
@@ -26,22 +28,28 @@ internal sealed class PipelinePlanner
     private readonly IDependencyChainProvider _dependencyChainProvider;
     private readonly IOptions<PipelineOptions> _options;
     private readonly IMediator _mediator;
+    private readonly IModuleResultHistoryProvider _resultHistoryProvider;
+    private readonly IPipelineContextProvider _pipelineContextProvider;
 
     public PipelinePlanner(
         IServiceProvider serviceProvider,
         IEnumerable<IModule> modules,
         IRegistrationEventExecutor registrationEventExecutor,
+        ModuleRetriever moduleRetriever,
         IModuleConditionHandler conditionHandler,
         ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
         IDependencyChainProvider dependencyChainProvider,
         IOptions<PipelineOptions> options,
-        IMediator mediator)
+        IMediator mediator,
+        IModuleResultHistoryProvider resultHistoryProvider,
+        IPipelineContextProvider pipelineContextProvider)
     {
         _serviceProvider = serviceProvider;
         _modules = modules.Distinct<IModule>(ReferenceEqualityComparer.Instance).ToArray();
         _registrationEventExecutor = registrationEventExecutor;
+        _moduleRetriever = moduleRetriever;
         _conditionHandler = conditionHandler;
         _estimatedTimeProvider = estimatedTimeProvider;
         _dependencyRegistry = dependencyRegistry;
@@ -49,6 +57,8 @@ internal sealed class PipelinePlanner
         _dependencyChainProvider = dependencyChainProvider;
         _options = options;
         _mediator = mediator;
+        _resultHistoryProvider = resultHistoryProvider;
+        _pipelineContextProvider = pipelineContextProvider;
     }
 
     public async Task<PipelinePlan> CreateAsync(CancellationToken cancellationToken = default)
@@ -60,7 +70,7 @@ internal sealed class PipelinePlanner
 
         await _registrationEventExecutor.InvokeRegistrationEventsAsync(_modules).ConfigureAwait(false);
         cancellationToken.ThrowIfCancellationRequested();
-        ModuleDependencyValidator.Validate(_modules, _dependencyRegistry, _metadataRegistry);
+        await ValidateDependenciesAsync(cancellationToken).ConfigureAwait(false);
 
         var selection = ModuleSelection.Create(_modules, _dependencyChainProvider, _options.Value);
         var runnableModules = new List<IModule>();
@@ -86,14 +96,27 @@ internal sealed class PipelinePlanner
             }
         }
 
+        var moduleTypesUsingHistory = new HashSet<Type>();
+        var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var cascadeResult = await DependencySkipCascade.ApplyAsync(
                 _modules,
                 runnableModules,
                 ignoredModules,
                 _dependencyRegistry,
                 _metadataRegistry,
-                _ => Task.CompletedTask,
-                _ => true,
+                async pendingIgnoredModules =>
+                {
+                    foreach (var ignoredModule in pendingIgnoredModules)
+                    {
+                        if (await _resultHistoryProvider
+                                .TryGetAsync(ignoredModule.Module, pipelineContext)
+                                .ConfigureAwait(false) is not null)
+                        {
+                            moduleTypesUsingHistory.Add(ignoredModule.Module.GetType());
+                        }
+                    }
+                },
+                moduleType => !moduleTypesUsingHistory.Contains(moduleType),
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -105,13 +128,30 @@ internal sealed class PipelinePlanner
 
         modulesWithUnknownSkipDecisions = PropagateUnknownSkipDecisions(
             skipDecisions,
-            modulesWithUnknownSkipDecisions);
+            modulesWithUnknownSkipDecisions,
+            moduleTypesUsingHistory);
         var estimates = await GetEstimatesAsync(cascadeResult.RunnableModules).ConfigureAwait(false);
 
         _dependencyChainProvider.Initialize(_modules);
-        return new PipelinePlan(
-            _modules,
-            BuildWaves(skipDecisions, modulesWithUnknownSkipDecisions, estimates));
+        var waves = BuildWaves(skipDecisions, modulesWithUnknownSkipDecisions, estimates);
+        return new PipelinePlan(_modules, waves, CalculateEstimatedDuration(waves));
+    }
+
+    private async Task ValidateDependenciesAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            ModuleDependencyValidator.Validate(_modules, _dependencyRegistry, _metadataRegistry);
+        }
+        catch (Exception exception) when (exception is ModuleNotRegisteredException
+            or ModuleReferencingSelfException
+            or DependencyCollisionException)
+        {
+            var runnableModules = await _moduleRetriever
+                .GetRunnableModulesForValidation(cancellationToken)
+                .ConfigureAwait(false);
+            ModuleDependencyValidator.Validate(runnableModules, _dependencyRegistry, _metadataRegistry);
+        }
     }
 
     private async Task<SkipDecision?> EvaluateSkipDecisionAsync(
@@ -242,7 +282,8 @@ internal sealed class PipelinePlanner
 
     private HashSet<IModule> PropagateUnknownSkipDecisions(
         IReadOnlyDictionary<IModule, SkipDecision> skipDecisions,
-        IReadOnlySet<IModule> initialUnknownModules)
+        IReadOnlySet<IModule> initialUnknownModules,
+        IReadOnlySet<Type> moduleTypesUsingHistory)
     {
         var unknownModules = initialUnknownModules
             .Where(module => !skipDecisions.ContainsKey(module))
@@ -275,7 +316,8 @@ internal sealed class PipelinePlanner
                     .Where(dependency => !dependency.Optional)
                     .Select(dependency => dependency.DependencyType)
                     .Any(dependencyType => modulesByType[dependencyType]
-                        .Where(dependency => !skipDecisions.ContainsKey(dependency))
+                        .Where(dependency => !skipDecisions.ContainsKey(dependency)
+                                             || moduleTypesUsingHistory.Contains(dependency.GetType()))
                         .All(unknownModules.Contains));
                 if (dependsOnUnknownModule)
                 {
@@ -305,5 +347,82 @@ internal sealed class PipelinePlanner
             _metadataRegistry.GetCategory(module.GetType()),
             skipDecision,
             estimatedDuration);
+    }
+
+    private TimeSpan CalculateEstimatedDuration(IReadOnlyList<PipelinePlanWave> waves)
+    {
+        var plannedModules = waves
+            .SelectMany(wave => wave.Modules)
+            .ToArray();
+        var dependencyModels = new Dictionary<IModule, ModuleDependencyModel>(
+            ReferenceEqualityComparer.Instance);
+        foreach (var dependencyModel in _dependencyChainProvider.ModuleDependencyModels)
+        {
+            dependencyModels.Add(dependencyModel.Module, dependencyModel);
+        }
+        var finishTimes = new Dictionary<IModule, TimeSpan>(ReferenceEqualityComparer.Instance);
+        var lockFinishTimes = new Dictionary<string, TimeSpan>(StringComparer.Ordinal);
+        var globalSequentialFinish = TimeSpan.Zero;
+        var totalWork = TimeSpan.Zero;
+
+        foreach (var plannedModule in plannedModules)
+        {
+            var module = plannedModule.Module;
+            var start = globalSequentialFinish;
+            foreach (var dependency in dependencyModels[module].IsDependentOn)
+            {
+                if (finishTimes.TryGetValue(dependency.Module, out var dependencyFinish)
+                    && dependencyFinish > start)
+                {
+                    start = dependencyFinish;
+                }
+            }
+
+            IReadOnlyCollection<string>? constraintKeys = module.Configuration.ParallelConstraintKeys;
+            constraintKeys ??= module.GetType()
+                .GetCustomAttributes(typeof(NotInParallelAttribute), inherit: true)
+                .Cast<NotInParallelAttribute>()
+                .FirstOrDefault()
+                ?.ConstraintKeys;
+            if (constraintKeys is { Count: 0 })
+            {
+                start = finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
+            }
+            else if (constraintKeys is not null)
+            {
+                foreach (var key in constraintKeys)
+                {
+                    if (lockFinishTimes.TryGetValue(key, out var lockFinish) && lockFinish > start)
+                    {
+                        start = lockFinish;
+                    }
+                }
+            }
+
+            var duration = plannedModule.ShouldSkip
+                ? TimeSpan.Zero
+                : plannedModule.EstimatedDuration;
+            var finish = start + duration;
+            finishTimes[module] = finish;
+            totalWork += duration;
+
+            if (constraintKeys is { Count: 0 })
+            {
+                globalSequentialFinish = finish;
+            }
+            else if (constraintKeys is not null)
+            {
+                foreach (var key in constraintKeys)
+                {
+                    lockFinishTimes[key] = finish;
+                }
+            }
+        }
+
+        var criticalPath = finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
+        var maxParallelism = _options.Value.Concurrency.MaxParallelism;
+        var parallelismLowerBound = TimeSpan.FromTicks(
+            (long) Math.Ceiling((double) totalWork.Ticks / maxParallelism));
+        return criticalPath > parallelismLowerBound ? criticalPath : parallelismLowerBound;
     }
 }

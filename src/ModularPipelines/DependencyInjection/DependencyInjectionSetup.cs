@@ -27,6 +27,7 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Extensions;
@@ -268,6 +269,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleExecutor, ModuleExecutor>()
             .AddSingleton<IModuleExecutionPipeline, ModuleExecutionPipeline>()
             .AddSingleton<IModuleResultRegistry, ModuleResultRegistry>()
+            .AddSingleton<IModuleResultHistoryProvider, ModuleResultHistoryProvider>()
             .AddSingleton<IModuleSchedulerFactory, ModuleSchedulerFactory>()
             .AddSingleton<ModuleDisposer>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()

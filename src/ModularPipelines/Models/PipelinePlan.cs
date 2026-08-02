@@ -20,14 +20,17 @@ public sealed record PipelinePlan
     public IReadOnlyList<PipelinePlanWave> Waves { get; }
 
     /// <summary>
-    /// Gets the estimated pipeline duration, calculated as the sum of wave estimates.
+    /// Gets the estimated pipeline duration, calculated from dependency and scheduling constraints.
     /// </summary>
     public TimeSpan EstimatedDuration { get; }
 
-    internal PipelinePlan(IReadOnlyList<IModule> modules, IReadOnlyList<PipelinePlanWave> waves)
+    internal PipelinePlan(
+        IReadOnlyList<IModule> modules,
+        IReadOnlyList<PipelinePlanWave> waves,
+        TimeSpan estimatedDuration)
     {
         Modules = modules;
         Waves = waves;
-        EstimatedDuration = waves.Aggregate(TimeSpan.Zero, static (total, wave) => total + wave.EstimatedDuration);
+        EstimatedDuration = estimatedDuration;
     }
 }

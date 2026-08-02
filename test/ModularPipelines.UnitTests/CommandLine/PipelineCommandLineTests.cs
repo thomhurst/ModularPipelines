@@ -242,6 +242,8 @@ public class PipelineCommandLineTests
             nameof(DependencyModule) => TimeSpan.FromMinutes(2),
             nameof(UnrelatedModule) => TimeSpan.FromMinutes(5),
             nameof(TargetModule) => TimeSpan.FromMinutes(3),
+            nameof(FirstLockedModule) => TimeSpan.FromMinutes(2),
+            nameof(SecondLockedModule) => TimeSpan.FromMinutes(3),
             _ => TimeSpan.Zero,
         });
 
@@ -252,6 +254,54 @@ public class PipelineCommandLineTests
 
         public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation) =>
             Task.CompletedTask;
+    }
+
+    private sealed class PlanHistoryRepository : IModuleResultRepository
+    {
+        public bool IsEnabled => true;
+
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext) => Task.CompletedTask;
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext)
+        {
+            if (module is not SkippedDependencyModule)
+            {
+                return Task.FromResult<ModuleResult<T>?>(null);
+            }
+
+            var executionContext = new ModuleExecutionContext(module, module.GetType());
+            return Task.FromResult<ModuleResult<T>?>(
+                ModuleResult<T>.CreateSuccess(default!, executionContext));
+        }
+    }
+
+    private sealed class FirstLockedModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithNotInParallel("shared-plan-lock")
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
+    private sealed class SecondLockedModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithNotInParallel("shared-plan-lock")
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
     }
 
     [Before(Test)]
@@ -460,10 +510,65 @@ public class PipelineCommandLineTests
                 .IsEquivalentTo([typeof(TargetModule)]);
             await Assert.That(plan.Waves[0].EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(5));
             await Assert.That(plan.Waves[1].EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(3));
-            await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(8));
+            await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(5));
             await Assert.That(_dependencyExecutions).IsEqualTo(0);
             await Assert.That(_targetExecutions).IsEqualTo(0);
             await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task PlanAsyncSerializesModulesSharingNotInParallelKeyInEstimate()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<FirstLockedModule>();
+        builder.AddModule<SecondLockedModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(5));
+    }
+
+    [Test]
+    public async Task PlanAsyncUsesRunnableSubsetWhenExcludedModuleHasInvalidDependency()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["selected"],
+        });
+        builder.AddModule<InvalidDynamicDependencyModule>().WithCategory("excluded");
+        builder.AddModule<UnrelatedModule>().WithCategory("selected");
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var invalidModule = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is InvalidDynamicDependencyModule);
+
+        await Assert.That(invalidModule.ShouldSkip).IsTrue();
+    }
+
+    [Test]
+    public async Task PlanAsyncDoesNotCascadeSkipWhenDependencyHistoryExists()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SkippedDependencyModule>();
+        builder.AddModule<DependentOnSkippedModule>();
+        builder.AddResultsRepository<PlanHistoryRepository>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var dependent = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is DependentOnSkippedModule);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(dependent.IsSkipDecisionKnown).IsTrue();
+            await Assert.That(dependent.ShouldSkip).IsFalse();
         }
     }
 
