@@ -29,5 +29,5 @@ public record GitRemoteShowOptions : GitRemoteOptions
     /// The name of the remote to show information about (e.g., "origin").
     /// </summary>
     [CliArgument(0)]
-    public required string Remote { get; init; }
+    public required virtual string Remote { get; init; }
 }

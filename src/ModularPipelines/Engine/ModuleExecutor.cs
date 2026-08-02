@@ -167,6 +167,7 @@ internal class ModuleExecutor : IModuleExecutor
         finally
         {
             EnsureCancellation(cancellationTokenSource);
+            TaskObservation.ObserveFault(schedulerTask);
         }
 
         try

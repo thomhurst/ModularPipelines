@@ -19,6 +19,7 @@ ModularPipelines supports mocking file system operations for unit testing. All f
 ```csharp
 using Moq;
 using ModularPipelines;
+using ModularPipelines.Enums;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Extensions;
 
@@ -34,6 +35,7 @@ public async Task MyModule_ReadsConfigFile()
 
     // Run pipeline with mock
     var builder = Pipeline.CreateBuilder(args);
+    builder.Options.ThrowOnPipelineFailure = false;
 
     builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
     builder.Services.AddModule<MyModule>();
@@ -41,7 +43,7 @@ public async Task MyModule_ReadsConfigFile()
     var result = await builder.Build().RunAsync();
 
     // Assert results
-    Assert.That(result.Status, Is.EqualTo(PipelineStatus.Success));
+    Assert.That(result.Status, Is.EqualTo(Status.Successful));
 }
 ```
 

@@ -71,7 +71,8 @@ public abstract class Module<T> : IModule, ITaggedModule
             LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
-    internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; } = new();
+    internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; } =
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     /// <inheritdoc />
     Task<IModuleResult> IModule.ResultTask

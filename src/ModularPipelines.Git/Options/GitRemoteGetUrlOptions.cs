@@ -35,5 +35,5 @@ public record GitRemoteGetUrlOptions : GitRemoteOptions
     /// The name of the remote to query (e.g., "origin").
     /// </summary>
     [CliArgument(0)]
-    public required string Remote { get; init; }
+    public required virtual string Remote { get; init; }
 }
