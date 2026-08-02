@@ -27,7 +27,8 @@ namespace ModularPipelines.Engine;
 /// </remarks>
 internal class ModuleExecutionContext : IModuleExecutionContext
 {
-    private readonly TaskCompletionSource<IModuleResult> _resultSource = new();
+    private readonly TaskCompletionSource<IModuleResult> _resultSource =
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     public ModuleExecutionContext(IModule module, Type moduleType)
     {
@@ -171,7 +172,8 @@ internal class ModuleExecutionContext : IModuleExecutionContext
 /// </summary>
 internal class ModuleExecutionContext<T> : ModuleExecutionContext
 {
-    private readonly TaskCompletionSource<ModuleResult<T>> _typedResultSource = new();
+    private readonly TaskCompletionSource<ModuleResult<T>> _typedResultSource =
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     public ModuleExecutionContext(Module<T> module, Type moduleType)
         : base(module, moduleType)
