@@ -15,6 +15,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
     private readonly IDatabase _database;
     private readonly string _keyPrefix;
     private readonly int _chunkSize;
+    private readonly long _maximumCacheEntryBytes;
     private readonly TimeSpan _expiration;
     private readonly TimeSpan _provisionalExpiration;
 
@@ -26,15 +27,26 @@ public sealed class RedisModuleCache : IModuleCacheStore
         IConnectionMultiplexer connection,
         RedisDistributedOptions redisOptions,
         ArtifactOptions artifactOptions)
+        : this(connection, redisOptions, artifactOptions, new ModuleCacheOptions())
+    {
+    }
+
+    internal RedisModuleCache(
+        IConnectionMultiplexer connection,
+        RedisDistributedOptions redisOptions,
+        ArtifactOptions artifactOptions,
+        ModuleCacheOptions cacheOptions)
     {
         ArgumentNullException.ThrowIfNull(connection);
         ArgumentNullException.ThrowIfNull(redisOptions);
         ArgumentNullException.ThrowIfNull(artifactOptions);
+        ArgumentNullException.ThrowIfNull(cacheOptions);
         ArgumentException.ThrowIfNullOrWhiteSpace(redisOptions.KeyPrefix);
 
         _database = connection.GetDatabase();
         _keyPrefix = $"{redisOptions.KeyPrefix}:module-cache:v1";
         _chunkSize = artifactOptions.ChunkSizeBytes;
+        _maximumCacheEntryBytes = cacheOptions.MaximumCacheEntryBytes;
         _expiration = TimeSpan.FromSeconds(artifactOptions.TimeToLiveSeconds);
         _provisionalExpiration = _expiration > MinimumProvisionalExpiration
             ? _expiration
@@ -53,6 +65,13 @@ public sealed class RedisModuleCache : IModuleCacheStore
                 nameof(artifactOptions),
                 "ArtifactOptions.TimeToLiveSeconds must be positive.");
         }
+
+        if (_maximumCacheEntryBytes <= 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(cacheOptions),
+                "ModuleCacheOptions.MaximumCacheEntryBytes must be positive.");
+        }
     }
 
     /// <inheritdoc />
@@ -70,6 +89,11 @@ public sealed class RedisModuleCache : IModuleCacheStore
         }
 
         var (generation, chunkCount, expectedLength) = ParseMetadata(metadata.ToString());
+        if (expectedLength > _maximumCacheEntryBytes)
+        {
+            throw CreateEntryLimitException();
+        }
+
         var temporary = Path.GetTempFileName();
         var stream = new FileStream(
             temporary,
@@ -92,7 +116,13 @@ public sealed class RedisModuleCache : IModuleCacheStore
                         $"Redis module cache entry '{fingerprint}' is missing chunk {chunkIndex}.");
                 }
 
-                await stream.WriteAsync((byte[]) chunk!, cancellationToken).ConfigureAwait(false);
+                var chunkBytes = (byte[]) chunk!;
+                if (stream.Length > _maximumCacheEntryBytes - chunkBytes.Length)
+                {
+                    throw CreateEntryLimitException();
+                }
+
+                await stream.WriteAsync(chunkBytes, cancellationToken).ConfigureAwait(false);
             }
 
             if (stream.Length != expectedLength)
@@ -233,4 +263,7 @@ public sealed class RedisModuleCache : IModuleCacheStore
 
     private string ChunkKey(string fingerprint, string generation, int chunkIndex) =>
         $"{_keyPrefix}:{fingerprint.ToLowerInvariant()}:entry:{generation}:chunk:{chunkIndex}";
+
+    private InvalidDataException CreateEntryLimitException() =>
+        new($"Redis module cache entry exceeded the configured limit of {_maximumCacheEntryBytes:N0} bytes.");
 }

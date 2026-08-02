@@ -1,5 +1,6 @@
 using System.IO.Compression;
 using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
@@ -289,6 +290,27 @@ public class ModuleCacheTests
             Directory.CreateDirectory(artifactDirectory);
             System.IO.File.WriteAllText(Path.Combine(artifactDirectory, $"{value}.txt"), value);
             return Task.FromResult<string?>(value);
+        }
+    }
+
+    [CacheInputs("multiple-artifacts-input.txt")]
+    [ProducesArtifact("multiple-artifacts", "multiple artifacts")]
+    private sealed class MultipleArtifactFilesModule : Module<string>
+    {
+        public static string WorkingDirectory { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            var artifactDirectory = Path.Combine(WorkingDirectory, "multiple-artifacts");
+            Directory.CreateDirectory(artifactDirectory);
+            System.IO.File.WriteAllText(Path.Combine(artifactDirectory, "first.txt"), "first");
+            System.IO.File.WriteAllText(Path.Combine(artifactDirectory, "second.txt"), "second");
+            return Task.FromResult<string?>("result");
         }
     }
 
@@ -2134,27 +2156,23 @@ public class ModuleCacheTests
             Path.GetTempPath(),
             $"ModularPipelines-cache-separate-entry-limits-{Guid.NewGuid():N}");
         Directory.CreateDirectory(temporaryDirectory);
-        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
-        VaryingArtifactSetModule.ExecutionCount = 0;
+        MultipleArtifactFilesModule.WorkingDirectory = temporaryDirectory;
+        MultipleArtifactFilesModule.ExecutionCount = 0;
 
         try
         {
             await System.IO.File.WriteAllTextAsync(
-                Path.Combine(temporaryDirectory, "set-input.txt"),
+                Path.Combine(temporaryDirectory, "multiple-artifacts-input.txt"),
                 "a");
 
-            var firstStatus = await RunVaryingArtifactSetPipelineAsync(
-                temporaryDirectory,
-                maximumInputFiles: 1);
-            var secondStatus = await RunVaryingArtifactSetPipelineAsync(
-                temporaryDirectory,
-                maximumInputFiles: 1);
+            var firstStatus = await RunMultipleArtifactFilesPipelineAsync(temporaryDirectory);
+            var secondStatus = await RunMultipleArtifactFilesPipelineAsync(temporaryDirectory);
 
             using (Assert.Multiple())
             {
                 await Assert.That(firstStatus).IsEqualTo(Status.Successful);
                 await Assert.That(secondStatus).IsEqualTo(Status.UsedHistory);
-                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(1);
+                await Assert.That(MultipleArtifactFilesModule.ExecutionCount).IsEqualTo(1);
             }
         }
         finally
@@ -2230,6 +2248,56 @@ public class ModuleCacheTests
             var restoredStatus = await RunVaryingArtifactSetPipelineAsync(
                 temporaryDirectory,
                 maximumCacheEntryBytes: 1);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(restoredStatus).IsEqualTo(Status.Successful);
+                await Assert.That(VaryingArtifactSetModule.ExecutionCount).IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    [TUnit.Core.NotInParallel(nameof(ModuleCacheTests))]
+    public async Task CacheRestoreRejectsFailureResultVariant()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-failure-result-{Guid.NewGuid():N}");
+        var cacheDirectory = Path.Combine(temporaryDirectory, "cache");
+        Directory.CreateDirectory(temporaryDirectory);
+        VaryingArtifactSetModule.WorkingDirectory = temporaryDirectory;
+        VaryingArtifactSetModule.ExecutionCount = 0;
+
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(
+                Path.Combine(temporaryDirectory, "set-input.txt"),
+                "a");
+            await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
+
+            ModuleResult<string> failure = new ModuleResult<string>.Failure(
+                new InvalidOperationException("poisoned cache result"))
+            {
+                ModuleName = nameof(VaryingArtifactSetModule),
+                ModuleDuration = TimeSpan.Zero,
+                ModuleStart = DateTimeOffset.UtcNow,
+                ModuleEnd = DateTimeOffset.UtcNow,
+                ModuleStatus = Status.Failed,
+            };
+            var cacheEntry = Directory.GetFiles(cacheDirectory, "*.zip").Single();
+            using (var archive = ZipFile.Open(cacheEntry, ZipArchiveMode.Update))
+            {
+                archive.GetEntry("result.json")!.Delete();
+                await using var output = archive.CreateEntry("result.json").Open();
+                await JsonSerializer.SerializeAsync<ModuleResult<string>>(output, failure);
+            }
+
+            var restoredStatus = await RunVaryingArtifactSetPipelineAsync(temporaryDirectory);
 
             using (Assert.Multiple())
             {
@@ -3076,6 +3144,26 @@ public class ModuleCacheTests
         return host.Services
             .GetRequiredService<IModuleResultRegistry>()
             .GetResult(typeof(VaryingArtifactSetModule))!
+            .ModuleStatus;
+    }
+
+    private static async Task<Status> RunMultipleArtifactFilesPipelineAsync(string workingDirectory)
+    {
+        await using var host = await TestPipelineHostBuilder.Create()
+            .AddModuleCache<FileSystemModuleCache>(options =>
+            {
+                options.WorkingDirectory = workingDirectory;
+                options.CacheDirectory = Path.Combine(workingDirectory, "cache");
+                options.MaximumInputFiles = 1;
+                options.MaximumArtifactEntries = 3;
+            })
+            .AddModule<MultipleArtifactFilesModule>()
+            .BuildAsync();
+
+        await host.RunAsync();
+        return host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(MultipleArtifactFilesModule))!
             .ModuleStatus;
     }
 

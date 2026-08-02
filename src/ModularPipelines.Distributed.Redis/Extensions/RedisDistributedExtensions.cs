@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
@@ -42,7 +43,8 @@ public static class RedisDistributedExtensions
         builder.Services.TryAddSingleton(serviceProvider => new RedisModuleCache(
             serviceProvider.GetRequiredKeyedService<IConnectionMultiplexer>(ModuleCacheConnectionKey),
             redisOptions,
-            artifactOptions));
+            artifactOptions,
+            serviceProvider.GetRequiredService<IOptions<ModuleCacheOptions>>().Value));
 
         return builder.AddModuleCache<RedisModuleCache>(configureCache);
     }
@@ -51,6 +53,7 @@ public static class RedisDistributedExtensions
     /// Registers the Redis-based distributed coordinator factory.
     /// Must be called after <c>AddDistributedMode</c>.
     /// </summary>
+    /// <returns></returns>
     public static PipelineBuilder AddRedisDistributedCoordinator(
         this PipelineBuilder builder,
         Action<RedisDistributedOptions> configure)
@@ -73,6 +76,7 @@ public static class RedisDistributedExtensions
     /// Registers the Redis-based distributed artifact store factory.
     /// Must be called after <c>AddDistributedMode</c>.
     /// </summary>
+    /// <returns></returns>
     public static PipelineBuilder AddRedisDistributedArtifactStore(
         this PipelineBuilder builder,
         Action<ArtifactOptions>? configure = null)
@@ -90,6 +94,7 @@ public static class RedisDistributedExtensions
     /// Registers both Redis-based coordinator and artifact store.
     /// Convenience method for using Redis for both orchestration and artifacts.
     /// </summary>
+    /// <returns></returns>
     public static PipelineBuilder AddRedisDistributed(
         this PipelineBuilder builder,
         Action<RedisDistributedOptions> configureRedis,

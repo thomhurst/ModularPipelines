@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Caching;
 using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Distributed.Redis.Configuration;
@@ -12,6 +13,7 @@ public class RedisModuleCacheTests
     private const string Fingerprint = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     private Mock<IDatabase> _database = null!;
     private Mock<ITransaction> _transaction = null!;
+    private IConnectionMultiplexer _connection = null!;
     private RedisModuleCache _cache = null!;
 
     [Before(Test)]
@@ -39,8 +41,9 @@ public class RedisModuleCacheTests
         var connection = new Mock<IConnectionMultiplexer>();
         connection.Setup(value => value.GetDatabase(It.IsAny<int>(), It.IsAny<object>()))
             .Returns(_database.Object);
+        _connection = connection.Object;
         _cache = new RedisModuleCache(
-            connection.Object,
+            _connection,
             new RedisDistributedOptions
             {
                 KeyPrefix = "custom-prefix",
@@ -131,6 +134,45 @@ public class RedisModuleCacheTests
     }
 
     [Test]
+    public async Task OpenReadRejectsMetadataLengthAboveConfiguredLimit()
+    {
+        var generation = new string('b', 32);
+        _database.Setup(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) $"{generation}:1:4");
+        var cache = CreateCache(maximumCacheEntryBytes: 3);
+
+        await Assert.That(async () =>
+                await cache.OpenReadAsync(Fingerprint, CancellationToken.None))
+            .Throws<InvalidDataException>();
+
+        _database.Verify(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().Contains(":chunk:", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()),
+            Times.Never);
+    }
+
+    [Test]
+    public async Task OpenReadRejectsChunksAboveConfiguredLimit()
+    {
+        var generation = new string('b', 32);
+        _database.Setup(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) $"{generation}:2:3");
+        _database.Setup(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().Contains(":chunk:", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) new byte[] { 1, 2 });
+        var cache = CreateCache(maximumCacheEntryBytes: 3);
+
+        await Assert.That(async () =>
+                await cache.OpenReadAsync(Fingerprint, CancellationToken.None))
+            .Throws<InvalidDataException>();
+    }
+
+    [Test]
     public async Task OpenReadCancellationInterruptsPendingRedisCall()
     {
         var pending = new TaskCompletionSource<RedisValue>(
@@ -190,4 +232,15 @@ public class RedisModuleCacheTests
                 .IsEqualTo(1);
         }
     }
+
+    private RedisModuleCache CreateCache(long maximumCacheEntryBytes) =>
+        new(
+            _connection,
+            new RedisDistributedOptions { KeyPrefix = "custom-prefix" },
+            new ArtifactOptions
+            {
+                ChunkSizeBytes = 3,
+                TimeToLiveSeconds = 60,
+            },
+            new ModuleCacheOptions { MaximumCacheEntryBytes = maximumCacheEntryBytes });
 }

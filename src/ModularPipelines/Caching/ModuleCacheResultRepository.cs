@@ -205,9 +205,9 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             var result = await DeserializeResultAsync<T>(resultEntry, cancellationToken)
                 .ConfigureAwait(false);
 
-            if (result is null)
+            if (result is not ModuleResult<T>.Success || result.ModuleStatus != Status.Successful)
             {
-                throw new InvalidDataException("Module cache result is empty.");
+                throw new InvalidDataException("Module cache result is not a successful result.");
             }
 
             await RestoreArtifactsAsync(archive, module.GetType(), cancellationToken)
@@ -392,17 +392,17 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var directories = ModuleCacheFileResolver.ResolveDirectories(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumInputFiles,
+            _options.MaximumArtifactEntries,
             _options.CacheDirectory);
         var directoryLinks = ModuleCacheFileResolver.ResolveDirectoryLinks(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumInputFiles,
+            _options.MaximumArtifactEntries,
             _options.CacheDirectory);
         var files = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumInputFiles,
+            _options.MaximumArtifactEntries,
             _options.CacheDirectory);
 
         var entryCount = checked(directories.Count + directoryLinks.Count + files.Count);
@@ -557,7 +557,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             ModuleCacheFileResolver.ResolveDirectories(
                 root,
                 artifactPaths,
-                _options.MaximumInputFiles,
+                _options.MaximumArtifactEntries,
                 _options.CacheDirectory));
         using var writableArtifactParents = MakeArtifactParentsTemporarilyWritable(
             root,
@@ -571,7 +571,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
             foreach (var destination in artifactEntries
                          .Select(artifact => artifact.Destination)
-                         .Distinct(PathComparer))
+                         .Distinct(pathComparer))
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 RemoveLinkedDestinationComponents(root, destination);
@@ -708,19 +708,19 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var artifactDirectories = ModuleCacheFileResolver.ResolveDirectories(
                 root,
                 artifactPaths,
-                _options.MaximumInputFiles,
+                _options.MaximumArtifactEntries,
                 _options.CacheDirectory)
             .ToHashSet(PathComparer);
         var existingArtifactDestinations = artifactDirectories
             .Concat(ModuleCacheFileResolver.ResolveDirectoryLinks(
                 root,
                 artifactPaths,
-                _options.MaximumInputFiles,
+                _options.MaximumArtifactEntries,
                 _options.CacheDirectory))
             .Concat(ModuleCacheFileResolver.ResolveFiles(
                 root,
                 artifactPaths,
-                _options.MaximumInputFiles,
+                _options.MaximumArtifactEntries,
                 _options.CacheDirectory));
         var parentDirectories = new HashSet<string>(PathComparer);
         foreach (var destination in destinations.Concat(existingArtifactDestinations))
@@ -761,17 +761,17 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var directoryLinks = ModuleCacheFileResolver.ResolveDirectoryLinks(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumInputFiles,
+            _options.MaximumArtifactEntries,
             _options.CacheDirectory);
         var directories = ModuleCacheFileResolver.ResolveDirectories(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumInputFiles,
+            _options.MaximumArtifactEntries,
             _options.CacheDirectory);
         var files = ModuleCacheFileResolver.ResolveFiles(
             _options.WorkingDirectory,
             artifactPaths,
-            _options.MaximumInputFiles,
+            _options.MaximumArtifactEntries,
             _options.CacheDirectory);
         MakeDirectoriesWritable(directories);
         MakeFilesWritable(files);
