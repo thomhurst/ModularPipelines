@@ -1,17 +1,19 @@
 using System.Collections.Concurrent;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Git;
 
 internal sealed class GitChanges : IGitChanges, IDisposable
 {
-    private readonly IGitCommandRunner _gitCommandRunner;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ConcurrentDictionary<string, ChangeCacheEntry> _changesByBase =
         new(StringComparer.Ordinal);
 
-    public GitChanges(IGitCommandRunner gitCommandRunner)
+    public GitChanges(IServiceScopeFactory serviceScopeFactory)
     {
-        _gitCommandRunner = gitCommandRunner;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task<bool> HasChangesAsync(
@@ -32,7 +34,9 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         matcher.AddIncludePatterns(patterns);
 
         var changedPaths = await GetChangedPathsAsync(baseReference, cancellationToken).ConfigureAwait(false);
-        return changedPaths.Any(path => matcher.Match(path).HasMatches);
+        return changedPaths.Any(path =>
+            patterns.Contains(path, StringComparer.Ordinal)
+            || matcher.Match(path).HasMatches);
     }
 
     public void Dispose()
@@ -56,20 +60,24 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                 return cacheEntry.Paths;
             }
 
-            var mergeBase = await _gitCommandRunner.RunCommands(
+            await using var scope = _serviceScopeFactory.CreateAsyncScope();
+            var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
+            var mergeBase = (await RunCommandsUntrimmed(
+                    gitCommandRunner,
                     null,
                     cancellationToken,
                     "merge-base",
                     baseReference,
                     "HEAD")
-                .ConfigureAwait(false);
+                .ConfigureAwait(false)).Trim();
             if (string.IsNullOrWhiteSpace(mergeBase))
             {
                 throw new InvalidOperationException(
                     $"Git did not return a merge base for '{baseReference}' and HEAD.");
             }
 
-            var output = await _gitCommandRunner.RunCommands(
+            var output = await RunCommandsUntrimmed(
+                    gitCommandRunner,
                     null,
                     cancellationToken,
                     "diff",
@@ -81,7 +89,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                 .ConfigureAwait(false);
 
             cacheEntry.Paths = output
-                .Split('\0', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Split('\0', StringSplitOptions.RemoveEmptyEntries)
                 .Select(NormalizePath)
                 .ToArray();
             return cacheEntry.Paths;
@@ -95,7 +103,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
     private static string NormalizePattern(string pattern)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(pattern);
-        var normalized = NormalizePath(pattern.Trim()).TrimStart('/');
+        var normalized = NormalizePath(pattern).TrimStart('/');
         if (normalized == ".." || normalized.StartsWith("../", StringComparison.Ordinal))
         {
             throw new ArgumentException("Path patterns must be relative to the repository root.", nameof(pattern));
@@ -105,6 +113,15 @@ internal sealed class GitChanges : IGitChanges, IDisposable
     }
 
     private static string NormalizePath(string path) => path.Replace('\\', '/');
+
+    private static Task<string> RunCommandsUntrimmed(
+        IGitCommandRunner gitCommandRunner,
+        CommandExecutionOptions? options,
+        CancellationToken cancellationToken,
+        params string?[] commands) =>
+        gitCommandRunner is IRawGitCommandRunner rawGitCommandRunner
+            ? rawGitCommandRunner.RunCommandsUntrimmed(options, cancellationToken, commands)
+            : gitCommandRunner.RunCommands(options, cancellationToken, commands);
 
     private sealed class ChangeCacheEntry
     {

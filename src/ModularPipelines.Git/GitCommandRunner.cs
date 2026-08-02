@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Git;
 
 /// <inheritdoc />
-public class GitCommandRunner : IGitCommandRunner
+public class GitCommandRunner : IGitCommandRunner, IRawGitCommandRunner
 {
     private readonly IPipelineContext _context;
     private readonly ILogger<GitCommandRunner> _logger;
@@ -29,6 +29,24 @@ public class GitCommandRunner : IGitCommandRunner
         CancellationToken cancellationToken,
         params string?[] commands)
     {
+        var output = await RunCommandsCore(
+            commandEnvironmentOptions,
+            cancellationToken,
+            commands).ConfigureAwait(false);
+        return output.Trim();
+    }
+
+    Task<string> IRawGitCommandRunner.RunCommandsUntrimmed(
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken,
+        params string?[] commands) =>
+        RunCommandsCore(commandEnvironmentOptions, cancellationToken, commands);
+
+    private async Task<string> RunCommandsCore(
+        CommandExecutionOptions? commandEnvironmentOptions,
+        CancellationToken cancellationToken,
+        params string?[] commands)
+    {
         commandEnvironmentOptions ??= new CommandExecutionOptions();
 
         var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray());
@@ -43,7 +61,7 @@ public class GitCommandRunner : IGitCommandRunner
             executionOptions,
             cancellationToken).ConfigureAwait(false);
 
-        return commandResult.StandardOutput.Trim();
+        return commandResult.StandardOutput;
     }
 
     /// <inheritdoc />

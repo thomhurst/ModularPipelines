@@ -59,6 +59,46 @@ public class GitChangesTests
     }
 
     [Test]
+    public async Task Preserves_Whitespace_In_Null_Delimited_Paths_And_Patterns()
+    {
+        var runner = new RecordingGitCommandRunner(
+            "merge-base\n",
+            " leading-directory/file.txt \0");
+        var changes = CreateChanges(runner);
+
+        var hasChanges = await changes.HasChangesAsync([" leading-directory/file.txt "]);
+
+        await Assert.That(hasChanges).IsTrue();
+        await Assert.That(runner.Commands[1].OfType<string>()).Contains("merge-base");
+    }
+
+    [Test]
+    public async Task Shares_Changed_Path_Cache_Across_Module_Scopes()
+    {
+        var runner = new RecordingGitCommandRunner(
+            "merge-base",
+            "src/MyService/Program.cs\0");
+        var services = new ServiceCollection();
+        services.AddSingleton<IGitCommandRunner>(runner);
+        services.RegisterGitContext();
+        await using var provider = services.BuildServiceProvider();
+
+        await using (var firstScope = provider.CreateAsyncScope())
+        {
+            await firstScope.ServiceProvider.GetRequiredService<IGitChanges>()
+                .HasChangesAsync(["src/**"]);
+        }
+
+        await using (var secondScope = provider.CreateAsyncScope())
+        {
+            await secondScope.ServiceProvider.GetRequiredService<IGitChanges>()
+                .HasChangesAsync(["docs/**"]);
+        }
+
+        await Assert.That(runner.Commands).Count().IsEqualTo(2);
+    }
+
+    [Test]
     public async Task Rejects_An_Empty_Pattern_Set()
     {
         var changes = CreateChanges(new RecordingGitCommandRunner());
