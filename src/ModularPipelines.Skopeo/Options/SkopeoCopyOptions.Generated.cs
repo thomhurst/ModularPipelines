@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines.Skopeo.Enums;
 
 namespace ModularPipelines.Skopeo.Options;
 
@@ -18,7 +19,10 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("copy")]
-public record SkopeoCopyOptions : SkopeoOptions
+public record SkopeoCopyOptions(
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string SourceImage,
+    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string DestinationImage
+) : SkopeoOptions
 {
     /// <summary>
     /// additional tags (supports docker-archive)
@@ -164,7 +168,7 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// MANIFEST TYPE (oci, v2s1, or v2s2) to use in the destination (default is manifest type of source, with fallbacks)
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public SkopeoCopyFormat? Format { get; set; }
 
     /// <summary>
     /// help for copy
@@ -295,5 +299,11 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// </summary>
     [CliOption("--src-username", Format = OptionFormat.EqualsSeparated)]
     public string? SrcUsername { get; set; }
+
+    /// <summary>
+    /// The command options operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? CommandOptions { get; set; }
 
 }

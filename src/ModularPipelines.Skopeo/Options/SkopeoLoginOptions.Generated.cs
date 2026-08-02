@@ -18,7 +18,9 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("login")]
-public record SkopeoLoginOptions : SkopeoOptions
+public record SkopeoLoginOptions(
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Registry
+) : SkopeoOptions
 {
     /// <summary>
     /// path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
@@ -80,5 +82,11 @@ public record SkopeoLoginOptions : SkopeoOptions
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
+
+    /// <summary>
+    /// The command options operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? CommandOptions { get; set; }
 
 }

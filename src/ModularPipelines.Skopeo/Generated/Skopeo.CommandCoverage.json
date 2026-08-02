@@ -1,6 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "skopeo",
+  "toolVersion": "skopeo version 1.13.3",
   "commandCount": 11,
   "commandTreeSha256": "71df545926b8f3395c60d1ed9e037569395c16b401bff0417eacdfb16d3d7908",
   "commands": [
