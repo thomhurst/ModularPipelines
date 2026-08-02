@@ -354,12 +354,7 @@ internal sealed class PipelinePlanner
         var plannedModules = waves
             .SelectMany(wave => wave.Modules)
             .ToArray();
-        var dependencyModels = new Dictionary<IModule, ModuleDependencyModel>(
-            ReferenceEqualityComparer.Instance);
-        foreach (var dependencyModel in _dependencyChainProvider.ModuleDependencyModels)
-        {
-            dependencyModels.Add(dependencyModel.Module, dependencyModel);
-        }
+        var dependencyModels = CreateDependencyModelLookup();
         var finishTimes = new Dictionary<IModule, TimeSpan>(ReferenceEqualityComparer.Instance);
         var lockFinishTimes = new Dictionary<string, TimeSpan>(StringComparer.Ordinal);
         var globalSequentialFinish = TimeSpan.Zero;
@@ -368,36 +363,14 @@ internal sealed class PipelinePlanner
         foreach (var plannedModule in plannedModules)
         {
             var module = plannedModule.Module;
-            var start = globalSequentialFinish;
-            foreach (var dependency in dependencyModels[module].IsDependentOn)
-            {
-                if (finishTimes.TryGetValue(dependency.Module, out var dependencyFinish)
-                    && dependencyFinish > start)
-                {
-                    start = dependencyFinish;
-                }
-            }
-
-            IReadOnlyCollection<string>? constraintKeys = module.Configuration.ParallelConstraintKeys;
-            constraintKeys ??= module.GetType()
-                .GetCustomAttributes(typeof(NotInParallelAttribute), inherit: true)
-                .Cast<NotInParallelAttribute>()
-                .FirstOrDefault()
-                ?.ConstraintKeys;
-            if (constraintKeys is { Count: 0 })
-            {
-                start = finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
-            }
-            else if (constraintKeys is not null)
-            {
-                foreach (var key in constraintKeys)
-                {
-                    if (lockFinishTimes.TryGetValue(key, out var lockFinish) && lockFinish > start)
-                    {
-                        start = lockFinish;
-                    }
-                }
-            }
+            var constraintKeys = GetConstraintKeys(module);
+            var start = CalculateStartTime(
+                module,
+                constraintKeys,
+                dependencyModels,
+                finishTimes,
+                lockFinishTimes,
+                globalSequentialFinish);
 
             var duration = plannedModule.ShouldSkip
                 ? TimeSpan.Zero
@@ -406,17 +379,11 @@ internal sealed class PipelinePlanner
             finishTimes[module] = finish;
             totalWork += duration;
 
-            if (constraintKeys is { Count: 0 })
-            {
-                globalSequentialFinish = finish;
-            }
-            else if (constraintKeys is not null)
-            {
-                foreach (var key in constraintKeys)
-                {
-                    lockFinishTimes[key] = finish;
-                }
-            }
+            RecordConstraintFinishTime(
+                constraintKeys,
+                finish,
+                lockFinishTimes,
+                ref globalSequentialFinish);
         }
 
         var criticalPath = finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
@@ -424,5 +391,87 @@ internal sealed class PipelinePlanner
         var parallelismLowerBound = TimeSpan.FromTicks(
             (long) Math.Ceiling((double) totalWork.Ticks / maxParallelism));
         return criticalPath > parallelismLowerBound ? criticalPath : parallelismLowerBound;
+    }
+
+    private static IReadOnlyCollection<string>? GetConstraintKeys(IModule module)
+    {
+        if (module.Configuration.ParallelConstraintKeys is { } configuredConstraintKeys)
+        {
+            return configuredConstraintKeys;
+        }
+
+        return module.GetType()
+            .GetCustomAttributes(typeof(NotInParallelAttribute), inherit: true)
+            .Cast<NotInParallelAttribute>()
+            .FirstOrDefault()
+            ?.ConstraintKeys;
+    }
+
+    private IReadOnlyDictionary<IModule, ModuleDependencyModel> CreateDependencyModelLookup()
+    {
+        var dependencyModels = new Dictionary<IModule, ModuleDependencyModel>(
+            ReferenceEqualityComparer.Instance);
+        foreach (var dependencyModel in _dependencyChainProvider.ModuleDependencyModels)
+        {
+            dependencyModels.Add(dependencyModel.Module, dependencyModel);
+        }
+
+        return dependencyModels;
+    }
+
+    private static TimeSpan CalculateStartTime(
+        IModule module,
+        IReadOnlyCollection<string>? constraintKeys,
+        IReadOnlyDictionary<IModule, ModuleDependencyModel> dependencyModels,
+        IReadOnlyDictionary<IModule, TimeSpan> finishTimes,
+        IReadOnlyDictionary<string, TimeSpan> lockFinishTimes,
+        TimeSpan globalSequentialFinish)
+    {
+        var dependencyFinish = dependencyModels[module].IsDependentOn
+            .Select(dependency => finishTimes.GetValueOrDefault(dependency.Module, TimeSpan.Zero))
+            .DefaultIfEmpty(TimeSpan.Zero)
+            .Max();
+        var start = dependencyFinish > globalSequentialFinish
+            ? dependencyFinish
+            : globalSequentialFinish;
+
+        if (constraintKeys is { Count: 0 })
+        {
+            return finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
+        }
+
+        if (constraintKeys is null)
+        {
+            return start;
+        }
+
+        var constraintFinish = constraintKeys
+            .Select(key => lockFinishTimes.GetValueOrDefault(key, TimeSpan.Zero))
+            .DefaultIfEmpty(TimeSpan.Zero)
+            .Max();
+        return constraintFinish > start ? constraintFinish : start;
+    }
+
+    private static void RecordConstraintFinishTime(
+        IReadOnlyCollection<string>? constraintKeys,
+        TimeSpan finish,
+        IDictionary<string, TimeSpan> lockFinishTimes,
+        ref TimeSpan globalSequentialFinish)
+    {
+        if (constraintKeys is { Count: 0 })
+        {
+            globalSequentialFinish = finish;
+            return;
+        }
+
+        if (constraintKeys is null)
+        {
+            return;
+        }
+
+        foreach (var key in constraintKeys)
+        {
+            lockFinishTimes[key] = finish;
+        }
     }
 }
