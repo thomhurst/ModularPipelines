@@ -1071,6 +1071,7 @@ internal static class ModuleAuthoringAnalysis
                 argument.Value,
                 compilation,
                 instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]));
     }
 
@@ -1078,7 +1079,8 @@ internal static class ModuleAuthoringAnalysis
         IOperation operation,
         Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         return operation switch
         {
@@ -1086,12 +1088,14 @@ internal static class ModuleAuthoringAnalysis
                 conversion.Operand,
                 compilation,
                 instanceRegisteredModules,
-                visitedLocals),
+                visitedLocals,
+                visitedMethods),
             ILocalReferenceOperation localReference => TryTrackServiceDescriptorLocal(
                 localReference,
                 compilation,
                 instanceRegisteredModules,
-                visitedLocals),
+                visitedLocals,
+                visitedMethods),
             IInvocationOperation descriptorFactory
                 when IsServiceDescriptorFactory(descriptorFactory.TargetMethod) =>
                 TrackServiceDescriptor(
@@ -1099,6 +1103,12 @@ internal static class ModuleAuthoringAnalysis
                     descriptorFactory.TargetMethod.TypeArguments,
                     compilation,
                     instanceRegisteredModules),
+            IInvocationOperation invocation => TryTrackServiceDescriptorInvocation(
+                invocation,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
             IObjectCreationOperation objectCreation
                 when objectCreation.Type?.ToDisplayString()
                      == "Microsoft.Extensions.DependencyInjection.ServiceDescriptor" =>
@@ -1112,17 +1122,20 @@ internal static class ModuleAuthoringAnalysis
                 initializer.ElementValues,
                 compilation,
                 instanceRegisteredModules,
-                visitedLocals),
+                visitedLocals,
+                visitedMethods),
             ICollectionExpressionOperation collection => TryTrackServiceDescriptorCollection(
                 collection.Elements,
                 compilation,
                 instanceRegisteredModules,
-                visitedLocals),
+                visitedLocals,
+                visitedMethods),
             ISpreadOperation spread => TryTrackServiceDescriptor(
                 spread.Operand,
                 compilation,
                 instanceRegisteredModules,
-                visitedLocals),
+                visitedLocals,
+                visitedMethods),
             _ => false,
         };
     }
@@ -1131,7 +1144,8 @@ internal static class ModuleAuthoringAnalysis
         ILocalReferenceOperation localReference,
         Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         if (!visitedLocals.Add(localReference.Local))
         {
@@ -1142,7 +1156,38 @@ internal static class ModuleAuthoringAnalysis
             FindReachingLocalValues(localReference, localReference.Local),
             compilation,
             instanceRegisteredModules,
-            visitedLocals);
+            visitedLocals,
+            visitedMethods);
+    }
+
+    private static bool TryTrackServiceDescriptorInvocation(
+        IInvocationOperation invocation,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var method = invocation.TargetMethod.OriginalDefinition;
+        if (!visitedMethods.Add(method)
+            || GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return false;
+        }
+
+        var returnValues = operation.DescendantsAndSelf()
+            .OfType<IReturnOperation>()
+            .Where(static returnOperation =>
+                GetEnclosingCallable(returnOperation) is null)
+            .Select(static returnOperation => returnOperation.ReturnedValue)
+            .OfType<IOperation>()
+            .ToArray();
+        return returnValues.Length > 0
+               && returnValues.All(returnValue => TryTrackServiceDescriptor(
+                   returnValue,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool IsPotentialRegistrationInvocation(
@@ -1184,7 +1229,8 @@ internal static class ModuleAuthoringAnalysis
         IEnumerable<IOperation> elements,
         Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         var tracked = false;
         foreach (var element in elements)
@@ -1193,7 +1239,8 @@ internal static class ModuleAuthoringAnalysis
                 element,
                 compilation,
                 instanceRegisteredModules,
-                CloneVisitedLocals(visitedLocals));
+                CloneVisitedLocals(visitedLocals),
+                CloneVisitedMethods(visitedMethods));
         }
 
         return tracked;
@@ -1878,6 +1925,7 @@ internal static class ModuleAuthoringAnalysis
                 assignment.Value,
                 context.Compilation,
                 instanceRegisteredModules,
+                [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]);
         }
     }
@@ -1991,6 +2039,12 @@ internal static class ModuleAuthoringAnalysis
             {
                 return false;
             }
+
+            if (parent is ISwitchExpressionOperation switchExpression
+                && IsDeadSwitchExpressionArm(current, switchExpression))
+            {
+                return false;
+            }
         }
 
         return true;
@@ -2055,6 +2109,19 @@ internal static class ModuleAuthoringAnalysis
         return caseMatch is false;
     }
 
+    private static bool IsDeadSwitchExpressionArm(
+        IOperation current,
+        ISwitchExpressionOperation switchExpression)
+    {
+        return current is ISwitchExpressionArmOperation arm
+               && switchExpression.Value.ConstantValue
+                   is { HasValue: true } switchValue
+               && PatternAndGuardMatchesConstant(
+                   arm.Pattern,
+                   arm.Guard,
+                   switchValue.Value) is false;
+    }
+
     private static bool? SwitchCaseMatchesConstant(
         ISwitchCaseOperation switchCase,
         object? switchValue)
@@ -2091,18 +2158,27 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool? PatternClauseMatchesConstant(
         IPatternCaseClauseOperation clause,
+        object? switchValue) =>
+        PatternAndGuardMatchesConstant(
+            clause.Pattern,
+            clause.Guard,
+            switchValue);
+
+    private static bool? PatternAndGuardMatchesConstant(
+        IPatternOperation pattern,
+        IOperation? guard,
         object? switchValue)
     {
-        var patternMatches = PatternMatchesConstant(clause.Pattern, switchValue);
+        var patternMatches = PatternMatchesConstant(pattern, switchValue);
         if (patternMatches is false
-            || clause.Guard?.ConstantValue is { HasValue: true, Value: false })
+            || guard?.ConstantValue is { HasValue: true, Value: false })
         {
             return false;
         }
 
         if (patternMatches is true
-            && (clause.Guard is null
-                || clause.Guard.ConstantValue is { HasValue: true, Value: true }))
+            && (guard is null
+                || guard.ConstantValue is { HasValue: true, Value: true }))
         {
             return true;
         }
@@ -3452,14 +3528,26 @@ internal static class ModuleAuthoringAnalysis
     private static bool FlowsFromCancellationToken(
         IOperation value,
         IParameterSymbol cancellationToken,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals) =>
+        FlowsFromCancellationToken(
+            value,
+            cancellationToken,
+            visitedLocals,
+            [with(SymbolEqualityComparer.Default)]);
+
+    private static bool FlowsFromCancellationToken(
+        IOperation value,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         return value switch
         {
             IConversionOperation conversion => FlowsFromCancellationToken(
                 conversion.Operand,
                 cancellationToken,
-                visitedLocals),
+                visitedLocals,
+                visitedMethods),
             IParameterReferenceOperation parameterReference =>
                 SymbolEqualityComparer.Default.Equals(
                     parameterReference.Parameter,
@@ -3467,57 +3555,68 @@ internal static class ModuleAuthoringAnalysis
                 || FlowsFromParallelCallbackToken(
                     parameterReference,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             ILocalReferenceOperation localReference =>
                 FlowsFromCancellationTokenLocal(
                     localReference,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             IPropertyReferenceOperation propertyReference =>
                 FlowsFromCancellationTokenProperty(
                     propertyReference,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             IInvocationOperation invocation =>
                 FlowsFromCancellationTokenInvocation(
                     invocation,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             IArrayCreationOperation { Initializer: { } initializer } =>
                 FlowsFromCancellationToken(
                     initializer,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             IArrayInitializerOperation initializer =>
                 initializer.ElementValues.Any(element => FlowsFromCancellationToken(
                     element,
                     cancellationToken,
-                    visitedLocals)),
+                    visitedLocals,
+                    visitedMethods)),
             ICollectionExpressionOperation collection =>
                 collection.Elements.Any(element => FlowsFromCancellationToken(
                     element,
                     cancellationToken,
-                    visitedLocals)),
+                    visitedLocals,
+                    visitedMethods)),
             ISpreadOperation spread =>
                 FlowsFromCancellationToken(
                     spread.Operand,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             IConditionalOperation conditional =>
                 FlowsFromCancellationTokenConditional(
                     conditional,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             ISwitchExpressionOperation switchExpression =>
                 FlowsFromCancellationTokenSwitchExpression(
                     switchExpression,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             ICoalesceOperation coalesce =>
                 FlowsFromCancellationTokenCoalesce(
                     coalesce,
                     cancellationToken,
-                    visitedLocals),
+                    visitedLocals,
+                    visitedMethods),
             _ => false,
         };
     }
@@ -3525,7 +3624,8 @@ internal static class ModuleAuthoringAnalysis
     private static bool FlowsFromParallelCallbackToken(
         IParameterReferenceOperation parameterReference,
         IParameterSymbol cancellationToken,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         if (!IsCancellationToken(parameterReference.Parameter)
             || parameterReference.Parameter.ContainingSymbol
@@ -3549,35 +3649,95 @@ internal static class ModuleAuthoringAnalysis
             .Any(argument => FlowsFromCancellationToken(
                 argument.Value,
                 cancellationToken,
-                CloneVisitedLocals(visitedLocals)));
+                CloneVisitedLocals(visitedLocals),
+                CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool FlowsFromCancellationTokenProperty(
         IPropertyReferenceOperation propertyReference,
         IParameterSymbol cancellationToken,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         return IsCancellationTokenSourceToken(propertyReference)
                && propertyReference.Instance is not null
                && FlowsFromCancellationToken(
                    propertyReference.Instance,
                    cancellationToken,
-                   visitedLocals);
+                   visitedLocals,
+                   visitedMethods);
     }
 
     private static bool FlowsFromCancellationTokenInvocation(
         IInvocationOperation invocation,
         IParameterSymbol cancellationToken,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
-        return IsKnownCancellationCarrierFactory(invocation)
-               && invocation.Arguments.Any(argument =>
-                   argument.Parameter is not null
-                   && IsCancellationInput(argument.Parameter)
-                   && FlowsFromCancellationToken(
-                       argument.Value,
-                       cancellationToken,
-                       visitedLocals));
+        if (IsKnownCancellationCarrierFactory(invocation))
+        {
+            return invocation.Arguments.Any(argument =>
+                argument.Parameter is not null
+                && IsCancellationInput(argument.Parameter)
+                && FlowsFromCancellationToken(
+                    argument.Value,
+                    cancellationToken,
+                    visitedLocals,
+                    visitedMethods));
+        }
+
+        return FlowsFromCancellationTokenSourceHelper(
+            invocation,
+            cancellationToken,
+            visitedLocals,
+            visitedMethods);
+    }
+
+    private static bool FlowsFromCancellationTokenSourceHelper(
+        IInvocationOperation invocation,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var method = invocation.TargetMethod.OriginalDefinition;
+        if (!visitedMethods.Add(method)
+            || invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default)
+                is not { } operation)
+        {
+            return false;
+        }
+
+        var flowedParameters = invocation.Arguments
+            .Where(static argument =>
+                argument.Parameter is not null
+                && IsCancellationToken(argument.Parameter))
+            .Where(argument => FlowsFromCancellationToken(
+                argument.Value,
+                cancellationToken,
+                CloneVisitedLocals(visitedLocals),
+                CloneVisitedMethods(visitedMethods)))
+            .Select(static argument => argument.Parameter!)
+            .ToArray();
+        if (flowedParameters.Length == 0)
+        {
+            return false;
+        }
+
+        var returnValues = operation.DescendantsAndSelf()
+            .OfType<IReturnOperation>()
+            .Where(static returnOperation =>
+                GetEnclosingCallable(returnOperation) is null)
+            .Select(static returnOperation => returnOperation.ReturnedValue)
+            .OfType<IOperation>()
+            .ToArray();
+        return returnValues.Length > 0
+               && returnValues.All(returnValue => flowedParameters.Any(parameter =>
+                   FlowsFromCancellationToken(
+                       returnValue,
+                       parameter,
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods))));
     }
 
     private static bool IsKnownCancellationCarrierFactory(
@@ -3607,25 +3767,29 @@ internal static class ModuleAuthoringAnalysis
     private static bool FlowsFromCancellationTokenConditional(
         IConditionalOperation conditional,
         IParameterSymbol cancellationToken,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         return (AlwaysThrows(conditional.WhenTrue)
                 || FlowsFromCancellationToken(
                     conditional.WhenTrue,
                     cancellationToken,
-                    CloneVisitedLocals(visitedLocals)))
+                    CloneVisitedLocals(visitedLocals),
+                    CloneVisitedMethods(visitedMethods)))
                && conditional.WhenFalse is not null
                && (AlwaysThrows(conditional.WhenFalse)
                    || FlowsFromCancellationToken(
                        conditional.WhenFalse,
                        cancellationToken,
-                       CloneVisitedLocals(visitedLocals)));
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool FlowsFromCancellationTokenSwitchExpression(
         ISwitchExpressionOperation switchExpression,
         IParameterSymbol cancellationToken,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         return switchExpression.Arms.Length > 0
                && switchExpression.Arms
@@ -3634,7 +3798,8 @@ internal static class ModuleAuthoringAnalysis
                     FlowsFromCancellationToken(
                         arm.Value,
                         cancellationToken,
-                        CloneVisitedLocals(visitedLocals)));
+                        CloneVisitedLocals(visitedLocals),
+                        CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool AlwaysThrows(IOperation operation)
@@ -3650,16 +3815,19 @@ internal static class ModuleAuthoringAnalysis
     private static bool FlowsFromCancellationTokenCoalesce(
         ICoalesceOperation coalesce,
         IParameterSymbol cancellationToken,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         return FlowsFromCancellationToken(
                    coalesce.Value,
                    cancellationToken,
-                   CloneVisitedLocals(visitedLocals))
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods))
                && FlowsFromCancellationToken(
                    coalesce.WhenNull,
                    cancellationToken,
-                   CloneVisitedLocals(visitedLocals));
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods));
     }
 
     private static HashSet<ILocalSymbol> CloneVisitedLocals(
@@ -3669,7 +3837,8 @@ internal static class ModuleAuthoringAnalysis
     private static bool FlowsFromCancellationTokenLocal(
         ILocalReferenceOperation localReference,
         IParameterSymbol cancellationToken,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         if (!visitedLocals.Add(localReference.Local))
         {
@@ -3685,7 +3854,8 @@ internal static class ModuleAuthoringAnalysis
                    FlowsFromCancellationToken(
                        localValue,
                        cancellationToken,
-                       CloneVisitedLocals(visitedLocals)));
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool IsCancellationTokenSourceToken(
