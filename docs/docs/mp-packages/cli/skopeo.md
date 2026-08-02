@@ -7,7 +7,13 @@ title: skopeo CLI reference
 
 `ModularPipelines.Skopeo` provides strongly typed access to the `skopeo` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `skopeo` executable. Install it separately and ensure `skopeo` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Skopeo
@@ -17,23 +23,10 @@ Resolve the service with `context.Tools.Skopeo`. For projects older than C# 14, 
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Skopeo.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Skopeo.GenerateSigstoreKeyAsync(
-            new SkopeoGenerateSigstoreKeyOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var skopeo = context.Tools.Skopeo;
 ```
 
 ## Commands

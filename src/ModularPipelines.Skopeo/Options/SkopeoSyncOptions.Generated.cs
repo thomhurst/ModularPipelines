@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Skopeo.Options;
+using ModularPipelines.Skopeo.Enums;
 
 namespace ModularPipelines.Skopeo.Options;
 
@@ -18,7 +19,11 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sync")]
-public record SkopeoSyncOptions : SkopeoOptions
+public record SkopeoSyncOptions(
+    [property: CliArgument(0)] string Transport,
+    [property: CliArgument(1)] string Source,
+    [property: CliArgument(2)] string Destination
+) : SkopeoOptions
 {
     /// <summary>
     /// Copy all images if SOURCE-IMAGE is a list
@@ -104,7 +109,7 @@ public record SkopeoSyncOptions : SkopeoOptions
     /// MANIFEST TYPE (oci, v2s1, or v2s2) to use when syncing image(s) to a destination (default is manifest type of source, with fallbacks)
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public SkopeoSyncFormat? Format { get; set; }
 
     /// <summary>
     /// help for sync
@@ -223,5 +228,11 @@ public record SkopeoSyncOptions : SkopeoOptions
     /// </summary>
     [CliOption("--src-username", Format = OptionFormat.EqualsSeparated)]
     public string? SrcUsername { get; set; }
+
+    /// <summary>
+    /// The command options operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? CommandOptions { get; set; }
 
 }
