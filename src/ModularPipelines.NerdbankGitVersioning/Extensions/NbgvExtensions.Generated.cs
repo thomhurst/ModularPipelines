@@ -33,7 +33,7 @@ public static class NbgvExtensions
     }
 
     /// <summary>
-    /// Gets the nbgv service from the pipeline context.
+    /// Gets the nbgv service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="INbgv"/> service for executing nbgv commands.</returns>
