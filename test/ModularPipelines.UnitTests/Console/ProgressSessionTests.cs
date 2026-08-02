@@ -24,6 +24,7 @@ public class ProgressSessionTests
             new OrganizedModules([], []),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             NullLoggerFactory.Instance,
+            DelegatingAnsiConsole.Instance,
             CancellationToken.None);
 
         var pauseTask = session.PauseAsync();
@@ -61,6 +62,7 @@ public class ProgressSessionTests
             outputCoordinator,
             Mock.Of<ISpectreConsoleLoggerControl>(),
             nonSpectreLoggerFactory.Object,
-            spectreLoggerFilter.Object);
+            spectreLoggerFilter.Object,
+            DelegatingAnsiConsole.Instance);
     }
 }

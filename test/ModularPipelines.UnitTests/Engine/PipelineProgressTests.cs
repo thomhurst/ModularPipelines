@@ -12,24 +12,8 @@ using Spectre.Console;
 
 namespace ModularPipelines.UnitTests.Engine;
 
-[TUnit.Core.NotInParallel]
 public class PipelineProgressTests
 {
-    private static bool _originalInteractive;
-
-    [Before(Class)]
-    public static void Setup()
-    {
-        _originalInteractive = AnsiConsole.Profile.Capabilities.Interactive;
-        AnsiConsole.Profile.Capabilities.Interactive = true;
-    }
-
-    [After(Class)]
-    public static void CleanUp()
-    {
-        AnsiConsole.Profile.Capabilities.Interactive = _originalInteractive;
-    }
-
     private class Module1 : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -112,14 +96,24 @@ public class PipelineProgressTests
         }
     }
 
-    [Test, Retry(5)]
+    [Test]
     public async Task Can_Show_Progress()
     {
+        using var output = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Ansi = AnsiSupport.No,
+            ColorSystem = ColorSystemSupport.NoColors,
+            Interactive = InteractionSupport.Yes,
+            Out = new AnsiConsoleOutput(output),
+        });
+
         await Assert.That(async () =>
                 await TestPipelineHostBuilder.Create()
+                    .ConfigureServices((_, services) => services.AddSingleton<IAnsiConsole>(console))
                     .ConfigurePipelineOptions((_, options) => options with
                     {
-                        PrintResults = true,
+                        PrintResults = false,
                         ShowProgressInConsole = true,
                     })
                     .AddModule<Module1>()
@@ -131,5 +125,9 @@ public class PipelineProgressTests
                     .AddModule<Module7>()
                     .ExecutePipelineAsync()).
             Throws<ModuleFailedException>();
+
+        var renderedProgress = output.ToString();
+        await Assert.That(renderedProgress).Contains("Pipeline:");
+        await Assert.That(renderedProgress).Contains($"{nameof(Module1)}:");
     }
 }

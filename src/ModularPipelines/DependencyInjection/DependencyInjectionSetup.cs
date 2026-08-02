@@ -191,6 +191,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPrimaryExceptionContainer, PrimaryExceptionContainer>()
             .AddSingleton<ISecondaryExceptionContainer, SecondaryExceptionContainer>()
             .AddSingleton<IExceptionRethrowService, ExceptionRethrowService>()
+            .AddSingleton<IAnsiConsole>(DelegatingAnsiConsole.Instance)
 
             // Console coordinator - single point of control for all console output
             .AddSingleton<Console.ConsoleCoordinator>()

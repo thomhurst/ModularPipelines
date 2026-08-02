@@ -38,6 +38,7 @@ internal class ProgressSession : IProgressSession, IProgressController
     private readonly OrganizedModules _modules;
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger _logger;
+    private readonly IAnsiConsole _ansiConsole;
     private readonly CancellationTokenSource _progressLoopCancellationTokenSource;
 
     private readonly ConcurrentDictionary<IModule, ProgressTask> _moduleTasks = new();
@@ -64,12 +65,14 @@ internal class ProgressSession : IProgressSession, IProgressController
         OrganizedModules modules,
         IOptions<PipelineOptions> options,
         ILoggerFactory loggerFactory,
+        IAnsiConsole ansiConsole,
         CancellationToken cancellationToken)
     {
         _coordinator = coordinator;
         _modules = modules;
         _options = options;
         _logger = loggerFactory.CreateLogger<ProgressSession>();
+        _ansiConsole = ansiConsole;
         _progressLoopCancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
     }
@@ -96,7 +99,7 @@ internal class ProgressSession : IProgressSession, IProgressController
         var cancellationToken = _progressLoopCancellationTokenSource.Token;
         try
         {
-            await AnsiConsole.Progress()
+            await _ansiConsole.Progress()
                 .AutoRefresh(false) // Disable auto-refresh so we can pause rendering during output writes
                 .AutoClear(false)
                 .HideCompleted(false)
