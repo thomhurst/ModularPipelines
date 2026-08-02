@@ -33,7 +33,7 @@ public static class JqExtensions
     }
 
     /// <summary>
-    /// Gets the jq service from the pipeline context.
+    /// Gets the jq service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IJq"/> service for executing jq commands.</returns>
