@@ -714,6 +714,11 @@ public class Folder : IEquatable<Folder>
 
     private static void RemoveReadOnlyAttributeRecursively(DirectoryInfo directory)
     {
+        if ((directory.Attributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
+        {
+            return;
+        }
+
         if ((directory.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
         {
             directory.Attributes &= ~FileAttributes.ReadOnly;
