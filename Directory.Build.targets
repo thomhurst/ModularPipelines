@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Condition="'$(IsPackable)' == 'false' and '$(_IsModularPipelinesSourceProject)' == 'true'">
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DocumentationFile />
+    <NoWarn>$([System.String]::Copy('$(NoWarn)').Replace(';CS1591', ''))</NoWarn>
+  </PropertyGroup>
+</Project>
