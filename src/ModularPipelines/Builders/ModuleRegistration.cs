@@ -20,7 +20,7 @@ namespace ModularPipelines;
 /// Represents a module registration and provides metadata configuration for that module.
 /// </summary>
 /// <typeparam name="TModule">The registered module type.</typeparam>
-public sealed class ModuleRegistration<TModule> : IDisposable
+public sealed class ModuleRegistration<TModule>
     where TModule : class, IModule
 {
     private readonly Type _moduleType;
@@ -343,11 +343,6 @@ public sealed class ModuleRegistration<TModule> : IDisposable
     /// </summary>
     /// <returns>The validation result.</returns>
     public Task<ValidationResult> ValidateAsync() => Builder.ValidateAsync();
-
-    /// <summary>
-    /// Releases resources owned by the pipeline builder.
-    /// </summary>
-    public void Dispose() => Builder.Dispose();
 
     /// <summary>
     /// Converts a module registration back to its pipeline builder.
