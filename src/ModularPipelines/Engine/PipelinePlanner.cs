@@ -405,7 +405,8 @@ internal sealed class PipelinePlanner
                 .Max();
             var schedulingProfile = new SchedulingProfile(
                 GetConstraintKeys(module),
-                GetExecutionType(module));
+                GetExecutionType(module),
+                GetParallelLimiter(module));
             var start = FindEarliestStart(
                 dependencyFinish,
                 duration,
@@ -463,6 +464,26 @@ internal sealed class PipelinePlanner
             .FirstOrDefault()
             ?.Priority
         ?? ModulePriority.Normal;
+
+    private static ParallelLimiterProfile? GetParallelLimiter(IModule module)
+    {
+        var attribute = module.GetType()
+            .GetCustomAttributes(typeof(ParallelLimiterAttribute), inherit: true)
+            .Cast<ParallelLimiterAttribute>()
+            .FirstOrDefault();
+        if (attribute is null)
+        {
+            return null;
+        }
+
+        if (attribute.Limit <= 0)
+        {
+            throw new ArgumentException(
+                $"Parallel limit for type '{attribute.Type.FullName}' must be a positive integer, but was {attribute.Limit}.");
+        }
+
+        return new ParallelLimiterProfile(attribute.Type, attribute.Limit);
+    }
 
     private static TimeSpan FindEarliestStart(
         TimeSpan dependencyFinish,
@@ -530,6 +551,16 @@ internal sealed class PipelinePlanner
                         module => module.Profile.ExecutionType == profile.ExecutionType));
             }
 
+            if (profile.ParallelLimiter is { } parallelLimiter)
+            {
+                blockedUntil = Max(
+                    blockedUntil,
+                    GetCapacityBlocker(
+                        activeModules,
+                        parallelLimiter.Limit,
+                        module => module.Profile.ParallelLimiter?.Type == parallelLimiter.Type));
+            }
+
             var constraintBlocker = activeModules
                 .Where(module => HasConstraintConflict(profile, module.Profile))
                 .Select(module => module.Finish)
@@ -588,7 +619,10 @@ internal sealed class PipelinePlanner
 
     private sealed record SchedulingProfile(
         IReadOnlyCollection<string>? ConstraintKeys,
-        ExecutionType ExecutionType);
+        ExecutionType ExecutionType,
+        ParallelLimiterProfile? ParallelLimiter);
+
+    private sealed record ParallelLimiterProfile(Type Type, int Limit);
 
     private sealed record ScheduledModule(
         TimeSpan Start,

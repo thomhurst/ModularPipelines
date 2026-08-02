@@ -8,6 +8,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -256,6 +257,8 @@ public class PipelineCommandLineTests
             nameof(SecondCpuModule) => TimeSpan.FromMinutes(10),
             nameof(FirstIoModule) => TimeSpan.FromMinutes(10),
             nameof(SecondIoModule) => TimeSpan.FromMinutes(10),
+            nameof(FirstLimitedModule) => TimeSpan.FromMinutes(10),
+            nameof(SecondLimitedModule) => TimeSpan.FromMinutes(10),
             _ => TimeSpan.Zero,
         });
 
@@ -369,6 +372,21 @@ public class PipelineCommandLineTests
 
     [ExecutionHint(ExecutionType.IoIntensive)]
     private sealed class SecondIoModule : DryRunModule
+    {
+    }
+
+    private sealed class SingleModuleLimit : IParallelLimit
+    {
+        public static int Limit => 1;
+    }
+
+    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    private sealed class FirstLimitedModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
+    private sealed class SecondLimitedModule : DryRunModule
     {
     }
 
@@ -685,6 +703,20 @@ public class PipelineCommandLineTests
         builder.AddModule<SecondCpuModule>();
         builder.AddModule<FirstIoModule>();
         builder.AddModule<SecondIoModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(20));
+    }
+
+    [Test]
+    public async Task PlanAsyncAppliesCustomParallelLimitersInEstimate()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<FirstLimitedModule>();
+        builder.AddModule<SecondLimitedModule>();
         builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
         await using var pipeline = await builder.BuildAsync();
 
