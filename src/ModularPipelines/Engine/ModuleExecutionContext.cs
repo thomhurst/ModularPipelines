@@ -13,7 +13,7 @@ namespace ModularPipelines.Engine;
 /// <para>
 /// This class implements the separation of concerns between:
 /// - What a module IS (the <see cref="Module{T}"/> implementation)
-/// - How a module is EXECUTED (this context class)
+/// - How a module is EXECUTED (this context class).
 /// </para>
 /// <para>
 /// The module itself remains a clean, stateless definition of work to do.
