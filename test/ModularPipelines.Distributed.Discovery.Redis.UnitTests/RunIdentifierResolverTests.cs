@@ -2,7 +2,7 @@ using ModularPipelines.Distributed.Discovery.Redis;
 
 namespace ModularPipelines.Distributed.Discovery.Redis.UnitTests;
 
-[TUnit.Core.NotInParallel]
+[TUnit.Core.NotInParallel("ProcessEnvironment")]
 public class RunIdentifierResolverTests
 {
     private static readonly string[] CiEnvironmentVariables =
