@@ -104,7 +104,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         cancellationToken.ThrowIfCancellationRequested();
         lock (_sync)
         {
-            var normalized = Normalize(path);
+            var normalized = NormalizeFilePath(path);
             var existing = _files.TryGetValue(normalized, out var bytes) ? bytes : [];
             var appended = new byte[existing.Length + Encoding.UTF8.GetByteCount(contents)];
             existing.CopyTo(appended, 0);
@@ -127,7 +127,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var normalized = Normalize(path);
+            var normalized = NormalizeFilePath(path);
             var initial = GetFile(normalized);
             if (_exclusiveOpenFiles.Contains(normalized))
             {
@@ -162,7 +162,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var normalized = Normalize(path);
+            var normalized = NormalizeFilePath(path);
             var exists = _files.TryGetValue(normalized, out var existing);
 
             ValidateOpenArguments(mode, access, exists, normalized);
@@ -294,7 +294,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var normalized = Normalize(path);
+            var normalized = NormalizeFilePath(path);
             if (_directories.ContainsKey(normalized))
             {
                 throw new UnauthorizedAccessException(
@@ -316,8 +316,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var source = Normalize(sourcePath);
-            var destination = Normalize(destinationPath);
+            var source = NormalizeFilePath(sourcePath);
+            var destination = NormalizeFilePath(destinationPath);
             if (_pathComparer.Equals(source, destination))
             {
                 throw new IOException(
@@ -338,8 +338,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var source = Normalize(sourcePath);
-            var destination = Normalize(destinationPath);
+            var source = NormalizeFilePath(sourcePath);
+            var destination = NormalizeFilePath(destinationPath);
             if (IsOpen(source))
             {
                 throw new IOException(
@@ -363,14 +363,15 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     }
 
     /// <inheritdoc />
-    public bool FileExists(string path) => _files.ContainsKey(Normalize(path));
+    public bool FileExists(string path) =>
+        !string.IsNullOrEmpty(path) && _files.ContainsKey(NormalizeFilePath(path));
 
     /// <inheritdoc />
     public void CreateDirectory(string path)
     {
         lock (_sync)
         {
-            var current = Normalize(path);
+            var current = NormalizeDirectoryPath(path);
             var directoriesToCreate = new List<string>();
             while (!string.IsNullOrEmpty(current))
             {
@@ -402,7 +403,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var normalized = Normalize(path);
+            var normalized = NormalizeDirectoryPath(path);
             if (!_directories.ContainsKey(normalized))
             {
                 throw new DirectoryNotFoundException(normalized);
@@ -434,8 +435,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var source = Normalize(sourcePath);
-            var destination = Normalize(destinationPath);
+            var source = NormalizeDirectoryPath(sourcePath);
+            var destination = NormalizeDirectoryPath(destinationPath);
             if (!_directories.ContainsKey(source))
             {
                 throw new DirectoryNotFoundException(source);
@@ -486,7 +487,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     }
 
     /// <inheritdoc />
-    public bool DirectoryExists(string path) => _directories.ContainsKey(Normalize(path));
+    public bool DirectoryExists(string path) =>
+        !string.IsNullOrEmpty(path) && _directories.ContainsKey(NormalizeDirectoryPath(path));
 
     /// <inheritdoc />
     public IEnumerable<string> EnumerateFiles(
@@ -540,7 +542,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var normalized = Normalize(path);
+            var normalized = NormalizeFilePath(path);
             if (_exclusiveOpenFiles.Contains(normalized))
             {
                 throw new IOException(
@@ -559,7 +561,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     {
         lock (_sync)
         {
-            var normalized = Normalize(path);
+            var normalized = NormalizeFilePath(path);
             if (!allowOpenFile && IsOpen(normalized))
             {
                 throw new IOException(
@@ -590,7 +592,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         _exclusiveOpenFiles.Contains(normalizedPath)
         || _openReaders.ContainsKey(normalizedPath);
 
-    private string Normalize(string path)
+    private string NormalizeDirectoryPath(string path)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
         var fullPath = Path.GetFullPath(path);
@@ -600,13 +602,19 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             : fullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
     }
 
+    private static string NormalizeFilePath(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return Path.GetFullPath(path);
+    }
+
     private IEnumerable<string> EnumerateEntries(
         IEnumerable<string> entries,
         string path,
         string searchPattern,
         SearchOption searchOption)
     {
-        var root = Normalize(path);
+        var root = NormalizeDirectoryPath(path);
         if (!_directories.ContainsKey(root))
         {
             throw new DirectoryNotFoundException(root);

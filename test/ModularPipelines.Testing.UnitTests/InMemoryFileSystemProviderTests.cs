@@ -139,6 +139,35 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task EmptyPathsDoNotExist()
+    {
+        var provider = new InMemoryFileSystemProvider();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.FileExists(string.Empty)).IsFalse();
+            await Assert.That(provider.DirectoryExists(string.Empty)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task TrailingSeparatorDoesNotResolveAsFile()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "trailing-separator.txt");
+        var directoryPath = path + Path.DirectorySeparatorChar;
+        await provider.WriteAllTextAsync(path, "original");
+
+        async Task ReadAsync() => _ = await provider.ReadAllTextAsync(directoryPath);
+        async Task WriteAsync() => await provider.WriteAllTextAsync(directoryPath, "replacement");
+
+        await Assert.That(provider.FileExists(directoryPath)).IsFalse();
+        await Assert.That(ReadAsync).ThrowsException();
+        await Assert.That(WriteAsync).ThrowsException();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
     public async Task OpenReadAllowsSharedReadHandles()
     {
         var provider = new InMemoryFileSystemProvider();
