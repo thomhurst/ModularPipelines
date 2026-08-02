@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Mediator;
 using MEL.Spectre;
@@ -88,6 +89,14 @@ internal static class DependencyInjectionSetup
     /// Registers external integrations and bundled services:
     /// options configuration, logging provider, HTTP clients, initializers, and mediator.
     /// </summary>
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "MEL.Spectre options are configured programmatically with statically referenced types.")]
+    [UnconditionalSuppressMessage(
+        "AOT",
+        "IL3050",
+        Justification = "MEL.Spectre options are configured programmatically without configuration binding.")]
     private static void RegisterBundledServices(IServiceCollection services)
     {
         services.TryAddSingleton(PipelineCommandLineOptions.Empty);
@@ -109,7 +118,6 @@ internal static class DependencyInjectionSetup
                     .AddFilter("System", LogLevel.Warning);
 
                 builder.AddSpectreConsole(ConfigureSpectreConsoleLogger);
-                builder.Services.MakeSpectreLoggerSuppressible();
             })
             .AddHttpClient()
             .AddLoggingHttpClients()
