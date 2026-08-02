@@ -12,6 +12,7 @@ internal sealed class LocalFtpServer : IAsyncDisposable
 
     private static readonly byte[] ContentBytes = Encoding.UTF8.GetBytes(Contents);
     private readonly CancellationTokenSource _cancellationTokenSource = new(TimeSpan.FromSeconds(15));
+    private readonly ConcurrentBag<Task> _clientTasks = [];
     private readonly ConcurrentQueue<string> _commands = new();
     private readonly TcpListener _listener;
     private readonly Task _serverTask;
@@ -26,7 +27,7 @@ internal sealed class LocalFtpServer : IAsyncDisposable
 
     public int Port => ((IPEndPoint) _listener.LocalEndpoint).Port;
 
-    public IReadOnlyCollection<string> Commands => _commands.ToArray();
+    public IReadOnlyCollection<string> Commands => [.. _commands];
 
     public static LocalFtpServer Start() => new();
 
@@ -36,6 +37,7 @@ internal sealed class LocalFtpServer : IAsyncDisposable
         _dataListener?.Stop();
         _listener.Stop();
         await _serverTask;
+        await Task.WhenAll(_clientTasks);
         _cancellationTokenSource.Dispose();
     }
 
@@ -45,8 +47,8 @@ internal sealed class LocalFtpServer : IAsyncDisposable
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                using var client = await _listener.AcceptTcpClientAsync(cancellationToken);
-                await ServeClientAsync(client, cancellationToken);
+                var client = await _listener.AcceptTcpClientAsync(cancellationToken);
+                _clientTasks.Add(ServeClientSafelyAsync(client, cancellationToken));
             }
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -54,6 +56,26 @@ internal sealed class LocalFtpServer : IAsyncDisposable
         }
         catch (SocketException) when (cancellationToken.IsCancellationRequested)
         {
+        }
+    }
+
+    private async Task ServeClientSafelyAsync(TcpClient client, CancellationToken cancellationToken)
+    {
+        using (client)
+        {
+            try
+            {
+                await ServeClientAsync(client, cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+            }
+            catch (IOException) when (cancellationToken.IsCancellationRequested)
+            {
+            }
+            catch (SocketException) when (cancellationToken.IsCancellationRequested)
+            {
+            }
         }
     }
 
