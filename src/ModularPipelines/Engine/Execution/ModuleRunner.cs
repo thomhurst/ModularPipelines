@@ -269,6 +269,8 @@ internal class ModuleRunner : IModuleRunner
 
             await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
 
+            await _mediator.Publish(new ModuleCompletedNotification(moduleState, false)).ConfigureAwait(false);
+
             throw;
         }
         finally
