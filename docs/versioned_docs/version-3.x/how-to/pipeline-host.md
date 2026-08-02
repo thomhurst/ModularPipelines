@@ -118,6 +118,8 @@ The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
 var builder = Pipeline.CreateBuilder(args);
+builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
+builder.Options.ThrowOnPipelineFailure = false;
 builder.Services.AddModule<MyModule>();
 
 // Step 1: Build the pipeline
@@ -127,7 +129,7 @@ var pipeline = builder.Build();
 var summary = await pipeline.RunAsync();
 
 // Check results
-if (summary.Status == PipelineStatus.Failed)
+if (summary.Status == ModularPipelines.Enums.Status.Failed)
 {
     Environment.Exit(1);
 }

@@ -25,8 +25,18 @@ internal static class SyntaxNodeExtensions
             return documentRoot;
         }
 
-        var usingDirective = SyntaxFactory.UsingDirective(
-            SyntaxFactory.ParseName(namespaceName));
+        var endOfLine = compilationUnitSyntax
+            .DescendantTrivia()
+            .FirstOrDefault(trivia => trivia.IsKind(SyntaxKind.EndOfLineTrivia))
+            .ToFullString();
+        if (string.IsNullOrEmpty(endOfLine))
+        {
+            endOfLine = Environment.NewLine;
+        }
+
+        var usingDirective = SyntaxFactory
+            .UsingDirective(SyntaxFactory.ParseName(namespaceName))
+            .WithTrailingTrivia(SyntaxFactory.EndOfLine(endOfLine));
         var conditionalMatch = compilationUnitSyntax.Usings
             .FirstOrDefault(item =>
                 item.Alias is null

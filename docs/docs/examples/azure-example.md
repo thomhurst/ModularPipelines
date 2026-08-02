@@ -58,7 +58,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
         var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
         var blobContainerProvisionResponse = await context.Tools.Azure.Provisioner.Storage.BlobContainer(
-            blobStorageAccount.ValueOrDefault!.Id,
+            blobStorageAccount.Value.Id,
             "MyContainer",
             new BlobContainerData()
         );
@@ -82,8 +82,8 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
         var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
         var roleAssignmentResource = await context.Tools.Azure.Provisioner.Security.RoleAssignment(
-            storageAccount.ValueOrDefault!.Id,
-            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.ValueOrDefault!.Data.PrincipalId!.Value)
+            storageAccount.Value.Id,
+            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.Value.Data.PrincipalId!.Value)
         );
 
         return roleAssignmentResource.Value;
@@ -112,7 +112,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
             {
                 Identity = new ManagedServiceIdentity(ManagedServiceIdentityType.UserAssigned)
                 {
-                    UserAssignedIdentities = { { userAssignedIdentity.ValueOrDefault!.Id, new UserAssignedIdentity() } }
+                    UserAssignedIdentities = { { userAssignedIdentity.Value.Id, new UserAssignedIdentity() } }
                 },
                 SiteConfig = new SiteConfigProperties
                 {
@@ -121,12 +121,12 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
                         new()
                         {
                             Name = "BlobStorageConnectionString",
-                            Value = storageAccount.ValueOrDefault!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
+                            Value = storageAccount.Value.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
                         },
                         new()
                         {
                             Name = "BlobContainerName",
-                            Value = blobContainer.ValueOrDefault!.Data.Name
+                            Value = blobContainer.Value.Data.Name
                         }
                     }
                 }
