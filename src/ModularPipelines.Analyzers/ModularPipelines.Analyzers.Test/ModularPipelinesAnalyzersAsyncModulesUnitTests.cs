@@ -81,11 +81,11 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    {{|#0:protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{|#0:protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         => ExecuteCommand(context);|}}
 
-    private static Task<string?> ExecuteCommand(IModuleContext context)
-        => Task.FromResult<string?>(""Foo"");
+    private static Task<string> ExecuteCommand(IModuleContext context)
+        => Task.FromResult(""Foo"");
 }}
 ";
 
@@ -94,11 +94,11 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    {{|#0:protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{|#0:protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         => await ExecuteCommand(context);|}}
 
-    private static Task<string?> ExecuteCommand(IModuleContext context)
-        => Task.FromResult<string?>(""Foo"");
+    private static Task<string> ExecuteCommand(IModuleContext context)
+        => Task.FromResult(""Foo"");
 }}
 ";
 
@@ -153,7 +153,7 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         Func<string> getLambdaValue = () =>
         {{
@@ -165,7 +165,7 @@ public class Module1 : Module<string>
             return ""local"";
         }}
 
-        return Task.FromResult<string?>(getLambdaValue() + GetLocalValue());
+        return Task.FromResult(getLambdaValue() + GetLocalValue());
     }}
 }}
 ";
@@ -181,8 +181,8 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        => Task.FromResult<string?>(""Foo"");
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult(""Foo"");
 }}
 ";
 
@@ -307,13 +307,13 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    {{|#0:protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{|#0:protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         => {expression};|}}
 
-    private static Task<string?>? PendingTask {{ get; set; }}
+    private static Task<string>? PendingTask {{ get; set; }}
 
-    private static Task<string?> ExecuteCommand()
-        => Task.FromResult<string?>(""Foo"");
+    private static Task<string> ExecuteCommand()
+        => Task.FromResult(""Foo"");
 }}
 ";
         var fixedSource = $@"
@@ -322,13 +322,13 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    {{|#0:protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{|#0:protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         => {fixedExpression};|}}
 
-    private static Task<string?>? PendingTask {{ get; set; }}
+    private static Task<string>? PendingTask {{ get; set; }}
 
-    private static Task<string?> ExecuteCommand()
-        => Task.FromResult<string?>(""Foo"");
+    private static Task<string> ExecuteCommand()
+        => Task.FromResult(""Foo"");
 }}
 ";
         var expected = VerifyCS.Diagnostic(AsyncModuleAnalyzer.DiagnosticId)

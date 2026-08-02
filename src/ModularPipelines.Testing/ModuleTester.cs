@@ -1,3 +1,4 @@
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -73,7 +74,7 @@ public class ModuleTestBuilder<TModule>
     /// <typeparam name="TResult">The dependency value type.</typeparam>
     /// <param name="value">The dependency value.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithDependencyResult<TDependency, TResult>(TResult? value)
+    public ModuleTestBuilder<TModule> WithDependencyResult<TDependency, TResult>(TResult value)
         where TDependency : Module<TResult>
     {
         _registrations.Add(static builder => builder.AddModule<TDependency>());
@@ -176,7 +177,13 @@ public class ModuleTestBuilder<TModule>
 
         var pipelineContext = pipeline.Services.GetRequiredService<IPipelineContext>();
         var logger = GetModuleLogger(pipeline.Services);
-        var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
+        var moduleContext = new ModuleContext(
+            pipelineContext,
+            module,
+            executionContext,
+            logger,
+            pipeline.Services.GetRequiredService<IMediator>(),
+            pipeline.Services.GetRequiredService<ISafeModuleEstimatedTimeProvider>());
         var executionPipeline = pipeline.Services.GetRequiredService<IModuleExecutionPipeline>();
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
 
@@ -258,7 +265,7 @@ public class ModuleTestBuilder<TModule>
         void Apply(IServiceProvider services);
     }
 
-    private sealed class DependencySeed<TDependency, TResult>(TResult? value) : IDependencySeed
+    private sealed class DependencySeed<TDependency, TResult>(TResult value) : IDependencySeed
         where TDependency : Module<TResult>
     {
         public void Apply(IServiceProvider services)
@@ -303,7 +310,7 @@ public sealed class ModuleTestBuilder<TModule, TResult> : ModuleTestBuilder<TMod
 
     /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithDependencyResult{TDependency,TDependencyResult}(TDependencyResult)"/>
     public new ModuleTestBuilder<TModule, TResult> WithDependencyResult<TDependency, TDependencyResult>(
-        TDependencyResult? value)
+        TDependencyResult value)
         where TDependency : Module<TDependencyResult>
     {
         base.WithDependencyResult<TDependency, TDependencyResult>(value);
