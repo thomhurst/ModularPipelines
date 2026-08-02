@@ -19,6 +19,7 @@ namespace ModularPipelines.Shellcheck.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("shellcheck")]
+[CliGlobalOptions]
 public abstract record ShellcheckOptions : CommandLineToolOptions
 {
 }
