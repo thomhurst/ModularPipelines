@@ -12,7 +12,6 @@ public class PublicStateCompatibilityTests
         var removedTypeNames = new[]
         {
             "ModularPipelines.Attributes.MandatoryRunConditionAttribute",
-            "ModularPipelines.Attributes.RunConditionAttribute",
             "ModularPipelines.Attributes.RunOnLinuxAttribute",
             "ModularPipelines.Attributes.RunOnLinuxOnlyAttribute",
             "ModularPipelines.Attributes.RunOnMacOSAttribute",

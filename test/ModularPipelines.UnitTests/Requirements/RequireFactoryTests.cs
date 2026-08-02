@@ -11,6 +11,7 @@ using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests.Requirements;
 
+[TUnit.Core.NotInParallel("ProcessEnvironment")]
 public class RequireFactoryTests
 {
     [Test]
@@ -88,7 +89,7 @@ public class RequireFactoryTests
     [Test]
     public async Task Require_EnvironmentVariable_When_Set_Passes()
     {
-        const string varName = "TEST_REQUIREMENT_VAR";
+        var varName = $"TEST_REQUIREMENT_VAR_{Guid.NewGuid():N}";
         Environment.SetEnvironmentVariable(varName, "some-value");
         try
         {
@@ -112,8 +113,7 @@ public class RequireFactoryTests
     [Test]
     public async Task Require_EnvironmentVariable_When_Not_Set_Fails()
     {
-        const string varName = "UNLIKELY_TO_EXIST_VAR_12345";
-        Environment.SetEnvironmentVariable(varName, null);
+        var varName = $"UNLIKELY_TO_EXIST_VAR_{Guid.NewGuid():N}";
 
         var executePipelineDelegate = async () =>
         {
@@ -131,9 +131,8 @@ public class RequireFactoryTests
     [Test]
     public async Task Require_EnvironmentVariable_With_Custom_Reason()
     {
-        const string varName = "UNLIKELY_TO_EXIST_VAR_67890";
+        var varName = $"UNLIKELY_TO_EXIST_VAR_{Guid.NewGuid():N}";
         const string customReason = "My custom message about the var";
-        Environment.SetEnvironmentVariable(varName, null);
 
         var executePipelineDelegate = async () =>
         {

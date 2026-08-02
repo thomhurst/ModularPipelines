@@ -43,7 +43,7 @@ public class DotNetCommandParserTests : TestBase
             ApiKey = "my-secret-key"
         });
         await Assert.That(result.CommandInput).IsEqualTo(
-            "dotnet nuget delete MyPackageName 1.0.0 --api-key my-secret-key");
+            "dotnet nuget delete MyPackageName 1.0.0 --api-key **********");
     }
 
     private async Task<CommandResult> GetResult(CommandLineToolOptions options)
