@@ -51,6 +51,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
             Sourcy.DotNet.Projects.ModularPipelines_SonarScanner,
             Sourcy.DotNet.Projects.ModularPipelines_TeamCity,
             Sourcy.DotNet.Projects.ModularPipelines_Templates,
+            Sourcy.DotNet.Projects.ModularPipelines_Testing,
             Sourcy.DotNet.Projects.ModularPipelines_Terraform,
             Sourcy.DotNet.Projects.ModularPipelines_Trivy,
             Sourcy.DotNet.Projects.ModularPipelines_WinGet,
