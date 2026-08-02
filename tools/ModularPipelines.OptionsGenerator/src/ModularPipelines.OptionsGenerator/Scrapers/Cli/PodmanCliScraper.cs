@@ -75,11 +75,16 @@ public partial class PodmanCliScraper : CobraCliScraper
         }
 
         helpText = NormalizeComposeProviderHelp(helpText);
-        if (!IsValidCommandHelp(helpText, commandPath.Skip(1).ToArray()))
+        if (!IsValidCommandHelp(helpText, [.. commandPath.Skip(1)]))
         {
+            var helpPreview = string.Join(
+                " | ",
+                helpText.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Take(3));
             Logger.LogWarning(
-                "Compose provider returned help for the wrong command: {Command}",
-                cacheKey);
+                "Compose provider returned help for the wrong command: {Command}. Help starts: {HelpPreview}",
+                cacheKey,
+                helpPreview);
             return null;
         }
 
