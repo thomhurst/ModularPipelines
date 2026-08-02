@@ -74,8 +74,10 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
 
             if (!_fingerprints.TryGetValue(module, out var fingerprint))
             {
-                fingerprint = await ComputeFingerprintAsync(module, pipelineContext, cancellationToken)
-                    .ConfigureAwait(false);
+                _logger.LogDebug(
+                    "Skipping module cache save for {Module} because no pre-execution fingerprint was captured",
+                    module.GetType().Name);
+                return;
             }
 
             var temporary = Path.GetTempFileName();
@@ -444,8 +446,20 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     {
         var root = Path.GetFullPath(_options.WorkingDirectory);
         var artifactPaths = GetArtifactPaths(moduleType).ToArray();
-        var artifactEntries = archive.Entries
-            .Where(entry => entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal))
+        var archivedArtifacts = new List<ZipArchiveEntry>();
+        foreach (var entry in archive.Entries.Where(entry =>
+                     entry.FullName.StartsWith(ArtifactPrefix, StringComparison.Ordinal)))
+        {
+            if (archivedArtifacts.Count >= _options.MaximumInputFiles)
+            {
+                throw new InvalidDataException(
+                    $"Cache artifact entry count exceeded the configured limit of {_options.MaximumInputFiles:N0} entries.");
+            }
+
+            archivedArtifacts.Add(entry);
+        }
+
+        var artifactEntries = archivedArtifacts
             .Select(entry => (
                 Entry: entry,
                 Destination: GetArtifactDestination(root, entry),
@@ -479,6 +493,12 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             }
         }
 
+        using var artifactDirectoryModeRollback = new UnixDirectoryModeRollback(
+            ModuleCacheFileResolver.ResolveDirectories(
+                root,
+                artifactPaths,
+                _options.MaximumInputFiles,
+                _options.CacheDirectory));
         using var writableArtifactParents = MakeArtifactParentsTemporarilyWritable(
             root,
             artifactPaths,
@@ -559,6 +579,8 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             {
                 RestoreUnixMode(entry, destination, UnixFileTypeDirectory);
             }
+
+            artifactDirectoryModeRollback.Complete();
         }
         catch (Exception restoreException)
         {
@@ -912,6 +934,48 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         public void Dispose()
         {
             if (OperatingSystem.IsWindows())
+            {
+                return;
+            }
+
+            foreach (var (path, mode) in _originalModes
+                         .OrderByDescending(item => item.Path.Length))
+            {
+                if (Directory.Exists(path))
+                {
+                    File.SetUnixFileMode(path, mode);
+                }
+            }
+        }
+    }
+
+    private sealed class UnixDirectoryModeRollback : IDisposable
+    {
+        private readonly IReadOnlyList<(string Path, UnixFileMode Mode)> _originalModes;
+        private bool _completed;
+
+        public UnixDirectoryModeRollback(IEnumerable<string> directories)
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                _originalModes = [];
+                return;
+            }
+
+            var originalModes = new List<(string Path, UnixFileMode Mode)>();
+            foreach (var path in directories.Distinct(PathComparer))
+            {
+                originalModes.Add((path, File.GetUnixFileMode(path)));
+            }
+
+            _originalModes = originalModes;
+        }
+
+        public void Complete() => _completed = true;
+
+        public void Dispose()
+        {
+            if (_completed || OperatingSystem.IsWindows())
             {
                 return;
             }
