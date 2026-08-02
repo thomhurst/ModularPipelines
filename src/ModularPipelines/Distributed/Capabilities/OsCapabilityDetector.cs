@@ -22,6 +22,11 @@ internal static class OsCapabilityDetector
             return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.MacOS);
         }
 
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+        {
+            return OperatingSystemConditions.GetWorkerCapabilities(OperatingSystemConditions.FreeBSD);
+        }
+
         return [];
     }
 }
