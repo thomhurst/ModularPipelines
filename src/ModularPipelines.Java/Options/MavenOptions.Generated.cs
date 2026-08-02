@@ -19,6 +19,7 @@ namespace ModularPipelines.Java.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("mvn")]
+[CliGlobalOptions]
 public abstract record MavenOptions : CommandLineToolOptions
 {
 }
