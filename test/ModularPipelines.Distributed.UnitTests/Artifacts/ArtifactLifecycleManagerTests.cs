@@ -40,6 +40,13 @@ public class ArtifactLifecycleManagerTests
     [Test]
     public async Task UploadProducedArtifacts_Scans_Attributes()
     {
+        var workingDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"artifact-upload-test-{Guid.NewGuid():N}");
+        var artifactDirectory = Path.Combine(workingDirectory, "test-output");
+        Directory.CreateDirectory(artifactDirectory);
+        File.WriteAllText(Path.Combine(artifactDirectory, "test.txt"), "hello");
+
         var mockStore = new Mock<IDistributedArtifactStore>();
         var expectedRef = new ArtifactReference("id1", "build-output", typeof(ProducerModule).FullName!, 100, "application/octet-stream", DateTimeOffset.UtcNow);
         mockStore
@@ -48,32 +55,23 @@ public class ArtifactLifecycleManagerTests
 
         var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
         var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
-        var manager = new ArtifactLifecycleManager(mockStore.Object, options, logger);
-
-        // Create a temporary directory to match the path pattern
-        var tempDir = Path.Combine(Path.GetTempPath(), "test-output");
-        Directory.CreateDirectory(tempDir);
-        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "hello");
+        var manager = new ArtifactLifecycleManager(
+            mockStore.Object,
+            options,
+            logger,
+            workingDirectory);
 
         try
         {
-            // Change to temp parent so "test-output" resolves
-            var originalDir = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(Path.GetTempPath());
-            try
-            {
-                var refs = await manager.UploadProducedArtifactsAsync(typeof(ProducerModule), CancellationToken.None);
-                await Assert.That(refs.Count).IsEqualTo(1);
-                await Assert.That(refs[0].Name).IsEqualTo("build-output");
-            }
-            finally
-            {
-                Directory.SetCurrentDirectory(originalDir);
-            }
+            var refs = await manager.UploadProducedArtifactsAsync(
+                typeof(ProducerModule),
+                CancellationToken.None);
+            await Assert.That(refs.Count).IsEqualTo(1);
+            await Assert.That(refs[0].Name).IsEqualTo("build-output");
         }
         finally
         {
-            Directory.Delete(tempDir, true);
+            Directory.Delete(workingDirectory, true);
         }
     }
 
@@ -95,6 +93,10 @@ public class ArtifactLifecycleManagerTests
     [Test]
     public async Task DownloadConsumedArtifacts_Scans_ConsumesAttribute()
     {
+        var workingDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"artifact-download-test-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(workingDirectory);
         var mockStore = new Mock<IDistributedArtifactStore>();
         var artifactRef = new ArtifactReference("id1", "build-output", typeof(ProducerModule).FullName!, 100, "application/octet-stream", DateTimeOffset.UtcNow);
 
@@ -108,12 +110,25 @@ public class ArtifactLifecycleManagerTests
 
         var options = Microsoft.Extensions.Options.Options.Create(new ArtifactOptions());
         var logger = Mock.Of<ILogger<ArtifactLifecycleManager>>();
-        var manager = new ArtifactLifecycleManager(mockStore.Object, options, logger);
+        var manager = new ArtifactLifecycleManager(
+            mockStore.Object,
+            options,
+            logger,
+            workingDirectory);
 
-        await manager.DownloadConsumedArtifactsAsync(typeof(ConsumerModule), CancellationToken.None);
+        try
+        {
+            await manager.DownloadConsumedArtifactsAsync(
+                typeof(ConsumerModule),
+                CancellationToken.None);
 
-        mockStore.Verify(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()), Times.Once);
-        mockStore.Verify(s => s.DownloadAsync(artifactRef, It.IsAny<CancellationToken>()), Times.Once);
+            mockStore.Verify(s => s.ListArtifactsAsync(typeof(ProducerModule).FullName!, It.IsAny<CancellationToken>()), Times.Once);
+            mockStore.Verify(s => s.DownloadAsync(artifactRef, It.IsAny<CancellationToken>()), Times.Once);
+        }
+        finally
+        {
+            Directory.Delete(workingDirectory, true);
+        }
     }
 
     [Test]
