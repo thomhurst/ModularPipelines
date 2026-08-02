@@ -180,6 +180,24 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task BufferedLogEvent_PreservesGenericTypeForNullState()
+    {
+        var logger = new RecordingLogger();
+        var logEvent = new BufferedLogEvent<string?>(
+            LogLevel.Information,
+            default,
+            null,
+            null,
+            null,
+            static (state, _) => state ?? "null-state",
+            new PassthroughSecretObfuscator());
+
+        logEvent.WriteTo(logger);
+
+        await Assert.That(logger.StateTypes).HasSingleItem().And.IsEquivalentTo([typeof(string)]);
+    }
+
+    [Test]
     public async Task ConsoleOutputAddedAfterCompletion_IsRetained()
     {
         var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
@@ -760,6 +778,8 @@ public class ModuleOutputBufferTests
     {
         public List<(string Message, Exception? Exception)> Entries { get; } = [];
 
+        public List<Type> StateTypes { get; } = [];
+
         public Exception? LogException { get; set; }
 
         public IDisposable? BeginScope<TState>(TState state)
@@ -780,6 +800,7 @@ public class ModuleOutputBufferTests
                 throw LogException;
             }
 
+            StateTypes.Add(typeof(TState));
             Entries.Add((formatter(state, exception), exception));
         }
     }

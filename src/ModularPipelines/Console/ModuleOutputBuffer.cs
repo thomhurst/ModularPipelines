@@ -774,6 +774,17 @@ internal sealed class BufferedLogEvent<TState>(
 
     public void WriteTo(ILogger logger)
     {
+        if (obfuscatedState is null && originalState is null)
+        {
+            logger.Log<TState>(
+                level,
+                eventId,
+                originalState,
+                _obfuscatedException,
+                FormatTyped);
+            return;
+        }
+
         if (obfuscatedState is TState typedState)
         {
             logger.Log(
