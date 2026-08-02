@@ -33,8 +33,8 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         var matcher = new Matcher(StringComparison.Ordinal);
         matcher.AddIncludePatterns(patterns);
 
-        var changedPaths = await GetChangedPathsAsync(baseReference, cancellationToken).ConfigureAwait(false);
-        return changedPaths.Any(path =>
+        var snapshot = await GetChangedPathsAsync(baseReference, cancellationToken).ConfigureAwait(false);
+        return !snapshot.IsKnown || snapshot.Paths.Any(path =>
             patterns.Contains(path, StringComparer.Ordinal)
             || matcher.Match(path).HasMatches);
     }
@@ -47,7 +47,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         }
     }
 
-    private async Task<IReadOnlyList<string>> GetChangedPathsAsync(
+    private async Task<ChangedPathSnapshot> GetChangedPathsAsync(
         string baseReference,
         CancellationToken cancellationToken)
     {
@@ -55,25 +55,24 @@ internal sealed class GitChanges : IGitChanges, IDisposable
         await cacheEntry.Gate.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
-            if (cacheEntry.Paths is not null)
+            if (cacheEntry.Snapshot is not null)
             {
-                return cacheEntry.Paths;
+                return cacheEntry.Snapshot;
             }
 
             await using var scope = _serviceScopeFactory.CreateAsyncScope();
             var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
-            var mergeBase = (await RunCommandsUntrimmed(
-                    gitCommandRunner,
+            var mergeBase = await gitCommandRunner.RunCommandsOrNull(
                     null,
                     cancellationToken,
                     "merge-base",
                     baseReference,
                     "HEAD")
-                .ConfigureAwait(false)).Trim();
+                .ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(mergeBase))
             {
-                throw new InvalidOperationException(
-                    $"Git did not return a merge base for '{baseReference}' and HEAD.");
+                cacheEntry.Snapshot = ChangedPathSnapshot.Unknown;
+                return cacheEntry.Snapshot;
             }
 
             var output = await RunCommandsUntrimmed(
@@ -85,14 +84,13 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                     "--no-renames",
                     "-z",
                     mergeBase,
-                    "HEAD",
                     "--")
                 .ConfigureAwait(false);
 
-            cacheEntry.Paths = output
-                .Split('\0', StringSplitOptions.RemoveEmptyEntries)
-                .ToArray();
-            return cacheEntry.Paths;
+            cacheEntry.Snapshot = new ChangedPathSnapshot(
+                IsKnown: true,
+                output.Split('\0', StringSplitOptions.RemoveEmptyEntries));
+            return cacheEntry.Snapshot;
         }
         finally
         {
@@ -127,6 +125,11 @@ internal sealed class GitChanges : IGitChanges, IDisposable
     {
         public SemaphoreSlim Gate { get; } = new(1, 1);
 
-        public IReadOnlyList<string>? Paths { get; set; }
+        public ChangedPathSnapshot? Snapshot { get; set; }
+    }
+
+    private sealed record ChangedPathSnapshot(bool IsKnown, IReadOnlyList<string> Paths)
+    {
+        public static ChangedPathSnapshot Unknown { get; } = new(false, []);
     }
 }

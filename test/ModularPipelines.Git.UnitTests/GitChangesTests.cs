@@ -30,7 +30,7 @@ public class GitChangesTests
         await Assert.That(runner.Commands[0].OfType<string>())
             .IsEquivalentTo(["merge-base", "origin/main", "HEAD"]);
         await Assert.That(runner.Commands[1].OfType<string>()).IsEquivalentTo(
-            ["diff", "--name-only", "--no-renames", "-z", "0123456789abcdef", "HEAD", "--"]);
+            ["diff", "--name-only", "--no-renames", "-z", "0123456789abcdef", "--"]);
     }
 
     [Test]
@@ -102,8 +102,8 @@ public class GitChangesTests
         var hasChanges = await changes.HasChangesAsync([" leading-directory/file.txt "]);
 
         await Assert.That(hasChanges).IsTrue();
-        await Assert.That(runner.RawCommands).Count().IsEqualTo(2);
-        await Assert.That(runner.Commands[1].OfType<string>()).Contains("merge-base");
+        await Assert.That(runner.RawCommands).Count().IsEqualTo(1);
+        await Assert.That(runner.Commands[0].OfType<string>()).Contains("merge-base");
     }
 
     [Test]
@@ -131,6 +131,42 @@ public class GitChangesTests
 
         await Assert.That(sourceChanged).IsTrue();
         await Assert.That(runner.Commands[1].OfType<string>()).Contains("--no-renames");
+    }
+
+    [Test]
+    public async Task Includes_Staged_And_Unstaged_Changes_After_The_Merge_Base()
+    {
+        var runner = new RecordingGitCommandRunner(
+            "merge-base",
+            "src/committed.cs\0src/staged.cs\0src/unstaged.cs\0");
+        var changes = CreateChanges(runner);
+
+        var stagedChanged = await changes.HasChangesAsync(["src/staged.cs"]);
+        var unstagedChanged = await changes.HasChangesAsync(["src/unstaged.cs"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(stagedChanged).IsTrue();
+            await Assert.That(unstagedChanged).IsTrue();
+            await Assert.That(runner.Commands[1].OfType<string>()).DoesNotContain("HEAD");
+        }
+    }
+
+    [Test]
+    public async Task Unavailable_Base_Conservatively_Reports_Changes_And_Is_Cached()
+    {
+        var runner = new RecordingGitCommandRunner { FailCommandsOrNull = true };
+        var changes = CreateChanges(runner);
+
+        var firstCheck = await changes.HasChangesAsync(["src/**"]);
+        var secondCheck = await changes.HasChangesAsync(["docs/**"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(firstCheck).IsTrue();
+            await Assert.That(secondCheck).IsTrue();
+            await Assert.That(runner.Commands).Count().IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -202,6 +238,8 @@ public class GitChangesTests
 
         public List<CommandExecutionOptions?> ExecutionOptions { get; } = [];
 
+        public bool FailCommandsOrNull { get; init; }
+
         public Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
         {
             Commands.Add(commands);
@@ -223,7 +261,11 @@ public class GitChangesTests
 
         public Task<string?> RunCommandsOrNull(
             CommandExecutionOptions? commandEnvironmentOptions,
-            params string?[] commands) =>
-            throw new NotSupportedException();
+            params string?[] commands)
+        {
+            Commands.Add(commands);
+            ExecutionOptions.Add(commandEnvironmentOptions);
+            return Task.FromResult<string?>(FailCommandsOrNull ? null : _outputs.Dequeue().Trim());
+        }
     }
 }

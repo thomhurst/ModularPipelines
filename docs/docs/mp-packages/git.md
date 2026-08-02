@@ -76,7 +76,9 @@ var shouldBuild = await context.Tools.Git.Changes.HasChangesAsync(
 ```
 
 Each base revision is resolved with `git merge-base`, and its `git diff --name-only` result is
-computed once per pipeline run.
+computed once per pipeline run. The comparison includes committed, staged, and unstaged tracked
+changes. If the base revision is unavailable (for example, in a shallow checkout without
+`origin/main`), the condition conservatively runs the module.
 
 ### Custom command runners
 
