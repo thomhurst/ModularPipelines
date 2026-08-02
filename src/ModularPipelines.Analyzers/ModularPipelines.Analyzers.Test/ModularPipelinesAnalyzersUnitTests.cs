@@ -211,6 +211,113 @@ public class Module2 : Module<string>
     }
 
     [TestMethod]
+    public async Task GetModule_Calls_In_Non_Module_Types_Are_Ignored()
+    {
+        const string source = """
+            #nullable enable
+            using System.Threading.Tasks;
+            using ModularPipelines.Context;
+            using ModularPipelines.Modules;
+
+            namespace Example;
+
+            public class Dependency : Module<string>
+            {
+                protected override Task<string?> ExecuteAsync(IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                    => Task.FromResult<string?>(null);
+            }
+
+            public class Helper
+            {
+                public async Task UseAsync(IModuleContext context)
+                {
+                    _ = await context.GetModule<Dependency>();
+                }
+            }
+
+            public class Container
+            {
+                private class NestedHelper
+                {
+                    public async Task UseAsync(IModuleContext context)
+                    {
+                        _ = await context.GetModule<Dependency>();
+                    }
+                }
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Nested_Helper_Code_Fix_Adds_Attribute_To_Enclosing_Module()
+    {
+        var source = """
+            #nullable enable
+            using System.Threading;
+            using System.Threading.Tasks;
+            using ModularPipelines.Context;
+            using ModularPipelines.Modules;
+
+            namespace Example;
+
+            public class Dependency : Module<string>
+            {
+                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string?>(null);
+            }
+
+            public class Consumer : Module<string>
+            {
+                private class Helper
+                {
+                    public async Task UseAsync(IModuleContext context)
+                    {
+                        _ = await {|#0:context.GetModule<Dependency>()|};
+                    }
+                }
+
+                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string?>(null);
+            }
+            """.ReplaceLineEndings("\n");
+        var fixedSource = """
+            #nullable enable
+            using System.Threading;
+            using System.Threading.Tasks;
+            using ModularPipelines.Context;
+            using ModularPipelines.Modules;
+            using ModularPipelines.Attributes;
+
+            namespace Example;
+            public class Dependency : Module<string>
+            {
+                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+            }
+
+            [DependsOn<Dependency>]
+            public class Consumer : Module<string>
+            {
+                private class Helper
+                {
+                    public async Task UseAsync(IModuleContext context)
+                    {
+                        _ = await context.GetModule<Dependency>();
+                    }
+                }
+
+                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+            }
+            """.ReplaceLineEndings("\n");
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithArguments("Dependency")
+            .WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
+    }
+
+    [TestMethod]
     public async Task CodeFixWorks()
     {
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId).WithArguments("Module1").WithLocation(0);
