@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
+using ModularPipelines.Caching;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
@@ -17,6 +18,39 @@ namespace ModularPipelines.UnitTests.Engine;
 
 public class ModuleExecutionPipelineTests
 {
+    private sealed class TrackingCacheRepository : IModuleCacheResultRepository
+    {
+        public int DiscardCount { get; private set; }
+
+        public CancellationToken ReadCancellationToken { get; private set; }
+
+        public CancellationToken WriteCancellationToken { get; private set; }
+
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
+        {
+            WriteCancellationToken = cancellationToken;
+            return Task.CompletedTask;
+        }
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext,
+            CancellationToken cancellationToken)
+        {
+            ReadCancellationToken = cancellationToken;
+            return Task.FromResult<ModuleResult<T>?>(null);
+        }
+
+        public void DiscardFingerprint(IModule module)
+        {
+            DiscardCount++;
+        }
+    }
+
     private class SuccessfulModule : Module<int>
     {
         protected internal override Task<int> ExecuteAsync(
@@ -80,6 +114,14 @@ public class ModuleExecutionPipelineTests
         Assert.Throws<ObjectDisposedException>(() => _ = linkedCancellationTokenSource.Token);
     }
 
+    private sealed class CachedSuccessfulModule : SuccessfulModule
+    {
+        protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
+            ModularPipelines.Configuration.ModuleConfiguration.Create()
+                .WithCacheKeyPart("v1")
+                .Build();
+    }
+
     [Test]
     public async Task ExecuteAsync_LogsExpectedSkipStatusAsInformation()
     {
@@ -131,5 +173,114 @@ public class ModuleExecutionPipelineTests
             It.Is<It.IsAnyType>((state, _) => state.ToString() == expectedMessage),
             null,
             It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_DiscardsPendingCacheFingerprint()
+    {
+        var module = new SuccessfulModule();
+        var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
+        var logger = new Mock<IModuleLogger>();
+        var services = new Mock<IServicesContext>();
+        services.SetupGet(x => x.Options).Returns(new PipelineOptions());
+        var moduleContext = new Mock<IModuleContext>();
+        moduleContext.SetupGet(x => x.Logger).Returns(logger.Object);
+        moduleContext.SetupGet(x => x.Services).Returns(services.Object);
+
+        var repository = new TrackingCacheRepository();
+        var resultRepository = new Mock<IModuleResultRepository>();
+        resultRepository.SetupGet(x => x.IsEnabled).Returns(false);
+        var directHookInvoker = new Mock<IDirectHookInvoker>();
+        directHookInvoker
+            .Setup(x => x.InvokeBeforeExecuteAsync(
+                module,
+                moduleContext.Object,
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        directHookInvoker
+            .Setup(x => x.InvokeAfterExecuteAsync(
+                module,
+                moduleContext.Object,
+                It.IsAny<ModuleResult<int>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleResult<int>?) null);
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var moduleConditionHandler = new Mock<IModuleConditionHandler>();
+        moduleConditionHandler
+            .Setup(x => x.ShouldIgnore(module, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((false, null));
+        var pipeline = new ModuleExecutionPipeline(
+            resultRepository.Object,
+            engineCancellationToken,
+            directHookInvoker.Object,
+            moduleConditionHandler.Object,
+            OptionsFactory.Create(new PipelineOptions()),
+            repository);
+
+        await pipeline.ExecuteAsync(
+            module,
+            executionContext,
+            moduleContext.Object,
+            CancellationToken.None);
+
+        await Assert.That(repository.DiscardCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task ExecuteAsync_PassesModuleCancellationToCacheOperations()
+    {
+        var module = new CachedSuccessfulModule();
+        var executionContext = new ModuleExecutionContext<int>(module, module.GetType());
+        var logger = new Mock<IModuleLogger>();
+        var services = new Mock<IServicesContext>();
+        services.SetupGet(x => x.Options).Returns(new PipelineOptions());
+        var moduleContext = new Mock<IModuleContext>();
+        moduleContext.SetupGet(x => x.Logger).Returns(logger.Object);
+        moduleContext.SetupGet(x => x.Services).Returns(services.Object);
+
+        var resultRepository = new Mock<IModuleResultRepository>();
+        resultRepository.SetupGet(x => x.IsEnabled).Returns(false);
+        var cacheRepository = new TrackingCacheRepository();
+        var directHookInvoker = new Mock<IDirectHookInvoker>();
+        directHookInvoker
+            .Setup(x => x.InvokeBeforeExecuteAsync(
+                module,
+                moduleContext.Object,
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        directHookInvoker
+            .Setup(x => x.InvokeAfterExecuteAsync(
+                module,
+                moduleContext.Object,
+                It.IsAny<ModuleResult<int>>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ModuleResult<int>?) null);
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+        var moduleConditionHandler = new Mock<IModuleConditionHandler>();
+        moduleConditionHandler
+            .Setup(x => x.ShouldIgnore(module, It.IsAny<CancellationToken>()))
+            .ReturnsAsync((false, null));
+        var pipeline = new ModuleExecutionPipeline(
+            resultRepository.Object,
+            engineCancellationToken,
+            directHookInvoker.Object,
+            moduleConditionHandler.Object,
+            OptionsFactory.Create(new PipelineOptions()),
+            cacheRepository);
+
+        await pipeline.ExecuteAsync(
+            module,
+            executionContext,
+            moduleContext.Object,
+            CancellationToken.None);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(cacheRepository.ReadCancellationToken.CanBeCanceled).IsTrue();
+            await Assert.That(cacheRepository.WriteCancellationToken)
+                .IsEqualTo(cacheRepository.ReadCancellationToken);
+        }
     }
 }

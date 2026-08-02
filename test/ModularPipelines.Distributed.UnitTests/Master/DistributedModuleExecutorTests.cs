@@ -100,6 +100,17 @@ public class DistributedModuleExecutorTests
     /// </summary>
     private class NoDequeueCoordinator(IDistributedCoordinator inner) : IDistributedCoordinator
     {
+        public TaskCompletionSource ResultWaitStarted { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource WorkerQueryStarted { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        private TaskCompletionSource WorkerQueryRelease { get; } =
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public void ReleaseWorkerQuery() => WorkerQueryRelease.TrySetResult();
+
         public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
             => inner.EnqueueModuleAsync(assignment, cancellationToken);
 
@@ -110,13 +121,21 @@ public class DistributedModuleExecutorTests
             => inner.PublishResultAsync(result, cancellationToken);
 
         public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
-            => inner.WaitForResultAsync(moduleTypeName, cancellationToken);
+        {
+            ResultWaitStarted.TrySetResult();
+            return inner.WaitForResultAsync(moduleTypeName, cancellationToken);
+        }
 
         public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
             => inner.RegisterWorkerAsync(registration, cancellationToken);
 
-        public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
-            => inner.GetRegisteredWorkersAsync(cancellationToken);
+        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(
+            CancellationToken cancellationToken)
+        {
+            WorkerQueryStarted.TrySetResult();
+            await WorkerQueryRelease.Task.WaitAsync(cancellationToken);
+            return await inner.GetRegisteredWorkersAsync(cancellationToken);
+        }
 
         public Task SignalCompletionAsync(CancellationToken cancellationToken)
             => inner.SignalCompletionAsync(cancellationToken);
@@ -258,14 +277,11 @@ public class DistributedModuleExecutorTests
             typeof(DistributedModule).FullName!,
             typeof(SimpleResult).FullName!,
             workerIndex: 1);
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(50);
-            await coordinator.PublishResultAsync(serialized, CancellationToken.None);
-        });
-
         // Act
-        await executor.ExecuteAsync([module]);
+        var executionTask = executor.ExecuteAsync([module]);
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        await executionTask;
 
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
@@ -301,14 +317,11 @@ public class DistributedModuleExecutorTests
             typeof(DistributedModule).FullName!,
             typeof(SimpleResult).FullName!,
             workerIndex: 1);
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(50);
-            await coordinator.PublishResultAsync(serialized, CancellationToken.None);
-        });
-
         // Act
-        await executor.ExecuteAsync([module]);
+        var executionTask = executor.ExecuteAsync([module]);
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        await executionTask;
 
         // Assert
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
@@ -537,15 +550,12 @@ public class DistributedModuleExecutorTests
             typeof(DistributedModule).FullName!,
             typeof(SimpleResult).FullName!,
             workerIndex: 1);
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(50);
-            await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
-            // Don't publish moduleB result — it should be cancelled
-        });
-
         // Act
-        await executor.ExecuteAsync([moduleA, moduleB]);
+        var executionTask = executor.ExecuteAsync([moduleA, moduleB]);
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serializedFailure, CancellationToken.None);
+        // Don't publish moduleB result — it should be cancelled
+        await executionTask;
 
         // Assert — module A has failure, module B also gets a failure (cancelled)
         var resultA = resultRegistry.GetResult(typeof(DistributedModule));
@@ -800,14 +810,11 @@ public class DistributedModuleExecutorTests
         // Simulate worker result
         var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
         var serialized = serializer.Serialize(successResult, typeof(DistributedModule).FullName!, typeof(SimpleResult).FullName!, 1);
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(50);
-            await coordinator.PublishResultAsync(serialized, CancellationToken.None);
-        });
-
         // Act
-        await executor.ExecuteAsync([module]);
+        var executionTask = executor.ExecuteAsync([module]);
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        await executionTask;
 
         // Assert
         scheduler.Verify(s => s.MarkModuleStarted(typeof(DistributedModule)), Times.Once());
@@ -873,13 +880,10 @@ public class DistributedModuleExecutorTests
             typeof(DistributedModule).FullName!,
             typeof(SimpleResult).FullName!,
             1);
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(50);
-            await coordinator.PublishResultAsync(serialized, CancellationToken.None);
-        });
-
-        await executor.ExecuteAsync([module]);
+        var executionTask = executor.ExecuteAsync([module]);
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        await executionTask;
 
         scheduler.Verify(s => s.MarkModuleStarted(typeof(DistributedModule)), Times.Exactly(2));
         scheduler.Verify(
@@ -1058,14 +1062,11 @@ public class DistributedModuleExecutorTests
         // Simulate worker failure (properly-typed so serializer accepts it)
         var failureResult = CreateTypedFailureResult(module, new Exception("Failed"));
         var serialized = serializer.Serialize(failureResult, typeof(DistributedModule).FullName!, typeof(SimpleResult).FullName!, 1);
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(50);
-            await coordinator.PublishResultAsync(serialized, CancellationToken.None);
-        });
-
         // Act
-        await executor.ExecuteAsync([module]);
+        var executionTask = executor.ExecuteAsync([module]);
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        await executionTask;
 
         // Assert
         scheduler.Verify(s => s.MarkModuleCompleted(typeof(DistributedModule), false, null, null), Times.Once());
@@ -1163,26 +1164,22 @@ public class DistributedModuleExecutorTests
             Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
-        // Simulate a worker registering after a short delay
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(200);
-            await coordinator.RegisterWorkerAsync(
-                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
-                CancellationToken.None);
-        });
-
-        // Simulate the worker publishing a result slightly later
-        _ = Task.Run(async () =>
-        {
-            await Task.Delay(500);
-            var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
-            var serialized = serializer.Serialize(successResult, typeof(DistributedModule).FullName!, typeof(SimpleResult).FullName!, 1);
-            await coordinator.PublishResultAsync(serialized, CancellationToken.None);
-        });
-
         // Act
-        await executor.ExecuteAsync([module]);
+        var executionTask = executor.ExecuteAsync([module]);
+        await noDequeue.WorkerQueryStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await coordinator.RegisterWorkerAsync(
+            new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+            CancellationToken.None);
+        noDequeue.ReleaseWorkerQuery();
+        await noDequeue.ResultWaitStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
+        var serialized = serializer.Serialize(
+            successResult,
+            typeof(DistributedModule).FullName!,
+            typeof(SimpleResult).FullName!,
+            1);
+        await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        await executionTask;
 
         // Assert — work was distributed and result collected (if barrier didn't work, result would be lost)
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
