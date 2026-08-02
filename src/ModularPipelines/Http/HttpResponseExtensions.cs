@@ -30,27 +30,19 @@ internal static class HttpResponseExtensions
         {
             responseContent = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         }
-        catch (ObjectDisposedException)
-        {
-            // Response content stream was already disposed - continue with null content
-        }
-        catch (InvalidOperationException)
-        {
-            // Content stream is in an invalid state - continue with null content
-        }
-        catch (HttpRequestException)
-        {
-            // Network error while reading content - continue with null content
-        }
         catch (OperationCanceledException)
         {
-            // Reading was cancelled - continue with null content
+            throw;
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
-            // Other unexpected errors reading content - continue with null content
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // Errors reading content do not hide the primary HTTP status failure.
             // The primary error information is in the status code and reason phrase
         }
+
+        cancellationToken.ThrowIfCancellationRequested();
 
         throw new HttpResponseException(
             response.StatusCode,

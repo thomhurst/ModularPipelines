@@ -9,11 +9,13 @@ namespace ModularPipelines.FileSystem;
 public sealed class SystemFileSystemProvider : IFileSystemProvider
 {
     /// <summary>
-    /// Singleton instance for use when no DI is available.
+    /// Gets singleton instance for use when no DI is available.
     /// </summary>
     public static SystemFileSystemProvider Instance { get; } = new();
 
-    private SystemFileSystemProvider() { }
+    private SystemFileSystemProvider()
+    {
+    }
 
     // File read operations
     public Task<string> ReadAllTextAsync(string path, CancellationToken cancellationToken = default)
@@ -60,6 +62,9 @@ public sealed class SystemFileSystemProvider : IFileSystemProvider
 
     public void MoveFile(string sourcePath, string destinationPath)
         => System.IO.File.Move(sourcePath, destinationPath);
+
+    public void MoveFile(string sourcePath, string destinationPath, bool overwrite)
+        => System.IO.File.Move(sourcePath, destinationPath, overwrite);
 
     public bool FileExists(string path)
         => System.IO.File.Exists(path);

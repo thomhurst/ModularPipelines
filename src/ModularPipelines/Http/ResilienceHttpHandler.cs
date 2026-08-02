@@ -105,14 +105,21 @@ internal class ResilienceHttpHandler : DelegatingHandler
                 outcome.Exception.GetType().Name,
                 outcome.Exception.Message,
                 retryAttempt,
-                (int)delay.TotalMilliseconds);
+                (int) delay.TotalMilliseconds);
         }
         else if (outcome.Result != null)
         {
-            logger.LogWarning("HTTP request returned {StatusCode}. Retry attempt {RetryAttempt} after {Delay}ms",
-                (int)outcome.Result.StatusCode,
-                retryAttempt,
-                (int)delay.TotalMilliseconds);
+            try
+            {
+                logger.LogWarning("HTTP request returned {StatusCode}. Retry attempt {RetryAttempt} after {Delay}ms",
+                    (int) outcome.Result.StatusCode,
+                    retryAttempt,
+                    (int) delay.TotalMilliseconds);
+            }
+            finally
+            {
+                outcome.Result.Dispose();
+            }
         }
 
         return Task.CompletedTask;
