@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using ModularPipelines.Caching;
 using ModularPipelines.Engine;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -249,6 +251,40 @@ public static class PipelineBuilderExtensions
         where TRepository : class, IModuleResultRepository
     {
         builder.Services.AddSingleton<IModuleResultRepository, TRepository>();
+        return builder;
+    }
+
+    /// <summary>
+    /// Enables fingerprint-based incremental module caching with the specified storage backend.
+    /// Modules opt in through <see cref="Attributes.CacheInputsAttribute"/>,
+    /// <see cref="Configuration.ModuleConfigurationBuilder.WithCacheKeyPart"/>, or
+    /// <see cref="Configuration.ModuleConfigurationBuilder.WithCacheEnvironmentVariable"/>.
+    /// </summary>
+    /// <typeparam name="TStore">The cache storage backend.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="configure">Optional cache configuration.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddModuleCache<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TStore>(
+        this PipelineBuilder builder,
+        Action<ModuleCacheOptions>? configure = null)
+        where TStore : class, IModuleCacheStore
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+
+        builder.Services.AddOptions<ModuleCacheOptions>();
+        if (configure is not null)
+        {
+            builder.Services.Configure(configure);
+        }
+
+        builder.Services.TryAddSingleton<TStore>();
+        builder.Services.Replace(ServiceDescriptor.Singleton<IModuleCacheStore>(
+            serviceProvider => serviceProvider.GetRequiredService<TStore>()));
+        builder.Services.TryAddSingleton<ModuleCacheFileHasher>();
+        builder.Services.TryAddSingleton<ModuleCacheResultRepository>();
+        builder.Services.TryAddSingleton<IModuleCacheResultRepository>(
+            serviceProvider => serviceProvider.GetRequiredService<ModuleCacheResultRepository>());
         return builder;
     }
 

@@ -38,7 +38,9 @@ internal class ProgressSession : IProgressSession, IProgressController
     private readonly OrganizedModules _modules;
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger _logger;
+    private readonly IAnsiConsole _ansiConsole;
     private readonly CancellationTokenSource _progressLoopCancellationTokenSource;
+    private readonly TaskCompletionSource _started = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
     private readonly ConcurrentDictionary<IModule, ProgressTask> _moduleTasks = new();
     private readonly ConcurrentDictionary<SubModuleBase, ProgressTask> _subModuleTasks = new();
@@ -64,12 +66,14 @@ internal class ProgressSession : IProgressSession, IProgressController
         OrganizedModules modules,
         IOptions<PipelineOptions> options,
         ILoggerFactory loggerFactory,
+        IAnsiConsole ansiConsole,
         CancellationToken cancellationToken)
     {
         _coordinator = coordinator;
         _modules = modules;
         _options = options;
         _logger = loggerFactory.CreateLogger<ProgressSession>();
+        _ansiConsole = ansiConsole;
         _progressLoopCancellationTokenSource =
             CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
     }
@@ -77,17 +81,22 @@ internal class ProgressSession : IProgressSession, IProgressController
     /// <summary>
     /// Starts the progress display loop.
     /// </summary>
-    public void Start()
+    public Task StartAsync()
     {
         lock (_progressLock)
         {
-            if (_progressLoopTask is not null || _disposeTask is not null)
+            if (_disposeTask is not null)
             {
-                return;
+                return Task.CompletedTask;
             }
 
-            _totalModuleCount = _modules.RunnableModules.Count;
-            _progressLoopTask = RunProgressLoopAsync();
+            if (_progressLoopTask is null)
+            {
+                _totalModuleCount = _modules.RunnableModules.Count;
+                _progressLoopTask = RunProgressLoopAsync();
+            }
+
+            return _started.Task;
         }
     }
 
@@ -96,7 +105,7 @@ internal class ProgressSession : IProgressSession, IProgressController
         var cancellationToken = _progressLoopCancellationTokenSource.Token;
         try
         {
-            await AnsiConsole.Progress()
+            await _ansiConsole.Progress()
                 .AutoRefresh(false) // Disable auto-refresh so we can pause rendering during output writes
                 .AutoClear(false)
                 .HideCompleted(false)
@@ -122,10 +131,16 @@ internal class ProgressSession : IProgressSession, IProgressController
                     // Register all pending modules upfront so users can see what's coming
                     RegisterPendingModules(ctx);
 
+                    ctx.Refresh();
+                    _started.TrySetResult();
+
                     // Keep alive until all modules complete or cancellation
                     while (!ctx.IsFinished)
                     {
-                        cancellationToken.ThrowIfCancellationRequested();
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
 
                         // Check pause state and prepare for refresh
                         bool shouldRefresh;
@@ -171,6 +186,10 @@ internal class ProgressSession : IProgressSession, IProgressController
                                     _refreshCompleted = null;
                                 }
                             }
+                            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                            {
+                                break;
+                            }
                         }
                         else if (shouldRefresh)
                         {
@@ -194,8 +213,20 @@ internal class ProgressSession : IProgressSession, IProgressController
                             }
                         }
 
-                        await Task.Delay(RefreshInterval, cancellationToken).ConfigureAwait(false);
+                        try
+                        {
+                            await Task.Delay(RefreshInterval, cancellationToken).ConfigureAwait(false);
+                        }
+                        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
                     }
+
+                    // Render state changes made immediately before disposal. The periodic
+                    // loop may be cancelled before its next scheduled refresh.
+                    UpdateProgressTickers();
+                    ctx.Refresh();
                 })
                 .ConfigureAwait(false);
         }
@@ -206,6 +237,10 @@ internal class ProgressSession : IProgressSession, IProgressController
         catch (Exception)
         {
             // Suppress exceptions from progress display
+        }
+        finally
+        {
+            _started.TrySetResult();
         }
     }
 
@@ -527,7 +562,6 @@ internal class ProgressSession : IProgressSession, IProgressController
 
     private async Task DisposeCoreAsync()
     {
-        _progressLoopCancellationTokenSource.Cancel();
         TaskCompletionSource? refreshCompletion;
 
         // Signal resume in case we're disposed while paused
@@ -570,6 +604,10 @@ internal class ProgressSession : IProgressSession, IProgressController
 
             _progressTickers.Clear();
         }
+
+        // Cancel only after terminal task state is recorded so the progress loop's
+        // final refresh renders those changes before its live callback exits.
+        _progressLoopCancellationTokenSource.Cancel();
 
         if (_progressLoopTask is not null)
         {
