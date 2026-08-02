@@ -11,7 +11,7 @@ internal sealed class LocalFtpServer : IAsyncDisposable
     public const string Contents = "local FTP fixture\r\n";
 
     private static readonly byte[] ContentBytes = Encoding.UTF8.GetBytes(Contents);
-    private readonly CancellationTokenSource _cancellationTokenSource = new(TimeSpan.FromSeconds(15));
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
     private readonly ConcurrentBag<Task> _clientTasks = [];
     private readonly ConcurrentQueue<string> _commands = new();
     private readonly TcpListener _listener;
