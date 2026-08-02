@@ -19,6 +19,22 @@ public class DependencySkipDecisionFactoryTests
             "Required dependency 'IntermediateDependency' was skipped: Disabled by configuration");
     }
 
+    [Test]
+    [Arguments(null)]
+    [Arguments("   ")]
+    public async Task Create_CollapsesNestedDependencyReasonsWithoutRootCause(string? rootReason)
+    {
+        var rootDecision = SkipDecision.Skip(rootReason);
+        var intermediateDecision = DependencySkipDecisionFactory.Create(
+            [(typeof(RootDependency), rootDecision)]);
+
+        var decision = DependencySkipDecisionFactory.Create(
+            [(typeof(IntermediateDependency), intermediateDecision)]);
+
+        await Assert.That(decision.Reason).IsEqualTo(
+            "Required dependency 'IntermediateDependency' was skipped");
+    }
+
     private sealed class RootDependency
     {
     }

@@ -6,6 +6,7 @@ internal static class DependencySkipDecisionFactory
 {
     private const string DependencyReasonPrefix = "Required dependency '";
     private const string DependencyReasonSeparator = " was skipped: ";
+    private const string DependencyReasonSuffix = "' was skipped";
 
     public static SkipDecision Create(
         IReadOnlyList<(Type ModuleType, SkipDecision? SkipDecision)> skippedDependencies)
@@ -37,7 +38,9 @@ internal static class DependencySkipDecisionFactory
                 StringComparison.Ordinal);
             if (separatorIndex < 0)
             {
-                break;
+                return reason.EndsWith(DependencyReasonSuffix, StringComparison.Ordinal)
+                    ? null
+                    : reason;
             }
 
             reason = reason[(separatorIndex + DependencyReasonSeparator.Length)..];
