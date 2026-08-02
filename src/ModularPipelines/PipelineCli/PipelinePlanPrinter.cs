@@ -24,9 +24,11 @@ internal sealed class PipelinePlanPrinter(IConsoleWriter consoleWriter)
         {
             foreach (var module in wave.Modules)
             {
-                var decision = module.ShouldSkip
-                    ? $"[yellow]Skip: {Markup.Escape(module.SkipDecision.Reason ?? "No reason provided")}[/]"
-                    : "[green]Run[/]";
+                var decision = module.SkipDecision is null
+                    ? "[yellow]Unknown: requires module results[/]"
+                    : module.ShouldSkip
+                        ? $"[yellow]Skip: {Markup.Escape(module.SkipDecision.Reason ?? "No reason provided")}[/]"
+                        : "[green]Run[/]";
                 table.AddRow(
                     wave.Number.ToString(System.Globalization.CultureInfo.InvariantCulture),
                     Markup.Escape(wave.EstimatedDuration.ToDisplayString()),

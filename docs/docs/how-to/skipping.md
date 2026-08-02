@@ -15,6 +15,8 @@ both invoke skipped hooks and lifecycle notifications.
 
 `PlanAsync()` and `--dry-run` also evaluate these conditions before execution. Conditions must be
 side-effect-free and must not rely on being evaluated exactly once.
+If a fluent condition reads an awaited module result, that result does not exist during planning;
+the plan reports the module's skip decision as unknown and continues without executing modules.
 
 ### Simple Condition
 

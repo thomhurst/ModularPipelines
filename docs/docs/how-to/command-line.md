@@ -89,7 +89,9 @@ foreach (var wave in plan.Waves)
 {
     foreach (var module in wave.Modules)
     {
-        Console.WriteLine($"{wave.Number}: {module.ModuleName} - {module.SkipDecision.Reason}");
+        var decision = module.SkipDecision?.Reason
+            ?? (module.IsSkipDecisionKnown ? "Run" : "Unknown: requires module results");
+        Console.WriteLine($"{wave.Number}: {module.ModuleName} - {decision}");
     }
 }
 ```
@@ -98,6 +100,8 @@ The planner validates the dependency graph, evaluates module selection, category
 attribute and fluent skip conditions, cascades required dependency skips, and obtains duration
 estimates. It does not invoke module bodies or execution lifecycle hooks. A wave estimate is the
 longest runnable module estimate in that wave; the plan estimate is the sum of all wave estimates.
+Fluent conditions that await module results have an unknown skip decision because those results do
+not exist until execution.
 
 ## Disable Built-In Parsing
 

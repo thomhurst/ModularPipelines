@@ -100,6 +100,32 @@ public class PipelineCommandLineTests
             Task.FromResult<string?>("invalid");
     }
 
+    [AddRegistrationDependency(typeof(DependencyModule))]
+    private sealed class RegistrationDependentModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+    private sealed class ResultDependentSkipModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(async (context, _) =>
+            {
+                await context.GetModule<DependencyModule>();
+                return SkipDecision.Skip("dependency result matched");
+            })
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
     [ModuleCategory("selected")]
     private sealed class SelectedCategoryModule : Module<string>
     {
@@ -416,6 +442,46 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task PlanAsyncIncludesRegistrationTimeDependenciesInWaves()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<RegistrationDependentModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plan.Waves).Count().IsEqualTo(2);
+            await Assert.That(plan.Waves[0].Modules.Single().Module).IsTypeOf<DependencyModule>();
+            await Assert.That(plan.Waves[1].Modules.Single().Module).IsTypeOf<RegistrationDependentModule>();
+        }
+    }
+
+    [Test]
+    public async Task PlanAsyncMarksResultDependentFluentSkipDecisionUnknown()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<ResultDependentSkipModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        var plannedModule = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is ResultDependentSkipModule);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plannedModule.IsSkipDecisionKnown).IsFalse();
+            await Assert.That(plannedModule.ShouldSkip).IsFalse();
+            await Assert.That((object?) plannedModule.SkipDecision).IsNull();
+            await Assert.That(_dependencyExecutions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task PlanAsyncEvaluatesAllSkipSourcesAndCascadesDependencies()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -436,15 +502,15 @@ public class PipelineCommandLineTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(modules[typeof(FluentlySkippedModule)].SkipDecision.Reason)
+            await Assert.That(modules[typeof(FluentlySkippedModule)].SkipDecision!.Reason)
                 .IsEqualTo("fluent skip");
-            await Assert.That(modules[typeof(AttributeSkippedModule)].SkipDecision.Reason)
+            await Assert.That(modules[typeof(AttributeSkippedModule)].SkipDecision!.Reason)
                 .Contains("RunIfAll");
-            await Assert.That(modules[typeof(SkippedDependencyModule)].SkipDecision.Reason)
+            await Assert.That(modules[typeof(SkippedDependencyModule)].SkipDecision!.Reason)
                 .IsEqualTo("dependency unavailable");
-            await Assert.That(modules[typeof(DependentOnSkippedModule)].SkipDecision.Reason)
+            await Assert.That(modules[typeof(DependentOnSkippedModule)].SkipDecision!.Reason)
                 .Contains(nameof(SkippedDependencyModule));
-            await Assert.That(modules[typeof(UnrelatedModule)].SkipDecision.Reason)
+            await Assert.That(modules[typeof(UnrelatedModule)].SkipDecision!.Reason)
                 .Contains("runnable category");
             await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.Zero);
         }

@@ -26,6 +26,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     private readonly IModuleLogger _logger;
     private readonly IMediator _mediator;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
+    private readonly bool _moduleResultAccessAllowed;
     private readonly Lazy<Task<SubModuleEstimation[]>> _subModuleEstimations;
 
     public ModuleContext(
@@ -34,7 +35,8 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         ModuleExecutionContext executionContext,
         IModuleLogger logger,
         IMediator mediator,
-        ISafeModuleEstimatedTimeProvider estimatedTimeProvider)
+        ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
+        bool moduleResultAccessAllowed = true)
     {
         _pipelineContext = pipelineContext;
         _internalContext = (IInternalPipelineContext) pipelineContext;
@@ -43,6 +45,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         _logger = logger;
         _mediator = mediator;
         _estimatedTimeProvider = estimatedTimeProvider;
+        _moduleResultAccessAllowed = moduleResultAccessAllowed;
         _subModuleEstimations = new Lazy<Task<SubModuleEstimation[]>>(LoadSubModuleEstimationsAsync);
     }
 
@@ -52,6 +55,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         where TModule : class, IModule
     {
         var moduleType = typeof(TModule);
+        EnsureModuleResultAccessAllowed(moduleType);
 
         // Check for self-reference
         if (moduleType == _currentModule.GetType())
@@ -78,6 +82,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         where TModule : class, IModule
     {
         var moduleType = typeof(TModule);
+        EnsureModuleResultAccessAllowed(moduleType);
 
         // Check for self-reference - still throw, as this is a programming error
         if (moduleType == _currentModule.GetType())
@@ -88,6 +93,14 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         }
 
         return _internalContext.GetModule<TModule>();
+    }
+
+    private void EnsureModuleResultAccessAllowed(Type moduleType)
+    {
+        if (!_moduleResultAccessAllowed)
+        {
+            throw new PlanningModuleResultUnavailableException(moduleType);
+        }
     }
 
     public string? GetMatrixTarget()

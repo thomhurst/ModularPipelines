@@ -25,14 +25,20 @@ public sealed record PipelinePlanModule
     public string? Category { get; }
 
     /// <summary>
-    /// Gets the result of evaluating selection, category, attribute, fluent, and dependency skip conditions.
+    /// Gets the result of evaluating selection, category, attribute, fluent, and dependency skip conditions,
+    /// or <see langword="null"/> when a fluent condition requires module results unavailable during planning.
     /// </summary>
-    public SkipDecision SkipDecision { get; }
+    public SkipDecision? SkipDecision { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether all skip conditions could be evaluated while planning.
+    /// </summary>
+    public bool IsSkipDecisionKnown => SkipDecision is not null;
 
     /// <summary>
     /// Gets a value indicating whether this module would be skipped.
     /// </summary>
-    public bool ShouldSkip => SkipDecision.ShouldSkip;
+    public bool ShouldSkip => SkipDecision?.ShouldSkip is true;
 
     /// <summary>
     /// Gets the estimated module duration. Skipped modules have a zero duration.
@@ -42,7 +48,7 @@ public sealed record PipelinePlanModule
     internal PipelinePlanModule(
         IModule module,
         string? category,
-        SkipDecision skipDecision,
+        SkipDecision? skipDecision,
         TimeSpan estimatedDuration)
     {
         Module = module;

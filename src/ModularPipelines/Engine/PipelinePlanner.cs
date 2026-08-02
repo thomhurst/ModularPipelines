@@ -65,19 +65,24 @@ internal sealed class PipelinePlanner
         var selection = ModuleSelection.Create(_modules, _dependencyChainProvider, _options.Value);
         var runnableModules = new List<IModule>();
         var ignoredModules = new List<IgnoredModule>();
+        var modulesWithUnknownSkipDecisions = new HashSet<IModule>(ReferenceEqualityComparer.Instance);
 
         foreach (var module in _modules)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var skipDecision = await EvaluateSkipDecisionAsync(module, selection, cancellationToken)
                 .ConfigureAwait(false);
-            if (skipDecision.ShouldSkip)
+            if (skipDecision?.ShouldSkip is true)
             {
                 ignoredModules.Add(new IgnoredModule(module, skipDecision));
             }
             else
             {
                 runnableModules.Add(module);
+                if (skipDecision is null)
+                {
+                    modulesWithUnknownSkipDecisions.Add(module);
+                }
             }
         }
 
@@ -100,10 +105,12 @@ internal sealed class PipelinePlanner
         var estimates = await GetEstimatesAsync(cascadeResult.RunnableModules).ConfigureAwait(false);
 
         _dependencyChainProvider.Initialize(_modules);
-        return new PipelinePlan(_modules, BuildWaves(skipDecisions, estimates));
+        return new PipelinePlan(
+            _modules,
+            BuildWaves(skipDecisions, modulesWithUnknownSkipDecisions, estimates));
     }
 
-    private async Task<SkipDecision> EvaluateSkipDecisionAsync(
+    private async Task<SkipDecision?> EvaluateSkipDecisionAsync(
         IModule module,
         ModuleSelection selection,
         CancellationToken cancellationToken)
@@ -131,7 +138,7 @@ internal sealed class PipelinePlanner
             .ConfigureAwait(false);
     }
 
-    private async Task<SkipDecision> EvaluateFluentSkipConditionAsync(
+    private async Task<SkipDecision?> EvaluateFluentSkipConditionAsync(
         IModule module,
         ModuleConfiguration configuration,
         CancellationToken cancellationToken)
@@ -148,8 +155,16 @@ internal sealed class PipelinePlanner
                 executionContext,
                 scopedServices.GetRequiredService<IInternalModuleLoggerProvider>().GetLogger(module.GetType()),
                 _mediator,
-                _estimatedTimeProvider);
-            return await configuration.SkipCondition!(moduleContext, cancellationToken).ConfigureAwait(false);
+                _estimatedTimeProvider,
+                moduleResultAccessAllowed: false);
+            try
+            {
+                return await configuration.SkipCondition!(moduleContext, cancellationToken).ConfigureAwait(false);
+            }
+            catch (PlanningModuleResultUnavailableException)
+            {
+                return null;
+            }
         }
         finally
         {
@@ -176,6 +191,7 @@ internal sealed class PipelinePlanner
 
     private IReadOnlyList<PipelinePlanWave> BuildWaves(
         IReadOnlyDictionary<IModule, SkipDecision> skipDecisions,
+        IReadOnlySet<IModule> modulesWithUnknownSkipDecisions,
         IReadOnlyDictionary<IModule, TimeSpan> estimates)
     {
         var remainingDependencies = _dependencyChainProvider.ModuleDependencyModels.ToDictionary(
@@ -191,7 +207,11 @@ internal sealed class PipelinePlanner
         while (currentWave.Length > 0)
         {
             var plannedModules = currentWave
-                .Select(model => CreatePlannedModule(model.Module, skipDecisions, estimates))
+                .Select(model => CreatePlannedModule(
+                    model.Module,
+                    skipDecisions,
+                    modulesWithUnknownSkipDecisions,
+                    estimates))
                 .ToArray();
             waves.Add(new PipelinePlanWave(waves.Count + 1, plannedModules));
 
@@ -219,9 +239,12 @@ internal sealed class PipelinePlanner
     private PipelinePlanModule CreatePlannedModule(
         IModule module,
         IReadOnlyDictionary<IModule, SkipDecision> skipDecisions,
+        IReadOnlySet<IModule> modulesWithUnknownSkipDecisions,
         IReadOnlyDictionary<IModule, TimeSpan> estimates)
     {
-        var skipDecision = skipDecisions.GetValueOrDefault(module, SkipDecision.DoNotSkip);
+        var skipDecision = modulesWithUnknownSkipDecisions.Contains(module)
+            ? null
+            : skipDecisions.GetValueOrDefault(module, SkipDecision.DoNotSkip);
         var estimatedDuration = estimates.GetValueOrDefault(module, TimeSpan.Zero);
         return new PipelinePlanModule(
             module,

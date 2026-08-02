@@ -10,6 +10,8 @@ Reusable run conditions implement `IRunCondition`:
 Run conditions may be evaluated both during execution and by `PlanAsync()` or `--dry-run`.
 Keep them side-effect-free: they must not mutate external state or rely on being evaluated
 exactly once.
+Fluent conditions that await module results are reported as unknown in a dry-run plan because
+planning never executes dependencies to produce those results.
 
 ```csharp
 public class ServiceIsAvailable : IRunCondition
