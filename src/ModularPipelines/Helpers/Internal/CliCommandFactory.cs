@@ -13,7 +13,10 @@ internal static class CliCommandFactory
         CommandExecutionOptions? executionOptions = null)
     {
         var argumentList = arguments.ToList();
-        var commandScript = ResolveWindowsCommandScript(tool, executionOptions?.EnvironmentVariables);
+        var commandScript = ResolveWindowsCommandScript(
+            tool,
+            executionOptions?.WorkingDirectory,
+            executionOptions?.EnvironmentVariables);
         if (commandScript is null)
         {
             return ApplyEnvironmentVariables(
@@ -71,6 +74,7 @@ internal static class CliCommandFactory
 
     private static string? ResolveWindowsCommandScript(
         string tool,
+        string? workingDirectory,
         IEnumerable<KeyValuePair<string, string?>>? environmentVariables)
     {
         var path = GetEnvironmentVariable(environmentVariables, "PATH")
@@ -79,7 +83,7 @@ internal static class CliCommandFactory
             ?? Environment.GetEnvironmentVariable("PATHEXT");
         var resolvedCommand = WindowsCommandResolver.Resolve(
             tool,
-            Environment.CurrentDirectory,
+            workingDirectory ?? Environment.CurrentDirectory,
             path,
             pathExtensions);
 

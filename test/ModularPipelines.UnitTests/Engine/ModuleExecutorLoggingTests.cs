@@ -297,7 +297,8 @@ public class ModuleExecutorLoggingTests
             moduleRunner.Object,
             parallelLimitProvider.Object,
             pipelineOptions,
-            NullLogger<AlwaysRunHandler>.Instance);
+            NullLogger<AlwaysRunHandler>.Instance,
+            TimeProvider.System);
         var executor = new ModuleExecutor(
             schedulerFactory.Object,
             moduleRunner.Object,
