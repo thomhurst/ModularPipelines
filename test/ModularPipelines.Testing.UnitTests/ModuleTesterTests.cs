@@ -227,6 +227,35 @@ public class ModuleTesterTests
     }
 
     [Test]
+    public async Task ConcurrentCommandsPreserveInvocationOrder()
+    {
+        var releaseFirstCommand = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var run = await ModuleTester.For<ConcurrentCommandModule, string>()
+            .InterceptCommands(async (invocation, cancellationToken) =>
+            {
+                if (invocation.CommandLine.Tool == "first-tool")
+                {
+                    await releaseFirstCommand.Task.WaitAsync(cancellationToken);
+                }
+                else
+                {
+                    releaseFirstCommand.TrySetResult();
+                }
+
+                return CommandResult.Ok(invocation.CommandLine.Tool);
+            })
+            .ExecuteAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(run.Commands).Count().IsEqualTo(2);
+            await Assert.That(run.Commands[0].CommandLine.Tool).IsEqualTo("first-tool");
+            await Assert.That(run.Commands[1].CommandLine.Tool).IsEqualTo("second-tool");
+        }
+    }
+
+    [Test]
     public async Task ReturnsOverriddenFileSystemProvider()
     {
         var fileSystem = new InMemoryFileSystemProvider();
@@ -488,6 +517,24 @@ public class ModuleTesterTests
 
             var copy = source.CopyTo(root.GetFolder("copy").Path);
             return await copy.GetFile("artifact.txt").ReadAsync(cancellationToken);
+        }
+    }
+
+    public sealed class ConcurrentCommandModule : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var first = context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("first-tool"),
+                cancellationToken: cancellationToken);
+            var second = context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("second-tool"),
+                cancellationToken: cancellationToken);
+
+            var results = await Task.WhenAll(first, second);
+            return string.Join(',', results.Select(result => result.StandardOutput));
         }
     }
 

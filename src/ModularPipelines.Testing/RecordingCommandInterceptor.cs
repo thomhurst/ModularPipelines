@@ -6,11 +6,13 @@ namespace ModularPipelines.Testing;
 
 internal sealed class RecordingCommandInterceptor : ICommandInterceptor
 {
-    private readonly ConcurrentQueue<RecordedCommand> _commands = new();
+    private readonly ConcurrentQueue<(long Sequence, RecordedCommand Command)> _commands = new();
     private Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>> _handler =
         static (_, _) => ValueTask.FromResult(CommandResult.Ok());
+    private long _nextSequence;
 
-    public IReadOnlyList<RecordedCommand> Commands => [.. _commands];
+    public IReadOnlyList<RecordedCommand> Commands =>
+        [.. _commands.OrderBy(record => record.Sequence).Select(record => record.Command)];
 
     public void SetHandler(Func<CommandInvocation, CancellationToken, ValueTask<CommandResult>> handler)
     {
@@ -21,6 +23,7 @@ internal sealed class RecordingCommandInterceptor : ICommandInterceptor
         CommandInvocation invocation,
         CancellationToken cancellationToken = default)
     {
+        var sequence = Interlocked.Increment(ref _nextSequence);
         var result = await _handler(invocation, cancellationToken).ConfigureAwait(false);
         var effectiveResult = result with
         {
@@ -28,7 +31,7 @@ internal sealed class RecordingCommandInterceptor : ICommandInterceptor
             WorkingDirectory = invocation.WorkingDirectory,
             EnvironmentVariables = invocation.EnvironmentVariables,
         };
-        _commands.Enqueue(new RecordedCommand(invocation, effectiveResult));
+        _commands.Enqueue((sequence, new RecordedCommand(invocation, effectiveResult)));
         return result;
     }
 }
