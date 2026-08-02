@@ -530,7 +530,8 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
 
     /// <inheritdoc />
     public string GetTempPath() =>
-        Path.Combine(Path.GetTempPath(), "ModularPipelines.Testing");
+        Path.Combine(Path.GetTempPath(), "ModularPipelines.Testing")
+        + Path.DirectorySeparatorChar;
 
     /// <inheritdoc />
     public string GetRandomFileName() => Path.GetRandomFileName();

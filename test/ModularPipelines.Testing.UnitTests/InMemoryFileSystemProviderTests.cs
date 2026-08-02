@@ -206,6 +206,21 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task TempPathEndsWithDirectorySeparator()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var tempPath = provider.GetTempPath();
+        var childPath = tempPath + "artifact.txt";
+
+        await provider.WriteAllTextAsync(childPath, "contents");
+
+        await Assert.That(Path.EndsInDirectorySeparator(tempPath)).IsTrue();
+        await Assert.That(Path.GetDirectoryName(childPath))
+            .IsEqualTo(tempPath.TrimEnd(Path.DirectorySeparatorChar));
+        await Assert.That(provider.FileExists(childPath)).IsTrue();
+    }
+
+    [Test]
     [Arguments("")]
     [Arguments(" ")]
     [Arguments("\0")]
