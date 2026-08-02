@@ -1693,56 +1693,86 @@ internal static class ModuleAuthoringAnalysis
                     visitedLocals,
                     visitedMethods);
             case IAnonymousFunctionOperation anonymousFunction:
-                var returnValues = anonymousFunction.Body
-                    .DescendantsAndSelf()
-                    .OfType<IReturnOperation>()
-                    .Where(returnOperation =>
-                        ReferenceEquals(
-                            GetEnclosingCallable(returnOperation),
-                            anonymousFunction))
-                    .Select(static returnOperation => returnOperation.ReturnedValue)
-                    .OfType<IOperation>()
-                    .ToArray();
-                return returnValues.Length > 0
-                       && returnValues.All(returnValue =>
-                           TryTrackInstanceModuleTypes(
-                               returnValue,
-                               compilation,
-                               instanceRegisteredModules,
-                               CloneVisitedLocals(visitedLocals),
-                               CloneVisitedMethods(visitedMethods)));
+                return TryTrackAnonymousFunctionModuleTypes(
+                    anonymousFunction,
+                    compilation,
+                    instanceRegisteredModules,
+                    visitedLocals,
+                    visitedMethods);
             case IConditionalOperation conditional:
-                if (conditional.Condition.ConstantValue is
-                    { HasValue: true, Value: bool condition })
-                {
-                    var selectedBranch = condition
-                        ? conditional.WhenTrue
-                        : conditional.WhenFalse;
-                    return selectedBranch is not null
-                           && TryTrackInstanceModuleTypes(
-                               selectedBranch,
-                               compilation,
-                               instanceRegisteredModules,
-                               visitedLocals,
-                               visitedMethods);
-                }
-
-                return TryTrackInstanceModuleTypes(
-                           conditional.WhenTrue,
-                           compilation,
-                           instanceRegisteredModules,
-                           CloneVisitedLocals(visitedLocals),
-                           CloneVisitedMethods(visitedMethods))
-                       && conditional.WhenFalse is { } whenFalse
-                       && TryTrackInstanceModuleTypes(
-                           whenFalse,
-                           compilation,
-                           instanceRegisteredModules,
-                           CloneVisitedLocals(visitedLocals),
-                           CloneVisitedMethods(visitedMethods));
+                return TryTrackConditionalModuleTypes(
+                    conditional,
+                    compilation,
+                    instanceRegisteredModules,
+                    visitedLocals,
+                    visitedMethods);
             default:
                 return false;
         }
+    }
+
+    private static bool TryTrackAnonymousFunctionModuleTypes(
+        IAnonymousFunctionOperation anonymousFunction,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var returnValues = anonymousFunction.Body
+            .DescendantsAndSelf()
+            .OfType<IReturnOperation>()
+            .Where(returnOperation =>
+                ReferenceEquals(
+                    GetEnclosingCallable(returnOperation),
+                    anonymousFunction))
+            .Select(static returnOperation => returnOperation.ReturnedValue)
+            .OfType<IOperation>()
+            .ToArray();
+        return returnValues.Length > 0
+               && returnValues.All(returnValue =>
+                   TryTrackInstanceModuleTypes(
+                       returnValue,
+                       compilation,
+                       instanceRegisteredModules,
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static bool TryTrackConditionalModuleTypes(
+        IConditionalOperation conditional,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (conditional.Condition.ConstantValue is
+            { HasValue: true, Value: bool condition })
+        {
+            var selectedBranch = condition
+                ? conditional.WhenTrue
+                : conditional.WhenFalse;
+            return selectedBranch is not null
+                   && TryTrackInstanceModuleTypes(
+                       selectedBranch,
+                       compilation,
+                       instanceRegisteredModules,
+                       visitedLocals,
+                       visitedMethods);
+        }
+
+        return TryTrackInstanceModuleTypes(
+                   conditional.WhenTrue,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods))
+               && conditional.WhenFalse is { } whenFalse
+               && TryTrackInstanceModuleTypes(
+                   whenFalse,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods));
     }
 
     private static bool TryTrackInstanceModuleTypesLocal(
