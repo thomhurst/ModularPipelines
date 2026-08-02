@@ -16,7 +16,7 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class CliOptionAttribute(string name) : System.Attribute;
 
             [System.AttributeUsage(System.AttributeTargets.Property)]
-            public sealed class SecretValueAttribute(params string[] keys) : System.Attribute;
+            public class SecretValueAttribute(params string[] keys) : System.Attribute;
         }
         """;
 
@@ -65,6 +65,42 @@ public class IncompleteMetadataDiagnosticTests
             result,
             "MPG0004",
             "global::Secrets");
+    }
+
+    [Test]
+    public async Task Derived_Secret_Attribute_Marks_Metadata_Incomplete()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public sealed class NamedSecretAttribute
+                : ModularPipelines.Attributes.SecretValueAttribute
+            {
+                public NamedSecretAttribute() : base("password")
+                {
+                }
+            }
+
+            public sealed class Secrets
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "";
+
+                [NamedSecret]
+                public string Password { get; } = "";
+            }
+            """);
+
+        await AssertIncompleteDiagnostic(
+            result,
+            "MPG0004",
+            "global::Secrets");
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        await Assert.That(generatedSource).Contains("new(\"Token\"");
+        await Assert.That(generatedSource).DoesNotContain("new(\"Password\"");
+        await Assert.That(generatedSource).Contains("isComplete: false");
     }
 
     [Test]
