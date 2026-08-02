@@ -25,14 +25,14 @@ internal class Downloader : IDownloaderContext
     public async Task<string?> DownloadStringAsync(DownloadOptions options,
         CancellationToken cancellationToken = default)
     {
-        var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
+        using var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
 
         return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<File> DownloadFileAsync(DownloadFileOptions options, CancellationToken cancellationToken = default)
     {
-        var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
+        using var response = await DownloadResponseAsync(options, cancellationToken).ConfigureAwait(false);
 
         var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
         await using (stream.ConfigureAwait(false))
@@ -44,10 +44,26 @@ internal class Downloader : IDownloaderContext
                 throw new IOException($"{filePathToSave} already exists and overwrite is false");
             }
 
-            var newFile = _fileSystemProvider.Create(filePathToSave);
-            await using (newFile.ConfigureAwait(false))
+            var destinationDirectory = Path.GetDirectoryName(filePathToSave);
+            var temporaryPath = Path.Combine(
+                destinationDirectory ?? string.Empty,
+                _fileSystemProvider.GetRandomFileName());
+            try
             {
-                await stream.CopyToAsync(newFile, cancellationToken).ConfigureAwait(false);
+                var newFile = _fileSystemProvider.Create(temporaryPath);
+                await using (newFile.ConfigureAwait(false))
+                {
+                    await stream.CopyToAsync(newFile, cancellationToken).ConfigureAwait(false);
+                }
+
+                _fileSystemProvider.MoveFile(temporaryPath, filePathToSave, options.Overwrite);
+            }
+            finally
+            {
+                if (_fileSystemProvider.FileExists(temporaryPath))
+                {
+                    _fileSystemProvider.DeleteFile(temporaryPath);
+                }
             }
 
             _moduleLoggerProvider.GetLogger().LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
@@ -68,7 +84,15 @@ internal class Downloader : IDownloaderContext
             HttpClient = options.HttpClient,
         }, cancellationToken).ConfigureAwait(false);
 
-        return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch
+        {
+            response.Dispose();
+            throw;
+        }
     }
 
     /// <summary>

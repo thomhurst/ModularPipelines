@@ -120,7 +120,7 @@ public record FluxResumeImageUpdateOptions : FluxOptions
     /// Path to the kubeconfig file to use for CLI requests.
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// If present, the namespace scope for this CLI request (default "flux-system")
@@ -176,5 +176,11 @@ public record FluxResumeImageUpdateOptions : FluxOptions
     /// </summary>
     [CliFlag("--wait")]
     public bool? Wait { get; set; }
+
+    /// <summary>
+    /// The name operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Name { get; set; }
 
 }

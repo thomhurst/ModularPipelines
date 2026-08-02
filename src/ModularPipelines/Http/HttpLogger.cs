@@ -28,7 +28,20 @@ internal class HttpLogger : IHttpLogger
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task PrintRequest(HttpRequestMessage request, IModuleLogger logger)
     {
-        return PrintRequest(request, logger, HttpLoggingOptions.Default);
+        return PrintRequest(
+            request,
+            logger,
+            HttpLoggingOptions.Default,
+            CancellationToken.None);
+    }
+
+    /// <inheritdoc/>
+    public Task PrintRequest(
+        HttpRequestMessage request,
+        IModuleLogger logger,
+        CancellationToken cancellationToken)
+    {
+        return PrintRequest(request, logger, HttpLoggingOptions.Default, cancellationToken);
     }
 
     /// <summary>
@@ -38,14 +51,26 @@ internal class HttpLogger : IHttpLogger
     /// <param name="logger">The current module logger.</param>
     /// <param name="options">Options controlling what parts of the request to log.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public async Task PrintRequest(HttpRequestMessage request, IModuleLogger logger, HttpLoggingOptions options)
+    public Task PrintRequest(HttpRequestMessage request, IModuleLogger logger, HttpLoggingOptions options)
+    {
+        return PrintRequest(request, logger, options, CancellationToken.None);
+    }
+
+    /// <inheritdoc/>
+    public async Task PrintRequest(
+        HttpRequestMessage request,
+        IModuleLogger logger,
+        HttpLoggingOptions options,
+        CancellationToken cancellationToken)
     {
         if (!options.LogRequest)
         {
             return;
         }
 
-        var formattedRequest = await _requestFormatter.FormatAsync(request, options).ConfigureAwait(false);
+        var formattedRequest = await _requestFormatter
+            .FormatAsync(request, options, cancellationToken)
+            .ConfigureAwait(false);
         logger.LogInformation("HTTP Request:\n{Request}", formattedRequest);
     }
 
@@ -57,7 +82,20 @@ internal class HttpLogger : IHttpLogger
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task PrintResponse(HttpResponseMessage response, IModuleLogger logger)
     {
-        return PrintResponse(response, logger, HttpLoggingOptions.Default);
+        return PrintResponse(
+            response,
+            logger,
+            HttpLoggingOptions.Default,
+            CancellationToken.None);
+    }
+
+    /// <inheritdoc/>
+    public Task PrintResponse(
+        HttpResponseMessage response,
+        IModuleLogger logger,
+        CancellationToken cancellationToken)
+    {
+        return PrintResponse(response, logger, HttpLoggingOptions.Default, cancellationToken);
     }
 
     /// <summary>
@@ -67,20 +105,32 @@ internal class HttpLogger : IHttpLogger
     /// <param name="logger">The current module logger.</param>
     /// <param name="options">Options controlling what parts of the response to log.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public async Task PrintResponse(HttpResponseMessage response, IModuleLogger logger, HttpLoggingOptions options)
+    public Task PrintResponse(HttpResponseMessage response, IModuleLogger logger, HttpLoggingOptions options)
+    {
+        return PrintResponse(response, logger, options, CancellationToken.None);
+    }
+
+    /// <inheritdoc/>
+    public async Task PrintResponse(
+        HttpResponseMessage response,
+        IModuleLogger logger,
+        HttpLoggingOptions options,
+        CancellationToken cancellationToken)
     {
         if (!options.LogResponse)
         {
             return;
         }
 
-        var formattedResponse = await _responseFormatter.FormatAsync(response, options).ConfigureAwait(false);
+        var formattedResponse = await _responseFormatter
+            .FormatAsync(response, options, cancellationToken)
+            .ConfigureAwait(false);
         logger.LogInformation("HTTP Response:\n{Response}", formattedResponse);
     }
 
     public void PrintStatusCode(HttpStatusCode? httpStatusCode, IModuleLogger logger)
     {
-        var statusCode = httpStatusCode == null ? null as int? : (int)httpStatusCode;
+        var statusCode = httpStatusCode == null ? null as int? : (int) httpStatusCode;
         var icon = statusCode is >= 200 and < 300 ? "+" : "x";
 
         logger.LogInformation("{Icon} HTTP Status: {StatusCode} {HttpStatusCode}", icon, statusCode, httpStatusCode);

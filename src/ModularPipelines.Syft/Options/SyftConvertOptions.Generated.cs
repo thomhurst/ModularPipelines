@@ -68,10 +68,16 @@ public record SyftConvertOptions : SyftOptions
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
+    /// <summary>
+    /// The SOURCE-SBOM operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? SourceSbom { get; set; }
 
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The FORMAT operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Format { get; set; }
 
 }

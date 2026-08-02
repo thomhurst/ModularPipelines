@@ -19,6 +19,7 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("skopeo")]
+[CliGlobalOptions]
 public abstract record SkopeoOptions : CommandLineToolOptions
 {
 }

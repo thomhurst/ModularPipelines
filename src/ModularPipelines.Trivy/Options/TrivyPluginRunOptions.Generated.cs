@@ -82,7 +82,7 @@ public record TrivyPluginRunOptions(
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
 
-    [CliArgument(1)]
+    [CliArgument(0)]
     public IEnumerable<string>? PluginArguments { get; set; }
 
 }

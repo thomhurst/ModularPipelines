@@ -1,6 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "trivy",
+  "toolVersion": "Version: 0.70.0",
   "commandCount": 31,
   "commandTreeSha256": "b9112521b915056fc75f902cabad65819a612532ebab47cf3d1cb8d0d264e789",
   "commands": [

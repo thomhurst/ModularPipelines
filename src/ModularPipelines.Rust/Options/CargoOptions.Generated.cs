@@ -19,6 +19,7 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("cargo")]
+[CliGlobalOptions]
 public abstract record CargoOptions : CommandLineToolOptions
 {
 }

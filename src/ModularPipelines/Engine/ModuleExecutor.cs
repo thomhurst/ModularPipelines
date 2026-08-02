@@ -18,9 +18,9 @@ namespace ModularPipelines.Engine;
 /// <remarks>
 /// This class follows the Single Responsibility Principle by focusing solely on orchestration.
 /// Individual responsibilities are delegated to:
-/// - <see cref="IModuleRunner"/>: Executes individual modules
-/// - <see cref="IAlwaysRunHandler"/>: Handles AlwaysRun module completion
-/// - <see cref="IModuleResultRegistrar"/>: Registers module results
+/// - <see cref="IModuleRunner"/>: Executes individual modules.
+/// - <see cref="IAlwaysRunHandler"/>: Handles AlwaysRun module completion.
+/// - <see cref="IModuleResultRegistrar"/>: Registers module results.
 /// </remarks>
 internal class ModuleExecutor : IModuleExecutor
 {
@@ -155,9 +155,19 @@ internal class ModuleExecutor : IModuleExecutor
         {
             firstException = await ExecuteWorkerPoolAsync(scheduler, cancellationTokenSource).ConfigureAwait(false);
         }
+        catch (Exception exception)
+        {
+            var cancelledModules =
+                scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(
+                cancelledModules,
+                exception);
+            throw;
+        }
         finally
         {
             EnsureCancellation(cancellationTokenSource);
+            TaskObservation.ObserveFault(schedulerTask);
         }
 
         try
@@ -188,7 +198,8 @@ internal class ModuleExecutor : IModuleExecutor
 
     private void RegisterCancellationCallback(CancellationTokenSource cancellationTokenSource, IModuleScheduler scheduler)
     {
-        cancellationTokenSource.Token.Register(scheduler.CancelPendingModules);
+        cancellationTokenSource.Token.Register(
+            () => scheduler.CancelPendingModules(cancelModuleResultAwaiters: false));
     }
 
     private async Task<Exception?> ExecuteWorkerPoolAsync(
@@ -223,11 +234,22 @@ internal class ModuleExecutor : IModuleExecutor
                     }
                     catch (Exception ex) when (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)
                     {
+                        var isFirstFailure = false;
+
                         if (!IsExpectedWorkerCancellation(ex, ct)
                             && recordedWorkerExceptions.TryAdd(ex, 0))
                         {
                             _secondaryExceptionContainer.RegisterException(ex);
-                            Interlocked.CompareExchange(ref firstException, ex, null);
+                            isFirstFailure = Interlocked.CompareExchange(ref firstException, ex, null) == null;
+                        }
+
+                        if (isFirstFailure)
+                        {
+                            var cancelledModules =
+                                scheduler.CancelPendingModules(cancelModuleResultAwaiters: false);
+                            _resultRegistrar.RegisterTerminatedResultsForCancelledModules(
+                                cancelledModules,
+                                ex);
                         }
 
                         EnsureCancellation(cancellationTokenSource);

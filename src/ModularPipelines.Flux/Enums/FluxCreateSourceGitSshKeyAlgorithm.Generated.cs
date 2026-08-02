@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateSourceGitSshKeyAlgorithm
 {
     [EnumValue("rsa")]
-    Rsa,
+    Rsa = 0,
 
     [EnumValue("ecdsa")]
-    Ecdsa,
+    Ecdsa = 1,
 
     [EnumValue("ed25519")]
-    Ed25519
+    Ed25519 = 2
 }

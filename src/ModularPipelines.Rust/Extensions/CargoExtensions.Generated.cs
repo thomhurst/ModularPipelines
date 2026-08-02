@@ -33,7 +33,7 @@ public static class CargoExtensions
     }
 
     /// <summary>
-    /// Gets the cargo service from the pipeline context.
+    /// Gets the cargo service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ICargo"/> service for executing cargo commands.</returns>

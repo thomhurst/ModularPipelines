@@ -163,7 +163,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// specify the kubeconfig file path to use
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// indicate the image reference for the node-collector scan job (default "ghcr.io/aquasecurity/node-collector:0.3.1")
@@ -612,7 +612,10 @@ public record TrivyKubernetesOptions : TrivyOptions
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Context { get; set; }
 
 }

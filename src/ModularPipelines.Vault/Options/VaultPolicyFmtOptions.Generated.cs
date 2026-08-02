@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "fmt")]
-public record VaultPolicyFmtOptions : VaultOptions
+public record VaultPolicyFmtOptions(
+    [property: CliArgument(0)] string Path
+) : VaultOptions
 {
 }

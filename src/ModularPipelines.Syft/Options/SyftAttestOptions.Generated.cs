@@ -19,7 +19,7 @@ namespace ModularPipelines.Syft.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attest")]
 public record SyftAttestOptions(
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Image
+    [property: CliArgument(1)] string Image
 ) : SyftOptions
 {
     /// <summary>
@@ -136,7 +136,10 @@ public record SyftAttestOptions(
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The FORMAT operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Format { get; set; }
 
 }

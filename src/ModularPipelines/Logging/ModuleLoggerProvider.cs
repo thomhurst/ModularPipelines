@@ -20,6 +20,8 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
     private readonly IServiceProvider _serviceProvider;
     private readonly IStackTraceModuleDetector _stackTraceDetector;
     private readonly ILoggerFactory _loggerFactory;
+    private readonly ISecretObfuscator _secretObfuscator;
+    private readonly IFormattedLogValuesObfuscator _formattedLogValuesObfuscator;
     private readonly object _lock = new();
 
     private IModuleLogger? _moduleLogger;
@@ -28,11 +30,15 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
     public ModuleLoggerProvider(
         IServiceProvider serviceProvider,
         IStackTraceModuleDetector stackTraceDetector,
-        ILoggerFactory loggerFactory)
+        ILoggerFactory loggerFactory,
+        ISecretObfuscator secretObfuscator,
+        IFormattedLogValuesObfuscator formattedLogValuesObfuscator)
     {
         _serviceProvider = serviceProvider;
         _stackTraceDetector = stackTraceDetector;
         _loggerFactory = loggerFactory;
+        _secretObfuscator = secretObfuscator;
+        _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
     }
 
     /// <summary>
@@ -83,7 +89,10 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider
             {
                 // No module context - return a pipeline-level logger that doesn't create a separate output section
                 // This handles logging during initialization (e.g., GitInformation), condition evaluation, etc.
-                return _pipelineLevelLogger ??= new PipelineLevelLogger(_loggerFactory.CreateLogger("ModularPipelines.Pipeline"));
+                return _pipelineLevelLogger ??= new PipelineLevelLogger(
+                    _loggerFactory.CreateLogger("ModularPipelines.Pipeline"),
+                    _secretObfuscator,
+                    _formattedLogValuesObfuscator);
             }
 
             return _moduleLogger = GetLogger(detectedType);

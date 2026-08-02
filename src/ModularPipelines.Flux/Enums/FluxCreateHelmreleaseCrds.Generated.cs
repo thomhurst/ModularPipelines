@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateHelmreleaseCrds
 {
     [EnumValue("Skip")]
-    Skip,
+    Skip = 0,
 
     [EnumValue("Create")]
-    Create,
+    Create = 1,
 
     [EnumValue("CreateReplace")]
-    Createreplace
+    CreateReplace = 2
 }

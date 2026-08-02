@@ -51,4 +51,10 @@ public record CargoRunOptions : CargoOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The [ARGS] operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Args { get; set; }
+
 }

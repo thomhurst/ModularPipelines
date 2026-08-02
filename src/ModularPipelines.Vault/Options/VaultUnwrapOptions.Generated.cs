@@ -21,4 +21,10 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("unwrap")]
 public record VaultUnwrapOptions : VaultOptions
 {
+    /// <summary>
+    /// The TOKEN operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? Token { get; set; }
+
 }

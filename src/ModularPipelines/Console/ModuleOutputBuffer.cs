@@ -5,6 +5,7 @@ using MEL.Spectre;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
+using ModularPipelines.Logging;
 using Spectre.Console;
 
 namespace ModularPipelines.Console;
@@ -761,20 +762,45 @@ internal sealed class BufferedLogEvent<TState>(
     LogLevel level,
     EventId eventId,
     TState originalState,
-    object obfuscatedState,
+    object? obfuscatedState,
     Exception? exception,
     Func<TState, Exception?, string> formatter,
     ISecretObfuscator secretObfuscator) : IBufferedLogEvent
 {
+    private readonly Exception? _obfuscatedException =
+        ObfuscatedLogException.Create(exception, secretObfuscator);
+
     public LogLevel Level => level;
 
     public void WriteTo(ILogger logger)
     {
+        if (obfuscatedState is null && originalState is null)
+        {
+            logger.Log<TState>(
+                level,
+                eventId,
+                originalState,
+                _obfuscatedException,
+                FormatTyped);
+            return;
+        }
+
+        if (obfuscatedState is TState typedState)
+        {
+            logger.Log(
+                level,
+                eventId,
+                typedState,
+                _obfuscatedException,
+                FormatTyped);
+            return;
+        }
+
         logger.Log(
             level,
             eventId,
             obfuscatedState,
-            exception,
+            _obfuscatedException,
             Format);
     }
 
@@ -785,11 +811,14 @@ internal sealed class BufferedLogEvent<TState>(
             ? null
             : secretObfuscator.Obfuscate(exception.ToString(), null);
 
-    private string Format(object state, Exception? logException)
+    private string Format(object? state, Exception? logException)
     {
-        var formatted = formatter(originalState, logException);
+        var formatted = formatter(originalState, exception);
         return secretObfuscator.Obfuscate(formatted, null) ?? string.Empty;
     }
+
+    private string FormatTyped(TState state, Exception? logException)
+        => Format(state!, logException);
 
     private static string FormatLevel(LogLevel logLevel) =>
         logLevel switch

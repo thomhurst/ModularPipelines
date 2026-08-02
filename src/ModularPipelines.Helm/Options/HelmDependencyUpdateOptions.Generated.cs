@@ -18,7 +18,9 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dependency", "update")]
-public record HelmDependencyUpdateOptions : HelmOptions
+public record HelmDependencyUpdateOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Chart
+) : HelmOptions
 {
     /// <summary>
     /// verify certificates of HTTPS-enabled servers using this CA bundle
@@ -103,7 +105,7 @@ public record HelmDependencyUpdateOptions : HelmOptions
     /// the address and the port for the Kubernetes API server
     /// </summary>
     [CliOption("--kube-apiserver", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeApiserver { get; set; }
+    public string? KubeApiServer { get; set; }
 
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -152,7 +154,7 @@ public record HelmDependencyUpdateOptions : HelmOptions
     /// path to the kubeconfig file
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// namespace scope for this request

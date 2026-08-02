@@ -20,6 +20,8 @@ namespace ModularPipelines.UnitTests.Execution;
 public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
+    private static TaskCompletionSource AwaitingPendingModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private static TaskCompletionSource AwaitingTerminatedModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private static TaskCompletionSource PeerModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private static string CommandReadyFile = string.Empty;
 
@@ -132,6 +134,109 @@ public class EngineCancellationTokenTests : TestBase
     private class WaitForAllPendingModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
+    private class AwaitingPendingModule : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            AwaitingPendingModuleStarted.TrySetResult();
+            var result = await context.GetModule<CancelledBeforeStartModule>();
+            return result.ValueOrDefault == true;
+        }
+    }
+
+    private class CoordinatedFailingModule : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await AwaitingPendingModuleStarted.Task.WaitAsync(cancellationToken);
+            throw new InvalidOperationException("Coordinated failure");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<CoordinatedFailingModule>]
+    private class CancelledBeforeStartModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
+    private class AwaitingTerminatedModule : Module<bool>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            AwaitingTerminatedModuleStarted.TrySetResult();
+            var result = await context.GetModule<TerminatedBeforeExecutionModule>();
+            return result.ModuleStatus == Status.PipelineTerminated;
+        }
+    }
+
+    private class CoordinatedDependencyFailureModule : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await AwaitingTerminatedModuleStarted.Task.WaitAsync(cancellationToken);
+            throw new InvalidOperationException("Dependency failure");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<CoordinatedDependencyFailureModule>]
+    private class TerminatedBeforeExecutionModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
+    private class StopOnFirstFailingModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            throw new InvalidOperationException("Stop-on-first failure");
+        }
+    }
+
+    private class StopOnFirstQueuedDependencyModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(true);
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<StopOnFirstQueuedDependencyModule>]
+    private class StopOnFirstPendingModule : Module<bool>
+    {
+        protected internal override Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
         }
@@ -263,6 +368,107 @@ public class EngineCancellationTokenTests : TestBase
         var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModuleWithoutCancellation));
         await Assert.That(longRunningModuleResult).IsNotNull();
         await Assert.That(longRunningModuleResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+    }
+
+    [Test]
+    public async Task CancelledBeforeStartModule_UnblocksRuntimeAwaiter()
+    {
+        AwaitingPendingModuleStarted =
+            new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var builder = TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions(options => options with
+            {
+                DefaultModuleTimeout = TimeSpan.Zero,
+                ThrowOnPipelineFailure = true,
+                Concurrency = options.Concurrency with
+                {
+                    MaxParallelism = 2,
+                },
+            })
+            .AddModule<AwaitingPendingModule>()
+            .AddModule<CoordinatedFailingModule>()
+            .AddModule<CancelledBeforeStartModule>();
+
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+            async () => await builder.ExecutePipelineAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+
+        await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
+        await Assert.That(exception.InnerException!).HasMessageEqualTo("Coordinated failure");
+    }
+
+    [Test]
+    public async Task AlwaysRunModuleAwaitingTerminatedModule_UnblocksRuntimeAwaiter()
+    {
+        AwaitingTerminatedModuleStarted =
+            new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var builder = TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions(options => options with
+            {
+                DefaultModuleTimeout = TimeSpan.Zero,
+                ThrowOnPipelineFailure = true,
+                Concurrency = options.Concurrency with
+                {
+                    MaxParallelism = 2,
+                },
+            })
+            .AddModule<AwaitingTerminatedModule>()
+            .AddModule<CoordinatedDependencyFailureModule>()
+            .AddModule<TerminatedBeforeExecutionModule>();
+
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+            async () => await host.RunAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+        var alwaysRunResult = resultRegistry.GetResult<bool>(typeof(AwaitingTerminatedModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
+            await Assert.That(exception.InnerException!).HasMessageEqualTo("Dependency failure");
+            await Assert.That(alwaysRunResult).IsNotNull();
+            await Assert.That(alwaysRunResult!.ModuleStatus).IsEqualTo(Status.Successful);
+            await Assert.That(alwaysRunResult.ValueOrDefault).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task StopOnFirstException_PendingModuleAwaiterReturnsTerminatedResult()
+    {
+        var builder = TestPipelineHostBuilder.Create()
+            .ConfigurePipelineOptions(options => options with
+            {
+                DefaultModuleTimeout = TimeSpan.Zero,
+                ThrowOnPipelineFailure = true,
+                Concurrency = options.Concurrency with
+                {
+                    MaxParallelism = 1,
+                },
+            })
+            .AddModule<StopOnFirstFailingModule>()
+            .AddModule<StopOnFirstQueuedDependencyModule>()
+            .AddModule<StopOnFirstPendingModule>();
+
+        var host = await builder.BuildAsync();
+        var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
+        var pendingModule = host.Services.GetServices<IModule>()
+            .OfType<StopOnFirstPendingModule>()
+            .Single();
+
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+            async () => await host.RunAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+        var awaitedResult = await ((IModule) pendingModule).ResultTask
+            .WaitAsync(TimeSpan.FromSeconds(1));
+        var registeredResult = resultRegistry.GetResult(typeof(StopOnFirstPendingModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(awaitedResult).IsSameReferenceAs(registeredResult);
+            await Assert.That(awaitedResult.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+            await Assert.That(awaitedResult.ExceptionOrDefault)
+                .IsSameReferenceAs(exception);
+        }
     }
 
     [Test]

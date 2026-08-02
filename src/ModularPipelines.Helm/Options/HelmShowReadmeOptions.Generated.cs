@@ -121,7 +121,7 @@ public record HelmShowReadmeOptions : HelmOptions
     /// the address and the port for the Kubernetes API server
     /// </summary>
     [CliOption("--kube-apiserver", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeApiserver { get; set; }
+    public string? KubeApiServer { get; set; }
 
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -170,7 +170,7 @@ public record HelmShowReadmeOptions : HelmOptions
     /// path to the kubeconfig file
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// namespace scope for this request
@@ -202,6 +202,9 @@ public record HelmShowReadmeOptions : HelmOptions
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
 
+    /// <summary>
+    /// The CHART operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Chart { get; set; }
 

@@ -10,6 +10,7 @@ using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
@@ -103,7 +104,78 @@ public class ModuleExecutorLoggingTests
 
         var logOutput = logs.ToString();
         await Assert.That(logOutput).DoesNotContain("Cancellation triggered");
-        scheduler.Verify(x => x.CancelPendingModules(), Times.Once);
+        scheduler.Verify(x => x.CancelPendingModules(false), Times.Once);
+    }
+
+    [Test]
+    public async Task SchedulerFault_RegistersTerminatedResultsBeforeAlwaysRun()
+    {
+        var schedulerException = new DependencyCollisionException("Scheduler fault");
+        var readyModules = Channel.CreateUnbounded<ModuleState>();
+        readyModules.Writer.Complete(schedulerException);
+        var cancelledModule = new LaterModule();
+        IReadOnlyList<IModule> cancelledModules = [cancelledModule];
+        var scheduler = new Mock<IModuleScheduler>();
+        scheduler.SetupGet(x => x.ReadyModules).Returns(readyModules.Reader);
+        scheduler.Setup(x => x.RunSchedulerAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        scheduler.Setup(x => x.CancelPendingModules(false))
+            .Returns(cancelledModules);
+        var schedulerFactory = new Mock<IModuleSchedulerFactory>();
+        schedulerFactory.Setup(x => x.Create()).Returns(scheduler.Object);
+        var resultRegistrar = new Mock<IModuleResultRegistrar>();
+        var terminatedResultsRegistered = false;
+        resultRegistrar
+            .Setup(x => x.RegisterTerminatedResultsForCancelledModules(
+                cancelledModules,
+                schedulerException))
+            .Callback(() => terminatedResultsRegistered = true);
+        var alwaysRunHandler = new Mock<IAlwaysRunHandler>();
+        alwaysRunHandler
+            .Setup(x => x.WaitForAlwaysRunModulesAsync(
+                scheduler.Object,
+                It.IsAny<IReadOnlyList<IModule>>()))
+            .Callback(() =>
+            {
+                if (!terminatedResultsRegistered)
+                {
+                    throw new InvalidOperationException(
+                        "Terminated results were not registered before AlwaysRun processing.");
+                }
+            })
+            .Returns(Task.CompletedTask);
+        var registrationEvents = new Mock<IRegistrationEventExecutor>();
+        registrationEvents
+            .Setup(x => x.InvokeRegistrationEventsAsync(It.IsAny<IReadOnlyList<IModule>>()))
+            .Returns(Task.CompletedTask);
+        var parallelLimitProvider = new Mock<IParallelLimitProvider>();
+        parallelLimitProvider.Setup(x => x.GetMaxDegreeOfParallelism()).Returns(1);
+        var executor = new ModuleExecutor(
+            schedulerFactory.Object,
+            Mock.Of<IModuleRunner>(),
+            alwaysRunHandler.Object,
+            resultRegistrar.Object,
+            Mock.Of<IModuleResultRegistry>(),
+            parallelLimitProvider.Object,
+            registrationEvents.Object,
+            Mock.Of<IMetricsCollector>(),
+            new ModuleDependencyRegistry(),
+            new ModuleMetadataRegistry(
+                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
+                new ModuleAttributeEventService()),
+            Mock.Of<ISecondaryExceptionContainer>(),
+            Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
+            NullLogger<ModuleExecutor>.Instance);
+
+        await Assert.ThrowsAsync<DependencyCollisionException>(
+            async () => await executor.ExecuteAsync([cancelledModule]));
+
+        resultRegistrar.Verify(x => x.RegisterTerminatedResultsForCancelledModules(
+            cancelledModules,
+            schedulerException), Times.Once);
+        alwaysRunHandler.Verify(x => x.WaitForAlwaysRunModulesAsync(
+            scheduler.Object,
+            It.IsAny<IReadOnlyList<IModule>>()), Times.Once);
     }
 
     [Test]
@@ -536,9 +608,8 @@ public class ModuleExecutorLoggingTests
     public async Task CancelPendingModules_WithPendingModule_LogsCancellation()
     {
         var logs = new StringBuilder();
-        var module = new Mock<IModule>();
-        module.SetupGet(x => x.ModuleRunType).Returns(ModuleRunType.OnSuccessfulDependencies);
-        var state = new ModuleState(module.Object, typeof(IModule));
+        var module = new LaterModule();
+        var state = new ModuleState(module, module.GetType());
         var moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         moduleStates[state.ModuleType] = state;
         var tracker = CreateModuleStateTracker(logs, moduleStates);
@@ -546,6 +617,24 @@ public class ModuleExecutorLoggingTests
         tracker.CancelPendingModules();
 
         await Assert.That(logs.ToString()).Contains("Cancelling 1 pending/queued modules");
+    }
+
+    [Test]
+    public async Task CancelPendingModules_CompletesPendingModuleAwaitable()
+    {
+        var module = new LaterModule();
+        var state = new ModuleState(module, module.GetType());
+        var moduleStates = new ConcurrentDictionary<Type, ModuleState>();
+        moduleStates[state.ModuleType] = state;
+        var tracker = CreateModuleStateTracker(new StringBuilder(), moduleStates);
+
+        tracker.CancelPendingModules();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(module.CompletionSource.Task.IsCanceled).IsTrue();
+            await Assert.That(((IModule) module).ResultTask.IsCompleted).IsTrue();
+        }
     }
 
     private static ModuleExecutor CreateStopOnFirstExceptionExecutor(

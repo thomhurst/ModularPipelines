@@ -19,6 +19,8 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("add")]
-public record CargoAddOptions : CargoOptions
+public record CargoAddOptions(
+    [property: CliArgument(0)] IEnumerable<string> DepVersion
+) : CargoOptions
 {
 }

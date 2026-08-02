@@ -18,7 +18,12 @@ namespace ModularPipelines.Skopeo.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-sign")]
-public record SkopeoStandaloneSignOptions : SkopeoOptions
+public record SkopeoStandaloneSignOptions(
+    [property: CliArgument(0)] string Signature,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Manifest,
+    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string DockerReference,
+    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string KeyFingerprint
+) : SkopeoOptions
 {
     /// <summary>
     /// help for standalone-sign
@@ -38,5 +43,11 @@ public record SkopeoStandaloneSignOptions : SkopeoOptions
     [SecretValue]
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
+
+    /// <summary>
+    /// The command options operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? CommandOptions { get; set; }
 
 }

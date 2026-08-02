@@ -21,4 +21,10 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("login")]
 public record VaultLoginOptions : VaultOptions
 {
+    /// <summary>
+    /// The AUTH K=V operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? AuthKV { get; set; }
+
 }

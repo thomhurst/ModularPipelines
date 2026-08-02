@@ -493,7 +493,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     env:
-      MSBUILDDISABLENODEREUSE: "1"
       DOTNET_gcServer: "0"
 
     # Compile only: running ModularPipelines.Build while it builds the listed solutions

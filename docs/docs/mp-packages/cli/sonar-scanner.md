@@ -7,7 +7,17 @@ title: sonar-scanner CLI reference
 
 `ModularPipelines.SonarScanner` provides strongly typed access to the `sonar-scanner` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `sonar-scanner` executable. Install it separately and ensure `sonar-scanner` is available on `PATH`.
+
+The generation workflow is pinned to `sonar-scanner` version `8.0.1.6346`.
+
+See the [sonar-scanner installation guide](https://docs.sonarsource.com/sonarqube-server/analyzing-source-code/scanners/sonarscanner).
+
+The generator workflow downloads the Linux x64 SonarScanner CLI distribution.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.SonarScanner
@@ -17,23 +27,10 @@ Resolve the service with `context.Tools.SonarScanner`. For projects older than C
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.SonarScanner.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.SonarScanner.ExecuteAsync(
-            new SonarScannerExecuteOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var sonarScanner = context.Tools.SonarScanner;
 ```
 
 ## Commands

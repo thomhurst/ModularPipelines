@@ -32,7 +32,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     private readonly Func<bool> _isSchedulerCompleted;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ModuleStateTracker"/> class.
+    /// Initialises a new instance of the <see cref="ModuleStateTracker"/> class.
     /// </summary>
     /// <param name="logger">Logger for diagnostic output.</param>
     /// <param name="timeProvider">Provider for current time.</param>
@@ -86,15 +86,20 @@ internal class ModuleStateTracker : IModuleStateTracker
         // of lock recursion (the snapshot is a plain List, not protected by lock).
         // Releasing the lock between constraint check and state mutation would
         // create a race condition where another thread could start a conflicting module.
-        bool needsReschedule = false;
+        var needsReschedule = false;
         DateTimeOffset? executionStartTime = null;
-        int executingCount = 0;
-        bool result = false;
+        var executingCount = 0;
+        var result = false;
 
         _stateLock.EnterWriteLock();
         try
         {
             if (!_moduleStates.TryGetValue(moduleType, out var state))
+            {
+                return false;
+            }
+
+            if (state.State is not (ModuleExecutionState.Pending or ModuleExecutionState.Queued))
             {
                 return false;
             }
@@ -252,15 +257,15 @@ internal class ModuleStateTracker : IModuleStateTracker
     }
 
     /// <inheritdoc />
-    public void CancelPendingModules()
+    public IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true)
     {
-        List<(ModuleState Module, ModuleExecutionState OriginalState)> cancelledModules;
+        List<(ModuleState State, ModuleExecutionState OriginalState)> cancelledModules;
 
         _stateLock.EnterWriteLock();
         try
         {
             var pendingModules = _stateQueries.GetCancellablePendingModules().ToList();
-            cancelledModules = new List<(ModuleState, ModuleExecutionState)>();
+            cancelledModules = [];
 
             foreach (var moduleState in pendingModules)
             {
@@ -283,6 +288,10 @@ internal class ModuleStateTracker : IModuleStateTracker
         foreach (var (moduleState, _) in cancelledModules)
         {
             moduleState.CompletionSource.TrySetCanceled();
+            if (cancelModuleResultAwaiters)
+            {
+                ModuleCompletionSourceCanceller.Cancel(moduleState.Module, moduleState.ModuleType);
+            }
         }
 
         // Logging outside lock
@@ -298,19 +307,8 @@ internal class ModuleStateTracker : IModuleStateTracker
                 moduleState.ModuleType.Name,
                 originalState);
         }
-    }
 
-    private static ModuleStateCounters CreateCounters(
-        ConcurrentDictionary<Type, ModuleState> moduleStates)
-    {
-        var counters = new ModuleStateCounters();
-        foreach (var state in moduleStates.Values)
-        {
-            counters.AddPendingModule();
-            counters.Transition(ModuleExecutionState.Pending, state.State);
-        }
-
-        return counters;
+        return [.. cancelledModules.Select(x => x.State.Module)];
     }
 
     /// <inheritdoc />
@@ -325,6 +323,19 @@ internal class ModuleStateTracker : IModuleStateTracker
         return _moduleStates.TryGetValue(moduleType, out var state)
             ? state.CompletionSource.Task
             : null;
+    }
+
+    private static ModuleStateCounters CreateCounters(
+        ConcurrentDictionary<Type, ModuleState> moduleStates)
+    {
+        var counters = new ModuleStateCounters();
+        foreach (var state in moduleStates.Values)
+        {
+            counters.AddPendingModule();
+            counters.Transition(ModuleExecutionState.Pending, state.State);
+        }
+
+        return counters;
     }
 
     /// <summary>

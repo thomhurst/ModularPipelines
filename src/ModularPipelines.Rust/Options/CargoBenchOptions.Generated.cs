@@ -63,4 +63,16 @@ public record CargoBenchOptions : CargoOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The BENCHNAME operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? Benchname { get; set; }
+
+    /// <summary>
+    /// The [ARGS] operand.
+    /// </summary>
+    [CliArgument(1, PrependOptionTerminator = true)]
+    public IEnumerable<string>? Args { get; set; }
+
 }

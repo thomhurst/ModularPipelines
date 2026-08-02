@@ -35,7 +35,7 @@ public static class BuildahExtensions
     }
 
     /// <summary>
-    /// Gets the buildah service from the pipeline context.
+    /// Gets the buildah service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IBuildah"/> service for executing buildah commands.</returns>

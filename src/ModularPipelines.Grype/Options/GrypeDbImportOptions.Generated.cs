@@ -18,7 +18,9 @@ namespace ModularPipelines.Grype.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "import")]
-public record GrypeDbImportOptions : GrypeOptions
+public record GrypeDbImportOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string File
+) : GrypeOptions
 {
     /// <summary>
     /// help for import

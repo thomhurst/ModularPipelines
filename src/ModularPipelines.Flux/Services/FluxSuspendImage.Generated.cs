@@ -32,6 +32,21 @@ public class FluxSuspendImage
     #region Commands
 
     /// <summary>
+    /// The suspend image sub-commands suspend the reconciliation of an image automation object.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxSuspendImageOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxSuspendImageOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The suspend image policy command suspends the reconciliation of an ImagePolicy resource.
     /// </summary>
     /// <param name="options">The command options.</param>

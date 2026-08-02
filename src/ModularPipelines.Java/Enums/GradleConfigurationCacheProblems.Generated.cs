@@ -17,8 +17,8 @@ namespace ModularPipelines.Java.Enums;
 public enum GradleConfigurationCacheProblems
 {
     [EnumValue("warn")]
-    Warn,
+    Warn = 0,
 
     [EnumValue("fail")]
-    Fail
+    Fail = 1
 }

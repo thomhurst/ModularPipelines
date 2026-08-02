@@ -17,11 +17,11 @@ namespace ModularPipelines.Shellcheck.Enums;
 public enum ShellcheckColor
 {
     [EnumValue("auto")]
-    Auto,
+    Auto = 0,
 
     [EnumValue("always")]
-    Always,
+    Always = 1,
 
     [EnumValue("never")]
-    Never
+    Never = 2
 }

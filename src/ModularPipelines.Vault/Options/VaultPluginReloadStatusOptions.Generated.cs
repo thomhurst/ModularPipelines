@@ -19,6 +19,8 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "reload-status")]
-public record VaultPluginReloadStatusOptions : VaultOptions
+public record VaultPluginReloadStatusOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ReloadId
+) : VaultOptions
 {
 }

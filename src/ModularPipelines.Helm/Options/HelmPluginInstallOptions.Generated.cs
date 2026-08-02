@@ -18,7 +18,9 @@ namespace ModularPipelines.Helm.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "install")]
-public record HelmPluginInstallOptions : HelmOptions
+public record HelmPluginInstallOptions(
+    [property: CliArgument(0)] string Path
+) : HelmOptions
 {
     /// <summary>
     /// help for install
@@ -48,7 +50,7 @@ public record HelmPluginInstallOptions : HelmOptions
     /// the address and the port for the Kubernetes API server
     /// </summary>
     [CliOption("--kube-apiserver", Format = OptionFormat.EqualsSeparated)]
-    public string? KubeApiserver { get; set; }
+    public string? KubeApiServer { get; set; }
 
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
@@ -97,7 +99,7 @@ public record HelmPluginInstallOptions : HelmOptions
     /// path to the kubeconfig file
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// namespace scope for this request

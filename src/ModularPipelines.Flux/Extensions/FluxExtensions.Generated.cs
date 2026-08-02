@@ -51,7 +51,7 @@ public static class FluxExtensions
     }
 
     /// <summary>
-    /// Gets the flux service from the pipeline context.
+    /// Gets the flux service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IFlux"/> service for executing flux commands.</returns>

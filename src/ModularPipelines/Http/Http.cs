@@ -28,36 +28,82 @@ internal class Http : IHttpContext
 
     public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default)
     {
-        // Priority: options property > pipeline default > no timeout
-        var effectiveTimeout = httpOptions.Timeout ?? _pipelineOptions.Value.DefaultHttpTimeout;
+        var httpClient = httpOptions.HttpClient ?? GetHttpClient(httpOptions.LoggingType);
+
+        // Priority: options property > pipeline default > HttpClient timeout
+        var effectiveTimeout = httpOptions.Timeout
+                               ?? _pipelineOptions.Value.DefaultHttpTimeout
+                               ?? GetFiniteTimeout(httpClient);
 
         // Create timeout token if timeout is specified
-        using var timeoutCts = effectiveTimeout.HasValue
+        var timeoutCts = effectiveTimeout.HasValue
             ? new CancellationTokenSource(effectiveTimeout.Value)
             : null;
 
-        // Link the timeout token with the passed cancellation token, or just use the original if no timeout
-        using var linkedCts = timeoutCts != null
+        // Keep caller cancellation alive through streamed body consumption even when no
+        // finite timeout applies.
+        var linkedCts = timeoutCts != null
             ? CancellationTokenSource.CreateLinkedTokenSource(timeoutCts.Token, cancellationToken)
-            : null;
+            : cancellationToken.CanBeCanceled
+                ? CancellationTokenSource.CreateLinkedTokenSource(cancellationToken)
+                : null;
 
         var effectiveCancellationToken = linkedCts?.Token ?? cancellationToken;
 
-        if (httpOptions.HttpClient != null)
+        try
         {
-            return await SendAndWrapLogging(httpOptions, effectiveCancellationToken).ConfigureAwait(false);
+            HttpResponseMessage WrapResponse(HttpResponseMessage response)
+            {
+                if (linkedCts is null)
+                {
+                    return response;
+                }
+
+                response.Content = new TimeoutHttpContent(response.Content, timeoutCts, linkedCts);
+                timeoutCts = null;
+                linkedCts = null;
+                return response;
+            }
+
+            if (httpOptions.HttpClient != null)
+            {
+                return await SendAndWrapLogging(
+                        httpClient,
+                        httpOptions,
+                        WrapResponse,
+                        effectiveCancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            var response = await httpClient.SendAsync(
+                    httpOptions.HttpRequestMessage,
+                    HttpCompletionOption.ResponseHeadersRead,
+                    effectiveCancellationToken)
+                .ConfigureAwait(false);
+
+            response = WrapResponse(response);
+            try
+            {
+                if (!httpOptions.ThrowOnNonSuccessStatusCode)
+                {
+                    return response;
+                }
+
+                return await response
+                    .EnsureSuccessStatusCodeWithContentAsync(effectiveCancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch
+            {
+                response.Dispose();
+                throw;
+            }
         }
-
-        var httpClient = GetHttpClient(httpOptions.LoggingType);
-
-        var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, effectiveCancellationToken).ConfigureAwait(false);
-
-        if (!httpOptions.ThrowOnNonSuccessStatusCode)
+        finally
         {
-            return response;
+            linkedCts?.Dispose();
+            timeoutCts?.Dispose();
         }
-
-        return await response.EnsureSuccessStatusCodeWithContentAsync(effectiveCancellationToken).ConfigureAwait(false);
     }
 
     private HttpClient GetHttpClient(HttpLoggingType loggingType)
@@ -66,34 +112,60 @@ internal class Http : IHttpContext
         return _httpClientFactory.CreateClient(clientName);
     }
 
-    private async Task<HttpResponseMessage> SendAndWrapLogging(HttpOptions httpOptions, CancellationToken cancellationToken)
+    private async Task<HttpResponseMessage> SendAndWrapLogging(
+        HttpClient httpClient,
+        HttpOptions httpOptions,
+        Func<HttpResponseMessage, HttpResponseMessage> wrapResponse,
+        CancellationToken cancellationToken)
     {
         var logger = _moduleLoggerProvider.GetLogger();
         var loggingOptions = GetEffectiveLoggingOptions(httpOptions);
 
         if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Request))
         {
-            await _httpLogger.PrintRequest(httpOptions.HttpRequestMessage, logger, loggingOptions).ConfigureAwait(false);
+            await _httpLogger
+                .PrintRequest(
+                    httpOptions.HttpRequestMessage,
+                    logger,
+                    loggingOptions,
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
 
         var stopWatch = Stopwatch.StartNew();
 
-        var response = await httpOptions.HttpClient!.SendAsync(httpOptions.HttpRequestMessage, cancellationToken).ConfigureAwait(false);
+        var response = await httpClient.SendAsync(
+                httpOptions.HttpRequestMessage,
+                HttpCompletionOption.ResponseHeadersRead,
+                cancellationToken)
+            .ConfigureAwait(false);
 
-        LogStatusCode(response.StatusCode, httpOptions, loggingOptions);
-        LogDuration(stopWatch.Elapsed, httpOptions, loggingOptions);
-
-        if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
+        try
         {
-            await _httpLogger.PrintResponse(response, logger, loggingOptions).ConfigureAwait(false);
-        }
+            LogStatusCode(response.StatusCode, httpOptions, loggingOptions);
+            LogDuration(stopWatch.Elapsed, httpOptions, loggingOptions);
 
-        if (!httpOptions.ThrowOnNonSuccessStatusCode)
+            if (httpOptions.LoggingType.HasFlag(HttpLoggingType.Response))
+            {
+                await _httpLogger
+                    .PrintResponse(response, logger, loggingOptions, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            response = wrapResponse(response);
+
+            if (!httpOptions.ThrowOnNonSuccessStatusCode)
+            {
+                return response;
+            }
+
+            return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch
         {
-            return response;
+            response.Dispose();
+            throw;
         }
-
-        return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
     }
 
     private HttpLoggingOptions GetEffectiveLoggingOptions(HttpOptions httpOptions)
@@ -110,6 +182,13 @@ internal class Http : IHttpContext
         }
 
         return HttpLoggingOptions.Default;
+    }
+
+    private static TimeSpan? GetFiniteTimeout(HttpClient httpClient)
+    {
+        return httpClient.Timeout == System.Threading.Timeout.InfiniteTimeSpan
+            ? null
+            : httpClient.Timeout;
     }
 
     private void LogDuration(TimeSpan duration, HttpOptions httpOptions, HttpLoggingOptions loggingOptions)

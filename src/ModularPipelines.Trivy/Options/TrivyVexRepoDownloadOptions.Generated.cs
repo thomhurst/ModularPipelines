@@ -80,6 +80,9 @@ public record TrivyVexRepoDownloadOptions : TrivyOptions
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
 
+    /// <summary>
+    /// The REPO_NAMES operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public IEnumerable<string>? RepoNames { get; set; }
 

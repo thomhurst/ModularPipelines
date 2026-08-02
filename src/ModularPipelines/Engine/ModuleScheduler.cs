@@ -334,14 +334,17 @@ internal class ModuleScheduler : IModuleScheduler
     /// This is used when the pipeline is cancelled to ensure TaskCompletionSources are properly completed
     /// Note: AlwaysRun modules are not cancelled as they should be allowed to complete.
     /// </summary>
-    public void CancelPendingModules()
+    /// <param name="cancelModuleResultAwaiters">
+    /// Whether to cancel typed module result awaiters immediately.
+    /// </param>
+    public IReadOnlyList<IModule> CancelPendingModules(bool cancelModuleResultAwaiters = true)
     {
         if (IsDisposed)
         {
-            return;
+            return [];
         }
 
-        _stateTracker.CancelPendingModules();
+        return _stateTracker.CancelPendingModules(cancelModuleResultAwaiters);
     }
 
     public void Dispose()
@@ -585,7 +588,7 @@ internal class ModuleScheduler : IModuleScheduler
         IReadOnlyDictionary<Type, Type?> parentByType)
     {
         var pathFromModule = new Stack<Type>();
-        Type? currentType = dependentType;
+        var currentType = (Type?) dependentType;
 
         while (currentType is not null && currentType != moduleType)
         {

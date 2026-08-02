@@ -33,7 +33,7 @@ public static class SkopeoExtensions
     }
 
     /// <summary>
-    /// Gets the skopeo service from the pipeline context.
+    /// Gets the skopeo service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISkopeo"/> service for executing skopeo commands.</returns>

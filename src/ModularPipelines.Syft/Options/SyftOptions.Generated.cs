@@ -19,6 +19,7 @@ namespace ModularPipelines.Syft.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("syft")]
+[CliGlobalOptions]
 public abstract record SyftOptions : CommandLineToolOptions
 {
 }

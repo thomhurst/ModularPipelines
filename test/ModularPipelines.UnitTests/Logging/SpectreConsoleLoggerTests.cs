@@ -87,8 +87,9 @@ public class SpectreConsoleLoggerTests
             string.Empty,
             "C:\\repo");
 
-        await Assert.That(logger.Properties["CommandOutput"]?.ToString()).Contains("short output");
-        await Assert.That(logger.Properties["CommandMessage"]?.ToString()).DoesNotContain("short output");
+        var outputEntry = logger.Entries.Single(properties => properties.ContainsKey("CommandOutput"));
+        await Assert.That(outputEntry["CommandOutput"]?.ToString()).Contains("short output");
+        await Assert.That(outputEntry.Values.Select(x => x?.ToString())).DoesNotContain("tool --version");
     }
 
     [Test]
@@ -154,8 +155,7 @@ public class SpectreConsoleLoggerTests
 
     private sealed class CapturingModuleLogger : IModuleLogger
     {
-        public IReadOnlyDictionary<string, object?> Properties { get; private set; }
-            = new Dictionary<string, object?>();
+        public List<IReadOnlyDictionary<string, object?>> Entries { get; } = [];
 
         public void Log<TState>(
             LogLevel logLevel,
@@ -169,7 +169,7 @@ public class SpectreConsoleLoggerTests
                 throw new InvalidOperationException("Expected structured log state.");
             }
 
-            Properties = properties.ToDictionary(x => x.Key, x => x.Value);
+            Entries.Add(properties.ToDictionary(x => x.Key, x => x.Value));
         }
 
         public bool IsEnabled(LogLevel logLevel) => true;

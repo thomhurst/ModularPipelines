@@ -27,20 +27,13 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
-    public void Log(
+    public void LogCommandStart(
         CommandLineToolOptions? options,
         CommandExecutionOptions? execOpts,
         string? inputToLog,
-        int? exitCode,
-        TimeSpan? runTime,
-        string standardOutput,
-        string standardError,
         string commandWorkingDirPath)
     {
-        // Determine effective logging options
         var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
-
-        // Silent = no logging at all
         if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent)
         {
             return;
@@ -52,8 +45,63 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        // Use compact logging format for cleaner output
-        LogCompact(effectiveOptions, execOpts, commandWorkingDirPath, inputToLog, exitCode, runTime, standardOutput, standardError);
+        var obfuscatedInput = ShouldShowInput(effectiveOptions)
+            ? _secretObfuscator.Obfuscate(inputToLog, null)
+            : LoggingConstants.CommandMask;
+        Logger.LogInformation(
+            "{WorkingDirectory}> {Input}",
+            commandWorkingDirPath,
+            obfuscatedInput);
+    }
+
+    public void LogCommandCompletion(
+        CommandLineToolOptions? options,
+        CommandExecutionOptions? execOpts,
+        string? inputToLog,
+        int? exitCode,
+        TimeSpan? runTime,
+        string standardOutput,
+        string standardError,
+        string commandWorkingDirPath)
+    {
+        var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
+        if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent
+            || execOpts?.InternalDryRun == true)
+        {
+            return;
+        }
+
+        var (outputToLog, errorToLog) = ManipulateOutput(
+            execOpts?.OutputLoggingManipulator,
+            standardOutput,
+            standardError);
+        var isSuccess = exitCode == 0;
+
+        LogCapturedOutput(effectiveOptions, outputToLog.Trim(), isSuccess);
+        LogCapturedError(effectiveOptions, errorToLog, exitCode);
+        LogCommandStatus(effectiveOptions, inputToLog, isSuccess, exitCode, runTime);
+    }
+
+    public void Log(
+        CommandLineToolOptions? options,
+        CommandExecutionOptions? execOpts,
+        string? inputToLog,
+        int? exitCode,
+        TimeSpan? runTime,
+        string standardOutput,
+        string standardError,
+        string commandWorkingDirPath)
+    {
+        LogCommandStart(options, execOpts, inputToLog, commandWorkingDirPath);
+        LogCommandCompletion(
+            options,
+            execOpts,
+            inputToLog,
+            exitCode,
+            runTime,
+            standardOutput,
+            standardError,
+            commandWorkingDirPath);
     }
 
     void ICommandOutputLogger.LogStandardOutputLine(
@@ -85,14 +133,15 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
     private void LogDryRunCommand(CommandLoggingOptions options, string workingDirectory, string? input)
     {
-        if (!ShouldShowInput(options))
+        var logger = Logger;
+        if (!ShouldShowInput(options) || !logger.IsEnabled(LogLevel.Information))
         {
             return;
         }
 
-        Logger.LogInformation("{WorkingDirectory}> {Input} [DRY-RUN]",
+        logger.LogInformation("{WorkingDirectory}> {Input} [DRY-RUN]",
             workingDirectory,
-            input);
+            _secretObfuscator.Obfuscate(input, null));
     }
 
     private void LogOutputLine(
@@ -117,51 +166,6 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             obfuscatedOutput);
     }
 
-    private void LogCompact(
-        CommandLoggingOptions options,
-        CommandExecutionOptions? execOpts,
-        string workingDirectory,
-        string? input,
-        int? exitCode,
-        TimeSpan? runTime,
-        string standardOutput,
-        string standardError)
-    {
-        var isSuccess = exitCode == 0;
-        var obfuscatedInput = ShouldShowInput(options)
-            ? _secretObfuscator.Obfuscate(input, null)
-            : LoggingConstants.CommandMask;
-
-        var commandMessage = new StringBuilder();
-        commandMessage.Append(workingDirectory);
-        commandMessage.Append("> ");
-        commandMessage.Append(obfuscatedInput);
-
-        var standardOutputToLog = execOpts?.OutputLoggingManipulator is not null
-            ? execOpts.OutputLoggingManipulator(standardOutput)
-            : standardOutput;
-        var standardErrorToLog = execOpts?.OutputLoggingManipulator is not null
-            ? execOpts.OutputLoggingManipulator(standardError)
-            : standardError;
-
-        var trimmedOutput = standardOutputToLog.Trim();
-        var hasShortOutput = ShouldInlineOutput(options, trimmedOutput);
-        var hasInlineOutput = hasShortOutput && isSuccess;
-        var inlineOutput = hasInlineOutput
-            ? $" → {_secretObfuscator.Obfuscate(trimmedOutput, null)}"
-            : string.Empty;
-        var commandStatus = BuildCommandStatus(options, isSuccess, exitCode, runTime);
-
-        Logger.LogInformation(
-            "{CommandMessage}{CommandOutput}{CommandStatus}",
-            commandMessage.ToString(),
-            inlineOutput,
-            commandStatus);
-
-        LogCapturedOutput(options, trimmedOutput, hasInlineOutput);
-        LogCapturedError(options, standardErrorToLog, exitCode);
-    }
-
     private static bool ShouldInlineOutput(CommandLoggingOptions options, string output)
     {
         return !string.IsNullOrEmpty(output)
@@ -169,6 +173,19 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
                && output.Length <= MaximumInlineOutputLength
                && options.Verbosity >= CommandLogVerbosity.Normal
                && options.ShowStandardOutput;
+    }
+
+    private static (string Output, string Error) ManipulateOutput(
+        Func<string, string>? manipulator,
+        string standardOutput,
+        string standardError)
+    {
+        if (manipulator is null)
+        {
+            return (standardOutput, standardError);
+        }
+
+        return (manipulator(standardOutput), manipulator(standardError));
     }
 
     private static string BuildCommandStatus(
@@ -208,10 +225,17 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
     private void LogCapturedOutput(
         CommandLoggingOptions options,
         string output,
-        bool wasInlined)
+        bool isSuccess)
     {
-        if (wasInlined
-            || string.IsNullOrWhiteSpace(output)
+        if (isSuccess && ShouldInlineOutput(options, output))
+        {
+            Logger.LogInformation(
+                "  → {CommandOutput}",
+                _secretObfuscator.Obfuscate(output, null));
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(output)
             || options.Verbosity < CommandLogVerbosity.Normal
             || !options.ShowStandardOutput)
         {
@@ -235,6 +259,32 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         }
 
         Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(error, null));
+    }
+
+    private void LogCommandStatus(
+        CommandLoggingOptions options,
+        string? inputToLog,
+        bool isSuccess,
+        int? exitCode,
+        TimeSpan? runTime)
+    {
+        var commandStatus = BuildCommandStatus(options, isSuccess, exitCode, runTime);
+        if (string.IsNullOrEmpty(commandStatus)
+            && options.Verbosity >= CommandLogVerbosity.Normal)
+        {
+            commandStatus = isSuccess ? "✓" : "✗";
+        }
+
+        if (!string.IsNullOrEmpty(commandStatus))
+        {
+            var obfuscatedInput = ShouldShowInput(options)
+                ? _secretObfuscator.Obfuscate(inputToLog, null)
+                : LoggingConstants.CommandMask;
+            Logger.LogInformation(
+                "{CommandStatus} {Input}",
+                commandStatus.TrimStart(),
+                obfuscatedInput);
+        }
     }
 
     private static bool ShouldShowInput(CommandLoggingOptions options)

@@ -32,6 +32,21 @@ public class GrypeDbSearch
     #region Commands
 
     /// <summary>
+    /// Search the DB for vulnerabilities or affected packages
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        GrypeDbSearchOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new GrypeDbSearchOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Search for vulnerabilities within the DB (supports DB schema v6+ only)
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -39,11 +54,11 @@ public class GrypeDbSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> VulnAsync(
-        GrypeDbSearchVulnOptions? options = null,
+        GrypeDbSearchVulnOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new GrypeDbSearchVulnOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

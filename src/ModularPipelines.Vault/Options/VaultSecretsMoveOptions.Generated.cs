@@ -19,6 +19,9 @@ namespace ModularPipelines.Vault.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "move")]
-public record VaultSecretsMoveOptions : VaultOptions
+public record VaultSecretsMoveOptions(
+    [property: CliArgument(0)] string Source,
+    [property: CliArgument(1)] string Destination
+) : VaultOptions
 {
 }

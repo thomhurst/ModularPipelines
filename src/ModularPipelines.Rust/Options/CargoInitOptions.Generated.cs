@@ -81,4 +81,10 @@ public record CargoInitOptions : CargoOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The PATH operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? Path { get; set; }
+
 }

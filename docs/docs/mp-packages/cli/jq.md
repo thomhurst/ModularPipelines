@@ -7,7 +7,13 @@ title: jq CLI reference
 
 `ModularPipelines.Jq` provides strongly typed access to the `jq` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `jq` executable. Install it separately and ensure `jq` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Jq
@@ -30,7 +36,11 @@ public class RunCommandModule : Module<CommandResult>
         CancellationToken cancellationToken)
     {
         return await context.Tools.Jq.ExecuteAsync(
-            new JqExecuteOptions(),
+            new JqExecuteOptions()
+            {
+                Filter = ".",
+                InputFiles = ["input.json"],
+            },
             cancellationToken: cancellationToken);
     }
 }

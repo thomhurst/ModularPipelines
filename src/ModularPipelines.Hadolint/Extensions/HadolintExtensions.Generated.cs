@@ -33,7 +33,7 @@ public static class HadolintExtensions
     }
 
     /// <summary>
-    /// Gets the hadolint service from the pipeline context.
+    /// Gets the hadolint service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IHadolint"/> service for executing hadolint commands.</returns>

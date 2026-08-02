@@ -32,6 +32,21 @@ public class FluxGetSources
     #region Commands
 
     /// <summary>
+    /// The get source sub-commands print the statuses of the sources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxGetSourcesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxGetSourcesOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The get sources all command print the statuses of all sources.
     /// </summary>
     /// <param name="options">The command options.</param>

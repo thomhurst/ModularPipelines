@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
@@ -16,6 +17,7 @@ namespace ModularPipelines.Yarn.Extensions;
 /// <summary>
 /// Generated extensions for registering yarn services.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public static class YarnExtensions
 {
     /// <summary>
@@ -31,12 +33,9 @@ public static class YarnExtensions
     }
 
     /// <summary>
-    /// Gets the yarn service from the pipeline context.
+    /// Gets the yarn service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
-    /// <returns>The yarn service.</returns>
-    public static IYarn Yarn(this IPipelineContext context)
-    {
-        return context.Services.Get<IYarn>();
-    }
+    /// <returns>The <see cref="IYarn"/> service for executing yarn commands.</returns>
+    public static IYarn Yarn(this IPipelineContext context) => context.Services.Get<IYarn>();
 }

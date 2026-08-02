@@ -21,4 +21,10 @@ namespace ModularPipelines.Vault.Options;
 [CliSubCommand("plugin", "list")]
 public record VaultPluginListOptions : VaultOptions
 {
+    /// <summary>
+    /// The TYPE operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? Type { get; set; }
+
 }

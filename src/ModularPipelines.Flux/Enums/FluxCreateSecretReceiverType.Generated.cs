@@ -17,38 +17,38 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateSecretReceiverType
 {
     [EnumValue("generic")]
-    Generic,
+    Generic = 0,
 
     [EnumValue("generic-hmac")]
-    GenericHmac,
+    GenericHmac = 1,
 
     [EnumValue("github")]
-    Github,
+    Github = 2,
 
     [EnumValue("gitlab")]
-    Gitlab,
+    Gitlab = 3,
 
     [EnumValue("bitbucket")]
-    Bitbucket,
+    Bitbucket = 4,
 
     [EnumValue("harbor")]
-    Harbor,
+    Harbor = 5,
 
     [EnumValue("dockerhub")]
-    Dockerhub,
+    Dockerhub = 6,
 
     [EnumValue("quay")]
-    Quay,
+    Quay = 7,
 
     [EnumValue("gcr")]
-    Gcr,
+    Gcr = 8,
 
     [EnumValue("nexus")]
-    Nexus,
+    Nexus = 9,
 
     [EnumValue("acr")]
-    Acr,
+    Acr = 10,
 
     [EnumValue("cdevents")]
-    Cdevents
+    Cdevents = 11
 }

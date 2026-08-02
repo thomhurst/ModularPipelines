@@ -40,10 +40,16 @@ public record HadolintExecuteOptions : HadolintOptions
     public string? Config { get; set; }
 
     /// <summary>
-    /// The file path referenced in the generated report. This only applies for the 'checkstyle' format and is useful when running Hadolint with Docker to set the correct file path.
+    /// The file path referenced in the generated report. This only applies for the 'checkstyle', 'codeclimate', 'sonarqube', 'junit' and 'gitlab_codeclimate' formats and is useful when running Hadolint with Docker to set the correct file path.
     /// </summary>
     [CliOption("--file-path-in-report")]
     public string? FilePathInReport { get; set; }
+
+    /// <summary>
+    /// Output destination file
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Don't exit with a failure status code when any rule is violated
@@ -64,7 +70,7 @@ public record HadolintExecuteOptions : HadolintOptions
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// The output format for the results [tty | json | checkstyle | codeclimate | gitlab_codeclimate | gnu | codacy | sonarqube | sarif] (default: tty)
+    /// The output format for the results [tty | json | checkstyle | codeclimate | gitlab_codeclimate | gnu | codacy | sonarqube | sarif | junit] (default: tty)
     /// </summary>
     [CliOption("--format", ShortForm = "-f")]
     public HadolintFormat? Format { get; set; }

@@ -33,7 +33,7 @@ public static class MavenExtensions
     }
 
     /// <summary>
-    /// Gets the mvn service from the pipeline context.
+    /// Gets the mvn service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IMaven"/> service for executing mvn commands.</returns>

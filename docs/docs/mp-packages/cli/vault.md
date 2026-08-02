@@ -7,7 +7,13 @@ title: vault CLI reference
 
 `ModularPipelines.Vault` provides strongly typed access to the `vault` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `vault` executable. Install it separately and ensure `vault` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Vault
@@ -29,8 +35,8 @@ public class RunCommandModule : Module<CommandResult>
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return await context.Tools.Vault.DeleteAsync(
-            new VaultDeleteOptions(),
+        return await context.Tools.Vault.StatusAsync(
+            new VaultStatusOptions(),
             cancellationToken: cancellationToken);
     }
 }
@@ -42,9 +48,11 @@ public class RunCommandModule : Module<CommandResult>
 | --- | --- |
 | `vault agent` | `VaultAgentOptions` |
 | `vault agent generate-config` | `VaultAgentGenerateConfigOptions` |
+| `vault audit` | `VaultAuditOptions` |
 | `vault audit disable` | `VaultAuditDisableOptions` |
 | `vault audit enable` | `VaultAuditEnableOptions` |
 | `vault audit list` | `VaultAuditListOptions` |
+| `vault auth` | `VaultAuthOptions` |
 | `vault auth disable` | `VaultAuthDisableOptions` |
 | `vault auth enable` | `VaultAuthEnableOptions` |
 | `vault auth list` | `VaultAuthListOptions` |
@@ -52,11 +60,13 @@ public class RunCommandModule : Module<CommandResult>
 | `vault auth tune` | `VaultAuthTuneOptions` |
 | `vault delete` | `VaultDeleteOptions` |
 | `vault events subscribe` | `VaultEventsSubscribeOptions` |
+| `vault kv` | `VaultKvOptions` |
 | `vault kv delete` | `VaultKvDeleteOptions` |
 | `vault kv destroy` | `VaultKvDestroyOptions` |
 | `vault kv enable-versioning` | `VaultKvEnableVersioningOptions` |
 | `vault kv get` | `VaultKvGetOptions` |
 | `vault kv list` | `VaultKvListOptions` |
+| `vault kv metadata` | `VaultKvMetadataOptions` |
 | `vault kv metadata delete` | `VaultKvMetadataDeleteOptions` |
 | `vault kv metadata get` | `VaultKvMetadataGetOptions` |
 | `vault kv metadata patch` | `VaultKvMetadataPatchOptions` |
@@ -65,12 +75,14 @@ public class RunCommandModule : Module<CommandResult>
 | `vault kv put` | `VaultKvPutOptions` |
 | `vault kv rollback` | `VaultKvRollbackOptions` |
 | `vault kv undelete` | `VaultKvUndeleteOptions` |
+| `vault lease` | `VaultLeaseOptions` |
 | `vault lease lookup` | `VaultLeaseLookupOptions` |
 | `vault lease renew` | `VaultLeaseRenewOptions` |
 | `vault lease revoke` | `VaultLeaseRevokeOptions` |
 | `vault list` | `VaultListOptions` |
 | `vault login` | `VaultLoginOptions` |
 | `vault monitor` | `VaultMonitorOptions` |
+| `vault namespace` | `VaultNamespaceOptions` |
 | `vault namespace create` | `VaultNamespaceCreateOptions` |
 | `vault namespace delete` | `VaultNamespaceDeleteOptions` |
 | `vault namespace list` | `VaultNamespaceListOptions` |
@@ -78,18 +90,21 @@ public class RunCommandModule : Module<CommandResult>
 | `vault namespace lookup` | `VaultNamespaceLookupOptions` |
 | `vault namespace patch` | `VaultNamespacePatchOptions` |
 | `vault namespace unlock` | `VaultNamespaceUnlockOptions` |
+| `vault operator` | `VaultOperatorOptions` |
 | `vault operator diagnose` | `VaultOperatorDiagnoseOptions` |
 | `vault operator generate-root` | `VaultOperatorGenerateRootOptions` |
 | `vault operator init` | `VaultOperatorInitOptions` |
 | `vault operator key-status` | `VaultOperatorKeyStatusOptions` |
 | `vault operator members` | `VaultOperatorMembersOptions` |
 | `vault operator migrate` | `VaultOperatorMigrateOptions` |
+| `vault operator raft` | `VaultOperatorRaftOptions` |
 | `vault operator raft autopilot get-config` | `VaultOperatorRaftAutopilotGetConfigOptions` |
 | `vault operator raft autopilot set-config` | `VaultOperatorRaftAutopilotSetConfigOptions` |
 | `vault operator raft autopilot state` | `VaultOperatorRaftAutopilotStateOptions` |
 | `vault operator raft join` | `VaultOperatorRaftJoinOptions` |
 | `vault operator raft list-peers` | `VaultOperatorRaftListPeersOptions` |
 | `vault operator raft remove-peer` | `VaultOperatorRaftRemovePeerOptions` |
+| `vault operator raft snapshot` | `VaultOperatorRaftSnapshotOptions` |
 | `vault operator raft snapshot inspect` | `VaultOperatorRaftSnapshotInspectOptions` |
 | `vault operator raft snapshot restore` | `VaultOperatorRaftSnapshotRestoreOptions` |
 | `vault operator raft snapshot save` | `VaultOperatorRaftSnapshotSaveOptions` |
@@ -102,27 +117,34 @@ public class RunCommandModule : Module<CommandResult>
 | `vault operator utilization` | `VaultOperatorUtilizationOptions` |
 | `vault patch` | `VaultPatchOptions` |
 | `vault path-help` | `VaultPathHelpOptions` |
+| `vault pki` | `VaultPkiOptions` |
 | `vault pki health-check` | `VaultPkiHealthCheckOptions` |
 | `vault pki issue` | `VaultPkiIssueOptions` |
 | `vault pki list-intermediates` | `VaultPkiListIntermediatesOptions` |
+| `vault pki reissue` | `VaultPkiReissueOptions` |
 | `vault pki verify-sign` | `VaultPkiVerifySignOptions` |
+| `vault plugin` | `VaultPluginOptions` |
 | `vault plugin deregister` | `VaultPluginDeregisterOptions` |
 | `vault plugin info` | `VaultPluginInfoOptions` |
 | `vault plugin list` | `VaultPluginListOptions` |
 | `vault plugin register` | `VaultPluginRegisterOptions` |
 | `vault plugin reload` | `VaultPluginReloadOptions` |
 | `vault plugin reload-status` | `VaultPluginReloadStatusOptions` |
+| `vault plugin runtime` | `VaultPluginRuntimeOptions` |
 | `vault plugin runtime deregister` | `VaultPluginRuntimeDeregisterOptions` |
 | `vault plugin runtime info` | `VaultPluginRuntimeInfoOptions` |
 | `vault plugin runtime list` | `VaultPluginRuntimeListOptions` |
 | `vault plugin runtime register` | `VaultPluginRuntimeRegisterOptions` |
+| `vault policy` | `VaultPolicyOptions` |
 | `vault policy delete` | `VaultPolicyDeleteOptions` |
 | `vault policy fmt` | `VaultPolicyFmtOptions` |
 | `vault policy list` | `VaultPolicyListOptions` |
 | `vault policy read` | `VaultPolicyReadOptions` |
 | `vault policy write` | `VaultPolicyWriteOptions` |
+| `vault print` | `VaultPrintOptions` |
 | `vault proxy` | `VaultProxyOptions` |
 | `vault read` | `VaultReadOptions` |
+| `vault secrets` | `VaultSecretsOptions` |
 | `vault secrets disable` | `VaultSecretsDisableOptions` |
 | `vault secrets enable` | `VaultSecretsEnableOptions` |
 | `vault secrets list` | `VaultSecretsListOptions` |
@@ -131,13 +153,16 @@ public class RunCommandModule : Module<CommandResult>
 | `vault server` | `VaultServerOptions` |
 | `vault ssh` | `VaultSshOptions` |
 | `vault status` | `VaultStatusOptions` |
+| `vault token` | `VaultTokenOptions` |
 | `vault token capabilities` | `VaultTokenCapabilitiesOptions` |
 | `vault token create` | `VaultTokenCreateOptions` |
 | `vault token lookup` | `VaultTokenLookupOptions` |
 | `vault token renew` | `VaultTokenRenewOptions` |
 | `vault token revoke` | `VaultTokenRevokeOptions` |
+| `vault transform` | `VaultTransformOptions` |
 | `vault transform import` | `VaultTransformImportOptions` |
 | `vault transform import-version` | `VaultTransformImportVersionOptions` |
+| `vault transit` | `VaultTransitOptions` |
 | `vault transit import` | `VaultTransitImportOptions` |
 | `vault transit import-version` | `VaultTransitImportVersionOptions` |
 | `vault unwrap` | `VaultUnwrapOptions` |
