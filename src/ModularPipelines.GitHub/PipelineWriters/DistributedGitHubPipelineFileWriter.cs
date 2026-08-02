@@ -50,6 +50,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             ["INSTANCE_INDEX"] = "${{ matrix.instance }}",
             ["TOTAL_INSTANCES"] = matrix.Count.ToString(System.Globalization.CultureInfo.InvariantCulture),
             ["REDIS_URL"] = $"${{{{ secrets.{_options.RedisSecretName} }}}}",
+            ["RUN_IDENTIFIER"] = "${{ github.run_id }}-${{ github.run_attempt }}",
         };
 
         var yaml = pipelineHookContext.Data.Yaml.ToYaml(new

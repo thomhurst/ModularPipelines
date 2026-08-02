@@ -33,8 +33,8 @@ builder.WriteDistributedWorkflow(new DistributedWorkflowOptions
 
 The generated matrix contains a Linux master, one worker for every `linux`, `windows`, or
 `macos` capability used by a registered module or its operating-system run conditions, and the
-requested additional workers. It wires `INSTANCE_INDEX`, `TOTAL_INSTANCES`, and `REDIS_URL`
-automatically. Set the repository secret
+requested additional workers. It wires `INSTANCE_INDEX`, `TOTAL_INSTANCES`, `REDIS_URL`, and a
+unique `RUN_IDENTIFIER` automatically. Set the repository secret
 named `REDIS_URL`, or change `RedisSecretName` in the options. Commit the generated file at
 `.github/workflows/modular-pipelines.yml`; regenerate it whenever module registration or
 capability requirements change.
@@ -86,6 +86,7 @@ jobs:
           INSTANCE_INDEX: ${{ matrix.instance }}
           TOTAL_INSTANCES: 4
           REDIS_URL: ${{ secrets.REDIS_URL }}
+          RUN_IDENTIFIER: ${{ github.run_id }}-${{ github.run_attempt }}
         run: dotnet run --project src/MyPipeline -c Release
 ```
 
@@ -136,7 +137,7 @@ builder.AddDistributedMode(o =>
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")!;
-    // RunIdentifier auto-detected from GITHUB_SHA
+    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
 });
 
 builder.AddModule<RestoreModule>();
@@ -230,6 +231,8 @@ public class AggregateResultsModule : Module<string>
 - **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
 - **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpirationSeconds` accordingly if you have very long pipelines.
 - **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
+- **Run isolation.** `RUN_IDENTIFIER` combines the GitHub run ID and attempt so concurrent runs
+  and reruns of the same commit never share Redis queues, results, or completion keys.
 - **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
 
 ## Azure DevOps

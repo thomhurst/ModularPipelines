@@ -52,6 +52,8 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(yaml).Contains("TOTAL_INSTANCES: 5");
         await Assert.That(yaml).Contains("REDIS_URL: ${{ secrets.REDIS_URL }}");
         await Assert.That(yaml).Contains(
+            "RUN_IDENTIFIER: ${{ github.run_id }}-${{ github.run_attempt }}");
+        await Assert.That(yaml).Contains(
             "run: dotnet run --project src/MyPipeline -c Release --framework net10.0");
         await Assert.That(yaml).DoesNotContain("pull_request:");
     }
