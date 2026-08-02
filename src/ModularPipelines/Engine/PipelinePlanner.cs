@@ -223,6 +223,7 @@ internal sealed class PipelinePlanner
                 moduleResultAccessAllowed: false);
             try
             {
+                using var planningResultAccess = PlanningModuleResultAccess.Enter();
                 return await configuration.SkipCondition!(moduleContext, cancellationToken).ConfigureAwait(false);
             }
             catch (PlanningModuleResultUnavailableException)
@@ -407,15 +408,19 @@ internal sealed class PipelinePlanner
                 GetConstraintKeys(module),
                 GetExecutionType(module),
                 GetParallelLimiter(module));
-            var start = FindEarliestStart(
+            var timing = FindModuleTiming(
                 dependencyFinish,
                 duration,
                 schedulingProfile,
                 scheduledModules,
                 concurrency);
-            var finish = start + duration;
+            var finish = timing.ExecutionStart + duration;
             finishTimes[module] = finish;
-            scheduledModules.Add(new ScheduledModule(start, finish, schedulingProfile));
+            scheduledModules.Add(new ScheduledModule(
+                timing.WorkerStart,
+                timing.ExecutionStart,
+                finish,
+                schedulingProfile));
         }
 
         return finishTimes.Values.DefaultIfEmpty(TimeSpan.Zero).Max();
@@ -485,7 +490,7 @@ internal sealed class PipelinePlanner
         return new ParallelLimiterProfile(attribute.Type, attribute.Limit);
     }
 
-    private static TimeSpan FindEarliestStart(
+    private static ModuleTiming FindModuleTiming(
         TimeSpan dependencyFinish,
         TimeSpan duration,
         SchedulingProfile profile,
@@ -494,18 +499,82 @@ internal sealed class PipelinePlanner
     {
         if (duration <= TimeSpan.Zero)
         {
-            return dependencyFinish;
+            return new ModuleTiming(dependencyFinish, dependencyFinish);
         }
 
-        var start = dependencyFinish;
+        var workerStart = dependencyFinish;
         while (true)
         {
-            var blockedUntil = GetBlockedUntil(
-                start,
+            workerStart = FindEarliestWorkerStart(
+                workerStart,
                 duration,
                 profile,
                 scheduledModules,
                 concurrency);
+            var executionStart = FindEarliestExecutionStart(
+                workerStart,
+                duration,
+                profile,
+                scheduledModules,
+                concurrency);
+            var occupiedDuration = executionStart + duration - workerStart;
+            var adjustedWorkerStart = FindEarliestWorkerStart(
+                workerStart,
+                occupiedDuration,
+                profile,
+                scheduledModules,
+                concurrency);
+            if (adjustedWorkerStart == workerStart)
+            {
+                return new ModuleTiming(workerStart, executionStart);
+            }
+
+            workerStart = adjustedWorkerStart;
+        }
+    }
+
+    private static TimeSpan FindEarliestWorkerStart(
+        TimeSpan earliestStart,
+        TimeSpan occupiedDuration,
+        SchedulingProfile profile,
+        IReadOnlyList<ScheduledModule> scheduledModules,
+        ConcurrencyOptions concurrency)
+    {
+        var start = earliestStart;
+        while (true)
+        {
+            var finish = start + occupiedDuration;
+            var checkpoints = scheduledModules
+                .Where(module => module.WorkerStart > start && module.WorkerStart < finish)
+                .Select(module => module.WorkerStart)
+                .Append(start)
+                .Distinct()
+                .Order();
+            var blockedUntil = TimeSpan.Zero;
+            foreach (var checkpoint in checkpoints)
+            {
+                var activeModules = scheduledModules
+                    .Where(module => module.WorkerStart <= checkpoint && module.Finish > checkpoint)
+                    .ToArray();
+                blockedUntil = Max(
+                    blockedUntil,
+                    GetCapacityBlocker(
+                        activeModules,
+                        concurrency.MaxParallelism,
+                        static _ => true));
+                blockedUntil = Max(
+                    blockedUntil,
+                    activeModules
+                        .Where(module => HasConstraintConflict(profile, module.Profile))
+                        .Select(module => module.Finish)
+                        .DefaultIfEmpty(TimeSpan.Zero)
+                        .Max());
+                if (blockedUntil > checkpoint)
+                {
+                    break;
+                }
+            }
+
             if (blockedUntil <= start)
             {
                 return start;
@@ -515,65 +584,63 @@ internal sealed class PipelinePlanner
         }
     }
 
-    private static TimeSpan GetBlockedUntil(
-        TimeSpan start,
+    private static TimeSpan FindEarliestExecutionStart(
+        TimeSpan earliestStart,
         TimeSpan duration,
         SchedulingProfile profile,
         IReadOnlyList<ScheduledModule> scheduledModules,
         ConcurrencyOptions concurrency)
     {
-        var finish = start + duration;
-        var checkpoints = scheduledModules
-            .Where(module => module.Start > start && module.Start < finish)
-            .Select(module => module.Start)
-            .Append(start)
-            .Distinct()
-            .Order()
-            .ToArray();
-
-        foreach (var checkpoint in checkpoints)
+        var start = earliestStart;
+        while (true)
         {
-            var activeModules = scheduledModules
-                .Where(module => module.Start <= checkpoint && module.Finish > checkpoint)
-                .ToArray();
-            var blockedUntil = GetCapacityBlocker(
-                activeModules,
-                concurrency.MaxParallelism,
-                static _ => true);
-            var executionTypeLimit = GetExecutionTypeLimit(profile.ExecutionType, concurrency);
-            if (executionTypeLimit is { } limit)
+            var finish = start + duration;
+            var checkpoints = scheduledModules
+                .Where(module => module.ExecutionStart > start && module.ExecutionStart < finish)
+                .Select(module => module.ExecutionStart)
+                .Append(start)
+                .Distinct()
+                .Order();
+            var blockedUntil = TimeSpan.Zero;
+            foreach (var checkpoint in checkpoints)
             {
-                blockedUntil = Max(
-                    blockedUntil,
-                    GetCapacityBlocker(
-                        activeModules,
-                        limit,
-                        module => module.Profile.ExecutionType == profile.ExecutionType));
+                var activeModules = scheduledModules
+                    .Where(module => module.ExecutionStart <= checkpoint && module.Finish > checkpoint)
+                    .ToArray();
+                var executionTypeLimit = GetExecutionTypeLimit(profile.ExecutionType, concurrency);
+                if (executionTypeLimit is { } limit)
+                {
+                    blockedUntil = Max(
+                        blockedUntil,
+                        GetCapacityBlocker(
+                            activeModules,
+                            limit,
+                            module => module.Profile.ExecutionType == profile.ExecutionType));
+                }
+
+                if (profile.ParallelLimiter is { } parallelLimiter)
+                {
+                    blockedUntil = Max(
+                        blockedUntil,
+                        GetCapacityBlocker(
+                            activeModules,
+                            parallelLimiter.Limit,
+                            module => module.Profile.ParallelLimiter?.Type == parallelLimiter.Type));
+                }
+
+                if (blockedUntil > checkpoint)
+                {
+                    break;
+                }
             }
 
-            if (profile.ParallelLimiter is { } parallelLimiter)
+            if (blockedUntil <= start)
             {
-                blockedUntil = Max(
-                    blockedUntil,
-                    GetCapacityBlocker(
-                        activeModules,
-                        parallelLimiter.Limit,
-                        module => module.Profile.ParallelLimiter?.Type == parallelLimiter.Type));
+                return start;
             }
 
-            var constraintBlocker = activeModules
-                .Where(module => HasConstraintConflict(profile, module.Profile))
-                .Select(module => module.Finish)
-                .DefaultIfEmpty(TimeSpan.Zero)
-                .Max();
-            blockedUntil = Max(blockedUntil, constraintBlocker);
-            if (blockedUntil > checkpoint)
-            {
-                return blockedUntil;
-            }
+            start = blockedUntil;
         }
-
-        return start;
     }
 
     private static TimeSpan GetCapacityBlocker(
@@ -625,7 +692,10 @@ internal sealed class PipelinePlanner
     private sealed record ParallelLimiterProfile(Type Type, int Limit);
 
     private sealed record ScheduledModule(
-        TimeSpan Start,
+        TimeSpan WorkerStart,
+        TimeSpan ExecutionStart,
         TimeSpan Finish,
         SchedulingProfile Profile);
+
+    private sealed record ModuleTiming(TimeSpan WorkerStart, TimeSpan ExecutionStart);
 }

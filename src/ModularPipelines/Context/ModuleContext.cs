@@ -82,7 +82,6 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         where TModule : class, IModule
     {
         var moduleType = typeof(TModule);
-        EnsureModuleResultAccessAllowed(moduleType);
 
         // Check for self-reference - still throw, as this is a programming error
         if (moduleType == _currentModule.GetType())

@@ -259,6 +259,8 @@ public class PipelineCommandLineTests
             nameof(SecondIoModule) => TimeSpan.FromMinutes(10),
             nameof(FirstLimitedModule) => TimeSpan.FromMinutes(10),
             nameof(SecondLimitedModule) => TimeSpan.FromMinutes(10),
+            nameof(IndependentRootModule) => TimeSpan.FromMinutes(10),
+            nameof(LongTailModule) => TimeSpan.FromMinutes(100),
             _ => TimeSpan.Zero,
         });
 
@@ -380,14 +382,55 @@ public class PipelineCommandLineTests
         public static int Limit => 1;
     }
 
+    [Priority(ModulePriority.High)]
     [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
     private sealed class FirstLimitedModule : DryRunModule
     {
     }
 
+    [Priority(ModulePriority.High)]
     [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
     private sealed class SecondLimitedModule : DryRunModule
     {
+    }
+
+    private sealed class IndependentRootModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.DependsOn<IndependentRootModule>]
+    private sealed class LongTailModule : DryRunModule
+    {
+    }
+
+    private sealed class MissingOptionalModule : DryRunModule
+    {
+    }
+
+    private sealed class RegistrationOnlyOptionalSkipModule : DryRunModule
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(context => context.GetModuleIfRegistered<MissingOptionalModule>() is null
+                ? SkipDecision.Skip("optional module absent")
+                : SkipDecision.DoNotSkip)
+            .Build();
+    }
+
+    private sealed class OptionalResultDependentSkipModule : DryRunModule
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(async (context, _) =>
+            {
+                var dependency = context.GetModuleIfRegistered<DependencyModule>();
+                if (dependency is null)
+                {
+                    return SkipDecision.Skip("optional module absent");
+                }
+
+                await dependency;
+                return SkipDecision.DoNotSkip;
+            })
+            .Build();
     }
 
     [ModularPipelines.Attributes.DependsOn<SkippedCycleBModule>]
@@ -723,6 +766,61 @@ public class PipelineCommandLineTests
         var plan = await pipeline.PlanAsync();
 
         await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(20));
+    }
+
+    [Test]
+    public async Task PlanAsyncCountsParallelLimiterWaitersAgainstWorkerSlots()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Concurrency = options.Concurrency with { MaxParallelism = 2 },
+        });
+        builder.AddModule<FirstLimitedModule>();
+        builder.AddModule<SecondLimitedModule>();
+        builder.AddModule<IndependentRootModule>();
+        builder.AddModule<LongTailModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(120));
+    }
+
+    [Test]
+    public async Task PlanAsyncEvaluatesOptionalRegistrationChecks()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<RegistrationOnlyOptionalSkipModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var plannedModule = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is RegistrationOnlyOptionalSkipModule);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plannedModule.IsSkipDecisionKnown).IsTrue();
+            await Assert.That(plannedModule.ShouldSkip).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task PlanAsyncMarksAwaitedOptionalResultUnknown()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<OptionalResultDependentSkipModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        var plannedModule = plan.Waves
+            .SelectMany(wave => wave.Modules)
+            .Single(module => module.Module is OptionalResultDependentSkipModule);
+
+        await Assert.That(plannedModule.IsSkipDecisionKnown).IsFalse();
     }
 
     [Test]
