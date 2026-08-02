@@ -94,6 +94,30 @@ public class SchedulerStatusReporterTests
         await Assert.That(logger.Messages[^1]).Contains(typeof(SecondContainer.SameNameModule).FullName!);
     }
 
+    [Test]
+    public async Task Debug_Level_Logs_Only_Compact_Summary()
+    {
+        var pendingState = CreateModuleState(typeof(PendingModule), ModuleExecutionState.Pending);
+        pendingState.UnresolvedDependencies.Add(typeof(DependencyModule));
+        var executingState = CreateModuleState(typeof(ExecutingModule), ModuleExecutionState.Executing);
+        var states = new ConcurrentDictionary<Type, ModuleState>(
+        [
+            new(typeof(PendingModule), pendingState),
+            new(typeof(ExecutingModule), executingState),
+        ]);
+        var logger = new RecordingLogger<SchedulerStatusReporter>(LogLevel.Debug);
+        var reporter = new SchedulerStatusReporter(logger, new FakeTimeProvider(StartTime));
+        var stateQueries = new ModuleStateQueries(states);
+        using var stateLock = new ReaderWriterLockSlim();
+
+        reporter.LogStatusIfIntervalElapsed(stateQueries, stateLock);
+
+        await Assert.That(logger.Messages).Count().IsEqualTo(1);
+        await Assert.That(logger.Messages[0]).Contains("Scheduler waiting:");
+        await Assert.That(logger.Messages[0]).DoesNotContain("PendingModule");
+        await Assert.That(logger.Messages[0]).DoesNotContain("ExecutingModule");
+    }
+
     private static ModuleState CreateModuleState(Type moduleType, ModuleExecutionState executionState)
     {
         return new ModuleState(new Mock<IModule>().Object, moduleType)
@@ -120,6 +144,13 @@ public class SchedulerStatusReporterTests
 
     private sealed class RecordingLogger<T> : ILogger<T>
     {
+        private readonly LogLevel _minimumLevel;
+
+        public RecordingLogger(LogLevel minimumLevel = LogLevel.Trace)
+        {
+            _minimumLevel = minimumLevel;
+        }
+
         public List<string> Messages { get; } = [];
 
         public IDisposable? BeginScope<TState>(TState state)
@@ -128,7 +159,8 @@ public class SchedulerStatusReporterTests
             return null;
         }
 
-        public bool IsEnabled(LogLevel logLevel) => true;
+        public bool IsEnabled(LogLevel logLevel) =>
+            logLevel >= _minimumLevel && logLevel != LogLevel.None;
 
         public void Log<TState>(
             LogLevel logLevel,
@@ -137,7 +169,10 @@ public class SchedulerStatusReporterTests
             Exception? exception,
             Func<TState, Exception?, string> formatter)
         {
-            Messages.Add(formatter(state, exception));
+            if (IsEnabled(logLevel))
+            {
+                Messages.Add(formatter(state, exception));
+            }
         }
     }
 }

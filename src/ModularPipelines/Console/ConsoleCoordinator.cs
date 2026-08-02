@@ -50,7 +50,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly IOutputCoordinator _outputCoordinator;
     private readonly ISpectreConsoleLoggerControl _loggerControl;
     private readonly INonSpectreLoggerFactory _nonSpectreLoggerFactory;
-    private readonly ISpectreLoggerFilter _spectreLoggerFilter;
     private readonly IAnsiConsole _ansiConsole;
     private TextWriter? _originalConsoleOut;
     private TextWriter? _originalConsoleError;
@@ -74,7 +73,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IOutputCoordinator outputCoordinator,
         ISpectreConsoleLoggerControl loggerControl,
         INonSpectreLoggerFactory nonSpectreLoggerFactory,
-        ISpectreLoggerFilter spectreLoggerFilter,
         IAnsiConsole ansiConsole)
     {
         _formatterProvider = formatterProvider;
@@ -88,14 +86,13 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _outputCoordinator = outputCoordinator;
         _loggerControl = loggerControl;
         _nonSpectreLoggerFactory = nonSpectreLoggerFactory;
-        _spectreLoggerFilter = spectreLoggerFilter;
         _ansiConsole = ansiConsole;
         _unattributedBuffer = new ModuleOutputBuffer(
             "Pipeline",
             typeof(void),
             _options.Value.ModuleOutputFlushThreshold,
             RequestThresholdFlush,
-            isSpectreEnabled: logLevel => _spectreLoggerFilter.IsEnabled(
+            isSpectreEnabled: logLevel => _loggerControl.WouldRender(
                 OutputLoggerCategories.Pipeline,
                 logLevel));
     }
@@ -302,7 +299,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 t,
                 _options.Value.ModuleOutputFlushThreshold,
                 RequestThresholdFlush,
-                isSpectreEnabled: logLevel => _spectreLoggerFilter.IsEnabled(
+                isSpectreEnabled: logLevel => _loggerControl.WouldRender(
                     OutputLoggerCategories.ForModule(t),
                     logLevel)));
     }

@@ -1,5 +1,3 @@
-using Azure.Identity;
-using Azure.ResourceManager;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
@@ -22,8 +20,6 @@ public static class TestPipelineHostBuilder
         var builder = Pipeline.CreateBuilder();
 
         builder.SetLogLevel(testHostSettings.LogLevel);
-
-        builder.Services.AddSingleton(new ArmClient(new DefaultAzureCredential()));
 
         builder.ConfigurePipelineOptions(options => options with
         {

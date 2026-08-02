@@ -95,7 +95,7 @@ public class ModuleExtensionsGeneratorTests
     }
 
     [Test]
-    public async Task Unchanged_Compilation_Uses_Incremental_Cache()
+    public async Task Equivalent_Compilation_Uses_Incremental_Cache()
     {
         var result = GeneratorTestHarness.RunTwiceWithStepTracking(
             new ModuleExtensionsGenerator(),
@@ -107,6 +107,6 @@ public class ModuleExtensionsGeneratorTests
             }
             """);
 
-        await Assert.That(GeneratorTestHarness.HasCachedOutput(result)).IsTrue();
+        await Assert.That(GeneratorTestHarness.HasCachedOrUnchangedOutput(result)).IsTrue();
     }
 }

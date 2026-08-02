@@ -140,6 +140,75 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Successful_And_Dry_Run_Commands_Expose_Obfuscated_Environment_Variables(bool dryRun)
+    {
+        const string secret = "command-result-secret-value";
+        var (command, pipeline) = await GetService<ICommandContext>(_ => { });
+        pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("pwsh")
+            {
+                Arguments = ["-NoProfile", "-Command", "exit 0"],
+            },
+            new CommandExecutionOptions
+            {
+                InternalDryRun = dryRun,
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["MP_TEST_SECRET"] = secret,
+                    ["MP_TEST_PUBLIC"] = "public-value",
+                    ["MP_TEST_NULL"] = null,
+                },
+            });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.EnvironmentVariables["MP_TEST_SECRET"]).DoesNotContain(secret);
+            await Assert.That(result.EnvironmentVariables["MP_TEST_PUBLIC"]).IsEqualTo("public-value");
+            await Assert.That(result.EnvironmentVariables["MP_TEST_NULL"]).IsNull();
+            await Assert.That(result.EnvironmentVariables.Keys.Any(key =>
+                key.StartsWith("MODULAR_PIPELINES_CMD_", StringComparison.OrdinalIgnoreCase))).IsFalse();
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Successful_And_Dry_Run_Commands_Preserve_Unix_Environment_Name_Casing(
+        bool dryRun)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var command = await GetService<ICommandContext>();
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("pwsh")
+            {
+                Arguments = ["-NoProfile", "-Command", "exit 0"],
+            },
+            new CommandExecutionOptions
+            {
+                InternalDryRun = dryRun,
+                EnvironmentVariables = new Dictionary<string, string?>(StringComparer.Ordinal)
+                {
+                    ["FOO"] = "upper",
+                    ["foo"] = "lower",
+                },
+            });
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.EnvironmentVariables["FOO"]).IsEqualTo("upper");
+            await Assert.That(result.EnvironmentVariables["foo"]).IsEqualTo("lower");
+        }
+    }
+
+    [Test]
     public async Task ExecuteCommandLineToolAsync_Resolves_Windows_Command_Scripts_From_Path()
     {
         if (!OperatingSystem.IsWindows())
