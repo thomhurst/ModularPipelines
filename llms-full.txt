@@ -1121,7 +1121,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
         var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
         var blobContainerProvisionResponse = await context.Tools.Azure.Provisioner.Storage.BlobContainer(
-            blobStorageAccount.ValueOrDefault!.Id,
+            blobStorageAccount.Value.Id,
             "MyContainer",
             new BlobContainerData()
         );
@@ -1145,8 +1145,8 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
         var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
         var roleAssignmentResource = await context.Tools.Azure.Provisioner.Security.RoleAssignment(
-            storageAccount.ValueOrDefault!.Id,
-            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.ValueOrDefault!.Data.PrincipalId!.Value)
+            storageAccount.Value.Id,
+            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.Value.Data.PrincipalId!.Value)
         );
 
         return roleAssignmentResource.Value;
@@ -1175,7 +1175,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
             {
                 Identity = new ManagedServiceIdentity(ManagedServiceIdentityType.UserAssigned)
                 {
-                    UserAssignedIdentities = { { userAssignedIdentity.ValueOrDefault!.Id, new UserAssignedIdentity() } }
+                    UserAssignedIdentities = { { userAssignedIdentity.Value.Id, new UserAssignedIdentity() } }
                 },
                 SiteConfig = new SiteConfigProperties
                 {
@@ -1184,12 +1184,12 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
                         new()
                         {
                             Name = "BlobStorageConnectionString",
-                            Value = storageAccount.ValueOrDefault!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
+                            Value = storageAccount.Value.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
                         },
                         new()
                         {
                             Name = "BlobContainerName",
-                            Value = blobContainer.ValueOrDefault!.Data.Name
+                            Value = blobContainer.Value.Data.Name
                         }
                     }
                 }
@@ -3423,6 +3423,11 @@ The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
 using var builder = Pipeline.CreateBuilder(args);
+builder.ConfigurePipelineOptions(options => options with
+{
+    ExecutionMode = ExecutionMode.WaitForAllModules,
+    ThrowOnPipelineFailure = false,
+});
 builder.AddModule<MyModule>();
 
 // Step 1: Build and validate the pipeline
@@ -3432,11 +3437,14 @@ await using var pipeline = await builder.BuildAsync();
 var summary = await pipeline.RunAsync();
 
 // Check results
-if (summary.Status == PipelineStatus.Failed)
+if (summary.Status == ModularPipelines.Enums.Status.Failed)
 {
     Environment.Exit(1);
 }
 ```
+
+Use `WaitForAllModules` with `ThrowOnPipelineFailure = false` when you need to inspect
+the returned summary after a module fails. Fail-fast mode rethrows the module exception.
 
 `BuildAsync()` always validates the pipeline configuration before returning:
 
@@ -4377,6 +4385,7 @@ ModularPipelines supports mocking file system operations for unit testing. All f
 ```csharp
 using Moq;
 using ModularPipelines;
+using ModularPipelines.Enums;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Extensions;
 
@@ -4393,13 +4402,18 @@ public async Task MyModule_ReadsConfigFile()
     // Run pipeline with mock
     using var builder = Pipeline.CreateBuilder(args);
 
+    builder.ConfigurePipelineOptions(options => options with
+    {
+        ThrowOnPipelineFailure = false,
+    });
+
     builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
     builder.AddModule<MyModule>();
 
     var result = await builder.ExecutePipelineAsync();
 
     // Assert results
-    Assert.That(result.Status, Is.EqualTo(PipelineStatus.Success));
+    Assert.That(result.Status, Is.EqualTo(Status.Successful));
 }
 ```
 
