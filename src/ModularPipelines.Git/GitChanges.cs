@@ -78,7 +78,7 @@ internal sealed class GitChanges : IGitChanges, IDisposable
 
             var output = await RunCommandsUntrimmed(
                     gitCommandRunner,
-                    null,
+                    new CommandExecutionOptions { MaxCapturedOutputLength = 0 },
                     cancellationToken,
                     "diff",
                     "--name-only",

@@ -69,7 +69,21 @@ public class GitChangesTests
         var hasChanges = await changes.HasChangesAsync([" leading-directory/file.txt "]);
 
         await Assert.That(hasChanges).IsTrue();
+        await Assert.That(runner.RawCommands).Count().IsEqualTo(2);
         await Assert.That(runner.Commands[1].OfType<string>()).Contains("merge-base");
+    }
+
+    [Test]
+    public async Task Captures_The_Complete_Null_Delimited_Diff()
+    {
+        var runner = new RecordingGitCommandRunner(
+            "merge-base",
+            "src/MyService/Program.cs\0");
+        var changes = CreateChanges(runner);
+
+        await changes.HasChangesAsync(["src/**"]);
+
+        await Assert.That(runner.ExecutionOptions[1]?.MaxCapturedOutputLength).IsEqualTo(0);
     }
 
     [Test]
@@ -130,15 +144,33 @@ public class GitChangesTests
         return services.BuildServiceProvider().CreateScope().ServiceProvider.GetRequiredService<IGitChanges>();
     }
 
-    private sealed class RecordingGitCommandRunner(params string[] outputs) : IGitCommandRunner
+    private sealed class RecordingGitCommandRunner(params string[] outputs)
+        : IGitCommandRunner, IRawGitCommandRunner
     {
         private readonly Queue<string> _outputs = new(outputs);
 
         public List<string?[]> Commands { get; } = [];
 
+        public List<string?[]> RawCommands { get; } = [];
+
+        public List<CommandExecutionOptions?> ExecutionOptions { get; } = [];
+
         public Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
         {
             Commands.Add(commands);
+            ExecutionOptions.Add(commandEnvironmentOptions);
+            return Task.FromResult(_outputs.Dequeue().Trim());
+        }
+
+        Task<string> IRawGitCommandRunner.RunCommandsUntrimmed(
+            CommandExecutionOptions? commandEnvironmentOptions,
+            CancellationToken cancellationToken,
+            params string?[] commands)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            Commands.Add(commands);
+            RawCommands.Add(commands);
+            ExecutionOptions.Add(commandEnvironmentOptions);
             return Task.FromResult(_outputs.Dequeue());
         }
 
