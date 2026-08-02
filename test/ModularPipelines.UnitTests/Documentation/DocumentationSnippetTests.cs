@@ -71,9 +71,8 @@ public class DocumentationSnippetTests
         var repositoryRoot = FindRepositoryRoot();
         string[] currentApiShape =
         [
-            "PublishModule : Module<None>",
-            "protected override async Task<None> ExecuteAsync(",
-            "return None.Value;",
+            "PublishModule : Module",
+            "protected override async Task ExecuteAsync(",
         ];
         var compiledFixture = await File.ReadAllTextAsync(Path.Combine(
                 repositoryRoot,
