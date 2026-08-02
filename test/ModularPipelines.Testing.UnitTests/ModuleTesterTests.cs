@@ -1,5 +1,6 @@
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
@@ -10,6 +11,8 @@ namespace ModularPipelines.Testing.UnitTests;
 
 public class ModuleTesterTests
 {
+    private const string InterceptedSecret = "intercepted-command-secret";
+
     [Test]
     public async Task ExecutesModuleAndReturnsTypedValue()
     {
@@ -82,6 +85,28 @@ public class ModuleTesterTests
             .ExecuteAsync();
 
         await Assert.That(run.Exception).IsTypeOf<CommandException>();
+    }
+
+    [Test]
+    public async Task InterceptedCommandFailureObfuscatesExceptionResult()
+    {
+        var run = await ModuleTester.For<SecretCommandModule, string>()
+            .WithService<ISecretObfuscator>(new TestSecretObfuscator())
+            .InterceptCommands(_ => CommandResult.Ok(InterceptedSecret, InterceptedSecret) with
+            {
+                ExitCode = 1,
+            })
+            .ExecuteAsync();
+
+        var exception = (CommandException) run.Exception!;
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception.Result.CommandInput).DoesNotContain(InterceptedSecret);
+            await Assert.That(exception.Result.StandardOutput).DoesNotContain(InterceptedSecret);
+            await Assert.That(exception.Result.StandardError).DoesNotContain(InterceptedSecret);
+            await Assert.That(exception.Result.EnvironmentVariables["SECRET_VALUE"])
+                .DoesNotContain(InterceptedSecret);
+        }
     }
 
     [Test]
@@ -518,6 +543,37 @@ public class ModuleTesterTests
             var copy = source.CopyTo(root.GetFolder("copy").Path);
             return await copy.GetFile("artifact.txt").ReadAsync(cancellationToken);
         }
+    }
+
+    public sealed class SecretCommandModule : Module<string>
+    {
+        protected override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var result = await context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("imaginary-tool")
+                {
+                    Arguments = [InterceptedSecret],
+                },
+                new CommandExecutionOptions
+                {
+                    EnvironmentVariables = new Dictionary<string, string?>
+                    {
+                        ["SECRET_VALUE"] = InterceptedSecret,
+                    },
+                },
+                cancellationToken: cancellationToken);
+
+            return result.StandardOutput;
+        }
+    }
+
+    private sealed class TestSecretObfuscator : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) =>
+            input?.Replace(InterceptedSecret, "********", StringComparison.Ordinal)
+            ?? string.Empty;
     }
 
     public sealed class ConcurrentCommandModule : Module<string>

@@ -667,6 +667,27 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task RejectsPlatformInvalidFileNameCharacters()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var provider = new InMemoryFileSystemProvider();
+        var invalidFile = Path.Combine(provider.GetTempPath(), "artifact?.txt");
+        var invalidDirectory = Path.Combine(provider.GetTempPath(), "artifacts*");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => provider.WriteAllTextAsync(invalidFile, "contents"))
+                .Throws<ArgumentException>();
+            await Assert.That(() => provider.CreateDirectory(invalidDirectory))
+                .Throws<ArgumentException>();
+        }
+    }
+
+    [Test]
     public async Task RejectsFileAndDirectoryPathCollisions()
     {
         var provider = new InMemoryFileSystemProvider();

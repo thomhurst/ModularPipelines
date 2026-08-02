@@ -655,6 +655,7 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
     private string NormalizeDirectoryPath(string path)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        ValidateFileNameSegments(path);
         ValidatePathTraversal(path);
         var fullPath = Path.GetFullPath(path);
         var root = Path.GetPathRoot(fullPath);
@@ -675,8 +676,33 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
                 nameof(path));
         }
 
+        ValidateFileNameSegments(path);
         ValidatePathTraversal(path);
         return Path.GetFullPath(path);
+    }
+
+    private static void ValidateFileNameSegments(string path)
+    {
+        var unresolvedPath = Path.IsPathFullyQualified(path)
+            ? path
+            : Path.Combine(Environment.CurrentDirectory, path);
+        var root = Path.GetPathRoot(unresolvedPath);
+        var pathWithoutRoot = string.IsNullOrEmpty(root)
+            ? unresolvedPath
+            : unresolvedPath[root.Length..];
+        var invalidCharacters = Path.GetInvalidFileNameChars();
+
+        foreach (var segment in pathWithoutRoot.Split(
+                     [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                     StringSplitOptions.RemoveEmptyEntries))
+        {
+            if (segment.IndexOfAny(invalidCharacters) >= 0)
+            {
+                throw new ArgumentException(
+                    $"The path contains an invalid file-name character: '{segment}'.",
+                    nameof(path));
+            }
+        }
     }
 
     private void ValidatePathTraversal(string path)

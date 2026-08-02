@@ -158,7 +158,16 @@ internal sealed class Command : ICommandContext
             LogInterceptedCommand(options, executionOptions, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
-                throw new CommandException(result);
+                throw new CommandException(CreateFailureResult(
+                    command,
+                    executionOptions,
+                    result.CommandInput,
+                    result.ExitCode,
+                    result.Duration,
+                    result.StandardOutput,
+                    result.StandardError,
+                    result.StartTime,
+                    result.EndTime));
             }
 
             return result;
