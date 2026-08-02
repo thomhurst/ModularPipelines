@@ -222,6 +222,11 @@ internal class ProgressSession : IProgressSession, IProgressController
                             break;
                         }
                     }
+
+                    // Render state changes made immediately before disposal. The periodic
+                    // loop may be cancelled before its next scheduled refresh.
+                    UpdateProgressTickers();
+                    ctx.Refresh();
                 })
                 .ConfigureAwait(false);
         }
@@ -557,7 +562,6 @@ internal class ProgressSession : IProgressSession, IProgressController
 
     private async Task DisposeCoreAsync()
     {
-        _progressLoopCancellationTokenSource.Cancel();
         TaskCompletionSource? refreshCompletion;
 
         // Signal resume in case we're disposed while paused
@@ -600,6 +604,10 @@ internal class ProgressSession : IProgressSession, IProgressController
 
             _progressTickers.Clear();
         }
+
+        // Cancel only after terminal task state is recorded so the progress loop's
+        // final refresh renders those changes before its live callback exits.
+        _progressLoopCancellationTokenSource.Cancel();
 
         if (_progressLoopTask is not null)
         {
