@@ -35,6 +35,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly IModuleLifecycleEventInvoker _lifecycleEventInvoker;
     private readonly IModuleAttributeEventService _moduleAttributeEventService;
     private readonly IModuleResultRegistrar _resultRegistrar;
+    private readonly ISecretObfuscator _secretObfuscator;
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -50,7 +51,8 @@ internal class ModuleRunner : IModuleRunner
         IParallelLimitHandler parallelLimitHandler,
         IModuleLifecycleEventInvoker lifecycleEventInvoker,
         IModuleAttributeEventService moduleAttributeEventService,
-        IModuleResultRegistrar resultRegistrar)
+        IModuleResultRegistrar resultRegistrar,
+        ISecretObfuscator secretObfuscator)
     {
         _serviceProvider = serviceProvider;
         _executionPipeline = executionPipeline;
@@ -66,6 +68,7 @@ internal class ModuleRunner : IModuleRunner
         _lifecycleEventInvoker = lifecycleEventInvoker;
         _moduleAttributeEventService = moduleAttributeEventService;
         _resultRegistrar = resultRegistrar;
+        _secretObfuscator = secretObfuscator;
     }
 
     /// <inheritdoc />
@@ -180,6 +183,11 @@ internal class ModuleRunner : IModuleRunner
                 activity?.SetTag(ModuleActivityTracing.ModuleStatusTag, telemetryStatus);
                 activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
             }
+            else if (executionContext.Status == Enums.Status.UsedHistory)
+            {
+                telemetryStatus = "UsedHistory";
+                ModuleActivityTracing.RecordUsedHistory(activity);
+            }
             else
             {
                 telemetryStatus = "Successful";
@@ -189,7 +197,10 @@ internal class ModuleRunner : IModuleRunner
         catch (Exception ex)
         {
             // Record failure on the Activity before re-throwing
-            ModuleActivityTracing.RecordFailure(activity, ex);
+            ModuleActivityTracing.RecordFailure(
+                activity,
+                ex,
+                _secretObfuscator.Obfuscate(ex.Message, null));
             throw;
         }
         finally

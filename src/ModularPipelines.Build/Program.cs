@@ -55,6 +55,7 @@ builder
     .AddModule<RunLiquibaseUnitTestsModule>()
     .AddModule<RunNerdbankGitVersioningUnitTestsModule>()
     .AddModule<RunNodeUnitTestsModule>()
+    .AddModule<RunOpenTelemetryUnitTestsModule>()
     .AddModule<RunOptionsGeneratorUnitTestsModule>()
     .AddModule<RunShellcheckUnitTestsModule>()
     .AddModule<RunSnykUnitTestsModule>()

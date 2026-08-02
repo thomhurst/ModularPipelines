@@ -106,9 +106,12 @@ public static class ModuleActivityTracing
         activity?.SetStatus(failed ? ActivityStatusCode.Error : ActivityStatusCode.Ok);
     }
 
-    internal static void RecordPipelineFailure(Activity? activity, Exception exception)
+    internal static void RecordPipelineFailure(
+        Activity? activity,
+        Exception exception,
+        string obfuscatedMessage)
     {
-        RecordException(activity, exception);
+        RecordException(activity, exception, obfuscatedMessage);
     }
 
     internal static Activity? StartCommandActivity(string tool, string obfuscatedCommandInput)
@@ -126,7 +129,10 @@ public static class ModuleActivityTracing
         activity?.SetStatus(result.ExitCode == 0 ? ActivityStatusCode.Ok : ActivityStatusCode.Error);
     }
 
-    internal static void RecordCommandFailure(Activity? activity, Exception exception)
+    internal static void RecordCommandFailure(
+        Activity? activity,
+        Exception exception,
+        string obfuscatedMessage)
     {
         if (exception is CommandException commandException)
         {
@@ -134,7 +140,7 @@ public static class ModuleActivityTracing
             activity?.SetTag(CommandDurationTag, commandException.Result.Duration.TotalMilliseconds);
         }
 
-        RecordException(activity, exception);
+        RecordException(activity, exception, obfuscatedMessage);
     }
 
     internal static void RecordModuleMetrics(
@@ -202,6 +208,12 @@ public static class ModuleActivityTracing
         activity?.SetStatus(ActivityStatusCode.Ok);
     }
 
+    internal static void RecordUsedHistory(Activity? activity)
+    {
+        activity?.SetTag(ModuleStatusTag, "UsedHistory");
+        activity?.SetStatus(ActivityStatusCode.Ok, "Module result restored from history");
+    }
+
     /// <summary>
     /// Records a skipped module on the activity.
     /// </summary>
@@ -219,8 +231,16 @@ public static class ModuleActivityTracing
     /// <param name="exception">The exception that caused the failure.</param>
     public static void RecordFailure(Activity? activity, Exception exception)
     {
+        RecordFailure(activity, exception, "Module execution failed");
+    }
+
+    internal static void RecordFailure(
+        Activity? activity,
+        Exception exception,
+        string obfuscatedMessage)
+    {
         activity?.SetTag(ModuleStatusTag, "Failed");
-        RecordException(activity, exception);
+        RecordException(activity, exception, obfuscatedMessage);
     }
 
     /// <summary>
@@ -253,10 +273,13 @@ public static class ModuleActivityTracing
         return Activity.Current?.Id;
     }
 
-    private static void RecordException(Activity? activity, Exception exception)
+    private static void RecordException(
+        Activity? activity,
+        Exception exception,
+        string obfuscatedMessage)
     {
         activity?.SetTag(ExceptionTypeTag, exception.GetType().FullName);
-        activity?.SetTag(ExceptionMessageTag, exception.Message);
-        activity?.SetStatus(ActivityStatusCode.Error, exception.Message);
+        activity?.SetTag(ExceptionMessageTag, obfuscatedMessage);
+        activity?.SetStatus(ActivityStatusCode.Error, obfuscatedMessage);
     }
 }

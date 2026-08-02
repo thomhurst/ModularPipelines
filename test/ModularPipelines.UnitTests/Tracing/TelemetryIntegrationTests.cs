@@ -6,6 +6,7 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -27,6 +28,16 @@ public class TelemetryIntegrationTests
             CancellationToken cancellationToken = default)
         {
             return ValueTask.FromResult<CommandResult?>(CommandResult.Ok());
+        }
+    }
+
+    private sealed class ThrowingCommandInterceptor : ICommandInterceptor
+    {
+        public ValueTask<CommandResult?> InterceptAsync(
+            CommandInvocation invocation,
+            CancellationToken cancellationToken = default)
+        {
+            throw new InvalidOperationException($"Telemetry failure contains {Secret}");
         }
     }
 
@@ -112,6 +123,71 @@ public class TelemetryIntegrationTests
                     measurement.Name == ModuleActivityTracing.ModuleRetriesMetric).Value)
                 .IsEqualTo(2);
         }
+    }
+
+    [Test]
+    public async Task Failure_Activities_Obfuscate_Registered_Secrets()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddSingleton<ICommandInterceptor, ThrowingCommandInterceptor>();
+        await Assert.ThrowsAsync<ModuleFailedException>(async () =>
+            await builder.AddModule<CommandModule>().ExecutePipelineAsync());
+
+        var failureActivities = stoppedActivities.Where(activity =>
+                activity.OperationName is "Pipeline.Run"
+                    or $"Module.{nameof(CommandModule)}"
+                    or "Command.telemetry-tool")
+            .ToArray();
+
+        await Assert.That(failureActivities).Count().IsEqualTo(3);
+
+        foreach (var activity in failureActivities)
+        {
+            var exceptionMessage = activity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag)?.ToString();
+            await Assert.That(exceptionMessage).Contains("**********");
+            await Assert.That(exceptionMessage).DoesNotContain(Secret);
+            await Assert.That(activity.StatusDescription).Contains("**********");
+            await Assert.That(activity.StatusDescription).DoesNotContain(Secret);
+        }
+    }
+
+    [Test]
+    public async Task UsedHistory_Is_Preserved_In_Module_Activity()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
+        {
+            ModuleActivityTracing.RecordUsedHistory(activity);
+        }
+
+        var moduleActivity = stoppedActivities.Single();
+        await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ModuleStatusTag))
+            .IsEqualTo("UsedHistory");
+        await Assert.That(moduleActivity.Status).IsEqualTo(ActivityStatusCode.Ok);
+    }
+
+    [Test]
+    public async Task Public_RecordFailure_Does_Not_Export_Raw_Exception_Message()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        using (var activity = ModuleActivityTracing.StartModuleActivity(typeof(CommandModule)))
+        {
+            ModuleActivityTracing.RecordFailure(
+                activity,
+                new InvalidOperationException($"Failure contains {Secret}"));
+        }
+
+        var moduleActivity = stoppedActivities.Single();
+        await Assert.That(moduleActivity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag)?.ToString())
+            .DoesNotContain(Secret);
+        await Assert.That(moduleActivity.StatusDescription).DoesNotContain(Secret);
     }
 
     [Test]

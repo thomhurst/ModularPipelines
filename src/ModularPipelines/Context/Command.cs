@@ -142,12 +142,18 @@ internal sealed class Command : ICommandContext
                   && timeoutCancellationToken?.IsCancellationRequested is true)
         {
             var timeoutException = CreateTimeoutException(execOpts, exception);
-            ModuleActivityTracing.RecordCommandFailure(activity, timeoutException);
+            ModuleActivityTracing.RecordCommandFailure(
+                activity,
+                timeoutException,
+                _secretObfuscator.Obfuscate(timeoutException.Message, execOpts));
             throw timeoutException;
         }
         catch (Exception exception)
         {
-            ModuleActivityTracing.RecordCommandFailure(activity, exception);
+            ModuleActivityTracing.RecordCommandFailure(
+                activity,
+                exception,
+                _secretObfuscator.Obfuscate(exception.Message, execOpts));
             throw;
         }
     }

@@ -100,7 +100,11 @@ internal sealed class PipelineImpl : IPipeline
         }
         catch (Exception exception)
         {
-            ModuleActivityTracing.RecordPipelineFailure(activity, exception);
+            var secretObfuscator = Services.GetRequiredService<ISecretObfuscator>();
+            ModuleActivityTracing.RecordPipelineFailure(
+                activity,
+                exception,
+                secretObfuscator.Obfuscate(exception.Message, null));
             throw;
         }
     }
