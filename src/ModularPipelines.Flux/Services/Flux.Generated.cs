@@ -192,11 +192,11 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TraceAsync(
-        FluxTraceOptions? options = null,
+        FluxTraceOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxTraceOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

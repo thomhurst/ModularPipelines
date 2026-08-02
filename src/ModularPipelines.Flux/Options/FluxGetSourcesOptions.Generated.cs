@@ -120,7 +120,7 @@ public record FluxGetSourcesOptions : FluxOptions
     /// Path to the kubeconfig file to use for CLI requests.
     /// </summary>
     [CliOption("--kubeconfig", Format = OptionFormat.EqualsSeparated)]
-    public string? Kubeconfig { get; set; }
+    public string? KubeConfig { get; set; }
 
     /// <summary>
     /// filter objects by label selector
@@ -194,5 +194,11 @@ public record FluxGetSourcesOptions : FluxOptions
     /// </summary>
     [CliFlag("--watch", ShortForm = "-w")]
     public bool? Watch { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Command { get; set; }
 
 }

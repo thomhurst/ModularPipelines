@@ -184,7 +184,7 @@ public partial interface IFlux
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TraceAsync(FluxTraceOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TraceAsync(FluxTraceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// The uninstall command removes the Flux components and the toolkit.fluxcd.io resources from the cluster.

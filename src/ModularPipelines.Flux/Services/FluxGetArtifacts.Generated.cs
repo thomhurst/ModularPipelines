@@ -32,6 +32,21 @@ public class FluxGetArtifacts
     #region Commands
 
     /// <summary>
+    /// The get artifact sub-commands print the status of artifact objects.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxGetArtifactsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxGetArtifactsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The get artifact generator command prints the statuses of the resources.
     /// </summary>
     /// <param name="options">The command options.</param>

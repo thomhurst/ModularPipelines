@@ -7,7 +7,13 @@ title: flux CLI reference
 
 `ModularPipelines.Flux` provides strongly typed access to the `flux` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `flux` executable. Install it separately and ensure `flux` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Flux
@@ -17,37 +23,27 @@ Resolve the service with `context.Tools.Flux`. For projects older than C# 14, im
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Flux.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult?> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Flux.CheckAsync(
-            new FluxCheckOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var flux = context.Tools.Flux;
 ```
 
 ## Commands
 
 | CLI command | Options record |
 | --- | --- |
+| `flux bootstrap` | `FluxBootstrapOptions` |
 | `flux bootstrap bitbucket-server` | `FluxBootstrapBitbucketServerOptions` |
 | `flux bootstrap git` | `FluxBootstrapGitOptions` |
 | `flux bootstrap gitea` | `FluxBootstrapGiteaOptions` |
 | `flux bootstrap github` | `FluxBootstrapGithubOptions` |
 | `flux bootstrap gitlab` | `FluxBootstrapGitlabOptions` |
+| `flux build` | `FluxBuildOptions` |
 | `flux build artifact` | `FluxBuildArtifactOptions` |
 | `flux build kustomization` | `FluxBuildKustomizationOptions` |
 | `flux check` | `FluxCheckOptions` |
+| `flux create` | `FluxCreateOptions` |
 | `flux create alert` | `FluxCreateAlertOptions` |
 | `flux create alert-provider` | `FluxCreateAlertProviderOptions` |
 | `flux create helmrelease` | `FluxCreateHelmreleaseOptions` |
@@ -73,8 +69,10 @@ public class RunCommandModule : Module<CommandResult>
 | `flux create source helm` | `FluxCreateSourceHelmOptions` |
 | `flux create source oci` | `FluxCreateSourceOciOptions` |
 | `flux create tenant` | `FluxCreateTenantOptions` |
+| `flux debug` | `FluxDebugOptions` |
 | `flux debug helmrelease` | `FluxDebugHelmreleaseOptions` |
 | `flux debug kustomization` | `FluxDebugKustomizationOptions` |
+| `flux delete` | `FluxDeleteOptions` |
 | `flux delete alert` | `FluxDeleteAlertOptions` |
 | `flux delete alert-provider` | `FluxDeleteAlertProviderOptions` |
 | `flux delete helmrelease` | `FluxDeleteHelmreleaseOptions` |
@@ -90,10 +88,12 @@ public class RunCommandModule : Module<CommandResult>
 | `flux delete source git` | `FluxDeleteSourceGitOptions` |
 | `flux delete source helm` | `FluxDeleteSourceHelmOptions` |
 | `flux delete source oci` | `FluxDeleteSourceOciOptions` |
+| `flux diff` | `FluxDiffOptions` |
 | `flux diff artifact` | `FluxDiffArtifactOptions` |
 | `flux diff kustomization` | `FluxDiffKustomizationOptions` |
 | `flux envsubst` | `FluxEnvsubstOptions` |
 | `flux events` | `FluxEventsOptions` |
+| `flux export` | `FluxExportOptions` |
 | `flux export alert` | `FluxExportAlertOptions` |
 | `flux export alert-provider` | `FluxExportAlertProviderOptions` |
 | `flux export artifact` | `FluxExportArtifactOptions` |
@@ -112,6 +112,7 @@ public class RunCommandModule : Module<CommandResult>
 | `flux export source git` | `FluxExportSourceGitOptions` |
 | `flux export source helm` | `FluxExportSourceHelmOptions` |
 | `flux export source oci` | `FluxExportSourceOciOptions` |
+| `flux get` | `FluxGetOptions` |
 | `flux get alert-providers` | `FluxGetAlertProvidersOptions` |
 | `flux get alerts` | `FluxGetAlertsOptions` |
 | `flux get all` | `FluxGetAllOptions` |
@@ -134,16 +135,21 @@ public class RunCommandModule : Module<CommandResult>
 | `flux get sources helm` | `FluxGetSourcesHelmOptions` |
 | `flux get sources oci` | `FluxGetSourcesOciOptions` |
 | `flux install` | `FluxInstallOptions` |
+| `flux list` | `FluxListOptions` |
 | `flux list artifacts` | `FluxListArtifactsOptions` |
 | `flux logs` | `FluxLogsOptions` |
 | `flux migrate` | `FluxMigrateOptions` |
+| `flux plugin` | `FluxPluginOptions` |
 | `flux plugin install` | `FluxPluginInstallOptions` |
 | `flux plugin list` | `FluxPluginListOptions` |
 | `flux plugin search` | `FluxPluginSearchOptions` |
 | `flux plugin uninstall` | `FluxPluginUninstallOptions` |
 | `flux plugin update` | `FluxPluginUpdateOptions` |
+| `flux pull` | `FluxPullOptions` |
 | `flux pull artifact` | `FluxPullArtifactOptions` |
+| `flux push` | `FluxPushOptions` |
 | `flux push artifact` | `FluxPushArtifactOptions` |
+| `flux reconcile` | `FluxReconcileOptions` |
 | `flux reconcile helmrelease` | `FluxReconcileHelmreleaseOptions` |
 | `flux reconcile image` | `FluxReconcileImageOptions` |
 | `flux reconcile image policy` | `FluxReconcileImagePolicyOptions` |
@@ -157,6 +163,7 @@ public class RunCommandModule : Module<CommandResult>
 | `flux reconcile source git` | `FluxReconcileSourceGitOptions` |
 | `flux reconcile source helm` | `FluxReconcileSourceHelmOptions` |
 | `flux reconcile source oci` | `FluxReconcileSourceOciOptions` |
+| `flux resume` | `FluxResumeOptions` |
 | `flux resume alert` | `FluxResumeAlertOptions` |
 | `flux resume alert-provider` | `FluxResumeAlertProviderOptions` |
 | `flux resume helmrelease` | `FluxResumeHelmreleaseOptions` |
@@ -173,6 +180,7 @@ public class RunCommandModule : Module<CommandResult>
 | `flux resume source helm` | `FluxResumeSourceHelmOptions` |
 | `flux resume source oci` | `FluxResumeSourceOciOptions` |
 | `flux stats` | `FluxStatsOptions` |
+| `flux suspend` | `FluxSuspendOptions` |
 | `flux suspend alert` | `FluxSuspendAlertOptions` |
 | `flux suspend alert-provider` | `FluxSuspendAlertProviderOptions` |
 | `flux suspend helmrelease` | `FluxSuspendHelmreleaseOptions` |
@@ -188,10 +196,13 @@ public class RunCommandModule : Module<CommandResult>
 | `flux suspend source git` | `FluxSuspendSourceGitOptions` |
 | `flux suspend source helm` | `FluxSuspendSourceHelmOptions` |
 | `flux suspend source oci` | `FluxSuspendSourceOciOptions` |
+| `flux tag` | `FluxTagOptions` |
 | `flux tag artifact` | `FluxTagArtifactOptions` |
 | `flux trace` | `FluxTraceOptions` |
+| `flux tree` | `FluxTreeOptions` |
 | `flux tree artifact` | `FluxTreeArtifactOptions` |
 | `flux tree artifact generator` | `FluxTreeArtifactGeneratorOptions` |
 | `flux tree kustomization` | `FluxTreeKustomizationOptions` |
+| `flux trigger` | `FluxTriggerOptions` |
 | `flux trigger receiver` | `FluxTriggerReceiverOptions` |
 | `flux uninstall` | `FluxUninstallOptions` |

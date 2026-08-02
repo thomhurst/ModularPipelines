@@ -32,6 +32,21 @@ public class FluxResumeSource
     #region Commands
 
     /// <summary>
+    /// The resume sub-commands resume a suspended source.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxResumeSourceOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxResumeSourceOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The resume command marks a previously suspended Bucket resource for reconciliation and waits for it to finish.
     /// </summary>
     /// <param name="options">The command options.</param>

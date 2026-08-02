@@ -17,11 +17,11 @@ namespace ModularPipelines.Flux.Enums;
 public enum FluxCreateSourceGitSshEcdsaCurve
 {
     [EnumValue("p256")]
-    P256,
+    P256 = 0,
 
     [EnumValue("p384")]
-    P384,
+    P384 = 1,
 
     [EnumValue("p521")]
-    P521
+    P521 = 2
 }

@@ -32,6 +32,21 @@ public class FluxCreateSecret
     #region Commands
 
     /// <summary>
+    /// The create source sub-commands generate Kubernetes secrets specific to Flux.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        FluxCreateSecretOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new FluxCreateSecretOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The create secret githubapp command generates a Kubernetes secret that can be used for GitRepository authentication with github app
     /// </summary>
     /// <param name="options">The command options.</param>
