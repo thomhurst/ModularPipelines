@@ -90,11 +90,10 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     /// <inheritdoc/>
     public virtual async Task<CommandResult> ChocolateyAsync()
     {
-        return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("cmd")
+        var result = await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("powershell.exe")
         {
             Arguments =
             [
-                @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe",
                 "-NoProfile",
                 "-InputFormat",
                 "None",
@@ -102,11 +101,14 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
                 "Bypass",
                 "-Command",
                 "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))",
-                "&&",
-                "SET",
-                "PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\\bin"
             ],
         }).ConfigureAwait(false);
+
+        var allUsersProfile = _environmentVariables.GetEnvironmentVariable("ALLUSERSPROFILE")
+                              ?? Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        _environmentVariables.AddToPath(Path.Combine(allUsersProfile, "chocolatey", "bin"));
+
+        return result;
     }
 
     /// <inheritdoc/>
@@ -136,7 +138,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
     /// <inheritdoc/>
     public async Task<File?> Nvm(string? version = null)
     {
-        if (OperatingSystem.IsWindows())
+        if (_environmentContext.OperatingSystem == OperatingSystemIdentifier.Windows)
         {
             var nvmWindowsUrl = $"https://github.com/coreybutler/nvm-windows/releases/download/{Versions.NvmWindows}/nvm-noinstall.zip";
             var zipFile = await _downloader.DownloadFileAsync(
@@ -170,11 +172,6 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
 
         await _bash.FromFileAsync(new BashFileOptions(bashScript)).ConfigureAwait(false);
 
-        await _bash.CommandAsync(new BashCommandOptions("export NVM_DIR=\"$HOME/.nvm\"")).ConfigureAwait(false);
-        await _bash.CommandAsync(new BashCommandOptions("[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"")).ConfigureAwait(false);
-        await _bash.CommandAsync(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"")).ConfigureAwait(false);
-        await _bash.CommandAsync(new BashCommandOptions("source ~/.bashrc")).ConfigureAwait(false);
-
         var nvmDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nvm");
         return new File(nvmDir);
     }
@@ -186,7 +183,7 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
 
         await Nvm().ConfigureAwait(false);
 
-        if (OperatingSystem.IsWindows())
+        if (_environmentContext.OperatingSystem == OperatingSystemIdentifier.Windows)
         {
             // Windows: CliWrap handles argument escaping automatically via WithArguments()
             return await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("nvm")
@@ -197,7 +194,9 @@ public partial class PredefinedInstallers : IPredefinedInstallersContext
 
         // Linux/Mac: Use shell escaping since BashCommandOptions uses string interpolation.
         var escapedVersion = ShellArgumentEscaper.Escape(version);
-        return await _bash.CommandAsync(new BashCommandOptions($"nvm install {escapedVersion}")).ConfigureAwait(false);
+        return await _bash.CommandAsync(new BashCommandOptions(
+            $"export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" && nvm install {escapedVersion}"))
+            .ConfigureAwait(false);
     }
 
     /// <summary>
