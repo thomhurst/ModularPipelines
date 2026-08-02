@@ -292,9 +292,11 @@ public class Module2 : Module<string>
             using ModularPipelines.Attributes;
 
             namespace Example;
+
             public class Dependency : Module<string>
             {
-                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string?>(null);
             }
 
             [DependsOn<Dependency>]
@@ -308,7 +310,8 @@ public class Module2 : Module<string>
                     }
                 }
 
-                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string?>(null);
             }
             """.ReplaceLineEndings("\n");
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId)
