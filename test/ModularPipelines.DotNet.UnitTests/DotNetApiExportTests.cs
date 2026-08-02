@@ -1,7 +1,7 @@
 using ModularPipelines.DotNet.Services;
 using ModularPipelines.Models;
 
-namespace ModularPipelines.UnitTests.Api;
+namespace ModularPipelines.DotNet.UnitTests;
 
 public class DotNetApiExportTests
 {
