@@ -72,6 +72,40 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    public async Task DownloadFileAsync_Derives_Extension_From_Uri_Path()
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/archive.zip?token=abc.def#fragment.txt")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zip");
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
+    public async Task DownloadFileAsync_Removes_Invalid_Characters_From_Derived_Extension()
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/archive.zip%00suffix")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zipsuffix");
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
     public async Task DownloadFileAsync_UsesBoundedSiblingTemporaryName()
     {
         var destination = Path.Combine(

@@ -120,7 +120,7 @@ internal class Downloader : IDownloaderContext
     {
         if (string.IsNullOrWhiteSpace(options.SavePath))
         {
-            return _fileSystemProvider.Combine(_fileSystemProvider.GetTempPath(), Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
+            return _fileSystemProvider.Combine(_fileSystemProvider.GetTempPath(), Guid.NewGuid() + GetExtension(options.DownloadUri));
         }
 
         // Check if the path explicitly ends with a directory separator
@@ -128,7 +128,7 @@ internal class Downloader : IDownloaderContext
         if (PathHelpers.EndsWithDirectorySeparator(options.SavePath))
         {
             _fileSystemProvider.CreateDirectory(options.SavePath);
-            return _fileSystemProvider.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
+            return _fileSystemProvider.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri));
         }
 
         // Use extension heuristic as a fallback
@@ -140,16 +140,19 @@ internal class Downloader : IDownloaderContext
         }
 
         _fileSystemProvider.CreateDirectory(options.SavePath);
-        return _fileSystemProvider.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
+        return _fileSystemProvider.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri));
     }
 
-    private static string GetExtension(string downloadUri)
+    private static string GetExtension(Uri downloadUri)
     {
-        if (Path.HasExtension(downloadUri))
+        var extension = Path.GetExtension(Uri.UnescapeDataString(downloadUri.AbsolutePath));
+        if (string.IsNullOrEmpty(extension))
         {
-            return Path.GetExtension(downloadUri);
+            return string.Empty;
         }
 
-        return string.Empty;
+        var invalidFileNameCharacters = Path.GetInvalidFileNameChars();
+        return string.Concat(extension.Where(character =>
+            !invalidFileNameCharacters.Contains(character)));
     }
 }
