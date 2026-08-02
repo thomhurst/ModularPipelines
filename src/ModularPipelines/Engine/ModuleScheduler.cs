@@ -28,7 +28,6 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly IModuleConstraintEvaluator _constraintEvaluator;
     private readonly ISchedulerStatusReporter _statusReporter;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
-    private readonly Dictionary<Type, HashSet<Type>> _dependencyGraph;
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
     private readonly ModuleStateQueries _stateQueries;
@@ -65,7 +64,6 @@ internal class ModuleScheduler : IModuleScheduler
         _constraintEvaluator = constraintEvaluator;
         _statusReporter = statusReporter;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
-        _dependencyGraph = new Dictionary<Type, HashSet<Type>>();
         _queuedModules = new HashSet<ModuleState>();
         _executingModules = new HashSet<ModuleState>();
         _stateQueries = new ModuleStateQueries(_moduleStates);
@@ -127,116 +125,6 @@ internal class ModuleScheduler : IModuleScheduler
             "Initialized {Count} modules for scheduling with total of {DependencyCount} dependencies",
             _moduleStates.Count,
             _moduleStates.Values.Sum(x => x.UnresolvedDependencies.Count));
-    }
-
-    /// <summary>
-    /// Adds a new module dynamically (e.g., SubModule discovered during execution).
-    /// </summary>
-    public void AddModule(IModule module)
-    {
-        ArgumentNullException.ThrowIfNull(module);
-
-        if (IsDisposed)
-        {
-            return;
-        }
-
-        var moduleType = module.GetType();
-        ModuleState state;
-
-        // Track unregistered dependencies for logging outside lock
-        List<Type>? unregisteredDependencies = null;
-
-        _stateLock.EnterWriteLock();
-        try
-        {
-            if (_moduleStates.ContainsKey(moduleType))
-            {
-                return;
-            }
-
-            state = new ModuleState(module, moduleType);
-            _metadataRegistry.FinalizeMetadata(moduleType, module);
-
-            var availableModuleTypes = _moduleStates.Keys.Append(moduleType).ToArray();
-            var newModuleDependencies = ModuleDependencyResolver.GetAllDependencies(
-                module,
-                availableModuleTypes,
-                _dependencyRegistry,
-                _metadataRegistry).ToArray();
-            var (newlyAvailableDependenciesByType, selectorDependents) =
-                ResolveNewlyAvailableDependencies(moduleType);
-
-            var newModuleDependencyTypes = newModuleDependencies
-                .Select(dependency => dependency.DependencyType)
-                .ToHashSet();
-
-            ValidateNoDynamicCycle(
-                moduleType,
-                newModuleDependencyTypes,
-                newlyAvailableDependenciesByType.Keys);
-
-            foreach (var (dependencyType, optional) in newModuleDependencies)
-            {
-                ModuleStateDependencyInitializer.Record(state, dependencyType, optional);
-            }
-
-            _moduleStates[moduleType] = state;
-            _stateCounters.AddPendingModule();
-            _dependencyGraph[moduleType] = newModuleDependencyTypes;
-
-            foreach (var selectorDependent in selectorDependents)
-            {
-                _dependencyGraph[selectorDependent].Add(moduleType);
-            }
-
-            foreach (var (existingModuleType, optional) in newlyAvailableDependenciesByType)
-            {
-                var existingState = _moduleStates[existingModuleType];
-                if (existingState.State == ModuleExecutionState.Pending)
-                {
-                    ModuleStateDependencyInitializer.Record(existingState, moduleType, optional);
-                    LinkDependencyState(existingState, moduleType, optional);
-                }
-            }
-
-            foreach (var (dependencyType, optional) in newModuleDependencies)
-            {
-                LinkDependencyState(state, dependencyType, optional);
-            }
-
-            foreach (var (dependencyType, ignoreIfNotRegistered) in newModuleDependencies)
-            {
-                if (!_moduleStates.ContainsKey(dependencyType) && !ignoreIfNotRegistered)
-                {
-                    unregisteredDependencies ??= new List<Type>();
-                    unregisteredDependencies.Add(dependencyType);
-                }
-            }
-        }
-        finally
-        {
-            _stateLock.ExitWriteLock();
-        }
-
-        // Logging outside lock
-        if (unregisteredDependencies != null)
-        {
-            foreach (var dependencyType in unregisteredDependencies)
-            {
-                _logger.LogWarning(
-                    "Dynamically added module {ModuleName} depends on {DependencyName} which is not registered",
-                    moduleType.Name,
-                    dependencyType.Name);
-            }
-        }
-
-        _logger.LogDebug(
-            "Dynamically added module {ModuleName} with {DependencyCount} dependencies",
-            moduleType.Name,
-            state.UnresolvedDependencies.Count);
-
-        _schedulerNotification.Release();
     }
 
     /// <summary>
@@ -363,42 +251,6 @@ internal class ModuleScheduler : IModuleScheduler
         _schedulerNotification.Release();
     }
 
-    private (
-        Dictionary<Type, bool> DependenciesByType,
-        HashSet<Type> SelectorDependents) ResolveNewlyAvailableDependencies(Type moduleType)
-    {
-        var dependenciesByType = new Dictionary<Type, bool>();
-        var selectorDependents = new HashSet<Type>();
-
-        foreach (var existingModuleType in _moduleStates.Keys)
-        {
-            var existingState = _moduleStates[existingModuleType];
-            bool? isOptional = existingState.Dependencies.TryGetValue(moduleType, out var declaredOptional)
-                ? declaredOptional
-                : null;
-
-            var selectorDependencies = ModuleDependencyResolver.GetSelectorDependencies(
-                    existingModuleType,
-                    [moduleType],
-                    _metadataRegistry)
-                .ToArray();
-
-            if (selectorDependencies.Length > 0)
-            {
-                selectorDependents.Add(existingModuleType);
-                isOptional = (isOptional ?? true)
-                             && selectorDependencies.All(dependency => dependency.Optional);
-            }
-
-            if (isOptional is not null)
-            {
-                dependenciesByType[existingModuleType] = isOptional.Value;
-            }
-        }
-
-        return (dependenciesByType, selectorDependents);
-    }
-
     private void AddModuleStates(IEnumerable<IModule> modules)
     {
         foreach (var module in modules)
@@ -485,10 +337,6 @@ internal class ModuleScheduler : IModuleScheduler
             availableModuleTypes,
             _dependencyRegistry,
             _metadataRegistry);
-        _dependencyGraph[state.ModuleType] = dependencies
-            .Select(dependency => dependency.DependencyType)
-            .ToHashSet();
-
         foreach (var (dependencyType, optional) in dependencies)
         {
             LinkDependencyState(state, dependencyType, optional);
@@ -518,95 +366,6 @@ internal class ModuleScheduler : IModuleScheduler
                 state.ModuleType.Name,
                 dependencyType.Name);
         }
-    }
-
-    private void ValidateNoDynamicCycle(
-        Type moduleType,
-        IReadOnlySet<Type> newModuleDependencies,
-        IEnumerable<Type> newlyAvailableDependentTypes)
-    {
-        if (newModuleDependencies.Contains(moduleType))
-        {
-            ThrowDependencyCollision([moduleType, moduleType]);
-        }
-
-        var pendingDependents = newlyAvailableDependentTypes
-            .Where(type => _moduleStates[type].State == ModuleExecutionState.Pending)
-            .ToHashSet();
-        if (pendingDependents.Count == 0)
-        {
-            return;
-        }
-
-        var parentByType = new Dictionary<Type, Type?>
-        {
-            [moduleType] = null,
-        };
-
-        var modulesToVisit = new Stack<Type>();
-        modulesToVisit.Push(moduleType);
-
-        while (modulesToVisit.TryPop(out var currentType))
-        {
-            foreach (var dependencyType in GetPendingDependencies(currentType, moduleType, newModuleDependencies))
-            {
-                if (!parentByType.TryAdd(dependencyType, currentType))
-                {
-                    continue;
-                }
-
-                if (pendingDependents.Contains(dependencyType))
-                {
-                    ThrowDependencyCollision(BuildDynamicCycle(moduleType, dependencyType, parentByType));
-                }
-
-                modulesToVisit.Push(dependencyType);
-            }
-        }
-    }
-
-    private IEnumerable<Type> GetPendingDependencies(
-        Type currentType,
-        Type addedModuleType,
-        IReadOnlySet<Type> newModuleDependencies)
-    {
-        var dependencies = currentType == addedModuleType
-            ? newModuleDependencies
-            : _moduleStates[currentType].State == ModuleExecutionState.Pending
-                ? _dependencyGraph[currentType]
-                : [];
-
-        return dependencies.Where(dependencyType =>
-            dependencyType != addedModuleType
-            && _moduleStates.TryGetValue(dependencyType, out var dependencyState)
-            && dependencyState.State != ModuleExecutionState.Completed);
-    }
-
-    private static Type[] BuildDynamicCycle(
-        Type moduleType,
-        Type dependentType,
-        IReadOnlyDictionary<Type, Type?> parentByType)
-    {
-        var pathFromModule = new Stack<Type>();
-        var currentType = (Type?) dependentType;
-
-        while (currentType is not null && currentType != moduleType)
-        {
-            pathFromModule.Push(currentType);
-            currentType = parentByType[currentType];
-        }
-
-        return [dependentType, moduleType, .. pathFromModule];
-    }
-
-    private static void ThrowDependencyCollision(IReadOnlyList<Type> cycle)
-    {
-        var formattedCycle = cycle.Select(type => type.Name).ToArray();
-        formattedCycle[0] = $"**{formattedCycle[0]}**";
-        formattedCycle[^1] = $"**{formattedCycle[^1]}**";
-
-        throw new DependencyCollisionException(
-            $"Dependency collision detected: {string.Join(" -> ", formattedCycle)}");
     }
 
     private async Task RunSchedulerLoopAsync(CancellationToken cancellationToken)
