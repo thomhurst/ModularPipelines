@@ -907,7 +907,8 @@ internal static class ModuleAuthoringAnalysis
         if (TryTrackDirectModuleServiceRegistration(
                 invocation,
                 compilation,
-                instanceRegisteredModules))
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations))
         {
             return;
         }
@@ -958,7 +959,8 @@ internal static class ModuleAuthoringAnalysis
     private static bool TryTrackDirectModuleServiceRegistration(
         IInvocationOperation invocation,
         Compilation compilation,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var method = invocation.TargetMethod;
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
@@ -979,7 +981,8 @@ internal static class ModuleAuthoringAnalysis
         if (!TryTrackDirectImplementationType(
                 invocation,
                 method,
-                instanceRegisteredModules))
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations))
         {
             TrackDirectImplementationValue(
                 invocation,
@@ -1005,7 +1008,8 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsServiceDescriptorRegistrationMethod(
         IInvocationOperation invocation)
     {
-        if (invocation.TargetMethod.Name is not ("Add" or "Insert" or "TryAdd" or "TryAddEnumerable")
+        if (invocation.TargetMethod.Name is not (
+                "Add" or "Insert" or "Replace" or "TryAdd" or "TryAddEnumerable")
             || !InvocationTargetsServiceCollection(invocation))
         {
             return false;
@@ -1275,7 +1279,8 @@ internal static class ModuleAuthoringAnalysis
     private static bool TryTrackDirectImplementationType(
         IInvocationOperation invocation,
         IMethodSymbol method,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         if (method.TypeArguments.ElementAtOrDefault(1) is INamedTypeSymbol implementationType)
         {
@@ -1294,7 +1299,8 @@ internal static class ModuleAuthoringAnalysis
                 implementationTypeArgument.Value,
                 out var implementationTypes))
         {
-            return false;
+            unresolvedModuleRegistrations.Add(0);
+            return true;
         }
 
         foreach (var trackedType in implementationTypes)
