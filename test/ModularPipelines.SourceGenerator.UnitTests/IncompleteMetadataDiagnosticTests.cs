@@ -68,6 +68,23 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Equivalent_Secret_Compilation_Uses_Incremental_Cache()
+    {
+        var result = GeneratorTestHarness.RunTwiceWithStepTracking(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public sealed class Secrets
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "";
+            }
+            """);
+
+        await Assert.That(GeneratorTestHarness.HasCachedOrUnchangedOutput(result)).IsTrue();
+    }
+
+    [Test]
     public async Task Derived_Secret_Attribute_Marks_Metadata_Incomplete()
     {
         var result = GeneratorTestRunner.Run(

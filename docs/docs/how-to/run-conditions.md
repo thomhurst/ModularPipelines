@@ -22,7 +22,7 @@ Apply the condition with an attribute that states its intent:
 
 ```csharp
 [RunIfAll<ServiceIsAvailable>]
-public class DeployModule : Module<None>
+public class DeployModule : Module
 ```
 
 - `[SkipIf<T>]` skips when the condition is `true`.
@@ -42,7 +42,7 @@ Built-in platform conditions include `OnLinux`, `OnWindows`, and `OnMacOS`:
 
 ```csharp
 [RunIfAll<OnLinux>]
-public class LinuxModule : Module<None>
+public class LinuxModule : Module
 ```
 
 One-off conditions can use `Configure().WithSkipWhen(...)`.

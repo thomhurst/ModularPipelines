@@ -47,7 +47,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 static (_, _) => true,
                 static (generatorContext, _) => GetTypeCandidate(generatorContext))
             .Where(static item => item is not null)
-            .Select(static (item, _) => item!);
+            .Select(static (item, _) => item!)
+            .WithComparer(TypeMetadataCandidateComparer.Instance);
 
         var candidates = typeCandidates.Collect().Combine(secretCandidates.Collect());
         context.RegisterSourceOutput(candidates, static (sourceContext, candidateGroups) =>
