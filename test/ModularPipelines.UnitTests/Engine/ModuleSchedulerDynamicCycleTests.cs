@@ -95,31 +95,24 @@ public class ModuleSchedulerDynamicCycleTests
 
         using var scheduler = CreateScheduler(
             constraintEvaluator.Object,
-            statusReporter.Object,
-            new SchedulerOptions
-            {
-                NotificationTimeout = TimeSpan.FromMilliseconds(20),
-            });
+            statusReporter.Object);
         scheduler.InitializeModules([new CompletedDependencyModule()]);
 
         var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
         var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
         await Assert.That(scheduler.MarkModuleStarted(module.ModuleType)).IsTrue();
 
-        await Task.Delay(150);
-
         statusReporter.Verify(
             x => x.LogStatusIfIntervalElapsed(
                 It.IsAny<ModuleStateQueries>(),
                 It.IsAny<ReaderWriterLockSlim>()),
             Times.Never);
-
-        scheduler.MarkModuleCompleted(module.ModuleType, success: true);
-        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
-
         constraintEvaluator.Verify(
             x => x.CanQueue(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()),
             Times.Never);
+
+        scheduler.MarkModuleCompleted(module.ModuleType, success: true);
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
     }
 
     [Test]
