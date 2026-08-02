@@ -35,7 +35,7 @@ public static class SyftExtensions
     }
 
     /// <summary>
-    /// Gets the syft service from the pipeline context.
+    /// Gets the syft service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ISyft"/> service for executing syft commands.</returns>
