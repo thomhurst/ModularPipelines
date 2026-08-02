@@ -173,6 +173,25 @@ public class RedisModuleCacheTests
     }
 
     [Test]
+    public async Task OpenReadRejectsInconsistentChunkCount()
+    {
+        var generation = new string('b', 32);
+        _database.Setup(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().EndsWith(":metadata", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync((RedisValue) $"{generation}:1000:1");
+
+        await Assert.That(async () =>
+                await _cache.OpenReadAsync(Fingerprint, CancellationToken.None))
+            .Throws<InvalidDataException>();
+
+        _database.Verify(value => value.StringGetAsync(
+                It.Is<RedisKey>(key => key.ToString().Contains(":chunk:", StringComparison.Ordinal)),
+                It.IsAny<CommandFlags>()),
+            Times.Never);
+    }
+
+    [Test]
     public async Task OpenReadCancellationInterruptsPendingRedisCall()
     {
         var pending = new TaskCompletionSource<RedisValue>(

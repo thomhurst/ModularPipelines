@@ -106,7 +106,7 @@ internal static class ModuleCacheFileResolver
             }
 
             var declaredRoot = GetContainedPath(root, pattern);
-            if (IsWithin(declaredRoot, fullPath))
+            if (IsWithin(declaredRoot, fullPath, GetPathComparer(root)))
             {
                 return true;
             }
@@ -495,10 +495,7 @@ internal static class ModuleCacheFileResolver
 
     private static void EnsureContained(string root, string path)
     {
-        var relative = Path.GetRelativePath(root, path);
-        if (relative == ".."
-            || relative.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
-            || Path.IsPathRooted(relative))
+        if (!IsWithin(root, path))
         {
             throw new InvalidOperationException($"Path '{path}' escapes working directory '{root}'.");
         }
@@ -537,13 +534,30 @@ internal static class ModuleCacheFileResolver
         }
     }
 
-    private static bool IsWithin(string root, string path)
+    internal static bool IsWithin(string root, string path)
     {
-        var relative = Path.GetRelativePath(root, path);
-        return relative == "."
-               || (!relative.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
-                   && relative != ".."
-                   && !Path.IsPathRooted(relative));
+        var fullRoot = Path.GetFullPath(root);
+        return IsWithin(fullRoot, Path.GetFullPath(path), GetPathComparer(fullRoot));
+    }
+
+    private static bool IsWithin(string root, string path, StringComparer pathComparer)
+    {
+        if (pathComparer.Equals(root, path))
+        {
+            return true;
+        }
+
+        var prefixLength = root.Length;
+        if (!Path.EndsInDirectorySeparator(root)
+            && (path.Length <= prefixLength
+                || (path[prefixLength] != Path.DirectorySeparatorChar
+                    && path[prefixLength] != Path.AltDirectorySeparatorChar)))
+        {
+            return false;
+        }
+
+        return path.Length > prefixLength
+               && pathComparer.Equals(root, path[..prefixLength]);
     }
 
     private static Regex CreateGlobRegex(string glob, bool ignoreCase)

@@ -931,10 +931,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
         var relativePath = entry.FullName[ArtifactPrefix.Length..]
             .Replace('/', Path.DirectorySeparatorChar);
         var destination = Path.GetFullPath(Path.Combine(root, relativePath));
-        var verifiedRelativePath = Path.GetRelativePath(root, destination);
-        if (verifiedRelativePath == ".."
-            || verifiedRelativePath.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal)
-            || Path.IsPathRooted(verifiedRelativePath))
+        if (!ModuleCacheFileResolver.IsWithin(root, destination))
         {
             throw new InvalidDataException($"Cache artifact path '{entry.FullName}' escapes the working directory.");
         }

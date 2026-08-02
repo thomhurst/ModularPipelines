@@ -1587,6 +1587,31 @@ public class ModuleCacheTests
     }
 
     [Test]
+    public async Task VolumeComparerRejectsCaseDistinctSiblingDirectory()
+    {
+        var temporaryDirectory = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-cache-containment-{Guid.NewGuid():N}");
+        var root = Path.Combine(temporaryDirectory, "work");
+        var sibling = Path.Combine(temporaryDirectory, "WORK", "escaped.txt");
+        Directory.CreateDirectory(root);
+
+        try
+        {
+            if (ModuleCacheFileResolver.GetPathComparer(root) == StringComparer.OrdinalIgnoreCase)
+            {
+                return;
+            }
+
+            await Assert.That(ModuleCacheFileResolver.IsWithin(root, sibling)).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(temporaryDirectory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task InputExpansionRejectsSymbolicLinkedPaths()
     {
         var temporaryDirectory = Path.Combine(

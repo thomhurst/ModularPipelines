@@ -94,6 +94,17 @@ public sealed class RedisModuleCache : IModuleCacheStore
             throw CreateEntryLimitException();
         }
 
+        var expectedChunkCount = expectedLength / _chunkSize;
+        if (expectedLength % _chunkSize != 0)
+        {
+            expectedChunkCount++;
+        }
+
+        if (chunkCount != expectedChunkCount)
+        {
+            throw new InvalidDataException("Redis module cache metadata has an inconsistent chunk count.");
+        }
+
         var temporary = Path.GetTempFileName();
         var stream = new FileStream(
             temporary,
