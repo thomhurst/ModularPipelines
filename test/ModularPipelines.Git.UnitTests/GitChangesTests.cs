@@ -8,6 +8,12 @@ namespace ModularPipelines.Git.UnitTests;
 public class GitChangesTests
 {
     [Test]
+    public async Task Raw_Git_Command_Runner_Is_A_Public_Extensibility_Contract()
+    {
+        await Assert.That(typeof(IRawGitCommandRunner).IsPublic).IsTrue();
+    }
+
+    [Test]
     public async Task Matches_Changed_Paths_And_Caches_Git_Diff()
     {
         var runner = new RecordingGitCommandRunner(
