@@ -29,7 +29,7 @@ public class DynamicDependencyIntegrationTests : TestBase
 
     public class ModuleA : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Add("A");
             await Task.Yield();
@@ -40,7 +40,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [AddDependency(typeof(ModuleA))]
     public class ModuleB : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Add("B");
             await Task.Yield();
@@ -51,7 +51,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     // Never registered — a dynamic dependency on this module cannot be satisfied.
     public class UnregisteredModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "unregistered";
@@ -63,7 +63,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [AddDependency(typeof(UnregisteredModule))]
     public class ModuleWithMissingDynamicDependency : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "never runs";
@@ -73,7 +73,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [ModularPipelines.Attributes.ModuleCategory("compile")]
     public class DynamicallySkippedDependency : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("A filtered dependency must not execute");
@@ -83,7 +83,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [AddDependency(typeof(DynamicallySkippedDependency))]
     public class DynamicallySkippedDependent : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("A cascade-skipped dependent must not execute");

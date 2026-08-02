@@ -14,7 +14,7 @@ public class DockerTests : TestBase
 {
     private class DockerBuildModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var pretendPath = context.Files
                 .GetFolder(Environment.CurrentDirectory)

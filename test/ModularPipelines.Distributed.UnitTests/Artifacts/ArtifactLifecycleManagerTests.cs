@@ -10,29 +10,29 @@ namespace ModularPipelines.Distributed.UnitTests.Artifacts;
 [ProducesArtifact("build-output", "test-output")]
 public class ProducerModule : Module<string>
 {
-    protected internal override Task<string?> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
-        => Task.FromResult<string?>("done");
+    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult<string>("done");
 }
 
 [ConsumesArtifact(typeof(ProducerModule), "build-output", RestorePath = "restored")]
 public class ConsumerModule : Module<string>
 {
-    protected internal override Task<string?> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
-        => Task.FromResult<string?>("done");
+    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult<string>("done");
 }
 
 [ConsumesArtifact(typeof(ProducerModule), "build-output", RestorePath = "restored")]
 public class SecondConsumerModule : Module<string>
 {
-    protected internal override Task<string?> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
-        => Task.FromResult<string?>("done");
+    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult<string>("done");
 }
 
 [ConsumesArtifact(typeof(ProducerModule), "build-output", RestorePath = "different-path")]
 public class DifferentPathConsumerModule : Module<string>
 {
-    protected internal override Task<string?> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
-        => Task.FromResult<string?>("done");
+    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult<string>("done");
 }
 
 public class ArtifactLifecycleManagerTests

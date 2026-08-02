@@ -62,7 +62,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
             _moduleId = GetType().Name;
         }
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             AddLogEntry($"{_moduleId}:ExecuteAsync");
@@ -137,12 +137,12 @@ public class DirectModuleHooksIntegrationTests : TestBase
     [RecordingModuleEvent]
     private sealed class OrderedHooksModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             AddLogEntry("Module:Execute");
-            return Task.FromResult<string?>("Success");
+            return Task.FromResult<string>("Success");
         }
 
         protected override Task OnBeforeExecuteAsync(
@@ -179,7 +179,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
         public bool LoggerWasAvailableInBeforeHook { get; private set; }
         public bool LoggerWasAvailableInAfterHook { get; private set; }
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Success";

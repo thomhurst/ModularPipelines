@@ -48,64 +48,64 @@ public class PipelineCommandLineTests
 
     private sealed class DependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _dependencyExecutions);
-            return Task.FromResult<string?>("dependency");
+            return Task.FromResult<string>("dependency");
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     private sealed class TargetModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _targetExecutions);
-            return Task.FromResult<string?>("target");
+            return Task.FromResult<string>("target");
         }
     }
 
     private sealed class UnrelatedModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _unrelatedExecutions);
-            return Task.FromResult<string?>("unrelated");
+            return Task.FromResult<string>("unrelated");
         }
     }
 
     private sealed class UnregisteredModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("unregistered");
+            Task.FromResult<string>("unregistered");
     }
 
     [AddRegistrationDependency(typeof(UnregisteredModule))]
     private sealed class InvalidDynamicDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("invalid");
+            Task.FromResult<string>("invalid");
     }
 
     [ModuleCategory("selected")]
     private sealed class SelectedCategoryModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _categoryExecutions);
-            return Task.FromResult<string?>("selected");
+            return Task.FromResult<string>("selected");
         }
     }
 
@@ -121,10 +121,10 @@ public class PipelineCommandLineTests
     [RunIfAll<TrackingCondition>]
     private sealed class ConditionalModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("conditional");
+            Task.FromResult<string>("conditional");
     }
 
     [Before(Test)]

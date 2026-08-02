@@ -36,11 +36,12 @@ public class FolderTests : TestBase
 
     private class FindFileModule : Module<ModularPipelines.FileSystem.File>
     {
-        protected internal override async Task<ModularPipelines.FileSystem.File?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<ModularPipelines.FileSystem.File> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            return repositoryInfo.Root.FindFile(x => x.Name == "README.md");
+            return repositoryInfo.Root.FindFile(x => x.Name == "README.md")
+                ?? throw new InvalidOperationException("README.md was not found.");
         }
     }
 

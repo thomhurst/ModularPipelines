@@ -62,7 +62,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogEnd]
     public class SuccessfulModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Success";
@@ -73,7 +73,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogFailed]
     public class FailingModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("Intentional failure");
         }
@@ -87,9 +87,9 @@ public class LifecycleEventIntegrationTests : TestBase
             .WithSkipWhen(_ => SkipDecision.Skip("Test skip reason"))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Should not execute");
+            return Task.FromResult<string>("Should not execute");
         }
     }
 
@@ -98,11 +98,11 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogSkipped]
     public class AttributeSkippingModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Should not execute");
+            return Task.FromResult<string>("Should not execute");
         }
     }
 

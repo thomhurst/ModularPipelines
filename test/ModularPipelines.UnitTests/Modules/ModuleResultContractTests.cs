@@ -233,9 +233,9 @@ public class ModuleResultContractTests
     }
 
     [Test]
-    public async Task NullSuccess_Value_ThrowsWithModuleContext()
+    public async Task ExplicitlyNullableSuccess_Value_ReturnsNull()
     {
-        ModuleResult<string> result = new ModuleResult<string>.Success(null)
+        ModuleResult<string?> result = new ModuleResult<string?>.Success(null)
         {
             ModuleName = "NullableModule",
             ModuleDuration = TimeSpan.Zero,
@@ -244,10 +244,7 @@ public class ModuleResultContractTests
             ModuleStatus = Status.Successful,
         };
 
-        var exception = await Assert.That(() => result.Value)
-            .Throws<InvalidOperationException>();
-
-        await Assert.That(exception!.Message).IsEqualTo("NullableModule succeeded but returned null");
+        await Assert.That(result.Value).IsNull();
     }
 
     [Test]
@@ -273,7 +270,7 @@ public class ModuleResultContractTests
     [Test]
     public async Task NullSuccess_ToString_DoesNotEvaluateRequiredValue()
     {
-        ModuleResult<string> result = new ModuleResult<string>.Success(null)
+        ModuleResult<string?> result = new ModuleResult<string?>.Success(null)
         {
             ModuleName = "NullableModule",
             ModuleDuration = TimeSpan.Zero,
@@ -284,7 +281,7 @@ public class ModuleResultContractTests
 
         var formatted = result.ToString();
 
-        await Assert.That(formatted).Contains(nameof(ModuleResult<string>.Success));
+        await Assert.That(formatted).Contains(nameof(ModuleResult<string?>.Success));
     }
 
     [Test]
@@ -303,7 +300,7 @@ public class ModuleResultContractTests
     [Test]
     public async Task NullSuccess_TryGetValue_ReturnsTrue()
     {
-        ModuleResult<string> result = new ModuleResult<string>.Success(null)
+        ModuleResult<string?> result = new ModuleResult<string?>.Success(null)
         {
             ModuleName = "NullableModule",
             ModuleDuration = TimeSpan.Zero,
@@ -318,7 +315,7 @@ public class ModuleResultContractTests
         {
             await Assert.That(hasValue).IsTrue();
             await Assert.That(value).IsNull();
-            await Assert.That(((ModuleResult<string>.Success) result).Value).IsNull();
+            await Assert.That(((ModuleResult<string?>.Success) result).Value).IsNull();
             await Assert.That(result.Match(
                 onSuccess: success => success,
                 onFailure: _ => "failure",

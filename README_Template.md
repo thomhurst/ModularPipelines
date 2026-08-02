@@ -28,7 +28,7 @@ ModularPipelines lets you write your CI/CD pipelines as regular C# code. That me
 [DependsOn<TestModule>]
 public class PublishModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // This is real C#. Set a breakpoint. Inspect variables. Debug locally.
         return await context.Tools.DotNet.PublishAsync(new DotNetPublishOptions
@@ -75,7 +75,7 @@ Modules return strongly-typed results that other modules can consume. No shared 
 // BuildModule returns version info
 public class BuildModule : Module<BuildInfo>
 {
-    protected override async Task<BuildInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<BuildInfo> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(
             new DotNetBuildOptions { ProjectSolution = "MyApp.csproj" },

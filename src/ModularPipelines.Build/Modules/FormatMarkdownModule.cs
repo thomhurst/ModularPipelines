@@ -14,7 +14,7 @@ namespace ModularPipelines.Build.Modules;
 
 [RunIfAll<ModularPipelines.Conditions.OnLinux>]
 [DependsOn<GenerateReadMeModule>]
-public class FormatMarkdownModule : Module<CommandResult>
+public class FormatMarkdownModule : Module<None>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithSkipWhen(ctx =>
@@ -34,7 +34,7 @@ public class FormatMarkdownModule : Module<CommandResult>
         .WithAlwaysRun()
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Node().Npm.InstallAsync(new NpmInstallOptions
         {
@@ -94,6 +94,6 @@ public class FormatMarkdownModule : Module<CommandResult>
                  """);
         }
 
-        return null;
+        return None.Value;
     }
 }

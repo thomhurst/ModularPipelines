@@ -22,7 +22,7 @@ In the example below, we use the .csproj filename as the submodule name. So if o
 ```csharp
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
@@ -33,10 +33,10 @@ public class PackProjectsModule : Module<CommandResult[]>
                 x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
             .ToList();
 
-        return await PackProjects(context, projects, packageVersion.ValueOrDefault, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
+        return await PackProjects(context, projects, packageVersion.Value, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
     }
 
-    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<File> projects, string? packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
+    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<File> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         foreach (var project in projects)
         {

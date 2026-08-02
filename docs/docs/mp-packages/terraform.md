@@ -30,7 +30,7 @@ using ModularPipelines.Terraform.Options;
 
 public class UseTerraformModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

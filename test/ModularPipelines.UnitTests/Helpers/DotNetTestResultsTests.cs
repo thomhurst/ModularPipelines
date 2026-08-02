@@ -20,7 +20,7 @@ public class DotNetTestResultsTests : TestBase
 {
     private class DotNetTestWithFailureModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
@@ -51,7 +51,7 @@ public class DotNetTestResultsTests : TestBase
         private const string TrxFileName = "test-results.trx";
         public static File? TrxFile { get; private set; }
 
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");

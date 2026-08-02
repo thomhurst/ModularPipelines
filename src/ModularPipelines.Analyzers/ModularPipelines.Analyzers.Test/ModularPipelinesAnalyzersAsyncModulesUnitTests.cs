@@ -12,14 +12,14 @@ public class ModularPipelinesAnalyzersAsyncModulesUnitTests
 
 public class Module1 : Module<CommandResult>
 {{
-    {{|#0:protected override Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{|#0:protected override Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         return ExecuteCommand(context);
     }}|}}
 
-    private async Task<CommandResult?> ExecuteCommand(IModuleContext context)
+    private async Task<CommandResult> ExecuteCommand(IModuleContext context)
     {{
-        return await context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(""git""));
+        return (await context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(""git"")))!;
     }}
 }}
 ";
@@ -29,17 +29,17 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<string>
 {{
-    {{|#0:protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{|#0:protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         if (1 + ""n"" == ""1n"")
         {{
             return ExecuteCommand(context);
         }}
 
-        return Task.FromResult<string?>(""Foo!"");
+        return Task.FromResult<string>(""Foo!"");
     }}|}}
 
-    private async Task<string?> ExecuteCommand(IModuleContext context)
+    private async Task<string> ExecuteCommand(IModuleContext context)
     {{
         await Task.Yield();
         return ""Foo!"";
@@ -52,14 +52,14 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         return await ExecuteCommand(context);
     }}
 
-    private async Task<CommandResult?> ExecuteCommand(IModuleContext context)
+    private async Task<CommandResult> ExecuteCommand(IModuleContext context)
     {{
-        return await context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(""git""));
+        return (await context.Shell.Command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions(""git"")))!;
     }}
 }}
 ";
@@ -69,9 +69,9 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<string>
 {{
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<string?>(""Foo"");
+        return Task.FromResult<string>(""Foo"");
     }}
 }}
 ";
@@ -81,7 +81,7 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    {{|#0:protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{|#0:protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         if (1 + ""n"" == ""1n"")
         {{
@@ -91,7 +91,7 @@ public class Module1 : Module<string>
         return ""Foo!"";
     }}|}}
 
-    private async Task<string?> ExecuteCommand(IModuleContext context)
+    private async Task<string> ExecuteCommand(IModuleContext context)
     {{
         await Task.Yield();
         return ""Foo!"";

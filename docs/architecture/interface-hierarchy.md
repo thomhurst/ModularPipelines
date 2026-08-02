@@ -45,7 +45,7 @@ Modules receive `IModuleContext`:
 ```csharp
 public class BuildModule : Module<CommandResult>
 {
-    protected override Task<CommandResult?> ExecuteAsync(
+    protected override Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

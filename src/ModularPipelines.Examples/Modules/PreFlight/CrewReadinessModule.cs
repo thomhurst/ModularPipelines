@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules.PreFlight;
 [ModuleCategory("PreFlight")]
 public class CrewReadinessModule : Module<CrewStatus>
 {
-    protected override async Task<CrewStatus?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CrewStatus> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Initiating crew readiness verification sequence...");
         context.Logger.LogDebug("Loading crew manifest from mission database...");

@@ -139,13 +139,13 @@ public class ScaleTests : TestBase
     /// <typeparam name="T">A marker type that makes this module unique.</typeparam>
     public class ScaleModule<T>(ExecutionTracker tracker) : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use full generic type name to uniquely identify each module
             var typeName = GetType().ToString();
             tracker.RecordStart(typeName);
             tracker.MarkCompleted(typeName);
-            return Task.FromResult<string?>(typeName);
+            return Task.FromResult<string>(typeName);
         }
     }
 

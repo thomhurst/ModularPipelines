@@ -51,7 +51,7 @@ public class TrxParsingTests : TestBase
     {
         public DotNetTestResult? LastResult { get; private set; }
 
-        protected internal override async Task<DotNetTestResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<DotNetTestResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");

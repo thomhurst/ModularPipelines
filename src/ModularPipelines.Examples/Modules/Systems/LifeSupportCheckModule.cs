@@ -11,10 +11,10 @@ namespace ModularPipelines.Examples.Modules.Systems;
 [ModuleCategory("Systems")]
 public class LifeSupportCheckModule : Module<LifeSupportStatus>
 {
-    protected override async Task<LifeSupportStatus?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<LifeSupportStatus> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var crewModule = await context.GetModule<CrewReadinessModule>();
-        var crew = crewModule.ValueOrDefault!;
+        var crew = crewModule.Value;
 
         context.Logger.LogInformation("Initiating life support system verification for {Count} crew members...", crew.CrewCount);
         context.Logger.LogDebug("Connecting to Environmental Control and Life Support System (ECLSS)...");

@@ -10,9 +10,9 @@ namespace ModularPipelines.Examples.Modules.Launch;
 [ModuleCategory("Launch")]
 public class LaunchModule : Module<LaunchResult>
 {
-    protected override async Task<LaunchResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<LaunchResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var countdown = (await context.GetModule<FinalCountdownModule>()).ValueOrDefault!;
+        var countdown = (await context.GetModule<FinalCountdownModule>()).Value;
 
         if (countdown.HoldCalled)
         {

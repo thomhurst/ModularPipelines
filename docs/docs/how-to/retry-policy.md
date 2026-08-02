@@ -22,7 +22,7 @@ public class MyModule : Module<CommandResult>
         .WithRetry(3)  // Retry up to 3 times with exponential backoff and jitter
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something that might fail transiently
     }
@@ -56,7 +56,7 @@ public class MyModule : Module<CommandResult>
                 .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i)))
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }

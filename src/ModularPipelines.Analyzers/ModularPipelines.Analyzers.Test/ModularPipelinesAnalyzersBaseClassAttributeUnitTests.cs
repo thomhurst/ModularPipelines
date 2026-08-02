@@ -26,19 +26,19 @@ namespace ModularPipelines.Examples.Modules;";
 
 public class Module1 : Module<IDictionary<string, object>>
 {{
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
-        return null;
+        return null!;
     }}
 }}
 
 public class Module2 : DependsOnModule1
 {{
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         var module1 = await context.GetModule<Module1>();
-        return null;
+        return null!;
     }}
 }}
 
@@ -52,19 +52,19 @@ public abstract class DependsOnModule1 : Module<IDictionary<string, object>>
 
 public class Module1 : Module<IDictionary<string, object>>
 {{
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
-        return null;
+        return null!;
     }}
 }}
 
 public class Module2 : Module<IDictionary<string, object>>, IDependsOnModule1
 {{
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         var module1 = await context.GetModule<Module1>();
-        return null;
+        return null!;
     }}
 }}
 

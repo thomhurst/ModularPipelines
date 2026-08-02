@@ -17,7 +17,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     /// </summary>
     private class StringModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Hello from StringModule";
@@ -29,7 +29,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     /// </summary>
     private class ComplexResultModule : Module<ComplexResult>
     {
-        protected internal override async Task<ComplexResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<ComplexResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return new ComplexResult { Id = 42, Name = "Test" };
@@ -51,7 +51,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [ModularPipelines.Attributes.DependsOn<StringModule>]
     private class ConsumerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use the new single-type-parameter API
             var result = await context.GetModule<StringModule>();
@@ -59,7 +59,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             // Verify the result is properly typed (ModuleResult<string>)
             if (result is ModuleResult<string>.Success)
             {
-                return result.ValueOrDefault;
+                return result.Value;
             }
 
             return "failed";
@@ -92,7 +92,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [ModularPipelines.Attributes.DependsOn<StringModule>(Optional = true)]
     private class OptionalConsumerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use the new single-type-parameter GetModuleIfRegistered API
             var module = context.GetModuleIfRegistered<StringModule>();

@@ -14,7 +14,7 @@ public class DotNetTests : TestBase
 {
     private class DotNetVersionModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
@@ -30,7 +30,7 @@ public class DotNetTests : TestBase
 
     private class DotNetFormatModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");

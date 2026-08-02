@@ -13,10 +13,10 @@ public abstract class SimpleSyncTestModule<T> : SyncModule<T>
     /// Gets the result to return from the module.
     /// Override this property to provide a custom return value.
     /// </summary>
-    protected abstract T? Result { get; }
+    protected abstract T Result { get; }
 
     /// <inheritdoc />
-    protected override T? Execute(IModuleContext context, CancellationToken cancellationToken)
+    protected override T Execute(IModuleContext context, CancellationToken cancellationToken)
     {
         return Result;
     }
@@ -46,7 +46,7 @@ public class SyncNullModule : SimpleSyncTestModule<object?>
 public class ThrowingSyncTestModule<T> : SyncModule<T>
 {
     /// <inheritdoc />
-    protected override T? Execute(IModuleContext context, CancellationToken cancellationToken)
+    protected override T Execute(IModuleContext context, CancellationToken cancellationToken)
     {
         throw new InvalidOperationException("Test exception from synchronous module");
     }

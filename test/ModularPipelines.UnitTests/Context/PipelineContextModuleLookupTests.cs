@@ -119,26 +119,26 @@ public class PipelineContextModuleLookupTests
 
     private sealed class FirstLookupModule : LookupModule
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
-            => Task.FromResult<string?>(nameof(FirstLookupModule));
+            => Task.FromResult<string>(nameof(FirstLookupModule));
     }
 
     private sealed class SecondLookupModule : LookupModule
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
-            => Task.FromResult<string?>(nameof(SecondLookupModule));
+            => Task.FromResult<string>(nameof(SecondLookupModule));
     }
 
     private class ConcreteBaseLookupModule : LookupModule
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
-            => Task.FromResult<string?>(nameof(ConcreteBaseLookupModule));
+            => Task.FromResult<string>(nameof(ConcreteBaseLookupModule));
     }
 
     private sealed class DerivedConcreteLookupModule : ConcreteBaseLookupModule;

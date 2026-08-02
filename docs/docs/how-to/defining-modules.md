@@ -12,7 +12,7 @@ Modules are defined by creating a class that inherits from the `Module<T>` base 
 ```csharp
 public class FindAFileModule : Module<FileInfo>
 {
-    protected override async Task<FileInfo?> ExecuteAsync(
+    protected override async Task<FileInfo> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         return context.Files
@@ -77,7 +77,7 @@ public class MyModule : Module<FileInfo>
         .WithAlwaysRun()
         .Build();
 
-    protected override async Task<FileInfo?> ExecuteAsync(
+    protected override async Task<FileInfo> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Module logic here
@@ -149,7 +149,7 @@ public class MyModule : Module<string>
         return Task.CompletedTask;
     }
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         return "result";
@@ -167,7 +167,7 @@ Organize your modules with tags and categories:
 [ModuleTag("fast")]
 public class BuildModule : Module<BuildOutput>
 {
-    protected override async Task<BuildOutput?> ExecuteAsync(
+    protected override async Task<BuildOutput> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // ...
@@ -183,7 +183,7 @@ public class BuildModule : Module<BuildOutput>
     public override string? Category => "Build";
     public override IReadOnlySet<string> Tags => new HashSet<string> { "critical", "fast" };
 
-    protected override async Task<BuildOutput?> ExecuteAsync(
+    protected override async Task<BuildOutput> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // ...

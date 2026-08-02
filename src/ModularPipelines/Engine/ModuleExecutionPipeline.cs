@@ -249,7 +249,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         return skippedResult;
     }
 
-    private async Task<T?> ExecuteWithPolicies<T>(
+    private async Task<T> ExecuteWithPolicies<T>(
         Module<T> module,
         ModuleConfiguration config,
         ModuleExecutionContext<T> executionContext,
@@ -274,7 +274,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var retryPolicy = GetRetryPolicy<T>(config, moduleContext);
         var moduleAttemptRespondedToCancellation = 0;
 
-        async Task<T?> ExecuteModuleAttempt(CancellationToken ct)
+        async Task<T> ExecuteModuleAttempt(CancellationToken ct)
         {
             try
             {
@@ -290,7 +290,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         // Create the execution function that optionally includes retry
-        Func<CancellationToken, Task<T?>> executeFunc = retryPolicy != null
+        Func<CancellationToken, Task<T>> executeFunc = retryPolicy != null
             ? ct => retryPolicy.ExecuteAsync(ExecuteModuleAttempt, ct)
             : ct => module.ExecuteAsync(moduleContext, ct);
 
@@ -315,7 +315,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 wasCancellationTokenRespected);
         }
 
-        return timeoutResult.Value;
+        return timeoutResult.Value!;
     }
 
     private TimeSpan GetTimeout(ModuleConfiguration config)

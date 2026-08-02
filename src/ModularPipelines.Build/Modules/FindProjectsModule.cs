@@ -13,9 +13,9 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
         .WithAlwaysRun()
         .Build();
 
-    protected override Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IReadOnlyList<File>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return Task.FromResult<IReadOnlyList<File>?>(
+        return Task.FromResult<IReadOnlyList<File>>(
         [
             Sourcy.DotNet.Projects.ModularPipelines,
             Sourcy.DotNet.Projects.ModularPipelines_AmazonWebServices,

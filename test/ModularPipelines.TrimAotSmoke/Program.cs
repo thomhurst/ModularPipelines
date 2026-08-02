@@ -107,7 +107,7 @@ internal sealed record SmokeCommandOptions : CommandLineToolOptions
 [SmokeHook]
 internal sealed class CommandModule : Module<CommandResult>
 {
-    protected override Task<CommandResult?> ExecuteAsync(
+    protected override Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
