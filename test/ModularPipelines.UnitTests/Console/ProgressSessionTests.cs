@@ -32,7 +32,7 @@ public class ProgressSessionTests
         var coordinator = CreateCoordinator(outputCoordinator.Object, console);
         var module = new RenderingModule();
         var organizedModules = new OrganizedModules(
-            [new RunnableModule(module, TimeSpan.Zero, [])],
+            [new RunnableModule(module, TimeSpan.Zero)],
             []);
         await using var session = new ProgressSession(
             coordinator,
