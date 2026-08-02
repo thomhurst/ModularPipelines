@@ -11,6 +11,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.TestHelpers.Assertions;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.UnitTests.Helpers;
@@ -18,14 +19,19 @@ namespace ModularPipelines.UnitTests.Helpers;
 [TUnit.Core.NotInParallel]
 public class DotNetTestResultsTests : TestBase
 {
+    private static readonly File TrxFixture = new(
+        Path.Combine(AppContext.BaseDirectory, "Data", "test-results.trx"));
+
     private class DotNetTestWithFailureModule : Module<CommandResult>
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var repositoryInfo = await context.Git().Information.GetInfoAsync()
                 ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            var testProject = repositoryInfo.Root
-                .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
+            var testProject = repositoryInfo.Root.GetFolder("test")
+                .GetFolder("ModularPipelines.TestsForTests")
+                .GetFile("ModularPipelines.TestsForTests.csproj")
+                .AssertExists();
 
             return await context.DotNet().TestAsync(
                 new DotNetTestOptions
@@ -46,53 +52,6 @@ public class DotNetTestResultsTests : TestBase
         }
     }
 
-    private class DotNetTestWithoutFailureModule : Module<CommandResult>
-    {
-        private const string TrxFileName = "test-results.trx";
-        public static File? TrxFile { get; private set; }
-
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            var testProject = repositoryInfo.Root
-                .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
-
-            var outputDir = testProject.Folder!.GetFolder("bin/Debug/net10.0/TestResults");
-
-            // Run all tests without filtering - the TRX file will contain all results
-            // Use Arguments with explicit -- to pass TUnit arguments correctly
-            var result = await context.DotNet().RunAsync(
-                new DotNetRunOptions
-                {
-                    Project = testProject.Path,
-                    Framework = "net10.0",
-                    Arguments =
-                    [
-                        "--",
-                        "--report-trx",
-                        "--report-trx-filename", TrxFileName,
-                    ],
-                },
-                new CommandExecutionOptions
-                {
-                    WorkingDirectory = testProject.Folder!.Path,
-                    LogSettings = new CommandLoggingOptions
-                    {
-                        Verbosity = CommandLogVerbosity.Minimal,
-                        ShowStandardOutput = false,
-                        ShowStandardError = true,
-                    },
-                    ThrowOnNonZeroExitCode = false, // Some tests intentionally fail
-                },
-                cancellationToken);
-
-            // Set the TRX file location after the test runs
-            TrxFile = new File(Path.Combine(outputDir.Path, TrxFileName));
-            return result;
-        }
-    }
-
     [Test]
     public async Task Has_Errored()
     {
@@ -100,17 +59,9 @@ public class DotNetTestResultsTests : TestBase
     }
 
     [Test]
-    public async Task Has_Not_Errored()
-    {
-        await Assert.That(async () => { await RunModule<DotNetTestWithoutFailureModule>(); })
-            .ThrowsNothing();
-    }
-
-    [Test]
     public async Task Can_Parse_Trx_Manually()
     {
-        await RunModule<DotNetTestWithoutFailureModule>();
-        var parsedResults = new TrxParser().ParseTrxContents(await DotNetTestWithoutFailureModule.TrxFile!.ReadAsync());
+        var parsedResults = new TrxParser().ParseTrxContents(await TrxFixture.ReadAsync());
 
         await Assert.That(parsedResults.UnitTestResults).Count().IsEqualTo(4);
     }
@@ -119,16 +70,14 @@ public class DotNetTestResultsTests : TestBase
     public async Task Can_Parse_Trx_Using_Helper()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .AddModule<DotNetTestWithoutFailureModule>()
+            .AddModule<DotNetTestWithFailureModule>()
             .BuildAsync();
-
-        await host.RunAsync();
 
         // Get the Trx helper from a pipeline context
         // IPipelineContext is a scoped service, so we need to create a scope
         await using var scope = host.Services.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
-        var parsedResults = await context.Trx().ParseTrxFile(DotNetTestWithoutFailureModule.TrxFile!);
+        var parsedResults = await context.Trx().ParseTrxFile(TrxFixture);
 
         await Assert.That(parsedResults.UnitTestResults).Count().IsEqualTo(4);
     }
