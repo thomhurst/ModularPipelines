@@ -379,6 +379,26 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    public async Task UnixBackslashesDoNotCreateDescendantRelationships()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "root");
+        var sibling = $"{root}\\outside";
+        var siblingFile = Path.Combine(sibling, "artifact.txt");
+        provider.CreateDirectory(root);
+        provider.CreateDirectory(sibling);
+        await provider.WriteAllTextAsync(siblingFile, "contents");
+
+        await Assert.That(provider.EnumerateFiles(root, "*", SearchOption.AllDirectories))
+            .DoesNotContain(siblingFile);
+    }
+
+    [Test]
     public async Task ConcurrentAppendsDoNotLoseWrites()
     {
         var provider = new InMemoryFileSystemProvider();

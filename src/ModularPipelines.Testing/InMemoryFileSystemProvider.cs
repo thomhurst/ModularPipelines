@@ -637,9 +637,12 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
             return false;
         }
 
-        return parent[^1] is '/' or '\\'
-            || candidate[parent.Length] is '/' or '\\';
+        return Path.EndsInDirectorySeparator(parent)
+            || IsDirectorySeparator(candidate[parent.Length]);
     }
+
+    private static bool IsDirectorySeparator(char value) =>
+        value == Path.DirectorySeparatorChar || value == Path.AltDirectorySeparatorChar;
 
     private static string ReplacePrefix(string path, string source, string destination) =>
         destination + path[source.Length..];

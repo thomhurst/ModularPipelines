@@ -6,6 +6,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.TestHelpers.Assertions;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
@@ -217,6 +218,67 @@ public class ZipTests : TestBase
                 .Throws<IOException>();
             await Assert.That(await System.IO.File.ReadAllTextAsync(zipPath))
                 .IsEqualTo("existing");
+        }
+        finally
+        {
+            Directory.Delete(root, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task UnZipDoesNotOverwriteFileCreatedAfterExistenceCheck()
+    {
+        var root = Path.Combine(
+            Path.GetTempPath(),
+            $"ModularPipelines-unzip-race-{Guid.NewGuid():N}");
+        var zipPath = Path.Combine(root, "artifact.zip");
+        var destinationDirectory = Path.Combine(root, "destination");
+        var destinationPath = Path.Combine(destinationDirectory, "artifact.txt");
+        Directory.CreateDirectory(root);
+
+        try
+        {
+            using (var archive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+            {
+                await using var writer = new StreamWriter(archive.CreateEntry("artifact.txt").Open());
+                await writer.WriteAsync("archive contents");
+            }
+
+            var competingFileCreated = false;
+            var fileSystemProvider = new Mock<IFileSystemProvider>(MockBehavior.Strict);
+            fileSystemProvider
+                .Setup(provider => provider.FileExists(It.IsAny<string>()))
+                .Returns((string path) =>
+                {
+                    if (path == destinationPath && !competingFileCreated)
+                    {
+                        System.IO.File.WriteAllText(destinationPath, "competing contents");
+                        competingFileCreated = true;
+                        return false;
+                    }
+
+                    return System.IO.File.Exists(path);
+                });
+            fileSystemProvider
+                .Setup(provider => provider.CreateDirectory(It.IsAny<string>()))
+                .Callback((string path) => Directory.CreateDirectory(path));
+            fileSystemProvider
+                .Setup(provider => provider.OpenRead(zipPath))
+                .Returns(() => System.IO.File.OpenRead(zipPath));
+            fileSystemProvider
+                .Setup(provider => provider.Open(
+                    It.IsAny<string>(),
+                    It.IsAny<FileMode>(),
+                    It.IsAny<FileAccess>()))
+                .Returns((string path, FileMode mode, FileAccess access) =>
+                    System.IO.File.Open(path, mode, access, FileShare.None));
+            var zip = new Zip(fileSystemProvider.Object);
+
+            await Assert.That(() =>
+                    zip.UnZipToFolder(zipPath, destinationDirectory, overwriteFiles: false))
+                .Throws<IOException>();
+            await Assert.That(await System.IO.File.ReadAllTextAsync(destinationPath))
+                .IsEqualTo("competing contents");
         }
         finally
         {

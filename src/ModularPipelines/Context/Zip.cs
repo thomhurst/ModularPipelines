@@ -134,7 +134,7 @@ internal class Zip(IFileSystemProvider fileSystemProvider) : IZipContext
         using (var source = entry.Open())
         using (var destination = _fileSystemProvider.Open(
                    destinationPath,
-                   FileMode.Create,
+                   overwriteFiles ? FileMode.Create : FileMode.CreateNew,
                    FileAccess.Write))
         {
             source.CopyTo(destination);
