@@ -483,6 +483,7 @@ public static class UsageSynopsisParser
             PropertyName = propertyName,
             PlaceholderName = content,
             CSharpType = GetCSharpType(isRequired, isVariadic),
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag: false),
             IsRequired = isRequired,
             IsVariadic = isVariadic,
             PositionIndex = positionIndex,
@@ -540,10 +541,10 @@ public static class UsageSynopsisParser
             index = end;
         }
 
-        requiredPlaceholder = requiredPlaceholders.Count == 1
-            ? requiredPlaceholders[0]
+        requiredPlaceholder = requiredPlaceholders.Count > 0
+            ? requiredPlaceholders[^1]
             : string.Empty;
-        return hasOptionalPlaceholder && requiredPlaceholders.Count == 1;
+        return hasOptionalPlaceholder && requiredPlaceholders.Count > 0;
     }
 
     private static string SelectCanonicalAlternative(string content)

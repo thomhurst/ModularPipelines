@@ -159,6 +159,39 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Selects_Final_Required_Placeholder_From_Qualified_Compound_Operand()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: pulumi env clone [<org-name>/]<src-project-name>/<src-environment-name> [<dest-project-name>/]<dest-environment-name>",
+            ["pulumi", "env", "clone"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(result.PositionalArguments[0].PropertyName).IsEqualTo("SrcEnvironmentName");
+            await Assert.That(result.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(result.PositionalArguments[1].PropertyName).IsEqualTo("DestEnvironmentName");
+            await Assert.That(result.PositionalArguments[1].IsRequired).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("client-secret", "ClientSecret")]
+    [Arguments("secret-access-key", "SecretAccessKey")]
+    [Arguments("access-token", "AccessToken")]
+    public async Task Marks_Secret_Positional_Operands(string operandName, string propertyName)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool login <{operandName}>",
+            ["tool", "login"]);
+
+        var argument = result.PositionalArguments.Single();
+
+        await Assert.That(argument.PropertyName).IsEqualTo(propertyName);
+        await Assert.That(argument.IsSecret).IsTrue();
+    }
+
+    [Test]
     public async Task Preserves_Operands_Grouped_Behind_Option_Terminator()
     {
         var result = UsageSynopsisParser.Parse(
