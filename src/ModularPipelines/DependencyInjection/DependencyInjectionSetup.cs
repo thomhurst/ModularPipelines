@@ -76,6 +76,8 @@ internal static class DependencyInjectionSetup
         config.Template = "[{Level:u4}] {Message}";
         config.ExceptionFormats = ExceptionFormats.Default;
         config.AllowMarkupInMessageTemplate = true;
+        config.IncludeScopes = false;
+        config.IncludeActivity = false;
         config.Theme = new SpectreTheme()
             .WithPlaceholders(placeholders =>
             {
