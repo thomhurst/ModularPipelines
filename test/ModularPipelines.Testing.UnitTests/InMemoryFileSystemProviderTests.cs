@@ -1,0 +1,801 @@
+using System.Text;
+
+namespace ModularPipelines.Testing.UnitTests;
+
+public class InMemoryFileSystemProviderTests
+{
+    [Test]
+    public async Task SupportsFileLifecycleOperations()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "lifecycle");
+        var source = Path.Combine(root, "source.txt");
+        var copy = Path.Combine(root, "copy.txt");
+        var moved = Path.Combine(root, "moved.txt");
+
+        provider.CreateDirectory(root);
+        await provider.WriteAllTextAsync(source, "first");
+        await provider.AppendAllTextAsync(source, " second");
+        provider.CopyFile(source, copy, overwrite: false);
+        provider.MoveFile(copy, moved);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(await provider.ReadAllTextAsync(source)).IsEqualTo("first second");
+            await Assert.That(await provider.ReadAllTextAsync(moved)).IsEqualTo("first second");
+            await Assert.That(provider.FileExists(copy)).IsFalse();
+            await Assert.That(provider.EnumerateFiles(root, "*.txt", SearchOption.TopDirectoryOnly))
+                .Count()
+                .IsEqualTo(2);
+        }
+
+        provider.DeleteFile(source);
+        provider.DeleteDirectory(root, recursive: true);
+
+        await Assert.That(provider.DirectoryExists(root)).IsFalse();
+    }
+
+    [Test]
+    public async Task AppendAllTextPreservesExistingBytes()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "binary-prefix.txt");
+        await provider.WriteAllBytesAsync(path, [0xFF, 0xFE]);
+
+        await provider.AppendAllTextAsync(path, "x");
+
+        var bytes = await provider.ReadAllBytesAsync(path);
+        byte[] expected = [0xFF, 0xFE, (byte) 'x'];
+        await Assert.That(bytes.SequenceEqual(expected)).IsTrue();
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task LineWritesCheckCancellationBeforeEnumeration(bool append)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "cancel-lines-before.txt");
+        await provider.WriteAllTextAsync(path, "original");
+        var enumerated = false;
+        using var cancellationTokenSource = new CancellationTokenSource();
+        await cancellationTokenSource.CancelAsync();
+
+        IEnumerable<string> GetLines()
+        {
+            enumerated = true;
+            yield return "replacement";
+        }
+
+        Task WriteAsync() => append
+            ? provider.AppendAllLinesAsync(path, GetLines(), cancellationTokenSource.Token)
+            : provider.WriteAllLinesAsync(path, GetLines(), cancellationTokenSource.Token);
+
+        await Assert.That(WriteAsync).Throws<OperationCanceledException>();
+        await Assert.That(enumerated).IsFalse();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task LineWritesCheckCancellationDuringEnumeration(bool append)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "cancel-lines-during.txt");
+        await provider.WriteAllTextAsync(path, "original");
+        var continuedAfterCancellation = false;
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        IEnumerable<string> GetLines()
+        {
+            yield return "first";
+            cancellationTokenSource.Cancel();
+            yield return "should-not-be-written";
+            continuedAfterCancellation = true;
+            yield return "should-not-be-enumerated";
+        }
+
+        Task WriteAsync() => append
+            ? provider.AppendAllLinesAsync(path, GetLines(), cancellationTokenSource.Token)
+            : provider.WriteAllLinesAsync(path, GetLines(), cancellationTokenSource.Token);
+
+        await Assert.That(WriteAsync).Throws<OperationCanceledException>();
+        await Assert.That(continuedAfterCancellation).IsFalse();
+        await Assert.That(await provider.ReadAllTextAsync(path))
+            .IsEqualTo($"{(append ? "original" : string.Empty)}first{Environment.NewLine}");
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task LineWritesPreserveLinesWrittenBeforeEnumerationFails(bool append)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "partial-lines.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        static IEnumerable<string> GetLines()
+        {
+            yield return "first";
+            throw new InvalidOperationException("enumeration failed");
+        }
+
+        Task WriteAsync() => append
+            ? provider.AppendAllLinesAsync(path, GetLines())
+            : provider.WriteAllLinesAsync(path, GetLines());
+
+        await Assert.That(WriteAsync).Throws<InvalidOperationException>();
+        await Assert.That(await provider.ReadAllTextAsync(path))
+            .IsEqualTo($"{(append ? "original" : string.Empty)}first{Environment.NewLine}");
+    }
+
+    [Test]
+    public async Task ReadAllTextDetectsByteOrderMarks()
+    {
+        Encoding[] encodings =
+        [
+            new UTF8Encoding(encoderShouldEmitUTF8Identifier: true),
+            Encoding.Unicode,
+            Encoding.BigEndianUnicode,
+            new UTF32Encoding(bigEndian: false, byteOrderMark: true),
+            new UTF32Encoding(bigEndian: true, byteOrderMark: true),
+        ];
+
+        var provider = new InMemoryFileSystemProvider();
+        foreach (var encoding in encodings)
+        {
+            var path = Path.Combine(provider.GetTempPath(), $"{encoding.CodePage}.txt");
+            var contents = encoding.GetPreamble()
+                .Concat(encoding.GetBytes("contents"))
+                .ToArray();
+            await provider.WriteAllBytesAsync(path, contents);
+
+            await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("contents");
+        }
+    }
+
+    [Test]
+    public async Task DeleteFileRejectsDirectoryPaths()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "directory-as-file");
+        provider.CreateDirectory(path);
+
+        await Assert.That(() => provider.DeleteFile(path))
+            .Throws<UnauthorizedAccessException>();
+        await Assert.That(provider.DirectoryExists(path)).IsTrue();
+    }
+
+    [Test]
+    public async Task DeleteFileRejectsDirectoryPathsWithTrailingSeparators()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "directory-form-delete");
+        provider.CreateDirectory(path);
+
+        await Assert.That(() => provider.DeleteFile(path + Path.DirectorySeparatorChar))
+            .Throws<UnauthorizedAccessException>();
+        await Assert.That(provider.DirectoryExists(path)).IsTrue();
+    }
+
+    [Test]
+    public async Task RejectsCopyingFileOntoItself()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "same-file.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        await Assert.That(() => provider.CopyFile(path, path, overwrite: true))
+            .Throws<IOException>();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("contents");
+    }
+
+    [Test]
+    public async Task CommitsWritableStreamsOnDispose()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "stream.bin");
+
+        await using (var stream = provider.Create(path))
+        {
+            await stream.WriteAsync(Encoding.UTF8.GetBytes("stream contents"));
+        }
+
+        await Assert.That(Encoding.UTF8.GetString(await provider.ReadAllBytesAsync(path)))
+            .IsEqualTo("stream contents");
+    }
+
+    [Test]
+    public async Task OpenReadStreamsRejectWrites()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "readonly.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        using var stream = provider.OpenRead(path);
+
+        await Assert.That(() => stream.WriteByte(1)).Throws<NotSupportedException>();
+#pragma warning disable CA1835 // The legacy overload is the behavior under test.
+        await Assert.That(async () =>
+                await stream.WriteAsync([1], 0, 1, CancellationToken.None))
+            .Throws<NotSupportedException>();
+#pragma warning restore CA1835
+    }
+
+    [Test]
+    public async Task SeedsCurrentDirectoryHierarchy()
+    {
+        var provider = new InMemoryFileSystemProvider();
+
+        await Assert.That(provider.DirectoryExists(Environment.CurrentDirectory)).IsTrue();
+    }
+
+    [Test]
+    public async Task TempPathEndsWithDirectorySeparator()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var tempPath = provider.GetTempPath();
+        var childPath = tempPath + "artifact.txt";
+
+        await provider.WriteAllTextAsync(childPath, "contents");
+
+        await Assert.That(Path.EndsInDirectorySeparator(tempPath)).IsTrue();
+        await Assert.That(Path.GetDirectoryName(childPath))
+            .IsEqualTo(tempPath.TrimEnd(Path.DirectorySeparatorChar));
+        await Assert.That(provider.FileExists(childPath)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments(" ")]
+    [Arguments("\0")]
+    public async Task InvalidPathsDoNotExist(string path)
+    {
+        var provider = new InMemoryFileSystemProvider();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.FileExists(path)).IsFalse();
+            await Assert.That(provider.DirectoryExists(path)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task TrailingSeparatorDoesNotResolveAsFile()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "trailing-separator.txt");
+        var directoryPath = path + Path.DirectorySeparatorChar;
+        await provider.WriteAllTextAsync(path, "original");
+
+        async Task ReadAsync() => _ = await provider.ReadAllTextAsync(directoryPath);
+        async Task WriteAsync() => await provider.WriteAllTextAsync(directoryPath, "replacement");
+
+        await Assert.That(provider.FileExists(directoryPath)).IsFalse();
+        await Assert.That(ReadAsync).ThrowsException();
+        await Assert.That(WriteAsync).ThrowsException();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
+    public async Task TerminalCurrentDirectorySegmentDoesNotResolveAsFile()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "terminal-dot.txt");
+        var directoryForm = Path.Combine(path, ".");
+        await provider.WriteAllTextAsync(path, "original");
+
+        async Task ReadAsync() => _ = await provider.ReadAllTextAsync(directoryForm);
+        async Task WriteAsync() => await provider.WriteAllTextAsync(directoryForm, "replacement");
+
+        await Assert.That(provider.FileExists(directoryForm)).IsFalse();
+        await Assert.That(ReadAsync).ThrowsException();
+        await Assert.That(WriteAsync).ThrowsException();
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
+    public async Task ParentSegmentsCannotTraverseFiles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "file-parent-segment");
+        var file = Path.Combine(root, "file");
+        var target = Path.Combine(root, "target.txt");
+        var malformedPath = Path.Combine(file, "..", "target.txt");
+        provider.CreateDirectory(root);
+        await provider.WriteAllTextAsync(file, "not a directory");
+        await provider.WriteAllTextAsync(target, "original");
+
+        async Task ReadAsync() => _ = await provider.ReadAllTextAsync(malformedPath);
+        async Task WriteAsync() => await provider.WriteAllTextAsync(malformedPath, "replacement");
+
+        await Assert.That(provider.FileExists(malformedPath)).IsFalse();
+        await Assert.That(ReadAsync).Throws<DirectoryNotFoundException>();
+        await Assert.That(WriteAsync).Throws<DirectoryNotFoundException>();
+        await Assert.That(await provider.ReadAllTextAsync(target)).IsEqualTo("original");
+    }
+
+    [Test]
+    public async Task ReadLinesKeepsSharedHandleOpenUntilEnumeratorIsDisposed()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "read-lines-handle.txt");
+        await provider.WriteAllLinesAsync(path, ["first", "second"]);
+        var enumerator = provider.ReadLinesAsync(path).GetAsyncEnumerator();
+
+        try
+        {
+            await Assert.That(await enumerator.MoveNextAsync()).IsTrue();
+            await Assert.That(() => provider.DeleteFile(path)).Throws<IOException>();
+            await Assert.That(() => provider.WriteAllTextAsync(path, "replacement"))
+                .Throws<IOException>();
+        }
+        finally
+        {
+            await enumerator.DisposeAsync();
+        }
+
+        await provider.WriteAllTextAsync(path, "replacement");
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("replacement");
+    }
+
+    [Test]
+    public async Task OpenReadAllowsSharedReadHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "shared-read.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        using var first = provider.OpenRead(path);
+        using var second = provider.OpenRead(path);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(first.CanRead).IsTrue();
+            await Assert.That(second.CanRead).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task GenericOpenEnforcesExclusiveHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "exclusive.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        using var stream = provider.Open(path, FileMode.Open, FileAccess.Read);
+        await Assert.That(() => provider.OpenRead(path)).Throws<IOException>();
+    }
+
+    [Test]
+    public async Task GenericOpenRejectsDirectReadsAndCopies()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "exclusive-direct-read.txt");
+        var copy = Path.Combine(provider.GetTempPath(), "exclusive-direct-read-copy.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        using var stream = provider.Open(path, FileMode.Open, FileAccess.Read);
+
+        async Task ReadTextAsync() => _ = await provider.ReadAllTextAsync(path);
+        async Task ReadBytesAsync() => _ = await provider.ReadAllBytesAsync(path);
+
+        await Assert.That(ReadTextAsync).Throws<IOException>();
+        await Assert.That(ReadBytesAsync).Throws<IOException>();
+        await Assert.That(() => provider.CopyFile(path, copy, overwrite: false))
+            .Throws<IOException>();
+    }
+
+    [Test]
+    public async Task MoveFileRejectsOpenSourceHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var source = Path.Combine(provider.GetTempPath(), "open-move-source.txt");
+        var destination = Path.Combine(provider.GetTempPath(), "open-move-destination.txt");
+        await provider.WriteAllTextAsync(source, "original");
+
+        await using (var stream = provider.Open(source, FileMode.Open, FileAccess.ReadWrite))
+        {
+            stream.SetLength(0);
+            await stream.WriteAsync(Encoding.UTF8.GetBytes("updated"));
+
+            await Assert.That(() => provider.MoveFile(source, destination))
+                .Throws<IOException>();
+            using (Assert.Multiple())
+            {
+                await Assert.That(provider.FileExists(source)).IsTrue();
+                await Assert.That(provider.FileExists(destination)).IsFalse();
+            }
+        }
+
+        provider.MoveFile(source, destination);
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.FileExists(source)).IsFalse();
+            await Assert.That(await provider.ReadAllTextAsync(destination)).IsEqualTo("updated");
+        }
+    }
+
+    [Test]
+    public async Task DeleteFileRejectsOpenWritableHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "open-delete.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        await using (var stream = provider.Open(path, FileMode.Open, FileAccess.ReadWrite))
+        {
+            stream.SetLength(0);
+            await stream.WriteAsync(Encoding.UTF8.GetBytes("updated"));
+
+            await Assert.That(() => provider.DeleteFile(path)).Throws<IOException>();
+            await Assert.That(provider.FileExists(path)).IsTrue();
+        }
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("updated");
+
+        provider.DeleteFile(path);
+        await Assert.That(provider.FileExists(path)).IsFalse();
+    }
+
+    [Test]
+    public async Task DeleteDirectoryRejectsOpenDescendantHandles()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "open-delete-directory");
+        var path = Path.Combine(root, "child", "artifact.txt");
+        provider.CreateDirectory(Path.GetDirectoryName(path)!);
+        await provider.WriteAllTextAsync(path, "original");
+
+        await using (var stream = provider.Open(path, FileMode.Open, FileAccess.ReadWrite))
+        {
+            stream.SetLength(0);
+            await stream.WriteAsync(Encoding.UTF8.GetBytes("updated"));
+
+            await Assert.That(() => provider.DeleteDirectory(root, recursive: true))
+                .Throws<IOException>();
+            using (Assert.Multiple())
+            {
+                await Assert.That(provider.DirectoryExists(root)).IsTrue();
+                await Assert.That(provider.FileExists(path)).IsTrue();
+            }
+        }
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("updated");
+        provider.DeleteDirectory(root, recursive: true);
+        await Assert.That(provider.DirectoryExists(root)).IsFalse();
+    }
+
+    [Test]
+    public async Task OpenHandlesRejectDirectWrites()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "direct-write.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        using (provider.OpenRead(path))
+        {
+            await Assert.That(() => provider.WriteAllTextAsync(path, "replacement"))
+                .Throws<IOException>();
+            await Assert.That(() => provider.AppendAllTextAsync(path, " appended"))
+                .Throws<IOException>();
+        }
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEqualTo("original");
+    }
+
+    [Test]
+    public async Task MovesDirectoryTrees()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var source = Path.Combine(provider.GetTempPath(), "source");
+        var child = Path.Combine(source, "child");
+        var destination = Path.Combine(provider.GetTempPath(), "destination");
+        var sourceFile = Path.Combine(child, "artifact.txt");
+        var destinationFile = Path.Combine(destination, "child", "artifact.txt");
+
+        provider.CreateDirectory(child);
+        await provider.WriteAllTextAsync(sourceFile, "artifact");
+        provider.MoveDirectory(source, destination);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.DirectoryExists(source)).IsFalse();
+            await Assert.That(provider.DirectoryExists(Path.Combine(destination, "child"))).IsTrue();
+            await Assert.That(await provider.ReadAllTextAsync(destinationFile)).IsEqualTo("artifact");
+        }
+    }
+
+    [Test]
+    public async Task MoveDirectoryRejectsOpenDescendantHandlesAtomically()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var source = Path.Combine(provider.GetTempPath(), "open-move-directory");
+        var destination = Path.Combine(provider.GetTempPath(), "moved-directory");
+        var firstFile = Path.Combine(source, "first.txt");
+        var openFile = Path.Combine(source, "second.txt");
+        provider.CreateDirectory(source);
+        await provider.WriteAllTextAsync(firstFile, "first");
+        await provider.WriteAllTextAsync(openFile, "second");
+
+        await using (provider.Open(openFile, FileMode.Open, FileAccess.ReadWrite))
+        {
+            await Assert.That(() => provider.MoveDirectory(source, destination))
+                .Throws<IOException>();
+            using (Assert.Multiple())
+            {
+                await Assert.That(provider.DirectoryExists(source)).IsTrue();
+                await Assert.That(provider.DirectoryExists(destination)).IsFalse();
+                await Assert.That(provider.FileExists(firstFile)).IsTrue();
+                await Assert.That(provider.FileExists(openFile)).IsTrue();
+            }
+        }
+
+        provider.MoveDirectory(source, destination);
+        using (Assert.Multiple())
+        {
+            await Assert.That(provider.DirectoryExists(source)).IsFalse();
+            await Assert.That(provider.FileExists(Path.Combine(destination, "first.txt"))).IsTrue();
+            await Assert.That(provider.FileExists(Path.Combine(destination, "second.txt"))).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task OpenOrCreateWithReadAccessCreatesAnEmptyFile()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "created-on-open.txt");
+
+        using var stream = provider.Open(path, FileMode.OpenOrCreate, FileAccess.Read);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(stream.Length).IsEqualTo(0);
+            await Assert.That(provider.FileExists(path)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task RejectsMovingDirectoryInsideItself()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var source = Path.Combine(provider.GetTempPath(), "source");
+        var destination = Path.Combine(source, "nested");
+        provider.CreateDirectory(source);
+
+        await Assert.That(() => provider.MoveDirectory(source, destination))
+            .Throws<IOException>();
+    }
+
+    [Test]
+    public async Task EnumeratesFilesUnderFileSystemRoot()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.GetPathRoot(Environment.CurrentDirectory)!;
+        var path = Path.Combine(root, $"root-{Guid.NewGuid():N}.txt");
+        await provider.WriteAllTextAsync(path, "contents");
+
+        await Assert.That(provider.EnumerateFiles(root, "*.txt", SearchOption.AllDirectories))
+            .Contains(path);
+    }
+
+    [Test]
+    [Arguments(SearchOption.TopDirectoryOnly, 1)]
+    [Arguments(SearchOption.AllDirectories, 2)]
+    public async Task FileEnumerationHonorsDirectoriesInSearchPatterns(
+        SearchOption searchOption,
+        int expectedCount)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "file-pattern-directory");
+        var subdirectory = Path.Combine(root, "sub");
+        var nested = Path.Combine(subdirectory, "nested");
+        provider.CreateDirectory(nested);
+        await provider.WriteAllTextAsync(Path.Combine(subdirectory, "first.json"), "first");
+        await provider.WriteAllTextAsync(Path.Combine(nested, "second.json"), "second");
+
+        var entries = provider.EnumerateFiles(
+            root,
+            Path.Combine("sub", "*.json"),
+            searchOption);
+
+        await Assert.That(entries.Count()).IsEqualTo(expectedCount);
+    }
+
+    [Test]
+    [Arguments(SearchOption.TopDirectoryOnly, 1)]
+    [Arguments(SearchOption.AllDirectories, 2)]
+    public async Task DirectoryEnumerationHonorsDirectoriesInSearchPatterns(
+        SearchOption searchOption,
+        int expectedCount)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "directory-pattern-directory");
+        var subdirectory = Path.Combine(root, "sub");
+        provider.CreateDirectory(Path.Combine(subdirectory, "target-one"));
+        provider.CreateDirectory(Path.Combine(subdirectory, "nested", "target-two"));
+
+        var entries = provider.EnumerateDirectories(
+            root,
+            Path.Combine("sub", "target-*"),
+            searchOption);
+
+        await Assert.That(entries.Count()).IsEqualTo(expectedCount);
+    }
+
+    [Test]
+    public async Task UnixBackslashesDoNotCreateDescendantRelationships()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "root");
+        var sibling = $"{root}\\outside";
+        var siblingFile = Path.Combine(sibling, "artifact.txt");
+        provider.CreateDirectory(root);
+        provider.CreateDirectory(sibling);
+        await provider.WriteAllTextAsync(siblingFile, "contents");
+
+        await Assert.That(provider.EnumerateFiles(root, "*", SearchOption.AllDirectories))
+            .DoesNotContain(siblingFile);
+    }
+
+    [Test]
+    public async Task ConcurrentAppendsDoNotLoseWrites()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "concurrent.txt");
+
+        await Task.WhenAll(Enumerable.Range(0, 100)
+            .Select(_ => provider.AppendAllTextAsync(path, "x")));
+
+        await Assert.That((await provider.ReadAllTextAsync(path)).Length).IsEqualTo(100);
+    }
+
+    [Test]
+    public async Task RejectsFilesWithoutExistingParent()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "missing", "artifact.txt");
+
+        await Assert.That(() => provider.WriteAllTextAsync(path, "contents"))
+            .Throws<DirectoryNotFoundException>();
+    }
+
+    [Test]
+    public async Task RejectsPlatformInvalidFileNameCharacters()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var provider = new InMemoryFileSystemProvider();
+        var invalidFile = Path.Combine(provider.GetTempPath(), "artifact?.txt");
+        var invalidDirectory = Path.Combine(provider.GetTempPath(), "artifacts*");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => provider.WriteAllTextAsync(invalidFile, "contents"))
+                .Throws<ArgumentException>();
+            await Assert.That(() => provider.CreateDirectory(invalidDirectory))
+                .Throws<ArgumentException>();
+        }
+    }
+
+    [Test]
+    public async Task RejectsFileAndDirectoryPathCollisions()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var filePath = Path.Combine(provider.GetTempPath(), "artifact");
+        await provider.WriteAllTextAsync(filePath, "contents");
+        var nestedDirectoryPath = Path.Combine(filePath, "child");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => provider.CreateDirectory(nestedDirectoryPath))
+                .Throws<IOException>();
+            await Assert.That(provider.DirectoryExists(nestedDirectoryPath)).IsFalse();
+        }
+
+        var directoryPath = Path.Combine(provider.GetTempPath(), "directory");
+        provider.CreateDirectory(directoryPath);
+
+        await Assert.That(() => provider.WriteAllTextAsync(directoryPath, "contents"))
+            .Throws<IOException>();
+    }
+
+    [Test]
+    public async Task RejectsDirectoryFormFileDestinations()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var directoryPath = Path.Combine(provider.GetTempPath(), "directory-form");
+        var directoryForm = directoryPath + Path.DirectorySeparatorChar;
+        var sourcePath = Path.Combine(provider.GetTempPath(), "source.txt");
+        provider.CreateDirectory(directoryPath);
+        await provider.WriteAllTextAsync(sourcePath, "contents");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => provider.WriteAllTextAsync(directoryForm, "contents"))
+                .Throws<IOException>();
+            await Assert.That(() => provider.Create(directoryForm)).Throws<IOException>();
+            await Assert.That(() => provider.CopyFile(sourcePath, directoryForm, overwrite: true))
+                .Throws<IOException>();
+            await Assert.That(provider.DirectoryExists(directoryPath)).IsTrue();
+            await Assert.That(provider.FileExists(directoryForm)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task MoveDirectoryRequiresExistingDestinationParent()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var source = Path.Combine(provider.GetTempPath(), "source");
+        var destination = Path.Combine(provider.GetTempPath(), "missing", "destination");
+        provider.CreateDirectory(source);
+
+        await Assert.That(() => provider.MoveDirectory(source, destination))
+            .Throws<DirectoryNotFoundException>();
+    }
+
+    [Test]
+    public async Task EmptyLineSequenceWritesEmptyFile()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "empty.txt");
+
+        await provider.WriteAllLinesAsync(path, []);
+
+        await Assert.That(await provider.ReadAllTextAsync(path)).IsEmpty();
+    }
+
+    [Test]
+    public async Task WriteOnlyStreamsRejectReads()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "write-only.txt");
+
+        using var stream = provider.Open(path, FileMode.Create, FileAccess.Write);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => stream.ReadByte()).Throws<NotSupportedException>();
+            await Assert.That(async () => await stream.ReadAsync(new byte[1]))
+                .Throws<NotSupportedException>();
+        }
+    }
+
+    [Test]
+    public async Task AppendStreamsRejectSeekingBeforeOriginalEnd()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "append.txt");
+        await provider.WriteAllTextAsync(path, "original");
+
+        using var stream = provider.Open(path, FileMode.Append, FileAccess.Write);
+
+        await Assert.That(() => stream.Position = 0).Throws<IOException>();
+    }
+
+    [Test]
+    public async Task RegularStreamsPreserveNegativeArgumentExceptions()
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var path = Path.Combine(provider.GetTempPath(), "regular.txt");
+
+        using var stream = provider.Open(path, FileMode.Create, FileAccess.ReadWrite);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(() => stream.Position = -1)
+                .Throws<ArgumentOutOfRangeException>();
+            await Assert.That(() => stream.SetLength(-1))
+                .Throws<ArgumentOutOfRangeException>();
+        }
+    }
+}
