@@ -50,7 +50,7 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             ["INSTANCE_INDEX"] = "${{ matrix.instance }}",
             ["TOTAL_INSTANCES"] = matrix.Count.ToString(System.Globalization.CultureInfo.InvariantCulture),
             ["REDIS_URL"] = $"${{{{ secrets.{_options.RedisSecretName} }}}}",
-            ["RUN_IDENTIFIER"] = "${{ github.run_id }}-${{ github.run_attempt }}",
+            ["RUN_IDENTIFIER"] = "${{ needs.initialize.outputs.run-identifier }}",
         };
 
         var yaml = pipelineHookContext.Data.Yaml.ToYaml(new
@@ -59,8 +59,27 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             On = _options.TriggerCondition,
             Jobs = new
             {
+                Initialize = new
+                {
+                    RunsOn = "ubuntu-latest",
+                    Outputs = new Dictionary<string, string>
+                    {
+                        ["run-identifier"] = "${{ steps.identifier.outputs.value }}",
+                    },
+                    Steps = new[]
+                    {
+                        new
+                        {
+                            Name = "Initialize coordination",
+                            Id = "identifier",
+                            Shell = "bash",
+                            Run = "echo \"value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\" >> \"$GITHUB_OUTPUT\"",
+                        },
+                    },
+                },
                 Pipeline = new
                 {
+                    Needs = "initialize",
                     Strategy = new
                     {
                         FailFast = false,
@@ -171,8 +190,13 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             ? string.Empty
             : $" --framework {_options.DotNetRunFramework}";
 
-        return $"dotnet run --project {_options.PipelineProjectPath.OriginalPath} -c Release{framework}";
+        var portableProjectPath = _options.PipelineProjectPath.OriginalPath.Replace('\\', '/');
+        var quotedProjectPath = QuotePosixShellArgument(portableProjectPath);
+        return $"dotnet run --project {quotedProjectPath} -c Release{framework}";
     }
+
+    private static string QuotePosixShellArgument(string value) =>
+        $"'{value.Replace("'", "'\"'\"'", StringComparison.Ordinal)}'";
 
     private void ValidateOptions()
     {

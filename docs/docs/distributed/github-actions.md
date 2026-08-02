@@ -57,7 +57,18 @@ on:
   workflow_dispatch:
 
 jobs:
+  initialize:
+    runs-on: ubuntu-latest
+    outputs:
+      run-identifier: ${{ steps.identifier.outputs.value }}
+    steps:
+      - name: Initialize coordination
+        id: identifier
+        shell: bash
+        run: echo "value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
   pipeline:
+    needs: initialize
     strategy:
       fail-fast: false
       matrix:
@@ -86,8 +97,8 @@ jobs:
           INSTANCE_INDEX: ${{ matrix.instance }}
           TOTAL_INSTANCES: 4
           REDIS_URL: ${{ secrets.REDIS_URL }}
-          RUN_IDENTIFIER: ${{ github.run_id }}-${{ github.run_attempt }}
-        run: dotnet run --project src/MyPipeline -c Release
+          RUN_IDENTIFIER: ${{ needs.initialize.outputs.run-identifier }}
+        run: dotnet run --project 'src/MyPipeline' -c Release
 ```
 
 ## Redis Setup for CI
@@ -231,8 +242,9 @@ public class AggregateResultsModule : Module<string>
 - **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
 - **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpirationSeconds` accordingly if you have very long pipelines.
 - **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
-- **Run isolation.** `RUN_IDENTIFIER` combines the GitHub run ID and attempt so concurrent runs
-  and reruns of the same commit never share Redis queues, results, or completion keys.
+- **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. A full rerun creates
+  a fresh namespace and reruns the whole matrix. "Re-run failed jobs" reuses the successful
+  initializer output, so the retried subset can coordinate with results from the original attempt.
 - **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
 
 ## Azure DevOps

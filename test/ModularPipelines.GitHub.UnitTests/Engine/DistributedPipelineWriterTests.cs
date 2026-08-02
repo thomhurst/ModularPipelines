@@ -51,10 +51,15 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(yaml).Contains("INSTANCE_INDEX: ${{ matrix.instance }}");
         await Assert.That(yaml).Contains("TOTAL_INSTANCES: 5");
         await Assert.That(yaml).Contains("REDIS_URL: ${{ secrets.REDIS_URL }}");
+        await Assert.That(yaml).Contains("needs: initialize");
         await Assert.That(yaml).Contains(
-            "RUN_IDENTIFIER: ${{ github.run_id }}-${{ github.run_attempt }}");
+            "run-identifier: ${{ steps.identifier.outputs.value }}");
         await Assert.That(yaml).Contains(
-            "run: dotnet run --project src/MyPipeline -c Release --framework net10.0");
+            "run: echo \"value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}\" >> \"$GITHUB_OUTPUT\"");
+        await Assert.That(yaml).Contains(
+            "RUN_IDENTIFIER: ${{ needs.initialize.outputs.run-identifier }}");
+        await Assert.That(yaml).Contains(
+            "run: dotnet run --project 'src/MyPipeline' -c Release --framework net10.0");
         await Assert.That(yaml).DoesNotContain("pull_request:");
     }
 
@@ -82,6 +87,28 @@ public class DistributedPipelineWriterTests : TestBase
 
         await Assert.That(runners).IsEquivalentTo(
             ["os: ubuntu-latest", "os: windows-latest", "os: macos-latest"]);
+    }
+
+    [Test]
+    public async Task QuotesPortablePipelineProjectPath()
+    {
+        var outputPath = new File(Path.Combine(
+            File.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineHostBuilder.Create()
+            .AddModule<LinuxModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                PipelineProjectPath = new File(@"src\My Pipeline's\Pipeline.csproj"),
+            })
+            .ExecutePipelineAsync();
+
+        var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
+
+        await Assert.That(yaml).Contains(
+            "run: dotnet run --project 'src/My Pipeline'\"'\"'s/Pipeline.csproj' -c Release");
     }
 
     [RequiresCapability("linux")]
