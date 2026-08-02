@@ -355,6 +355,56 @@ public class Module2 : Module<string>
     }
 
     [TestMethod]
+    public async Task CodeFix_Separates_Inserted_Using_When_Source_Has_No_Usings()
+    {
+        var source = """
+            #nullable enable
+            namespace Example;
+
+            public class Dependency : ModularPipelines.Modules.Module<string>
+            {
+                protected override System.Threading.Tasks.Task<string?> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                    => System.Threading.Tasks.Task.FromResult<string?>(null);
+            }
+
+            public class Consumer : ModularPipelines.Modules.Module<string>
+            {
+                protected override async System.Threading.Tasks.Task<string?> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                {
+                    var dependency = await {|#0:context.GetModule<Dependency>()|};
+                    return null;
+                }
+            }
+            """.ReplaceLineEndings("\n");
+        var fixedSource = """
+            using ModularPipelines.Attributes;
+            #nullable enable
+            namespace Example;
+
+            public class Dependency : ModularPipelines.Modules.Module<string>
+            {
+                protected override System.Threading.Tasks.Task<string?> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                    => System.Threading.Tasks.Task.FromResult<string?>(null);
+            }
+
+            [DependsOn<Dependency>]
+            public class Consumer : ModularPipelines.Modules.Module<string>
+            {
+                protected override async System.Threading.Tasks.Task<string?> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                {
+                    var dependency = await context.GetModule<Dependency>();
+                    return null;
+                }
+            }
+            """.ReplaceLineEndings("\n");
+        var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithArguments("Dependency")
+            .WithLocation(0);
+
+        await VerifyCS.VerifyCodeFixAsync(source, expected, fixedSource);
+    }
+
+    [TestMethod]
     public async Task OptionalCodeFixWorks()
     {
         var source = BadModuleSource
