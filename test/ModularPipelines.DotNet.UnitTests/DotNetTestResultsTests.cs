@@ -64,7 +64,7 @@ public class DotNetTestResultsTests : TestBase
     public async Task Can_Parse_Trx_Using_Helper()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .AddModule<DotNetTestWithFailureModule>()
+            .AddModule<TrueModule>()
             .BuildAsync();
 
         // Get the Trx helper from a pipeline context
