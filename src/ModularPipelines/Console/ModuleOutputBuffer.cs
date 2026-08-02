@@ -39,6 +39,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private bool _isComplete;
+    private bool _hasRenderedCompletionHeader;
     private bool _isIncrementalFlushInProgress;
     private bool _hasRenderedIncrementalOutput;
     private bool _thresholdFlushRequested;
@@ -127,6 +128,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         lock (_lock)
         {
             _exception = exception;
+            _hasRenderedCompletionHeader = false;
         }
     }
 
@@ -175,7 +177,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             {
                 return _outputs.Count > 0
                        || _structuredDeliveryRetries.Count > 0
-                       || _isIncrementalFlushInProgress;
+                       || _isIncrementalFlushInProgress
+                       || (_exception is not null && !_hasRenderedCompletionHeader);
             }
         }
     }
@@ -313,8 +316,12 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 return false;
             }
 
+            var needsExceptionHeader = flushKind is OutputFlushKind.Complete
+                                       && _exception is not null
+                                       && !_hasRenderedCompletionHeader;
             if (_outputs.Count == 0
-                && _structuredDeliveryRetries.Count == 0)
+                && _structuredDeliveryRetries.Count == 0
+                && !needsExceptionHeader)
             {
                 if (flushKind is OutputFlushKind.Complete)
                 {
@@ -331,7 +338,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             outputs = [.. _outputs];
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
-            shouldRenderOutputGroup = _outputs.Count > 0;
+            shouldRenderOutputGroup = _outputs.Count > 0 || needsExceptionHeader;
             isContinuation = _hasRenderedIncrementalOutput;
             _outputs.Clear();
             _structuredDeliveryRetries.Clear();
@@ -528,6 +535,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             if (flushKind is OutputFlushKind.Complete)
             {
                 _hasRenderedIncrementalOutput = false;
+                _hasRenderedCompletionHeader = true;
             }
             else
             {

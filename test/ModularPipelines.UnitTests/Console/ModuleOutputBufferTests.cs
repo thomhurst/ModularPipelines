@@ -317,6 +317,44 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
+    public async Task CompleteFlush_RendersFailureHeaderAfterIncrementalDrain()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("partial output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.WriteLine("failure output");
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.SetException(new InvalidOperationException("module failure"));
+        buffer.MarkComplete();
+
+        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests ✗ (continued)");
+        await Assert.That(output).Contains(nameof(InvalidOperationException));
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
     public async Task LaterFlushes_AreLabelledAsContinued()
     {
         var writer = new StringWriter();
