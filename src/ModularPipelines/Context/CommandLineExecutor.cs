@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CliWrap;
 using CliWrap.Buffered;
+using ModularPipelines.Engine;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -9,7 +10,7 @@ using CommandResult = ModularPipelines.Models.CommandResult;
 namespace ModularPipelines.Context;
 
 /// <inheritdoc />
-internal sealed class CommandLineExecutor : ICommandLineExecutor
+internal sealed class CommandLineExecutor(ISecretObfuscator secretObfuscator) : ICommandLineExecutor
 {
     private static readonly IReadOnlyDictionary<string, string?> EmptyEnvironmentVariables =
         new ReadOnlyDictionary<string, string?>(new Dictionary<string, string?>());
@@ -20,10 +21,11 @@ internal sealed class CommandLineExecutor : ICommandLineExecutor
         CommandExecutionOptions? options = null,
         CancellationToken cancellationToken = default)
     {
-        var command = CliCommandFactory.Create(commandLine.Tool, commandLine.Arguments, options);
+        var preparedCommand = CliCommandFactory.Create(commandLine.Tool, commandLine.Arguments, options);
+        var command = preparedCommand.Command;
 
         var workingDirectory = Environment.CurrentDirectory;
-        IReadOnlyDictionary<string, string?> environmentVariables = EmptyEnvironmentVariables;
+        var environmentVariables = EmptyEnvironmentVariables;
 
         if (options?.WorkingDirectory is not null)
         {
@@ -54,7 +56,7 @@ internal sealed class CommandLineExecutor : ICommandLineExecutor
                 .ConfigureAwait(false);
 
             return new CommandResult(
-                commandInput: commandLine.ToString(),
+                commandInput: secretObfuscator.Obfuscate(preparedCommand.Input, options),
                 workingDirectory: workingDirectory,
                 standardOutput: result.StandardOutput,
                 standardError: result.StandardError,
