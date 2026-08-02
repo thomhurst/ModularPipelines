@@ -2016,38 +2016,29 @@ internal static class ModuleAuthoringAnalysis
     {
         for (var current = operation; current.Parent is { } parent; current = parent)
         {
-            if (parent is IConditionalOperation conditional
-                && IsDeadConditionalBranch(current, conditional))
-            {
-                return false;
-            }
-
-            if (parent is IWhileLoopOperation whileLoop
-                && IsDeadWhileBody(current, whileLoop))
-            {
-                return false;
-            }
-
-            if (parent is IForLoopOperation forLoop
-                && IsDeadForBody(current, forLoop))
-            {
-                return false;
-            }
-
-            if (parent is ISwitchOperation switchOperation
-                && IsDeadSwitchCase(current, switchOperation))
-            {
-                return false;
-            }
-
-            if (parent is ISwitchExpressionOperation switchExpression
-                && IsDeadSwitchExpressionArm(current, switchExpression))
+            if (IsDeadBranch(current, parent))
             {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private static bool IsDeadBranch(IOperation current, IOperation parent)
+    {
+        return parent switch
+        {
+            IConditionalOperation conditional =>
+                IsDeadConditionalBranch(current, conditional),
+            IWhileLoopOperation whileLoop => IsDeadWhileBody(current, whileLoop),
+            IForLoopOperation forLoop => IsDeadForBody(current, forLoop),
+            ISwitchOperation switchOperation =>
+                IsDeadSwitchCase(current, switchOperation),
+            ISwitchExpressionOperation switchExpression =>
+                IsDeadSwitchExpressionArm(current, switchExpression),
+            _ => false,
+        };
     }
 
     private static bool IsDeadConditionalBranch(
@@ -2213,17 +2204,9 @@ internal static class ModuleAuthoringAnalysis
         return pattern.OperatorKind switch
         {
             BinaryOperatorKind.And or BinaryOperatorKind.ConditionalAnd =>
-                left is false || right is false
-                    ? false
-                    : left is true && right is true
-                        ? true
-                        : null,
+                left & right,
             BinaryOperatorKind.Or or BinaryOperatorKind.ConditionalOr =>
-                left is true || right is true
-                    ? true
-                    : left is false && right is false
-                        ? false
-                        : null,
+                left | right,
             _ => null,
         };
     }
@@ -2933,28 +2916,23 @@ internal static class ModuleAuthoringAnalysis
     {
         var method = invocation.TargetMethod;
         var containingType = method.ContainingType.OriginalDefinition.ToDisplayString();
-        return (method.Name == "Run"
-                && containingType == "System.Threading.Tasks.Task")
-               || (method.Name == "ConfigureServices"
-                   && containingType
-                   == "ModularPipelines.Extensions.PipelineBuilderExtensions")
-               || (method.Name == "ContinueWith"
-                   && containingType is
-                       "System.Threading.Tasks.Task"
-                       or "System.Threading.Tasks.Task<TResult>")
-               || (method.Name == "StartNew"
-                   && containingType is
-                       "System.Threading.Tasks.TaskFactory"
-                       or "System.Threading.Tasks.TaskFactory<TResult>")
-               || (method.Name == "ForEach"
-                   && containingType is
-                       "System.Array"
-                       or "System.Collections.Generic.List<T>"
-                       or "System.Threading.Tasks.Parallel")
-               || (containingType == "System.Threading.Tasks.Parallel"
-                   && method.Name is "For" or "ForEachAsync" or "Invoke")
-               || (containingType == "System.Linq.Enumerable"
-                   && IsLinqCallbackInvoked(invocation));
+        return containingType switch
+        {
+            "System.Threading.Tasks.Task" =>
+                method.Name is "Run" or "ContinueWith",
+            "System.Threading.Tasks.Task<TResult>" => method.Name == "ContinueWith",
+            "ModularPipelines.Extensions.PipelineBuilderExtensions" =>
+                method.Name == "ConfigureServices",
+            "System.Threading.Tasks.TaskFactory"
+                or "System.Threading.Tasks.TaskFactory<TResult>" =>
+                method.Name == "StartNew",
+            "System.Array" or "System.Collections.Generic.List<T>" =>
+                method.Name == "ForEach",
+            "System.Threading.Tasks.Parallel" =>
+                method.Name is "For" or "ForEach" or "ForEachAsync" or "Invoke",
+            "System.Linq.Enumerable" => IsLinqCallbackInvoked(invocation),
+            _ => false,
+        };
     }
 
     private static bool IsLinqCallbackInvoked(
