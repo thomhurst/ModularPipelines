@@ -165,7 +165,7 @@ public class ModuleConditionHandlerTests
     public async Task Mandatory_Branch_Condition_Is_Not_Overridden_By_Optional_Alternative()
     {
         var gitInformation = new Mock<IGitInformation>();
-        gitInformation.Setup(x => x.GetInfoAsync())
+        gitInformation.Setup(x => x.GetInfoAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new GitRepositoryInfo(
                 new ModularPipelines.FileSystem.Folder(TestContext.WorkingDirectory))
             {

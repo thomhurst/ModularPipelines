@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Channels;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -594,6 +595,33 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
+    [Arguments(LogLevel.Debug, false)]
+    [Arguments(LogLevel.Trace, true)]
+    public async Task MarkModuleCompleted_Logs_Dependent_Detail_Only_At_Trace(
+        LogLevel minimumLevel,
+        bool expectsDependentDetail)
+    {
+        var logs = new StringBuilder();
+        var completedState = new ModuleState(new FaultingModule(), typeof(FaultingModule));
+        var dependentState = new ModuleState(new LaterModule(), typeof(LaterModule));
+        dependentState.UnresolvedDependencies.Add(completedState.ModuleType);
+        completedState.DependentModules.Add(dependentState);
+        var moduleStates = new ConcurrentDictionary<Type, ModuleState>(
+        [
+            new(completedState.ModuleType, completedState),
+            new(dependentState.ModuleType, dependentState),
+        ]);
+        var tracker = CreateModuleStateTracker(logs, moduleStates, minimumLevel: minimumLevel);
+
+        tracker.MarkModuleCompleted(completedState.ModuleType, success: true);
+
+        var output = logs.ToString();
+        await Assert.That(output).Contains("completion unblocks 1 dependents");
+        await Assert.That(output.Contains("now ready to execute"))
+            .IsEqualTo(expectsDependentDetail);
+    }
+
+    [Test]
     public async Task CancelPendingModules_WithNoCancellableModules_DoesNotLogCancellation()
     {
         var logs = new StringBuilder();
@@ -702,10 +730,11 @@ public class ModuleExecutorLoggingTests
     private static ModuleStateTracker CreateModuleStateTracker(
         StringBuilder logs,
         ConcurrentDictionary<Type, ModuleState> moduleStates,
-        IMetricsCollector? metricsCollector = null)
+        IMetricsCollector? metricsCollector = null,
+        LogLevel minimumLevel = LogLevel.Trace)
     {
         return new ModuleStateTracker(
-            new StringLogger<ModuleStateTracker>(logs),
+            new StringLogger<ModuleStateTracker>(logs, minimumLevel),
             TimeProvider.System,
             metricsCollector ?? Mock.Of<IMetricsCollector>(),
             Mock.Of<IModuleConstraintEvaluator>(),
