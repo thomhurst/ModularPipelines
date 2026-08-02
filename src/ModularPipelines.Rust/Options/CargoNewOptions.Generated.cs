@@ -19,7 +19,9 @@ namespace ModularPipelines.Rust.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new")]
-public record CargoNewOptions : CargoOptions
+public record CargoNewOptions(
+    [property: CliArgument(0)] string Path
+) : CargoOptions
 {
     /// <summary>
     /// Initialize a new repository for the given version control system,

@@ -51,4 +51,10 @@ public record CargoUninstallOptions : CargoOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The [SPEC] operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Spec { get; set; }
+
 }

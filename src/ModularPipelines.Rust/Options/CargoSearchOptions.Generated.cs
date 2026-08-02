@@ -63,4 +63,10 @@ public record CargoSearchOptions : CargoOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
+    /// <summary>
+    /// The [QUERY] operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Query { get; set; }
+
 }
