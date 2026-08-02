@@ -121,6 +121,8 @@ internal sealed class PipelinePlanner
                 cancellationToken)
             .ConfigureAwait(false);
 
+        ValidateRunnableGraph(cascadeResult, moduleTypesUsingHistory);
+
         var skipDecisions = new Dictionary<IModule, SkipDecision>(ReferenceEqualityComparer.Instance);
         foreach (var ignoredModule in cascadeResult.IgnoredModules)
         {
@@ -153,6 +155,23 @@ internal sealed class PipelinePlanner
                 .ConfigureAwait(false);
             ModuleDependencyValidator.Validate(runnableModules, _dependencyRegistry, _metadataRegistry);
         }
+    }
+
+    private void ValidateRunnableGraph(
+        DependencySkipCascadeResult cascadeResult,
+        IReadOnlySet<Type> moduleTypesUsingHistory)
+    {
+        var runnableModules = cascadeResult.RunnableModules
+            .Concat(cascadeResult.IgnoredModules
+                .Select(ignoredModule => ignoredModule.Module)
+                .Where(module => moduleTypesUsingHistory.Contains(module.GetType())))
+            .ToArray();
+
+        ModuleDependencyValidator.Validate(
+            runnableModules,
+            _dependencyRegistry,
+            _metadataRegistry,
+            moduleTypesUsingHistory);
     }
 
     private async Task<SkipDecision?> EvaluateSkipDecisionAsync(
@@ -366,7 +385,8 @@ internal sealed class PipelinePlanner
     private TimeSpan CalculateEstimatedDuration(IReadOnlyList<PipelinePlanWave> waves)
     {
         var plannedModules = waves
-            .SelectMany(wave => wave.Modules)
+            .SelectMany(wave => wave.Modules
+                .OrderByDescending(plannedModule => GetPriority(plannedModule.Module)))
             .ToArray();
         var dependencyModels = CreateDependencyModelLookup();
         var finishTimes = new Dictionary<IModule, TimeSpan>(ReferenceEqualityComparer.Instance);
@@ -434,6 +454,15 @@ internal sealed class PipelinePlanner
             .FirstOrDefault()
             ?.ExecutionType
         ?? ExecutionType.Default;
+
+    private static ModulePriority GetPriority(IModule module) =>
+        module.Configuration.Priority
+        ?? module.GetType()
+            .GetCustomAttributes(typeof(PriorityAttribute), inherit: true)
+            .Cast<PriorityAttribute>()
+            .FirstOrDefault()
+            ?.Priority
+        ?? ModulePriority.Normal;
 
     private static TimeSpan FindEarliestStart(
         TimeSpan dependencyFinish,

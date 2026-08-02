@@ -249,6 +249,9 @@ public class PipelineCommandLineTests
             nameof(SecondParallelRootModule) => TimeSpan.FromMinutes(10),
             nameof(ThirdParallelRootModule) => TimeSpan.FromMinutes(10),
             nameof(ParallelJoinModule) => TimeSpan.FromMinutes(10),
+            nameof(AlphabeticallyFirstLowPriorityModule) => TimeSpan.FromMinutes(100),
+            nameof(FirstHighPriorityModule) => TimeSpan.FromMinutes(1),
+            nameof(SecondHighPriorityModule) => TimeSpan.FromMinutes(1),
             nameof(FirstCpuModule) => TimeSpan.FromMinutes(10),
             nameof(SecondCpuModule) => TimeSpan.FromMinutes(10),
             nameof(FirstIoModule) => TimeSpan.FromMinutes(10),
@@ -332,6 +335,23 @@ public class PipelineCommandLineTests
     {
     }
 
+    [Priority(ModulePriority.Low)]
+    private sealed class AlphabeticallyFirstLowPriorityModule : DryRunModule
+    {
+    }
+
+    [Priority(ModulePriority.High)]
+    private sealed class FirstHighPriorityModule : DryRunModule
+    {
+    }
+
+    private sealed class SecondHighPriorityModule : DryRunModule
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithPriority(ModulePriority.High)
+            .Build();
+    }
+
     [ExecutionHint(ExecutionType.CpuIntensive)]
     private sealed class FirstCpuModule : DryRunModule
     {
@@ -359,6 +379,18 @@ public class PipelineCommandLineTests
 
     [ModularPipelines.Attributes.DependsOn<SkippedCycleAModule>]
     private sealed class SkippedCycleBModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
+    [ModularPipelines.Attributes.DependsOn<HistoryCycleBModule>]
+    private sealed class HistoryCycleAModule : DryRunModule
+    {
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
+    [ModularPipelines.Attributes.DependsOn<HistoryCycleAModule>]
+    private sealed class HistoryCycleBModule : DryRunModule
     {
     }
 
@@ -618,6 +650,25 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task PlanAsyncSchedulesReadyModulesByPriorityInEstimate()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            Concurrency = options.Concurrency with { MaxParallelism = 2 },
+        });
+        builder.AddModule<AlphabeticallyFirstLowPriorityModule>();
+        builder.AddModule<FirstHighPriorityModule>();
+        builder.AddModule<SecondHighPriorityModule>();
+        builder.AddModuleEstimatedTimeProvider<PlanEstimatedTimeProvider>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+
+        await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.FromMinutes(101));
+    }
+
+    [Test]
     public async Task PlanAsyncAppliesExecutionTypeLimitsInEstimate()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -708,6 +759,23 @@ public class PipelineCommandLineTests
             await Assert.That(dependent.IsSkipDecisionKnown).IsTrue();
             await Assert.That(dependent.ShouldSkip).IsFalse();
         }
+    }
+
+    [Test]
+    public async Task PlanAsyncRevalidatesHistoryAwareRunnableGraph()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            RunOnlyCategories = ["selected"],
+        });
+        builder.AddModule<SkippedDependencyModule>().WithCategory("excluded");
+        builder.AddModule<HistoryCycleAModule>().WithCategory("selected");
+        builder.AddModule<HistoryCycleBModule>().WithCategory("selected");
+        builder.AddResultsRepository<PlanHistoryRepository>();
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.ThrowsAsync<DependencyCollisionException>(() => pipeline.PlanAsync());
     }
 
     [Test]
