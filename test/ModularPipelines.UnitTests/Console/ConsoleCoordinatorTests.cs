@@ -205,6 +205,7 @@ public class ConsoleCoordinatorTests
             outputCoordinator,
             Mock.Of<ISpectreConsoleLoggerControl>(),
             nonSpectreLoggerFactory.Object,
-            spectreLoggerFilter.Object);
+            spectreLoggerFilter.Object,
+            DelegatingAnsiConsole.Instance);
     }
 }
