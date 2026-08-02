@@ -33,6 +33,7 @@ public class BashTests : TestBase
     }
 
     [Test]
+    [RequiresTool("bash")]
     public async Task Has_Not_Errored()
     {
         var moduleResult = await await RunModule<BashCommandModule>();
@@ -41,6 +42,7 @@ public class BashTests : TestBase
     }
 
     [Test]
+    [RequiresTool("bash")]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
         var moduleResult = await await RunModule<BashCommandModule>();
@@ -50,6 +52,7 @@ public class BashTests : TestBase
 
     [Test]
     [LinuxOnlyTest]
+    [RequiresTool("bash")]
     public async Task Standard_Output_From_Script_Equals_Foo_Bar()
     {
         var moduleResult = await await RunModule<BashScriptModule>();
