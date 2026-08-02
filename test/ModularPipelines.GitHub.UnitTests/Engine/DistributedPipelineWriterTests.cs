@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Conditions;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.GitHub.PipelineWriters;
 using ModularPipelines.TestHelpers;
@@ -52,6 +53,33 @@ public class DistributedPipelineWriterTests : TestBase
         await Assert.That(yaml).Contains("REDIS_URL: ${{ secrets.REDIS_URL }}");
         await Assert.That(yaml).Contains(
             "run: dotnet run --project src/MyPipeline -c Release --framework net10.0");
+        await Assert.That(yaml).DoesNotContain("pull_request:");
+    }
+
+    [Test]
+    public async Task GeneratesRunnersForOperatingSystemConditions()
+    {
+        var outputPath = new File(Path.Combine(
+            File.GetNewTemporaryFilePath().Path,
+            "distributed.yml"));
+
+        await TestPipelineHostBuilder.Create()
+            .AddModule<WindowsConditionModule>()
+            .AddModule<MacConditionModule>()
+            .WriteDistributedWorkflow(new DistributedWorkflowOptions
+            {
+                OutputPath = outputPath,
+                ExtraWorkers = 0,
+            })
+            .ExecutePipelineAsync();
+
+        var yaml = (await outputPath.ReadAsync()).ReplaceLineEndings("\n");
+        var runners = yaml.Split('\n')
+            .Select(line => line.Trim())
+            .Where(line => line.StartsWith("os:", StringComparison.Ordinal));
+
+        await Assert.That(runners).IsEquivalentTo(
+            ["os: ubuntu-latest", "os: windows-latest", "os: macos-latest"]);
     }
 
     [RequiresCapability("linux")]
@@ -74,6 +102,18 @@ public class DistributedPipelineWriterTests : TestBase
 
     [RequiresCapability("docker")]
     private sealed class CustomCapabilityModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAll<OnWindows>]
+    private sealed class WindowsConditionModule : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
+
+    [RunIfAll<OnMacOS>]
+    private sealed class MacConditionModule : SimpleTestModule<bool>
     {
         protected override bool Result => true;
     }

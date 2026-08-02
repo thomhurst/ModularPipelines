@@ -119,8 +119,8 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
     private IReadOnlyList<MatrixEntry> BuildMatrix()
     {
         var requiredOperatingSystems = _modules
-            .SelectMany(module => module.GetType().GetCustomAttributes<RequiresCapabilityAttribute>(inherit: true))
-            .SelectMany(attribute => ParseOperatingSystems(attribute.Capability))
+            .SelectMany(module => GetRequiredCapabilities(module.GetType()))
+            .SelectMany(ParseOperatingSystems)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
         var runners = OperatingSystemOrder
@@ -132,6 +132,19 @@ internal sealed class DistributedGitHubPipelineFileWriter : IBuildSystemPipeline
             .Concat(runners)
             .Select((runner, index) => new MatrixEntry(index, runner))
             .ToArray();
+    }
+
+    private static IEnumerable<string> GetRequiredCapabilities(Type moduleType)
+    {
+        var declaredCapabilities = moduleType
+            .GetCustomAttributes<RequiresCapabilityAttribute>(inherit: true)
+            .Select(attribute => attribute.Capability);
+        var operatingSystemConditions = moduleType
+            .GetCustomAttributes(inherit: true)
+            .OfType<IConditionAttribute>()
+            .SelectMany(OperatingSystemConditions.GetTargets);
+
+        return declaredCapabilities.Concat(operatingSystemConditions);
     }
 
     private static IEnumerable<string> ParseOperatingSystems(string capability)

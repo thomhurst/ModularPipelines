@@ -23,12 +23,12 @@ public sealed record DistributedWorkflowOptions
     public string Name { get; init; } = "Distributed Pipeline";
 
     /// <summary>
-    /// Gets the workflow triggers.
+    /// Gets the workflow triggers. Pull requests are excluded by default because forked workflows
+    /// cannot access the Redis repository secret.
     /// </summary>
     public TriggerCondition TriggerCondition { get; init; } = new()
     {
         Push = new TriggerConditionBranches { Branches = ["main"] },
-        PullRequest = new TriggerConditionBranches(),
         WorkflowDispatch = new WorkflowDispatch(),
     };
 

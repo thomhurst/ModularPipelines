@@ -32,11 +32,17 @@ builder.WriteDistributedWorkflow(new DistributedWorkflowOptions
 ```
 
 The generated matrix contains a Linux master, one worker for every `linux`, `windows`, or
-`macos` capability used by a registered module, and the requested additional workers. It wires
-`INSTANCE_INDEX`, `TOTAL_INSTANCES`, and `REDIS_URL` automatically. Set the repository secret
+`macos` capability used by a registered module or its operating-system run conditions, and the
+requested additional workers. It wires `INSTANCE_INDEX`, `TOTAL_INSTANCES`, and `REDIS_URL`
+automatically. Set the repository secret
 named `REDIS_URL`, or change `RedisSecretName` in the options. Commit the generated file at
 `.github/workflows/modular-pipelines.yml`; regenerate it whenever module registration or
 capability requirements change.
+
+The default trigger runs on pushes to `main` and manual dispatches. Pull requests are omitted
+because workflows from forks cannot access the Redis repository secret. Trusted repositories can
+opt in by setting `TriggerCondition.PullRequest`; repositories accepting fork contributions should
+keep secret-dependent distributed jobs disabled for those events.
 
 The following hand-written workflow is equivalent and can be customized directly.
 
@@ -48,7 +54,7 @@ name: Distributed Pipeline
 on:
   push:
     branches: [main]
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   pipeline:
