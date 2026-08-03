@@ -138,7 +138,7 @@ public static class GeneratedOptionsSmokeTestHarness
         }
     }
 
-    private static IReadOnlyList<string> GetExpectedArguments(
+    private static List<string> GetExpectedArguments(
         IReadOnlyList<PropertyCommandLinePart> model,
         object options)
     {
@@ -188,14 +188,14 @@ public static class GeneratedOptionsSmokeTestHarness
         };
     }
 
-    private static IReadOnlyList<string> GetExpectedFlag(
+    private static List<string> GetExpectedFlag(
         CliFlagAttribute attribute,
         object value)
     {
         return value switch
         {
-            true => [attribute.GetEffectiveName()],
-            int count when count > 0 => Enumerable.Repeat(attribute.GetEffectiveName(), count).ToList(),
+            true => [GetEffectiveName(attribute)],
+            int count when count > 0 => [.. Enumerable.Repeat(GetEffectiveName(attribute), count)],
             _ => [],
         };
     }
@@ -211,9 +211,9 @@ public static class GeneratedOptionsSmokeTestHarness
             : values;
     }
 
-    private static IReadOnlyList<string> GetExpectedOption(OptionPart option, object value)
+    private static List<string> GetExpectedOption(OptionPart option, object value)
     {
-        var optionName = option.Attribute.GetEffectiveName();
+        var optionName = GetEffectiveName(option.Attribute);
 
         if (value is CliValuePair pair)
         {
@@ -222,12 +222,10 @@ public static class GeneratedOptionsSmokeTestHarness
 
         if (value is IEnumerable<CliValuePair> pairs)
         {
-            return pairs
-                .SelectMany(pairValue => new[] { optionName, pairValue.First, pairValue.Second })
-                .ToList();
+            return [.. pairs.SelectMany(pairValue => new[] { optionName, pairValue.First, pairValue.Second })];
         }
 
-        var separator = option.Attribute.GetSeparator();
+        var separator = GetSeparator(option.Attribute);
         var values = GetValues(value);
         if (option.Attribute.GroupValues && values.Count > 0)
         {
@@ -236,11 +234,32 @@ public static class GeneratedOptionsSmokeTestHarness
                 : [$"{optionName}{separator}{values[0]}", .. values.Skip(1)];
         }
 
-        return values
+        return [.. values
             .SelectMany(renderedValue => separator == " "
                 ? new[] { optionName, renderedValue }
-                : new[] { $"{optionName}{separator}{renderedValue}" })
-            .ToList();
+                : [$"{optionName}{separator}{renderedValue}"])];
+    }
+
+    private static string GetEffectiveName(CliFlagAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetEffectiveName(CliOptionAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetSeparator(CliOptionAttribute attribute)
+    {
+        return attribute.Format switch
+        {
+            OptionFormat.SpaceSeparated => " ",
+            OptionFormat.EqualsSeparated => "=",
+            OptionFormat.ColonSeparated => ":",
+            OptionFormat.NoSeparator => string.Empty,
+            _ => " ",
+        };
     }
 
     private static object CreateSample(Type propertyType)
@@ -356,15 +375,9 @@ public static class GeneratedOptionsSmokeTestHarness
             return;
         }
 
-        var backingField = property.DeclaringType?.GetField(
+        var backingField = (property.DeclaringType?.GetField(
             $"<{property.Name}>k__BackingField",
-            BindingFlags.Instance | BindingFlags.NonPublic);
-
-        if (backingField is null)
-        {
-            throw new InvalidOperationException($"{property.Name} cannot be assigned.");
-        }
-
+            BindingFlags.Instance | BindingFlags.NonPublic)) ?? throw new InvalidOperationException($"{property.Name} cannot be assigned.");
         backingField.SetValue(target, value);
     }
 
@@ -372,7 +385,7 @@ public static class GeneratedOptionsSmokeTestHarness
         value switch
         {
             string stringValue => [stringValue],
-            IReadOnlyList<KeyValue> keyValues => keyValues.Select(item => item.ToString()).ToList(),
+            IReadOnlyList<KeyValue> keyValues => [.. keyValues.Select(item => item.ToString())],
             IEnumerable enumerable when value is not IEnumerable<char> => GetEnumerableValues(enumerable),
             bool boolValue => [boolValue.ToString().ToLowerInvariant()],
             Uri uri => [uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.ToString()],
@@ -381,11 +394,10 @@ public static class GeneratedOptionsSmokeTestHarness
             _ => GetEnumOrDefaultValue(value),
         };
 
-    private static IReadOnlyList<string> GetEnumerableValues(IEnumerable enumerable) =>
-        enumerable
+    private static List<string> GetEnumerableValues(IEnumerable enumerable) =>
+        [.. enumerable
             .Cast<object>()
-            .SelectMany(GetValues)
-            .ToList();
+            .SelectMany(GetValues)];
 
     private static IReadOnlyList<string> GetEnumOrDefaultValue(object value)
     {
@@ -410,31 +422,25 @@ public sealed record GeneratedOptionsSmokeTestResult(
 /// <summary>
 /// Identifies the options type and property that failed command-line rendering.
 /// </summary>
-public sealed class GeneratedOptionsSmokeTestException : Exception
+/// <remarks>
+/// Initializes a new instance of the <see cref="GeneratedOptionsSmokeTestException"/> class.
+/// </remarks>
+/// <param name="optionsType">The options type under test.</param>
+/// <param name="propertyName">The property under test.</param>
+/// <param name="innerException">The rendering failure.</param>
+public sealed class GeneratedOptionsSmokeTestException(
+    Type optionsType,
+    string propertyName,
+    Exception innerException) : Exception($"{optionsType.FullName}.{propertyName} failed generated-options smoke testing.", innerException)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GeneratedOptionsSmokeTestException"/> class.
-    /// </summary>
-    /// <param name="optionsType">The options type under test.</param>
-    /// <param name="propertyName">The property under test.</param>
-    /// <param name="innerException">The rendering failure.</param>
-    public GeneratedOptionsSmokeTestException(
-        Type optionsType,
-        string propertyName,
-        Exception innerException)
-        : base($"{optionsType.FullName}.{propertyName} failed generated-options smoke testing.", innerException)
-    {
-        OptionsType = optionsType;
-        PropertyName = propertyName;
-    }
 
     /// <summary>
     /// Gets the options type under test.
     /// </summary>
-    public Type OptionsType { get; }
+    public Type OptionsType { get; } = optionsType;
 
     /// <summary>
     /// Gets the property under test.
     /// </summary>
-    public string PropertyName { get; }
+    public string PropertyName { get; } = propertyName;
 }

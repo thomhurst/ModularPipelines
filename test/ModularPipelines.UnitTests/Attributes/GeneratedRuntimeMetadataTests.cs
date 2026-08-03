@@ -134,11 +134,13 @@ public class GeneratedRuntimeMetadataTests
 
         var flag = model.OfType<FlagPart>().Single();
         await Assert.That((bool) flag.Getter(options)!).IsTrue();
-        await Assert.That(flag.Attribute.GetEffectiveName()).IsEqualTo("-v");
+        await Assert.That(flag.Attribute.Name).IsEqualTo("--verbose");
+        await Assert.That(flag.Attribute.ShortForm).IsEqualTo("-v");
+        await Assert.That(flag.Attribute.PreferShortForm).IsTrue();
         await Assert.That(flag.Attribute.Phase).IsEqualTo(CommandLinePhase.Normal);
         var option = model.OfType<OptionPart>().Single();
         await Assert.That(option.Getter(options)).IsEqualTo(options.Output);
-        await Assert.That(option.Attribute.GetSeparator()).IsEqualTo("=");
+        await Assert.That(option.Attribute.Format).IsEqualTo(OptionFormat.EqualsSeparated);
         await Assert.That(option.Attribute.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
         await Assert.That(option.Attribute.GroupValues).IsTrue();
         await Assert.That(option.Attribute.Phase).IsEqualTo(CommandLinePhase.Terminal);
@@ -247,7 +249,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(found).IsTrue();
         await Assert.That(option.Attribute.Name).IsEqualTo("--value\0");
         await Assert.That(option.Attribute.ShortForm).IsEqualTo("-\b");
-        await Assert.That(option.Attribute.GetSeparator()).IsEqualTo(":");
+        await Assert.That(option.Attribute.Format).IsEqualTo(OptionFormat.ColonSeparated);
     }
 
     [Test]
