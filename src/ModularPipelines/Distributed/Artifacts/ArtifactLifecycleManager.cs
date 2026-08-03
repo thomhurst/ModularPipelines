@@ -128,12 +128,15 @@ internal class ArtifactLifecycleManager
                 resolvedPaths,
                 cancellationToken)
             .ConfigureAwait(false);
-        _logger.LogInformation(
-            "Uploaded artifact '{Name}' ({Size} bytes, {FileCount} files) for module {Module}",
-            attribute.Name,
-            reference.SizeBytes,
-            resolvedPaths.Count,
-            moduleType.Name);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Uploaded artifact '{Name}' ({Size} bytes, {FileCount} files) for module {Module}",
+                attribute.Name,
+                reference.SizeBytes,
+                resolvedPaths.Count,
+                moduleType.Name);
+        }
         return reference;
     }
 
@@ -226,12 +229,15 @@ internal class ArtifactLifecycleManager
         string resolvedPath)
     {
         var isDirectory = Directory.Exists(resolvedPath);
-        var directoryPaths = isDirectory
-            ? new[] { resolvedPath }.Concat(Directory.EnumerateDirectories(
+        IEnumerable<string> directoryPaths = isDirectory
+            ? [
                 resolvedPath,
-                "*",
-                SearchOption.AllDirectories))
-            : Enumerable.Empty<string>();
+                .. Directory.EnumerateDirectories(
+                    resolvedPath,
+                    "*",
+                    SearchOption.AllDirectories),
+            ]
+            : [];
         foreach (var directoryPath in directoryPaths)
         {
             var entryName = GetArchiveEntryName(archiveBaseDirectory, directoryPath).TrimEnd('/') + "/";
@@ -243,7 +249,7 @@ internal class ArtifactLifecycleManager
 
         var filePaths = isDirectory
             ? Directory.EnumerateFiles(resolvedPath, "*", SearchOption.AllDirectories)
-            : new[] { resolvedPath };
+            : [resolvedPath];
         foreach (var filePath in filePaths)
         {
             var entryName = GetArchiveEntryName(archiveBaseDirectory, filePath);
@@ -407,9 +413,12 @@ internal class ArtifactLifecycleManager
             await stream.CopyToAsync(fileStream, cancellationToken);
         }
 
-        _logger.LogInformation(
-            "Restored artifact '{Name}' from module '{Producer}' to '{Path}'",
-            artifactName, producerTypeName, restorePath);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Restored artifact '{Name}' from module '{Producer}' to '{Path}'",
+                artifactName, producerTypeName, restorePath);
+        }
     }
 
     /// <summary>
@@ -447,16 +456,11 @@ internal class ArtifactLifecycleManager
             searchPattern = "*";
         }
 
-        // Try to find matching files
-        var matches = Directory.GetFiles(baseDir, searchPattern, SearchOption.AllDirectories);
-        if (matches.Length > 0)
-        {
-            return matches;
-        }
-
-        // Try directories
-        var dirMatches = Directory.GetDirectories(baseDir, searchPattern, SearchOption.AllDirectories);
-        return dirMatches;
+        return
+        [
+            .. Directory.GetFiles(baseDir, searchPattern, SearchOption.AllDirectories),
+            .. Directory.GetDirectories(baseDir, searchPattern, SearchOption.AllDirectories),
+        ];
     }
 
     private string GetArchiveBaseDirectory(string pathPattern)

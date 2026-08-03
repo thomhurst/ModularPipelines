@@ -289,6 +289,10 @@ public class ArtifactContractTests
                 Path.Combine(secondDirectory, "output.txt"),
                 "second",
                 cancellationToken);
+            await File.WriteAllTextAsync(
+                Path.Combine(MultipleProducedDirectory, "directory-file.txt"),
+                "file",
+                cancellationToken);
             return "produced";
         }
     }
@@ -306,13 +310,16 @@ public class ArtifactContractTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
+            var file = await File.ReadAllTextAsync(
+                Path.Combine(MultipleRestoreDirectory, "directory-file.txt"),
+                cancellationToken);
             var first = await File.ReadAllTextAsync(
                 Path.Combine(MultipleRestoreDirectory, "directory-first", "output.txt"),
                 cancellationToken);
             var second = await File.ReadAllTextAsync(
                 Path.Combine(MultipleRestoreDirectory, "directory-second", "output.txt"),
                 cancellationToken);
-            return ConsumedContent = $"{first},{second}";
+            return ConsumedContent = $"{file},{first},{second}";
         }
     }
 
@@ -1075,7 +1082,7 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionRestoresMultipleMatchedDirectories()
+    public async Task StandaloneExecutionRestoresMixedMatchedPaths()
     {
         DeleteLocalArtifacts();
         MultipleDirectoryConsumerModule.ConsumedContent = null;
@@ -1090,7 +1097,7 @@ public class ArtifactContractTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(MultipleDirectoryConsumerModule.ConsumedContent).IsEqualTo("first,second");
+                await Assert.That(MultipleDirectoryConsumerModule.ConsumedContent).IsEqualTo("file,first,second");
                 await Assert.That(Directory.Exists(
                     Path.Combine(MultipleRestoreDirectory, "directory-empty"))).IsTrue();
                 await Assert.That(Directory.Exists(
