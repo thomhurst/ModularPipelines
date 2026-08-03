@@ -164,17 +164,38 @@ public class ProcessCliCommandExecutorTests
             return;
         }
 
-        var executor = new ProcessCliCommandExecutor(
-            NullLogger<ProcessCliCommandExecutor>.Instance,
-            TimeSpan.FromMilliseconds(100));
-
-        var execution = executor.ExecuteAsync("/bin/sh", "-c \"sleep 2 &\"");
-        var result = await execution.WaitAsync(TimeSpan.FromSeconds(5));
-
-        using (Assert.Multiple())
+        var childPidPath = Path.Combine(
+            Path.GetTempPath(),
+            $"mp-cli-exited-parent-child-{Guid.NewGuid():N}.pid");
+        int? childPid = null;
+        try
         {
-            await Assert.That(result.ExitCode).IsEqualTo(-1);
-            await Assert.That(result.StandardError).Contains("timed out");
+            var executor = new ProcessCliCommandExecutor(
+                NullLogger<ProcessCliCommandExecutor>.Instance,
+                TimeSpan.FromMilliseconds(150));
+            var arguments =
+                $"-c \"sleep 30 & child=$!; echo $child > '{childPidPath}'; sleep 0.05\"";
+
+            var result = await executor.ExecuteAsync("/bin/sh", arguments)
+                .WaitAsync(TimeSpan.FromSeconds(5));
+            childPid = int.Parse(await File.ReadAllTextAsync(childPidPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ExitCode).IsEqualTo(-1);
+                await Assert.That(result.StandardError).Contains("timed out");
+                await Assert.That(await WaitForProcessExitAsync(childPid.Value)).IsTrue();
+            }
+        }
+        finally
+        {
+            if (childPid.HasValue && IsProcessRunning(childPid.Value))
+            {
+                using var childProcess = Process.GetProcessById(childPid.Value);
+                childProcess.Kill();
+            }
+
+            File.Delete(childPidPath);
         }
     }
 

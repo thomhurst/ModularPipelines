@@ -58,6 +58,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
             process.Start();
             process.StandardInput.Close();
+            using var descendantTracker = new DescendantProcessTracker(process.Id);
 
             var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
             var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
@@ -69,7 +70,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             }
             catch (OperationCanceledException)
             {
-                await TryKillProcessAsync(process, command, arguments).ConfigureAwait(false);
+                await TryKillProcessAsync(process, descendantTracker, command, arguments)
+                    .ConfigureAwait(false);
                 throw;
             }
 
@@ -245,15 +247,18 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     /// Attempts to kill a process gracefully, falling back to force kill.
     /// Logs but swallows exceptions to prevent masking the original error.
     /// </summary>
-    private async Task TryKillProcessAsync(Process process, string command, string arguments)
+    private async Task TryKillProcessAsync(
+        Process process,
+        DescendantProcessTracker descendantTracker,
+        string command,
+        string arguments)
     {
-        if (process.HasExited)
-        {
-            return;
-        }
-
         _logger.LogDebug("Killing timed-out process tree: {Command} {Arguments}", command, arguments);
-        var killTreeTask = Task.Run(() => KillProcessTree(process.Id));
+        var killTreeTask = Task.Run(() =>
+        {
+            descendantTracker.KillCapturedDescendants();
+            KillProcessTree(process.Id);
+        });
         try
         {
             await killTreeTask.WaitAsync(ProcessTreeKillTimeout).ConfigureAwait(false);
@@ -292,10 +297,22 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
     private static void KillProcessTree(int processId)
     {
-        using var process = Process.GetProcessById(processId);
-        if (!process.HasExited)
+        try
         {
-            process.Kill(entireProcessTree: true);
+            using var process = Process.GetProcessById(processId);
+            if (!process.HasExited)
+            {
+                process.Kill(entireProcessTree: true);
+            }
+        }
+        catch (ArgumentException)
+        {
+            // The direct process exited after its descendants were captured.
+        }
+        catch (InvalidOperationException)
+        {
+            // The direct process exited after its descendants were captured.
         }
     }
+
 }

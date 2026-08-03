@@ -480,7 +480,8 @@ public static class UsageSynopsisParser
                          || content.EndsWith('…')
                          || canonicalName.EndsWith("...", StringComparison.Ordinal)
                          || canonicalName.EndsWith('…')
-                         || canonicalName.EndsWith(" ...", StringComparison.Ordinal);
+                         || canonicalName.EndsWith(" ...", StringComparison.Ordinal)
+                         || IsForwardedOptionTail(trimmed, content);
         canonicalName = canonicalName.TrimEnd('.', '…').Trim();
 
         if (canonicalName.StartsWith('-'))
@@ -507,6 +508,11 @@ public static class UsageSynopsisParser
             Description = $"The {canonicalName} operand.",
         };
     }
+
+    private static bool IsForwardedOptionTail(string token, string content) =>
+        token.StartsWith('[')
+        && content.Contains(' ')
+        && content.EndsWith(" OPTIONS", StringComparison.OrdinalIgnoreCase);
 
     private static bool TryParseNestedOperandGroup(
         string token,

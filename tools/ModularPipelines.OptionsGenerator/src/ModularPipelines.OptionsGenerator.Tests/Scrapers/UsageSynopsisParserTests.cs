@@ -163,6 +163,23 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Parses_Forwarded_Option_Tail_As_Multiple_Arguments()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: docker top CONTAINER [ps OPTIONS]",
+            ["docker", "top"]);
+
+        var psOptions = result.PositionalArguments.Single(argument =>
+            argument.PropertyName == "PsOptions");
+        using (Assert.Multiple())
+        {
+            await Assert.That(psOptions.IsRequired).IsFalse();
+            await Assert.That(psOptions.IsVariadic).IsTrue();
+            await Assert.That(psOptions.CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
     public async Task Splits_Nested_Command_And_Argument_Operands()
     {
         var result = UsageSynopsisParser.Parse(

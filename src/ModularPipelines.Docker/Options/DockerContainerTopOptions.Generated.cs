@@ -26,6 +26,6 @@ public record DockerContainerTopOptions(
     /// The ps OPTIONS operand.
     /// </summary>
     [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? PsOptions { get; set; }
+    public IEnumerable<string>? PsOptions { get; set; }
 
 }
