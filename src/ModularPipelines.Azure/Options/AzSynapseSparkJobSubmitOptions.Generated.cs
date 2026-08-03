@@ -29,8 +29,8 @@ public record AzSynapseSparkJobSubmitOptions : AzOptions
     /// <summary>
     /// Optional arguments to the job (Note: please use storage URIs for file arguments).
     /// </summary>
-    [CliFlag("--arguments")]
-    public new bool? Arguments { get; set; }
+    [CliOption("--arguments", AllowMultiple = true)]
+    public string[]? JobArguments { get; set; }
 
     /// <summary>
     /// The configuration of Spark job.

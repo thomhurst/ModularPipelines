@@ -425,9 +425,9 @@ public class GeneratorHardeningTests
     #region Positional argument deduplication
 
     [Test]
-    public async Task OptionsClassGenerator_Marks_Inherited_Name_Collisions_As_New()
+    public async Task OptionsClassGenerator_Renames_Inherited_Name_Collisions()
     {
-        var command = Command("ToolRunOptions", "ToolOptions") with
+        var command = Command("ToolJobSubmitOptions", "ToolOptions", ["job", "submit"]) with
         {
             Options =
             [
@@ -461,10 +461,11 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("public new string? Tool { get; set; }");
-        await Assert.That(generated).Contains("public new IEnumerable<string>? CommandParts { get; set; }");
-        await Assert.That(generated).Contains("public new bool? Arguments { get; set; }");
-        await Assert.That(generated).Contains("public new IEnumerable<string>? RunSettings { get; set; }");
+        await Assert.That(generated).Contains("public string? JobTool { get; set; }");
+        await Assert.That(generated).Contains("public IEnumerable<string>? JobCommandParts { get; set; }");
+        await Assert.That(generated).Contains("public bool? JobArguments { get; set; }");
+        await Assert.That(generated).Contains("public IEnumerable<string>? JobRunSettings { get; set; }");
+        await Assert.That(generated).DoesNotContain("public new ");
     }
 
     [Test]

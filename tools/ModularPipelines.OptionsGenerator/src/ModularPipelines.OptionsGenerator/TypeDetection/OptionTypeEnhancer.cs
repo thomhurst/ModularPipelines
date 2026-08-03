@@ -154,7 +154,7 @@ public class OptionTypeEnhancer
                         IsNumeric = result.Type == CliOptionType.Int || result.Type == CliOptionType.Decimal,
                         AcceptsMultipleValues = acceptsMultipleValues,
                         IsKeyValue = result.Type == CliOptionType.KeyValue,
-                        ValueSeparator = newIsFlag ? " " : "=",
+                        ValueSeparator = newIsFlag ? " " : option.ValueSeparator,
                         EnumDefinition = effectiveEnumDef
                     };
 
