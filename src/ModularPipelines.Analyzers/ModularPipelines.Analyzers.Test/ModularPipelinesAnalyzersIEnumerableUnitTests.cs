@@ -84,7 +84,7 @@ public class Module1 : {{|#0:global::ModularPipelines.Modules.SyncModule<System.
     private const string FixedQualifiedSyncModuleSource = $@"
 {TestSourceConstants.StandardModuleHeader}
 
-public class Module1 : global::ModularPipelines.Modules.SyncModule<List<string>>
+public class Module1 : global::ModularPipelines.Modules.SyncModule<global::System.Collections.Generic.List<string>>
 {{
     protected override List<string>? Execute(
         IModuleContext context,
@@ -114,7 +114,7 @@ public abstract class Wrapper<TMetadata, TResult> : Module<TResult>
 {{
 }}
 
-public abstract class Module1 : Wrapper<IEnumerable<int>, List<string>>
+public abstract class Module1 : Wrapper<IEnumerable<int>, global::System.Collections.Generic.List<string>>
 {{
 }}
 ";
@@ -149,6 +149,74 @@ public partial class Module1
         return Array.Empty<string>();
     }}
 }}
+";
+
+    private const string ResultHookSyncModuleSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : SyncModule<IEnumerable<string>>
+{{
+    protected override List<string>? Execute(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        return [];
+    }}
+
+    protected override Task<ModuleResult<IEnumerable<string>>?> OnAfterExecuteAsync(
+        IModuleContext context,
+        ModuleResult<IEnumerable<string>> result,
+        CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<ModuleResult<IEnumerable<string>>?>(result);
+    }}
+}}
+";
+
+    private const string CollidingListSource = @"
+#nullable enable
+using System.Collections.Generic;
+using System.Threading;
+using ModularPipelines.Context;
+
+namespace ModularPipelines.Examples.Modules;
+
+public class List<T>
+{
+}
+
+public class Module1 : {|#0:global::ModularPipelines.Modules.SyncModule<IEnumerable<string>>|}
+{
+    protected override global::System.Collections.Generic.List<string>? Execute(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return [];
+    }
+}
+";
+
+    private const string FixedCollidingListSource = @"
+#nullable enable
+using System.Collections.Generic;
+using System.Threading;
+using ModularPipelines.Context;
+
+namespace ModularPipelines.Examples.Modules;
+
+public class List<T>
+{
+}
+
+public class Module1 : global::ModularPipelines.Modules.SyncModule<global::System.Collections.Generic.List<string>>
+{
+    protected override global::System.Collections.Generic.List<string>? Execute(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        return [];
+    }
+}
 ";
 
     [TestMethod]
@@ -195,6 +263,14 @@ public partial class Module1
     }
 
     [TestMethod]
+    public async Task CodeFixIsNotOfferedWhenResultHookWouldBecomeInvalid()
+    {
+        await VerifyCodeFixCS.VerifyNoCodeFixAsync(
+            ResultHookSyncModuleSource,
+            EnumerableModuleResultAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
     public async Task AnalyzerIsNotTriggered_When_ForeignModuleReturnsIEnumerable()
     {
         await VerifyCS.VerifyAnalyzerAsync(ForeignModuleSource);
@@ -210,6 +286,18 @@ public partial class Module1
             QualifiedSyncModuleSource,
             expected,
             FixedQualifiedSyncModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Qualifies_List_When_Local_Type_Collides()
+    {
+        var expected = VerifyCodeFixCS.Diagnostic(EnumerableModuleResultAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCodeFixCS.VerifyCodeFixAsync(
+            CollidingListSource,
+            expected,
+            FixedCollidingListSource);
     }
 
     [TestMethod]

@@ -15,7 +15,7 @@ namespace ModularPipelines.Analyzers;
 public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
 {
     /// <inheritdoc/>
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(EnumerableModuleResultAnalyzer.DiagnosticId);
+    public sealed override ImmutableArray<string> FixableDiagnosticIds => [EnumerableModuleResultAnalyzer.DiagnosticId];
 
     /// <inheritdoc/>
     public sealed override FixAllProvider GetFixAllProvider()
@@ -85,15 +85,11 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return context.Document;
         }
 
-        var listType = SyntaxFactory.GenericName(
-            SyntaxFactory.Identifier("List"),
-            SyntaxFactory.TypeArgumentList(
-                SyntaxFactory.SingletonSeparatedList(replacement.ElementType)));
+        var listType = SyntaxFactory.ParseTypeName(
+            $"global::System.Collections.Generic.List<{replacement.ElementType}>");
         var newRoot = replacement.DocumentRoot.ReplaceNode(
             replacement.EnumerableType,
             listType.WithTriviaFrom(replacement.EnumerableType));
-
-        newRoot = AddUsingIfNeeded(newRoot, "System.Collections.Generic");
 
         return context.Document.WithSyntaxRoot(newRoot);
     }
@@ -141,25 +137,16 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return null;
         }
 
-        var moduleType = semanticModel.Compilation.GetTypeByMetadataName(
-            AnalyzerConstants.FullyQualifiedTypeNames.Module);
-        var resultArgumentOrdinal = moduleType is null
-            ? null
-            : GetModuleResultTypeParameterOrdinal(baseTypeSymbol, moduleType);
-        var baseGenericName = baseType.Type
-            .DescendantNodesAndSelf()
-            .OfType<GenericNameSyntax>()
-            .FirstOrDefault(candidate => SymbolEqualityComparer.Default.Equals(
-                semanticModel.GetTypeInfo(candidate, cancellationToken).Type,
-                baseTypeSymbol));
-        if (resultArgumentOrdinal is not int ordinal
-            || baseGenericName is null
-            || ordinal >= baseGenericName.TypeArgumentList.Arguments.Count)
+        var candidate = GetModuleResultTypeSyntax(
+            baseType,
+            baseTypeSymbol,
+            semanticModel,
+            cancellationToken);
+        if (candidate is null)
         {
             return null;
         }
 
-        var candidate = baseGenericName.TypeArgumentList.Arguments[ordinal];
         if (semanticModel.GetTypeInfo(candidate, cancellationToken).Type
                 is not INamedTypeSymbol candidateType
             || !SymbolEqualityComparer.Default.Equals(
@@ -169,55 +156,124 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return null;
         }
 
-        var enumerableGenericName = candidate
+        var elementType = GetEnumerableElementTypeSyntax(
+            candidate,
+            enumerableType,
+            semanticModel,
+            cancellationToken);
+        if (elementType is null
+            || semanticModel.GetTypeInfo(elementType, cancellationToken).Type
+                is not ITypeSymbol elementTypeSymbol)
+        {
+            return null;
+        }
+
+        return new ReplacementContext(
+            documentRoot,
+            semanticModel,
+            candidate,
+            elementType,
+            elementTypeSymbol);
+    }
+
+    private static TypeSyntax? GetModuleResultTypeSyntax(
+        SimpleBaseTypeSyntax baseType,
+        INamedTypeSymbol baseTypeSymbol,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        var moduleType = semanticModel.Compilation.GetTypeByMetadataName(
+            AnalyzerConstants.FullyQualifiedTypeNames.Module);
+        if (moduleType is null
+            || GetModuleResultTypeParameterOrdinal(baseTypeSymbol, moduleType) is not int ordinal)
+        {
+            return null;
+        }
+
+        var baseGenericName = baseType.Type
+            .DescendantNodesAndSelf()
+            .OfType<GenericNameSyntax>()
+            .FirstOrDefault(candidate => SymbolEqualityComparer.Default.Equals(
+                semanticModel.GetTypeInfo(candidate, cancellationToken).Type,
+                baseTypeSymbol));
+        return baseGenericName is not null
+            && ordinal < baseGenericName.TypeArgumentList.Arguments.Count
+                ? baseGenericName.TypeArgumentList.Arguments[ordinal]
+                : null;
+    }
+
+    private static TypeSyntax? GetEnumerableElementTypeSyntax(
+        TypeSyntax candidate,
+        INamedTypeSymbol enumerableType,
+        SemanticModel semanticModel,
+        CancellationToken cancellationToken)
+    {
+        return candidate
             .DescendantNodesAndSelf()
             .OfType<GenericNameSyntax>()
             .FirstOrDefault(generic => semanticModel.GetTypeInfo(generic, cancellationToken).Type
                     is INamedTypeSymbol genericType
                 && SymbolEqualityComparer.Default.Equals(
                     genericType.OriginalDefinition,
-                    enumerableType));
-        var elementType = enumerableGenericName?.TypeArgumentList.Arguments.FirstOrDefault();
-        var elementTypeSymbol = elementType is null
-            ? null
-            : semanticModel.GetTypeInfo(elementType, cancellationToken).Type;
-        return elementType is null || elementTypeSymbol is null
-            ? null
-            : new ReplacementContext(
-                documentRoot,
-                semanticModel,
-                candidate,
-                elementType,
-                elementTypeSymbol);
+                    enumerableType))?
+            .TypeArgumentList.Arguments.FirstOrDefault();
     }
 
     private static bool HasCompatibleExecutionOverride(
         ReplacementContext replacement,
         ReplacementType replacementType)
     {
-        var containingType = replacement.EnumerableType
+        var containingTypeSymbol = replacement.EnumerableType
             .Ancestors()
             .OfType<TypeDeclarationSyntax>()
+            .Select(type => replacement.SemanticModel.GetDeclaredSymbol(type))
+            .OfType<INamedTypeSymbol>()
             .FirstOrDefault();
-        if (containingType is null
-            || replacement.SemanticModel.GetDeclaredSymbol(containingType)
-                is not INamedTypeSymbol containingTypeSymbol)
+        if (containingTypeSymbol is null)
         {
             return false;
         }
 
-        var executionOverrides = containingTypeSymbol
-            .GetMembers()
-            .OfType<IMethodSymbol>()
-            .Where(method => method.OverriddenMethod is not null
-                && method.Name is "Execute" or "ExecuteAsync")
-            .ToArray();
+        if (HasResultDependentHookOverride(containingTypeSymbol))
+        {
+            return false;
+        }
+
+        var executionOverrides = GetExecutionOverrides(containingTypeSymbol);
         if (executionOverrides.Length == 0)
         {
             return true;
         }
 
-        ITypeSymbol? expectedResultType = replacementType switch
+        var expectedResultType = GetExpectedResultType(replacement, replacementType);
+        return expectedResultType is not null
+            && executionOverrides.All(method => SymbolEqualityComparer.Default.Equals(
+                GetExecutionResultType(method.ReturnType),
+                expectedResultType));
+    }
+
+    private static IMethodSymbol[] GetExecutionOverrides(INamedTypeSymbol containingTypeSymbol)
+    {
+        return [.. containingTypeSymbol
+            .GetMembers()
+            .OfType<IMethodSymbol>()
+            .Where(method => method.OverriddenMethod is not null
+                && method.Name is "Execute" or "ExecuteAsync")];
+    }
+
+    private static bool HasResultDependentHookOverride(INamedTypeSymbol containingTypeSymbol)
+    {
+        return containingTypeSymbol
+            .GetMembers("OnAfterExecuteAsync")
+            .OfType<IMethodSymbol>()
+            .Any(method => method.OverriddenMethod is not null);
+    }
+
+    private static ITypeSymbol? GetExpectedResultType(
+        ReplacementContext replacement,
+        ReplacementType replacementType)
+    {
+        return replacementType switch
         {
             ReplacementType.List => replacement.SemanticModel.Compilation
                 .GetTypeByMetadataName("System.Collections.Generic.List`1")?
@@ -226,10 +282,6 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
                 .CreateArrayTypeSymbol(replacement.ElementTypeSymbol),
             _ => null,
         };
-        return expectedResultType is not null
-            && executionOverrides.All(method => SymbolEqualityComparer.Default.Equals(
-                GetExecutionResultType(method.ReturnType),
-                expectedResultType));
     }
 
     private static ITypeSymbol GetExecutionResultType(ITypeSymbol returnType)
@@ -258,22 +310,6 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
         }
 
         return null;
-    }
-
-    private static SyntaxNode AddUsingIfNeeded(SyntaxNode documentRoot, string namespaceName)
-    {
-        if (documentRoot is not CompilationUnitSyntax compilationUnitSyntax)
-        {
-            return documentRoot;
-        }
-
-        if (compilationUnitSyntax.Usings.Any(u => u.Name?.ToFullString() == namespaceName))
-        {
-            return documentRoot;
-        }
-
-        return compilationUnitSyntax.AddUsings(
-            SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(namespaceName)));
     }
 
     private sealed class ReplacementContext(
