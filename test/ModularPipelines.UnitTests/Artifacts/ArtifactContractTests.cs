@@ -117,6 +117,16 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Dependency-skipped consumer must not execute");
     }
 
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "missing-output")]
+    private sealed class InvalidSkippedArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dependency-skipped consumer must not execute");
+    }
+
     private sealed class ArtifactValidationHistoryRepository : IModuleResultRepository
     {
         public bool IsEnabled => true;
@@ -218,8 +228,11 @@ public class ArtifactContractTests
         {
             var firstDirectory = Path.Combine(MultipleProducedDirectory, "directory-first");
             var secondDirectory = Path.Combine(MultipleProducedDirectory, "directory-second");
+            var emptyDirectory = Path.Combine(MultipleProducedDirectory, "directory-empty");
             Directory.CreateDirectory(firstDirectory);
             Directory.CreateDirectory(secondDirectory);
+            Directory.CreateDirectory(emptyDirectory);
+            Directory.CreateDirectory(Path.Combine(firstDirectory, "empty-child"));
             await File.WriteAllTextAsync(
                 Path.Combine(firstDirectory, "output.txt"),
                 "first",
@@ -772,6 +785,19 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task BuildAsyncIgnoresInvalidContractWhenConsumedSkippedProducerHasHistory()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddResultsRepository<ArtifactHistoryRepository>();
+        builder.AddModule<SkippedArtifactProducerModule>();
+        builder.AddModule<InvalidSkippedArtifactConsumerModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline).IsNotNull();
+    }
+
+    [Test]
     public async Task ValidateAsyncAcceptsMatchingArtifactContract()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -853,7 +879,14 @@ public class ArtifactContractTests
 
             await builder.ExecutePipelineAsync();
 
-            await Assert.That(MultipleDirectoryConsumerModule.ConsumedContent).IsEqualTo("first,second");
+            using (Assert.Multiple())
+            {
+                await Assert.That(MultipleDirectoryConsumerModule.ConsumedContent).IsEqualTo("first,second");
+                await Assert.That(Directory.Exists(
+                    Path.Combine(MultipleRestoreDirectory, "directory-empty"))).IsTrue();
+                await Assert.That(Directory.Exists(
+                    Path.Combine(MultipleRestoreDirectory, "directory-first", "empty-child"))).IsTrue();
+            }
         }
         finally
         {

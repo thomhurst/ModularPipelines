@@ -131,7 +131,25 @@ internal class ArtifactLifecycleManager
                             var archivedEntries = new HashSet<string>(StringComparer.Ordinal);
                             foreach (var resolvedPath in resolvedPaths)
                             {
-                                IEnumerable<string> filePaths = Directory.Exists(resolvedPath)
+                                var isDirectory = Directory.Exists(resolvedPath);
+                                IEnumerable<string> directoryPaths = isDirectory
+                                    ? [resolvedPath, .. Directory.EnumerateDirectories(
+                                        resolvedPath,
+                                        "*",
+                                        SearchOption.AllDirectories)]
+                                    : [];
+                                foreach (var directoryPath in directoryPaths)
+                                {
+                                    var entryName = Path.GetRelativePath(archiveBaseDirectory, directoryPath)
+                                        .Replace(Path.DirectorySeparatorChar, '/')
+                                        .TrimEnd('/') + "/";
+                                    if (archivedEntries.Add(entryName))
+                                    {
+                                        archive.CreateEntry(entryName, _options.CompressionLevel);
+                                    }
+                                }
+
+                                IEnumerable<string> filePaths = isDirectory
                                     ? Directory.EnumerateFiles(
                                         resolvedPath,
                                         "*",

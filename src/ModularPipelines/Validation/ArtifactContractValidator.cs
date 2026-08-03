@@ -69,6 +69,12 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             }
         }
 
+        var consumedArtifactProducerTypes = runnableModules
+            .SelectMany(module => module.GetType()
+                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                .Cast<ConsumesArtifactAttribute>())
+            .Select(attribute => attribute.ProducerModule)
+            .ToHashSet();
         var moduleTypesUsingHistory = new HashSet<Type>();
         var resultHistoryProvider = services.GetRequiredService<IModuleResultHistoryProvider>();
         var pipelineContext = services.GetRequiredService<IPipelineContextProvider>().GetModuleContext();
@@ -82,7 +88,8 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
                 {
                     foreach (var ignoredModule in pendingIgnoredModules)
                     {
-                        if (await resultHistoryProvider
+                        if (!consumedArtifactProducerTypes.Contains(ignoredModule.Module.GetType())
+                            && await resultHistoryProvider
                                 .TryGetAsync(ignoredModule.Module, pipelineContext)
                                 .ConfigureAwait(false) is not null)
                         {
