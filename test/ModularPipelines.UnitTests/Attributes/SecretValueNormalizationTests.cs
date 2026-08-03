@@ -6,6 +6,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.FSharp.TestFixtures;
 using ModularPipelines.Options;
+using ModularPipelines.VisualBasic.TestFixtures;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Attributes;
@@ -42,6 +43,10 @@ internal sealed class GeneratedNoSecretsOptions;
 
 public class SecretValueNormalizationTests
 {
+    private sealed class PrivateNoSecretsOptions;
+
+    private sealed class GenericNoSecretsOptions<T>;
+
     private static readonly string[] CharacterSecrets =
     [
         "array-secret",
@@ -91,6 +96,29 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
+    public async Task GeneratedNamedCoverage_HandlesPrivateAndGenericTypes()
+    {
+        var privateFound = GeneratedSecretMetadata.TryGetAccessors(typeof(PrivateNoSecretsOptions), out _);
+        var genericFound = GeneratedSecretMetadata.TryGetAccessors(typeof(GenericNoSecretsOptions<string>), out _);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(privateFound).IsTrue();
+            await Assert.That(genericFound).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task VisualBasicOptions_UseReflectionFallback()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new VisualBasicSecretOptions()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["visual-basic-secret"]);
+    }
+
+    [Test]
     public async Task FSharpOptions_UseReflectionFallback()
     {
         var provider = CreateProvider(out _);
@@ -115,6 +143,7 @@ public class SecretValueNormalizationTests
             FieldAttributes.Public);
         var objectType = typeBuilder.CreateType()!;
         var value = Activator.CreateInstance(objectType)!;
+        GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly);
 
         var exception = await Assert.That(() => provider.GetSecretsInObject(value).ToList())
             .Throws<MissingSecretMetadataException>();

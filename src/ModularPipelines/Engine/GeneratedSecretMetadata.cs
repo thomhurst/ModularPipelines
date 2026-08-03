@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace ModularPipelines.Engine;
 
@@ -9,6 +10,17 @@ namespace ModularPipelines.Engine;
 public static class GeneratedSecretMetadata
 {
     private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> Accessors = new();
+    private static readonly ConcurrentDictionary<(Assembly Assembly, string MetadataName), byte> CoveredTypeNames = new();
+    private static readonly ConcurrentDictionary<Assembly, byte> ProcessedAssemblies = new();
+
+    /// <summary>
+    /// Registers that an assembly ran the C# metadata generator.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterAssembly(Assembly assembly)
+    {
+        ProcessedAssemblies.TryAdd(assembly, 0);
+    }
 
     /// <summary>
     /// Registers that a declaring type has no secret properties.
@@ -33,6 +45,15 @@ public static class GeneratedSecretMetadata
         }
     }
 
+    /// <summary>
+    /// Registers source coverage for a type that generated code cannot reference directly.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterCoveredTypeName(Assembly assembly, string metadataName)
+    {
+        CoveredTypeNames.TryAdd((assembly, metadataName), 0);
+    }
+
     internal static bool TryGetAccessors(Type type, out IReadOnlyList<SecretPropertyAccessor> accessors)
     {
         if (Accessors.TryGetValue(type, out var metadata))
@@ -41,9 +62,19 @@ public static class GeneratedSecretMetadata
             return true;
         }
 
+        var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
+        if (metadataType.FullName is { } metadataName
+            && CoveredTypeNames.ContainsKey((type.Assembly, metadataName)))
+        {
+            accessors = Array.Empty<SecretPropertyAccessor>();
+            return true;
+        }
+
         accessors = Array.Empty<SecretPropertyAccessor>();
         return false;
     }
+
+    internal static bool IsAssemblyProcessed(Assembly assembly) => ProcessedAssemblies.ContainsKey(assembly);
 }
 
 /// <summary>

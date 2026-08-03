@@ -117,18 +117,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var location = type.Locations.FirstOrDefault() ?? Location.None;
-        if (!IsTypeAccessible(type, compilation.Assembly))
+        var canReferenceType = IsTypeAccessible(type, compilation.Assembly) && !type.IsGenericType;
+        if (!canReferenceType)
         {
             return isCommandOptions || hasKnownSecretAttribute
                 ? new TypeMetadataCandidate(typeName, location, Metadata: null)
-                : null;
-        }
-
-        if (type.IsGenericType)
-        {
-            return isCommandOptions || hasKnownSecretAttribute
-                ? new TypeMetadataCandidate(typeName, location, Metadata: null)
-                : null;
+                : new TypeMetadataCandidate(typeName, location, new TypeMetadata(
+                    typeName,
+                    GetMetadataName(type),
+                    CanReferenceType: false,
+                    IsCommandOptions: false,
+                    PropertyCollection.Empty,
+                    PropertyCollection.Empty));
         }
 
         var commandMetadata = isCommandOptions
@@ -137,6 +137,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var secretMetadata = GetSecretProperties(type, compilation.Assembly);
         return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
             typeName,
+            GetMetadataName(type),
+            CanReferenceType: true,
             isCommandOptions,
             commandMetadata,
             secretMetadata));
@@ -354,8 +356,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("internal static class RuntimeMetadataRegistration");
         sb.AppendLine("{");
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
+        sb.AppendLine("    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]");
         sb.AppendLine("    internal static void Register()");
         sb.AppendLine("    {");
+        sb.AppendLine("        var assembly = global::System.Reflection.Assembly.GetExecutingAssembly();");
+        sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterAssembly(assembly);");
         foreach (var item in uniqueItems)
         {
             if (item.IsCommandOptions && item.CommandMetadata.IsComplete)
@@ -459,7 +464,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         if (item.SecretMetadata.Properties.Count == 0)
         {
-            sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(typeof({item.TypeName}));");
+            if (item.CanReferenceType)
+            {
+                sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(typeof({item.TypeName}));");
+            }
+            else
+            {
+                sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterCoveredTypeName(");
+                sb.AppendLine($"            assembly, {Literal(item.MetadataName)});");
+            }
+
             return;
         }
 
@@ -487,6 +501,20 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         return false;
+    }
+
+    private static string GetMetadataName(INamedTypeSymbol type)
+    {
+        var typeNames = new Stack<string>();
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            typeNames.Push(current.MetadataName);
+        }
+
+        var namespaceName = type.ContainingNamespace.IsGlobalNamespace
+            ? string.Empty
+            : type.ContainingNamespace.ToDisplayString() + ".";
+        return namespaceName + string.Join("+", typeNames);
     }
 
     private static bool IsTypeAccessible(INamedTypeSymbol type, IAssemblySymbol currentAssembly)
@@ -603,6 +631,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private sealed record TypeMetadata(
         string TypeName,
+        string MetadataName,
+        bool CanReferenceType,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
         PropertyCollection SecretMetadata);

@@ -132,7 +132,7 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains("typeof(global::PlainOptions)");
             await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.Register");
-            await Assert.That(generatedSource).DoesNotContain("RegisterAssembly");
+            await Assert.That(generatedSource).Contains("RegisterAssembly");
         }
     }
 

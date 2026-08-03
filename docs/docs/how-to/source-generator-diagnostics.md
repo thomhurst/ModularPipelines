@@ -8,7 +8,8 @@ sidebar_position: 18
 Modular Pipelines generates registration metadata at compile time. A generator
 diagnostic explains why metadata could not be emitted safely and whether the build
 will fail. Command and secret metadata must be generated for C# types; runtime
-reflection remains only for F# secret properties because F# cannot run the C# source
+reflection remains only for assemblies not processed by the C# source generator,
+including F# and Visual Basic, because those languages cannot run the C# source
 generator.
 
 ## MPG0001
