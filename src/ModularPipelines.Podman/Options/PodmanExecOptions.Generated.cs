@@ -89,9 +89,15 @@ public record PodmanExecOptions(
     public string? Workdir { get; set; }
 
     /// <summary>
-    /// The COMMAND [ARG...] operand.
+    /// The COMMAND operand.
     /// </summary>
     [CliArgument(1)]
-    public string? CommandArg { get; set; }
+    public string? Command { get; set; }
+
+    /// <summary>
+    /// The ARG operand.
+    /// </summary>
+    [CliArgument(2)]
+    public IEnumerable<string>? Arg { get; set; }
 
 }

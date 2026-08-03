@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "restore")]
 public record PodmanContainerRestoreOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0)] IEnumerable<string> Container
 ) : PodmanOptions
 {
     /// <summary>

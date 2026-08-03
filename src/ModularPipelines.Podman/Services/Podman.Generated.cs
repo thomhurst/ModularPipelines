@@ -145,11 +145,11 @@ internal partial class Podman : IPodman
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> CpAsync(
-        PodmanCpOptions? options = null,
+        PodmanCpOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanCpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

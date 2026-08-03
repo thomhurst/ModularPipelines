@@ -163,6 +163,56 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Splits_Nested_Command_And_Argument_Operands()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: podman run [options] IMAGE [COMMAND [ARG...]]",
+            ["podman", "run"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).Count().IsEqualTo(3);
+            await Assert.That(result.PositionalArguments[0].PropertyName).IsEqualTo("Image");
+            await Assert.That(result.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(result.PositionalArguments[1].PropertyName).IsEqualTo("Command");
+            await Assert.That(result.PositionalArguments[1].CSharpType).IsEqualTo("string?");
+            await Assert.That(result.PositionalArguments[2].PropertyName).IsEqualTo("Arg");
+            await Assert.That(result.PositionalArguments[2].CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
+    public async Task Requires_Suffixes_Outside_Optional_Qualifiers()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: podman cp [options] [CONTAINER:]SRC_PATH [CONTAINER:]DEST_PATH",
+            ["podman", "cp"]);
+
+        await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
+        await Assert.That(result.PositionalArguments.All(argument => argument.IsRequired)).IsTrue();
+        await Assert.That(result.PositionalArguments.All(argument => argument.CSharpType == "string"))
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task Preserves_Variadic_Marker_After_Alternative()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: docker inspect [OPTIONS] NAME|ID [NAME|ID...]",
+            ["docker", "inspect"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("Name");
+            await Assert.That(argument.IsRequired).IsTrue();
+            await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>");
+        }
+    }
+
+    [Test]
     public async Task Preserves_Required_Core_Inside_Optional_Operand_Qualifiers()
     {
         var result = UsageSynopsisParser.Parse(

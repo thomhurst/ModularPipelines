@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cp")]
-public record PodmanCpOptions : PodmanOptions
+public record PodmanCpOptions(
+    [property: CliArgument(0)] string ContainerSrcPath,
+    [property: CliArgument(1)] string ContainerDestPath
+) : PodmanOptions
 {
     /// <summary>
     /// Chown copied files to the primary uid/gid of the destination container. (default true)
@@ -31,17 +34,5 @@ public record PodmanCpOptions : PodmanOptions
     /// </summary>
     [CliFlag("--overwrite")]
     public bool? Overwrite { get; set; }
-
-    /// <summary>
-    /// The [CONTAINER:]SRC_PATH operand.
-    /// </summary>
-    [CliArgument(0)]
-    public string? ContainerSrcPath { get; set; }
-
-    /// <summary>
-    /// The [CONTAINER:]DEST_PATH operand.
-    /// </summary>
-    [CliArgument(1)]
-    public string? ContainerDestPath { get; set; }
 
 }

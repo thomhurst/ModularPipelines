@@ -32,6 +32,6 @@ public record PodmanContainerTopOptions(
     /// The FORMAT-DESCRIPTORS operand.
     /// </summary>
     [CliArgument(1)]
-    public string? FormatDescriptors { get; set; }
+    public IEnumerable<string>? FormatDescriptors { get; set; }
 
 }

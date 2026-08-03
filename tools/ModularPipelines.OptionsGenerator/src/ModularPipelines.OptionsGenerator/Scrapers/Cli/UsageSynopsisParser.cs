@@ -90,7 +90,7 @@ public static class UsageSynopsisParser
             .Where(candidate =>
                 candidate.MatchedCommandPartCount == selected.MatchedCommandPartCount)
             .ToList();
-        List<UsageSynopsisParseResult> requirednessCandidates =
+        var requirednessCandidates =
             suppliedSynopsisSet.Contains(selected.Synopsis ?? "")
             ? [.. sameCommandCandidates
                 .Where(candidate => suppliedSynopsisSet.Contains(candidate.Synopsis ?? ""))]
@@ -180,6 +180,17 @@ public static class UsageSynopsisParser
             if (TryApplyStandaloneRepeat(operandToken, arguments)
                 || IsNonOperandSyntax(operandToken))
             {
+                continue;
+            }
+
+            if (TryParseNestedOperandGroup(
+                    operandToken,
+                    arguments.Count,
+                    placement,
+                    out var nestedArguments))
+            {
+                arguments.AddRange(nestedArguments);
+                prependOptionTerminatorToNextOperand = false;
                 continue;
             }
 
@@ -453,7 +464,8 @@ public static class UsageSynopsisParser
         PositionalArgumentPosition placement)
     {
         var trimmed = token.Trim().TrimEnd(',', ';');
-        var isRequired = !trimmed.StartsWith('[');
+        var isRequired = !trimmed.StartsWith('[')
+                         || HasRequiredSuffixOutsideOptionalPrefix(trimmed);
         var content = TrimWrapper(trimmed).Trim();
         var canonicalName = SelectCanonicalAlternative(content);
         if (TrySelectRequiredCompoundPlaceholder(trimmed, out var requiredPlaceholder))
@@ -464,6 +476,8 @@ public static class UsageSynopsisParser
 
         var isVariadic = trimmed.EndsWith("...", StringComparison.Ordinal)
                          || trimmed.EndsWith('…')
+                         || content.EndsWith("...", StringComparison.Ordinal)
+                         || content.EndsWith('…')
                          || canonicalName.EndsWith("...", StringComparison.Ordinal)
                          || canonicalName.EndsWith('…')
                          || canonicalName.EndsWith(" ...", StringComparison.Ordinal);
@@ -492,6 +506,65 @@ public static class UsageSynopsisParser
             Placement = placement,
             Description = $"The {canonicalName} operand.",
         };
+    }
+
+    private static bool TryParseNestedOperandGroup(
+        string token,
+        int positionIndex,
+        PositionalArgumentPosition placement,
+        out IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        arguments = [];
+        if (!IsWrapped(token))
+        {
+            return false;
+        }
+
+        var content = TrimWrapper(token).Trim();
+        if (!content.Contains('[') || content.Contains('|'))
+        {
+            return false;
+        }
+
+        var nestedTokens = Tokenize(content);
+        if (nestedTokens.Count <= 1)
+        {
+            return false;
+        }
+
+        var parsedArguments = new List<CliPositionalArgument>();
+        foreach (var nestedToken in nestedTokens)
+        {
+            var argument = ParseOperand(
+                nestedToken,
+                positionIndex + parsedArguments.Count,
+                placement);
+            if (argument is null)
+            {
+                return false;
+            }
+
+            parsedArguments.Add(argument with
+            {
+                CSharpType = GetCSharpType(isRequired: false, argument.IsVariadic),
+                IsRequired = false,
+            });
+        }
+
+        arguments = parsedArguments;
+        return true;
+    }
+
+    private static bool HasRequiredSuffixOutsideOptionalPrefix(string token)
+    {
+        if (!token.StartsWith('['))
+        {
+            return false;
+        }
+
+        var closingBracketIndex = token.IndexOf(']');
+        return closingBracketIndex >= 0
+               && token[(closingBracketIndex + 1)..].Any(char.IsLetterOrDigit);
     }
 
     private static bool TrySelectRequiredCompoundPlaceholder(
