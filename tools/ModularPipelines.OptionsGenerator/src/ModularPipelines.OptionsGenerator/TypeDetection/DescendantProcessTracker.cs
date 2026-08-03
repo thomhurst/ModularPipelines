@@ -317,8 +317,11 @@ internal sealed class DescendantProcessTracker : IDisposable
     {
         try
         {
-            exitTime = process.HasExited ? process.ExitTime : null;
-            return true;
+            if (!process.HasExited)
+            {
+                exitTime = null;
+                return true;
+            }
         }
         catch (Exception exception) when (exception is
             InvalidOperationException
@@ -327,6 +330,21 @@ internal sealed class DescendantProcessTracker : IDisposable
             exitTime = null;
             return false;
         }
+
+        try
+        {
+            exitTime = process.ExitTime;
+        }
+        catch (Exception exception) when (exception is
+            InvalidOperationException
+            or System.ComponentModel.Win32Exception)
+        {
+            // Unix may report HasExited while no longer exposing ExitTime.
+            // The parent is still valid; an unknown exit time is an unbounded upper limit.
+            exitTime = null;
+        }
+
+        return true;
     }
 
     private readonly record struct ProcessIdentity(int ProcessId, DateTime StartTime);

@@ -62,46 +62,61 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
 
             process.Start();
             process.StandardInput.Close();
-            using var descendantTracker = new DescendantProcessTracker(
+            var descendantTracker = new DescendantProcessTracker(
                 process.Id,
                 processLaunch.UsesUnixProcessGroup,
                 processLaunch.UsesWindowsJobLauncher);
-
-            var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
-            var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
+            var disposeDescendantTracker = true;
 
             try
             {
-                await process.WaitForExitAsync(cts.Token);
-                await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                await TryKillProcessAsync(process, descendantTracker, command, arguments)
-                    .ConfigureAwait(false);
-                throw;
-            }
+                var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
+                var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
 
-            var stdout = await stdoutTask;
-            var stderr = await stderrTask;
+                try
+                {
+                    await process.WaitForExitAsync(cts.Token);
+                    await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    disposeDescendantTracker = !await TryKillProcessAsync(
+                            process,
+                            descendantTracker,
+                            command,
+                            arguments)
+                        .ConfigureAwait(false);
+                    throw;
+                }
 
-            _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
-            if (process.ExitCode != 0)
-            {
-                _logger.LogWarning(
-                    "Command failed: {Command} {Arguments} (exit code {ExitCode}). stderr: {StandardError}",
-                    command,
-                    arguments,
-                    process.ExitCode,
-                    stderr);
+                var stdout = await stdoutTask;
+                var stderr = await stderrTask;
+
+                _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
+                if (process.ExitCode != 0)
+                {
+                    _logger.LogWarning(
+                        "Command failed: {Command} {Arguments} (exit code {ExitCode}). stderr: {StandardError}",
+                        command,
+                        arguments,
+                        process.ExitCode,
+                        stderr);
+                }
+
+                return new CliCommandResult
+                {
+                    StandardOutput = stdout,
+                    StandardError = stderr,
+                    ExitCode = process.ExitCode
+                };
             }
-
-            return new CliCommandResult
+            finally
             {
-                StandardOutput = stdout,
-                StandardError = stderr,
-                ExitCode = process.ExitCode
-            };
+                if (disposeDescendantTracker)
+                {
+                    descendantTracker.Dispose();
+                }
+            }
         }
         catch (OperationCanceledException)
         {
@@ -254,29 +269,37 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     /// Attempts to kill a process gracefully, falling back to force kill.
     /// Logs but swallows exceptions to prevent masking the original error.
     /// </summary>
-    private async Task TryKillProcessAsync(
+    private async Task<bool> TryKillProcessAsync(
         Process process,
         DescendantProcessTracker descendantTracker,
         string command,
         string arguments)
     {
         _logger.LogDebug("Killing timed-out process tree: {Command} {Arguments}", command, arguments);
+        var processId = process.Id;
+        var cleanupOwnsDescendantTracker = false;
         var killTreeTask = Task.Run(() =>
         {
             descendantTracker.KillCapturedDescendants();
-            KillProcessTree(process.Id);
+            KillProcessTree(processId);
         });
         try
         {
             await killTreeTask.WaitAsync(ProcessTreeKillTimeout).ConfigureAwait(false);
-            return;
+            return false;
         }
         catch (TimeoutException)
         {
+            cleanupOwnsDescendantTracker = true;
             _ = killTreeTask.ContinueWith(
-                static task => _ = task.Exception,
+                static (task, state) =>
+                {
+                    _ = task.Exception;
+                    ((DescendantProcessTracker) state!).Dispose();
+                },
+                descendantTracker,
                 CancellationToken.None,
-                TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+                TaskContinuationOptions.ExecuteSynchronously,
                 TaskScheduler.Default);
             _logger.LogWarning(
                 "Timed out killing descendants for process: {Command} {Arguments}",
@@ -300,6 +323,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             // Do not mask the original timeout or cancellation.
             _logger.LogWarning(ex, "Failed to kill process: {Command} {Arguments}", command, arguments);
         }
+
+        return cleanupOwnsDescendantTracker;
     }
 
     private static void KillProcessTree(int processId)
@@ -312,13 +337,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 process.Kill(entireProcessTree: true);
             }
         }
-        catch (ArgumentException)
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
         {
-            // The direct process exited after its descendants were captured.
-        }
-        catch (InvalidOperationException)
-        {
-            // The direct process exited after its descendants were captured.
+            // The direct process exited or could not be killed after its descendants were captured.
         }
     }
 }

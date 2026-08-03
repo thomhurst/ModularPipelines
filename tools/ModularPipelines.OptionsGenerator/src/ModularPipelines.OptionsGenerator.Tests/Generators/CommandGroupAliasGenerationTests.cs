@@ -135,6 +135,12 @@ public class CommandGroupAliasGenerationTests
             .Contains("string Command");
         await Assert.That(dapOptions.Content)
             .Contains(": base(Command)");
+        var contentWithoutLineEndings = dapOptions.Content.Replace(Environment.NewLine, string.Empty);
+        using (Assert.Multiple())
+        {
+            await Assert.That(contentWithoutLineEndings).DoesNotContain('\r');
+            await Assert.That(contentWithoutLineEndings).DoesNotContain('\n');
+        }
     }
 
     private static CliToolDefinition CreateTool() =>

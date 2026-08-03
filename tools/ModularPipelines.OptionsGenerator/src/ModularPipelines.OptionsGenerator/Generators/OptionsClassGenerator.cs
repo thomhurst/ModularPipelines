@@ -125,7 +125,7 @@ public class OptionsClassGenerator : ICodeGenerator
         var baseArguments = requiredParameters.Select(parameter =>
             GetCompatibilityBaseArgument(parameter, parameter.PropertyName));
         sb.AppendLine($"    public {aliasClassName}(");
-        sb.AppendLine(string.Join(",\n", parameterDeclarations));
+        sb.AppendLine(string.Join($",{Environment.NewLine}", parameterDeclarations));
         sb.AppendLine("    )");
         sb.AppendLine($"        : base({string.Join(", ", baseArguments)})");
         sb.AppendLine("    {");
