@@ -199,8 +199,9 @@ public class ModuleTestBuilder<TModule>
                     module,
                     executionContext,
                     moduleContext,
-                    null,
-                    CancellationToken.None)
+                    prepareExecutionAsync: null,
+                    completeExecutionAsync: null,
+                    cancellationToken: CancellationToken.None)
                 .ConfigureAwait(false);
         }
         catch when (executionContext.ExecutionTask.IsCompletedSuccessfully)

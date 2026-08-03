@@ -162,11 +162,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     executionContext.ModuleCancellationTokenSource.Token)
                 .ConfigureAwait(false);
 
-            if (completeExecutionAsync is not null)
-            {
-                await completeExecutionAsync(executionContext.ModuleCancellationTokenSource.Token)
-                    .ConfigureAwait(false);
-            }
+            await CompleteExecutionIfNeededAsync(
+                    executionContext,
+                    completeExecutionAsync)
+                .ConfigureAwait(false);
 
             executionContext.SetTypedResult(moduleResult);
             module.CompletionSource.TrySetResult(moduleResult);
