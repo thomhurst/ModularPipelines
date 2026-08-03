@@ -16,7 +16,7 @@ namespace ModularPipelines.Conditions;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class OnUnix : ConditionGroup
+public sealed class OnUnix : ConditionGroup, IPlanningRunCondition
 {
     /// <inheritdoc />
     public override IReadOnlyList<IRunCondition> Conditions => [new OnLinux(), new OnMacOS()];

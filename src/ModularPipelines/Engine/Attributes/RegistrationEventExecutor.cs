@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Attributes.Events;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
@@ -18,6 +19,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _environment;
+    private readonly bool _planningSafeOnly;
     private Task? _invocationTask;
     private HashSet<Type>? _registeredModuleTypes;
 
@@ -28,6 +30,25 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         IModuleMetadataRegistry metadataRegistry,
         IConfiguration configuration,
         IHostEnvironment environment)
+        : this(
+            attributeEventService,
+            attributeEventInvoker,
+            dependencyRegistry,
+            metadataRegistry,
+            configuration,
+            environment,
+            planningSafeOnly: false)
+    {
+    }
+
+    internal RegistrationEventExecutor(
+        IModuleAttributeEventService attributeEventService,
+        IAttributeEventInvoker attributeEventInvoker,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        IConfiguration configuration,
+        IHostEnvironment environment,
+        bool planningSafeOnly)
     {
         _attributeEventService = attributeEventService;
         _attributeEventInvoker = attributeEventInvoker;
@@ -35,6 +56,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         _metadataRegistry = metadataRegistry;
         _configuration = configuration;
         _environment = environment;
+        _planningSafeOnly = planningSafeOnly;
     }
 
     public Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
@@ -76,16 +98,18 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
         foreach (var module in modules)
         {
             var moduleType = module.GetType();
-            var receivers = _attributeEventService.GetRegistrationReceivers(moduleType);
+            var receivers = GetRegistrationReceivers(moduleType);
 
-            if (receivers.Count == 0)
+            if (receivers.Length == 0)
             {
                 continue;
             }
 
             var context = new ModuleRegistrationContext(
                 moduleType,
-                _attributeEventService.GetAttributes(moduleType),
+                _planningSafeOnly
+                    ? _attributeEventService.GetPlanningAttributes(moduleType)
+                    : _attributeEventService.GetAttributes(moduleType),
                 _configuration,
                 _environment,
                 registeredModuleTypes,
@@ -94,5 +118,13 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 
             await _attributeEventInvoker.InvokeRegistrationReceiversAsync(receivers, context).ConfigureAwait(false);
         }
+    }
+
+    private IModuleRegistrationEventReceiver[] GetRegistrationReceivers(Type moduleType)
+    {
+        var receivers = _planningSafeOnly
+            ? _attributeEventService.GetPlanningRegistrationReceivers(moduleType)
+            : _attributeEventService.GetRegistrationReceivers(moduleType);
+        return [.. receivers];
     }
 }

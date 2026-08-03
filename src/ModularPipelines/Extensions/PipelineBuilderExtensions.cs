@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Caching;
 using ModularPipelines.Engine;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -222,6 +223,24 @@ public static class PipelineBuilderExtensions
     {
         await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
         return await pipeline.RunAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Builds the pipeline and exports its resolved dependency graph without executing modules.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="format">The output format.</param>
+    /// <param name="path">The destination file.</param>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    public static async Task ExportDependencyGraphAsync(
+        this PipelineBuilder builder,
+        DependencyGraphFormat format,
+        string path,
+        CancellationToken cancellationToken = default)
+    {
+        await using var pipeline = await builder.BuildAsync().ConfigureAwait(false);
+        await pipeline.ExportDependencyGraphAsync(format, path, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
