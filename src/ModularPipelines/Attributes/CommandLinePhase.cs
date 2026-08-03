@@ -8,15 +8,15 @@ public enum CommandLinePhase
     /// <summary>
     /// Regular flags and options.
     /// </summary>
-    Normal,
+    Normal = 0,
 
     /// <summary>
     /// A final option that must follow regular options and positional operands.
     /// </summary>
-    Terminal,
+    Terminal = 1,
 
     /// <summary>
     /// Positional or pass-through values rendered after option parsing and before terminal options.
     /// </summary>
-    Passthrough,
+    Passthrough = 3,
 }

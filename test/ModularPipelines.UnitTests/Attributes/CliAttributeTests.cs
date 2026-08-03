@@ -77,6 +77,7 @@ public class CliAttributeTests
 
         await Assert.That(attribute.Placement).IsEqualTo(ArgumentPlacement.AfterOptions);
         await Assert.That(attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That((int)attribute.Phase).IsEqualTo(3);
     }
 
     [Test]
