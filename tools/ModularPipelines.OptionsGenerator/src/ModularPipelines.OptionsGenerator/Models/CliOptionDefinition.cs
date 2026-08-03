@@ -35,9 +35,12 @@ public record CliOptionDefinition
     /// <summary>
     /// C# type emitted for the generated property.
     /// </summary>
-    public string PropertyType => ValueArity == CliOptionValueArity.Optional
-        ? "CliOptionValue?"
-        : CSharpType;
+    public string PropertyType => (ValueArity, AcceptsMultipleValues) switch
+    {
+        (CliOptionValueArity.Optional, true) => "IEnumerable<CliOptionValue>?",
+        (CliOptionValueArity.Optional, false) => "CliOptionValue?",
+        _ => CSharpType,
+    };
 
     /// <summary>
     /// Description for XML documentation.

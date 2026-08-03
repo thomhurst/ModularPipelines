@@ -134,6 +134,26 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task Options_Class_Emits_Repeatable_Optional_Value_Type()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--attach-debugger",
+            PropertyName = "AttachDebugger",
+            CSharpType = "IEnumerable<string>?",
+            ValueArity = CliOptionValueArity.Optional,
+            AcceptsMultipleValues = true,
+        };
+        var tool = Tool(Command("ToolExecuteOptions", "ToolOptions", options: [option]));
+
+        var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
+
+        await Assert.That(generatedFile.Content).Contains("using ModularPipelines.Models;");
+        await Assert.That(generatedFile.Content)
+            .Contains("public IEnumerable<CliOptionValue>? AttachDebugger { get; set; }");
+    }
+
+    [Test]
     public async Task Global_Options_Class_Imports_Models_For_Cli_Option_Value_Pairs()
     {
         var option = new CliOptionDefinition

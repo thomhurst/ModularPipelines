@@ -217,13 +217,37 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
-        if (rawValue is not CliOptionValue optionValue)
+        var optionValues = rawValue switch
         {
-            throw new InvalidOperationException(
-                $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
-                + $"must use {nameof(CliOptionValue)}?.");
-        }
+            CliOptionValue optionValue => [optionValue],
+            IEnumerable<CliOptionValue> values when optionPart.Attribute.AllowMultiple => values,
+            // Preserve compatibility with generated option packages that predate CliOptionValue.
+            IEnumerable<string> values when optionPart.Attribute.AllowMultiple => values.Select(ToLegacyOptionalValue),
+            _ => throw CreateInvalidOptionalValueTypeException(optionsType, optionPart),
+        };
 
+        foreach (var optionValue in optionValues)
+        {
+            AddOptionalValue(args, optionPart, optionValue, optionsType);
+        }
+    }
+
+    private static CliOptionValue ToLegacyOptionalValue(string value)
+        => string.IsNullOrWhiteSpace(value) ? CliOptionValue.Bare : value;
+
+    private static InvalidOperationException CreateInvalidOptionalValueTypeException(
+        Type optionsType,
+        OptionPart optionPart)
+        => new(
+            $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+            + $"must use {(optionPart.Attribute.AllowMultiple ? $"IEnumerable<{nameof(CliOptionValue)}>" : $"{nameof(CliOptionValue)}?")}.");
+
+    private static void AddOptionalValue(
+        List<string> args,
+        OptionPart optionPart,
+        CliOptionValue optionValue,
+        Type optionsType)
+    {
         if (optionValue.IsBare)
         {
             args.Add(optionPart.Attribute.GetEffectiveName());

@@ -249,6 +249,36 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Renders_Multiple_Bare_And_Explicit_Optional_Values()
+    {
+        var options = new TestCliOptionsWithMultipleOptionalValues
+        {
+            Output = [CliOptionValue.Bare, "json"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "--output=json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Preserves_Legacy_Multiple_Optional_String_Values()
+    {
+        var options = new TestCliOptionsWithLegacyMultipleOptionalValues
+        {
+            Output = [string.Empty, "json"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "--output=json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     public async Task Parser_Omits_Null_OptionalValue_Option()
     {
         var list = BuildArguments(new TestCliOptionsWithSemanticPhases { Terminal = null });
@@ -468,6 +498,26 @@ public class CliAttributeTests
 
         [CliOption("--valueless", ValueArity = CliOptionValueArity.None)]
         public bool? Valueless { get; set; }
+    }
+
+    private record TestCliOptionsWithMultipleOptionalValues
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            AllowMultiple = true,
+            ValueArity = CliOptionValueArity.Optional)]
+        public IEnumerable<CliOptionValue>? Output { get; set; }
+    }
+
+    private record TestCliOptionsWithLegacyMultipleOptionalValues
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            AllowMultiple = true,
+            ValueArity = CliOptionValueArity.Optional)]
+        public IEnumerable<string>? Output { get; set; }
     }
 
     private record TestCliOptionsWithDuplicateSwitch

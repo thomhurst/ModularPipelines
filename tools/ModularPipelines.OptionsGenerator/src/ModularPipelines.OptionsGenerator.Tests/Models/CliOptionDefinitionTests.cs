@@ -239,4 +239,20 @@ public class CliOptionDefinitionTests
         await Assert.That(option.PropertyType).IsEqualTo("CliOptionValue?");
         await Assert.That(option.RequiresModelsNamespace).IsTrue();
     }
+
+    [Test]
+    public async Task PropertyType_Uses_CliOptionValue_Collection_For_Repeatable_Optional_Value_Arity()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--attach-debugger",
+            PropertyName = "AttachDebugger",
+            CSharpType = "IEnumerable<string>?",
+            ValueArity = CliOptionValueArity.Optional,
+            AcceptsMultipleValues = true,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+        await Assert.That(option.RequiresModelsNamespace).IsTrue();
+    }
 }
