@@ -75,21 +75,21 @@ public class ModuleAttributeEventServiceTests
     [TestFailure]
     private class ModuleWithAttributes : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     private class ModuleWithoutAttributes : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     [Counting]
     private class ModuleWithCountingAttribute : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     // Attributes are applied in reverse order of priority to test that sorting works
@@ -98,8 +98,8 @@ public class ModuleAttributeEventServiceTests
     [HighPriorityStart]  // Priority 1 - should be first
     private class ModuleWithPrioritizedHandlers : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     // Mix of prioritized and non-prioritized handlers
@@ -108,8 +108,8 @@ public class ModuleAttributeEventServiceTests
     [HighPriorityStart]  // Priority 1 - should be second
     private class ModuleWithMixedPriorityHandlers : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     [Test]

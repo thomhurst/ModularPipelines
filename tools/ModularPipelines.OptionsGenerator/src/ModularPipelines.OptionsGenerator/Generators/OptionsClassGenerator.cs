@@ -335,7 +335,7 @@ public class OptionsClassGenerator : ICodeGenerator
             }
 
             sb.AppendLine($"public record {command.ClassName}(");
-            sb.AppendLine(string.Join(",\n", parameters));
+            sb.AppendLine(string.Join($",{Environment.NewLine}", parameters));
             sb.AppendLine($") : {command.ParentClassName}");
         }
         else

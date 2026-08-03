@@ -17,7 +17,7 @@ public class SyncModuleTests : TestBase
 
     public class SimpleSyncModule : SyncModule<string>
     {
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             return "Hello from sync module";
         }
@@ -55,7 +55,7 @@ public class SyncModuleTests : TestBase
 
     public class SyncModuleWithComplexType : SyncModule<Dictionary<string, int>>
     {
-        protected override Dictionary<string, int>? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override Dictionary<string, int> Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             return new Dictionary<string, int>
             {
@@ -84,7 +84,7 @@ public class SyncModuleTests : TestBase
 
     public class ThrowingSyncModule : SyncModule<string>
     {
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("Sync module exception");
         }
@@ -93,7 +93,7 @@ public class SyncModuleTests : TestBase
     [Test]
     public async Task SyncModule_Exception_Is_Captured()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<ThrowingSyncModule>()
             .BuildAsync();
 
@@ -130,7 +130,7 @@ public class SyncModuleTests : TestBase
             return Task.CompletedTask;
         }
 
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             return "executed";
         }
@@ -159,7 +159,7 @@ public class SyncModuleTests : TestBase
             return Task.FromResult<ModuleResult<string>?>(null);
         }
 
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             return "original";
         }
@@ -190,7 +190,7 @@ public class SyncModuleTests : TestBase
             return Task.CompletedTask;
         }
 
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("Test failure");
         }
@@ -199,7 +199,7 @@ public class SyncModuleTests : TestBase
     [Test]
     public async Task SyncModule_OnFailed_Is_Called_On_Exception()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SyncModuleWithFailedHook>()
             .BuildAsync();
 
@@ -239,7 +239,7 @@ public class SyncModuleTests : TestBase
             return Task.CompletedTask;
         }
 
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             return "should not execute";
         }
@@ -248,7 +248,7 @@ public class SyncModuleTests : TestBase
     [Test]
     public async Task SyncModule_OnSkipped_Is_Called_When_Skipped()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SyncModuleWithSkipConfig>()
             .BuildAsync();
 
@@ -278,7 +278,7 @@ public class SyncModuleTests : TestBase
     [ModularPipelines.Attributes.DependsOn<SyncDependencyModule>]
     public class SyncDependentModule : SyncModule<string>
     {
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             var dependency = context.GetModule<SyncDependencyModule>().GetAwaiter().GetResult();
             return $"Dependency value: {dependency.ValueOrDefault}";
@@ -309,7 +309,7 @@ public class SyncModuleTests : TestBase
     [ModularPipelines.Attributes.DependsOn<AsyncDependencyModule>]
     public class SyncDependsOnAsync : SyncModule<string>
     {
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             var dependency = context.GetModule<AsyncDependencyModule>().GetAwaiter().GetResult();
             return $"Async dependency value: {dependency.ValueOrDefault}";
@@ -339,7 +339,7 @@ public class SyncModuleTests : TestBase
     [ModularPipelines.Attributes.DependsOn<SyncModuleForAsyncToDepend>]
     public class AsyncDependsOnSync : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             var dependency = await context.GetModule<SyncModuleForAsyncToDepend>();
@@ -369,7 +369,7 @@ public class SyncModuleTests : TestBase
             .WithTimeout(TimeSpan.FromMinutes(5))
             .Build();
 
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             return "configured";
         }
@@ -392,7 +392,7 @@ public class SyncModuleTests : TestBase
             .WithRetry(3, TimeSpan.Zero)
             .Build();
 
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
             if (ExecutionCount < 3)
@@ -421,7 +421,7 @@ public class SyncModuleTests : TestBase
 
     public class SyncModuleCheckingCancellation : SyncModule<string>
     {
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             return "not cancelled";
@@ -444,7 +444,7 @@ public class SyncModuleTests : TestBase
 
     public class SyncModuleAccessingContext : SyncModule<string>
     {
-        protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+        protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
         {
             // Verify we can access context services
             var logger = context.Logger;

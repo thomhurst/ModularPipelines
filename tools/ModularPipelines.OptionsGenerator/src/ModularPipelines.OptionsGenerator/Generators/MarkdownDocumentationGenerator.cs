@@ -211,7 +211,7 @@ public partial class MarkdownDocumentationGenerator : ICodeGenerator, IGenerated
         sb.AppendLine();
         sb.AppendLine("public class RunCommandModule : Module<CommandResult>");
         sb.AppendLine("{");
-        sb.AppendLine("    protected override async Task<CommandResult?> ExecuteAsync(");
+        sb.AppendLine("    protected override async Task<CommandResult> ExecuteAsync(");
         sb.AppendLine("        IModuleContext context,");
         sb.AppendLine("        CancellationToken cancellationToken)");
         sb.AppendLine("    {");

@@ -9,7 +9,7 @@ namespace TemplatePipeline.Modules;
 
 public sealed class RestoreModule(IOptions<BuildSettings> settings) : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

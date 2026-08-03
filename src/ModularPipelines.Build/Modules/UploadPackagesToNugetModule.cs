@@ -34,7 +34,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
             : SkipDecision.Skip("The 'ShouldPublish' flag is false"))
         .Build();
 
-    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
@@ -42,7 +42,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
 
         return await NugetUploadHelper.UploadPackagesAsync(
             context,
-            packagePaths.ValueOrDefault!,
+            packagePaths.Value,
             source: _nugetSettings.Value.FeedUrl,
             apiKey: _nugetSettings.Value.ApiKey,
             cancellationToken);

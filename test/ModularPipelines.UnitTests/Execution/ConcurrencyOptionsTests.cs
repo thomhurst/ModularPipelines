@@ -11,17 +11,17 @@ public class ConcurrencyOptionsTests : TestBase
 {
     public class SimpleModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Done");
+            return Task.FromResult<string>("Done");
         }
     }
 
     public class SimpleModule2 : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Done");
+            return Task.FromResult<string>("Done");
         }
     }
 
@@ -44,7 +44,7 @@ public class ConcurrencyOptionsTests : TestBase
     [Test]
     public async Task Pipeline_RespectsMaxParallelismSetting()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
             .AddModule<SimpleModule2>()
             .ConfigurePipelineOptions((_, options) => options with
@@ -59,7 +59,7 @@ public class ConcurrencyOptionsTests : TestBase
     [Test]
     public async Task Pipeline_RespectsMaxCpuIntensiveModulesSetting()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
             .ConfigurePipelineOptions((_, options) => options with
             {
@@ -73,7 +73,7 @@ public class ConcurrencyOptionsTests : TestBase
     [Test]
     public async Task Pipeline_RespectsMaxIoIntensiveModulesSetting()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
             .ConfigurePipelineOptions((_, options) => options with
             {

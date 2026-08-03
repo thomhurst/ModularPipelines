@@ -22,7 +22,7 @@ public class DirectModuleHooksTests : TestBase
     {
         public List<string> HooksCalled { get; } = [];
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -50,7 +50,7 @@ public class DirectModuleHooksTests : TestBase
     /// </summary>
     private class ResultModifyingModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Original";
@@ -80,7 +80,7 @@ public class DirectModuleHooksTests : TestBase
             .WithSkipWhen(_ => SkipDecision.Skip("Test skip reason"))
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -109,12 +109,12 @@ public class DirectModuleHooksTests : TestBase
         public List<string> HooksCalled { get; } = [];
         public SkipDecision? ReceivedSkipDecision { get; private set; }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             HooksCalled.Add("ExecuteAsync");
-            return Task.FromResult<string?>("Should not reach here");
+            return Task.FromResult<string>("Should not reach here");
         }
 
         protected override Task OnSkippedAsync(
@@ -141,7 +141,7 @@ public class DirectModuleHooksTests : TestBase
             .WithIgnoreFailures()
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -187,7 +187,7 @@ public class DirectModuleHooksTests : TestBase
             throw new InvalidOperationException("Before hook failure");
         }
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -202,7 +202,7 @@ public class DirectModuleHooksTests : TestBase
     {
         public List<string> HooksCalled { get; } = [];
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -221,9 +221,9 @@ public class DirectModuleHooksTests : TestBase
 
     private class SelfAwaitingAfterHookModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>("Success");
+            CancellationToken cancellationToken) => Task.FromResult<string>("Success");
 
         protected override async Task<ModuleResult<string>?> OnAfterExecuteAsync(
             IModuleContext context,
@@ -347,7 +347,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnAfterExecuteAsync_ExceptionLogged_ResultPreserved()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<AfterHookFailingModule>()
             .BuildAsync();
 
@@ -366,7 +366,7 @@ public class DirectModuleHooksTests : TestBase
     public async Task Module_WithNoOverrides_ExecutesNormally()
     {
         // A module that doesn't override any hooks should work fine
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<ResultModifyingModule>()
             .BuildAsync();
 

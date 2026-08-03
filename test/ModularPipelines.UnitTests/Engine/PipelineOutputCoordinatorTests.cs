@@ -16,15 +16,15 @@ public class PipelineOutputCoordinatorTests
 {
     private sealed class OptionsTestModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     [Test]
     public async Task PipelineBuilder_CopiesModuleOutputFlushSettings()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
         var expectedInterval = TimeSpan.FromSeconds(17);
         const int expectedThreshold = 23;

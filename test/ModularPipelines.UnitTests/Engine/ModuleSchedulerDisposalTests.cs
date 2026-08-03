@@ -15,9 +15,9 @@ public class ModuleSchedulerDisposalTests
 {
     private sealed class TestModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(TestModule));
+            CancellationToken cancellationToken) => Task.FromResult<string>(nameof(TestModule));
     }
 
     [Test]

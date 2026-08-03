@@ -15,9 +15,9 @@ public class PipelineOptionsTests
 {
     private sealed class OptionsTestModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     [Test]
@@ -197,7 +197,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task PipelineBuilder_RegistersEquivalentIsolatedOptionsSnapshots()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
         var expected = builder.Options;
 
@@ -255,7 +255,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task PipelineBuilder_PreservesRegisteredPipelineOptionsValidators()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
         builder.Services
             .AddOptions<PipelineOptions>()

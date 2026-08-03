@@ -42,7 +42,7 @@ public class FailedPipelineTests : TestBase
     [Arguments(ExecutionMode.WaitForAllModules)]
     public async Task Given_Failing_Module_With_Dependent_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineBuilder.Create()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
                     ExecutionMode = executionMode,
@@ -60,7 +60,7 @@ public class FailedPipelineTests : TestBase
     [Arguments(ExecutionMode.WaitForAllModules)]
     public async Task Given_Failing_Module_When_Fail_Fast_Then_Failures_Propagate(ExecutionMode executionMode)
     {
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineBuilder.Create()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
                     ExecutionMode = executionMode,
@@ -77,7 +77,7 @@ public class FailedPipelineTests : TestBase
     [Arguments(ExecutionMode.WaitForAllModules)]
     public async Task Given_No_Failing_Module_Then_No_Exceptions(ExecutionMode executionMode)
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
                     ExecutionMode = executionMode,

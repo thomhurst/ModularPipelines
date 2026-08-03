@@ -29,7 +29,7 @@ public class DynamicDependencyIntegrationTests : TestBase
 
     public class ModuleA : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Add("A");
             await Task.Yield();
@@ -40,7 +40,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [AddDependency(typeof(ModuleA))]
     public class ModuleB : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Add("B");
             await Task.Yield();
@@ -51,7 +51,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     // Never registered — a dynamic dependency on this module cannot be satisfied.
     public class UnregisteredModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "unregistered";
@@ -63,7 +63,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [AddDependency(typeof(UnregisteredModule))]
     public class ModuleWithMissingDynamicDependency : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "never runs";
@@ -73,7 +73,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [ModularPipelines.Attributes.ModuleCategory("compile")]
     public class DynamicallySkippedDependency : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("A filtered dependency must not execute");
@@ -83,7 +83,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [AddDependency(typeof(DynamicallySkippedDependency))]
     public class DynamicallySkippedDependent : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("A cascade-skipped dependent must not execute");
@@ -98,7 +98,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [Test]
     public async Task DynamicDependency_ModuleBWaitsForModuleA()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleA>()
             .AddModule<ModuleB>()
             .ExecutePipelineAsync();
@@ -115,7 +115,7 @@ public class DynamicDependencyIntegrationTests : TestBase
         // caught by the run-time revalidation of the canonical graph, before the scheduler runs,
         // rather than surfacing late as a dependency-waiter failure.
         await Assert.ThrowsAsync<ModuleNotRegisteredException>(() =>
-            TestPipelineHostBuilder.Create()
+            TestPipelineBuilder.Create()
                 .AddModule<ModuleWithMissingDynamicDependency>()
                 .ExecutePipelineAsync());
     }
@@ -123,7 +123,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [Test]
     public async Task DynamicDependency_OnFilteredModule_CascadeSkipsDependent()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DynamicallySkippedDependency>()
             .AddModule<DynamicallySkippedDependent>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })

@@ -14,15 +14,15 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<CreateLocalNugetFolderModule>]
 public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localRepoLocation = await context.GetModule<CreateLocalNugetFolderModule>();
         var packagePaths = await context.GetModule<PackagePathsParserModule>();
 
         return await NugetUploadHelper.UploadPackagesAsync(
             context,
-            packagePaths.ValueOrDefault!,
-            source: localRepoLocation.ValueOrDefault.AssertExists()!.Path,
+            packagePaths.Value,
+            source: localRepoLocation.Value.AssertExists().Path,
             apiKey: null,
             cancellationToken);
     }

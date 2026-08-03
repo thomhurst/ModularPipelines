@@ -72,6 +72,93 @@ public class DownloaderTests : TestBase
     }
 
     [Test]
+    public async Task DownloadFileAsync_Derives_Extension_From_Uri_Path()
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/archive.zip?token=abc.def#fragment.txt")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zip");
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
+    public async Task DownloadFileAsync_Removes_Invalid_Characters_From_Derived_Extension()
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/archive.zip%00suffix")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zipsuffix");
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
+    public async Task DownloadFileAsync_Removes_Control_Characters_From_Derived_Extension()
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/archive.zip%0Aforged")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zipforged");
+            await Assert.That(file.Path.Any(char.IsControl)).IsFalse();
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
+    public async Task DownloadFileAsync_Preserves_Extension_Before_Decoding_Encoded_Separators()
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri("https://example.test/archive.zip%2Fsuffix")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zipsuffix");
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
+    [Arguments("archive.zip%20")]
+    public async Task DownloadFileAsync_Removes_Windows_Forbidden_Extension_Endings(string uriPath)
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+            new Uri($"https://example.test/{uriPath}")));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(".zip");
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
     public async Task DownloadFileAsync_UsesBoundedSiblingTemporaryName()
     {
         var destination = Path.Combine(

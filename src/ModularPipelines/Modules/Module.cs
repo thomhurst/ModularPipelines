@@ -47,8 +47,8 @@ namespace ModularPipelines.Modules;
 ///         .DependsOnIf&lt;MonitoringModule&gt;(Environment.IsProduction)
 ///         .Build();
 ///
-///     protected override Task&lt;ApiResult?&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-///         =&gt; Task.FromResult&lt;ApiResult?&gt;(new ApiResult());
+///     protected override Task&lt;ApiResult&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+///         =&gt; Task.FromResult(new ApiResult());
 /// }
 /// </code>
 /// </example>
@@ -125,12 +125,12 @@ public abstract class Module<T> : IModule
     /// </summary>
     /// <param name="context">The module context providing access to pipeline services.</param>
     /// <param name="cancellationToken">A token that will be cancelled if the pipeline fails or the module times out.</param>
-    /// <returns>The result of the module execution, or null.</returns>
+    /// <returns>The result of the module execution.</returns>
     /// <remarks>
     /// This method is called by the pipeline engine. Do not call it directly.
     /// To access another module's result, use <c>await context.GetModule&lt;TModule&gt;()</c>.
     /// </remarks>
-    protected internal abstract Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
+    protected internal abstract Task<T> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
 
     /// <summary>
     /// Called before the module executes. Override to add setup logic.

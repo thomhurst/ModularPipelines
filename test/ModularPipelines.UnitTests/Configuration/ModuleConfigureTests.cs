@@ -23,16 +23,16 @@ public class ModuleConfigureTests
                 .Build();
         }
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+            => Task.FromResult<string>("test");
     }
 
     private class TestModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     private class ConfiguredModule : Module<string>
@@ -42,8 +42,8 @@ public class ModuleConfigureTests
             .WithAlwaysRun()
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     [ModularPipelines.Attributes.NotInParallel("attribute-lock")]
@@ -62,8 +62,8 @@ public class ModuleConfigureTests
             .WithCategory("fluent-category")
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     [ModularPipelines.Attributes.DependsOn<TestModule>]
@@ -73,8 +73,8 @@ public class ModuleConfigureTests
             .DependsOnOptional<TestModule>()
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("test");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("test");
     }
 
     [Test]

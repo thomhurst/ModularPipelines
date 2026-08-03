@@ -12,7 +12,7 @@ public class OneWayDependenciesNonCollisionTests
     {
         await Assert.That(async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DependencyConflictModule1>()
                 .AddModule<DependencyConflictModule2>()
                 .AddModule<DependencyConflictModule3>()

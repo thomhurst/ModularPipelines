@@ -78,8 +78,8 @@ public class SummaryLoggerTests
     public async Task SummaryApi_Info_LogsCorrectly()
     {
         var stringBuilder = new StringBuilder();
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        var host = await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection.AddSingleton(stringBuilder);
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
@@ -97,8 +97,8 @@ public class SummaryLoggerTests
     public async Task SummaryApi_Success_LogsCorrectly()
     {
         var stringBuilder = new StringBuilder();
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        var host = await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection.AddSingleton(stringBuilder);
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
@@ -116,8 +116,8 @@ public class SummaryLoggerTests
     public async Task SummaryApi_Warning_LogsCorrectly()
     {
         var stringBuilder = new StringBuilder();
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        var host = await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection.AddSingleton(stringBuilder);
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
@@ -135,8 +135,8 @@ public class SummaryLoggerTests
     public async Task SummaryApi_Error_LogsCorrectly()
     {
         var stringBuilder = new StringBuilder();
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        var host = await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection.AddSingleton(stringBuilder);
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
@@ -154,8 +154,8 @@ public class SummaryLoggerTests
     public async Task SummaryApi_KeyValue_LogsCorrectly()
     {
         var stringBuilder = new StringBuilder();
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        var host = await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection.AddSingleton(stringBuilder);
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
@@ -173,8 +173,8 @@ public class SummaryLoggerTests
     public async Task SummaryApi_Category_LogsCorrectly()
     {
         var stringBuilder = new StringBuilder();
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        var host = await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection.AddSingleton(stringBuilder);
                 collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));

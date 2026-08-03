@@ -10,7 +10,7 @@ public class MetricsCollectorTests : TestBase
 {
     public class QuickModule1 : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "Done";
@@ -19,7 +19,7 @@ public class MetricsCollectorTests : TestBase
 
     public class QuickModule2 : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "Done";
@@ -28,7 +28,7 @@ public class MetricsCollectorTests : TestBase
 
     public class QuickModule3 : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "Done";
@@ -38,7 +38,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task PipelineSummary_ContainsMetrics()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .AddModule<QuickModule3>()
@@ -51,7 +51,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task PipelineMetrics_HasParallelismFactor()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .ExecutePipelineAsync();
@@ -63,7 +63,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task PipelineMetrics_HasPeakConcurrency()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .AddModule<QuickModule3>()
@@ -76,7 +76,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task PipelineMetrics_HasAverageConcurrency()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .ExecutePipelineAsync();
@@ -88,7 +88,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task PipelineMetrics_HasEfficiency()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .ExecutePipelineAsync();
 
@@ -100,7 +100,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task PipelineMetrics_HasModuleCounts()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .AddModule<QuickModule3>()
@@ -115,7 +115,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task PipelineMetrics_HasTimingData()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .ExecutePipelineAsync();
 
@@ -127,7 +127,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task PipelineSummary_ContainsModuleTimelines()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .AddModule<QuickModule2>()
             .ExecutePipelineAsync();
@@ -140,7 +140,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task ModuleTimeline_ContainsModuleName()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .ExecutePipelineAsync();
 
@@ -152,7 +152,7 @@ public class MetricsCollectorTests : TestBase
     [Test]
     public async Task ModuleTimeline_ContainsTimingData()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<QuickModule1>()
             .ExecutePipelineAsync();
 

@@ -1,9 +1,12 @@
 using ModularPipelines.Context;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Shell;
 using Moq;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git.Models;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -32,11 +35,42 @@ public class GitInformationTests : TestBase
     public async Task Resolving_Service_Does_Not_Run_Git_Commands()
     {
         var command = new Mock<ICommandContext>();
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton<ICommandContext>(command.Object));
 
         command.VerifyNoOtherCalls();
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
+    }
+
+    [Test]
+    public async Task RunCommandsOrNull_Forces_Nonzero_Exit_Detection()
+    {
+        CommandExecutionOptions? observedOptions = null;
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(
+                (_, options, _) =>
+                {
+                    observedOptions = options;
+                    return Task.FromResult(CommandResult.Ok());
+                });
+        var shell = new Mock<IShellContext>();
+        shell.SetupGet(context => context.Command).Returns(command.Object);
+        var pipelineContext = new Mock<IPipelineContext>();
+        pipelineContext.SetupGet(context => context.Shell).Returns(shell.Object);
+        var runner = new GitCommandRunner(
+            pipelineContext.Object,
+            Mock.Of<ILogger<GitCommandRunner>>());
+
+        _ = await runner.RunCommandsOrNull(
+            new CommandExecutionOptions { ThrowOnNonZeroExitCode = false },
+            "status");
+
+        await Assert.That(observedOptions).IsNotNull();
+        await Assert.That(observedOptions!.ThrowOnNonZeroExitCode).IsTrue();
     }
 
     [Test]
@@ -48,11 +82,11 @@ public class GitInformationTests : TestBase
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("git unavailable"));
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton<ICommandContext>(command.Object));
 
         await Assert.That(await result.T.GetInfoAsync()).IsNull();
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -72,7 +106,7 @@ public class GitInformationTests : TestBase
             It.IsAny<GitRemoteShowOptions>(),
             It.IsAny<CommandExecutionOptions?>(),
             It.IsAny<CancellationToken>()), Times.Never());
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -92,7 +126,7 @@ public class GitInformationTests : TestBase
         await Assert.That(repository?.DefaultBranchName).IsEqualTo("trunk");
         await Assert.That(remoteExecutionOptions?.ThrowOnNonZeroExitCode).IsFalse();
         await Assert.That(remoteExecutionOptions?.ExecutionTimeout).IsEqualTo(TimeSpan.FromSeconds(10));
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -110,7 +144,7 @@ public class GitInformationTests : TestBase
                     observedToken = cancellationToken;
                     return Task.FromException<CommandResult>(new OperationCanceledException(cancellationToken));
                 });
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton<ICommandContext>(command.Object));
         using var cancellationTokenSource = new CancellationTokenSource();
 
@@ -125,7 +159,7 @@ public class GitInformationTests : TestBase
             .ThrowsAsync(new InvalidOperationException("git unavailable"));
 
         await Assert.That(await result.T.GetInfoAsync()).IsNull();
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -143,7 +177,7 @@ public class GitInformationTests : TestBase
                     observedToken = cancellationToken;
                     return Task.FromResult<string?>(null);
                 });
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton(runner.Object));
         using var cancellationTokenSource = new CancellationTokenSource();
 
@@ -152,6 +186,147 @@ public class GitInformationTests : TestBase
         }
 
         await Assert.That(observedToken).IsEqualTo(cancellationTokenSource.Token);
+        await result.Pipeline.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Commits_Reads_Multiple_Records_With_One_Git_Process()
+    {
+        CommandExecutionOptions? observedOptions = null;
+        string?[]? observedCommands = null;
+        var runner = new Mock<IGitCommandRunner>();
+        runner.Setup(x => x.RunCommandsOrNull(
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>(),
+                It.IsAny<string?[]>()))
+            .Returns<CommandExecutionOptions?, CancellationToken, string?[]>((options, _, commands) =>
+            {
+                observedOptions = options;
+                observedCommands = commands;
+                return Task.FromResult<string?>(
+                    $"{CreateCommitOutput("second commit", '2')}\0{CreateCommitOutput("first commit", '1')}\0");
+            });
+        var result = await GetService<IGitInformation>((_, services) =>
+            services.AddSingleton(runner.Object));
+        var commits = new List<GitCommit>();
+
+        await foreach (var commit in result.T.Commits())
+        {
+            commits.Add(commit);
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(commits).Count().IsEqualTo(2);
+            await Assert.That(commits[0].Message?.Subject).IsEqualTo("second commit");
+            await Assert.That(commits[1].Message?.Subject).IsEqualTo("first commit");
+            await Assert.That(observedOptions).IsNotNull();
+            await Assert.That(observedCommands!).Contains("--skip=0");
+            await Assert.That(observedCommands!).Contains("--max-count=50");
+            await Assert.That(observedOptions!.MaxCapturedOutputLength).IsLessThanOrEqualTo(0);
+            await Assert.That(observedCommands!.Single(command =>
+                    command?.StartsWith("--format=", StringComparison.Ordinal) == true))
+                .EndsWith("%x00");
+        }
+
+        runner.Verify(x => x.RunCommandsOrNull(
+            It.IsAny<CommandExecutionOptions?>(),
+            It.IsAny<CancellationToken>(),
+            It.IsAny<string?[]>()), Times.Once());
+        await result.Host.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Git_Command_Runner_Preserves_Output_Capture_Limit()
+    {
+        CommandExecutionOptions? observedOptions = null;
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(
+                (_, options, _) =>
+                {
+                    observedOptions = options;
+                    return Task.FromResult(CommandResult.Ok("output"));
+                });
+        var shell = new Mock<IShellContext>();
+        shell.SetupGet(context => context.Command).Returns(command.Object);
+        var pipelineContext = new Mock<IPipelineContext>();
+        pipelineContext.SetupGet(context => context.Shell).Returns(shell.Object);
+        var runner = new GitCommandRunner(
+            pipelineContext.Object,
+            Mock.Of<ILogger<GitCommandRunner>>());
+
+        var output = await runner.RunCommands(
+            new CommandExecutionOptions { MaxCapturedOutputLength = 0 },
+            "status");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).IsEqualTo("output");
+            await Assert.That(observedOptions).IsNotNull();
+            await Assert.That(observedOptions!.MaxCapturedOutputLength).IsLessThanOrEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Commits_Throws_When_Cancelled_Between_Records()
+    {
+        var runner = new Mock<IGitCommandRunner>();
+        runner.Setup(x => x.RunCommandsOrNull(
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>(),
+                It.IsAny<string?[]>()))
+            .ReturnsAsync($"{CreateCommitOutput("second commit", '2')}\0{CreateCommitOutput("first commit", '1')}\0");
+        var result = await GetService<IGitInformation>((_, services) =>
+            services.AddSingleton(runner.Object));
+        using var cancellationTokenSource = new CancellationTokenSource();
+        await using var commits = result.T.Commits(
+            cancellationToken: cancellationTokenSource.Token).GetAsyncEnumerator();
+
+        await Assert.That(await commits.MoveNextAsync()).IsTrue();
+        cancellationTokenSource.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await commits.MoveNextAsync());
+        await result.Host.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Previous_Commit_Uses_First_Parent()
+    {
+        CommandExecutionOptions? observedOptions = null;
+        string?[]? observedCommands = null;
+        var command = CreateRepositoryCommand((_, _) => CommandResult.Ok());
+        var runner = new Mock<IGitCommandRunner>();
+        runner.Setup(x => x.RunCommandsOrNull(
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>(),
+                It.IsAny<string?[]>()))
+            .Returns<CommandExecutionOptions?, CancellationToken, string?[]>((options, _, commands) =>
+            {
+                observedOptions = options;
+                observedCommands = commands;
+                return Task.FromResult<string?>(CreateCommitOutput("previous commit", '1'));
+            });
+        var result = await GetService<IGitInformation>((_, services) =>
+        {
+            services.AddSingleton<ICommandContext>(command.Object);
+            services.AddSingleton(runner.Object);
+        });
+
+        var repository = await result.T.GetInfoAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(repository?.PreviousCommit?.Message?.Subject).IsEqualTo("previous commit");
+            await Assert.That(observedOptions).IsNotNull();
+            await Assert.That(observedOptions!.MaxCapturedOutputLength).IsLessThanOrEqualTo(0);
+            await Assert.That(observedCommands!).Contains("HEAD^1");
+            await Assert.That(observedCommands!).DoesNotContain("--skip=1");
+        }
+
         await result.Host.DisposeAsync();
     }
 
@@ -170,7 +345,7 @@ public class GitInformationTests : TestBase
         return command;
     }
 
-    private async Task<(IGitInformation T, IPipeline Host)> GetGitInformation(
+    private async Task<(IGitInformation T, IPipeline Pipeline)> GetGitInformation(
         Mock<ICommandContext> command)
     {
         var runner = new Mock<IGitCommandRunner>();
@@ -179,7 +354,7 @@ public class GitInformationTests : TestBase
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
             .ReturnsAsync((string?) null);
-        return await GetService<IGitInformation>((_, services) =>
+        return await GetService<IGitInformation>(services =>
         {
             services.AddSingleton<ICommandContext>(command.Object);
             services.AddSingleton(runner.Object);
@@ -193,4 +368,18 @@ public class GitInformationTests : TestBase
         capturedOptions = executionOptions;
         return CommandResult.Ok("HEAD branch: trunk\n");
     }
+
+    private static string CreateCommitOutput(string subject, char hashCharacter) =>
+        string.Join(
+            "%\n%",
+            "Author",
+            "author@example.com",
+            "2026-07-31T13:00:45Z",
+            "Committer",
+            "committer@example.com",
+            "2026-07-31T12:15:30Z",
+            new string(hashCharacter, 40),
+            new string(hashCharacter, 7),
+            subject,
+            string.Empty);
 }

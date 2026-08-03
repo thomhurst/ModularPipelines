@@ -13,11 +13,11 @@ public class ModularPipelinesAnalyzersAwaitThisUnitTests
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         // This should trigger the analyzer
         {{|#0:await this|}}; // Preserve this explanation too
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -27,11 +27,11 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         // This should trigger the analyzer
         // Preserve this explanation too
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -41,16 +41,16 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         return await ExecuteCommand(context);
     }}
 
-    private async Task<CommandResult?> ExecuteCommand(IModuleContext context)
+    private async Task<CommandResult> ExecuteCommand(IModuleContext context)
     {{
         // This should also trigger the analyzer
         {{|#0:await this|}};
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -60,20 +60,20 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         // This is fine - awaiting something else
         var otherModule = context.GetModule<Module2>();
         await otherModule;
-        return null;
+        return null!;
     }}
 }}
 
 public class Module2 : Module<string>
 {{
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<string?>(""Test"");
+        return Task.FromResult<string>(""Test"");
     }}
 }}
 ";
@@ -106,9 +106,9 @@ public class NotAModule
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<CommandResult?>(null);
+        return Task.FromResult<CommandResult>(null!);
     }}
 
     protected override async Task<ModuleResult<CommandResult>?> OnAfterExecuteAsync(
@@ -127,12 +127,12 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         if (DateTime.UtcNow.Ticks > 0)
             {{|#0:await this|}};
 
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -142,12 +142,12 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         if (DateTime.UtcNow.Ticks > 0)
             ;
 
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -157,12 +157,12 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
 #region Self await
         await this;
 #endregion
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -172,12 +172,12 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         while (!cancellationToken.IsCancellationRequested)
             await this;
 
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -187,14 +187,14 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         while (!cancellationToken.IsCancellationRequested)
         {{
             await this;
         }}
 
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -204,7 +204,7 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
 retry:
         await this;
@@ -218,7 +218,7 @@ retry:
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
 retry:
         ;
@@ -233,14 +233,14 @@ retry:
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
 retry:
         await this;
 #if RETRY
         goto retry;
 #endif
-        return null;
+        return null!;
     }}
 }}
 ";
@@ -354,7 +354,7 @@ retry:
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         switch (context)
         {{

@@ -178,7 +178,7 @@ public abstract class TestBase
         Action<PipelineBuilder> configureModules,
         Func<IEnumerable<IModule>, TResult> extractResults)
     {
-        var builder = TestPipelineHostBuilder.Create(testHostSettings);
+        var builder = TestPipelineBuilder.Create(testHostSettings);
         configureModules(builder);
         var pipeline = await builder.BuildAsync();
 
@@ -197,35 +197,27 @@ public abstract class TestBase
         return valueTuple.T;
     }
 
-    public async Task<(T T, IPipeline Pipeline)> GetService<T>(Action<IServiceCollection>? configureServices)
+    public Task<(T T, IPipeline Pipeline)> GetService<T>(Action<IServiceCollection>? configureServices)
         where T : notnull
-    {
-        var builder = TestPipelineHostBuilder.Create();
-        builder.AddModule<DummyModule>();
-        configureServices?.Invoke(builder.Services);
-        var pipeline = await builder.BuildAsync();
-
-        _pipelines.Add(pipeline);
-
-        // Trigger initialization by running the pipeline
-        await pipeline.RunAsync();
-
-        return (pipeline.Services.GetRequiredService<T>(), pipeline);
-    }
+        => GetServiceCore<T>(builder => configureServices?.Invoke(builder.Services));
 
     /// <summary>
-    /// Gets a service from a freshly built pipeline with custom service configuration.
-    /// This overload accepts a 2-argument delegate for backward compatibility.
+    /// Gets a service from a freshly built pipeline with custom pipeline configuration.
     /// </summary>
     /// <typeparam name="T">The service type to retrieve.</typeparam>
-    /// <param name="configureServices">Action to configure services, receiving the builder as context.</param>
-    /// <returns>A tuple containing the service and the pipeline (accessible via Host for backward compatibility).</returns>
-    public async Task<(T T, IPipeline Host)> GetService<T>(Action<PipelineBuilder, IServiceCollection> configureServices)
+    /// <param name="configurePipeline">Action to configure the pipeline builder.</param>
+    /// <returns>A tuple containing the service and the pipeline.</returns>
+    public Task<(T T, IPipeline Pipeline)> GetServiceWithPipelineConfiguration<T>(
+        Action<PipelineBuilder> configurePipeline)
+        where T : notnull
+        => GetServiceCore<T>(configurePipeline);
+
+    private async Task<(T T, IPipeline Pipeline)> GetServiceCore<T>(Action<PipelineBuilder> configurePipeline)
         where T : notnull
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<DummyModule>();
-        configureServices(builder, builder.Services);
+        configurePipeline(builder);
         var pipeline = await builder.BuildAsync();
 
         _pipelines.Add(pipeline);

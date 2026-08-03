@@ -276,7 +276,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task NoConditions_ShouldRun()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<NoConditionsModule>()
             .BuildAsync();
 
@@ -290,7 +290,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task RunIfAll_SingleTrueCondition_ShouldRun()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunIfAllTrueModule>()
             .BuildAsync();
 
@@ -304,7 +304,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task RunIfAll_SingleFalseCondition_ShouldSkip()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunIfAllFalseModule>()
             .BuildAsync();
 
@@ -318,7 +318,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task RunIfAll_MixedConditions_ShouldSkip()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunIfAllMixedModule>()
             .BuildAsync();
 
@@ -332,7 +332,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task RunIfAny_SingleTrueCondition_ShouldRun()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunIfAnyTrueModule>()
             .BuildAsync();
 
@@ -346,7 +346,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task RunIfAny_SingleFalseCondition_ShouldSkip()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunIfAnyFalseModule>()
             .BuildAsync();
 
@@ -360,7 +360,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task RunIfAny_MixedConditions_ShouldRun()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunIfAnyMixedModule>()
             .BuildAsync();
 
@@ -374,7 +374,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task SkipIf_TrueCondition_ShouldSkip()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipIfTrueModule>()
             .BuildAsync();
 
@@ -388,7 +388,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task SkipIf_FalseCondition_ShouldRun()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipIfFalseModule>()
             .BuildAsync();
 
@@ -429,7 +429,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task SkipIf_EvaluatedBeforeRunIfAll_ShouldSkip()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<CombinedSkipAndRunModule>()
             .BuildAsync();
 
@@ -443,7 +443,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task MultipleRunIfAll_AllTrue_ShouldRun()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<MultipleRunIfAllTrueModule>()
             .BuildAsync();
 
@@ -457,7 +457,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task MultipleRunIfAll_OneFails_ShouldSkip()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<MultipleRunIfAllMixedModule>()
             .BuildAsync();
 
@@ -471,7 +471,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task ConditionGroup_TrueGroup_ShouldRun()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<ConditionGroupTrueModule>()
             .BuildAsync();
 
@@ -485,7 +485,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task ConditionGroup_FalseGroup_ShouldSkip()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<ConditionGroupFalseModule>()
             .BuildAsync();
 
@@ -499,7 +499,7 @@ public class NewRunConditionAttributeTests : TestBase
     [Test]
     public async Task Attribute_And_Fluent_Conditions_Use_One_Skip_Pipeline()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<AttributeAndFluentConditionModule>()
             .BuildAsync();
 
@@ -518,7 +518,7 @@ public class NewRunConditionAttributeTests : TestBase
     public async Task Attribute_Condition_Is_Evaluated_After_Dependencies()
     {
         DependencyWasExecuted = false;
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<ConditionDependencyModule>()
             .AddModule<ConditionAfterDependencyModule>()
             .BuildAsync();
@@ -540,7 +540,7 @@ public class NewRunConditionAttributeTests : TestBase
         using var setupTokenSource = new CancellationTokenSource();
         ConditionCancellationTokenSource = setupTokenSource;
 
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<CancellationAwareConditionModule>()
             .BuildAsync();
         var module = new CancellationAwareConditionModule();
@@ -579,7 +579,7 @@ public class NewRunConditionAttributeTests : TestBase
     {
         using var setupTokenSource = new CancellationTokenSource();
         ConditionCancellationTokenSource = setupTokenSource;
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<TModule>()
             .BuildAsync();
         var module = new TModule();
@@ -600,7 +600,7 @@ public class NewRunConditionAttributeTests : TestBase
         cancellationTokenSource.Cancel();
         SubsequentConditionWasEvaluated = false;
 
-        await Assert.ThrowsAsync<OperationCanceledException>(() => TestPipelineHostBuilder.Create()
+        await Assert.ThrowsAsync<OperationCanceledException>(() => TestPipelineBuilder.Create()
             .AddModule<DiscoveryCancellationModule>()
             .ExecutePipelineAsync(cancellationTokenSource.Token));
 

@@ -26,10 +26,10 @@ internal sealed class GeneratedMarkerAttribute(string value) : Attribute
 [GeneratedMarker("base-marker")]
 public class GeneratedEventBaseModule : Module<string>
 {
-    protected internal override Task<string?> ExecuteAsync(
+    protected internal override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
-        => Task.FromResult<string?>("base");
+        => Task.FromResult<string>("base");
 }
 
 [GeneratedStart("derived", Priority = 10)]
@@ -41,10 +41,10 @@ public sealed class GeneratedEventDerivedModule : GeneratedEventBaseModule
 
 public sealed class GeneratedNoEventModule : Module<string>
 {
-    protected internal override Task<string?> ExecuteAsync(
+    protected internal override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
-        => Task.FromResult<string?>("none");
+        => Task.FromResult<string>("none");
 }
 
 public static class GeneratedInaccessibleTypeArgument
@@ -58,10 +58,10 @@ public static class GeneratedInaccessibleTypeArgument
     [Marker(typeof(InaccessibleType))]
     public sealed class TestModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
-            => Task.FromResult<string?>("fallback");
+            => Task.FromResult<string>("fallback");
     }
 
     private sealed class InaccessibleType
@@ -82,10 +82,10 @@ public static class GeneratedNestedInaccessibleTypeArgument
     [Marker(typeof(Wrapper<InaccessibleType[]>))]
     public sealed class TestModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
-            => Task.FromResult<string?>("fallback");
+            => Task.FromResult<string>("fallback");
     }
 
     private sealed class InaccessibleType;
@@ -102,19 +102,19 @@ public sealed class GeneratedInheritedNamedArgumentAttribute : GeneratedNamedArg
 [GeneratedInheritedNamedArgument(InheritedValue = "inherited")]
 public sealed class GeneratedInheritedNamedArgumentModule : Module<string>
 {
-    protected internal override Task<string?> ExecuteAsync(
+    protected internal override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
-        => Task.FromResult<string?>("generated");
+        => Task.FromResult<string>("generated");
 }
 
 [MatrixTarget("friend")]
 public sealed class GeneratedFriendAttributeModule : Module<string>
 {
-    protected internal override Task<string?> ExecuteAsync(
+    protected internal override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
-        => Task.FromResult<string?>("generated");
+        => Task.FromResult<string>("generated");
 }
 
 public class GeneratedAttributeEventMetadataTests
@@ -279,10 +279,10 @@ public class GeneratedAttributeEventMetadataTests
     [ReflectionFallbackStart]
     private sealed class ReflectionFallbackModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
-            => Task.FromResult<string?>("fallback");
+            => Task.FromResult<string>("fallback");
     }
 
     private sealed class DuplicateRegistrationType

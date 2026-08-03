@@ -48,7 +48,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
         // With Optional dependency, validation passes but GetModule fails at runtime
         // The exception is wrapped in ModuleFailedException
         await Assert.ThrowsAsync<ModuleFailedException>(() =>
-            TestPipelineHostBuilder.Create()
+            TestPipelineBuilder.Create()
                 .AddModule<Module2WithOptionalDep>()
                 .ExecutePipelineAsync()
         );
@@ -58,7 +58,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     public async Task Module_With_Required_Dependency_Auto_Registers_Missing_Module()
     {
         // With Required dependency (default), missing modules are auto-registered
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module2WithRequiredDep>()
             .ExecutePipelineAsync();
 
@@ -72,7 +72,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     {
         await Assert.That(async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<Module1>()
                 .AddModule<Module2WithOptionalDep>()
                 .ExecutePipelineAsync();

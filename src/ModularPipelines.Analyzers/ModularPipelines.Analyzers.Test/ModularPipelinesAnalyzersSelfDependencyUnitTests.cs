@@ -17,7 +17,7 @@ public class ModularPipelinesAnalyzersSelfDependencyUnitTests
 {
     private const string SimpleModuleBody = @"
 {
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();

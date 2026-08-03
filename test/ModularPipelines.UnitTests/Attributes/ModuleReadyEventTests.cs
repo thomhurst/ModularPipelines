@@ -58,27 +58,27 @@ public class ModuleReadyEventTests : TestBase
     [LogReady]
     public class SimpleModuleWithReadyEvent : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Done");
+            return Task.FromResult<string>("Done");
         }
     }
 
     [LogReadyWithTiming]
     public class ModuleWithTimingCheck : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Done");
+            return Task.FromResult<string>("Done");
         }
     }
 
     [LogReadyAndStart]
     public class ModuleWithReadyAndStart : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Done");
+            return Task.FromResult<string>("Done");
         }
     }
 
@@ -86,15 +86,15 @@ public class ModuleReadyEventTests : TestBase
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     public class DependentModuleWithReadyEvent : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Dependent Done");
+            return Task.FromResult<string>("Dependent Done");
         }
     }
 
     public class DependencyModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "Dependency Done";
@@ -104,9 +104,9 @@ public class ModuleReadyEventTests : TestBase
     [ThrowingReady]
     public class ModuleWithThrowingReadyEvent : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Done");
+            return Task.FromResult<string>("Done");
         }
     }
 
@@ -119,7 +119,7 @@ public class ModuleReadyEventTests : TestBase
     [Test]
     public async Task ReadyEvent_IsFired_WhenModuleIsReady()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModuleWithReadyEvent>()
             .ExecutePipelineAsync();
 
@@ -130,7 +130,7 @@ public class ModuleReadyEventTests : TestBase
     [Test]
     public async Task ReadyEvent_ProvidesValidContext()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithTimingCheck>()
             .ExecutePipelineAsync();
 
@@ -141,7 +141,7 @@ public class ModuleReadyEventTests : TestBase
     [Test]
     public async Task ReadyEvent_FiresBeforeStartEvent()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithReadyAndStart>()
             .ExecutePipelineAsync();
 
@@ -158,7 +158,7 @@ public class ModuleReadyEventTests : TestBase
     [Test]
     public async Task ReadyEvent_IsFired_WhenDependenciesComplete()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DependencyModule>()
             .AddModule<DependentModuleWithReadyEvent>()
             .ExecutePipelineAsync();
@@ -170,7 +170,7 @@ public class ModuleReadyEventTests : TestBase
     [Test]
     public async Task ReadyEvent_WithContinueOnError_DoesNotFailPipeline()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithThrowingReadyEvent>()
             .ExecutePipelineAsync();
 

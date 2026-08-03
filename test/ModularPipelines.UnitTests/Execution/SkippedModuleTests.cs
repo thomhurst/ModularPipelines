@@ -17,7 +17,7 @@ public class SkippedModuleTests : TestBase
             .WithSkipWhen(_ => SkipDecision.Skip("Testing purposes"))
             .Build();
 
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception("Should not reach here");
@@ -27,7 +27,7 @@ public class SkippedModuleTests : TestBase
     [Test]
     public async Task Skipped_Result_Is_As_Expected()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkippedModule>()
             .BuildAsync();
 

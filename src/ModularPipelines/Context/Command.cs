@@ -5,7 +5,9 @@ using System.Runtime.Versioning;
 using System.Text;
 using CliWrap;
 using CliWrap.Exceptions;
+using Microsoft.Extensions.Options;
 using Microsoft.Win32.SafeHandles;
+using ModularPipelines.Constants;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
@@ -13,6 +15,7 @@ using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Tracing;
 using CommandResult = ModularPipelines.Models.CommandResult;
 
 namespace ModularPipelines.Context;
@@ -29,6 +32,7 @@ internal sealed class Command : ICommandContext
     private readonly ISecretProvider _secretProvider;
     private readonly ISecretRegistry _secretRegistry;
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly IOptions<PipelineOptions> _pipelineOptions;
 
     public Command(
         ICommandLogger commandLogger,
@@ -36,7 +40,8 @@ internal sealed class Command : ICommandContext
         IEnumerable<ICommandInterceptor> commandInterceptors,
         ISecretProvider secretProvider,
         ISecretRegistry secretRegistry,
-        ISecretObfuscator secretObfuscator)
+        ISecretObfuscator secretObfuscator,
+        IOptions<PipelineOptions> pipelineOptions)
     {
         _commandLogger = commandLogger;
         _commandLineBuilder = commandLineBuilder;
@@ -44,6 +49,7 @@ internal sealed class Command : ICommandContext
         _secretProvider = secretProvider;
         _secretRegistry = secretRegistry;
         _secretObfuscator = secretObfuscator;
+        _pipelineOptions = pipelineOptions;
     }
 
     public async Task<CommandResult> ExecuteCommandLineToolAsync(
@@ -52,42 +58,12 @@ internal sealed class Command : ICommandContext
         CancellationToken cancellationToken = default)
     {
         var execOpts = executionOptions ?? new CommandExecutionOptions();
-
-        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
-        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(execOpts));
-        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(execOpts.CommandLineCredentials));
-
-        var commandLine = _commandLineBuilder.Build(options);
-        var resolvedTool = commandLine.Tool;
-        var parsedArgs = commandLine.Arguments.ToList();
-
-        string tool;
-        if (execOpts.Sudo)
-        {
-            tool = "sudo";
-            parsedArgs.Insert(0, resolvedTool);
-        }
-        else
-        {
-            tool = resolvedTool;
-        }
-
-        var preparedCommand = CliCommandFactory.Create(tool, parsedArgs, execOpts);
-        var command = preparedCommand.Command;
-
-        if (execOpts.WorkingDirectory != null)
-        {
-            command = command.WithWorkingDirectory(execOpts.WorkingDirectory);
-        }
-
-        if (execOpts.CommandLineCredentials != null)
-        {
-            command = command.WithCredentials(execOpts.CommandLineCredentials.ToCliWrapCredentials());
-        }
+        RegisterSecrets(options, execOpts);
+        var (command, commandInput, tool, parsedArgs) = CreateCommand(options, execOpts);
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var obfuscatedCommandInput = _secretObfuscator.Obfuscate(preparedCommand.Input, execOpts);
+        var obfuscatedCommandInput = _secretObfuscator.Obfuscate(commandInput, execOpts);
         var commandMetadata = new CommandResult(
             command,
             obfuscatedCommandInput,
@@ -103,45 +79,143 @@ internal sealed class Command : ICommandContext
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
         using var linkedCancellationToken =
             CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
+        var obfuscatedTool = _secretObfuscator.Obfuscate(tool, execOpts);
+        using var activity = ModuleActivityTracing.StartCommandActivity(obfuscatedTool);
+        var inputToLog = new Lazy<string>(() =>
+        {
+            var input = GetInputToLog(commandInput, execOpts);
+            RecordTelemetryCommandInput(activity, input, execOpts);
+            return input;
+        });
 
         try
         {
-            linkedCancellationToken.Token.ThrowIfCancellationRequested();
-
-            var intercepted = await TryInterceptAsync(
+            var result = await ExecuteCommandCoreAsync(
                     invocation,
                     command,
-                    obfuscatedCommandInput,
+                    commandInput,
                     options,
                     execOpts,
-                    linkedCancellationToken.Token)
-                .ConfigureAwait(false);
-            if (intercepted is not null)
-            {
-                return intercepted;
-            }
-
-            if (execOpts.InternalDryRun)
-            {
-                return ExecuteDryRun(command, preparedCommand.Input, options, execOpts);
-            }
-
-            return await Of(
-                    command,
-                    preparedCommand.Input,
-                    options,
-                    execOpts,
+                    inputToLog,
                     linkedCancellationToken.Token,
                     cancellationToken,
                     timeoutCancellationToken)
                 .ConfigureAwait(false);
+            ModuleActivityTracing.RecordCommandResult(activity, result);
+            return result;
         }
         catch (OperationCanceledException exception)
             when (!cancellationToken.IsCancellationRequested
                   && timeoutCancellationToken?.IsCancellationRequested is true)
         {
-            throw CreateTimeoutException(execOpts, exception);
+            var timeoutException = CreateTimeoutException(execOpts, exception);
+            ModuleActivityTracing.RecordCommandFailure(
+                activity,
+                timeoutException,
+                _secretObfuscator.Obfuscate(timeoutException.Message, execOpts));
+            throw timeoutException;
         }
+        catch (Exception exception)
+        {
+            ModuleActivityTracing.RecordCommandFailure(
+                activity,
+                exception,
+                _secretObfuscator.Obfuscate(exception.Message, execOpts));
+            throw;
+        }
+    }
+
+    private void RegisterSecrets(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions));
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions.CommandLineCredentials));
+    }
+
+    private (CliWrap.Command Command, string CommandInput, string Tool, List<string> Arguments) CreateCommand(
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions)
+    {
+        var commandLine = _commandLineBuilder.Build(options);
+        var tool = commandLine.Tool;
+        var arguments = commandLine.Arguments.ToList();
+        if (executionOptions.Sudo)
+        {
+            arguments.Insert(0, tool);
+            tool = "sudo";
+        }
+
+        var preparedCommand = CliCommandFactory.Create(tool, arguments, executionOptions);
+        var command = preparedCommand.Command;
+        if (executionOptions.WorkingDirectory is not null)
+        {
+            command = command.WithWorkingDirectory(executionOptions.WorkingDirectory);
+        }
+
+        if (executionOptions.CommandLineCredentials is not null)
+        {
+            command = command.WithCredentials(executionOptions.CommandLineCredentials.ToCliWrapCredentials());
+        }
+
+        return (command, preparedCommand.Input, tool, arguments);
+    }
+
+    private async Task<CommandResult> ExecuteCommandCoreAsync(
+        CommandInvocation invocation,
+        CliWrap.Command command,
+        string commandInput,
+        CommandLineToolOptions options,
+        CommandExecutionOptions executionOptions,
+        Lazy<string> inputToLog,
+        CancellationToken executionCancellationToken,
+        CancellationToken callerCancellationToken,
+        CancellationTokenSource? timeoutCancellationToken)
+    {
+        executionCancellationToken.ThrowIfCancellationRequested();
+
+        var intercepted = await TryInterceptAsync(
+                invocation,
+                command,
+                invocation.CommandInput,
+                options,
+                executionOptions,
+                inputToLog,
+                executionCancellationToken)
+            .ConfigureAwait(false);
+        if (intercepted is not null)
+        {
+            return intercepted;
+        }
+
+        return executionOptions.InternalDryRun
+            ? ExecuteDryRun(command, commandInput, options, executionOptions, inputToLog)
+            : await Of(
+                    command,
+                    commandInput,
+                    options,
+                    executionOptions,
+                    inputToLog,
+                    executionCancellationToken,
+                    callerCancellationToken,
+                    timeoutCancellationToken)
+                .ConfigureAwait(false);
+    }
+
+    private void RecordTelemetryCommandInput(
+        Activity? activity,
+        string inputToLog,
+        CommandExecutionOptions executionOptions)
+    {
+        if (activity is null)
+        {
+            return;
+        }
+
+        ModuleActivityTracing.RecordCommandInput(
+            activity,
+            GetTelemetryCommandInput(inputToLog, executionOptions));
     }
 
     private async Task<CommandResult?> TryInterceptAsync(
@@ -150,6 +224,7 @@ internal sealed class Command : ICommandContext
         string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
+        Lazy<string> inputToLog,
         CancellationToken cancellationToken)
     {
         foreach (var interceptor in _commandInterceptors)
@@ -168,7 +243,7 @@ internal sealed class Command : ICommandContext
                 command,
                 commandInput,
                 executionOptions);
-            LogInterceptedCommand(options, executionOptions, result);
+            LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
                 throw new CommandException(CreateFailureResult(
@@ -193,12 +268,13 @@ internal sealed class Command : ICommandContext
         CliWrap.Command command,
         string commandInput,
         CommandLineToolOptions options,
-        CommandExecutionOptions executionOptions)
+        CommandExecutionOptions executionOptions,
+        Lazy<string> inputToLog)
     {
         _commandLogger.Log(
             options: options,
             execOpts: executionOptions,
-            inputToLog: GetInputToLog(commandInput, executionOptions),
+            inputToLog: inputToLog.Value,
             exitCode: 0,
             runTime: TimeSpan.Zero,
             standardOutput: "Dummy Output Response",
@@ -232,12 +308,13 @@ internal sealed class Command : ICommandContext
     private void LogInterceptedCommand(
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
+        string inputToLog,
         CommandResult result)
     {
         _commandLogger.Log(
             options,
             executionOptions,
-            executionOptions.InputLoggingManipulator?.Invoke(result.CommandInput) ?? result.CommandInput,
+            inputToLog,
             result.ExitCode,
             result.Duration,
             result.StandardOutput,
@@ -250,6 +327,7 @@ internal sealed class Command : ICommandContext
         string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions execOpts,
+        Lazy<string> lazyInputToLog,
         CancellationToken executionCancellationToken,
         CancellationToken callerCancellationToken,
         CancellationTokenSource? timeoutCancellationToken)
@@ -268,7 +346,7 @@ internal sealed class Command : ICommandContext
         var standardOutput = string.Empty;
         var standardError = string.Empty;
 
-        var inputToLog = GetInputToLog(commandInput, execOpts);
+        var inputToLog = lazyInputToLog.Value;
         var loggingFailures = new DeferredCommandLoggingFailures();
 
         using var forcefulCancellationToken = new CancellationTokenSource();
@@ -562,6 +640,17 @@ internal sealed class Command : ICommandContext
         return options.InputLoggingManipulator is null
             ? commandInput
             : options.InputLoggingManipulator(commandInput);
+    }
+
+    private string GetTelemetryCommandInput(string inputToLog, CommandExecutionOptions options)
+    {
+        var loggingOptions = options.LogSettings
+                             ?? _pipelineOptions.Value.DefaultLoggingOptions
+                             ?? CommandLoggingOptions.Default;
+        return loggingOptions.Verbosity == CommandLogVerbosity.Silent
+               || !loggingOptions.ShowCommandArguments
+            ? LoggingConstants.CommandMask
+            : _secretObfuscator.Obfuscate(inputToLog, options);
     }
 
     private static CancellationTokenSource? CreateTimeoutCancellationToken(CommandExecutionOptions options)

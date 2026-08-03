@@ -144,7 +144,7 @@ await builder.ExecutePipelineAsync();
 
 public class RestoreModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.RestoreAsync(new());
@@ -155,7 +155,7 @@ public class RestoreModule : Module<string>
 [DependsOn<RestoreModule>]
 public class BuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(new());
@@ -166,7 +166,7 @@ public class BuildModule : Module<string>
 [DependsOn<BuildModule>]
 public class TestModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.TestAsync(new());

@@ -146,14 +146,6 @@ internal static class DependencyInjectionSetup
             .AddScoped<IHttpContext, Http.Http>()
             .AddScoped<ICommandContext, Command>()
             .AddScoped<ICommandLineBuilder, CommandLineBuilder>()
-            .AddScoped<CommandLineExecutor>()
-            .AddScoped<ICommandLineExecutor>(sp =>
-            {
-                var inner = sp.GetRequiredService<CommandLineExecutor>();
-                return new LoggingCommandLineExecutor(
-                    inner,
-                    sp.GetRequiredService<ICommandLogger>());
-            })
             .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificatesContext, Certificates>()
             .AddScoped<IDownloaderContext, Downloader>()

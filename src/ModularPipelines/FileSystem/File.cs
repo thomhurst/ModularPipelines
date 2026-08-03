@@ -96,7 +96,15 @@ public class File : IEquatable<File>
     /// </remarks>
     public Stream GetStream(FileAccess fileAccess = FileAccess.ReadWrite)
     {
-        return _provider.Open(Path, FileMode.OpenOrCreate, fileAccess);
+        var fileMode = fileAccess switch
+        {
+            FileAccess.Read => FileMode.Open,
+            FileAccess.Write => FileMode.Create,
+            FileAccess.ReadWrite => FileMode.OpenOrCreate,
+            _ => throw new ArgumentOutOfRangeException(nameof(fileAccess), fileAccess, null),
+        };
+
+        return _provider.Open(Path, fileMode, fileAccess);
     }
 
     public Task WriteAsync(string contents, CancellationToken cancellationToken = default)

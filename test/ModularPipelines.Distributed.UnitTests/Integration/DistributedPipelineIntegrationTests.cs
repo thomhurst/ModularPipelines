@@ -17,21 +17,21 @@ public class DistributedPipelineIntegrationTests
 
     private class ModuleA : Module<SimpleResult>
     {
-        protected internal override Task<SimpleResult?> ExecuteAsync(
+        protected internal override Task<SimpleResult> ExecuteAsync(
             ModularPipelines.Context.IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<SimpleResult?>(new SimpleResult { Message = "A done" });
+            return Task.FromResult<SimpleResult>(new SimpleResult { Message = "A done" });
         }
     }
 
     private class ModuleB : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             ModularPipelines.Context.IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("B done");
+            return Task.FromResult<string>("B done");
         }
     }
 

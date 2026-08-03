@@ -105,14 +105,14 @@ public class ModuleDependencyValidatorTests
 
     private sealed class ProducerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("produced");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("produced");
     }
 
     private sealed class ConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("consumed");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("consumed");
     }
 
     private sealed class GraphNode<T1, T2, T3, T4, T5, T6, T7, T8>;

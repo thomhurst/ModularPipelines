@@ -463,6 +463,40 @@ public class GeneratorHardeningTests
         await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
     }
 
+    [Test]
+    public async Task OptionsClassGenerator_Uses_Consistent_Line_Endings()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions") with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--first",
+                    PropertyName = "First",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+                new CliOptionDefinition
+                {
+                    SwitchName = "--second",
+                    PropertyName = "Second",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+        var contentWithoutLineEndings = generated.Replace(Environment.NewLine, string.Empty);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(contentWithoutLineEndings).DoesNotContain('\r');
+            await Assert.That(contentWithoutLineEndings).DoesNotContain('\n');
+        }
+    }
+
     #endregion
 
     #region Compatibility properties

@@ -17,7 +17,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     /// </summary>
     private class StringModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Hello from StringModule";
@@ -29,7 +29,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     /// </summary>
     private class ComplexResultModule : Module<ComplexResult>
     {
-        protected internal override async Task<ComplexResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<ComplexResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return new ComplexResult { Id = 42, Name = "Test" };
@@ -51,7 +51,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [ModularPipelines.Attributes.DependsOn<StringModule>]
     private class ConsumerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use the new single-type-parameter API
             var result = await context.GetModule<StringModule>();
@@ -59,7 +59,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
             // Verify the result is properly typed (ModuleResult<string>)
             if (result is ModuleResult<string>.Success)
             {
-                return result.ValueOrDefault;
+                return result.Value;
             }
 
             return "failed";
@@ -92,7 +92,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [ModularPipelines.Attributes.DependsOn<StringModule>(Optional = true)]
     private class OptionalConsumerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use the new single-type-parameter GetModuleIfRegistered API
             var module = context.GetModuleIfRegistered<StringModule>();
@@ -138,7 +138,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [Test]
     public async Task GetModule_SingleTypeParameter_ReturnsCorrectlyTypedResult()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<StringModule>()
             .AddModule<ConsumerModule>()
             .ExecutePipelineAsync();
@@ -149,7 +149,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [Test]
     public async Task GetModule_SingleTypeParameter_WithComplexType_InfersTypeCorrectly()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ComplexResultModule>()
             .AddModule<ComplexConsumerModule>()
             .ExecutePipelineAsync();
@@ -160,7 +160,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [Test]
     public async Task GetModuleIfRegistered_SingleTypeParameter_ReturnsModule_WhenRegistered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<StringModule>()
             .AddModule<OptionalConsumerModule>()
             .ExecutePipelineAsync();
@@ -171,7 +171,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [Test]
     public async Task GetModuleIfRegistered_SingleTypeParameter_ReturnsNull_WhenNotRegistered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<OptionalConsumerModule>()
             .ExecutePipelineAsync();
 
@@ -182,7 +182,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     public async Task GetModule_SingleTypeParameter_ThrowsModuleReferencingSelfException()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await TestPipelineHostBuilder.Create()
+            async () => await TestPipelineBuilder.Create()
                 .AddModule<SelfReferencingModule>()
                 .ExecutePipelineAsync());
 
@@ -193,7 +193,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     public async Task GetModule_SingleTypeParameter_ThrowsModuleNotRegisteredException()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await TestPipelineHostBuilder.Create()
+            async () => await TestPipelineBuilder.Create()
                 .AddModule<UnregisteredConsumerModule>()
                 .ExecutePipelineAsync());
 

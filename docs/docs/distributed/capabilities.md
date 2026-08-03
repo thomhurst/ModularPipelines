@@ -39,7 +39,7 @@ When a module has a `[RunIfAll<OnLinux>]`, `[RunIfAll<OnWindows>]`, or `[RunIfAl
 [RunIfAll<OnLinux>]
 public class LinuxBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Only executes on workers that have the "linux" capability
@@ -56,7 +56,7 @@ Mark a module with `[RequiresCapability]` to restrict which workers can execute 
 [RequiresCapability("docker")]
 public class DockerBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Only executes on workers that advertise "docker"
@@ -75,7 +75,7 @@ You can stack multiple attributes. The module will only run on a worker that has
 [RequiresCapability("docker")]
 public class LinuxDockerModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Only runs on Linux workers that also have Docker

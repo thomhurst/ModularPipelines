@@ -14,6 +14,7 @@ internal class GitInformation : IGitInformation
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IGitCommitMapper _gitCommitMapper;
+    private readonly CommandExecutionOptions? _commandExecutionOptions;
     private readonly SemaphoreSlim _repositoryInfoLock = new(1, 1);
     private GitRepositoryInfo? _repositoryInfo;
     private bool _repositoryInfoLoaded;
@@ -21,9 +22,18 @@ internal class GitInformation : IGitInformation
     public GitInformation(
         IServiceScopeFactory serviceScopeFactory,
         IGitCommitMapper gitCommitMapper)
+        : this(serviceScopeFactory, gitCommitMapper, null)
+    {
+    }
+
+    internal GitInformation(
+        IServiceScopeFactory serviceScopeFactory,
+        IGitCommitMapper gitCommitMapper,
+        CommandExecutionOptions? commandExecutionOptions)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _gitCommitMapper = gitCommitMapper;
+        _commandExecutionOptions = commandExecutionOptions;
     }
 
     public async Task<GitRepositoryInfo?> GetInfoAsync(CancellationToken cancellationToken = default)
@@ -65,25 +75,16 @@ internal class GitInformation : IGitInformation
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
 
-        var index = 0;
-        while (!cancellationToken.IsCancellationRequested)
+        await foreach (var commit in GitCommitPager
+                           .EnumerateAsync(
+                               gitCommandRunner,
+                               _gitCommitMapper,
+                               branch,
+                               _commandExecutionOptions,
+                               cancellationToken)
+                           .ConfigureAwait(false))
         {
-            var output = await gitCommandRunner.RunCommandsOrNull(
-                null,
-                cancellationToken,
-                "log",
-                branch,
-                $"--skip={index}",
-                "-1",
-                $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
-
-            if (string.IsNullOrWhiteSpace(output))
-            {
-                yield break;
-            }
-
-            index++;
-            yield return _gitCommitMapper.Map(output);
+            yield return commit;
         }
     }
 
@@ -97,6 +98,7 @@ internal class GitInformation : IGitInformation
             command,
             logger,
             new GitRevParseOptions { ShowToplevel = true },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(root))
@@ -108,32 +110,38 @@ internal class GitInformation : IGitInformation
             command,
             logger,
             new GitBranchOptions { ShowCurrent = true },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
-        var defaultBranchName = GetDefaultBranchName(command, logger, cancellationToken);
+        var defaultBranchName = GetDefaultBranchName(command, logger, _commandExecutionOptions, cancellationToken);
         var lastCommitSha = GetOutput(
             command,
             logger,
             new GitRevParseOptions { Committish = "HEAD" },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var lastCommitShortSha = GetOutput(
             command,
             logger,
             new GitRevParseOptions { Short = true, Committish = "HEAD" },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var tag = GetOutput(
             command,
             logger,
             new GitDescribeOptions { Tags = true },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var commitCount = GetOutput(
             command,
             logger,
             new GitRevListOptions { Count = true, Ref = "HEAD" },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var lastCommitTimestamp = GetOutput(
             command,
             logger,
             new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, MaxCount = "1" },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var previousCommit = GetPreviousCommit(gitCommandRunner, cancellationToken);
 
@@ -163,8 +171,13 @@ internal class GitInformation : IGitInformation
     private static async Task<string?> GetDefaultBranchName(
         ICommandContext command,
         ILogger logger,
+        CommandExecutionOptions? executionOptions,
         CancellationToken cancellationToken)
     {
+        var localExecutionOptions = (executionOptions ?? new CommandExecutionOptions()) with
+        {
+            ThrowOnNonZeroExitCode = false,
+        };
         var localOutput = await GetOutput(
             command,
             logger,
@@ -172,25 +185,22 @@ internal class GitInformation : IGitInformation
             {
                 Arguments = ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"],
             },
-            new CommandExecutionOptions
-            {
-                ThrowOnNonZeroExitCode = false,
-            },
+            localExecutionOptions,
             cancellationToken).ConfigureAwait(false);
         if (localOutput?.StartsWith("origin/", StringComparison.Ordinal) == true)
         {
             return localOutput["origin/".Length..];
         }
 
+        var remoteExecutionOptions = localExecutionOptions with
+        {
+            ExecutionTimeout = TimeSpan.FromSeconds(10),
+        };
         var remoteOutput = await GetOutput(
             command,
             logger,
             new GitRemoteShowOptions { Remote = "origin" },
-            new CommandExecutionOptions
-            {
-                ThrowOnNonZeroExitCode = false,
-                ExecutionTimeout = TimeSpan.FromSeconds(10),
-            },
+            remoteExecutionOptions,
             cancellationToken).ConfigureAwait(false);
         if (remoteOutput == null)
         {
@@ -234,8 +244,13 @@ internal class GitInformation : IGitInformation
         IGitCommandRunner gitCommandRunner,
         CancellationToken cancellationToken)
     {
-        var output = await gitCommandRunner.RunCommandsOrNull(null, cancellationToken, "log", "--skip=0", "-1",
-            $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
+        var output = await gitCommandRunner.RunCommandsOrNull(
+            GitCommitPager.GetCompleteOutputOptions(_commandExecutionOptions),
+            cancellationToken,
+            "log",
+            "-1",
+            $"--format={GitConstants.CommitLogFormat}",
+            "HEAD^1").ConfigureAwait(false);
 
         return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);
     }

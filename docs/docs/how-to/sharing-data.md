@@ -15,7 +15,7 @@ Call `await context.GetModule<TModule>()` from within your module to access anot
 [DependsOn<BuildModule>]
 public class DeployModule : Module<DeployResult>
 {
-    protected override async Task<DeployResult?> ExecuteAsync(
+    protected override async Task<DeployResult> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Get the build module's result
@@ -82,9 +82,9 @@ When an absent value is expected, inspect the union through its non-throwing acc
 ```csharp
 var result = await context.GetModule<MyModule>();
 
-if (result is ModuleResult<MyResult>.Success)
+if (result is ModuleResult<MyResult>.Success success)
 {
-    var value = result.ValueOrDefault;
+    var value = success.Value;
     // Process value
 }
 
@@ -108,7 +108,7 @@ Always declare dependencies using `[DependsOn<T>]` to ensure the dependent modul
 [DependsOn<TestModule>]   // Ensures TestModule completes first
 public class DeployModule : Module<DeployResult>
 {
-    protected override async Task<DeployResult?> ExecuteAsync(
+    protected override async Task<DeployResult> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Safe to call - dependencies are guaranteed to be complete
