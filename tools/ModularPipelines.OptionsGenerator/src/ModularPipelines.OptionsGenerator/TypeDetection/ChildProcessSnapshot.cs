@@ -41,21 +41,110 @@ internal static class ChildProcessSnapshot
 
     private sealed class LinuxChildProcessSnapshot : IChildProcessSnapshot
     {
+        private const long FallbackCacheMilliseconds = 20;
+        private static readonly Lock FallbackLock = new();
+        private static readonly bool SupportsProcChildren = File.Exists(
+            $"/proc/{Environment.ProcessId}/task/{Environment.ProcessId}/children");
+        private static ILookup<int, int> _fallbackChildren =
+            Array.Empty<(int ProcessId, int ParentProcessId)>()
+                .ToLookup(static process => process.ParentProcessId, static process => process.ProcessId);
+        private static long _fallbackCapturedAt = long.MinValue;
+
         public static LinuxChildProcessSnapshot Instance { get; } = new();
 
         public IEnumerable<int> GetChildProcessIds(int parentProcessId)
         {
-            var childrenPath = $"/proc/{parentProcessId}/task/{parentProcessId}/children";
-            if (!File.Exists(childrenPath))
+            return SupportsProcChildren
+                ? GetTargetedChildProcessIds(parentProcessId)
+                : GetFallbackChildProcessIds(parentProcessId);
+        }
+
+        private static IEnumerable<int> GetTargetedChildProcessIds(int parentProcessId)
+        {
+            var taskPath = $"/proc/{parentProcessId}/task";
+            if (!Directory.Exists(taskPath))
             {
                 return [];
             }
 
-            return File.ReadAllText(childrenPath)
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .Select(static value => int.TryParse(value, out var processId) ? processId : 0)
-                .Where(static processId => processId > 0)
-                .ToArray();
+            var processIds = new HashSet<int>();
+            foreach (var threadPath in Directory.EnumerateDirectories(taskPath))
+            {
+                var childrenPath = Path.Combine(threadPath, "children");
+                if (!File.Exists(childrenPath))
+                {
+                    continue;
+                }
+
+                foreach (var value in File.ReadAllText(childrenPath)
+                             .Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (int.TryParse(value, out var processId) && processId > 0)
+                    {
+                        processIds.Add(processId);
+                    }
+                }
+            }
+
+            return processIds;
+        }
+
+        private static IEnumerable<int> GetFallbackChildProcessIds(int parentProcessId)
+        {
+            lock (FallbackLock)
+            {
+                var now = Environment.TickCount64;
+                if (_fallbackCapturedAt == long.MinValue
+                    || now - _fallbackCapturedAt >= FallbackCacheMilliseconds)
+                {
+                    _fallbackChildren = CaptureLinuxProcesses()
+                        .ToLookup(
+                            static process => process.ParentProcessId,
+                            static process => process.ProcessId);
+                    _fallbackCapturedAt = now;
+                }
+
+                return _fallbackChildren[parentProcessId].ToArray();
+            }
+        }
+
+        private static IEnumerable<(int ProcessId, int ParentProcessId)> CaptureLinuxProcesses()
+        {
+            foreach (var processPath in Directory.EnumerateDirectories("/proc"))
+            {
+                if (int.TryParse(Path.GetFileName(processPath), out var processId)
+                    && TryGetParentProcessId(processPath, out var parentProcessId))
+                {
+                    yield return (processId, parentProcessId);
+                }
+            }
+        }
+
+        private static bool TryGetParentProcessId(
+            string processPath,
+            out int parentProcessId)
+        {
+            parentProcessId = default;
+            string stat;
+            try
+            {
+                stat = File.ReadAllText(Path.Combine(processPath, "stat"));
+            }
+            catch (Exception exception) when (exception is
+                IOException or UnauthorizedAccessException)
+            {
+                return false;
+            }
+
+            var commandEnd = stat.LastIndexOf(')');
+            if (commandEnd < 0)
+            {
+                return false;
+            }
+
+            var fields = stat[(commandEnd + 1)..]
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            return fields.Length > 1 && int.TryParse(fields[1], out parentProcessId);
         }
     }
 
@@ -65,22 +154,24 @@ internal static class ChildProcessSnapshot
 
         public IEnumerable<int> GetChildProcessIds(int parentProcessId)
         {
-            var capacity = ProcListChildPids(parentProcessId, nint.Zero, 0);
-            if (capacity <= 0)
+            // Unlike proc_listpids, proc_listchildpids returns a PID count, not bytes.
+            var pidCapacity = ProcListChildPids(parentProcessId, nint.Zero, 0);
+            if (pidCapacity <= 0)
             {
                 return [];
             }
 
-            var buffer = Marshal.AllocHGlobal(checked(capacity * sizeof(int)));
+            var bufferSize = checked(pidCapacity * sizeof(int));
+            var buffer = Marshal.AllocHGlobal(bufferSize);
             try
             {
-                var count = ProcListChildPids(parentProcessId, buffer, capacity * sizeof(int));
-                if (count <= 0)
+                var pidCount = ProcListChildPids(parentProcessId, buffer, bufferSize);
+                if (pidCount <= 0)
                 {
                     return [];
                 }
 
-                var processIds = new int[Math.Min(count, capacity)];
+                var processIds = new int[Math.Min(pidCount, pidCapacity)];
                 Marshal.Copy(buffer, processIds, 0, processIds.Length);
                 return processIds.Where(static processId => processId > 0).ToArray();
             }
