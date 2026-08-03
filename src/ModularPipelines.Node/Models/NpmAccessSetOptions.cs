@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("access", "set")]
 public record NpmAccessSetOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value
 ) : NpmOptions
 {
     [CliFlag("--json")]
@@ -18,6 +18,6 @@ public record NpmAccessSetOptions(
     [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string? Package { get; set; }
 }

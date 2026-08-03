@@ -48,7 +48,7 @@ public record GcloudDesignCenterSpacesCreateOptions : GcloudOptions
     /// <summary>
     /// Tags are key/values bound to space resource. Example:     "123/environment": "production" "123/costCenter": "marketing". For more     information on tag creation and management, see     https://cloud.google.com/resource-manager/docs/tags/tags-overview.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --tags=string=string     JSON Example:       --tags='{"string": "string"}'     File Example:       --tags=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
 }

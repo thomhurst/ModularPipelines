@@ -38,8 +38,8 @@ public record GcloudContainerFleetCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Default cluster configurations to apply across the fleet.    Binary Authorization config.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Configure binary authorization mode for clusters to onboard the fleet,       $ gcloud container fleet create \         --binauthz-evaluation-mode=policy-bindings     BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.

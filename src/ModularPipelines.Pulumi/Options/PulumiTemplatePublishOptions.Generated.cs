@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("template", "publish")]
 public record PulumiTemplatePublishOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Directory
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Directory
 ) : PulumiOptions
 {
     /// <summary>

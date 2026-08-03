@@ -21,13 +21,13 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "batches", "submit", "pyspark-notebook")]
 public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string NotebookFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string NotebookFile
 ) : GcloudOptions
 {
     /// <summary>
     /// Archives to be extracted into the working directory. Supported file     types: .jar, .tar, .tar.gz, .tgz, and .zip.
     /// </summary>
-    [CliOption("--archives", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--archives", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Archives { get; set; }
 
     /// <summary>
@@ -57,7 +57,7 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     /// <summary>
     /// Files to be placed in the working directory.
     /// </summary>
-    [CliOption("--files", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--files", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Files { get; set; }
 
     /// <summary>
@@ -69,7 +69,7 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     /// <summary>
     /// Comma-separated list of jar files to be provided to the classpaths.
     /// </summary>
-    [CliOption("--jars", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--jars", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Jars { get; set; }
 
     /// <summary>
@@ -81,8 +81,8 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Name of a Dataproc Metastore service to be used as an external     metastore in the format:     "projects/{project-id}/locations/{region}/services/{service-name}".
@@ -93,19 +93,19 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     /// <summary>
     /// Parameters to pass to the notebook for parameterization (papermill).     This flag can be repeated.
     /// </summary>
-    [CliOption("--param", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Param { get; set; }
+    [CliOption("--param", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Param { get; set; }
 
     /// <summary>
     /// Specifies configuration properties for the workload. See Dataproc     Serverless for Spark documentation     (https://cloud.google.com/dataproc-serverless/docs/concepts/properties)     for the list of supported properties.
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Properties { get; set; }
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
     /// Comma-separated list of Python scripts to be passed to the PySpark     framework. Supported file types: .py, .egg and .zip.    Region resource - Dataproc region to use. Each Dataproc region constitutes   an independent resource namespace constrained to deploying instances into   Compute Engine zones inside the region. This represents a Cloud resource.   (NOTE) Some attributes are not given arguments in this group but can be   set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ set the property dataproc/region with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
-    [CliOption("--py-files", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--py-files", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PyFiles { get; set; }
 
     /// <summary>
@@ -124,7 +124,7 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     /// Resource Manager Tags to be associated with the compute resources     created for the workload. Only one key-value pair can be specified per     flag. Repeat the flag to specify multiple tags.
     /// </summary>
     [CliOption("--resource-manager-tag", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ResourceManagerTag { get; set; }
+    public IReadOnlyList<KeyValue>? ResourceManagerTag { get; set; }
 
     /// <summary>
     /// The IAM service account to be used for a batch/session job.
@@ -141,7 +141,7 @@ public record GcloudDataprocBatchesSubmitPysparkNotebookOptions(
     /// <summary>
     /// Network tags for traffic control.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

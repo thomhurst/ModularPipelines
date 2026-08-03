@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "policy", "eval")]
 public record DockerBuildxPolicyEvalOptions(
-    [property: CliArgument(0)] string Source
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Source
 ) : DockerOptions
 {
     /// <summary>
@@ -37,7 +37,7 @@ public record DockerBuildxPolicyEvalOptions(
     /// <summary>
     /// Fields to evaluate
     /// </summary>
-    [CliOption("--fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>

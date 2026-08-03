@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "roles", "update")]
 public record GcloudIamRolesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RoleId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RoleId
 ) : GcloudOptions
 {
 }

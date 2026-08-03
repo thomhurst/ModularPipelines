@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "delete")]
 public record GcloudIamServiceAccountsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ServiceAccount
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ServiceAccount
 ) : GcloudOptions
 {
 }

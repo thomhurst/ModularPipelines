@@ -67,13 +67,13 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     /// <summary>
     /// List of label KEY=VALUE pairs to add.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// IDs of other projects involved in the connectivity test, besides the     source and destination project.
     /// </summary>
-    [CliOption("--other-projects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--other-projects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OtherProjects { get; set; }
 
     /// <summary>

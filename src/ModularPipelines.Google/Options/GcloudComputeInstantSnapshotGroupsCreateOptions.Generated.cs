@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instant-snapshot-groups", "create")]
 public record GcloudComputeInstantSnapshotGroupsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InstantSnapshotGroupName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstantSnapshotGroupName
 ) : GcloudOptions
 {
 }

@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "update-container")]
 public record GcloudPreviewComputeInstancesUpdateContainerOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InstanceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceName
 ) : GcloudOptions
 {
     /// <summary>
@@ -73,7 +73,7 @@ public record GcloudPreviewComputeInstancesUpdateContainerOptions(
     public string? Zone { get; set; }
 
     [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ContainerEnv { get; set; }
+    public IReadOnlyList<KeyValue>? ContainerEnv { get; set; }
 
     /// <summary>
     /// Update environment variables from a file. Same update rules as for     --container-env apply. Values, declared with --container-env flag     override those with the same KEY from file.     File with environment variables declarations in format used by docker     (almost). This means:     ◆ Lines are in format KEY=VALUE     ◆ Values must contain equality signs.     ◆ Variables without values are not supported (this is different from      docker format).     ◆ If # is first non-whitespace character in a line the line is      ignored as a comment.
@@ -84,25 +84,25 @@ public record GcloudPreviewComputeInstancesUpdateContainerOptions(
     /// <summary>
     /// Removes environment variables KEY from container declaration Does     nothing, if a variable is not present.
     /// </summary>
-    [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainerEnv { get; set; }
 
     /// <summary>
     /// Mounts a volume by using host-path.     ◆ Adds a volume, if mount-path is not yet declared.     ◆ Replaces a volume, if mount-path is declared. All parameters      (host-path, mount-path, mode) are completely replaced.      host-path       Path on host to mount from.      mount-path       Path on container to mount to. Mount paths with spaces and commas       (and other special characters) are not supported by this command.      mode       Volume mount mode: rw (read/write) or ro (read-only).       Default: rw.
     /// </summary>
-    [CliOption("--container-mount-host-path", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--container-mount-host-path", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerMountHostPath { get; set; }
 
     /// <summary>
     /// Mounts empty tmpfs into container at MOUNTPATH.      mount-path       Path on container to mount to. Mount paths with spaces and commas       (and other special characters) are not supported by this command.
     /// </summary>
-    [CliOption("--container-mount-tmpfs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--container-mount-tmpfs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerMountTmpfs { get; set; }
 
     /// <summary>
     /// Removes volume mounts (host-path, tmpfs, disk) with mountPath:     MOUNTPATH from container declaration.     Does nothing, if a volume mount is not declared.
     /// </summary>
-    [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainerMounts { get; set; }
 
 }

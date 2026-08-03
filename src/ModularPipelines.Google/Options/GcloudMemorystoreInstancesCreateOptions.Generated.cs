@@ -60,7 +60,7 @@ public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// User-provided engine configurations for the instance.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --engine-configs=string=string     JSON Example:       --engine-configs='{"string": "string"}'     File Example:       --engine-configs=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--engine-configs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--engine-configs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EngineConfigs { get; set; }
 
     /// <summary>
@@ -72,7 +72,7 @@ public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Labels to represent user-provided metadata.      KEY       Keys must start with a lowercase character and contain only hyphens       (-), underscores (_), lowercase characters, and numbers.      VALUE       Values must contain only hyphens (-), underscores (_), lowercase       characters, and numbers.     Shorthand Example:       --labels=string=string     JSON Example:       --labels='{"string": "string"}'     File Example:       --labels=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -240,7 +240,7 @@ public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Specify the zones of a multi-zone instance where Memorystore instance     allocates resources. This flag isn't applicable for single-zone     instances.
     /// </summary>
-    [CliOption("--zone-distribution-config-zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--zone-distribution-config-zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ZoneDistributionConfigZones { get; set; }
 
 }

@@ -50,13 +50,13 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of IPv4/IPv6 addresses or one domain name of the target name     server that the zone will forward queries to. Ignored for public     visibility. Non-RFC1918 addresses will forward to the target through     the Internet. RFC1918 addresses will forward through the VPC.
     /// </summary>
-    [CliOption("--forwarding-targets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--forwarding-targets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ForwardingTargets { get; set; }
 
     /// <summary>
     /// List of GKE clusters that the zone should be visible in if the zone     visibility is [private].
     /// </summary>
-    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gkeclusters { get; set; }
 
     /// <summary>
@@ -86,20 +86,20 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of networks that the zone should be visible in if the zone     visibility is [private].
     /// </summary>
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Networks { get; set; }
 
     /// <summary>
     /// List of IPv4/IPv6 addresses or one domain name of the target name     server that the zone will forward queries to. Ignored for public     visibility. All addresses specified for this parameter will be reached     through the VPC.
     /// </summary>
-    [CliOption("--private-forwarding-targets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--private-forwarding-targets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PrivateForwardingTargets { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// String mnemonic specifying the DNSSEC algorithm of the key-signing key.     Requires DNSSEC enabled. ZSK_ALGORITHM must be one of: ecdsap256sha256,     ecdsap384sha384, rsasha1, rsasha256, rsasha512.

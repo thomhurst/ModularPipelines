@@ -36,7 +36,7 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     /// <summary>
     /// Map of Hubs that represents regional data path deployment with Google     Cloud Platform region as a key.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --hubs=string     JSON Example:       --hubs='{"string": {}}'     File Example:       --hubs=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--hubs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--hubs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Hubs { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     /// <summary>
     /// List of the allowed client header names.
     /// </summary>
-    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     /// <summary>
     /// Custom resource specific headers along with the values. The names     should conform to RFC 9110: &gt;Field names can contain alphanumeric     characters, hyphens, and periods, can contain only ASCII-printable     characters and tabs, and must start with a letter.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --proxy-protocol-config-metadata-headers=string=string     JSON Example:       --proxy-protocol-config-metadata-headers='{"string": "string"}'     File Example:       --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)    Contextual headers configuration.
     /// </summary>
-    [CliOption("--proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProxyProtocolConfigMetadataHeaders { get; set; }
 
     /// <summary>

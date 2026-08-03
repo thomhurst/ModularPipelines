@@ -86,8 +86,8 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Day of week when the window starts, e.g. sunday. MAINTENANCE_WINDOW_DAY     must be one of: friday, monday, saturday, sunday, thursday, tuesday,     wednesday.
@@ -140,8 +140,8 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     /// <summary>
     /// A list of Redis config KEY=VALUE pairs to set on the Redis Cluster     according to http://redis.io/topics/config. Currently the supported     Redis configs are:       maxmemory-clients, maxmemory, maxmemory-policy, notify-keyspace-events,       slowlog-log-slower-than, maxclients.
     /// </summary>
-    [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? RedisConfig { get; set; }
+    [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? RedisConfig { get; set; }
 
     /// <summary>
     /// The replica count of each shard.
@@ -188,7 +188,7 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     /// <summary>
     /// Specify the zones of a multi-zone cluster where Memorystore for Redis     Cluster allocates resources. This flag isn't applicable for single-zone     clusters.    At most one of these can be specified:     --import-gcs-object-uris=[IMPORT_GCS_OBJECT_URIS,...]      URIs of Google Cloud Storage objects to import from. For example,      gs://bucket/folder/file1.rdb,gs://bucket/folder/file2.rdb.     --import-managed-backup=IMPORT_MANAGED_BACKUP      Managed backup to import from. For example,      projects/PROJECT_ID/locations/REGION/backupCollections/BACKUP_COLLECTION_ID/backups/BACKUP_ID.
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Zones { get; set; }
 
 }

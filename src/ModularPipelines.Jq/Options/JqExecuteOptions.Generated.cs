@@ -132,32 +132,32 @@ public record JqExecuteOptions : JqOptions
     /// <summary>
     /// search modules from the directory
     /// </summary>
-    [CliOption("--library-path", ShortForm = "-L", PreferShortForm = true, AllowMultiple = true)]
+    [CliOption("--library-path", ShortForm = "-L", PreferShortForm = true)]
     public IEnumerable<string>? LibraryPath { get; set; }
 
     /// <summary>
     /// set $name to the string value
     /// </summary>
-    [CliOption("--arg", AllowMultiple = true)]
-    public IEnumerable<CliOptionValuePair>? Arg { get; set; }
+    [CliOption("--arg")]
+    public IEnumerable<CliValuePair>? Arg { get; set; }
 
     /// <summary>
     /// set $name to the JSON value
     /// </summary>
-    [CliOption("--argjson", AllowMultiple = true)]
-    public IEnumerable<CliOptionValuePair>? ArgJson { get; set; }
+    [CliOption("--argjson")]
+    public IEnumerable<CliValuePair>? ArgJson { get; set; }
 
     /// <summary>
     /// set $name to an array of JSON values read from the file
     /// </summary>
-    [CliOption("--slurpfile", AllowMultiple = true)]
-    public IEnumerable<CliOptionValuePair>? SlurpFile { get; set; }
+    [CliOption("--slurpfile")]
+    public IEnumerable<CliValuePair>? SlurpFile { get; set; }
 
     /// <summary>
     /// set $name to string contents of file
     /// </summary>
-    [CliOption("--rawfile", AllowMultiple = true)]
-    public IEnumerable<CliOptionValuePair>? RawFile { get; set; }
+    [CliOption("--rawfile")]
+    public IEnumerable<CliValuePair>? RawFile { get; set; }
 
     /// <summary>
     /// consume remaining arguments as positional string values
@@ -216,13 +216,13 @@ public record JqExecuteOptions : JqOptions
     /// <summary>
     /// The jq filter expression to apply
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Filter { get; set; }
 
     /// <summary>
     /// Input JSON files or values (reads from stdin if not specified)
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? InputFiles { get; set; }
 
 }

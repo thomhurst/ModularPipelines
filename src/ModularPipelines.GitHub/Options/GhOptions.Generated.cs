@@ -19,6 +19,7 @@ namespace ModularPipelines.GitHub.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("gh")]
+[CliGlobalOptions]
 public abstract record GhOptions : CommandLineToolOptions
 {
 }

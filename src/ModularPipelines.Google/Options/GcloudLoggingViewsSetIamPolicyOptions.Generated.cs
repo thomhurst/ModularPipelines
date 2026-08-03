@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "views", "set-iam-policy")]
 public record GcloudLoggingViewsSetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ViewId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ViewId
 ) : GcloudOptions
 {
 }

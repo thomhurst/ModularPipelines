@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "snapshot", "inspect")]
 public record VaultOperatorRaftSnapshotInspectOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SnapshotFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SnapshotFile
 ) : VaultOptions
 {
 }

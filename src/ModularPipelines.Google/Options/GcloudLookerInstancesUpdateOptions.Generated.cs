@@ -31,7 +31,7 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     /// <summary>
     /// This specifies the entire allowed email domain list.
     /// </summary>
-    [CliOption("--allowed-email-domains", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowed-email-domains", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedEmailDomains { get; set; }
 
     /// <summary>
@@ -121,7 +121,7 @@ public record GcloudLookerInstancesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of FQDNs that are allowed to egress from the Looker instance.     Example: --egress-fqdns="github.com,my.salesforce.com". To clear all     egress FQDNs, use --egress-fqdns="".
     /// </summary>
-    [CliOption("--egress-fqdns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--egress-fqdns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EgressFqdns { get; set; }
 
     /// <summary>

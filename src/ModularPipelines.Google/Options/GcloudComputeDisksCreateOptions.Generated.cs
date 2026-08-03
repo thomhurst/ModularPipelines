@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "create")]
 public record GcloudComputeDisksCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> DiskName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> DiskName
 ) : GcloudOptions
 {
     /// <summary>
@@ -58,19 +58,19 @@ public record GcloudComputeDisksCreateOptions(
     /// <summary>
     /// Enables one or more features for VM instances that use the image for     their boot disks. See the descriptions of supported features at:     https://cloud.google.com/compute/docs/images/create-delete-deprecate-private-images#guest-os-features.     GUEST_OS_FEATURE must be one of: BARE_METAL_LINUX_COMPATIBLE,     CCA_CAPABLE, GVNIC, IDPF, MULTI_IP_SUBNET, SEV_CAPABLE,     SEV_LIVE_MIGRATABLE, SEV_LIVE_MIGRATABLE_V2, SEV_SNP_CAPABLE,     SNP_SVSM_CAPABLE, TDX_CAPABLE, UEFI_COMPATIBLE, VIRTIO_SCSI_MULTIQUEUE,     WINDOWS.
     /// </summary>
-    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--guest-os-features", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GuestOsFeatures { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// A list of URIs to license resources. The provided licenses will be     added onto the created disks to indicate the licensing and billing     policies.
     /// </summary>
-    [CliOption("--licenses", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--licenses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Licenses { get; set; }
 
     /// <summary>
@@ -106,13 +106,13 @@ public record GcloudComputeDisksCreateOptions(
     /// <summary>
     /// A comma-separated list of Resource Manager tags to apply to the disk.
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ResourceManagerTags { get; set; }
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// A list of resource policy names to be added to the disk. The policies     must exist in the same region as the disk.
     /// </summary>
-    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ResourcePolicies { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("namespace", "lock")]
 public record VaultNamespaceLockOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path
 ) : VaultOptions
 {
 }

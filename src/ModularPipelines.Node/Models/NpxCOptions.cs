@@ -7,6 +7,6 @@ namespace ModularPipelines.Node.Models;
 [CliSubCommand("-c")]
 public record NpxCOptions : NpxOptions
 {
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Cmd { get; set; }
 }

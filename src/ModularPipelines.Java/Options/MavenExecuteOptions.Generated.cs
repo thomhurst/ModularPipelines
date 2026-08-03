@@ -73,8 +73,8 @@ public record MavenExecuteOptions : MavenOptions
     /// <summary>
     /// Define a user property
     /// </summary>
-    [CliOption("--define", ShortForm = "-D", AllowMultiple = true)]
-    public IEnumerable<KeyValue>? Define { get; set; }
+    [CliOption("--define", ShortForm = "-D")]
+    public IReadOnlyList<KeyValue>? Define { get; set; }
 
     /// <summary>
     /// Produce execution error messages
@@ -273,7 +273,7 @@ public record MavenExecuteOptions : MavenOptions
     /// <summary>
     /// Maven goals and lifecycle phases to execute.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? GoalsAndPhases { get; set; }
 
 }

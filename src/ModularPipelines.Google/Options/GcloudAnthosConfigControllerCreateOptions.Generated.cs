@@ -54,7 +54,7 @@ public record GcloudAnthosConfigControllerCreateOptions : GcloudOptions
     /// <summary>
     /// Master Authorized Network. Allows users to specify multiple blocks to     access the Kubernetescontrol plane from this block. Defaults to     0.0.0.0/0 if flag is not provided.
     /// </summary>
-    [CliOption("--man-blocks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--man-blocks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ManBlocks { get; set; }
 
     /// <summary>

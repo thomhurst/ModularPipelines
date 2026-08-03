@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "scopes", "update")]
 public record GcloudLoggingScopesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string LogScopeId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string LogScopeId
 ) : GcloudOptions
 {
     /// <summary>
@@ -32,7 +32,7 @@ public record GcloudLoggingScopesUpdateOptions(
     /// <summary>
     /// A new set of resource names for the log scope.
     /// </summary>
-    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ResourceNames { get; set; }
 
 }

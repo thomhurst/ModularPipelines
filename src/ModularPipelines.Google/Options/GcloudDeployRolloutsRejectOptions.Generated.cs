@@ -24,7 +24,7 @@ public record GcloudDeployRolloutsRejectOptions : GcloudOptions
     /// <summary>
     /// Deploy policies to override
     /// </summary>
-    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--override-deploy-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OverrideDeployPolicies { get; set; }
 
 }

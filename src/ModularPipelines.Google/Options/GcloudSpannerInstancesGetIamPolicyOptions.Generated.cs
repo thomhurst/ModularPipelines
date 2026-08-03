@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "get-iam-policy")]
 public record GcloudSpannerInstancesGetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Iam
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Iam
 ) : GcloudOptions
 {
 }

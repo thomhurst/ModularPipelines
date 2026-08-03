@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "policies", "update")]
 public record GcloudIamPoliciesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PolicyId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PolicyId
 ) : GcloudOptions
 {
 }

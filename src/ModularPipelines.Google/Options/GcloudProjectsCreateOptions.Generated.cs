@@ -37,8 +37,8 @@ public record GcloudProjectsCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Name for the project you want to create. If not specified, will use     project id as name.
@@ -61,7 +61,7 @@ public record GcloudProjectsCreateOptions : GcloudOptions
     /// <summary>
     /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as     &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;.     Example: 123/environment=production,123/costCenter=marketing     Note: Currently this field is in Preview.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Tags { get; set; }
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
 }

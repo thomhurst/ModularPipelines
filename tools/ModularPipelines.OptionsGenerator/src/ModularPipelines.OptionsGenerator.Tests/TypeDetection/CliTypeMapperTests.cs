@@ -195,7 +195,7 @@ public class CliTypeMapperTests
     {
         var result = CliTypeMapper.ToCSharpType(CliOptionType.KeyValue);
 
-        await Assert.That(result).IsEqualTo("IEnumerable<KeyValue>?");
+        await Assert.That(result).IsEqualTo("IReadOnlyList<KeyValue>?");
     }
 
     [Test]

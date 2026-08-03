@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "jobs", "submit", "training")]
 public record GcloudAiPlatformJobsSubmitTrainingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Job
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Job
 ) : GcloudOptions
 {
     /// <summary>
@@ -45,8 +45,8 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Hardware accelerator config for the master worker. Must specify both     the accelerator type (TYPE) for each server and the number of     accelerators to attach to each server (COUNT).      type       Type of the accelerator. Choices are       nvidia-tesla-a100,nvidia-tesla-k80,nvidia-tesla-p100,nvidia-tesla-p4,nvidia-tesla-t4,nvidia-tesla-v100,tpu-v2,tpu-v2-pod,tpu-v3,tpu-v3-pod,tpu-v4-pod      count       Number of accelerators to attach to each machine running the job.       Must be greater than 0.
@@ -81,7 +81,7 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     /// <summary>
     /// Path to Python archives used for training. These can be local paths     (absolute or relative), in which case they will be uploaded to the     Cloud Storage bucket given by --staging-bucket, or Cloud Storage URLs     ('gs://bucket-name/path/to/package.tar.gz').
     /// </summary>
-    [CliOption("--packages", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--packages", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Packages { get; set; }
 
     /// <summary>

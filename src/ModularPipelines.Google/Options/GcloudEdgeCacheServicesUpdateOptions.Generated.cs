@@ -43,7 +43,7 @@ public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
     /// <summary>
     /// URLs to sslCertificate resources that are used to authenticate     connections between users and the EdgeCacheService.     Certificates should be specified as relative resource URLs - for     example projects/my-project/locations/global/certificates/my-cert     Note that only "global" certificates with a "scope" of EDGE_CACHE can     be attached to an EdgeCacheService.     You may specify up to 5 SSL certificates per Service.
     /// </summary>
-    [CliOption("--edge-ssl-certificate", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--edge-ssl-certificate", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EdgeSslCertificate { get; set; }
 
     /// <summary>
@@ -55,8 +55,8 @@ public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of KEY=VALUE labels to attach to this resource.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Configures the sampling rate of requests, where 1.0 means all logged     requests are reported and 0.0 means no logged requests are reported.     The default value is 1.0, and the value of the field must be in [0, 1].     This field can only be specified if logging is enabled for this     service.

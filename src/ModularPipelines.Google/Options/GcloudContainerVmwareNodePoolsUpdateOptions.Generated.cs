@@ -73,14 +73,14 @@ public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions
     /// <summary>
     /// Kubernetes labels (key/value pairs) to be applied to each node.
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? NodeLabels { get; set; }
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
     /// Applies the given kubernetes taints on all nodes in the new node pool,     which can be used with tolerations for pod scheduling.     Taint effect must be one of the following: NoSchedule,     PreferNoSchedule, or NoExecute.     Examples:       $ gcloud container vmware node-pools update node-pool-1 \         --cluster=example-cluster \         --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule
     /// </summary>
-    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? NodeTaints { get; set; }
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? NodeTaints { get; set; }
 
     /// <summary>
     /// Number of replicas to use on node pool instances.    At most one of these can be specified:     --disable-load-balancer      If set, disable the use of load balancer on the node pool instances.     --enable-load-balancer      If set, enable the use of load balancer on the node pool instances.    Node pool autoscaling

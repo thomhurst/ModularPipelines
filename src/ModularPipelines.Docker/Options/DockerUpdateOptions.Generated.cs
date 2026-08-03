@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("update")]
 public record DockerUpdateOptions(
-    [property: CliArgument(0)] IEnumerable<string> Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Container
 ) : DockerOptions
 {
     /// <summary>

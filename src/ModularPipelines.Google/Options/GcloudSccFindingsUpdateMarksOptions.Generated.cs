@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "update-marks")]
 public record GcloudSccFindingsUpdateMarksOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Finding
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Finding
 ) : GcloudOptions
 {
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
@@ -30,8 +30,8 @@ public record GcloudSccFindingsUpdateMarksOptions(
     /// <summary>
     /// SecurityMarks resource to be passed as the request body. It's a     key=value pair separated by comma (,). For example:     --security-marks="key1=val1,key2=val2".
     /// </summary>
-    [CliOption("--security-marks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? SecurityMarks { get; set; }
+    [CliOption("--security-marks", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SecurityMarks { get; set; }
 
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }

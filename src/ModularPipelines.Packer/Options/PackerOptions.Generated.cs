@@ -19,6 +19,7 @@ namespace ModularPipelines.Packer.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("packer")]
+[CliGlobalOptions]
 public abstract record PackerOptions : CommandLineToolOptions
 {
 }

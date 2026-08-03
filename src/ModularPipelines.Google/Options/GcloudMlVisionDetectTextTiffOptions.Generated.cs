@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "detect-text-tiff")]
 public record GcloudMlVisionDetectTextTiffOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InputFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InputFile
 ) : GcloudOptions
 {
     /// <summary>

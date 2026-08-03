@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "rotate-auth")]
 public record ArgoCdClusterRotateAuthOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ServerOrName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ServerOrName
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -87,7 +87,7 @@ public record ArgoCdClusterRotateAuthOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

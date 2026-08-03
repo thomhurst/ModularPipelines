@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("beyondcorp", "security-gateways", "remove-iam-policy-binding")]
 public record GcloudBeyondcorpSecurityGatewaysRemoveIamPolicyBindingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Iam
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Iam
 ) : GcloudOptions
 {
 }

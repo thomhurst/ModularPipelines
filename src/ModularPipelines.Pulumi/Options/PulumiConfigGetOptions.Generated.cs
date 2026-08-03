@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "get")]
 public record PulumiConfigGetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Key
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Key
 ) : PulumiOptions
 {
     /// <summary>

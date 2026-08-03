@@ -114,13 +114,13 @@ public record DotNetBuildOptions : DotNetOptions
     /// <summary>
     /// Set one or more MSBuild properties. Use format: PropertyName=Value
     /// </summary>
-    [CliOption("-p", Format = OptionFormat.ColonSeparated, AllowMultiple = true)]
-    public IEnumerable<KeyValue>? Properties { get; set; }
+    [CliOption("-p", Format = OptionFormat.ColonSeparated)]
+    public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
     /// The project or solution or C# (file-based
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }
 
     [Obsolete("Use NoLogo instead.")]

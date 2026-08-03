@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "resource-overrides", "ignore-resource-updates")]
 public record ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ResourceYamlPath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ResourceYamlPath
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -63,7 +63,7 @@ public record ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions(
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -160,7 +160,7 @@ public record ArgoCdAdminSettingsResourceOverridesIgnoreResourceUpdatesOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

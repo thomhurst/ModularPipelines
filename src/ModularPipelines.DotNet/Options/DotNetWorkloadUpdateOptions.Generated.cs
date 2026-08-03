@@ -29,7 +29,7 @@ public record DotNetWorkloadUpdateOptions : DotNetOptions
     /// <summary>
     /// The NuGet package source to use during the restore. To specify multiple sources, repeat the option.
     /// </summary>
-    [CliOption("--source", ShortForm = "-s", AllowMultiple = true)]
+    [CliOption("--source", ShortForm = "-s")]
     public IEnumerable<string>? Source { get; set; }
 
     /// <summary>

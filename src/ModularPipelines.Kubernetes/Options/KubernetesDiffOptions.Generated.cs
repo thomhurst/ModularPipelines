@@ -35,7 +35,7 @@ public record KubernetesDiffOptions : KubernetesOptions
     /// <summary>
     /// Filename, directory, or URL to files contains the configuration to diff
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record KubernetesDiffOptions : KubernetesOptions
     /// <summary>
     /// Overwrite the default allowlist with &lt;group/version/kind&gt; for --prune
     /// </summary>
-    [CliOption("--prune-allowlist", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--prune-allowlist", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PruneAllowlist { get; set; }
 
     /// <summary>

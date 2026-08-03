@@ -36,13 +36,13 @@ public record ShellcheckExecuteOptions : ShellcheckOptions
     /// <summary>
     /// Consider only given types of warnings
     /// </summary>
-    [CliOption("--include", ShortForm = "-i", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include", ShortForm = "-i", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Include { get; set; }
 
     /// <summary>
     /// Exclude types of warnings
     /// </summary>
-    [CliOption("--exclude", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
@@ -78,13 +78,13 @@ public record ShellcheckExecuteOptions : ShellcheckOptions
     /// <summary>
     /// List of optional checks to enable (or 'all')
     /// </summary>
-    [CliOption("--enable", ShortForm = "-o", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enable", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Enable { get; set; }
 
     /// <summary>
     /// Specify path when looking for sourced files ("SCRIPTDIR" for script's dir)
     /// </summary>
-    [CliOption("--source-path", ShortForm = "-P", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-path", ShortForm = "-P", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourcePath { get; set; }
 
     /// <summary>
@@ -126,7 +126,7 @@ public record ShellcheckExecuteOptions : ShellcheckOptions
     /// <summary>
     /// Shell script files to check
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Files { get; set; }
 
 }

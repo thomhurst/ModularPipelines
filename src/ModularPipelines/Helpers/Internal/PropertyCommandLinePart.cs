@@ -16,11 +16,6 @@ public abstract record PropertyCommandLinePart(string PropertyName, Func<object,
     /// Gets the semantic rendering phase.
     /// </summary>
     public abstract CommandLinePhase Phase { get; }
-
-    /// <summary>
-    /// Gets the number-of-values contract for this command-line part.
-    /// </summary>
-    public abstract CliOptionValueArity ValueArity { get; }
 }
 
 /// <summary>
@@ -33,9 +28,6 @@ public sealed record ArgumentPart(
 {
     /// <inheritdoc />
     public override CommandLinePhase Phase => Attribute.Phase;
-
-    /// <inheritdoc />
-    public override CliOptionValueArity ValueArity => CliOptionValueArity.Required;
 }
 
 /// <summary>
@@ -48,9 +40,6 @@ public sealed record FlagPart(
 {
     /// <inheritdoc />
     public override CommandLinePhase Phase => Attribute.Phase;
-
-    /// <inheritdoc />
-    public override CliOptionValueArity ValueArity => CliOptionValueArity.None;
 }
 
 /// <summary>
@@ -63,7 +52,4 @@ public sealed record OptionPart(
 {
     /// <inheritdoc />
     public override CommandLinePhase Phase => Attribute.Phase;
-
-    /// <inheritdoc />
-    public override CliOptionValueArity ValueArity => Attribute.ValueArity;
 }

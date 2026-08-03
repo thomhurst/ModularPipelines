@@ -63,7 +63,7 @@ public record CosignLoginOptions : CosignOptions
     [CliFlag("--verbose", ShortForm = "-d")]
     public bool? Verbose { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Server { get; set; }
 
 }

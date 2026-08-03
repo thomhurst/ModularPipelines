@@ -31,8 +31,8 @@ public record GcloudServiceDirectoryEndpointsCreateOptions : GcloudOptions
     /// <summary>
     /// Annotations for the endpoint.     Annotations take the form of key/value string pairs. Keys are composed     of an optional prefix and a name segment, separated by a slash(/).     Prefixes and names must be composed of alphanumeric characters, dashes,     and dots. Names may also use underscores. There are no character     restrictions on what may go into the value of an annotation. The entire     dictionary is limited to 512 characters, spread across all key-value     pairs.
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Annotations { get; set; }
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
     /// Specifies the Google Compute Engine Network (VPC) of the Endpoint.     Network and Project existence is not checked. Example:     projects/&lt;PROJECT_NUM&gt;/locations/global/networks/&lt;NETWORK_NAME&gt; The     default is empty string.

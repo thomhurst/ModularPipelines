@@ -21,11 +21,11 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "write")]
 public record GcloudLoggingWriteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string LogName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string LogName
 ) : GcloudOptions
 {
     [CliOption("--monitored-resource-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? MonitoredResourceLabels { get; set; }
+    public IReadOnlyList<KeyValue>? MonitoredResourceLabels { get; set; }
 
     [CliOption("--monitored-resource-type", Format = OptionFormat.EqualsSeparated)]
     public string? MonitoredResourceType { get; set; }

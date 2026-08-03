@@ -48,13 +48,13 @@ public record DockerComposeOptions : DockerOptions
     /// <summary>
     /// Specify an alternate environment file
     /// </summary>
-    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnvFile { get; set; }
 
     /// <summary>
     /// Compose configuration files
     /// </summary>
-    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? File { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public record DockerComposeOptions : DockerOptions
     /// <summary>
     /// Specify a profile to enable
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>

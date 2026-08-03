@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "reservations", "blocks", "perform-maintenance")]
 public record GcloudPreviewComputeReservationsBlocksPerformMaintenanceOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Reservation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Reservation
 ) : GcloudOptions
 {
 }

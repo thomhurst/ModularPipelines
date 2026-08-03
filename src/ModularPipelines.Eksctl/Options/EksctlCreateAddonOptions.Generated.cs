@@ -59,7 +59,7 @@ public record EksctlCreateAddonOptions : EksctlOptions
     /// <summary>
     /// ARN of the policies to attach
     /// </summary>
-    [CliOption("--attach-policy-arn", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attach-policy-arn", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AttachPolicyArn { get; set; }
 
     /// <summary>

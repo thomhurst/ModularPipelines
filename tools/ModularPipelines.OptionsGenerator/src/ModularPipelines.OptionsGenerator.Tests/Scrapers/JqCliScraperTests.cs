@@ -45,7 +45,7 @@ public class JqCliScraperTests
         await Assert.That(command.Options.Single(x => x.PropertyName == "FromFile").CSharpType).IsEqualTo("string?");
 
         var argument = command.Options.Single(x => x.PropertyName == "Arg");
-        await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<CliOptionValuePair>?");
+        await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<CliValuePair>?");
         await Assert.That(argument.AcceptsMultipleValues).IsTrue();
 
         var slurpFile = command.Options.Single(x => x.PropertyName == "SlurpFile");
@@ -76,9 +76,9 @@ public class JqCliScraperTests
 
         await Assert.That(command.PositionalArguments).Count().IsEqualTo(2);
         await Assert.That(command.PositionalArguments[0].PropertyName).IsEqualTo("Filter");
-        await Assert.That(command.PositionalArguments[0].Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(command.PositionalArguments[0].Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(command.PositionalArguments[1].PropertyName).IsEqualTo("InputFiles");
-        await Assert.That(command.PositionalArguments[1].Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(command.PositionalArguments[1].Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     [Test]

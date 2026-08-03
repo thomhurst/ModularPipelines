@@ -36,7 +36,7 @@ public record GcloudMonitoringSnoozesCreateOptions : GcloudOptions
     /// <summary>
     /// The policies that the Snooze applies to. Exactly 1 alert policy is     required if criteria-filter is specified at the same time.
     /// </summary>
-    [CliOption("--criteria-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--criteria-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CriteriaPolicies { get; set; }
 
     /// <summary>

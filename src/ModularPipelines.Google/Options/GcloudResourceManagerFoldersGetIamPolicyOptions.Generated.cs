@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "get-iam-policy")]
 public record GcloudResourceManagerFoldersGetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string FolderId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string FolderId
 ) : GcloudOptions
 {
 }

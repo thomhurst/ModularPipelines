@@ -403,7 +403,7 @@ public partial class LiquibaseCliScraper : CliScraperBase
         {
             SwitchName = "-D",
             PropertyName = propertyName,
-            CSharpType = "IEnumerable<KeyValue>?",
+            CSharpType = "IReadOnlyList<KeyValue>?",
             Description = description,
             IsFlag = false,
             IsRequired = false,

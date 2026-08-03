@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("design-center", "spaces", "shared-templates", "describe")]
 public record GcloudDesignCenterSpacesSharedTemplatesDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SharedTemplate
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SharedTemplate
 ) : GcloudOptions
 {
     /// <summary>

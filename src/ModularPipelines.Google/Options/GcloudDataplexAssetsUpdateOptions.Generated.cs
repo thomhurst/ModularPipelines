@@ -43,8 +43,8 @@ public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Specification of the resource that is referenced by this asset.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Read access mode. RESOURCE_READ_ACCESS_MODE must be one of:      DIRECT       Data is accessed directly using storage APIs     MANAGED       Data is accessed through a managed interface using BigQuery APIs.
@@ -61,13 +61,13 @@ public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
     /// <summary>
     /// The list of patterns to apply for selecting data to exclude during     discovery. For Cloud Storage bucket assets, these are interpreted as     glob patterns used to match object names. For BigQuery dataset assets,     these are interpreted as patterns to match table names.
     /// </summary>
-    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DiscoveryExcludePatterns { get; set; }
 
     /// <summary>
     /// The list of patterns to apply for selecting data to include during     discovery if only a subset of the data should considered. For Cloud     Storage bucket assets, these are interpreted as glob patterns used to     match object names. For BigQuery dataset assets, these are interpreted     as patterns to match table names.    Determines when discovery jobs are triggered.
     /// </summary>
-    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DiscoveryIncludePatterns { get; set; }
 
     /// <summary>

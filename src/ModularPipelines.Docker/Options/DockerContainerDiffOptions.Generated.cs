@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "diff")]
 public record DockerContainerDiffOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Container
 ) : DockerOptions
 {
 }

@@ -31,8 +31,8 @@ public record GcloudSecretsCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Location resource - The location to create secret. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line.
@@ -49,19 +49,19 @@ public record GcloudSecretsCreateOptions : GcloudOptions
     /// <summary>
     /// List of key-value pairs to set as Annotations. All existing Annotations     will be removed first.
     /// </summary>
-    [CliOption("--set-annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? SetAnnotations { get; set; }
+    [CliOption("--set-annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? SetAnnotations { get; set; }
 
     /// <summary>
     /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as     &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;.     Example: 123/environment=production,123/costCenter=marketing
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Tags { get; set; }
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// List of Pub/Sub topics to configure on the secret.
     /// </summary>
-    [CliOption("--topics", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--topics", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Topics { get; set; }
 
     /// <summary>

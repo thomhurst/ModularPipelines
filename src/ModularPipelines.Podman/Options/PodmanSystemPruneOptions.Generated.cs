@@ -35,7 +35,7 @@ public record PodmanSystemPruneOptions : PodmanOptions
     /// <summary>
     /// Provide filter values (e.g. 'label=&lt;key&gt;=&lt;value&gt;')
     /// </summary>
-    [CliOption("--filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>

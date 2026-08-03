@@ -19,6 +19,7 @@ namespace ModularPipelines.Python.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("pip")]
+[CliGlobalOptions]
 public abstract record PipOptions : CommandLineToolOptions
 {
 }

@@ -31,7 +31,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// Used to tag the AWS resources. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Tags { get; set; }
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// AWS region. Defaults to the value set in your AWS config (~/.aws/config)
@@ -48,7 +48,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// <summary>
     /// (auto-select if unspecified)
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Zones { get; set; }
 
     /// <summary>
@@ -180,19 +180,19 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// <summary>
     /// attach additional security groups to nodes
     /// </summary>
-    [CliOption("--node-security-groups", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-security-groups", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeSecurityGroups { get; set; }
 
     /// <summary>
     /// extra labels to add when registering the nodes in the nodegroup. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? NodeLabels { get; set; }
+    public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
     /// (inherited from the cluster if unspecified)
     /// </summary>
-    [CliOption("--node-zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeZones { get; set; }
 
     /// <summary>
@@ -258,7 +258,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// <summary>
     /// Comma-separated list of instance types (e.g., --instance-types=c3.large,c4.large,c5.large
     /// </summary>
-    [CliOption("--instance-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--instance-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InstanceTypes { get; set; }
 
     /// <summary>
@@ -324,13 +324,13 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// <summary>
     /// re-use private subnets of an existing VPC; the subnets must exist in availability zones and not other types of zones
     /// </summary>
-    [CliOption("--vpc-private-subnets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vpc-private-subnets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VpcPrivateSubnets { get; set; }
 
     /// <summary>
     /// re-use public subnets of an existing VPC; the subnets must exist in availability zones and not other types of zones
     /// </summary>
-    [CliOption("--vpc-public-subnets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vpc-public-subnets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VpcPublicSubnets { get; set; }
 
     /// <summary>

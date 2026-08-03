@@ -29,13 +29,13 @@ public record GhRunDownloadOptions : GhOptions
     /// <summary>
     /// Download artifacts that match any of the given names
     /// </summary>
-    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Name { get; set; }
 
     /// <summary>
     /// Download artifacts that match a glob pattern
     /// </summary>
-    [CliOption("--pattern", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pattern", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Pattern { get; set; }
 
     /// <summary>

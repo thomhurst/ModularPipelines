@@ -475,7 +475,7 @@ public partial class AwsCliScraper : CliScraperBase
     {
         if (isFlag) return "bool?";
         if (enumDef is not null) return $"{enumDef.EnumName}?";
-        if (isKeyValue) return "KeyValue[]?";
+        if (isKeyValue) return "IReadOnlyList<KeyValue>?";
         if (isArray) return "IEnumerable<string>?";
         if (isNumeric) return "int?";
         return "string?";

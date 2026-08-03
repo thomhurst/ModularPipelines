@@ -25,7 +25,7 @@ public class SonarScannerCliScraperTests
         var debug = command.Options.Single(x => x.SwitchName == "--debug");
 
         await Assert.That(define.ShortForm).IsEqualTo("-D");
-        await Assert.That(define.CSharpType).IsEqualTo("IEnumerable<KeyValue>?");
+        await Assert.That(define.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
         await Assert.That(define.IsKeyValue).IsTrue();
         await Assert.That(define.AcceptsMultipleValues).IsTrue();
         await Assert.That(define.IsSecret).IsTrue();

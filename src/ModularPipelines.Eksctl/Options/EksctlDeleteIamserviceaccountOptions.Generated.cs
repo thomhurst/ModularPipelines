@@ -41,13 +41,13 @@ public record EksctlDeleteIamserviceaccountOptions : EksctlOptions
     /// <summary>
     /// iamserviceaccounts to include (list of globs), e.g.: 'default/s3-reader,*/dynamo-*'
     /// </summary>
-    [CliOption("--include", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Include { get; set; }
 
     /// <summary>
     /// iamserviceaccounts to exclude (list of globs), e.g.: 'default/s3-reader,*/dynamo-*'
     /// </summary>
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>

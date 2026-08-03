@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stop")]
 public record NpmStopOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Args
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Args
 ) : NpmOptions
 {
     [CliFlag("--ignore-scripts")]

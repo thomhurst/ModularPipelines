@@ -1,10 +1,73 @@
+using System.Globalization;
 using ModularPipelines.Attributes;
+using ModularPipelines.Helpers.Internal;
+using ModularPipelines.Models;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
 public class CliAttributeTests
 {
+    [Test]
+    public async Task Named_Placeholder_Values_Use_Invariant_Culture()
+    {
+        var originalCulture = CultureInfo.CurrentCulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
+            var handler = new PlaceholderHandler(new CommandModelProvider());
+
+            var arguments = handler.ReplacePlaceholders(
+                ["<SCALAR>", "<VALUES>"],
+                new TestCliOptionsWithNamedFormattableValues
+                {
+                    Scalar = 1.5,
+                    Values = [2.5, 3.5],
+                });
+
+            await Assert.That(arguments).IsEquivalentTo(
+                ["1.5", "2.5", "3.5"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
+    [Test]
+    public async Task Numeric_And_Formattable_Values_Use_Invariant_Culture()
+    {
+        var originalCulture = CultureInfo.CurrentCulture;
+        var date = new DateTime(2026, 1, 2, 3, 4, 5);
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
+
+            var arguments = BuildArguments(new TestCliOptionsWithFormattableValues
+            {
+                Double = 1.5,
+                Decimal = 2.75m,
+                Date = date,
+                Values = [3.5, 4.5],
+            });
+
+            await Assert.That(arguments).IsEquivalentTo(
+            [
+                "--double", "1.5",
+                "--decimal", "2.75",
+                "--date", date.ToString(null, CultureInfo.InvariantCulture),
+                "--values", "3.5", "--values", "4.5",
+            ]);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
     [Test]
     public async Task CliFlag_Returns_Name_When_ShortForm_Not_Preferred()
     {
@@ -42,18 +105,6 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task CliOption_CustomSeparator_Overrides_Format()
-    {
-        var attribute = new CliOptionAttribute("--namespace")
-        {
-            Format = OptionFormat.SpaceSeparated,
-            CustomSeparator = "::",
-        };
-
-        await Assert.That(attribute.GetSeparator()).IsEqualTo("::");
-    }
-
-    [Test]
     public async Task CliOption_Returns_Name_When_ShortForm_Not_Preferred()
     {
         var attribute = new CliOptionAttribute("--namespace") { ShortForm = "-n" };
@@ -70,11 +121,10 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task CliArgument_Defaults_To_AfterOptions_Placement()
+    public async Task CliArgument_Defaults_To_Passthrough_Phase()
     {
         var attribute = new CliArgumentAttribute(0);
 
-        await Assert.That(attribute.Placement).IsEqualTo(ArgumentPlacement.AfterOptions);
         await Assert.That(attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
@@ -163,6 +213,79 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Groups_CliOption_Collection_Values()
+    {
+        var options = new TestCliOptionsWithGroupedValues { Values = ["first", "second"] };
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(new[] { "--values", "first", "second" });
+    }
+
+    [Test]
+    public async Task Parser_Groups_CliOption_Value_Pairs()
+    {
+        var options = new TestCliOptionsWithGroupedPairs
+        {
+            Values = [new("first", "one"), new("second", "two")],
+        };
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            new[] { "--values", "first", "one", "second", "two" });
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Grouped_Value_Pairs_With_NonSpace_Separator()
+    {
+        var options = new TestCliOptionsWithInvalidGroupedPairs
+        {
+            Values = [new("first", "one")],
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("must use a space separator");
+    }
+
+    [Test]
+    public async Task Parser_Handles_Space_Separated_Value_Pairs()
+    {
+        var options = new TestCliOptionsWithValuePairs
+        {
+            Values = [new CliValuePair("name", "Ada"), new CliValuePair("environment", "ci")],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--arg", "name", "Ada", "--arg", "environment", "ci"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Rejects_NonSpace_Separated_Value_Pairs()
+    {
+        var options = new TestCliOptionsWithInvalidValuePairFormat
+        {
+            Values = [new CliValuePair("name", "Ada")],
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("OptionFormat.SpaceSeparated");
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Grouped_Values_With_NonSpace_Separator()
+    {
+        var options = new TestCliOptionsWithInvalidGroupedValues { Values = ["first", "second"] };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("must use a space separator");
+    }
+
+    [Test]
     public async Task Parser_Renders_Bare_OptionalValue_Option()
     {
         var options = new TestCliOptionsWithSemanticPhases
@@ -184,15 +307,17 @@ public class CliAttributeTests
     {
         var options = new TestCliOptionsWithSemanticPhases
         {
+            EarlyOperand = "command-input",
             Normal = true,
             Terminal = "tests.txt",
+            TerminalOperand = "terminal-input",
             Passthrough = "input.txt",
         };
 
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(
-            ["--normal", "input.txt", "--terminal", "tests.txt"],
+            ["command-input", "--normal", "input.txt", "terminal-input", "--terminal", "tests.txt"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
@@ -219,17 +344,6 @@ public class CliAttributeTests
             Terminal = "tests.txt",
             EndOfOptions = true,
         })).Throws<InvalidOperationException>();
-    }
-
-    [Test]
-    public async Task Parser_Renders_None_Arity_Option_Without_Value()
-    {
-        var list = BuildArguments(new TestCliOptionsWithSemanticPhases
-        {
-            Valueless = true,
-        });
-
-        await Assert.That(list).IsEquivalentTo(["--valueless"]);
     }
 
     [Test]
@@ -310,6 +424,30 @@ public class CliAttributeTests
     }
 
     // Test option classes
+    private record TestCliOptionsWithFormattableValues
+    {
+        [CliOption("--double")]
+        public double Double { get; init; }
+
+        [CliOption("--decimal")]
+        public decimal Decimal { get; init; }
+
+        [CliOption("--date")]
+        public DateTime Date { get; init; }
+
+        [CliOption("--values", AllowMultiple = true)]
+        public double[]? Values { get; init; }
+    }
+
+    private record TestCliOptionsWithNamedFormattableValues
+    {
+        [CliArgument(Name = "<SCALAR>")]
+        public double? Scalar { get; init; }
+
+        [CliArgument(Name = "<VALUES>")]
+        public IEnumerable<double>? Values { get; init; }
+    }
+
     private record TestCliOptionsWithFlag
     {
         [CliFlag("--debug")]
@@ -336,12 +474,51 @@ public class CliAttributeTests
 
     private record TestCliOptionsWithMultipleValues
     {
-        [CliOption("--values", AllowMultiple = true)]
+        [CliOption("--values")]
         public string[]? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithGroupedValues
+    {
+        [CliOption("--values", GroupValues = true)]
+        public string[]? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithInvalidGroupedValues
+    {
+        [CliOption("--values", Format = OptionFormat.EqualsSeparated, GroupValues = true)]
+        public string[]? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithGroupedPairs
+    {
+        [CliOption("--values", GroupValues = true)]
+        public IEnumerable<CliValuePair>? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithInvalidGroupedPairs
+    {
+        [CliOption("--values", Format = OptionFormat.EqualsSeparated, GroupValues = true)]
+        public IEnumerable<CliValuePair>? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithValuePairs
+    {
+        [CliOption("--arg")]
+        public IReadOnlyList<CliValuePair>? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithInvalidValuePairFormat
+    {
+        [CliOption("--arg", Format = OptionFormat.EqualsSeparated)]
+        public IReadOnlyList<CliValuePair>? Values { get; set; }
     }
 
     private record TestCliOptionsWithSemanticPhases
     {
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+        public string? EarlyOperand { get; set; }
+
         [CliFlag("--", Phase = CommandLinePhase.EndOfOptions)]
         public bool? EndOfOptions { get; set; }
 
@@ -351,14 +528,14 @@ public class CliAttributeTests
             Phase = CommandLinePhase.Terminal)]
         public string? Terminal { get; set; }
 
+        [CliArgument(0, Phase = CommandLinePhase.Terminal)]
+        public string? TerminalOperand { get; set; }
+
         [CliArgument(0)]
         public string? Passthrough { get; set; }
 
         [CliFlag("--normal")]
         public bool? Normal { get; set; }
-
-        [CliOption("--valueless", ValueArity = CliOptionValueArity.None)]
-        public bool? Valueless { get; set; }
     }
 
     private record TestCliOptionsWithDuplicateSwitch
@@ -381,7 +558,7 @@ public class CliAttributeTests
 
     private record TestCliOptionsWithArgumentBeforeOptions
     {
-        [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? Path { get; set; }
 
         [CliFlag("--debug")]
@@ -426,7 +603,7 @@ public class CliAttributeTests
         [CliOption("--namespace")]
         public string? Namespace { get; set; }
 
-        [CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+        [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
         public string[]? Set { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("kubectl")]
+[CliGlobalOptions]
 public abstract record KubernetesOptions : CommandLineToolOptions
 {
 }

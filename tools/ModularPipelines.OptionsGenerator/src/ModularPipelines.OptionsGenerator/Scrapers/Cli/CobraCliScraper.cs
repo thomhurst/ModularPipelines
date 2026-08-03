@@ -891,7 +891,7 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
         if (isKeyValue)
         {
-            return "KeyValue[]?";
+            return "IReadOnlyList<KeyValue>?";
         }
 
         if (isArray)

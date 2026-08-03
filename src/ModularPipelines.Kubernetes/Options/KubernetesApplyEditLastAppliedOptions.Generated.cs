@@ -36,7 +36,7 @@ public record KubernetesApplyEditLastAppliedOptions : KubernetesOptions
     /// <summary>
     /// Filename, directory, or URL to files to use to edit the resource
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>

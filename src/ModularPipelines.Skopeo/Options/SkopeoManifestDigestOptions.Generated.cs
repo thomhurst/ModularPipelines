@@ -19,7 +19,7 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest-digest")]
 public record SkopeoManifestDigestOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ManifestFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ManifestFile
 ) : SkopeoOptions
 {
     /// <summary>

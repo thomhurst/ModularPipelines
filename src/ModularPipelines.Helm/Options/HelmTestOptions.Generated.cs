@@ -23,7 +23,7 @@ public record HelmTestOptions : HelmOptions
     /// <summary>
     /// specify tests by attribute (currently "name") using attribute=value syntax or '!attribute=value' to exclude a test (can specify multiple or separate values with commas: name=test1,name=test2)
     /// </summary>
-    [CliOption("--filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record HelmTestOptions : HelmOptions
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KubeAsGroup { get; set; }
 
     /// <summary>
@@ -150,7 +150,7 @@ public record HelmTestOptions : HelmOptions
     /// <summary>
     /// The RELEASE operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Release { get; set; }
 
 }

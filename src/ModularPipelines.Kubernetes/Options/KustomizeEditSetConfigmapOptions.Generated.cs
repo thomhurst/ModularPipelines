@@ -23,7 +23,7 @@ public record KustomizeEditSetConfigmapOptions : KustomizeOptions
     /// <summary>
     /// Specify an existing key and a new value to update a ConfigMap (i.e. mykey=newvalue)
     /// </summary>
-    [CliOption("--from-literal", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--from-literal", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FromLiteral { get; set; }
 
     /// <summary>

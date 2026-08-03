@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "commit")]
 public record DockerContainerCommitOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
 ) : DockerOptions
 {
     /// <summary>
@@ -31,7 +31,7 @@ public record DockerContainerCommitOptions(
     /// <summary>
     /// Apply Dockerfile instruction to the created image
     /// </summary>
-    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Change { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public record DockerContainerCommitOptions(
     /// <summary>
     /// The REPOSITORY[:TAG] operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? RepositoryTag { get; set; }
 
 }

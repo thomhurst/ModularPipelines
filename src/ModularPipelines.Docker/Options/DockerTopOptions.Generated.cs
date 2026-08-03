@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("top")]
 public record DockerTopOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Container
 ) : DockerOptions
 {
     /// <summary>
     /// The ps OPTIONS operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? PsOptions { get; set; }
 
 }

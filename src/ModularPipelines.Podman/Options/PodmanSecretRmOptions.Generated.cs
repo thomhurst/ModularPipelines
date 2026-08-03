@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "rm")]
 public record PodmanSecretRmOptions(
-    [property: CliArgument(0)] IEnumerable<string> Secret
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Secret
 ) : PodmanOptions
 {
     /// <summary>

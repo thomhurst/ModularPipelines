@@ -30,7 +30,7 @@ public record GcloudNetworkSecurityOrgAddressGroupsAddItemsOptions : GcloudOptio
     /// <summary>
     /// Items to be added to the address group.
     /// </summary>
-    [CliOption("--items", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--items", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Items { get; set; }
 
 }

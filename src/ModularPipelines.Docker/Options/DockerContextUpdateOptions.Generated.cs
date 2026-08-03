@@ -20,7 +20,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "update")]
 public record DockerContextUpdateOptions(
-    [property: CliArgument(0)] string Context
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Context
 ) : DockerOptions
 {
     /// <summary>
@@ -33,6 +33,6 @@ public record DockerContextUpdateOptions(
     /// set the docker endpoint (default [])
     /// </summary>
     [CliOption("--docker", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Docker { get; set; }
+    public IReadOnlyList<KeyValue>? Docker { get; set; }
 
 }

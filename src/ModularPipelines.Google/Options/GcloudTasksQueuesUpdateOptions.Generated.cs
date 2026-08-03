@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "update")]
 public record GcloudTasksQueuesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Queue
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Queue
 ) : GcloudOptions
 {
     /// <summary>

@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "role", "assign")]
 public record PulumiOrgRoleAssignOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RoleId,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Team
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RoleId,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Team
 ) : PulumiOptions
 {
     /// <summary>

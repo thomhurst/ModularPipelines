@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "configurations", "rename")]
 public record GcloudConfigConfigurationsRenameOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ConfigurationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ConfigurationName
 ) : GcloudOptions
 {
 }

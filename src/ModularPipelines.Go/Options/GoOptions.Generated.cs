@@ -19,6 +19,7 @@ namespace ModularPipelines.Go.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("go")]
+[CliGlobalOptions]
 public abstract record GoOptions : CommandLineToolOptions
 {
 }

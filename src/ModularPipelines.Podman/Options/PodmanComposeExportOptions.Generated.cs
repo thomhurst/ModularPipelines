@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "export")]
 public record PodmanComposeExportOptions(
-    [property: CliArgument(0)] string Service
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service
 ) : PodmanOptions
 {
     /// <summary>

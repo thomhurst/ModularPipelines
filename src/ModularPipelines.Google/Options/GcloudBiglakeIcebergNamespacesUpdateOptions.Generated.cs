@@ -31,13 +31,13 @@ public record GcloudBiglakeIcebergNamespacesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of properties to remove.
     /// </summary>
-    [CliOption("--remove-properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-properties", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveProperties { get; set; }
 
     /// <summary>
     /// List of properties to update or add.
     /// </summary>
-    [CliOption("--update-properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateProperties { get; set; }
+    [CliOption("--update-properties", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateProperties { get; set; }
 
 }

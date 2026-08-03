@@ -20,13 +20,13 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "snapshot")]
 public record VaultOperatorRaftSnapshotOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Subcommand
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Subcommand
 ) : VaultOptions
 {
     /// <summary>
     /// The args operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Args { get; set; }
 
 }

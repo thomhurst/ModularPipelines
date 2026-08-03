@@ -24,7 +24,7 @@ public record GcloudDnsPoliciesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of alternative name servers to forward to. Non-RFC1918 addresses     will forward to the target through the Internet.RFC1918 addresses will     forward through the VPC.
     /// </summary>
-    [CliOption("--alternative-name-servers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--alternative-name-servers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AlternativeNameServers { get; set; }
 
     /// <summary>
@@ -48,13 +48,13 @@ public record GcloudDnsPoliciesUpdateOptions : GcloudOptions
     /// <summary>
     /// The comma separated list of network names to associate with the policy.
     /// </summary>
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Networks { get; set; }
 
     /// <summary>
     /// List of alternative name servers to forward to. All addresses specified     for this parameter will be reached through the VPC.
     /// </summary>
-    [CliOption("--private-alternative-name-servers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--private-alternative-name-servers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PrivateAlternativeNameServers { get; set; }
 
 }

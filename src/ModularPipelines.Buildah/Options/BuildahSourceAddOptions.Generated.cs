@@ -23,7 +23,7 @@ public record BuildahSourceAddOptions : BuildahOptions
     /// <summary>
     /// add an annotation (format: key=value)
     /// </summary>
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
