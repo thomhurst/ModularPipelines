@@ -516,10 +516,7 @@ public sealed class ModuleConfigurationBuilder
     private void AddSynchronousPlanningSkipCondition(
         Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> condition)
     {
-        if (!_hasAsyncSkipCondition)
-        {
-            _synchronousPlanningSkipConditions.Add(condition);
-        }
+        _synchronousPlanningSkipConditions.Add(condition);
     }
 
     private static Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> ComposeAllSkipConditions(

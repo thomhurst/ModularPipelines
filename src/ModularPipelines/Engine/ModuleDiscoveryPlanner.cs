@@ -616,7 +616,9 @@ internal sealed class ResolvedObjectTrackingServiceProvider(IServiceProvider inn
 
     public bool IsServiceProviderOwned(object value)
     {
-        return _resolvedObjects.Contains(value) || IsTrackedDisposable(value);
+        return _resolvedObjects.Contains(value)
+               || IsTrackedDisposable(value)
+               || IsCachedService(value);
     }
 
     [UnconditionalSuppressMessage(
@@ -630,6 +632,66 @@ internal sealed class ResolvedObjectTrackingServiceProvider(IServiceProvider inn
             BindingFlags.Instance | BindingFlags.NonPublic);
         return disposablesField?.GetValue(innerServiceProvider) is IEnumerable<object> disposables
                && disposables.Any(disposable => ReferenceEquals(disposable, value));
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Microsoft DI's internal scope caches are inspected only to establish exact instance ownership.")]
+    private bool IsCachedService(object value)
+    {
+        if (ContainsResolvedService(innerServiceProvider, value))
+        {
+            return true;
+        }
+
+        var rootProvider = GetPropertyValue(innerServiceProvider, "RootProvider")
+                           ?? innerServiceProvider;
+        var rootScope = GetPropertyValue(innerServiceProvider, "Root")
+                        ?? GetPropertyValue(rootProvider, "Root");
+        return (rootScope is not null
+                && !ReferenceEquals(rootScope, innerServiceProvider)
+                && ContainsResolvedService(rootScope, value))
+               || ContainsSingletonCallSiteValue(rootProvider, value);
+    }
+
+    private static bool ContainsResolvedService(object scope, object value)
+    {
+        var resolvedServices = GetPropertyValue(scope, "ResolvedServices");
+        return GetPropertyValue(resolvedServices, "Values") is System.Collections.IEnumerable values
+               && values.Cast<object?>().Any(resolvedService => ReferenceEquals(resolvedService, value));
+    }
+
+    private static bool ContainsSingletonCallSiteValue(object rootProvider, object value)
+    {
+        var callSiteFactory = GetPropertyValue(rootProvider, "CallSiteFactory");
+        var callSiteCache = GetFieldValue(callSiteFactory, "_callSiteCache");
+        return GetPropertyValue(callSiteCache, "Values") is System.Collections.IEnumerable callSites
+               && callSites.Cast<object>().Any(callSite =>
+                   ReferenceEquals(GetPropertyValue(callSite, "Value"), value)
+                   || ReferenceEquals(GetPropertyValue(callSite, "DefaultValue"), value));
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Microsoft DI's internal scope caches are inspected only to establish exact instance ownership.")]
+    private static object? GetPropertyValue(object? target, string propertyName)
+    {
+        return target?.GetType()
+            .GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            ?.GetValue(target);
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Microsoft DI's internal call-site cache is inspected only to establish exact instance ownership.")]
+    private static object? GetFieldValue(object? target, string fieldName)
+    {
+        return target?.GetType()
+            .GetField(fieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            ?.GetValue(target);
     }
 
     private object? Track(object? value)

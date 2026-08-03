@@ -251,10 +251,11 @@ internal sealed class DependencyGraphExporter(
                         .ToArray();
                     if (unresolvedModules.Length > 0)
                     {
-                        usedHistoryModuleTypes.UnionWith(
-                            await ignoredModuleResultRegistrar
-                                .ResolveHistoryModuleTypesAsync(unresolvedModules, originalModules)
-                                .ConfigureAwait(false));
+                        var resolvedHistoryModuleTypes = await ignoredModuleResultRegistrar
+                            .ResolveHistoryModuleTypesAsync(unresolvedModules, originalModules)
+                            .ConfigureAwait(false);
+                        cancellationToken.ThrowIfCancellationRequested();
+                        usedHistoryModuleTypes.UnionWith(resolvedHistoryModuleTypes);
                     }
 
                     foreach (var ignoredModule in pendingIgnoredModules)
@@ -269,6 +270,7 @@ internal sealed class DependencyGraphExporter(
                 skippedModuleTypes.Contains,
                 cancellationToken)
             .ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
         var remainingModules = cascadeResult.RunnableModules.ToHashSet<IModule>(
             ReferenceEqualityComparer.Instance);
 

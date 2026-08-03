@@ -600,6 +600,25 @@ public class DependencyGraphExporterTests
             serviceProvider.GetRequiredService<ContainerOwnedPlanningModule>();
     }
 
+    private sealed class ContainerOwnedPlanningState;
+
+    private sealed class ContainerOwnedPlanningStateFactory(IServiceProvider serviceProvider)
+    {
+        public ContainerOwnedPlanningState Create() =>
+            serviceProvider.GetRequiredService<ContainerOwnedPlanningState>();
+    }
+
+    private sealed class ModuleWithContainerOwnedPlanningState(
+        ContainerOwnedPlanningState planningState) : Module<string>
+    {
+        private readonly ContainerOwnedPlanningState _planningState = planningState;
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>(_planningState.GetType().Name);
+    }
+
     private sealed class PlanningFactoryDependency;
 
     private sealed class ContainerOwnedPlanningCopyModule : Module<string>, IAsyncDisposable
@@ -845,6 +864,24 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("mixed-configured");
     }
 
+    private sealed class SynchronouslySkippedAfterAsyncModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(async (_, _) =>
+            {
+                Interlocked.Increment(ref _asyncSkipConditionEvaluations);
+                await Task.Yield();
+                return SkipDecision.DoNotSkip;
+            })
+            .WithSkipWhen(_ => SkipDecision.Skip("synchronous short circuit"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("mixed-configured");
+    }
+
     [ModularPipelines.Attributes.DependsOn<SynchronouslySkippedBeforeAsyncModule>]
     private sealed class DependentOnSynchronouslySkippedBeforeAsyncModule : Module<string>
     {
@@ -940,6 +977,34 @@ public class DependencyGraphExporterTests
                 return Task.FromResult<ModuleResult<T>?>(null);
             }
 
+            var executionContext = new ModuleExecutionContext(module, module.GetType());
+            return Task.FromResult<ModuleResult<T>?>(
+                ModuleResult<T>.CreateSuccess(default!, executionContext));
+        }
+    }
+
+    private sealed class CancelingModuleTypeHistoryRepository(
+        Type moduleType,
+        CancellationTokenSource cancellationTokenSource) : IModuleResultRepository
+    {
+        public bool IsEnabled => true;
+
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext) =>
+            Task.CompletedTask;
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext)
+        {
+            if (module.GetType() != moduleType)
+            {
+                return Task.FromResult<ModuleResult<T>?>(null);
+            }
+
+            cancellationTokenSource.Cancel();
             var executionContext = new ModuleExecutionContext(module, module.GetType());
             return Task.FromResult<ModuleResult<T>?>(
                 ModuleResult<T>.CreateSuccess(default!, executionContext));
@@ -1237,6 +1302,27 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Cascaded_History_Lookup_Observes_Cancellation()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<IModuleResultRepository>(
+            new CancelingModuleTypeHistoryRepository(
+                typeof(DependentOnConditionSkippedModule),
+                cancellationTokenSource));
+        builder.AddModule<ConditionSkippedModule>();
+        builder.AddModule<DependentOnConditionSkippedModule>();
+        builder.AddModule<DownstreamOfConditionSkippedModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            () => exporter.RenderAsync(
+                DependencyGraphFormat.Json,
+                cancellationTokenSource.Token));
+    }
+
+    [Test]
     public async Task Run_Conditions_And_Their_Cascade_Are_Annotated_As_Skipped()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -1363,6 +1449,28 @@ public class DependencyGraphExporterTests
             await Assert.That(configuredNode.GetProperty("skipReason").GetString())
                 .IsEqualTo("synchronous short circuit");
             await Assert.That(dependentNode.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Synchronous_Skip_Short_Circuits_After_Async_Condition()
+    {
+        _asyncSkipConditionEvaluations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<SynchronouslySkippedAfterAsyncModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(node.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(node.GetProperty("skipReason").GetString())
+                .IsEqualTo("synchronous short circuit");
             await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
         }
     }
@@ -1974,6 +2082,24 @@ public class DependencyGraphExporterTests
         }
 
         await Assert.That(_planningDisposals).IsGreaterThan(0);
+    }
+
+    [Test]
+    public async Task Render_Accepts_Indirectly_Resolved_Container_State()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<ContainerOwnedPlanningState>();
+        builder.Services.AddTransient<ContainerOwnedPlanningStateFactory>();
+        builder.AddModule(serviceProvider => new ModuleWithContainerOwnedPlanningState(
+            serviceProvider.GetRequiredService<ContainerOwnedPlanningStateFactory>().Create()));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(document.RootElement.GetProperty("nodes").GetArrayLength())
+            .IsEqualTo(1);
     }
 
     [Test]
