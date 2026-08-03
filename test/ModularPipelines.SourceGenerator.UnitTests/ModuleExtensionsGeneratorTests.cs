@@ -109,4 +109,33 @@ public class ModuleExtensionsGeneratorTests
 
         await Assert.That(GeneratorTestHarness.HasCachedOrUnchangedOutput(result)).IsTrue();
     }
+
+    [Test]
+    public async Task Generated_Extension_Type_Is_Derived_From_Assembly_Name()
+    {
+        const string source = """
+            namespace Consumer
+            {
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """;
+        var sharedLibrary = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            "Shared.Modules");
+        var pipelineApp = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            "9-Pipeline App");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(sharedLibrary.GeneratedTrees.Single().GetText().ToString())
+                .Contains("public static class Shared_ModulesModuleContextExtensions");
+            await Assert.That(pipelineApp.GeneratedTrees.Single().GetText().ToString())
+                .Contains("public static class _9_Pipeline_AppModuleContextExtensions");
+        }
+    }
 }
