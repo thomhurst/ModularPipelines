@@ -19,6 +19,7 @@ namespace ModularPipelines.Snyk.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("snyk")]
+[CliGlobalOptions]
 public abstract record SnykOptions : CommandLineToolOptions
 {
 }

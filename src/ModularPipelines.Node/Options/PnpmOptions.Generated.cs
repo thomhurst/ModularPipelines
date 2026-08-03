@@ -19,6 +19,7 @@ namespace ModularPipelines.Node.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("pnpm")]
+[CliGlobalOptions]
 public abstract record PnpmOptions : CommandLineToolOptions
 {
 }

@@ -19,6 +19,7 @@ namespace ModularPipelines.Ansible.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("ansible")]
+[CliGlobalOptions]
 public abstract record AnsibleOptions : CommandLineToolOptions
 {
 }

@@ -19,6 +19,7 @@ namespace ModularPipelines.Newman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("newman")]
+[CliGlobalOptions]
 public abstract record NewmanOptions : CommandLineToolOptions
 {
 }

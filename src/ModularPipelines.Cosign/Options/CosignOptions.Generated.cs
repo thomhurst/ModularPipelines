@@ -19,6 +19,7 @@ namespace ModularPipelines.Cosign.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("cosign")]
+[CliGlobalOptions]
 public abstract record CosignOptions : CommandLineToolOptions
 {
 }

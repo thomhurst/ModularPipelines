@@ -19,6 +19,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("argocd")]
+[CliGlobalOptions]
 public abstract record ArgoCdOptions : CommandLineToolOptions
 {
 }

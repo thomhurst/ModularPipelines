@@ -19,6 +19,7 @@ namespace ModularPipelines.WinGet.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("winget")]
+[CliGlobalOptions]
 public abstract record WingetOptions : CommandLineToolOptions
 {
 }

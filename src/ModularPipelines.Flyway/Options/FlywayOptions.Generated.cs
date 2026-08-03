@@ -19,6 +19,7 @@ namespace ModularPipelines.Flyway.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("flyway")]
+[CliGlobalOptions]
 public abstract record FlywayOptions : CommandLineToolOptions
 {
 }
