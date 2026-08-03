@@ -368,10 +368,14 @@ public class OutputCoordinatorTests
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await flush);
 
         var waitForPendingFlushes = coordinator.WaitForPendingFlushesAsync();
-        await Assert.That(waitForPendingFlushes.IsCompleted).IsFalse();
+        var completedBeforeRelease = ReferenceEquals(
+            await Task.WhenAny(waitForPendingFlushes, Task.Delay(TimeSpan.FromMilliseconds(50))),
+            waitForPendingFlushes);
 
         buffer.ReleaseFlush.TrySetResult();
         await waitForPendingFlushes;
+
+        await Assert.That(completedBeforeRelease).IsFalse();
     }
 
     [Test]
