@@ -314,5 +314,4 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             // The direct process exited after its descendants were captured.
         }
     }
-
 }
