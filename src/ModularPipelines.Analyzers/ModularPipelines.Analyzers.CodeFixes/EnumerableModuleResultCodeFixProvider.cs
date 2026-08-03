@@ -63,87 +63,89 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
 
     private static async Task<Document> ReplaceEnumerableWithList(CodeFixContext context, SimpleBaseTypeSyntax baseTypeSyntax, CancellationToken cancellationToken)
     {
-        var document = context.Document;
-        var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
-
-        if (baseTypeSyntax.Type is not GenericNameSyntax moduleGenericSyntax)
+        var replacement = await GetReplacementContext(
+            context.Document,
+            baseTypeSyntax,
+            cancellationToken).ConfigureAwait(false);
+        if (replacement is null)
         {
-            return document;
+            return context.Document;
         }
 
-        if (moduleGenericSyntax.TypeArgumentList.Arguments.FirstOrDefault() is not GenericNameSyntax enumerableGenericSyntax)
-        {
-            return document;
-        }
-
-        // Get the inner type argument (the T in IEnumerable<T>)
-        var innerTypeArgument = enumerableGenericSyntax.TypeArgumentList.Arguments.FirstOrDefault();
-        if (innerTypeArgument is null)
-        {
-            return document;
-        }
-
-        // Create List<T>
         var listType = SyntaxFactory.GenericName(
             SyntaxFactory.Identifier("List"),
             SyntaxFactory.TypeArgumentList(
-                SyntaxFactory.SingletonSeparatedList(innerTypeArgument)));
+                SyntaxFactory.SingletonSeparatedList(replacement.ElementType)));
+        var newRoot = replacement.DocumentRoot.ReplaceNode(
+            replacement.EnumerableType,
+            listType.WithTriviaFrom(replacement.EnumerableType));
 
-        // Create new Module<List<T>>
-        var newModuleType = SyntaxFactory.GenericName(
-            SyntaxFactory.Identifier("Module"),
-            SyntaxFactory.TypeArgumentList(
-                SyntaxFactory.SingletonSeparatedList<TypeSyntax>(listType)));
-
-        var newBaseTypeSyntax = SyntaxFactory.SimpleBaseType(newModuleType);
-
-        var newRoot = documentRoot.ReplaceNode(baseTypeSyntax, newBaseTypeSyntax);
-
-        // Add using for System.Collections.Generic if not present
         newRoot = AddUsingIfNeeded(newRoot, "System.Collections.Generic");
 
-        return document.WithSyntaxRoot(newRoot);
+        return context.Document.WithSyntaxRoot(newRoot);
     }
 
     private static async Task<Document> ReplaceEnumerableWithArray(CodeFixContext context, SimpleBaseTypeSyntax baseTypeSyntax, CancellationToken cancellationToken)
     {
-        var document = context.Document;
-        var documentRoot = (await document.GetSyntaxRootAsync(cancellationToken))!;
-
-        if (baseTypeSyntax.Type is not GenericNameSyntax moduleGenericSyntax)
+        var replacement = await GetReplacementContext(
+            context.Document,
+            baseTypeSyntax,
+            cancellationToken).ConfigureAwait(false);
+        if (replacement is null)
         {
-            return document;
+            return context.Document;
         }
 
-        if (moduleGenericSyntax.TypeArgumentList.Arguments.FirstOrDefault() is not GenericNameSyntax enumerableGenericSyntax)
-        {
-            return document;
-        }
-
-        // Get the inner type argument (the T in IEnumerable<T>)
-        var innerTypeArgument = enumerableGenericSyntax.TypeArgumentList.Arguments.FirstOrDefault();
-        if (innerTypeArgument is null)
-        {
-            return document;
-        }
-
-        // Create T[]
         var arrayType = SyntaxFactory.ArrayType(
-            innerTypeArgument,
+            replacement.ElementType,
             SyntaxFactory.SingletonList(
                 SyntaxFactory.ArrayRankSpecifier(
                     SyntaxFactory.SingletonSeparatedList<ExpressionSyntax>(
                         SyntaxFactory.OmittedArraySizeExpression()))));
 
-        // Create new Module<T[]>
-        var newModuleType = SyntaxFactory.GenericName(
-            SyntaxFactory.Identifier("Module"),
-            SyntaxFactory.TypeArgumentList(
-                SyntaxFactory.SingletonSeparatedList<TypeSyntax>(arrayType)));
+        return context.Document.WithSyntaxRoot(replacement.DocumentRoot.ReplaceNode(
+            replacement.EnumerableType,
+            arrayType.WithTriviaFrom(replacement.EnumerableType)));
+    }
 
-        var newBaseTypeSyntax = SyntaxFactory.SimpleBaseType(newModuleType);
+    private static async Task<ReplacementContext?> GetReplacementContext(
+        Document document,
+        SimpleBaseTypeSyntax baseType,
+        CancellationToken cancellationToken)
+    {
+        var documentRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+        var semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+        var enumerableType = semanticModel?.Compilation.GetTypeByMetadataName(
+            AnalyzerConstants.FullyQualifiedTypeNames.IEnumerable);
+        if (documentRoot is null || semanticModel is null || enumerableType is null)
+        {
+            return null;
+        }
 
-        return document.WithSyntaxRoot(documentRoot.ReplaceNode(baseTypeSyntax, newBaseTypeSyntax));
+        foreach (var candidate in baseType.Type
+                     .DescendantNodesAndSelf()
+                     .OfType<TypeSyntax>())
+        {
+            if (semanticModel.GetTypeInfo(candidate, cancellationToken).Type
+                    is not INamedTypeSymbol candidateType
+                || !SymbolEqualityComparer.Default.Equals(
+                    candidateType.OriginalDefinition,
+                    enumerableType))
+            {
+                continue;
+            }
+
+            var elementType = candidate
+                .DescendantNodesAndSelf()
+                .OfType<GenericNameSyntax>()
+                .SelectMany(static generic => generic.TypeArgumentList.Arguments)
+                .FirstOrDefault();
+            return elementType is null
+                ? null
+                : new ReplacementContext(documentRoot, candidate, elementType);
+        }
+
+        return null;
     }
 
     private static SyntaxNode AddUsingIfNeeded(SyntaxNode documentRoot, string namespaceName)
@@ -160,5 +162,17 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
 
         return compilationUnitSyntax.AddUsings(
             SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(namespaceName)));
+    }
+
+    private sealed class ReplacementContext(
+        SyntaxNode documentRoot,
+        TypeSyntax enumerableType,
+        TypeSyntax elementType)
+    {
+        public SyntaxNode DocumentRoot { get; } = documentRoot;
+
+        public TypeSyntax EnumerableType { get; } = enumerableType;
+
+        public TypeSyntax ElementType { get; } = elementType;
     }
 }

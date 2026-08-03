@@ -1,5 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.EnumerableModuleResultAnalyzer>;
+using VerifyCodeFixCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpCodeFixVerifier<
+    ModularPipelines.Analyzers.EnumerableModuleResultAnalyzer,
+    ModularPipelines.Analyzers.EnumerableModuleResultCodeFixProvider>;
 
 namespace ModularPipelines.Analyzers.Test;
 
@@ -64,6 +67,34 @@ namespace AnalyzerExamples
 }}
 ";
 
+    private const string QualifiedSyncModuleSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : {{|#0:global::ModularPipelines.Modules.SyncModule<System.Collections.Generic.IEnumerable<string>>|}}
+{{
+    protected override List<string>? Execute(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        return [];
+    }}
+}}
+";
+
+    private const string FixedQualifiedSyncModuleSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : global::ModularPipelines.Modules.SyncModule<List<string>>
+{{
+    protected override List<string>? Execute(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        return [];
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_IEnumerable()
     {
@@ -91,5 +122,17 @@ namespace AnalyzerExamples
     public async Task AnalyzerIsNotTriggered_When_ForeignModuleReturnsIEnumerable()
     {
         await VerifyCS.VerifyAnalyzerAsync(ForeignModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Qualified_SyncModule_Wrapper()
+    {
+        var expected = VerifyCodeFixCS.Diagnostic(EnumerableModuleResultAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCodeFixCS.VerifyCodeFixAsync(
+            QualifiedSyncModuleSource,
+            expected,
+            FixedQualifiedSyncModuleSource);
     }
 }

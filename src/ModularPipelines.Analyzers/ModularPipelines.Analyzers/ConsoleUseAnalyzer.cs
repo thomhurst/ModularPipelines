@@ -69,16 +69,30 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
             return true;
         }
 
-        if (invocation.Expression is not MemberAccessExpressionSyntax memberAccess)
+        var receiver = (invocation.Expression as MemberAccessExpressionSyntax)?.Expression;
+        while (receiver is not null)
         {
-            return false;
+            var receiverSymbol = context.SemanticModel.GetSymbolInfo(
+                receiver,
+                context.CancellationToken).Symbol;
+            if (SymbolEqualityComparer.Default.Equals(receiverSymbol as INamedTypeSymbol, consoleType)
+                || SymbolEqualityComparer.Default.Equals(receiverSymbol?.ContainingType, consoleType))
+            {
+                return true;
+            }
+
+            receiver = receiver switch
+            {
+                MemberAccessExpressionSyntax memberAccess => memberAccess.Expression,
+                InvocationExpressionSyntax
+                {
+                    Expression: MemberAccessExpressionSyntax invokedMember,
+                } => invokedMember.Expression,
+                ElementAccessExpressionSyntax elementAccess => elementAccess.Expression,
+                _ => null,
+            };
         }
 
-        var receiverSymbol = context.SemanticModel.GetSymbolInfo(
-            memberAccess.Expression,
-            context.CancellationToken).Symbol;
-
-        return receiverSymbol is IPropertySymbol property
-               && SymbolEqualityComparer.Default.Equals(property.ContainingType, consoleType);
+        return false;
     }
 }
