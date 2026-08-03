@@ -53,11 +53,4 @@ public sealed class CliFlagAttribute : Attribute
     {
         Name = name;
     }
-
-    /// <summary>
-    /// Gets the effective flag name based on <see cref="PreferShortForm"/> setting.
-    /// </summary>
-    /// <returns></returns>
-    public string GetEffectiveName() =>
-        PreferShortForm && !string.IsNullOrEmpty(ShortForm) ? ShortForm : Name;
 }

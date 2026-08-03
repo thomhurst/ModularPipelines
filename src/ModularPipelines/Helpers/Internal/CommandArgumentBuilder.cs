@@ -159,12 +159,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         if (rawValue is bool boolValue && boolValue)
         {
-            args.Add(flagPart.Attribute.GetEffectiveName());
+            args.Add(GetEffectiveName(flagPart.Attribute));
         }
 
         if (rawValue is int count && count > 0)
         {
-            args.AddRange(Enumerable.Repeat(flagPart.Attribute.GetEffectiveName(), count));
+            args.AddRange(Enumerable.Repeat(GetEffectiveName(flagPart.Attribute), count));
         }
     }
 
@@ -174,7 +174,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             if (rawValue is not bool value || value)
             {
-                args.Add(optionPart.Attribute.GetEffectiveName());
+                args.Add(GetEffectiveName(optionPart.Attribute));
             }
 
             return;
@@ -193,14 +193,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             {
                 if (optionPart.ValueArity == CliOptionValueArity.Optional)
                 {
-                    args.Add(optionPart.Attribute.GetEffectiveName());
+                    args.Add(GetEffectiveName(optionPart.Attribute));
                 }
 
                 continue;
             }
 
-            var optionName = optionPart.Attribute.GetEffectiveName();
-            var separator = optionPart.Attribute.GetSeparator();
+            var optionName = GetEffectiveName(optionPart.Attribute);
+            var separator = GetSeparator(optionPart.Attribute);
 
             if (separator == " ")
             {
@@ -228,14 +228,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return false;
         }
 
-        if (optionPart.Attribute.GetSeparator() != " ")
+        if (GetSeparator(optionPart.Attribute) != " ")
         {
             throw new InvalidOperationException(
                 $"Two-operand CLI option property '{optionPart.PropertyName}' must use "
                 + $"{nameof(OptionFormat)}.{nameof(OptionFormat.SpaceSeparated)}.");
         }
 
-        var optionName = optionPart.Attribute.GetEffectiveName();
+        var optionName = GetEffectiveName(optionPart.Attribute);
         foreach (var pair in pairs)
         {
             args.Add(optionName);
@@ -244,6 +244,33 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         return true;
+    }
+
+    private static string GetEffectiveName(CliFlagAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetEffectiveName(CliOptionAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetSeparator(CliOptionAttribute attribute)
+    {
+        if (!string.IsNullOrEmpty(attribute.CustomSeparator))
+        {
+            return attribute.CustomSeparator;
+        }
+
+        return attribute.Format switch
+        {
+            OptionFormat.SpaceSeparated => " ",
+            OptionFormat.EqualsSeparated => "=",
+            OptionFormat.ColonSeparated => ":",
+            OptionFormat.NoSeparator => string.Empty,
+            _ => " ",
+        };
     }
 
     private static List<string> GetValues(object rawValue)

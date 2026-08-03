@@ -69,43 +69,43 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task CliFlag_Returns_Name_When_ShortForm_Not_Preferred()
+    public async Task Parser_Uses_Flag_Name_When_ShortForm_Not_Preferred()
     {
         var attribute = new CliFlagAttribute("--debug") { ShortForm = "-d" };
 
-        await Assert.That(attribute.GetEffectiveName()).IsEqualTo("--debug");
+        await Assert.That(RenderFlag(attribute)).IsEquivalentTo(["--debug"]);
     }
 
     [Test]
-    public async Task CliFlag_Returns_ShortForm_When_Preferred()
+    public async Task Parser_Uses_Flag_ShortForm_When_Preferred()
     {
         var attribute = new CliFlagAttribute("--debug") { ShortForm = "-d", PreferShortForm = true };
 
-        await Assert.That(attribute.GetEffectiveName()).IsEqualTo("-d");
+        await Assert.That(RenderFlag(attribute)).IsEquivalentTo(["-d"]);
     }
 
     [Test]
-    public async Task CliFlag_Returns_Name_When_ShortForm_Null_And_Preferred()
+    public async Task Parser_Uses_Flag_Name_When_Preferred_ShortForm_Is_Null()
     {
         var attribute = new CliFlagAttribute("--debug") { PreferShortForm = true };
 
-        await Assert.That(attribute.GetEffectiveName()).IsEqualTo("--debug");
+        await Assert.That(RenderFlag(attribute)).IsEquivalentTo(["--debug"]);
     }
 
     [Test]
-    [Arguments(OptionFormat.SpaceSeparated, " ")]
-    [Arguments(OptionFormat.EqualsSeparated, "=")]
-    [Arguments(OptionFormat.ColonSeparated, ":")]
-    [Arguments(OptionFormat.NoSeparator, "")]
-    public async Task CliOption_GetSeparator_Returns_Correct_Separator(OptionFormat format, string expected)
+    [Arguments(OptionFormat.SpaceSeparated, "--namespace|value")]
+    [Arguments(OptionFormat.EqualsSeparated, "--namespace=value")]
+    [Arguments(OptionFormat.ColonSeparated, "--namespace:value")]
+    [Arguments(OptionFormat.NoSeparator, "--namespacevalue")]
+    public async Task Parser_Uses_Configured_Option_Separator(OptionFormat format, string expected)
     {
         var attribute = new CliOptionAttribute("--namespace") { Format = format };
 
-        await Assert.That(attribute.GetSeparator()).IsEqualTo(expected);
+        await Assert.That(string.Join('|', RenderOption(attribute))).IsEqualTo(expected);
     }
 
     [Test]
-    public async Task CliOption_CustomSeparator_Overrides_Format()
+    public async Task Parser_Uses_Custom_Separator_Over_Format()
     {
         var attribute = new CliOptionAttribute("--namespace")
         {
@@ -113,23 +113,23 @@ public class CliAttributeTests
             CustomSeparator = "::",
         };
 
-        await Assert.That(attribute.GetSeparator()).IsEqualTo("::");
+        await Assert.That(RenderOption(attribute)).IsEquivalentTo(["--namespace::value"]);
     }
 
     [Test]
-    public async Task CliOption_Returns_Name_When_ShortForm_Not_Preferred()
+    public async Task Parser_Uses_Option_Name_When_ShortForm_Not_Preferred()
     {
         var attribute = new CliOptionAttribute("--namespace") { ShortForm = "-n" };
 
-        await Assert.That(attribute.GetEffectiveName()).IsEqualTo("--namespace");
+        await Assert.That(RenderOption(attribute)).IsEquivalentTo(["--namespace", "value"]);
     }
 
     [Test]
-    public async Task CliOption_Returns_ShortForm_When_Preferred()
+    public async Task Parser_Uses_Option_ShortForm_When_Preferred()
     {
         var attribute = new CliOptionAttribute("--namespace") { ShortForm = "-n", PreferShortForm = true };
 
-        await Assert.That(attribute.GetEffectiveName()).IsEqualTo("-n");
+        await Assert.That(RenderOption(attribute)).IsEquivalentTo(["-n", "value"]);
     }
 
     [Test]
@@ -399,6 +399,16 @@ public class CliAttributeTests
         await Assert.That(list).Contains("myrelease");
         await Assert.That(list).Contains("bitnami/nginx");
     }
+
+    private static IReadOnlyList<string> RenderFlag(CliFlagAttribute attribute) =>
+        new CommandArgumentBuilder().BuildArguments(
+            [new FlagPart("Value", _ => true, attribute)],
+            new object());
+
+    private static IReadOnlyList<string> RenderOption(CliOptionAttribute attribute) =>
+        new CommandArgumentBuilder().BuildArguments(
+            [new OptionPart("Value", _ => "value", attribute)],
+            new object());
 
     // Test option classes
     private record TestCliOptionsWithFormattableValues

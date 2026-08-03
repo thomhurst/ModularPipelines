@@ -81,32 +81,4 @@ public sealed class CliOptionAttribute : Attribute
     {
         Name = name;
     }
-
-    /// <summary>
-    /// Gets the effective option name based on <see cref="PreferShortForm"/> setting.
-    /// </summary>
-    /// <returns></returns>
-    public string GetEffectiveName() =>
-        PreferShortForm && !string.IsNullOrEmpty(ShortForm) ? ShortForm : Name;
-
-    /// <summary>
-    /// Gets the separator string to use between option name and value.
-    /// </summary>
-    /// <returns></returns>
-    public string GetSeparator()
-    {
-        if (!string.IsNullOrEmpty(CustomSeparator))
-        {
-            return CustomSeparator;
-        }
-
-        return Format switch
-        {
-            OptionFormat.SpaceSeparated => " ",
-            OptionFormat.EqualsSeparated => "=",
-            OptionFormat.ColonSeparated => ":",
-            OptionFormat.NoSeparator => string.Empty,
-            _ => " ",
-        };
-    }
 }

@@ -75,12 +75,7 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments
-        // Skip the tool name if it appears as the first argument (backward compatibility)
-        var manualArgs = options.Arguments?.ToList() ?? new List<string>();
-        if (manualArgs.Count > 0 && string.Equals(manualArgs[0], tool, StringComparison.Ordinal))
-        {
-            manualArgs = manualArgs.Skip(1).ToList();
-        }
+        var manualArgs = options.Arguments?.ToList() ?? [];
 
         if (terminalArgs.Count > 0)
         {

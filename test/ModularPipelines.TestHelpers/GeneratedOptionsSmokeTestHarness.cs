@@ -220,8 +220,8 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         return value switch
         {
-            true => [attribute.GetEffectiveName()],
-            int count when count > 0 => Enumerable.Repeat(attribute.GetEffectiveName(), count).ToList(),
+            true => [GetEffectiveName(attribute)],
+            int count when count > 0 => Enumerable.Repeat(GetEffectiveName(attribute), count).ToList(),
             _ => [],
         };
     }
@@ -239,7 +239,7 @@ public static class GeneratedOptionsSmokeTestHarness
 
     private static IReadOnlyList<string> GetExpectedOption(OptionPart option, object value)
     {
-        var optionName = option.Attribute.GetEffectiveName();
+        var optionName = GetEffectiveName(option.Attribute);
 
         if (option.ValueArity == CliOptionValueArity.None)
         {
@@ -258,12 +258,39 @@ public static class GeneratedOptionsSmokeTestHarness
                 .ToList();
         }
 
-        var separator = option.Attribute.GetSeparator();
+        var separator = GetSeparator(option.Attribute);
         return GetValues(value)
             .SelectMany(renderedValue => separator == " "
                 ? new[] { optionName, renderedValue }
                 : new[] { $"{optionName}{separator}{renderedValue}" })
             .ToList();
+    }
+
+    private static string GetEffectiveName(CliFlagAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetEffectiveName(CliOptionAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetSeparator(CliOptionAttribute attribute)
+    {
+        if (!string.IsNullOrEmpty(attribute.CustomSeparator))
+        {
+            return attribute.CustomSeparator;
+        }
+
+        return attribute.Format switch
+        {
+            OptionFormat.SpaceSeparated => " ",
+            OptionFormat.EqualsSeparated => "=",
+            OptionFormat.ColonSeparated => ":",
+            OptionFormat.NoSeparator => string.Empty,
+            _ => " ",
+        };
     }
 
     private static object CreateSample(Type propertyType)

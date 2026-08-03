@@ -137,13 +137,16 @@ public class GeneratedRuntimeMetadataTests
 
         var flag = model.OfType<FlagPart>().Single();
         await Assert.That((bool) flag.Getter(options)!).IsTrue();
-        await Assert.That(flag.Attribute.GetEffectiveName()).IsEqualTo("-v");
+        await Assert.That(flag.Attribute.Name).IsEqualTo("--verbose");
+        await Assert.That(flag.Attribute.ShortForm).IsEqualTo("-v");
+        await Assert.That(flag.Attribute.PreferShortForm).IsTrue();
         await Assert.That(flag.Attribute.Phase).IsEqualTo(CommandLinePhase.Normal);
         await Assert.That(flag.ValueArity).IsEqualTo(CliOptionValueArity.None);
 
         var option = model.OfType<OptionPart>().Single();
         await Assert.That(option.Getter(options)).IsEqualTo(options.Output);
-        await Assert.That(option.Attribute.GetSeparator()).IsEqualTo("=");
+        await Assert.That(option.Attribute.Format).IsEqualTo(OptionFormat.EqualsSeparated);
+        await Assert.That(option.Attribute.CustomSeparator).IsNull();
         await Assert.That(option.Attribute.AllowMultiple).IsTrue();
         await Assert.That(option.Attribute.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
         await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
