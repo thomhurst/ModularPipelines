@@ -255,7 +255,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         return GetCollectionValues(rawValue);
     }
 
-    private static string? GetSingleValue(object? rawValue)
+    internal static string? GetSingleValue(object? rawValue)
     {
         if (rawValue is null)
         {
