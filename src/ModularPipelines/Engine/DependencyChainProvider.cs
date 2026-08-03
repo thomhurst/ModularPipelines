@@ -23,7 +23,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
     {
         // Finalize metadata for all modules before dependency resolution.
         // This ensures tags, categories, and custom attributes are merged from
-        // all sources (attributes, instance overrides, registration-time configuration).
+        // both supported sources (attributes and module configuration).
         foreach (var module in modules)
         {
             _metadataRegistry.FinalizeMetadata(module.GetType(), module);

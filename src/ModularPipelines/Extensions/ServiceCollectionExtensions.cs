@@ -25,10 +25,6 @@ internal static class ServiceCollectionExtensions
     /// // Basic registration
     /// services.AddModule&lt;BuildModule&gt;();
     ///
-    /// // With category metadata
-    /// services.AddModule&lt;DeployModule&gt;()
-    ///     .WithCategory("Production");
-    ///
     /// // Chained registration
     /// services.AddModule&lt;BuildModule&gt;()
     ///     .AddModule&lt;TestModule&gt;()
