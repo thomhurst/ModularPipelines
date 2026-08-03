@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Logging;
+
 namespace ModularPipelines.FileSystem;
 
 /// <summary>
@@ -87,18 +90,24 @@ public sealed class TempFolder : IAsyncDisposable, IDisposable
         {
             Folder.Clean(removeReadOnlyAttribute: true, continueOnError: true);
         }
-        catch
+        catch (Exception exception)
         {
-            // Temporary cleanup is best effort and must not mask the pipeline result.
+            ModuleLogger.Current.LogWarning(
+                exception,
+                "Failed to clean temporary folder {Path}",
+                Folder.Path);
         }
 
         try
         {
             Folder.Delete();
         }
-        catch
+        catch (Exception exception)
         {
-            // Temporary cleanup is best effort and must not mask the pipeline result.
+            ModuleLogger.Current.LogWarning(
+                exception,
+                "Failed to delete temporary folder {Path}",
+                Folder.Path);
         }
     }
 }

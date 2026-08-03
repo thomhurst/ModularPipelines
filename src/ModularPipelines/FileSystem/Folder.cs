@@ -228,9 +228,9 @@ public class Folder : IEquatable<Folder>
             try
             {
                 var file = new FileInfo(filePath);
-                if (removeReadOnlyAttribute && (file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                if (removeReadOnlyAttribute)
                 {
-                    file.Attributes &= ~FileAttributes.ReadOnly;
+                    RemoveReadOnlyAttribute(file);
                 }
 
                 _provider.DeleteFile(filePath);
@@ -726,15 +726,26 @@ public class Folder : IEquatable<Folder>
 
         foreach (var file in directory.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
         {
-            if ((file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-            {
-                file.Attributes &= ~FileAttributes.ReadOnly;
-            }
+            RemoveReadOnlyAttribute(file);
         }
 
         foreach (var subDirectory in directory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
             RemoveReadOnlyAttributeRecursively(subDirectory);
+        }
+    }
+
+    private static void RemoveReadOnlyAttribute(FileInfo file)
+    {
+        var attributes = file.Attributes;
+        if ((attributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint)
+        {
+            return;
+        }
+
+        if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+        {
+            file.Attributes = attributes & ~FileAttributes.ReadOnly;
         }
     }
 
