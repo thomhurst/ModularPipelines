@@ -61,7 +61,7 @@ public record GcloudPreviewComputeScpOptions : GcloudOptions
     /// <summary>
     /// Extra flag to be sent to scp. This flag may be repeated.
     /// </summary>
-    [CliOption("--scp-flag", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scp-flag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ScpFlag { get; set; }
 
     /// <summary>

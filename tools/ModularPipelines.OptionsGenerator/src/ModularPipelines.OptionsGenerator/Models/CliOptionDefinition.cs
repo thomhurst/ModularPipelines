@@ -83,6 +83,11 @@ public record CliOptionDefinition
     public bool AcceptsMultipleValues { get; init; }
 
     /// <summary>
+    /// Whether collection values render after one option occurrence.
+    /// </summary>
+    public bool GroupValues { get; init; }
+
+    /// <summary>
     /// Whether this is a key-value pair option.
     /// </summary>
     public bool IsKeyValue { get; init; }
@@ -125,25 +130,6 @@ public record CliOptionDefinition
     /// Validation constraints (e.g., min/max for numeric values).
     /// </summary>
     public CliValidationConstraints? ValidationConstraints { get; init; }
-
-    /// <summary>
-    /// Determines the appropriate attribute type.
-    /// </summary>
-    public OptionAttributeType AttributeType => IsFlag
-        ? OptionAttributeType.BooleanCommandSwitch
-        : ValueSeparator == "="
-            ? OptionAttributeType.CommandEqualsSeparatorSwitch
-            : OptionAttributeType.CommandSwitch;
-}
-
-/// <summary>
-/// The type of attribute to use for this option.
-/// </summary>
-public enum OptionAttributeType
-{
-    CommandSwitch,
-    BooleanCommandSwitch,
-    CommandEqualsSeparatorSwitch
 }
 
 /// <summary>

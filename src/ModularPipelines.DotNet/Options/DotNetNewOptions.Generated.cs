@@ -65,13 +65,13 @@ public record DotNetNewOptions : DotNetOptions
     /// <summary>
     /// A short name of the template to create.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? TemplateShortName { get; set; }
 
     /// <summary>
     /// Template specific options to use.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? TemplateArgs { get; set; }
 
 }

@@ -5,68 +5,6 @@ namespace ModularPipelines.OptionsGenerator.Tests.Models;
 
 public class CliOptionDefinitionTests
 {
-    #region AttributeType Tests
-
-    [Test]
-    public async Task AttributeType_Returns_BooleanCommandSwitch_When_IsFlag_True()
-    {
-        var option = new CliOptionDefinition
-        {
-            SwitchName = "--verbose",
-            PropertyName = "Verbose",
-            CSharpType = "bool?",
-            IsFlag = true,
-        };
-
-        await Assert.That(option.AttributeType).IsEqualTo(OptionAttributeType.BooleanCommandSwitch);
-    }
-
-    [Test]
-    public async Task AttributeType_Returns_CommandEqualsSeparatorSwitch_When_Separator_Is_Equals()
-    {
-        var option = new CliOptionDefinition
-        {
-            SwitchName = "--output",
-            PropertyName = "Output",
-            CSharpType = "string?",
-            IsFlag = false,
-            ValueSeparator = "=",
-        };
-
-        await Assert.That(option.AttributeType).IsEqualTo(OptionAttributeType.CommandEqualsSeparatorSwitch);
-    }
-
-    [Test]
-    public async Task AttributeType_Returns_CommandSwitch_When_Not_Flag_And_Not_Equals()
-    {
-        var option = new CliOptionDefinition
-        {
-            SwitchName = "--output",
-            PropertyName = "Output",
-            CSharpType = "string?",
-            IsFlag = false,
-            ValueSeparator = " ",
-        };
-
-        await Assert.That(option.AttributeType).IsEqualTo(OptionAttributeType.CommandSwitch);
-    }
-
-    [Test]
-    public async Task AttributeType_Returns_CommandSwitch_For_Default_Separator()
-    {
-        var option = new CliOptionDefinition
-        {
-            SwitchName = "--output",
-            PropertyName = "Output",
-            CSharpType = "string?",
-            IsFlag = false,
-        };
-
-        await Assert.That(option.AttributeType).IsEqualTo(OptionAttributeType.CommandSwitch);
-    }
-
-    #endregion
-
     #region Default Values Tests
 
     [Test]
@@ -119,6 +57,18 @@ public class CliOptionDefinitionTests
         };
 
         await Assert.That(option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
+    public async Task PositionalArgument_Phase_Defaults_To_EarlyOperand()
+    {
+        var argument = new CliPositionalArgument
+        {
+            PropertyName = "Input",
+            CSharpType = "string",
+        };
+
+        await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
     }
 
     #endregion

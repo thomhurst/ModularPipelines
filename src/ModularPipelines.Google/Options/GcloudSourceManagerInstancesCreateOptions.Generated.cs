@@ -63,7 +63,7 @@ public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// List of additional projects allowed to connect to the instance via     private service connect.    Custom hostname configuration.
     /// </summary>
-    [CliOption("--psc-allowed-projects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--psc-allowed-projects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PscAllowedProjects { get; set; }
 
     /// <summary>

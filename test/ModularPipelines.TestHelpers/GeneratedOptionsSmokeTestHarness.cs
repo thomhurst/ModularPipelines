@@ -146,38 +146,13 @@ public static class GeneratedOptionsSmokeTestHarness
         var switches = model.Where(part => part is FlagPart or OptionPart).ToList();
         var expected = new List<string>();
 
-        expected.AddRange(RenderArguments(
-            arguments.Where(argument =>
-                argument.Attribute.Placement == ArgumentPlacement.ImmediatelyAfterCommand),
-            options));
-        expected.AddRange(RenderArguments(
-            arguments.Where(argument =>
-                argument.Attribute.Placement == ArgumentPlacement.BeforeOptions),
-            options));
-
-        foreach (var phase in new[]
-                 {
-                     CommandLinePhase.Normal,
-                     CommandLinePhase.EndOfOptions,
-                     CommandLinePhase.Passthrough,
-                     CommandLinePhase.Terminal,
-                 })
+        foreach (var phase in Enum.GetValues<CommandLinePhase>())
         {
-            var phaseArguments = arguments.Where(argument =>
-                argument.Attribute.Placement == ArgumentPlacement.AfterOptions
-                && argument.Phase == phase);
+            var phaseArguments = arguments.Where(argument => argument.Phase == phase);
             var phaseSwitches = switches.Where(part => part.Phase == phase);
 
-            if (phase == CommandLinePhase.Terminal)
-            {
-                expected.AddRange(RenderArguments(phaseArguments, options));
-                expected.AddRange(RenderSwitches(phaseSwitches, options));
-            }
-            else
-            {
-                expected.AddRange(RenderSwitches(phaseSwitches, options));
-                expected.AddRange(RenderArguments(phaseArguments, options));
-            }
+            expected.AddRange(RenderSwitches(phaseSwitches, options));
+            expected.AddRange(RenderArguments(phaseArguments, options));
         }
 
         return expected;
@@ -241,11 +216,6 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var optionName = option.Attribute.GetEffectiveName();
 
-        if (option.ValueArity == CliOptionValueArity.None)
-        {
-            return value is not false ? [optionName] : [];
-        }
-
         if (value is CliValuePair pair)
         {
             return [optionName, pair.First, pair.Second];
@@ -265,8 +235,7 @@ public static class GeneratedOptionsSmokeTestHarness
             return RenderOptionalValue(optionName, separator, optionValue);
         }
 
-        if (option.ValueArity == CliOptionValueArity.Optional
-            && option.Attribute.AllowMultiple
+        if (option.Attribute.ValueArity == CliOptionValueArity.Optional
             && value is IEnumerable<CliOptionValue> optionValues)
         {
             return optionValues
@@ -274,7 +243,15 @@ public static class GeneratedOptionsSmokeTestHarness
                 .ToList();
         }
 
-        return GetValues(value)
+        var values = GetValues(value);
+        if (option.Attribute.GroupValues && values.Count > 0)
+        {
+            return separator == " "
+                ? [optionName, .. values]
+                : [$"{optionName}{separator}{values[0]}", .. values.Skip(1)];
+        }
+
+        return values
             .SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))
             .ToList();
     }

@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "detect-document")]
 public record GcloudMlVisionDetectDocumentOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImagePath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImagePath
 ) : GcloudOptions
 {
     /// <summary>
     /// List of languages to use for text detection.
     /// </summary>
-    [CliOption("--language-hints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--language-hints", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LanguageHints { get; set; }
 
 }

@@ -15,9 +15,4 @@ public enum CliOptionValueArity
     /// A null property omits the option; <see cref="ModularPipelines.Models.CliOptionValue.Bare"/> renders it bare.
     /// </summary>
     Optional,
-
-    /// <summary>
-    /// The option does not accept a value.
-    /// </summary>
-    None,
 }

@@ -212,6 +212,22 @@ public class CommandLineBuilderTests : TestBase
             "liquibase --search-path=changelogs update --changelog-file=main.xml");
     }
 
+    [Test]
+    public async Task Build_Keeps_MultiLevel_Command_Chain_Atomic()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestMultiLevelCommandOptions
+        {
+            Context = "remote",
+            Reference = "build-reference",
+            Follow = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo(
+            "docker --context remote buildx history logs build-reference --follow");
+    }
+
     [CliTool("mytool")]
     [CliSubCommand("sub", "command")]
     private record TestAttributeOptions : CommandLineToolOptions
@@ -226,10 +242,10 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("processor")]
     private record TestPositionalOptions : CommandLineToolOptions
     {
-        [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? FilePath { get; set; }
 
-        [CliArgument(1, Placement = ArgumentPlacement.AfterOptions)]
+        [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
         public string? ConfigPath { get; set; }
     }
 
@@ -261,5 +277,23 @@ public class CommandLineBuilderTests : TestBase
     {
         [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
         public string? ChangelogFile { get; set; }
+    }
+
+    [CliTool("docker")]
+    [CliGlobalOptions]
+    private abstract record TestMultiLevelGlobalOptions : CommandLineToolOptions
+    {
+        [CliOption("--context")]
+        public string? Context { get; set; }
+    }
+
+    [CliSubCommand("buildx", "history", "logs")]
+    private sealed record TestMultiLevelCommandOptions : TestMultiLevelGlobalOptions
+    {
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+        public string? Reference { get; set; }
+
+        [CliFlag("--follow")]
+        public bool? Follow { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("update")]
 public record PodmanUpdateOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
 ) : PodmanOptions
 {
     /// <summary>
@@ -85,25 +85,25 @@ public record PodmanUpdateOptions(
     /// <summary>
     /// Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
     /// </summary>
-    [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceReadBps { get; set; }
 
     /// <summary>
     /// Limit read rate (IO per second) from a device (e.g. --device-read-iops=/dev/sda:1000)
     /// </summary>
-    [CliOption("--device-read-iops", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-read-iops", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceReadIops { get; set; }
 
     /// <summary>
     /// Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
     /// </summary>
-    [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceWriteBps { get; set; }
 
     /// <summary>
     /// Limit write rate (IO per second) to a device (e.g. --device-write-iops=/dev/sda:1000)
     /// </summary>
-    [CliOption("--device-write-iops", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-write-iops", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceWriteIops { get; set; }
 
     /// <summary>

@@ -53,7 +53,7 @@ public record KustomizeCfgTreeOptions : KustomizeOptions
     /// <summary>
     /// print field
     /// </summary>
-    [CliOption("--field", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--field", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Field { get; set; }
 
     /// <summary>
@@ -110,7 +110,7 @@ public record KustomizeCfgTreeOptions : KustomizeOptions
     [CliFlag("--stack-trace")]
     public bool? StackTrace { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Dir { get; set; }
 
 }

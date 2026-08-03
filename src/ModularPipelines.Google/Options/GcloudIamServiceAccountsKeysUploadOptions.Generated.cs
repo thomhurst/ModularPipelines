@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "upload")]
 public record GcloudIamServiceAccountsKeysUploadOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PublicKeyFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PublicKeyFile
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "export", "sql")]
 public record GcloudSqlExportSqlOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Instance
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Instance
 ) : GcloudOptions
 {
     /// <summary>
@@ -35,7 +35,7 @@ public record GcloudSqlExportSqlOptions(
     [CliFlag("--clean")]
     public bool? Clean { get; set; }
 
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Database { get; set; }
 
     /// <summary>
@@ -56,7 +56,7 @@ public record GcloudSqlExportSqlOptions(
     [CliFlag("--parallel")]
     public bool? Parallel { get; set; }
 
-    [CliOption("--table", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Table { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "stop")]
 public record GcloudDeploymentManagerDeploymentsStopOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DeploymentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DeploymentName
 ) : GcloudOptions
 {
     /// <summary>

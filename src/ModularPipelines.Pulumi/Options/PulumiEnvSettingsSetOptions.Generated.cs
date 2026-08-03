@@ -19,9 +19,9 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "settings", "set")]
 public record PulumiEnvSettingsSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string SettingName,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string SettingValue
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string SettingName,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string SettingValue
 ) : PulumiOptions
 {
     /// <summary>

@@ -23,13 +23,13 @@ public record CosignTrustedRootCreateOptions : CosignOptions
     /// <summary>
     /// ctfe service specification, as a comma-separated key-value list. Required keys: url, public-key (path to PEM-encoded public key), start-time. Optional keys: end-time, origin.
     /// </summary>
-    [CliOption("--ctfe", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ctfe", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ctfe { get; set; }
 
     /// <summary>
     /// fulcio service specification, as a comma-separated key-value list. Required keys: url, certificate-chain (path to PEM-encoded certificate chain). Optional keys: start-time, end-time.
     /// </summary>
-    [CliOption("--fulcio", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--fulcio", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Fulcio { get; set; }
 
     /// <summary>
@@ -71,13 +71,13 @@ public record CosignTrustedRootCreateOptions : CosignOptions
     /// <summary>
     /// rekor service specification, as a comma-separated key-value list. Required keys: url, public-key (path to PEM-encoded public key), start-time. Optional keys: end-time, origin.
     /// </summary>
-    [CliOption("--rekor", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--rekor", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Rekor { get; set; }
 
     /// <summary>
     /// timestamping authority specification, as a comma-separated key-value list. Required keys: url, certificate-chain (path to PEM-encoded certificate chain). Optional keys: start-time, end-time.
     /// </summary>
-    [CliOption("--tsa", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tsa", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tsa { get; set; }
 
     /// <summary>

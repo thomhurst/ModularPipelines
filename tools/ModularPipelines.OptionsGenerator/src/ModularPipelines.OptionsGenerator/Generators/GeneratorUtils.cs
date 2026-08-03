@@ -375,6 +375,12 @@ public static partial class GeneratorUtils
     {
         var optionParts = new List<string> { FormatStringLiteral(option.SwitchName) };
 
+        if (option.GroupValues && option.ValueSeparator != " ")
+        {
+            throw new InvalidOperationException(
+                $"Grouped option '{option.SwitchName}' must use a space separator.");
+        }
+
         if (!string.IsNullOrEmpty(option.ShortForm))
         {
             optionParts.Add($"ShortForm = {FormatStringLiteral(option.ShortForm)}");
@@ -397,19 +403,20 @@ public static partial class GeneratorUtils
         {
             optionParts.Add("Format = OptionFormat.NoSeparator");
         }
-        else if (option.ValueSeparator != " " && !string.IsNullOrEmpty(option.ValueSeparator))
+        else if (option.ValueSeparator != " ")
         {
-            optionParts.Add($"CustomSeparator = {FormatStringLiteral(option.ValueSeparator)}");
-        }
-
-        if (option.AcceptsMultipleValues)
-        {
-            optionParts.Add("AllowMultiple = true");
+            throw new InvalidOperationException(
+                $"Unsupported value separator '{option.ValueSeparator}' for {option.SwitchName}.");
         }
 
         if (option.ValueArity != CliOptionValueArity.Required)
         {
             optionParts.Add($"ValueArity = CliOptionValueArity.{option.ValueArity}");
+        }
+
+        if (option.GroupValues)
+        {
+            optionParts.Add("GroupValues = true");
         }
 
         if (option.Phase != CommandLinePhase.Normal)

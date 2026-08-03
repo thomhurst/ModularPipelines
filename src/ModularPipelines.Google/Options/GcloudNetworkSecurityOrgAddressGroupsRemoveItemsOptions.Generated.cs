@@ -30,7 +30,7 @@ public record GcloudNetworkSecurityOrgAddressGroupsRemoveItemsOptions : GcloudOp
     /// <summary>
     /// Items to be removed from the address group.
     /// </summary>
-    [CliOption("--items", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--items", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Items { get; set; }
 
 }

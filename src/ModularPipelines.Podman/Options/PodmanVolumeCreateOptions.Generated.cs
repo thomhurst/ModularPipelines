@@ -35,19 +35,19 @@ public record PodmanVolumeCreateOptions : PodmanOptions
     /// <summary>
     /// Set metadata for a volume (default [])
     /// </summary>
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
     /// Set driver specific options (default [])
     /// </summary>
-    [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Opt { get; set; }
 
     /// <summary>
     /// The NAME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Name { get; set; }
 
 }

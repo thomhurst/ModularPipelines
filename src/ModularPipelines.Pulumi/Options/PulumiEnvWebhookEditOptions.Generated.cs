@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "webhook", "edit")]
 public record PulumiEnvWebhookEditOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string WebhookName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string WebhookName
 ) : PulumiOptions
 {
     /// <summary>
@@ -32,13 +32,13 @@ public record PulumiEnvWebhookEditOptions(
     /// <summary>
     /// Subscribe to an additional event (repeatable)
     /// </summary>
-    [CliOption("--add-event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddEvent { get; set; }
 
     /// <summary>
     /// Subscribe to an additional event group (repeatable)
     /// </summary>
-    [CliOption("--add-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddGroup { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record PulumiEnvWebhookEditOptions(
     /// <summary>
     /// Replace the subscribed events (repeatable)
     /// </summary>
-    [CliOption("--event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Event { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public record PulumiEnvWebhookEditOptions(
     /// <summary>
     /// Replace the subscribed event groups (repeatable)
     /// </summary>
-    [CliOption("--group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Group { get; set; }
 
     /// <summary>
@@ -74,13 +74,13 @@ public record PulumiEnvWebhookEditOptions(
     /// <summary>
     /// Unsubscribe from an event (repeatable)
     /// </summary>
-    [CliOption("--remove-event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEvent { get; set; }
 
     /// <summary>
     /// Unsubscribe from an event group (repeatable)
     /// </summary>
-    [CliOption("--remove-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveGroup { get; set; }
 
     /// <summary>

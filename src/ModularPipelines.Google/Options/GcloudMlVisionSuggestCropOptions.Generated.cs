@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "suggest-crop")]
 public record GcloudMlVisionSuggestCropOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImagePath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImagePath
 ) : GcloudOptions
 {
     /// <summary>
     /// A list of aspect ratio hints for the suggested bounding box. Aspect     ratios may be specified either as a decimal number (ex. 1.333) or as a     ratio of width to height (ex 4:3).
     /// </summary>
-    [CliOption("--aspect-ratios", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--aspect-ratios", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AspectRatios { get; set; }
 
 }

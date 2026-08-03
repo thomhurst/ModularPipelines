@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "create")]
 public record PodmanManifestCreateOptions(
-    [property: CliArgument(0)] string List
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string List
 ) : PodmanOptions
 {
     /// <summary>
@@ -43,7 +43,7 @@ public record PodmanManifestCreateOptions(
     /// <summary>
     /// The IMAGE operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Image { get; set; }
 
 }

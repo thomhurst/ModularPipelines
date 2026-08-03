@@ -16,73 +16,53 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject)
     {
-        var args = new List<string>();
-
-        // Group arguments by placement
-        var argumentsByPlacement = commandModel
-            .OfType<ArgumentPart>()
-            .GroupBy(a => a.Attribute.Placement)
-            .ToDictionary(g => g.Key, g => g.OrderBy(a => a.Attribute.Position).ToList());
-
+        var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
+        var renderedPhases = Enum.GetValues<CommandLinePhase>()
+            .ToDictionary(
+                phase => phase,
+                phase => RenderPhase(
+                    phase,
+                    flagsAndOptions,
+                    arguments,
+                    optionsObject));
 
-        // Add arguments immediately after command first
-        AddArguments(args, argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.ImmediatelyAfterCommand), optionsObject);
-
-        // Add arguments before options
-        AddArguments(args, argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.BeforeOptions), optionsObject);
-
-        var argumentsAfterOptions =
-            argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.AfterOptions) ?? [];
-
-        var normal = RenderPhase(
-            CommandLinePhase.Normal,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject);
-        var endOfOptions = RenderPhase(
-            CommandLinePhase.EndOfOptions,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject);
-        var passthrough = RenderPhase(
-            CommandLinePhase.Passthrough,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject);
-        var terminal = RenderPhase(
-            CommandLinePhase.Terminal,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject,
-            argumentsFirst: true);
-
-        if (endOfOptions.Count > 0 && terminal.Count > 0)
+        if (renderedPhases[CommandLinePhase.EndOfOptions].Count > 0
+            && renderedPhases[CommandLinePhase.Terminal].Count > 0)
         {
             throw new InvalidOperationException(
                 "Terminal options cannot be combined with an end-of-options marker.");
         }
 
-        args.AddRange(normal);
-        args.AddRange(endOfOptions);
-        args.AddRange(passthrough);
-        args.AddRange(terminal);
-
-        return args;
+        return renderedPhases
+            .OrderBy(pair => GetRenderOrder(pair.Key))
+            .SelectMany(pair => pair.Value)
+            .ToList();
     }
+
+    private static int GetRenderOrder(CommandLinePhase phase) => phase switch
+    {
+        CommandLinePhase.EarlyOperand => 0,
+        CommandLinePhase.Normal => 1,
+        CommandLinePhase.EndOfOptions => 2,
+        CommandLinePhase.Passthrough => 3,
+        CommandLinePhase.Terminal => 4,
+        _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
+    };
 
     private static List<string> RenderPhase(
         CommandLinePhase phase,
         IEnumerable<PropertyCommandLinePart> flagsAndOptions,
         IEnumerable<ArgumentPart> arguments,
-        object optionsObject,
-        bool argumentsFirst = false)
+        object optionsObject)
     {
         var rendered = new List<string>();
         var phaseOptions = flagsAndOptions.Where(part => part.Phase == phase);
-        var phaseArguments = arguments.Where(part => part.Phase == phase);
+        var phaseArguments = arguments
+            .Where(part => part.Phase == phase)
+            .OrderBy(part => part.Attribute.Position);
 
-        if (argumentsFirst)
+        if (phase == CommandLinePhase.Terminal)
         {
             AddArguments(rendered, phaseArguments, optionsObject);
             AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
@@ -175,24 +155,25 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
-        if (optionPart.ValueArity == CliOptionValueArity.None)
-        {
-            if (rawValue is not bool value || value)
-            {
-                args.Add(optionPart.Attribute.GetEffectiveName());
-            }
-
-            return;
-        }
-
-        if (optionPart.ValueArity == CliOptionValueArity.Optional)
+        if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
         {
             AddOptionalValueOption(args, optionPart, rawValue, optionsType);
             return;
         }
 
-        if (TryAddOptionValuePairs(args, optionPart, rawValue, optionsType))
+        var valuePairs = GetOptionValuePairs(rawValue);
+        if (optionPart.Attribute.GroupValues)
         {
+            var groupedValues = valuePairs is null
+                ? GetValues(rawValue)
+                : valuePairs.SelectMany(static pair => new[] { pair.First, pair.Second });
+            AddGroupedOption(args, optionPart, groupedValues, optionsType);
+            return;
+        }
+
+        if (valuePairs is not null)
+        {
+            AddOptionValuePairs(args, optionPart, valuePairs, optionsType);
             return;
         }
 
@@ -223,11 +204,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         var optionValues = rawValue switch
         {
             CliOptionValue optionValue => [optionValue],
-            IEnumerable<CliOptionValue> values when optionPart.Attribute.AllowMultiple => values,
+            IEnumerable<CliOptionValue> values => values,
             // Preserve compatibility with generated option packages that predate CliOptionValue.
             string value when isLegacyGeneratedOption => [ToLegacyOptionalValue(value)],
-            IEnumerable<string> values when optionPart.Attribute.AllowMultiple && isLegacyGeneratedOption
-                => values.Select(ToLegacyOptionalValue),
+            IEnumerable<string> values when isLegacyGeneratedOption => values.Select(ToLegacyOptionalValue),
             _ => throw CreateInvalidOptionalValueTypeException(optionsType, optionPart),
         };
 
@@ -271,7 +251,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         OptionPart optionPart)
         => new(
             $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
-            + $"must use {(optionPart.Attribute.AllowMultiple ? $"IEnumerable<{nameof(CliOptionValue)}>" : $"{nameof(CliOptionValue)}?")}.");
+            + $"must use {nameof(CliOptionValue)} or IEnumerable<{nameof(CliOptionValue)}>.");
 
     private static void AddOptionalValue(
         List<string> args,
@@ -311,24 +291,44 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
     }
 
-    private static bool TryAddOptionValuePairs(
+    private static void AddGroupedOption(
         List<string> args,
         OptionPart optionPart,
-        object rawValue,
+        IEnumerable<string> values,
         Type optionsType)
     {
-        var pairs = rawValue switch
+        if (optionPart.Attribute.GetSeparator() != " ")
+        {
+            throw new InvalidOperationException(
+                $"Grouped option '{optionPart.Attribute.GetEffectiveName()}' must use a space separator.");
+        }
+
+        var renderedValues = values.ToList();
+        if (renderedValues.Count == 0 || renderedValues.Any(string.IsNullOrWhiteSpace))
+        {
+            throw CreateEmptyRequiredValueException(optionsType, optionPart);
+        }
+
+        args.Add(optionPart.Attribute.GetEffectiveName());
+        args.AddRange(renderedValues);
+    }
+
+    private static IEnumerable<CliValuePair>? GetOptionValuePairs(object rawValue)
+    {
+        return rawValue switch
         {
             CliValuePair pair => [pair],
             IEnumerable<CliValuePair> pairCollection => pairCollection,
             _ => null,
         };
+    }
 
-        if (pairs is null)
-        {
-            return false;
-        }
-
+    private static void AddOptionValuePairs(
+        List<string> args,
+        OptionPart optionPart,
+        IEnumerable<CliValuePair> pairs,
+        Type optionsType)
+    {
         if (optionPart.Attribute.GetSeparator() != " ")
         {
             throw new InvalidOperationException(
@@ -356,8 +356,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             throw CreateEmptyRequiredValueException(optionsType, optionPart);
         }
-
-        return true;
     }
 
     private static InvalidOperationException CreateEmptyRequiredValueException(

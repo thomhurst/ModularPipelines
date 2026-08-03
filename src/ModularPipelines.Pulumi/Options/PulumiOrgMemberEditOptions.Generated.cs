@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "member", "edit")]
 public record PulumiOrgMemberEditOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string UserLogin
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UserLogin
 ) : PulumiOptions
 {
     /// <summary>

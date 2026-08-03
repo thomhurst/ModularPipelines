@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "install")]
 public record DockerPluginInstallOptions(
-    [property: CliArgument(0)] string Plugin
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Plugin
 ) : DockerOptions
 {
     /// <summary>
@@ -49,7 +49,7 @@ public record DockerPluginInstallOptions(
     /// <summary>
     /// The KEY=VALUE operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? KeyValue { get; set; }
 
 }

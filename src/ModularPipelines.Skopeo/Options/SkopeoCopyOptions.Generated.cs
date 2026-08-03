@@ -20,14 +20,14 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("copy")]
 public record SkopeoCopyOptions(
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string SourceImage,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string DestinationImage
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string SourceImage,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string DestinationImage
 ) : SkopeoOptions
 {
     /// <summary>
     /// additional tags (supports docker-archive)
     /// </summary>
-    [CliOption("--additional-tag", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--additional-tag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdditionalTag { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record SkopeoCopyOptions(
     /// <summary>
     /// *Experimental* key needed to decrypt the image
     /// </summary>
-    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>
@@ -161,7 +161,7 @@ public record SkopeoCopyOptions(
     /// <summary>
     /// *Experimental* key with the encryption protocol to use needed to encrypt the image (e.g. jwe:/path/to/key.pem)
     /// </summary>
-    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EncryptionKey { get; set; }
 
     /// <summary>
@@ -303,7 +303,7 @@ public record SkopeoCopyOptions(
     /// <summary>
     /// The command options operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? CommandOptions { get; set; }
 
 }

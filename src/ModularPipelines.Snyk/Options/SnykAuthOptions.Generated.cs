@@ -50,7 +50,7 @@ public record SnykAuthOptions : SnykOptions
     /// Snyk API token
     /// </summary>
     [SecretValue]
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ApiToken { get; set; }
 
 }

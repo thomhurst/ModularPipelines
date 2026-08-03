@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "signer", "remove")]
 public record DockerTrustSignerRemoveOptions(
-    [property: CliArgument(0)] string Name,
-    [property: CliArgument(1)] IEnumerable<string> Repository
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Repository
 ) : DockerOptions
 {
     /// <summary>

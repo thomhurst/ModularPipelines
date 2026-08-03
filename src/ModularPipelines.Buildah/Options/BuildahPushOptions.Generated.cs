@@ -78,7 +78,7 @@ public record BuildahPushOptions : BuildahOptions
     /// <summary>
     /// key with the encryption protocol to use needed to encrypt the image (e.g. jwe:/path/to/key.pem)
     /// </summary>
-    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EncryptionKey { get; set; }
 
     /// <summary>

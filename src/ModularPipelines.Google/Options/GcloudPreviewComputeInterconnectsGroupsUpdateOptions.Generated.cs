@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "groups", "update")]
 public record GcloudPreviewComputeInterconnectsGroupsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
@@ -38,7 +38,7 @@ public record GcloudPreviewComputeInterconnectsGroupsUpdateOptions(
     /// <summary>
     /// Member interconnects to set the interconnect group to contain.
     /// </summary>
-    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Interconnects { get; set; }
 
     /// <summary>

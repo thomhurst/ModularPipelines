@@ -24,7 +24,7 @@ public record GcloudDatabaseMigrationMigrationJobsPromoteOptions : GcloudOptions
     /// <summary>
     /// A list of databases to be migrated to the destination instance. Provide     databases as a comma separated list. This flag is used only for SQL     Server to Cloud SQL SQL Server migrations.
     /// </summary>
-    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--databases-filter", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DatabasesFilter { get; set; }
 
     /// <summary>

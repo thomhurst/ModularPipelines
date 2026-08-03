@@ -84,7 +84,7 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     /// <summary>
     /// GitLab teams to be given maintainer access (also accepts comma-separated values)
     /// </summary>
-    [CliOption("--team", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--team", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Team { get; set; }
 
     /// <summary>
@@ -102,7 +102,7 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -114,7 +114,7 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     /// <summary>
     /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
     /// </summary>
-    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>
@@ -186,13 +186,13 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     /// <summary>
     /// list of components, accepts comma-separated values (default [source-controller,kustomize-controller,helm-controller,notification-controller])
     /// </summary>
-    [CliOption("--components", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--components", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Components { get; set; }
 
     /// <summary>
     /// list of components in addition to those supplied or defaulted, accepts values such as 'image-reflector-controller,image-automation-controller,source-watcher'
     /// </summary>
-    [CliOption("--components-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--components-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ComponentsExtra { get; set; }
 
     /// <summary>
@@ -328,7 +328,7 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     /// <summary>
     /// list of directories to be included in the GitRepository sparse checkout, the configured --path must be one of them, accepts comma-separated values
     /// </summary>
-    [CliOption("--sparse-checkout", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--sparse-checkout", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SparseCheckout { get; set; }
 
     /// <summary>
@@ -340,7 +340,7 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     /// <summary>
     /// list of host key algorithms to be used by the CLI for SSH connections
     /// </summary>
-    [CliOption("--ssh-hostkey-algos", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ssh-hostkey-algos", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SshHostkeyAlgos { get; set; }
 
     /// <summary>
@@ -408,7 +408,7 @@ public record FluxBootstrapGitlabOptions : FluxOptions
     /// <summary>
     /// list of toleration keys used to schedule the controller pods onto nodes with matching taints
     /// </summary>
-    [CliOption("--toleration-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--toleration-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? TolerationKeys { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "operations", "describe")]
 public record GcloudAssetOperationsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string OperationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OperationName
 ) : GcloudOptions
 {
 }

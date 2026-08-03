@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "networks", "create")]
 public record GcloudVmwareNetworksCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Vm
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Vm
 ) : GcloudOptions
 {
 }

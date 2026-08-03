@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "delete")]
 public record GcloudPreviewComputeOrgSecurityPoliciesDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SecurityPolicy
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SecurityPolicy
 ) : GcloudOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "domain-mappings", "describe")]
 public record GcloudAppDomainMappingsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Domain
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Domain
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("redis", "instances", "export")]
 public record GcloudRedisInstancesExportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Destination
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Destination
 ) : GcloudOptions
 {
     /// <summary>

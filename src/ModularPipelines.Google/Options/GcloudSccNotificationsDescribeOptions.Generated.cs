@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "notifications", "describe")]
 public record GcloudSccNotificationsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string NotificationConfigId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string NotificationConfigId
 ) : GcloudOptions
 {
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

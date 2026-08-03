@@ -71,13 +71,13 @@ public record DockerComposePsOptions : DockerOptions
     /// <summary>
     /// Filter services by status. Values: [paused | restarting | removing | running | dead | created | exited]
     /// </summary>
-    [CliOption("--status", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--status", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Status { get; set; }
 
     /// <summary>
     /// The SERVICE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
 
 }

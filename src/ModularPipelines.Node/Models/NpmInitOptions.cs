@@ -7,7 +7,7 @@ namespace ModularPipelines.Node.Models;
 [CliSubCommand("init")]
 public record NpmInitOptions
 (
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value
 ) : NpmOptions
 {
     [CliOption("--init-author-name")]

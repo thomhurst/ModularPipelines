@@ -12,6 +12,11 @@ public class OptionOverride
     public CliOptionType Type { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether collection values share one option occurrence.
+    /// </summary>
+    public bool GroupValues { get; set; }
+
+    /// <summary>
     /// Optional reason for the override (for documentation).
     /// </summary>
     public string? Reason { get; set; }

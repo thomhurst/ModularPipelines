@@ -83,7 +83,7 @@ public record TrivyPluginUpgradeOptions : TrivyOptions
     /// <summary>
     /// The PLUGIN_NAMES operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? PluginNames { get; set; }
 
 }

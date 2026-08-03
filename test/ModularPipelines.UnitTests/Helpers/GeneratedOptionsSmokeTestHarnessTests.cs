@@ -84,7 +84,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
         [CliOption("--optional", ValueArity = CliOptionValueArity.Optional)]
         public CliOptionValue? Optional { get; init; }
 
-        [CliOption("--repeatable-optional", AllowMultiple = true, ValueArity = CliOptionValueArity.Optional)]
+        [CliOption("--repeatable-optional", ValueArity = CliOptionValueArity.Optional)]
         public IEnumerable<CliOptionValue>? RepeatableOptional { get; init; }
     }
 

@@ -15,8 +15,8 @@ namespace ModularPipelines.Attributes;
 /// [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
 /// public string[]? Set { get; set; }
 ///
-/// // Multiple values allowed
-/// [CliOption("--values", ShortForm = "-f", AllowMultiple = true)]
+/// // Collections automatically repeat the option for each value
+/// [CliOption("--values", ShortForm = "-f")]
 /// public string[]? Values { get; set; }
 /// </code>
 /// </example>
@@ -48,13 +48,6 @@ public sealed class CliOptionAttribute : Attribute
     public OptionFormat Format { get; set; } = OptionFormat.SpaceSeparated;
 
     /// <summary>
-    /// Gets or sets a value indicating whether gets or sets whether this option can be specified multiple times with different values.
-    /// When true and the property is an array/collection, each value generates a separate option instance.
-    /// Defaults to false.
-    /// </summary>
-    public bool AllowMultiple { get; set; }
-
-    /// <summary>
     /// Gets or sets whether this option requires a value.
     /// For <see cref="CliOptionValueArity.Optional"/>, a null property omits the option,
     /// <see cref="ModularPipelines.Models.CliOptionValue.Bare"/> renders the bare option, and a value renders
@@ -63,15 +56,17 @@ public sealed class CliOptionAttribute : Attribute
     public CliOptionValueArity ValueArity { get; set; } = CliOptionValueArity.Required;
 
     /// <summary>
+    /// Gets or sets a value indicating whether collection values share one option occurrence.
+    /// By default, collections repeat the option for every value.
+    /// Grouped values require <see cref="OptionFormat.SpaceSeparated"/>.
+    /// </summary>
+    /// <example><c>--arguments first=value second=value</c></example>
+    public bool GroupValues { get; set; }
+
+    /// <summary>
     /// Gets or sets the semantic phase used to order this option.
     /// </summary>
     public CommandLinePhase Phase { get; set; } = CommandLinePhase.Normal;
-
-    /// <summary>
-    /// Gets or sets a custom separator string. When set, this overrides <see cref="Format"/>.
-    /// Useful for non-standard separators.
-    /// </summary>
-    public string? CustomSeparator { get; set; }
 
     /// <summary>
     /// Initialises a new instance of the <see cref="CliOptionAttribute"/> class.
@@ -96,11 +91,6 @@ public sealed class CliOptionAttribute : Attribute
     /// <returns></returns>
     public string GetSeparator()
     {
-        if (!string.IsNullOrEmpty(CustomSeparator))
-        {
-            return CustomSeparator;
-        }
-
         return Format switch
         {
             OptionFormat.SpaceSeparated => " ",

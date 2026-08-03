@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sbom")]
 public record TrivySbomOptions(
-    [property: CliArgument(0)] string SbomPath
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string SbomPath
 ) : TrivyOptions
 {
     /// <summary>
@@ -62,7 +62,7 @@ public record TrivySbomOptions(
     /// <summary>
     /// OCI repository(ies) to retrieve trivy-db in order of priority (default [mirror.gcr.io/aquasec/trivy-db:2,ghcr.io/aquasecurity/trivy-db:2])
     /// </summary>
-    [CliOption("--db-repository", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--db-repository", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DbRepository { get; set; }
 
     /// <summary>
@@ -80,7 +80,7 @@ public record TrivySbomOptions(
     /// <summary>
     /// OCI repository(ies) to retrieve trivy-java-db in order of priority (default [mirror.gcr.io/aquasec/trivy-java-db:1,ghcr.io/aquasecurity/trivy-java-db:1])
     /// </summary>
-    [CliOption("--java-db-repository", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--java-db-repository", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JavaDbRepository { get; set; }
 
     /// <summary>
@@ -104,19 +104,19 @@ public record TrivySbomOptions(
     /// <summary>
     /// list of package relationships Allowed values: - unknown - root - workspace - direct - indirect (default [unknown,root,workspace,direct,indirect])
     /// </summary>
-    [CliOption("--pkg-relationships", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pkg-relationships", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivySbomPkgRelationships>? PkgRelationships { get; set; }
 
     /// <summary>
     /// list of package types (allowed values: os,library) (default [os,library])
     /// </summary>
-    [CliOption("--pkg-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pkg-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivySbomPkgTypes>? PkgTypes { get; set; }
 
     /// <summary>
     /// custom headers in client mode
     /// </summary>
-    [CliOption("--custom-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--custom-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomHeaders { get; set; }
 
     /// <summary>
@@ -143,7 +143,7 @@ public record TrivySbomOptions(
     /// password. Comma-separated passwords allowed. TRIVY_PASSWORD should be used for security reasons.
     /// </summary>
     [SecretValue]
-    [CliOption("--password", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Password { get; set; }
 
     /// <summary>
@@ -162,7 +162,7 @@ public record TrivySbomOptions(
     /// <summary>
     /// username. Comma-separated usernames allowed.
     /// </summary>
-    [CliOption("--username", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Username { get; set; }
 
     /// <summary>
@@ -222,7 +222,7 @@ public record TrivySbomOptions(
     /// <summary>
     /// severities of security issues to be displayed Allowed values: - UNKNOWN - LOW - MEDIUM - HIGH - CRITICAL (default [UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL])
     /// </summary>
-    [CliOption("--severity", ShortForm = "-s", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--severity", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivySbomSeverity>? Severity { get; set; }
 
     /// <summary>
@@ -234,7 +234,7 @@ public record TrivySbomOptions(
     /// <summary>
     /// [EXPERIMENTAL] tables that will be displayed in 'table' format (allowed values: summary,detailed) (default [summary,detailed])
     /// </summary>
-    [CliOption("--table-mode", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--table-mode", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivySbomTableMode>? TableMode { get; set; }
 
     /// <summary>
@@ -264,7 +264,7 @@ public record TrivySbomOptions(
     /// <summary>
     /// specify config file patterns
     /// </summary>
-    [CliOption("--file-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--file-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FilePatterns { get; set; }
 
     /// <summary>
@@ -282,13 +282,13 @@ public record TrivySbomOptions(
     /// <summary>
     /// [EXPERIMENTAL] try to retrieve SBOM from the specified sources (allowed values: oci,rekor)
     /// </summary>
-    [CliOption("--sbom-sources", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--sbom-sources", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivySbomSbomSources>? SbomSources { get; set; }
 
     /// <summary>
     /// comma-separated list of what security issues to detect (allowed values: vuln,license) (default [vuln])
     /// </summary>
-    [CliOption("--scanners", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scanners", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivySbomScanners>? Scanners { get; set; }
 
     /// <summary>
@@ -300,7 +300,7 @@ public record TrivySbomOptions(
     /// <summary>
     /// comma-separated list of vulnerability status to ignore Allowed values: - unknown - not_affected - affected - fixed - under_investigation - will_not_fix - fix_deferred - end_of_life
     /// </summary>
-    [CliOption("--ignore-status", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ignore-status", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivySbomIgnoreStatus>? IgnoreStatus { get; set; }
 
     /// <summary>
@@ -318,19 +318,19 @@ public record TrivySbomOptions(
     /// <summary>
     /// [EXPERIMENTAL] VEX sources ("repo", "oci" or file path)
     /// </summary>
-    [CliOption("--vex", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vex", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Vex { get; set; }
 
     /// <summary>
     /// order of data sources for selecting vulnerability severity level Allowed values: - nvd - redhat - redhat-oval - debian - ubuntu - alpine - amazon - oracle-oval - suse-cvrf - photon - arch-linux - alma - rocky - cbl-mariner - azure - ruby-advisory-db - php-security-advisories - nodejs-security-wg - ghsa - glad - aqua - osv - k8s - wolfi - chainguard - bitnami - govulndb - julia - echo - minimos - rootio - auto (default [auto])
     /// </summary>
-    [CliOption("--vuln-severity-source", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vuln-severity-source", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VulnSeveritySource { get; set; }
 
     /// <summary>
     /// specify a list of license to ignore
     /// </summary>
-    [CliOption("--ignored-licenses", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ignored-licenses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IgnoredLicenses { get; set; }
 
     /// <summary>

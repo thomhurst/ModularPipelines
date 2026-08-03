@@ -125,7 +125,7 @@ public record BuildahConfigOptions : BuildahOptions
     /// <summary>
     /// add onbuild command to be run on images based on this image. Only supported on 'docker' formatted images
     /// </summary>
-    [CliOption("--onbuild", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--onbuild", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Onbuild { get; set; }
 
     /// <summary>
@@ -155,7 +155,7 @@ public record BuildahConfigOptions : BuildahOptions
     /// <summary>
     /// remove image configuration label
     /// </summary>
-    [CliOption("--unsetlabel", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--unsetlabel", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Unsetlabel { get; set; }
 
     /// <summary>

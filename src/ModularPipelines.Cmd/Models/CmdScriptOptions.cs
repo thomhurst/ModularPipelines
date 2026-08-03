@@ -6,7 +6,7 @@ namespace ModularPipelines.Cmd.Models;
 
 [ExcludeFromCodeCoverage]
 [CliTool("cmd")]
-public record CmdScriptOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)] string Script) : CommandLineToolOptions
+public record CmdScriptOptions([property: CliArgument(Phase = CommandLinePhase.Passthrough)] string Script) : CommandLineToolOptions
 {
     [CliFlag("/q")]
     public virtual bool DisableEcho { get; init; }

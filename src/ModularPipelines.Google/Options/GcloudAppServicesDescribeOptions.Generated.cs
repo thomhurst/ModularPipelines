@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "services", "describe")]
 public record GcloudAppServicesDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Service
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Service
 ) : GcloudOptions
 {
 }

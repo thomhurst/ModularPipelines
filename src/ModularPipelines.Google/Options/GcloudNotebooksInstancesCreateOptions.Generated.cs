@@ -38,7 +38,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Labels to apply to this instance. These can be later modified by the     setLabels method.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
@@ -47,7 +47,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Custom metadata to apply to this instance.     For example, to specify a Cloud Storage bucket for automatic backup,     you can use the gcs-data-bucket metadata tag. Format:     "--metadata=gcs-data-bucket=BUCKET".
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Tags to apply to this instance.    The hardware accelerator used on this instance. If you use accelerators,   make sure that your configuration has enough vCPUs and memory to support   the `machine_type` you have selected.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

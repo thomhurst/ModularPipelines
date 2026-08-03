@@ -29,7 +29,7 @@ public record CosignSigningConfigCreateOptions : CosignOptions
     /// <summary>
     /// fulcio service specification, as a comma-separated key-value list. Required keys: url, api-version (integer), start-time, operator. Optional keys: end-time.
     /// </summary>
-    [CliOption("--fulcio", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--fulcio", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Fulcio { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record CosignSigningConfigCreateOptions : CosignOptions
     /// <summary>
     /// oidc provider specification, as a comma-separated key-value list. Required keys: url, api-version (integer), start-time, operator. Optional keys: end-time.
     /// </summary>
-    [CliOption("--oidc-provider", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--oidc-provider", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OidcProvider { get; set; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public record CosignSigningConfigCreateOptions : CosignOptions
     /// <summary>
     /// rekor service specification, as a comma-separated key-value list. Required keys: url, api-version (integer), start-time, operator. Optional keys: end-time.
     /// </summary>
-    [CliOption("--rekor", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--rekor", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Rekor { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record CosignSigningConfigCreateOptions : CosignOptions
     /// <summary>
     /// timestamping authority specification, as a comma-separated key-value list. Required keys: url, api-version (integer), start-time, operator. Optional keys: end-time.
     /// </summary>
-    [CliOption("--tsa", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tsa", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tsa { get; set; }
 
     /// <summary>
