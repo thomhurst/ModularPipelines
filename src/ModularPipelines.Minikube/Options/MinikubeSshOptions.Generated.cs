@@ -24,7 +24,7 @@ public record MinikubeSshOptions : MinikubeOptions
     /// Use native Golang SSH client (default true). Set to 'false' to use the command line 'ssh' command when accessing the docker machine. Useful for the machine drivers when they will not start with 'Waiting for SSH'.
     /// </summary>
     [CliOption("--native-ssh", Format = OptionFormat.EqualsSeparated)]
-    public string? NativeSsh { get; set; }
+    public bool? NativeSsh { get; set; }
 
     /// <summary>
     /// The node to ssh into. Defaults to the primary control plane.

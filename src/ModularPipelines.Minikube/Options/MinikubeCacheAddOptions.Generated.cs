@@ -23,7 +23,7 @@ public record MinikubeCacheAddOptions : MinikubeOptions
     /// <summary>
     /// Add image to cache for all running minikube clusters
     /// </summary>
-    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all")]
+    public bool? All { get; set; }
 
 }

@@ -23,8 +23,8 @@ public record MinikubeDeleteOptions : MinikubeOptions
     /// <summary>
     /// Set flag to delete all profiles
     /// </summary>
-    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all")]
+    public bool? All { get; set; }
 
     /// <summary>
     /// Format to print stdout in. Options include: [text,json]
@@ -35,7 +35,7 @@ public record MinikubeDeleteOptions : MinikubeOptions
     /// <summary>
     /// Set this flag to delete the '.minikube' folder from your user directory.
     /// </summary>
-    [CliOption("--purge", Format = OptionFormat.EqualsSeparated)]
-    public string? Purge { get; set; }
+    [CliFlag("--purge")]
+    public bool? Purge { get; set; }
 
 }

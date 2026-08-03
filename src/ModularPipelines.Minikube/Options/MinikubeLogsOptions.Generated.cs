@@ -23,8 +23,8 @@ public record MinikubeLogsOptions : MinikubeOptions
     /// <summary>
     /// Show only the audit logs
     /// </summary>
-    [CliOption("--audit", Format = OptionFormat.EqualsSeparated)]
-    public string? Audit { get; set; }
+    [CliFlag("--audit")]
+    public bool? Audit { get; set; }
 
     /// <summary>
     /// If present, writes to the provided file instead of stdout.
@@ -35,20 +35,20 @@ public record MinikubeLogsOptions : MinikubeOptions
     /// <summary>
     /// Show only the most recent journal entries, and continuously print new entries as they are appended to the journal.
     /// </summary>
-    [CliOption("--follow", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Follow { get; set; }
+    [CliFlag("--follow", ShortForm = "-f")]
+    public bool? Follow { get; set; }
 
     /// <summary>
     /// Show only the last start logs.
     /// </summary>
-    [CliOption("--last-start-only", Format = OptionFormat.EqualsSeparated)]
-    public string? LastStartOnly { get; set; }
+    [CliFlag("--last-start-only")]
+    public bool? LastStartOnly { get; set; }
 
     /// <summary>
     /// Number of lines back to go within the log
     /// </summary>
     [CliOption("--length", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Length { get; set; }
+    public int? Length { get; set; }
 
     /// <summary>
     /// The node to get logs from. Defaults to the primary control plane.
@@ -59,7 +59,7 @@ public record MinikubeLogsOptions : MinikubeOptions
     /// <summary>
     /// Show only log entries which point to known problems
     /// </summary>
-    [CliOption("--problems", Format = OptionFormat.EqualsSeparated)]
-    public string? Problems { get; set; }
+    [CliFlag("--problems")]
+    public bool? Problems { get; set; }
 
 }

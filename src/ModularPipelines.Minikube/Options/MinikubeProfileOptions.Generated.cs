@@ -20,6 +20,9 @@ namespace ModularPipelines.Minikube.Options;
 [CliSubCommand("profile")]
 public record MinikubeProfileOptions : MinikubeOptions
 {
+    /// <summary>
+    /// The MINIKUBE_PROFILE_NAME operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? MinikubeProfileName { get; set; }
 

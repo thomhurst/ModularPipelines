@@ -8,18 +8,18 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
 /// <summary>
-/// Base options class for minikube CLI commands.
-/// Contains global flags that apply to all commands.
+/// unsets PROPERTY_NAME from the minikube config file.  Can be overwritten by flags or environmental variables
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("minikube")]
-[CliGlobalOptions]
-public abstract record MinikubeOptions : CommandLineToolOptions
+[CliSubCommand("config", "unset")]
+public record MinikubeConfigUnsetOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PropertyName
+) : MinikubeOptions
 {
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Minikube.Options;
+using ModularPipelines.Minikube.Enums;
 
 namespace ModularPipelines.Minikube.Options;
 
@@ -18,12 +19,14 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "defaults")]
-public record MinikubeConfigDefaultsOptions : MinikubeOptions
+public record MinikubeConfigDefaultsOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PropertyName
+) : MinikubeOptions
 {
     /// <summary>
     /// Output format. Accepted values: [json, yaml]
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? Output { get; set; }
+    public MinikubeConfigDefaultsOutput? Output { get; set; }
 
 }

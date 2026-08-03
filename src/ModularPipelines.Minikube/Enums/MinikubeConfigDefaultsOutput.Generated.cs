@@ -11,26 +11,14 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Minikube.Enums;
 
 /// <summary>
-/// Allowed values for the --natnictype option.
+/// Allowed values for the --output option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum MinikubeStartNatNicType
+public enum MinikubeConfigDefaultsOutput
 {
-    [EnumValue("Am79C970A")]
-    Am79c970a,
+    [EnumValue("json")]
+    Json = 0,
 
-    [EnumValue("Am79C973")]
-    Am79c973,
-
-    [EnumValue("82540EM")]
-    __82540em,
-
-    [EnumValue("82543GC")]
-    __82543gc,
-
-    [EnumValue("82545EM")]
-    __82545em,
-
-    [EnumValue("virtio")]
-    Virtio
+    [EnumValue("yaml")]
+    Yaml = 1
 }

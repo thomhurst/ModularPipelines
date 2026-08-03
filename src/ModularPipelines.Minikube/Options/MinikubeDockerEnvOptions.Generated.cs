@@ -24,8 +24,8 @@ public record MinikubeDockerEnvOptions : MinikubeOptions
     /// <summary>
     /// Add machine IP to NO_PROXY environment variable
     /// </summary>
-    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? NoProxy { get; set; }
+    [CliFlag("--no-proxy")]
+    public bool? NoProxy { get; set; }
 
     /// <summary>
     /// One of 'text', 'yaml' or 'json'.
@@ -42,19 +42,19 @@ public record MinikubeDockerEnvOptions : MinikubeOptions
     /// <summary>
     /// Add SSH identity key to SSH authentication agent
     /// </summary>
-    [CliOption("--ssh-add", Format = OptionFormat.EqualsSeparated)]
-    public string? SshAdd { get; set; }
+    [CliFlag("--ssh-add")]
+    public bool? SshAdd { get; set; }
 
     /// <summary>
     /// Use SSH connection instead of HTTPS (port 2376)
     /// </summary>
-    [CliOption("--ssh-host", Format = OptionFormat.EqualsSeparated)]
-    public string? SshHost { get; set; }
+    [CliFlag("--ssh-host")]
+    public bool? SshHost { get; set; }
 
     /// <summary>
     /// Unset variables instead of setting them
     /// </summary>
-    [CliOption("--unset", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
-    public string? Unset { get; set; }
+    [CliFlag("--unset", ShortForm = "-u")]
+    public bool? Unset { get; set; }
 
 }

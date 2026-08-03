@@ -40,7 +40,7 @@ public static class MinikubeExtensions
     }
 
     /// <summary>
-    /// Gets the minikube service from the pipeline context.
+    /// Gets the minikube service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IMinikube"/> service for executing minikube commands.</returns>

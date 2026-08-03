@@ -24,14 +24,14 @@ public record MinikubeProfileListOptions : MinikubeOptions
     /// <summary>
     /// If true, returns a detailed list of profiles.
     /// </summary>
-    [CliOption("--detailed", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Detailed { get; set; }
+    [CliFlag("--detailed", ShortForm = "-d")]
+    public bool? Detailed { get; set; }
 
     /// <summary>
     /// If true, returns list of profiles faster by skipping validating the status of the cluster.
     /// </summary>
-    [CliOption("--light", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public string? Light { get; set; }
+    [CliFlag("--light", ShortForm = "-l")]
+    public bool? Light { get; set; }
 
     /// <summary>
     /// The output format. One of 'json', 'table'
