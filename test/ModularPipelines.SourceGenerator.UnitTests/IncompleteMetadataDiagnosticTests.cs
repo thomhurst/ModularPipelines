@@ -157,6 +157,47 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Rejects_Colliding_Source_And_External_Type_Names()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace External;
+
+            public sealed class CollidingOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string ExternalToken { get; } = "";
+            }
+            """,
+            """
+            namespace External;
+
+            public sealed class CollidingOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string SourceToken { get; } = "";
+            }
+            """,
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var diagnostic = result.Diagnostics.Single();
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
+            await Assert.That(diagnostic.GetMessage()).Contains("global::External.CollidingOptions");
+            await Assert.That(generatedSource).DoesNotContain("global::External.CollidingOptions");
+        }
+    }
+
+    [Test]
     public async Task Accessible_Type_Without_Secrets_Registers_Name_Based_Empty_Metadata()
     {
         var result = GeneratorTestRunner.Run(

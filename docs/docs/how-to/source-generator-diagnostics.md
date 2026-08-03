@@ -56,11 +56,12 @@ Modular Pipelines uses runtime reflection for the missing metadata.
 ## MPG0006
 
 Command or secret metadata generation was skipped because its declaring type is
-generic, inaccessible, file-local, or part of a partial type hierarchy. Make the
-type and its containing types accessible and non-generic. Move file-local command
-or secret types to an accessible declaration, and combine partial command/secret
-declarations into one non-partial declaration. The build fails because exact
-generated metadata cannot be guaranteed for these shapes.
+generic, inaccessible, file-local, part of a partial type hierarchy, or has the
+same metadata name as a type in another assembly. Make the type and its containing
+types accessible and non-generic. Move file-local command or secret types to an
+accessible declaration, combine partial command/secret declarations into one
+non-partial declaration, and give colliding types unique metadata names. The build
+fails because exact generated metadata cannot be guaranteed for these shapes.
 
 **Severity:** Error
 

@@ -71,7 +71,30 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
 
             var candidates = input.Left;
-            foreach (var skipped in candidates
+            var ambiguousMetadataNames = new HashSet<string>(candidates
+                .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
+                .Where(static group => group
+                    .Select(static candidate => candidate.AssemblyIdentity)
+                    .Distinct(StringComparer.Ordinal)
+                    .Skip(1)
+                    .Any())
+                .Select(static group => group.Key), StringComparer.Ordinal);
+            foreach (var collision in candidates
+                         .Where(candidate => ambiguousMetadataNames.Contains(candidate.MetadataName))
+                         .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal))
+            {
+                var representative = collision.FirstOrDefault(static candidate => candidate.Location.IsInSource)
+                                     ?? collision.First();
+                sourceContext.ReportDiagnostic(Diagnostic.Create(
+                    SkippedRuntimeMetadata,
+                    representative.Location,
+                    representative.TypeName));
+            }
+
+            var unambiguousCandidates = candidates
+                .Where(candidate => !ambiguousMetadataNames.Contains(candidate.MetadataName))
+                .ToArray();
+            foreach (var skipped in unambiguousCandidates
                          .Where(static candidate => candidate.Metadata is null)
                          .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
                          .Select(static group => group.First()))
@@ -82,11 +105,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     skipped.TypeName));
             }
 
-            var items = candidates
+            var items = unambiguousCandidates
                 .Select(static candidate => candidate.Metadata)
                 .OfType<TypeMetadata>()
                 .ToImmutableArray();
-            ReportIncompleteMetadata(sourceContext, candidates);
+            ReportIncompleteMetadata(sourceContext, unambiguousCandidates);
             sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
         });
     }
@@ -182,18 +205,28 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             || GetSecretProperties(type, currentAssembly).HasAttributes;
         if (isCommandOptions || hasSecretAttributes)
         {
-            return new TypeMetadataCandidate(typeName, location, Metadata: null);
+            return new TypeMetadataCandidate(
+                typeName,
+                GetMetadataName(type),
+                type.ContainingAssembly.Identity.ToString(),
+                location,
+                Metadata: null);
         }
 
-        return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
+        return new TypeMetadataCandidate(
             typeName,
             GetMetadataName(type),
-            CanRegisterCommandMetadata: false,
-            CanRegisterSecretCoverage: canRegisterSecretCoverage,
-            UseTypeForEmptySecretCoverage: isExternal,
-            IsCommandOptions: false,
-            PropertyCollection.Empty,
-            PropertyCollection.Empty));
+            type.ContainingAssembly.Identity.ToString(),
+            location,
+            new TypeMetadata(
+                typeName,
+                GetMetadataName(type),
+                CanRegisterCommandMetadata: false,
+                CanRegisterSecretCoverage: canRegisterSecretCoverage,
+                UseTypeForEmptySecretCoverage: isExternal,
+                IsCommandOptions: false,
+                PropertyCollection.Empty,
+                PropertyCollection.Empty));
     }
 
     private static TypeMetadataCandidate GetAccessibleTypeCandidate(
@@ -218,7 +251,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 isCommandOptions,
                 commandMetadata,
                 secretMetadata);
-        return new TypeMetadataCandidate(typeName, location, metadata);
+        return new TypeMetadataCandidate(
+            typeName,
+            GetMetadataName(type),
+            type.ContainingAssembly.Identity.ToString(),
+            location,
+            metadata);
     }
 
     private static PropertyCollection GetCommandProperties(
@@ -902,6 +940,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private sealed record TypeMetadataCandidate(
         string TypeName,
+        string MetadataName,
+        string AssemblyIdentity,
         Location Location,
         TypeMetadata? Metadata);
 
@@ -914,12 +954,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             || (x is not null
                 && y is not null
                 && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
+                && StringComparer.Ordinal.Equals(x.MetadataName, y.MetadataName)
+                && StringComparer.Ordinal.Equals(x.AssemblyIdentity, y.AssemblyIdentity)
                 && EqualityComparer<TypeMetadata?>.Default.Equals(x.Metadata, y.Metadata)
                 && (!RequiresDiagnostic(x) || x.Location.Equals(y.Location)));
 
         public int GetHashCode(TypeMetadataCandidate obj)
         {
             var hashCode = (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
+                           ^ StringComparer.Ordinal.GetHashCode(obj.MetadataName);
+            hashCode = (hashCode * 397)
+                           ^ StringComparer.Ordinal.GetHashCode(obj.AssemblyIdentity);
+            hashCode = (hashCode * 397)
                            ^ (obj.Metadata?.GetHashCode() ?? 0);
             return RequiresDiagnostic(obj)
                 ? (hashCode * 397) ^ obj.Location.GetHashCode()
