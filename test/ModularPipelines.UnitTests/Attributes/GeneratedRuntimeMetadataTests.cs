@@ -12,7 +12,6 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
     [CliArgument(
         0,
         Placement = ArgumentPlacement.BeforeOptions,
-        Name = "<FILE>",
         PrependOptionTerminator = true)]
     public string? File { get; init; }
 
@@ -132,7 +131,6 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(argument.Attribute.Position).IsEqualTo(0);
         await Assert.That(argument.Attribute.Placement).IsEqualTo(ArgumentPlacement.BeforeOptions);
         await Assert.That(argument.Attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
-        await Assert.That(argument.Attribute.Name).IsEqualTo("<FILE>");
         await Assert.That(argument.Attribute.PrependOptionTerminator).IsTrue();
 
         var flag = model.OfType<FlagPart>().Single();

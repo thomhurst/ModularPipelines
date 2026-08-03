@@ -498,7 +498,6 @@ public static class UsageSynopsisParser
         return new CliPositionalArgument
         {
             PropertyName = propertyName,
-            PlaceholderName = content,
             CSharpType = GetCSharpType(isRequired, isVariadic),
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag: false),
             IsRequired = isRequired,

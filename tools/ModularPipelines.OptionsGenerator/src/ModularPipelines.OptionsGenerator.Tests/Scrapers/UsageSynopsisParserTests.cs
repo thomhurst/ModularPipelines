@@ -21,13 +21,13 @@ public class UsageSynopsisParserTests
         using (Assert.Multiple())
         {
             await Assert.That(copy.PositionalArguments).Count().IsEqualTo(2);
-            await Assert.That(copy.PositionalArguments[0].PlaceholderName)
-                .IsEqualTo("source node name>:<source file path");
-            await Assert.That(copy.PositionalArguments[1].PlaceholderName)
-                .IsEqualTo("target node name>:<target absolute file path");
+            await Assert.That(copy.PositionalArguments[0].PropertyName)
+                .IsEqualTo("SourceNodeNameSourceFilePath");
+            await Assert.That(copy.PositionalArguments[1].PropertyName)
+                .IsEqualTo("TargetNodeNameTargetAbsoluteFilePath");
             await Assert.That(mount.PositionalArguments).Count().IsEqualTo(1);
-            await Assert.That(mount.PositionalArguments[0].PlaceholderName)
-                .IsEqualTo("source directory>:<target directory");
+            await Assert.That(mount.PositionalArguments[0].PropertyName)
+                .IsEqualTo("SourceDirectoryTargetDirectory");
         }
     }
 

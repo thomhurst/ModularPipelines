@@ -206,7 +206,6 @@ public static class GeneratedOptionsSmokeTestHarness
 
         return part switch
         {
-            ArgumentPart { Attribute.Name: not null } => [],
             ArgumentPart argument => GetExpectedArgument(argument.Attribute, value),
             FlagPart flag => GetExpectedFlag(flag.Attribute, value),
             OptionPart option => GetExpectedOption(option, value),

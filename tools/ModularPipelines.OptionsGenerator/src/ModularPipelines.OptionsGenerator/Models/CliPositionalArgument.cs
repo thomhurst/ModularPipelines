@@ -43,11 +43,6 @@ public record CliPositionalArgument
     }
 
     /// <summary>
-    /// Placeholder name in documentation (e.g., "[<PROJECT>]").
-    /// </summary>
-    public string? PlaceholderName { get; init; }
-
-    /// <summary>
     /// Generated property name.
     /// </summary>
     public required string PropertyName { get; init; }

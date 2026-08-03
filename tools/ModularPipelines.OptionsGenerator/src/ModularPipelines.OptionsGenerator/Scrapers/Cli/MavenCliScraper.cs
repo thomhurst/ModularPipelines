@@ -112,7 +112,6 @@ public partial class MavenCliScraper : CliScraperBase
                 new CliPositionalArgument
                 {
                     PropertyName = "GoalsAndPhases",
-                    PlaceholderName = "goal(s) phase(s)",
                     CSharpType = "IEnumerable<string>?",
                     Description = "Maven goals and lifecycle phases to execute.",
                     PositionIndex = 0,

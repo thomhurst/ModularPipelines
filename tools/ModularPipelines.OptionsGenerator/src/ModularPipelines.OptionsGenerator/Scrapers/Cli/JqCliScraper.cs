@@ -129,7 +129,6 @@ public partial class JqCliScraper : CliScraperBase
                 new CliPositionalArgument
                 {
                     PropertyName = "Filter",
-                    PlaceholderName = "jq filter",
                     CSharpType = "string?",
                     IsRequired = false,
                     PositionIndex = 0,
@@ -139,7 +138,6 @@ public partial class JqCliScraper : CliScraperBase
                 new CliPositionalArgument
                 {
                     PropertyName = "InputFiles",
-                    PlaceholderName = "file...",
                     CSharpType = "IEnumerable<string>?",
                     IsRequired = false,
                     PositionIndex = 1,
