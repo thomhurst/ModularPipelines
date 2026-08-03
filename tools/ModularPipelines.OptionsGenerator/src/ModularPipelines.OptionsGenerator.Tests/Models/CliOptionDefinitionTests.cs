@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Models;
@@ -56,6 +57,18 @@ public class CliOptionDefinitionTests
         };
 
         await Assert.That(option.AcceptsMultipleValues).IsFalse();
+    }
+
+    [Test]
+    public async Task PositionalArgument_Phase_Defaults_To_EarlyOperand()
+    {
+        var argument = new CliPositionalArgument
+        {
+            PropertyName = "Input",
+            CSharpType = "string",
+        };
+
+        await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
     }
 
     #endregion

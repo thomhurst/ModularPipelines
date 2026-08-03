@@ -67,7 +67,7 @@ public record CliPositionalArgument
     /// <summary>
     /// Rendering phase relative to flags and options.
     /// </summary>
-    public CommandLinePhase Phase { get; init; } = CommandLinePhase.Passthrough;
+    public CommandLinePhase Phase { get; init; } = CommandLinePhase.EarlyOperand;
 
     /// <summary>
     /// Zero-based position index among positional arguments in the same phase.
