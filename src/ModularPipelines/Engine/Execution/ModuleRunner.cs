@@ -46,7 +46,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
         _localArtifactConsumers;
     private readonly ConcurrentDictionary<Type, Lazy<Task<SkipDecision?>>>
-        _artifactConsumerSkipEvaluations = new();
+        _planningSkipEvaluations = new();
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -197,6 +197,7 @@ internal class ModuleRunner : IModuleRunner
             foreach (var consumerType in consumerTypes)
             {
                 if (await IsRunnableArtifactConsumerAsync(
+                        moduleType,
                         consumerType,
                         scheduler,
                         cancellationToken)
@@ -238,6 +239,7 @@ internal class ModuleRunner : IModuleRunner
         foreach (var consumerType in consumersByArtifact.Values.SelectMany(consumers => consumers))
         {
             if (await IsRunnableArtifactConsumerAsync(
+                    producerType,
                     consumerType,
                     scheduler,
                     cancellationToken)
@@ -251,23 +253,27 @@ internal class ModuleRunner : IModuleRunner
     }
 
     private async Task<bool> IsRunnableArtifactConsumerAsync(
+        Type producerType,
         Type consumerType,
         IModuleScheduler scheduler,
         CancellationToken cancellationToken)
     {
         if (scheduler.GetModuleState(consumerType) is not { State: not ModuleExecutionState.Completed } moduleState
-            || moduleState.SkipResult.ShouldSkip
-            || HasSkippedRequiredDependency(moduleState))
+            || moduleState.SkipResult.ShouldSkip)
         {
             return false;
         }
 
-        var evaluation = _artifactConsumerSkipEvaluations.GetOrAdd(
-            consumerType,
-            _ => new Lazy<Task<SkipDecision?>>(
-                () => EvaluateArtifactConsumerSkipAsync(moduleState, cancellationToken),
-                LazyThreadSafetyMode.ExecutionAndPublication));
-        var skipDecision = await evaluation.Value.ConfigureAwait(false);
+        if (await HasSkippedRequiredDependencyAsync(
+                moduleState,
+                scheduler,
+                cancellationToken,
+                [consumerType, producerType]).ConfigureAwait(false))
+        {
+            return false;
+        }
+
+        var skipDecision = await EvaluatePlanningSkipAsync(moduleState, cancellationToken).ConfigureAwait(false);
         if (skipDecision?.ShouldSkip != true)
         {
             return true;
@@ -277,19 +283,59 @@ internal class ModuleRunner : IModuleRunner
         return false;
     }
 
-    private async Task<SkipDecision?> EvaluateArtifactConsumerSkipAsync(
+    private async Task<SkipDecision?> EvaluatePlanningSkipAsync(
         ModuleState moduleState,
         CancellationToken cancellationToken)
     {
-        return await _modulePlanningSkipEvaluator
-            .EvaluateAsync(moduleState.Module, cancellationToken)
-            .ConfigureAwait(false);
+        var evaluation = _planningSkipEvaluations.GetOrAdd(
+            moduleState.Module.GetType(),
+            _ => new Lazy<Task<SkipDecision?>>(
+                () => _modulePlanningSkipEvaluator.EvaluateAsync(moduleState.Module, cancellationToken),
+                LazyThreadSafetyMode.ExecutionAndPublication));
+        return await evaluation.Value.ConfigureAwait(false);
     }
 
-    private bool HasSkippedRequiredDependency(ModuleState moduleState) =>
-        moduleState.Dependencies.Any(dependency =>
-            !dependency.Value
-            && _resultRegistry.GetResult(dependency.Key)?.ModuleStatus == Enums.Status.Skipped);
+    private async Task<bool> HasSkippedRequiredDependencyAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        CancellationToken cancellationToken,
+        HashSet<Type> visited)
+    {
+        foreach (var dependency in moduleState.Dependencies.Where(static dependency => !dependency.Value))
+        {
+            if (_resultRegistry.GetResult(dependency.Key)?.ModuleStatus == Enums.Status.Skipped)
+            {
+                return true;
+            }
+
+            if (!visited.Add(dependency.Key)
+                || scheduler.GetModuleState(dependency.Key) is not { } dependencyState
+                || dependencyState.State == ModuleExecutionState.Completed)
+            {
+                continue;
+            }
+
+            var skipDecision = dependencyState.SkipResult.ShouldSkip
+                ? dependencyState.SkipResult
+                : await EvaluatePlanningSkipAsync(dependencyState, cancellationToken).ConfigureAwait(false);
+            if (skipDecision?.ShouldSkip == true)
+            {
+                dependencyState.SkipResult = skipDecision;
+                return true;
+            }
+
+            if (await HasSkippedRequiredDependencyAsync(
+                    dependencyState,
+                    scheduler,
+                    cancellationToken,
+                    visited).ConfigureAwait(false))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
         GetLocalArtifactConsumers(IEnumerable<IModule> modules)
