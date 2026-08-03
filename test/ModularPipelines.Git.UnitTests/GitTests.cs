@@ -154,6 +154,8 @@ public class GitTests : TestBase
                 await RunGitAsync(temporaryRoot, "init", "--bare", "--initial-branch=main", remoteDirectory);
                 await RunGitAsync(remoteDirectory, "config", "core.hooksPath", hooksDirectory);
                 await RunGitAsync(temporaryRoot, "init", "--initial-branch=main", workingDirectory);
+                workingDirectory = Path.GetFullPath(
+                    await RunGitAsync(workingDirectory, "rev-parse", "--show-toplevel"));
                 await RunGitAsync(workingDirectory, "config", "user.name", "Modular Pipelines Tests");
                 await RunGitAsync(workingDirectory, "config", "user.email", "tests@modularpipelines.local");
                 await RunGitAsync(workingDirectory, "config", "commit.gpgSign", "false");
