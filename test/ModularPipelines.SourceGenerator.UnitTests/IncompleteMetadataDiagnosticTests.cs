@@ -579,6 +579,38 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Aot_Host_Rejects_Partial_Unannotated_Options_Type()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace Microsoft.Extensions.Options
+            {
+                public interface IOptions<out T>
+                {
+                    T Value { get; }
+                }
+            }
+
+            public partial class PartialOptions;
+
+            public sealed class Consumer(
+                Microsoft.Extensions.Options.IOptions<PartialOptions> options);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
     public async Task Single_Declaration_Partial_Command_Options_Report_Error()
     {
         var result = GeneratorTestRunner.Run(

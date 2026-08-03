@@ -63,14 +63,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Combine(externalTypeCandidates)
             .Select(static (input, _) => input.Left.AddRange(input.Right))
             .Combine(hasRuntimeReference);
-        context.RegisterSourceOutput(candidates, static (sourceContext, input) =>
+        var generationInputs = candidates.Combine(
+            context.AnalyzerConfigOptionsProvider.Select(
+                static (options, _) => IsEnabled(options, "build_property.PublishAot")));
+        context.RegisterSourceOutput(generationInputs, static (sourceContext, input) =>
         {
-            if (!input.Right)
+            if (!input.Left.Right)
             {
                 return;
             }
 
-            var candidates = input.Left;
+            var candidates = input.Left.Left;
+            var isAotEnabled = input.Right;
             var ambiguousMetadataNames = new HashSet<string>(candidates
                 .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
                 .Where(static group => group
@@ -109,7 +113,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 .Select(static candidate => candidate.Metadata)
                 .OfType<TypeMetadata>()
                 .ToImmutableArray();
-            ReportIncompleteMetadata(sourceContext, unambiguousCandidates);
+            ReportIncompleteMetadata(sourceContext, unambiguousCandidates, isAotEnabled);
             sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
         });
     }
@@ -555,7 +559,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void ReportIncompleteMetadata(
         SourceProductionContext context,
-        IReadOnlyCollection<TypeMetadataCandidate> candidates)
+        IReadOnlyCollection<TypeMetadataCandidate> candidates,
+        bool isAotEnabled)
     {
         foreach (var candidate in candidates
                      .Where(static candidate => candidate.Metadata is not null)
@@ -563,6 +568,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                      .Select(static group => group.First()))
         {
             var item = candidate.Metadata!;
+            if (isAotEnabled && !item.CanRegisterSecretCoverage)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    SkippedRuntimeMetadata,
+                    candidate.Location,
+                    item.TypeName));
+            }
+
             if (!item.CommandMetadata.IsComplete)
             {
                 context.ReportDiagnostic(Diagnostic.Create(

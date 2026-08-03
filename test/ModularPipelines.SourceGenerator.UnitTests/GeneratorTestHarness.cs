@@ -18,10 +18,11 @@ internal static class GeneratorTestHarness
         IIncrementalGenerator generator,
         string infrastructure,
         string source,
-        string assemblyName = "GeneratorTests")
+        string assemblyName = "GeneratorTests",
+        IReadOnlyDictionary<string, string>? globalOptions = null)
     {
         var compilation = CreateCompilation(infrastructure, source, assemblyName);
-        return Run(generator, compilation);
+        return Run(generator, compilation, globalOptions);
     }
 
     public static GeneratorDriverRunResult RunWithExternalAssembly(
