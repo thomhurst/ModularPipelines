@@ -1197,13 +1197,7 @@ internal static class ModuleAuthoringAnalysis
             ISpreadOperation spread =>
                 IsUnresolvedModuleServiceDescriptor(spread.Operand, visitedLocals),
             IConditionalOperation conditional =>
-                IsUnresolvedModuleServiceDescriptor(
-                    conditional.WhenTrue,
-                    CloneVisitedLocals(visitedLocals))
-                || (conditional.WhenFalse is not null
-                    && IsUnresolvedModuleServiceDescriptor(
-                        conditional.WhenFalse,
-                        CloneVisitedLocals(visitedLocals))),
+                IsUnresolvedModuleServiceDescriptorConditional(conditional, visitedLocals),
             ICoalesceOperation coalesce =>
                 IsUnresolvedModuleServiceDescriptor(
                     coalesce.Value,
@@ -1212,7 +1206,9 @@ internal static class ModuleAuthoringAnalysis
                     coalesce.WhenNull,
                     CloneVisitedLocals(visitedLocals)),
             ISwitchExpressionOperation switchExpression =>
-                switchExpression.Arms.Any(arm =>
+                switchExpression.Arms
+                    .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+                    .Any(arm =>
                     IsUnresolvedModuleServiceDescriptor(
                         arm.Value,
                         CloneVisitedLocals(visitedLocals))),
@@ -1221,6 +1217,28 @@ internal static class ModuleAuthoringAnalysis
             IInvocationOperation invocation => IsUnresolvedModuleServiceDescriptorFactory(invocation),
             _ => false,
         };
+    }
+
+    private static bool IsUnresolvedModuleServiceDescriptorConditional(
+        IConditionalOperation conditional,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            var selectedBranch = condition
+                ? conditional.WhenTrue
+                : conditional.WhenFalse;
+            return selectedBranch is not null
+                   && IsUnresolvedModuleServiceDescriptor(selectedBranch, visitedLocals);
+        }
+
+        return IsUnresolvedModuleServiceDescriptor(
+                   conditional.WhenTrue,
+                   CloneVisitedLocals(visitedLocals))
+               || (conditional.WhenFalse is not null
+                   && IsUnresolvedModuleServiceDescriptor(
+                       conditional.WhenFalse,
+                       CloneVisitedLocals(visitedLocals)));
     }
 
     private static bool IsUnresolvedModuleServiceDescriptorLocal(
@@ -1598,6 +1616,7 @@ internal static class ModuleAuthoringAnalysis
     {
         var assignment = (ISimpleAssignmentOperation) context.Operation;
         if (!IsInReachableBranch(assignment)
+            || !IsInsideReachableNestedCallable(assignment)
             || !IsServiceCollectionIndexerAssignment(assignment))
         {
             return;
@@ -1962,7 +1981,8 @@ internal static class ModuleAuthoringAnalysis
         var fieldReference = (IFieldReferenceOperation) context.Operation;
         if (!fieldReference.Field.IsStatic
             || fieldReference.Field.IsConst
-            || !IsInReachableBranch(fieldReference))
+            || !IsInReachableBranch(fieldReference)
+            || !IsInsideReachableNestedCallable(fieldReference))
         {
             return;
         }
