@@ -137,6 +137,23 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Delegate_Type_Registers_Exact_Empty_Metadata()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            "public delegate void Callback(string value);");
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.Register(typeof(global::Callback))");
+        }
+    }
+
+    [Test]
     public async Task Inaccessible_Secret_Property_Reports_Diagnostic()
     {
         var result = GeneratorTestRunner.Run(
@@ -313,6 +330,32 @@ public class IncompleteMetadataDiagnosticTests
 
         await Assert.That(result.Diagnostics).IsEmpty();
         await Assert.That(result.GeneratedTrees.Single().ToString()).DoesNotContain("PartialOptions");
+    }
+
+    [Test]
+    public async Task Partial_Command_Options_Do_Not_Register_Command_Metadata()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public partial class PartialOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                public string Value { get; } = "";
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedCommandMetadata.Register(\n            typeof(global::PartialOptions)");
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.Register(typeof(global::PartialOptions))");
+        }
     }
 
     [Test]

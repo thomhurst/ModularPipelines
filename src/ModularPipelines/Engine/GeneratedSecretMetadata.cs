@@ -69,8 +69,7 @@ public static class GeneratedSecretMetadata
 
     internal static bool TryGetAccessors(Type type, out IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        if (type.IsArray
-            || type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
+        if (type.IsArray || IsAnonymousType(type))
         {
             accessors = Array.Empty<SecretPropertyAccessor>();
             return true;
@@ -95,6 +94,11 @@ public static class GeneratedSecretMetadata
     }
 
     internal static bool IsAssemblyProcessed(Assembly assembly) => ProcessedAssemblies.ContainsKey(assembly);
+
+    private static bool IsAnonymousType(Type type) =>
+        type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false)
+        && (type.Name.StartsWith("<>f__AnonymousType", StringComparison.Ordinal)
+            || type.Name.StartsWith("VB$AnonymousType_", StringComparison.Ordinal));
 
     private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors, bool IsComplete);
 }

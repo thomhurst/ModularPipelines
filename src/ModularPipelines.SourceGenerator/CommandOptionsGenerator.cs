@@ -84,6 +84,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal static bool IsTypeCandidate(SyntaxNode node)
     {
         return node is ClassDeclarationSyntax
+            || node is DelegateDeclarationSyntax
             || (node is RecordDeclarationSyntax record
                 && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword));
     }
@@ -130,6 +131,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     typeName,
                     GetMetadataName(type),
                     CanReferenceType: false,
+                    CanRegisterCommandMetadata: false,
                     CanRegisterSecretCoverage: canRegisterSecretCoverage,
                     IsCommandOptions: false,
                     PropertyCollection.Empty,
@@ -144,6 +146,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             typeName,
             GetMetadataName(type),
             CanReferenceType: true,
+            CanRegisterCommandMetadata: !isPartial,
             CanRegisterSecretCoverage: canRegisterSecretCoverage,
             isCommandOptions,
             commandMetadata,
@@ -369,7 +372,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterAssembly(assembly);");
         foreach (var item in uniqueItems)
         {
-            if (item.IsCommandOptions && item.CommandMetadata.IsComplete)
+            if (item.IsCommandOptions
+                && item.CanRegisterCommandMetadata
+                && item.CommandMetadata.IsComplete)
             {
                 AppendCommandRegistration(sb, item);
             }
@@ -651,6 +656,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string TypeName,
         string MetadataName,
         bool CanReferenceType,
+        bool CanRegisterCommandMetadata,
         bool CanRegisterSecretCoverage,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
