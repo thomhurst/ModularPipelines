@@ -42,12 +42,12 @@ public class PipelineLifecycleTests
     {
         public Func<ValueTask>? DisposePipeline { get; set; }
 
-        public Task? ReentrantDisposalTask { get; private set; }
+        public bool IsDisposed { get; private set; }
 
-        public ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
-            ReentrantDisposalTask = DisposePipeline!().AsTask();
-            return ValueTask.CompletedTask;
+            await DisposePipeline!();
+            IsDisposed = true;
         }
     }
 
@@ -98,7 +98,7 @@ public class PipelineLifecycleTests
     }
 
     [Test]
-    public async Task Reentrant_Disposal_Observes_The_Published_Task()
+    public async Task Reentrant_Disposal_Does_Not_Await_Itself()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
@@ -107,11 +107,9 @@ public class PipelineLifecycleTests
         var tracker = pipeline.Services.GetRequiredService<ReentrantDisposalTracker>();
         tracker.DisposePipeline = pipeline.DisposeAsync;
 
-        var disposalTask = pipeline.DisposeAsync().AsTask();
-        await disposalTask;
+        await pipeline.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
 
-        await Assert.That(tracker.ReentrantDisposalTask).IsNotNull();
-        await Assert.That(tracker.ReentrantDisposalTask!).IsSameReferenceAs(disposalTask);
+        await Assert.That(tracker.IsDisposed).IsTrue();
     }
 
     [Test]

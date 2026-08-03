@@ -24,6 +24,7 @@ internal sealed class PipelineImpl : IPipeline
     private readonly AsyncServiceScope _serviceScope;
     private readonly IDisposable _shutdownRegistration;
     private readonly object _disposeLock = new();
+    private readonly AsyncLocal<bool> _isDisposalOwner = new();
     private Task? _disposeTask;
 
     private PipelineImpl(IHost host)
@@ -104,7 +105,9 @@ internal sealed class PipelineImpl : IPipeline
         {
             if (_disposeTask is not null)
             {
-                return new ValueTask(_disposeTask);
+                return _isDisposalOwner.Value
+                    ? ValueTask.CompletedTask
+                    : new ValueTask(_disposeTask);
             }
 
             var completion = new TaskCompletionSource(
@@ -134,14 +137,22 @@ internal sealed class PipelineImpl : IPipeline
 
     private async Task DisposeCoreAsync()
     {
-        _shutdownRegistration.Dispose();
+        _isDisposalOwner.Value = true;
         try
         {
-            await _serviceScope.DisposeAsync().ConfigureAwait(false);
+            _shutdownRegistration.Dispose();
+            try
+            {
+                await _serviceScope.DisposeAsync().ConfigureAwait(false);
+            }
+            finally
+            {
+                await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
+            }
         }
         finally
         {
-            await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
+            _isDisposalOwner.Value = false;
         }
     }
 
