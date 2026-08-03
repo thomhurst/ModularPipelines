@@ -221,7 +221,7 @@ internal sealed class ModuleDiscoveryPlanner(
         {
             var planningModule = planningServiceProvider
                 .GetRequiredService<IModuleActivator>()
-                .CreateModule(module.GetType(), trackingServiceProvider);
+                .CreatePlanningModule(module.GetType(), trackingServiceProvider);
             return CreateIsolatedPlanningModule(new PlanningModuleCreation(
                 planningModule,
                 trackingServiceProvider.IsServiceProviderOwned,

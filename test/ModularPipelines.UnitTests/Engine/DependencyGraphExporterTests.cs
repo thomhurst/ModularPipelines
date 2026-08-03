@@ -387,6 +387,34 @@ public class DependencyGraphExporterTests
         public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
+    private sealed class StatefulDirectInterfaceModule : IModule
+    {
+        public StatefulDirectInterfaceModule()
+        {
+            ConfigurationCallCount = InitialConfigurationCallCount;
+        }
+
+        public static int InitialConfigurationCallCount { get; set; }
+
+        public int ConfigurationCallCount { get; private set; }
+
+        public Type ResultType => typeof(string);
+
+        public ModuleConfiguration Configuration
+        {
+            get
+            {
+                ConfigurationCallCount++;
+                return ModuleConfiguration.Default;
+            }
+        }
+
+        public Task<IModuleResult> ResultTask =>
+            Task.FromException<IModuleResult>(new InvalidOperationException("Not executed by this test."));
+
+        public bool TrySetDistributedResult(IModuleResult result) => false;
+    }
+
     private sealed class PlanningSingletonDependency
     {
         public bool IncludeDependency { get; init; }
@@ -1947,6 +1975,33 @@ public class DependencyGraphExporterTests
         _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
 
         await Assert.That(_directModuleActivations).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Render_Validates_Direct_Module_Before_Configuration()
+    {
+        var runtimeModule = new StatefulDirectInterfaceModule();
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(runtimeModule);
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        StatefulDirectInterfaceModule.InitialConfigurationCallCount = runtimeModule.ConfigurationCallCount;
+
+        try
+        {
+            var graph = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(graph).Contains(nameof(StatefulDirectInterfaceModule));
+                await Assert.That(runtimeModule.ConfigurationCallCount)
+                    .IsEqualTo(StatefulDirectInterfaceModule.InitialConfigurationCallCount);
+            }
+        }
+        finally
+        {
+            StatefulDirectInterfaceModule.InitialConfigurationCallCount = 0;
+        }
     }
 
     [Test]
