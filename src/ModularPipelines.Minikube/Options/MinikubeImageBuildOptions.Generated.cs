@@ -31,13 +31,13 @@ public record MinikubeImageBuildOptions(
     /// <summary>
     /// Environment variables to pass to the build. (format: key=value)
     /// </summary>
-    [CliOption("--build-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--build-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BuildEnv { get; set; }
 
     /// <summary>
     /// Specify arbitrary flags to pass to the build. (format: key=value)
     /// </summary>
-    [CliOption("--build-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--build-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BuildOpt { get; set; }
 
     /// <summary>

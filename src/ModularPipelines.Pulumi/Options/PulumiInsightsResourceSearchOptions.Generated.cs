@@ -78,7 +78,7 @@ public record PulumiInsightsResourceSearchOptions : PulumiOptions
     /// <summary>
     /// Search query in Pulumi query syntax
     /// </summary>
-    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Query { get; set; }
 
     /// <summary>

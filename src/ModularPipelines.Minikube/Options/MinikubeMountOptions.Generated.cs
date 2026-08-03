@@ -55,7 +55,7 @@ public record MinikubeMountOptions(
     /// <summary>
     /// Additional mount options, such as cache=fscache
     /// </summary>
-    [CliOption("--options", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--options", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Options { get; set; }
 
     /// <summary>

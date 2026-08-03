@@ -23,7 +23,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Enable the ability to attach a debugger to the program and source based plugins being executed. Can limit debug type to 'program', 'plugins', 'plugin:&lt;name&gt;' or 'all'.
     /// </summary>
-    [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated, AllowMultiple = true, ValueArity = CliOptionValueArity.Optional)]
+    [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public IEnumerable<string>? AttachDebugger { get; set; }
 
     /// <summary>
@@ -107,7 +107,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// [EXPERIMENTAL] Override an imported environment for this run only, as &lt;env&gt;=&lt;replacement&gt;; repeatable
     /// </summary>
-    [CliOption("--override-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--override-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OverrideEnv { get; set; }
 
     /// <summary>
