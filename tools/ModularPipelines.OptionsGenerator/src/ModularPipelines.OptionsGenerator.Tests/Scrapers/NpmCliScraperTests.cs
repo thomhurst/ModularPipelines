@@ -91,7 +91,8 @@ public class NpmCliScraperTests
         await Assert.That(command!.CommandParts).IsEquivalentTo(["init"]);
         await Assert.That(command.PositionalArguments).Count().IsEqualTo(1);
         await Assert.That(command.PositionalArguments[0].PropertyName).IsEqualTo("Value");
-        await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
+        await Assert.That(command.PositionalArguments[0].CSharpType).IsEqualTo("string?");
+        await Assert.That(command.PositionalArguments[0].IsRequired).IsFalse();
     }
 
     [Test]

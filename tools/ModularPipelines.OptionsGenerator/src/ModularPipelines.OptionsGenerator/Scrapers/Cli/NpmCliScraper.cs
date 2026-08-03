@@ -100,10 +100,10 @@ public partial class NpmCliScraper(
             {
                 PlaceholderName = "<package-spec>",
                 PropertyName = "Value",
-                CSharpType = "string",
+                CSharpType = "string?",
                 Placement = PositionalArgumentPosition.BeforeOptions,
                 PositionIndex = 0,
-                IsRequired = true,
+                IsRequired = false,
             },
         ];
     }
