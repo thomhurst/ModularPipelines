@@ -206,7 +206,7 @@ public class RunReportTests
     }
 
     [Test]
-    public async Task RunReportCorrelatesCollidingStableTypeIdentifiers()
+    public async Task RunReportSuppressesHistoryForCurrentIdentifierCollisions()
     {
         var firstType = CreateDynamicModuleType("RunReportAssembly", new Version(1, 0));
         var secondType = CreateDynamicModuleType("RunReportAssembly", new Version(2, 0));
@@ -272,12 +272,44 @@ public class RunReportTests
             await Assert.That(firstTypeName).DoesNotContain("Version=");
             await Assert.That(firstTypeName).DoesNotContain("RuntimeAssembly=");
             await Assert.That(firstModuleReport.Duration).IsEqualTo(TimeSpan.FromSeconds(1));
-            await Assert.That(firstModuleReport.PreviousDuration).IsEqualTo(TimeSpan.FromSeconds(10));
+            await Assert.That(firstModuleReport.PreviousDuration).IsNull();
             await Assert.That(secondModuleReport.Duration).IsEqualTo(TimeSpan.FromSeconds(2));
-            await Assert.That(secondModuleReport.PreviousDuration).IsEqualTo(TimeSpan.FromSeconds(20));
+            await Assert.That(secondModuleReport.PreviousDuration).IsNull();
             await Assert.That(SpectreResultsPrinter.CreateModulesTable(summary with { RunReport = report }).Rows)
                 .Count().IsEqualTo(3);
         }
+    }
+
+    [Test]
+    public async Task RunReportSuppressesAmbiguousPreviousIdentifierHistory()
+    {
+        var firstType = CreateDynamicModuleType("RunReportAssembly", new Version(1, 0));
+        var secondType = CreateDynamicModuleType("RunReportAssembly", new Version(2, 0));
+        var module = (IModule) Activator.CreateInstance(firstType)!;
+        var typeName = ModuleTypeIdentifier.Get(firstType);
+        var start = new DateTimeOffset(2026, 8, 2, 12, 0, 0, TimeSpan.Zero);
+        var summary = new PipelineSummary(
+            [module],
+            [CreateResult(module, start, TimeSpan.FromSeconds(1))],
+            TimeSpan.FromSeconds(1),
+            start,
+            start.AddSeconds(1),
+            moduleTimelines: [CreateTimeline(firstType, start, TimeSpan.FromSeconds(1))]);
+        var previousReport = new PipelineRunReport
+        {
+            Modules =
+            [
+                CreatePreviousModuleReport(firstType, typeName, start, TimeSpan.FromSeconds(10)),
+                CreatePreviousModuleReport(secondType, typeName, start, TimeSpan.FromSeconds(20)),
+            ],
+        };
+
+        var report = new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                new PassthroughSecretObfuscator())
+            .Create(summary, previousReport, "ambiguous-previous-type");
+
+        await Assert.That(report.Modules.Single().PreviousDuration).IsNull();
     }
 
     [Test]
@@ -1128,12 +1160,18 @@ public class RunReportTests
             var summary = await builder.ExecutePipelineAsync();
             var report = RunReportJsonSerializer.Deserialize(
                 await File.ReadAllTextAsync(reportPath));
+            var expectedParallelism = Math.Round(
+                report!.Metrics!.TotalModuleExecutionTime.TotalMilliseconds
+                / report.TotalDuration.TotalMilliseconds,
+                2);
 
             using (Assert.Multiple())
             {
-                await Assert.That(report!.End).IsGreaterThanOrEqualTo(DelayedEndHook.CompletedAt);
+                await Assert.That(report.End).IsGreaterThanOrEqualTo(DelayedEndHook.CompletedAt);
                 await Assert.That(report.TotalDuration).IsEqualTo(summary.TotalDuration);
                 await Assert.That(report.TotalDuration).IsGreaterThanOrEqualTo(TimeSpan.FromMilliseconds(100));
+                await Assert.That(report.Metrics.WallClockDuration).IsEqualTo(report.TotalDuration);
+                await Assert.That(report.Metrics.ParallelismFactor).IsEqualTo(expectedParallelism);
             }
         }
         finally
@@ -1274,6 +1312,74 @@ public class RunReportTests
                 await Assert.That(report.CommandCount).IsEqualTo(7);
                 await Assert.That(report.UnattributedCommandCount).IsEqualTo(4);
                 await Assert.That(report.Modules.Single().CommandCount).IsEqualTo(3);
+            }
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", previousInstance);
+        }
+    }
+
+    [Test]
+    [Arguments(3, 0)]
+    [Arguments(1, 2)]
+    public async Task DistributedMasterAddsOnlyMissingUnmatchedWorkerMetrics(
+        int collectedRemoteCount,
+        int expectedUnattributedCount)
+    {
+        var runStartedAt = DateTimeOffset.UtcNow;
+        var module = new SuccessfulModule();
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 2,
+        });
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([
+                new WorkerRegistration(1, new HashSet<string>(), runStartedAt)
+                {
+                    UnattributedCommandCount = 0,
+                    ModuleCommandCounts = new Dictionary<string, int>(StringComparer.Ordinal)
+                    {
+                        ["worker-load-context-identifier"] = 3,
+                    },
+                },
+            ]);
+        var commandExecutionCounter = new CommandExecutionCounter();
+        commandExecutionCounter.AddRemote(typeof(SuccessfulModule), collectedRemoteCount);
+        var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
+        Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
+
+        try
+        {
+            var service = new RunReportService(
+                Mock.Of<IRunHistoryStore>(),
+                new PipelineRunReportFactory(
+                    commandExecutionCounter,
+                    new PassthroughSecretObfuscator()),
+                Mock.Of<IBuildSystemDetector>(),
+                OptionsFactory.Create(new PipelineOptions()),
+                distributedOptions,
+                new RoleDetector(distributedOptions),
+                coordinator.Object,
+                commandExecutionCounter,
+                NullLogger<RunReportService>.Instance);
+
+            var report = await service.CompleteAsync(new PipelineSummary(
+                    [module],
+                    [CreateResult(module, runStartedAt, TimeSpan.FromSeconds(1))],
+                    TimeSpan.FromSeconds(1),
+                    runStartedAt,
+                    runStartedAt.AddSeconds(1)))
+                .WaitAsync(TimeSpan.FromSeconds(2));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report.CommandCount).IsEqualTo(3);
+                await Assert.That(report.UnattributedCommandCount).IsEqualTo(expectedUnattributedCount);
+                await Assert.That(report.Modules.Single().CommandCount).IsEqualTo(collectedRemoteCount);
             }
         }
         finally
@@ -1617,6 +1723,21 @@ public class RunReportTests
         (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
         {
             ModuleStatus = Status.UsedHistory,
+        };
+
+    private static ModuleRunReport CreatePreviousModuleReport(
+        Type moduleType,
+        string typeName,
+        DateTimeOffset start,
+        TimeSpan duration) => new()
+        {
+            ModuleName = moduleType.Name,
+            ModuleTypeName = typeName,
+            Status = Status.Successful,
+            Duration = duration,
+            DurationMeasured = true,
+            Start = start,
+            End = start + duration,
         };
 
     private static ModuleTimeline CreateTimeline(

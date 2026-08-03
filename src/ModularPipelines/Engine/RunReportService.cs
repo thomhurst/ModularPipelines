@@ -23,6 +23,7 @@ internal sealed class RunReportService(
     ILogger<RunReportService> logger) : IRunReportService
 {
     private static readonly TimeSpan HistoryStoreTimeout = TimeSpan.FromSeconds(30);
+    private static readonly TimeSpan ReportWriteTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan WorkerMetricsTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan WorkerMetricsPollingInterval = TimeSpan.FromMilliseconds(100);
 
@@ -141,7 +142,11 @@ internal sealed class RunReportService(
         {
             var fullPath = Path.GetFullPath(reportPath);
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-            await File.WriteAllTextAsync(fullPath, RunReportJsonSerializer.Serialize(report))
+            using var timeout = new CancellationTokenSource(ReportWriteTimeout);
+            await File.WriteAllTextAsync(
+                    fullPath,
+                    RunReportJsonSerializer.Serialize(report),
+                    timeout.Token)
                 .ConfigureAwait(false);
         }
         catch (Exception exception)
@@ -299,11 +304,12 @@ internal sealed class RunReportService(
                 static group => group.Sum(count => count.Value),
                 StringComparer.Ordinal);
 
+        var unmatchedFinalCount = 0;
         foreach (var (moduleTypeIdentifier, finalCount) in finalCounts)
         {
             if (!moduleTypesByIdentifier.TryGetValue(moduleTypeIdentifier, out var moduleTypes))
             {
-                commandExecutionCounter.Add(null, finalCount);
+                unmatchedFinalCount += finalCount;
                 continue;
             }
 
@@ -318,6 +324,14 @@ internal sealed class RunReportService(
                 commandExecutionCounter.Add(null, missingCount);
             }
         }
+
+        var remoteCounts = commandExecutionCounter.GetRemoteModuleCounts();
+        var unmatchedRecordedRemoteCount = remoteCounts
+            .Where(count => !finalCounts.ContainsKey(ModuleTypeIdentifier.Get(count.Key)))
+            .Sum(static count => count.Value);
+        commandExecutionCounter.Add(
+            null,
+            unmatchedFinalCount - unmatchedRecordedRemoteCount);
     }
 
     private async Task<WorkerMetricsWaitResult> WaitForFinalWorkerMetricsAsync(

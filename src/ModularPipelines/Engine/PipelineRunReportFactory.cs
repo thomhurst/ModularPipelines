@@ -51,11 +51,12 @@ internal sealed class PipelineRunReportFactory(
             ?? new Dictionary<string, ModuleTimeline>(StringComparer.Ordinal);
         var previousByType = previousReport?.Modules
             .GroupBy(static module => module.ModuleTypeName, StringComparer.Ordinal)
+            .Where(static group => group.Count() == 1)
             .ToDictionary(
                 static group => group.Key,
-                static group => new Queue<ModuleRunReport>(group),
+                static group => group.First(),
                 StringComparer.Ordinal)
-            ?? new Dictionary<string, Queue<ModuleRunReport>>(StringComparer.Ordinal);
+            ?? new Dictionary<string, ModuleRunReport>(StringComparer.Ordinal);
 
         var modules = summary.Modules
             .Select(module => CreateModuleReport(
@@ -94,7 +95,7 @@ internal sealed class PipelineRunReportFactory(
         IReadOnlyDictionary<string, IModuleResult> resultsByName,
         IReadOnlyDictionary<string, ModuleTimeline> timelinesByType,
         IReadOnlySet<string> uniqueModuleTypeNames,
-        IReadOnlyDictionary<string, Queue<ModuleRunReport>> previousByType)
+        IReadOnlyDictionary<string, ModuleRunReport> previousByType)
     {
         var typeName = ModuleTypeIdentifier.Get(moduleType);
         var runtimeTypeName = ModuleTypeIdentifier.GetRuntime(moduleType);
@@ -109,7 +110,9 @@ internal sealed class PipelineRunReportFactory(
         {
             timeline = timelinesByType.GetValueOrDefault(typeName);
         }
-        var previous = TakePrevious(previousByType, typeName);
+        var previous = uniqueModuleTypeNames.Contains(typeName)
+            ? previousByType.GetValueOrDefault(typeName)
+            : null;
         var current = CreateCurrentReportValues(result, timeline);
         var previousDuration = GetPreviousDuration(current.DurationMeasured, previous);
         return new ModuleRunReport
@@ -173,14 +176,6 @@ internal sealed class PipelineRunReportFactory(
         ModuleRunReport? previous) =>
         durationMeasured && previous is { DurationMeasured: true }
             ? previous.Duration
-            : null;
-
-    private static ModuleRunReport? TakePrevious(
-        IReadOnlyDictionary<string, Queue<ModuleRunReport>> previousByType,
-        string typeName) =>
-        previousByType.TryGetValue(typeName, out var previousReports)
-        && previousReports.TryDequeue(out var previous)
-            ? previous
             : null;
 
     private string? GetSkipReason(IModuleResult? result) =>

@@ -178,15 +178,16 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         Exception? pipelineException)
     {
         var end = DateTimeOffset.UtcNow;
+        var totalDuration = stopWatch.Elapsed;
         var summary = existingSummary is null
-            ? _pipelineSummaryFactory.Create(modules, stopWatch.Elapsed, start, end)
+            ? _pipelineSummaryFactory.Create(modules, totalDuration, start, end)
             : new PipelineSummary(
                 existingSummary.Modules,
                 existingSummary.Results,
-                stopWatch.Elapsed,
+                totalDuration,
                 start,
                 end,
-                existingSummary.Metrics,
+                RecomputeDurationMetrics(existingSummary.Metrics, totalDuration),
                 existingSummary.ModuleTimelines)
             {
                 StatusOverride = existingSummary.StatusOverride,
@@ -218,6 +219,25 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         return summary;
+    }
+
+    private static PipelineMetrics? RecomputeDurationMetrics(
+        PipelineMetrics? metrics,
+        TimeSpan wallClockDuration)
+    {
+        if (metrics is null)
+        {
+            return null;
+        }
+
+        var parallelismFactor = wallClockDuration.TotalMilliseconds > 0
+            ? metrics.TotalModuleExecutionTime.TotalMilliseconds / wallClockDuration.TotalMilliseconds
+            : 1.0;
+        return metrics with
+        {
+            WallClockDuration = wallClockDuration,
+            ParallelismFactor = Math.Round(parallelismFactor, 2),
+        };
     }
 
     private async Task<PipelineSummary> ExecutePipeline(List<IModule> runnableModules, OrganizedModules organizedModules)
