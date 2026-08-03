@@ -128,11 +128,27 @@ internal class ArtifactLifecycleManager
                     {
                         using (var archive = ZipFile.Open(tempFile, ZipArchiveMode.Create))
                         {
-                            foreach (var filePath in resolvedPaths)
+                            var archivedEntries = new HashSet<string>(StringComparer.Ordinal);
+                            foreach (var resolvedPath in resolvedPaths)
                             {
-                                var entryName = Path.GetRelativePath(archiveBaseDirectory, filePath)
-                                    .Replace(Path.DirectorySeparatorChar, '/');
-                                archive.CreateEntryFromFile(filePath, entryName, _options.CompressionLevel);
+                                IEnumerable<string> filePaths = Directory.Exists(resolvedPath)
+                                    ? Directory.EnumerateFiles(
+                                        resolvedPath,
+                                        "*",
+                                        SearchOption.AllDirectories)
+                                    : [resolvedPath];
+                                foreach (var filePath in filePaths)
+                                {
+                                    var entryName = Path.GetRelativePath(archiveBaseDirectory, filePath)
+                                        .Replace(Path.DirectorySeparatorChar, '/');
+                                    if (archivedEntries.Add(entryName))
+                                    {
+                                        archive.CreateEntryFromFile(
+                                            filePath,
+                                            entryName,
+                                            _options.CompressionLevel);
+                                    }
+                                }
                             }
                         }
 

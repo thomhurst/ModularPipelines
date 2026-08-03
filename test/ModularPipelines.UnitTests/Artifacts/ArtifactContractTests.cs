@@ -21,7 +21,7 @@ public class ArtifactContractTests
     private const string ProducedFile = LocalArtifactRoot + "/produced/output.txt";
     private const string RestoreDirectory = LocalArtifactRoot + "/restored";
     private const string MultipleProducedDirectory = LocalArtifactRoot + "/multiple-produced";
-    private const string MultipleProducedPattern = MultipleProducedDirectory + "/*.txt";
+    private const string MultipleProducedPattern = MultipleProducedDirectory + "/directory-*";
     private const string MultipleRestoreDirectory = LocalArtifactRoot + "/multiple-restored";
     private const string CacheOnlyFile = LocalArtifactRoot + "/cache-only.bin";
     private const string MissingRuntimeFile = LocalArtifactRoot + "/missing/output.txt";
@@ -210,14 +210,14 @@ public class ArtifactContractTests
     }
 
     [ProducesArtifact("multiple-output", MultipleProducedPattern)]
-    private sealed class MultipleFileProducerModule : Module<string>
+    private sealed class MultipleDirectoryProducerModule : Module<string>
     {
         protected internal override async Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var firstDirectory = Path.Combine(MultipleProducedDirectory, "first");
-            var secondDirectory = Path.Combine(MultipleProducedDirectory, "second");
+            var firstDirectory = Path.Combine(MultipleProducedDirectory, "directory-first");
+            var secondDirectory = Path.Combine(MultipleProducedDirectory, "directory-second");
             Directory.CreateDirectory(firstDirectory);
             Directory.CreateDirectory(secondDirectory);
             await File.WriteAllTextAsync(
@@ -232,12 +232,12 @@ public class ArtifactContractTests
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<MultipleFileProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<MultipleDirectoryProducerModule>]
     [ConsumesArtifact(
-        typeof(MultipleFileProducerModule),
+        typeof(MultipleDirectoryProducerModule),
         "multiple-output",
         RestorePath = MultipleRestoreDirectory)]
-    private sealed class MultipleFileConsumerModule : Module<string>
+    private sealed class MultipleDirectoryConsumerModule : Module<string>
     {
         public static string? ConsumedContent { get; set; }
 
@@ -246,10 +246,10 @@ public class ArtifactContractTests
             CancellationToken cancellationToken)
         {
             var first = await File.ReadAllTextAsync(
-                Path.Combine(MultipleRestoreDirectory, "first", "output.txt"),
+                Path.Combine(MultipleRestoreDirectory, "directory-first", "output.txt"),
                 cancellationToken);
             var second = await File.ReadAllTextAsync(
-                Path.Combine(MultipleRestoreDirectory, "second", "output.txt"),
+                Path.Combine(MultipleRestoreDirectory, "directory-second", "output.txt"),
                 cancellationToken);
             return ConsumedContent = $"{first},{second}";
         }
@@ -840,20 +840,20 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task StandaloneExecutionRestoresMultipleConsumedFiles()
+    public async Task StandaloneExecutionRestoresMultipleMatchedDirectories()
     {
         DeleteLocalArtifacts();
-        MultipleFileConsumerModule.ConsumedContent = null;
+        MultipleDirectoryConsumerModule.ConsumedContent = null;
 
         try
         {
             using var builder = Pipeline.CreateBuilder();
-            builder.AddModule<MultipleFileProducerModule>();
-            builder.AddModule<MultipleFileConsumerModule>();
+            builder.AddModule<MultipleDirectoryProducerModule>();
+            builder.AddModule<MultipleDirectoryConsumerModule>();
 
             await builder.ExecutePipelineAsync();
 
-            await Assert.That(MultipleFileConsumerModule.ConsumedContent).IsEqualTo("first,second");
+            await Assert.That(MultipleDirectoryConsumerModule.ConsumedContent).IsEqualTo("first,second");
         }
         finally
         {
