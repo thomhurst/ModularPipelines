@@ -73,7 +73,7 @@ public record HelmInstallOptions : HelmOptions
     /// <summary>
     /// simulate an install. If --dry-run is set with no option being specified or as '--dry-run=client', it will not attempt cluster connections. Setting '--dry-run=server' allows attempting cluster connections.
     /// </summary>
-    [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? DryRun { get; set; }
 
     /// <summary>
@@ -206,8 +206,9 @@ public record HelmInstallOptions : HelmOptions
     /// <summary>
     /// set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
     /// </summary>
+    [SecretValue("password", "secret", "token", "apiKey", "accessKey", "secretKey", "clientSecret")]
     [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Set { get; set; }
+    public IReadOnlyList<KeyValue>? Set { get; set; }
 
     /// <summary>
     /// set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
@@ -231,7 +232,7 @@ public record HelmInstallOptions : HelmOptions
     /// set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
     /// </summary>
     [CliOption("--set-string", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? SetString { get; set; }
+    public string[]? SetString { get; set; }
 
     /// <summary>
     /// if set, no CRDs will be installed. By default, CRDs are installed if not already present
@@ -267,7 +268,7 @@ public record HelmInstallOptions : HelmOptions
     /// specify values in a YAML file or a URL (can specify multiple)
     /// </summary>
     [CliOption("--values", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? Values { get; set; }
+    public string[]? Values { get; set; }
 
     /// <summary>
     /// verify the package before using it
