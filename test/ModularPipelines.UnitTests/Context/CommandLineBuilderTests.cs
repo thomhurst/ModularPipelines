@@ -187,11 +187,10 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_SkipsDuplicateToolInArguments()
+    public async Task Build_PreservesToolNameInArguments()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        // Some legacy code might include the tool name in Arguments
         var options = new GenericCommandLineToolOptions("git")
         {
             Arguments = ["git", "status"]
@@ -200,9 +199,9 @@ public class CommandLineBuilderTests : TestBase
         var result = builder.Build(options);
 
         await Assert.That(result.Tool).IsEqualTo("git");
-        // Should only have "status", not "git status"
-        await Assert.That(result.Arguments.Count(a => a == "git")).IsEqualTo(0);
-        await Assert.That(result.Arguments).Contains("status");
+        await Assert.That(result.Arguments).IsEquivalentTo(
+            ["git", "status"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
