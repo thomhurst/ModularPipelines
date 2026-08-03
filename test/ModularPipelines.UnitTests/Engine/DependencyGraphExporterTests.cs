@@ -805,6 +805,44 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("factory-skip");
     }
 
+    private sealed class RuntimeBoundFactorySkipModule(bool shouldSkip) : Module<string>
+    {
+        public int PlanningEvaluations { get; private set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ =>
+            {
+                PlanningEvaluations++;
+                return shouldSkip
+                    ? SkipDecision.Skip("factory requested a skip")
+                    : SkipDecision.DoNotSkip;
+            })
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("runtime-bound-factory-skip");
+    }
+
+    private sealed class ConfigurationThrowingDisposableFactoryModule : Module<string>, IDisposable
+    {
+        public static int Disposals;
+
+        public bool HasFactoryState { get; init; }
+
+        public void Dispose() => Interlocked.Increment(ref Disposals);
+
+        protected override ModuleConfiguration Configure() => HasFactoryState
+            ? ModuleConfiguration.Default
+            : throw new InvalidOperationException("Factory state is unavailable.");
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("configuration-throwing-disposable");
+    }
+
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class SingleUseConditionAttribute : RunIfAllAttribute
     {
@@ -2246,6 +2284,42 @@ public class DependencyGraphExporterTests
                 .IsTrue();
             await Assert.That(factoryCalls).IsEqualTo(1);
         }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Runtime_Bound_Factory_Skip_Condition()
+    {
+        RuntimeBoundFactorySkipModule? runtimeModule = null;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => runtimeModule = new RuntimeBoundFactorySkipModule(shouldSkip: true));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+            await Assert.That(runtimeModule!.PlanningEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Render_Disposes_Copy_When_Configuration_Initialization_Fails()
+    {
+        ConfigurationThrowingDisposableFactoryModule.Disposals = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => new ConfigurationThrowingDisposableFactoryModule
+        {
+            HasFactoryState = true,
+        });
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        await Assert.That(ConfigurationThrowingDisposableFactoryModule.Disposals).IsEqualTo(1);
     }
 
     [Test]

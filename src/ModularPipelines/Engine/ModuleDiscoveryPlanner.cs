@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -162,7 +163,10 @@ internal sealed class ModuleDiscoveryPlanner(
             candidate.CreatedRuntimeModule(module));
         if (factory is null)
         {
-            return CreatePlanningModuleWithoutFactory(module, planningServiceProvider);
+            return CreatePlanningModuleWithoutFactory(
+                module,
+                ownedPlanningModules,
+                planningServiceProvider);
         }
 
         if (module is IPlanningModuleCopyProvider copyProvider)
@@ -171,12 +175,16 @@ internal sealed class ModuleDiscoveryPlanner(
             {
                 return CreateIsolatedPlanningModule(CreatePlanningCopy(
                     copyProvider,
+                    ownedPlanningModules,
                     planningServiceProvider));
             }
 
             try
             {
-                var activatedCopy = CreatePlanningCopy(copyProvider, planningServiceProvider);
+                var activatedCopy = CreatePlanningCopy(
+                    copyProvider,
+                    ownedPlanningModules,
+                    planningServiceProvider);
                 if (IsEquivalentPlanningModule(
                         module,
                         activatedCopy.Module,
@@ -196,23 +204,29 @@ internal sealed class ModuleDiscoveryPlanner(
                 // The validated runtime copy below preserves those values without replaying the factory.
             }
 
+            RejectRuntimeBoundPlanningCondition(module, copyProvider);
             return CreateIsolatedPlanningModule(new PlanningModuleCreation(
                 copyProvider.CreatePlanningCopyFromRegisteredInstance(),
                 static _ => false,
                 IsPlannerOwned: false));
         }
 
-        return CreatePlanningModuleWithoutFactory(module, planningServiceProvider);
+        return CreatePlanningModuleWithoutFactory(
+            module,
+            ownedPlanningModules,
+            planningServiceProvider);
     }
 
     private static PlanningModule CreatePlanningModuleWithoutFactory(
         IModule module,
+        ICollection<IModule> ownedPlanningModules,
         IServiceProvider planningServiceProvider)
     {
         if (module is IPlanningModuleCopyProvider copyProvider)
         {
             return CreateIsolatedPlanningModule(CreatePlanningCopy(
                 copyProvider,
+                ownedPlanningModules,
                 planningServiceProvider));
         }
 
@@ -506,20 +520,111 @@ internal sealed class ModuleDiscoveryPlanner(
 
     private static PlanningModuleCreation CreatePlanningCopy(
         IPlanningModuleCopyProvider copyProvider,
+        ICollection<IModule> ownedPlanningModules,
         IServiceProvider planningServiceProvider)
     {
         var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(planningServiceProvider);
         var module = copyProvider.CreatePlanningCopy(trackingServiceProvider);
-        if (copyProvider.IsConfigurationInitialized
-            && module is IPlanningModuleCopyProvider planningCopyProvider)
+        var isPlannerOwned = !trackingServiceProvider.IsServiceProviderOwned(module);
+        try
         {
-            planningCopyProvider.InitializeConfiguration();
+            if (copyProvider.IsConfigurationInitialized
+                && module is IPlanningModuleCopyProvider planningCopyProvider)
+            {
+                planningCopyProvider.InitializeConfiguration();
+            }
+        }
+        catch
+        {
+            if (isPlannerOwned)
+            {
+                ownedPlanningModules.Add(module);
+            }
+
+            throw;
         }
 
         return new PlanningModuleCreation(
             module,
             trackingServiceProvider.IsServiceProviderOwned,
-            IsPlannerOwned: !trackingServiceProvider.IsServiceProviderOwned(module));
+            IsPlannerOwned: isPlannerOwned);
+    }
+
+    private static void RejectRuntimeBoundPlanningCondition(
+        IModule module,
+        IPlanningModuleCopyProvider copyProvider)
+    {
+        if (!copyProvider.IsConfigurationInitialized
+            || module.Configuration.PlanningSkipCondition is not { } planningCondition
+            || !ReferencesObject(planningCondition, module, new HashSet<object>(ReferenceEqualityComparer.Instance)))
+        {
+            return;
+        }
+
+        throw new PipelineException(
+            $"The initialized configuration for '{module.GetType().FullName}' contains a planning condition "
+            + "bound to the runtime module. Override CreatePlanningCopy to return an isolated copy.");
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Planning delegates are inspected only to reject references to the runtime module.")]
+    private static bool ReferencesObject(
+        object? value,
+        object target,
+        ISet<object> visited)
+    {
+        if (ReferenceEquals(value, target))
+        {
+            return true;
+        }
+
+        if (value is null)
+        {
+            return false;
+        }
+
+        var type = value.GetType();
+        if (value is string or MemberInfo
+            || type.IsPrimitive
+            || type.IsEnum
+            || type.IsPointer
+            || (!type.IsValueType && !visited.Add(value)))
+        {
+            return false;
+        }
+
+        if (value is Delegate @delegate)
+        {
+            return @delegate.GetInvocationList().Any(invocation =>
+                ReferencesObject(invocation.Target, target, visited));
+        }
+
+        if (value is Array array)
+        {
+            return array.Cast<object?>().Any(item => ReferencesObject(item, target, visited));
+        }
+
+        if (!type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
+        {
+            return false;
+        }
+
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            if (current.GetFields(
+                    BindingFlags.Instance
+                    | BindingFlags.Public
+                    | BindingFlags.NonPublic
+                    | BindingFlags.DeclaredOnly)
+                .Any(field => ReferencesObject(field.GetValue(value), target, visited)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     internal static async Task DisposePlanningModulesAsync(IEnumerable<IModule> planningModules)
