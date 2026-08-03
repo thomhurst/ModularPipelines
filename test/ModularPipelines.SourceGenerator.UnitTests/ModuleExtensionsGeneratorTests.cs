@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
 
@@ -132,10 +133,46 @@ public class ModuleExtensionsGeneratorTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(sharedLibrary.GeneratedTrees.Single().GetText().ToString())
-                .Contains("public static class Shared_ModulesModuleContextExtensions");
-            await Assert.That(pipelineApp.GeneratedTrees.Single().GetText().ToString())
-                .Contains("public static class _9_Pipeline_AppModuleContextExtensions");
+            await Assert.That(GetGeneratedTypeName(sharedLibrary))
+                .StartsWith("Shared_Modules_")
+                .And.EndsWith("ModuleContextExtensions");
+            await Assert.That(GetGeneratedTypeName(pipelineApp))
+                .StartsWith("_9_Pipeline_App_")
+                .And.EndsWith("ModuleContextExtensions");
         }
     }
+
+    [Test]
+    public async Task Sanitized_Assembly_Names_Produce_Unique_Extension_Types()
+    {
+        const string source = """
+            namespace Consumer
+            {
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """;
+        var hyphenated = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            "Shared-Modules");
+        var dotted = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            "Shared.Modules");
+
+        await Assert.That(GetGeneratedTypeName(hyphenated))
+            .IsNotEqualTo(GetGeneratedTypeName(dotted));
+    }
+
+    private static string GetGeneratedTypeName(GeneratorDriverRunResult result) =>
+        result.GeneratedTrees
+            .Single()
+            .GetRoot()
+            .DescendantNodes()
+            .OfType<ClassDeclarationSyntax>()
+            .Single()
+            .Identifier
+            .ValueText;
 }
