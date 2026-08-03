@@ -17,4 +17,17 @@ public class GeneratedOptionsSmokeTests
 
         await Assert.That(result.OptionsTypesTested).IsGreaterThan(0);
     }
+
+    [Test]
+    public async Task Every_Options_Record_Renders_Through_Reflection()
+    {
+        var assemblyName = ReflectionAssembly.GetExecutingAssembly()
+            .GetCustomAttributes<AssemblyMetadataAttribute>()
+            .Single(attribute => attribute.Key == "GeneratedOptionsAssembly")
+            .Value!;
+        var result = GeneratedOptionsSmokeTestHarness.ValidateAssemblyUsingReflection(
+            ReflectionAssembly.Load(assemblyName));
+
+        await Assert.That(result.OptionsTypesTested).IsGreaterThan(0);
+    }
 }
