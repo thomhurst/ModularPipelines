@@ -4,10 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("exec", "--")]
+[CliSubCommand("exec")]
 public record NpmExecOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Cmd
+    [property: CliArgument(0, Placement = ArgumentPlacement.AfterOptions, PrependOptionTerminator = true)] string Value,
+    [property: CliArgument(1, Placement = ArgumentPlacement.AfterOptions)] string Cmd
 ) : NpmOptions
 {
     [CliOption("--package")]
@@ -25,9 +25,9 @@ public record NpmExecOptions(
     [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(2, Placement = ArgumentPlacement.AfterOptions)]
     public virtual string? Pkg { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(3, Placement = ArgumentPlacement.AfterOptions)]
     public virtual string? Version { get; set; }
 }

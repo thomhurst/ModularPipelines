@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("access", "revoke")]
+[CliSubCommand("access", "revoke")]
 public record NpmAccessRevokeOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope
 ) : NpmOptions

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pkg", "fix")]
+[CliSubCommand("pkg", "fix")]
 public record NpmPkgFixOptions : NpmOptions
 {
     [CliFlag("--force")]

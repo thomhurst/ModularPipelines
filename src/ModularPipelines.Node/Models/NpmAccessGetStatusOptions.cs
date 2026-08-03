@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("access", "get", "status")]
+[CliSubCommand("access", "get", "status")]
 public record NpmAccessGetStatusOptions : NpmOptions
 {
     [CliFlag("--json")]

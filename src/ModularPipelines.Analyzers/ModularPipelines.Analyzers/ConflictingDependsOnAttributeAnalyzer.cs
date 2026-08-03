@@ -33,9 +33,14 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
         context.RegisterCompilationStartAction(startContext =>
         {
             var edges = new ConcurrentBag<DependencyEdge>();
+            var usingAliasNames = startContext.Compilation.GetUsingAliasNames(
+                startContext.CancellationToken);
 
             startContext.RegisterSyntaxNodeAction(
-                syntaxContext => CollectDependencyEdge(syntaxContext, edges),
+                syntaxContext => CollectDependencyEdge(
+                    syntaxContext,
+                    edges,
+                    usingAliasNames),
                 SyntaxKind.Attribute);
             startContext.RegisterCompilationEndAction(
                 compilationContext => ReportCircularDependencies(compilationContext, edges));
@@ -44,9 +49,10 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
     private static void CollectDependencyEdge(
         SyntaxNodeAnalysisContext context,
-        ConcurrentBag<DependencyEdge> edges)
+        ConcurrentBag<DependencyEdge> edges,
+        ImmutableHashSet<string> usingAliasNames)
     {
-        if (!TryGetDependencyType(context, out var dependencyType) ||
+        if (!TryGetDependencyType(context, usingAliasNames, out var dependencyType) ||
             dependencyType is null)
         {
             return;
@@ -69,11 +75,13 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
     private static bool TryGetDependencyType(
         SyntaxNodeAnalysisContext context,
+        ImmutableHashSet<string> usingAliasNames,
         out INamedTypeSymbol? dependencyType)
     {
         dependencyType = null;
 
-        if (context.Node is not AttributeSyntax attributeSyntax)
+        if (context.Node is not AttributeSyntax attributeSyntax
+            || !attributeSyntax.CouldBeDependsOnAttribute(usingAliasNames))
         {
             return false;
         }

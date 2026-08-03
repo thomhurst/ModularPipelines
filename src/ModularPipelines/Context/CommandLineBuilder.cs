@@ -12,7 +12,7 @@ namespace ModularPipelines.Context;
 /// <remarks>
 /// Uses existing internal helpers to:
 /// 1. Resolve tool name from [CliTool] attribute or constructor parameter
-/// 2. Get subcommand parts from [CliCommand] or [CliSubCommand] attributes
+/// 2. Get subcommand parts from [CliSubCommand] or a preferred [CliCommandAlias]
 /// 3. Handle placeholder replacement in command parts
 /// 4. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
 /// 5. Add manual Arguments if present

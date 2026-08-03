@@ -48,7 +48,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             _ => null,
         };
 
-        if (invokedName is null)
+        if (invokedName is null || !CouldBeModuleAccessor(invokedName))
         {
             return;
         }
@@ -90,6 +90,15 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
         }
+    }
+
+    private static bool CouldBeModuleAccessor(SimpleNameSyntax invokedName)
+    {
+        var methodName = invokedName.Identifier.ValueText;
+
+        return methodName.StartsWith("Get", StringComparison.Ordinal)
+               && (methodName.EndsWith("Module", StringComparison.Ordinal)
+                   || methodName.EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal));
     }
 
     private static bool TryGetModuleType(

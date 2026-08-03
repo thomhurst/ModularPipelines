@@ -6,33 +6,6 @@ namespace ModularPipelines.UnitTests.Attributes;
 public class CliAttributeTests
 {
     [Test]
-    public async Task CliCommand_Returns_Tool_And_SubCommands()
-    {
-        var attribute = new CliCommandAttribute("helm", "install");
-        var parts = attribute.GetAllParts();
-
-        await Assert.That(parts).IsEquivalentTo(new[] { "helm", "install" });
-    }
-
-    [Test]
-    public async Task CliCommand_Returns_Only_Tool_When_No_SubCommands()
-    {
-        var attribute = new CliCommandAttribute("helm");
-        var parts = attribute.GetAllParts();
-
-        await Assert.That(parts).IsEquivalentTo(new[] { "helm" });
-    }
-
-    [Test]
-    public async Task CliCommand_Returns_Multiple_SubCommands()
-    {
-        var attribute = new CliCommandAttribute("kubectl", "get", "pods");
-        var parts = attribute.GetAllParts();
-
-        await Assert.That(parts).IsEquivalentTo(new[] { "kubectl", "get", "pods" });
-    }
-
-    [Test]
     public async Task CliFlag_Returns_Name_When_ShortForm_Not_Preferred()
     {
         var attribute = new CliFlagAttribute("--debug") { ShortForm = "-d" };

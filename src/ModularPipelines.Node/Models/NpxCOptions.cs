@@ -4,8 +4,8 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("npx", "-c")]
-public record NpxCOptions : NpmOptions
+[CliSubCommand("-c")]
+public record NpxCOptions : NpxOptions
 {
     [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
     public virtual string? Cmd { get; set; }
