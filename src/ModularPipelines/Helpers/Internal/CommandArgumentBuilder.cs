@@ -104,7 +104,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             }
 
             var values = GetValues(rawValue);
-            if (argumentPart.Attribute.PrependOptionTerminator
+            var requiresOptionTerminator = argumentPart.Attribute.PrependOptionTerminator
+                || (argumentPart.Attribute.PrependOptionTerminatorIfValueStartsWithDash
+                    && values.Any(static value => value.StartsWith('-')));
+            if (requiresOptionTerminator
                 && values.Count > 0
                 && !emittedOptionTerminator)
             {

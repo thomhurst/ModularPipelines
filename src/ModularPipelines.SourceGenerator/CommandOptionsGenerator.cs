@@ -235,6 +235,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     "Normal",
                     0,
                     GetConstructorStrings(secretAttribute),
+                    false,
                     false));
             }
         }
@@ -275,6 +276,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedEnumMemberName(attribute, "Phase", "Passthrough"),
                 0,
                 EquatableArray<string>.Empty,
+                GetNamedBool(attribute, "PrependOptionTerminatorIfValueStartsWithDash"),
                 isGlobalOption);
         }
 
@@ -291,6 +293,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedEnumMemberName(attribute, "Phase", "Normal"),
                 0,
                 EquatableArray<string>.Empty,
+                false,
                 isGlobalOption);
         }
 
@@ -305,6 +308,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedEnumMemberName(attribute, "Phase", "Normal"),
             GetNamedInt(attribute, "ValueArity"),
             EquatableArray<string>.Empty,
+            false,
             isGlobalOption);
     }
 
@@ -407,6 +411,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
+                    sb.AppendLine($"                        PrependOptionTerminatorIfValueStartsWithDash = {BooleanLiteral(property.PrependOptionTerminatorIfValueStartsWithDash)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
                 case PropertyKind.Flag:
@@ -636,6 +641,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string Phase,
         int ValueArity,
         EquatableArray<string> SecretValueKeys,
+        bool PrependOptionTerminatorIfValueStartsWithDash,
         bool IsGlobalOption);
 
     private enum PropertyKind

@@ -32,7 +32,6 @@ public class JqOptionsTests : TestBase
             "--indent", "2",
             "--arg", "name", "Ada",
             "--arg", "environment", "ci",
-            "--",
             ".user",
             "input.json",
         ]);
@@ -54,13 +53,12 @@ public class JqOptionsTests : TestBase
             "--from-file", "filter.jq",
             "--slurpfile", "documents", "documents.json",
             "--rawfile", "template", "template.txt",
-            "--",
             "input.json",
         ]);
     }
 
     [Test]
-    public async Task Renders_One_Terminator_Before_Filter_And_InputFiles()
+    public async Task Renders_Terminator_Before_DashPrefixed_Input()
     {
         var arguments = BuildArguments(new JqExecuteOptions
         {
@@ -69,8 +67,23 @@ public class JqOptionsTests : TestBase
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["--", ".", "-input.json"],
+            [".", "--", "-input.json"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Preserves_Manual_Options_After_Ordinary_Filter()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new JqExecuteOptions
+        {
+            Filter = ".",
+            Arguments = ["--compact-output", "input.json"],
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("jq . --compact-output input.json");
     }
 
     [Test]

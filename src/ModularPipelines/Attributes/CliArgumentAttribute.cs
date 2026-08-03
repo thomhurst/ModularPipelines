@@ -43,6 +43,12 @@ public sealed class CliArgumentAttribute : Attribute
     public bool PrependOptionTerminator { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether <c>--</c> is emitted immediately
+    /// before this argument when any rendered value starts with a dash.
+    /// </summary>
+    public bool PrependOptionTerminatorIfValueStartsWithDash { get; set; }
+
+    /// <summary>
     /// Initialises a new instance of the <see cref="CliArgumentAttribute"/> class.
     /// Initializes a new instance of the <see cref="CliArgumentAttribute"/> class with default position 0.
     /// </summary>

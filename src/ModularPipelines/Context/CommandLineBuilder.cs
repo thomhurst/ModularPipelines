@@ -83,6 +83,13 @@ internal sealed class CommandLineBuilder(
                 nameof(options));
         }
 
+        if (options.ArgumentsContainOptionTerminator && emittedOptionTerminator)
+        {
+            throw new InvalidOperationException(
+                "Manual arguments cannot supply an end-of-options marker after one was already "
+                + "emitted by a structured argument. Remove one of the '--' sources.");
+        }
+
         emittedOptionTerminator |= options.ArgumentsContainOptionTerminator;
         var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
             RunSettingsCommandModel,

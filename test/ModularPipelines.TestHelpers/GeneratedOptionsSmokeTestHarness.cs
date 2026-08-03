@@ -206,7 +206,10 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var values = GetValues(sample);
 
-        return attribute.PrependOptionTerminator
+        var requiresOptionTerminator = attribute.PrependOptionTerminator
+            || (attribute.PrependOptionTerminatorIfValueStartsWithDash
+                && values.Any(static value => value.StartsWith('-')));
+        return requiresOptionTerminator
             ? ["--", .. values]
             : values;
     }

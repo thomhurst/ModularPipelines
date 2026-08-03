@@ -465,6 +465,11 @@ public class OptionsClassGenerator : ICodeGenerator
             parts.Add("PrependOptionTerminator = true");
         }
 
+        if (positional.PrependOptionTerminatorIfValueStartsWithDash)
+        {
+            parts.Add("PrependOptionTerminatorIfValueStartsWithDash = true");
+        }
+
         return $"CliArgument({string.Join(", ", parts)})";
     }
 }

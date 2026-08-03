@@ -210,6 +210,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Manual_Terminator_After_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--", "input.json"],
+            ArgumentsContainOptionTerminator = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("already emitted");
+    }
+
+    [Test]
     public async Task Build_Empty_RunSettings_Emit_No_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
