@@ -1170,31 +1170,25 @@ internal static class ModuleAuthoringAnalysis
             operation = conversion.Operand;
         }
 
-        if (operation is IArrayCreationOperation { Initializer: { } initializer })
+        return operation switch
         {
-            return initializer.ElementValues.Any(IsUnresolvedModuleServiceDescriptor);
-        }
+            IArrayCreationOperation { Initializer: { } initializer } =>
+                initializer.ElementValues.Any(IsUnresolvedModuleServiceDescriptor),
+            ICollectionExpressionOperation collection =>
+                collection.Elements.Any(IsUnresolvedModuleServiceDescriptor),
+            ISpreadOperation spread => IsUnresolvedModuleServiceDescriptor(spread.Operand),
+            IInvocationOperation invocation => IsUnresolvedModuleServiceDescriptorFactory(invocation),
+            _ => false,
+        };
+    }
 
-        if (operation is ICollectionExpressionOperation collection)
-        {
-            return collection.Elements.Any(IsUnresolvedModuleServiceDescriptor);
-        }
-
-        if (operation is ISpreadOperation spread)
-        {
-            return IsUnresolvedModuleServiceDescriptor(spread.Operand);
-        }
-
-        if (operation is not IInvocationOperation invocation
-            || !IsServiceDescriptorFactory(invocation.TargetMethod)
-            || !RegistersModuleService(invocation.Arguments, invocation.TargetMethod.TypeArguments))
-        {
-            return false;
-        }
-
+    private static bool IsUnresolvedModuleServiceDescriptorFactory(IInvocationOperation invocation)
+    {
         var implementationType = invocation.Arguments.FirstOrDefault(
             static argument => argument.Parameter?.Name == "implementationType");
-        return implementationType is not null
+        return IsServiceDescriptorFactory(invocation.TargetMethod)
+               && RegistersModuleService(invocation.Arguments, invocation.TargetMethod.TypeArguments)
+               && implementationType is not null
                && !TryGetTypeOfNamedTypes(implementationType.Value, out _);
     }
 
@@ -4498,28 +4492,38 @@ internal static class ModuleAuthoringAnalysis
             var selectedBranch = condition
                 ? conditional.WhenTrue
                 : conditional.WhenFalse;
-            return selectedBranch is not null
-                   && (AlwaysThrows(selectedBranch)
-                       || FlowsFromCancellationToken(
-                           selectedBranch,
-                           cancellationToken,
-                           visitedLocals,
-                           visitedMethods));
+            return BranchFlowsFromCancellationToken(
+                selectedBranch,
+                cancellationToken,
+                visitedLocals,
+                visitedMethods);
         }
 
-        return (AlwaysThrows(conditional.WhenTrue)
-                || FlowsFromCancellationToken(
-                    conditional.WhenTrue,
-                    cancellationToken,
-                    CloneVisitedLocals(visitedLocals),
-                    CloneVisitedMethods(visitedMethods)))
-               && conditional.WhenFalse is not null
-               && (AlwaysThrows(conditional.WhenFalse)
+        return BranchFlowsFromCancellationToken(
+                   conditional.WhenTrue,
+                   cancellationToken,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods))
+               && BranchFlowsFromCancellationToken(
+                   conditional.WhenFalse,
+                   cancellationToken,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods));
+    }
+
+    private static bool BranchFlowsFromCancellationToken(
+        IOperation? branch,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        return branch is not null
+               && (AlwaysThrows(branch)
                    || FlowsFromCancellationToken(
-                       conditional.WhenFalse,
+                       branch,
                        cancellationToken,
-                       CloneVisitedLocals(visitedLocals),
-                       CloneVisitedMethods(visitedMethods)));
+                       visitedLocals,
+                       visitedMethods));
     }
 
     private static bool FlowsFromCancellationTokenSwitchExpression(
