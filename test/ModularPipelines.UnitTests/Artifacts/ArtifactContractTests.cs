@@ -596,6 +596,46 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task ArtifactProducerUsesHistoryWhenProducerAndConsumerAreExcluded()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules =
+                [
+                    nameof(SkippedArtifactProducerModule),
+                    nameof(SkippedArtifactConsumerModule),
+                ],
+            });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<SkippedArtifactConsumerModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<SkippedArtifactConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
     public async Task ArtifactProducerUsesHistoryWhenArtifactConsumerIsPrecompleted()
     {
         DeleteLocalArtifacts();

@@ -63,8 +63,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var runnableModules = organizedModules.RunnableModules.ToList();
         var ignoredModules = organizedModules.IgnoredModules.ToList();
-        var consumedArtifactProducerTypes = organizedModules.AllModules
-            .SelectMany(module => module.GetType()
+        var consumedArtifactProducerTypes = runnableModules
+            .SelectMany(runnableModule => runnableModule.Module.GetType()
                 .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
                 .Cast<ConsumesArtifactAttribute>())
             .Select(attribute => attribute.ProducerModule)
