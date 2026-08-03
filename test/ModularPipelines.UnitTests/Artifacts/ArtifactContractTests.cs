@@ -19,6 +19,9 @@ public class ArtifactContractTests
     private const string LocalArtifactRoot = ".modular-pipelines-local-artifact-tests";
     private const string ProducedFile = LocalArtifactRoot + "/produced/output.txt";
     private const string RestoreDirectory = LocalArtifactRoot + "/restored";
+    private const string MultipleProducedDirectory = LocalArtifactRoot + "/multiple-produced";
+    private const string MultipleProducedPattern = MultipleProducedDirectory + "/*.txt";
+    private const string MultipleRestoreDirectory = LocalArtifactRoot + "/multiple-restored";
     private const string CacheOnlyFile = LocalArtifactRoot + "/cache-only.bin";
     private const string MissingRuntimeFile = LocalArtifactRoot + "/missing/output.txt";
     private const string FailedRuntimeFile = LocalArtifactRoot + "/failed/output.txt";
@@ -106,6 +109,49 @@ public class ArtifactContractTests
                 Path.Combine(RestoreDirectory, "local-output"),
                 cancellationToken);
             return ConsumedContent;
+        }
+    }
+
+    [ProducesArtifact("multiple-output", MultipleProducedPattern)]
+    private sealed class MultipleFileProducerModule : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Directory.CreateDirectory(MultipleProducedDirectory);
+            await File.WriteAllTextAsync(
+                Path.Combine(MultipleProducedDirectory, "first.txt"),
+                "first",
+                cancellationToken);
+            await File.WriteAllTextAsync(
+                Path.Combine(MultipleProducedDirectory, "second.txt"),
+                "second",
+                cancellationToken);
+            return "produced";
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<MultipleFileProducerModule>]
+    [ConsumesArtifact(
+        typeof(MultipleFileProducerModule),
+        "multiple-output",
+        RestorePath = MultipleRestoreDirectory)]
+    private sealed class MultipleFileConsumerModule : Module<string>
+    {
+        public static string? ConsumedContent { get; set; }
+
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            var first = await File.ReadAllTextAsync(
+                Path.Combine(MultipleRestoreDirectory, "first.txt"),
+                cancellationToken);
+            var second = await File.ReadAllTextAsync(
+                Path.Combine(MultipleRestoreDirectory, "second.txt"),
+                cancellationToken);
+            return ConsumedContent = $"{first},{second}";
         }
     }
 
@@ -435,6 +481,28 @@ public class ArtifactContractTests
             await builder.ExecutePipelineAsync();
 
             await Assert.That(LocalConsumerModule.ConsumedContent).IsEqualTo("local artifact content");
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionRestoresMultipleConsumedFiles()
+    {
+        DeleteLocalArtifacts();
+        MultipleFileConsumerModule.ConsumedContent = null;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<MultipleFileProducerModule>();
+            builder.AddModule<MultipleFileConsumerModule>();
+
+            await builder.ExecutePipelineAsync();
+
+            await Assert.That(MultipleFileConsumerModule.ConsumedContent).IsEqualTo("first,second");
         }
         finally
         {

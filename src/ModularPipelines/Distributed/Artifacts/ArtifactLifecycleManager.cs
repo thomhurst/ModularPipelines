@@ -99,7 +99,7 @@ internal class ArtifactLifecycleManager
                 {
                     // Single directory — zip to temp file to avoid OOM on large directories
                     descriptor = descriptor with { ContentType = "application/zip" };
-                    var tempFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.zip");
+                    var tempFile = CreateTemporaryArchivePath();
                     try
                     {
                         ZipFile.CreateFromDirectory(resolvedPaths[0], tempFile, _options.CompressionLevel, includeBaseDirectory: false);
@@ -122,7 +122,7 @@ internal class ArtifactLifecycleManager
                 {
                     // Multiple files — zip to temp file to avoid OOM
                     descriptor = descriptor with { ContentType = "application/zip" };
-                    var tempFile = Path.GetTempFileName();
+                    var tempFile = CreateTemporaryArchivePath();
                     try
                     {
                         using (var archive = ZipFile.Open(tempFile, ZipArchiveMode.Create))
@@ -357,4 +357,7 @@ internal class ArtifactLifecycleManager
 
     private string ResolvePath(string path) =>
         Path.GetFullPath(Path.IsPathRooted(path) ? path : Path.Combine(_workingDirectory, path));
+
+    private static string CreateTemporaryArchivePath() =>
+        Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid():N}.zip");
 }
