@@ -157,6 +157,18 @@ public abstract class Module1 : FixedWrapper<string>
     }
 
     [TestMethod]
+    public async Task CodeFixIsNotOfferedWhenSyncExecutionReturnWouldBecomeInvalid()
+    {
+        var source = BadSyncModuleSource
+            .Replace("{|#0:", string.Empty)
+            .Replace("|}", string.Empty);
+
+        await VerifyCodeFixCS.VerifyNoCodeFixAsync(
+            source,
+            EnumerableModuleResultAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
     public async Task AnalyzerIsNotTriggered_When_ForeignModuleReturnsIEnumerable()
     {
         await VerifyCS.VerifyAnalyzerAsync(ForeignModuleSource);

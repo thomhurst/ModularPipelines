@@ -44,29 +44,34 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return;
         }
 
-        if (await GetReplacementContext(
+        var replacement = await GetReplacementContext(
                 context.Document,
                 baseTypeSyntax,
-                context.CancellationToken).ConfigureAwait(false) is null)
+                context.CancellationToken).ConfigureAwait(false);
+        if (replacement is null)
         {
             return;
         }
 
-        // Register a code action to convert IEnumerable<T> to List<T>
-        context.RegisterCodeFix(
-            CodeAction.Create(
-                title: CodeFixResources.EnumerableModuleResultToListCodeFixTitle,
-                createChangedDocument: c => ReplaceEnumerableWithList(context, baseTypeSyntax, c),
-                equivalenceKey: nameof(CodeFixResources.EnumerableModuleResultToListCodeFixTitle)),
-            diagnostic);
+        if (HasCompatibleExecutionOverride(replacement, ReplacementType.List))
+        {
+            context.RegisterCodeFix(
+                CodeAction.Create(
+                    title: CodeFixResources.EnumerableModuleResultToListCodeFixTitle,
+                    createChangedDocument: c => ReplaceEnumerableWithList(context, baseTypeSyntax, c),
+                    equivalenceKey: nameof(CodeFixResources.EnumerableModuleResultToListCodeFixTitle)),
+                diagnostic);
+        }
 
-        // Register a code action to convert IEnumerable<T> to T[]
-        context.RegisterCodeFix(
-            CodeAction.Create(
-                title: CodeFixResources.EnumerableModuleResultToArrayCodeFixTitle,
-                createChangedDocument: c => ReplaceEnumerableWithArray(context, baseTypeSyntax, c),
-                equivalenceKey: nameof(CodeFixResources.EnumerableModuleResultToArrayCodeFixTitle)),
-            diagnostic);
+        if (HasCompatibleExecutionOverride(replacement, ReplacementType.Array))
+        {
+            context.RegisterCodeFix(
+                CodeAction.Create(
+                    title: CodeFixResources.EnumerableModuleResultToArrayCodeFixTitle,
+                    createChangedDocument: c => ReplaceEnumerableWithArray(context, baseTypeSyntax, c),
+                    equivalenceKey: nameof(CodeFixResources.EnumerableModuleResultToArrayCodeFixTitle)),
+                diagnostic);
+        }
     }
 
     private static async Task<Document> ReplaceEnumerableWithList(CodeFixContext context, SimpleBaseTypeSyntax baseTypeSyntax, CancellationToken cancellationToken)
@@ -173,9 +178,63 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
                     genericType.OriginalDefinition,
                     enumerableType));
         var elementType = enumerableGenericName?.TypeArgumentList.Arguments.FirstOrDefault();
-        return elementType is null
+        var elementTypeSymbol = elementType is null
             ? null
-            : new ReplacementContext(documentRoot, candidate, elementType);
+            : semanticModel.GetTypeInfo(elementType, cancellationToken).Type;
+        return elementType is null || elementTypeSymbol is null
+            ? null
+            : new ReplacementContext(
+                documentRoot,
+                semanticModel,
+                candidate,
+                elementType,
+                elementTypeSymbol);
+    }
+
+    private static bool HasCompatibleExecutionOverride(
+        ReplacementContext replacement,
+        ReplacementType replacementType)
+    {
+        var containingType = replacement.EnumerableType
+            .Ancestors()
+            .OfType<TypeDeclarationSyntax>()
+            .FirstOrDefault();
+        if (containingType is null)
+        {
+            return false;
+        }
+
+        var executionOverrides = containingType.Members
+            .OfType<MethodDeclarationSyntax>()
+            .Select(method => replacement.SemanticModel.GetDeclaredSymbol(method))
+            .Where(method => method?.OverriddenMethod is not null
+                && method.Name is "Execute" or "ExecuteAsync")
+            .ToArray();
+        if (executionOverrides.Length == 0)
+        {
+            return true;
+        }
+
+        ITypeSymbol? expectedResultType = replacementType switch
+        {
+            ReplacementType.List => replacement.SemanticModel.Compilation
+                .GetTypeByMetadataName("System.Collections.Generic.List`1")?
+                .Construct(replacement.ElementTypeSymbol),
+            ReplacementType.Array => replacement.SemanticModel.Compilation
+                .CreateArrayTypeSymbol(replacement.ElementTypeSymbol),
+            _ => null,
+        };
+        return expectedResultType is not null
+            && executionOverrides.All(method => SymbolEqualityComparer.Default.Equals(
+                GetExecutionResultType(method!.ReturnType),
+                expectedResultType));
+    }
+
+    private static ITypeSymbol GetExecutionResultType(ITypeSymbol returnType)
+    {
+        return returnType is INamedTypeSymbol { Name: "Task", TypeArguments.Length: 1 } taskType
+            ? taskType.TypeArguments[0]
+            : returnType;
     }
 
     private static int? GetModuleResultTypeParameterOrdinal(
@@ -217,13 +276,25 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
 
     private sealed class ReplacementContext(
         SyntaxNode documentRoot,
+        SemanticModel semanticModel,
         TypeSyntax enumerableType,
-        TypeSyntax elementType)
+        TypeSyntax elementType,
+        ITypeSymbol elementTypeSymbol)
     {
         public SyntaxNode DocumentRoot { get; } = documentRoot;
+
+        public SemanticModel SemanticModel { get; } = semanticModel;
 
         public TypeSyntax EnumerableType { get; } = enumerableType;
 
         public TypeSyntax ElementType { get; } = elementType;
+
+        public ITypeSymbol ElementTypeSymbol { get; } = elementTypeSymbol;
+    }
+
+    private enum ReplacementType
+    {
+        List,
+        Array,
     }
 }
