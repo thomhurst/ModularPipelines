@@ -84,8 +84,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         return node is ClassDeclarationSyntax
             || node is StructDeclarationSyntax
-            || node is EnumDeclarationSyntax
-            || node is DelegateDeclarationSyntax
             || node is RecordDeclarationSyntax;
     }
 
@@ -415,6 +413,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("    internal static void Register()");
         sb.AppendLine("    {");
         sb.AppendLine("        var assembly = global::System.Reflection.Assembly.GetExecutingAssembly();");
+        sb.AppendLine("        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.RegisterAssembly(assembly);");
         sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterAssembly(assembly);");
         foreach (var item in uniqueItems)
         {

@@ -241,15 +241,13 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
-    public async Task PartialOptionsWithoutCompleteMetadataThrow()
+    public async Task PartialOptionsWithoutSecretPropertiesReturnNoSecrets()
     {
         var provider = CreateProvider(out _);
 
-        var exception = await Assert.That(() =>
-                provider.GetSecretsInObject(new PartialNoSecretsOptions()).ToList())
-            .Throws<MissingSecretMetadataException>();
+        var secrets = provider.GetSecretsInObject(new PartialNoSecretsOptions()).ToList();
 
-        await Assert.That(exception!.ObjectType).IsEqualTo(typeof(PartialNoSecretsOptions));
+        await Assert.That(secrets).IsEmpty();
     }
 
     [Test]

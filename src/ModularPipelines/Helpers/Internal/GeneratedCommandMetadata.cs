@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace ModularPipelines.Helpers.Internal;
 
@@ -9,6 +10,16 @@ namespace ModularPipelines.Helpers.Internal;
 public static class GeneratedCommandMetadata
 {
     private static readonly ConcurrentDictionary<Type, CommandMetadata> Models = new();
+    private static readonly ConcurrentDictionary<Assembly, byte> ProcessedAssemblies = new();
+
+    /// <summary>
+    /// Registers that an assembly ran the C# command metadata generator.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterAssembly(Assembly assembly)
+    {
+        ProcessedAssemblies.TryAdd(assembly, 0);
+    }
 
     /// <summary>
     /// Registers the generated command model for an options type.
@@ -47,6 +58,8 @@ public static class GeneratedCommandMetadata
         model = Array.Empty<PropertyCommandLinePart>();
         return false;
     }
+
+    internal static bool IsAssemblyProcessed(Assembly assembly) => ProcessedAssemblies.ContainsKey(assembly);
 
     private sealed record CommandMetadata(IReadOnlyList<PropertyCommandLinePart> Model, bool IsComplete);
 }

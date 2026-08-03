@@ -226,6 +226,20 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task CommandMetadata_TracksProcessedAssembliesIndependently()
+    {
+        var type = CreateDynamicType("CommandAssemblyRegistration");
+
+        GeneratedCommandMetadata.RegisterAssembly(type.Assembly);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(GeneratedCommandMetadata.IsAssemblyProcessed(type.Assembly)).IsTrue();
+            await Assert.That(GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly)).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task CommandMetadata_EscapesControlCharactersInAttributeValues()
     {
         var found = GeneratedCommandMetadata.TryGet(typeof(ControlCharacterMetadataOptions), out var model);

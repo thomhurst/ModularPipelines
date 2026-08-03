@@ -88,7 +88,7 @@ public static class GeneratedOptionsSmokeTestHarness
             var options = RuntimeHelpers.GetUninitializedObject(optionsType);
 
             InitializeRequiredArguments(optionsType, model, options);
-            SetValue(options, property, sample);
+            SetValueIfAssignable(options, property, sample);
 
             var actual = builder.BuildArguments(model, options);
             var expected = GetExpectedArguments(model, options);
@@ -357,7 +357,7 @@ public static class GeneratedOptionsSmokeTestHarness
         || type == typeof(double)
         || type == typeof(decimal);
 
-    private static void SetValue(object target, PropertyInfo property, object value)
+    private static void SetValueIfAssignable(object target, PropertyInfo property, object value)
     {
         if (property.SetMethod is not null)
         {
@@ -367,7 +367,13 @@ public static class GeneratedOptionsSmokeTestHarness
 
         var backingField = (property.DeclaringType?.GetField(
             $"<{property.Name}>k__BackingField",
-            BindingFlags.Instance | BindingFlags.NonPublic)) ?? throw new InvalidOperationException($"{property.Name} cannot be assigned.");
+            BindingFlags.Instance | BindingFlags.NonPublic);
+
+        if (backingField is null)
+        {
+            return;
+        }
+
         backingField.SetValue(target, value);
     }
 

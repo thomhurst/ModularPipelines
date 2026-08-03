@@ -107,6 +107,8 @@ public class IncrementalGeneratorCachingTests
                                   public class PlainClass;
                                   public record PlainRecord;
                                   public struct PlainStruct;
+                                  public enum PlainEnum { Value }
+                                  public delegate void PlainDelegate();
                                   public interface IPlainInterface;
                               }
                               """;
