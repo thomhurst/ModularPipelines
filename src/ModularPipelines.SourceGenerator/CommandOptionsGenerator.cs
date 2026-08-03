@@ -650,29 +650,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var candidates = ImmutableArray.CreateBuilder<TypeMetadataCandidate>();
         foreach (var assembly in compilation.SourceModule.ReferencedAssemblySymbols)
         {
-            if (SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
-                || assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName) is not null
-                || !assembly.Modules.Any(module => module.ReferencedAssemblySymbols.Any(
-                    referenced => SymbolEqualityComparer.Default.Equals(referenced, runtimeAssembly))))
+            if (!RequiresExternalMetadata(assembly, runtimeAssembly))
             {
                 continue;
             }
 
             foreach (var type in GetTypes(assembly.GlobalNamespace))
             {
-                var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
-                var hasSecretAttributes = GetSecretProperties(type, compilation.Assembly).HasAttributes;
-                if ((!isCommandOptions && !hasSecretAttributes)
-                    || (type.IsAbstract && type.IsGenericType))
-                {
-                    continue;
-                }
-
-                if (GetTypeCandidate(
-                        type,
-                        compilation,
-                        hasSecretAttributes,
-                        isExternal: true) is { } candidate)
+                if (GetExternalTypeCandidate(type, compilation) is { } candidate)
                 {
                     candidates.Add(candidate);
                 }
@@ -680,6 +665,27 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         return candidates.ToImmutable();
+    }
+
+    private static bool RequiresExternalMetadata(IAssemblySymbol assembly, IAssemblySymbol runtimeAssembly) =>
+        !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
+        && assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName) is null
+        && assembly.Modules.Any(module => module.ReferencedAssemblySymbols.Any(
+            referenced => SymbolEqualityComparer.Default.Equals(referenced, runtimeAssembly)));
+
+    private static TypeMetadataCandidate? GetExternalTypeCandidate(
+        INamedTypeSymbol type,
+        Compilation compilation)
+    {
+        var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
+        var hasSecretAttributes = GetSecretProperties(type, compilation.Assembly).HasAttributes;
+        if ((!isCommandOptions && !hasSecretAttributes)
+            || (type.IsAbstract && type.IsGenericType))
+        {
+            return null;
+        }
+
+        return GetTypeCandidate(type, compilation, hasSecretAttributes, isExternal: true);
     }
 
     private static IEnumerable<INamedTypeSymbol> GetTypes(INamespaceOrTypeSymbol container)
