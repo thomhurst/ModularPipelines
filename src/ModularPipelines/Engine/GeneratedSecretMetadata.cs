@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ModularPipelines.Engine;
 
@@ -68,7 +69,8 @@ public static class GeneratedSecretMetadata
 
     internal static bool TryGetAccessors(Type type, out IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        if (type.IsArray)
+        if (type.IsArray
+            || type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
         {
             accessors = Array.Empty<SecretPropertyAccessor>();
             return true;
