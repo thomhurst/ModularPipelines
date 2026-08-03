@@ -9,6 +9,8 @@ internal sealed class DescendantProcessTracker : IDisposable
     private static readonly TimeSpan InitialPollingDuration = TimeSpan.FromMilliseconds(250);
     private readonly Lock _lock = new();
     private readonly int _rootProcessId;
+    private readonly Process? _rootProcess;
+    private readonly DateTime _rootProcessStartTime;
     private readonly Dictionary<int, Process> _capturedProcesses = [];
     private readonly Stopwatch _trackingAge = Stopwatch.StartNew();
     private readonly Timer? _timer;
@@ -17,16 +19,34 @@ internal sealed class DescendantProcessTracker : IDisposable
     public DescendantProcessTracker(int rootProcessId)
     {
         _rootProcessId = rootProcessId;
-        if (ChildProcessSnapshot.IsSupported)
+        if (!ChildProcessSnapshot.IsSupported)
         {
-            _timer = new Timer(
-                static state => ((DescendantProcessTracker) state!).Poll(),
-                this,
-                Timeout.InfiniteTimeSpan,
-                Timeout.InfiniteTimeSpan);
-            CaptureDescendants();
-            ScheduleNextPoll();
+            return;
         }
+
+        Process? rootProcess = null;
+        try
+        {
+            rootProcess = Process.GetProcessById(rootProcessId);
+            _rootProcessStartTime = rootProcess.StartTime;
+            _rootProcess = rootProcess;
+        }
+        catch (Exception exception) when (exception is
+            ArgumentException
+            or InvalidOperationException
+            or System.ComponentModel.Win32Exception)
+        {
+            rootProcess?.Dispose();
+            return;
+        }
+
+        _timer = new Timer(
+            static state => ((DescendantProcessTracker) state!).Poll(),
+            this,
+            Timeout.InfiniteTimeSpan,
+            Timeout.InfiniteTimeSpan);
+        CaptureDescendants();
+        ScheduleNextPoll();
     }
 
     public void KillCapturedDescendants()
@@ -60,6 +80,7 @@ internal sealed class DescendantProcessTracker : IDisposable
         }
 
         _timer?.Dispose();
+        _rootProcess?.Dispose();
         foreach (var process in capturedProcesses)
         {
             process.Dispose();
@@ -106,8 +127,10 @@ internal sealed class DescendantProcessTracker : IDisposable
 
                 foreach (var childProcessId in snapshot.GetChildProcessIds(parentProcessId))
                 {
-                    pending.Enqueue(childProcessId);
-                    CaptureProcess(childProcessId);
+                    if (CaptureProcess(childProcessId))
+                    {
+                        pending.Enqueue(childProcessId);
+                    }
                 }
             }
         }
@@ -154,23 +177,35 @@ internal sealed class DescendantProcessTracker : IDisposable
                 return pending;
             }
 
-            pending.Enqueue(_rootProcessId);
-            foreach (var processId in _capturedProcesses.Keys)
+            if (_rootProcess is { HasExited: false })
             {
-                pending.Enqueue(processId);
+                pending.Enqueue(_rootProcessId);
+            }
+
+            foreach (var (processId, process) in _capturedProcesses)
+            {
+                if (!process.HasExited)
+                {
+                    pending.Enqueue(processId);
+                }
             }
         }
 
         return pending;
     }
 
-    private void CaptureProcess(int processId)
+    private bool CaptureProcess(int processId)
     {
         lock (_lock)
         {
-            if (_disposed || _capturedProcesses.ContainsKey(processId))
+            if (_disposed)
             {
-                return;
+                return false;
+            }
+
+            if (_capturedProcesses.TryGetValue(processId, out var capturedProcess))
+            {
+                return !capturedProcess.HasExited;
             }
         }
 
@@ -178,10 +213,11 @@ internal sealed class DescendantProcessTracker : IDisposable
         try
         {
             process = Process.GetProcessById(processId);
-            if (process.HasExited)
+            if (process.HasExited
+                || !CanBeDescendant(_rootProcessStartTime, process.StartTime))
             {
                 process.Dispose();
-                return;
+                return false;
             }
 
             lock (_lock)
@@ -189,7 +225,11 @@ internal sealed class DescendantProcessTracker : IDisposable
                 if (!_disposed && _capturedProcesses.TryAdd(processId, process))
                 {
                     process = null;
+                    return true;
                 }
+
+                return _capturedProcesses.TryGetValue(processId, out var capturedProcess)
+                       && !capturedProcess.HasExited;
             }
         }
         catch (Exception exception) when (exception is
@@ -203,5 +243,12 @@ internal sealed class DescendantProcessTracker : IDisposable
         {
             process?.Dispose();
         }
+
+        return false;
     }
+
+    internal static bool CanBeDescendant(
+        DateTime rootProcessStartTime,
+        DateTime candidateProcessStartTime) =>
+        candidateProcessStartTime >= rootProcessStartTime;
 }

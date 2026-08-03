@@ -14,6 +14,24 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task DescendantIdentity_Rejects_Process_Older_Than_Root()
+    {
+        var rootStart = new DateTime(2026, 8, 3, 12, 0, 0, DateTimeKind.Utc);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(DescendantProcessTracker.CanBeDescendant(
+                    rootStart,
+                    rootStart.AddTicks(-1)))
+                .IsFalse();
+            await Assert.That(DescendantProcessTracker.CanBeDescendant(
+                    rootStart,
+                    rootStart))
+                .IsTrue();
+        }
+    }
+
+    [Test]
     public async Task ExecutableOverride_Applies_To_Matching_Command()
     {
         var applies = ProcessCliCommandExecutor.IsOverrideForCommand(
