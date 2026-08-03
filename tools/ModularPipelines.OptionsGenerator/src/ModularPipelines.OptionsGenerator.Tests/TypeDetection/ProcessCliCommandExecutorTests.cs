@@ -117,23 +117,24 @@ public class ProcessCliCommandExecutorTests
     [Test]
     public async Task Timeout_Returns_When_Command_Has_Long_Running_Child()
     {
-        if (OperatingSystem.IsWindows())
-        {
-            return;
-        }
-
         var childPidPath = Path.Combine(
             Path.GetTempPath(),
             $"mp-cli-child-{Guid.NewGuid():N}.pid");
+        string? scriptPath = null;
         int? childPid = null;
         try
         {
+            var command = await CreateLongRunningChildCommandAsync(
+                childPidPath,
+                parentExits: false);
+            scriptPath = command.ScriptPath;
             var executor = new ProcessCliCommandExecutor(
                 NullLogger<ProcessCliCommandExecutor>.Instance,
-                TimeSpan.FromMilliseconds(100));
-            var arguments = $"-c \"sleep 30 & child=$!; echo $child > '{childPidPath}'; wait\"";
+                OperatingSystem.IsWindows()
+                    ? TimeSpan.FromMilliseconds(1500)
+                    : TimeSpan.FromMilliseconds(100));
 
-            var execution = executor.ExecuteAsync("/bin/sh", arguments);
+            var execution = executor.ExecuteAsync(command.Command, command.Arguments);
             var result = await execution.WaitAsync(TimeSpan.FromSeconds(5));
             childPid = int.Parse(await File.ReadAllTextAsync(childPidPath));
 
@@ -153,30 +154,34 @@ public class ProcessCliCommandExecutorTests
             }
 
             File.Delete(childPidPath);
+            if (scriptPath is not null)
+            {
+                File.Delete(scriptPath);
+            }
         }
     }
 
     [Test]
     public async Task Timeout_Returns_When_Exited_Command_Leaves_Pipe_Open()
     {
-        if (OperatingSystem.IsWindows())
-        {
-            return;
-        }
-
         var childPidPath = Path.Combine(
             Path.GetTempPath(),
             $"mp-cli-exited-parent-child-{Guid.NewGuid():N}.pid");
+        string? scriptPath = null;
         int? childPid = null;
         try
         {
+            var command = await CreateLongRunningChildCommandAsync(
+                childPidPath,
+                parentExits: true);
+            scriptPath = command.ScriptPath;
             var executor = new ProcessCliCommandExecutor(
                 NullLogger<ProcessCliCommandExecutor>.Instance,
-                TimeSpan.FromMilliseconds(150));
-            var arguments =
-                $"-c \"sleep 30 & child=$!; echo $child > '{childPidPath}'; sleep 0.05\"";
+                OperatingSystem.IsWindows()
+                    ? TimeSpan.FromMilliseconds(1500)
+                    : TimeSpan.FromMilliseconds(150));
 
-            var result = await executor.ExecuteAsync("/bin/sh", arguments)
+            var result = await executor.ExecuteAsync(command.Command, command.Arguments)
                 .WaitAsync(TimeSpan.FromSeconds(5));
             childPid = int.Parse(await File.ReadAllTextAsync(childPidPath));
 
@@ -196,6 +201,10 @@ public class ProcessCliCommandExecutorTests
             }
 
             File.Delete(childPidPath);
+            if (scriptPath is not null)
+            {
+                File.Delete(scriptPath);
+            }
         }
     }
 
@@ -323,6 +332,31 @@ public class ProcessCliCommandExecutorTests
         }
 
         return !IsProcessRunning(processId);
+    }
+
+    private static async Task<(string Command, string Arguments, string? ScriptPath)>
+        CreateLongRunningChildCommandAsync(string childPidPath, bool parentExits)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            var parentCommand = parentExits ? "sleep 0.05" : "wait";
+            return (
+                "/bin/sh",
+                $"-c \"sleep 30 & child=$!; echo $child > '{childPidPath}'; {parentCommand}\"",
+                null);
+        }
+
+        var scriptPath = Path.ChangeExtension(childPidPath, ".cmd");
+        var escapedPidPath = childPidPath.Replace("'", "''", StringComparison.Ordinal);
+        var parentDelayMilliseconds = parentExits ? 1000 : 3000;
+        await File.WriteAllTextAsync(
+            scriptPath,
+            $"""
+            @echo off
+            start "" /b powershell.exe -NoProfile -Command "$PID | Set-Content -LiteralPath '{escapedPidPath}'; Start-Sleep -Seconds 30"
+            powershell.exe -NoProfile -Command "Start-Sleep -Milliseconds {parentDelayMilliseconds}"
+            """);
+        return (scriptPath, string.Empty, scriptPath);
     }
 
     private static bool IsProcessRunning(int processId)

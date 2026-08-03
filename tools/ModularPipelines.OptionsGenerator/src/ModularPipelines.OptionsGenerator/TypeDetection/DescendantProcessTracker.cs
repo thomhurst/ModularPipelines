@@ -4,24 +4,28 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 
 internal sealed class DescendantProcessTracker : IDisposable
 {
-    private static readonly TimeSpan PollingInterval = TimeSpan.FromMilliseconds(5);
+    private static readonly TimeSpan InitialPollingInterval = TimeSpan.FromMilliseconds(20);
+    private static readonly TimeSpan SteadyPollingInterval = TimeSpan.FromMilliseconds(100);
+    private static readonly TimeSpan InitialPollingDuration = TimeSpan.FromMilliseconds(250);
     private readonly Lock _lock = new();
     private readonly int _rootProcessId;
     private readonly Dictionary<int, Process> _capturedProcesses = [];
+    private readonly Stopwatch _trackingAge = Stopwatch.StartNew();
     private readonly Timer? _timer;
     private bool _disposed;
 
     public DescendantProcessTracker(int rootProcessId)
     {
         _rootProcessId = rootProcessId;
-        if (OperatingSystem.IsLinux())
+        if (ChildProcessSnapshot.IsSupported)
         {
-            CaptureDescendants();
             _timer = new Timer(
-                static state => ((DescendantProcessTracker) state!).CaptureDescendants(),
+                static state => ((DescendantProcessTracker) state!).Poll(),
                 this,
-                TimeSpan.Zero,
-                PollingInterval);
+                Timeout.InfiniteTimeSpan,
+                Timeout.InfiniteTimeSpan);
+            CaptureDescendants();
+            ScheduleNextPoll();
         }
     }
 
@@ -83,16 +87,15 @@ internal sealed class DescendantProcessTracker : IDisposable
 
     private void CaptureDescendants()
     {
-        if (!OperatingSystem.IsLinux())
-        {
-            return;
-        }
-
         try
         {
-            var childrenByParent = GetLinuxProcesses()
-                .ToLookup(static process => process.ParentProcessId);
             var pending = GetCaptureRoots();
+            if (pending.Count == 0)
+            {
+                return;
+            }
+
+            var snapshot = ChildProcessSnapshot.Create();
             var visited = new HashSet<int>();
             while (pending.TryDequeue(out var parentProcessId))
             {
@@ -101,17 +104,43 @@ internal sealed class DescendantProcessTracker : IDisposable
                     continue;
                 }
 
-                foreach (var child in childrenByParent[parentProcessId])
+                foreach (var childProcessId in snapshot.GetChildProcessIds(parentProcessId))
                 {
-                    pending.Enqueue(child.ProcessId);
-                    CaptureProcess(child.ProcessId);
+                    pending.Enqueue(childProcessId);
+                    CaptureProcess(childProcessId);
                 }
             }
         }
         catch (Exception exception) when (exception is
-            IOException or UnauthorizedAccessException or ArgumentException)
+            IOException
+            or UnauthorizedAccessException
+            or ArgumentException
+            or InvalidOperationException
+            or System.ComponentModel.Win32Exception)
         {
             // Process snapshots are inherently racy; the next poll retries.
+        }
+    }
+
+    private void Poll()
+    {
+        CaptureDescendants();
+        ScheduleNextPoll();
+    }
+
+    private void ScheduleNextPoll()
+    {
+        lock (_lock)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            var interval = _trackingAge.Elapsed < InitialPollingDuration
+                ? InitialPollingInterval
+                : SteadyPollingInterval;
+            _timer?.Change(interval, Timeout.InfiniteTimeSpan);
         }
     }
 
@@ -174,46 +203,5 @@ internal sealed class DescendantProcessTracker : IDisposable
         {
             process?.Dispose();
         }
-    }
-
-    private static IEnumerable<(int ProcessId, int ParentProcessId)> GetLinuxProcesses()
-    {
-        foreach (var processDirectory in Directory.EnumerateDirectories("/proc"))
-        {
-            if (!int.TryParse(Path.GetFileName(processDirectory), out var processId)
-                || !TryGetParentProcessId(processDirectory, out var parentProcessId))
-            {
-                continue;
-            }
-
-            yield return (processId, parentProcessId);
-        }
-    }
-
-    private static bool TryGetParentProcessId(
-        string processDirectory,
-        out int parentProcessId)
-    {
-        parentProcessId = default;
-        string stat;
-        try
-        {
-            stat = File.ReadAllText(Path.Combine(processDirectory, "stat"));
-        }
-        catch (Exception exception) when (exception is
-            IOException or UnauthorizedAccessException)
-        {
-            return false;
-        }
-
-        var commandEnd = stat.LastIndexOf(')');
-        if (commandEnd < 0)
-        {
-            return false;
-        }
-
-        var fields = stat[(commandEnd + 1)..]
-            .Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        return fields.Length > 1 && int.TryParse(fields[1], out parentProcessId);
     }
 }
