@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -39,42 +38,59 @@ public class EnumerableModuleResultAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (simpleBaseTypeSyntax.Type is not GenericNameSyntax genericNameSyntax)
+        if (context.SemanticModel.GetTypeInfo(
+                simpleBaseTypeSyntax.Type,
+                context.CancellationToken).Type is not INamedTypeSymbol baseType)
         {
             return;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not AnalyzerConstants.TypeNames.Module)
+        var moduleType = context.Compilation.GetTypeByMetadataName(
+            AnalyzerConstants.FullyQualifiedTypeNames.Module);
+        var enumerableType = context.Compilation.GetTypeByMetadataName(
+            AnalyzerConstants.FullyQualifiedTypeNames.IEnumerable);
+
+        if (moduleType is null || enumerableType is null)
         {
             return;
         }
 
-        if (genericNameSyntax.TypeArgumentList.Arguments.FirstOrDefault() is not GenericNameSyntax
-            innerGenericNameSyntax)
+        var moduleResultType = GetModuleResultType(baseType, moduleType);
+        if (moduleResultType is not INamedTypeSymbol namedTypeSymbol
+            || !SymbolEqualityComparer.Default.Equals(
+                namedTypeSymbol.OriginalDefinition,
+                enumerableType))
         {
             return;
         }
 
-        if (innerGenericNameSyntax.Identifier.ValueText is not AnalyzerConstants.TypeNames.IEnumerable)
+        var properties = new Dictionary<string, string?>
         {
-            return;
-        }
+            ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
+        }.ToImmutableDictionary();
 
-        var genericArgumentSymbol = context.SemanticModel.GetSymbolInfo(innerGenericNameSyntax).Symbol;
+        context.ReportDiagnostic(Diagnostic.Create(
+            Rule,
+            context.Node.GetLocation(),
+            properties,
+            namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+    }
 
-        if (genericArgumentSymbol is not INamedTypeSymbol namedTypeSymbol)
+    private static ITypeSymbol? GetModuleResultType(
+        INamedTypeSymbol baseType,
+        INamedTypeSymbol moduleType)
+    {
+        for (var current = baseType; current is not null; current = current.BaseType)
         {
-            return;
-        }
-
-        if (genericArgumentSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).StartsWith(AnalyzerConstants.FullyQualifiedTypeNames.IEnumerablePrefix))
-        {
-            var properties = new Dictionary<string, string?>
+            if (current.IsGenericType
+                && SymbolEqualityComparer.Default.Equals(
+                    current.OriginalDefinition,
+                    moduleType))
             {
-                ["Name"] = namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
-            }.ToImmutableDictionary();
-
-            context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), properties, namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+                return current.TypeArguments[0];
+            }
         }
+
+        return null;
     }
 }

@@ -37,41 +37,48 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (invocationExpressionSyntax.Expression is not MemberAccessExpressionSyntax memberAccessExpressionSyntax)
+        if (context.SemanticModel.GetSymbolInfo(
+                invocationExpressionSyntax,
+                context.CancellationToken).Symbol is not IMethodSymbol methodSymbol)
         {
             return;
         }
 
-        memberAccessExpressionSyntax = GetTopMemberAccessExpression(memberAccessExpressionSyntax);
-
-        if (memberAccessExpressionSyntax.Expression is not IdentifierNameSyntax identifierNameSyntax)
-        {
-            return;
-        }
-
-        var nameSymbol = context.SemanticModel.GetSymbolInfo(identifierNameSyntax);
-
-        if (nameSymbol.Symbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return;
-        }
-
-        if (namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == AnalyzerConstants.FullyQualifiedTypeNames.SystemConsole)
+        var consoleType = context.Compilation.GetTypeByMetadataName(
+            AnalyzerConstants.FullyQualifiedTypeNames.SystemConsole);
+        if (consoleType is not null
+            && IsConsoleUse(
+                context,
+                invocationExpressionSyntax,
+                methodSymbol,
+                consoleType))
         {
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(),
-                namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+                consoleType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
         }
     }
 
-    private static MemberAccessExpressionSyntax GetTopMemberAccessExpression(MemberAccessExpressionSyntax memberAccessExpressionSyntax)
+    private static bool IsConsoleUse(
+        SyntaxNodeAnalysisContext context,
+        InvocationExpressionSyntax invocation,
+        IMethodSymbol method,
+        INamedTypeSymbol consoleType)
     {
-        var memberAccessExpression = memberAccessExpressionSyntax;
-
-        while (memberAccessExpression.Expression is MemberAccessExpressionSyntax parentMemberAccessExpressionSyntax)
+        if (SymbolEqualityComparer.Default.Equals(method.ContainingType, consoleType))
         {
-            memberAccessExpression = parentMemberAccessExpressionSyntax;
+            return true;
         }
 
-        return memberAccessExpression;
+        if (invocation.Expression is not MemberAccessExpressionSyntax memberAccess)
+        {
+            return false;
+        }
+
+        var receiverSymbol = context.SemanticModel.GetSymbolInfo(
+            memberAccess.Expression,
+            context.CancellationToken).Symbol;
+
+        return receiverSymbol is IPropertySymbol property
+               && SymbolEqualityComparer.Default.Equals(property.ContainingType, consoleType);
     }
 }
