@@ -164,9 +164,11 @@ internal sealed class DependencyGraphExporter(
         PipelineSummary pipelineSummary,
         CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var organizedModules = await moduleRetriever
             .GetOrganizedModules(cancellationToken)
             .ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
         dependencyChainProvider.Initialize(organizedModules.AllModules);
         var models = dependencyChainProvider.ModuleDependencyModels
             .OrderBy(model => GetModuleFullName(model.Module), StringComparer.Ordinal)

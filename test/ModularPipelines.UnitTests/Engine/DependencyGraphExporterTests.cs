@@ -499,6 +499,12 @@ public class DependencyGraphExporterTests
             return builder.Build();
         }
 
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            new PrecreatedConfiguredModule(new PrecreatedModuleSettings
+            {
+                IncludeDependency = settings.IncludeDependency,
+            });
+
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
@@ -1825,7 +1831,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Does_Not_Dispose_State_Shared_With_Precreated_Module()
+    public async Task Render_Rejects_Shared_Precreated_State_Without_Disposing_It()
     {
         var state = new PrecreatedDisposableState();
         using var builder = Pipeline.CreateBuilder();
@@ -1833,7 +1839,8 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
         await Assert.That(state.IsDisposed).IsFalse();
 
         var summary = await pipeline.RunAsync();
@@ -1841,7 +1848,11 @@ public class DependencyGraphExporterTests
             .OfType<PrecreatedDisposableModule>()
             .Single();
 
-        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+            await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
+        }
     }
 
     [Test]
@@ -2074,6 +2085,25 @@ public class DependencyGraphExporterTests
         await Assert.ThrowsAsync<OperationCanceledException>(
             () => exporter.RenderAsync(
                 DependencyGraphFormat.Json,
+                cancellationTokenSource.Token));
+    }
+
+    [Test]
+    public async Task Completed_Summary_Render_Observes_An_Already_Canceled_Token()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var summary = await pipeline.RunAsync();
+        var renderer = pipeline.Services
+            .GetRequiredService<IPipelineSummaryDependencyGraphRenderer>();
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            () => renderer.RenderAsync(
+                DependencyGraphFormat.Json,
+                summary,
                 cancellationTokenSource.Token));
     }
 

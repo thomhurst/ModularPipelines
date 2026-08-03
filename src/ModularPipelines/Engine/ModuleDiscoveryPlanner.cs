@@ -165,7 +165,7 @@ internal sealed class ModuleDiscoveryPlanner(
                 creation.Module,
                 creation.IsServiceProviderOwned))
         {
-            if (!creation.IsServiceProviderOwned(creation.Module))
+            if (creation.IsPlannerOwned)
             {
                 ownedPlanningModules.Add(creation.Module);
             }
@@ -191,7 +191,8 @@ internal sealed class ModuleDiscoveryPlanner(
                 .CreateModule(module.GetType(), trackingServiceProvider);
             return CreateIsolatedPlanningModule(new PlanningModuleCreation(
                 planningModule,
-                trackingServiceProvider.IsServiceProviderOwned));
+                trackingServiceProvider.IsServiceProviderOwned,
+                IsPlannerOwned: !trackingServiceProvider.IsServiceProviderOwned(planningModule)));
         }
         catch (Exception exception)
         {
@@ -205,7 +206,7 @@ internal sealed class ModuleDiscoveryPlanner(
     private static PlanningModule CreateIsolatedPlanningModule(PlanningModuleCreation creation) =>
         new(
             creation.Module,
-            IsPlannerOwned: !creation.IsServiceProviderOwned(creation.Module),
+            creation.IsPlannerOwned,
             RequiresIsolation: true,
             creation.IsServiceProviderOwned);
 
@@ -494,7 +495,8 @@ internal sealed class ModuleDiscoveryPlanner(
         var module = copyProvider.CreatePlanningCopy(trackingServiceProvider);
         return new PlanningModuleCreation(
             module,
-            trackingServiceProvider.IsServiceProviderOwned);
+            trackingServiceProvider.IsServiceProviderOwned,
+            IsPlannerOwned: !trackingServiceProvider.IsServiceProviderOwned(module));
     }
 
     internal static async Task DisposePlanningModulesAsync(IEnumerable<IModule> planningModules)
@@ -579,19 +581,22 @@ internal sealed class ModulePlanningFactory
                 var customCopy = copyProvider.CreatePlanningCopy(customCopyServiceProvider);
                 return new PlanningModuleCreation(
                     customCopy,
-                    customCopyServiceProvider.IsServiceProviderOwned);
+                    customCopyServiceProvider.IsServiceProviderOwned,
+                    IsPlannerOwned: !customCopyServiceProvider.IsServiceProviderOwned(customCopy));
             }
 
             return new PlanningModuleCreation(
                 copyProvider.CreatePlanningCopyFromRegisteredInstance(),
-                static _ => true);
+                static _ => false,
+                IsPlannerOwned: false);
         }
 
         var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
         var module = _create(trackingServiceProvider);
         return new PlanningModuleCreation(
             module,
-            trackingServiceProvider.IsServiceProviderOwned);
+            trackingServiceProvider.IsServiceProviderOwned,
+            IsPlannerOwned: !trackingServiceProvider.IsServiceProviderOwned(module));
     }
 }
 
@@ -646,7 +651,8 @@ internal sealed record PlanningModule(
 
 internal sealed record PlanningModuleCreation(
     IModule Module,
-    Func<object, bool> IsServiceProviderOwned);
+    Func<object, bool> IsServiceProviderOwned,
+    bool IsPlannerOwned);
 
 internal sealed record PlannedModuleDiscovery(
     OrganizedModules OrganizedModules,
