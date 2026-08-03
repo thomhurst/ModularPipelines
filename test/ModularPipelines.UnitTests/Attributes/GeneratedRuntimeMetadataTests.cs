@@ -132,6 +132,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(argument.Attribute.Position).IsEqualTo(0);
         await Assert.That(argument.Attribute.Placement).IsEqualTo(ArgumentPlacement.BeforeOptions);
         await Assert.That(argument.Attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That((int)argument.Attribute.Phase).IsEqualTo(3);
         await Assert.That(argument.Attribute.Name).IsEqualTo("<FILE>");
         await Assert.That(argument.Attribute.PrependOptionTerminator).IsTrue();
 

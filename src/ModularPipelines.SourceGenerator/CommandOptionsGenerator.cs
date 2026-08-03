@@ -20,7 +20,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal const string SecretValueAttributeFullName = "ModularPipelines.Attributes.SecretValueAttribute";
 
     // Keep synchronized with CommandLinePhase.Passthrough; GeneratedRuntimeMetadataTests guards the ordinal.
-    private const int PassthroughCommandLinePhase = 2;
+    private const int PassthroughCommandLinePhase = 3;
 
     private static readonly DiagnosticDescriptor IncompleteCommandMetadata =
         GeneratorDiagnostics.IncompleteCommandMetadata;
