@@ -30,12 +30,6 @@ public sealed class CliArgumentAttribute : Attribute
     public int Position { get; }
 
     /// <summary>
-    /// Gets or sets the argument name for documentation purposes.
-    /// This is not used in command building, only for generating help text.
-    /// </summary>
-    public string? Name { get; set; }
-
-    /// <summary>
     /// Gets or sets the semantic phase used to order this argument.
     /// Positional arguments default to the pass-through phase after option parsing.
     /// Use <see cref="CommandLinePhase.EarlyOperand"/> for operands that precede regular options.

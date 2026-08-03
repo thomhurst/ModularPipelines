@@ -99,7 +99,6 @@ public partial class NpmCliScraper(
         [
             new CliPositionalArgument
             {
-                PlaceholderName = "<package-spec>",
                 PropertyName = "Value",
                 CSharpType = "string?",
                 Phase = CommandLinePhase.EarlyOperand,

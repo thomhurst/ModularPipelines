@@ -18,44 +18,44 @@ For documentation work, ensure Node.js 20+ is available and yarn is installed.
 
 **CRITICAL: NEVER CANCEL BUILD COMMANDS. Set timeout to 180+ seconds for individual builds.** (Agents should not run the full build pipeline at all - see below.)
 
-**The default solution is lightweight.** `ModularPipelines.sln` is the core-library
+**The default solution is lightweight.** `ModularPipelines.slnx` is the core-library
 solution (core framework, Cmd, source generator, and analyzers only), so building it is
 fast. Each tool/CLI integration has its own solution. Build the core solution or a single
 tool solution for routine work.
 
-**⛔ DO NOT build `ModularPipelines.All.sln` or run the build pipeline
+**⛔ DO NOT build `ModularPipelines.All.slnx` or run the build pipeline
 (`dotnet run` in `src/ModularPipelines.Build`).** Those compile 60+ projects at once and
 will likely exhaust memory and lag or crash the machine. They are CI's responsibility, not
 an agent's. Build only the core solution or the specific tool solution you are changing.
-Only build `ModularPipelines.All.sln` if a human explicitly requests a full build.
+Only build `ModularPipelines.All.slnx` if a human explicitly requests a full build.
 
 Build commands in order of complexity and timing:
 
 1. **Build Core Library (DEFAULT, fastest)**:
 ```bash
 # Core framework, Cmd, source generator, and analyzers only.
-dotnet build ModularPipelines.sln -c Release
+dotnet build ModularPipelines.slnx -c Release
 ```
 
 2. **Build a single tool integration** (when working on one tool):
 ```bash
-dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.sln -c Release
+dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.slnx -c Release
 ```
 
 3. **Build Analyzers** (22 seconds):
 ```bash
-dotnet build ModularPipelines.Analyzers.sln -c Release
+dotnet build ModularPipelines.Analyzers.slnx -c Release
 ```
 
 4. **Build Examples** (80 seconds):
 ```bash
-dotnet build ModularPipelines.Examples.sln -c Release
+dotnet build ModularPipelines.Examples.slnx -c Release
 ```
 
 **Never run as an agent (CI only - will likely crash the machine):**
 ```bash
 # Full 60+ project solution:
-#   dotnet build ModularPipelines.All.sln -c Release
+#   dotnet build ModularPipelines.All.slnx -c Release
 # Full build pipeline (builds ALL solutions + full test suite):
 #   cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0
 ```
@@ -76,22 +76,22 @@ Tests use TUnit framework. Some tests may fail in non-CI environments due to mis
 
 ## Code Formatting and Linting
 
-Target the solution you built - `ModularPipelines.sln` (core) for core changes, or the
-relevant tool solution. Do not format `ModularPipelines.All.sln` as an agent.
+Target the solution you built - `ModularPipelines.slnx` (core) for core changes, or the
+relevant tool solution. Do not format `ModularPipelines.All.slnx` as an agent.
 
 **Format verification** (70 seconds):
 ```bash
-dotnet format ModularPipelines.sln --verify-no-changes --severity info
+dotnet format ModularPipelines.slnx --verify-no-changes --severity info
 ```
 
 **Fix formatting issues** (65 seconds):
 ```bash
-dotnet format ModularPipelines.sln
+dotnet format ModularPipelines.slnx
 ```
 
 **Fix whitespace only** (18 seconds):
 ```bash
-dotnet format ModularPipelines.sln whitespace
+dotnet format ModularPipelines.slnx whitespace
 ```
 
 **ALWAYS run formatting before committing changes** or CI will fail.
@@ -119,10 +119,10 @@ yarn start
 ## Repository Structure
 
 **Solutions:**
-- `ModularPipelines.sln` - lightweight core-library solution (core framework, Cmd, source generator, analyzers). **Build this by default.**
-- `src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln` - one solution per tool/CLI integration. Build the specific tool solution when working on it.
-- `ModularPipelines.All.sln` - full solution with all 60+ projects. **CI-only** - do not build as an agent; it can exhaust memory and crash the machine.
-- `ModularPipelines.Analyzers.sln` / `ModularPipelines.Examples.sln` - analyzer and example solutions.
+- `ModularPipelines.slnx` - lightweight core-library solution (core framework, Cmd, source generator, analyzers). **Build this by default.**
+- `src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.slnx` - one solution per tool/CLI integration. Build the specific tool solution when working on it.
+- `ModularPipelines.All.slnx` - full solution with all 60+ projects. **CI-only** - do not build as an agent; it can exhaust memory and crash the machine.
+- `ModularPipelines.Analyzers.slnx` / `ModularPipelines.Examples.slnx` - analyzer and example solutions.
 
 **Core Framework:**
 - `src/ModularPipelines/` - Core framework and base classes
@@ -163,8 +163,8 @@ yarn start
 ## Validation Scenarios
 
 **After making changes, ALWAYS:**
-1. Build the affected solution - `ModularPipelines.sln` (core) for core changes, or the specific tool solution. **Never build `ModularPipelines.All.sln` or run the build pipeline** to validate - they compile 60+ projects and can crash the machine; let CI do the full build.
-2. Run formatting on what you built, e.g. `dotnet format ModularPipelines.sln`
+1. Build the affected solution - `ModularPipelines.slnx` (core) for core changes, or the specific tool solution. **Never build `ModularPipelines.All.slnx` or run the build pipeline** to validate - they compile 60+ projects and can crash the machine; let CI do the full build.
+2. Run formatting on what you built, e.g. `dotnet format ModularPipelines.slnx`
 3. Run tests for affected areas (the specific test project - not the full pipeline)
 4. If modifying the build pipeline, build just its project to check it compiles: `dotnet build src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release`. Do not execute the pipeline (`dotnet run`) as an agent - let CI run it end to end.
 
@@ -208,7 +208,7 @@ yarn start
 - 3 out of 376 test failures is normal in development environment
 
 **Formatting Issues:**
-- Run `dotnet format ModularPipelines.sln` to fix most issues
+- Run `dotnet format ModularPipelines.slnx` to fix most issues
 - Some analyzers cannot be auto-fixed (like RS1038)
 - Check `.editorconfig` for style requirements
 

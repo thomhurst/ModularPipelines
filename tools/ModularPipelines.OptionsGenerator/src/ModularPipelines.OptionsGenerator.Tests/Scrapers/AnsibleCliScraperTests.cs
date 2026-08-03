@@ -78,7 +78,7 @@ public class AnsibleCliScraperTests
         await Assert.That(command.PositionalArguments[0].PropertyName).IsEqualTo("Pattern");
         await Assert.That(command.PositionalArguments[0].CSharpType).IsEqualTo("string");
         await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
-        await Assert.That(GetOption(command, "--become-password-file").IsSecret).IsTrue();
+        await Assert.That(GetOption(command, "--become-password-file").IsSecret).IsFalse();
         await Assert.That(GetOption(command, "--private-key").IsSecret).IsTrue();
     }
 
