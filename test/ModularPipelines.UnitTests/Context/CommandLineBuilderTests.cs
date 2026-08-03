@@ -305,14 +305,14 @@ public class CommandLineBuilderTests : TestBase
 
     [CliTool("docker")]
     [CliGlobalOptions]
-    private abstract record TestMultiLevelGlobalOptions : CommandLineToolOptions
+    internal abstract record TestMultiLevelGlobalOptions : CommandLineToolOptions
     {
         [CliOption("--context")]
         public string? Context { get; set; }
     }
 
     [CliSubCommand("buildx", "history", "logs")]
-    private sealed record TestMultiLevelCommandOptions : TestMultiLevelGlobalOptions
+    internal sealed record TestMultiLevelCommandOptions : TestMultiLevelGlobalOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? Reference { get; set; }
