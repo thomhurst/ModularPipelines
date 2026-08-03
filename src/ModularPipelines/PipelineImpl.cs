@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,44 +20,49 @@ internal sealed class PipelineImpl : IPipeline
 {
     private readonly IHost _host;
     private readonly AsyncServiceScope _serviceScope;
-
-    [ExcludeFromCodeCoverage]
-    ~PipelineImpl()
-    {
-        DisposeAsync().AsTask().GetAwaiter().GetResult();
-    }
+    private readonly IDisposable _shutdownRegistration;
+    private readonly object _disposeLock = new();
+    private Task? _disposeTask;
 
     private PipelineImpl(IHost host)
     {
         _host = host;
         _serviceScope = host.Services.CreateAsyncScope();
 
-        Disposer.RegisterOnShutdown(this);
+        _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(this);
     }
 
     internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder)
     {
-        var host = new PipelineImpl(hostBuilder.Build());
-        var services = host._host.Services;
+        var pipeline = new PipelineImpl(hostBuilder.Build());
+        var services = pipeline._host.Services;
 
         try
         {
-            ValidateModuleDependencies(services, services.GetServices<IModule>());
-        }
-        catch (Exception exception) when (exception is ModuleNotRegisteredException
-            or ModuleReferencingSelfException
-            or DependencyCollisionException)
-        {
-            await services.InitializeAsync().ConfigureAwait(false);
-            var runnableModules = await services.GetRequiredService<ModuleRetriever>()
-                .GetRunnableModulesForValidation()
-                .ConfigureAwait(false);
-            ValidateModuleDependencies(services, runnableModules);
-            return host;
-        }
+            try
+            {
+                ValidateModuleDependencies(services, services.GetServices<IModule>());
+            }
+            catch (Exception exception) when (exception is ModuleNotRegisteredException
+                or ModuleReferencingSelfException
+                or DependencyCollisionException)
+            {
+                await services.InitializeAsync().ConfigureAwait(false);
+                var runnableModules = await services.GetRequiredService<ModuleRetriever>()
+                    .GetRunnableModulesForValidation()
+                    .ConfigureAwait(false);
+                ValidateModuleDependencies(services, runnableModules);
+                return pipeline;
+            }
 
-        await services.InitializeAsync().ConfigureAwait(false);
-        return host;
+            await services.InitializeAsync().ConfigureAwait(false);
+            return pipeline;
+        }
+        catch
+        {
+            await pipeline.DisposeAsync().ConfigureAwait(false);
+            throw;
+        }
     }
 
     /// <inheritdoc />
@@ -84,11 +88,25 @@ internal sealed class PipelineImpl : IPipeline
     }
 
     /// <inheritdoc />
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
-        await _serviceScope.DisposeAsync().ConfigureAwait(false);
-        await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
-        GC.SuppressFinalize(this);
+        lock (_disposeLock)
+        {
+            return new ValueTask(_disposeTask ??= DisposeCoreAsync());
+        }
+    }
+
+    private async Task DisposeCoreAsync()
+    {
+        _shutdownRegistration.Dispose();
+        try
+        {
+            await _serviceScope.DisposeAsync().ConfigureAwait(false);
+        }
+        finally
+        {
+            await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
+        }
     }
 
     private static void ValidateModuleDependencies(

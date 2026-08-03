@@ -37,7 +37,23 @@ public static class Disposer
     [ExcludeFromCodeCoverage]
     public static void RegisterOnShutdown(object? obj)
     {
-        AppDomain.CurrentDomain.ProcessExit += (_, _) => _ = DisposeOnShutdownAsync(obj);
+        _ = RegisterOnShutdownWithUnregistration(obj);
+    }
+
+    internal static IDisposable RegisterOnShutdownWithUnregistration(object? obj) =>
+        RegisterOnShutdownWithUnregistration(
+            obj,
+            handler => AppDomain.CurrentDomain.ProcessExit += handler,
+            handler => AppDomain.CurrentDomain.ProcessExit -= handler);
+
+    internal static IDisposable RegisterOnShutdownWithUnregistration(
+        object? obj,
+        Action<EventHandler> subscribe,
+        Action<EventHandler> unsubscribe)
+    {
+        ArgumentNullException.ThrowIfNull(subscribe);
+        ArgumentNullException.ThrowIfNull(unsubscribe);
+        return new ShutdownRegistration(obj, subscribe, unsubscribe);
     }
 
     /// <summary>
@@ -64,6 +80,31 @@ public static class Disposer
         {
             // Suppress all other exceptions during shutdown - process is exiting anyway
             // and there's no meaningful way to handle or report them at this point
+        }
+    }
+
+    private sealed class ShutdownRegistration : IDisposable
+    {
+        private readonly Action<EventHandler> _unsubscribe;
+        private EventHandler? _handler;
+
+        public ShutdownRegistration(
+            object? obj,
+            Action<EventHandler> subscribe,
+            Action<EventHandler> unsubscribe)
+        {
+            _unsubscribe = unsubscribe;
+            _handler = (_, _) => _ = DisposeOnShutdownAsync(obj);
+            subscribe(_handler);
+        }
+
+        public void Dispose()
+        {
+            var handler = Interlocked.Exchange(ref _handler, null);
+            if (handler is not null)
+            {
+                _unsubscribe(handler);
+            }
         }
     }
 }
