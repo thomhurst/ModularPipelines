@@ -178,7 +178,7 @@ public class TelemetryIntegrationTests
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
         await builder.AddModule<CommandModule>().ExecutePipelineAsync();
 
@@ -208,7 +208,7 @@ public class TelemetryIntegrationTests
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
         await builder.AddModule<HiddenArgumentsCommandModule>().ExecutePipelineAsync();
 
@@ -224,7 +224,7 @@ public class TelemetryIntegrationTests
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
                 DefaultLoggingOptions = CommandLoggingOptions.Silent,
@@ -245,7 +245,7 @@ public class TelemetryIntegrationTests
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
         await builder.AddModule<ManipulatedInputCommandModule>().ExecutePipelineAsync();
 
@@ -266,7 +266,7 @@ public class TelemetryIntegrationTests
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await builder.AddModule<ThrowingInputManipulatorCommandModule>().ExecutePipelineAsync());
@@ -291,7 +291,7 @@ public class TelemetryIntegrationTests
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, ThrowingCommandInterceptor>();
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await builder.AddModule<ThrowingInputManipulatorCommandModule>().ExecutePipelineAsync());
@@ -312,7 +312,7 @@ public class TelemetryIntegrationTests
         var measurements = new ConcurrentBag<(string Name, double Value)>();
         using var listener = CreateMeterListener(measurements);
 
-        await TestPipelineHostBuilder.Create()
+        await TestPipelineBuilder.Create()
             .AddModule<RetriedModule>()
             .ExecutePipelineAsync();
 
@@ -334,7 +334,7 @@ public class TelemetryIntegrationTests
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton<ICommandInterceptor, ThrowingCommandInterceptor>();
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
             await builder.AddModule<CommandModule>().ExecutePipelineAsync());
@@ -455,7 +455,7 @@ public class TelemetryIntegrationTests
         using var listener = CreateActivityListener(stoppedActivities);
 
         await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<TimedOutModule>()
                 .ExecutePipelineAsync());
 

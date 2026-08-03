@@ -17,7 +17,7 @@ public class OpenTelemetryRegistrationTests
     [Test]
     public async Task AddOpenTelemetry_Registers_Trace_And_Meter_Providers()
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
 
         builder.AddOpenTelemetry();
         builder.AddModule<TestModule>();
@@ -30,7 +30,7 @@ public class OpenTelemetryRegistrationTests
     [Test]
     public async Task AddOpenTelemetry_Returns_The_Pipeline_Builder()
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
 
         var result = builder.AddOpenTelemetry();
 

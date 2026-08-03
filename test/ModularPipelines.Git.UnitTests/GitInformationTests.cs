@@ -206,7 +206,7 @@ public class GitInformationTests : TestBase
                 return Task.FromResult<string?>(
                     $"{CreateCommitOutput("second commit", '2')}\0{CreateCommitOutput("first commit", '1')}\0");
             });
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton(runner.Object));
         var commits = new List<GitCommit>();
 
@@ -233,7 +233,7 @@ public class GitInformationTests : TestBase
             It.IsAny<CommandExecutionOptions?>(),
             It.IsAny<CancellationToken>(),
             It.IsAny<string?[]>()), Times.Once());
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -280,7 +280,7 @@ public class GitInformationTests : TestBase
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
             .ReturnsAsync($"{CreateCommitOutput("second commit", '2')}\0{CreateCommitOutput("first commit", '1')}\0");
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton(runner.Object));
         using var cancellationTokenSource = new CancellationTokenSource();
         await using var commits = result.T.Commits(
@@ -290,7 +290,7 @@ public class GitInformationTests : TestBase
         cancellationTokenSource.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await commits.MoveNextAsync());
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -310,7 +310,7 @@ public class GitInformationTests : TestBase
                 observedCommands = commands;
                 return Task.FromResult<string?>(CreateCommitOutput("previous commit", '1'));
             });
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
         {
             services.AddSingleton<ICommandContext>(command.Object);
             services.AddSingleton(runner.Object);
@@ -327,7 +327,7 @@ public class GitInformationTests : TestBase
             await Assert.That(observedCommands!).DoesNotContain("--skip=1");
         }
 
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     private static Mock<ICommandContext> CreateRepositoryCommand(
