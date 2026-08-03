@@ -36,6 +36,7 @@ internal static class ModuleConfigurationAttributeAdapter
         return new ModuleConfiguration
         {
             SkipCondition = configured.SkipCondition,
+            PlanningSkipCondition = configured.PlanningSkipCondition,
             Timeout = configured.Timeout,
             RetryConfiguration = configured.RetryConfiguration,
             AdvancedRetryPolicyFactory = configured.AdvancedRetryPolicyFactory,

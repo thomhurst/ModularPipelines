@@ -27,6 +27,7 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Events;
 using ModularPipelines.Extensions;
@@ -105,6 +106,7 @@ internal static class DependencyInjectionSetup
 
         services
             .AddSingleton<PipelineCommandHandler>()
+            .AddSingleton<PipelinePlanPrinter>()
             .Configure<PipelineOptions>(_ => { })
             .Configure<SchedulerOptions>(_ => { })
             .Configure<ConcurrencyOptions>(_ => { })
@@ -255,6 +257,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IFileSystemContext, FileSystemContext>()
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<ModuleRetriever>()
+            .AddSingleton<PipelinePlanner>()
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
@@ -267,6 +270,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleExecutor, ModuleExecutor>()
             .AddSingleton<IModuleExecutionPipeline, ModuleExecutionPipeline>()
             .AddSingleton<IModuleResultRegistry, ModuleResultRegistry>()
+            .AddSingleton<IModuleResultHistoryProvider, ModuleResultHistoryProvider>()
             .AddSingleton<IModuleSchedulerFactory, ModuleSchedulerFactory>()
             .AddSingleton<ModuleDisposer>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()

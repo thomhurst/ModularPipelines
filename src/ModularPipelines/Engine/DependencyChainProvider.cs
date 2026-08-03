@@ -7,12 +7,16 @@ namespace ModularPipelines.Engine;
 internal class DependencyChainProvider : IDependencyChainProvider
 {
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly IModuleDependencyRegistry _dependencyRegistry;
 
     public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = [];
 
-    public DependencyChainProvider(IModuleMetadataRegistry metadataRegistry)
+    public DependencyChainProvider(
+        IModuleMetadataRegistry metadataRegistry,
+        IModuleDependencyRegistry dependencyRegistry)
     {
         _metadataRegistry = metadataRegistry;
+        _dependencyRegistry = dependencyRegistry;
     }
 
     public void Initialize(IReadOnlyList<IModule> modules)
@@ -68,6 +72,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
         var dependencies = ModuleDependencyResolver.GetAllDependencies(
             moduleDependencyModel.Module,
             availableModuleTypes,
+            _dependencyRegistry,
             dependencyContext: _metadataRegistry);
 
         foreach (var (dependencyType, _) in dependencies)

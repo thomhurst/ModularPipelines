@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 
@@ -76,6 +77,7 @@ public abstract class Module<T> : IModule
     {
         get
         {
+            PlanningModuleResultAccess.ThrowIfUnavailable(GetType());
             if (_provisionalResult.Value is { } provisionalResult)
             {
                 return Task.FromResult<IModuleResult>(provisionalResult);
@@ -274,6 +276,7 @@ public abstract class Module<T> : IModule
     /// <returns>An awaiter for the module result.</returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter()
     {
+        PlanningModuleResultAccess.ThrowIfUnavailable(GetType());
         return _provisionalResult.Value is { } provisionalResult
             ? Task.FromResult(provisionalResult).GetAwaiter()
             : CompletionSource.Task.GetAwaiter();

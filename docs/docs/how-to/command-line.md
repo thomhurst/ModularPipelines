@@ -23,6 +23,7 @@ await builder.ExecutePipelineAsync();
 
 | Option | Behavior |
 | --- | --- |
+| `--dry-run` | Validates the pipeline and prints dependency-ordered execution waves, skip reasons, categories, and duration estimates without executing modules. |
 | `--list-modules` | Lists registered modules, categories, and direct dependencies without executing modules. |
 | `--module <name>` | Runs a module and its transitive dependency closure. Repeat the option or separate names with commas. |
 | `--skip-module <name>` | Excludes a module. Repeat the option or separate names with commas. |
@@ -40,6 +41,7 @@ For example:
 dotnet run -- --module TestModule
 dotnet run -- --module BuildModule,TestModule --skip-module SlowTestModule
 dotnet run -- --categories Test --ignore-categories Integration
+dotnet run -- --dry-run
 dotnet run -- --list-modules
 dotnet run -- --validate
 ```
@@ -65,6 +67,42 @@ builder.ConfigurePipelineOptions(options => options with
 ```
 
 `TargetModules` includes each selected module's transitive dependency closure.
+
+Set `DryRun = true` to make `RunAsync()` print the same plan and execute no modules:
+
+```csharp
+builder.ConfigurePipelineOptions(options => options with
+{
+    DryRun = true,
+});
+```
+
+## Programmatic Planning
+
+Call `PlanAsync()` to inspect the plan without printing it:
+
+```csharp
+await using var pipeline = await builder.BuildAsync();
+PipelinePlan plan = await pipeline.PlanAsync();
+
+foreach (var wave in plan.Waves)
+{
+    foreach (var module in wave.Modules)
+    {
+        var decision = module.SkipDecision?.Reason
+            ?? (module.IsSkipDecisionKnown ? "Run" : "Unknown: requires module results");
+        Console.WriteLine($"{wave.Number}: {module.ModuleName} - {decision}");
+    }
+}
+```
+
+The planner validates the dependency graph, evaluates module selection, category filters,
+attribute and fluent skip conditions, cascades required dependency skips, and obtains duration
+estimates. It does not invoke module bodies or execution lifecycle hooks. A wave estimate is the
+longest runnable module estimate in that wave. The plan estimate simulates eager dependency
+scheduling with the configured `MaxParallelism`, CPU/I/O execution limits, and `NotInParallel`
+constraints; waves are presentation layers, not execution barriers. Fluent conditions that await
+module results have an unknown skip decision because those results do not exist until execution.
 
 ## Disable Built-In Parsing
 
