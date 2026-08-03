@@ -92,8 +92,11 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return context.Document;
         }
 
-        var listType = SyntaxFactory.ParseTypeName(
-            $"global::System.Collections.Generic.List<{replacement.ElementType}>");
+        var listType = SyntaxFactory.QualifiedName(
+            SyntaxFactory.ParseName("global::System.Collections.Generic"),
+            SyntaxFactory.GenericName(
+                SyntaxFactory.Identifier("List"),
+                replacement.EnumerableGenericType.TypeArgumentList));
         var newRoot = replacement.DocumentRoot.ReplaceNode(
             replacement.EnumerableType,
             listType.WithTriviaFrom(replacement.EnumerableType));
@@ -163,12 +166,14 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return null;
         }
 
-        var elementType = GetEnumerableElementTypeSyntax(
+        var enumerableGenericType = GetEnumerableGenericTypeSyntax(
             candidate,
             enumerableType,
             semanticModel,
             cancellationToken);
-        if (elementType is null
+        var elementType = enumerableGenericType?.TypeArgumentList.Arguments.FirstOrDefault();
+        if (enumerableGenericType is null
+            || elementType is null
             || semanticModel.GetTypeInfo(elementType, cancellationToken).Type
                 is not ITypeSymbol elementTypeSymbol)
         {
@@ -180,6 +185,7 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             documentRoot,
             semanticModel,
             candidate,
+            enumerableGenericType,
             elementType,
             elementTypeSymbol);
     }
@@ -210,7 +216,7 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
                 : null;
     }
 
-    private static TypeSyntax? GetEnumerableElementTypeSyntax(
+    private static GenericNameSyntax? GetEnumerableGenericTypeSyntax(
         TypeSyntax candidate,
         INamedTypeSymbol enumerableType,
         SemanticModel semanticModel,
@@ -223,8 +229,7 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
                     is INamedTypeSymbol genericType
                 && SymbolEqualityComparer.Default.Equals(
                     genericType.OriginalDefinition,
-                    enumerableType))?
-            .TypeArgumentList.Arguments.FirstOrDefault();
+                    enumerableType));
     }
 
     private static async Task<bool> HasCompatibleExecutionOverride(
@@ -336,6 +341,7 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
         SyntaxNode documentRoot,
         SemanticModel semanticModel,
         TypeSyntax enumerableType,
+        GenericNameSyntax enumerableGenericType,
         TypeSyntax elementType,
         ITypeSymbol elementTypeSymbol)
     {
@@ -346,6 +352,8 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
         public SemanticModel SemanticModel { get; } = semanticModel;
 
         public TypeSyntax EnumerableType { get; } = enumerableType;
+
+        public GenericNameSyntax EnumerableGenericType { get; } = enumerableGenericType;
 
         public TypeSyntax ElementType { get; } = elementType;
 

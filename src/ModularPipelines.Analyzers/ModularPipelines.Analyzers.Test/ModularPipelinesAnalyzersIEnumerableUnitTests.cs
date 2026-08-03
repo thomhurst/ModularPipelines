@@ -237,6 +237,32 @@ public class Module1 : global::ModularPipelines.Modules.SyncModule<global::Syste
 }
 ";
 
+    private const string DirectiveElementSource = TestSourceConstants.StandardModuleHeader + """
+
+public abstract class Module1 : {|#0:Module<IEnumerable<
+#if STRING_RESULT
+    string
+#else
+    int
+#endif
+>>|}
+{
+}
+""";
+
+    private const string FixedDirectiveElementSource = TestSourceConstants.StandardModuleHeader + """
+
+public abstract class Module1 : Module<global::System.Collections.Generic.List<
+#if STRING_RESULT
+    string
+#else
+    int
+#endif
+>>
+{
+}
+""";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_IEnumerable()
     {
@@ -324,6 +350,18 @@ public class Module1 : global::ModularPipelines.Modules.SyncModule<global::Syste
             CollidingListSource,
             expected,
             FixedCollidingListSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Element_Type_Directives()
+    {
+        var expected = VerifyCodeFixCS.Diagnostic(EnumerableModuleResultAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCodeFixCS.VerifyCodeFixAsync(
+            DirectiveElementSource,
+            expected,
+            FixedDirectiveElementSource);
     }
 
     [TestMethod]
