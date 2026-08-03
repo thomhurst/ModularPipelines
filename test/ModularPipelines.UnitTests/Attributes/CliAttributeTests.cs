@@ -1,3 +1,4 @@
+using System.Globalization;
 using ModularPipelines.Attributes;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
@@ -5,6 +6,38 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class CliAttributeTests
 {
+    [Test]
+    public async Task Numeric_And_Formattable_Values_Use_Invariant_Culture()
+    {
+        var originalCulture = CultureInfo.CurrentCulture;
+        var date = new DateTime(2026, 1, 2, 3, 4, 5);
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
+
+            var arguments = BuildArguments(new TestCliOptionsWithFormattableValues
+            {
+                Double = 1.5,
+                Decimal = 2.75m,
+                Date = date,
+                Values = [3.5, 4.5],
+            });
+
+            await Assert.That(arguments).IsEquivalentTo(
+            [
+                "--double", "1.5",
+                "--decimal", "2.75",
+                "--date", date.ToString(null, CultureInfo.InvariantCulture),
+                "--values", "3.5", "--values", "4.5",
+            ]);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
     [Test]
     public async Task CliCommand_Returns_Tool_And_SubCommands()
     {
@@ -337,6 +370,21 @@ public class CliAttributeTests
     }
 
     // Test option classes
+    private record TestCliOptionsWithFormattableValues
+    {
+        [CliOption("--double")]
+        public double Double { get; init; }
+
+        [CliOption("--decimal")]
+        public decimal Decimal { get; init; }
+
+        [CliOption("--date")]
+        public DateTime Date { get; init; }
+
+        [CliOption("--values", AllowMultiple = true)]
+        public double[]? Values { get; init; }
+    }
+
     private record TestCliOptionsWithFlag
     {
         [CliFlag("--debug")]
