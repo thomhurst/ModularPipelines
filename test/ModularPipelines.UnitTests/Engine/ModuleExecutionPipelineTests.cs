@@ -112,6 +112,18 @@ public class ModuleExecutionPipelineTests
         var linkedCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
         Assert.Throws<ObjectDisposedException>(() => _ = originalCancellationTokenSource.Token);
         Assert.Throws<ObjectDisposedException>(() => _ = linkedCancellationTokenSource.Token);
+        logger.Verify(x => x.Log(
+            LogLevel.Trace,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) => state.ToString()!.StartsWith("No module timeout configured.")),
+            null,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Once);
+        logger.Verify(x => x.Log(
+            LogLevel.Debug,
+            It.IsAny<EventId>(),
+            It.Is<It.IsAnyType>((state, _) => state.ToString()!.StartsWith("No module timeout configured.")),
+            null,
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()), Times.Never);
     }
 
     private sealed class CachedSuccessfulModule : SuccessfulModule

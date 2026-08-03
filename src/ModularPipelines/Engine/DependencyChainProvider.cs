@@ -7,19 +7,23 @@ namespace ModularPipelines.Engine;
 internal class DependencyChainProvider : IDependencyChainProvider
 {
     private readonly IModuleMetadataRegistry _metadataRegistry;
+    private readonly IModuleDependencyRegistry _dependencyRegistry;
 
     public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = [];
 
-    public DependencyChainProvider(IModuleMetadataRegistry metadataRegistry)
+    public DependencyChainProvider(
+        IModuleMetadataRegistry metadataRegistry,
+        IModuleDependencyRegistry dependencyRegistry)
     {
         _metadataRegistry = metadataRegistry;
+        _dependencyRegistry = dependencyRegistry;
     }
 
     public void Initialize(IReadOnlyList<IModule> modules)
     {
         // Finalize metadata for all modules before dependency resolution.
         // This ensures tags, categories, and custom attributes are merged from
-        // all sources (attributes, instance overrides, registration-time configuration).
+        // both supported sources (attributes and module configuration).
         foreach (var module in modules)
         {
             _metadataRegistry.FinalizeMetadata(module.GetType(), module);
@@ -68,6 +72,7 @@ internal class DependencyChainProvider : IDependencyChainProvider
         var dependencies = ModuleDependencyResolver.GetAllDependencies(
             moduleDependencyModel.Module,
             availableModuleTypes,
+            _dependencyRegistry,
             dependencyContext: _metadataRegistry);
 
         foreach (var (dependencyType, _) in dependencies)

@@ -1,15 +1,12 @@
-using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Java.Enums;
 using ModularPipelines.Java.Options;
 using ModularPipelines.Models;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Java.UnitTests.Attributes;
 
 public class JavaOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Maven_Renders_Options_Properties_And_Goals()
     {
@@ -52,11 +49,5 @@ public class JavaOptionsTests
             "clean",
             "build",
         ]);
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

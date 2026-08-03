@@ -1,15 +1,12 @@
 using ModularPipelines.ArgoCd.Enums;
 using ModularPipelines.ArgoCd.Options;
 using ModularPipelines.Attributes;
-using ModularPipelines.Helpers.Internal;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.ArgoCd.UnitTests.Attributes;
 
 public class ArgoCdOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task AppGet_Renders_Positional_Options_Enum_And_Secret()
     {
@@ -375,11 +372,5 @@ public class ArgoCdOptionsTests
         });
 
         await Assert.That(arguments).IsEquivalentTo(["cd.argoproj.io", "--delete"]);
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

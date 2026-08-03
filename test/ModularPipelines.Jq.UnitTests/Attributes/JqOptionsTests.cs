@@ -1,14 +1,11 @@
-using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Jq.Options;
 using ModularPipelines.Models;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Jq.UnitTests.Attributes;
 
 public class JqOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Renders_Aliases_Numeric_Options_Pairs_And_Positionals()
     {
@@ -99,11 +96,5 @@ public class JqOptionsTests
         var arguments = BuildArguments(new JqExecuteOptions { RunTests = string.Empty });
 
         await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

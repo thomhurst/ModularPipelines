@@ -1,4 +1,5 @@
 using ModularPipelines.Distributed.Coordination;
+using ModularPipelines.TestHelpers.Distributed;
 
 namespace ModularPipelines.Distributed.UnitTests.Coordination;
 
@@ -8,47 +9,14 @@ public class InMemoryDistributedCoordinatorTests
     public async Task Enqueue_And_Dequeue_Returns_Assignment()
     {
         var coordinator = new InMemoryDistributedCoordinator();
-
-        var assignment = new ModuleAssignment(
-            ModuleTypeName: "Test.Module",
-            ResultTypeName: "System.String",
-            RequiredCapabilities: new HashSet<string>(),
-            MatrixTarget: null,
-            AssignedAt: DateTimeOffset.UtcNow,
-            Configuration: new ModuleAssignmentConfig(null, 0, false));
-
-        await coordinator.EnqueueModuleAsync(assignment, CancellationToken.None);
-
-        var result = await coordinator.DequeueModuleAsync(
-            new HashSet<string>(), CancellationToken.None);
-
-        await Assert.That(result).IsNotNull();
-        await Assert.That(result!.ModuleTypeName).IsEqualTo("Test.Module");
+        await DistributedCoordinatorContract.EnqueueAndDequeueRoundTripsAsync(coordinator);
     }
 
     [Test]
     public async Task Publish_And_Wait_For_Result()
     {
         var coordinator = new InMemoryDistributedCoordinator();
-
-        var serializedResult = new SerializedModuleResult(
-            ModuleTypeName: "Test.Module",
-            ResultTypeName: "System.String",
-            WorkerIndex: 1,
-            SerializedJson: "{}",
-            CompletedAt: DateTimeOffset.UtcNow);
-
-        // Start waiting before publishing
-        var waitTask = coordinator.WaitForResultAsync("Test.Module", CancellationToken.None);
-
-        // Publish after a small delay
-        await Task.Delay(50);
-        await coordinator.PublishResultAsync(serializedResult, CancellationToken.None);
-
-        var result = await waitTask;
-
-        await Assert.That(result.ModuleTypeName).IsEqualTo("Test.Module");
-        await Assert.That(result.WorkerIndex).IsEqualTo(1);
+        await DistributedCoordinatorContract.ResultRoundTripsAfterWaitStartsAsync(coordinator);
     }
 
     [Test]
@@ -73,18 +41,7 @@ public class InMemoryDistributedCoordinatorTests
     public async Task SignalCompletion_CausesDequeueToReturnNull()
     {
         var coordinator = new InMemoryDistributedCoordinator();
-
-        // Start dequeue in background (will block waiting for work)
-        var dequeueTask = coordinator.DequeueModuleAsync(
-            new HashSet<string>(), CancellationToken.None);
-
-        // Signal completion after a small delay
-        await Task.Delay(50);
-        await coordinator.SignalCompletionAsync(CancellationToken.None);
-
-        var result = await dequeueTask;
-
-        await Assert.That(result).IsNull();
+        await DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync(coordinator);
     }
 
     [Test]

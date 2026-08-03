@@ -4,6 +4,7 @@ internal static class PipelineCommandLineParser
 {
     private const string ListModulesOption = "--list-modules";
     private const string ValidateOption = "--validate";
+    private const string DryRunOption = "--dry-run";
     private const string ModuleOption = "--module";
     private const string SkipModuleOption = "--skip-module";
     private const string CategoriesOption = "--categories";
@@ -35,6 +36,12 @@ internal static class PipelineCommandLineParser
             if (argument.Equals(ValidateOption, StringComparison.OrdinalIgnoreCase))
             {
                 command = SetCommand(command, PipelineCommand.Validate, argument);
+                continue;
+            }
+
+            if (argument.Equals(DryRunOption, StringComparison.OrdinalIgnoreCase))
+            {
+                command = SetCommand(command, PipelineCommand.DryRun, argument);
                 continue;
             }
 
