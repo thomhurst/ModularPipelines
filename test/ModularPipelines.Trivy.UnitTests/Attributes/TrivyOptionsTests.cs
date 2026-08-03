@@ -1,15 +1,12 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Trivy.Enums;
 using ModularPipelines.Trivy.Options;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Trivy.UnitTests.Attributes;
 
 public class TrivyOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Image_Renders_Target_Typed_Options_And_Secret()
     {
@@ -118,11 +115,5 @@ public class TrivyOptionsTests
 
         await Assert.That(password!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
         await Assert.That(token!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }
