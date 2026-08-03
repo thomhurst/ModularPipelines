@@ -322,8 +322,10 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            foreach (var methodReference in GetValueAndReachingLocalValues(
+            foreach (var methodReference in GetValueAndReachingCallbackValues(
                              argument.Value,
+                             compilation,
+                             [with(SymbolEqualityComparer.Default)],
                              [with(SymbolEqualityComparer.Default)])
                          .SelectMany(static value => value.DescendantsAndSelf())
                          .OfType<IMethodReferenceOperation>())
@@ -587,7 +589,9 @@ internal static class ModuleAuthoringAnalysis
         bool requireTaskLike,
         Stack<(IOperation Operation, bool RequireTaskLike)> pending)
     {
-        foreach (var arm in switchExpression.Arms.Reverse())
+        foreach (var arm in switchExpression.Arms
+                     .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+                     .Reverse())
         {
             pending.Push((arm.Value, requireTaskLike));
             if (arm.Guard is { } guard)
@@ -1746,6 +1750,13 @@ internal static class ModuleAuthoringAnalysis
                     instanceRegisteredModules,
                     visitedLocals,
                     visitedMethods);
+            case ISwitchExpressionOperation switchExpression:
+                return TryTrackSwitchExpressionModuleTypes(
+                    switchExpression,
+                    compilation,
+                    instanceRegisteredModules,
+                    visitedLocals,
+                    visitedMethods);
             default:
                 return false;
         }
@@ -1813,6 +1824,26 @@ internal static class ModuleAuthoringAnalysis
                    instanceRegisteredModules,
                    CloneVisitedLocals(visitedLocals),
                    CloneVisitedMethods(visitedMethods));
+    }
+
+    private static bool TryTrackSwitchExpressionModuleTypes(
+        ISwitchExpressionOperation switchExpression,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var reachableArms = switchExpression.Arms
+            .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+            .Where(static arm => !AlwaysThrows(arm.Value))
+            .ToArray();
+        return reachableArms.Length > 0
+               && reachableArms.All(arm => TryTrackInstanceModuleTypes(
+                   arm.Value,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool TryTrackInstanceModuleTypesLocal(
@@ -4236,6 +4267,76 @@ internal static class ModuleAuthoringAnalysis
             foreach (var operation in GetValueAndReachingLocalValues(localValue, visitedLocals))
             {
                 yield return operation;
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> GetValueAndReachingCallbackValues(
+        IOperation value,
+        Compilation compilation,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
+    {
+        foreach (var candidate in GetValueAndReachingLocalValues(value, visitedLocals))
+        {
+            yield return candidate;
+
+            foreach (var memberReference in candidate.DescendantsAndSelf()
+                         .Where(static operation => operation is
+                             IFieldReferenceOperation or IPropertyReferenceOperation))
+            {
+                var member = GetReferencedMember(memberReference);
+                if (member is null || !visitedMembers.Add(member))
+                {
+                    continue;
+                }
+
+                IOperation[] memberValues =
+                [
+                    .. FindReachingMemberValues(memberReference, member),
+                ];
+                if (memberValues.Length == 0)
+                {
+                    memberValues =
+                    [
+                        .. GetDeclaredMemberOperations(member, compilation),
+                    ];
+                }
+
+                foreach (var memberValue in memberValues)
+                {
+                    foreach (var operation in GetValueAndReachingCallbackValues(
+                                 memberValue,
+                                 compilation,
+                                 visitedLocals,
+                                 visitedMembers))
+                    {
+                        yield return operation;
+                    }
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> GetDeclaredMemberOperations(
+        ISymbol member,
+        Compilation compilation)
+    {
+        foreach (var syntaxReference in member.DeclaringSyntaxReferences)
+        {
+            var syntaxTree = syntaxReference.SyntaxTree;
+            if (!compilation.ContainsSyntaxTree(syntaxTree))
+            {
+                continue;
+            }
+
+            var semanticModel = compilation.GetSemanticModel(syntaxTree);
+            foreach (var syntax in syntaxReference.GetSyntax().DescendantNodesAndSelf())
+            {
+                if (semanticModel.GetOperation(syntax) is { } operation)
+                {
+                    yield return operation;
+                }
             }
         }
     }

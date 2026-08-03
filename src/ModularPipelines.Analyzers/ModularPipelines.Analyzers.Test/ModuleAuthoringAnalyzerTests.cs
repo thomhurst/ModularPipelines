@@ -3144,6 +3144,31 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Cancellation_Overload_In_Dead_Awaited_Switch_Arm()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await (0 switch
+                {
+                    0 => Task.CompletedTask,
+                    _ => FetchAsync(),
+                });
+                return null;
+            }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Cancellation_Overloads_In_Awaited_Switch_Control()
     {
         var source = ModuleSource("""
@@ -4929,6 +4954,34 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Switch_Factory()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag) => Pipeline.CreateBuilder().Services
+                    .AddSingleton<IModule>(_ => flag switch
+                    {
+                        true => new BuildModule(),
+                        false => new BuildModule(),
+                    });
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_NonPublic_Module_Registered_By_Assembly()
     {
         var source = $$"""
@@ -5001,6 +5054,38 @@ public class ModuleAuthoringAnalyzerTests
                     var builder = Pipeline.CreateBuilder();
                     Action<IServiceCollection> callback = RegisterModules;
                     builder.ConfigureServices(callback);
+                }
+
+                private static void RegisterModules(IServiceCollection services) =>
+                    services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Field_Startup_Method_Group()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Action<IServiceCollection> Callback = RegisterModules;
+
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.ConfigureServices(Callback);
                 }
 
                 private static void RegisterModules(IServiceCollection services) =>
