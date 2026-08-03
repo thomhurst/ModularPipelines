@@ -183,7 +183,7 @@ internal class ModuleRunner : IModuleRunner
 
         var artifactNames = consumersByArtifact
             .Where(entry => entry.Value.Any(consumerType =>
-                scheduler.GetModuleState(consumerType) is not null))
+                IsRunnableArtifactConsumer(consumerType, scheduler)))
             .Select(entry => entry.Key)
             .ToHashSet(StringComparer.Ordinal);
         if (artifactNames.Count == 0)
@@ -207,8 +207,11 @@ internal class ModuleRunner : IModuleRunner
     {
         return _localArtifactConsumers.TryGetValue(producerType, out var consumersByArtifact)
                && consumersByArtifact.Values.Any(consumers =>
-                   consumers.Any(consumerType => scheduler.GetModuleState(consumerType) is not null));
+                   consumers.Any(consumerType => IsRunnableArtifactConsumer(consumerType, scheduler)));
     }
+
+    private static bool IsRunnableArtifactConsumer(Type consumerType, IModuleScheduler scheduler) =>
+        scheduler.GetModuleState(consumerType) is { State: not ModuleExecutionState.Completed };
 
     private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
         GetLocalArtifactConsumers(IEnumerable<IModule> modules)

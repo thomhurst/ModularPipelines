@@ -249,6 +249,26 @@ public class ArtifactContractTests
         }
     }
 
+    private sealed class ProducerAndConsumerArtifactHistoryRepository : IModuleResultRepository
+    {
+        public bool IsEnabled => true;
+
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext) =>
+            Task.CompletedTask;
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext)
+        {
+            var executionContext = new ModuleExecutionContext(module, module.GetType());
+            return Task.FromResult<ModuleResult<T>?>(
+                ModuleResult<T>.CreateSuccess(default!, executionContext));
+        }
+    }
+
     [ProducesArtifact("working-output", "working.txt")]
     private sealed class WorkingDirectoryProducerModule : Module<string>
     {
@@ -568,6 +588,42 @@ public class ArtifactContractTests
                 .Single();
 
             await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactProducerUsesHistoryWhenArtifactConsumerIsPrecompleted()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules = [nameof(SkippedArtifactConsumerModule)],
+            });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<SkippedArtifactConsumerModule>();
+            builder.AddResultsRepository<ProducerAndConsumerArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<SkippedArtifactConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+            }
         }
         finally
         {
