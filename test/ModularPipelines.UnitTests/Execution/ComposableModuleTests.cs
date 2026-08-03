@@ -28,9 +28,9 @@ public class ComposableModuleTests
             .WithSkipWhen(_ => SkipDecision.Skip("Skipped via composition"))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Executed");
+            return Task.FromResult<string>("Executed");
         }
     }
 
@@ -44,9 +44,9 @@ public class ComposableModuleTests
             .WithSkipWhen(_ => SkipDecision.DoNotSkip)
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Executed");
+            return Task.FromResult<string>("Executed");
         }
     }
 
@@ -60,9 +60,9 @@ public class ComposableModuleTests
             .WithTimeout(TimeSpan.FromSeconds(5))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Executed with timeout");
+            return Task.FromResult<string>("Executed with timeout");
         }
     }
 
@@ -119,9 +119,9 @@ public class ComposableModuleTests
             .WithAlwaysRun()
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Always ran");
+            return Task.FromResult<string>("Always ran");
         }
     }
 

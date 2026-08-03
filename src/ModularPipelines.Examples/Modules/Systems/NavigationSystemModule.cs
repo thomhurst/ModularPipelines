@@ -11,10 +11,10 @@ namespace ModularPipelines.Examples.Modules.Systems;
 [ModuleCategory("Systems")]
 public class NavigationSystemModule : Module<NavigationData>
 {
-    protected override async Task<NavigationData?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<NavigationData> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var satelliteModule = await context.GetModule<SatelliteTrackingModule>();
-        var satellite = satelliteModule.ValueOrDefault!;
+        var satellite = satelliteModule.Value;
 
         context.Logger.LogInformation("Initializing navigation system using satellite {Id} with signal {Signal}dB...",
             satellite.SatelliteId, satellite.SignalStrength);

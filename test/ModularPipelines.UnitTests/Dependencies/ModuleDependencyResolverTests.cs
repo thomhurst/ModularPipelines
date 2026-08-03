@@ -10,8 +10,8 @@ public class ModuleDependencyResolverTests
 {
     private sealed class DependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("dependency");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("dependency");
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]

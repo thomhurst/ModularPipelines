@@ -24,12 +24,12 @@ public class CategoryFilterDependencyTests : TestBase
     [ModularPipelines.Attributes.DependsOn<CompileModule>]
     private class CompileResultConsumerModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             var result = await context.GetModule<CompileModule>();
-            return result.ValueOrDefault;
+            return result.Value;
         }
     }
 
@@ -37,7 +37,7 @@ public class CategoryFilterDependencyTests : TestBase
     [ModularPipelines.Attributes.DependsOn<CompileModule>(Optional = true)]  // Optional - gracefully handle if dependency is filtered
     private class TestModuleWithOptionalDep : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var compile = context.GetModuleIfRegistered<CompileModule>();
             if (compile == null)
@@ -56,7 +56,7 @@ public class CategoryFilterDependencyTests : TestBase
     [ModularPipelines.Attributes.DependsOn<CompileModule>(Optional = true)]  // Must be optional when dependency might be filtered by category
     private class TestModuleWithOptionalDepForCategoryFilter : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var compile = context.GetModuleIfRegistered<CompileModule>();
             if (compile == null)

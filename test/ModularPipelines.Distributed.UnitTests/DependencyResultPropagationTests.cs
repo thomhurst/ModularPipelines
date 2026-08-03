@@ -19,17 +19,17 @@ public class DependencyResultPropagationTests
 
     private class DependencyModule : Module<DepResult>
     {
-        protected internal override Task<DepResult?> ExecuteAsync(
+        protected internal override Task<DepResult> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<DepResult?>(new DepResult { Value = "dep-value" });
+            => Task.FromResult<DepResult>(new DepResult { Value = "dep-value" });
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     private class ConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("consumed");
+            => Task.FromResult<string>("consumed");
     }
 
     private class IndependentModule : Module<int>

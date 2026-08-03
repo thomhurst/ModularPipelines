@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules.PreFlight;
 [ModuleCategory("PreFlight")]
 public class SatelliteTrackingModule : Module<SatelliteLink>
 {
-    protected override async Task<SatelliteLink?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<SatelliteLink> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Initiating satellite tracking and data relay system...");
         context.Logger.LogDebug("Querying TDRS constellation status...");

@@ -18,7 +18,7 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
 
@@ -53,7 +53,7 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         static void WriteMessage()
         {{
@@ -74,13 +74,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         Action<int> write = context => Console.WriteLine(""Done!"");
         write(0);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -93,10 +93,10 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
     {{
         {{|#0:C.Error.WriteLine(""Failure!"")|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -110,10 +110,10 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
     {{
         @event.Logger.LogError(""{{Message}}"", (""Failure!"") ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -125,13 +125,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         string? message = null;
         {{|#0:Console.WriteLine(message)|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -144,13 +144,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         string? message = null;
         context.Logger.LogInformation(""{{Message}}"", (message) ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -163,12 +163,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         {{|#0:Console.WriteLine(""Done!"")|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -182,12 +182,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         context.Logger.LogInformation(""{{Message}}"", (""Done!"") ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -203,12 +203,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         {{|#0:Console.WriteLine(""Done!"")|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -225,12 +225,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         context.Logger.LogInformation(""{{Message}}"", (""Done!"") ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -242,12 +242,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         {{|#0:Console.WriteLine((string)null!)|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -260,12 +260,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         context.Logger.LogInformation(""{{Message}}"", ((string)null!) ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -277,7 +277,7 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
@@ -286,7 +286,7 @@ public class Module1 : Module<List<string>>
             .WriteLine(""Done!"")
 #endif
             ;
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -298,13 +298,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         string? message = null;
         {{|#0:Console.WriteLine(/* explanation */ message)|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -317,13 +317,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         string? message = null;
         context.Logger.LogInformation(""{{Message}}"", /* explanation */ (message) ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -345,12 +345,12 @@ public static class CustomLoggerExtensions
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         Console.WriteLine(""Done!"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -363,7 +363,7 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
 

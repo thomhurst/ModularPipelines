@@ -10,10 +10,10 @@ namespace ModularPipelines.Examples.Modules.Propulsion;
 [ModuleCategory("Propulsion")]
 public class LaunchTrajectoryCalculationModule : Module<TrajectoryData>
 {
-    protected override async Task<TrajectoryData?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<TrajectoryData> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var thrustVectorModule = await context.GetModule<ThrustVectorCalibrationModule>();
-        var thrustVector = thrustVectorModule.ValueOrDefault!;
+        var thrustVector = thrustVectorModule.Value;
 
         if (!thrustVector.Calibrated)
         {

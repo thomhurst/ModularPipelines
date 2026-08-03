@@ -11,7 +11,7 @@ namespace TemplatePipeline.Modules;
 [DependsOn<TestModule>]
 public sealed class PublishModule(IOptions<BuildSettings> settings) : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

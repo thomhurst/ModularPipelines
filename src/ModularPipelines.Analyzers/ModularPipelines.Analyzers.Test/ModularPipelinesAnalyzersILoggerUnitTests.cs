@@ -17,7 +17,7 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -39,7 +39,7 @@ public class Module1 : Module<List<string>>
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -58,7 +58,7 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -75,11 +75,11 @@ public abstract class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -93,11 +93,11 @@ public abstract class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -114,7 +114,7 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _logger.LogInformation(""Running"");
@@ -128,7 +128,7 @@ public class Module1 : Module<List<string>>
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         context.Logger.LogInformation(""Running"");
@@ -149,12 +149,12 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         _logger.LogInformation(""Running"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 
     private static ILogger<Module1> RegisterTelemetry() => null!;
@@ -179,12 +179,12 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         _logger.LogInformation(""Running"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -199,9 +199,9 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -218,13 +218,13 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         Action<int> log = context => _logger.LogInformation(""Running"");
         log(0);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -239,9 +239,9 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -256,9 +256,9 @@ public class Module1 : Module<List<string>>
 #pragma warning disable CS0618
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -273,9 +273,9 @@ public class Module1 : Module<List<string>>
 #pragma warning disable CS0618
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -293,9 +293,9 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -315,12 +315,12 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         _logger.LogInformation(""Running"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -340,12 +340,12 @@ public class Module1 : Module<List<string>>
 #endif
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         _logger.LogInformation(""Running"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 
     private static void RegisterTelemetry()
@@ -373,11 +373,11 @@ public class Module1 : Module<List<string>>
     }}
 #endif
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -391,7 +391,7 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -408,7 +408,7 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -431,7 +431,7 @@ public partial class Module1 : Module<List<string>>
 
 public partial class Module1
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _logger.LogInformation(""Running"");
@@ -456,9 +456,9 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -474,9 +474,9 @@ public class Module1 : Module<List<string>>
 
     public static Module1 Create(ILogger<Module1> logger) => new(logger);
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -490,9 +490,9 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 
@@ -520,9 +520,9 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -540,9 +540,9 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -560,9 +560,9 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -582,9 +582,9 @@ public class Module1 : Module<List<string>>
 
     public static Module1 Create() => new();
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -602,10 +602,10 @@ public class Module1 : Module<List<string>>
             _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         _logger.LogInformation(""Running"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -622,10 +622,10 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
     {{
         _logger.LogInformation(""Running"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -635,10 +635,10 @@ public class Module1 : Module<List<string>>
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
     {{
         @event.Logger.LogInformation(""Running"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -655,7 +655,7 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         static void Log()
         {{
@@ -663,7 +663,7 @@ public class Module1 : Module<List<string>>
         }}
 
         Log();
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -680,9 +680,9 @@ public class Module1 : Module<List<string>>
         Logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 
@@ -709,11 +709,11 @@ public class ModuleContainer
             _logger = logger;
         }}
 
-        protected override Task<List<string>?> ExecuteAsync(
+        protected override Task<List<string>> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {{
-            return Task.FromResult<List<string>?>([]);
+            return Task.FromResult<List<string>>([]);
         }}
     }}
 
@@ -743,12 +743,12 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         _logger.LogModuleSpecific();
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -777,12 +777,12 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         _logger.LogCustom();
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -792,7 +792,7 @@ public class Module1 : Module<List<string>>
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -810,7 +810,7 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -858,10 +858,10 @@ public class Module1 : Module<List<string>>
 
 public class Module1({{|#0:ILogger<Module1> logger|}}) : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
-        => Task.FromResult<List<string>?>([]);
+        => Task.FromResult<List<string>>([]);
 }}
 ";
         var expected = VerifyCS.Diagnostic(LoggerInConstructorAnalyzer.DiagnosticId)
@@ -893,10 +893,10 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
-        => Task.FromResult<List<string>?>([]);
+        => Task.FromResult<List<string>>([]);
 }}
 ";
 
@@ -1122,7 +1122,7 @@ public class Module1 : Module<List<string>>
 
     private static Module1 GetOther() => null!;
 
-    protected override async Task<List<string>?> ExecuteAsync(
+    protected override async Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
@@ -1152,12 +1152,12 @@ public class Module1 : Module<List<string>>
         _logger = logger;
     }}
 
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         _logger.LogInformation(""Running"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";

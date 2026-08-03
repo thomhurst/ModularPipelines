@@ -31,7 +31,7 @@ using ModularPipelines.Helm.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

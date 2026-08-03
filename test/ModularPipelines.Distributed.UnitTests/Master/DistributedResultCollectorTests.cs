@@ -17,11 +17,11 @@ public class DistributedResultCollectorTests
 
     private class TestModule : Module<TestResult>
     {
-        protected internal override Task<TestResult?> ExecuteAsync(
+        protected internal override Task<TestResult> ExecuteAsync(
             ModularPipelines.Context.IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<TestResult?>(new TestResult());
+            return Task.FromResult<TestResult>(new TestResult());
         }
     }
 

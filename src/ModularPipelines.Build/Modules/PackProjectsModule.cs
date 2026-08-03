@@ -19,21 +19,21 @@ namespace ModularPipelines.Build.Modules;
 [RunIfAll<ModularPipelines.Conditions.OnLinux>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
         var projectFiles = await context.GetModule<FindProjectDependenciesModule>();
 
 
-        var dependencies = await projectFiles.ValueOrDefault!.Dependencies
+        var dependencies = await projectFiles.Value.Dependencies
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion.ValueOrDefault!))
+            .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion.Value))
             .ProcessOneAtATime();
 
-        var others = await projectFiles.ValueOrDefault!.Others
+        var others = await projectFiles.Value.Others
             .ToAsyncProcessorBuilder()
-            .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion.ValueOrDefault!))
+            .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion.Value))
             .ProcessInParallel();
 
         return dependencies.Concat(others).ToArray();

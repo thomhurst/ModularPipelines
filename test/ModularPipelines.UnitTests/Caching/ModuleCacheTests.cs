@@ -77,14 +77,14 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
             var value = System.IO.File.ReadAllText(Path.Combine(WorkingDirectory, "input.txt"));
             System.IO.File.WriteAllText(Path.Combine(WorkingDirectory, "output.txt"), $"output:{value}");
-            return Task.FromResult<string?>($"result:{value}");
+            return Task.FromResult<string>($"result:{value}");
         }
     }
 
@@ -92,18 +92,18 @@ public class ModuleCacheTests
     {
         public static string Value { get; set; } = string.Empty;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(Value);
+            CancellationToken cancellationToken) => Task.FromResult<string>(Value);
     }
 
     private sealed class RuntimeTypedDependencyModule : Module<object>
     {
         public static object Value { get; set; } = 1;
 
-        protected internal override Task<object?> ExecuteAsync(
+        protected internal override Task<object> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<object?>(Value);
+            CancellationToken cancellationToken) => Task.FromResult<object>(Value);
     }
 
     [ModularPipelines.Attributes.DependsOn<RuntimeTypedDependencyModule>]
@@ -111,13 +111,13 @@ public class ModuleCacheTests
     {
         public static int ExecutionCount;
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
             var dependency = await context.GetModule<RuntimeTypedDependencyModule>();
-            return dependency.ValueOrDefault?.GetType().FullName;
+            return dependency.Value.GetType().FullName!;
         }
 
         protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
@@ -130,12 +130,12 @@ public class ModuleCacheTests
     {
         public static int ExecutionCount;
 
-        protected internal override Task<object?> ExecuteAsync(
+        protected internal override Task<object> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
-            return Task.FromResult<object?>(1);
+            return Task.FromResult<object>(1);
         }
 
         protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
@@ -144,7 +144,7 @@ public class ModuleCacheTests
                 .Build();
     }
 
-    private sealed class EnvironmentCachedModule : Module<string>
+    private sealed class EnvironmentCachedModule : Module<string?>
     {
         public const string EnvironmentVariableName =
             "MODULAR_PIPELINES_CACHE_NULL_SENTINEL_TEST";
@@ -167,9 +167,9 @@ public class ModuleCacheTests
 
     private sealed class UncachedModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>("uncached");
+            CancellationToken cancellationToken) => Task.FromResult<string>("uncached");
     }
 
     [CacheInputs("mutable.txt")]
@@ -179,7 +179,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -203,7 +203,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -211,7 +211,7 @@ public class ModuleCacheTests
             System.IO.File.WriteAllText(
                 Path.Combine(WorkingDirectory, "hook-output.txt"),
                 "before-hook");
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
 
         protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
@@ -230,12 +230,12 @@ public class ModuleCacheTests
     {
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
-            return Task.FromResult<string?>("original");
+            return Task.FromResult<string>("original");
         }
 
         protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
@@ -258,12 +258,12 @@ public class ModuleCacheTests
     [ModularPipelines.Attributes.DependsOn<ResultTransformingCachedModule>]
     private sealed class TransformedResultDependentModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             var dependency = await context.GetModule<ResultTransformingCachedModule>();
-            return dependency.ValueOrDefault;
+            return dependency.Value;
         }
     }
 
@@ -277,7 +277,7 @@ public class ModuleCacheTests
 
         public static bool SawStaleArtifact;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -289,7 +289,7 @@ public class ModuleCacheTests
                 Path.Combine(artifactDirectory, "stale.txt"));
             Directory.CreateDirectory(artifactDirectory);
             System.IO.File.WriteAllText(Path.Combine(artifactDirectory, $"{value}.txt"), value);
-            return Task.FromResult<string?>(value);
+            return Task.FromResult<string>(value);
         }
     }
 
@@ -301,7 +301,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -310,7 +310,7 @@ public class ModuleCacheTests
             Directory.CreateDirectory(artifactDirectory);
             System.IO.File.WriteAllText(Path.Combine(artifactDirectory, "first.txt"), "first");
             System.IO.File.WriteAllText(Path.Combine(artifactDirectory, "second.txt"), "second");
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -321,7 +321,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -332,7 +332,7 @@ public class ModuleCacheTests
                 System.IO.File.Delete(input);
             }
 
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -342,12 +342,12 @@ public class ModuleCacheTests
     {
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -357,12 +357,12 @@ public class ModuleCacheTests
     {
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -374,7 +374,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -392,7 +392,7 @@ public class ModuleCacheTests
                     | UnixFileMode.GroupExecute);
             }
 
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -404,7 +404,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -430,7 +430,7 @@ public class ModuleCacheTests
                     UnixFileMode.UserRead | UnixFileMode.UserExecute);
             }
 
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -442,7 +442,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -455,7 +455,7 @@ public class ModuleCacheTests
             System.IO.File.CreateSymbolicLink(
                 Path.Combine(artifactDirectory.FullName, "tool"),
                 "tool-v2");
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -467,7 +467,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -492,7 +492,7 @@ public class ModuleCacheTests
                     | UnixFileMode.GroupExecute);
             }
 
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -502,12 +502,12 @@ public class ModuleCacheTests
     {
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -517,12 +517,12 @@ public class ModuleCacheTests
     {
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref ExecutionCount);
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -534,7 +534,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -542,7 +542,7 @@ public class ModuleCacheTests
             System.IO.File.CreateSymbolicLink(
                 Path.Combine(WorkingDirectory, "dangling-output"),
                 "missing-target");
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -556,7 +556,7 @@ public class ModuleCacheTests
 
         public static UnixFileMode? ModeBeforeExecution;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -586,7 +586,7 @@ public class ModuleCacheTests
                     | UnixFileMode.OtherExecute);
             }
 
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -598,7 +598,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -606,7 +606,7 @@ public class ModuleCacheTests
             Directory.CreateSymbolicLink(
                 Path.Combine(WorkingDirectory, "dangling-directory-link"),
                 "missing-directory");
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -619,7 +619,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -627,7 +627,7 @@ public class ModuleCacheTests
             System.IO.File.WriteAllText(
                 Path.Combine(WorkingDirectory, "skippable-output.txt"),
                 "created");
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
 
         protected override ModularPipelines.Configuration.ModuleConfiguration Configure() =>
@@ -647,7 +647,7 @@ public class ModuleCacheTests
 
         public static int ExecutionCount;
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -666,7 +666,7 @@ public class ModuleCacheTests
                     | UnixFileMode.GroupExecute);
             }
 
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
@@ -675,7 +675,7 @@ public class ModuleCacheTests
     {
         public static int ExecutionCount;
 
-        protected internal override async Task<string?> ExecuteAsync(
+        protected internal override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {

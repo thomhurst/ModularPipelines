@@ -65,7 +65,7 @@ public class MarkdownDocumentationGeneratorTests
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Models;");
         await Assert.That(files[0].Content).Contains("using ModularPipelines.Modules;");
         await Assert.That(files[0].Content).Contains("Module<CommandResult>");
-        await Assert.That(files[0].Content).Contains("Task<CommandResult?> ExecuteAsync");
+        await Assert.That(files[0].Content).Contains("Task<CommandResult> ExecuteAsync");
         await Assert.That(files[0].Content).Contains("return await context.Tools.Fake");
         await Assert.That(files[0].Content).Contains("| `fake-cli run` | `FakeRunOptions` |");
         await Assert.That(files[0].Content).Contains("new FakeRunOptions(\"sample.csproj\")");
@@ -751,7 +751,7 @@ public class MarkdownDocumentationGeneratorTests
             {
                 public abstract class Module<T>
                 {
-                    protected abstract Task<T?> ExecuteAsync(
+                    protected abstract Task<T> ExecuteAsync(
                         ModularPipelines.Context.IModuleContext context,
                         CancellationToken cancellationToken);
                 }

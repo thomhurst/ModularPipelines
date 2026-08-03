@@ -16,7 +16,7 @@ public class CreateLocalNugetFolderModule : Module<Folder>
         _localNuGetSettings = localNuGetSettings;
     }
 
-    protected override Task<Folder?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<Folder> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var settings = _localNuGetSettings.Value;
         var localNugetRepositoryFolder = context.Files.GetFolder(Environment.SpecialFolder.ApplicationData)
@@ -26,6 +26,6 @@ public class CreateLocalNugetFolderModule : Module<Folder>
 
         context.Logger.LogInformation("Local NuGet Repository Path: {Path}", localNugetRepositoryFolder.Path);
 
-        return Task.FromResult<Folder?>(localNugetRepositoryFolder);
+        return Task.FromResult<Folder>(localNugetRepositoryFolder);
     }
 }

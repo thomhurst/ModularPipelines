@@ -10,11 +10,11 @@ public class ModuleReferencingSelfTests : TestBase
 {
     private class ModuleReferencingSelf : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             _ = await context.GetModule<ModuleReferencingSelf>();
             await Task.Yield();
-            return null;
+            return null!;
         }
     }
 
