@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.External;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
@@ -1633,6 +1634,73 @@ public class ExternalToolDefinitionTests
                         await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
                     .Throws<InvalidDataException>();
             }
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Requires_Custom_Optional_Collection_Shape()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single() with
+            {
+                CSharpType = "PrivatePackage.CustomValues?",
+                ValueArity = CliOptionValueArity.Optional,
+            };
+            tool = tool with
+            {
+                Commands = [command with { Options = [option] }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task External_Metadata_Preserves_Custom_Optional_Collection_Shape()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single() with
+            {
+                CSharpType = "PrivatePackage.CustomValues?",
+                ValueArity = CliOptionValueArity.Optional,
+                IsCollection = true,
+            };
+            tool = tool with
+            {
+                Commands = [command with { Options = [option] }],
+            };
+
+            var result = await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory);
+            var generatedOptions = await File.ReadAllTextAsync(Path.Combine(
+                outputDirectory,
+                "generated",
+                "Options",
+                "PrivateWidgetDeployOptions.Generated.cs"));
+
+            await Assert.That(result.HasErrors).IsFalse();
+            await Assert.That(generatedOptions).Contains("IEnumerable<CliOptionValue>? Environment");
         }
         finally
         {

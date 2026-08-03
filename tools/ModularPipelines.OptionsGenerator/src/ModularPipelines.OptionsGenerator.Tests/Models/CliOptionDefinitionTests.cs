@@ -251,4 +251,23 @@ public class CliOptionDefinitionTests
 
         await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
     }
+
+    [Test]
+    [Arguments(true, "IEnumerable<CliOptionValue>?")]
+    [Arguments(false, "CliOptionValue?")]
+    public async Task PropertyType_Uses_Declared_Custom_Optional_Collection_Shape(
+        bool isCollection,
+        string expectedType)
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "PrivatePackage.CustomValues?",
+            ValueArity = CliOptionValueArity.Optional,
+            IsCollection = isCollection,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo(expectedType);
+    }
 }

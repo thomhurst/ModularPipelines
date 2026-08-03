@@ -12,7 +12,7 @@ namespace ModularPipelines.OptionsGenerator.Models;
 public record CliOptionDefinition
 {
     private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
-    private static readonly ConcurrentDictionary<string, bool> CollectionShapes = new(StringComparer.Ordinal);
+    private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
     private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);
 
     /// <summary>
@@ -50,15 +50,31 @@ public record CliOptionDefinition
         _ => CSharpType,
     };
 
-    private bool UsesCollectionShape =>
-        AcceptsMultipleValues
-        || GroupValues
-        || IsCollectionType(CSharpType);
+    private bool UsesCollectionShape
+    {
+        get
+        {
+            if (AcceptsMultipleValues || GroupValues)
+            {
+                return true;
+            }
 
-    private static bool IsCollectionType(string cSharpType) =>
-        CollectionShapes.GetOrAdd(cSharpType, static typeName => IsEnumerableType(typeName));
+            return TryGetCollectionShape(CSharpType, out var isCollection)
+                ? isCollection
+                : IsCollection ?? false;
+        }
+    }
 
-    private static bool IsEnumerableType(string cSharpType)
+    internal static bool TryGetCollectionShape(string cSharpType, out bool isCollection)
+    {
+        var resolution = CollectionShapes.GetOrAdd(
+            cSharpType,
+            static typeName => ResolveCollectionShape(typeName));
+        isCollection = resolution.IsCollection;
+        return resolution.IsResolved;
+    }
+
+    private static CollectionShapeResolution ResolveCollectionShape(string cSharpType)
     {
         var source = $$"""
             #nullable enable
@@ -93,15 +109,21 @@ public record CliOptionDefinition
             propertyType = nullableType.TypeArguments[0];
         }
 
-        if (propertyType is null || propertyType.SpecialType == SpecialType.System_String)
+        if (propertyType is null || propertyType.TypeKind == TypeKind.Error)
         {
-            return false;
+            return default;
         }
 
-        return propertyType is IArrayTypeSymbol
-               || propertyType.SpecialType == SpecialType.System_Collections_IEnumerable
-               || propertyType.AllInterfaces.Any(
-                   interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_IEnumerable);
+        if (propertyType.SpecialType == SpecialType.System_String)
+        {
+            return new CollectionShapeResolution(IsResolved: true, IsCollection: false);
+        }
+
+        var isCollection = propertyType is IArrayTypeSymbol
+                           || propertyType.SpecialType == SpecialType.System_Collections_IEnumerable
+                           || propertyType.AllInterfaces.Any(
+                               interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_IEnumerable);
+        return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection);
     }
 
     private static PortableExecutableReference[] GetPlatformReferences()
@@ -129,6 +151,8 @@ public record CliOptionDefinition
             "CollectionShapeProbe",
             references: GetPlatformReferences(),
             options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+    private readonly record struct CollectionShapeResolution(bool IsResolved, bool IsCollection);
 
     /// <summary>
     /// Description for XML documentation.
@@ -174,6 +198,11 @@ public record CliOptionDefinition
     /// Whether collection values render after one option occurrence.
     /// </summary>
     public bool GroupValues { get; init; }
+
+    /// <summary>
+    /// Whether an optional value type unavailable to the generator has collection semantics.
+    /// </summary>
+    public bool? IsCollection { get; init; }
 
     /// <summary>
     /// Whether this is a key-value pair option.

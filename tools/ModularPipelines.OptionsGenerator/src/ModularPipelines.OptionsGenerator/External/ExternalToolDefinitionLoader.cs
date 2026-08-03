@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.CodeAnalysis.CSharp;
+using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
@@ -245,11 +246,42 @@ public static class ExternalToolDefinitionLoader
         RequireIdentifier(option.PropertyName, $"{propertyName}[].propertyName");
         RequireTypeName(option.CSharpType, $"{propertyName}[].cSharpType");
         ValidateFlagType(option, propertyName);
+        ValidateOptionalCollectionShape(option, propertyName);
         ValidateSecretValueKeys(option, propertyName);
 
         if (option.EnumDefinition is not null)
         {
             ValidateEnum(option.EnumDefinition, $"{propertyName}[].enumDefinition");
+        }
+    }
+
+    private static void ValidateOptionalCollectionShape(
+        CliOptionDefinition option,
+        string propertyName)
+    {
+        if (option.ValueArity != CliOptionValueArity.Optional
+            || option.AcceptsMultipleValues
+            || option.GroupValues)
+        {
+            return;
+        }
+
+        if (CliOptionDefinition.TryGetCollectionShape(option.CSharpType, out var isCollection))
+        {
+            if (option.IsCollection is not null && option.IsCollection != isCollection)
+            {
+                throw new InvalidDataException(
+                    $"{propertyName}[].isCollection conflicts with the resolved cSharpType.");
+            }
+
+            return;
+        }
+
+        if (option.IsCollection is null)
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].isCollection must be true or false when an optional cSharpType "
+                + "is unavailable to the options generator.");
         }
     }
 
