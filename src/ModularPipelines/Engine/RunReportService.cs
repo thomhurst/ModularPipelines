@@ -20,12 +20,14 @@ internal sealed class RunReportService(
     RoleDetector roleDetector,
     IDistributedCoordinator distributedCoordinator,
     ICommandExecutionCounter commandExecutionCounter,
-    ILogger<RunReportService> logger) : IRunReportService
+    ILogger<RunReportService> logger,
+    TimeSpan? historyStoreTimeout = null) : IRunReportService
 {
-    private static readonly TimeSpan HistoryStoreTimeout = TimeSpan.FromSeconds(30);
+    private static readonly TimeSpan DefaultHistoryStoreTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan ReportWriteTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan WorkerMetricsTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan WorkerMetricsPollingInterval = TimeSpan.FromMilliseconds(100);
+    private readonly TimeSpan _historyStoreTimeout = historyStoreTimeout ?? DefaultHistoryStoreTimeout;
 
     public async Task<PipelineRunReport> CompleteAsync(
         PipelineSummary summary,
@@ -73,8 +75,10 @@ internal sealed class RunReportService(
 
         try
         {
-            using var timeout = new CancellationTokenSource(HistoryStoreTimeout);
-            return await historyStore.GetLatestAsync(pipelineIdentity, timeout.Token).ConfigureAwait(false);
+            using var timeout = new CancellationTokenSource(_historyStoreTimeout);
+            return await historyStore.GetLatestAsync(pipelineIdentity, timeout.Token)
+                .WaitAsync(timeout.Token)
+                .ConfigureAwait(false);
         }
         catch (Exception exception)
         {
@@ -167,8 +171,10 @@ internal sealed class RunReportService(
 
         try
         {
-            using var timeout = new CancellationTokenSource(HistoryStoreTimeout);
-            await historyStore.SaveAsync(report, timeout.Token).ConfigureAwait(false);
+            using var timeout = new CancellationTokenSource(_historyStoreTimeout);
+            await historyStore.SaveAsync(report, timeout.Token)
+                .WaitAsync(timeout.Token)
+                .ConfigureAwait(false);
         }
         catch (Exception exception)
         {

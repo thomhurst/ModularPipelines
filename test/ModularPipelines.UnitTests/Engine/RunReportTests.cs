@@ -594,7 +594,7 @@ public class RunReportTests
     }
 
     [Test]
-    public async Task RunReportDistinguishesMatchingTypesAcrossLoadContexts()
+    public async Task RunReportUsesStablePersistedIdentityAcrossLoadContexts()
     {
         var firstContext = new DuplicateAssemblyLoadContext();
         var secondContext = new DuplicateAssemblyLoadContext();
@@ -629,15 +629,19 @@ public class RunReportTests
                     Mock.Of<ICommandExecutionCounter>(),
                     new PassthroughSecretObfuscator())
                 .Create(summary, null, "load-context-types");
-            var reportsByType = report.Modules.ToDictionary(module => module.ModuleTypeName);
+            var firstModuleReport = report.Modules[0];
+            var secondModuleReport = report.Modules[1];
 
             using (Assert.Multiple())
             {
                 await Assert.That(firstType.FullName).IsEqualTo(secondType.FullName);
                 await Assert.That(firstType.Assembly.FullName).IsEqualTo(secondType.Assembly.FullName);
-                await Assert.That(firstIdentifier).IsNotEqualTo(secondIdentifier);
-                await Assert.That(reportsByType[firstIdentifier].Duration).IsEqualTo(TimeSpan.FromSeconds(1));
-                await Assert.That(reportsByType[secondIdentifier].Duration).IsEqualTo(TimeSpan.FromSeconds(2));
+                await Assert.That(firstIdentifier).IsEqualTo(secondIdentifier);
+                await Assert.That(ModuleTypeIdentifier.GetRuntime(firstType))
+                    .IsNotEqualTo(ModuleTypeIdentifier.GetRuntime(secondType));
+                await Assert.That(firstIdentifier).DoesNotContain("LoadContext=");
+                await Assert.That(firstModuleReport.Duration).IsEqualTo(TimeSpan.FromSeconds(1));
+                await Assert.That(secondModuleReport.Duration).IsEqualTo(TimeSpan.FromSeconds(2));
                 await Assert.That(SpectreResultsPrinter.CreateModulesTable(summary with { RunReport = report }).Rows)
                     .Count().IsEqualTo(3);
             }
@@ -666,12 +670,14 @@ public class RunReportTests
         try
         {
             var secondAssembly = secondContext.LoadFromStream(new MemoryStream(assemblyBytes));
-            var secondIdentifier = ModuleTypeIdentifier.Get(
-                secondAssembly.GetType(moduleTypeName, throwOnError: true)!);
+            var secondType = secondAssembly.GetType(moduleTypeName, throwOnError: true)!;
+            var secondIdentifier = ModuleTypeIdentifier.Get(secondType);
 
             using (Assert.Multiple())
             {
-                await Assert.That(secondIdentifier).IsNotEqualTo(firstIdentifier);
+                await Assert.That(secondIdentifier).IsEqualTo(firstIdentifier);
+                await Assert.That(ModuleTypeIdentifier.GetRuntime(secondType))
+                    .IsNotEqualTo(ModuleTypeIdentifier.GetRuntime(firstType));
                 await Assert.That(ModuleTypeIdentifier.Get(firstType)).IsEqualTo(firstIdentifier);
             }
         }
@@ -692,15 +698,15 @@ public class RunReportTests
             var assemblyBytes = await File.ReadAllBytesAsync(typeof(RunReportTests).Assembly.Location);
             var firstAssembly = firstContext.LoadFromStream(new MemoryStream(assemblyBytes));
             var secondAssembly = secondContext.LoadFromStream(new MemoryStream(assemblyBytes));
-            var firstIdentifier = ModuleTypeIdentifier.Get(
+            var firstIdentifier = ModuleTypeIdentifier.GetRuntime(
                 firstAssembly.GetType(typeof(DuplicateModuleBase).FullName!, throwOnError: true)!);
-            var secondIdentifier = ModuleTypeIdentifier.Get(
+            var secondIdentifier = ModuleTypeIdentifier.GetRuntime(
                 secondAssembly.GetType(typeof(SuccessfulModule).FullName!, throwOnError: true)!);
 
             using (Assert.Multiple())
             {
-                await Assert.That(firstIdentifier).EndsWith($"LoadContext={contextName}#1");
-                await Assert.That(secondIdentifier).EndsWith($"LoadContext={contextName}#1");
+                await Assert.That(firstIdentifier).EndsWith($"RuntimeLoadContext={contextName}#1");
+                await Assert.That(secondIdentifier).EndsWith($"RuntimeLoadContext={contextName}#1");
             }
         }
         finally
@@ -1120,6 +1126,66 @@ public class RunReportTests
                 await Assert.That(readToken.CanBeCanceled).IsTrue();
                 await Assert.That(saveToken.CanBeCanceled).IsTrue();
             }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task RunHistoryOperationsTimeoutWhenStoreIgnoresCancellation()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "run-report.json");
+        var readCompletion = new TaskCompletionSource<PipelineRunReport?>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var saveCompletion = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var historyStore = new Mock<IRunHistoryStore>();
+        historyStore.Setup(store => store.GetLatestAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(readCompletion.Task);
+        historyStore.Setup(store => store.SaveAsync(
+                It.IsAny<PipelineRunReport>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(saveCompletion.Task);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            historyStore.Object,
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    ReportPath = reportPath,
+                    HistoryRetention = 1,
+                },
+            }),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            historyStoreTimeout: TimeSpan.FromMilliseconds(50));
+
+        try
+        {
+            var report = await service.CompleteAsync(CreateEmptySummary())
+                .WaitAsync(TimeSpan.FromSeconds(2));
+
+            await Assert.That(report).IsNotNull();
+            historyStore.Verify(store => store.GetLatestAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()), Times.Once);
+            historyStore.Verify(store => store.SaveAsync(
+                It.IsAny<PipelineRunReport>(),
+                It.IsAny<CancellationToken>()), Times.Once);
         }
         finally
         {

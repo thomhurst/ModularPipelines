@@ -19,7 +19,14 @@ internal static class ModuleTypeIdentifier
 
     private static string CreateRuntimeTypeIdentity(Type type)
     {
-        var identity = $"{Get(type)}\0RuntimeAssembly={type.Module.ModuleVersionId:N}";
+        var stableIdentity = Get(type);
+        var identity = $"{stableIdentity}\0RuntimeAssembly={type.Module.ModuleVersionId:N}";
+        var loadContextIdentity = GetLoadContextIdentity(type, stableIdentity);
+        if (loadContextIdentity is not null)
+        {
+            identity = $"{identity}\0RuntimeLoadContext={loadContextIdentity}";
+        }
+
         if (type.HasElementType)
         {
             return $"{identity}\0RuntimeElement={CreateRuntimeTypeIdentity(type.GetElementType()!)}";
@@ -37,13 +44,7 @@ internal static class ModuleTypeIdentifier
     }
 
     private static string CreateTypeIdentity(Type moduleType)
-    {
-        var identifier = GetStableTypeIdentity(moduleType);
-        var loadContextIdentity = GetLoadContextIdentity(moduleType, identifier);
-        return loadContextIdentity is null
-            ? identifier
-            : $"{identifier}, LoadContext={loadContextIdentity}";
-    }
+        => GetStableTypeIdentity(moduleType);
 
     private static string GetStableTypeIdentity(Type type)
     {
