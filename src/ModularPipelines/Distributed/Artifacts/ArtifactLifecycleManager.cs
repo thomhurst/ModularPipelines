@@ -147,19 +147,21 @@ internal class ArtifactLifecycleManager
         IReadOnlyList<string> resolvedPaths,
         CancellationToken cancellationToken)
     {
-        if (resolvedPaths.Count == 1
-            && Directory.Exists(resolvedPaths[0])
-            && pathPattern.IndexOfAny(['*', '?']) < 0)
+        var isLiteralPath = pathPattern.IndexOfAny(['*', '?']) < 0;
+        if (resolvedPaths.Count == 1 && isLiteralPath)
         {
-            return UploadDirectoryAsync(descriptor, resolvedPaths[0], cancellationToken);
-        }
+            if (Directory.Exists(resolvedPaths[0]))
+            {
+                return UploadDirectoryAsync(descriptor, resolvedPaths[0], cancellationToken);
+            }
 
-        if (resolvedPaths.Count == 1 && File.Exists(resolvedPaths[0]))
-        {
-            return UploadFileAsync(
-                descriptor with { ContentType = "application/octet-stream" },
-                resolvedPaths[0],
-                cancellationToken);
+            if (File.Exists(resolvedPaths[0]))
+            {
+                return UploadFileAsync(
+                    descriptor with { ContentType = "application/octet-stream" },
+                    resolvedPaths[0],
+                    cancellationToken);
+            }
         }
 
         return UploadPathArchiveAsync(descriptor, pathPattern, resolvedPaths, cancellationToken);
