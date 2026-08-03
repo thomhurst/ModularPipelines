@@ -35,12 +35,31 @@ public record CliOptionDefinition
     /// <summary>
     /// C# type emitted for the generated property.
     /// </summary>
-    public string PropertyType => (ValueArity, AcceptsMultipleValues) switch
+    public string PropertyType => (ValueArity, UsesCollectionShape) switch
     {
         (CliOptionValueArity.Optional, true) => "IEnumerable<CliOptionValue>?",
         (CliOptionValueArity.Optional, false) => "CliOptionValue?",
         _ => CSharpType,
     };
+
+    private bool UsesCollectionShape =>
+        AcceptsMultipleValues
+        || GroupValues
+        || IsCollectionType(CSharpType);
+
+    private static bool IsCollectionType(string cSharpType)
+    {
+        var type = cSharpType.TrimEnd('?');
+        return type.EndsWith("[]", StringComparison.Ordinal)
+               || type.Contains("IEnumerable<", StringComparison.Ordinal)
+               || type.Contains("IReadOnlyCollection<", StringComparison.Ordinal)
+               || type.Contains("IReadOnlyList<", StringComparison.Ordinal)
+               || type.Contains("ICollection<", StringComparison.Ordinal)
+               || type.Contains("IList<", StringComparison.Ordinal)
+               || type.Contains("ISet<", StringComparison.Ordinal)
+               || type.Contains("List<", StringComparison.Ordinal)
+               || type.Contains("Set<", StringComparison.Ordinal);
+    }
 
     /// <summary>
     /// Description for XML documentation.

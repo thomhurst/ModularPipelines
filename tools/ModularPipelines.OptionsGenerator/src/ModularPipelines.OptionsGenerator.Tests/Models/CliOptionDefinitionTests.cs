@@ -205,4 +205,33 @@ public class CliOptionDefinitionTests
         await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
         await Assert.That(option.RequiresModelsNamespace).IsTrue();
     }
+
+    [Test]
+    public async Task PropertyType_Preserves_Grouped_Optional_Collection_Shape()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "string[]?",
+            ValueArity = CliOptionValueArity.Optional,
+            GroupValues = true,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+    }
+
+    [Test]
+    public async Task PropertyType_Preserves_Declared_Optional_Collection_Shape()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "IReadOnlyList<string>?",
+            ValueArity = CliOptionValueArity.Optional,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+    }
 }
