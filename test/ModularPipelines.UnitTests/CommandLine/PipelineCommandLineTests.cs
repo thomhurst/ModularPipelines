@@ -106,6 +106,7 @@ public class PipelineCommandLineTests
     }
 
     [AddRegistrationDependency(typeof(UnregisteredModule))]
+    [ModuleCategory("excluded")]
     private sealed class InvalidDynamicDependencyModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -212,6 +213,7 @@ public class PipelineCommandLineTests
     }
 
     [RunIfAll<NeverRunCondition>]
+    [ModuleCategory("selected")]
     private sealed class AttributeSkippedModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -237,6 +239,19 @@ public class PipelineCommandLineTests
     {
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithCategory("selected")
+            .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dry-run must not execute modules.");
+    }
+
+    [ModuleCategory("excluded")]
+    private sealed class ExcludedSkippedDependencyModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"))
             .Build();
 
@@ -337,7 +352,7 @@ public class PipelineCommandLineTests
             Module<T> module,
             IPipelineContext pipelineContext)
         {
-            if (module is not SkippedDependencyModule)
+            if (module is not SkippedDependencyModule and not ExcludedSkippedDependencyModule)
             {
                 return Task.FromResult<ModuleResult<T>?>(null);
             }
@@ -563,23 +578,27 @@ public class PipelineCommandLineTests
     }
 
     [ModularPipelines.Attributes.DependsOn<SkippedCycleBModule>]
+    [ModuleCategory("excluded")]
     private sealed class SkippedCycleAModule : DryRunModule
     {
     }
 
     [ModularPipelines.Attributes.DependsOn<SkippedCycleAModule>]
+    [ModuleCategory("excluded")]
     private sealed class SkippedCycleBModule : DryRunModule
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
+    [ModularPipelines.Attributes.DependsOn<ExcludedSkippedDependencyModule>]
     [ModularPipelines.Attributes.DependsOn<HistoryCycleBModule>]
+    [ModuleCategory("selected")]
     private sealed class HistoryCycleAModule : DryRunModule
     {
     }
 
-    [ModularPipelines.Attributes.DependsOn<SkippedDependencyModule>]
+    [ModularPipelines.Attributes.DependsOn<ExcludedSkippedDependencyModule>]
     [ModularPipelines.Attributes.DependsOn<HistoryCycleAModule>]
+    [ModuleCategory("selected")]
     private sealed class HistoryCycleBModule : DryRunModule
     {
     }
@@ -1024,9 +1043,9 @@ public class PipelineCommandLineTests
         {
             RunOnlyCategories = ["selected"],
         });
-        builder.AddModule<SkippedCycleAModule>().WithCategory("excluded");
-        builder.AddModule<SkippedCycleBModule>().WithCategory("excluded");
-        builder.AddModule<UnrelatedModule>().WithCategory("selected");
+        builder.AddModule<SkippedCycleAModule>();
+        builder.AddModule<SkippedCycleBModule>();
+        builder.AddModule<SelectedCategoryModule>();
         await using var pipeline = await builder.BuildAsync();
 
         var plan = await pipeline.PlanAsync();
@@ -1051,8 +1070,8 @@ public class PipelineCommandLineTests
         {
             RunOnlyCategories = ["selected"],
         });
-        builder.AddModule<InvalidDynamicDependencyModule>().WithCategory("excluded");
-        builder.AddModule<UnrelatedModule>().WithCategory("selected");
+        builder.AddModule<InvalidDynamicDependencyModule>();
+        builder.AddModule<SelectedCategoryModule>();
         await using var pipeline = await builder.BuildAsync();
 
         var plan = await pipeline.PlanAsync();
@@ -1092,9 +1111,9 @@ public class PipelineCommandLineTests
         {
             RunOnlyCategories = ["selected"],
         });
-        builder.AddModule<SkippedDependencyModule>().WithCategory("excluded");
-        builder.AddModule<HistoryCycleAModule>().WithCategory("selected");
-        builder.AddModule<HistoryCycleBModule>().WithCategory("selected");
+        builder.AddModule<ExcludedSkippedDependencyModule>();
+        builder.AddModule<HistoryCycleAModule>();
+        builder.AddModule<HistoryCycleBModule>();
         builder.AddResultsRepository<PlanHistoryRepository>();
         await using var pipeline = await builder.BuildAsync();
 
@@ -1230,8 +1249,7 @@ public class PipelineCommandLineTests
             RunOnlyCategories = ["selected"],
         });
         builder.AddModule<FluentlySkippedModule>();
-        builder.AddModule<AttributeSkippedModule>()
-            .WithCategory("selected");
+        builder.AddModule<AttributeSkippedModule>();
         builder.AddModule<SkippedDependencyModule>();
         builder.AddModule<DependentOnSkippedModule>();
         builder.AddModule<UnrelatedModule>();
