@@ -930,7 +930,8 @@ internal static class ModuleAuthoringAnalysis
         foreach (var returnValue in body.DescendantsAndSelf()
                      .OfType<IReturnOperation>()
                      .Where(returnOperation =>
-                         ReferenceEquals(
+                         IsInReachableBranch(returnOperation)
+                         && ReferenceEquals(
                              GetEnclosingCallable(returnOperation),
                              callable))
                      .Select(static returnOperation => returnOperation.ReturnedValue)
@@ -1167,6 +1168,21 @@ internal static class ModuleAuthoringAnalysis
         while (operation is IConversionOperation conversion)
         {
             operation = conversion.Operand;
+        }
+
+        if (operation is IArrayCreationOperation { Initializer: { } initializer })
+        {
+            return initializer.ElementValues.Any(IsUnresolvedModuleServiceDescriptor);
+        }
+
+        if (operation is ICollectionExpressionOperation collection)
+        {
+            return collection.Elements.Any(IsUnresolvedModuleServiceDescriptor);
+        }
+
+        if (operation is ISpreadOperation spread)
+        {
+            return IsUnresolvedModuleServiceDescriptor(spread.Operand);
         }
 
         if (operation is not IInvocationOperation invocation
@@ -1556,10 +1572,10 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        var tracked = false;
+        var tracked = true;
         foreach (var element in elements)
         {
-            tracked |= TryTrackServiceDescriptor(
+            tracked &= TryTrackServiceDescriptor(
                 element,
                 compilation,
                 instanceRegisteredModules,
@@ -2118,6 +2134,13 @@ internal static class ModuleAuthoringAnalysis
                 instanceRegisteredModules,
                 visitedLocals,
                 visitedMethods),
+            ISwitchExpressionOperation switchExpression => TryTrackInvocationModuleTypeSwitchReturn(
+                switchExpression,
+                invocation,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
             _ => TryTrackInstanceModuleTypes(
                 returnValue,
                 compilation,
@@ -2188,6 +2211,28 @@ internal static class ModuleAuthoringAnalysis
                    instanceRegisteredModules,
                    CloneVisitedLocals(visitedLocals),
                    CloneVisitedMethods(visitedMethods));
+    }
+
+    private static bool TryTrackInvocationModuleTypeSwitchReturn(
+        ISwitchExpressionOperation switchExpression,
+        IInvocationOperation invocation,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var reachableArms = switchExpression.Arms
+            .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+            .Where(static arm => !AlwaysThrows(arm.Value))
+            .ToArray();
+        return reachableArms.Length > 0
+               && reachableArms.All(arm => TryTrackInvocationModuleTypeReturn(
+                   arm.Value,
+                   invocation,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods)));
     }
 
     private static HashSet<IMethodSymbol> CloneVisitedMethods(

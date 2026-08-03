@@ -1189,6 +1189,46 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Passed_Through_Switch_Factory_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            internal class DeployModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.AddSingleton<IModule>(
+                        _ => Pick(flag, new BuildModule(), new DeployModule()));
+                }
+
+                private static IModule Pick(bool flag, IModule first, IModule second) =>
+                    flag switch
+                    {
+                        true => first,
+                        false => second,
+                    };
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Stored_TryAddEnumerable_Descriptor()
     {
         var source = $$"""
@@ -3899,6 +3939,37 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Unflowed_Token_In_Dead_Local_Function_Return()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Task Work()
+                {
+                    if (false)
+                    {
+                        return FetchAsync();
+                    }
+
+                    return FetchAsync(cancellationToken);
+                }
+
+                await Work();
+                return null!;
+            }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Async_Safety_In_Invoked_Member_Helper()
     {
         var source = ModuleSource("""
@@ -5522,6 +5593,45 @@ public class ModuleAuthoringAnalyzerTests
 
                 private static void RegisterModules(IServiceCollection services) =>
                     services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Unresolved_Descriptor_In_Collection_Suppresses_Unknown_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.DependencyInjection.Extensions;
+
+            public class KnownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class UnknownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.TryAddEnumerable(
+                    [
+                        ServiceDescriptor.Singleton<IModule, KnownModule>(),
+                        ServiceDescriptor.Singleton(typeof(IModule), ChooseImplementationType()),
+                    ]);
+                }
+
+                private static Type ChooseImplementationType() => typeof(UnknownModule);
             }
 
             {{EntryPoint}}
