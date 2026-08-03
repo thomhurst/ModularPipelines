@@ -108,8 +108,8 @@ public partial class PodmanCliScraper : CobraCliScraper
     };
 
     /// <summary>
-    /// Podman 4.x reports clone output operands as required even though NAME and IMAGE
-    /// are optional and defaulted by the command implementation.
+    /// Correct Podman 4.x positional metadata where the synopsis does not reflect
+    /// the command implementation's required operands.
     /// </summary>
     protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
         string[] commandParts,
@@ -118,12 +118,22 @@ public partial class PodmanCliScraper : CobraCliScraper
         var requiredCount = string.Join(' ', commandParts) switch
         {
             "container clone" or "pod clone" => 1,
-            _ => positionalArguments.Count,
+            "exec" => 2,
+            _ => (int?) null,
         };
 
+        if (requiredCount is null)
+        {
+            return positionalArguments;
+        }
+
         return positionalArguments
-            .Select((argument, index) => index < requiredCount
-                ? argument
+            .Select((argument, index) => index < requiredCount.Value
+                ? argument with
+                {
+                    CSharpType = argument.CSharpType.TrimEnd('?'),
+                    IsRequired = true,
+                }
                 : argument with
                 {
                     CSharpType = $"{argument.CSharpType.TrimEnd('?')}?",

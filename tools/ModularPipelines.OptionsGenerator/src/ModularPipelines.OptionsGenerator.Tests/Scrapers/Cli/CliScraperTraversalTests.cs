@@ -255,6 +255,25 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task PodmanExec_Requires_Container_And_Command()
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        const string helpText = "Usage: podman exec [options] CONTAINER COMMAND [ARG...]";
+
+        var definition = await scraper.Parse(["podman", "exec"], helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(3);
+            await Assert.That(definition.PositionalArguments.Take(2).All(argument => argument.IsRequired)).IsTrue();
+            await Assert.That(definition.PositionalArguments.Take(2).All(argument => argument.CSharpType == "string")).IsTrue();
+            await Assert.That(definition.PositionalArguments[2].IsRequired).IsFalse();
+            await Assert.That(definition.PositionalArguments[2].CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """
