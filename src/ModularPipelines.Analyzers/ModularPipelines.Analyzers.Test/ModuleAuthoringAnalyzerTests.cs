@@ -1131,6 +1131,34 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_With_Unresolved_Descriptor_Implementation_Type()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() => Pipeline.CreateBuilder().Services.Add(
+                    ServiceDescriptor.Singleton(
+                        typeof(IModule),
+                        ChooseImplementationType()));
+
+                private static Type ChooseImplementationType() => typeof(BuildModule);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Stored_TryAddEnumerable_Descriptor()
     {
         var source = $$"""
@@ -2237,6 +2265,32 @@ public class ModuleAuthoringAnalyzerTests
             }
 
                 private static CancellationToken Pass(CancellationToken token) => token;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Dead_CancellationToken_Helper_Return()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.Delay(1, Pass(cancellationToken));
+                return null!;
+            }
+
+                private static CancellationToken Pass(CancellationToken token)
+                {
+                    if (false)
+                    {
+                        return CancellationToken.None;
+                    }
+
+                    return token;
+                }
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
@@ -5025,6 +5079,47 @@ public class ModuleAuthoringAnalyzerTests
                     .AddSingleton<IModule>(_ => true
                         ? new BuildModule()
                         : new DeployModule());
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DeployModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_From_Dead_Factory_Return()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:DeployModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() => Pipeline.CreateBuilder().Services
+                    .AddSingleton<IModule>(_ =>
+                    {
+                        if (false)
+                        {
+                            return new DeployModule();
+                        }
+
+                        return new BuildModule();
+                    });
             }
 
             {{EntryPoint}}

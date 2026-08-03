@@ -1041,7 +1041,8 @@ internal static class ModuleAuthoringAnalysis
             return TryTrackServiceDescriptorArguments(
                 invocation,
                 compilation,
-                instanceRegisteredModules);
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations);
         }
 
         if (!IsDirectServiceRegistrationMethod(definition)
@@ -1132,19 +1133,53 @@ internal static class ModuleAuthoringAnalysis
     private static bool TryTrackServiceDescriptorArguments(
         IInvocationOperation invocation,
         Compilation compilation,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
         var descriptorArguments = invocation.Arguments
             .Where(argument => argument.Parameter is not null
                                && IsServiceDescriptorType(argument.Parameter.Type))
             .ToArray();
-        return descriptorArguments.Any(argument =>
-            TryTrackServiceDescriptor(
-                argument.Value,
-                compilation,
-                instanceRegisteredModules,
-                [with(SymbolEqualityComparer.Default)],
-                [with(SymbolEqualityComparer.Default)]));
+        foreach (var argument in descriptorArguments)
+        {
+            if (TryTrackServiceDescriptor(
+                    argument.Value,
+                    compilation,
+                    instanceRegisteredModules,
+                    [with(SymbolEqualityComparer.Default)],
+                    [with(SymbolEqualityComparer.Default)]))
+            {
+                return true;
+            }
+
+            if (IsUnresolvedModuleServiceDescriptor(argument.Value))
+            {
+                unresolvedModuleRegistrations.Add(0);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsUnresolvedModuleServiceDescriptor(IOperation operation)
+    {
+        while (operation is IConversionOperation conversion)
+        {
+            operation = conversion.Operand;
+        }
+
+        if (operation is not IInvocationOperation invocation
+            || !IsServiceDescriptorFactory(invocation.TargetMethod)
+            || !RegistersModuleService(invocation.Arguments, invocation.TargetMethod.TypeArguments))
+        {
+            return false;
+        }
+
+        var implementationType = invocation.Arguments.FirstOrDefault(
+            static argument => argument.Parameter?.Name == "implementationType");
+        return implementationType is not null
+               && !TryGetTypeOfNamedTypes(implementationType.Value, out _);
     }
 
     private static bool TryTrackServiceDescriptor(
@@ -1889,7 +1924,8 @@ internal static class ModuleAuthoringAnalysis
             .Where(returnOperation =>
                 ReferenceEquals(
                     GetEnclosingCallable(returnOperation),
-                    anonymousFunction))
+                    anonymousFunction)
+                && IsInReachableBranch(returnOperation))
             .Select(static returnOperation => returnOperation.ReturnedValue)
             .OfType<IOperation>()
             .ToArray();
@@ -4206,7 +4242,8 @@ internal static class ModuleAuthoringAnalysis
         var returnValues = operation.DescendantsAndSelf()
             .OfType<IReturnOperation>()
             .Where(static returnOperation =>
-                GetEnclosingCallable(returnOperation) is null)
+                GetEnclosingCallable(returnOperation) is null
+                && IsInReachableBranch(returnOperation))
             .Select(static returnOperation => returnOperation.ReturnedValue)
             .OfType<IOperation>()
             .ToArray();
