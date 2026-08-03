@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "change-secrets-provider")]
 public record PulumiStackChangeSecretsProviderOptions(
-    [property: SecretValue, CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string NewSecretsProvider
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string NewSecretsProvider
 ) : PulumiOptions
 {
     /// <summary>
