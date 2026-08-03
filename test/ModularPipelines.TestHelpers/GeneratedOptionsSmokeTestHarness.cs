@@ -21,27 +21,12 @@ public static class GeneratedOptionsSmokeTestHarness
     /// <returns>The number of option types and attributed properties tested.</returns>
     public static GeneratedOptionsSmokeTestResult ValidateAssembly(Assembly assembly)
     {
-        return ValidateAssembly(assembly, useReflectionFallback: false);
-    }
+        RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
 
-    /// <summary>
-    /// Validates every options type using the runtime reflection fallback.
-    /// </summary>
-    /// <param name="assembly">The integration assembly to validate.</param>
-    /// <returns>The number of option types and attributed properties tested.</returns>
-    public static GeneratedOptionsSmokeTestResult ValidateAssemblyUsingReflection(Assembly assembly)
-    {
-        return ValidateAssembly(assembly, useReflectionFallback: true);
-    }
-
-    private static GeneratedOptionsSmokeTestResult ValidateAssembly(
-        Assembly assembly,
-        bool useReflectionFallback)
-    {
         var results = assembly.GetTypes()
             .Where(IsOptionsType)
             .OrderBy(type => type.FullName, StringComparer.Ordinal)
-            .Select(type => ValidateOptionsType(type, useReflectionFallback))
+            .Select(ValidateOptionsType)
             .ToList();
 
         return new GeneratedOptionsSmokeTestResult(
@@ -56,23 +41,6 @@ public static class GeneratedOptionsSmokeTestHarness
     /// <returns>The number of option types and attributed properties tested.</returns>
     public static GeneratedOptionsSmokeTestResult ValidateOptionsType(Type optionsType)
     {
-        return ValidateOptionsType(optionsType, useReflectionFallback: false);
-    }
-
-    /// <summary>
-    /// Validates one options type using the runtime reflection fallback.
-    /// </summary>
-    /// <param name="optionsType">The options type to validate.</param>
-    /// <returns>The number of option types and attributed properties tested.</returns>
-    public static GeneratedOptionsSmokeTestResult ValidateOptionsTypeUsingReflection(Type optionsType)
-    {
-        return ValidateOptionsType(optionsType, useReflectionFallback: true);
-    }
-
-    private static GeneratedOptionsSmokeTestResult ValidateOptionsType(
-        Type optionsType,
-        bool useReflectionFallback)
-    {
         if (!typeof(CommandLineToolOptions).IsAssignableFrom(optionsType))
         {
             throw new ArgumentException(
@@ -80,9 +48,13 @@ public static class GeneratedOptionsSmokeTestHarness
                 nameof(optionsType));
         }
 
-        var model = useReflectionFallback
-            ? CommandModelProvider.GetReflectionCommandModel(optionsType)
-            : new CommandModelProvider().GetCommandModel(optionsType);
+        if (!GeneratedCommandMetadata.TryGet(optionsType, out _))
+        {
+            throw new InvalidOperationException(
+                $"Source-generated command metadata is missing for {optionsType.FullName}.");
+        }
+
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
 
         if (optionsType.IsAbstract)
         {

@@ -1,6 +1,9 @@
 using Microsoft.Extensions.Logging;
+using System.Reflection;
+using System.Reflection.Emit;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using Moq;
 
@@ -34,11 +37,7 @@ internal class GeneratedCharacterSecretOptions
         ["collection-secret-one", "collection-secret-two"];
 }
 
-internal sealed class ReflectionCharacterSecretOptions : GeneratedCharacterSecretOptions
-{
-    [SecretValue]
-    private string InaccessibleSecret => " ";
-}
+internal sealed class GeneratedNoSecretsOptions;
 
 public class SecretValueNormalizationTests
 {
@@ -74,17 +73,35 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
-    public async Task ReflectionFallback_NormalizesCharacterSequencesAndCollections()
+    public async Task ProcessedAssemblyWithoutSecrets_ReturnsEmpty()
     {
         var provider = CreateProvider(out _);
-        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(
-            typeof(ReflectionCharacterSecretOptions),
-            out _);
+        var secrets = provider.GetSecretsInObject(new GeneratedNoSecretsOptions()).ToList();
 
-        var secrets = provider.GetSecretsInObject(new ReflectionCharacterSecretOptions()).ToList();
+        await Assert.That(secrets).IsEmpty();
+    }
 
-        await Assert.That(metadataFound).IsFalse();
-        await Assert.That(secrets).IsEquivalentTo(ExpectedSecrets);
+    [Test]
+    public async Task UnprocessedAssembly_ThrowsActionableException()
+    {
+        var provider = CreateProvider(out _);
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName("MissingSecretMetadata"),
+            AssemblyBuilderAccess.Run);
+        var typeBuilder = assembly.DefineDynamicModule("Main")
+            .DefineType("ExternalOptions", TypeAttributes.Public);
+        typeBuilder.DefineField(
+            "SecretAttributeReference",
+            typeof(SecretValueAttribute),
+            FieldAttributes.Public);
+        var objectType = typeBuilder.CreateType()!;
+        var value = Activator.CreateInstance(objectType)!;
+
+        var exception = await Assert.That(() => provider.GetSecretsInObject(value).ToList())
+            .Throws<MissingSecretMetadataException>();
+
+        await Assert.That(exception!.ObjectType).IsEqualTo(objectType);
+        await Assert.That(exception.Message).Contains("ModularPipelines.SourceGenerator");
     }
 
     [Test]

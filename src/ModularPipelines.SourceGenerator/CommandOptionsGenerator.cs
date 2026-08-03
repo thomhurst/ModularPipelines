@@ -47,9 +47,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Select(static (item, _) => item!)
             .WithComparer(TypeMetadataCandidateComparer.Instance);
 
-        var candidates = typeCandidates.Collect().Combine(secretCandidates.Collect());
-        context.RegisterSourceOutput(candidates, static (sourceContext, candidateGroups) =>
+        var hasRuntimeReference = context.CompilationProvider.Select(
+            static (compilation, _) => compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName) is not null);
+        var candidates = typeCandidates.Collect()
+            .Combine(secretCandidates.Collect())
+            .Combine(hasRuntimeReference);
+        context.RegisterSourceOutput(candidates, static (sourceContext, input) =>
         {
+            if (!input.Right)
+            {
+                return;
+            }
+
+            var candidateGroups = input.Left;
             var candidates = candidateGroups.Left.AddRange(candidateGroups.Right);
             foreach (var skipped in candidates
                          .Where(static candidate => candidate.Metadata is null)
@@ -66,11 +76,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 .Select(static candidate => candidate.Metadata)
                 .OfType<TypeMetadata>()
                 .ToImmutableArray();
-            if (items.Length > 0)
-            {
-                ReportIncompleteMetadata(sourceContext, candidates);
-                sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
-            }
+            ReportIncompleteMetadata(sourceContext, candidates);
+            sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
         });
     }
 
@@ -149,6 +156,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var properties = new Dictionary<string, PropertyMetadata>(StringComparer.Ordinal);
         var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        var incompleteProperties = ImmutableArray.CreateBuilder<string>();
         var isComplete = true;
         var hasAttributes = false;
 
@@ -171,6 +179,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 if (!IsPropertyAccessible(property, currentAssembly))
                 {
                     isComplete = false;
+                    incompleteProperties.Add(property.Name);
                     continue;
                 }
 
@@ -182,6 +191,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     })
                 {
                     isComplete = false;
+                    incompleteProperties.Add(property.Name);
                     continue;
                 }
 
@@ -189,7 +199,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
         }
 
-        return new PropertyCollection(properties.Values.ToImmutableArray(), isComplete, hasAttributes);
+        return new PropertyCollection(
+            properties.Values.ToImmutableArray(),
+            incompleteProperties.ToImmutable(),
+            isComplete,
+            hasAttributes);
     }
 
     private static PropertyCollection GetSecretProperties(
@@ -198,6 +212,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var properties = ImmutableArray.CreateBuilder<PropertyMetadata>();
         var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        var incompleteProperties = ImmutableArray.CreateBuilder<string>();
         var isComplete = true;
         var hasAttributes = false;
 
@@ -217,10 +232,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 }
 
                 hasAttributes = true;
-                if (!IsAttribute(secretAttribute, SecretValueAttributeFullName)
-                    || !IsPropertyAccessible(property, currentAssembly))
+                if (!IsPropertyAccessible(property, currentAssembly))
                 {
                     isComplete = false;
+                    incompleteProperties.Add(property.Name);
                     continue;
                 }
 
@@ -240,7 +255,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
         }
 
-        return new PropertyCollection(properties.ToImmutable(), isComplete, hasAttributes);
+        return new PropertyCollection(
+            properties.ToImmutable(),
+            incompleteProperties.ToImmutable(),
+            isComplete,
+            hasAttributes);
     }
 
     private static AttributeData? FindAttribute(
@@ -345,15 +364,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    internal static void Register()");
         sb.AppendLine("    {");
+        sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterAssembly(global::System.Reflection.Assembly.GetExecutingAssembly());");
 
         foreach (var item in uniqueItems)
         {
-            if (item.IsCommandOptions)
+            if (item.IsCommandOptions && item.CommandMetadata.IsComplete)
             {
                 AppendCommandRegistration(sb, item);
             }
 
-            if (item.SecretMetadata.HasAttributes)
+            if (item.SecretMetadata is { HasAttributes: true, IsComplete: true })
             {
                 AppendSecretRegistration(sb, item);
             }
@@ -379,7 +399,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 context.ReportDiagnostic(Diagnostic.Create(
                     IncompleteCommandMetadata,
                     candidate.Location,
-                    item.TypeName));
+                    item.TypeName,
+                    string.Join(", ", item.CommandMetadata.IncompletePropertyNames)));
             }
 
             if (!item.SecretMetadata.IsComplete)
@@ -387,7 +408,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 context.ReportDiagnostic(Diagnostic.Create(
                     IncompleteSecretMetadata,
                     candidate.Location,
-                    item.TypeName));
+                    item.TypeName,
+                    string.Join(", ", item.SecretMetadata.IncompletePropertyNames)));
             }
         }
     }
@@ -440,7 +462,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
         }
 
-        sb.AppendLine($"            }}, isComplete: {BooleanLiteral(item.CommandMetadata.IsComplete)});");
+        sb.AppendLine("            });");
     }
 
     private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)
@@ -455,7 +477,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({item.TypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)}),");
         }
 
-        sb.AppendLine($"            }}, isComplete: {BooleanLiteral(item.SecretMetadata.IsComplete)});");
+        sb.AppendLine("            });");
     }
 
     private static bool InheritsFrom(INamedTypeSymbol type, string metadataName)
@@ -509,8 +531,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     }
 
     private static bool IsSecretAttribute(AttributeData attribute) =>
-        attribute.AttributeClass is { } attributeClass
-        && InheritsFrom(attributeClass, SecretValueAttributeFullName);
+        IsAttribute(attribute, SecretValueAttributeFullName);
 
     private static bool IsAttribute(AttributeData attribute, string fullName) =>
         attribute.AttributeClass?.ToDisplayString() == fullName;
@@ -624,10 +645,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private sealed record PropertyCollection(
         EquatableArray<PropertyMetadata> Properties,
+        EquatableArray<string> IncompletePropertyNames,
         bool IsComplete,
         bool HasAttributes)
     {
-        public static PropertyCollection Empty { get; } = new(EquatableArray<PropertyMetadata>.Empty, true, false);
+        public static PropertyCollection Empty { get; } = new(
+            EquatableArray<PropertyMetadata>.Empty,
+            EquatableArray<string>.Empty,
+            true,
+            false);
     }
 
     private sealed record PropertyMetadata(

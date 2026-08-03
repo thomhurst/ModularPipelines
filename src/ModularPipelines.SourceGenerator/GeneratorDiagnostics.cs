@@ -25,16 +25,16 @@ internal static class GeneratorDiagnostics
     public static DiagnosticDescriptor IncompleteCommandMetadata { get; } = Create(
         "MPG0003",
         "Incomplete command metadata",
-        "Command metadata for '{0}' is incomplete because one or more attributed properties "
-        + "are inaccessible or have invalid attribute arguments; runtime reflection will be used",
-        DiagnosticSeverity.Warning);
+        "Command metadata for '{0}' is incomplete because these attributed properties are "
+        + "inaccessible or have invalid attribute arguments: {1}; make every attributed property accessible",
+        DiagnosticSeverity.Error);
 
     public static DiagnosticDescriptor IncompleteSecretMetadata { get; } = Create(
         "MPG0004",
         "Incomplete secret metadata",
-        "Secret metadata for '{0}' is incomplete because one or more [SecretValue] properties "
-        + "are inaccessible; runtime reflection will be used",
-        DiagnosticSeverity.Warning);
+        "Secret metadata for '{0}' is incomplete because these [SecretValue] properties are "
+        + "inaccessible: {1}; make every [SecretValue] property accessible",
+        DiagnosticSeverity.Error);
 
     public static DiagnosticDescriptor IncompleteModuleEventMetadata { get; } = Create(
         "MPG0005",
@@ -47,10 +47,8 @@ internal static class GeneratorDiagnostics
         "MPG0006",
         "Runtime metadata generation skipped",
         "Runtime metadata generation for '{0}' was skipped because the type is generic or "
-        + "inaccessible; runtime reflection will be used and required members may be removed "
-        + "when trimming; make the type accessible and non-generic before publishing with "
-        + "Native AOT",
-        DiagnosticSeverity.Warning);
+        + "inaccessible; make the type and its containing types accessible and non-generic",
+        DiagnosticSeverity.Error);
 
     public static DiagnosticDescriptor SkippedModuleEventMetadata { get; } = Create(
         "MPG0007",

@@ -713,7 +713,7 @@ public class CommandLoggerTests : TestBase
     }
 
     [CliTool("pwsh")]
-    private record SecretCommandOptions : CommandLineToolOptions
+    internal record SecretCommandOptions : CommandLineToolOptions
     {
         [CliOption("-Command")]
         [SecretValue]

@@ -185,5 +185,5 @@ public class DeferredCommandOutputLoggerTests
         }
     }
 
-    private sealed record TestCommandOptions : CommandLineToolOptions;
+    internal sealed record TestCommandOptions : CommandLineToolOptions;
 }

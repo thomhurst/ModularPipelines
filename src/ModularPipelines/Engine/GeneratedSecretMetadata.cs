@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace ModularPipelines.Engine;
 
@@ -8,7 +9,17 @@ namespace ModularPipelines.Engine;
 /// </summary>
 public static class GeneratedSecretMetadata
 {
-    private static readonly ConcurrentDictionary<Type, SecretMetadata> Accessors = new();
+    private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> Accessors = new();
+    private static readonly ConcurrentDictionary<Assembly, byte> ProcessedAssemblies = new();
+
+    /// <summary>
+    /// Records that an assembly was processed by ModularPipelines.SourceGenerator.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterAssembly(Assembly assembly)
+    {
+        ProcessedAssemblies.TryAdd(assembly, 0);
+    }
 
     /// <summary>
     /// Registers generated secret accessors for a declaring type.
@@ -16,10 +27,9 @@ public static class GeneratedSecretMetadata
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Register(
         Type declaringType,
-        IReadOnlyList<SecretPropertyAccessor> accessors,
-        bool isComplete = true)
+        IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        if (!Accessors.TryAdd(declaringType, new SecretMetadata(accessors, isComplete)))
+        if (!Accessors.TryAdd(declaringType, accessors))
         {
             throw new InvalidOperationException($"Secret metadata is already registered for {declaringType}.");
         }
@@ -27,9 +37,9 @@ public static class GeneratedSecretMetadata
 
     internal static bool TryGetAccessors(Type type, out IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        if (Accessors.TryGetValue(type, out var metadata) && metadata.IsComplete)
+        if (Accessors.TryGetValue(type, out var metadata))
         {
-            accessors = metadata.Accessors;
+            accessors = metadata;
             return true;
         }
 
@@ -37,7 +47,7 @@ public static class GeneratedSecretMetadata
         return false;
     }
 
-    private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors, bool IsComplete);
+    internal static bool IsAssemblyProcessed(Assembly assembly) => ProcessedAssemblies.ContainsKey(assembly);
 }
 
 /// <summary>

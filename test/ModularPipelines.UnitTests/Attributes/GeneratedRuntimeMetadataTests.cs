@@ -1,5 +1,6 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -34,20 +35,7 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
     public IReadOnlyList<KeyValue>? Properties { get; init; }
 }
 
-internal sealed record IncompleteGeneratedMetadataOptions : CommandLineToolOptions
-{
-    [CliOption("--visible")]
-    public string Visible => "visible";
-
-    [CliOption("--hidden")]
-    private string Hidden => "hidden";
-
-    [SecretValue]
-    public string VisibleSecret => "visible-secret";
-
-    [SecretValue]
-    private string HiddenSecret => "hidden-secret";
-}
+internal sealed record MissingGeneratedMetadataOptions<T> : CommandLineToolOptions;
 
 [CliTool("control-character-test")]
 internal sealed record ControlCharacterMetadataOptions : CommandLineToolOptions
@@ -94,23 +82,14 @@ internal sealed record GeneratedOverrideCommandDerived : GeneratedOverrideComman
     public override bool? Verbose { get; init; }
 }
 
-[CliGlobalOptions]
-internal record ReflectionOverrideCommandBase : CommandLineToolOptions
-{
-    [CliFlag("--verbose")]
-    public virtual bool? Verbose { get; init; }
-}
-
-internal sealed record ReflectionOverrideCommandDerived : ReflectionOverrideCommandBase
-{
-    public override bool? Verbose { get; init; }
-
-    [CliOption("--hidden")]
-    private string Hidden => "hidden";
-}
-
 public class GeneratedRuntimeMetadataTests
 {
+    [Test]
+    public async Task SecretValueAttribute_IsSealed()
+    {
+        await Assert.That(typeof(SecretValueAttribute).IsSealed).IsTrue();
+    }
+
     [Test]
     public async Task CommandMetadata_RegistersAttributeValuesAndDirectGetters()
     {
@@ -163,9 +142,9 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
-    public async Task ReflectionMetadata_PreservesGlobalMetadataFromOverriddenProperties()
+    public async Task CommandModelProvider_UsesGeneratedOverrideMetadata()
     {
-        var model = new CommandModelProvider().GetCommandModel(typeof(ReflectionOverrideCommandDerived));
+        var model = new CommandModelProvider().GetCommandModel(typeof(GeneratedOverrideCommandDerived));
 
         var flag = model.OfType<FlagPart>().Single();
         await Assert.That(flag.IsGlobalOption).IsTrue();
@@ -220,26 +199,15 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
-    public async Task InaccessibleProperties_MarkGeneratedMetadataIncomplete()
+    public async Task MissingCommandMetadata_ThrowsActionableException()
     {
-        var commandMetadataFound = GeneratedCommandMetadata.TryGet(
-            typeof(IncompleteGeneratedMetadataOptions),
-            out _);
-        var secretMetadataFound = GeneratedSecretMetadata.TryGetAccessors(
-            typeof(IncompleteGeneratedMetadataOptions),
-            out _);
+        var optionsType = typeof(MissingGeneratedMetadataOptions<string>);
 
-        await Assert.That(commandMetadataFound).IsFalse();
-        await Assert.That(secretMetadataFound).IsFalse();
-    }
+        var exception = await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<MissingCommandMetadataException>();
 
-    [Test]
-    public async Task IncompleteCommandMetadata_UsesReflectionFallback()
-    {
-        var model = new CommandModelProvider().GetCommandModel(typeof(IncompleteGeneratedMetadataOptions));
-
-        await Assert.That(model.Select(part => part.PropertyName))
-            .IsEquivalentTo(["Visible", "Hidden"]);
+        await Assert.That(exception!.OptionsType).IsEqualTo(optionsType);
+        await Assert.That(exception.Message).Contains("ModularPipelines.SourceGenerator");
     }
 
     [Test]
@@ -282,14 +250,6 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
-    public async Task MissingExactSecretMetadata_UsesReflectionFallback()
-    {
-        var found = GeneratedSecretMetadata.TryGetAccessors(typeof(UngeneratedDerivedSecret), out _);
-
-        await Assert.That(found).IsFalse();
-    }
-
-    [Test]
     public async Task DuplicateCommandMetadataRegistration_Throws()
     {
         GeneratedCommandMetadata.Register(typeof(DuplicateCommandMetadataType), []);
@@ -305,12 +265,6 @@ public class GeneratedRuntimeMetadataTests
 
         await Assert.That(() => GeneratedSecretMetadata.Register(typeof(DuplicateSecretMetadataType), []))
             .Throws<InvalidOperationException>();
-    }
-
-    private sealed class UngeneratedDerivedSecret : GeneratedSecretBase
-    {
-        [SecretValue]
-        public string? DerivedSecret { get; init; }
     }
 
     private sealed class DuplicateCommandMetadataType

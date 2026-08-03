@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
@@ -32,7 +33,7 @@ namespace ModularPipelines.Engine;
 /// <threadsafety static="true" instance="true"/>
 internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 {
-    private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> ReflectionAccessorsCache = new();
+    private static readonly ConcurrentDictionary<Assembly, bool> SecretAttributeReferenceCache = new();
 
     private readonly IOptionsProvider _optionsProvider;
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
@@ -144,10 +145,6 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         }
     }
 
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2026",
-        Justification = "Generated secret accessors handle statically known option types; GetSecretProperties is the documented reflection fallback for dynamic options.")]
     public IEnumerable<string> GetSecretsInObject(object? value)
     {
         if (value is null)
@@ -158,7 +155,13 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         var type = value.GetType();
         if (!GeneratedSecretMetadata.TryGetAccessors(type, out var secretProperties))
         {
-            secretProperties = ReflectionAccessorsCache.GetOrAdd(type, GetSecretProperties);
+            if (!GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly)
+                && CanReferenceSecretValueAttribute(type.Assembly))
+            {
+                throw new MissingSecretMetadataException(type);
+            }
+
+            yield break;
         }
 
         foreach (var property in secretProperties)
@@ -233,6 +236,25 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         }
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Generated assemblies register themselves. Reference inspection only excludes third-party assemblies that cannot declare SecretValue properties.")]
+    private static bool CanReferenceSecretValueAttribute(Assembly assembly)
+    {
+        return SecretAttributeReferenceCache.GetOrAdd(assembly, static candidate =>
+        {
+            var attributeAssembly = typeof(SecretValueAttribute).Assembly;
+            var attributeAssemblyName = attributeAssembly.GetName().Name;
+            return candidate == attributeAssembly
+                   || candidate.GetReferencedAssemblies().Any(
+                       reference => string.Equals(
+                           reference.Name,
+                           attributeAssemblyName,
+                           StringComparison.Ordinal));
+        });
+    }
+
     private static IEnumerable<string?> NormalizeSecrets(object? value)
     {
         if (value is string || value is IEnumerable<char> || value is not IEnumerable enumerable)
@@ -259,19 +281,6 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             IEnumerable<char> characters => new string(characters.ToArray()),
             _ => value.ToString(),
         };
-    }
-
-    [RequiresUnreferencedCode("Reflection fallback requires SecretValue-attributed properties. Ensure ModularPipelines.SourceGenerator runs for trim-safe secret access.")]
-    private static IReadOnlyList<SecretPropertyAccessor> GetSecretProperties(Type type)
-    {
-        return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-            .Concat(type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
-            .Where(m => m.GetCustomAttribute<SecretValueAttribute>() is not null)
-            .Select(property => new SecretPropertyAccessor(
-                property.Name,
-                property.GetValue,
-                property.GetCustomAttribute<SecretValueAttribute>()!.Keys))
-            .ToArray();
     }
 
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)

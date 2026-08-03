@@ -242,7 +242,7 @@ public class CommandLineBuilderTests : TestBase
 
     [CliTool("mytool")]
     [CliSubCommand("sub", "command")]
-    private record TestAttributeOptions : CommandLineToolOptions
+    internal record TestAttributeOptions : CommandLineToolOptions
     {
         [CliFlag("--force")]
         public bool? Force { get; set; }
@@ -264,7 +264,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("processor")]
-    private record TestPositionalOptions : CommandLineToolOptions
+    internal record TestPositionalOptions : CommandLineToolOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? FilePath { get; set; }
@@ -274,7 +274,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("jq")]
-    private record TestTerminalOptions : CommandLineToolOptions
+    internal record TestTerminalOptions : CommandLineToolOptions
     {
         [CliOption(
             "--run-tests",
@@ -290,14 +290,14 @@ public class CommandLineBuilderTests : TestBase
 
     [CliTool("liquibase")]
     [CliGlobalOptions]
-    private abstract record TestGlobalOptions : CommandLineToolOptions
+    internal abstract record TestGlobalOptions : CommandLineToolOptions
     {
         [CliOption("--search-path", Format = OptionFormat.EqualsSeparated)]
         public string? SearchPath { get; set; }
     }
 
     [CliSubCommand("update")]
-    private sealed record TestGlobalCommandOptions : TestGlobalOptions
+    internal sealed record TestGlobalCommandOptions : TestGlobalOptions
     {
         [CliOption("--changelog-file", Format = OptionFormat.EqualsSeparated)]
         public string? ChangelogFile { get; set; }

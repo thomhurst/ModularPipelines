@@ -47,25 +47,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
         await Assert.That(arguments.SequenceEqual(expected, StringComparer.Ordinal)).IsTrue();
     }
 
-    [Test]
-    public async Task Reflection_Model_Uses_Most_Derived_Shadowed_Property()
-    {
-        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsTypeUsingReflection(
-            typeof(ShadowedOptions));
-
-        await Assert.That(result.PropertiesTested).IsEqualTo(1);
-    }
-
-    [Test]
-    public async Task Reflection_Model_Ignores_Setter_Only_Shadow()
-    {
-        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsTypeUsingReflection(
-            typeof(SetterOnlyShadowedOptions));
-
-        await Assert.That(result.PropertiesTested).IsEqualTo(1);
-    }
-
-    private sealed record RepresentativeOptions : CommandLineToolOptions
+    internal sealed record RepresentativeOptions : CommandLineToolOptions
     {
         [CliArgument(0, PrependOptionTerminator = true, Required = true)]
         public string? Target { get; init; }
@@ -81,28 +63,5 @@ public class GeneratedOptionsSmokeTestHarnessTests
 
         [CliOption("--pair")]
         public CliValuePair? Pair { get; init; }
-    }
-
-    private record ShadowedOptionsBase : CommandLineToolOptions
-    {
-        [CliOption("--progress")]
-        public string? Progress { get; init; }
-    }
-
-    private sealed record ShadowedOptions : ShadowedOptionsBase
-    {
-        [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-        public new int? Progress { get; init; }
-    }
-
-    private record SetterOnlyShadowedOptionsBase : CommandLineToolOptions
-    {
-        [CliOption("--value")]
-        public string? Value { get; init; }
-    }
-
-    private sealed record SetterOnlyShadowedOptions : SetterOnlyShadowedOptionsBase
-    {
-        public new string? Value { set { } }
     }
 }

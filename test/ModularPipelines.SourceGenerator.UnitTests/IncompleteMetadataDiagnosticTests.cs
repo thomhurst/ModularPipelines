@@ -19,7 +19,7 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class CliFlagAttribute(string name) : System.Attribute;
 
             [System.AttributeUsage(System.AttributeTargets.Property)]
-            public class SecretValueAttribute(params string[] keys) : System.Attribute;
+            public sealed class SecretValueAttribute(params string[] keys) : System.Attribute;
         }
         """;
 
@@ -48,6 +48,7 @@ public class IncompleteMetadataDiagnosticTests
             result,
             "MPG0003",
             "global::TestOptions");
+        await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Value");
     }
 
     [Test]
@@ -77,7 +78,7 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(generatedSource).DoesNotContain("FlagPart");
             await Assert.That(generatedSource).DoesNotContain("OptionPart");
-            await Assert.That(generatedSource).Contains("isComplete: false");
+            await Assert.That(generatedSource).DoesNotContain("GeneratedCommandMetadata.Register");
         }
     }
 
@@ -112,7 +113,7 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains("OptionPart");
             await Assert.That(generatedSource).Contains("new(\"Token\"");
-            await Assert.That(generatedSource).DoesNotContain("isComplete: false");
+            await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.RegisterAssembly");
         }
     }
 
@@ -134,6 +135,7 @@ public class IncompleteMetadataDiagnosticTests
             result,
             "MPG0004",
             "global::Secrets");
+        await Assert.That(result.Diagnostics.Single().GetMessage()).Contains("Token");
     }
 
     [Test]
@@ -151,42 +153,6 @@ public class IncompleteMetadataDiagnosticTests
             """);
 
         await Assert.That(GeneratorTestHarness.HasCachedOrUnchangedOutput(result)).IsTrue();
-    }
-
-    [Test]
-    public async Task Derived_Secret_Attribute_Marks_Metadata_Incomplete()
-    {
-        var result = GeneratorTestRunner.Run(
-            new CommandOptionsGenerator(),
-            CommandInfrastructure,
-            """
-            public sealed class NamedSecretAttribute
-                : ModularPipelines.Attributes.SecretValueAttribute
-            {
-                public NamedSecretAttribute() : base("password")
-                {
-                }
-            }
-
-            public sealed class Secrets
-            {
-                [ModularPipelines.Attributes.SecretValue]
-                public string Token { get; } = "";
-
-                [NamedSecret]
-                public string Password { get; } = "";
-            }
-            """);
-
-        await AssertIncompleteDiagnostic(
-            result,
-            "MPG0004",
-            "global::Secrets");
-
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        await Assert.That(generatedSource).Contains("new(\"Token\"");
-        await Assert.That(generatedSource).DoesNotContain("new(\"Password\"");
-        await Assert.That(generatedSource).Contains("isComplete: false");
     }
 
     [Test]
@@ -213,7 +179,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Inaccessible_Command_Options_Type_Reports_Warning()
+    public async Task Inaccessible_Command_Options_Type_Reports_Error()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -230,11 +196,11 @@ public class IncompleteMetadataDiagnosticTests
             result,
             "MPG0006",
             "global::Container.HiddenOptions",
-            DiagnosticSeverity.Warning);
+            DiagnosticSeverity.Error);
     }
 
     [Test]
-    public async Task Inaccessible_Secret_Type_Reports_Warning()
+    public async Task Inaccessible_Secret_Type_Reports_Error()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -254,7 +220,7 @@ public class IncompleteMetadataDiagnosticTests
             result,
             "MPG0006",
             "global::Container.HiddenSecrets",
-            DiagnosticSeverity.Warning);
+            DiagnosticSeverity.Error);
     }
 
     [Test]
@@ -272,7 +238,7 @@ public class IncompleteMetadataDiagnosticTests
             result,
             "MPG0006",
             "global::GenericOptions<T>",
-            DiagnosticSeverity.Warning);
+            DiagnosticSeverity.Error);
     }
 
     [Test]
@@ -369,13 +335,16 @@ public class IncompleteMetadataDiagnosticTests
         string typeName)
     {
         var diagnostic = result.Diagnostics.Single();
+        var requiresGeneratedMetadata = diagnosticId is "MPG0003" or "MPG0004";
 
         using (Assert.Multiple())
         {
             await Assert.That(diagnostic.Id).IsEqualTo(diagnosticId);
-            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Warning);
+            await Assert.That(diagnostic.Severity).IsEqualTo(
+                requiresGeneratedMetadata ? DiagnosticSeverity.Error : DiagnosticSeverity.Warning);
             await Assert.That(diagnostic.GetMessage()).Contains(typeName);
-            await Assert.That(diagnostic.GetMessage()).Contains("runtime reflection");
+            await Assert.That(diagnostic.GetMessage()).Contains(
+                requiresGeneratedMetadata ? "accessible" : "runtime reflection");
             await Assert.That(diagnostic.Descriptor.HelpLinkUri).EndsWith($"#{diagnosticId.ToLowerInvariant()}");
             await Assert.That(diagnostic.Location.IsInSource).IsTrue();
             await Assert.That(result.GeneratedTrees).HasSingleItem();
@@ -389,16 +358,25 @@ public class IncompleteMetadataDiagnosticTests
         DiagnosticSeverity severity = DiagnosticSeverity.Info)
     {
         var diagnostic = result.Diagnostics.Single();
+        var requiresGeneratedMetadata = diagnosticId == "MPG0006";
 
         using (Assert.Multiple())
         {
             await Assert.That(diagnostic.Id).IsEqualTo(diagnosticId);
             await Assert.That(diagnostic.Severity).IsEqualTo(severity);
             await Assert.That(diagnostic.GetMessage()).Contains(typeName);
-            await Assert.That(diagnostic.GetMessage()).Contains("runtime reflection");
+            await Assert.That(diagnostic.GetMessage()).Contains(
+                requiresGeneratedMetadata ? "accessible" : "runtime reflection");
             await Assert.That(diagnostic.Descriptor.HelpLinkUri).EndsWith($"#{diagnosticId.ToLowerInvariant()}");
             await Assert.That(diagnostic.Location.IsInSource).IsTrue();
-            await Assert.That(result.GeneratedTrees).IsEmpty();
+            if (requiresGeneratedMetadata)
+            {
+                await Assert.That(result.GeneratedTrees).HasSingleItem();
+            }
+            else
+            {
+                await Assert.That(result.GeneratedTrees).IsEmpty();
+            }
         }
     }
 }
