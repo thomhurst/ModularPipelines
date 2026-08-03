@@ -83,20 +83,6 @@ public sealed class CliOptionsIdentityAnalyzer : DiagnosticAnalyzer
         var ownTool = ownTypeAttributes.FirstOrDefault(attribute => CliAttributeSymbols.Is(attribute, symbols.CliTool));
         var inheritedTool = FindInheritedAttribute(type.BaseType, symbols.CliTool);
 
-        if (ownTool is not null && inheritedTool is not null)
-        {
-            var ownName = ownTool.ConstructorArguments.FirstOrDefault().Value as string;
-            var inheritedName = inheritedTool.ConstructorArguments.FirstOrDefault().Value as string;
-            if (!string.Equals(ownName, inheritedName, StringComparison.Ordinal))
-            {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    ConflictingToolRule,
-                    CliAttributeSymbols.GetLocation(ownTool, type),
-                    ownName,
-                    inheritedName));
-            }
-        }
-
         var hasOwnSubCommand = ownTypeAttributes.Any(attribute => CliAttributeSymbols.Is(attribute, symbols.CliSubCommand));
         if (hasOwnSubCommand && ownTool is null && inheritedTool is null)
         {

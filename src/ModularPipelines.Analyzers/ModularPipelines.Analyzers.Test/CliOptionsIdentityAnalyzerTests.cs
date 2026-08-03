@@ -28,7 +28,7 @@ public class CliOptionsIdentityAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Reports_Conflicting_Inherited_Tool()
+    public async Task Accepts_Derived_Tool_Override()
     {
         var source = $$"""
             {{TestSourceConstants.StandardUsingsWithOptions}}
@@ -36,15 +36,11 @@ public class CliOptionsIdentityAnalyzerTests
             [CliTool("git")]
             public record BaseOptions : CommandLineToolOptions;
 
-            [{|#0:CliTool("docker")|}]
+            [CliTool("docker")]
             public record DerivedOptions : BaseOptions;
             """;
 
-        var expected = VerifyCS.Diagnostic(CliOptionsIdentityAnalyzer.ConflictingToolDiagnosticId)
-            .WithLocation(0)
-            .WithArguments("docker", "git");
-
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]

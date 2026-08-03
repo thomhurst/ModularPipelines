@@ -26,7 +26,30 @@ public class CliOptionCollisionAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Reports_Duplicate_Short_Switch_From_New_Property()
+    public async Task Accepts_New_Property_That_Hides_Base_Property()
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardUsingsWithOptions}}
+
+            [CliTool("tool")]
+            public record BaseOptions : CommandLineToolOptions
+            {
+                [CliOption("--output", ShortForm = "-o")]
+                public string? Output { get; init; }
+            }
+
+            public record DerivedOptions : BaseOptions
+            {
+                [CliFlag("--overwrite", ShortForm = "-o")]
+                public new bool? Output { get; init; }
+            }
+            """;
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Duplicate_Switch_From_Different_Derived_Property()
     {
         var source = $$"""
             {{TestSourceConstants.StandardUsingsWithOptions}}
@@ -41,15 +64,35 @@ public class CliOptionCollisionAnalyzerTests
             public record DerivedOptions : BaseOptions
             {
                 [{|#0:CliFlag("--overwrite", ShortForm = "-o")|}]
-                public new bool? Output { get; init; }
+                public bool? Overwrite { get; init; }
             }
             """;
 
         var expected = VerifyCS.Diagnostic(CliOptionCollisionAnalyzer.DuplicateSwitchDiagnosticId)
             .WithLocation(0)
-            .WithArguments("-o", "BaseOptions.Output", "DerivedOptions.Output");
+            .WithArguments("-o", "BaseOptions.Output", "DerivedOptions.Overwrite");
 
         await VerifyCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Accepts_Static_And_WriteOnly_Properties_Omitted_From_Command_Model()
+    {
+        var source = CreateOptionsSource("""
+            [CliFlag("--static")]
+            public static bool? Static { get; set; }
+
+            [CliOption("--static")]
+            public string? Instance { get; init; }
+
+            [CliFlag("--write-only")]
+            public bool? WriteOnly { set { } }
+
+            [CliOption("--write-only")]
+            public string? Readable { get; init; }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
@@ -79,6 +122,20 @@ public class CliOptionCollisionAnalyzerTests
 
             [CliArgument(0)]
             public string? Output { get; init; }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Accepts_Named_Arguments_With_Same_Position()
+    {
+        var source = CreateOptionsSource("""
+            [CliArgument(0, Name = "<SOURCE>")]
+            public string? Source { get; init; }
+
+            [CliArgument(0, Name = "<DESTINATION>")]
+            public string? Destination { get; init; }
             """);
 
         await VerifyCS.VerifyAnalyzerAsync(source);

@@ -29,7 +29,7 @@ public class CliPropertyAttributeAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Accepts_Nullable_Boolean_And_Integer_Flags()
+    public async Task Accepts_Boolean_And_Integer_Flags()
     {
         var source = $$"""
             {{TestSourceConstants.StandardUsingsWithOptions}}
@@ -42,6 +42,12 @@ public class CliPropertyAttributeAnalyzerTests
 
                 [CliFlag("--verbose")]
                 public int? Verbosity { get; init; }
+
+                [CliFlag("--force-required")]
+                public bool ForceRequired { get; init; }
+
+                [CliFlag("--verbose-required")]
+                public int VerbosityRequired { get; init; }
             }
             """;
 

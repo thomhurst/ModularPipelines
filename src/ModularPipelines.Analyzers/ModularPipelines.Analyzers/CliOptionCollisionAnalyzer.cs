@@ -50,7 +50,7 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         var switches = new Dictionary<string, IPropertySymbol>(StringComparer.Ordinal);
         var positions = new Dictionary<(int Position, int Phase, int? Placement), IPropertySymbol>();
 
-        foreach (var property in GetPropertiesBaseFirst(type))
+        foreach (var property in GetEffectivePropertiesBaseFirst(type))
         {
             foreach (var attribute in property.GetAttributes())
             {
@@ -67,21 +67,23 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private static IEnumerable<IPropertySymbol> GetPropertiesBaseFirst(INamedTypeSymbol type)
+    private static IEnumerable<IPropertySymbol> GetEffectivePropertiesBaseFirst(INamedTypeSymbol type)
     {
-        var hierarchy = new Stack<INamedTypeSymbol>();
+        var propertiesByType = new List<IReadOnlyList<IPropertySymbol>>();
+        var seenNames = new HashSet<string>(StringComparer.Ordinal);
         for (var current = type; current is not null; current = current.BaseType)
         {
-            hierarchy.Push(current);
+            var properties = current.GetMembers()
+                .OfType<IPropertySymbol>()
+                .Where(property => !property.IsStatic
+                                   && property.GetMethod is not null
+                                   && seenNames.Add(property.Name))
+                .ToList();
+            propertiesByType.Add(properties);
         }
 
-        while (hierarchy.Count > 0)
-        {
-            foreach (var property in hierarchy.Pop().GetMembers().OfType<IPropertySymbol>())
-            {
-                yield return property;
-            }
-        }
+        propertiesByType.Reverse();
+        return propertiesByType.SelectMany(properties => properties);
     }
 
     private static void AnalyzeSwitch(
@@ -122,6 +124,11 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         IDictionary<(int Position, int Phase, int? Placement), IPropertySymbol> positions,
         CliAttributeSymbols symbols)
     {
+        if (attribute.NamedArguments.Any(pair => pair.Key == "Name" && pair.Value.Value is not null))
+        {
+            return;
+        }
+
         var position = attribute.ConstructorArguments.FirstOrDefault().Value as int? ?? 0;
         var phase = GetNamedEnumValue(attribute, "Phase") ?? symbols.CommandLinePhasePassthrough ?? 0;
         var placement = GetNamedEnumValue(attribute, "Placement") ?? symbols.ArgumentPlacementAfterOptions;

@@ -57,7 +57,7 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
 
         foreach (var attribute in cliAttributes)
         {
-            if (CliAttributeSymbols.Is(attribute, symbols.CliFlag) && !IsNullableBooleanOrInteger(property.Type))
+            if (CliAttributeSymbols.Is(attribute, symbols.CliFlag) && !IsBooleanOrInteger(property.Type))
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     InvalidFlagTypeRule,
@@ -79,8 +79,10 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private static bool IsNullableBooleanOrInteger(ITypeSymbol type) =>
-        IsNullableOf(type, SpecialType.System_Boolean) || IsNullableOf(type, SpecialType.System_Int32);
+    private static bool IsBooleanOrInteger(ITypeSymbol type) =>
+        type.SpecialType is SpecialType.System_Boolean or SpecialType.System_Int32
+        || IsNullableOf(type, SpecialType.System_Boolean)
+        || IsNullableOf(type, SpecialType.System_Int32);
 
     private static bool IsNullableBoolean(ITypeSymbol type) => IsNullableOf(type, SpecialType.System_Boolean);
 
