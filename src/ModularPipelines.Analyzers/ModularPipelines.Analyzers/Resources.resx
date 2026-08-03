@@ -210,4 +210,28 @@
   <data name="SelfDependencyAnalyzerDescription" xml:space="preserve">
     <value>A module cannot have a DependsOn attribute that references itself. This would create a circular dependency that prevents the module from ever executing.</value>
   </data>
+  <data name="CliFlagInvalidTypeTitle" xml:space="preserve"><value>Invalid CLI flag property type</value></data>
+  <data name="CliFlagInvalidTypeMessageFormat" xml:space="preserve"><value>CLI flag property '{0}' has type '{1}'; use bool? or int?</value></data>
+  <data name="CliFlagInvalidTypeDescription" xml:space="preserve"><value>CLI flags represent an optional boolean switch or an optional repetition count.</value></data>
+  <data name="CliBooleanOptionTitle" xml:space="preserve"><value>Boolean CLI option is a flag</value></data>
+  <data name="CliBooleanOptionMessageFormat" xml:space="preserve"><value>Boolean option '{0}' has no value; use CliFlag instead</value></data>
+  <data name="CliBooleanOptionDescription" xml:space="preserve"><value>A nullable boolean option with ValueArity.None has flag semantics and should use CliFlag.</value></data>
+  <data name="MultipleCliAttributesTitle" xml:space="preserve"><value>Multiple CLI property attributes</value></data>
+  <data name="MultipleCliAttributesMessageFormat" xml:space="preserve"><value>Property '{0}' has more than one CLI attribute</value></data>
+  <data name="MultipleCliAttributesDescription" xml:space="preserve"><value>Apply exactly one of CliArgument, CliFlag, or CliOption to a property.</value></data>
+  <data name="DuplicateCliSwitchTitle" xml:space="preserve"><value>Duplicate CLI switch</value></data>
+  <data name="DuplicateCliSwitchMessageFormat" xml:space="preserve"><value>CLI switch '{0}' is declared by both '{1}' and '{2}'</value></data>
+  <data name="DuplicateCliSwitchDescription" xml:space="preserve"><value>Long and short CLI switch names must be unique across an options type hierarchy.</value></data>
+  <data name="DuplicateCliArgumentPositionTitle" xml:space="preserve"><value>Duplicate CLI argument position</value></data>
+  <data name="DuplicateCliArgumentPositionMessageFormat" xml:space="preserve"><value>CLI argument position {0} is declared by both '{1}' and '{2}' in the same command phase</value></data>
+  <data name="DuplicateCliArgumentPositionDescription" xml:space="preserve"><value>Positional CLI arguments in the same command phase and placement must have unique positions.</value></data>
+  <data name="CliOptionsBaseTitle" xml:space="preserve"><value>Invalid CLI options base type</value></data>
+  <data name="CliOptionsBaseMessageFormat" xml:space="preserve"><value>Type '{0}' uses CLI attributes but does not derive from CommandLineToolOptions</value></data>
+  <data name="CliOptionsBaseDescription" xml:space="preserve"><value>CLI attributes are only consumed on CommandLineToolOptions hierarchies.</value></data>
+  <data name="ConflictingCliToolTitle" xml:space="preserve"><value>Conflicting CLI tool identity</value></data>
+  <data name="ConflictingCliToolMessageFormat" xml:space="preserve"><value>CLI tool '{0}' conflicts with inherited tool '{1}'</value></data>
+  <data name="ConflictingCliToolDescription" xml:space="preserve"><value>A derived options type must not declare a different CLI tool from its hierarchy.</value></data>
+  <data name="MissingCliToolTitle" xml:space="preserve"><value>Missing CLI tool identity</value></data>
+  <data name="MissingCliToolMessageFormat" xml:space="preserve"><value>Subcommand options type '{0}' has no CliTool in its hierarchy</value></data>
+  <data name="MissingCliToolDescription" xml:space="preserve"><value>Static subcommand options should declare their root executable with CliTool.</value></data>
 </root>
