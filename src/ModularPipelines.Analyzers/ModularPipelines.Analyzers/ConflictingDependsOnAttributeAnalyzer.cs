@@ -73,7 +73,8 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
     {
         dependencyType = null;
 
-        if (context.Node is not AttributeSyntax attributeSyntax)
+        if (context.Node is not AttributeSyntax attributeSyntax
+            || !attributeSyntax.CouldBeDependsOnAttribute())
         {
             return false;
         }

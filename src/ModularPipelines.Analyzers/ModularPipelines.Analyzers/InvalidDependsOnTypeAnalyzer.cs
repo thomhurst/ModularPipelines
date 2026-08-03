@@ -59,7 +59,8 @@ public class InvalidDependsOnTypeAnalyzer : DiagnosticAnalyzer
         attributeType = null!;
         dependencyType = null!;
 
-        if (context.Node is not AttributeSyntax attrSyntax)
+        if (context.Node is not AttributeSyntax attrSyntax
+            || !attrSyntax.CouldBeDependsOnAttribute())
         {
             return false;
         }

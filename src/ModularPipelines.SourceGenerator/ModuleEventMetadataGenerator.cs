@@ -25,12 +25,11 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var moduleCandidates = context.SyntaxProvider
+        var typeCandidates = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (node, _) => IsTypeCandidate(node),
-                static (generatorContext, _) => GetModuleCandidate(generatorContext))
-            .Where(static candidate => candidate is not null)
-            .Select(static (candidate, _) => candidate!)
+                static (generatorContext, _) => GetTypeCandidates(generatorContext))
+            .SelectMany(static (candidates, _) => candidates)
             .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
 
         var registeredClosedGenericCandidates = context.SyntaxProvider
@@ -41,22 +40,10 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             .Select(static (candidate, _) => candidate!)
             .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
 
-        var closedGenericDependencyCandidates = context.SyntaxProvider
-            .CreateSyntaxProvider(
-                static (node, _) => IsTypeCandidate(node),
-                static (generatorContext, _) =>
-                    GetClosedGenericDependencyCandidates(generatorContext))
-            .SelectMany(static (candidates, _) => candidates)
-            .WithComparer(ModuleEventMetadataCandidateComparer.Instance);
-
-        var allCandidates = moduleCandidates
+        var allCandidates = typeCandidates
             .Collect()
             .Combine(registeredClosedGenericCandidates.Collect())
-            .Combine(closedGenericDependencyCandidates.Collect())
-            .Select(static (input, _) =>
-                input.Left.Left
-                    .AddRange(input.Left.Right)
-                    .AddRange(input.Right));
+            .Select(static (input, _) => input.Left.AddRange(input.Right));
 
         context.RegisterSourceOutput(allCandidates, static (sourceContext, candidates) =>
         {
@@ -103,7 +90,7 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
                 && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword));
     }
 
-    private static ModuleEventMetadataCandidate? GetModuleCandidate(
+    private static ImmutableArray<ModuleEventMetadataCandidate> GetTypeCandidates(
         GeneratorSyntaxContext context)
     {
         var compilation = context.SemanticModel.Compilation;
@@ -111,14 +98,23 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
             || type.IsAbstract
             || !InheritsFromModule(type, compilation))
         {
-            return null;
+            return [];
         }
 
-        return CreateModuleCandidate(
+        var candidates = ImmutableArray.CreateBuilder<ModuleEventMetadataCandidate>();
+        candidates.Add(CreateModuleCandidate(
             type,
             compilation,
             type.Locations.FirstOrDefault() ?? Location.None,
-            allowConstructedGeneric: false);
+            allowConstructedGeneric: false));
+
+        AddClosedGenericDependencyCandidates(
+            context,
+            type,
+            compilation,
+            candidates);
+
+        return candidates.ToImmutable();
     }
 
     private static ModuleEventMetadataCandidate? GetRegisteredModuleCandidate(
@@ -134,18 +130,12 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
                 allowConstructedGeneric: true);
     }
 
-    private static ImmutableArray<ModuleEventMetadataCandidate>
-        GetClosedGenericDependencyCandidates(GeneratorSyntaxContext context)
+    private static void AddClosedGenericDependencyCandidates(
+        GeneratorSyntaxContext context,
+        INamedTypeSymbol type,
+        Compilation compilation,
+        ImmutableArray<ModuleEventMetadataCandidate>.Builder candidates)
     {
-        var compilation = context.SemanticModel.Compilation;
-        if (context.SemanticModel.GetDeclaredSymbol(context.Node) is not INamedTypeSymbol type
-            || type.IsAbstract
-            || !InheritsFromModule(type, compilation))
-        {
-            return [];
-        }
-
-        var candidates = ImmutableArray.CreateBuilder<ModuleEventMetadataCandidate>();
         var pending = new Stack<INamedTypeSymbol>(
             ModuleMetadataGenerator.GetClosedGenericModuleDependencies(type, compilation));
         var visited = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
@@ -169,8 +159,6 @@ public sealed class ModuleEventMetadataGenerator : IIncrementalGenerator
                 pending.Push(transitiveDependency);
             }
         }
-
-        return candidates.ToImmutable();
     }
 
     private static ModuleEventMetadataCandidate CreateModuleCandidate(
