@@ -153,7 +153,8 @@ internal class Downloader : IDownloaderContext
 
         var invalidFileNameCharacters = Path.GetInvalidFileNameChars();
         return string.Concat(extension.Where(character =>
-                !invalidFileNameCharacters.Contains(character)))
+                !char.IsControl(character)
+                && !invalidFileNameCharacters.Contains(character)))
             .TrimEnd(' ', '.');
     }
 }
