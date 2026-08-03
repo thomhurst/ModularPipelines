@@ -41,6 +41,7 @@ public record PnpmStageOptions : PnpmOptions
     /// <summary>
     /// One-time password for approve and reject.
     /// </summary>
+    [SecretValue]
     [CliOption("--otp")]
     public string? Otp { get; set; }
 
