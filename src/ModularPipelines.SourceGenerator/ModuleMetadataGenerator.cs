@@ -213,24 +213,44 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         GeneratorSyntaxContext context)
     {
         if (context.Node is not InvocationExpressionSyntax invocation
-            || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
+            || GetRegistrationMethod(context, invocation) is not { } method)
+        {
+            return null;
+        }
+
+        return method.TypeArguments[0] switch
+        {
+            ITypeParameterSymbol typeParameter => new GenericModuleRegistration(
+                typeParameter.Name,
+                invocation.GetLocation()),
+            INamedTypeSymbol type => GetNamedModuleRegistration(
+                type,
+                invocation,
+                context.SemanticModel.Compilation),
+            _ => null,
+        };
+    }
+
+    private static IMethodSymbol? GetRegistrationMethod(
+        GeneratorSyntaxContext context,
+        InvocationExpressionSyntax invocation)
+    {
+        if (context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
             || !IsModuleRegistrationMethod(method)
             || method.TypeArguments.Length != 1)
         {
             return null;
         }
 
-        var typeArgument = method.TypeArguments[0];
-        if (typeArgument is ITypeParameterSymbol typeParameter)
-        {
-            return new GenericModuleRegistration(
-                typeParameter.Name,
-                invocation.GetLocation());
-        }
+        return method;
+    }
 
-        if (typeArgument is not INamedTypeSymbol type
-            || !ImplementsModule(type, context.SemanticModel.Compilation)
-            || type.IsUnboundGenericType)
+    private static ModuleRegistration? GetNamedModuleRegistration(
+        INamedTypeSymbol type,
+        InvocationExpressionSyntax invocation,
+        Compilation compilation)
+    {
+        if (!ImplementsModule(type, compilation) || type.IsUnboundGenericType)
         {
             return null;
         }
@@ -247,7 +267,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                 GetRegisteredModuleMetadata(
                     type,
                     invocation,
-                    context.SemanticModel.Compilation))
+                    compilation))
             : null;
     }
 
