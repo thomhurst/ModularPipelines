@@ -13,21 +13,18 @@ namespace ModularPipelines.Context;
 /// Uses existing internal helpers to:
 /// 1. Resolve tool name from [CliTool] attribute or constructor parameter
 /// 2. Get subcommand parts from [CliSubCommand] or a preferred [CliCommandAlias]
-/// 3. Handle placeholder replacement in command parts
-/// 4. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
-/// 5. Add manual Arguments if present
-/// 6. Add RunSettings after "--" if present.
+/// 3. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
+/// 4. Add manual Arguments if present
+/// 5. Add RunSettings after "--" if present.
 /// </remarks>
 internal sealed class CommandLineBuilder(
     IToolResolver toolResolver,
     ICommandPartsProvider commandPartsProvider,
-    IPlaceholderHandler placeholderHandler,
     ICommandModelProvider commandModelProvider,
     ICommandArgumentBuilder commandArgumentBuilder) : ICommandLineBuilder
 {
     private readonly IToolResolver _toolResolver = toolResolver;
     private readonly ICommandPartsProvider _commandPartsProvider = commandPartsProvider;
-    private readonly IPlaceholderHandler _placeholderHandler = placeholderHandler;
     private readonly ICommandModelProvider _commandModelProvider = commandModelProvider;
     private readonly ICommandArgumentBuilder _commandArgumentBuilder = commandArgumentBuilder;
 
@@ -40,9 +37,8 @@ internal sealed class CommandLineBuilder(
                 $"Could not resolve tool name for {options.GetType().Name}. " +
                 "Specify tool via [CliTool] attribute or constructor parameter.");
 
-        // 2. Get subcommand parts and handle placeholder replacement
-        var rawCommandParts = _commandPartsProvider.GetRawCommandParts(options);
-        var precedingArgs = _placeholderHandler.ReplacePlaceholders(rawCommandParts, options);
+        // 2. Get static or runtime-computed command parts.
+        var commandParts = _commandPartsProvider.GetRawCommandParts(options);
 
         // 3. Build arguments from properties using the command model. Properties declared
         // on a [CliGlobalOptions] base belong before the subcommand; command-specific
@@ -60,9 +56,9 @@ internal sealed class CommandLineBuilder(
         var propertyArgs = _commandArgumentBuilder.BuildArguments(commandSpecificModel, options);
         var terminalArgs = _commandArgumentBuilder.BuildArguments(terminalCommandModel, options);
 
-        // 4. Combine: global args + preceding args (subcommands) + property args
+        // 4. Combine: global args + command parts (subcommands) + property args
         var allArgs = new List<string>(globalArgs);
-        allArgs.AddRange(precedingArgs);
+        allArgs.AddRange(commandParts);
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments

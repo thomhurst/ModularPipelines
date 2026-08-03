@@ -488,7 +488,6 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
                 {
                     args.Add(new CliPositionalArgument
                     {
-                        PlaceholderName = argName,
                         PropertyName = propertyName,
                         CSharpType = "string?",
                         Description = null,
