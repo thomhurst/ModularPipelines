@@ -9,7 +9,7 @@ namespace ModularPipelines.Engine;
 /// </summary>
 public static class GeneratedSecretMetadata
 {
-    private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> Accessors = new();
+    private static readonly ConcurrentDictionary<Type, SecretMetadata> Accessors = new();
     private static readonly ConcurrentDictionary<(Assembly Assembly, string MetadataName), byte> CoveredTypeNames = new();
     private static readonly ConcurrentDictionary<Assembly, byte> ProcessedAssemblies = new();
 
@@ -39,7 +39,19 @@ public static class GeneratedSecretMetadata
         Type declaringType,
         IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        if (!Accessors.TryAdd(declaringType, accessors))
+        Register(declaringType, accessors, isComplete: true);
+    }
+
+    /// <summary>
+    /// Preserves the registration signature emitted by earlier source-generator versions.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void Register(
+        Type declaringType,
+        IReadOnlyList<SecretPropertyAccessor> accessors,
+        bool isComplete = true)
+    {
+        if (!Accessors.TryAdd(declaringType, new SecretMetadata(accessors, isComplete)))
         {
             throw new InvalidOperationException($"Secret metadata is already registered for {declaringType}.");
         }
@@ -56,9 +68,9 @@ public static class GeneratedSecretMetadata
 
     internal static bool TryGetAccessors(Type type, out IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        if (Accessors.TryGetValue(type, out var metadata))
+        if (Accessors.TryGetValue(type, out var metadata) && metadata.IsComplete)
         {
-            accessors = metadata;
+            accessors = metadata.Accessors;
             return true;
         }
 
@@ -75,6 +87,8 @@ public static class GeneratedSecretMetadata
     }
 
     internal static bool IsAssemblyProcessed(Assembly assembly) => ProcessedAssemblies.ContainsKey(assembly);
+
+    private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors, bool IsComplete);
 }
 
 /// <summary>

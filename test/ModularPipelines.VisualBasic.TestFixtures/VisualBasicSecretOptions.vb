@@ -5,4 +5,9 @@ Namespace ModularPipelines.VisualBasic.TestFixtures
         <SecretValue>
         Public Property Token As String = "visual-basic-secret"
     End Class
+
+    Public NotInheritable Class VisualBasicCommandOptions
+        <CliOption("--value")>
+        Public Property Value As String = "visual-basic-value"
+    End Class
 End Namespace

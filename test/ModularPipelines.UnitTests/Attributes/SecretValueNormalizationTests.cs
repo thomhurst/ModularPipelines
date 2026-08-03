@@ -129,6 +129,17 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
+    public async Task DerivedOptions_UseBaseAssemblyForReflectionFallback()
+    {
+        var provider = CreateProvider(out _);
+        var value = CreateDerivedDynamicOptions();
+
+        var secrets = provider.GetSecretsInObject(value).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["inherited-secret"]);
+    }
+
+    [Test]
     public async Task MissingExactMetadata_ThrowsActionableException()
     {
         var provider = CreateProvider(out _);
@@ -183,5 +194,37 @@ public class SecretValueNormalizationTests
             nativeMasker.Object,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()),
             Mock.Of<ILogger<SecretProvider>>());
+    }
+
+    private static object CreateDerivedDynamicOptions()
+    {
+        var baseAssembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"SecretBase_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+        var baseTypeBuilder = baseAssembly.DefineDynamicModule("Main")
+            .DefineType("SecretBase", TypeAttributes.Public);
+        var getter = baseTypeBuilder.DefineMethod(
+            "get_Token",
+            MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+            typeof(string),
+            Type.EmptyTypes);
+        var il = getter.GetILGenerator();
+        il.Emit(OpCodes.Ldstr, "inherited-secret");
+        il.Emit(OpCodes.Ret);
+        var property = baseTypeBuilder.DefineProperty("Token", PropertyAttributes.None, typeof(string), null);
+        property.SetGetMethod(getter);
+        property.SetCustomAttribute(new CustomAttributeBuilder(
+            typeof(SecretValueAttribute).GetConstructor(Type.EmptyTypes)!,
+            []));
+        var baseType = baseTypeBuilder.CreateType()!;
+
+        var derivedAssembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"SecretDerived_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+        var derivedType = derivedAssembly.DefineDynamicModule("Main")
+            .DefineType("SecretDerived", TypeAttributes.Public, baseType)
+            .CreateType()!;
+
+        return Activator.CreateInstance(derivedType)!;
     }
 }

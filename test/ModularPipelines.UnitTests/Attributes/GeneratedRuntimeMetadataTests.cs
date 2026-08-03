@@ -4,6 +4,9 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.VisualBasic.TestFixtures;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
@@ -151,6 +154,18 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task CommandModelProvider_UsesReflectionForVisualBasicOptions()
+    {
+        var options = new VisualBasicCommandOptions();
+
+        var model = new CommandModelProvider().GetCommandModel(options.GetType());
+
+        var option = model.OfType<OptionPart>().Single();
+        await Assert.That(option.Attribute.Name).IsEqualTo("--value");
+        await Assert.That(option.Getter(options)).IsEqualTo("visual-basic-value");
+    }
+
+    [Test]
     public async Task SecretMetadata_RegistersDirectGetter()
     {
         var options = new GeneratedMetadataOptions { Token = "generated-secret" };
@@ -265,6 +280,39 @@ public class GeneratedRuntimeMetadataTests
 
         await Assert.That(() => GeneratedSecretMetadata.Register(typeof(DuplicateSecretMetadataType), []))
             .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task LegacyRegistrationOverloads_PreserveCompleteness()
+    {
+        var completeCommandType = CreateDynamicType("CompleteCommand");
+        var incompleteCommandType = CreateDynamicType("IncompleteCommand");
+        var completeSecretType = CreateDynamicType("CompleteSecret");
+        var incompleteSecretType = CreateDynamicType("IncompleteSecret");
+
+        GeneratedCommandMetadata.Register(completeCommandType, [], isComplete: true);
+        GeneratedCommandMetadata.Register(incompleteCommandType, [], isComplete: false);
+        GeneratedSecretMetadata.Register(completeSecretType, [], isComplete: true);
+        GeneratedSecretMetadata.Register(incompleteSecretType, [], isComplete: false);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(GeneratedCommandMetadata.TryGet(completeCommandType, out _)).IsTrue();
+            await Assert.That(GeneratedCommandMetadata.TryGet(incompleteCommandType, out _)).IsFalse();
+            await Assert.That(GeneratedSecretMetadata.TryGetAccessors(completeSecretType, out _)).IsTrue();
+            await Assert.That(GeneratedSecretMetadata.TryGetAccessors(incompleteSecretType, out _)).IsFalse();
+        }
+    }
+
+    private static Type CreateDynamicType(string name)
+    {
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"{name}_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+
+        return assembly.DefineDynamicModule("Main")
+            .DefineType(name, TypeAttributes.Public)
+            .CreateType()!;
     }
 
     private sealed class DuplicateCommandMetadataType

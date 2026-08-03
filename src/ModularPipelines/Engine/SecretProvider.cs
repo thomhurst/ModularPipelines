@@ -164,7 +164,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             {
                 throw new MissingSecretMetadataException(type);
             }
-            else if (CanReferenceSecretValueAttribute(type.Assembly))
+            else if (CanTypeHierarchyReferenceSecretValueAttribute(type))
             {
                 secretProperties = ReflectionAccessorsCache.GetOrAdd(type, GetSecretProperties);
             }
@@ -263,6 +263,19 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
                            attributeAssemblyName,
                            StringComparison.Ordinal));
         });
+    }
+
+    private static bool CanTypeHierarchyReferenceSecretValueAttribute(Type type)
+    {
+        for (var currentType = type; currentType is not null; currentType = currentType.BaseType)
+        {
+            if (CanReferenceSecretValueAttribute(currentType.Assembly))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     [RequiresUnreferencedCode("Assemblies without generated secret metadata require reflection and are not trim-safe.")]
