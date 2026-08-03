@@ -164,11 +164,11 @@ public class GitTests : TestBase
                 await RunGitAsync(workingDirectory, "config", "core.hooksPath", hooksDirectory);
 
                 await File.WriteAllTextAsync(Path.Combine(workingDirectory, "first.txt"), "first");
-                await RunGitAsync(workingDirectory, "add", "first.txt");
+                await RunGitAsync(workingDirectory, "add", "--force", "first.txt");
                 await RunGitAsync(workingDirectory, "commit", "-m", "first commit");
 
                 await File.WriteAllTextAsync(Path.Combine(workingDirectory, "second.txt"), "second");
-                await RunGitAsync(workingDirectory, "add", "second.txt");
+                await RunGitAsync(workingDirectory, "add", "--force", "second.txt");
                 await RunGitAsync(workingDirectory, "commit", "-m", "second commit");
                 await RunGitAsync(workingDirectory, "remote", "add", "origin", remoteDirectory);
                 await RunGitAsync(workingDirectory, "push", "--set-upstream", "origin", "main");
