@@ -29,14 +29,14 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
             commandException.Result.StandardOutput.Contains("The name specified has already been added to the list of available package sources"))
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localNugetPathResult = await context.GetModule<CreateLocalNugetFolderModule>();
 
         return await context.DotNet().NuGet.Add.SourceAsync(new DotNetNuGetAddSourceOptions
         {
             Name = _localNuGetSettings.Value.SourceName,
-            Packagesourcepath = localNugetPathResult.ValueOrDefault.AssertExists(),
+            Packagesourcepath = localNugetPathResult.Value.AssertExists(),
         }, cancellationToken: cancellationToken);
     }
 }

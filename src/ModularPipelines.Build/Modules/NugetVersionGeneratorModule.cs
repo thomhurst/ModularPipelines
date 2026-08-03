@@ -18,7 +18,7 @@ public class NugetVersionGeneratorModule : Module<string>
         _publishSettings = publishSettings;
     }
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
 

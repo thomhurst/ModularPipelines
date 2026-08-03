@@ -12,7 +12,7 @@ public class BashTests : TestBase
 {
     private class BashCommandModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Shell.Bash.CommandAsync(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
@@ -20,7 +20,7 @@ public class BashTests : TestBase
 
     private class BashScriptModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var file = context.Files.GetFile(Path.Combine(
                 TestContext.OutputDirectory!,

@@ -33,7 +33,7 @@ namespace ModularPipelines.Modules;
 /// <code>
 /// public class VersionCalculator : SyncModule&lt;string&gt;
 /// {
-///     protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
+///     protected override string Execute(IModuleContext context, CancellationToken cancellationToken)
 ///     {
 ///         var major = Environment.GetEnvironmentVariable("MAJOR_VERSION") ?? "1";
 ///         var minor = Environment.GetEnvironmentVariable("MINOR_VERSION") ?? "0";
@@ -51,7 +51,7 @@ public abstract class SyncModule<T> : Module<T>
     /// </summary>
     /// <param name="context">The module context providing access to pipeline services.</param>
     /// <param name="cancellationToken">A token that will be cancelled if the pipeline fails or the module times out.</param>
-    /// <returns>The result of the module execution, or null.</returns>
+    /// <returns>The result of the module execution.</returns>
     /// <remarks>
     /// <para>
     /// Implement this method to define your module's synchronous logic.
@@ -61,7 +61,7 @@ public abstract class SyncModule<T> : Module<T>
     /// use <see cref="Module{T}"/> instead and implement <see cref="Module{T}.ExecuteAsync"/>.
     /// </para>
     /// </remarks>
-    protected abstract T? Execute(IModuleContext context, CancellationToken cancellationToken);
+    protected abstract T Execute(IModuleContext context, CancellationToken cancellationToken);
 
     /// <inheritdoc />
     /// <remarks>
@@ -69,7 +69,7 @@ public abstract class SyncModule<T> : Module<T>
     /// You should not override this method in <see cref="SyncModule{T}"/> - override
     /// <see cref="Execute"/> instead.
     /// </remarks>
-    protected internal sealed override Task<T?> ExecuteAsync(
+    protected internal sealed override Task<T> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken) =>
         Task.FromResult(Execute(context, cancellationToken));

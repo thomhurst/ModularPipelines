@@ -15,11 +15,11 @@ public class ModuleResultSerializerTests
 
     private class SimpleModule : ModularPipelines.Modules.Module<SimpleResult>
     {
-        protected internal override Task<SimpleResult?> ExecuteAsync(
+        protected internal override Task<SimpleResult> ExecuteAsync(
             ModularPipelines.Context.IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<SimpleResult?>(new SimpleResult());
+            return Task.FromResult<SimpleResult>(new SimpleResult());
         }
     }
 

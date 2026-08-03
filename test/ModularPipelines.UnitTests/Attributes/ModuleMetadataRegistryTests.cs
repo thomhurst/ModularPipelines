@@ -13,8 +13,8 @@ public class ModuleMetadataRegistryTests
 {
     private class ModuleA : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("A");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("A");
     }
 
     private sealed class DirectConfiguredModule : IModule

@@ -23,7 +23,7 @@ public class DotNetTestResultsTests : TestBase
 
     private class DotNetTestWithFailureModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = TestProjectPaths.TestsForTestsProject;
 

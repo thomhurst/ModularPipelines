@@ -17,7 +17,7 @@ public class ModuleTimeoutTests : TestBase
             .WithTimeout(TimeSpan.FromSeconds(1))
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
             return TestConstants.TestString;
@@ -32,7 +32,7 @@ public class ModuleTimeoutTests : TestBase
             .WithTimeout(TimeSpan.FromSeconds(1))
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             try
             {
@@ -48,7 +48,7 @@ public class ModuleTimeoutTests : TestBase
 
     private class NoTimeoutModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
             return TestConstants.TestString;
@@ -57,7 +57,7 @@ public class ModuleTimeoutTests : TestBase
 
     private class PipelineDefaultTimeoutModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
             return TestConstants.TestString;

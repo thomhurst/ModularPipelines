@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules.PreFlight;
 [ModuleCategory("PreFlight")]
 public class MissionControlOnlineModule : Module<GroundSystemStatus>
 {
-    protected override async Task<GroundSystemStatus?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<GroundSystemStatus> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Initiating Mission Control connectivity verification...");
         context.Logger.LogDebug("Pinging primary MCC network gateway...");

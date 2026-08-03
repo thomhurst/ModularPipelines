@@ -11,10 +11,10 @@ namespace ModularPipelines.Examples.Modules.Systems;
 [ModuleCategory("Systems")]
 public class CommunicationsCheckModule : Module<CommsStatus>
 {
-    protected override async Task<CommsStatus?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommsStatus> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var missionControlModule = await context.GetModule<MissionControlOnlineModule>();
-        var groundStatus = missionControlModule.ValueOrDefault!;
+        var groundStatus = missionControlModule.Value;
 
         context.Logger.LogInformation("Establishing communications link with {Stations} ground stations...",
             groundStatus.ActiveStations);

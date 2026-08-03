@@ -169,7 +169,7 @@ await builder.ExecutePipelineAsync();
 
 public class RestoreModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.RestoreAsync(new());
@@ -181,7 +181,7 @@ public class RestoreModule : Module<string>
 [DependsOn<RestoreModule>]
 public class LinuxBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(new());
@@ -194,7 +194,7 @@ public class LinuxBuildModule : Module<string>
 [DependsOn<RestoreModule>]
 public class WindowsBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(new());
@@ -207,7 +207,7 @@ public class WindowsBuildModule : Module<string>
 [DependsOn<RestoreModule>]
 public class MacBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(new());
@@ -221,15 +221,15 @@ public class MacBuildModule : Module<string>
 [DependsOn<MacBuildModule>]
 public class AggregateResultsModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         var linux = await context.GetModule<LinuxBuildModule>();
         var windows = await context.GetModule<WindowsBuildModule>();
         var mac = await context.GetModule<MacBuildModule>();
 
-        return $"All platforms passed: {linux.ValueOrDefault}, "
-             + $"{windows.ValueOrDefault}, {mac.ValueOrDefault}";
+        return $"All platforms passed: {linux.Value}, "
+             + $"{windows.Value}, {mac.Value}";
     }
 }
 ```

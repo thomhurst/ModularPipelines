@@ -33,7 +33,7 @@ By default, dependencies declared with `[DependsOn<T>]` are **required**. This m
 [DependsOn<Module1>]
 public class Module2 : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Safe to call - Module1 is guaranteed to be registered
         var result = await context.GetModule<Module1>();
@@ -64,7 +64,7 @@ Use `Optional = true` when a dependency may or may not be present:
 [DependsOn<Module1>(Optional = true)]
 public class Module2 : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Use GetModuleIfRegistered for optional dependencies
         var module1 = context.GetModuleIfRegistered<Module1>();
@@ -95,7 +95,7 @@ When a category filter skips a required dependency, ModularPipelines cascade-ski
 [DependsOn<CompileModule>(Optional = true)]  // CompileModule is in "compile" category
 public class TestModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var compile = context.GetModuleIfRegistered<CompileModule>();
 

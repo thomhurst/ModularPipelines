@@ -101,6 +101,33 @@ public class FileTests : TestBase
     }
 
     [Test]
+    public async Task Read_Stream_Does_Not_Create_Missing_File()
+    {
+        var file = File.GetNewTemporaryFilePath();
+
+        await Assert.ThrowsAsync<FileNotFoundException>(() =>
+        {
+            file.GetStream(FileAccess.Read);
+            return Task.CompletedTask;
+        });
+        await Assert.That(file.Exists).IsFalse();
+    }
+
+    [Test]
+    public async Task Write_Stream_Truncates_Existing_File()
+    {
+        var file = File.GetNewTemporaryFilePath();
+        await file.WriteAsync("long existing contents");
+
+        await using (var stream = file.GetStream(FileAccess.Write))
+        {
+            await stream.WriteAsync("short"u8.ToArray());
+        }
+
+        await Assert.That(await file.ReadAsync()).IsEqualTo("short");
+    }
+
+    [Test]
     public async Task ReadEmptyFile()
     {
         var file = File.GetNewTemporaryFilePath();

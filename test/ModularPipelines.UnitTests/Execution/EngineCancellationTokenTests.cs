@@ -82,7 +82,7 @@ public class EngineCancellationTokenTests : TestBase
 
     private class RunningCommandModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(
+        protected internal override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {

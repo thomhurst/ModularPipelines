@@ -30,7 +30,7 @@ using ModularPipelines.Git.Options;
 
 public class UseGitModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

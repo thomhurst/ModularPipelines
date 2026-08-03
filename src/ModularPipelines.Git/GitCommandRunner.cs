@@ -33,7 +33,7 @@ public class GitCommandRunner : IGitCommandRunner
 
         var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray());
 
-        var executionOptions = new CommandExecutionOptions
+        var executionOptions = commandEnvironmentOptions with
         {
             LogSettings = CommandLoggingOptions.Silent,
         };
@@ -60,7 +60,14 @@ public class GitCommandRunner : IGitCommandRunner
     {
         try
         {
-            return await RunCommands(commandEnvironmentOptions, cancellationToken, commands).ConfigureAwait(false);
+            var failureDetectingOptions = (commandEnvironmentOptions ?? new CommandExecutionOptions()) with
+            {
+                ThrowOnNonZeroExitCode = true,
+            };
+            return await RunCommands(
+                failureDetectingOptions,
+                cancellationToken,
+                commands).ConfigureAwait(false);
         }
         catch (Exception ex) when (ex is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {

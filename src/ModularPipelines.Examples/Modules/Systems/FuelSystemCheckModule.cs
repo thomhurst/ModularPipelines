@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules.Systems;
 [ModuleCategory("Systems")]
 public class FuelSystemCheckModule : Module<FuelSystemStatus>
 {
-    protected override async Task<FuelSystemStatus?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<FuelSystemStatus> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Initiating comprehensive fuel system diagnostics...");
         context.Logger.LogDebug("Connecting to propellant management system...");

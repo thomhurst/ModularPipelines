@@ -10,10 +10,10 @@ namespace ModularPipelines.Examples.Modules.Propulsion;
 [ModuleCategory("Propulsion")]
 public class EngineIgnitionSequenceModule : Module<IgnitionStatus>
 {
-    protected override async Task<IgnitionStatus?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IgnitionStatus> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var propulsionModule = await context.GetModule<PropulsionDiagnosticsModule>();
-        var propulsion = propulsionModule.ValueOrDefault!;
+        var propulsion = propulsionModule.Value;
 
         if (!propulsion.AllNominal)
         {

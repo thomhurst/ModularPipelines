@@ -215,22 +215,22 @@ public class ModuleConditionHandlerTests
     [RunIfAll<OnLinux>]
     private sealed class LinuxOnlyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>(null);
+            return Task.FromResult(string.Empty);
         }
     }
 
     [RunIfAll<OnWindows>]
     private sealed class WindowsOnlyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>(null);
+            return Task.FromResult(string.Empty);
         }
     }
 
@@ -238,22 +238,22 @@ public class ModuleConditionHandlerTests
     [RunIfAll<OnLinux>]
     private sealed class ContradictoryOsModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>(null);
+            return Task.FromResult(string.Empty);
         }
     }
 
     [RunIfAll<OnUnix>]
     private sealed class UnixModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>(null);
+            return Task.FromResult(string.Empty);
         }
     }
 
@@ -261,11 +261,11 @@ public class ModuleConditionHandlerTests
     [AlternativeCondition(true)]
     private sealed class MatchingAlternativeModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>(null);
+            return Task.FromResult(string.Empty);
         }
     }
 
@@ -273,11 +273,11 @@ public class ModuleConditionHandlerTests
     [AlternativeCondition(false)]
     private sealed class NoMatchingAlternativeModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>(null);
+            return Task.FromResult(string.Empty);
         }
     }
 
@@ -285,11 +285,11 @@ public class ModuleConditionHandlerTests
     [AlternativeCondition(true)]
     private sealed class MandatoryFalseOptionalTrueModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>(null);
+            return Task.FromResult(string.Empty);
         }
     }
 
@@ -326,11 +326,11 @@ public class ModuleConditionHandlerTests
     [RunIfAll<CountingCondition>]
     private sealed class CountingConditionModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>(null);
+            return Task.FromResult(string.Empty);
         }
     }
 }

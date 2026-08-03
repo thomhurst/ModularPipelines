@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules.Propulsion;
 [ModuleCategory("Propulsion")]
 public class PropulsionDiagnosticsModule : Module<PropulsionStatus>
 {
-    protected override async Task<PropulsionStatus?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<PropulsionStatus> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Running propulsion diagnostics on all engines...");
         context.Logger.LogDebug("Initializing engine diagnostic interface...");
