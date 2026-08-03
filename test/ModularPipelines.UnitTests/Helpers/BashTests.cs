@@ -1,5 +1,4 @@
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -23,14 +22,18 @@ public class BashTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var repositoryInfo = await context.Git().Information.GetInfoAsync()
-                ?? throw new InvalidOperationException("Git repository information is unavailable.");
-            var file = repositoryInfo.Root.FindFile(x => x.Name == "BashTest.sh");
-            return await context.Shell.Bash.FromFileAsync(new BashFileOptions(file!), cancellationToken: cancellationToken);
+            var file = context.Files.GetFile(Path.Combine(
+                TestContext.OutputDirectory!,
+                "Data",
+                "BashTest.sh"));
+            return await context.Shell.Bash.FromFileAsync(
+                new BashFileOptions(file),
+                cancellationToken: cancellationToken);
         }
     }
 
     [Test]
+    [RequiresTool("bash")]
     public async Task Has_Not_Errored()
     {
         var moduleResult = await await RunModule<BashCommandModule>();
@@ -39,6 +42,7 @@ public class BashTests : TestBase
     }
 
     [Test]
+    [RequiresTool("bash")]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
         var moduleResult = await await RunModule<BashCommandModule>();
@@ -48,6 +52,7 @@ public class BashTests : TestBase
 
     [Test]
     [LinuxOnlyTest]
+    [RequiresTool("bash")]
     public async Task Standard_Output_From_Script_Equals_Foo_Bar()
     {
         var moduleResult = await await RunModule<BashScriptModule>();

@@ -40,8 +40,6 @@ public sealed class PipelineBuilder : IDisposable
     private readonly PipelineCommandLineOptions _commandLineOptions;
     private PipelineOptions _options;
 
-    internal Type? LastRegisteredModuleType { get; set; }
-
     internal PipelineBuilder(string[]? args)
         : this(new PipelineBuilderOptions { Args = args })
     {
@@ -62,6 +60,7 @@ public sealed class PipelineBuilder : IDisposable
         _configuration = new ConfigurationManager();
         _options = new PipelineOptions
         {
+            DryRun = _commandLineOptions.Command == PipelineCommand.DryRun,
             TargetModules = NullIfEmpty(_commandLineOptions.TargetModules),
             SkippedModules = NullIfEmpty(_commandLineOptions.SkippedModules),
             RunOnlyCategories = NullIfEmpty(_commandLineOptions.RunOnlyCategories),

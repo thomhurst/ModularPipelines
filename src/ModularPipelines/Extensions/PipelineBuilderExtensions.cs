@@ -21,15 +21,14 @@ public static class PipelineBuilderExtensions
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddModule<
+    /// <returns>A typed registration handle for configuring module metadata.</returns>
+    public static ModuleRegistration<TModule> AddModule<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TModule>(
         this PipelineBuilder builder)
         where TModule : class, IModule
     {
         builder.Services.AddModule<TModule>();
-        builder.LastRegisteredModuleType = typeof(TModule);
-        return builder;
+        return new ModuleRegistration<TModule>(builder, typeof(TModule));
     }
 
     /// <summary>
@@ -38,13 +37,12 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="module">The module instance to add.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, TModule module)
+    /// <returns>A typed registration handle for configuring module metadata.</returns>
+    public static ModuleRegistration<TModule> AddModule<TModule>(this PipelineBuilder builder, TModule module)
         where TModule : class, IModule
     {
         builder.Services.AddModule(module);
-        builder.LastRegisteredModuleType = typeof(TModule);
-        return builder;
+        return new ModuleRegistration<TModule>(builder, module.GetType());
     }
 
     /// <summary>
@@ -53,13 +51,12 @@ public static class PipelineBuilderExtensions
     /// <param name="builder">The pipeline builder.</param>
     /// <param name="factory">A factory method for creating the module.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder AddModule<TModule>(this PipelineBuilder builder, Func<IServiceProvider, TModule> factory)
+    /// <returns>A typed registration handle for configuring module metadata.</returns>
+    public static ModuleRegistration<TModule> AddModule<TModule>(this PipelineBuilder builder, Func<IServiceProvider, TModule> factory)
         where TModule : class, IModule
     {
         builder.Services.AddModule(factory);
-        builder.LastRegisteredModuleType = typeof(TModule);
-        return builder;
+        return new ModuleRegistration<TModule>(builder, typeof(TModule));
     }
 
     /// <summary>
@@ -80,7 +77,6 @@ public static class PipelineBuilderExtensions
         {
             ValidateModuleType(moduleType);
             builder.Services.AddModule(moduleType);
-            builder.LastRegisteredModuleType = moduleType;
         }
 
         return builder;
@@ -109,33 +105,6 @@ public static class PipelineBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(assembly);
         builder.Services.AddModulesFromAssembly(assembly);
-        builder.LastRegisteredModuleType = null;
-        return builder;
-    }
-
-    /// <summary>
-    /// Adds tags to the most recently registered module.
-    /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <param name="tags">The tags to add.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder WithTags(this PipelineBuilder builder, params string[] tags)
-    {
-        var moduleType = GetLastRegisteredModuleType(builder);
-        builder.Services.Configure<ModuleRegistrationOptions>(options => options.AddTags(moduleType, tags));
-        return builder;
-    }
-
-    /// <summary>
-    /// Sets the category of the most recently registered module.
-    /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <param name="category">The category to set.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    public static PipelineBuilder WithCategory(this PipelineBuilder builder, string category)
-    {
-        var moduleType = GetLastRegisteredModuleType(builder);
-        builder.Services.Configure<ModuleRegistrationOptions>(options => options.SetCategory(moduleType, category));
         return builder;
     }
 
@@ -222,6 +191,28 @@ public static class PipelineBuilderExtensions
     public static PipelineBuilder ConfigureServices(this PipelineBuilder builder, Action<PipelineBuilder, IServiceCollection> configureServices)
     {
         configureServices(builder, builder.Services);
+        return builder;
+    }
+
+    /// <summary>
+    /// Registers every leaf value beneath a configuration section as a secret during pipeline startup.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="sectionPath">The configuration section path, such as <c>Secrets</c>.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder MaskConfigurationSection(this PipelineBuilder builder, string sectionPath)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentException.ThrowIfNullOrWhiteSpace(sectionPath);
+
+        builder.Services.Configure<SecretMaskingOptions>(options =>
+        {
+            options.MaskedConfigurationSections = options.MaskedConfigurationSections
+                .Append(sectionPath)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+        });
+
         return builder;
     }
 
@@ -413,13 +404,6 @@ public static class PipelineBuilderExtensions
     {
         builder.Services.Configure(configureOptions);
         return builder;
-    }
-
-    private static Type GetLastRegisteredModuleType(PipelineBuilder builder)
-    {
-        return builder.LastRegisteredModuleType
-               ?? throw new InvalidOperationException(
-                   "Module metadata must follow an AddModule call.");
     }
 
     private static void ValidateModuleType(Type moduleType)

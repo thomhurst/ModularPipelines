@@ -755,8 +755,9 @@ public static partial class GeneratorUtils
 
     /// <summary>
     /// Determines if an option should be marked as a secret based on its property name.
-    /// Options containing keywords like "Secret", "Password", "Token", "Key", or "Credential"
-    /// in their name are considered secrets and should be obfuscated in logs.
+    /// Options containing secret-related keywords such as "Secret", "Password", "Passphrase",
+    /// "Token", "Credential", "Otp", or known compound key names are considered secrets and
+    /// should be obfuscated in logs.
     /// </summary>
     /// <param name="propertyName">The C# property name of the option.</param>
     /// <param name="isFlag">Whether this is a boolean flag (flags are not considered secrets).</param>
@@ -783,7 +784,33 @@ public static partial class GeneratorUtils
 
         // Check if the property name contains any secret-related keywords
         return SecretKeywords.Any(keyword =>
-            propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                   propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+               || ContainsIdentifierSegment(propertyName, "Otp");
+    }
+
+    private static bool ContainsIdentifierSegment(string propertyName, string segment)
+    {
+        for (var index = propertyName.IndexOf(segment, StringComparison.OrdinalIgnoreCase);
+             index >= 0;
+             index = propertyName.IndexOf(segment, index + 1, StringComparison.OrdinalIgnoreCase))
+        {
+            var startsAtBoundary = index == 0
+                                   || (char.IsUpper(propertyName[index])
+                                       && (char.IsLower(propertyName[index - 1])
+                                           || char.IsDigit(propertyName[index - 1])
+                                           || propertyName[index - 1] == '_'));
+            var endIndex = index + segment.Length;
+            var endsAtBoundary = endIndex == propertyName.Length
+                                 || char.IsUpper(propertyName[endIndex])
+                                 || char.IsDigit(propertyName[endIndex])
+                                 || propertyName[endIndex] == '_';
+            if (startsAtBoundary && endsAtBoundary)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>

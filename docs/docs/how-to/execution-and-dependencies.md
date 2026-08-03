@@ -13,7 +13,7 @@ These can chain together as appropriate. And it'll detect if two modules depend 
 
 ```csharp
 [DependsOn<Module1>] // F#: [<DependsOn(typeof<Module1>)>]
-public class Module2 : Module<None>
+public class Module2 : Module
 {
     ...
 }

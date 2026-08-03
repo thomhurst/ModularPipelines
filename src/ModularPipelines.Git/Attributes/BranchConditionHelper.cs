@@ -15,9 +15,10 @@ internal static class BranchConditionHelper
     internal static async Task<bool> CheckBranchMatches(
         IPipelineContext pipelineContext,
         string expectedBranchName,
-        string logMessageFormat)
+        string logMessageFormat,
+        CancellationToken cancellationToken = default)
     {
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync().ConfigureAwait(false);
+        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
         var currentBranchName = repositoryInfo?.BranchName;
         pipelineContext.Logger.LogDebug(logMessageFormat, GetDisplayBranchName(currentBranchName), expectedBranchName);
         return currentBranchName == expectedBranchName;
@@ -29,9 +30,10 @@ internal static class BranchConditionHelper
     internal static async Task<bool> CheckBranchStartsWith(
         IPipelineContext pipelineContext,
         string expectedPrefix,
-        string logMessageFormat)
+        string logMessageFormat,
+        CancellationToken cancellationToken = default)
     {
-        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync().ConfigureAwait(false);
+        var repositoryInfo = await pipelineContext.Git().Information.GetInfoAsync(cancellationToken).ConfigureAwait(false);
         var currentBranchName = repositoryInfo?.BranchName;
         pipelineContext.Logger.LogDebug(logMessageFormat, GetDisplayBranchName(currentBranchName), expectedPrefix);
         return currentBranchName?.StartsWith(expectedPrefix) ?? false;

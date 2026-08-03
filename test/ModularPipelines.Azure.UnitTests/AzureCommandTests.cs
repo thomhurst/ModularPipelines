@@ -1,3 +1,6 @@
+using Azure.Identity;
+using Azure.ResourceManager;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Azure.Extensions;
 using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
@@ -10,6 +13,8 @@ namespace ModularPipelines.UnitTests;
 
 public class AzureCommandTests : TestBase
 {
+    private static readonly ArmClient ArmClient = new(new DefaultAzureCredential());
+
     public class AzureCommandModule : Module<CommandResult>
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -33,7 +38,7 @@ public class AzureCommandTests : TestBase
     [Test]
     public async Task Azure_Command_Is_Expected_Command()
     {
-        var result = await await RunModule<AzureCommandModule>();
+        var result = await await RunModule<AzureCommandModule>(RegisterArmClient);
 
         await Assert.That(result.ValueOrDefault!.CommandInput)
             .IsEqualTo("az account list --all");
@@ -42,8 +47,13 @@ public class AzureCommandTests : TestBase
     [Test]
     public async Task Azure_Command_With_Sub_Command_Group_Is_Expected_Command()
     {
-        var result = await await RunModule<AzureCommandModule2>();
+        var result = await await RunModule<AzureCommandModule2>(RegisterArmClient);
         await Assert.That(result.ValueOrDefault!.CommandInput)
             .IsEqualTo("az account management-group list");
+    }
+
+    private static void RegisterArmClient(IServiceCollection services)
+    {
+        services.AddSingleton(ArmClient);
     }
 }

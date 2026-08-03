@@ -35,7 +35,6 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly SchedulerExitConditions _exitConditions;
     private readonly Channel<ModuleState> _readyChannel;
     private readonly SemaphoreSlim _schedulerNotification;
-    private readonly CancellationTokenSource _disposalCancellationTokenSource;
     private readonly ReaderWriterLockSlim _stateLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
     private readonly IModuleStateTracker _stateTracker;
 
@@ -75,7 +74,6 @@ internal class ModuleScheduler : IModuleScheduler
             SingleReader = false, // Multiple workers read
         });
         _schedulerNotification = new SemaphoreSlim(0);
-        _disposalCancellationTokenSource = new CancellationTokenSource();
 
         // Initialize state tracker with shared state
         _stateTracker = new ModuleStateTracker(
@@ -241,9 +239,6 @@ internal class ModuleScheduler : IModuleScheduler
         {
             return;
         }
-
-        _disposalCancellationTokenSource.Cancel();
-        _disposalCancellationTokenSource.Dispose();
 
         // Wake the scheduler so it observes disposal promptly. The lock and semaphore
         // deliberately remain undisposed because in-flight workers may still be using

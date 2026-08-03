@@ -53,9 +53,11 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         var candidates = context.SyntaxProvider.ForAttributeWithMetadataName(
                 IntegrationAttributeFullName,
                 static (node, _) => node is MethodDeclarationSyntax,
-                static (generatorContext, _) => GetCandidate(generatorContext));
-        var referencedToolProperties = context.CompilationProvider.Select(
-            static (compilation, _) => GetReferencedToolProperties(compilation));
+                static (generatorContext, _) => GetCandidate(generatorContext))
+            .WithComparer(IntegrationCandidateComparer.Instance);
+        var referencedToolProperties = context.MetadataReferencesProvider
+            .Collect()
+            .Select(static (references, _) => GetReferencedToolProperties(references));
 
         context.RegisterSourceOutput(
             candidates
@@ -130,8 +132,11 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
     }
 
     private static EquatableArray<ReferencedToolProperty> GetReferencedToolProperties(
-        Compilation compilation)
+        ImmutableArray<MetadataReference> references)
     {
+        var compilation = CSharpCompilation.Create(
+            "ModularPipelines.ReferencedToolProperties",
+            references: references);
         return compilation.References
             .Select(compilation.GetAssemblyOrModuleSymbol)
             .OfType<IAssemblySymbol>()
@@ -478,6 +483,34 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
         string GeneratedTypeName,
         string MethodName,
         Location Location);
+
+    private sealed class IntegrationCandidateComparer : IEqualityComparer<IntegrationCandidate>
+    {
+        public static IntegrationCandidateComparer Instance { get; } = new();
+
+        public bool Equals(IntegrationCandidate? x, IntegrationCandidate? y) =>
+            ReferenceEquals(x, y)
+            || (x is not null
+                && y is not null
+                && EqualityComparer<IntegrationRegistration?>.Default.Equals(
+                    x.Registration,
+                    y.Registration)
+                && x.ToolProperties.Equals(y.ToolProperties)
+                && StringComparer.Ordinal.Equals(x.GeneratedTypeName, y.GeneratedTypeName)
+                && StringComparer.Ordinal.Equals(x.MethodName, y.MethodName)
+                && (x.Registration is not null || x.Location.Equals(y.Location)));
+
+        public int GetHashCode(IntegrationCandidate obj)
+        {
+            var hashCode = obj.Registration?.GetHashCode() ?? 0;
+            hashCode = (hashCode * 397) ^ obj.ToolProperties.GetHashCode();
+            hashCode = (hashCode * 397) ^ StringComparer.Ordinal.GetHashCode(obj.GeneratedTypeName);
+            hashCode = (hashCode * 397) ^ StringComparer.Ordinal.GetHashCode(obj.MethodName);
+            return obj.Registration is null
+                ? (hashCode * 397) ^ obj.Location.GetHashCode()
+                : hashCode;
+        }
+    }
 
     private sealed record IntegrationRegistration(string TypeName, string MethodName);
 

@@ -2,9 +2,8 @@
   <PropertyGroup>
     <ModularPipelineReadMeDescription>A supported test harness for isolated module execution, command recording, and in-memory file operations.</ModularPipelineReadMeDescription>
     <Description>Supported test harness for isolated ModularPipelines module tests.</Description>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- The harness intentionally registers caller-supplied generic module types at runtime. -->
-    <NoWarn>$(NoWarn);CS1591;MPG0013</NoWarn>
+    <NoWarn>$(NoWarn);MPG0013</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />

@@ -13,6 +13,7 @@
             Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Azure.Identity" />
         <PackageReference Include="TUnit" />
     </ItemGroup>
 

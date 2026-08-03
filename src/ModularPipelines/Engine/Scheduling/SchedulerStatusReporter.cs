@@ -60,14 +60,19 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
             stateLock.EnterReadLock();
             try
             {
+                var includeModuleDetails = _logger.IsEnabled(LogLevel.Trace);
                 snapshot = new SchedulerStatusSnapshot(
                     stateQueries.GetStatistics(),
-                    string.Join(", ", stateQueries.GetPendingModules()
-                        .Select(FormatModuleWithDependencyCount)
-                        .Order(StringComparer.Ordinal)),
-                    string.Join(", ", stateQueries.GetExecutingModules()
-                        .Select(m => FormatModuleType(m.ModuleType))
-                        .Order(StringComparer.Ordinal)));
+                    includeModuleDetails
+                        ? string.Join(", ", stateQueries.GetPendingModules()
+                            .Select(FormatModuleWithDependencyCount)
+                            .Order(StringComparer.Ordinal))
+                        : string.Empty,
+                    includeModuleDetails
+                        ? string.Join(", ", stateQueries.GetExecutingModules()
+                            .Select(m => FormatModuleType(m.ModuleType))
+                            .Order(StringComparer.Ordinal))
+                        : string.Empty);
             }
             finally
             {
@@ -93,12 +98,12 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
 
         if (snapshot.PendingModules.Length > 0)
         {
-            _logger.LogDebug("Pending modules: {Modules}", snapshot.PendingModules);
+            _logger.LogTrace("Pending modules: {Modules}", snapshot.PendingModules);
         }
 
         if (snapshot.ExecutingModules.Length > 0)
         {
-            _logger.LogDebug("Executing modules: {Modules}", snapshot.ExecutingModules);
+            _logger.LogTrace("Executing modules: {Modules}", snapshot.ExecutingModules);
         }
     }
 

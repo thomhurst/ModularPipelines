@@ -26,6 +26,9 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     internal const string PipelineBuilderExtensionsFullName =
         "ModularPipelines.Extensions.PipelineBuilderExtensions";
 
+    internal const string ModuleRegistrationNamespace = "ModularPipelines";
+    internal const string ModuleRegistrationTypeName = "ModuleRegistration";
+
     private static readonly DiagnosticDescriptor SkippedModuleRuntimeMetadata =
         GeneratorDiagnostics.SkippedModuleRuntimeMetadata;
 
@@ -50,13 +53,15 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .CreateSyntaxProvider(
                 static (node, _) => IsCandidate(node),
                 static (generatorContext, _) => GetModuleMetadata(generatorContext))
-            .SelectMany(static (metadata, _) => metadata);
+            .SelectMany(static (metadata, _) => metadata)
+            .WithComparer(ModuleMetadataInfoComparer.Instance);
 
         var registeredClosedGenericModules = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (node, _) => IsModuleRegistrationCandidate(node),
                 static (generatorContext, _) => GetRegisteredModuleMetadata(generatorContext))
-            .SelectMany(static (metadata, _) => metadata);
+            .SelectMany(static (metadata, _) => metadata)
+            .WithComparer(ModuleMetadataInfoComparer.Instance);
 
         var genericModuleRegistrations = context.SyntaxProvider
             .CreateSyntaxProvider(
@@ -74,12 +79,16 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .Collect()
             .Combine(registeredClosedGenericModules.Collect())
             .Select(static (input, _) => input.Left.AddRange(input.Right));
+        var compilationMetadata = context.CompilationProvider.Select(
+            static (compilation, _) => new CompilationMetadata(
+                compilation.AssemblyName,
+                compilation.GetTypeByMetadataName(ModuleInterfaceFullName) is not null));
 
         context.RegisterSourceOutput(
-            context.CompilationProvider.Combine(allModules),
+            compilationMetadata.Combine(allModules),
             static (sourceContext, input) =>
             {
-                if (input.Left.GetTypeByMetadataName(ModuleInterfaceFullName) is not null)
+                if (input.Left.HasModuleInterface)
                 {
                     foreach (var skipped in input.Right
                                  .Where(static module => !module.CanEmit)
@@ -163,8 +172,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     {
         if (context.Node is not InvocationExpressionSyntax invocation
             || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
-            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
-            != PipelineBuilderExtensionsFullName
+            || !IsModuleRegistrationMethod(method)
             || method.TypeArguments.Length != 1
             || method.TypeArguments[0] is not INamedTypeSymbol type
             || !type.IsGenericType
@@ -203,8 +211,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     {
         if (context.Node is not InvocationExpressionSyntax invocation
             || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
-            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
-            != PipelineBuilderExtensionsFullName
+            || !IsModuleRegistrationMethod(method)
             || method.TypeArguments.Length != 1
             || method.TypeArguments[0] is not ITypeParameterSymbol typeParameter)
         {
@@ -221,8 +228,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     {
         if (context.Node is not InvocationExpressionSyntax invocation
             || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
-            || (method.ReducedFrom ?? method).ContainingType.ToDisplayString()
-            != PipelineBuilderExtensionsFullName
+            || !IsModuleRegistrationMethod(method)
             || method.TypeArguments.Length != 1
             || method.TypeArguments[0] is not INamedTypeSymbol type
             || !ImplementsModule(type, context.SemanticModel.Compilation)
@@ -234,6 +240,15 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         return new NonConcreteModuleRegistrationInfo(
             type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
             invocation.GetLocation());
+    }
+
+    private static bool IsModuleRegistrationMethod(IMethodSymbol method)
+    {
+        var containingType = (method.ReducedFrom ?? method).ContainingType.OriginalDefinition;
+        return containingType.ToDisplayString() == PipelineBuilderExtensionsFullName
+               || (containingType.Name == ModuleRegistrationTypeName
+                   && containingType.Arity == 1
+                   && containingType.ContainingNamespace.ToDisplayString() == ModuleRegistrationNamespace);
     }
 
     private static bool IsCandidate(SyntaxNode node)
@@ -278,7 +293,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     GetModuleResultTypeName(type),
                     false,
                     invocation.GetLocation(),
-                    [],
+                    ImmutableArray<DependencyMetadataInfo>.Empty,
                     false,
                     false,
                     true,
@@ -322,7 +337,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     GetModuleResultTypeName(dependency),
                     false,
                     GetDependencyLocation(type, dependency),
-                    [],
+                    ImmutableArray<DependencyMetadataInfo>.Empty,
                     false,
                     false,
                     true,
@@ -381,9 +396,10 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             GetModuleResultTypeName(type),
             IsTypeAccessible(type, currentAssembly),
             type.Locations.FirstOrDefault(static location => location.IsInSource),
-            [.. dependencies
+            dependencies
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
-                .ThenBy(static dependency => dependency.Optional)],
+                .ThenBy(static dependency => dependency.Optional)
+                .ToImmutableArray(),
             dependenciesComplete,
             isPartial,
             false,
@@ -728,11 +744,58 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         string? ResultTypeName,
         bool CanEmit,
         Location? Location,
-        ImmutableArray<DependencyMetadataInfo> Dependencies,
+        EquatableArray<DependencyMetadataInfo> Dependencies,
         bool DependenciesComplete,
         bool IsPartial,
         bool IsExternalRegistration,
         Location? SelectorDependencyLocation);
+
+    private sealed class ModuleMetadataInfoComparer : IEqualityComparer<ModuleMetadataInfo>
+    {
+        public static ModuleMetadataInfoComparer Instance { get; } = new();
+
+        public bool Equals(ModuleMetadataInfo? x, ModuleMetadataInfo? y) =>
+            ReferenceEquals(x, y)
+            || (x is not null
+                && y is not null
+                && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
+                && StringComparer.Ordinal.Equals(x.ResultTypeName, y.ResultTypeName)
+                && x.CanEmit == y.CanEmit
+                && x.Dependencies.Equals(y.Dependencies)
+                && x.DependenciesComplete == y.DependenciesComplete
+                && x.IsPartial == y.IsPartial
+                && x.IsExternalRegistration == y.IsExternalRegistration
+                && LocationsEqualWhenRequired(x, y));
+
+        public int GetHashCode(ModuleMetadataInfo obj)
+        {
+            var hashCode = StringComparer.Ordinal.GetHashCode(obj.TypeName);
+            hashCode = (hashCode * 397) ^ (obj.ResultTypeName is null
+                ? 0
+                : StringComparer.Ordinal.GetHashCode(obj.ResultTypeName));
+            hashCode = (hashCode * 397) ^ obj.CanEmit.GetHashCode();
+            hashCode = (hashCode * 397) ^ obj.Dependencies.GetHashCode();
+            hashCode = (hashCode * 397) ^ obj.DependenciesComplete.GetHashCode();
+            hashCode = (hashCode * 397) ^ obj.IsPartial.GetHashCode();
+            hashCode = (hashCode * 397) ^ obj.IsExternalRegistration.GetHashCode();
+            if (!obj.CanEmit || obj.IsPartial)
+            {
+                hashCode = (hashCode * 397) ^ (obj.Location?.GetHashCode() ?? 0);
+            }
+
+            return obj.SelectorDependencyLocation is null
+                ? hashCode
+                : (hashCode * 397) ^ obj.SelectorDependencyLocation.GetHashCode();
+        }
+
+        private static bool LocationsEqualWhenRequired(
+            ModuleMetadataInfo x,
+            ModuleMetadataInfo y) =>
+            ((x.CanEmit && !x.IsPartial) || Equals(x.Location, y.Location))
+            && Equals(x.SelectorDependencyLocation, y.SelectorDependencyLocation);
+    }
+
+    private sealed record CompilationMetadata(string? AssemblyName, bool HasModuleInterface);
 
     private sealed record DependencyMetadataInfo(
         string TypeName,

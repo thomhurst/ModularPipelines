@@ -71,7 +71,8 @@ internal sealed class Command : ICommandContext
             tool = resolvedTool;
         }
 
-        var command = CliCommandFactory.Create(tool, parsedArgs, execOpts);
+        var preparedCommand = CliCommandFactory.Create(tool, parsedArgs, execOpts);
+        var command = preparedCommand.Command;
 
         if (execOpts.WorkingDirectory != null)
         {
@@ -85,7 +86,11 @@ internal sealed class Command : ICommandContext
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var commandMetadata = new CommandResult(command);
+        var obfuscatedCommandInput = _secretObfuscator.Obfuscate(preparedCommand.Input, execOpts);
+        var commandMetadata = new CommandResult(
+            command,
+            obfuscatedCommandInput,
+            GetPublicEnvironmentVariables(command, execOpts));
         var invocation = new CommandInvocation(
             new CommandLine(tool, parsedArgs),
             options,
@@ -105,6 +110,7 @@ internal sealed class Command : ICommandContext
             var intercepted = await TryInterceptAsync(
                     invocation,
                     command,
+                    obfuscatedCommandInput,
                     options,
                     execOpts,
                     linkedCancellationToken.Token)
@@ -116,11 +122,12 @@ internal sealed class Command : ICommandContext
 
             if (execOpts.InternalDryRun)
             {
-                return ExecuteDryRun(command, options, execOpts);
+                return ExecuteDryRun(command, preparedCommand.Input, options, execOpts);
             }
 
             return await Of(
                     command,
+                    preparedCommand.Input,
                     options,
                     execOpts,
                     linkedCancellationToken.Token,
@@ -139,6 +146,7 @@ internal sealed class Command : ICommandContext
     private async Task<CommandResult?> TryInterceptAsync(
         CommandInvocation invocation,
         CliWrap.Command command,
+        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions,
         CancellationToken cancellationToken)
@@ -154,7 +162,11 @@ internal sealed class Command : ICommandContext
                 continue;
             }
 
-            var result = ApplyCommandMetadata(intercepted, command);
+            var result = ApplyCommandMetadata(
+                intercepted,
+                command,
+                commandInput,
+                executionOptions);
             LogInterceptedCommand(options, executionOptions, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
@@ -178,26 +190,36 @@ internal sealed class Command : ICommandContext
 
     private CommandResult ExecuteDryRun(
         CliWrap.Command command,
+        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions executionOptions)
     {
-        var commandText = command.ToString();
         _commandLogger.Log(
             options: options,
             execOpts: executionOptions,
-            inputToLog: executionOptions.InputLoggingManipulator?.Invoke(commandText) ?? commandText,
+            inputToLog: GetInputToLog(commandInput, executionOptions),
             exitCode: 0,
             runTime: TimeSpan.Zero,
             standardOutput: "Dummy Output Response",
             standardError: "Dummy Error Response",
             commandWorkingDirPath: command.WorkingDirPath);
 
-        return new CommandResult(command);
+        return new CommandResult(
+            command,
+            _secretObfuscator.Obfuscate(commandInput, executionOptions),
+            GetPublicEnvironmentVariables(command, executionOptions));
     }
 
-    private static CommandResult ApplyCommandMetadata(CommandResult result, CliWrap.Command command)
+    private CommandResult ApplyCommandMetadata(
+        CommandResult result,
+        CliWrap.Command command,
+        string commandInput,
+        CommandExecutionOptions executionOptions)
     {
-        var metadata = new CommandResult(command);
+        var metadata = new CommandResult(
+            command,
+            commandInput,
+            GetPublicEnvironmentVariables(command, executionOptions));
         return result with
         {
             CommandInput = metadata.CommandInput,
@@ -224,6 +246,7 @@ internal sealed class Command : ICommandContext
 
     private async Task<CommandResult> Of(
         CliWrap.Command command,
+        string commandInput,
         CommandLineToolOptions options,
         CommandExecutionOptions execOpts,
         CancellationToken executionCancellationToken,
@@ -244,7 +267,7 @@ internal sealed class Command : ICommandContext
         var standardOutput = string.Empty;
         var standardError = string.Empty;
 
-        var inputToLog = GetInputToLog(command, execOpts);
+        var inputToLog = GetInputToLog(commandInput, execOpts);
         var loggingFailures = new DeferredCommandLoggingFailures();
 
         using var forcefulCancellationToken = new CancellationTokenSource();
@@ -323,7 +346,7 @@ internal sealed class Command : ICommandContext
                     CreateFailureResult(
                         command,
                         execOpts,
-                        inputToLog,
+                        commandInput,
                         e.ExitCode,
                         stopwatch.Elapsed,
                         standardOutput,
@@ -365,7 +388,7 @@ internal sealed class Command : ICommandContext
                     failure,
                     command,
                     execOpts,
-                    inputToLog,
+                    commandInput,
                     stopwatch.Elapsed,
                     standardOutput,
                     standardError,
@@ -377,7 +400,7 @@ internal sealed class Command : ICommandContext
                 command,
                 result,
                 execOpts,
-                inputToLog,
+                commandInput,
                 standardOutput,
                 standardError);
 
@@ -407,7 +430,13 @@ internal sealed class Command : ICommandContext
             }
 
             loggingFailures.Throw();
-            return new CommandResult(command, result, standardOutput, standardError);
+            return new CommandResult(
+                command,
+                result,
+                _secretObfuscator.Obfuscate(commandInput, execOpts),
+                standardOutput,
+                standardError,
+                GetPublicEnvironmentVariables(command, execOpts));
         }
     }
 
@@ -472,23 +501,30 @@ internal sealed class Command : ICommandContext
     {
         var completedAt = endTime ?? DateTimeOffset.UtcNow;
         var startedAt = startTime ?? completedAt - duration;
-        var environmentVariables = command.EnvironmentVariables
-            .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
-            .ToDictionary(
-                pair => pair.Key,
-                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
-                StringComparer.OrdinalIgnoreCase);
-
         return new CommandResult(
             commandInput: _secretObfuscator.Obfuscate(input, execOpts),
             workingDirectory: command.WorkingDirPath,
             standardOutput: _secretObfuscator.Obfuscate(standardOutput, execOpts),
             standardError: _secretObfuscator.Obfuscate(standardError, execOpts),
-            environmentVariables: environmentVariables,
+            environmentVariables: GetPublicEnvironmentVariables(command, execOpts),
             startTime: startedAt,
             endTime: completedAt,
             duration: duration,
             exitCode: exitCode);
+    }
+
+    private Dictionary<string, string?> GetPublicEnvironmentVariables(
+        CliWrap.Command command,
+        CommandExecutionOptions execOpts)
+    {
+        return command.EnvironmentVariables
+            .Where(pair => !CliCommandFactory.IsInternalEnvironmentVariable(pair.Key))
+            .ToDictionary(
+                pair => pair.Key,
+                pair => pair.Value is null ? null : _secretObfuscator.Obfuscate(pair.Value, execOpts),
+                OperatingSystem.IsWindows()
+                    ? StringComparer.OrdinalIgnoreCase
+                    : StringComparer.Ordinal);
     }
 
     private CommandException? CreateCommandFailure(
@@ -520,12 +556,11 @@ internal sealed class Command : ICommandContext
             : new BoundedCommandOutputBuffer(maximumLength: 0);
     }
 
-    private static string GetInputToLog(CliWrap.Command command, CommandExecutionOptions options)
+    private static string GetInputToLog(string commandInput, CommandExecutionOptions options)
     {
-        var commandText = command.ToString();
         return options.InputLoggingManipulator is null
-            ? commandText
-            : options.InputLoggingManipulator(commandText);
+            ? commandInput
+            : options.InputLoggingManipulator(commandInput);
     }
 
     private static CancellationTokenSource? CreateTimeoutCancellationToken(CommandExecutionOptions options)

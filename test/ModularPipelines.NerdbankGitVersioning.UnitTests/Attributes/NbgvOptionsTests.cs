@@ -1,13 +1,10 @@
-using ModularPipelines.Helpers.Internal;
 using ModularPipelines.NerdbankGitVersioning.Options;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.NerdbankGitVersioning.UnitTests.Attributes;
 
 public class NbgvOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task GetVersion_Renders_Commit_And_Explicit_Boolean()
     {
@@ -65,11 +62,5 @@ public class NbgvOptionsTests
             "--versionIncrement", "minor",
             "--what-if",
         ]);
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

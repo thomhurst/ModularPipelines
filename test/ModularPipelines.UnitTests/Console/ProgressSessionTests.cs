@@ -86,10 +86,16 @@ public class ProgressSessionTests
         nonSpectreLoggerFactory
             .Setup(factory => factory.CreateLoggers(It.IsAny<string>()))
             .Returns([]);
-        var spectreLoggerFilter = new Mock<ISpectreLoggerFilter>();
-        spectreLoggerFilter
-            .Setup(filter => filter.IsEnabled(It.IsAny<string>(), It.IsAny<LogLevel>()))
+        var loggerControl = new Mock<ISpectreConsoleLoggerControl>();
+        loggerControl.SetupGet(control => control.SynchronizationLock).Returns(new object());
+        loggerControl
+            .Setup(control => control.WouldRender(It.IsAny<string>(), It.IsAny<LogLevel>()))
             .Returns(true);
+        loggerControl
+            .Setup(control => control.TryAcquireRenderGateAsync(
+                It.IsAny<TimeSpan>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(new ValueTask<IDisposable?>(Mock.Of<IDisposable>()));
 
         return new ConsoleCoordinator(
             Mock.Of<IBuildSystemFormatterProvider>(),
@@ -101,9 +107,8 @@ public class ProgressSessionTests
             Mock.Of<IBuildSystemDetector>(),
             Mock.Of<IServiceProvider>(),
             outputCoordinator,
-            Mock.Of<ISpectreConsoleLoggerControl>(),
+            loggerControl.Object,
             nonSpectreLoggerFactory.Object,
-            spectreLoggerFilter.Object,
             console ?? DelegatingAnsiConsole.Instance);
     }
 

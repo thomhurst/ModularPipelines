@@ -23,7 +23,7 @@ namespace ModularPipelines.Engine.Executors;
 internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
 {
     private readonly IModuleResultRegistry _resultRegistry;
-    private readonly IModuleResultRepository _resultRepository;
+    private readonly IModuleResultHistoryProvider _resultHistoryProvider;
     private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
@@ -33,7 +33,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
 
     public IgnoredModuleResultRegistrar(
         IModuleResultRegistry resultRegistry,
-        IModuleResultRepository resultRepository,
+        IModuleResultHistoryProvider resultHistoryProvider,
         IPipelineContextProvider pipelineContextProvider,
         IModuleDependencyRegistry dependencyRegistry,
         IModuleMetadataRegistry metadataRegistry,
@@ -42,7 +42,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         ILogger<IgnoredModuleResultRegistrar> logger)
     {
         _resultRegistry = resultRegistry;
-        _resultRepository = resultRepository;
+        _resultHistoryProvider = resultHistoryProvider;
         _pipelineContextProvider = pipelineContextProvider;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
@@ -101,22 +101,18 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         var moduleType = module.GetType();
         var resultType = module.ResultType;
 
-        // For ignored modules, always check for historical data if a repository is configured
-        if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
+        var historicalResult = await _resultHistoryProvider
+            .TryGetAsync(module, pipelineContext)
+            .ConfigureAwait(false);
+        if (historicalResult != null)
         {
-            var historicalResult = await TryGetHistoricalResultAsync(module, resultType, pipelineContext).ConfigureAwait(false);
-            if (historicalResult != null)
-            {
-                // Update the status to UsedHistory using the factory method
-                var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);
-                _logger.LogDebug("Using historical result for ignored module {ModuleName}",
-                    moduleType.Name);
-                _resultRegistry.RegisterResult(moduleType, usedHistoryResult);
+            var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);
+            _logger.LogDebug("Using historical result for ignored module {ModuleName}",
+                moduleType.Name);
+            _resultRegistry.RegisterResult(moduleType, usedHistoryResult);
 
-                // Set the completion source so awaiting the module returns immediately
-                SetModuleCompletionSource(module, resultType, usedHistoryResult);
-                return;
-            }
+            SetModuleCompletionSource(module, resultType, usedHistoryResult);
+            return;
         }
 
         _logger.LogDebug("Registering skipped result for ignored module {ModuleName}",
@@ -157,27 +153,6 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     {
         var setter = CompletionSourceSetterCache.GetOrCreate(resultType);
         setter(module, result);
-    }
-
-    /// <summary>
-    /// Attempts to get a historical result for a module using compiled delegates to call the generic GetResultAsync method.
-    /// </summary>
-    private async Task<IModuleResult?> TryGetHistoricalResultAsync(
-        IModule module,
-        Type resultType,
-        IPipelineContext pipelineContext)
-    {
-        try
-        {
-            // Use compiled delegate instead of MakeGenericMethod + Invoke + GetProperty("Result")
-            var getResultDelegate = ResultRepositoryDelegateFactory.GetResultDelegateFor(resultType);
-            return await getResultDelegate(_resultRepository, module, pipelineContext).ConfigureAwait(false);
-        }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
-        {
-            _logger.LogWarning(ex, "Failed to get historical result for module {ModuleName}", module.GetType().Name);
-            return null;
-        }
     }
 }
 

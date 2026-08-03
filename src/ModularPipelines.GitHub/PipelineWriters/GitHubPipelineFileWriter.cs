@@ -31,7 +31,7 @@ public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
                         new
                         {
                             Name = "Checkout",
-                            Uses = "actions/checkout@v3",
+                            Uses = GitHubActionVersions.Checkout,
                             With = new
                             {
                                 FetchDepth = 0,
@@ -41,20 +41,20 @@ public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
                         new
                         {
                             Name = "Setup .NET SDK",
-                            Uses = "actions/setup-dotnet@v3",
+                            Uses = GitHubActionVersions.SetupDotNet,
                             With = new
                             {
-                              DotnetVersion = "8.0.x",
+                              DotnetVersion = options.DotNetVersion,
                             },
                         },
                         !options.CacheNuGet ? null : new
                         {
                             Name = "Cache NuGet",
-                            Uses = "actions/cache@v3",
+                            Uses = GitHubActionVersions.Cache,
                             With = new
                             {
-                                path= "~/.nuget/packages",
-                                key= "${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}",
+                                Path = "~/.nuget/packages",
+                                Key = "${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}",
                                 RestoreKeys = "${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}",
                             },
                         },
@@ -62,7 +62,7 @@ public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
                         {
                             Name = "Run Pipeline",
                             Run =
-                                $"dotnet run -c Release {(!string.IsNullOrWhiteSpace(options.DotNetRunFramework) ? $"--framework {options.DotNetRunFramework} " : string.Empty)}{options.PipelineProjectPath}",
+                                $"dotnet run --project {options.PipelineProjectPath.OriginalPath} -c Release{(!string.IsNullOrWhiteSpace(options.DotNetRunFramework) ? $" --framework {options.DotNetRunFramework}" : string.Empty)}",
                             Env = options.EnvironmentVariables,
                         },
                     }.Where(x => x != null),

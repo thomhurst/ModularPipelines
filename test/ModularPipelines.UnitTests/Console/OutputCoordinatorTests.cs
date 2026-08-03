@@ -500,6 +500,11 @@ public class OutputCoordinatorTests
         var serviceProvider = new Mock<IServiceProvider>();
         var loggerControl = new Mock<ISpectreConsoleLoggerControl>();
         loggerControl.SetupGet(x => x.SynchronizationLock).Returns(new object());
+        loggerControl
+            .Setup(x => x.TryAcquireRenderGateAsync(
+                It.IsAny<TimeSpan>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(new ValueTask<IDisposable?>(Mock.Of<IDisposable>()));
         if (nonSpectreLoggerFactory is null)
         {
             var nonSpectreLoggerFactoryMock = new Mock<INonSpectreLoggerFactory>();
