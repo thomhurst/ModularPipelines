@@ -105,6 +105,20 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Accepts_Terminal_Option_When_Option_Value_Is_DoubleDash()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Argument = new CliValuePair("name", "--"),
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --arg name -- --run-tests tests.jq");
+    }
+
+    [Test]
     public async Task Build_Empty_RunSettings_Emit_No_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -298,6 +312,9 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("jq")]
     private record TestTerminalOptions : CommandLineToolOptions
     {
+        [CliOption("--arg")]
+        public CliValuePair? Argument { get; set; }
+
         [CliArgument(0, PrependOptionTerminator = true)]
         public string? Filter { get; set; }
 

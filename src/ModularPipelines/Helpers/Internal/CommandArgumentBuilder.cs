@@ -13,18 +13,30 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     /// <inheritdoc/>
     public IReadOnlyList<string> BuildArguments(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
-        object optionsObject)
+        object optionsObject) => BuildArguments(commandModel, optionsObject, out _);
+
+    /// <inheritdoc/>
+    public IReadOnlyList<string> BuildArguments(
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        object optionsObject,
+        out bool emittedOptionTerminator)
     {
         var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
-        var renderedPhases = Enum.GetValues<CommandLinePhase>()
-            .ToDictionary(
-                phase => phase,
-                phase => RenderPhase(
+        var renderedPhases = new Dictionary<CommandLinePhase, IReadOnlyList<string>>();
+        emittedOptionTerminator = false;
+
+        foreach (var phase in Enum.GetValues<CommandLinePhase>())
+        {
+            renderedPhases.Add(
+                phase,
+                RenderPhase(
                     phase,
                     flagsAndOptions,
                     arguments,
-                    optionsObject));
+                    optionsObject,
+                    ref emittedOptionTerminator));
+        }
 
         return renderedPhases
             .OrderBy(pair => GetRenderOrder(pair.Key))
@@ -45,7 +57,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         CommandLinePhase phase,
         IEnumerable<PropertyCommandLinePart> flagsAndOptions,
         IEnumerable<ArgumentPart> arguments,
-        object optionsObject)
+        object optionsObject,
+        ref bool emittedOptionTerminator)
     {
         var rendered = new List<string>();
         var phaseOptions = flagsAndOptions.Where(part => part.Phase == phase);
@@ -55,13 +68,13 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         if (phase == CommandLinePhase.Terminal)
         {
-            AddArguments(rendered, phaseArguments, optionsObject);
+            AddArguments(rendered, phaseArguments, optionsObject, ref emittedOptionTerminator);
             AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
         }
         else
         {
             AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
-            AddArguments(rendered, phaseArguments, optionsObject);
+            AddArguments(rendered, phaseArguments, optionsObject, ref emittedOptionTerminator);
         }
 
         return rendered;
@@ -70,7 +83,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static void AddArguments(
         List<string> args,
         IEnumerable<ArgumentPart>? argumentParts,
-        object optionsObject)
+        object optionsObject,
+        ref bool emittedOptionTerminator)
     {
         if (argumentParts is null)
         {
@@ -93,9 +107,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             }
 
             var values = GetValues(rawValue);
-            if (argumentPart.Attribute.PrependOptionTerminator && values.Count > 0)
+            if (argumentPart.Attribute.PrependOptionTerminator
+                && values.Count > 0
+                && !emittedOptionTerminator)
             {
                 args.Add("--");
+                emittedOptionTerminator = true;
             }
 
             args.AddRange(values);

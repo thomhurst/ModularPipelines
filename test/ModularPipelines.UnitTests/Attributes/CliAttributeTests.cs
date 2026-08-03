@@ -126,7 +126,18 @@ public class CliAttributeTests
         var attribute = new CliArgumentAttribute(0);
 
         await Assert.That(attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
-        await Assert.That((int)attribute.Phase).IsEqualTo(3);
+    }
+
+    [Test]
+    public async Task CommandLinePhase_Preserves_Published_Ordinals()
+    {
+        var ordinals = Enum.GetValues<CommandLinePhase>()
+            .ToDictionary(phase => phase, phase => (int)phase);
+
+        await Assert.That(ordinals[CommandLinePhase.EarlyOperand]).IsEqualTo(0);
+        await Assert.That(ordinals[CommandLinePhase.Normal]).IsEqualTo(1);
+        await Assert.That(ordinals[CommandLinePhase.Passthrough]).IsEqualTo(3);
+        await Assert.That(ordinals[CommandLinePhase.Terminal]).IsEqualTo(4);
     }
 
     [Test]

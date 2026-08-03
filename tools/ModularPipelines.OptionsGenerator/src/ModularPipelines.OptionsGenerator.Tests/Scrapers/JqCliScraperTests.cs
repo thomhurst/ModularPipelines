@@ -77,6 +77,7 @@ public class JqCliScraperTests
         await Assert.That(command.PositionalArguments[0].PrependOptionTerminator).IsTrue();
         await Assert.That(command.PositionalArguments[1].PropertyName).IsEqualTo("InputFiles");
         await Assert.That(command.PositionalArguments[1].Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(command.PositionalArguments[1].PrependOptionTerminator).IsTrue();
     }
 
     [Test]

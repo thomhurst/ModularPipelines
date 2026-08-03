@@ -12,4 +12,16 @@ public interface ICommandArgumentBuilder
     /// <param name="optionsObject">The options object instance containing the values.</param>
     /// <returns>A list of string arguments ready to be passed to a CLI tool.</returns>
     IReadOnlyList<string> BuildArguments(IReadOnlyList<PropertyCommandLinePart> commandModel, object optionsObject);
+
+    /// <summary>
+    /// Builds the arguments and reports whether the renderer emitted an option terminator.
+    /// </summary>
+    /// <param name="commandModel">The structured command model for the options type.</param>
+    /// <param name="optionsObject">The options object instance containing the values.</param>
+    /// <param name="emittedOptionTerminator">Whether a marked positional emitted <c>--</c>.</param>
+    /// <returns>A list of string arguments ready to be passed to a CLI tool.</returns>
+    IReadOnlyList<string> BuildArguments(
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        object optionsObject,
+        out bool emittedOptionTerminator);
 }

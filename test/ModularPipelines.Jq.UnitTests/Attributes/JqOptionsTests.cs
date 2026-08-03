@@ -54,8 +54,23 @@ public class JqOptionsTests : TestBase
             "--from-file", "filter.jq",
             "--slurpfile", "documents", "documents.json",
             "--rawfile", "template", "template.txt",
+            "--",
             "input.json",
         ]);
+    }
+
+    [Test]
+    public async Task Renders_One_Terminator_Before_Filter_And_InputFiles()
+    {
+        var arguments = BuildArguments(new JqExecuteOptions
+        {
+            Filter = ".",
+            InputFiles = ["-input.json"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--", ".", "-input.json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]

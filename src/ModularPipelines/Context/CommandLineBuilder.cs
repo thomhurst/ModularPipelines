@@ -77,10 +77,22 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
             .ToList();
         var globalCommandModel = nonTerminalCommandModel.Where(part => part.IsGlobalOption).ToList();
         var commandSpecificModel = nonTerminalCommandModel.Where(part => !part.IsGlobalOption).ToList();
-        var globalArgs = _commandArgumentBuilder.BuildArguments(globalCommandModel, options);
-        var propertyArgs = _commandArgumentBuilder.BuildArguments(commandSpecificModel, options);
-        var terminalArgs = _commandArgumentBuilder.BuildArguments(terminalCommandModel, options);
-        var runSettingsArgs = _commandArgumentBuilder.BuildArguments(RunSettingsCommandModel, options);
+        var globalArgs = _commandArgumentBuilder.BuildArguments(
+            globalCommandModel,
+            options,
+            out var globalEmittedTerminator);
+        var propertyArgs = _commandArgumentBuilder.BuildArguments(
+            commandSpecificModel,
+            options,
+            out var propertyEmittedTerminator);
+        var terminalArgs = _commandArgumentBuilder.BuildArguments(
+            terminalCommandModel,
+            options,
+            out var terminalEmittedTerminator);
+        var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
+            RunSettingsCommandModel,
+            options,
+            out var runSettingsEmittedTerminator);
 
         // 4. Combine: global args + preceding args (subcommands) + property args
         var allArgs = new List<string>(globalArgs);
@@ -96,16 +108,24 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         }
 
         allArgs.AddRange(manualArgs);
+
+        // 6. Render RunSettings as option-terminated pass-through arguments.
         allArgs.AddRange(runSettingsArgs);
 
-        // 6. A terminal option must not follow any rendered or manually supplied option terminator.
-        if (terminalArgs.Count > 0 && allArgs.Contains("--", StringComparer.Ordinal))
+        // 7. A terminal option must not follow any rendered or manually supplied option terminator.
+        var emittedOptionTerminator = globalEmittedTerminator
+                                      || propertyEmittedTerminator
+                                      || terminalEmittedTerminator
+                                      || runSettingsEmittedTerminator
+                                      || manualArgs.Contains("--", StringComparer.Ordinal);
+        if (terminalArgs.Count > 0 && emittedOptionTerminator)
         {
             throw new InvalidOperationException(
-                "Terminal options cannot be combined with an end-of-options marker.");
+                "Terminal options cannot be combined with arguments that emit or supply an "
+                + "end-of-options marker. Remove either the terminal option or the '--' source.");
         }
 
-        // 7. Terminal options must follow every positional argument source.
+        // Terminal options must follow every positional argument source.
         allArgs.AddRange(terminalArgs);
 
         return new CommandLine(tool, allArgs);

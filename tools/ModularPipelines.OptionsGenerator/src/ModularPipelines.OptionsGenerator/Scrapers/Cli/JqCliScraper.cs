@@ -145,7 +145,8 @@ public partial class JqCliScraper : CliScraperBase
                     IsRequired = false,
                     PositionIndex = 1,
                     Description = "Input JSON files or values (reads from stdin if not specified)",
-                    Phase = CommandLinePhase.Passthrough
+                    Phase = CommandLinePhase.Passthrough,
+                    PrependOptionTerminator = true
                 }
             ],
             SubDomainGroup = null,
