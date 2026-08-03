@@ -636,6 +636,46 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task OptionsClassGenerator_Renames_Global_Compatibility_Targets()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyArguments",
+                    CSharpType = "IEnumerable<string>?",
+                    ForwardToPropertyName = "Arguments",
+                    ObsoleteMessage = "Use Arguments instead.",
+                },
+            ],
+        };
+        var tool = Tool(command) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool))
+            .Single(file => file.Content.Contains("record ToolRunOptions", StringComparison.Ordinal))
+            .Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("get => CliArguments;");
+            await Assert.That(generated).Contains("set => CliArguments = value;");
+        }
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Marks_Secret_Positional_Arguments()
     {
         var command = Command("ToolAuthOptions", "ToolOptions", ["auth"]) with

@@ -22,16 +22,31 @@ internal static class InheritedPropertyCollisionResolver
             .Concat(tool.SupplementalGlobalOptions)
             .Select(option => option.PropertyName)
             .ToHashSet(StringComparer.Ordinal);
+        var globalRenamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
+        var globalOptions = ResolveOptions(
+            tool.GlobalOptions,
+            [],
+            globalNames,
+            globalRenamedProperties);
+        var supplementalGlobalOptions = ResolveOptions(
+            tool.SupplementalGlobalOptions,
+            [],
+            globalNames,
+            globalRenamedProperties);
 
         return tool with
         {
-            Commands = tool.Commands.Select(ResolveCommand).ToArray(),
-            GlobalOptions = ResolveOptions(tool.GlobalOptions, [], globalNames, null),
-            SupplementalGlobalOptions = ResolveOptions(tool.SupplementalGlobalOptions, [], globalNames, null),
+            Commands = tool.Commands
+                .Select(command => ResolveCommand(command, globalRenamedProperties))
+                .ToArray(),
+            GlobalOptions = globalOptions,
+            SupplementalGlobalOptions = supplementalGlobalOptions,
         };
     }
 
-    private static CliCommandDefinition ResolveCommand(CliCommandDefinition command)
+    private static CliCommandDefinition ResolveCommand(
+        CliCommandDefinition command,
+        IReadOnlyDictionary<string, string> globalRenamedProperties)
     {
         var occupiedNames = command.Options
             .Select(option => option.PropertyName)
@@ -61,17 +76,35 @@ internal static class InheritedPropertyCollisionResolver
             PositionalArguments = positionalArguments,
             CompatibilityProperties = command.CompatibilityProperties
                 .Select(property => property.ForwardToPropertyName is { } target
-                    && renamedProperties.TryGetValue(target, out var renamedTarget)
+                    && TryGetRename(
+                        target,
+                        renamedProperties,
+                        globalRenamedProperties,
+                        out var renamedTarget)
                         ? property with { ForwardToPropertyName = renamedTarget }
                         : property)
                 .ToArray(),
             DocumentationExampleValues = command.DocumentationExampleValues
                 .ToDictionary(
-                    pair => renamedProperties.GetValueOrDefault(pair.Key, pair.Key),
+                    pair => TryGetRename(
+                        pair.Key,
+                        renamedProperties,
+                        globalRenamedProperties,
+                        out var renamedProperty)
+                            ? renamedProperty
+                            : pair.Key,
                     pair => pair.Value,
                     StringComparer.Ordinal),
         };
     }
+
+    private static bool TryGetRename(
+        string propertyName,
+        IReadOnlyDictionary<string, string> commandRenames,
+        IReadOnlyDictionary<string, string> globalRenames,
+        out string renamedProperty) =>
+        commandRenames.TryGetValue(propertyName, out renamedProperty!)
+        || globalRenames.TryGetValue(propertyName, out renamedProperty!);
 
     private static IReadOnlyList<CliOptionDefinition> ResolveOptions(
         IReadOnlyList<CliOptionDefinition> options,
