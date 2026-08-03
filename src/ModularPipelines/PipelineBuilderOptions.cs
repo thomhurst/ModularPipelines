@@ -3,31 +3,31 @@ namespace ModularPipelines;
 /// <summary>
 /// Options for configuring the pipeline builder.
 /// </summary>
-public class PipelineBuilderOptions
+public sealed record PipelineBuilderOptions
 {
     /// <summary>
-    /// Gets or sets the command line arguments.
+    /// Gets the command line arguments.
     /// </summary>
-    public IReadOnlyList<string>? Args { get; set; }
+    public IReadOnlyList<string>? Args { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether ModularPipelines should consume its first-class
+    /// Gets a value indicating whether ModularPipelines should consume its first-class
     /// command-line options. Disable this to forward every argument directly to host configuration.
     /// </summary>
-    public bool EnableCommandLineOptions { get; set; } = true;
+    public bool EnableCommandLineOptions { get; init; } = true;
 
     /// <summary>
-    /// Gets or sets the application name.
+    /// Gets the application name.
     /// </summary>
-    public string? ApplicationName { get; set; }
+    public string? ApplicationName { get; init; }
 
     /// <summary>
-    /// Gets or sets the environment name.
+    /// Gets the environment name.
     /// </summary>
-    public string? EnvironmentName { get; set; }
+    public string? EnvironmentName { get; init; }
 
     /// <summary>
-    /// Gets or sets the content root path.
+    /// Gets the content root path.
     /// </summary>
-    public string? ContentRootPath { get; set; }
+    public string? ContentRootPath { get; init; }
 }

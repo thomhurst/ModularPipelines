@@ -38,5 +38,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: Production
-          Pipeline__RunCategories: VersionTag
+          Pipeline__RunOnlyCategories: VersionTag
           GitHub__StandardToken: ${{ github.token }}

@@ -21,6 +21,7 @@ public class PipelineOptionsTests
     }
 
     [Test]
+    [Arguments(typeof(PipelineBuilderOptions))]
     [Arguments(typeof(PipelineOptions))]
     [Arguments(typeof(ConcurrencyOptions))]
     [Arguments(typeof(HttpLoggingOptions))]
@@ -36,6 +37,38 @@ public class PipelineOptionsTests
             .Select(property => property.Name);
 
         await Assert.That(mutableProperties).IsEmpty();
+    }
+
+    [Test]
+    public async Task PipelineBuilderOptions_IsASealedRecord()
+    {
+        var original = new PipelineBuilderOptions { ApplicationName = "original" };
+        var updated = original with { ApplicationName = "updated" };
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(typeof(PipelineBuilderOptions).IsSealed).IsTrue();
+            await Assert.That(original.ApplicationName).IsEqualTo("original");
+            await Assert.That(updated.ApplicationName).IsEqualTo("updated");
+        }
+    }
+
+    [Test]
+    public async Task CategoryBuilderMethodsReplaceEarlierFilters()
+    {
+        using var builder = Pipeline.CreateBuilder();
+
+        builder.RunOnlyCategories("first");
+        builder.RunOnlyCategories("second");
+        builder.IgnoreCategories("ignored-first");
+        builder.IgnoreCategories("ignored-second");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(builder.Options.RunOnlyCategories).IsEquivalentTo(["second"]);
+            await Assert.That(builder.Options.IgnoreCategories).IsEquivalentTo(["ignored-second"]);
+            await Assert.That(typeof(PipelineBuilder).GetMethod("RunCategories")).IsNull();
+        }
     }
 
     [Test]
