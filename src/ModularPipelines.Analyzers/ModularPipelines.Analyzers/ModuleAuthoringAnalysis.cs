@@ -376,7 +376,8 @@ internal static class ModuleAuthoringAnalysis
     {
         var invocation = (IInvocationOperation) context.Operation;
 
-        if (GetModuleExecutionMethod(context) is null)
+        if (GetModuleExecutionMethod(context) is null
+            || !IsInReachableBranch(invocation))
         {
             return;
         }
@@ -407,6 +408,7 @@ internal static class ModuleAuthoringAnalysis
     {
         var propertyReference = (IPropertyReferenceOperation) context.Operation;
         if (GetModuleExecutionMethod(context) is null
+            || !IsInReachableBranch(propertyReference)
             || propertyReference.Property.Name != "Result"
             || !IsBlockingResultType(
                 propertyReference.Property.ContainingType,
@@ -434,6 +436,7 @@ internal static class ModuleAuthoringAnalysis
     private static void AnalyzeAwait(OperationAnalysisContext context)
     {
         if (GetModuleExecutionMethod(context) is not { } executionMethod
+            || !IsInReachableBranch(context.Operation)
             || context.Operation is not IAwaitOperation awaitOperation)
         {
             return;
@@ -448,6 +451,7 @@ internal static class ModuleAuthoringAnalysis
     private static void AnalyzeForEachLoop(OperationAnalysisContext context)
     {
         if (GetModuleExecutionMethod(context) is not { } executionMethod
+            || !IsInReachableBranch(context.Operation)
             || context.Operation is not IForEachLoopOperation { IsAsynchronous: true } loop)
         {
             return;
@@ -462,6 +466,7 @@ internal static class ModuleAuthoringAnalysis
     private static void AnalyzeReturn(OperationAnalysisContext context)
     {
         if (context.ContainingSymbol is not IMethodSymbol method
+            || !IsInReachableBranch(context.Operation)
             || method.MethodKind is not (MethodKind.Ordinary or MethodKind.PropertyGet)
             || method.IsAsync
             || GetModuleExecutionMethod(context) is not { } executionMethod
@@ -1658,64 +1663,75 @@ internal static class ModuleAuthoringAnalysis
                 [with(SymbolEqualityComparer.Default)]));
     }
 
-    private static bool TryGetTypeOfNamedType(
-        IOperation operation,
-        HashSet<ILocalSymbol> visitedLocals,
-        out INamedTypeSymbol namedType)
-    {
-        switch (operation)
-        {
-            case IConversionOperation conversion:
-                return TryGetTypeOfNamedType(
-                    conversion.Operand,
-                    visitedLocals,
-                    out namedType);
-            case ITypeOfOperation { TypeOperand: INamedTypeSymbol typeOperand }:
-                namedType = typeOperand;
-                return true;
-            case ILocalReferenceOperation localReference
-                when visitedLocals.Add(localReference.Local)
-                     && FindReachingLocalValue(operation, localReference.Local) is { } localValue:
-                return TryGetTypeOfNamedType(
-                    localValue,
-                    visitedLocals,
-                    out namedType);
-            default:
-                namedType = null!;
-                return false;
-        }
-    }
-
     private static bool TryGetTypeOfNamedTypes(
         IOperation operation,
         out ImmutableArray<INamedTypeSymbol> namedTypes)
     {
-        var values = operation is ILocalReferenceOperation localReference
-            ? FindReachingLocalValues(operation, localReference.Local).ToArray()
-            : [operation];
-        if (values.Length == 0)
+        var types = ImmutableArray.CreateBuilder<INamedTypeSymbol>();
+        if (!TryCollectTypeOfNamedTypes(
+                operation,
+                types,
+                [with(SymbolEqualityComparer.Default)]))
         {
             namedTypes = [];
             return false;
         }
 
-        var types = ImmutableArray.CreateBuilder<INamedTypeSymbol>(values.Length);
-        foreach (var value in values)
-        {
-            if (!TryGetTypeOfNamedType(
-                    value,
-                    [with(SymbolEqualityComparer.Default)],
-                    out var namedType))
-            {
-                namedTypes = [];
-                return false;
-            }
-
-            types.Add(namedType);
-        }
-
         namedTypes = types.ToImmutable();
-        return true;
+        return namedTypes.Length > 0;
+    }
+
+    private static bool TryCollectTypeOfNamedTypes(
+        IOperation operation,
+        ImmutableArray<INamedTypeSymbol>.Builder types,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        switch (operation)
+        {
+            case IConversionOperation conversion:
+                return TryCollectTypeOfNamedTypes(
+                    conversion.Operand,
+                    types,
+                    visitedLocals);
+            case ITypeOfOperation { TypeOperand: INamedTypeSymbol typeOperand }:
+                types.Add(typeOperand);
+                return true;
+            case ILocalReferenceOperation localReference
+                when visitedLocals.Add(localReference.Local):
+                var values = FindReachingLocalValues(
+                        operation,
+                        localReference.Local)
+                    .ToArray();
+                return values.Length > 0
+                       && values.All(value => TryCollectTypeOfNamedTypes(
+                           value,
+                           types,
+                           CloneVisitedLocals(visitedLocals)));
+            case IConditionalOperation conditional:
+                ImmutableArray<IOperation> branches;
+                if (conditional.Condition.ConstantValue is
+                    { HasValue: true, Value: bool condition })
+                {
+                    branches = condition
+                        ? [conditional.WhenTrue]
+                        : conditional.WhenFalse is { } falseBranch
+                            ? [falseBranch]
+                            : [];
+                }
+                else
+                {
+                    branches = conditional.WhenFalse is { } alternative
+                        ? [conditional.WhenTrue, alternative]
+                        : [conditional.WhenTrue];
+                }
+
+                return branches.All(branch => TryCollectTypeOfNamedTypes(
+                    branch,
+                    types,
+                    CloneVisitedLocals(visitedLocals)));
+            default:
+                return false;
+        }
     }
 
     private static void TrackGenericModuleRegistrations(
@@ -4495,9 +4511,12 @@ internal static class ModuleAuthoringAnalysis
                 }
 
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                var assignments = syntaxReference.GetSyntax()
+                var operations = syntaxReference.GetSyntax()
                     .DescendantNodesAndSelf()
                     .Select(syntax => semanticModel.GetOperation(syntax))
+                    .OfType<IOperation>()
+                    .ToArray();
+                var assignments = operations
                     .OfType<ISimpleAssignmentOperation>()
                     .Where(IsInReachableBranch)
                     .Where(static assignment => GetEnclosingCallable(assignment) is null)
@@ -4510,18 +4529,70 @@ internal static class ModuleAuthoringAnalysis
                     ReferenceEquals(
                         GetContainingBlock(assignment),
                         GetOutermostContainingBlock(assignment)));
-                if (linearAssignment is not null)
+                var branchingOperation = operations
+                    .OfType<IConditionalOperation>()
+                    .Where(IsInReachableBranch)
+                    .Where(static conditional =>
+                        GetEnclosingCallable(conditional) is null)
+                    .Where(conditional => ReferenceEquals(
+                        GetContainingBlock(conditional),
+                        GetOutermostContainingBlock(conditional)))
+                    .Where(conditional =>
+                        conditional.WhenFalse is not null
+                        && DefinitelyAssignsMember(conditional.WhenTrue, member)
+                        && DefinitelyAssignsMember(conditional.WhenFalse, member))
+                    .OrderByDescending(static conditional =>
+                        conditional.Syntax.SpanStart)
+                    .FirstOrDefault();
+                var lowerBound = Math.Max(
+                    linearAssignment?.Syntax.SpanStart ?? int.MinValue,
+                    branchingOperation?.Syntax.SpanStart ?? int.MinValue);
+
+                if (branchingOperation is not null
+                    && branchingOperation.Syntax.SpanStart == lowerBound)
                 {
-                    yield return linearAssignment.Value;
+                    foreach (var assignment in assignments.Where(assignment =>
+                                 assignment.Syntax.SpanStart
+                                 >= branchingOperation.Syntax.SpanStart))
+                    {
+                        yield return assignment.Value;
+                    }
+
                     continue;
                 }
 
-                foreach (var assignment in assignments)
+                foreach (var assignment in assignments.Where(assignment =>
+                             assignment.Syntax.SpanStart >= lowerBound))
                 {
                     yield return assignment.Value;
                 }
             }
         }
+    }
+
+    private static bool DefinitelyAssignsMember(
+        IOperation operation,
+        ISymbol member)
+    {
+        if (operation is ISimpleAssignmentOperation assignment
+            && SymbolEqualityComparer.Default.Equals(
+                GetReferencedMember(assignment.Target),
+                member))
+        {
+            return true;
+        }
+
+        return operation switch
+        {
+            IBlockOperation block => block.Operations.Any(candidate =>
+                DefinitelyAssignsMember(candidate, member)),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                DefinitelyAssignsMember(conditional.WhenTrue, member)
+                && DefinitelyAssignsMember(whenFalse, member),
+            IExpressionStatementOperation expressionStatement =>
+                DefinitelyAssignsMember(expressionStatement.Operation, member),
+            _ => false,
+        };
     }
 
     private static IBlockOperation? GetOutermostContainingBlock(IOperation operation)

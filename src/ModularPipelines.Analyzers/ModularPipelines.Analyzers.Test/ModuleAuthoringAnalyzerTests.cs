@@ -3225,6 +3225,34 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Async_Safety_In_Constant_False_Branch()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                if (false)
+                {
+                    Thread.Sleep(1);
+                    Task.Delay(1).Wait();
+                    _ = Task.FromResult(1).Result;
+                    await FetchAsync();
+                }
+
+                return null!;
+            }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Cancellation_Overloads_In_Awaited_Switch_Control()
     {
         var source = ModuleSource("""
@@ -5268,6 +5296,51 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Static_Callback_Overwritten_By_Exhaustive_Branch()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Action<IServiceCollection> Callback;
+
+                static Registration()
+                {
+                    Callback = static _ => { };
+                    if (DateTime.UtcNow.Ticks > 0)
+                    {
+                        Callback = RegisterModules;
+                    }
+                    else
+                    {
+                        Callback = RegisterModules;
+                    }
+                }
+
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.ConfigureServices(Callback);
+                }
+
+                private static void RegisterModules(IServiceCollection services) =>
+                    services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_By_Startup_Lambda()
     {
         var source = $$"""
@@ -5428,6 +5501,35 @@ public class ModuleAuthoringAnalyzerTests
                         ServiceDescriptor.Singleton(
                             typeof(IModule),
                             implementationType));
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Conditional_Descriptor_Implementation_Type()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    Pipeline.CreateBuilder().Services.Add(
+                        ServiceDescriptor.Singleton(
+                            typeof(IModule),
+                            flag ? typeof(BuildModule) : typeof(BuildModule)));
                 }
             }
 
