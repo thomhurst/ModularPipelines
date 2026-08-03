@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="../../test/ModularPipelines.Distributed.Redis.UnitTests/ModularPipelines.Distributed.Redis.UnitTests.csproj" />
+  <Project Path="../ModularPipelines/ModularPipelines.csproj" />
+  <Project Path="ModularPipelines.Distributed.Redis.csproj" />
+</Solution>

@@ -7,7 +7,7 @@ internal static class TestProjectPaths
     private static readonly string RepositoryRoot = FindRepositoryRoot();
 
     public static File CoreSolution { get; } = new(
-        Path.Combine(RepositoryRoot, "ModularPipelines.sln"));
+        Path.Combine(RepositoryRoot, "ModularPipelines.slnx"));
 
     public static File TestsForTestsProject { get; } = new(Path.Combine(
         RepositoryRoot,
@@ -19,7 +19,7 @@ internal static class TestProjectPaths
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);
         while (directory is not null
-               && !System.IO.File.Exists(Path.Combine(directory.FullName, "ModularPipelines.sln")))
+               && !System.IO.File.Exists(Path.Combine(directory.FullName, "ModularPipelines.slnx")))
         {
             directory = directory.Parent;
         }

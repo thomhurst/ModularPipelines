@@ -9,7 +9,6 @@ on:
       - '**/*.csproj'
       - '**/*.props'
       - '**/*.targets'
-      - '**/*.sln'
       - '**/*.slnx'
       - 'docs/**/*.js'
       - 'docs/**/*.jsx'
@@ -23,7 +22,6 @@ on:
       - '**/*.csproj'
       - '**/*.props'
       - '**/*.targets'
-      - '**/*.sln'
       - '**/*.slnx'
       - 'docs/**/*.js'
       - 'docs/**/*.jsx'
@@ -82,7 +80,7 @@ jobs:
           build-mode: none
       - name: Restore core solution
         if: matrix.language == 'csharp'
-        run: dotnet restore ModularPipelines.sln
+        run: dotnet restore ModularPipelines.slnx
       - name: Analyze
         uses: github/codeql-action/analyze@d1ba80a13dd99fba24a470575428917156a28b43 # v4.37.5
         with:
