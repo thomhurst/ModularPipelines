@@ -283,7 +283,11 @@ internal class ModuleRunner : IModuleRunner
                 return;
             }
 
-            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration).ConfigureAwait(false);
+            if (executionContext.Status is Enums.Status.Successful or Enums.Status.IgnoredFailure)
+            {
+                await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration).ConfigureAwait(false);
+            }
+
             await _pipelineSetupExecutor.OnModuleEndAsync(moduleState).ConfigureAwait(false);
 
             // Invoke OnModuleEnd lifecycle event

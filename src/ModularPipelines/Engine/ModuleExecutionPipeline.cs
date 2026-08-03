@@ -406,11 +406,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         {
             if (timeout == TimeSpan.Zero)
             {
-                moduleContext.Logger.LogDebug("No module timeout configured. The pipeline default timeout is disabled");
+                moduleContext.Logger.LogTrace("No module timeout configured. The pipeline default timeout is disabled");
             }
             else
             {
-                moduleContext.Logger.LogDebug("No module timeout configured. Using pipeline default timeout {Timeout}", timeout);
+                moduleContext.Logger.LogTrace("No module timeout configured. Using pipeline default timeout {Timeout}", timeout);
             }
         }
 

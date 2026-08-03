@@ -39,6 +39,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task Command_Execution_Caps_Captured_Output_With_Head_And_Tail()
     {
         var command = await GetService<ICommandContext>();
@@ -79,6 +80,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task Has_Not_Errored()
     {
         var moduleResult = await await RunModule<CommandEchoModule>();
@@ -87,6 +89,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
         var moduleResult = await await RunModule<CommandEchoModule>();
@@ -103,6 +106,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task Failed_Command_Exposes_Obfuscated_Result()
     {
         const string secret = "command-result-secret-value";
@@ -140,6 +144,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task Successful_Command_Exposes_Obfuscated_Input()
     {
         const string secret = "successful-command-input-secret";
@@ -163,9 +168,15 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Successful_And_Dry_Run_Commands_Expose_Obfuscated_Environment_Variables(bool dryRun)
+    public Task Dry_Run_Command_Exposes_Obfuscated_Environment_Variables() =>
+        AssertCommandExposesObfuscatedEnvironmentVariables(dryRun: true);
+
+    [Test]
+    [RequiresTool("pwsh")]
+    public Task Successful_Command_Exposes_Obfuscated_Environment_Variables() =>
+        AssertCommandExposesObfuscatedEnvironmentVariables(dryRun: false);
+
+    private async Task AssertCommandExposesObfuscatedEnvironmentVariables(bool dryRun)
     {
         const string secret = "command-result-secret-value";
         var (command, pipeline) = await GetService<ICommandContext>(_ => { });
@@ -198,10 +209,15 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Successful_And_Dry_Run_Commands_Preserve_Unix_Environment_Name_Casing(
-        bool dryRun)
+    public Task Dry_Run_Command_Preserves_Unix_Environment_Name_Casing() =>
+        AssertCommandPreservesUnixEnvironmentNameCasing(dryRun: true);
+
+    [Test]
+    [RequiresTool("pwsh")]
+    public Task Successful_Command_Preserves_Unix_Environment_Name_Casing() =>
+        AssertCommandPreservesUnixEnvironmentNameCasing(dryRun: false);
+
+    private async Task AssertCommandPreservesUnixEnvironmentNameCasing(bool dryRun)
     {
         if (OperatingSystem.IsWindows())
         {
@@ -436,6 +452,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantProcesses()
     {
         var pidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-child-{Guid.NewGuid():N}.pid");
@@ -486,6 +503,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantAfterParentExits()
     {
         var fileSuffix = Guid.NewGuid().ToString("N");
@@ -540,6 +558,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_GracefulExit_DoesNotWaitForForcefulTimeout()
     {
         var parentExitFile = Path.Combine(
@@ -580,6 +599,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ExecutionTimeout_ThrowsTimeoutException()
     {
         var command = await GetService<ICommandContext>();
@@ -600,6 +620,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace()
     {
         var fileSuffix = Guid.NewGuid().ToString("N");

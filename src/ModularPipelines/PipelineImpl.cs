@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
@@ -11,6 +12,7 @@ using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
 using ModularPipelines.Tracing;
 
@@ -71,6 +73,10 @@ internal sealed class PipelineImpl : IPipeline
     }
 
     /// <inheritdoc />
+    public Task<PipelinePlan> PlanAsync(CancellationToken cancellationToken = default) =>
+        Services.GetRequiredService<PipelinePlanner>().CreateAsync(cancellationToken);
+
+    /// <inheritdoc />
     public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
     {
         var pipelineName = Services.GetRequiredService<IHostEnvironment>().ApplicationName;
@@ -84,6 +90,13 @@ internal sealed class PipelineImpl : IPipeline
                     .ConfigureAwait(false) is { } commandResult)
             {
                 summary = commandResult;
+            }
+            else if (Services.GetRequiredService<IOptions<PipelineOptions>>().Value.DryRun)
+            {
+                var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
+                Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
+                var now = DateTimeOffset.UtcNow;
+                summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now);
             }
             else
             {
