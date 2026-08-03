@@ -16,9 +16,10 @@ internal static class GeneratorTestHarness
     public static GeneratorDriverRunResult Run(
         IIncrementalGenerator generator,
         string infrastructure,
-        string source)
+        string source,
+        string assemblyName = "GeneratorTests")
     {
-        var compilation = CreateCompilation(infrastructure, source);
+        var compilation = CreateCompilation(infrastructure, source, assemblyName);
         return Run(generator, compilation);
     }
 
@@ -100,10 +101,13 @@ internal static class GeneratorTestHarness
                    or IncrementalStepRunReason.Unchanged);
     }
 
-    private static CSharpCompilation CreateCompilation(string infrastructure, string source)
+    private static CSharpCompilation CreateCompilation(
+        string infrastructure,
+        string source,
+        string assemblyName = "GeneratorTests")
     {
         var compilation = CSharpCompilation.Create(
-            "GeneratorTests",
+            assemblyName,
             [
                 CSharpSyntaxTree.ParseText(infrastructure),
                 CSharpSyntaxTree.ParseText(source),
