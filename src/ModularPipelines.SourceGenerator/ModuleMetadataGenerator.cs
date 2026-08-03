@@ -126,9 +126,13 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                             selector.TypeName));
                     }
 
-                    sourceContext.AddSource(
-                        "ModularPipelines.ModuleMetadata.g.cs",
-                        Generate(input.Left.AssemblyName, input.Right));
+                    var source = Generate(input.Left.AssemblyName, input.Right);
+                    if (source is not null)
+                    {
+                        sourceContext.AddSource(
+                            "ModularPipelines.ModuleMetadata.g.cs",
+                            source);
+                    }
                 }
             });
 
@@ -397,6 +401,8 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             IsTypeAccessible(type, currentAssembly),
             type.Locations.FirstOrDefault(static location => location.IsInSource),
             dependencies
+                .GroupBy(static dependency => (dependency.TypeName, dependency.Optional))
+                .Select(static group => group.First())
                 .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
                 .ThenBy(static dependency => dependency.Optional)
                 .ToImmutableArray(),
@@ -645,7 +651,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                        || type.ContainingAssembly.GivesAccessTo(currentAssembly)));
     }
 
-    private static string Generate(string? assemblyName, ImmutableArray<ModuleMetadataInfo> items)
+    private static string? Generate(string? assemblyName, ImmutableArray<ModuleMetadataInfo> items)
     {
         var modules = items
             .GroupBy(static item => item.TypeName, StringComparer.Ordinal)
@@ -664,6 +670,11 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .Select(static group => group.First())
             .OrderBy(static dependency => dependency.TypeName, StringComparer.Ordinal)
             .ToArray();
+
+        if (emittedModules.Length == 0 && closedGenericDependencies.Length == 0)
+        {
+            return null;
+        }
 
         // Generators cannot observe modules emitted by other generators in the same
         // compilation. Assembly-wide discovery therefore remains incomplete and uses
