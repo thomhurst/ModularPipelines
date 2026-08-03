@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("top")]
 public record PodmanTopOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
 ) : PodmanOptions
 {
     /// <summary>
@@ -31,7 +31,7 @@ public record PodmanTopOptions(
     /// <summary>
     /// The FORMAT-DESCRIPTORS operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? FormatDescriptors { get; set; }
 
 }

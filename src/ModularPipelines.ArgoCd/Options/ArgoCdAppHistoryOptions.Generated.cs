@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "history")]
 public record ArgoCdAppHistoryOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ApplicationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ApplicationName
 ) : ArgoCdOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("composer", "environments", "run")]
 public record GcloudComposerEnvironmentsRunOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Subcommand
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Subcommand
 ) : GcloudOptions
 {
 }

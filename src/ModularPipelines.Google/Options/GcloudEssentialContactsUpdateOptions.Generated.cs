@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("essential-contacts", "update")]
 public record GcloudEssentialContactsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ContactId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ContactId
 ) : GcloudOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("commit")]
 public record DockerCommitOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
 ) : DockerOptions
 {
     /// <summary>
@@ -49,7 +49,7 @@ public record DockerCommitOptions(
     /// <summary>
     /// The REPOSITORY[:TAG] operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? RepositoryTag { get; set; }
 
 }

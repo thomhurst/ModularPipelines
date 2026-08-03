@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "app", "get-reconcile-results")]
 public record ArgoCdAdminAppGetReconcileResultsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path
 ) : ArgoCdOptions
 {
     /// <summary>

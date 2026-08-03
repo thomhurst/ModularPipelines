@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "iac-validation-reports", "create")]
 public record GcloudSccIacValidationReportsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Parent
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Parent
 ) : GcloudOptions
 {
 }

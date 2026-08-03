@@ -19,7 +19,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("registry", "login")]
 public record TrivyRegistryLoginOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Server
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Server
 ) : TrivyOptions
 {
     /// <summary>

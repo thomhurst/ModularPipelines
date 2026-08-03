@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "attachments", "download")]
 public record GcloudArtifactsAttachmentsDownloadOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Attachment
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Attachment
 ) : GcloudOptions
 {
 }

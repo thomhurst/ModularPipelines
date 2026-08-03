@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "start")]
 public record PodmanPodStartOptions(
-    [property: CliArgument(0)] IEnumerable<string> Pod
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Pod
 ) : PodmanOptions
 {
     /// <summary>

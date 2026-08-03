@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "clone")]
 public record PodmanPodCloneOptions(
-    [property: CliArgument(0)] string Pod
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Pod
 ) : PodmanOptions
 {
     /// <summary>

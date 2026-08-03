@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "disconnect")]
 public record DockerNetworkDisconnectOptions(
-    [property: CliArgument(0)] string Network,
-    [property: CliArgument(1)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Network,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Container
 ) : DockerOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Syft.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attest")]
 public record SyftAttestOptions(
-    [property: CliArgument(1)] string Image
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Image
 ) : SyftOptions
 {
     /// <summary>
@@ -139,7 +139,7 @@ public record SyftAttestOptions(
     /// <summary>
     /// The FORMAT operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Format { get; set; }
 
 }

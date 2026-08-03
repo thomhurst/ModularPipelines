@@ -126,7 +126,7 @@ public record HelmRepoRemoveOptions : HelmOptions
     /// <summary>
     /// The REPO1 [REPO2 ...] operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Repo1Repo2 { get; set; }
 
 }

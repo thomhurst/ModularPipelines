@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "docker", "images", "scan")]
 public record GcloudArtifactsDockerImagesScanOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ResourceUri
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ResourceUri
 ) : GcloudOptions
 {
     /// <summary>

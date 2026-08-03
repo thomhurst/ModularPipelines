@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disks", "update")]
 public record GcloudPreviewComputeDisksUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DiskName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DiskName
 ) : GcloudOptions
 {
     /// <summary>

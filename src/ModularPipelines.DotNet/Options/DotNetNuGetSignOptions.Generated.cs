@@ -93,7 +93,7 @@ public record DotNetNuGetSignOptions : DotNetOptions
     /// <summary>
     /// Signs NuGet packages at &lt;package-paths&gt; with the specified certificate.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? PackagePaths { get; set; }
 
 }

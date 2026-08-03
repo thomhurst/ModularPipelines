@@ -20,13 +20,13 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("audit", "enable")]
 public record VaultAuditEnableOptions(
-    [property: CliArgument(0)] string Type
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Type
 ) : VaultOptions
 {
     /// <summary>
     /// The CONFIG K=V operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? ConfigKV { get; set; }
 
 }

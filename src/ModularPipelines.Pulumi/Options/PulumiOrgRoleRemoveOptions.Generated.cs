@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "role", "remove")]
 public record PulumiOrgRoleRemoveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RoleId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RoleId
 ) : PulumiOptions
 {
     /// <summary>

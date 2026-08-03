@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "certificates", "update")]
 public record GcloudPrivatecaCertificatesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Certificate
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Certificate
 ) : GcloudOptions
 {
     /// <summary>

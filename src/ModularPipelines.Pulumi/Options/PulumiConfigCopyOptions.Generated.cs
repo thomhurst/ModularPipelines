@@ -131,7 +131,7 @@ public record PulumiConfigCopyOptions : PulumiOptions
     /// <summary>
     /// The key operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Key { get; set; }
 
 }

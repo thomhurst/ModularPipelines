@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "trust", "set")]
 public record PodmanImageTrustSetOptions(
-    [property: CliArgument(0)] string Registry
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Registry
 ) : PodmanOptions
 {
     /// <summary>

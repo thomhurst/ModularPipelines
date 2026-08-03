@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "hmac", "create")]
 public record GcloudStorageHmacCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ServiceAccount
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ServiceAccount
 ) : GcloudOptions
 {
 }

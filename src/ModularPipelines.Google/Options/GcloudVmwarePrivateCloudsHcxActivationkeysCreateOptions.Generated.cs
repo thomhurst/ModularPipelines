@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "private-clouds", "hcx", "activationkeys", "create")]
 public record GcloudVmwarePrivateCloudsHcxActivationkeysCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Hcx
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Hcx
 ) : GcloudOptions
 {
     /// <summary>

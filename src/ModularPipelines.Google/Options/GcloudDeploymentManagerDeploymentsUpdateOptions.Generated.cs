@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "update")]
 public record GcloudDeploymentManagerDeploymentsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DeploymentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DeploymentName
 ) : GcloudOptions
 {
     /// <summary>

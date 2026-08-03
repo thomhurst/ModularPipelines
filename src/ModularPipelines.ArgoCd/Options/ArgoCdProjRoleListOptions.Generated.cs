@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "role", "list")]
 public record ArgoCdProjRoleListOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project
 ) : ArgoCdOptions
 {
     /// <summary>

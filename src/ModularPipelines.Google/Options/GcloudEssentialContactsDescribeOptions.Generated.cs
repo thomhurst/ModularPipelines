@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("essential-contacts", "describe")]
 public record GcloudEssentialContactsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ContactId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ContactId
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("convert")]
 public record TrivyConvertOptions(
-    [property: CliArgument(0)] string ResultJson
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string ResultJson
 ) : TrivyOptions
 {
     /// <summary>

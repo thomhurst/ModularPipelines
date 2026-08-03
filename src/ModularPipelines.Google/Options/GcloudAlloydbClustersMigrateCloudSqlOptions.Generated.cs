@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "clusters", "migrate-cloud-sql")]
 public record GcloudAlloydbClustersMigrateCloudSqlOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Cluster
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Cluster
 ) : GcloudOptions
 {
 }

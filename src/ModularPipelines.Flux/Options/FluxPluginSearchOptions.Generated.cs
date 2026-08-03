@@ -168,7 +168,7 @@ public record FluxPluginSearchOptions : FluxOptions
     /// <summary>
     /// The query operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Query { get; set; }
 
 }

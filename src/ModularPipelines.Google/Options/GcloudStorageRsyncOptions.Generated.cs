@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "rsync")]
 public record GcloudStorageRsyncOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Source
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Source
 ) : GcloudOptions
 {
     /// <summary>

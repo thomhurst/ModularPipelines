@@ -72,7 +72,7 @@ public record SyftLoginOptions : SyftOptions
     /// <summary>
     /// The SERVER operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Server { get; set; }
 
 }

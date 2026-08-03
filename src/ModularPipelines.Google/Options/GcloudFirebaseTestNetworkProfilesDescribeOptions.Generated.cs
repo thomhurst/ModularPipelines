@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firebase", "test", "network-profiles", "describe")]
 public record GcloudFirebaseTestNetworkProfilesDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ProfileId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ProfileId
 ) : GcloudOptions
 {
 }

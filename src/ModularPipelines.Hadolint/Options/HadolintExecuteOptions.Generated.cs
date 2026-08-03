@@ -138,7 +138,7 @@ public record HadolintExecuteOptions : HadolintOptions
     /// <summary>
     /// Dockerfile(s) to lint (reads from stdin if not specified)
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? Dockerfiles { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gpg", "rm")]
 public record ArgoCdGpgRmOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string KeyId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string KeyId
 ) : ArgoCdOptions
 {
     /// <summary>

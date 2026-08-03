@@ -594,7 +594,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// <summary>
     /// The CONTEXT operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Context { get; set; }
 
 }

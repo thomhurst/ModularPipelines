@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "update")]
 public record GcloudSccFindingsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Finding
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Finding
 ) : GcloudOptions
 {
     /// <summary>

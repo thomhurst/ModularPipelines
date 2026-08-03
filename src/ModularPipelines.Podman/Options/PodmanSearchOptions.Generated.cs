@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
 public record PodmanSearchOptions(
-    [property: CliArgument(0)] string Term
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Term
 ) : PodmanOptions
 {
     /// <summary>

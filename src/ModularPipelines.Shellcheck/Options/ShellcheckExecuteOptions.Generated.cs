@@ -126,7 +126,7 @@ public record ShellcheckExecuteOptions : ShellcheckOptions
     /// <summary>
     /// Shell script files to check
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Files { get; set; }
 
 }

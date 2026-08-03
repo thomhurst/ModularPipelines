@@ -20,7 +20,7 @@ namespace ModularPipelines.Ansible.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 public record AnsibleExecuteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Pattern
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Pattern
 ) : AnsibleOptions
 {
     /// <summary>

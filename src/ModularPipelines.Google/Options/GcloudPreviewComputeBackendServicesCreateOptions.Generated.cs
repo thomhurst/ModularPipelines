@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-services", "create")]
 public record GcloudPreviewComputeBackendServicesCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string BackendServiceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendServiceName
 ) : GcloudOptions
 {
     /// <summary>

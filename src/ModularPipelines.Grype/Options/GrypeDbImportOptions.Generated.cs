@@ -19,7 +19,7 @@ namespace ModularPipelines.Grype.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "import")]
 public record GrypeDbImportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string File
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string File
 ) : GrypeOptions
 {
     /// <summary>

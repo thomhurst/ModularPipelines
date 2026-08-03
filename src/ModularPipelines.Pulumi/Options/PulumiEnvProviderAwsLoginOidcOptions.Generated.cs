@@ -19,9 +19,9 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "aws-login", "oidc")]
 public record PulumiEnvProviderAwsLoginOidcOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string RoleArn,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string SessionName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string RoleArn,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string SessionName
 ) : PulumiOptions
 {
     /// <summary>

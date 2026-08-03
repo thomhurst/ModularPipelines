@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instance-configs", "update")]
 public record GcloudSpannerInstanceConfigsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InstanceConfig
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceConfig
 ) : GcloudOptions
 {
     /// <summary>

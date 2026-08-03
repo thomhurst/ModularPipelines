@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "snapshots", "update")]
 public record GcloudPreviewComputeSnapshotsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SnapshotName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SnapshotName
 ) : GcloudOptions
 {
     /// <summary>

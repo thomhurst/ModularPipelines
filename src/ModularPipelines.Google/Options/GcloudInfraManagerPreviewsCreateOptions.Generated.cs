@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("infra-manager", "previews", "create")]
 public record GcloudInfraManagerPreviewsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Preview
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Preview
 ) : GcloudOptions
 {
     /// <summary>

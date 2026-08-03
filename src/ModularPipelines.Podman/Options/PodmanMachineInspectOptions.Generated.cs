@@ -29,7 +29,7 @@ public record PodmanMachineInspectOptions : PodmanOptions
     /// <summary>
     /// The MACHINE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Machine { get; set; }
 
 }

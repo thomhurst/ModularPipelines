@@ -77,7 +77,7 @@ public record PodmanImageListOptions : PodmanOptions
     /// <summary>
     /// The IMAGE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Image { get; set; }
 
 }

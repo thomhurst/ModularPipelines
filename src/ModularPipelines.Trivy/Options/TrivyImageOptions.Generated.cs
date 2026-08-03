@@ -635,7 +635,7 @@ public record TrivyImageOptions : TrivyOptions
     /// <summary>
     /// The IMAGE_NAME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? ImageName { get; set; }
 
 }

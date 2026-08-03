@@ -107,7 +107,7 @@ public record PodmanNetworkCreateOptions : PodmanOptions
     /// <summary>
     /// The NAME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Name { get; set; }
 
 }

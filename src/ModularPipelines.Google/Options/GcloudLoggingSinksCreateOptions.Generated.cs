@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "sinks", "create")]
 public record GcloudLoggingSinksCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SinkName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SinkName
 ) : GcloudOptions
 {
     /// <summary>

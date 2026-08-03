@@ -397,7 +397,7 @@ public record GradleExecuteOptions : GradleOptions
     /// <summary>
     /// Gradle tasks to execute.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Tasks { get; set; }
 
 }

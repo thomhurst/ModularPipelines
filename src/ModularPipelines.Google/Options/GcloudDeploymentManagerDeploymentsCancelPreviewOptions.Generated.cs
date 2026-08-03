@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "cancel-preview")]
 public record GcloudDeploymentManagerDeploymentsCancelPreviewOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DeploymentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DeploymentName
 ) : GcloudOptions
 {
     /// <summary>

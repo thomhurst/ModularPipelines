@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vm")]
 public record TrivyVmOptions(
-    [property: CliArgument(0)] string VmImage
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string VmImage
 ) : TrivyOptions
 {
     /// <summary>

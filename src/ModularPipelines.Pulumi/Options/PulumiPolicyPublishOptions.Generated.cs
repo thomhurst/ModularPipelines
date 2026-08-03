@@ -107,7 +107,7 @@ public record PulumiPolicyPublishOptions : PulumiOptions
     /// <summary>
     /// The org-name operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? OrgName { get; set; }
 
 }

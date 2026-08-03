@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "port")]
 public record DockerContainerPortOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Container
 ) : DockerOptions
 {
     /// <summary>
     /// The PRIVATE_PORT[ Or PROTO] operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? PrivatePortOrProto { get; set; }
 
 }

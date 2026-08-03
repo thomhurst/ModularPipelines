@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "repo", "generate-spec")]
 public record ArgoCdAdminRepoGenerateSpecOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RepositoryUrl
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RepositoryUrl
 ) : ArgoCdOptions
 {
     /// <summary>

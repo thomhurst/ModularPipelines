@@ -54,7 +54,7 @@ public record NbgvGetVersionOptions : NbgvOptions
     /// <summary>
     /// The &lt;commit-ish&gt; operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? CommitIsh { get; set; }
 
 }

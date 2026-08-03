@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "settings", "set")]
 public record GcloudIapSettingsSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SettingFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SettingFile
 ) : GcloudOptions
 {
     /// <summary>

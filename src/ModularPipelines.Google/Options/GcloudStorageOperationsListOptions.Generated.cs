@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "operations", "list")]
 public record GcloudStorageOperationsListOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ParentResourceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ParentResourceName
 ) : GcloudOptions
 {
     /// <summary>

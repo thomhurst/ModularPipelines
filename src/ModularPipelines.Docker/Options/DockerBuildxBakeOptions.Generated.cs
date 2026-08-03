@@ -138,7 +138,7 @@ public record DockerBuildxBakeOptions : DockerOptions
     /// <summary>
     /// The TARGET operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Target { get; set; }
 
 }

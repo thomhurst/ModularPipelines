@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logout")]
 public record ArgoCdLogoutOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Context
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Context
 ) : ArgoCdOptions
 {
     /// <summary>

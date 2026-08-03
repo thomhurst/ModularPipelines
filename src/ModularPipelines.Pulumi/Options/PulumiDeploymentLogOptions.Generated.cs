@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "log")]
 public record PulumiDeploymentLogOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DeploymentVersion
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DeploymentVersion
 ) : PulumiOptions
 {
     /// <summary>
