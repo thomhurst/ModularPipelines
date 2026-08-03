@@ -180,5 +180,4 @@ public class FlexibleDependencyApiExportTests
         await Assert.That(assembly.GetType("ModularPipelines.Modules.ITaggedModule")).IsNull();
         await Assert.That(assembly.GetType("ModularPipelines.Options.ModuleRegistrationOptions")).IsNull();
     }
-
 }
