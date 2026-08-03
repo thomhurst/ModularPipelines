@@ -110,7 +110,6 @@ public partial class HadolintCliScraper : CliScraperBase
                 new CliPositionalArgument
                 {
                     PropertyName = "Dockerfiles",
-                    PlaceholderName = "DOCKERFILE...",
                     CSharpType = "IEnumerable<string>?",
                     IsRequired = false,
                     PositionIndex = 0,

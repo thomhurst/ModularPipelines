@@ -83,7 +83,6 @@ public record HelmPackageOptions : HelmOptions
     /// <summary>
     /// location of a file which contains the passphrase for the signing key. Use "-" in order to read from stdin.
     /// </summary>
-    [SecretValue]
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
 
@@ -219,6 +218,6 @@ public record HelmPackageOptions : HelmOptions
     /// The CHART_PATH operand.
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
-    public string? ChartPath { get; set; }
+    public IEnumerable<string>? ChartPath { get; set; }
 
 }

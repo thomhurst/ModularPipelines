@@ -57,7 +57,7 @@ public class ArgoCdCliScraperTests
             "Usage:\n  kubectl get TYPE[.VERSION][.GROUP]/NAME [flags]");
 
         await Assert.That(arguments).Count().IsEqualTo(1);
-        await Assert.That(arguments[0].PlaceholderName).IsEqualTo("TYPE[.VERSION][.GROUP]/NAME");
+        await Assert.That(arguments[0].PropertyName).IsEqualTo("TypeVersionGroupOrName");
         await Assert.That(arguments[0].IsRequired).IsTrue();
     }
 
@@ -83,7 +83,6 @@ public class ArgoCdCliScraperTests
 
         await Assert.That(arguments).Count().IsEqualTo(1);
         await Assert.That(arguments[0].PropertyName).IsEqualTo("Id");
-        await Assert.That(arguments[0].PlaceholderName).IsEqualTo("ID");
         await Assert.That(arguments[0].CSharpType).IsEqualTo("string");
         await Assert.That(arguments[0].IsRequired).IsTrue();
     }

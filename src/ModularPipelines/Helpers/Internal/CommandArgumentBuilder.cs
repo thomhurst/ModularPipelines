@@ -34,10 +34,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 "Terminal options cannot be combined with an end-of-options marker.");
         }
 
-        return renderedPhases
-            .OrderBy(pair => GetRenderOrder(pair.Key))
-            .SelectMany(pair => pair.Value)
-            .ToList();
+        return
+        [
+            .. renderedPhases
+                .OrderBy(pair => GetRenderOrder(pair.Key))
+                .SelectMany(pair => pair.Value),
+        ];
     }
 
     private static int GetRenderOrder(CommandLinePhase phase) => phase switch
@@ -88,13 +90,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         foreach (var argumentPart in argumentParts)
         {
-            // Skip arguments that have a Name property - these are handled inline via
-            // placeholder replacement in Command.cs and should not be added again
-            if (argumentPart.Attribute.Name is not null)
-            {
-                continue;
-            }
-
             var rawValue = argumentPart.Getter(optionsObject);
             if (rawValue is null)
             {
@@ -140,12 +135,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         if (rawValue is bool boolValue && boolValue)
         {
-            args.Add(flagPart.Attribute.GetEffectiveName());
+            args.Add(GetEffectiveName(flagPart.Attribute));
         }
 
         if (rawValue is int count && count > 0)
         {
-            args.AddRange(Enumerable.Repeat(flagPart.Attribute.GetEffectiveName(), count));
+            args.AddRange(Enumerable.Repeat(GetEffectiveName(flagPart.Attribute), count));
         }
     }
 
@@ -226,10 +221,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
-        if (optionPart.Attribute.GetSeparator() != " ")
+        if (GetSeparator(optionPart.Attribute) != " ")
         {
             throw new InvalidOperationException(
-                $"Grouped option '{optionPart.Attribute.GetEffectiveName()}' must use a space separator.");
+                $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
         }
 
         foreach (var optionValue in optionValues.Where(static value => !value.IsBare))
@@ -237,7 +232,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             ValidateOptionalValue(optionValue, optionsType, optionPart);
         }
 
-        args.Add(optionPart.Attribute.GetEffectiveName());
+        args.Add(GetEffectiveName(optionPart.Attribute));
         args.AddRange(optionValues
             .Where(static value => !value.IsBare)
             .Select(static value => value.Value!));
@@ -306,7 +301,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         if (optionValue.IsBare)
         {
-            args.Add(optionPart.Attribute.GetEffectiveName());
+            args.Add(GetEffectiveName(optionPart.Attribute));
             return;
         }
 
@@ -329,8 +324,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static void AddOptionValue(List<string> args, OptionPart optionPart, string value)
     {
-        var optionName = optionPart.Attribute.GetEffectiveName();
-        var separator = optionPart.Attribute.GetSeparator();
+        var optionName = GetEffectiveName(optionPart.Attribute);
+        var separator = GetSeparator(optionPart.Attribute);
 
         if (separator == " ")
         {
@@ -349,10 +344,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IEnumerable<string> values,
         Type optionsType)
     {
-        if (optionPart.Attribute.GetSeparator() != " ")
+        if (GetSeparator(optionPart.Attribute) != " ")
         {
             throw new InvalidOperationException(
-                $"Grouped option '{optionPart.Attribute.GetEffectiveName()}' must use a space separator.");
+                $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
         }
 
         var renderedValues = values.ToList();
@@ -366,7 +361,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             throw CreateEmptyRequiredValueException(optionsType, optionPart);
         }
 
-        args.Add(optionPart.Attribute.GetEffectiveName());
+        args.Add(GetEffectiveName(optionPart.Attribute));
         args.AddRange(renderedValues);
     }
 
@@ -386,14 +381,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IEnumerable<CliValuePair> pairs,
         Type optionsType)
     {
-        if (optionPart.Attribute.GetSeparator() != " ")
+        if (GetSeparator(optionPart.Attribute) != " ")
         {
             throw new InvalidOperationException(
                 $"Two-operand CLI option property '{optionPart.PropertyName}' must use "
                 + $"{nameof(OptionFormat)}.{nameof(OptionFormat.SpaceSeparated)}.");
         }
 
-        var optionName = optionPart.Attribute.GetEffectiveName();
+        var optionName = GetEffectiveName(optionPart.Attribute);
         foreach (var pair in pairs)
         {
             if (string.IsNullOrWhiteSpace(pair.First)
@@ -414,6 +409,28 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         new(
             $"Required CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
             + "cannot be empty or whitespace.");
+
+    private static string GetEffectiveName(CliFlagAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetEffectiveName(CliOptionAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetSeparator(CliOptionAttribute attribute)
+    {
+        return attribute.Format switch
+        {
+            OptionFormat.SpaceSeparated => " ",
+            OptionFormat.EqualsSeparated => "=",
+            OptionFormat.ColonSeparated => ":",
+            OptionFormat.NoSeparator => string.Empty,
+            _ => " ",
+        };
+    }
 
     private static List<string> GetValues(object rawValue)
     {

@@ -6,17 +6,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Build Commands
 
-The solution is deliberately split so the default build is fast. `ModularPipelines.sln`
+The solution is deliberately split so the default build is fast. `ModularPipelines.slnx`
 is now the **lightweight core-library solution** (core framework, Cmd, source generator,
 and analyzers only). Each tool/CLI integration has its **own** solution next to it, and
-`ModularPipelines.All.sln` aggregates everything for full validation.
+`ModularPipelines.All.slnx` aggregates everything for full validation.
 
 > [!CAUTION]
-> **Agents: do NOT build `ModularPipelines.All.sln`, and do NOT run the build pipeline
+> **Agents: do NOT build `ModularPipelines.All.slnx`, and do NOT run the build pipeline
 > (`dotnet run` in `src/ModularPipelines.Build`).** Compiling 60+ projects at once is
 > extremely memory- and CPU-heavy and will likely lag or crash the machine. Those are
-> CI's job. For local/agent work, build **only** `ModularPipelines.sln` (core) or a
-> single tool's own solution. Reach for `ModularPipelines.All.sln` only when a human
+> CI's job. For local/agent work, build **only** `ModularPipelines.slnx` (core) or a
+> single tool's own solution. Reach for `ModularPipelines.All.slnx` only when a human
 > explicitly asks for a full build and the machine can handle it.
 
 > [!IMPORTANT]
@@ -32,7 +32,7 @@ and analyzers only). Each tool/CLI integration has its **own** solution next to 
 ```powershell
 # Core build
 pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
-  -DotNetArguments @('build', 'ModularPipelines.sln', '-c', 'Release')
+  -DotNetArguments @('build', 'ModularPipelines.slnx', '-c', 'Release')
 
 # Core build including ModularPipelines.UnitTests
 pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
@@ -42,7 +42,7 @@ pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
 pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
   -DotNetArguments @(
     'build',
-    'src/ModularPipelines.Docker/ModularPipelines.Docker.sln',
+    'src/ModularPipelines.Docker/ModularPipelines.Docker.slnx',
     '-c',
     'Release'
   )
@@ -51,28 +51,28 @@ pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
 ```bash
 # Human/manual equivalents:
 
-# DEFAULT: build the core library (fast). This is ModularPipelines.sln - the core
+# DEFAULT: build the core library (fast). This is ModularPipelines.slnx - the core
 # framework, Cmd, source generator, and analyzers only.
-dotnet build ModularPipelines.sln -c Release
+dotnet build ModularPipelines.slnx -c Release
 
 # Build the core library and its unit-test project without building the full solution.
 dotnet build ModularPipelines.Tests.slnf -c Release
 
 # Working on a tool/CLI integration? Build that tool's own solution.
 # It includes the tool's matching unit-test project when one exists.
-dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.sln -c Release
+dotnet build src/ModularPipelines.Docker/ModularPipelines.Docker.slnx -c Release
 
 # Other solutions - only when working on those areas.
-dotnet build ModularPipelines.Examples.sln -c Release
-dotnet build ModularPipelines.Analyzers.sln -c Release
+dotnet build ModularPipelines.Examples.slnx -c Release
+dotnet build ModularPipelines.Analyzers.slnx -c Release
 
 # DANGER (CI only): the full 60+ project solution and the full build pipeline.
 # Do NOT run these as an agent - they can exhaust memory and crash the machine.
-# dotnet build ModularPipelines.All.sln -c Release            # everything at once
+# dotnet build ModularPipelines.All.slnx -c Release            # everything at once
 # cd src/ModularPipelines.Build && dotnet run -c Release --framework net10.0  # builds ALL solutions + full test suite
 ```
 
-**What `ModularPipelines.sln` (core) contains:**
+**What `ModularPipelines.slnx` (core) contains:**
 - `src/ModularPipelines` - core framework
 - `src/ModularPipelines.Cmd` - base command execution
 - `src/ModularPipelines.SourceGenerator` - source generator
@@ -80,10 +80,10 @@ dotnet build ModularPipelines.Analyzers.sln -c Release
 
 Every tool/CLI integration (Docker, DotNet, Git, Helm, Terraform, Azure, AWS, etc.) is a
 separate package whose options are largely auto-generated, and each has its own
-`src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.sln`. Each tool solution includes
+`src/ModularPipelines.<Tool>/ModularPipelines.<Tool>.slnx`. Each tool solution includes
 its matching unit-test project when one exists. Build the specific tool solution when
 working on it. `ModularPipelines.Tests.slnf` provides the equivalent test-building loop
-for the lightweight core. `ModularPipelines.All.sln` exists for CI's full build only — see
+for the lightweight core. `ModularPipelines.All.slnx` exists for CI's full build only — see
 the caution above; agents should not build it.
 
 ### Running Tests
@@ -112,17 +112,17 @@ pwsh scripts/Invoke-AgentDotNet.ps1 `
 ### Code Formatting
 ```powershell
 # Format code (automatically done in CI). Target the solution you built - the
-# core solution (ModularPipelines.sln) for core changes, or the relevant tool solution.
+# core solution (ModularPipelines.slnx) for core changes, or the relevant tool solution.
 pwsh scripts/Invoke-AgentDotNet.ps1 `
-  -DotNetArguments @('format', 'ModularPipelines.sln')
+  -DotNetArguments @('format', 'ModularPipelines.slnx')
 pwsh scripts/Invoke-AgentDotNet.ps1 `
-  -DotNetArguments @('format', 'ModularPipelines.sln', 'whitespace')
+  -DotNetArguments @('format', 'ModularPipelines.slnx', 'whitespace')
 
 # Verify formatting without changes
 pwsh scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @(
     'format',
-    'ModularPipelines.sln',
+    'ModularPipelines.slnx',
     '--verify-no-changes',
     '--severity',
     'info'
