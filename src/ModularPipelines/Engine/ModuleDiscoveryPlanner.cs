@@ -165,34 +165,44 @@ internal sealed class ModuleDiscoveryPlanner(
             return CreatePlanningModuleWithoutFactory(module, planningServiceProvider);
         }
 
-        var creation = factory.CreatePlanningModule(planningServiceProvider);
-        if (ReferenceEquals(creation.Module, module))
+        if (module is IPlanningModuleCopyProvider copyProvider)
         {
-            return module is IPlanningModuleCopyProvider factoryCopyProvider
-                ? CreateIsolatedPlanningModule(CreatePlanningCopy(
-                    factoryCopyProvider,
-                    planningServiceProvider))
-                : CreatePlanningModuleWithoutFactory(module, planningServiceProvider);
-        }
-
-        if (module is IPlanningModuleCopyProvider replayCopyProvider
-            && HasCustomPlanningCopy(module)
-            && !IsEquivalentPlanningModule(
-                module,
-                creation.Module,
-                creation.IsServiceProviderOwned))
-        {
-            if (creation.IsPlannerOwned)
+            if (HasCustomPlanningCopy(module))
             {
-                ownedPlanningModules.Add(creation.Module);
+                return CreateIsolatedPlanningModule(CreatePlanningCopy(
+                    copyProvider,
+                    planningServiceProvider));
             }
 
-            return CreateIsolatedPlanningModule(CreatePlanningCopy(
-                replayCopyProvider,
-                planningServiceProvider));
+            try
+            {
+                var activatedCopy = CreatePlanningCopy(copyProvider, planningServiceProvider);
+                if (IsEquivalentPlanningModule(
+                        module,
+                        activatedCopy.Module,
+                        activatedCopy.IsServiceProviderOwned))
+                {
+                    return CreateIsolatedPlanningModule(activatedCopy);
+                }
+
+                if (activatedCopy.IsPlannerOwned)
+                {
+                    ownedPlanningModules.Add(activatedCopy.Module);
+                }
+            }
+            catch
+            {
+                // Factory-only constructor values may not be available through dependency injection.
+                // The validated runtime copy below preserves those values without replaying the factory.
+            }
+
+            return CreateIsolatedPlanningModule(new PlanningModuleCreation(
+                copyProvider.CreatePlanningCopyFromRegisteredInstance(),
+                static _ => false,
+                IsPlannerOwned: false));
         }
 
-        return CreateIsolatedPlanningModule(creation);
+        return CreatePlanningModuleWithoutFactory(module, planningServiceProvider);
     }
 
     private static PlanningModule CreatePlanningModuleWithoutFactory(
@@ -587,7 +597,6 @@ internal sealed class ModuleDiscoveryPlanner(
 internal sealed class ModulePlanningFactory
 {
     private readonly Func<IServiceProvider, IModule> _create;
-    private readonly IModule? _registeredInstance;
     private IModule? _runtimeModule;
 
     public ModulePlanningFactory(
@@ -595,7 +604,6 @@ internal sealed class ModulePlanningFactory
         IModule? registeredInstance = null)
     {
         _create = create;
-        _registeredInstance = registeredInstance;
         _runtimeModule = registeredInstance;
     }
 
@@ -608,34 +616,6 @@ internal sealed class ModulePlanningFactory
 
     public bool CreatedRuntimeModule(IModule module) =>
         ReferenceEquals(Volatile.Read(ref _runtimeModule), module);
-
-    public PlanningModuleCreation CreatePlanningModule(IServiceProvider serviceProvider)
-    {
-        if (_registeredInstance is IPlanningModuleCopyProvider copyProvider)
-        {
-            if (ModuleDiscoveryPlanner.HasCustomPlanningCopy(_registeredInstance))
-            {
-                var customCopyServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
-                var customCopy = copyProvider.CreatePlanningCopy(customCopyServiceProvider);
-                return new PlanningModuleCreation(
-                    customCopy,
-                    customCopyServiceProvider.IsServiceProviderOwned,
-                    IsPlannerOwned: !customCopyServiceProvider.IsServiceProviderOwned(customCopy));
-            }
-
-            return new PlanningModuleCreation(
-                copyProvider.CreatePlanningCopyFromRegisteredInstance(),
-                static _ => false,
-                IsPlannerOwned: false);
-        }
-
-        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
-        var module = _create(trackingServiceProvider);
-        return new PlanningModuleCreation(
-            module,
-            trackingServiceProvider.IsServiceProviderOwned,
-            IsPlannerOwned: !trackingServiceProvider.IsServiceProviderOwned(module));
-    }
 }
 
 internal sealed class ResolvedObjectTrackingServiceProvider(IServiceProvider innerServiceProvider)

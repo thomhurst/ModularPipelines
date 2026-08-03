@@ -1695,16 +1695,25 @@ public class DependencyGraphExporterTests
     [Test]
     public async Task Render_Preserves_User_Factory_Initialization()
     {
+        var factoryCalls = 0;
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
-        builder.AddModule(_ => new FactoryInitializedModule { IncludeDependency = true });
+        builder.AddModule(_ =>
+        {
+            Interlocked.Increment(ref factoryCalls);
+            return new FactoryInitializedModule { IncludeDependency = true };
+        });
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
         using var document = JsonDocument.Parse(
             await exporter.RenderAsync(DependencyGraphFormat.Json));
 
-        await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+        using (Assert.Multiple())
+        {
+            await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+            await Assert.That(factoryCalls).IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -1724,7 +1733,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Rejects_Factory_Replay_With_Different_Initialization()
+    public async Task Render_Does_Not_Replay_Factory_With_Different_Initialization()
     {
         var factoryCalls = 0;
         using var builder = Pipeline.CreateBuilder();
@@ -1736,10 +1745,14 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        var exception = await Assert.ThrowsAsync<PipelineException>(
-            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
 
-        await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+        using (Assert.Multiple())
+        {
+            await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+            await Assert.That(factoryCalls).IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -1915,7 +1928,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Accepts_Framework_Comparer_In_Independent_Factory_State()
+    public async Task Render_Requires_Copy_For_Mutable_Factory_Collection()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
@@ -1924,10 +1937,10 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        using var document = JsonDocument.Parse(
-            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
 
-        await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+        await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
     }
 
     [Test]
@@ -2019,7 +2032,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Rejects_Factory_Replay_With_Different_Runtime_Type()
+    public async Task Render_Uses_Runtime_Factory_Type_Without_Replay()
     {
         var factoryCalls = 0;
         using var builder = Pipeline.CreateBuilder();
@@ -2030,14 +2043,17 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        var exception = await Assert.ThrowsAsync<PipelineException>(
-            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var graph = await exporter.RenderAsync(DependencyGraphFormat.Json);
 
-        await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+        using (Assert.Multiple())
+        {
+            await Assert.That(graph).Contains(nameof(FactoryInitializedDerivedModule));
+            await Assert.That(factoryCalls).IsEqualTo(1);
+        }
     }
 
     [Test]
-    public async Task Render_Rejects_Factory_Replay_With_Different_Skip_Decision()
+    public async Task Render_Preserves_Factory_Skip_Decision_Without_Replay()
     {
         var factoryCalls = 0;
         using var builder = Pipeline.CreateBuilder();
@@ -2046,10 +2062,16 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        var exception = await Assert.ThrowsAsync<PipelineException>(
-            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
 
-        await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+        using (Assert.Multiple())
+        {
+            await Assert.That(document.RootElement.GetProperty("nodes")[0]
+                    .GetProperty("skipped").GetBoolean())
+                .IsTrue();
+            await Assert.That(factoryCalls).IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -2097,7 +2119,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Does_Not_Dispose_Root_Provider_Owned_Planning_Module()
+    public async Task Render_Disposes_Isolated_Copy_When_Factory_Uses_Root_Service()
     {
         _planningDisposals = 0;
         using var builder = Pipeline.CreateBuilder();
@@ -2112,10 +2134,10 @@ public class DependencyGraphExporterTests
             var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
             _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
 
-            await Assert.That(_planningDisposals).IsEqualTo(0);
+            await Assert.That(_planningDisposals).IsEqualTo(1);
         }
 
-        await Assert.That(_planningDisposals).IsGreaterThan(0);
+        await Assert.That(_planningDisposals).IsGreaterThan(1);
     }
 
     [Test]
