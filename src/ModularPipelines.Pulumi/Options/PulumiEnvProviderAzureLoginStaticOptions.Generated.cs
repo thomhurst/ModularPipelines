@@ -23,7 +23,7 @@ public record PulumiEnvProviderAzureLoginStaticOptions(
     [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string TenantId,
     [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SubscriptionId,
     [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ClientId,
-    [property: SecretValue, CliArgument(4, Phase = CommandLinePhase.EarlyOperand)] string ClientSecret
+    [property: SecretValue, CliArgument(4, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ClientSecret
 ) : PulumiOptions
 {
     /// <summary>

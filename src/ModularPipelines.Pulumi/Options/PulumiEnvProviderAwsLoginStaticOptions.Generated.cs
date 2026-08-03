@@ -20,8 +20,8 @@ namespace ModularPipelines.Pulumi.Options;
 [CliSubCommand("env", "provider", "aws-login", "static")]
 public record PulumiEnvProviderAwsLoginStaticOptions(
     [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
-    [property: SecretValue, CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string AccessKeyId,
-    [property: SecretValue, CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string SecretAccessKey
+    [property: SecretValue, CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string AccessKeyId,
+    [property: SecretValue, CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SecretAccessKey
 ) : PulumiOptions
 {
     /// <summary>
