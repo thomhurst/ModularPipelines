@@ -708,8 +708,25 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static bool RequiresExternalMetadata(IAssemblySymbol assembly, IAssemblySymbol runtimeAssembly) =>
         !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
         && assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName) is null
-        && assembly.Modules.Any(module => module.ReferencedAssemblySymbols.Any(
-            referenced => SymbolEqualityComparer.Default.Equals(referenced, runtimeAssembly)));
+        && ReferencesAssembly(
+            assembly,
+            runtimeAssembly,
+            new HashSet<IAssemblySymbol>(SymbolEqualityComparer.Default));
+
+    private static bool ReferencesAssembly(
+        IAssemblySymbol assembly,
+        IAssemblySymbol targetAssembly,
+        HashSet<IAssemblySymbol> visitedAssemblies)
+    {
+        if (!visitedAssemblies.Add(assembly))
+        {
+            return false;
+        }
+
+        return assembly.Modules.Any(module => module.ReferencedAssemblySymbols.Any(referenced =>
+            SymbolEqualityComparer.Default.Equals(referenced, targetAssembly)
+            || ReferencesAssembly(referenced, targetAssembly, visitedAssemblies)));
+    }
 
     private static TypeMetadataCandidate? GetExternalTypeCandidate(
         INamedTypeSymbol type,

@@ -157,6 +157,42 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Generates_Metadata_For_Indirectly_Derived_Options()
+    {
+        var result = GeneratorTestHarness.RunWithIndirectExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace External;
+
+            public class BaseOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "";
+            }
+            """,
+            """
+            namespace External;
+
+            public sealed class LeafOptions : BaseOptions;
+            """,
+            "public sealed class TrimmedHost;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource)
+                .Contains("typeof(global::External.LeafOptions)");
+            await Assert.That(generatedSource).Contains("new(\"Token\"");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Rejects_Colliding_Source_And_External_Type_Names()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
