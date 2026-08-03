@@ -19,6 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "clone")]
 public record PulumiEnvCloneOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SrcEnvironmentName,
     [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string DestEnvironmentName
 ) : PulumiOptions
 {
@@ -135,11 +136,5 @@ public record PulumiEnvCloneOptions(
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
-
-    /// <summary>
-    /// The [&lt;org-name&gt; Or ]&lt;src-project-name&gt; Or &lt;src-environment-name&gt; operand.
-    /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? OrgNameOrSrcProjectNameOrSrcEnvironmentName { get; set; }
 
 }

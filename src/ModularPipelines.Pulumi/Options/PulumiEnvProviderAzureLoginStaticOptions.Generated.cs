@@ -23,7 +23,7 @@ public record PulumiEnvProviderAzureLoginStaticOptions(
     [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string TenantId,
     [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string SubscriptionId,
     [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string ClientId,
-    [property: CliArgument(4, Placement = ArgumentPlacement.BeforeOptions)] string ClientSecret
+    [property: SecretValue, CliArgument(4, Placement = ArgumentPlacement.BeforeOptions)] string ClientSecret
 ) : PulumiOptions
 {
     /// <summary>

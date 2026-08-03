@@ -21,7 +21,7 @@ namespace ModularPipelines.Pulumi.Options;
 public record PulumiEnvProviderGcpLoginStaticOptions(
     [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
     [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ProjectNumber,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string AccessToken
+    [property: SecretValue, CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string AccessToken
 ) : PulumiOptions
 {
     /// <summary>
