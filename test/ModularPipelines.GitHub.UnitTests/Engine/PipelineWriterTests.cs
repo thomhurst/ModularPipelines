@@ -126,22 +126,22 @@ public class PipelineWriterTests : TestBase
                        
                                echo "::add-mask::${{ secrets.CODACY_APIKEY }}
                            - name: Checkout
-                             uses: actions/checkout@v3
+                             uses: actions/checkout@v7.0.1
                              with:
                                fetch-depth: 0
                                persist-credentials: false
                            - name: Setup .NET SDK
-                             uses: actions/setup-dotnet@v3
+                             uses: actions/setup-dotnet@v6.0.0
                              with:
-                               dotnet-version: 8.0.x
+                               dotnet-version: 10.0.x
                            - name: Cache NuGet
-                             uses: actions/cache@v3
+                             uses: actions/cache@v6.1.0
                              with:
                                path: ~/.nuget/packages
                                key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                                restore-keys: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
                            - name: Run Pipeline
-                             run: dotnet run -c Release --framework net10.0 {{{RandomFilePath}}}
+                             run: dotnet run --project {{{RandomFilePath}}} -c Release --framework net10.0
                              env:
                                DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
                                NuGet__ApiKey: ${{ secrets.NuGet__ApiKey }}

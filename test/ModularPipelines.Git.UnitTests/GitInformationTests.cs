@@ -4,6 +4,7 @@ using ModularPipelines.Context.Domains.Shell;
 using Moq;
 using ModularPipelines.Git;
 using ModularPipelines.Git.Extensions;
+using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
@@ -51,6 +52,46 @@ public class GitInformationTests : TestBase
             services.AddSingleton<ICommandContext>(command.Object));
 
         await Assert.That(await result.T.GetInfoAsync()).IsNull();
+        await result.Host.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Default_Branch_Uses_Local_Origin_Head_Without_Remote_Query()
+    {
+        var command = CreateRepositoryCommand((options, _) => options switch
+        {
+            GenericCommandLineToolOptions { Tool: "git" } => CommandResult.Ok("origin/main\n"),
+            _ => CommandResult.Ok(),
+        });
+        var result = await GetGitInformation(command);
+
+        var repository = await result.T.GetInfoAsync();
+
+        await Assert.That(repository?.DefaultBranchName).IsEqualTo("main");
+        command.Verify(context => context.ExecuteCommandLineToolAsync(
+            It.IsAny<GitRemoteShowOptions>(),
+            It.IsAny<CommandExecutionOptions?>(),
+            It.IsAny<CancellationToken>()), Times.Never());
+        await result.Host.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Default_Branch_Bounds_Remote_Fallback_When_Local_Head_Is_Unavailable()
+    {
+        CommandExecutionOptions? remoteExecutionOptions = null;
+        var command = CreateRepositoryCommand((options, executionOptions) => options switch
+        {
+            GenericCommandLineToolOptions { Tool: "git" } => CommandResult.Ok(),
+            GitRemoteShowOptions => CaptureRemoteOptions(executionOptions, out remoteExecutionOptions),
+            _ => CommandResult.Ok(),
+        });
+        var result = await GetGitInformation(command);
+
+        var repository = await result.T.GetInfoAsync();
+
+        await Assert.That(repository?.DefaultBranchName).IsEqualTo("trunk");
+        await Assert.That(remoteExecutionOptions?.ThrowOnNonZeroExitCode).IsFalse();
+        await Assert.That(remoteExecutionOptions?.ExecutionTimeout).IsEqualTo(TimeSpan.FromSeconds(10));
         await result.Host.DisposeAsync();
     }
 
@@ -112,5 +153,44 @@ public class GitInformationTests : TestBase
 
         await Assert.That(observedToken).IsEqualTo(cancellationTokenSource.Token);
         await result.Host.DisposeAsync();
+    }
+
+    private static Mock<ICommandContext> CreateRepositoryCommand(
+        Func<CommandLineToolOptions, CommandExecutionOptions?, CommandResult> responseFactory)
+    {
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((CommandLineToolOptions options, CommandExecutionOptions? executionOptions, CancellationToken _) =>
+                options is GitRevParseOptions { ShowToplevel: true }
+                    ? CommandResult.Ok(Environment.CurrentDirectory)
+                    : responseFactory(options, executionOptions));
+        return command;
+    }
+
+    private async Task<(IGitInformation T, IPipeline Host)> GetGitInformation(
+        Mock<ICommandContext> command)
+    {
+        var runner = new Mock<IGitCommandRunner>();
+        runner.Setup(x => x.RunCommandsOrNull(
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>(),
+                It.IsAny<string?[]>()))
+            .ReturnsAsync((string?) null);
+        return await GetService<IGitInformation>((_, services) =>
+        {
+            services.AddSingleton<ICommandContext>(command.Object);
+            services.AddSingleton(runner.Object);
+        });
+    }
+
+    private static CommandResult CaptureRemoteOptions(
+        CommandExecutionOptions? executionOptions,
+        out CommandExecutionOptions? capturedOptions)
+    {
+        capturedOptions = executionOptions;
+        return CommandResult.Ok("HEAD branch: trunk\n");
     }
 }
