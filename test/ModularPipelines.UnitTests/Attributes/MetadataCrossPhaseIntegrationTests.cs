@@ -85,7 +85,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
     [Test]
     public async Task Metadata_SetDuringRegistration_AvailableDuringLifecycleEvents()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<MetadataModule>()
             .ExecutePipelineAsync();
 

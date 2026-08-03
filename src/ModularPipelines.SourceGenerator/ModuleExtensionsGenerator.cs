@@ -10,8 +10,8 @@ namespace ModularPipelines.SourceGenerator;
 /// <summary>
 /// Source generator that creates type-safe GetModule extension methods for Module classes.
 /// For each class that inherits from Module&lt;T&gt;, generates:
-/// - GetXxxModuleResult(this IModuleContext context) extension method (strips "Module" suffix)
-/// - GetXxxModuleResultIfRegistered(this IModuleContext context) extension method.
+/// - GetXxxModule(this IModuleContext context) extension method (strips "Module" suffix)
+/// - GetXxxModuleIfRegistered(this IModuleContext context) extension method.
 /// </summary>
 [Generator]
 public sealed class ModuleExtensionsGenerator : IIncrementalGenerator

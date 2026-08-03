@@ -182,19 +182,6 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
-    /// Configures services for the pipeline with builder context.
-    /// </summary>
-    /// <param name="builder">The pipeline builder.</param>
-    /// <param name="configureServices">Action to configure services, receiving the builder as context.</param>
-    /// <returns>The same builder instance for chaining.</returns>
-    /// <remarks>This overload is provided for backward compatibility.</remarks>
-    public static PipelineBuilder ConfigureServices(this PipelineBuilder builder, Action<PipelineBuilder, IServiceCollection> configureServices)
-    {
-        configureServices(builder, builder.Services);
-        return builder;
-    }
-
-    /// <summary>
     /// Registers every leaf value beneath a configuration section as a secret during pipeline startup.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>

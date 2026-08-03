@@ -75,7 +75,7 @@ public class PrioritySchedulingTests : TestBase
     [Test]
     public async Task PriorityAttribute_CanBeAppliedToModule()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<CriticalPriorityModule>()
             .ExecutePipelineAsync();
 
@@ -85,7 +85,7 @@ public class PrioritySchedulingTests : TestBase
     [Test]
     public async Task ModulesWithoutPriorityAttribute_UseNormalPriority()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DefaultPriorityModule>()
             .ExecutePipelineAsync();
 
@@ -95,7 +95,7 @@ public class PrioritySchedulingTests : TestBase
     [Test]
     public async Task AllPriorityLevels_ExecuteSuccessfully()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<LowPriorityModule>()
             .AddModule<NormalPriorityModule>()
             .AddModule<HighPriorityModule>()

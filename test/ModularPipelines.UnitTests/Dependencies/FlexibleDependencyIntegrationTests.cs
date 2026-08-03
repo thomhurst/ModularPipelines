@@ -42,7 +42,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task DependsOnModulesWithTag_WaitsForTaggedModules()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DatabaseModuleA>()
             .AddModule<DatabaseModuleB>()
             .AddModule<NonDatabaseModule>()
@@ -66,7 +66,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task DependsOnModulesWithTag_NoMatchingModules_StillSucceeds()
     {
         // Arrange & Act - AfterDatabaseModule depends on "database" tag but no modules have it
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<NonDatabaseModule>()
             .AddModule<ModuleDependingOnNonExistentTag>()
             .ExecutePipelineAsync();
@@ -79,7 +79,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task DependsOnModulesWithTag_MultipleTagsOnModule_MatchesCorrectly()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithMultipleTags>()
             .AddModule<AfterSlowModule>()
             .ExecutePipelineAsync();
@@ -102,7 +102,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task DependsOnModulesInCategory_WaitsForCategorizedModules()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<InfrastructureModuleA>()
             .AddModule<InfrastructureModuleB>()
             .AddModule<BuildModule>()
@@ -126,7 +126,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task DependsOnModulesInCategory_NoMatchingModules_StillSucceeds()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<BuildModule>()
             .AddModule<ModuleDependingOnNonExistentCategory>()
             .ExecutePipelineAsync();
@@ -143,7 +143,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task DependsOnModulesWithAttribute_WaitsForAttributedModules()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<CriticalModuleA>()
             .AddModule<CriticalModuleB>()
             .AddModule<NonCriticalModule>()
@@ -167,7 +167,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task DependsOnModulesWithAttribute_InheritedAttribute_IsRecognized()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DerivedCriticalModule>()
             .AddModule<AfterCriticalModule>()
             .ExecutePipelineAsync();
@@ -186,7 +186,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task DependsOnModulesWithAttribute_NoMatchingModules_StillSucceeds()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<NonCriticalModule>()
             .AddModule<AfterCriticalModule>()
             .ExecutePipelineAsync();
@@ -203,7 +203,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task ModuleWithOverrideTags_IsRecognizedByTagDependency()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithOverrideTags>()
             .AddModule<AfterDatabaseModule>()
             .ExecutePipelineAsync();
@@ -223,7 +223,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task ModuleWithOverrideCategory_IsRecognizedByCategoryDependency()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithOverrideCategory>()
             .AddModule<AfterInfrastructureModule>()
             .ExecutePipelineAsync();
@@ -247,7 +247,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task ModuleWithRegistrationTags_IsRecognizedByTagDependency()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<PlainModule>()
             .WithTags("database")
             .AddModule<AfterDatabaseModule>()
@@ -268,7 +268,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task ModuleWithRegistrationCategory_IsRecognizedByCategoryDependency()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<PlainModule>()
             .WithCategory("infrastructure")
             .AddModule<AfterInfrastructureModule>()
@@ -289,7 +289,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task ModuleWithBothAttributeAndRegistrationTags_MergesTags()
     {
         // Arrange & Act - DatabaseModuleA has "database" tag via attribute, add "slow" via registration
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DatabaseModuleA>()
             .WithTags("slow")
             .AddModule<AfterSlowModule>()
@@ -314,7 +314,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     public async Task CombinedDependencies_ModuleWithMultipleFlexibleDependencies()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DatabaseModuleA>()
             .AddModule<InfrastructureModuleA>()
             .AddModule<CriticalModuleA>()
@@ -342,7 +342,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
         // Arrange & Act
         // Chain: DatabaseModuleA (tag: database) -> AfterDatabaseModule (depends on database tag, tag: phase1)
         //        -> AfterPhase1Module (depends on phase1 tag)
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DatabaseModuleA>()
             .AddModule<AfterDatabaseModuleWithPhase1Tag>()
             .AddModule<AfterPhase1Module>()

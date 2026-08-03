@@ -178,7 +178,7 @@ public abstract class TestBase
         Action<PipelineBuilder> configureModules,
         Func<IEnumerable<IModule>, TResult> extractResults)
     {
-        var builder = TestPipelineHostBuilder.Create(testHostSettings);
+        var builder = TestPipelineBuilder.Create(testHostSettings);
         configureModules(builder);
         var pipeline = await builder.BuildAsync();
 
@@ -200,7 +200,7 @@ public abstract class TestBase
     public async Task<(T T, IPipeline Pipeline)> GetService<T>(Action<IServiceCollection>? configureServices)
         where T : notnull
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<DummyModule>();
         configureServices?.Invoke(builder.Services);
         var pipeline = await builder.BuildAsync();
@@ -223,7 +223,7 @@ public abstract class TestBase
     public async Task<(T T, IPipeline Host)> GetService<T>(Action<PipelineBuilder, IServiceCollection> configureServices)
         where T : notnull
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<DummyModule>();
         configureServices(builder, builder.Services);
         var pipeline = await builder.BuildAsync();

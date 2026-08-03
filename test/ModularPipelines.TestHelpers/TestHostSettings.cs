@@ -1,11 +1,11 @@
-﻿using ModularPipelines.Options;
+using ModularPipelines.Options;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.TestHelpers;
 
 /// <summary>
 /// Configuration settings for test pipeline execution.
-/// Used by <see cref="TestBase"/> and <see cref="TestPipelineHostBuilder"/> to configure
+/// Used by <see cref="TestBase"/> and <see cref="TestPipelineBuilder"/> to configure
 /// the test environment for module testing.
 /// </summary>
 /// <example>

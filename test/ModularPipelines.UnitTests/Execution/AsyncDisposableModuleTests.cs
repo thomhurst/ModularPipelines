@@ -9,7 +9,7 @@ public class AsyncDisposableModuleTests
     [Test]
     public async Task SuccessfullyDisposed()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<AsyncDisposableModule>()
             .ExecutePipelineAsync();
         await Assert.That(pipelineSummary.Modules.OfType<AsyncDisposableModule>().Single().IsDisposed).IsTrue();

@@ -63,8 +63,8 @@ public class ModuleLoggerTests
         // through the full integration tests.
         var file = File.GetNewTemporaryFilePath();
 
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        var host = await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection.AddLogging(builder => { builder.AddFile(file); });
             })
@@ -86,10 +86,11 @@ public class ModuleLoggerTests
     {
         var file = File.GetNewTemporaryFilePath();
 
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        var pipelineBuilder = TestPipelineBuilder.Create();
+        var host = await pipelineBuilder
+            .ConfigureServices(collection =>
             {
-                collection.Configure<MySecrets>(_.Configuration);
+                collection.Configure<MySecrets>(pipelineBuilder.Configuration);
                 collection.AddLogging(builder => { builder.AddFile(file); });
                 collection.AddSingleton(typeof(IModule), moduleType);
             })

@@ -75,7 +75,7 @@ public class ModuleTimeoutTests : TestBase
     [Test]
     public async Task Pipeline_Default_Module_Timeout_Is_Applied()
     {
-        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineBuilder.Create()
             .ConfigurePipelineOptions((_, options) => options with
             {
                 DefaultModuleTimeout = TimeSpan.FromMilliseconds(10),
@@ -91,7 +91,7 @@ public class ModuleTimeoutTests : TestBase
     [Test]
     public async Task Zero_Pipeline_Default_Module_Timeout_Disables_Timeout()
     {
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineBuilder.Create()
             .ConfigurePipelineOptions((_, options) => options with
             {
                 DefaultModuleTimeout = TimeSpan.Zero,

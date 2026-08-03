@@ -72,7 +72,7 @@ public class SecretObfuscatorTests
 
     private async Task<IPipeline> GetPipeline()
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.Services.AddSingleton(_buildSystemMock.Object);
         builder.Services.Configure<MyModel>(builder.Configuration);
         builder.Services.AddSingleton(_consoleWriterMock.Object);

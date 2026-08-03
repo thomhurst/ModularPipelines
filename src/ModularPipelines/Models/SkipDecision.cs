@@ -56,11 +56,4 @@ public sealed record SkipDecision
     {
         Reason = shouldSkip ? reason : null,
     };
-
-    /// <summary>
-    /// Converts a boolean condition to a skip decision.
-    /// </summary>
-    /// <param name="shouldSkip"><see langword="true"/> to skip the module; otherwise, <see langword="false"/>.</param>
-    /// <returns>A decision matching <paramref name="shouldSkip"/>.</returns>
-    public static implicit operator SkipDecision(bool shouldSkip) => shouldSkip ? Skip(null) : DoNotSkip;
 }
