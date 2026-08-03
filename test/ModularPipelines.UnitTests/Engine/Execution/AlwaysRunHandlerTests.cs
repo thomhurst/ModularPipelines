@@ -289,6 +289,7 @@ public class AlwaysRunHandlerTests
         var prerequisiteStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releasePrerequisite = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var dependentStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        ModuleExecutionState? prerequisiteStateWhenDependentStarted = null;
 
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
@@ -309,6 +310,7 @@ public class AlwaysRunHandlerTests
                 CancellationToken.None))
             .Returns(() =>
             {
+                prerequisiteStateWhenDependentStarted = prerequisiteState.State;
                 dependentStarted.TrySetResult();
                 dependentState.State = ModuleExecutionState.Completed;
                 dependentState.CompletionSource.TrySetResult(dependent);
@@ -321,19 +323,12 @@ public class AlwaysRunHandlerTests
             [prerequisite, dependent]);
 
         await prerequisiteStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
-        moduleRunner.Verify(x => x.ExecuteWithoutDependencyWaitAsync(
-            dependentState,
-            scheduler.Object,
-            CancellationToken.None), Times.Never);
-
         releasePrerequisite.TrySetResult();
         await dependentStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         await handlerTask;
 
-        moduleRunner.Verify(x => x.ExecuteWithoutDependencyWaitAsync(
-            dependentState,
-            scheduler.Object,
-            CancellationToken.None), Times.Once);
+        await Assert.That(prerequisiteStateWhenDependentStarted)
+            .IsEqualTo(ModuleExecutionState.Completed);
     }
 
     [Test]

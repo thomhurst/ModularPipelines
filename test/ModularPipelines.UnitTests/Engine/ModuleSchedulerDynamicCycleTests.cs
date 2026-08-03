@@ -95,12 +95,20 @@ public class ModuleSchedulerDynamicCycleTests
 
         using var scheduler = CreateScheduler(
             constraintEvaluator.Object,
-            statusReporter.Object);
+            statusReporter.Object,
+            new SchedulerOptions
+            {
+                NotificationTimeout = TimeSpan.FromMilliseconds(20),
+            });
         scheduler.InitializeModules([new CompletedDependencyModule()]);
 
         var schedulerTask = scheduler.RunSchedulerAsync(CancellationToken.None);
         var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
         await Assert.That(scheduler.MarkModuleStarted(module.ModuleType)).IsTrue();
+
+        // This observation window must exceed NotificationTimeout so a regression to
+        // timeout-based polling has time to execute another scheduling cycle.
+        await Task.Delay(150);
 
         statusReporter.Verify(
             x => x.LogStatusIfIntervalElapsed(
