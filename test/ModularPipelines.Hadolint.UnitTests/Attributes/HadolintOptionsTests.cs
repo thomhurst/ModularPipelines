@@ -1,14 +1,11 @@
 using ModularPipelines.Hadolint.Enums;
 using ModularPipelines.Hadolint.Options;
-using ModularPipelines.Helpers.Internal;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Hadolint.UnitTests.Attributes;
 
 public class HadolintOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Execute_Renders_Dockerfiles_Enums_Collections_And_Flags()
     {
@@ -56,11 +53,5 @@ public class HadolintOptionsTests
         });
 
         await Assert.That(arguments).IsEquivalentTo(["--format", "junit"]);
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }
