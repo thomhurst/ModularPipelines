@@ -5,14 +5,12 @@ using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.SonarScanner.Options;
 using Moq;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.SonarScanner.UnitTests.Attributes;
 
 public class SonarScannerOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Execute_Renders_Defines_Flags_And_Properties()
     {
@@ -72,11 +70,5 @@ public class SonarScannerOptionsTests
 
         await Assert.That(secrets).IsEquivalentTo(["token-from-define", "legacy-login-secret"]);
         await Assert.That(secrets).DoesNotContain("visible-project");
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

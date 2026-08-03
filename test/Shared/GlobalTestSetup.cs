@@ -1,4 +1,4 @@
-namespace ModularPipelines.Node.UnitTests;
+namespace ModularPipelines.TestHelpers;
 
 public static class GlobalTestSetup
 {
