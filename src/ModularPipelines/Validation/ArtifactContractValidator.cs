@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Validation;
@@ -51,18 +52,32 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             .ConfigureAwait(false);
         var skipEvaluator = services.GetRequiredService<ModulePlanningSkipEvaluator>();
         var runnableModules = new List<IModule>(modules.Count);
+        var ignoredModules = new List<IgnoredModule>();
         foreach (var module in modules)
         {
             var skipDecision = await skipEvaluator
                 .EvaluateAsync(module, CancellationToken.None)
                 .ConfigureAwait(false);
-            if (skipDecision?.ShouldSkip != true)
+            if (skipDecision?.ShouldSkip == true)
+            {
+                ignoredModules.Add(new IgnoredModule(module, skipDecision));
+            }
+            else
             {
                 runnableModules.Add(module);
             }
         }
 
-        return runnableModules;
+        var cascadeResult = await DependencySkipCascade.ApplyAsync(
+                modules,
+                runnableModules,
+                ignoredModules,
+                services.GetRequiredService<IModuleDependencyRegistry>(),
+                services.GetRequiredService<IModuleMetadataRegistry>(),
+                _ => Task.CompletedTask,
+                _ => true)
+            .ConfigureAwait(false);
+        return cascadeResult.RunnableModules;
     }
 
     private static ValidationResult ValidateModules(

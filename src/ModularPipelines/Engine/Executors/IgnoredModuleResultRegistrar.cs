@@ -71,6 +71,9 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             .Select(module => module.GetType())
             .Distinct()
             .ToArray();
+        var modulesByType = allModules
+            .GroupBy(module => module.GetType())
+            .ToDictionary(group => group.Key, group => group.First());
         var historicalResults = new Dictionary<IModule, IModuleResult?>(
             ReferenceEqualityComparer.Instance);
         foreach (var ignoredModule in ignoredModules)
@@ -100,16 +103,12 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                 continue;
             }
 
-            var requiredDependencies = ModuleDependencyResolver
-                .GetAllDependencies(
+            if (HasUnrecoverableRequiredDependency(
                     runnableModule.Module,
+                    modulesByType,
                     availableModuleTypes,
-                    _dependencyRegistry,
-                    _metadataRegistry)
-                .Where(dependency => !dependency.Optional)
-                .Select(dependency => dependency.DependencyType)
-                .ToHashSet();
-            if (requiredDependencies.Overlaps(unrecoverableIgnoredModuleTypes))
+                    ignoredModuleTypes,
+                    unrecoverableIgnoredModuleTypes))
             {
                 continue;
             }
@@ -156,6 +155,50 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         return new OrganizedModules(
             runnableModules.Where(runnableModule => remainingModules.Contains(runnableModule.Module)).ToList(),
             cascadeResult.IgnoredModules);
+    }
+
+    private bool HasUnrecoverableRequiredDependency(
+        IModule module,
+        IReadOnlyDictionary<Type, IModule> modulesByType,
+        IReadOnlyCollection<Type> availableModuleTypes,
+        IReadOnlySet<Type> ignoredModuleTypes,
+        IReadOnlySet<Type> unrecoverableIgnoredModuleTypes)
+    {
+        var pending = new Stack<IModule>();
+        var visitedTypes = new HashSet<Type> { module.GetType() };
+        pending.Push(module);
+
+        while (pending.TryPop(out var currentModule))
+        {
+            var requiredDependencies = ModuleDependencyResolver
+                .GetAllDependencies(
+                    currentModule,
+                    availableModuleTypes,
+                    _dependencyRegistry,
+                    _metadataRegistry)
+                .Where(dependency => !dependency.Optional)
+                .Select(dependency => dependency.DependencyType);
+            foreach (var dependencyType in requiredDependencies)
+            {
+                if (ignoredModuleTypes.Contains(dependencyType))
+                {
+                    if (unrecoverableIgnoredModuleTypes.Contains(dependencyType))
+                    {
+                        return true;
+                    }
+
+                    continue;
+                }
+
+                if (visitedTypes.Add(dependencyType)
+                    && modulesByType.TryGetValue(dependencyType, out var dependencyModule))
+                {
+                    pending.Push(dependencyModule);
+                }
+            }
+        }
+
+        return false;
     }
 
     private bool IsDistributedWorker()
