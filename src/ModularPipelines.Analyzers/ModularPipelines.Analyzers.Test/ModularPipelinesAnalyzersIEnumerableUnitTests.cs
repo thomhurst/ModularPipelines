@@ -133,6 +133,24 @@ public abstract class Module1 : FixedWrapper<string>
 }}
 ";
 
+    private const string PartialSyncModuleSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public partial class Module1 : SyncModule<IEnumerable<string>>
+{{
+}}
+
+public partial class Module1
+{{
+    protected override IEnumerable<string>? Execute(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        return Array.Empty<string>();
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_IEnumerable()
     {
@@ -165,6 +183,14 @@ public abstract class Module1 : FixedWrapper<string>
 
         await VerifyCodeFixCS.VerifyNoCodeFixAsync(
             source,
+            EnumerableModuleResultAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFixIsNotOfferedWhenPartialExecutionReturnWouldBecomeInvalid()
+    {
+        await VerifyCodeFixCS.VerifyNoCodeFixAsync(
+            PartialSyncModuleSource,
             EnumerableModuleResultAnalyzer.DiagnosticId);
     }
 

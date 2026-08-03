@@ -199,15 +199,17 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             .Ancestors()
             .OfType<TypeDeclarationSyntax>()
             .FirstOrDefault();
-        if (containingType is null)
+        if (containingType is null
+            || replacement.SemanticModel.GetDeclaredSymbol(containingType)
+                is not INamedTypeSymbol containingTypeSymbol)
         {
             return false;
         }
 
-        var executionOverrides = containingType.Members
-            .OfType<MethodDeclarationSyntax>()
-            .Select(method => replacement.SemanticModel.GetDeclaredSymbol(method))
-            .Where(method => method?.OverriddenMethod is not null
+        var executionOverrides = containingTypeSymbol
+            .GetMembers()
+            .OfType<IMethodSymbol>()
+            .Where(method => method.OverriddenMethod is not null
                 && method.Name is "Execute" or "ExecuteAsync")
             .ToArray();
         if (executionOverrides.Length == 0)
@@ -226,7 +228,7 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
         };
         return expectedResultType is not null
             && executionOverrides.All(method => SymbolEqualityComparer.Default.Equals(
-                GetExecutionResultType(method!.ReturnType),
+                GetExecutionResultType(method.ReturnType),
                 expectedResultType));
     }
 
