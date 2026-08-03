@@ -326,7 +326,6 @@ public partial class GcloudCliScraper : CliScraperBase
                 args.Add(new CliPositionalArgument
                 {
                     PropertyName = propertyName,
-                    PlaceholderName = argName,
                     CSharpType = isMultiple ? "IEnumerable<string>" : "string",
                     IsRequired = true,
                     PositionIndex = 0,

@@ -41,6 +41,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
             "second",
             "--",
             "target-value",
+            "inline-value",
         ];
 
         await Assert.That(arguments.SequenceEqual(expected, StringComparer.Ordinal)).IsTrue();
@@ -69,7 +70,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
         [CliArgument(0, PrependOptionTerminator = true)]
         public string? Target { get; init; }
 
-        [CliArgument(1, Name = "inline")]
+        [CliArgument(1)]
         public string? InlineArgument { get; init; }
 
         [CliFlag("--verbose", ShortForm = "-v", PreferShortForm = true)]

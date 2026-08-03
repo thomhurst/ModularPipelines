@@ -58,3 +58,32 @@ var options = new JqExecuteOptions
 `CliValuePair` options must use a space separator because each occurrence renders as
 `--option first second`. Other `OptionFormat` values now throw during command construction
 instead of being silently ignored.
+
+## CLI argument placeholders removed
+
+`CliArgumentAttribute.Name` and `<PLACEHOLDER>` substitution in command parts have
+been removed. Every `[CliArgument]` value is now rendered as a positional argument;
+it can no longer disappear because a matching placeholder was absent.
+
+For a command chain that depends on constructor input, compute `CommandParts`
+explicitly:
+
+```csharp
+// Before: Action disappeared when <ACTION> was missing or did not match.
+[CliCommand("tool", "resource", "<ACTION>")]
+public record ResourceOptions(
+    [property: CliArgument(0, Name = "<ACTION>")] string Action)
+    : CommandLineToolOptions;
+
+// V4: the constructor owns the dynamic command chain.
+[CliTool("tool")]
+public record ResourceOptions : CommandLineToolOptions
+{
+    public ResourceOptions(string action)
+    {
+        CommandParts = ["resource", action];
+    }
+}
+```
+
+Use `[CliArgument]` only for positional values that follow the command chain.

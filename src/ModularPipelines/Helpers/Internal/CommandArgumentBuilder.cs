@@ -33,10 +33,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 "Terminal options cannot be combined with an end-of-options marker.");
         }
 
-        return renderedPhases
-            .OrderBy(pair => GetRenderOrder(pair.Key))
-            .SelectMany(pair => pair.Value)
-            .ToList();
+        return
+        [
+            .. renderedPhases
+                .OrderBy(pair => GetRenderOrder(pair.Key))
+                .SelectMany(pair => pair.Value),
+        ];
     }
 
     private static int GetRenderOrder(CommandLinePhase phase) => phase switch
@@ -87,13 +89,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         foreach (var argumentPart in argumentParts)
         {
-            // Skip arguments that have a Name property - these are handled inline via
-            // placeholder replacement in Command.cs and should not be added again
-            if (argumentPart.Attribute.Name is not null)
-            {
-                continue;
-            }
-
             var rawValue = argumentPart.Getter(optionsObject);
             if (rawValue is null)
             {
@@ -139,12 +134,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         if (rawValue is bool boolValue && boolValue)
         {
-            args.Add(flagPart.Attribute.GetEffectiveName());
+            args.Add(GetEffectiveName(flagPart.Attribute));
         }
 
         if (rawValue is int count && count > 0)
         {
-            args.AddRange(Enumerable.Repeat(flagPart.Attribute.GetEffectiveName(), count));
+            args.AddRange(Enumerable.Repeat(GetEffectiveName(flagPart.Attribute), count));
         }
     }
 
@@ -172,14 +167,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             {
                 if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
                 {
-                    args.Add(optionPart.Attribute.GetEffectiveName());
+                    args.Add(GetEffectiveName(optionPart.Attribute));
                 }
 
                 continue;
             }
 
-            var optionName = optionPart.Attribute.GetEffectiveName();
-            var separator = optionPart.Attribute.GetSeparator();
+            var optionName = GetEffectiveName(optionPart.Attribute);
+            var separator = GetSeparator(optionPart.Attribute);
 
             if (separator == " ")
             {
@@ -198,10 +193,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         CliOptionAttribute attribute,
         IEnumerable<string> values)
     {
-        if (attribute.GetSeparator() != " ")
+        if (GetSeparator(attribute) != " ")
         {
             throw new InvalidOperationException(
-                $"Grouped option '{attribute.GetEffectiveName()}' must use a space separator.");
+                $"Grouped option '{GetEffectiveName(attribute)}' must use a space separator.");
         }
 
         var renderedValues = values.Where(value => !string.IsNullOrWhiteSpace(value)).ToList();
@@ -209,13 +204,13 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             if (attribute.ValueArity == CliOptionValueArity.Optional)
             {
-                args.Add(attribute.GetEffectiveName());
+                args.Add(GetEffectiveName(attribute));
             }
 
             return;
         }
 
-        args.Add(attribute.GetEffectiveName());
+        args.Add(GetEffectiveName(attribute));
         args.AddRange(renderedValues);
     }
 
@@ -234,20 +229,42 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         OptionPart optionPart,
         IEnumerable<CliValuePair> pairs)
     {
-        if (optionPart.Attribute.GetSeparator() != " ")
+        if (GetSeparator(optionPart.Attribute) != " ")
         {
             throw new InvalidOperationException(
                 $"Two-operand CLI option property '{optionPart.PropertyName}' must use "
                 + $"{nameof(OptionFormat)}.{nameof(OptionFormat.SpaceSeparated)}.");
         }
 
-        var optionName = optionPart.Attribute.GetEffectiveName();
+        var optionName = GetEffectiveName(optionPart.Attribute);
         foreach (var pair in pairs)
         {
             args.Add(optionName);
             args.Add(pair.First);
             args.Add(pair.Second);
         }
+    }
+
+    private static string GetEffectiveName(CliFlagAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetEffectiveName(CliOptionAttribute attribute) =>
+        attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)
+            ? attribute.ShortForm
+            : attribute.Name;
+
+    private static string GetSeparator(CliOptionAttribute attribute)
+    {
+        return attribute.Format switch
+        {
+            OptionFormat.SpaceSeparated => " ",
+            OptionFormat.EqualsSeparated => "=",
+            OptionFormat.ColonSeparated => ":",
+            OptionFormat.NoSeparator => string.Empty,
+            _ => " ",
+        };
     }
 
     private static List<string> GetValues(object rawValue)

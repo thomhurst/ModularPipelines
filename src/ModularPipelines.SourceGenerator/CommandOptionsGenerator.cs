@@ -267,7 +267,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return new PropertyMetadata(
                 property.Name,
                 PropertyKind.Argument,
-                GetNamedString(attribute, "Name"),
+                null,
                 null,
                 GetNamedBool(attribute, "PrependOptionTerminator"),
                 false,
@@ -406,7 +406,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                    new global::ModularPipelines.Attributes.CliArgumentAttribute({property.FirstInt})");
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                        Name = {NullableLiteral(property.PrimaryValue)},");
                     sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;

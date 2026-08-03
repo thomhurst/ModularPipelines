@@ -118,6 +118,19 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Uses_Constructor_Computed_CommandParts()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestComputedCommandPartsOptions("deploy")
+        {
+            Force = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("mytool resource deploy --force");
+    }
+
+    [Test]
     public async Task Build_WithPositionalArguments_PlacesCorrectly()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -174,11 +187,10 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
-    public async Task Build_SkipsDuplicateToolInArguments()
+    public async Task Build_PreservesToolNameInArguments()
     {
         var builder = await GetService<ICommandLineBuilder>();
 
-        // Some legacy code might include the tool name in Arguments
         var options = new GenericCommandLineToolOptions("git")
         {
             Arguments = ["git", "status"]
@@ -187,9 +199,9 @@ public class CommandLineBuilderTests : TestBase
         var result = builder.Build(options);
 
         await Assert.That(result.Tool).IsEqualTo("git");
-        // Should only have "status", not "git status"
-        await Assert.That(result.Arguments.Count(a => a == "git")).IsEqualTo(0);
-        await Assert.That(result.Arguments).Contains("status");
+        await Assert.That(result.Arguments).IsEquivalentTo(
+            ["git", "status"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
     [Test]
@@ -237,6 +249,18 @@ public class CommandLineBuilderTests : TestBase
 
         [CliOption("--output")]
         public string? Output { get; set; }
+    }
+
+    [CliTool("mytool")]
+    private sealed record TestComputedCommandPartsOptions : CommandLineToolOptions
+    {
+        public TestComputedCommandPartsOptions(string action)
+        {
+            CommandParts = ["resource", action];
+        }
+
+        [CliFlag("--force")]
+        public bool? Force { get; init; }
     }
 
     [CliTool("processor")]
