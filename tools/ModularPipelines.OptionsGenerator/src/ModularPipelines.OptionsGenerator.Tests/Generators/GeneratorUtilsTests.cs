@@ -691,6 +691,19 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("Otp")]
+    [Arguments("OTP")]
+    [Arguments("RegistryOtp")]
+    [Arguments("OtpCode")]
+    [Arguments("RegistryOtpCode")]
+    public async Task IsSecretOption_Returns_True_For_Otp_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
     [Arguments("ApiKey")]
     [Arguments("MyApiKey")]
     [Arguments("ApiKeyValue")]
@@ -738,6 +751,10 @@ public class GeneratorUtilsTests
     [Arguments("ConfigFile")]
     [Arguments("Namespace")]
     [Arguments("Repository")]
+    [Arguments("ExecutorRootPath")]
+    [Arguments("GrpcWebRootPath")]
+    [Arguments("RdbSnapshotPeriod")]
+    [Arguments("AutopilotPrivilegedAdmission")]
     public async Task IsSecretOption_Returns_False_For_Non_Secret_Names(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
