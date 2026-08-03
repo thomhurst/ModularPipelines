@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using System.Globalization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Models;
@@ -279,6 +280,26 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Preserves_Legacy_Scalar_Optional_String_Value()
+    {
+        var options = new TestCliOptionsWithLegacyScalarOptionalValue { Output = "json" };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(["--output=json"]);
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Handwritten_Legacy_Optional_String_Value()
+    {
+        var options = new TestCliOptionsWithHandwrittenLegacyOptionalValue { Output = "json" };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
     public async Task Parser_Omits_Null_OptionalValue_Option()
     {
         var list = BuildArguments(new TestCliOptionsWithSemanticPhases { Terminal = null });
@@ -510,6 +531,7 @@ public class CliAttributeTests
         public IEnumerable<CliOptionValue>? Output { get; set; }
     }
 
+    [GeneratedCode("ModularPipelines.OptionsGenerator", "3.0.0")]
     private record TestCliOptionsWithLegacyMultipleOptionalValues
     {
         [CliOption(
@@ -518,6 +540,25 @@ public class CliAttributeTests
             AllowMultiple = true,
             ValueArity = CliOptionValueArity.Optional)]
         public IEnumerable<string>? Output { get; set; }
+    }
+
+    [GeneratedCode("ModularPipelines.OptionsGenerator", "3.0.0")]
+    private record TestCliOptionsWithLegacyScalarOptionalValue
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public string? Output { get; set; }
+    }
+
+    private record TestCliOptionsWithHandwrittenLegacyOptionalValue
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public string? Output { get; set; }
     }
 
     private record TestCliOptionsWithDuplicateSwitch

@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -217,12 +218,15 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
+        var isLegacyGeneratedOptions = optionsType.IsDefined(typeof(GeneratedCodeAttribute), inherit: false);
         var optionValues = rawValue switch
         {
             CliOptionValue optionValue => [optionValue],
             IEnumerable<CliOptionValue> values when optionPart.Attribute.AllowMultiple => values,
             // Preserve compatibility with generated option packages that predate CliOptionValue.
-            IEnumerable<string> values when optionPart.Attribute.AllowMultiple => values.Select(ToLegacyOptionalValue),
+            string value when isLegacyGeneratedOptions => [ToLegacyOptionalValue(value)],
+            IEnumerable<string> values when optionPart.Attribute.AllowMultiple && isLegacyGeneratedOptions
+                => values.Select(ToLegacyOptionalValue),
             _ => throw CreateInvalidOptionalValueTypeException(optionsType, optionPart),
         };
 
