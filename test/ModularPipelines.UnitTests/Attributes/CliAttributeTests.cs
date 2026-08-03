@@ -435,7 +435,7 @@ public class CliAttributeTests
         [CliOption("--date")]
         public DateTime Date { get; init; }
 
-        [CliOption("--values", AllowMultiple = true)]
+        [CliOption("--values")]
         public double[]? Values { get; init; }
     }
 

@@ -79,14 +79,6 @@
         "type": "bool",
         "reason": "Suppress the pull output"
       },
-      "--sig-proxy": {
-        "type": "bool",
-        "reason": "Proxy received signals to the process"
-      },
-      "--disable-content-trust": {
-        "type": "bool",
-        "reason": "Skip image verification"
-      },
       "--env": {
         "type": "stringList",
         "reason": "Can specify multiple environment variables"
@@ -146,10 +138,6 @@
       "--quiet": {
         "type": "bool",
         "reason": "Suppress verbose output"
-      },
-      "--disable-content-trust": {
-        "type": "bool",
-        "reason": "Skip image verification"
       }
     },
     "image.push": {
@@ -160,10 +148,6 @@
       "--quiet": {
         "type": "bool",
         "reason": "Suppress verbose output"
-      },
-      "--disable-content-trust": {
-        "type": "bool",
-        "reason": "Skip image signing"
       }
     }
   }

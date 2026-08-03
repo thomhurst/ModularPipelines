@@ -182,7 +182,7 @@ public record DockerContainerRunOptions(
     /// <summary>
     /// Skip image verification (default true)
     /// </summary>
-    [CliFlag("--disable-content-trust")]
+    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
@@ -530,7 +530,7 @@ public record DockerContainerRunOptions(
     /// <summary>
     /// Proxy received signals to the process (default true)
     /// </summary>
-    [CliFlag("--sig-proxy")]
+    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
 
     /// <summary>

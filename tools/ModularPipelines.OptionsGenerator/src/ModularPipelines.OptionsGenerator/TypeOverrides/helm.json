@@ -37,10 +37,6 @@
         "type": "bool",
         "reason": "Update dependencies before installing"
       },
-      "--dry-run": {
-        "type": "bool",
-        "reason": "Simulate an install"
-      },
       "--force": {
         "type": "bool",
         "reason": "Force resource updates"
@@ -111,10 +107,6 @@
       "--dependency-update": {
         "type": "bool",
         "reason": "Update dependencies"
-      },
-      "--dry-run": {
-        "type": "bool",
-        "reason": "Simulate an upgrade"
       },
       "--force": {
         "type": "bool",

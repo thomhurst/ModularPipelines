@@ -31,7 +31,7 @@ public record DockerImagePullOptions(
     /// <summary>
     /// Skip image verification (default true)
     /// </summary>
-    [CliFlag("--disable-content-trust")]
+    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>

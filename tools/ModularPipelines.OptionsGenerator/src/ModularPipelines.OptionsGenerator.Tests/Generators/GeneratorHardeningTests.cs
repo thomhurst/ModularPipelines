@@ -927,10 +927,32 @@ public class GeneratorHardeningTests
     [Test]
     public async Task EscapeXmlComment_Normalizes_Windows_Runner_Home_Paths()
     {
-        var result = GeneratorUtils.EscapeXmlComment(@"default C:\Users\local developer\.config\tool");
+        var result = GeneratorUtils.EscapeXmlComment(@"default C:\Users\runneradmin\.config\tool");
 
         await Assert.That(result).Contains(@"~\.config\tool");
-        await Assert.That(result).DoesNotContain("local developer");
+        await Assert.That(result).DoesNotContain("runneradmin");
+    }
+
+    [Test]
+    public async Task EscapeXmlComment_Normalizes_Current_User_Home_Path()
+    {
+        var homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        var path = Path.Combine(homeDirectory, ".config", "tool");
+
+        var result = GeneratorUtils.EscapeXmlComment($"default {path}");
+
+        await Assert.That(result).StartsWith("default ~");
+        await Assert.That(result).DoesNotContain(homeDirectory);
+    }
+
+    [Test]
+    public async Task EscapeXmlComment_Preserves_Unrelated_Home_Shaped_Paths()
+    {
+        const string path = "/home/site/deployments/tools/";
+
+        var result = GeneratorUtils.EscapeXmlComment($"deployment path {path}");
+
+        await Assert.That(result).Contains(path);
     }
 
     #endregion

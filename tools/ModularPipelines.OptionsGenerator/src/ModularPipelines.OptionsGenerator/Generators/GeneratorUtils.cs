@@ -14,6 +14,13 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public static partial class GeneratorUtils
 {
+    private static readonly string[] KnownRunnerHomeDirectories =
+    [
+        "/home/runner",
+        "/Users/runner",
+        @"C:\Users\runneradmin",
+    ];
+
     internal readonly record struct RequiredConstructorParameter(
         string PropertyName,
         string CSharpType,
@@ -99,7 +106,7 @@ public static partial class GeneratorUtils
         // Help text scraped from a CLI can embed the generating user's home directory
         // in option defaults (e.g. "/home/runner/.config/helm/..."). Those paths are
         // meaningless to consumers, so normalize them to "~" before shipping docs.
-        text = RunnerHomePathPattern().Replace(text, "~");
+        text = NormalizeRunnerHomePaths(text);
         text = text
             .Replace("\r\n", " ")
             .Replace("\n", " ")
@@ -111,6 +118,33 @@ public static partial class GeneratorUtils
             .Replace("<", "&lt;")
             .Replace(">", "&gt;")
             .Trim();
+    }
+
+    private static string NormalizeRunnerHomePaths(string text)
+    {
+        var homeDirectories = KnownRunnerHomeDirectories
+            .Append(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile))
+            .Where(static homeDirectory => !string.IsNullOrWhiteSpace(homeDirectory))
+            .Distinct(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var homeDirectory in homeDirectories)
+        {
+            var trimmedHomeDirectory = homeDirectory.TrimEnd('/', '\\');
+            var variants = new[]
+            {
+                trimmedHomeDirectory.Replace('\\', '/'),
+                trimmedHomeDirectory.Replace('/', '\\'),
+            }.Distinct(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var variant in variants)
+            {
+                text = text
+                    .Replace($"{variant}/", "~/", StringComparison.OrdinalIgnoreCase)
+                    .Replace($@"{variant}\", @"~\", StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        return text;
     }
 
     /// <summary>
@@ -297,9 +331,6 @@ public static partial class GeneratorUtils
 
     [GeneratedRegex(@"[^\p{L}\p{Nd}_]")]
     private static partial Regex InvalidIdentifierCharacterPattern();
-
-    [GeneratedRegex(@"(?:/home/[^/\\]+|/Users/[^/\\]+|[A-Za-z]:\\Users\\[^/\\]+)(?=[/\\])")]
-    private static partial Regex RunnerHomePathPattern();
 
     /// <summary>
     /// C# reserved keywords that cannot be used as identifiers without escaping.
