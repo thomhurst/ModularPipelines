@@ -17,18 +17,15 @@ using ModularPipelines.Validation;
 namespace ModularPipelines;
 
 /// <summary>
-/// Represents a module registration and provides metadata configuration for that module.
+/// Represents a module registration and provides fluent access to the pipeline builder.
 /// </summary>
 /// <typeparam name="TModule">The registered module type.</typeparam>
 public sealed class ModuleRegistration<TModule>
     where TModule : class, IModule
 {
-    private readonly Type _moduleType;
-
-    internal ModuleRegistration(PipelineBuilder builder, Type moduleType)
+    internal ModuleRegistration(PipelineBuilder builder)
     {
         Builder = builder;
-        _moduleType = moduleType;
     }
 
     /// <summary>
@@ -55,28 +52,6 @@ public sealed class ModuleRegistration<TModule>
     /// Gets the host environment information.
     /// </summary>
     public IHostEnvironment Environment => Builder.Environment;
-
-    /// <summary>
-    /// Adds tags to the registered module.
-    /// </summary>
-    /// <param name="tags">The tags to add.</param>
-    /// <returns>This registration for chaining.</returns>
-    public ModuleRegistration<TModule> WithTags(params string[] tags)
-    {
-        Builder.Services.Configure<ModuleRegistrationOptions>(options => options.AddTags(_moduleType, tags));
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the category of the registered module.
-    /// </summary>
-    /// <param name="category">The category to set.</param>
-    /// <returns>This registration for chaining.</returns>
-    public ModuleRegistration<TModule> WithCategory(string category)
-    {
-        Builder.Services.Configure<ModuleRegistrationOptions>(options => options.SetCategory(_moduleType, category));
-        return this;
-    }
 
     /// <summary>
     /// Adds another module to the pipeline.

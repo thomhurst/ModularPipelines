@@ -68,9 +68,7 @@ public class ModuleRegistrationContextTests
     [Test]
     public async Task SetMetadata_GetMetadata_RoundTrips()
     {
-        var metadataRegistry = new ModuleMetadataRegistry(
-            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-            new ModuleAttributeEventService());
+        var metadataRegistry = new ModuleMetadataRegistry(new ModuleAttributeEventService());
         var context = CreateContext(typeof(ModuleA), metadataRegistry: metadataRegistry);
 
         context.SetMetadata("key", "value");
@@ -96,8 +94,6 @@ public class ModuleRegistrationContextTests
             registeredModules ?? new List<Type> { moduleType },
             services,
             dependencyRegistry ?? new ModuleDependencyRegistry(),
-            metadataRegistry ?? new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()));
+            metadataRegistry ?? new ModuleMetadataRegistry(new ModuleAttributeEventService()));
     }
 }

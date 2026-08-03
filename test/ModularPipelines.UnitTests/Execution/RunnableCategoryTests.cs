@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.TestHelpers;
@@ -44,8 +45,12 @@ public class RunnableCategoryTests : TestBase
         protected override bool Result => true;
     }
 
-    private class RegistrationCategoryModule : SimpleTestModule<bool>
+    private class ConfiguredCategoryModule : SimpleTestModule<bool>
     {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCategory("Run1")
+            .Build();
+
         protected override bool Result => true;
     }
 
@@ -136,18 +141,17 @@ public class RunnableCategoryTests : TestBase
     }
 
     [Test]
-    public async Task Registration_Category_Override_Is_Used_For_Run_Filtering()
+    public async Task Configured_Category_Is_Used_For_Run_Filtering()
     {
         var host = await TestPipelineHostBuilder.Create()
-            .AddModule<RegistrationCategoryModule>()
-            .WithCategory("Run1")
+            .AddModule<ConfiguredCategoryModule>()
             .RunOnlyCategories("Run1")
             .BuildAsync();
 
         await host.RunAsync();
 
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
-        await Assert.That(resultRegistry.GetResult(typeof(RegistrationCategoryModule))!.ModuleStatus)
+        await Assert.That(resultRegistry.GetResult(typeof(ConfiguredCategoryModule))!.ModuleStatus)
             .IsEqualTo(Status.Successful);
     }
 }
