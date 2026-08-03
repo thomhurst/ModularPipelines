@@ -32,11 +32,11 @@ public class GitInformationTests : TestBase
     public async Task Resolving_Service_Does_Not_Run_Git_Commands()
     {
         var command = new Mock<ICommandContext>();
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton<ICommandContext>(command.Object));
 
         command.VerifyNoOtherCalls();
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -48,11 +48,11 @@ public class GitInformationTests : TestBase
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("git unavailable"));
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton<ICommandContext>(command.Object));
 
         await Assert.That(await result.T.GetInfoAsync()).IsNull();
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -72,7 +72,7 @@ public class GitInformationTests : TestBase
             It.IsAny<GitRemoteShowOptions>(),
             It.IsAny<CommandExecutionOptions?>(),
             It.IsAny<CancellationToken>()), Times.Never());
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -92,7 +92,7 @@ public class GitInformationTests : TestBase
         await Assert.That(repository?.DefaultBranchName).IsEqualTo("trunk");
         await Assert.That(remoteExecutionOptions?.ThrowOnNonZeroExitCode).IsFalse();
         await Assert.That(remoteExecutionOptions?.ExecutionTimeout).IsEqualTo(TimeSpan.FromSeconds(10));
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -110,7 +110,7 @@ public class GitInformationTests : TestBase
                     observedToken = cancellationToken;
                     return Task.FromException<CommandResult>(new OperationCanceledException(cancellationToken));
                 });
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton<ICommandContext>(command.Object));
         using var cancellationTokenSource = new CancellationTokenSource();
 
@@ -125,7 +125,7 @@ public class GitInformationTests : TestBase
             .ThrowsAsync(new InvalidOperationException("git unavailable"));
 
         await Assert.That(await result.T.GetInfoAsync()).IsNull();
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     [Test]
@@ -143,7 +143,7 @@ public class GitInformationTests : TestBase
                     observedToken = cancellationToken;
                     return Task.FromResult<string?>(null);
                 });
-        var result = await GetService<IGitInformation>((_, services) =>
+        var result = await GetService<IGitInformation>(services =>
             services.AddSingleton(runner.Object));
         using var cancellationTokenSource = new CancellationTokenSource();
 
@@ -152,7 +152,7 @@ public class GitInformationTests : TestBase
         }
 
         await Assert.That(observedToken).IsEqualTo(cancellationTokenSource.Token);
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
     }
 
     private static Mock<ICommandContext> CreateRepositoryCommand(
@@ -170,7 +170,7 @@ public class GitInformationTests : TestBase
         return command;
     }
 
-    private async Task<(IGitInformation T, IPipeline Host)> GetGitInformation(
+    private async Task<(IGitInformation T, IPipeline Pipeline)> GetGitInformation(
         Mock<ICommandContext> command)
     {
         var runner = new Mock<IGitCommandRunner>();
@@ -179,7 +179,7 @@ public class GitInformationTests : TestBase
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
             .ReturnsAsync((string?) null);
-        return await GetService<IGitInformation>((_, services) =>
+        return await GetService<IGitInformation>(services =>
         {
             services.AddSingleton<ICommandContext>(command.Object);
             services.AddSingleton(runner.Object);
