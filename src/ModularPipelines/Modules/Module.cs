@@ -1,8 +1,7 @@
-using System.Collections.Frozen;
 using System.Runtime.CompilerServices;
-using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 
@@ -53,10 +52,9 @@ namespace ModularPipelines.Modules;
 /// }
 /// </code>
 /// </example>
-public abstract class Module<T> : IModule, ITaggedModule
+public abstract class Module<T> : IModule
 {
     private readonly Lazy<ModuleConfiguration> _configuration;
-    private readonly Lazy<FrozenSet<string>> _tags;
 
     // Exposes hook-transformed results to self-awaits without completing the public result early.
     private readonly AsyncLocal<ModuleResult<T>?> _provisionalResult = new();
@@ -66,9 +64,6 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// </summary>
     protected Module()
     {
-        _tags = new Lazy<FrozenSet<string>>(
-            () => Tags.ToFrozenSet(StringComparer.OrdinalIgnoreCase),
-            LazyThreadSafetyMode.ExecutionAndPublication);
         _configuration = new Lazy<ModuleConfiguration>(
             CreateConfiguration,
             LazyThreadSafetyMode.ExecutionAndPublication);
@@ -82,6 +77,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     {
         get
         {
+            PlanningModuleResultAccess.ThrowIfUnavailable(GetType());
             if (_provisionalResult.Value is { } provisionalResult)
             {
                 return Task.FromResult<IModuleResult>(provisionalResult);
@@ -123,27 +119,6 @@ public abstract class Module<T> : IModule, ITaggedModule
 
     /// <inheritdoc />
     ModuleConfiguration IModule.Configuration => _configuration.Value;
-
-    /// <inheritdoc />
-    IReadOnlySet<string> ITaggedModule.Tags => _tags.Value;
-
-    /// <summary>
-    /// Gets the tags for this module. Override to declare tags programmatically.
-    /// </summary>
-    /// <remarks>
-    /// Tags can also be declared via <see cref="ModuleTagAttribute"/>.
-    /// Both sources are merged together.
-    /// </remarks>
-    public virtual IReadOnlySet<string> Tags => FrozenSet<string>.Empty;
-
-    /// <summary>
-    /// Gets the category for this module. Override to declare category programmatically.
-    /// </summary>
-    /// <remarks>
-    /// Category can also be declared via <see cref="ModuleCategoryAttribute"/>.
-    /// Override value takes precedence over attribute.
-    /// </remarks>
-    public virtual string? Category => null;
 
     /// <summary>
     /// Executes the module's core logic.
@@ -301,6 +276,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <returns>An awaiter for the module result.</returns>
     public TaskAwaiter<ModuleResult<T>> GetAwaiter()
     {
+        PlanningModuleResultAccess.ThrowIfUnavailable(GetType());
         return _provisionalResult.Value is { } provisionalResult
             ? Task.FromResult(provisionalResult).GetAwaiter()
             : CompletionSource.Task.GetAwaiter();
@@ -309,9 +285,7 @@ public abstract class Module<T> : IModule, ITaggedModule
     private ModuleConfiguration CreateConfiguration() =>
         ModuleConfigurationAttributeAdapter.Apply(
             GetType(),
-            Configure(),
-            _tags.Value,
-            Category);
+            Configure());
 }
 
 #pragma warning restore SA1202

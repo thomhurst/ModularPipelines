@@ -106,6 +106,8 @@ public class ModuleSchedulerDynamicCycleTests
         var module = await scheduler.ReadyModules.ReadAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
         await Assert.That(scheduler.MarkModuleStarted(module.ModuleType)).IsTrue();
 
+        // This observation window must exceed NotificationTimeout so a regression to
+        // timeout-based polling has time to execute another scheduling cycle.
         await Task.Delay(150);
 
         statusReporter.Verify(
@@ -113,13 +115,12 @@ public class ModuleSchedulerDynamicCycleTests
                 It.IsAny<ModuleStateQueries>(),
                 It.IsAny<ReaderWriterLockSlim>()),
             Times.Never);
-
-        scheduler.MarkModuleCompleted(module.ModuleType, success: true);
-        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
-
         constraintEvaluator.Verify(
             x => x.CanQueue(It.IsAny<ModuleState>(), It.IsAny<IEnumerable<ModuleState>>()),
             Times.Never);
+
+        scheduler.MarkModuleCompleted(module.ModuleType, success: true);
+        await schedulerTask.WaitAsync(TimeSpan.FromSeconds(5));
     }
 
     [Test]
@@ -177,9 +178,7 @@ public class ModuleSchedulerDynamicCycleTests
             TimeProvider.System,
             Microsoft.Extensions.Options.Options.Create(schedulerOptions ?? new SchedulerOptions()),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             Mock.Of<IMetricsCollector>(),
             constraintEvaluator ?? Mock.Of<IModuleConstraintEvaluator>(),
             statusReporter ?? Mock.Of<ISchedulerStatusReporter>());

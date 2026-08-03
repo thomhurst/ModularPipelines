@@ -1,14 +1,11 @@
 using ModularPipelines.Ansible.Options;
 using ModularPipelines.Attributes;
-using ModularPipelines.Helpers.Internal;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Ansible.UnitTests.Attributes;
 
 public class AnsibleOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Execute_Renders_Required_Pattern_Repeatable_Options_And_Flags()
     {
@@ -54,11 +51,5 @@ public class AnsibleOptionsTests
             var property = typeof(AnsibleExecuteOptions).GetProperty(propertyName);
             await Assert.That(property!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
         }
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

@@ -1,4 +1,5 @@
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
@@ -38,6 +39,7 @@ public sealed class ModuleConfigurationBuilder
     private readonly HashSet<string> _tags = [with(StringComparer.OrdinalIgnoreCase)];
     private readonly List<DeclaredDependency> _dependencies = [];
     private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> _skipConditions = [];
+    private readonly List<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>> _planningSkipConditions = [];
     private readonly List<string> _cacheKeyParts = [];
     private readonly HashSet<string> _cacheEnvironmentVariables = [with(StringComparer.Ordinal)];
     private TimeSpan? _timeout;
@@ -60,7 +62,7 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Adds a synchronous skip condition.
     /// </summary>
-    /// <param name="condition">A function that receives the module context and returns a <see cref="SkipDecision"/>.</param>
+    /// <param name="condition">A side-effect-free function that receives the module context and returns a <see cref="SkipDecision"/>. It may be evaluated while building a dry-run plan.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Repeated conditions use OR-to-skip semantics. Evaluation stops when a condition returns
@@ -69,14 +71,16 @@ public sealed class ModuleConfigurationBuilder
     public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, SkipDecision> condition)
     {
         ArgumentNullException.ThrowIfNull(condition);
-        _skipConditions.Add(AdaptSkipCondition(condition));
+        var adaptedCondition = AdaptSkipCondition(condition);
+        _skipConditions.Add(adaptedCondition);
+        _planningSkipConditions.Add(AdaptPlanningSkipCondition(adaptedCondition));
         return this;
     }
 
     /// <summary>
     /// Adds an asynchronous skip condition.
     /// </summary>
-    /// <param name="condition">A function that receives the module context and cancellation token and returns a <see cref="SkipDecision"/>.</param>
+    /// <param name="condition">A side-effect-free function that receives the module context and cancellation token and returns a <see cref="SkipDecision"/>. It may be evaluated while building a dry-run plan.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Repeated conditions use OR-to-skip semantics. Evaluation stops when a condition returns
@@ -87,13 +91,14 @@ public sealed class ModuleConfigurationBuilder
     {
         ArgumentNullException.ThrowIfNull(condition);
         _skipConditions.Add(condition);
+        _planningSkipConditions.Add(AdaptPlanningSkipCondition(condition));
         return this;
     }
 
     /// <summary>
     /// Adds a synchronous group of conditions that must all return skip decisions to skip the module.
     /// </summary>
-    /// <param name="conditions">Conditions evaluated in registration order with AND-to-skip semantics.</param>
+    /// <param name="conditions">Side-effect-free conditions evaluated in registration order with AND-to-skip semantics. They may be evaluated while building a dry-run plan.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Each call adds one AND group. The group composes with other skip conditions using OR-to-skip semantics.
@@ -104,15 +109,16 @@ public sealed class ModuleConfigurationBuilder
         ArgumentNullException.ThrowIfNull(conditions);
         ValidateSkipConditionGroup(conditions);
 
-        _skipConditions.Add(ComposeAllSkipConditions(
-            Array.ConvertAll(conditions, AdaptSkipCondition)));
+        var adaptedConditions = Array.ConvertAll(conditions, AdaptSkipCondition);
+        _skipConditions.Add(ComposeAllSkipConditions(adaptedConditions));
+        _planningSkipConditions.Add(ComposeAllPlanningSkipConditions(adaptedConditions));
         return this;
     }
 
     /// <summary>
     /// Adds an asynchronous group of conditions that must all return skip decisions to skip the module.
     /// </summary>
-    /// <param name="conditions">Conditions evaluated in registration order with AND-to-skip semantics.</param>
+    /// <param name="conditions">Side-effect-free conditions evaluated in registration order with AND-to-skip semantics. They may be evaluated while building a dry-run plan.</param>
     /// <returns>This builder instance for method chaining.</returns>
     /// <remarks>
     /// Each call adds one AND group. The group composes with other skip conditions using OR-to-skip semantics.
@@ -124,6 +130,7 @@ public sealed class ModuleConfigurationBuilder
         ValidateSkipConditionGroup(conditions);
 
         _skipConditions.Add(ComposeAllSkipConditions([.. conditions]));
+        _planningSkipConditions.Add(ComposeAllPlanningSkipConditions(conditions));
         return this;
     }
 
@@ -405,6 +412,7 @@ public sealed class ModuleConfigurationBuilder
         return new ModuleConfiguration
         {
             SkipCondition = ComposeSkipConditions(),
+            PlanningSkipCondition = ComposePlanningSkipConditions(),
             Timeout = _timeout,
             RetryConfiguration = _retryConfiguration,
             AdvancedRetryPolicyFactory = _advancedRetryPolicyFactory,
@@ -451,6 +459,32 @@ public sealed class ModuleConfigurationBuilder
         };
     }
 
+    private Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>? ComposePlanningSkipConditions()
+    {
+        if (_planningSkipConditions.Count == 0)
+        {
+            return null;
+        }
+
+        var conditions = _planningSkipConditions.ToArray();
+        return async (context, cancellationToken) =>
+        {
+            var hasUnknownDecision = false;
+            foreach (var condition in conditions)
+            {
+                var decision = await condition(context, cancellationToken).ConfigureAwait(false);
+                if (decision?.ShouldSkip is true)
+                {
+                    return decision;
+                }
+
+                hasUnknownDecision |= decision is null;
+            }
+
+            return hasUnknownDecision ? null : SkipDecision.DoNotSkip;
+        };
+    }
+
     private static Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> ComposeAllSkipConditions(
         IReadOnlyList<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> conditions)
     {
@@ -473,6 +507,57 @@ public sealed class ModuleConfigurationBuilder
             }
 
             return SkipDecision.Skip(reasons is null ? null : string.Join("; ", reasons));
+        };
+    }
+
+    private static Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>> ComposeAllPlanningSkipConditions(
+        IReadOnlyList<Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>> conditions)
+    {
+        var planningConditions = conditions.Select(AdaptPlanningSkipCondition).ToArray();
+        return async (context, cancellationToken) =>
+        {
+            List<string>? reasons = null;
+            var hasUnknownDecision = false;
+
+            foreach (var condition in planningConditions)
+            {
+                var decision = await condition(context, cancellationToken).ConfigureAwait(false);
+                if (decision is null)
+                {
+                    hasUnknownDecision = true;
+                    continue;
+                }
+
+                if (!decision.ShouldSkip)
+                {
+                    return SkipDecision.DoNotSkip;
+                }
+
+                if (!string.IsNullOrWhiteSpace(decision.Reason))
+                {
+                    (reasons ??= []).Add(decision.Reason);
+                }
+            }
+
+            return hasUnknownDecision
+                ? null
+                : SkipDecision.Skip(reasons is null ? null : string.Join("; ", reasons));
+        };
+    }
+
+    private static Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>> AdaptPlanningSkipCondition(
+        Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>> condition)
+    {
+        return async (context, cancellationToken) =>
+        {
+            try
+            {
+                return await condition(context, cancellationToken).ConfigureAwait(false);
+            }
+            catch (PlanningModuleResultUnavailableException)
+            {
+                return null;
+            }
         };
     }
 
