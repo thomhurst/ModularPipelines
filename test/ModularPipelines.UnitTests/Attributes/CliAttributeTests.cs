@@ -186,6 +186,34 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Handles_Space_Separated_Value_Pairs()
+    {
+        var options = new TestCliOptionsWithValuePairs
+        {
+            Values = [new CliValuePair("name", "Ada"), new CliValuePair("environment", "ci")],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--arg", "name", "Ada", "--arg", "environment", "ci"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Rejects_NonSpace_Separated_Value_Pairs()
+    {
+        var options = new TestCliOptionsWithInvalidValuePairFormat
+        {
+            Values = [new CliValuePair("name", "Ada")],
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("OptionFormat.SpaceSeparated");
+    }
+
+    [Test]
     public async Task Parser_Rejects_Grouped_Values_With_NonSpace_Separator()
     {
         var options = new TestCliOptionsWithInvalidGroupedValues { Values = ["first", "second"] };
@@ -379,13 +407,25 @@ public class CliAttributeTests
     private record TestCliOptionsWithGroupedPairs
     {
         [CliOption("--values", GroupValues = true)]
-        public IEnumerable<CliOptionValuePair>? Values { get; set; }
+        public IEnumerable<CliValuePair>? Values { get; set; }
     }
 
     private record TestCliOptionsWithInvalidGroupedPairs
     {
         [CliOption("--values", Format = OptionFormat.EqualsSeparated, GroupValues = true)]
-        public IEnumerable<CliOptionValuePair>? Values { get; set; }
+        public IEnumerable<CliValuePair>? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithValuePairs
+    {
+        [CliOption("--arg")]
+        public IReadOnlyList<CliValuePair>? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithInvalidValuePairFormat
+    {
+        [CliOption("--arg", Format = OptionFormat.EqualsSeparated)]
+        public IReadOnlyList<CliValuePair>? Values { get; set; }
     }
 
     private record TestCliOptionsWithSemanticPhases

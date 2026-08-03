@@ -63,7 +63,7 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Day of week for maintenance window, in UTC time zone.     MAINTENANCE_WINDOW_DAY must be one of: SUNDAY, MONDAY, TUESDAY,     WEDNESDAY, THURSDAY, FRIDAY, SATURDAY. MAINTENANCE_WINDOW_DAY must be     one of: day-of-week-unspecified, friday, monday, saturday, sunday,     thursday, tuesday, wednesday.
@@ -108,7 +108,7 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     /// A list of Redis config KEY=VALUE pairs to set on the instance according     to http://redis.io/topics/config. Currently, the only supported     parameters are:     Redis version 3.2 and newer: maxmemory-policy, notify-keyspace-events,     timeout, databases.     Redis version 4.0 and newer: activedefrag, lfu-decay-time,     lfu-log-factor, maxmemory-gb.     Redis version 5.0 and newer: stream-node-max-bytes,     stream-node-max-entries.
     /// </summary>
     [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? RedisConfig { get; set; }
+    public IReadOnlyList<KeyValue>? RedisConfig { get; set; }
 
     /// <summary>
     /// The version of Redis software. VERSION must be one of:      redis_3_2       Redis 3.2 compatibility     redis_4_0       Redis 4.0 compatibility     redis_5_0       Redis 5.0 compatibility     redis_6_x       Redis 6.x compatibility     redis_7_0       Redis 7.0 compatibility     redis_7_2       Redis 7.2 compatibility

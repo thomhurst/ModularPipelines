@@ -216,12 +216,12 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var optionName = option.Attribute.GetEffectiveName();
 
-        if (value is CliOptionValuePair pair)
+        if (value is CliValuePair pair)
         {
             return [optionName, pair.First, pair.Second];
         }
 
-        if (value is IEnumerable<CliOptionValuePair> pairs)
+        if (value is IEnumerable<CliValuePair> pairs)
         {
             return pairs
                 .SelectMany(pairValue => new[] { optionName, pairValue.First, pairValue.Second })
@@ -274,7 +274,7 @@ public static class GeneratedOptionsSmokeTestHarness
     private static object? TryCreateKnownSample(Type type) =>
         type == typeof(string) ? "smoke-value"
         : type == typeof(bool) ? true
-        : type == typeof(CliOptionValuePair) ? new CliOptionValuePair("smoke-first", "smoke-second")
+        : type == typeof(CliValuePair) ? new CliValuePair("smoke-first", "smoke-second")
         : type == typeof(KeyValue) ? new KeyValue("smoke-key", "smoke-value")
         : type == typeof(Uri) ? new Uri("https://example.invalid/smoke")
         : null;
@@ -373,7 +373,7 @@ public static class GeneratedOptionsSmokeTestHarness
         value switch
         {
             string stringValue => [stringValue],
-            IEnumerable<KeyValue> keyValues => keyValues.Select(item => item.ToString()).ToList(),
+            IReadOnlyList<KeyValue> keyValues => keyValues.Select(item => item.ToString()).ToList(),
             IEnumerable enumerable when value is not IEnumerable<char> => GetEnumerableValues(enumerable),
             bool boolValue => [boolValue.ToString().ToLowerInvariant()],
             Uri uri => [uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.ToString()],

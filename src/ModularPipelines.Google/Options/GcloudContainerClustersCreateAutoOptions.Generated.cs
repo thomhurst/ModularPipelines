@@ -71,7 +71,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or     all auto-provisioned nodes in the new Standard cluster.     Examples:       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=tagKeys/\       1234=tagValues/2345       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=my-project/key1=value1       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=12345/key1=value1,\       23456/key2=value2       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=     All nodes in an Autopilot cluster or all auto-provisioned nodes in a     Standard cluster, including nodes that are resized or re-created, will     have the specified tags on the corresponding Instance object in the     Compute Engine API. You can reference these tags in network firewall     policy rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.    Flags for Binary Authorization:
     /// </summary>
     [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? AutoprovisioningResourceManagerTags { get; set; }
+    public IReadOnlyList<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
     /// <summary>
     /// Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE     must be one of: disabled, project-singleton-policy-enforce.
@@ -125,7 +125,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// Create a new subnetwork for the cluster. The name and range of the     subnetwork can be customized via optional 'name' and 'range' key-value     pairs.     'name' specifies the name of the subnetwork to be created.     'range' specifies the IP range for the new subnetwork. This can either     be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If     a netmask size is specified, the IP is automatically taken from the     free space in the cluster's network.     Examples:     Create a new subnetwork with a default name and size.       $ gcloud container clusters create-auto --create-subnetwork ""     Create a new subnetwork named "my-subnet" with netmask of size 21.       $ gcloud container clusters create-auto \         --create-subnetwork name=my-subnet,range=/21     Create a new subnetwork with a default name with the primary range of     10.100.0.0/16.       $ gcloud container clusters create-auto \         --create-subnetwork range=10.100.0.0/16     Create a new subnetwork with the name "my-subnet" with a default range.       $ gcloud container clusters create-auto \         --create-subnetwork name=my-subnet     Cannot be used in conjunction with '--subnetwork' option.
     /// </summary>
     [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? CreateSubnetwork { get; set; }
+    public IReadOnlyList<KeyValue>? CreateSubnetwork { get; set; }
 
     /// <summary>
     /// Enable Database Encryption.     Enable database encryption that will be used to encrypt Kubernetes     Secrets at the application layer. The key provided should be the     resource ID in the format of     projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME].     For more information, see     https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets.
@@ -311,7 +311,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// Labels to apply to the Google Cloud resources in use by the Kubernetes     Engine cluster. These are unrelated to Kubernetes labels.     Examples:       $ gcloud container clusters create-auto example-cluster \         --labels=label_a=value1,label_b=,label_c=value3
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Set the components that have logging enabled. Valid component values     are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER,     KCP_HPA, KCP_VPA     The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must     be included.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs     Examples:       $ gcloud container clusters create-auto --logging=SYSTEM       $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD       $ gcloud container clusters create-auto \         --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\       SCHEDULER,KCP_HPA,KCP_VPA

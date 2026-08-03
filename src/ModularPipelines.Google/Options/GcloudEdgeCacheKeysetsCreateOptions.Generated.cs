@@ -38,7 +38,7 @@ public record GcloudEdgeCacheKeysetsCreateOptions : GcloudOptions
     /// List of KEY=VALUE labels to attach to this resource.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Set of public keys to use for validating signed requests, when     associated with a route. This flag can be repeated to create a Keyset     with multiple public keys.     If you are providing your own public keys, specify the key in the form     id=ID,value=BASE64ENCODEDPUBLICKEY.     If you are using Google-managed public keys as part of a dual-token     setup, specify the key in the form id=ID,managed=true.      id       id (name) name of the key within the keyset.      value       URL-safe base64 encoded public key. Cannot be specified if       managed=true.      managed       Boolean indicating this is a Google-managed key. Cannot be       specified if value=true.     To create a public key with id 'foo', pass     --public-key='id=foo,value=VALUE' to gcloud edge-cache keysets create.     To create a Google-managed public key with id 'bar', pass     --public-key='id=foo,managed=true' to gcloud edge-cache keysets create.     At least one of public-key or validation-shared-key must be specified.

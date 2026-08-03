@@ -67,7 +67,7 @@ public record GcloudComputeNetworksCreateOptions(
     /// A comma-separated list of Resource Manager tags to apply to the     network.
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ResourceManagerTags { get; set; }
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// The subnet mode of the network. If not specified, defaults to AUTO.     MODE must be one of:      auto       Subnets are created automatically. This is the recommended       selection.     custom       Create subnets manually.     legacy       [Deprecated] Create an old style network that has a range and       cannot have subnets. This is not recommended for new networks.    BGP Best Path Selection flags

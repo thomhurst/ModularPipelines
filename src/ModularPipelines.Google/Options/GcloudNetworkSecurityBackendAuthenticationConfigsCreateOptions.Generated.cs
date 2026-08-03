@@ -45,7 +45,7 @@ public record GcloudNetworkSecurityBackendAuthenticationConfigsCreateOptions : G
     /// List of label KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// ID of trust config resource.

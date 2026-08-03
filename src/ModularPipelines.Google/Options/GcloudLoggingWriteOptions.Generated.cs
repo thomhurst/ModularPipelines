@@ -25,7 +25,7 @@ public record GcloudLoggingWriteOptions(
 ) : GcloudOptions
 {
     [CliOption("--monitored-resource-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? MonitoredResourceLabels { get; set; }
+    public IReadOnlyList<KeyValue>? MonitoredResourceLabels { get; set; }
 
     [CliOption("--monitored-resource-type", Format = OptionFormat.EqualsSeparated)]
     public string? MonitoredResourceType { get; set; }

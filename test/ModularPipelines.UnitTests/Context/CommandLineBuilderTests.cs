@@ -287,7 +287,7 @@ public class CommandLineBuilderTests : TestBase
         public string? Context { get; set; }
     }
 
-    [CliCommand("docker", "buildx", "history", "logs")]
+    [CliSubCommand("buildx", "history", "logs")]
     private sealed record TestMultiLevelCommandOptions : TestMultiLevelGlobalOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]

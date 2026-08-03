@@ -88,7 +88,7 @@ public record ArgoCdClusterAddOptions(
     /// Environment vars to set when running the --exec-command executable (default [])
     /// </summary>
     [CliOption("--exec-command-env", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ExecCommandEnv { get; set; }
+    public IReadOnlyList<KeyValue>? ExecCommandEnv { get; set; }
 
     /// <summary>
     /// Text shown to the user when the --exec-command executable doesn't seem to be present

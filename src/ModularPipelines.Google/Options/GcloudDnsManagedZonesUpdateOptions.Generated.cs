@@ -99,7 +99,7 @@ public record GcloudDnsManagedZonesUpdateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// String mnemonic specifying the DNSSEC algorithm of the key-signing key.     Requires DNSSEC enabled. ZSK_ALGORITHM must be one of: ecdsap256sha256,     ecdsap384sha384, rsasha1, rsasha256, rsasha512.

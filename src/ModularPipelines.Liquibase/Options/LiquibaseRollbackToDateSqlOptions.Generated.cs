@@ -50,7 +50,7 @@ public record LiquibaseRollbackToDateSqlOptions : LiquibaseOptions
     /// Pass a name/value pair for substitution in the changelog(s) Pass as -D&lt;property.name&gt;=&lt;property.value&gt; [deprecated: set changelog properties in defaults file or environment variables]
     /// </summary>
     [CliOption("-D", Format = OptionFormat.NoSeparator)]
-    public IEnumerable<KeyValue>? ChangelogProperty { get; set; }
+    public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
 
     /// <summary>
     /// Date to rollback changes to

@@ -82,7 +82,7 @@ public record GcloudDataprocBatchesSubmitPysparkOptions(
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Name of a Dataproc Metastore service to be used as an external     metastore in the format:     "projects/{project-id}/locations/{region}/services/{service-name}".
@@ -94,7 +94,7 @@ public record GcloudDataprocBatchesSubmitPysparkOptions(
     /// Specifies configuration properties for the workload. See Dataproc     Serverless for Spark documentation     (https://cloud.google.com/dataproc-serverless/docs/concepts/properties)     for the list of supported properties.
     /// </summary>
     [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Properties { get; set; }
+    public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
     /// Comma-separated list of Python scripts to be passed to the PySpark     framework. Supported file types: .py, .egg and .zip.    Region resource - Dataproc region to use. Each Dataproc region constitutes   an independent resource namespace constrained to deploying instances into   Compute Engine zones inside the region. This represents a Cloud resource.   (NOTE) Some attributes are not given arguments in this group but can be   set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ set the property dataproc/region with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
@@ -118,7 +118,7 @@ public record GcloudDataprocBatchesSubmitPysparkOptions(
     /// Resource Manager Tags to be associated with the compute resources     created for the workload. Only one key-value pair can be specified per     flag. Repeat the flag to specify multiple tags.
     /// </summary>
     [CliOption("--resource-manager-tag", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ResourceManagerTag { get; set; }
+    public IReadOnlyList<KeyValue>? ResourceManagerTag { get; set; }
 
     /// <summary>
     /// The IAM service account to be used for a batch/session job.

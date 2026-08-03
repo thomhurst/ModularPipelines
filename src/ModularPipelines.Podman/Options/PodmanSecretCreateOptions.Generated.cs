@@ -34,7 +34,7 @@ public record PodmanSecretCreateOptions(
     /// Specify driver specific options (default [])
     /// </summary>
     [CliOption("--driver-opts", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? DriverOpts { get; set; }
+    public IReadOnlyList<KeyValue>? DriverOpts { get; set; }
 
     /// <summary>
     /// Read secret data from environment variable

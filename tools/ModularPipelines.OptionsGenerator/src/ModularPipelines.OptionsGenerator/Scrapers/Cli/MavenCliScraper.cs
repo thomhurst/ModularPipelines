@@ -232,7 +232,7 @@ public partial class MavenCliScraper : CliScraperBase
 
         if (isDefine)
         {
-            return "IEnumerable<KeyValue>?";
+            return "IReadOnlyList<KeyValue>?";
         }
 
         return enumDefinition is null ? "string?" : $"{enumDefinition.EnumName}?";

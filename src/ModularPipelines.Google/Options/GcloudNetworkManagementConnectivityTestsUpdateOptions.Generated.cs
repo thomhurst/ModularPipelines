@@ -68,7 +68,7 @@ public record GcloudNetworkManagementConnectivityTestsUpdateOptions : GcloudOpti
     /// List of label KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// IDs of other projects involved in the connectivity test, besides the     source and destination project.

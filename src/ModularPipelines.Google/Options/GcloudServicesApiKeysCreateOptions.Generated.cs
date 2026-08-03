@@ -26,7 +26,7 @@ public record GcloudServicesApiKeysCreateOptions : GcloudOptions
     /// Annotations are key resource. Specify annotations as a key-value     dictionary for small amounts of arbitrary client data.
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Annotations { get; set; }
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
     /// Return immediately, without waiting for the operation in progress to     complete.

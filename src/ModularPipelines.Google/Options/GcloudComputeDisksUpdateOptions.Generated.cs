@@ -53,7 +53,7 @@ public record GcloudComputeDisksUpdateOptions(
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// "A list of license URIs or license codes. These licenses will be     appended to the existing licenses on the disk. Provided licenses can be     either license URIs or license codes but not a mix of both.

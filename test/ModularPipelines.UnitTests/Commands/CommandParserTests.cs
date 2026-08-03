@@ -164,7 +164,7 @@ public class CommandParserTests : TestBase
     private record MySuperSecretToolOptions : CommandLineToolOptions
     {
         [CliOption("--build-arg")]
-        public IEnumerable<KeyValue>? BuildArgs { get; set; }
+        public IReadOnlyList<KeyValue>? BuildArgs { get; set; }
 
         [CliFlag("--force")]
         public bool? Force { get; set; }

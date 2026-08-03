@@ -51,7 +51,7 @@ public record GcloudBillingBudgetsUpdateOptions : GcloudOptions
     /// Single label and value pair specifying that usage from only this set of     labeled resources should be included in the budget. Currently, multiple     entries or multiple values per entry are not allowed. If omitted, the     report will include all labeled and unlabeled usage.
     /// </summary>
     [CliOption("--filter-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? FilterLabels { get; set; }
+    public IReadOnlyList<KeyValue>? FilterLabels { get; set; }
 
     /// <summary>
     /// Set of projects in the form projects/{project_id}, specifying that     usage from only this set of projects should be included in the budget.     If omitted, all projects will be included.

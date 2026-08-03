@@ -39,7 +39,7 @@ public record GcloudContainerHubUpdateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Default cluster configurations to apply across the fleet.    Binary Authorization config.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// Configure binary authorization mode for clusters to onboard the fleet,       $ gcloud container hub update \         --binauthz-evaluation-mode=policy-bindings     BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.

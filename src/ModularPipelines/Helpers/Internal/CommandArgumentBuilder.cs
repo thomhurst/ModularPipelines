@@ -161,7 +161,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         if (valuePairs is not null)
         {
-            AddOptionValuePairs(args, optionPart.Attribute, valuePairs);
+            AddOptionValuePairs(args, optionPart, valuePairs);
             return;
         }
 
@@ -218,22 +218,29 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         args.AddRange(renderedValues);
     }
 
-    private static IEnumerable<CliOptionValuePair>? GetOptionValuePairs(object rawValue)
+    private static IEnumerable<CliValuePair>? GetOptionValuePairs(object rawValue)
     {
         return rawValue switch
         {
-            CliOptionValuePair pair => [pair],
-            IEnumerable<CliOptionValuePair> pairCollection => pairCollection,
+            CliValuePair pair => [pair],
+            IEnumerable<CliValuePair> pairCollection => pairCollection,
             _ => null,
         };
     }
 
     private static void AddOptionValuePairs(
         List<string> args,
-        CliOptionAttribute attribute,
-        IEnumerable<CliOptionValuePair> pairs)
+        OptionPart optionPart,
+        IEnumerable<CliValuePair> pairs)
     {
-        var optionName = attribute.GetEffectiveName();
+        if (optionPart.Attribute.GetSeparator() != " ")
+        {
+            throw new InvalidOperationException(
+                $"Two-operand CLI option property '{optionPart.PropertyName}' must use "
+                + $"{nameof(OptionFormat)}.{nameof(OptionFormat.SpaceSeparated)}.");
+        }
+
+        var optionName = optionPart.Attribute.GetEffectiveName();
         foreach (var pair in pairs)
         {
             args.Add(optionName);

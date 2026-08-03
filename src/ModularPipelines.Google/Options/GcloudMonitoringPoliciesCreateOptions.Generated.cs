@@ -80,7 +80,7 @@ public record GcloudMonitoringPoliciesCreateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.     If the policy was given as a JSON/YAML object from a string or file,     this flag will replace the labels value in the given policy.    Documentation
     /// </summary>
     [CliOption("--user-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? UserLabels { get; set; }
+    public IReadOnlyList<KeyValue>? UserLabels { get; set; }
 
     [CliOption("--documentation-format", Format = OptionFormat.EqualsSeparated)]
     public string? DocumentationFormat { get; set; }

@@ -38,7 +38,7 @@ public record GcloudContainerHubRolloutsequencesUpdateOptions : GcloudOptions
     /// Labels for the rollout sequence.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Path to the YAML file containing the stage configurations. The YAML     file should contain a list of stages. Fleet projects and soak_duration     are required. If label_selector is not specified, there is no     filtering. A fleet project is the project where the fleet is hosted.     Example:       - stage:        fleet-projects:        # Expected format: projects/{project}        - projects/my-dev-project        soak-duration: 7d # Or 168h or 604800s       - stage:        fleet-projects:        - projects/my-prod-project        soak-duration: 3600s        label-selector: resource.labels.canary=='true'       - stage:        fleet-projects:        # Expected format: projects/{project}        - projects/my-prod-project        soak-duration: 30m     Use a full or relative path to a local file containing the value of     stage_config.

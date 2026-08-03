@@ -44,7 +44,7 @@ public record EksctlUpdateCapabilityOptions : EksctlOptions
     /// Tags to apply to the capability (default [])
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Tags { get; set; }
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// List of IAM policy ARNs to attach to the role

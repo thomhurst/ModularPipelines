@@ -51,7 +51,7 @@ public record GcloudEdgeCacheOriginsUpdateOptions : GcloudOptions
     /// List of KEY=VALUE labels to attach to this resource.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Maximum number of attempts to cache fill from this origin. Another     attempt is made when a cache fill fails with one of the     retry_conditions.     Once max_attempts to this origin have failed the failover_origin will     be used, if one is specified. That failover_origin may specify its own     max_attempts, retry_conditions and failover_origin to control its own     cache fill failures.     The total number of allowed attempts to cache fill across this and     failover origins is limited to four. The total time allowed for cache     fill attempts across this and failover origins can be controlled with     max_attempts_timeout.     The last valid response from an origin will be returned to the client.     If no origin returns a valid response, an HTTP 503 will be returned to     the client.     Defaults to 1. Must be a value greater than 0 and less than 4.

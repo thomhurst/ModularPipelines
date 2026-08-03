@@ -33,7 +33,7 @@ public record DockerContextCreateOptions(
     /// set the docker endpoint (default [])
     /// </summary>
     [CliOption("--docker", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Docker { get; set; }
+    public IReadOnlyList<KeyValue>? Docker { get; set; }
 
     /// <summary>
     /// create context from a named context

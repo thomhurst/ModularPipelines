@@ -65,7 +65,7 @@ public record GcloudPreviewComputeDisksCreateOptions(
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// A list of URIs to license resources. The provided licenses will be     added onto the created disks to indicate the licensing and billing     policies.
@@ -107,7 +107,7 @@ public record GcloudPreviewComputeDisksCreateOptions(
     /// A comma-separated list of Resource Manager tags to apply to the disk.
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ResourceManagerTags { get; set; }
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// A list of resource policy names to be added to the disk. The policies     must exist in the same region as the disk.

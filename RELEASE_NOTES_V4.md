@@ -31,3 +31,30 @@ Intentional behavior changes:
   that omit the phase place operands before normal options.
 - A contradictory placement/phase combination can no longer silently ignore its phase,
   because `ArgumentPlacement` no longer exists.
+
+## Canonical key-value CLI options
+
+Generated key-value option properties now consistently use `IReadOnlyList<KeyValue>?`.
+Properties previously emitted as `KeyValue[]?` or `IEnumerable<KeyValue>?` are
+source-breaking only for callers that depend on those exact declared types. Collection
+expressions and `KeyValue` tuple conversions continue to work:
+
+```csharp
+var options = new DockerRunOptions
+{
+    Annotation = [("owner", "platform"), ("environment", "ci")],
+};
+```
+
+Two-operand options now use `CliValuePair` instead of `CliOptionValuePair`:
+
+```csharp
+var options = new JqExecuteOptions
+{
+    Arg = [new CliValuePair("name", "Ada")],
+};
+```
+
+`CliValuePair` options must use a space separator because each occurrence renders as
+`--option first second`. Other `OptionFormat` values now throw during command construction
+instead of being silently ignored.

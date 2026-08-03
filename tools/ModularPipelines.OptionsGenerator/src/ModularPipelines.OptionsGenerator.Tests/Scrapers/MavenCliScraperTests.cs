@@ -33,7 +33,7 @@ public class MavenCliScraperTests
         await Assert.That(color.EnumDefinition!.Values.Select(x => x.CliValue)).IsEquivalentTo(["auto", "always", "never"]);
 
         var define = command.Options.Single(x => x.PropertyName == "Define");
-        await Assert.That(define.CSharpType).IsEqualTo("IEnumerable<KeyValue>?");
+        await Assert.That(define.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
         await Assert.That(define.AcceptsMultipleValues).IsTrue();
         await Assert.That(define.IsKeyValue).IsTrue();
         await Assert.That(command.Options.Single(x => x.PropertyName == "EncryptMasterPassword").IsSecret).IsTrue();

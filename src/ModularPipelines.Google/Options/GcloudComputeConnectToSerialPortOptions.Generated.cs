@@ -32,7 +32,7 @@ public record GcloudComputeConnectToSerialPortOptions : GcloudOptions
     /// Optional arguments can be passed to the serial port connection by     passing key-value pairs to this flag, such as max-connections=N or     replay-lines=N. See     https://cloud.google.com/compute/docs/instances/interacting-with-serial-console     for additional options.
     /// </summary>
     [CliOption("--extra-args", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ExtraArgs { get; set; }
+    public IReadOnlyList<KeyValue>? ExtraArgs { get; set; }
 
     /// <summary>
     /// If enabled, the gcloud command-line tool will regenerate and overwrite     the files associated with a broken SSH key without asking for     confirmation in both interactive and non-interactive environments.     If disabled, the files associated with a broken SSH key will not be     regenerated and will fail in both interactive and non-interactive     environments.

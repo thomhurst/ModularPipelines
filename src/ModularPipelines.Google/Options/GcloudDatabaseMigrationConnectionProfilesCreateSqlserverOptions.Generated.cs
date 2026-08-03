@@ -51,7 +51,7 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions : 
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// The role of the connection profile. ROLE must be one of: SOURCE,     DESTINATION.
@@ -63,7 +63,7 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions : 
     /// Comma-separated list of SSL flags used for establishing SSL connection     to the database. Use an equals sign to separate the flag name and     value. Example: --ssl-flags     ssl_mode=enable,server_certificate_hostname=server.com.
     /// </summary>
     [CliOption("--ssl-flags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? SslFlags { get; set; }
+    public IReadOnlyList<KeyValue>? SslFlags { get; set; }
 
     /// <summary>
     /// x509 PEM-encoded certificate of the CA that signed the database     server's certificate. The value for this flag needs to be the content     of the certificate file, not the path to the file. For example, on a     Linux machine you can use command substitution:     &lt;code&gt;--ca-certificate=$(&lt;/path/to/certificate_file.pem)&lt;/code&gt;.     Database Migration Service will use this certificate to verify it's     connecting to the correct host. Database Migration Service encrypts the     value when storing it.

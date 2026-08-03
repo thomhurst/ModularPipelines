@@ -146,7 +146,7 @@ public record HelmUpgradeOptions : HelmOptions
     /// Labels that would be added to release metadata. Should be separated by comma. Original release labels will be merged with upgrade labels. You can unset label using null. (default [])
     /// </summary>
     [CliOption("--labels", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// disable pre/post upgrade hooks

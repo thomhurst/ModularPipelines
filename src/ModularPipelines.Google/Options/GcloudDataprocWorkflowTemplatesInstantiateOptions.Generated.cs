@@ -32,6 +32,6 @@ public record GcloudDataprocWorkflowTemplatesInstantiateOptions : GcloudOptions
     /// A map from parameter names to values that should be used for those     parameters. A value must be provided for every configured parameter.     Parameters can be configured when creating or updating a workflow     template.
     /// </summary>
     [CliOption("--parameters", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Parameters { get; set; }
+    public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
 }

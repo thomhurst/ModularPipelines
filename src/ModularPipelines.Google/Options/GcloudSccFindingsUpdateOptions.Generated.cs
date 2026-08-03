@@ -47,7 +47,7 @@ public record GcloudSccFindingsUpdateOptions(
     /// Source specific properties. These properties are managed by the source     that writes the finding. The key names in the source_properties map     must be between 1 and 255 characters, and must start with a letter and     contain alphanumeric characters or underscores only. For example     "key1=val1,key2=val2"
     /// </summary>
     [CliOption("--source-properties", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? SourceProperties { get; set; }
+    public IReadOnlyList<KeyValue>? SourceProperties { get; set; }
 
     /// <summary>
     /// State is one of: [ACTIVE, INACTIVE]. STATE must be one of: active,     inactive, state-unspecified.

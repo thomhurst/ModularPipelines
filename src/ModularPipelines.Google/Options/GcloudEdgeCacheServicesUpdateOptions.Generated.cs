@@ -56,7 +56,7 @@ public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
     /// List of KEY=VALUE labels to attach to this resource.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Configures the sampling rate of requests, where 1.0 means all logged     requests are reported and 0.0 means no logged requests are reported.     The default value is 1.0, and the value of the field must be in [0, 1].     This field can only be specified if logging is enabled for this     service.

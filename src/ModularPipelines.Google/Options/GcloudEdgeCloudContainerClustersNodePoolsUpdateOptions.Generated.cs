@@ -56,13 +56,13 @@ public record GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions : GcloudOpt
     /// Comma-delimited list of key-value pairs that comprise labels for the     individual nodes in the node pool. This flag updates the Kubernetes     labels, unlike --update-labels, --remove-labels, and --clear-labels     which update the cloud resource labels.
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? NodeLabels { get; set; }
+    public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// Once specified, a Google-managed key will be used for the control plane     disk encryption.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud edge-cloud container clusters node-pools update \         --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud edge-cloud container clusters node-pools update \         --clear-labels --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.

@@ -384,7 +384,7 @@ public class GeneratorUtilsTests
         {
             SwitchName = "-D",
             PropertyName = "Property",
-            CSharpType = "IEnumerable<KeyValue>?",
+            CSharpType = "IReadOnlyList<KeyValue>?",
             IsFlag = false,
             ValueSeparator = string.Empty,
         };

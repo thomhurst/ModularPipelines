@@ -260,7 +260,7 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// A comma-separated list of Resource Manager tags to apply to the backend     service.
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ResourceManagerTags { get; set; }
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// Serve existing content from the cache (if available) when revalidating     content with the origin; this allows content to be served more quickly,     and also allows content to continue to be served if the backend is down     or reporting errors.     This setting defines the default serve-stale duration for any cached     responses that do not specify a stale-while-revalidate directive. Stale     responses that exceed the TTL configured here will not be served     without first being revalidated with the origin. The default limit is     86400s (1 day), which will allow stale content to be served up to this     limit beyond the max-age (or s-max-age) of a cached response.     The maximum allowed value is 604800 (1 week).     Set this to zero (0) to disable serve-while-stale.

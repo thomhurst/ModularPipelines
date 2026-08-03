@@ -45,7 +45,7 @@ public class JqCliScraperTests
         await Assert.That(command.Options.Single(x => x.PropertyName == "FromFile").CSharpType).IsEqualTo("string?");
 
         var argument = command.Options.Single(x => x.PropertyName == "Arg");
-        await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<CliOptionValuePair>?");
+        await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<CliValuePair>?");
         await Assert.That(argument.AcceptsMultipleValues).IsTrue();
 
         var slurpFile = command.Options.Single(x => x.PropertyName == "SlurpFile");

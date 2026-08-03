@@ -26,7 +26,7 @@ public record GcloudPubsubLiteTopicsPublishOptions : GcloudOptions
     /// Comma-separated list of attributes. Each ATTRIBUTE has the form     name="value". You can specify up to 100 attributes.
     /// </summary>
     [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Attributes { get; set; }
+    public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
     /// A user-specified event time. Run gcloud topic datetimes for information     on time formats.

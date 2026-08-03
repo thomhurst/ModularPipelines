@@ -239,7 +239,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Labels to apply to the Google Cloud resources of node pools in the     Kubernetes Engine cluster. These are unrelated to Kubernetes labels.     Warning: Updating this label will causes the node(s) to be recreated.     Examples:       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster --labels=label1=value1,label2=value2
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Specifies the logging variant that will be deployed on all the nodes in     the node pool. If the node pool doesn't specify a logging variant, then     the logging variant specified for the cluster will be deployed on all     the nodes in the node pool. Valid logging variants are MAX_THROUGHPUT,     DEFAULT. LOGGING_VARIANT must be one of:      DEFAULT       'DEFAULT' variant requests minimal resources but may not guarantee       high throughput.     MAX_THROUGHPUT       'MAX_THROUGHPUT' variant requests more node resources and is able       to achieve logging throughput up to 10MB per sec.
@@ -275,7 +275,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Compute Engine metadata to be made available to the guest operating     system running on nodes within the node pool.     Each metadata entry is a key/value pair separated by an equals sign.     Metadata keys must be unique and less than 128 bytes in length. Values     must be less than or equal to 32,768 bytes in length. The total size of     all keys and values must be less than 512 KB. Multiple arguments can be     passed to this flag. For example:     --metadata key-1=value-1,key-2=value-2,key-3=value-3     Additionally, the following keys are reserved for use by Kubernetes     Engine:     ◆ cluster-location     ◆ cluster-name     ◆ cluster-uid     ◆ configure-sh     ◆ enable-os-login     ◆ gci-update-strategy     ◆ gci-ensure-gke-docker     ◆ instance-template     ◆ kube-env     ◆ startup-script     ◆ user-data     Google Kubernetes Engine sets the following keys by default:     ◆ serial-port-logging-enable     See also Compute Engine's documentation     (https://cloud.google.com/compute/docs/storing-retrieving-metadata) on     storing and retrieving instance metadata.
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Metadata { get; set; }
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// Same as --metadata except that the value for the entry will be read     from a local file.
@@ -293,7 +293,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Configures network performance settings for the node pool. If this flag     is not specified, the pool will be created with its default network     performance configuration.      total-egress-bandwidth-tier       Total egress bandwidth is the available outbound bandwidth from a       VM, regardless of whether the traffic is going to internal IP or       external IP destinations. The following tier values are allowed:       [TIER_UNSPECIFIED,TIER_1]
     /// </summary>
     [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? NetworkPerformanceConfigs { get; set; }
+    public IReadOnlyList<KeyValue>? NetworkPerformanceConfigs { get; set; }
 
     /// <summary>
     /// Control how architecture taint should be applied to nodes in a new node     pool.       Supported values:        * unspecified: Default behavior, currently the same as `arm`.        * arm: kubernetes.io/arch=arm:NoSchedule taint will be added for ARM nodes.        * none: No architecture taint will be applied.     Examples:       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster \         --node-architecture-taint-behavior=none     To read more about node-taints, see     https://cloud.google.com/kubernetes-engine/docs/node-taints.     NODE_ARCHITECTURE_TAINT_BEHAVIOR must be one of: unspecified, arm,     none.
@@ -377,7 +377,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new node pool.     Examples:       $ gcloud container node-pools create example-node-pool \         --resource-manager-tags=tagKeys/1234=tagValues/2345       $ gcloud container node-pools create example-node-pool \         --resource-manager-tags=my-project/key1=value1       $ gcloud container node-pools create example-node-pool \         --resource-manager-tags=12345/key1=value1,23456/key2=value2       $ gcloud container node-pools create example-node-pool \         --resource-manager-tags=     All nodes, including nodes that are resized or re-created, will have     the specified tags on the corresponding Instance object in the Compute     Engine API. You can reference these tags in network firewall policy     rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ResourceManagerTags { get; set; }
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// Enables the requested sandbox on all nodes in the node pool.     Examples:       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster --sandbox="type=gvisor"     The only supported type is 'gvisor'.

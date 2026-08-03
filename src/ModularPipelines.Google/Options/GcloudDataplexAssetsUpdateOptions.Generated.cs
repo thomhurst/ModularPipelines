@@ -44,7 +44,7 @@ public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Specification of the resource that is referenced by this asset.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Read access mode. RESOURCE_READ_ACCESS_MODE must be one of:      DIRECT       Data is accessed directly using storage APIs     MANAGED       Data is accessed through a managed interface using BigQuery APIs.
