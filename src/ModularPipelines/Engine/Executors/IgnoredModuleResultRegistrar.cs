@@ -31,6 +31,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     private readonly IOptions<DistributedOptions> _distributedOptions;
     private readonly RoleDetector _roleDetector;
     private readonly ILogger<IgnoredModuleResultRegistrar> _logger;
+    private readonly ModulePlanningSkipEvaluator _modulePlanningSkipEvaluator;
 
     public IgnoredModuleResultRegistrar(
         IModuleResultRegistry resultRegistry,
@@ -40,7 +41,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         IModuleMetadataRegistry metadataRegistry,
         IOptions<DistributedOptions> distributedOptions,
         RoleDetector roleDetector,
-        ILogger<IgnoredModuleResultRegistrar> logger)
+        ILogger<IgnoredModuleResultRegistrar> logger,
+        ModulePlanningSkipEvaluator modulePlanningSkipEvaluator)
     {
         _resultRegistry = resultRegistry;
         _resultHistoryProvider = resultHistoryProvider;
@@ -50,6 +52,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         _distributedOptions = distributedOptions;
         _roleDetector = roleDetector;
         _logger = logger;
+        _modulePlanningSkipEvaluator = modulePlanningSkipEvaluator;
     }
 
     /// <inheritdoc />
@@ -63,12 +66,31 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var runnableModules = organizedModules.RunnableModules.ToList();
         var ignoredModules = organizedModules.IgnoredModules.ToList();
-        var consumedArtifactProducerTypes = runnableModules
-            .SelectMany(runnableModule => runnableModule.Module.GetType()
-                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
-                .Cast<ConsumesArtifactAttribute>())
-            .Select(attribute => attribute.ProducerModule)
+        var ignoredModuleTypes = ignoredModules
+            .Select(ignoredModule => ignoredModule.Module.GetType())
             .ToHashSet();
+        var consumedArtifactProducerTypes = new HashSet<Type>();
+        foreach (var runnableModule in runnableModules)
+        {
+            var consumedArtifacts = runnableModule.Module.GetType()
+                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                .Cast<ConsumesArtifactAttribute>()
+                .Where(attribute => ignoredModuleTypes.Contains(attribute.ProducerModule))
+                .ToArray();
+            if (consumedArtifacts.Length == 0)
+            {
+                continue;
+            }
+
+            var skipDecision = await _modulePlanningSkipEvaluator
+                .EvaluateAsync(runnableModule.Module, CancellationToken.None)
+                .ConfigureAwait(false);
+            if (skipDecision?.ShouldSkip != true)
+            {
+                consumedArtifactProducerTypes.UnionWith(
+                    consumedArtifacts.Select(attribute => attribute.ProducerModule));
+            }
+        }
         var cascadeResult = await DependencySkipCascade.ApplyAsync(
             organizedModules.AllModules.ToArray(),
             runnableModules.Select(runnableModule => runnableModule.Module),

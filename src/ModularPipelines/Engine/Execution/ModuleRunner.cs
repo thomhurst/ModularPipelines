@@ -40,7 +40,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly IModuleAttributeEventService _moduleAttributeEventService;
     private readonly IModuleResultRegistrar _resultRegistrar;
     private readonly ISecretObfuscator _secretObfuscator;
-    private readonly IModuleConditionHandler _moduleConditionHandler;
+    private readonly ModulePlanningSkipEvaluator _modulePlanningSkipEvaluator;
     private readonly ArtifactLifecycleManager _artifactLifecycleManager;
     private readonly bool _manageArtifactsLocally;
     private readonly IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
@@ -63,7 +63,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleLifecycleEventInvoker lifecycleEventInvoker,
         IModuleAttributeEventService moduleAttributeEventService,
         IModuleResultRegistrar resultRegistrar,
-        IModuleConditionHandler moduleConditionHandler,
+        ModulePlanningSkipEvaluator modulePlanningSkipEvaluator,
         ArtifactLifecycleManager artifactLifecycleManager,
         IOptions<DistributedOptions> distributedOptions,
         IEnumerable<IModule> modules,
@@ -84,7 +84,7 @@ internal class ModuleRunner : IModuleRunner
         _moduleAttributeEventService = moduleAttributeEventService;
         _resultRegistrar = resultRegistrar;
         _secretObfuscator = secretObfuscator;
-        _moduleConditionHandler = moduleConditionHandler;
+        _modulePlanningSkipEvaluator = modulePlanningSkipEvaluator;
         _artifactLifecycleManager = artifactLifecycleManager;
         _manageArtifactsLocally = !distributedOptions.Value.Enabled
                                   || distributedOptions.Value.TotalInstances <= 1;
@@ -256,7 +256,8 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken)
     {
         if (scheduler.GetModuleState(consumerType) is not { State: not ModuleExecutionState.Completed } moduleState
-            || moduleState.SkipResult.ShouldSkip)
+            || moduleState.SkipResult.ShouldSkip
+            || HasSkippedRequiredDependency(moduleState))
         {
             return false;
         }
@@ -280,42 +281,15 @@ internal class ModuleRunner : IModuleRunner
         ModuleState moduleState,
         CancellationToken cancellationToken)
     {
-        var module = moduleState.Module;
-        var (shouldIgnore, attributeDecision) = await _moduleConditionHandler
-            .ShouldIgnoreForPlanning(module, cancellationToken)
+        return await _modulePlanningSkipEvaluator
+            .EvaluateAsync(moduleState.Module, cancellationToken)
             .ConfigureAwait(false);
-        if (shouldIgnore)
-        {
-            return attributeDecision ?? SkipDecision.Skip("Module was ignored");
-        }
-
-        var planningSkipCondition = module.Configuration.PlanningSkipCondition;
-        if (planningSkipCondition is null)
-        {
-            return null;
-        }
-
-        await using var scope = _serviceProvider.CreateAsyncScope();
-        var scopedServiceProvider = scope.ServiceProvider;
-        var executionContext = CreateExecutionContext(module, moduleState.ModuleType);
-        try
-        {
-            var moduleContext = new ModuleContext(
-                scopedServiceProvider.GetRequiredService<IPipelineContext>(),
-                module,
-                executionContext,
-                GetModuleLogger(scopedServiceProvider, moduleState.ModuleType),
-                _mediator,
-                _moduleEstimatedTimeProvider,
-                moduleResultAccessAllowed: false);
-            using var planningResultAccess = PlanningModuleResultAccess.Enter();
-            return await planningSkipCondition(moduleContext, cancellationToken).ConfigureAwait(false);
-        }
-        finally
-        {
-            executionContext.ModuleCancellationTokenSource.Dispose();
-        }
     }
+
+    private bool HasSkippedRequiredDependency(ModuleState moduleState) =>
+        moduleState.Dependencies.Any(dependency =>
+            !dependency.Value
+            && _resultRegistry.GetResult(dependency.Key)?.ModuleStatus == Enums.Status.Skipped);
 
     private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
         GetLocalArtifactConsumers(IEnumerable<IModule> modules)

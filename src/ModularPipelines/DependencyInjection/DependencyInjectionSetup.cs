@@ -250,6 +250,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<ModuleRetriever>()
             .AddSingleton<PipelinePlanner>()
+            .AddSingleton<ModulePlanningSkipEvaluator>()
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
