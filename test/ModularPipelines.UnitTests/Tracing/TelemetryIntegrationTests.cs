@@ -27,6 +27,7 @@ public class TelemetryIntegrationTests
     private const string ObfuscatedTool = "telemetry-**********-tool";
     private const string UnregisteredSensitiveArgument = "unregistered-sensitive-argument";
     private static int _inputManipulatorInvocations;
+    private static int _throwingInputManipulatorInvocations;
 
     private sealed class SuccessfulCommandInterceptor : ICommandInterceptor
     {
@@ -129,7 +130,10 @@ public class TelemetryIntegrationTests
                 new CommandExecutionOptions
                 {
                     InputLoggingManipulator = _ =>
-                        throw new InvalidOperationException("Input manipulator failed"),
+                    {
+                        Interlocked.Increment(ref _throwingInputManipulatorInvocations);
+                        throw new InvalidOperationException("Input manipulator failed");
+                    },
                 },
                 cancellationToken);
         }
@@ -258,6 +262,7 @@ public class TelemetryIntegrationTests
     [Test]
     public async Task Command_Input_Manipulator_Failure_Is_Recorded_On_Activity()
     {
+        _throwingInputManipulatorInvocations = 0;
         var stoppedActivities = new ConcurrentBag<Activity>();
         using var listener = CreateActivityListener(stoppedActivities);
 
@@ -275,6 +280,29 @@ public class TelemetryIntegrationTests
                 .IsEqualTo(typeof(InvalidOperationException).FullName);
             await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag))
                 .IsEqualTo("Input manipulator failed");
+            await Assert.That(_throwingInputManipulatorInvocations).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Interceptor_Failure_Precedes_Input_Manipulator()
+    {
+        _throwingInputManipulatorInvocations = 0;
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddSingleton<ICommandInterceptor, ThrowingCommandInterceptor>();
+        await Assert.ThrowsAsync<ModuleFailedException>(async () =>
+            await builder.AddModule<ThrowingInputManipulatorCommandModule>().ExecutePipelineAsync());
+
+        var commandActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == "Command.throwing-input-manipulator-tool");
+        using (Assert.Multiple())
+        {
+            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag))
+                .IsEqualTo($"Telemetry failure contains {Secret}");
+            await Assert.That(_throwingInputManipulatorInvocations).IsEqualTo(0);
         }
     }
 

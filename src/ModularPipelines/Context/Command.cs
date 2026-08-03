@@ -79,13 +79,17 @@ internal sealed class Command : ICommandContext
         using var timeoutCancellationToken = CreateTimeoutCancellationToken(execOpts);
         using var linkedCancellationToken =
             CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
-        var inputToLog = new Lazy<string>(() => GetInputToLog(commandInput, execOpts));
         var obfuscatedTool = _secretObfuscator.Obfuscate(tool, execOpts);
         using var activity = ModuleActivityTracing.StartCommandActivity(obfuscatedTool);
+        var inputToLog = new Lazy<string>(() =>
+        {
+            var input = GetInputToLog(commandInput, execOpts);
+            RecordTelemetryCommandInput(activity, input, execOpts);
+            return input;
+        });
 
         try
         {
-            RecordTelemetryCommandInput(activity, inputToLog, execOpts);
             var result = await ExecuteCommandCoreAsync(
                     invocation,
                     command,
@@ -201,7 +205,7 @@ internal sealed class Command : ICommandContext
 
     private void RecordTelemetryCommandInput(
         Activity? activity,
-        Lazy<string> inputToLog,
+        string inputToLog,
         CommandExecutionOptions executionOptions)
     {
         if (activity is null)
@@ -211,7 +215,7 @@ internal sealed class Command : ICommandContext
 
         ModuleActivityTracing.RecordCommandInput(
             activity,
-            GetTelemetryCommandInput(inputToLog.Value, executionOptions));
+            GetTelemetryCommandInput(inputToLog, executionOptions));
     }
 
     private async Task<CommandResult?> TryInterceptAsync(
