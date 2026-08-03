@@ -1,15 +1,12 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Snyk.Enums;
 using ModularPipelines.Snyk.Options;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Snyk.UnitTests.Attributes;
 
 public class SnykOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Auth_Renders_Secret_Positional_And_OAuth_Options()
     {
@@ -227,11 +224,5 @@ public class SnykOptionsTests
 
         await Assert.That(headers!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
         await Assert.That(password!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

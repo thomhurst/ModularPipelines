@@ -1,18 +1,10 @@
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Helpers.Internal;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.DotNet.UnitTests;
 
 public class DotNetFormatOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
-    private IReadOnlyList<string> BuildArguments(object optionsObject)
-    {
-        var model = _modelProvider.GetCommandModel(optionsObject.GetType());
-        return _argumentBuilder.BuildArguments(model, optionsObject);
-    }
 
     [Test]
     public async Task ExcludeDiagnostics_Passes_Each_Id_Separately()
