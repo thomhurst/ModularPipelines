@@ -6,4 +6,5 @@ internal enum PipelineCommand
     DryRun,
     ListModules,
     Validate,
+    ExportGraph,
 }

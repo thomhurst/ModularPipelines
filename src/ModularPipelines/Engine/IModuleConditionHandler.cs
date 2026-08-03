@@ -1,3 +1,4 @@
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -9,9 +10,19 @@ internal interface IModuleConditionHandler
         IModule module,
         CancellationToken cancellationToken = default);
 
+    Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreByCategory(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        CancellationToken cancellationToken = default);
+
     Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default);
 
     Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
         IModule module,
+        CancellationToken cancellationToken = default);
+
+    Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
         CancellationToken cancellationToken = default);
 }

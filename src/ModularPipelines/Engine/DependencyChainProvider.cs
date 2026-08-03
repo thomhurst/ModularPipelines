@@ -75,7 +75,9 @@ internal class DependencyChainProvider : IDependencyChainProvider
             _dependencyRegistry,
             dependencyContext: _metadataRegistry);
 
-        foreach (var (dependencyType, _) in dependencies)
+        foreach (var dependencyType in dependencies
+                     .Select(dependency => dependency.DependencyType)
+                     .Distinct())
         {
             if (moduleModelsByType.TryGetValue(dependencyType, out var dependencyModel))
             {

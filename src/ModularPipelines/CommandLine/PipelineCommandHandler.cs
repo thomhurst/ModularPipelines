@@ -14,6 +14,7 @@ internal sealed class PipelineCommandHandler(
     IRegistrationEventExecutor registrationEventExecutor,
     IModuleDependencyRegistry dependencyRegistry,
     IModuleMetadataRegistry metadataRegistry,
+    IDependencyGraphExporter dependencyGraphExporter,
     IConsoleWriter consoleWriter)
 {
     private readonly IReadOnlyList<IModule> _modules = modules
@@ -33,9 +34,25 @@ internal sealed class PipelineCommandHandler(
             case PipelineCommand.Validate:
                 await FinalizeModulesAsync(cancellationToken).ConfigureAwait(false);
                 return ReportSuccessfulValidation();
+            case PipelineCommand.ExportGraph:
+                await ExportGraphAsync(cancellationToken).ConfigureAwait(false);
+                return CreateSummary();
             default:
                 throw new ArgumentOutOfRangeException(nameof(commandLineOptions));
         }
+    }
+
+    private async Task ExportGraphAsync(CancellationToken cancellationToken)
+    {
+        await dependencyGraphExporter.ExportAsync(
+                commandLineOptions.GraphFormat
+                ?? throw new InvalidOperationException("A dependency graph format is required."),
+                commandLineOptions.GraphPath
+                ?? throw new InvalidOperationException("A dependency graph path is required."),
+                cancellationToken)
+            .ConfigureAwait(false);
+        consoleWriter.LogToConsole(
+            $"Dependency graph written to {Path.GetFullPath(commandLineOptions.GraphPath)}");
     }
 
     private PipelineSummary ListModules()

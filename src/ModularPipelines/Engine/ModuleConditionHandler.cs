@@ -65,9 +65,15 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreByCategory(
         IModule module,
         CancellationToken cancellationToken = default)
+        => ShouldIgnoreByCategory(module, _metadataRegistry, cancellationToken);
+
+    public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreByCategory(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var result = EvaluateCategoryConditions(module);
+        var result = EvaluateCategoryConditions(module, metadataRegistry);
         if (!result.ShouldIgnore
             && IsDistributedMaster()
             && OperatingSystemConditions.HasImpossibleCombination(GetConditionAttributes(module.GetType()).All))
@@ -81,33 +87,54 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
         IModule module,
         CancellationToken cancellationToken = default)
+        => ShouldIgnoreForPlanning(module, _metadataRegistry, cancellationToken);
+
+    public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return EvaluateShouldIgnore(module, cancellationToken);
+        return EvaluateShouldIgnore(
+            module,
+            cancellationToken,
+            useFreshAttributes: true,
+            metadataRegistry);
     }
 
     private async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> EvaluateShouldIgnore(
         IModule module,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool useFreshAttributes = false,
+        IModuleMetadataRegistry? metadataRegistry = null)
     {
-        var categoryResult = EvaluateCategoryConditions(module);
+        var categoryResult = EvaluateCategoryConditions(module, metadataRegistry ?? _metadataRegistry);
         if (categoryResult.ShouldIgnore)
         {
             return categoryResult;
         }
 
         var moduleType = module.GetType();
-        var conditionResult = await IsRunnableCondition(moduleType, cancellationToken).ConfigureAwait(false);
+        var conditionResult = await IsRunnableCondition(
+                moduleType,
+                cancellationToken,
+                useFreshAttributes)
+            .ConfigureAwait(false);
         return conditionResult.IsRunnable
             ? (false, null)
             : (true, conditionResult.SkipDecision);
     }
 
     private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(IModule module)
+        => EvaluateCategoryConditions(module, _metadataRegistry);
+
+    private (bool ShouldIgnore, SkipDecision? SkipDecision) EvaluateCategoryConditions(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry)
     {
         var moduleType = module.GetType();
-        _metadataRegistry.FinalizeMetadata(moduleType, module);
-        var category = _metadataRegistry.GetCategory(moduleType);
+        metadataRegistry.FinalizeMetadata(moduleType, module);
+        var category = metadataRegistry.GetCategory(moduleType);
 
         if (IsIgnoreCategory(category))
         {
@@ -148,10 +175,13 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
     private async Task<(bool IsRunnable, SkipDecision? SkipDecision)> IsRunnableCondition(
         Type moduleType,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool useFreshAttributes)
     {
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
-        var attributes = GetConditionAttributes(moduleType);
+        var attributes = useFreshAttributes
+            ? CreateConditionAttributes(moduleType)
+            : GetConditionAttributes(moduleType);
         return await EvaluateConditions(
             attributes,
             pipelineContext,

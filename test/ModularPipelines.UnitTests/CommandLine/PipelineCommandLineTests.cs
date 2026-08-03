@@ -12,6 +12,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.PipelineCli;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
@@ -800,6 +801,34 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task GraphCommandExportsWithoutExecutingModules()
+    {
+        var directory = Directory.CreateTempSubdirectory("modular-pipelines-cli-graph-");
+        try
+        {
+            var path = Path.Combine(directory.FullName, "pipeline.json");
+            using var builder = CreateExecutionBuilder(["--graph", "json", path]);
+
+            var summary = await builder.ExecutePipelineAsync();
+            var graph = await File.ReadAllTextAsync(path);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(summary.Results).IsEmpty();
+                await Assert.That(graph).Contains(nameof(DependencyModule));
+                await Assert.That(graph).Contains(nameof(TargetModule));
+                await Assert.That(_dependencyExecutions).IsEqualTo(0);
+                await Assert.That(_targetExecutions).IsEqualTo(0);
+                await Assert.That(_unrelatedExecutions).IsEqualTo(0);
+            }
+        }
+        finally
+        {
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
     public async Task PlanAsyncBuildsDependencyOrderedWavesWithoutExecutingModules()
     {
         using var builder = CreateExecutionBuilder();
@@ -1017,6 +1046,31 @@ public class PipelineCommandLineTests
             await Assert.That(plannedModule.IsSkipDecisionKnown).IsTrue();
             await Assert.That(plannedModule.ShouldSkip).IsTrue();
         }
+    }
+
+    [Test]
+    public async Task MermaidGraphCommandDefaultsToRawMermaidExtension()
+    {
+        var options = PipelineCommandLineParser.Parse(["--graph", "mermaid"]);
+
+        await Assert.That(options.GraphPath).IsEqualTo("dependency-graph.mmd");
+    }
+
+    [Test]
+    [Arguments("0")]
+    [Arguments("1")]
+    [Arguments("2")]
+    public async Task GraphCommandRejectsNumericFormats(string format)
+    {
+        await Assert.That(() => Pipeline.CreateBuilder(["--graph", format]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
+    public async Task GraphCommandRejectsCombinedFormats()
+    {
+        await Assert.That(() => Pipeline.CreateBuilder(["--graph", "mermaid,dot"]))
+            .Throws<ArgumentException>();
     }
 
     [Test]

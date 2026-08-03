@@ -1,3 +1,5 @@
+using ModularPipelines.Enums;
+
 namespace ModularPipelines.PipelineCli;
 
 internal static class PipelineCommandLineParser
@@ -9,6 +11,7 @@ internal static class PipelineCommandLineParser
     private const string SkipModuleOption = "--skip-module";
     private const string CategoriesOption = "--categories";
     private const string IgnoreCategoriesOption = "--ignore-categories";
+    private const string GraphOption = "--graph";
 
     public static PipelineCommandLineOptions Parse(IReadOnlyList<string>? arguments)
     {
@@ -23,6 +26,8 @@ internal static class PipelineCommandLineParser
         var skippedModules = new List<string>();
         var runOnlyCategories = new List<string>();
         var ignoreCategories = new List<string>();
+        DependencyGraphFormat? graphFormat = null;
+        string? graphPath = null;
 
         for (var index = 0; index < arguments.Count; index++)
         {
@@ -36,6 +41,14 @@ internal static class PipelineCommandLineParser
             if (argument.Equals(ValidateOption, StringComparison.OrdinalIgnoreCase))
             {
                 command = SetCommand(command, PipelineCommand.Validate, argument);
+                continue;
+            }
+
+            if (TryReadGraph(arguments, ref index, out var parsedGraphFormat, out var parsedGraphPath))
+            {
+                command = SetCommand(command, PipelineCommand.ExportGraph, argument);
+                graphFormat = parsedGraphFormat;
+                graphPath = parsedGraphPath ?? GetDefaultGraphPath(parsedGraphFormat);
                 continue;
             }
 
@@ -62,8 +75,75 @@ internal static class PipelineCommandLineParser
             Distinct(targetModules),
             Distinct(skippedModules),
             Distinct(runOnlyCategories),
-            Distinct(ignoreCategories));
+            Distinct(ignoreCategories),
+            graphFormat,
+            graphPath);
     }
+
+    private static bool TryReadGraph(
+        IReadOnlyList<string> arguments,
+        ref int index,
+        out DependencyGraphFormat format,
+        out string? path)
+    {
+        var argument = arguments[index];
+        string? value;
+        if (argument.Equals(GraphOption, StringComparison.OrdinalIgnoreCase))
+        {
+            if (++index >= arguments.Count || arguments[index].StartsWith("--", StringComparison.Ordinal))
+            {
+                throw new ArgumentException(
+                    $"Command-line option '{GraphOption}' requires mermaid, dot, or json.",
+                    nameof(arguments));
+            }
+
+            value = arguments[index];
+        }
+        else if (argument.StartsWith($"{GraphOption}=", StringComparison.OrdinalIgnoreCase))
+        {
+            value = argument[(GraphOption.Length + 1)..];
+        }
+        else
+        {
+            format = default;
+            path = null;
+            return false;
+        }
+
+        if (value.Equals("mermaid", StringComparison.OrdinalIgnoreCase))
+        {
+            format = DependencyGraphFormat.Mermaid;
+        }
+        else if (value.Equals("dot", StringComparison.OrdinalIgnoreCase))
+        {
+            format = DependencyGraphFormat.Dot;
+        }
+        else if (value.Equals("json", StringComparison.OrdinalIgnoreCase))
+        {
+            format = DependencyGraphFormat.Json;
+        }
+        else
+        {
+            throw new ArgumentException(
+                $"Unsupported dependency graph format '{value}'. Use mermaid, dot, or json.",
+                nameof(arguments));
+        }
+
+        path = index + 1 < arguments.Count
+               && !arguments[index + 1].StartsWith("--", StringComparison.Ordinal)
+            ? arguments[++index]
+            : null;
+        return true;
+    }
+
+    private static string GetDefaultGraphPath(DependencyGraphFormat format) =>
+        format switch
+        {
+            DependencyGraphFormat.Mermaid => "dependency-graph.mmd",
+            DependencyGraphFormat.Dot => "dependency-graph.dot",
+            DependencyGraphFormat.Json => "dependency-graph.json",
+            _ => throw new ArgumentOutOfRangeException(nameof(format), format, null),
+        };
 
     private static bool TryReadValues(
         IReadOnlyList<string> arguments,

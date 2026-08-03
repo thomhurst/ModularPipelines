@@ -1,3 +1,5 @@
+using ModularPipelines.Enums;
+
 namespace ModularPipelines.PipelineCli;
 
 internal sealed record PipelineCommandLineOptions(
@@ -6,7 +8,9 @@ internal sealed record PipelineCommandLineOptions(
     IReadOnlyList<string> TargetModules,
     IReadOnlyList<string> SkippedModules,
     IReadOnlyList<string> RunOnlyCategories,
-    IReadOnlyList<string> IgnoreCategories)
+    IReadOnlyList<string> IgnoreCategories,
+    DependencyGraphFormat? GraphFormat,
+    string? GraphPath)
 {
     public static PipelineCommandLineOptions Empty { get; } = new(
         PipelineCommand.Run,
@@ -14,5 +18,7 @@ internal sealed record PipelineCommandLineOptions(
         [],
         [],
         [],
-        []);
+        [],
+        null,
+        null);
 }

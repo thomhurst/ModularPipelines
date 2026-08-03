@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -52,7 +53,7 @@ namespace ModularPipelines.Modules;
 /// }
 /// </code>
 /// </example>
-public abstract class Module<T> : IModule
+public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
 {
     private readonly Lazy<ModuleConfiguration> _configuration;
 
@@ -119,6 +120,25 @@ public abstract class Module<T> : IModule
 
     /// <inheritdoc />
     ModuleConfiguration IModule.Configuration => _configuration.Value;
+
+    IModule IPlanningModuleCopyProvider.CreatePlanningCopy(IServiceProvider serviceProvider) =>
+        CreatePlanningCopy(serviceProvider);
+
+    /// <summary>
+    /// Creates an isolated module instance for dependency-graph planning.
+    /// </summary>
+    /// <remarks>
+    /// Override this when the module is registered with constructor values that cannot be resolved
+    /// from dependency injection. The returned instance must not share mutable module-owned state.
+    /// </remarks>
+    /// <param name="serviceProvider">The pipeline service provider.</param>
+    /// <returns>An isolated module instance used only for planning.</returns>
+    protected virtual Module<T> CreatePlanningCopy(IServiceProvider serviceProvider)
+    {
+        return (Module<T>) serviceProvider
+            .GetRequiredService<IModuleActivator>()
+            .CreateModule(GetType(), serviceProvider);
+    }
 
     /// <summary>
     /// Executes the module's core logic.
@@ -286,6 +306,11 @@ public abstract class Module<T> : IModule
         ModuleConfigurationAttributeAdapter.Apply(
             GetType(),
             Configure());
+}
+
+internal interface IPlanningModuleCopyProvider
+{
+    IModule CreatePlanningCopy(IServiceProvider serviceProvider);
 }
 
 #pragma warning restore SA1202

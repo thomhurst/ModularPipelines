@@ -114,22 +114,30 @@ internal static class ServiceCollectionExtensions
         // Track module type for auto-registration and unused module detection
         GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
-        services.AddSingleton<IModule>(sp =>
-        {
-            // Set AsyncLocal context before invoking user's factory
-            var previousType = Logging.ModuleLogger.CurrentModuleType.Value;
-            Logging.ModuleLogger.CurrentModuleType.Value = typeof(TModule);
-
-            try
-            {
-                return tModuleFactory(sp);
-            }
-            finally
-            {
-                Logging.ModuleLogger.CurrentModuleType.Value = previousType;
-            }
-        });
+        var planningFactory = new ModulePlanningFactory(
+            serviceProvider => CreateModuleFromFactory(serviceProvider, tModuleFactory));
+        services.AddSingleton(planningFactory);
+        services.AddSingleton<IModule>(planningFactory.CreateRuntimeModule);
         return services;
+    }
+
+    private static TModule CreateModuleFromFactory<TModule>(
+        IServiceProvider serviceProvider,
+        Func<IServiceProvider, TModule> moduleFactory)
+        where TModule : class, IModule
+    {
+        // Set AsyncLocal context before invoking user's factory
+        var previousType = Logging.ModuleLogger.CurrentModuleType.Value;
+        Logging.ModuleLogger.CurrentModuleType.Value = typeof(TModule);
+
+        try
+        {
+            return moduleFactory(serviceProvider);
+        }
+        finally
+        {
+            Logging.ModuleLogger.CurrentModuleType.Value = previousType;
+        }
     }
 
     /// <summary>

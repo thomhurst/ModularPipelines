@@ -52,7 +52,12 @@ internal class ModuleRetriever
     [MethodImpl(MethodImplOptions.Synchronized)]
     public Task<OrganizedModules> GetOrganizedModules(CancellationToken cancellationToken = default)
     {
-        return _cached ??= GetInternal(cancellationToken);
+        if (_cached is null || _cached.IsCanceled || _cached.IsFaulted)
+        {
+            _cached = GetInternal(cancellationToken);
+        }
+
+        return _cached;
     }
 
     internal async Task<IReadOnlyList<IModule>> GetRunnableModulesForValidation(

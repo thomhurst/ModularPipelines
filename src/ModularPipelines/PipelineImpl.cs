@@ -140,6 +140,14 @@ internal sealed class PipelineImpl : IPipeline
     }
 
     /// <inheritdoc />
+    public Task ExportDependencyGraphAsync(
+        DependencyGraphFormat format,
+        string path,
+        CancellationToken cancellationToken = default) =>
+        Services.GetRequiredService<IDependencyGraphExporter>()
+            .ExportAsync(format, path, cancellationToken);
+
+    /// <inheritdoc />
     public ValueTask DisposeAsync()
     {
         TaskCompletionSource completion;
