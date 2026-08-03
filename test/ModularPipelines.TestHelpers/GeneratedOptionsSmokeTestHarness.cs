@@ -259,12 +259,26 @@ public static class GeneratedOptionsSmokeTestHarness
         }
 
         var separator = option.Attribute.GetSeparator();
+
+        if (value is CliOptionValue optionValue)
+        {
+            return optionValue.IsBare
+                ? [optionName]
+                : RenderOptionValue(optionName, separator, optionValue.Value!);
+        }
+
         return GetValues(value)
-            .SelectMany(renderedValue => separator == " "
-                ? new[] { optionName, renderedValue }
-                : new[] { $"{optionName}{separator}{renderedValue}" })
+            .SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))
             .ToList();
     }
+
+    private static IReadOnlyList<string> RenderOptionValue(
+        string optionName,
+        string separator,
+        string value) =>
+        separator == " "
+            ? [optionName, value]
+            : [$"{optionName}{separator}{value}"];
 
     private static object CreateSample(Type propertyType)
     {
@@ -297,6 +311,7 @@ public static class GeneratedOptionsSmokeTestHarness
         type == typeof(string) ? "smoke-value"
         : type == typeof(bool) ? true
         : type == typeof(CliValuePair) ? new CliValuePair("smoke-first", "smoke-second")
+        : type == typeof(CliOptionValue) ? (CliOptionValue) "smoke-value"
         : type == typeof(KeyValue) ? new KeyValue("smoke-key", "smoke-value")
         : type == typeof(Uri) ? new Uri("https://example.invalid/smoke")
         : null;
