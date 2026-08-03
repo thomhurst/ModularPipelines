@@ -39,7 +39,7 @@ namespace ModularPipelines.Examples.Modules
 namespace ModularPipelines.Generated
 {
     [GeneratedCode(""ModularPipelines.SourceGenerator"", ""1.0.0"")]
-    public static class ModuleContextExtensions
+    public static class AnalyzerTestsModuleContextExtensions
     {
         public static ModularPipelines.Examples.Modules.Module1 GetModule1Module(this IModuleContext context) => context.GetModule<ModularPipelines.Examples.Modules.Module1>();
         public static ModularPipelines.Examples.Modules.Module1? GetModule1ModuleIfRegistered(this IModuleContext context) => context.GetModuleIfRegistered<ModularPipelines.Examples.Modules.Module1>();
