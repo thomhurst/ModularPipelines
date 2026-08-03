@@ -747,7 +747,6 @@ public static partial class GeneratorUtils
         "Passphrase",
         "Token",
         "Credential",
-        "Otp",
         "ApiKey",
         "PrivateKey",
         "AccessKey",
@@ -778,7 +777,33 @@ public static partial class GeneratorUtils
 
         // Check if the property name contains any secret-related keywords
         return SecretKeywords.Any(keyword =>
-            propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                   propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+               || ContainsIdentifierSegment(propertyName, "Otp");
+    }
+
+    private static bool ContainsIdentifierSegment(string propertyName, string segment)
+    {
+        for (var index = propertyName.IndexOf(segment, StringComparison.OrdinalIgnoreCase);
+             index >= 0;
+             index = propertyName.IndexOf(segment, index + 1, StringComparison.OrdinalIgnoreCase))
+        {
+            var startsAtBoundary = index == 0
+                                   || char.IsUpper(propertyName[index])
+                                   && (char.IsLower(propertyName[index - 1])
+                                       || char.IsDigit(propertyName[index - 1])
+                                       || propertyName[index - 1] == '_');
+            var endIndex = index + segment.Length;
+            var endsAtBoundary = endIndex == propertyName.Length
+                                 || char.IsUpper(propertyName[endIndex])
+                                 || char.IsDigit(propertyName[endIndex])
+                                 || propertyName[endIndex] == '_';
+            if (startsAtBoundary && endsAtBoundary)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
