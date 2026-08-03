@@ -818,6 +818,35 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_With_Coalesced_ServiceDescriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.Add(
+                        (ServiceDescriptor?)null
+                        ?? ServiceDescriptor.Singleton<IModule, BuildModule>());
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Passed_Through_ServiceDescriptor()
     {
         var source = $$"""
@@ -5160,6 +5189,85 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Static_Event_Type_Initializer()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            internal static class RegistrationCallbacks
+            {
+                static RegistrationCallbacks() =>
+                    Pipeline.CreateBuilder().Services
+                        .AddSingleton<IModule, BuildModule>();
+
+                public static event Action Ready
+                {
+                    add { }
+                    remove { }
+                }
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    RegistrationCallbacks.Ready += static () => { };
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_When_Static_Callback_Assignment_Is_Overwritten()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Action<IServiceCollection> Callback;
+
+                static Registration()
+                {
+                    Callback = RegisterModules;
+                    Callback = static _ => { };
+                }
+
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.ConfigureServices(Callback);
+                }
+
+                private static void RegisterModules(IServiceCollection services) =>
+                    services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_By_Startup_Lambda()
     {
         var source = $$"""
@@ -5423,6 +5531,77 @@ public class ModuleAuthoringAnalyzerTests
             source,
             blockingCall,
             unflowedToken);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Module_Field_Delegate()
+    {
+        var source = ModuleSource("""
+            private static readonly Action Callback = Work;
+
+            protected override Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Callback();
+                return Task.FromResult<List<string>>(null!);
+            }
+
+            private static void Work() => {|#0:Thread.Sleep(1)|};
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Module_Property_Delegate()
+    {
+        var source = ModuleSource("""
+            private static Action Callback { get; } = Work;
+
+            protected override Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Callback();
+                return Task.FromResult<List<string>>(null!);
+            }
+
+            private static void Work() => {|#0:Thread.Sleep(1)|};
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Safety_Inside_Module_Event_Accessor()
+    {
+        var source = ModuleSource("""
+            private event Action Ready
+            {
+                add => {|#0:Thread.Sleep(1)|};
+                remove { }
+            }
+
+            protected override Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                Ready += static () => { };
+                return Task.FromResult<List<string>>(null!);
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(
+                ModuleAsyncSafetyAnalyzer.ThreadSleepId)
+            .WithLocation(0);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]

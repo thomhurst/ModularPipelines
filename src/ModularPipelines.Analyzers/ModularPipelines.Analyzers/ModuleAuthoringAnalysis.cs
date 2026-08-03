@@ -108,6 +108,11 @@ internal static class ModuleAuthoringAnalysis
                 methodCalls),
             OperationKind.PropertyReference);
         context.RegisterOperationAction(
+            operationContext => CollectEventAccessorCall(
+                operationContext,
+                methodCalls),
+            OperationKind.EventAssignment);
+        context.RegisterOperationAction(
             operationContext => CollectStaticFieldInitializationCall(
                 operationContext,
                 methodCalls),
@@ -304,6 +309,31 @@ internal static class ModuleAuthoringAnalysis
             {
                 methodCalls.Add((caller, NormalizeMethod(setter)));
             }
+        }
+    }
+
+    private static void CollectEventAccessorCall(
+        OperationAnalysisContext context,
+        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
+    {
+        var eventAssignment = (IEventAssignmentOperation) context.Operation;
+        if (!IsInReachableBranch(eventAssignment))
+        {
+            return;
+        }
+
+        if (GetEventAccessor(eventAssignment) is not { } accessor)
+        {
+            return;
+        }
+
+        foreach (var containingMethod in
+                 GetContainingExecutionMethods(context.ContainingSymbol)
+                     .OfType<IMethodSymbol>())
+        {
+            methodCalls.Add((
+                NormalizeMethod(containingMethod),
+                NormalizeMethod(accessor)));
         }
     }
 
@@ -1139,6 +1169,12 @@ internal static class ModuleAuthoringAnalysis
                 instanceRegisteredModules,
                 visitedLocals,
                 visitedMethods),
+            ICoalesceOperation coalesce => TryTrackServiceDescriptorCoalesce(
+                coalesce,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
             ISwitchExpressionOperation switchExpression => TryTrackServiceDescriptorSwitchExpression(
                 switchExpression,
                 compilation,
@@ -1187,6 +1223,37 @@ internal static class ModuleAuthoringAnalysis
                 visitedMethods),
             _ => false,
         };
+    }
+
+    private static bool TryTrackServiceDescriptorCoalesce(
+        ICoalesceOperation coalesce,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (coalesce.Value.ConstantValue is { HasValue: true, Value: null })
+        {
+            return TryTrackServiceDescriptor(
+                coalesce.WhenNull,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods);
+        }
+
+        return TryTrackServiceDescriptor(
+                   coalesce.Value,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods))
+               && TryTrackServiceDescriptor(
+                   coalesce.WhenNull,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods));
     }
 
     private static bool TryTrackServiceDescriptorConditional(
@@ -2874,7 +2941,9 @@ internal static class ModuleAuthoringAnalysis
                 MethodKind.Ordinary
                 or MethodKind.ExplicitInterfaceImplementation
                 or MethodKind.PropertyGet
-                or MethodKind.PropertySet)
+                or MethodKind.PropertySet
+                or MethodKind.EventAdd
+                or MethodKind.EventRemove)
             || !TryGetReachableExecuteMethod(context, method, out var executeMethod))
         {
             return null;
@@ -3540,6 +3609,8 @@ internal static class ModuleAuthoringAnalysis
                     or MethodKind.ExplicitInterfaceImplementation
                     or MethodKind.PropertyGet
                     or MethodKind.PropertySet
+                    or MethodKind.EventAdd
+                    or MethodKind.EventRemove
                 && method.DeclaringSyntaxReferences.Length > 0)];
     }
 
@@ -3584,6 +3655,9 @@ internal static class ModuleAuthoringAnalysis
         var propertyReferences = operation.DescendantsAndSelf()
             .OfType<IPropertyReferenceOperation>()
             .ToImmutableArray();
+        var eventAssignments = operation.DescendantsAndSelf()
+            .OfType<IEventAssignmentOperation>()
+            .ToImmutableArray();
         var nestedCallables = operation.DescendantsAndSelf()
             .Select(GetCallableSymbol)
             .Where(static callable => callable is not null)
@@ -3600,6 +3674,10 @@ internal static class ModuleAuthoringAnalysis
                 reachableNestedCallables)
             .Concat(GetReferencedPropertyAccessors(
                 propertyReferences,
+                memberMethods,
+                reachableNestedCallables))
+            .Concat(GetReferencedEventAccessors(
+                eventAssignments,
                 memberMethods,
                 reachableNestedCallables));
     }
@@ -3651,6 +3729,48 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static IEnumerable<IMethodSymbol> GetReferencedEventAccessors(
+        ImmutableArray<IEventAssignmentOperation> eventAssignments,
+        ImmutableArray<IMethodSymbol> memberMethods,
+        HashSet<IMethodSymbol> reachableNestedCallables)
+    {
+        foreach (var eventAssignment in eventAssignments)
+        {
+            if (!IsInsideReachableCallable(
+                    eventAssignment,
+                    reachableNestedCallables))
+            {
+                continue;
+            }
+
+            if (GetEventAccessor(eventAssignment) is not { } accessor)
+            {
+                continue;
+            }
+
+            foreach (var method in memberMethods)
+            {
+                if (AccessorTargetsCallable(accessor, method))
+                {
+                    yield return method;
+                }
+            }
+        }
+    }
+
+    private static IMethodSymbol? GetEventAccessor(
+        IEventAssignmentOperation eventAssignment)
+    {
+        if (eventAssignment.EventReference is not IEventReferenceOperation eventReference)
+        {
+            return null;
+        }
+
+        return eventAssignment.Adds
+            ? eventReference.Event.AddMethod
+            : eventReference.Event.RemoveMethod;
+    }
+
     private static bool IsInsideReachableCallable(
         IOperation operation,
         HashSet<IMethodSymbol> reachableNestedCallables)
@@ -3670,7 +3790,7 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        return PropertyAccessorTargetsCallable(getter, method);
+        return AccessorTargetsCallable(getter, method);
     }
 
     private static bool PropertyReferenceTargetsSetter(
@@ -3683,10 +3803,10 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        return PropertyAccessorTargetsCallable(setter, method);
+        return AccessorTargetsCallable(setter, method);
     }
 
-    private static bool PropertyAccessorTargetsCallable(
+    private static bool AccessorTargetsCallable(
         IMethodSymbol accessor,
         IMethodSymbol callable)
     {
@@ -3839,31 +3959,24 @@ internal static class ModuleAuthoringAnalysis
         IMethodSymbol callable,
         HashSet<ILocalSymbol> visitedLocals)
     {
-        if (value.DescendantsAndSelf()
+        var values = (value.SemanticModel?.Compilation is { } compilation
+                ? GetValueAndReachingCallbackValues(
+                    value,
+                    compilation,
+                    visitedLocals,
+                    [with(SymbolEqualityComparer.Default)])
+                : GetValueAndReachingLocalValues(value, visitedLocals))
+            .ToArray();
+        return values.SelectMany(static candidate => candidate.DescendantsAndSelf())
             .OfType<IAnonymousFunctionOperation>()
             .Any(candidate => SymbolEqualityComparer.Default.Equals(
                 candidate.Symbol,
                 callable))
-            || value.DescendantsAndSelf()
+            || values.SelectMany(static candidate => candidate.DescendantsAndSelf())
                 .OfType<IMethodReferenceOperation>()
                 .Any(candidate => SymbolEqualityComparer.Default.Equals(
                     candidate.Method.OriginalDefinition,
-                    callable.OriginalDefinition)))
-        {
-            return true;
-        }
-
-        foreach (var localReference in value.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
-        {
-            if (visitedLocals.Add(localReference.Local)
-                && FindReachingLocalValue(localReference, localReference.Local) is { } localValue
-                && ValueContainsCallable(localValue, callable, visitedLocals))
-            {
-                return true;
-            }
-        }
-
-        return false;
+                    callable.OriginalDefinition));
     }
 
     private static bool InvocationUsesCancellation(
@@ -4338,11 +4451,13 @@ internal static class ModuleAuthoringAnalysis
                 ];
                 if (memberValues.Length == 0)
                 {
-                    memberValues =
-                    [
-                        .. GetDeclaredMemberOperations(member, compilation),
-                        .. GetStaticConstructorMemberValues(member, compilation),
-                    ];
+                    var constructorValues = GetStaticConstructorMemberValues(
+                            member,
+                            compilation)
+                        .ToArray();
+                    memberValues = constructorValues.Length > 0
+                        ? constructorValues
+                        : [.. GetDeclaredMemberOperations(member, compilation)];
                 }
 
                 foreach (var memberValue in memberValues)
@@ -4380,19 +4495,47 @@ internal static class ModuleAuthoringAnalysis
                 }
 
                 var semanticModel = compilation.GetSemanticModel(syntaxTree);
-                foreach (var syntax in syntaxReference.GetSyntax().DescendantNodesAndSelf())
+                var assignments = syntaxReference.GetSyntax()
+                    .DescendantNodesAndSelf()
+                    .Select(syntax => semanticModel.GetOperation(syntax))
+                    .OfType<ISimpleAssignmentOperation>()
+                    .Where(IsInReachableBranch)
+                    .Where(static assignment => GetEnclosingCallable(assignment) is null)
+                    .Where(assignment => SymbolEqualityComparer.Default.Equals(
+                        GetReferencedMember(assignment.Target),
+                        member))
+                    .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
+                    .ToArray();
+                var linearAssignment = assignments.FirstOrDefault(assignment =>
+                    ReferenceEquals(
+                        GetContainingBlock(assignment),
+                        GetOutermostContainingBlock(assignment)));
+                if (linearAssignment is not null)
                 {
-                    if (semanticModel.GetOperation(syntax) is ISimpleAssignmentOperation assignment
-                        && IsInReachableBranch(assignment)
-                        && SymbolEqualityComparer.Default.Equals(
-                            GetReferencedMember(assignment.Target),
-                            member))
-                    {
-                        yield return assignment.Value;
-                    }
+                    yield return linearAssignment.Value;
+                    continue;
+                }
+
+                foreach (var assignment in assignments)
+                {
+                    yield return assignment.Value;
                 }
             }
         }
+    }
+
+    private static IBlockOperation? GetOutermostContainingBlock(IOperation operation)
+    {
+        IBlockOperation? result = null;
+        for (var current = operation.Parent; current is not null; current = current.Parent)
+        {
+            if (current is IBlockOperation block)
+            {
+                result = block;
+            }
+        }
+
+        return result;
     }
 
     private static IEnumerable<IOperation> GetDeclaredMemberOperations(
