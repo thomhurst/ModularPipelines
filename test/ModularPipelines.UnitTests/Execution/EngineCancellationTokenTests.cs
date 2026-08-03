@@ -391,7 +391,7 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<CancelledBeforeStartModule>();
 
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await builder.ExecutePipelineAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+            async () => await builder.ExecutePipelineAsync().WaitAsync(TestHostSettings.DefaultTestTimeout));
 
         await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
         await Assert.That(exception.InnerException!).HasMessageEqualTo("Coordinated failure");
