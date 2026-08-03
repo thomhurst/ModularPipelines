@@ -451,7 +451,6 @@ public sealed class GeneratedOptionsSmokeTestException(
     string propertyName,
     Exception innerException) : Exception($"{optionsType.FullName}.{propertyName} failed generated-options smoke testing.", innerException)
 {
-
     /// <summary>
     /// Gets the options type under test.
     /// </summary>
