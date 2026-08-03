@@ -10,7 +10,7 @@ public class PowershellTests : TestBase
 {
     private class PowershellEchoModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Shell.PowerShell.ScriptAsync(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
         }

@@ -62,7 +62,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogEnd]
     public class SuccessfulModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Success";
@@ -73,7 +73,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogFailed]
     public class FailingModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("Intentional failure");
         }
@@ -87,9 +87,9 @@ public class LifecycleEventIntegrationTests : TestBase
             .WithSkipWhen(_ => SkipDecision.Skip("Test skip reason"))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Should not execute");
+            return Task.FromResult<string>("Should not execute");
         }
     }
 
@@ -98,11 +98,11 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogSkipped]
     public class AttributeSkippingModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Should not execute");
+            return Task.FromResult<string>("Should not execute");
         }
     }
 
@@ -115,7 +115,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [Test]
     public async Task SuccessfulModule_InvokesStartAndEndEvents()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SuccessfulModule>()
             .ExecutePipelineAsync();
 
@@ -129,7 +129,7 @@ public class LifecycleEventIntegrationTests : TestBase
     {
         try
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<FailingModule>()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
@@ -149,7 +149,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [Test]
     public async Task SkippingModule_InvokesStartAndSkippedEvents()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SkippingModule>()
             .ExecutePipelineAsync();
 
@@ -161,7 +161,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [Test]
     public async Task AttributeSkippingModule_InvokesStartAndSkippedEvents()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<AttributeSkippingModule>()
             .ExecutePipelineAsync();
 

@@ -16,32 +16,32 @@ public class ModuleSchedulerDynamicCycleTests
     [ModularPipelines.Attributes.DependsOn<DynamicModule>(Optional = true)]
     private class ExistingModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(ExistingModule));
+            CancellationToken cancellationToken) => Task.FromResult<string>(nameof(ExistingModule));
     }
 
     [ModularPipelines.Attributes.DependsOn<ExistingModule>]
     private class DynamicModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(DynamicModule));
+            CancellationToken cancellationToken) => Task.FromResult<string>(nameof(DynamicModule));
     }
 
     private class CompletedDependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(CompletedDependencyModule));
+            CancellationToken cancellationToken) => Task.FromResult<string>(nameof(CompletedDependencyModule));
     }
 
     [ModularPipelines.Attributes.NotInParallel]
     private class DeferredConstraintModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(nameof(DeferredConstraintModule));
+            CancellationToken cancellationToken) => Task.FromResult<string>(nameof(DeferredConstraintModule));
     }
 
     [Test]

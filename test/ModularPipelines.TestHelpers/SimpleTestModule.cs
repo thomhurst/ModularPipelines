@@ -18,10 +18,10 @@ public abstract class SimpleTestModule<T> : Module<T>
     /// Gets the result to return from the module.
     /// Override this property to provide a custom return value.
     /// </summary>
-    protected abstract T? Result { get; }
+    protected abstract T Result { get; }
 
     /// <inheritdoc />
-    protected internal override async Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected internal override async Task<T> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
         return Result;

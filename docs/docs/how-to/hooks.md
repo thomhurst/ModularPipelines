@@ -55,7 +55,7 @@ public class MyModule : Module<string>
         return Task.CompletedTask;
     }
 
-    protected internal override Task<string?> ExecuteAsync(
+    protected internal override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
         => Task.FromResult<string?>("Hello, World!");

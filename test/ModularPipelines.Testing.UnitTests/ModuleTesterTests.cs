@@ -400,15 +400,15 @@ public class ModuleTesterTests
 
     public sealed class ValueModule : Module<string>
     {
-        protected override Task<string?> ExecuteAsync(
+        protected override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
-            => Task.FromResult<string?>("value");
+            => Task.FromResult("value");
     }
 
     public sealed class DependencyModule : Module<string>
     {
-        protected override Task<string?> ExecuteAsync(
+        protected override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
             => throw new InvalidOperationException("Seeded dependency must not execute.");
@@ -420,30 +420,30 @@ public class ModuleTesterTests
             .DependsOn<DependencyModule>()
             .Build();
 
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             var dependency = await context.GetModule<DependencyModule>();
-            return $"{dependency.ValueOrDefault} consumed";
+            return $"{dependency.Value} consumed";
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     public sealed class AttributedDependentModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             var dependency = await context.GetModule<DependencyModule>();
-            return $"{dependency.ValueOrDefault} consumed";
+            return $"{dependency.Value} consumed";
         }
     }
 
     public sealed class CommandModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -472,7 +472,7 @@ public class ModuleTesterTests
             .WithSkipWhen(_ => SkipDecision.Skip("not needed"))
             .Build();
 
-        protected override Task<string?> ExecuteAsync(
+        protected override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
             => throw new InvalidOperationException("Skipped module must not execute.");
@@ -480,7 +480,7 @@ public class ModuleTesterTests
 
     public sealed class FailingModule : Module<string>
     {
-        protected override Task<string?> ExecuteAsync(
+        protected override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
             => throw new InvalidOperationException("expected");
@@ -488,20 +488,21 @@ public class ModuleTesterTests
 
     public sealed class FileModule(FilePath filePath) : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             var file = context.Files.GetFile(filePath.Value);
             file.Folder!.Create();
             await file.WriteAsync("contents", cancellationToken);
-            return file.Exists ? await file.ReadAsync(cancellationToken) : null;
+            return await file.ReadAsync(cancellationToken)
+                ?? throw new InvalidOperationException("The written test file could not be read.");
         }
     }
 
     public sealed class FolderModule(FilePath rootPath) : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -532,7 +533,7 @@ public class ModuleTesterTests
 
     public sealed class FolderCopyModule(FilePath rootPath) : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -547,7 +548,7 @@ public class ModuleTesterTests
 
     public sealed class SecretCommandModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -578,7 +579,7 @@ public class ModuleTesterTests
 
     public sealed class ConcurrentCommandModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -596,7 +597,7 @@ public class ModuleTesterTests
 
     public sealed class TimedCommandModule : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -614,7 +615,7 @@ public class ModuleTesterTests
 
     public sealed class FilesContextModule(FilePath rootPath) : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -657,7 +658,7 @@ public class ModuleTesterTests
 
     public sealed class CancellableModule(TaskCompletionSource started) : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -673,7 +674,7 @@ public class ModuleTesterTests
             .WithAlwaysRun()
             .Build();
 
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -685,7 +686,7 @@ public class ModuleTesterTests
 
     public sealed class ZipOutputModule(FilePath rootPath) : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {

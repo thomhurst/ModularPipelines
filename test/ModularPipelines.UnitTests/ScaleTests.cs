@@ -139,13 +139,13 @@ public class ScaleTests : TestBase
     /// <typeparam name="T">A marker type that makes this module unique.</typeparam>
     public class ScaleModule<T>(ExecutionTracker tracker) : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use full generic type name to uniquely identify each module
             var typeName = GetType().ToString();
             tracker.RecordStart(typeName);
             tracker.MarkCompleted(typeName);
-            return Task.FromResult<string?>(typeName);
+            return Task.FromResult<string>(typeName);
         }
     }
 
@@ -171,8 +171,8 @@ public class ScaleTests : TestBase
         await Assert.That(tracker.IsClean).IsTrue();
         const int expectedModuleCount = 100;
 
-        var builder = TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) => services.AddSingleton(tracker))
+        var builder = TestPipelineBuilder.Create()
+            .ConfigureServices(services => services.AddSingleton(tracker))
             // Add 100 independent modules (each with a unique type)
             .AddModule<ScaleModule<M1>>().AddModule<ScaleModule<M2>>().AddModule<ScaleModule<M3>>()
             .AddModule<ScaleModule<M4>>().AddModule<ScaleModule<M5>>().AddModule<ScaleModule<M6>>()
@@ -304,8 +304,8 @@ public class ScaleTests : TestBase
         await Assert.That(tracker.IsClean).IsTrue();
         const int chainDepth = 50;
 
-        var builder = TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) => services.AddSingleton(tracker))
+        var builder = TestPipelineBuilder.Create()
+            .ConfigureServices(services => services.AddSingleton(tracker))
             .AddModule<ChainModule1>().AddModule<ChainModule2>().AddModule<ChainModule3>()
             .AddModule<ChainModule4>().AddModule<ChainModule5>().AddModule<ChainModule6>()
             .AddModule<ChainModule7>().AddModule<ChainModule8>().AddModule<ChainModule9>()
@@ -443,8 +443,8 @@ public class ScaleTests : TestBase
         await Assert.That(tracker.IsClean).IsTrue();
         const int totalModules = 51; // 1 root + 50 dependents
 
-        var builder = TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) => services.AddSingleton(tracker))
+        var builder = TestPipelineBuilder.Create()
+            .ConfigureServices(services => services.AddSingleton(tracker))
             .AddModule<FanOutRootModule>()
             .AddModule<FanOutDep1>().AddModule<FanOutDep2>().AddModule<FanOutDep3>()
             .AddModule<FanOutDep4>().AddModule<FanOutDep5>().AddModule<FanOutDep6>()
@@ -579,8 +579,8 @@ public class ScaleTests : TestBase
         await Assert.That(tracker.IsClean).IsTrue();
         const int totalModules = 51; // 50 independent + 1 final
 
-        var builder = TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) => services.AddSingleton(tracker))
+        var builder = TestPipelineBuilder.Create()
+            .ConfigureServices(services => services.AddSingleton(tracker))
             .AddModule<FanInInd1>().AddModule<FanInInd2>().AddModule<FanInInd3>()
             .AddModule<FanInInd4>().AddModule<FanInInd5>().AddModule<FanInInd6>()
             .AddModule<FanInInd7>().AddModule<FanInInd8>().AddModule<FanInInd9>()

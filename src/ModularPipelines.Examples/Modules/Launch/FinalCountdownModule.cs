@@ -12,10 +12,10 @@ namespace ModularPipelines.Examples.Modules.Launch;
 [ModuleCategory("Launch")]
 public class FinalCountdownModule : Module<CountdownStatus>
 {
-    protected override async Task<CountdownStatus?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CountdownStatus> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var flightDirector = (await context.GetModule<FlightDirectorApprovalModule>()).ValueOrDefault!;
-        var safetyOfficer = (await context.GetModule<SafetyOfficerApprovalModule>()).ValueOrDefault!;
+        var flightDirector = (await context.GetModule<FlightDirectorApprovalModule>()).Value;
+        var safetyOfficer = (await context.GetModule<SafetyOfficerApprovalModule>()).Value;
 
         if (!flightDirector.Approved)
         {

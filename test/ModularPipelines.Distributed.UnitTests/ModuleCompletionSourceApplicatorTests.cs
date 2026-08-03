@@ -14,9 +14,9 @@ public class ModuleCompletionSourceApplicatorTests
 
     private class TestModule : Module<SimpleResult>
     {
-        protected internal override Task<SimpleResult?> ExecuteAsync(
+        protected internal override Task<SimpleResult> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<SimpleResult?>(new SimpleResult { Message = "test" });
+            => Task.FromResult<SimpleResult>(new SimpleResult { Message = "test" });
     }
 
     private static ModuleResult<T> CreateSuccessResult<T>(T value, string moduleName) where T : notnull

@@ -20,8 +20,8 @@ public class MockedFileSystemTests
             .ReturnsAsync("{\"enabled\": true}");
 
         // Act - run pipeline with mock provider
-        var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        var result = await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 // Replace the default provider with our mock
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
@@ -47,8 +47,8 @@ public class MockedFileSystemTests
         var mockProvider = new Mock<IFileSystemProvider>();
 
         // Act
-        var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        var result = await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
             })
@@ -73,8 +73,8 @@ public class MockedFileSystemTests
         mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
 
         // Act
-        var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        var result = await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
             })
@@ -89,7 +89,7 @@ public class MockedFileSystemTests
     // Test module that reads a config file
     private class ConfigReaderModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var configFile = context.Files.GetFile("/config/settings.json");
             return await configFile.ReadAsync(cancellationToken);
@@ -97,9 +97,9 @@ public class MockedFileSystemTests
     }
 
     // Test module that writes to a file
-    private class FileWriterModule : Module<bool?>
+    private class FileWriterModule : Module<bool>
     {
-        protected internal override async Task<bool?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var outputFile = context.Files.GetFile("/output/result.txt");
             await outputFile.WriteAsync("Hello from module!", cancellationToken);
@@ -108,13 +108,13 @@ public class MockedFileSystemTests
     }
 
     // Test module that creates a folder
-    private class FolderCreatorModule : Module<bool?>
+    private class FolderCreatorModule : Module<bool>
     {
-        protected internal override Task<bool?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var folder = context.Files.GetFolder("/data/output");
             folder.Create();
-            return Task.FromResult<bool?>(true);
+            return Task.FromResult(true);
         }
     }
 }

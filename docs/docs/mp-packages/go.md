@@ -30,7 +30,7 @@ using ModularPipelines.Go.Options;
 
 public class UseGoModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

@@ -127,7 +127,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Ignore_Category_Without_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .IgnoreCategories("1")
             .BuildAsync();
@@ -142,10 +142,10 @@ public class ModuleHistoryTests
     [Test]
     public async Task Ignore_By_Non_Runnable_Category_Without_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunCategories("2")
+            .RunOnlyCategories("2")
             .BuildAsync();
 
         await host.RunAsync();
@@ -158,7 +158,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Skip_From_Run_Condition_Without_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromRunCondition>()
             .BuildAsync();
 
@@ -172,7 +172,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Skip_From_Method_Without_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromMethod>()
             .BuildAsync();
 
@@ -186,7 +186,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Ignore_Category_With_NotFound_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .IgnoreCategories("1")
             .AddResultsRepository<NotFoundModuleRepository>()
@@ -202,10 +202,10 @@ public class ModuleHistoryTests
     [Test]
     public async Task Ignore_By_Non_Runnable_Category_With_NotFound_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunCategories("2")
+            .RunOnlyCategories("2")
             .AddResultsRepository<NotFoundModuleRepository>()
             .BuildAsync();
 
@@ -219,7 +219,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Skip_From_Run_Condition_With_NotFound_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromRunCondition>()
             .AddResultsRepository<NotFoundModuleRepository>()
             .BuildAsync();
@@ -234,7 +234,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Skip_From_Method_With_NotFound_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromMethod>()
             .AddResultsRepository<NotFoundModuleRepository>()
             .BuildAsync();
@@ -249,7 +249,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Ignore_Category_With_Good_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .IgnoreCategories("1")
             .AddResultsRepository<GoodModuleRepository>()
@@ -265,7 +265,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Required_Dependency_With_History_Does_Not_Skip_Dependent()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<UsesCategoryDependency>()
             .IgnoreCategories("1")
@@ -285,7 +285,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Cascade_Skipped_Module_Uses_Its_Own_History()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<UsesCategoryDependency>()
             .IgnoreCategories("1")
@@ -304,10 +304,10 @@ public class ModuleHistoryTests
     [Test]
     public async Task Ignore_By_Non_Runnable_Category_With_Good_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunCategories("2")
+            .RunOnlyCategories("2")
             .AddResultsRepository<GoodModuleRepository>()
             .BuildAsync();
 
@@ -321,7 +321,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Skip_From_Run_Condition_With_Good_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromRunCondition>()
             .AddResultsRepository<GoodModuleRepository>()
             .BuildAsync();
@@ -336,7 +336,7 @@ public class ModuleHistoryTests
     [Test]
     public async Task Skip_From_Method_With_Good_History_Repository()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromMethod>()
             .AddResultsRepository<GoodModuleRepository>()
             .BuildAsync();

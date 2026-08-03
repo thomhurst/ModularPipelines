@@ -19,7 +19,7 @@ public class CommandLoggerTests : TestBase
     {
         const string secret = "command-option-secret";
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
-        var result = await GetService<ICommandContext>((_, collection) =>
+        var result = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddFile(file));
@@ -28,7 +28,7 @@ public class CommandLoggerTests : TestBase
         await result.T.ExecuteCommandLineToolAsync(
             new SecretCommandOptions { Secret = secret },
             new CommandExecutionOptions { ThrowOnNonZeroExitCode = false });
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).DoesNotContain(secret);
@@ -40,7 +40,7 @@ public class CommandLoggerTests : TestBase
     {
         const string secret = "dry-run-command-secret";
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
-        var result = await GetService<ICommandContext>((_, collection) =>
+        var result = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddFile(file));
@@ -56,7 +56,7 @@ public class CommandLoggerTests : TestBase
                     ShowCommandArguments = true,
                 },
             });
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
 
         var logFile = await File.ReadAllTextAsync(file);
         await Assert.That(logFile).Contains("[DRY-RUN]");
@@ -70,7 +70,7 @@ public class CommandLoggerTests : TestBase
         const string rawOutput = "raw-output";
         const string displayedOutput = "displayed-output";
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
-        var result = await GetService<ICommandContext>((_, collection) =>
+        var result = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddFile(file));
@@ -86,7 +86,7 @@ public class CommandLoggerTests : TestBase
                 },
                 OutputLoggingManipulator = _ => displayedOutput,
             });
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
 
         await Assert.That(commandResult.StandardOutput).Contains(rawOutput);
         await Assert.That(commandResult.StandardOutput).DoesNotContain(displayedOutput);
@@ -191,7 +191,7 @@ public class CommandLoggerTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<ICommandContext>((_, collection) =>
+        var result = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
@@ -220,7 +220,7 @@ public class CommandLoggerTests : TestBase
                 ThrowOnNonZeroExitCode = false,
             });
 
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
 
         return file;
     }
@@ -346,7 +346,7 @@ public class CommandLoggerTests : TestBase
     {
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var result = await GetService<ICommandContext>((_, collection) =>
+        var result = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => { builder.AddFile(file); });
@@ -362,7 +362,7 @@ public class CommandLoggerTests : TestBase
                     maxCapturedOutputLength ?? CommandExecutionOptions.DefaultMaxCapturedOutputLength,
             });
 
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
 
         return file;
     }
@@ -423,7 +423,7 @@ public class CommandLoggerTests : TestBase
         var readyFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".ready");
         var releaseFile = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".release");
         using var logObserver = new StreamingLogObserver(marker, errorMarker);
-        var result = await GetService<ICommandContext>((_, collection) =>
+        var result = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
             collection.AddLogging(builder => builder.AddProvider(logObserver));
@@ -455,7 +455,7 @@ public class CommandLoggerTests : TestBase
     {
         var marker = $"throwing-output-{Guid.NewGuid():N}";
         using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
-        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        var (commandContext, _) = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(
                 options => options.MinLevel = LogLevel.Information);
@@ -484,7 +484,7 @@ public class CommandLoggerTests : TestBase
             Guid.NewGuid().ToString("N") + ".txt");
         using var loggingProvider =
             new SelectiveThrowingLoggerProvider($"{Environment.CurrentDirectory}> {marker}");
-        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        var (commandContext, _) = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(
                 options => options.MinLevel = LogLevel.Information);
@@ -518,7 +518,7 @@ public class CommandLoggerTests : TestBase
         var file = Path.Combine(
             TestContext.WorkingDirectory,
             Guid.NewGuid().ToString("N") + ".txt");
-        var result = await GetService<ICommandContext>((_, collection) =>
+        var result = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(
                 options => options.MinLevel = LogLevel.Information);
@@ -533,7 +533,7 @@ public class CommandLoggerTests : TestBase
                     ExecutionTimeout = TimeSpan.FromMilliseconds(-2),
                     InputLoggingManipulator = _ => marker,
                 }));
-        await result.Host.DisposeAsync();
+        await result.Pipeline.DisposeAsync();
 
         await Assert.That(await File.ReadAllTextAsync(file)).DoesNotContain(marker);
     }
@@ -543,7 +543,7 @@ public class CommandLoggerTests : TestBase
     {
         var marker = $"throwing-failure-output-{Guid.NewGuid():N}";
         using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
-        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        var (commandContext, _) = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(
                 options => options.MinLevel = LogLevel.Information);
@@ -578,7 +578,7 @@ public class CommandLoggerTests : TestBase
         var marker = $"throwing-cancellation-output-{Guid.NewGuid():N}";
         using var loggingProvider = new SelectiveThrowingLoggerProvider($"  ↳ {marker}");
         using var cancellationTokenSource = new CancellationTokenSource();
-        var (commandContext, _) = await GetService<ICommandContext>((_, collection) =>
+        var (commandContext, _) = await GetService<ICommandContext>(collection =>
         {
             collection.Configure<LoggerFilterOptions>(
                 options => options.MinLevel = LogLevel.Information);

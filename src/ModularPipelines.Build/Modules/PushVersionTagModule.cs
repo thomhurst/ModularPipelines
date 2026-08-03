@@ -33,11 +33,11 @@ public class PushVersionTagModule : Module<CommandResult>
         {
             // Use GetAwaiter().GetResult() since dependency has completed by the time this callback runs
             var versionInformation = ((IModuleContext)ctx).GetModule<NugetVersionGeneratorModule>().GetAwaiter().GetResult();
-            return ex.Message.Contains($"tag 'v{versionInformation.ValueOrDefault!}' already exists");
+            return ex.Message.Contains($"tag 'v{versionInformation.Value}' already exists");
         })
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var versionInformation = await context.GetModule<NugetVersionGeneratorModule>();
 
@@ -58,7 +58,7 @@ public class PushVersionTagModule : Module<CommandResult>
 
         await context.Git().Commands.Branches.TagAsync(new GitTagOptions
         {
-            TagName = $"v{versionInformation.ValueOrDefault!}",
+            TagName = $"v{versionInformation.Value}",
         }, cancellationToken: cancellationToken);
 
         return await context.Git().Commands.Remotes.PushAsync(

@@ -11,21 +11,21 @@ public class MatrixModuleExpanderTests
     [MatrixTarget("windows", "linux", "macos")]
     private class CrossPlatformModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             ModularPipelines.Context.IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 
     private class RegularModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             ModularPipelines.Context.IModuleContext context,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("result");
+            return Task.FromResult<string>("result");
         }
     }
 

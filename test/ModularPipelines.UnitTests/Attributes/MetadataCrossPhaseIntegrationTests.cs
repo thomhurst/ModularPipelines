@@ -69,7 +69,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
     [ReadMetadataOnEnd("config")]
     public class MetadataModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Done";
@@ -85,7 +85,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
     [Test]
     public async Task Metadata_SetDuringRegistration_AvailableDuringLifecycleEvents()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<MetadataModule>()
             .ExecutePipelineAsync();
 

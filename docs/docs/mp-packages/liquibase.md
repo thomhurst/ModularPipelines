@@ -15,7 +15,7 @@ using ModularPipelines.Models;
 
 public class UpdateDatabaseModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

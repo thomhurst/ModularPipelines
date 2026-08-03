@@ -83,7 +83,7 @@ public class CommandTests : TestBase
 
     private class CommandEchoModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Shell.Command.ExecuteCommandLineToolAsync(
                 new GenericCommandLineToolOptions("pwsh")
@@ -96,7 +96,7 @@ public class CommandTests : TestBase
 
     private class CommandEchoTimeoutModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return TestConstants.TestString;

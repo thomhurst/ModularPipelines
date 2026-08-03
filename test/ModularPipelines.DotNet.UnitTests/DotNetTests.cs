@@ -12,7 +12,7 @@ public class DotNetTests : TestBase
 {
     private class DotNetVersionModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use the main solution explicitly; the repository contains several solutions.
             return await context.DotNet().Package.ListAsync(new DotNetPackageListOptions
@@ -24,7 +24,7 @@ public class DotNetTests : TestBase
 
     private class DotNetFormatModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().FormatAsync(new DotNetFormatOptions
             {

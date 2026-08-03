@@ -18,7 +18,7 @@ That would look like this:
 ```csharp
 public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityResource>
 {
-    protected override async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<UserAssignedIdentityResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentityProvisionResponse = await context.Tools.Azure.Provisioner.Security.UserAssignedIdentity(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
@@ -35,7 +35,7 @@ public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityRe
 ```csharp
 public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 {
-    protected override async Task<StorageAccountResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<StorageAccountResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccountProvisionResponse = await context.Tools.Azure.Provisioner.Storage.StorageAccount(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
@@ -53,7 +53,7 @@ public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 [DependsOn<ProvisionBlobStorageAccountModule>]
 public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 {
-    protected override async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<BlobContainerResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
@@ -75,7 +75,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 [DependsOn<ProvisionUserAssignedIdentityModule>]
 public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 {
-    protected override async Task<RoleAssignmentResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<RoleAssignmentResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
 
@@ -99,7 +99,7 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 [DependsOn<ProvisionBlobStorageContainerModule>]
 public class ProvisionAzureFunction : Module<WebSiteResource>
 {
-    protected override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<WebSiteResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
 

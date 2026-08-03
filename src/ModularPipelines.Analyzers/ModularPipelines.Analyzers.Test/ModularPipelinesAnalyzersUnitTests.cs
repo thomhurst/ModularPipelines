@@ -22,16 +22,16 @@ namespace ModularPipelines.Examples.Modules
 {
     public class Module1 : Module<string>
     {
-        protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+        protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => Task.FromResult<string>(null!);
     }
 
     public class Module2 : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var module1 = await {|#0:context.GetModule1Module()|};
             var optionalModule1 = {|#1:context.GetModule1ModuleIfRegistered()|};
-            return null;
+            return null!;
         }
     }
 }
@@ -60,19 +60,19 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<IDictionary<string, object>>
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
-        return null;
+        return null!;
     }
 }
 
 public class Module2 : Module<IDictionary<string, object>>
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var module1 = await {|#0:context.GetModule<Module1>()|};
-        return null;
+        return null!;
     }
 }";
 
@@ -91,20 +91,20 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<IDictionary<string, object>>
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
-        return null;
+        return null!;
     }
 }
 
 [DependsOn<Module1>]
 public class Module2 : Module<IDictionary<string, object>>
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var module1 = await context.GetModule<Module1>();
-        return null;
+        return null!;
     }
 }";
 
@@ -190,8 +190,8 @@ namespace ModularPipelines.Examples.Modules;
 
 public class Module1 : Module<string>
 {
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        => Task.FromResult<string?>(null);
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult<string>(null!);
 }
 
 public class ModuleLookup
@@ -201,10 +201,10 @@ public class ModuleLookup
 
 public class Module2 : Module<string>
 {
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var module1 = new ModuleLookup().GetModule<Module1>();
-        return Task.FromResult<string?>(null);
+        return Task.FromResult<string>(null!);
     }
 }";
 
@@ -224,8 +224,8 @@ public class Module2 : Module<string>
 
             public class Dependency : Module<string>
             {
-                protected override Task<string?> ExecuteAsync(IModuleContext context, System.Threading.CancellationToken cancellationToken)
-                    => Task.FromResult<string?>(null);
+                protected override Task<string> ExecuteAsync(IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                    => Task.FromResult<string>(null!);
             }
 
             public class Helper
@@ -265,8 +265,8 @@ public class Module2 : Module<string>
 
             public class Dependency : Module<string>
             {
-                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-                    => Task.FromResult<string?>(null);
+                protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string>(null!);
             }
 
             public class Consumer : Module<string>
@@ -279,8 +279,8 @@ public class Module2 : Module<string>
                     }
                 }
 
-                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-                    => Task.FromResult<string?>(null);
+                protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string>(null!);
             }
             """.ReplaceLineEndings("\n");
         var fixedSource = """
@@ -295,8 +295,8 @@ public class Module2 : Module<string>
 
             public class Dependency : Module<string>
             {
-                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-                    => Task.FromResult<string?>(null);
+                protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string>(null!);
             }
 
             [DependsOn<Dependency>]
@@ -310,8 +310,8 @@ public class Module2 : Module<string>
                     }
                 }
 
-                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-                    => Task.FromResult<string?>(null);
+                protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string>(null!);
             }
             """.ReplaceLineEndings("\n");
         var expected = VerifyCS.Diagnostic(MissingDependsOnAttributeAnalyzer.DiagnosticId)
@@ -346,8 +346,8 @@ public class Module2 : Module<string>
 
             public class Dependency : Module<string>
             {
-                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-                    => Task.FromResult<string?>(null);
+                protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string>(null!);
             }
 
 
@@ -356,7 +356,7 @@ public class Module2 : Module<string>
             {
                 private const string Alignment = "keep";       // aligned comment
 
-                protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
                 {
                     var dependency = await {|#0:context.GetModule<Dependency>()|}; // trailing comment
                     return Alignment;
@@ -375,8 +375,8 @@ public class Module2 : Module<string>
 
             public class Dependency : Module<string>
             {
-                protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-                    => Task.FromResult<string?>(null);
+                protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    => Task.FromResult<string>(null!);
             }
 
 
@@ -386,7 +386,7 @@ public class Module2 : Module<string>
             {
                 private const string Alignment = "keep";       // aligned comment
 
-                protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
                 {
                     var dependency = await context.GetModule<Dependency>(); // trailing comment
                     return Alignment;
@@ -414,17 +414,17 @@ public class Module2 : Module<string>
             {
                 public class Dependency : Module<string>
                 {
-                    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-                        => Task.FromResult<string?>(null);
+                    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                        => Task.FromResult<string>(null!);
                 }
 
                 [System.Obsolete]
                 public class Consumer : Module<string>
                 {
-                    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
                     {
                         var dependency = await {|#0:context.GetModule<Dependency>()|};
-                        return null;
+                        return null!;
                     }
                 }
             }
@@ -441,18 +441,18 @@ public class Module2 : Module<string>
             {
                 public class Dependency : Module<string>
                 {
-                    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-                        => Task.FromResult<string?>(null);
+                    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                        => Task.FromResult<string>(null!);
                 }
 
                 [System.Obsolete]
                 [DependsOn<Dependency>]
                 public class Consumer : Module<string>
                 {
-                    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
                     {
                         var dependency = await context.GetModule<Dependency>();
-                        return null;
+                        return null!;
                     }
                 }
             }
@@ -473,16 +473,16 @@ public class Module2 : Module<string>
 
             public class Dependency : ModularPipelines.Modules.Module<string>
             {
-                protected override System.Threading.Tasks.Task<string?> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
-                    => System.Threading.Tasks.Task.FromResult<string?>(null);
+                protected override System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                    => System.Threading.Tasks.Task.FromResult<string>(null!);
             }
 
             public class Consumer : ModularPipelines.Modules.Module<string>
             {
-                protected override async System.Threading.Tasks.Task<string?> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                protected override async System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
                 {
                     var dependency = await {|#0:context.GetModule<Dependency>()|};
-                    return null;
+                    return null!;
                 }
             }
             """.ReplaceLineEndings("\n");
@@ -493,17 +493,17 @@ public class Module2 : Module<string>
 
             public class Dependency : ModularPipelines.Modules.Module<string>
             {
-                protected override System.Threading.Tasks.Task<string?> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
-                    => System.Threading.Tasks.Task.FromResult<string?>(null);
+                protected override System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                    => System.Threading.Tasks.Task.FromResult<string>(null!);
             }
 
             [DependsOn<Dependency>]
             public class Consumer : ModularPipelines.Modules.Module<string>
             {
-                protected override async System.Threading.Tasks.Task<string?> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
+                protected override async System.Threading.Tasks.Task<string> ExecuteAsync(ModularPipelines.Context.IModuleContext context, System.Threading.CancellationToken cancellationToken)
                 {
                     var dependency = await context.GetModule<Dependency>();
-                    return null;
+                    return null!;
                 }
             }
             """.ReplaceLineEndings("\n");

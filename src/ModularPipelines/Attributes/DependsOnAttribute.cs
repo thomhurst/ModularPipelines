@@ -25,7 +25,7 @@ namespace ModularPipelines.Attributes;
 /// [DependsOn&lt;Module1&gt;(Optional = true)]
 /// public class Module3 : Module&lt;string&gt;
 /// {
-///     protected override async Task&lt;string?&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+///     protected override async Task&lt;string&gt; ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ///     {
 ///         // Use GetModuleIfRegistered for optional dependencies
 ///         var module1 = context.GetModuleIfRegistered&lt;Module1&gt;();
@@ -63,7 +63,7 @@ public class DependsOnAttribute : Attribute
     }
 
     /// <summary>
-    /// Internal constructor for use by the generic DependsOnAttribute to bypass the obsolete warning.
+    /// Internal constructor used by the generic DependsOnAttribute to bypass redundant runtime validation.
     /// </summary>
     internal DependsOnAttribute(Type type, bool skipValidation)
     {

@@ -28,9 +28,9 @@ public class ComposableModuleTests
             .WithSkipWhen(_ => SkipDecision.Skip("Skipped via composition"))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Executed");
+            return Task.FromResult<string>("Executed");
         }
     }
 
@@ -44,9 +44,9 @@ public class ComposableModuleTests
             .WithSkipWhen(_ => SkipDecision.DoNotSkip)
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Executed");
+            return Task.FromResult<string>("Executed");
         }
     }
 
@@ -60,9 +60,9 @@ public class ComposableModuleTests
             .WithTimeout(TimeSpan.FromSeconds(5))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Executed with timeout");
+            return Task.FromResult<string>("Executed with timeout");
         }
     }
 
@@ -119,16 +119,16 @@ public class ComposableModuleTests
             .WithAlwaysRun()
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Always ran");
+            return Task.FromResult<string>("Always ran");
         }
     }
 
     [Test]
     public async Task Skippable_Module_Is_Skipped_When_Condition_True()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<AlwaysSkippedModule>()
             .BuildAsync();
 
@@ -143,7 +143,7 @@ public class ComposableModuleTests
     [Test]
     public async Task Skippable_Module_Executes_When_Condition_False()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<NeverSkippedModule>()
             .BuildAsync();
 
@@ -157,7 +157,7 @@ public class ComposableModuleTests
     [Test]
     public async Task Timeoutable_Module_Has_Custom_Timeout()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<TimeoutableModule>()
             .BuildAsync();
 
@@ -174,7 +174,7 @@ public class ComposableModuleTests
     {
         MultiBehaviorModule.Reset();
 
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<MultiBehaviorModule>()
             .ExecutePipelineAsync();
 
@@ -185,7 +185,7 @@ public class ComposableModuleTests
     [Test]
     public async Task AlwaysRun_Module_Has_Correct_Configuration()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<AlwaysRunModule>()
             .BuildAsync();
 

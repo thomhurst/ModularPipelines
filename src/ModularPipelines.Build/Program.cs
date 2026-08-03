@@ -55,6 +55,7 @@ builder
     .AddModule<RunLiquibaseUnitTestsModule>()
     .AddModule<RunNerdbankGitVersioningUnitTestsModule>()
     .AddModule<RunNodeUnitTestsModule>()
+    .AddModule<RunOpenTelemetryUnitTestsModule>()
     .AddModule<RunOptionsGeneratorUnitTestsModule>()
     .AddModule<RunShellcheckUnitTestsModule>()
     .AddModule<RunSnykUnitTestsModule>()
@@ -111,10 +112,10 @@ builder.ConfigurePipelineOptions(options => options with
 });
 
 // Support running only specific categories via environment variable
-var runCategories = Environment.GetEnvironmentVariable("Pipeline__RunCategories");
-if (!string.IsNullOrEmpty(runCategories))
+var runOnlyCategories = Environment.GetEnvironmentVariable("Pipeline__RunOnlyCategories");
+if (!string.IsNullOrEmpty(runOnlyCategories))
 {
-    builder.RunCategories(runCategories.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+    builder.RunOnlyCategories(runOnlyCategories.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
 }
 
 builder.SetLogLevel(LogLevel.Debug); // Temporarily hardcoded for debugging

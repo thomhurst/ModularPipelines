@@ -56,7 +56,7 @@ public class ResultsRepositoryTests : TestBase
     [TUnit.Core.NotInParallel(nameof(ResultsRepositoryTests), Order = 1)]
     public async Task RunOne()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddResultsRepository<JsonResultRepository>()
             .AddModule<Module1>()
             .AddModule<Module2>()
@@ -79,12 +79,12 @@ public class ResultsRepositoryTests : TestBase
     [TUnit.Core.NotInParallel(nameof(ResultsRepositoryTests), Order = 2)]
     public async Task RunTwoFromHistory()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddResultsRepository<JsonResultRepository>()
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<OtherCategoryModule>()
-            .RunCategories("Other")
+            .RunOnlyCategories("Other")
             .BuildAsync();
 
         await host.RunAsync();

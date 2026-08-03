@@ -23,8 +23,8 @@ public class FailedModuleNotificationTests
             .Returns(ValueTask.CompletedTask);
 
         await Assert.That(async () =>
-                await TestPipelineHostBuilder.Create()
-                    .ConfigureServices((_, services) => services.AddSingleton(mediator.Object))
+                await TestPipelineBuilder.Create()
+                    .ConfigureServices(services => services.AddSingleton(mediator.Object))
                     .AddModule<FailingModule>()
                     .ExecutePipelineAsync())
             .Throws<ModuleFailedException>();
@@ -47,8 +47,8 @@ public class FailedModuleNotificationTests
             .Returns(ValueTask.CompletedTask);
 
         await Assert.That(async () =>
-                await TestPipelineHostBuilder.Create()
-                    .ConfigureServices((_, services) =>
+                await TestPipelineBuilder.Create()
+                    .ConfigureServices(services =>
                     {
                         services.AddSingleton(mediator.Object);
                         services.AddSingleton<IModuleEventReceiver, ThrowingFailureReceiver>();

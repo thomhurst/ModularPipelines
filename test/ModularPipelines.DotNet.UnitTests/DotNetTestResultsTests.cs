@@ -23,7 +23,7 @@ public class DotNetTestResultsTests : TestBase
 
     private class DotNetTestWithFailureModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = TestProjectPaths.TestsForTestsProject;
 
@@ -63,7 +63,7 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public async Task Can_Parse_Trx_Using_Helper()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<TrueModule>()
             .BuildAsync();
 

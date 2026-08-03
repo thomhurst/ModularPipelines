@@ -28,7 +28,7 @@ ModularPipelines lets you write your CI/CD pipelines as regular C# code. That me
 [DependsOn<TestModule>]
 public class PublishModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // This is real C#. Set a breakpoint. Inspect variables. Debug locally.
         return await context.Tools.DotNet.PublishAsync(new DotNetPublishOptions
@@ -75,7 +75,7 @@ Modules return strongly-typed results that other modules can consume. No shared 
 // BuildModule returns version info
 public class BuildModule : Module<BuildInfo>
 {
-    protected override async Task<BuildInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<BuildInfo> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(
             new DotNetBuildOptions { ProjectSolution = "MyApp.csproj" },
@@ -176,6 +176,7 @@ ModularPipelines has strongly-typed wrappers for the tools you already use:
 | ModularPipelines.Yarn | Helpers for interacting with Yarn CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Yarn.svg)](https://www.nuget.org/packages/ModularPipelines.Yarn/) |
 | ModularPipelines.Node | Helpers for interacting with node / npm CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Node.svg)](https://www.nuget.org/packages/ModularPipelines.Node/) |
 | ModularPipelines.OptionsGenerator | Generates strongly typed ModularPipelines integrations from CLI metadata. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.OptionsGenerator.svg)](https://www.nuget.org/packages/ModularPipelines.OptionsGenerator/) |
+| ModularPipelines.OpenTelemetry | OpenTelemetry tracing, metrics, and OTLP export for Modular Pipelines. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.OpenTelemetry.svg)](https://www.nuget.org/packages/ModularPipelines.OpenTelemetry/) |
 | ModularPipelines.Git | Helpers for interacting with git. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Git.svg)](https://www.nuget.org/packages/ModularPipelines.Git/) |
 | ModularPipelines.GitHub | Helpers for interacting with GitHub Actions build agents. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.GitHub.svg)](https://www.nuget.org/packages/ModularPipelines.GitHub/) |
 | ModularPipelines.Google | Helpers for interacting with the Google gcloud CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Google.svg)](https://www.nuget.org/packages/ModularPipelines.Google/) |

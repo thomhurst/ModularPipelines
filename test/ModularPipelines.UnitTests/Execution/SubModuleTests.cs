@@ -20,7 +20,7 @@ public class SubModuleTests : TestBase
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(async name =>
@@ -39,7 +39,7 @@ public class SubModuleTests : TestBase
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(async name =>
@@ -50,7 +50,7 @@ public class SubModuleTests : TestBase
                 }, cancellationToken)
                 .ProcessInParallel();
 
-            return null;
+            return [];
         }
     }
 
@@ -59,7 +59,7 @@ public class SubModuleTests : TestBase
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(name =>
@@ -77,7 +77,7 @@ public class SubModuleTests : TestBase
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name =>
@@ -88,13 +88,13 @@ public class SubModuleTests : TestBase
                 }, cancellationToken)
                 .ProcessInParallel();
 
-            return null;
+            return [];
         }
     }
 
     private class FailingSubModulesWithReturnTypeModule : Module<string[]>
     {
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(async (string name) =>
@@ -111,7 +111,7 @@ public class SubModuleTests : TestBase
 
     private class FailingSubModulesWithoutReturnTypeModule : Module<string[]>
     {
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(async name =>
@@ -121,13 +121,13 @@ public class SubModuleTests : TestBase
                 }, cancellationToken)
                 .ProcessInParallel();
 
-            return null;
+            return [];
         }
     }
 
     private class FailingSubModulesWithReturnTypeModuleSynchronous : Module<string[]>
     {
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }
                 .ToAsyncProcessorBuilder()
@@ -146,7 +146,7 @@ public class SubModuleTests : TestBase
 
     private class FailingSubModulesWithoutReturnTypeModuleSynchronous : Module<string[]>
     {
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name =>
@@ -159,7 +159,7 @@ public class SubModuleTests : TestBase
                 }, cancellationToken)
                 .ProcessInParallel();
 
-            return null;
+            return [];
         }
     }
 
@@ -174,7 +174,7 @@ public class SubModuleTests : TestBase
             .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
             .Build();
 
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             foreach (var name in new[] { "1", "2", "3" })
             {
@@ -197,7 +197,7 @@ public class SubModuleTests : TestBase
                 await Task.Yield();
             }
 
-            return null;
+            return [];
         }
     }
 
@@ -212,7 +212,7 @@ public class SubModuleTests : TestBase
             .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
             .Build();
 
-        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             foreach (var name in new[] { "1", "2", "3" })
             {
@@ -235,14 +235,14 @@ public class SubModuleTests : TestBase
                 await Task.Yield();
             }
 
-            return null;
+            return [];
         }
     }
 
     [Test]
     public async Task Submodule_With_Progress()
     {
-        var host = await TestPipelineHostBuilder.Create(new TestHostSettings { ShowProgressInConsole = true })
+        var host = await TestPipelineBuilder.Create(new TestHostSettings { ShowProgressInConsole = true })
             .AddModule<SubModulesWithReturnTypeModule>()
             .BuildAsync();
 
@@ -258,7 +258,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_With_Return_Type_Does_Not_Fail_And_Runs_Once()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SubModulesWithReturnTypeModule>()
             .BuildAsync();
 
@@ -274,7 +274,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_Without_Return_Type_Does_Not_Fail_And_Runs_Once()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SubModulesWithoutReturnTypeModule>()
             .BuildAsync();
 
@@ -290,7 +290,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_With_Return_Type_Does_Not_Fail_Synchronous_And_Runs_Once()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SubModulesWithReturnTypeModuleSynchronous>()
             .BuildAsync();
 
@@ -306,7 +306,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Submodule_Without_Return_Type_Does_Not_Fail_Synchronous_And_Runs_Once()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SubModulesWithoutReturnTypeModuleSynchronous>()
             .BuildAsync();
 
@@ -323,7 +323,7 @@ public class SubModuleTests : TestBase
     public async Task Failing_Submodule_With_Return_Type_Fails()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithReturnTypeModule>()
                 .ExecutePipelineAsync());
 
@@ -338,14 +338,14 @@ public class SubModuleTests : TestBase
     public async Task Failing_Submodule_Without_Return_Type_Fails()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithoutReturnTypeModule>()
                 .ExecutePipelineAsync());
 
         await Assert.That(exception!.InnerException).IsTypeOf<SubModuleFailedException>();
 
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithoutReturnTypeModule>()
                 .ExecutePipelineAsync());
 
@@ -363,7 +363,7 @@ public class SubModuleTests : TestBase
     public async Task Failing_Submodule_With_Return_Type_Fails_Synchronous()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithReturnTypeModuleSynchronous>()
                 .ExecutePipelineAsync());
 
@@ -378,7 +378,7 @@ public class SubModuleTests : TestBase
     public async Task Failing_Submodule_Without_Return_Type_Fails_Synchronous()
     {
         var moduleFailedException = await Assert.ThrowsAsync<ModuleFailedException>(async () =>
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<FailingSubModulesWithoutReturnTypeModuleSynchronous>()
                 .ExecutePipelineAsync());
 
@@ -392,7 +392,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Module_With_Retry_Policy_Retries_Entire_Execution()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SucceedingSubModulesDoNotRetryModule>()
             .BuildAsync();
 
@@ -414,7 +414,7 @@ public class SubModuleTests : TestBase
     [Test]
     public async Task Module_With_Retry_Policy_Retries_Entire_Execution_With_Return_Type()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<SucceedingSubModulesDoNotRetryModule_WithReturnType>()
             .BuildAsync();
 

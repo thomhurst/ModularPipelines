@@ -15,7 +15,7 @@ public class ModularPipelinesAnalyzersConflictingDependsOnAttributeUnitTests
 {
     private const string SimpleModuleBody = @"
 {
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -386,11 +386,11 @@ public class Module2 : Module<List<string>>
         source.AppendLine("""
                           public abstract class ChainModule : Module<List<string>>
                           {
-                              protected override Task<List<string>?> ExecuteAsync(
+                              protected override Task<List<string>> ExecuteAsync(
                                   IModuleContext context,
                                   CancellationToken cancellationToken)
                               {
-                                  return Task.FromResult<List<string>?>([]);
+                                  return Task.FromResult<List<string>>([]);
                               }
                           }
                           """);

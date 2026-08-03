@@ -11,13 +11,13 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<FindProjectsModule>]
-public class GenerateReadMeModule : Module<IDictionary<string, object>>
+public class GenerateReadMeModule : Module<None>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithAlwaysRun()
         .Build();
 
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
@@ -33,7 +33,7 @@ public class GenerateReadMeModule : Module<IDictionary<string, object>>
 
         var projects = await context.GetModule<FindProjectsModule>();
 
-        foreach (var project in projects.ValueOrDefault!
+        foreach (var project in projects.Value
                      .Where(x => !x.NameWithoutExtension.StartsWith("ModularPipelines.Analyzers")))
         {
             var moduleName = project.NameWithoutExtension;
@@ -50,12 +50,12 @@ public class GenerateReadMeModule : Module<IDictionary<string, object>>
         if (updatedContents == readMeActualOriginalContents)
         {
             // Nothing to do here = It's already matching what we expect :)
-            return null;
+            return None.Value;
         }
 
         await gitRootDirectory.GetFile("README.md").WriteAsync(updatedContents, cancellationToken);
 
-        return null;
+        return None.Value;
     }
 
     private string GetModuleReadMeDescription(File file)

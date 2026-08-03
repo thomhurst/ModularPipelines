@@ -20,7 +20,7 @@ using ModularPipelines.Shellcheck.Options;
 
 public class CheckShellScriptsModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

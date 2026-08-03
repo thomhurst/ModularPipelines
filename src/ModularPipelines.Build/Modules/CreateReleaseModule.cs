@@ -45,7 +45,7 @@ public class CreateReleaseModule : Module<Release>
         .WithIgnoreFailuresWhen((_, ex) => ex is ApiValidationException)
         .Build();
 
-    protected override async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<Release> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var versionInfoResult = await context.GetModule<NugetVersionGeneratorModule>();
 
@@ -56,9 +56,9 @@ public class CreateReleaseModule : Module<Release>
         }
 
         return await context.GitHub().Client.Repository.Release.Create(repositoryId,
-            new NewRelease($"v{versionInfoResult.ValueOrDefault}")
+            new NewRelease($"v{versionInfoResult.Value}")
             {
-                Name = versionInfoResult.ValueOrDefault,
+                Name = versionInfoResult.Value,
                 GenerateReleaseNotes = true,
             });
     }

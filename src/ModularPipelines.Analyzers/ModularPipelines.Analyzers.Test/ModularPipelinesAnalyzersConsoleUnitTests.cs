@@ -18,7 +18,7 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
 
@@ -35,6 +35,15 @@ public class Module1 : Module<List<string>>
     private static readonly string BadModuleSource4 = CreateBadModuleSource(@"Console.Out.WriteLine(""Done!"")");
     private static readonly string BadModuleSource5 = CreateBadModuleSource(@"Console.Out.WriteLineAsync(""Done!"")", isAsync: true);
     private static readonly string BadModuleSource6 = CreateBadModuleSource(@"Console.Out.Dispose()");
+    private static readonly string QualifiedConsoleSource = CreateBadModuleSource(
+        @"System.Console.WriteLine(""Done!"")");
+    private static readonly string GlobalQualifiedConsoleSource = CreateBadModuleSource(
+        @"global::System.Console.WriteLine(""Done!"")");
+    private static readonly string NestedConsoleReceiverSource = CreateBadModuleSource(
+        @"Console.Out.Encoding.GetBytes(""Done!"")");
+    private static readonly string ConsoleInvocationReceiverSource = CreateBadModuleSource(
+        @"{|#0:Console.OpenStandardInput()|}.ReadByte()",
+        markDiagnostic: false);
     private static readonly string NonTerminatingWriteSource =
         CreateBadModuleSource(@"Console.Write(""Done!"")", markDiagnostic: false);
     private static readonly string NonTerminatingWriteAsyncSource =
@@ -46,6 +55,109 @@ public class Module1 : Module<List<string>>
         @"Console.WriteLine(value: ""Done!"")",
         markDiagnostic: false);
 
+    private const string DynamicConsoleArgumentSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        dynamic message = ""Done!"";
+        {{|#0:Console.WriteLine(message)|}};
+        return Task.FromResult<List<string>>([]);
+    }}
+}}
+";
+
+    private const string UsingStaticConsoleSource = $@"
+{TestSourceConstants.StandardUsings}
+using static System.Console;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        {{|#0:WriteLine(""Done!"")|}};
+        return Task.FromResult<List<string>>([]);
+    }}
+}}
+";
+
+    private const string DynamicUsingStaticConsoleSource = $@"
+{TestSourceConstants.StandardUsings}
+using static System.Console;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        dynamic message = ""Done!"";
+        {{|#0:WriteLine(message)|}};
+        return Task.FromResult<List<string>>([]);
+    }}
+}}
+";
+
+    [TestMethod]
+    public async Task AnalyzerReportsOnlyTheConsoleInvocationInAReceiverChain()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(ConsoleInvocationReceiverSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerReportsConsoleInvocationWithDynamicArgument()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(DynamicConsoleArgumentSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerReportsDynamicUsingStaticConsoleInvocation()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(DynamicUsingStaticConsoleSource, expected);
+    }
+
+    private const string CustomConsoleSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public static class CustomConsole
+{{
+    public static void WriteLine(string message)
+    {{
+    }}
+}}
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        CustomConsole.WriteLine(""Done!"");
+        return Task.FromResult<List<string>>([]);
+    }}
+}}
+";
+
     private const string StaticLocalFunctionSource = $@"
 {TestSourceConstants.StandardUsings}
 
@@ -53,7 +165,7 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         static void WriteMessage()
         {{
@@ -74,13 +186,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         Action<int> write = context => Console.WriteLine(""Done!"");
         write(0);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -93,10 +205,10 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
     {{
         {{|#0:C.Error.WriteLine(""Failure!"")|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -110,10 +222,10 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
+    protected override Task<List<string>> ExecuteAsync(IModuleContext @event, CancellationToken cancellationToken)
     {{
         @event.Logger.LogError(""{{Message}}"", (""Failure!"") ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -125,13 +237,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         string? message = null;
         {{|#0:Console.WriteLine(message)|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -144,13 +256,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         string? message = null;
         context.Logger.LogInformation(""{{Message}}"", (message) ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -163,12 +275,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         {{|#0:Console.WriteLine(""Done!"")|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -182,12 +294,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         context.Logger.LogInformation(""{{Message}}"", (""Done!"") ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -203,12 +315,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         {{|#0:Console.WriteLine(""Done!"")|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -225,12 +337,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         context.Logger.LogInformation(""{{Message}}"", (""Done!"") ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -242,12 +354,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         {{|#0:Console.WriteLine((string)null!)|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -260,12 +372,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         context.Logger.LogInformation(""{{Message}}"", ((string)null!) ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -277,7 +389,7 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
@@ -286,7 +398,7 @@ public class Module1 : Module<List<string>>
             .WriteLine(""Done!"")
 #endif
             ;
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -298,13 +410,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         string? message = null;
         {{|#0:Console.WriteLine(/* explanation */ message)|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -317,13 +429,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         string? message = null;
         context.Logger.LogInformation(""{{Message}}"", /* explanation */ (message) ?? string.Empty);
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -345,12 +457,12 @@ public static class CustomLoggerExtensions
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         Console.WriteLine(""Done!"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -363,7 +475,7 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
 
@@ -420,6 +532,44 @@ public class Module1 : Module<List<string>>
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleSource6, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_Using_QualifiedConsole()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(QualifiedConsoleSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_Using_GlobalQualifiedConsole()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(GlobalQualifiedConsoleSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_UsingStaticConsole()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(UsingStaticConsoleSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_ConsoleReceiverIsNested()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(NestedConsoleReceiverSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsNotTriggered_When_Using_CustomConsoleType()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(CustomConsoleSource);
     }
 
     [TestMethod]

@@ -6,19 +6,19 @@ namespace ModularPipelines.UnitTests.Results;
 
 public class ReturnNothingTests : TestBase
 {
-    private class ReturnNothingModule1 : SimpleTestModule<CommandResult>
+    private class ReturnNothingModule1 : SimpleTestModule<None>
     {
-        protected override CommandResult? Result => null;
+        protected override None Result => None.Value;
     }
 
-    private class ReturnNothingModule2 : SimpleTestModule<CommandResult>
+    private class ReturnNothingModule2 : SimpleTestModule<None>
     {
-        protected override CommandResult? Result => null;
+        protected override None Result => None.Value;
     }
 
-    private class ReturnNothingModule3 : SimpleTestModule<CommandResult>
+    private class ReturnNothingModule3 : SimpleTestModule<None>
     {
-        protected override CommandResult? Result => default;
+        protected override None Result => default;
     }
 
     [Test]
@@ -45,12 +45,12 @@ public class ReturnNothingTests : TestBase
         await Assert(result);
     }
 
-    private static async Task Assert(ModuleResult<CommandResult> result)
+    private static async Task Assert(ModuleResult<None> result)
     {
         using (TUnit.Assertions.Assert.Multiple())
         {
             await TUnit.Assertions.Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
-            await TUnit.Assertions.Assert.That(result.ValueOrDefault).IsNull();
+            await TUnit.Assertions.Assert.That(result.Value).IsEqualTo(None.Value);
             await TUnit.Assertions.Assert.That(result.ExceptionOrDefault).IsNull();
         }
     }

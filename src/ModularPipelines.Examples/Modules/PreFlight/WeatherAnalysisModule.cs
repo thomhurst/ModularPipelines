@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules.PreFlight;
 [ModuleCategory("PreFlight")]
 public class WeatherAnalysisModule : Module<WeatherReport>
 {
-    protected override async Task<WeatherReport?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<WeatherReport> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Analyzing weather conditions at launch site...");
         context.Logger.LogDebug("Connecting to meteorological data service...");

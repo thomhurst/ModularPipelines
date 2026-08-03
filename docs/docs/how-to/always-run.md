@@ -19,7 +19,7 @@ public class CleanupModule : Module<CommandResult>
         .WithAlwaysRun()
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Clean up resources - runs even if other modules failed
     }
@@ -41,7 +41,7 @@ public class CleanupModule : Module<CommandResult>
         .WithTimeout(TimeSpan.FromMinutes(5))
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Clean up resources - runs even if Build or Test failed
         // Won't fail the pipeline even if cleanup itself fails

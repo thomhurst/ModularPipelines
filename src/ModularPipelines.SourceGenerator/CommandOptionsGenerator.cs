@@ -177,7 +177,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                properties.Add(property.Name, CreatePropertyMetadata(property, attribute));
+                var propertyMetadata = CreatePropertyMetadata(property, attribute);
+                if (propertyMetadata is
+                    {
+                        Kind: PropertyKind.Flag or PropertyKind.Option,
+                        PrimaryValue: null,
+                    })
+                {
+                    isComplete = false;
+                    continue;
+                }
+
+                properties.Add(property.Name, propertyMetadata);
             }
         }
 
@@ -492,7 +503,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         return accessibility == Accessibility.Public
             || ((accessibility == Accessibility.Internal || accessibility == Accessibility.ProtectedOrInternal)
-                && SymbolEqualityComparer.Default.Equals(containingAssembly, currentAssembly));
+                && (SymbolEqualityComparer.Default.Equals(containingAssembly, currentAssembly)
+                    || containingAssembly.GivesAccessTo(currentAssembly)));
     }
 
     private static bool IsCommandAttribute(AttributeData attribute)

@@ -12,8 +12,8 @@ public class ModuleConfigurationTests
 {
     private sealed class DependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>(null);
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult(string.Empty);
     }
 
     #region Default Tests
@@ -549,7 +549,7 @@ public class ModuleConfigurationTests
     public async Task Builder_FluentChaining_AllMethodsChain()
     {
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(_ => false)
+            .WithSkipWhen(_ => SkipDecision.DoNotSkip)
             .WithTimeout(TimeSpan.FromMinutes(1))
             .WithRetry(3)
             .WithIgnoreFailures()

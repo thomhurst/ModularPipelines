@@ -16,16 +16,16 @@ namespace ModularPipelines.Examples.Modules.Approvals;
 [ModuleCategory("Approvals")]
 public class SafetyOfficerApprovalModule : Module<ApprovalResult>
 {
-    protected override async Task<ApprovalResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ApprovalResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Safety Officer initiating critical systems safety review...");
         context.Logger.LogDebug("Loading safety constraint parameters...");
 
         // Retrieve all dependency results
-        var weather = (await context.GetModule<WeatherAnalysisModule>()).ValueOrDefault!;
-        var lifeSupport = (await context.GetModule<LifeSupportCheckModule>()).ValueOrDefault!;
-        var comms = (await context.GetModule<CommunicationsCheckModule>()).ValueOrDefault!;
-        var trajectory = (await context.GetModule<LaunchTrajectoryCalculationModule>()).ValueOrDefault!;
+        var weather = (await context.GetModule<WeatherAnalysisModule>()).Value;
+        var lifeSupport = (await context.GetModule<LifeSupportCheckModule>()).Value;
+        var comms = (await context.GetModule<CommunicationsCheckModule>()).Value;
+        var trajectory = (await context.GetModule<LaunchTrajectoryCalculationModule>()).Value;
 
         await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
         context.Logger.LogInformation("Evaluating weather safety constraints...");

@@ -31,7 +31,7 @@ public class MyModule : Module<CommandResult>
         .WithTimeout(TimeSpan.FromSeconds(120))
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something - will be cancelled after 120 seconds
     }
@@ -51,7 +51,7 @@ public class ResilientModule : Module<CommandResult>
         .WithIgnoreFailures()  // Don't fail the pipeline if module times out
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Long-running operation with timeout protection
     }

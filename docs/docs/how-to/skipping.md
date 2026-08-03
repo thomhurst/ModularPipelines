@@ -29,7 +29,7 @@ public class MyModule : Module<CommandResult>
             : SkipDecision.DoNotSkip)
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Module logic here
     }
@@ -50,7 +50,7 @@ public class MyModule : Module<CommandResult>
                 : SkipDecision.DoNotSkip)
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // This only runs on the main branch
     }
@@ -76,7 +76,7 @@ public class MyModule : Module<CommandResult>
         })
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Module logic here
     }

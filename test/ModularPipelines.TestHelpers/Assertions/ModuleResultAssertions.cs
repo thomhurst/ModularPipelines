@@ -36,7 +36,6 @@ public static class ModuleResultAssertions
     /// <see cref="Module{T}.GetAwaiter"/>.
     /// </remarks>
     public static async Task AssertSuccess<T>(ModuleResult<T> moduleResult)
-        where T : class
     {
         using (Assert.Multiple())
         {
@@ -55,8 +54,8 @@ public static class ModuleResultAssertions
     {
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.ValueOrDefault!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.ValueOrDefault.StandardOutput.Trim()).IsEqualTo(expectedOutput);
+            await Assert.That(moduleResult.Value.StandardError).IsNull().Or.IsEmpty();
+            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo(expectedOutput);
         }
     }
 }

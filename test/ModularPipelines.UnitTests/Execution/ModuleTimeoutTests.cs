@@ -17,7 +17,7 @@ public class ModuleTimeoutTests : TestBase
             .WithTimeout(TimeSpan.FromSeconds(1))
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
             return TestConstants.TestString;
@@ -32,7 +32,7 @@ public class ModuleTimeoutTests : TestBase
             .WithTimeout(TimeSpan.FromSeconds(1))
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             try
             {
@@ -48,7 +48,7 @@ public class ModuleTimeoutTests : TestBase
 
     private class NoTimeoutModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken);
             return TestConstants.TestString;
@@ -57,7 +57,7 @@ public class ModuleTimeoutTests : TestBase
 
     private class PipelineDefaultTimeoutModule : Module<string>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
             return TestConstants.TestString;
@@ -75,7 +75,7 @@ public class ModuleTimeoutTests : TestBase
     [Test]
     public async Task Pipeline_Default_Module_Timeout_Is_Applied()
     {
-        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineHostBuilder.Create()
+        var exception = await Assert.ThrowsAsync<ModuleFailedException>(async () => await TestPipelineBuilder.Create()
             .ConfigurePipelineOptions((_, options) => options with
             {
                 DefaultModuleTimeout = TimeSpan.FromMilliseconds(10),
@@ -91,7 +91,7 @@ public class ModuleTimeoutTests : TestBase
     [Test]
     public async Task Zero_Pipeline_Default_Module_Timeout_Disables_Timeout()
     {
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineBuilder.Create()
             .ConfigurePipelineOptions((_, options) => options with
             {
                 DefaultModuleTimeout = TimeSpan.Zero,

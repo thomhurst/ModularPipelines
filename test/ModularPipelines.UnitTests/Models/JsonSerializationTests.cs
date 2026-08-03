@@ -13,7 +13,7 @@ public class JsonSerializationTests : TestBase
 {
     public class Module1 : Module<IDictionary<string, object>>
     {
-        protected internal override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -27,7 +27,7 @@ public class JsonSerializationTests : TestBase
 
     public class Module2 : Module<IDictionary<string, object>>
     {
-        protected internal override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -41,7 +41,7 @@ public class JsonSerializationTests : TestBase
 
     public class Module3 : Module<IDictionary<string, object>>
     {
-        protected internal override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -56,7 +56,7 @@ public class JsonSerializationTests : TestBase
     [Test]
     public async Task Test1()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .BuildAsync();
 

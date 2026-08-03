@@ -11,10 +11,10 @@ namespace ModularPipelines.Examples.Modules.Launch;
 [ModuleCategory("Launch")]
 public class MissionStatusReportModule : Module<MissionReport>
 {
-    protected override async Task<MissionReport?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<MissionReport> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var telemetry = (await context.GetModule<TelemetryStreamModule>()).ValueOrDefault!;
-        var launch = (await context.GetModule<LaunchModule>()).ValueOrDefault!;
+        var telemetry = (await context.GetModule<TelemetryStreamModule>()).Value;
+        var launch = (await context.GetModule<LaunchModule>()).Value;
 
         context.Logger.LogInformation("Compiling final mission status report for {MissionId}...", launch.MissionId);
         context.Logger.LogDebug("Aggregating telemetry data...");

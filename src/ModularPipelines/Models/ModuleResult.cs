@@ -220,16 +220,15 @@ public abstract record ModuleResult : IModuleResult
 public abstract record ModuleResult<T> : ModuleResult
 {
     /// <summary>
-    /// Gets the successful non-null value.
+    /// Gets the successful value.
     /// </summary>
     /// <exception cref="InvalidOperationException">
-    /// The module failed, was skipped, or succeeded with a <see langword="null"/> value.
+    /// The module failed or was skipped.
     /// </exception>
     [JsonIgnore]
     public T Value => this switch
     {
-        Success { Value: not null } success => success.Value,
-        Success => throw new InvalidOperationException($"{ModuleName} succeeded but returned null"),
+        Success success => success.Value,
         Failure failure => throw new InvalidOperationException(
             $"{ModuleName} failed: {failure.Exception.Message}",
             failure.Exception),
@@ -250,12 +249,11 @@ public abstract record ModuleResult<T> : ModuleResult
     /// Attempts to get the successful value.
     /// </summary>
     /// <param name="value">
-    /// When this method returns <c>true</c>, contains the successful value, which may
-    /// be <c>null</c> when the module returned <c>null</c>;
+    /// When this method returns <c>true</c>, contains the successful value;
     /// otherwise, contains the default value for <typeparamref name="T"/>.
     /// </param>
     /// <returns><c>true</c> for a successful result; otherwise, <c>false</c>.</returns>
-    public bool TryGetValue(out T? value)
+    public bool TryGetValue([MaybeNullWhen(false)] out T value)
     {
         if (this is Success success)
         {
@@ -263,7 +261,7 @@ public abstract record ModuleResult<T> : ModuleResult
             return true;
         }
 
-        value = default;
+        value = default!;
         return false;
     }
 
@@ -278,7 +276,7 @@ public abstract record ModuleResult<T> : ModuleResult
     /// <param name="onSkipped">Function to call if skipped.</param>
     /// <returns>The result of the matched function.</returns>
     public TResult Match<TResult>(
-        Func<T?, TResult> onSuccess,
+        Func<T, TResult> onSuccess,
         Func<Exception, TResult> onFailure,
         Func<SkipDecision, TResult> onSkipped) => this switch
         {
@@ -295,7 +293,7 @@ public abstract record ModuleResult<T> : ModuleResult
     /// <param name="onFailure">Action to call if failed.</param>
     /// <param name="onSkipped">Action to call if skipped.</param>
     public void Switch(
-        Action<T?> onSuccess,
+        Action<T> onSuccess,
         Action<Exception> onFailure,
         Action<SkipDecision> onSkipped)
     {
@@ -325,27 +323,22 @@ public abstract record ModuleResult<T> : ModuleResult
         /// <summary>
         /// Initialises a new instance of the <see cref="Success"/> class.
         /// </summary>
-        /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
-        public Success(T? Value)
+        /// <param name="Value">The value produced by the module.</param>
+        public Success(T Value)
         {
             this.Value = Value;
         }
 
         /// <summary>
-        /// Gets the value produced by the module, which may be <c>null</c>.
+        /// Gets the value produced by the module.
         /// </summary>
-        /// <remarks>
-        /// This property intentionally hides the required <see cref="ModuleResult{T}.Value"/>
-        /// accessor to preserve the nullable value carried by a known successful result.
-        /// Access through <see cref="ModuleResult{T}"/> uses the required accessor instead.
-        /// </remarks>
-        public new T? Value { get; init; }
+        public new T Value { get; init; }
 
         /// <summary>
         /// Deconstructs the result into its successful value.
         /// </summary>
-        /// <param name="Value">The value produced by the module, which may be <c>null</c>.</param>
-        public void Deconstruct(out T? Value)
+        /// <param name="Value">The value produced by the module.</param>
+        public void Deconstruct(out T Value)
         {
             Value = this.Value;
         }
@@ -409,7 +402,7 @@ public abstract record ModuleResult<T> : ModuleResult
         };
 
     // === Internal factory methods ===
-    internal static Success CreateSuccess(T? value, ModuleExecutionContext ctx)
+    internal static Success CreateSuccess(T value, ModuleExecutionContext ctx)
     {
         var (start, end, duration) = GetTimingInfo(ctx);
         return new(value)
@@ -902,8 +895,10 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         return discriminator switch
         {
+            "Success" when valueElement is null => throw new JsonException(
+                "Success result requires a Value property in the JSON."),
             "Success" => new ModuleResult<T>.Success(
-                DeserializeSuccessValue(valueElement, valueTypeName, options))
+                DeserializeSuccessValue(valueElement, valueTypeName, options)!)
             {
                 ModuleName = moduleName,
                 ModuleTypeName = moduleTypeName,

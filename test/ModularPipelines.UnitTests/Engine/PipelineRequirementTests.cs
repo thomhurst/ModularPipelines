@@ -16,7 +16,7 @@ public class PipelineRequirementTests
     [Test]
     public async Task When_Requirement_Succeeds_Then_No_Error()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<SuccessfulRequirement>()
             .BuildAsync();
@@ -33,7 +33,7 @@ public class PipelineRequirementTests
     {
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<FailingRequirement>()
                 .ExecutePipelineAsync();
@@ -49,7 +49,7 @@ public class PipelineRequirementTests
     {
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<FailingRequirementWithReason>()
                 .ExecutePipelineAsync();

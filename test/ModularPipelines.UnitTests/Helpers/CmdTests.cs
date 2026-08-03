@@ -12,7 +12,7 @@ public class CmdTests : TestBase
 {
     private class CmdEchoModule : Module<CommandResult>
     {
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Tools.Cmd.ScriptAsync(new("echo Foo bar!"), cancellationToken: cancellationToken);
         }

@@ -16,6 +16,9 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class CliOptionAttribute(string name) : System.Attribute;
 
             [System.AttributeUsage(System.AttributeTargets.Property)]
+            public sealed class CliFlagAttribute(string name) : System.Attribute;
+
+            [System.AttributeUsage(System.AttributeTargets.Property)]
             public class SecretValueAttribute(params string[] keys) : System.Attribute;
         }
         """;
@@ -45,6 +48,72 @@ public class IncompleteMetadataDiagnosticTests
             result,
             "MPG0003",
             "global::TestOptions");
+    }
+
+    [Test]
+    public async Task Null_Command_Attribute_Names_Report_Diagnostic()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public sealed class TestOptions : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliFlag(null!)]
+                public bool Flag { get; } = false;
+
+                [ModularPipelines.Attributes.CliOption(null!)]
+                public string Option { get; } = "";
+            }
+            """);
+
+        await AssertIncompleteDiagnostic(
+            result,
+            "MPG0003",
+            "global::TestOptions");
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(generatedSource).DoesNotContain("FlagPart");
+            await Assert.That(generatedSource).DoesNotContain("OptionPart");
+            await Assert.That(generatedSource).Contains("isComplete: false");
+        }
+    }
+
+    [Test]
+    public async Task Friend_Assembly_Properties_Are_Accessible()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("GeneratorTests")]
+
+            namespace External;
+
+            public abstract class FriendOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                internal string Value { get; } = "";
+
+                [ModularPipelines.Attributes.SecretValue]
+                internal string Token { get; } = "";
+            }
+            """,
+            """
+            public sealed class TestOptions : External.FriendOptions;
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("OptionPart");
+            await Assert.That(generatedSource).Contains("new(\"Token\"");
+            await Assert.That(generatedSource).DoesNotContain("isComplete: false");
+        }
     }
 
     [Test]

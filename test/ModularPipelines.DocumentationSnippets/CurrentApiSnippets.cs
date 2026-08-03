@@ -74,7 +74,7 @@ public static class CurrentApiSnippets
 
     public sealed class BuildModule : Module<BuildInfo>
     {
-        protected override async Task<BuildInfo?> ExecuteAsync(
+        protected override async Task<BuildInfo> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -93,7 +93,7 @@ public static class CurrentApiSnippets
     [DependsOn<BuildModule>]
     public sealed class TestModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(
+        protected override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -121,7 +121,7 @@ public static class CurrentApiSnippets
 
     public sealed class PublishCommandModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(
+        protected override async Task<CommandResult> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
@@ -164,7 +164,7 @@ public static class CurrentApiSnippets
     [DependsOn<BuildModule>]
     public sealed class ArtifactPathResolver : Module<string>
     {
-        protected override async Task<string?> ExecuteAsync(
+        protected override async Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
