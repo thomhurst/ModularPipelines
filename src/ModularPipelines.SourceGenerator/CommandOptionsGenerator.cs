@@ -117,6 +117,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var location = type.Locations.FirstOrDefault() ?? Location.None;
+        var isPartial = IsPartial(type);
+        var canRegisterSecretCoverage = !isPartial || isCommandOptions;
         var canReferenceType = IsTypeAccessible(type, compilation.Assembly) && !type.IsGenericType;
         if (!canReferenceType)
         {
@@ -128,6 +130,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     typeName,
                     GetMetadataName(type),
                     CanReferenceType: false,
+                    CanRegisterSecretCoverage: canRegisterSecretCoverage,
                     IsCommandOptions: false,
                     PropertyCollection.Empty,
                     PropertyCollection.Empty));
@@ -141,6 +144,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             typeName,
             GetMetadataName(type),
             CanReferenceType: true,
+            CanRegisterSecretCoverage: canRegisterSecretCoverage,
             isCommandOptions,
             commandMetadata,
             secretMetadata));
@@ -464,6 +468,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)
     {
+        if (!item.CanRegisterSecretCoverage)
+        {
+            return;
+        }
+
         if (item.SecretMetadata.Properties.Count == 0)
         {
             if (item.CanReferenceType)
@@ -523,7 +532,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         for (var current = type; current is not null; current = current.ContainingType)
         {
-            if (!IsAccessible(current.DeclaredAccessibility, current.ContainingAssembly, currentAssembly))
+            if (current.IsFileLocal
+                || !IsAccessible(current.DeclaredAccessibility, current.ContainingAssembly, currentAssembly))
             {
                 return false;
             }
@@ -531,6 +541,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         return true;
     }
+
+    private static bool IsPartial(INamedTypeSymbol type) =>
+        type.DeclaringSyntaxReferences
+            .Select(static reference => reference.GetSyntax())
+            .OfType<TypeDeclarationSyntax>()
+            .Any(static declaration => declaration.Modifiers.Any(SyntaxKind.PartialKeyword));
 
     private static bool IsPropertyAccessible(IPropertySymbol property, IAssemblySymbol currentAssembly)
     {
@@ -635,6 +651,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string TypeName,
         string MetadataName,
         bool CanReferenceType,
+        bool CanRegisterSecretCoverage,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
         PropertyCollection SecretMetadata);

@@ -47,6 +47,8 @@ public class SecretValueNormalizationTests
 
     private sealed class GenericNoSecretsOptions<T>;
 
+    private sealed partial class PartialNoSecretsOptions;
+
     private static readonly string[] CharacterSecrets =
     [
         "array-secret",
@@ -161,6 +163,18 @@ public class SecretValueNormalizationTests
 
         await Assert.That(exception!.ObjectType).IsEqualTo(objectType);
         await Assert.That(exception.Message).Contains("ModularPipelines.SourceGenerator");
+    }
+
+    [Test]
+    public async Task PartialOptionsWithoutCompleteMetadataThrow()
+    {
+        var provider = CreateProvider(out _);
+
+        var exception = await Assert.That(() =>
+                provider.GetSecretsInObject(new PartialNoSecretsOptions()).ToList())
+            .Throws<MissingSecretMetadataException>();
+
+        await Assert.That(exception!.ObjectType).IsEqualTo(typeof(PartialNoSecretsOptions));
     }
 
     [Test]

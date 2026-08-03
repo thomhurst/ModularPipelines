@@ -284,6 +284,57 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Partial_Secret_Type_Does_Not_Register_Complete_Coverage()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public partial class PartialSecrets
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "";
+            }
+            """);
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await Assert.That(result.GeneratedTrees.Single().ToString()).DoesNotContain("PartialSecrets");
+    }
+
+    [Test]
+    public async Task Partial_Unannotated_Type_Does_Not_Register_Complete_Coverage()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public partial class PartialOptions;
+            """);
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await Assert.That(result.GeneratedTrees.Single().ToString()).DoesNotContain("PartialOptions");
+    }
+
+    [Test]
+    public async Task File_Local_Type_Uses_Name_Based_Coverage()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            file sealed class FileOptions;
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("RegisterCoveredTypeName");
+            await Assert.That(generatedSource).DoesNotContain("typeof(global::FileOptions)");
+        }
+    }
+
+    [Test]
     public async Task Inaccessible_Module_Type_Reports_Informational_Skip()
     {
         var result = GeneratorTestRunner.Run(
