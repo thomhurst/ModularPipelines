@@ -96,6 +96,7 @@ public class CommandLineBuilderTests : TestBase
         CommandLine Build() => builder.Build(new TestTerminalOptions
         {
             Arguments = ["--", "-1"],
+            ArgumentsContainOptionTerminator = true,
             RunTests = "tests.jq",
         });
 
@@ -170,10 +171,42 @@ public class CommandLineBuilderTests : TestBase
         var result = builder.Build(new TestTerminalOptions
         {
             Arguments = ["--", "-1"],
+            ArgumentsContainOptionTerminator = true,
             RunSettings = ["extra"],
         });
 
         await Assert.That(result.ToString()).IsEqualTo("jq -- -1 extra");
+    }
+
+    [Test]
+    public async Task Build_Does_Not_Infer_Terminator_From_Manual_Option_Value()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--arg", "name", "--", "."],
+            RunSettings = ["--foo"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq --arg name -- . -- --foo");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Declared_Manual_Terminator_When_Missing()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["value"],
+            ArgumentsContainOptionTerminator = true,
+        });
+
+        var exception = Assert.Throws<ArgumentException>(() => _ = Build());
+
+        await Assert.That(exception.ParamName)
+            .IsEqualTo("options");
     }
 
     [Test]

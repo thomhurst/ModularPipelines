@@ -74,7 +74,16 @@ internal sealed class CommandLineBuilder(
             options,
             ref emittedOptionTerminator);
         var manualArgs = options.Arguments?.ToList() ?? [];
-        emittedOptionTerminator |= manualArgs.Contains("--", StringComparer.Ordinal);
+        if (options.ArgumentsContainOptionTerminator
+            && !manualArgs.Contains("--", StringComparer.Ordinal))
+        {
+            throw new ArgumentException(
+                $"{nameof(CommandLineToolOptions.ArgumentsContainOptionTerminator)} requires "
+                + $"{nameof(CommandLineToolOptions.Arguments)} to contain '--'.",
+                nameof(options));
+        }
+
+        emittedOptionTerminator |= options.ArgumentsContainOptionTerminator;
         var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
             RunSettingsCommandModel,
             options,

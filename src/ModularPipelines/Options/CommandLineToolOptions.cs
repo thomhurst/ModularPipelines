@@ -25,6 +25,12 @@ public abstract record CommandLineToolOptions
     public IEnumerable<string>? Arguments { get; init; }
 
     /// <summary>
+    /// Gets whether <see cref="Arguments"/> intentionally contains an end-of-options
+    /// marker. This distinguishes a marker from a <c>--</c> token used as an option value.
+    /// </summary>
+    public bool ArgumentsContainOptionTerminator { get; init; }
+
+    /// <summary>
     /// Gets pass-through values rendered after one <c>--</c> option terminator.
     /// Null or empty values emit no terminator.
     /// </summary>
