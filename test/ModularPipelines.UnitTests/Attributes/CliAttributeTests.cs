@@ -391,32 +391,14 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Rejects_Null_Named_Required_CliArgument()
-    {
-        var options = new TestCliOptionsWithNamedRequiredArgument { Chart = null };
-        var handler = new PlaceholderHandler(new CommandModelProvider());
-
-        var exception = Assert.Throws<ArgumentException>(() =>
-            handler.ReplacePlaceholders(["<CHART>"], options));
-
-        await Assert.That(exception.ParamName).IsEqualTo(nameof(options.Chart));
-    }
-
-    [Test]
-    public async Task Named_Required_Argument_Is_Materialized_Once()
+    public async Task Required_Argument_Is_Materialized_Once()
     {
         var values = new SinglePassEnumerable(["chart"]);
-        var options = new TestCliOptionsWithNamedRequiredSinglePassArgument(values);
-        var modelProvider = new CommandModelProvider();
-        var handler = new PlaceholderHandler(modelProvider);
+        var options = new TestCliOptionsWithRequiredSinglePassArgument(values);
 
-        var placeholders = handler.ReplacePlaceholders(["<VALUES>"], options);
-        var arguments = new CommandArgumentBuilder().BuildArguments(
-            modelProvider.GetCommandModel(options.GetType()),
-            options);
+        var arguments = BuildArguments(options);
 
-        await Assert.That(placeholders).IsEquivalentTo(["chart"]);
-        await Assert.That(arguments).IsEmpty();
+        await Assert.That(arguments).IsEquivalentTo(["chart"]);
         await Assert.That(options.GetterCount).IsEqualTo(1);
     }
 
@@ -609,17 +591,11 @@ public class CliAttributeTests
         public IEnumerable<string>? Files { get; set; }
     }
 
-    private record TestCliOptionsWithNamedRequiredArgument
-    {
-        [CliArgument(0, Name = "<CHART>", Required = true)]
-        public string? Chart { get; set; }
-    }
-
-    private sealed class TestCliOptionsWithNamedRequiredSinglePassArgument(IEnumerable<string> values)
+    private sealed class TestCliOptionsWithRequiredSinglePassArgument(IEnumerable<string> values)
     {
         public int GetterCount { get; private set; }
 
-        [CliArgument(0, Name = "<VALUES>", Required = true)]
+        [CliArgument(0, Required = true)]
         public IEnumerable<string> Values
         {
             get
