@@ -20,6 +20,8 @@ public class ArtifactContractTests
     private const string LocalArtifactRoot = ".modular-pipelines-local-artifact-tests";
     private const string ProducedFile = LocalArtifactRoot + "/produced/output.txt";
     private const string RestoreDirectory = LocalArtifactRoot + "/restored";
+    private const string AfterHookProducedFile = LocalArtifactRoot + "/after-hook/output.txt";
+    private const string AfterHookRestoreDirectory = LocalArtifactRoot + "/after-hook-restored";
     private const string MultipleProducedDirectory = LocalArtifactRoot + "/multiple-produced";
     private const string MultipleProducedPattern = MultipleProducedDirectory + "/directory-*";
     private const string MultipleRestoreDirectory = LocalArtifactRoot + "/multiple-restored";
@@ -219,6 +221,43 @@ public class ArtifactContractTests
         }
     }
 
+    [ProducesArtifact("after-hook-output", AfterHookProducedFile)]
+    private sealed class AfterHookArtifactProducerModule : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(AfterHookProducedFile)!);
+            await File.WriteAllTextAsync(AfterHookProducedFile, "before-hook", cancellationToken);
+            return "produced";
+        }
+
+        protected override async Task<ModuleResult<string>?> OnAfterExecuteAsync(
+            IModuleContext context,
+            ModuleResult<string> result,
+            CancellationToken cancellationToken)
+        {
+            await File.WriteAllTextAsync(AfterHookProducedFile, "after-hook", cancellationToken);
+            return null;
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<AfterHookArtifactProducerModule>]
+    [ConsumesArtifact(
+        typeof(AfterHookArtifactProducerModule),
+        "after-hook-output",
+        RestorePath = AfterHookRestoreDirectory)]
+    private sealed class AfterHookArtifactConsumerModule : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            await File.ReadAllTextAsync(
+                Path.Combine(AfterHookRestoreDirectory, "after-hook-output"),
+                cancellationToken);
+    }
+
     [ProducesArtifact("multiple-output", MultipleProducedPattern)]
     private sealed class MultipleDirectoryProducerModule : Module<string>
     {
@@ -295,6 +334,25 @@ public class ArtifactContractTests
     private sealed class MissingRuntimeConsumerModule : Module<string>
     {
         public static bool Executed { get; set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
+    [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
+    private sealed class IgnoredMissingRuntimeConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithIgnoreFailures()
+            .Build();
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -535,6 +593,30 @@ public class ArtifactContractTests
             return Task.FromResult<ModuleResult<T>?>(
                 ModuleResult<T>.CreateSuccess(default!, executionContext));
         }
+    }
+
+    private sealed class FailingUploadArtifactStore : IDistributedArtifactStore
+    {
+        public Task<ArtifactReference> UploadAsync(
+            ArtifactDescriptor descriptor,
+            Stream data,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("simulated artifact upload failure");
+
+        public Task<Stream> DownloadAsync(
+            ArtifactReference reference,
+            CancellationToken cancellationToken) =>
+            throw new NotSupportedException();
+
+        public Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(
+            string moduleTypeName,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<IReadOnlyList<ArtifactReference>>([]);
+
+        public Task DeleteAsync(
+            ArtifactReference reference,
+            CancellationToken cancellationToken) =>
+            Task.CompletedTask;
     }
 
     private sealed class ProducerAndConsumerArtifactHistoryRepository : IModuleResultRepository
@@ -836,6 +918,30 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task StandaloneExecutionUploadsArtifactsAfterModuleAfterHook()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<AfterHookArtifactProducerModule>();
+            builder.AddModule<AfterHookArtifactConsumerModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var consumerResult = await summary.Modules
+                .OfType<AfterHookArtifactConsumerModule>()
+                .Single();
+
+            await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("after-hook");
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
     public async Task StandaloneExecutionRestoresArtifactsBeforeCacheLookup()
     {
         var workingDirectory = Directory.CreateTempSubdirectory("modular-pipelines-artifact-cache-key-");
@@ -977,12 +1083,71 @@ public class ArtifactContractTests
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<MissingRuntimeConsumerModule>();
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(
                 () => builder.ExecutePipelineAsync());
 
             await Assert.That(exception!.ToString()).Contains("missing-runtime");
             await Assert.That(exception.ToString()).Contains("not found");
             await Assert.That(MissingRuntimeConsumerModule.Executed).IsFalse();
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionCanIgnoreMissingConsumedArtifact()
+    {
+        DeleteLocalArtifacts();
+        IgnoredMissingRuntimeConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<MissingRuntimeProducerModule>();
+            builder.AddModule<IgnoredMissingRuntimeConsumerModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var consumerResult = await summary.Modules
+                .OfType<IgnoredMissingRuntimeConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.IgnoredFailure);
+                await Assert.That(consumerResult.ExceptionOrDefault).IsNotNull();
+                await Assert.That(consumerResult.ExceptionOrDefault!.Message).Contains("missing-runtime");
+                await Assert.That(IgnoredMissingRuntimeConsumerModule.Executed).IsFalse();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionFailsProducerWhenRequiredArtifactUploadFails()
+    {
+        DeleteLocalArtifacts();
+        LocalConsumerModule.ConsumedContent = null;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.Services.AddSingleton<IDistributedArtifactStore, FailingUploadArtifactStore>();
+            builder.AddModule<LocalProducerModule>();
+            builder.AddModule<LocalConsumerModule>();
+
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(
+                () => builder.ExecutePipelineAsync());
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception!.ToString()).Contains("simulated artifact upload failure");
+                await Assert.That(LocalConsumerModule.ConsumedContent).IsNull();
+            }
         }
         finally
         {
@@ -1438,7 +1603,7 @@ public class ArtifactContractTests
             builder.AddModule<IgnoredFailureArtifactProducerModule>();
             builder.AddModule<IgnoredFailureArtifactConsumerModule>();
 
-            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+            var exception = await Assert.ThrowsAsync<ModuleFailedException>(
                 () => builder.ExecutePipelineAsync());
 
             using (Assert.Multiple())

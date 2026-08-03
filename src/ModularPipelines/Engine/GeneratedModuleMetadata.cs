@@ -218,6 +218,7 @@ internal interface IGeneratedModuleRuntime
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         Func<CancellationToken, Task>? prepareExecutionAsync,
+        Func<CancellationToken, Task>? completeExecutionAsync,
         CancellationToken cancellationToken);
 }
 
@@ -271,6 +272,7 @@ internal sealed class GeneratedModuleRuntime<TModule, TResult> : IGeneratedModul
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         Func<CancellationToken, Task>? prepareExecutionAsync,
+        Func<CancellationToken, Task>? completeExecutionAsync,
         CancellationToken cancellationToken)
     {
         return await pipeline.ExecuteAsync(
@@ -278,7 +280,8 @@ internal sealed class GeneratedModuleRuntime<TModule, TResult> : IGeneratedModul
                 (ModuleExecutionContext<TResult>) executionContext,
                 moduleContext,
                 cancellationToken,
-                prepareExecutionAsync)
+                prepareExecutionAsync,
+                completeExecutionAsync)
             .ConfigureAwait(false);
     }
 }

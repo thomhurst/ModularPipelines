@@ -149,15 +149,11 @@ internal class ModuleRunner : IModuleRunner
 
                 await ExecuteModuleWithPipeline(
                         moduleState,
+                        scheduler,
                         scope.ServiceProvider,
                         executionContext,
                         cancellationToken)
                     .ConfigureAwait(false);
-
-                if (moduleState.Result?.ModuleStatus is Enums.Status.Successful or Enums.Status.UsedHistory)
-                {
-                    await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken).ConfigureAwait(false);
-                }
 
                 scheduler.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.ModuleStatus);
             }
@@ -214,16 +210,9 @@ internal class ModuleRunner : IModuleRunner
             return;
         }
 
-        try
-        {
-            await _artifactLifecycleManager
-                .UploadProducedArtifactsAsync(moduleType, artifactNames, cancellationToken)
-                .ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to upload artifacts for module {Module}", moduleType.Name);
-        }
+        await _artifactLifecycleManager
+            .UploadProducedArtifactsAsync(moduleType, artifactNames, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private async Task<bool> HasRunnableArtifactConsumerAsync(
@@ -360,6 +349,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task ExecuteModuleWithPipeline(
         ModuleState moduleState,
+        IModuleScheduler scheduler,
         IServiceProvider scopedServiceProvider,
         ModuleExecutionContext executionContext,
         CancellationToken cancellationToken)
@@ -390,6 +380,7 @@ internal class ModuleRunner : IModuleRunner
         {
             await ExecuteModuleLifecycle(
                     moduleState,
+                    scheduler,
                     scopedServiceProvider,
                     pipelineContext,
                     executionContext,
@@ -451,6 +442,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task ExecuteModuleLifecycle(
         ModuleState moduleState,
+        IModuleScheduler scheduler,
         IServiceProvider scopedServiceProvider,
         IPipelineContext pipelineContext,
         ModuleExecutionContext executionContext,
@@ -496,6 +488,7 @@ internal class ModuleRunner : IModuleRunner
             // Execute through generated typed metadata when available.
             var result = await ExecuteTypedModule(
                     module,
+                    scheduler,
                     executionContext,
                     moduleContext,
                     cancellationToken)
@@ -602,6 +595,7 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task<IModuleResult> ExecuteTypedModule(
         IModule module,
+        IModuleScheduler scheduler,
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
@@ -612,6 +606,9 @@ internal class ModuleRunner : IModuleRunner
                 failIfMissing: true,
                 token)
             : null;
+        Func<CancellationToken, Task>? completeExecutionAsync = _manageArtifactsLocally
+            ? token => UploadProducedArtifactsAsync(module.GetType(), scheduler, token)
+            : null;
         if (GeneratedModuleMetadata.TryGetRuntime(module.GetType(), out var runtime))
         {
             return await runtime.ExecuteAsync(
@@ -620,6 +617,7 @@ internal class ModuleRunner : IModuleRunner
                     executionContext,
                     moduleContext,
                     prepareExecutionAsync,
+                    completeExecutionAsync,
                     cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -632,6 +630,7 @@ internal class ModuleRunner : IModuleRunner
                 executionContext,
                 moduleContext,
                 prepareExecutionAsync,
+                completeExecutionAsync,
                 cancellationToken)
             .ConfigureAwait(false);
     }

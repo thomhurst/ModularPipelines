@@ -9,7 +9,9 @@ internal sealed class FileSystemDistributedArtifactStore : IDistributedArtifactS
 {
     private readonly ConcurrentDictionary<string, (ArtifactReference Reference, string Path)> _artifacts = new();
     private readonly ConcurrentDictionary<string, List<string>> _moduleIndex = new();
-    private readonly string _root = Directory.CreateTempSubdirectory("modular-pipelines-artifacts-").FullName;
+    private readonly Lazy<string> _root = new(
+        static () => Directory.CreateTempSubdirectory("modular-pipelines-artifacts-").FullName,
+        LazyThreadSafetyMode.ExecutionAndPublication);
 
     public async Task<ArtifactReference> UploadAsync(
         ArtifactDescriptor descriptor,
@@ -17,7 +19,7 @@ internal sealed class FileSystemDistributedArtifactStore : IDistributedArtifactS
         CancellationToken cancellationToken)
     {
         var artifactId = Guid.NewGuid().ToString("N");
-        var path = Path.Combine(_root, artifactId);
+        var path = Path.Combine(_root.Value, artifactId);
         try
         {
             await using (var file = new FileStream(
@@ -129,9 +131,14 @@ internal sealed class FileSystemDistributedArtifactStore : IDistributedArtifactS
 
     public void Dispose()
     {
+        if (!_root.IsValueCreated)
+        {
+            return;
+        }
+
         try
         {
-            Directory.Delete(_root, recursive: true);
+            Directory.Delete(_root.Value, recursive: true);
         }
         catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
         {

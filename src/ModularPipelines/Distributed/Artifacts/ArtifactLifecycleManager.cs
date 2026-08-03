@@ -81,108 +81,15 @@ internal class ArtifactLifecycleManager
         {
             try
             {
-                var resolvedPaths = ResolvePathPattern(attr.PathPattern);
-                if (resolvedPaths.Count == 0)
+                var reference = await UploadProducedArtifactAsync(
+                        moduleType,
+                        attr,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+                if (reference is not null)
                 {
-                    _logger.LogWarning(
-                        "No files matched pattern '{Pattern}' for artifact '{Name}' on module {Module}",
-                        attr.PathPattern, attr.Name, moduleType.Name);
-                    continue;
+                    references.Add(reference);
                 }
-
-                var descriptor = new ArtifactDescriptor(
-                    Name: attr.Name,
-                    ModuleTypeName: moduleType.FullName!);
-
-                ArtifactReference reference;
-                if (resolvedPaths.Count == 1 && Directory.Exists(resolvedPaths[0]))
-                {
-                    // Single directory — zip to temp file to avoid OOM on large directories
-                    descriptor = descriptor with { ContentType = "application/zip" };
-                    var tempFile = CreateTemporaryArchivePath();
-                    try
-                    {
-                        ZipFile.CreateFromDirectory(resolvedPaths[0], tempFile, _options.CompressionLevel, includeBaseDirectory: false);
-                        await using var stream = File.OpenRead(tempFile);
-                        reference = await _store.UploadAsync(descriptor, stream, cancellationToken);
-                    }
-                    finally
-                    {
-                        File.Delete(tempFile);
-                    }
-                }
-                else if (resolvedPaths.Count == 1 && File.Exists(resolvedPaths[0]))
-                {
-                    // Single file — upload directly
-                    descriptor = descriptor with { ContentType = "application/octet-stream" };
-                    await using var stream = File.OpenRead(resolvedPaths[0]);
-                    reference = await _store.UploadAsync(descriptor, stream, cancellationToken);
-                }
-                else
-                {
-                    // Multiple files — zip to temp file to avoid OOM
-                    descriptor = descriptor with { ContentType = "application/zip" };
-                    var archiveBaseDirectory = GetArchiveBaseDirectory(attr.PathPattern);
-                    var tempFile = CreateTemporaryArchivePath();
-                    try
-                    {
-                        using (var archive = ZipFile.Open(tempFile, ZipArchiveMode.Create))
-                        {
-                            var archivedEntries = new HashSet<string>(StringComparer.Ordinal);
-                            foreach (var resolvedPath in resolvedPaths)
-                            {
-                                var isDirectory = Directory.Exists(resolvedPath);
-                                IEnumerable<string> directoryPaths = isDirectory
-                                    ? [resolvedPath, .. Directory.EnumerateDirectories(
-                                        resolvedPath,
-                                        "*",
-                                        SearchOption.AllDirectories)]
-                                    : [];
-                                foreach (var directoryPath in directoryPaths)
-                                {
-                                    var entryName = Path.GetRelativePath(archiveBaseDirectory, directoryPath)
-                                        .Replace(Path.DirectorySeparatorChar, '/')
-                                        .TrimEnd('/') + "/";
-                                    if (archivedEntries.Add(entryName))
-                                    {
-                                        archive.CreateEntry(entryName, _options.CompressionLevel);
-                                    }
-                                }
-
-                                IEnumerable<string> filePaths = isDirectory
-                                    ? Directory.EnumerateFiles(
-                                        resolvedPath,
-                                        "*",
-                                        SearchOption.AllDirectories)
-                                    : [resolvedPath];
-                                foreach (var filePath in filePaths)
-                                {
-                                    var entryName = Path.GetRelativePath(archiveBaseDirectory, filePath)
-                                        .Replace(Path.DirectorySeparatorChar, '/');
-                                    if (archivedEntries.Add(entryName))
-                                    {
-                                        archive.CreateEntryFromFile(
-                                            filePath,
-                                            entryName,
-                                            _options.CompressionLevel);
-                                    }
-                                }
-                            }
-                        }
-
-                        await using var stream = File.OpenRead(tempFile);
-                        reference = await _store.UploadAsync(descriptor, stream, cancellationToken);
-                    }
-                    finally
-                    {
-                        File.Delete(tempFile);
-                    }
-                }
-
-                references.Add(reference);
-                _logger.LogInformation(
-                    "Uploaded artifact '{Name}' ({Size} bytes, {FileCount} files) for module {Module}",
-                    attr.Name, reference.SizeBytes, resolvedPaths.Count, moduleType.Name);
             }
             catch (Exception ex)
             {
@@ -194,6 +101,170 @@ internal class ArtifactLifecycleManager
         }
 
         return references;
+    }
+
+    private async Task<ArtifactReference?> UploadProducedArtifactAsync(
+        Type moduleType,
+        ProducesArtifactAttribute attribute,
+        CancellationToken cancellationToken)
+    {
+        var resolvedPaths = ResolvePathPattern(attribute.PathPattern);
+        if (resolvedPaths.Count == 0)
+        {
+            _logger.LogWarning(
+                "No files matched pattern '{Pattern}' for artifact '{Name}' on module {Module}",
+                attribute.PathPattern,
+                attribute.Name,
+                moduleType.Name);
+            return null;
+        }
+
+        var descriptor = new ArtifactDescriptor(
+            Name: attribute.Name,
+            ModuleTypeName: moduleType.FullName!);
+        var reference = await UploadResolvedPathsAsync(
+                descriptor,
+                attribute.PathPattern,
+                resolvedPaths,
+                cancellationToken)
+            .ConfigureAwait(false);
+        _logger.LogInformation(
+            "Uploaded artifact '{Name}' ({Size} bytes, {FileCount} files) for module {Module}",
+            attribute.Name,
+            reference.SizeBytes,
+            resolvedPaths.Count,
+            moduleType.Name);
+        return reference;
+    }
+
+    private Task<ArtifactReference> UploadResolvedPathsAsync(
+        ArtifactDescriptor descriptor,
+        string pathPattern,
+        IReadOnlyList<string> resolvedPaths,
+        CancellationToken cancellationToken)
+    {
+        if (resolvedPaths.Count == 1 && Directory.Exists(resolvedPaths[0]))
+        {
+            return UploadDirectoryAsync(descriptor, resolvedPaths[0], cancellationToken);
+        }
+
+        if (resolvedPaths.Count == 1 && File.Exists(resolvedPaths[0]))
+        {
+            return UploadFileAsync(
+                descriptor with { ContentType = "application/octet-stream" },
+                resolvedPaths[0],
+                cancellationToken);
+        }
+
+        return UploadPathArchiveAsync(descriptor, pathPattern, resolvedPaths, cancellationToken);
+    }
+
+    private async Task<ArtifactReference> UploadDirectoryAsync(
+        ArtifactDescriptor descriptor,
+        string directoryPath,
+        CancellationToken cancellationToken)
+    {
+        var tempFile = CreateTemporaryArchivePath();
+        try
+        {
+            ZipFile.CreateFromDirectory(
+                directoryPath,
+                tempFile,
+                _options.CompressionLevel,
+                includeBaseDirectory: false);
+            return await UploadFileAsync(
+                    descriptor with { ContentType = "application/zip" },
+                    tempFile,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        finally
+        {
+            File.Delete(tempFile);
+        }
+    }
+
+    private async Task<ArtifactReference> UploadPathArchiveAsync(
+        ArtifactDescriptor descriptor,
+        string pathPattern,
+        IReadOnlyList<string> resolvedPaths,
+        CancellationToken cancellationToken)
+    {
+        var tempFile = CreateTemporaryArchivePath();
+        try
+        {
+            CreatePathArchive(tempFile, GetArchiveBaseDirectory(pathPattern), resolvedPaths);
+            return await UploadFileAsync(
+                    descriptor with { ContentType = "application/zip" },
+                    tempFile,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        finally
+        {
+            File.Delete(tempFile);
+        }
+    }
+
+    private void CreatePathArchive(
+        string archivePath,
+        string archiveBaseDirectory,
+        IReadOnlyList<string> resolvedPaths)
+    {
+        using var archive = ZipFile.Open(archivePath, ZipArchiveMode.Create);
+        var archivedEntries = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var resolvedPath in resolvedPaths)
+        {
+            AddPathToArchive(archive, archivedEntries, archiveBaseDirectory, resolvedPath);
+        }
+    }
+
+    private void AddPathToArchive(
+        ZipArchive archive,
+        HashSet<string> archivedEntries,
+        string archiveBaseDirectory,
+        string resolvedPath)
+    {
+        var isDirectory = Directory.Exists(resolvedPath);
+        var directoryPaths = isDirectory
+            ? new[] { resolvedPath }.Concat(Directory.EnumerateDirectories(
+                resolvedPath,
+                "*",
+                SearchOption.AllDirectories))
+            : Enumerable.Empty<string>();
+        foreach (var directoryPath in directoryPaths)
+        {
+            var entryName = GetArchiveEntryName(archiveBaseDirectory, directoryPath).TrimEnd('/') + "/";
+            if (archivedEntries.Add(entryName))
+            {
+                archive.CreateEntry(entryName, _options.CompressionLevel);
+            }
+        }
+
+        var filePaths = isDirectory
+            ? Directory.EnumerateFiles(resolvedPath, "*", SearchOption.AllDirectories)
+            : new[] { resolvedPath };
+        foreach (var filePath in filePaths)
+        {
+            var entryName = GetArchiveEntryName(archiveBaseDirectory, filePath);
+            if (archivedEntries.Add(entryName))
+            {
+                archive.CreateEntryFromFile(filePath, entryName, _options.CompressionLevel);
+            }
+        }
+    }
+
+    private static string GetArchiveEntryName(string archiveBaseDirectory, string path) =>
+        Path.GetRelativePath(archiveBaseDirectory, path)
+            .Replace(Path.DirectorySeparatorChar, '/');
+
+    private async Task<ArtifactReference> UploadFileAsync(
+        ArtifactDescriptor descriptor,
+        string filePath,
+        CancellationToken cancellationToken)
+    {
+        await using var stream = File.OpenRead(filePath);
+        return await _store.UploadAsync(descriptor, stream, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
