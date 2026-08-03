@@ -247,13 +247,14 @@ public class CliAttributeTests
             EarlyOperand = "command-input",
             Normal = true,
             Terminal = "tests.txt",
+            TerminalOperand = "terminal-input",
             Passthrough = "input.txt",
         };
 
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(
-            ["command-input", "--normal", "input.txt", "--terminal", "tests.txt"],
+            ["command-input", "--normal", "input.txt", "terminal-input", "--terminal", "tests.txt"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
@@ -427,6 +428,9 @@ public class CliAttributeTests
             ValueArity = CliOptionValueArity.Optional,
             Phase = CommandLinePhase.Terminal)]
         public string? Terminal { get; set; }
+
+        [CliArgument(0, Phase = CommandLinePhase.Terminal)]
+        public string? TerminalOperand { get; set; }
 
         [CliArgument(0)]
         public string? Passthrough { get; set; }

@@ -50,8 +50,16 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             .Where(part => part.Phase == phase)
             .OrderBy(part => part.Attribute.Position);
 
-        AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
-        AddArguments(rendered, phaseArguments, optionsObject);
+        if (phase == CommandLinePhase.Terminal)
+        {
+            AddArguments(rendered, phaseArguments, optionsObject);
+            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+        }
+        else
+        {
+            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+            AddArguments(rendered, phaseArguments, optionsObject);
+        }
 
         return rendered;
     }
