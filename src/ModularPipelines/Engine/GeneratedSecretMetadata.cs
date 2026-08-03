@@ -157,7 +157,13 @@ public static class GeneratedSecretMetadata
                || type.Name.StartsWith("VB$AnonymousType_", StringComparison.Ordinal)
                || type.Name.StartsWith("<>c__DisplayClass", StringComparison.Ordinal)
                || (type.Name.Contains(">d__", StringComparison.Ordinal)
-                   && typeof(IEnumerable).IsAssignableFrom(type));
+                   && IsIteratorStateMachine(type));
+    }
+
+    private static bool IsIteratorStateMachine(Type type)
+    {
+        return typeof(IEnumerable).IsAssignableFrom(type)
+               || typeof(IAsyncStateMachine).IsAssignableFrom(type);
     }
 
     private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors, bool IsComplete);

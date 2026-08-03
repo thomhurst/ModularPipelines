@@ -181,6 +181,20 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
+    public async Task AsyncIteratorOptionsAreRecognizedAsEmptyMetadata()
+    {
+        var options = GetAsyncIteratorOptions();
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(options.GetType(), out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task ClosureTargetsAreRecognizedAsEmptyMetadata()
     {
         var captured = "not-secret";
@@ -353,6 +367,12 @@ public class SecretValueNormalizationTests
 
     private static IEnumerable<string> GetIteratorOptions()
     {
+        yield return "not-secret";
+    }
+
+    private static async IAsyncEnumerable<string> GetAsyncIteratorOptions()
+    {
+        await Task.Yield();
         yield return "not-secret";
     }
 

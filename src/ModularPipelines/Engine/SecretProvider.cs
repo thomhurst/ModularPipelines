@@ -267,13 +267,24 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         return SecretAttributeReferenceCache.GetValue(assembly, static candidate =>
         {
             var attributeAssembly = typeof(SecretValueAttribute).Assembly;
+            if (candidate == attributeAssembly)
+            {
+                return new SecretAttributeReference(true);
+            }
+
+            if (!RuntimeFeature.IsDynamicCodeSupported)
+            {
+                // Processed application assemblies are handled before this fallback. Native AOT can
+                // neither inspect assembly references nor reflect over unprocessed option types.
+                return new SecretAttributeReference(false);
+            }
+
             var attributeAssemblyName = attributeAssembly.GetName().Name;
-            var referencesAttribute = candidate == attributeAssembly
-                                      || candidate.GetReferencedAssemblies().Any(
-                                          reference => string.Equals(
-                                              reference.Name,
-                                              attributeAssemblyName,
-                                              StringComparison.Ordinal));
+            var referencesAttribute = candidate.GetReferencedAssemblies().Any(
+                reference => string.Equals(
+                    reference.Name,
+                    attributeAssemblyName,
+                    StringComparison.Ordinal));
             return new SecretAttributeReference(referencesAttribute);
         }).Value;
     }
