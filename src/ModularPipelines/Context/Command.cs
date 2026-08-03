@@ -127,6 +127,7 @@ internal sealed class Command : ICommandContext
     {
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions));
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(executionOptions.CommandLineCredentials));
     }
 
     private (CliWrap.Command Command, string CommandInput, string Tool, List<string> Arguments) CreateCommand(
