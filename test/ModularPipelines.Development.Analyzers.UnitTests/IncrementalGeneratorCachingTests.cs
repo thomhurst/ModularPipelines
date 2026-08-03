@@ -118,7 +118,7 @@ public class IncrementalGeneratorCachingTests
             .Count(CommandOptionsGenerator.IsTypeCandidate);
         var generatedSource = result.GeneratedSources.Single().SourceText.ToString();
 
-        await Assert.That(candidateCount).IsEqualTo(3);
+        await Assert.That(candidateCount).IsEqualTo(8);
         await Assert.That(generatedSource).Contains("SecretTarget");
         await Assert.That(generatedSource).Contains("SecretRecord");
     }
