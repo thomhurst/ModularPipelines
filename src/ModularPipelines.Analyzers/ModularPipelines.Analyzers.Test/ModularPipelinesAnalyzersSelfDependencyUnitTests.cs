@@ -61,6 +61,17 @@ public class Module1 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string SuffixElidedAliasBadModuleSource = $@"
+{TestSourceConstants.StandardUsingsWithLogging}
+using DependencyAttribute = ModularPipelines.Attributes.DependsOnAttribute;
+
+{TestSourceConstants.ExamplesNamespace}
+
+[{{|#0:Dependency(typeof(Module1))|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     private const string DocumentedBadModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -162,6 +173,16 @@ public class Module1 : Module<List<string>>
             .WithArguments("Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(AliasedBadModuleSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_AliasUsesAttributeSuffixElision()
+    {
+        var expected = VerifyCS.Diagnostic(SelfDependencyAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module1");
+
+        await VerifyCS.VerifyAnalyzerAsync(SuffixElidedAliasBadModuleSource, expected);
     }
 
     [TestMethod]

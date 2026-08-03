@@ -8,18 +8,33 @@ namespace ModularPipelines.Analyzers.Extensions;
 [ExcludeFromCodeCoverage]
 internal static class SyntaxExtensions
 {
+    private const string AttributeSuffix = "Attribute";
+
     internal static ImmutableHashSet<string> GetUsingAliasNames(
         this Compilation compilation,
         CancellationToken cancellationToken)
     {
-        return compilation.SyntaxTrees
-            .SelectMany(tree => tree.GetRoot(cancellationToken)
+        var aliases = ImmutableHashSet.CreateBuilder<string>(StringComparer.Ordinal);
+
+        foreach (var directive in compilation.SyntaxTrees
+                     .SelectMany(tree => tree.GetRoot(cancellationToken)
                 .DescendantNodes(static node =>
                     node is CompilationUnitSyntax or BaseNamespaceDeclarationSyntax)
-                .OfType<UsingDirectiveSyntax>())
-            .Select(static directive => directive.Alias?.Name.Identifier.ValueText)
-            .OfType<string>()
-            .ToImmutableHashSet(StringComparer.Ordinal);
+                .OfType<UsingDirectiveSyntax>()))
+        {
+            if (directive.Alias?.Name.Identifier.ValueText is not { } alias)
+            {
+                continue;
+            }
+
+            aliases.Add(alias);
+            if (alias.EndsWith(AttributeSuffix, StringComparison.Ordinal))
+            {
+                aliases.Add(alias.Substring(0, alias.Length - AttributeSuffix.Length));
+            }
+        }
+
+        return aliases.ToImmutable();
     }
 
     internal static bool CouldBeDependsOnAttribute(
