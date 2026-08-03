@@ -54,13 +54,13 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// <summary>
     /// nodegroups to include (list of globs), e.g.: 'ng-team-?,prod-*'
     /// </summary>
-    [CliOption("--include", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Include { get; set; }
 
     /// <summary>
     /// nodegroups to exclude (list of globs), e.g.: 'ng-team-?,prod-*'
     /// </summary>
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// <summary>
     /// Define an optional list of subnet IDs to create the nodegroup in
     /// </summary>
-    [CliOption("--subnet-ids", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subnet-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SubnetIds { get; set; }
 
     /// <summary>
@@ -180,7 +180,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// <summary>
     /// attach additional security groups to nodes
     /// </summary>
-    [CliOption("--node-security-groups", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-security-groups", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeSecurityGroups { get; set; }
 
     /// <summary>
@@ -192,7 +192,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// <summary>
     /// (inherited from the cluster if unspecified)
     /// </summary>
-    [CliOption("--node-zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeZones { get; set; }
 
     /// <summary>
@@ -258,7 +258,7 @@ public record EksctlCreateNodegroupOptions : EksctlOptions
     /// <summary>
     /// Comma-separated list of instance types (e.g., --instance-types=c3.large,c4.large,c5.large
     /// </summary>
-    [CliOption("--instance-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--instance-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InstanceTypes { get; set; }
 
     /// <summary>

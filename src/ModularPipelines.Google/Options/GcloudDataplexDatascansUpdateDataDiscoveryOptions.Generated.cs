@@ -37,7 +37,7 @@ public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of --async | --validate-only can be specified.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the update action, but don't actually perform it.    Data spec for the data discovery scan.    BigQuery publishing config arguments for the data discovery scan.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -67,13 +67,13 @@ public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
     /// <summary>
     /// List of patterns that identify the data to exclude during discovery.     These patterns are interpreted as glob patterns used to match object     names in the Cloud Storage bucket. Exclude patterns will be applied     before include patterns.
     /// </summary>
-    [CliOption("--storage-exclude-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--storage-exclude-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? StorageExcludePatterns { get; set; }
 
     /// <summary>
     /// List of patterns that identify the data to include during discovery     when only a subset of the data should be considered. These patterns are     interpreted as glob patterns used to match object names in the Cloud     Storage bucket.    CSV options arguments for the data discovery scan.
     /// </summary>
-    [CliOption("--storage-include-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--storage-include-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? StorageIncludePatterns { get; set; }
 
     /// <summary>

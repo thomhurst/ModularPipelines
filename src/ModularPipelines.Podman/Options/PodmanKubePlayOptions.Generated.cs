@@ -23,7 +23,7 @@ public record PodmanKubePlayOptions : PodmanOptions
     /// <summary>
     /// Add annotations to pods (key=value)
     /// </summary>
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
@@ -83,19 +83,19 @@ public record PodmanKubePlayOptions : PodmanOptions
     /// <summary>
     /// Logging driver options
     /// </summary>
-    [CliOption("--log-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--log-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LogOpt { get; set; }
 
     /// <summary>
     /// Static MAC addresses to assign to the pods
     /// </summary>
-    [CliOption("--mac-address", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--mac-address", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MacAddress { get; set; }
 
     /// <summary>
     /// Connect pod to network(s) or network mode
     /// </summary>
-    [CliOption("--network", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Network { get; set; }
 
     /// <summary>
@@ -113,7 +113,7 @@ public record PodmanKubePlayOptions : PodmanOptions
     /// <summary>
     /// Publish a container's port, or a range of ports, to the host
     /// </summary>
-    [CliOption("--publish", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--publish", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Publish { get; set; }
 
     /// <summary>

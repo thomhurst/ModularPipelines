@@ -43,7 +43,7 @@ public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
     /// <summary>
     /// URLs to sslCertificate resources that are used to authenticate     connections between users and the EdgeCacheService.     Certificates should be specified as relative resource URLs - for     example projects/my-project/locations/global/certificates/my-cert     Note that only "global" certificates with a "scope" of EDGE_CACHE can     be attached to an EdgeCacheService.     You may specify up to 5 SSL certificates per Service.
     /// </summary>
-    [CliOption("--edge-ssl-certificate", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--edge-ssl-certificate", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EdgeSslCertificate { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record GcloudEdgeCacheServicesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of KEY=VALUE labels to attach to this resource.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>

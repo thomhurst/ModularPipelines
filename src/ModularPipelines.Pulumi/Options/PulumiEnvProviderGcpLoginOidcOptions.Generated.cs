@@ -65,7 +65,7 @@ public record PulumiEnvProviderGcpLoginOidcOptions : PulumiOptions
     /// <summary>
     /// OIDC subject attribute to include in the federated token (repeatable)
     /// </summary>
-    [CliOption("--subject-attribute", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subject-attribute", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SubjectAttribute { get; set; }
 
     /// <summary>

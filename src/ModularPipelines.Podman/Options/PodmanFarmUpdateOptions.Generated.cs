@@ -23,7 +23,7 @@ public record PodmanFarmUpdateOptions : PodmanOptions
     /// <summary>
     /// add system connection(s) to farm
     /// </summary>
-    [CliOption("--add", ShortForm = "-a", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Add { get; set; }
 
     /// <summary>
@@ -35,7 +35,7 @@ public record PodmanFarmUpdateOptions : PodmanOptions
     /// <summary>
     /// remove system connection(s) from farm
     /// </summary>
-    [CliOption("--remove", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Remove { get; set; }
 
 }

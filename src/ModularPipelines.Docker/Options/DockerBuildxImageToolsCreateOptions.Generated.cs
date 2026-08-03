@@ -23,7 +23,7 @@ public record DockerBuildxImageToolsCreateOptions : DockerOptions
     /// <summary>
     /// Add annotation to the image
     /// </summary>
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record DockerBuildxImageToolsCreateOptions : DockerOptions
     /// <summary>
     /// Read source descriptor from file
     /// </summary>
-    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? File { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record DockerBuildxImageToolsCreateOptions : DockerOptions
     /// <summary>
     /// Filter specified platforms of target image
     /// </summary>
-    [CliOption("--platform", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--platform", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record DockerBuildxImageToolsCreateOptions : DockerOptions
     /// <summary>
     /// Set reference for new image
     /// </summary>
-    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tag { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]

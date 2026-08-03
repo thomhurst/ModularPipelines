@@ -29,13 +29,13 @@ public record PulumiEnvWebhookEditOptions : PulumiOptions
     /// <summary>
     /// Subscribe to an additional event (repeatable)
     /// </summary>
-    [CliOption("--add-event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddEvent { get; set; }
 
     /// <summary>
     /// Subscribe to an additional event group (repeatable)
     /// </summary>
-    [CliOption("--add-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddGroup { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record PulumiEnvWebhookEditOptions : PulumiOptions
     /// <summary>
     /// Replace the subscribed events (repeatable)
     /// </summary>
-    [CliOption("--event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Event { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record PulumiEnvWebhookEditOptions : PulumiOptions
     /// <summary>
     /// Replace the subscribed event groups (repeatable)
     /// </summary>
-    [CliOption("--group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Group { get; set; }
 
     /// <summary>
@@ -71,13 +71,13 @@ public record PulumiEnvWebhookEditOptions : PulumiOptions
     /// <summary>
     /// Unsubscribe from an event (repeatable)
     /// </summary>
-    [CliOption("--remove-event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEvent { get; set; }
 
     /// <summary>
     /// Unsubscribe from an event group (repeatable)
     /// </summary>
-    [CliOption("--remove-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveGroup { get; set; }
 
     /// <summary>

@@ -395,23 +395,6 @@ public class GeneratorUtilsTests
     }
 
     [Test]
-    public async Task GenerateCliAttributeString_Includes_AllowMultiple_When_True()
-    {
-        var option = new CliOptionDefinition
-        {
-            SwitchName = "--values",
-            PropertyName = "Values",
-            CSharpType = "string[]?",
-            IsFlag = false,
-            AcceptsMultipleValues = true,
-        };
-
-        var result = GeneratorUtils.GenerateCliAttributeString(option);
-
-        await Assert.That(result).Contains("AllowMultiple = true");
-    }
-
-    [Test]
     public async Task GenerateCliAttributeString_Includes_OptionalArity_And_TerminalPhase()
     {
         var option = new CliOptionDefinition
@@ -431,20 +414,19 @@ public class GeneratorUtilsTests
     }
 
     [Test]
-    public async Task GenerateCliAttributeString_Includes_NoneArity_For_Option()
+    public async Task GenerateCliAttributeString_Rejects_Unsupported_Separator()
     {
         var option = new CliOptionDefinition
         {
-            SwitchName = "--valueless",
-            PropertyName = "Valueless",
+            SwitchName = "--output",
+            PropertyName = "Output",
             CSharpType = "string?",
-            ValueArity = CliOptionValueArity.None,
+            ValueSeparator = "::",
         };
 
-        var result = GeneratorUtils.GenerateCliAttributeString(option);
-
-        await Assert.That(result).IsEqualTo(
-            "CliOption(\"--valueless\", ValueArity = CliOptionValueArity.None)");
+        await Assert.That(() => GeneratorUtils.GenerateCliAttributeString(option))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Unsupported value separator");
     }
 
     [Test]

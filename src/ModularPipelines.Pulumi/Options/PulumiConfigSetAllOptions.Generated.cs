@@ -41,14 +41,14 @@ public record PulumiConfigSetAllOptions : PulumiOptions
     /// <summary>
     /// Marks a value as plaintext (unencrypted)
     /// </summary>
-    [CliOption("--plaintext", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--plaintext", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Plaintext { get; set; }
 
     /// <summary>
     /// Marks a value as secret to be encrypted
     /// </summary>
     [SecretValue]
-    [CliOption("--secret", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Secret { get; set; }
 
     /// <summary>

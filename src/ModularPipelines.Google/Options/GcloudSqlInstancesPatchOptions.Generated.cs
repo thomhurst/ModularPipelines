@@ -34,7 +34,7 @@ public record GcloudSqlInstancesPatchOptions(
     /// <summary>
     /// A comma-separated list of the DNS servers to be used for Active     Directory. Only available for SQL Server instances. E.g:     10.0.0.1,10.0.0.2
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -309,7 +309,7 @@ public record GcloudSqlInstancesPatchOptions(
     /// <summary>
     /// A comma-separated list of performance capture settings to add to the     MySQL instance. The input should be in a format of key=value. Available     case-sensitive keys are: enabled (boolean), probing-interval-seconds     (integer), probe-threshold (integer), running-threads-threshold     (integer), seconds-behind-source-threshold (integer),     transaction-duration-threshold (integer),     cpu-utilization-threshold-percent (integer),     memory-usage-threshold-percent (integer),     transaction-lock-wait-threshold-count (integer),     semaphore-wait-threshold-count (integer),     history-list-length-threshold-count (integer),     transaction-kill-threshold-seconds (integer), transaction-kill-type     (string), transaction-kill-excluded-user-hosts (string,     semicolon-separated list) Example: --performance-capture-config     enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80,     transaction-kill-excluded-user-hosts=user1@host1;user2@%,     transaction-kill-type=READ_ONLY_TRANSACTIONS
     /// </summary>
-    [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? PerformanceCaptureConfig { get; set; }
 
     [CliOption("--pricing-plan", Format = OptionFormat.EqualsSeparated)]
@@ -459,7 +459,7 @@ public record GcloudSqlInstancesPatchOptions(
     /// <summary>
     /// Target metrics for read pool auto scaling. Options are:     AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example:     --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8    At most one of these can be specified:     --no-backup      Specified if daily backup should be disabled.     Or at least one of these can be specified:      --backup-location=BACKUP_LOCATION       Choose where to store your backups. Backups are stored in the       closest multi-region location to you by default. Only customize if       needed. Specify empty string to revert to default.      --backup-start-time=BACKUP_START_TIME       Start time of daily backups, specified in the HH:MM format, in the       UTC timezone.      --retained-backups-count=RETAINED_BACKUPS_COUNT       How many backups to keep. The valid range is between 1 and 365.       Default value is 7 for Enterprise edition instances. For       Enterprise_Plus, default value is 15. Applicable only if       --no-backups is not specified.      --retained-transaction-log-days=RETAINED_TRANSACTION_LOG_DAYS       How many days of transaction logs to keep. The valid range is       between 1 and 35. Only use this option when point-in-time recovery       is enabled. If logs are stored on disk, storage size for       transaction logs could increase when the number of days for log       retention increases. For Enterprise, default and max retention       values are 7 and 7 respectively. For Enterprise_Plus, default and       max retention values are 14 and 35.
     /// </summary>
-    [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? AutoScaleTargetMetrics { get; set; }
 
 }

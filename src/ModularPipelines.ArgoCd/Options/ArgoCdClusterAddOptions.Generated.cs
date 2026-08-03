@@ -27,7 +27,7 @@ public record ArgoCdClusterAddOptions(
     /// <summary>
     /// Set metadata annotations (e.g. --annotation key=value)
     /// </summary>
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public record ArgoCdClusterAddOptions(
     /// <summary>
     /// Arguments to supply to the --exec-command executable
     /// </summary>
-    [CliOption("--exec-command-args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exec-command-args", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExecCommandArgs { get; set; }
 
     /// <summary>
@@ -117,7 +117,7 @@ public record ArgoCdClusterAddOptions(
     /// <summary>
     /// Set metadata labels (e.g. --label key=value)
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -129,7 +129,7 @@ public record ArgoCdClusterAddOptions(
     /// <summary>
     /// List of namespaces which are allowed to manage
     /// </summary>
-    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Namespace { get; set; }
 
     /// <summary>
@@ -232,7 +232,7 @@ public record ArgoCdClusterAddOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

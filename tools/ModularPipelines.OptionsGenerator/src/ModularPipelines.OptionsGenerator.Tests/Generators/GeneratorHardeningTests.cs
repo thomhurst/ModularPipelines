@@ -142,7 +142,7 @@ public class GeneratorHardeningTests
         var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
 
         await Assert.That(generatedFile.Content)
-            .Contains("[CliOption(\"--library-path\", ShortForm = \"-L\", PreferShortForm = true, AllowMultiple = true)]");
+            .Contains("[CliOption(\"--library-path\", ShortForm = \"-L\", PreferShortForm = true)]");
     }
 
     [Test]

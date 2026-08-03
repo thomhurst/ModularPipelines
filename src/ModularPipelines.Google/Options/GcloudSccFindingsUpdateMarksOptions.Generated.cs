@@ -30,7 +30,7 @@ public record GcloudSccFindingsUpdateMarksOptions(
     /// <summary>
     /// SecurityMarks resource to be passed as the request body. It's a     key=value pair separated by comma (,). For example:     --security-marks="key1=val1,key2=val2".
     /// </summary>
-    [CliOption("--security-marks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--security-marks", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? SecurityMarks { get; set; }
 
     [CliOption("--source", Format = OptionFormat.EqualsSeparated)]

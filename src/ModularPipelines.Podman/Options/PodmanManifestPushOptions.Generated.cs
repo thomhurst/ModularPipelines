@@ -23,7 +23,7 @@ public record PodmanManifestPushOptions : PodmanOptions
     /// <summary>
     /// add instances with selected compression while pushing
     /// </summary>
-    [CliOption("--add-compression", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-compression", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddCompression { get; set; }
 
     /// <summary>

@@ -55,7 +55,7 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -85,7 +85,7 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     /// <summary>
     /// You can specify a name of a Cloud SQL instance if it's in the same     project and region as your Cloud Run resource; otherwise specify     &lt;project&gt;:&lt;region&gt;:&lt;instance&gt; for the instance.
     /// </summary>
-    [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--set-cloudsql-instances", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetCloudsqlInstances { get; set; }
 
     /// <summary>
@@ -112,7 +112,7 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     /// <summary>
     /// Adds a volume to the Cloud Run resource. To add more than one volume,     specify this flag multiple times. Volumes must have a type key. Volumes     must have a name key if mount-path is not specified. A name key is     optional if mount-path is specified.Only certain values are supported     for type. Depending on the provided type, other keys will be required.     The following types are supported with the specified additional keys:     cloud-storage: A volume representing a Cloud Storage bucket. This     volume type is mounted using Cloud Storage FUSE. See     https://cloud.google.com/storage/docs/gcs-fuse for the details and     limitations of this filesystem. Additional keys:     ◆ bucket: (required) the name of the bucket to use as the source of      this volume     ◆ readonly: (optional) A boolean. If true, this volume will be      read-only from all mounts.     ◆ mount-options: (optional) A list of flags to pass to GCSFuse. Flags      should be specified without leading dashes and separated by      semicolons.     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     in-memory: An ephemeral volume that stores data in the instance's     memory. With this type of volume, data is not shared between instances     and all data will be lost when the instance it is on is terminated.     Additional keys:     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     ◆ size-limit: (optional) A quantity representing the maximum amount      of memory allocated to this volume, such as "512Mi" or "3G". Data      stored in an in-memory volume consumes the memory allocation of the      container that wrote the data. If size-limit is not specified, the      maximum size will be half the total memory limit of all containers.     nfs: Represents a volume backed by an NFS server. Additional keys:     ◆ location: (required) The location of the NFS Server, in the form      SERVER:/PATH     ◆ mount-path: (optional) The path at which the volume should be      mounted. The mount-path parameter is only supported for single      container services which do not make use of the --container flag. For      multi-container services, specify the mount-path parameter under the      --add-volume-mount flag.     ◆ readonly: (optional) A boolean. If true, this volume will be      read-only from all mounts.
     /// </summary>
-    [CliOption("--add-volume", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-volume", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? AddVolume { get; set; }
 
     /// <summary>
@@ -124,19 +124,19 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     /// <summary>
     /// Removes volumes from the Cloud Run resource.   Container Flags     If the --container is specified the following arguments may only be specified after a --container flag.
     /// </summary>
-    [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolume { get; set; }
 
     /// <summary>
     /// Adds a mount to the current container. Must contain the keys     volume=NAME and mount-path=/PATH where NAME is the name of a volume on     this resource and PATH is the path within the container's filesystem to     mount this volume.
     /// </summary>
-    [CliOption("--add-volume-mount", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-volume-mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddVolumeMount { get; set; }
 
     /// <summary>
     /// Comma-separated arguments passed to the command run by the container     image. If not specified and no '--command' is provided, the container     image's default Cmd is used. Otherwise, if not specified, no arguments     are passed. To reset this field to its default, pass an empty string.
     /// </summary>
-    [CliOption("--args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--args", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Args { get; set; }
 
     /// <summary>
@@ -148,7 +148,7 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     /// <summary>
     /// Entrypoint for the container image. If not specified, the container     image's default Entrypoint is run. To reset this field to its default,     pass an empty string.
     /// </summary>
-    [CliOption("--command", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Command { get; set; }
 
     /// <summary>
@@ -160,7 +160,7 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     /// <summary>
     /// List of container dependencies to add to the current container.
     /// </summary>
-    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
@@ -184,13 +184,13 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     /// <summary>
     /// Removes the volume mounted at the specified path from the current     container.
     /// </summary>
-    [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveVolumeMount { get; set; }
 
     /// <summary>
     /// Comma separated settings for startup probe in the form KEY=VALUE. Each     key stands for a field of the probe described in     https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe.     Currently supported keys are: initialDelaySeconds, timeoutSeconds,     periodSeconds, failureThreshold, httpGet.port, httpGet.path, grpc.port,     grpc.service, tcpSocket.port.     For example, to set a probe with 10s timeout and HTTP probe requests     sent to 8080 port of the container:       $ --startup-probe=timeoutSeconds=10,httpGet.port=8080     To remove existing probe:       $ --startup-probe=""
     /// </summary>
-    [CliOption("--startup-probe", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--startup-probe", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? StartupProbe { get; set; }
 
     /// <summary>
@@ -208,7 +208,7 @@ public record GcloudRunJobsCreateOptions : GcloudOptions
     /// <summary>
     /// Applies the given network tags (comma separated) to the Cloud Run job.     To clear existing tags, use --clear-network-tags.
     /// </summary>
-    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>

@@ -49,7 +49,7 @@ public record HelmPluginUpdateOptions(
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KubeAsGroup { get; set; }
 
     /// <summary>

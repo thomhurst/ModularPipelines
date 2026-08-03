@@ -32,7 +32,7 @@ public record GcloudLoggingScopesUpdateOptions(
     /// <summary>
     /// A new set of resource names for the log scope.
     /// </summary>
-    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ResourceNames { get; set; }
 
 }

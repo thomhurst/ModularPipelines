@@ -53,7 +53,7 @@ public record GhProjectFieldCreateOptions : GhOptions
     /// <summary>
     /// Options for SINGLE_SELECT data type
     /// </summary>
-    [CliOption("--single-select-options", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--single-select-options", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SingleSelectOptions { get; set; }
 
     /// <summary>

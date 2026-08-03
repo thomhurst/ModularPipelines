@@ -59,7 +59,7 @@ public record DockerBuildxCreateOptions : DockerOptions
     /// <summary>
     /// Options for the driver
     /// </summary>
-    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DriverOpt { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record DockerBuildxCreateOptions : DockerOptions
     /// <summary>
     /// Fixed platforms for current node
     /// </summary>
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>

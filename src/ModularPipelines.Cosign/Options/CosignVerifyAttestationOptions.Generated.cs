@@ -146,7 +146,7 @@ public record CosignVerifyAttestationOptions(
     /// <summary>
     /// specify CUE or Rego files with policies to be used for validation
     /// </summary>
-    [CliOption("--policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Policy { get; set; }
 
     /// <summary>

@@ -43,7 +43,7 @@ public record GcloudNetappBackupPoliciesCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Add backup limit arguments.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>

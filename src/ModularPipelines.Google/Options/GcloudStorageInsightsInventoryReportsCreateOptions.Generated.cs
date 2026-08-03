@@ -35,7 +35,7 @@ public record GcloudStorageInsightsInventoryReportsCreateOptions(
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     [CliOption("--schedule-repeats", Format = OptionFormat.EqualsSeparated)]

@@ -35,7 +35,7 @@ public record DockerManifestAnnotateOptions : DockerOptions
     /// <summary>
     /// Set operating system feature
     /// </summary>
-    [CliOption("--os-features", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--os-features", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OsFeatures { get; set; }
 
     /// <summary>

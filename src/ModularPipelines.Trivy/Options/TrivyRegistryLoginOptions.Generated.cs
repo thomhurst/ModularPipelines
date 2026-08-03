@@ -32,7 +32,7 @@ public record TrivyRegistryLoginOptions(
     /// password. Comma-separated passwords allowed. TRIVY_PASSWORD should be used for security reasons.
     /// </summary>
     [SecretValue]
-    [CliOption("--password", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Password { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public record TrivyRegistryLoginOptions(
     /// <summary>
     /// username. Comma-separated usernames allowed.
     /// </summary>
-    [CliOption("--username", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Username { get; set; }
 
     /// <summary>

@@ -37,7 +37,7 @@ public record GcloudDataplexEntryTypesCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record GcloudDataplexEntryTypesCreateOptions : GcloudOptions
     /// <summary>
     /// Indicates the class this Entry Type belongs to.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the create action, but don't actually perform it.
     /// </summary>
-    [CliOption("--type-aliases", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--type-aliases", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? TypeAliases { get; set; }
 
 }

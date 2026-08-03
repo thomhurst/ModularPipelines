@@ -25,7 +25,7 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     /// <summary>
     /// A list of up to 100 additional APKs to install, in addition to those     being directly tested. The path may be in the local filesystem or in     Google Cloud Storage using gs:// notation.
     /// </summary>
-    [CliOption("--additional-apks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--additional-apks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdditionalApks { get; set; }
 
     /// <summary>
@@ -49,19 +49,19 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     /// <summary>
     /// Comma-separated, KEY=VALUE map of additional details to attach to the     test matrix. Arbitrary KEY=VALUE pairs may be attached to a test matrix     to provide additional context about the tests being run. When consuming     the test results, such as in Cloud Functions or a CI system, these     details can add additional context such as a link to the corresponding     pull request.     Example:       --client-details=buildNumber=1234,pullRequest=https://example.com/link/to/pull-request     To help you identify and locate your test matrix in the Firebase     console, use the matrixLabel key.     Example:       --client-details=matrixLabel="Example matrix label"
     /// </summary>
-    [CliOption("--client-details", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--client-details", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ClientDetails { get; set; }
 
     /// <summary>
     /// A list of paths that will be copied from the device's storage to the     designated results bucket after the test is complete. These must be     absolute paths under /sdcard, /storage, or /data/local/tmp (for     example, --directories-to-pull     /sdcard/tempDir1,/data/local/tmp/tempDir2). Path names are restricted     to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be     made available and treated as implicit path substitutions. E.g. if     /sdcard on a particular device does not map to external storage, the     system will replace it with the external storage path prefix for that     device. Note that access to some directories on API levels 29 and later     may also be limited by scoped storage rules.
     /// </summary>
-    [CliOption("--directories-to-pull", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--directories-to-pull", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DirectoriesToPull { get; set; }
 
     /// <summary>
     /// A comma-separated, key=value map of environment variables and their     desired values. The environment variables are mirrored as extra options     to the am instrument -e KEY1 VALUE1 ... command and passed to your test     runner (typically AndroidJUnitRunner). Examples:     Enable code coverage and provide a directory to store the coverage     results when using Android Test Orchestrator (--use-orchestrator):       --environment-variables clearPackageData=true,coverage=true,coverageFilePath=/sdcard/Download/     Enable code coverage and provide a file path to store the coverage     results when not using Android Test Orchestrator     (--no-use-orchestrator):       --environment-variables coverage=true,coverageFile=/sdcard/Download/coverage.ec     Note: If you need to embed a comma into a VALUE string, please refer to     gcloud topic escaping for ways to change the default list delimiter.
     /// </summary>
-    [CliOption("--environment-variables", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--environment-variables", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? EnvironmentVariables { get; set; }
 
     /// <summary>
@@ -85,7 +85,7 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     /// <summary>
     /// A list of device-path=file-path pairs that indicate the device paths to     push files to the device before starting tests, and the paths of files     to push.     Device paths must be under absolute, approved paths     (${EXTERNAL_STORAGE}, or ${ANDROID_DATA}/local/tmp). Source file paths     may be in the local filesystem or in Google Cloud Storage (gs://...).     Examples:       --other-files /sdcard/dir1/file1.txt=local/file.txt,/storage/dir2/file2.jpg=gs://bucket/file.jpg     This flag only copies files to the device. To install files, like OBB     or APK files, see --obb-files and --additional-apks.
     /// </summary>
-    [CliOption("--other-files", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--other-files", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OtherFiles { get; set; }
 
     /// <summary>
@@ -121,13 +121,13 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     /// <summary>
     /// A list of game-loop scenario labels (default: None). Each game-loop     scenario may be labeled in the APK manifest file with one or more     arbitrary strings, creating logical groupings (e.g.     GPU_COMPATIBILITY_TESTS). If --scenario-numbers and --scenario-labels     are specified together, Firebase Test Lab will first execute each     scenario from --scenario-numbers. It will then expand each given     scenario label into a list of scenario numbers marked with that label,     and execute those scenarios.
     /// </summary>
-    [CliOption("--scenario-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scenario-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ScenarioLabels { get; set; }
 
     /// <summary>
     /// A list of game-loop scenario numbers which will be run as part of the     test (default: all scenarios). A maximum of 1024 scenarios may be     specified in one test matrix, but the maximum number may also be     limited by the overall test --timeout setting.
     /// </summary>
-    [CliOption("--scenario-numbers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scenario-numbers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ScenarioNumbers { get; set; }
 
 }

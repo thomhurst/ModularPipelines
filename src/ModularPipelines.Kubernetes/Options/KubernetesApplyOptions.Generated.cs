@@ -54,7 +54,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     /// <summary>
     /// The files that contain the configurations to apply.
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>
@@ -108,7 +108,7 @@ public record KubernetesApplyOptions : KubernetesOptions
     /// <summary>
     /// Overwrite the default allowlist with &lt;group/version/kind&gt; for --prune
     /// </summary>
-    [CliOption("--prune-allowlist", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--prune-allowlist", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PruneAllowlist { get; set; }
 
     /// <summary>

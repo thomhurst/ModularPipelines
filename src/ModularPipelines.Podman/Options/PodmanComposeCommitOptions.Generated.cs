@@ -29,7 +29,7 @@ public record PodmanComposeCommitOptions : PodmanOptions
     /// <summary>
     /// Apply Dockerfile instruction to the created image
     /// </summary>
-    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Change { get; set; }
 
     /// <summary>

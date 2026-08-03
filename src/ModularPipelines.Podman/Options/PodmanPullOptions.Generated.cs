@@ -53,7 +53,7 @@ public record PodmanPullOptions : PodmanOptions
     /// <summary>
     /// Key needed to decrypt the image (e.g. /path/to/key.pem)
     /// </summary>
-    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>

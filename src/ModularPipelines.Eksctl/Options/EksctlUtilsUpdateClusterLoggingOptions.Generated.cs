@@ -54,13 +54,13 @@ public record EksctlUtilsUpdateClusterLoggingOptions : EksctlOptions
     /// <summary>
     /// Log types to be enabled. Supported log types: (all, none, api, audit, authenticator, controllerManager, scheduler)
     /// </summary>
-    [CliOption("--enable-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enable-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<EksctlUtilsUpdateClusterLoggingEnableTypes>? EnableTypes { get; set; }
 
     /// <summary>
     /// Log types to be disabled, the rest will be disabled. Supported log types: (all, none, api, audit, authenticator, controllerManager, scheduler)
     /// </summary>
-    [CliOption("--disable-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--disable-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<EksctlUtilsUpdateClusterLoggingDisableTypes>? DisableTypes { get; set; }
 
     /// <summary>

@@ -59,19 +59,19 @@ public record EksctlUtilsUpdateClusterVpcConfigOptions : EksctlOptions
     /// <summary>
     /// CIDR blocks that EKS uses to create a security group on the public endpoint
     /// </summary>
-    [CliOption("--public-access-cidrs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--public-access-cidrs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PublicAccessCidrs { get; set; }
 
     /// <summary>
     /// Subnet IDs for the control plane
     /// </summary>
-    [CliOption("--control-plane-subnet-ids", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--control-plane-subnet-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ControlPlaneSubnetIds { get; set; }
 
     /// <summary>
     /// Security group IDs for the control plane
     /// </summary>
-    [CliOption("--control-plane-security-group-ids", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--control-plane-security-group-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ControlPlaneSecurityGroupIds { get; set; }
 
     /// <summary>

@@ -49,7 +49,7 @@ public record EksctlUpdateCapabilityOptions : EksctlOptions
     /// <summary>
     /// List of IAM policy ARNs to attach to the role
     /// </summary>
-    [CliOption("--attach-policy-arns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attach-policy-arns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AttachPolicyArns { get; set; }
 
     /// <summary>

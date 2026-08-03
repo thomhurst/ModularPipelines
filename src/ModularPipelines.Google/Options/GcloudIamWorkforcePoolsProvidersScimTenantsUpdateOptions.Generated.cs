@@ -25,7 +25,7 @@ public record GcloudIamWorkforcePoolsProvidersScimTenantsUpdateOptions : GcloudO
     /// <summary>
     /// A comma-separated list of KEY=VALUE pairs defining attribute mappings.
     /// </summary>
-    [CliOption("--claim-mapping", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--claim-mapping", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ClaimMapping { get; set; }
 
     /// <summary>

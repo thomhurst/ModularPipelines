@@ -54,7 +54,7 @@ public record GcloudVectorSearchCollectionsCreateOptions : GcloudOptions
     /// <summary>
     /// Labels as key value pairs.      KEY       Keys must start with a lowercase character and contain only hyphens       (-), underscores (_), lowercase characters, and numbers.      VALUE       Values must contain only hyphens (-), underscores (_), lowercase       characters, and numbers.     Shorthand Example:       --labels=string=string     JSON Example:       --labels='{"string": "string"}'     File Example:       --labels=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public record GcloudVectorSearchCollectionsCreateOptions : GcloudOptions
     /// <summary>
     /// Schema for vector fields. Only vector fields in this schema will be     searchable. Field names must contain only alphanumeric characters,     underscores, and hyphens.      KEY       Sets KEY value.      VALUE       Sets VALUE value.        denseVector         Dense vector field.          dimensions           Dimensionality of the vector field.          vertexEmbeddingConfig           Configuration for generating embeddings for the vector           field. If not specified, the embedding field must be           populated in the DataObject.            modelId             Required: ID of the embedding model to use. See             https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models#embeddings-models             for the list of supported models.            taskType             Required: Task type for the embeddings.            textTemplate             Required: Text template for the input to the model. The             template must contain one or more references to fields             in the DataObject, e.g.: "Movie Title: {title} ----             Movie Plot: {plot}".        sparseVector         Sparse vector field.     Shorthand Example:       --vector-schema=string={denseVector={dimensions=int,vertexEmbeddingConfig={modelId=string,taskType=string,textTemplate=string}},sparseVector}     JSON Example:       --vector-schema='{"string": {"denseVector": {"dimensions": int, "vertexEmbeddingConfig": {"modelId": "string", "taskType": "string", "textTemplate": "string"}}, "sparseVector": {}}}'     File Example:       --vector-schema=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--vector-schema", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vector-schema", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VectorSchema { get; set; }
 
 }

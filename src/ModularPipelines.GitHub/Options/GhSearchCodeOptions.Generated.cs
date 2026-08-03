@@ -59,19 +59,19 @@ public record GhSearchCodeOptions : GhOptions
     /// <summary>
     /// Restrict search to file contents or file path: {file|path}
     /// </summary>
-    [CliOption("--match", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--match", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Match { get; set; }
 
     /// <summary>
     /// Filter on owner
     /// </summary>
-    [CliOption("--owner", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--owner", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Owner { get; set; }
 
     /// <summary>
     /// Filter on repository
     /// </summary>
-    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Repo { get; set; }
 
     /// <summary>

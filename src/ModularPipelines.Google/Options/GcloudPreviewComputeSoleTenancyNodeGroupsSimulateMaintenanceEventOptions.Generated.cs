@@ -32,7 +32,7 @@ public record GcloudPreviewComputeSoleTenancyNodeGroupsSimulateMaintenanceEventO
     /// <summary>
     /// The names of the nodes to simulate maintenance event.
     /// </summary>
-    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>

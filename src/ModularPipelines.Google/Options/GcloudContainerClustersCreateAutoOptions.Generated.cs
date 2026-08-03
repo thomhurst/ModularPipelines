@@ -52,7 +52,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// <summary>
     /// Specifies which privileged workload allowlist paths can be referenced     and installed by AllowlistSynchronizers in Autopilot modes.     The value is a comma-separated list of paths in the format:     ◆ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot      partner allowlists     ◆ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists     By default, all GKE-managed allowlists (gke://*) are authorized. See     https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners     for all supported Autopilot partner allowlists. When setting this flag,     be careful to explicitly specify gke://* in addition to other entries     if you rely on this default behavior.     Wildcards (*) are supported. For example, if gke://* is authorized,     then AllowlistSynchronizers can be used to install     gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml.     Note: Use of user allowlists (gs://) requires special permissions and     is only available to a subset of high tier customers. Please contact     your account team for more information.     Examples:     Allow all GKE-managed allowlists (default behavior):       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gke://*     Authorize only allowlists from a GKE Autopilot partner:       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gke://my-partner/*     Authorize only a singular user-owned allowlist       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gs://my-bucket/allowlists/\       my-allowlist.yaml     Authorize all user-owned allowlists under a given path:       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gs://my-bucket/*     Authorize all GKE-managed allowlists and a specific user-owned     allowlist:       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gke://*,gs://my-bucket/\       allowlists/my-allowlist.yaml     Disable allowlist installation entirely:       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=""     Exercise caution when using this flag on an existing cluster. Upon     updates, existing AllowlistSynchronizers will uninstall allowlists that     are no longer authorized.     For instructions on installing allowlists in the cluster after     authorization, please refer to:     https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads
     /// </summary>
-    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
 
     /// <summary>
@@ -64,13 +64,13 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// <summary>
     /// Applies the given Compute Engine tags (comma separated) on all nodes in     the auto-provisioned node pools of the new Standard cluster or the new     Autopilot cluster.     Examples:       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-network-tags=tag1,tag2     New nodes in auto-provisioned node pools, including ones created by     resize or recreate, will have these tags on the Compute Engine API     instance object and can be used in firewall rules. See     https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create     for examples.
     /// </summary>
-    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AutoprovisioningNetworkTags { get; set; }
 
     /// <summary>
     /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or     all auto-provisioned nodes in the new Standard cluster.     Examples:       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=tagKeys/\       1234=tagValues/2345       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=my-project/key1=value1       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=12345/key1=value1,\       23456/key2=value2       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=     All nodes in an Autopilot cluster or all auto-provisioned nodes in a     Standard cluster, including nodes that are resized or re-created, will     have the specified tags on the corresponding Instance object in the     Compute Engine API. You can reference these tags in network firewall     policy rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.    Flags for Binary Authorization:
     /// </summary>
-    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? AutoprovisioningResourceManagerTags { get; set; }
 
     /// <summary>
@@ -124,7 +124,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// <summary>
     /// Create a new subnetwork for the cluster. The name and range of the     subnetwork can be customized via optional 'name' and 'range' key-value     pairs.     'name' specifies the name of the subnetwork to be created.     'range' specifies the IP range for the new subnetwork. This can either     be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If     a netmask size is specified, the IP is automatically taken from the     free space in the cluster's network.     Examples:     Create a new subnetwork with a default name and size.       $ gcloud container clusters create-auto --create-subnetwork ""     Create a new subnetwork named "my-subnet" with netmask of size 21.       $ gcloud container clusters create-auto \         --create-subnetwork name=my-subnet,range=/21     Create a new subnetwork with a default name with the primary range of     10.100.0.0/16.       $ gcloud container clusters create-auto \         --create-subnetwork range=10.100.0.0/16     Create a new subnetwork with the name "my-subnet" with a default range.       $ gcloud container clusters create-auto \         --create-subnetwork name=my-subnet     Cannot be used in conjunction with '--subnetwork' option.
     /// </summary>
-    [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? CreateSubnetwork { get; set; }
 
     /// <summary>
@@ -232,7 +232,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// <summary>
     /// Enable Kubernetes beta API features on this cluster. Beta APIs are not     expected to be production ready and should be avoided in     production-grade environments.
     /// </summary>
-    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnableKubernetesUnstableApis { get; set; }
 
     /// <summary>
@@ -310,13 +310,13 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// <summary>
     /// Labels to apply to the Google Cloud resources in use by the Kubernetes     Engine cluster. These are unrelated to Kubernetes labels.     Examples:       $ gcloud container clusters create-auto example-cluster \         --labels=label_a=value1,label_b=,label_c=value3
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
     /// Set the components that have logging enabled. Valid component values     are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER,     KCP_HPA, KCP_VPA     The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must     be included.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs     Examples:       $ gcloud container clusters create-auto --logging=SYSTEM       $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD       $ gcloud container clusters create-auto \         --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\       SCHEDULER,KCP_HPA,KCP_VPA
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Logging { get; set; }
 
     /// <summary>
@@ -334,7 +334,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// <summary>
     /// Set the components that have monitoring enabled. Valid component values     are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER,     CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD,     STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET     Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR,     KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be     enabled.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics     Examples:       $ gcloud container clusters create-auto \         --monitoring=SYSTEM,API_SERVER,POD,DCGM       $ gcloud container clusters create-auto --monitoring=SYSTEM
     /// </summary>
-    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Monitoring { get; set; }
 
     /// <summary>
@@ -448,13 +448,13 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// <summary>
     /// A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to     sign service account tokens
     /// </summary>
-    [CliOption("--service-account-signing-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--service-account-signing-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountSigningKeys { get; set; }
 
     /// <summary>
     /// A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to     verify service account tokens. Maybe specified multiple times.    At most one of these can be specified:     --dataplane-v2-observability-mode=DATAPLANE_V2_OBSERVABILITY_MODE      (REMOVED) Select Advanced Datapath Observability mode for the      cluster. Defaults to DISABLED.      Advanced Datapath Observability allows for a real-time view into      pod-to-pod traffic within your cluster.      Examples:        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=DISABLED        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=INTERNAL_VPC_LB        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=EXTERNAL_LB      Flag --dataplane-v2-observability-mode has been removed.      DATAPLANE_V2_OBSERVABILITY_MODE must be one of:       DISABLED        Disables Advanced Datapath Observability.      EXTERNAL_LB        Makes Advanced Datapath Observability available to the external        network.      INTERNAL_VPC_LB        Makes Advanced Datapath Observability available from the VPC        network.     --disable-dataplane-v2-flow-observability      Disables Advanced Datapath Observability.     --enable-dataplane-v2-flow-observability      Enables Advanced Datapath Observability which allows for a real-time      view into pod-to-pod traffic within your cluster.    At most one of these can be specified:     --disable-pod-snapshots      Disable the Pod Snapshot feature on the cluster.     --enable-pod-snapshots      Enable the Pod Snapshot feature on the cluster.
     /// </summary>
-    [CliOption("--service-account-verification-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--service-account-verification-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountVerificationKeys { get; set; }
 
     /// <summary>
@@ -478,7 +478,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// <summary>
     /// The list of CIDR blocks (up to 100 for private cluster, 50 for public     cluster) that are allowed to connect to Kubernetes master through     HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be     specified unless --enable-master-authorized-networks is also specified.    Private Clusters
     /// </summary>
-    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -549,7 +549,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     [CliOption("--maintenance-patch-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
     public string? MaintenancePatchVersionDisruptionInterval { get; set; }
 
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>

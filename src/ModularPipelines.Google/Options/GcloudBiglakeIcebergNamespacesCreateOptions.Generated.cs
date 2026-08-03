@@ -25,7 +25,7 @@ public record GcloudBiglakeIcebergNamespacesCreateOptions : GcloudOptions
     /// <summary>
     /// Properties associated with the namespace.
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Properties { get; set; }
 
 }

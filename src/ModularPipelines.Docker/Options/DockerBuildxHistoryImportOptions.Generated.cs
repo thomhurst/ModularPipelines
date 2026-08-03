@@ -35,7 +35,7 @@ public record DockerBuildxHistoryImportOptions : DockerOptions
     /// <summary>
     /// Import from a file path
     /// </summary>
-    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? File { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]

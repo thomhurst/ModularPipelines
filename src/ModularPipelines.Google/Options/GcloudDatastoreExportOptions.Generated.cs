@@ -32,19 +32,19 @@ public record GcloudDatastoreExportOptions(
     /// <summary>
     /// A list specifying what kinds will be included in the operation. When     omitted, all Kinds are included. For example, to operate on only the     'Customer' and 'Order' Kinds:       $ gcloud datastore export --kinds='Customer','Order'
     /// </summary>
-    [CliOption("--kinds", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kinds", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Kinds { get; set; }
 
     /// <summary>
     /// A list specifying what namespaces will be included in the operation.     When omitted, all namespaces are included in the operation, including     the default namespace. To specify that only the default namespace     should be operated on, use the special symbol '(default)'. For example,     to operate on entities from both the 'customers' and default     namespaces:       $ gcloud datastore export --namespaces='(default)','customers'
     /// </summary>
-    [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Namespaces { get; set; }
 
     /// <summary>
     /// A string:string map of custom labels to associate with this operation.     For example:       $ gcloud datastore export \         --operation-labels=comment='customer orders','sales rep'=pending
     /// </summary>
-    [CliOption("--operation-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--operation-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OperationLabels { get; set; }
 
 }

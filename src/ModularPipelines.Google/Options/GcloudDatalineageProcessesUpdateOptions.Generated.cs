@@ -24,7 +24,7 @@ public record GcloudDatalineageProcessesUpdateOptions : GcloudOptions
     /// <summary>
     /// The new attributes of the process. This will replace any existing     attributes.
     /// </summary>
-    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attributes { get; set; }
 
     /// <summary>

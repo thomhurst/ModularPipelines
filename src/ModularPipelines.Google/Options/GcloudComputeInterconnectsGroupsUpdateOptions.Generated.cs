@@ -38,7 +38,7 @@ public record GcloudComputeInterconnectsGroupsUpdateOptions(
     /// <summary>
     /// Member interconnects to set the interconnect group to contain.
     /// </summary>
-    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--interconnects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Interconnects { get; set; }
 
     /// <summary>

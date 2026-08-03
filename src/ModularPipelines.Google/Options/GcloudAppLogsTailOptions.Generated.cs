@@ -24,7 +24,7 @@ public record GcloudAppLogsTailOptions : GcloudOptions
     [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
     public string? Level { get; set; }
 
-    [CliOption("--logs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Logs { get; set; }
 
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]

@@ -71,7 +71,7 @@ public record GcloudStorageBucketsCreateOptions(
     /// <summary>
     /// A comma-separated list of regions that form the custom dual-region     (https://cloud.google.com/storage/docs/locations#location-dr). Only     regions within the same continent are or will ever be valid. Invalid     location pairs (such as mixed-continent, or with unsupported regions)     will return an error.
     /// </summary>
-    [CliOption("--placement", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--placement", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Placement { get; set; }
 
     [CliOption("--recovery-point-objective", Format = OptionFormat.EqualsSeparated)]

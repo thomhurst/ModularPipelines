@@ -69,7 +69,7 @@ public record GcloudComputeSecurityPoliciesRulesUpdateOptions(
     /// <summary>
     /// Specify up to 3 key type/name pairs to rate limit. Valid key types are:     ◆ ip: each client IP address has this limit enforced separately     ◆ all: a single limit is applied to all requests matching this rule     ◆ http-header: key type takes the value of the HTTP header configured      in enforce-on-key-name as the key value     ◆ xff-ip: takes the original IP address specified in the      X-Forwarded-For header as the key     ◆ http-cookie: key type takes the value of the HTTP cookie configured      in enforce-on-key-name as the key value     ◆ http-path: key type takes the value of the URL path in the request     ◆ sni: key type takes the value of the server name indication from      the TLS session of the HTTPS request     ◆ region-code: key type takes the value of the region code from which      the request originates     ◆ tls-ja3-fingerprint: key type takes the value of JA3 TLS/SSL      fingerprint if the client connects using HTTPS, HTTP/2 or HTTP/3     ◆ user-ip: key type takes the IP address of the originating client,      which is resolved based on user-ip-request-headers configured with      the security policy     ◆ tls-ja4-fingerprint: key type takes the value of JA4 TLS/SSL      fingerprint if the client connects using HTTPS, HTTP/2 or HTTP/3     Key names are only applicable to the following key types:     ◆ http-header: The name of the HTTP header whose value is taken as      the key value.     ◆ http-cookie: The name of the HTTP cookie whose value is taken as      the key value.
     /// </summary>
-    [CliOption("--enforce-on-key-configs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enforce-on-key-configs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnforceOnKeyConfigs { get; set; }
 
     /// <summary>
@@ -111,13 +111,13 @@ public record GcloudComputeSecurityPoliciesRulesUpdateOptions(
     /// <summary>
     /// A comma-separated list of site keys to be used during the validation of     reCAPTCHA action-tokens. The provided site keys need to be created from     the reCAPTCHA API under the same project where the security policy is     created.
     /// </summary>
-    [CliOption("--recaptcha-action-site-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--recaptcha-action-site-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RecaptchaActionSiteKeys { get; set; }
 
     /// <summary>
     /// A comma-separated list of site keys to be used during the validation of     reCAPTCHA session-tokens. The provided site keys need to be created     from the reCAPTCHA API under the same project where the security policy     is created.
     /// </summary>
-    [CliOption("--recaptcha-session-site-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--recaptcha-session-site-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RecaptchaSessionSiteKeys { get; set; }
 
     /// <summary>
@@ -141,7 +141,7 @@ public record GcloudComputeSecurityPoliciesRulesUpdateOptions(
     /// <summary>
     /// A comma-separated list of header names and header values to add to     requests that match this rule.
     /// </summary>
-    [CliOption("--request-headers-to-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--request-headers-to-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RequestHeadersToAdd { get; set; }
 
     /// <summary>
@@ -159,55 +159,55 @@ public record GcloudComputeSecurityPoliciesRulesUpdateOptions(
     /// <summary>
     /// The destination IPs/IP ranges to match for this rule. To match all IPs     specify *.
     /// </summary>
-    [CliOption("--network-dest-ip-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-dest-ip-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkDestIpRanges { get; set; }
 
     /// <summary>
     /// The destination ports to match for this rule. Each element can be an     16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To     match all destination ports specify *.
     /// </summary>
-    [CliOption("--network-dest-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-dest-ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkDestPorts { get; set; }
 
     /// <summary>
     /// The IP protocols to match for this rule. Each element can be an 8-bit     unsigned decimal number (e.g. "6"), range (e.g."253-254"), or one of     the following protocol names: "tcp", "udp", "icmp", "esp", "ah",     "ipip", or "sctp". To match all protocols specify *.
     /// </summary>
-    [CliOption("--network-ip-protocols", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-ip-protocols", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkIpProtocols { get; set; }
 
     /// <summary>
     /// BGP Autonomous System Number associated with the source IP address to     match for this rule.
     /// </summary>
-    [CliOption("--network-src-asns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-src-asns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkSrcAsns { get; set; }
 
     /// <summary>
     /// The source IPs/IP ranges to match for this rule. To match all IPs     specify *.
     /// </summary>
-    [CliOption("--network-src-ip-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-src-ip-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkSrcIpRanges { get; set; }
 
     /// <summary>
     /// The source ports to match for this rule. Each element can be an 16-bit     unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match     all source ports specify *.
     /// </summary>
-    [CliOption("--network-src-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-src-ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkSrcPorts { get; set; }
 
     /// <summary>
     /// The two letter ISO 3166-1 alpha-2 country code associated with the     source IP address to match for this rule. To match all region codes     specify *.
     /// </summary>
-    [CliOption("--network-src-region-codes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-src-region-codes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkSrcRegionCodes { get; set; }
 
     /// <summary>
     /// Each element names a defined field and lists the matching values for     that field.
     /// </summary>
-    [CliOption("--network-user-defined-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-user-defined-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkUserDefinedFields { get; set; }
 
     /// <summary>
     /// The source IPs/IP ranges to match for this rule. To match all IPs     specify *.
     /// </summary>
-    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SrcIpRanges { get; set; }
 
 }

@@ -23,13 +23,13 @@ public record DockerNetworkConnectOptions : DockerOptions
     /// <summary>
     /// Add network-scoped alias for the container
     /// </summary>
-    [CliOption("--alias", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--alias", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Alias { get; set; }
 
     /// <summary>
     /// driver options for the network
     /// </summary>
-    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DriverOpt { get; set; }
 
     /// <summary>
@@ -53,13 +53,13 @@ public record DockerNetworkConnectOptions : DockerOptions
     /// <summary>
     /// Add link to another container
     /// </summary>
-    [CliOption("--link", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--link", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Link { get; set; }
 
     /// <summary>
     /// Add a link-local address for the container
     /// </summary>
-    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LinkLocalIp { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]

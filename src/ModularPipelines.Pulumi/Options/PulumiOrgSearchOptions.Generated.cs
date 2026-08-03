@@ -47,7 +47,7 @@ public record PulumiOrgSearchOptions : PulumiOptions
     /// <summary>
     /// A Pulumi Query to send to Pulumi Cloud for resource search.May be formatted as a single query, or multiple:
     /// </summary>
-    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Query { get; set; }
 
     /// <summary>

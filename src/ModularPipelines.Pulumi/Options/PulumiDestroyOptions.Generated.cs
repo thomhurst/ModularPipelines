@@ -23,7 +23,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// <summary>
     /// Config to use during the destroy and save to the stack config file
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// <summary>
     /// Specify a resource URN to ignore. These resources will not be updated. Multiple resources can be specified using --exclude urn1 --exclude urn2. Wildcards (*, **) are also supported
     /// </summary>
-    [CliOption("--exclude", ShortForm = "-x", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", ShortForm = "-x", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
@@ -191,7 +191,7 @@ public record PulumiDestroyOptions : PulumiOptions
     /// <summary>
     /// Specify a single resource URN to destroy. All resources necessary to destroy this target will also be destroyed. Multiple resources can be specified using: --target urn1 --target urn2. Wildcards (*, **) are also supported
     /// </summary>
-    [CliOption("--target", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--target", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Target { get; set; }
 
     /// <summary>

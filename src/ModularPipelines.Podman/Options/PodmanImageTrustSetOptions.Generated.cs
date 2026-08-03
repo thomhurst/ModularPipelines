@@ -23,7 +23,7 @@ public record PodmanImageTrustSetOptions : PodmanOptions
     /// <summary>
     /// Path of installed public key(s) to trust for TARGET. Absolute path to keys is added to policy.json. May used multiple times to define multiple public keys. File(s) must exist before using this command
     /// </summary>
-    [CliOption("--pubkeysfile", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pubkeysfile", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Pubkeysfile { get; set; }
 
     /// <summary>

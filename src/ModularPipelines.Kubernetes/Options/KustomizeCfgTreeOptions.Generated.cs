@@ -53,7 +53,7 @@ public record KustomizeCfgTreeOptions : KustomizeOptions
     /// <summary>
     /// print field
     /// </summary>
-    [CliOption("--field", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--field", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Field { get; set; }
 
     /// <summary>

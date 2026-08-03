@@ -69,18 +69,6 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task CliOption_CustomSeparator_Overrides_Format()
-    {
-        var attribute = new CliOptionAttribute("--namespace")
-        {
-            Format = OptionFormat.SpaceSeparated,
-            CustomSeparator = "::",
-        };
-
-        await Assert.That(attribute.GetSeparator()).IsEqualTo("::");
-    }
-
-    [Test]
     public async Task CliOption_Returns_Name_When_ShortForm_Not_Preferred()
     {
         var attribute = new CliOptionAttribute("--namespace") { ShortForm = "-n" };
@@ -249,17 +237,6 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Renders_None_Arity_Option_Without_Value()
-    {
-        var list = BuildArguments(new TestCliOptionsWithSemanticPhases
-        {
-            Valueless = true,
-        });
-
-        await Assert.That(list).IsEquivalentTo(["--valueless"]);
-    }
-
-    [Test]
     public async Task CommandModel_Rejects_Duplicate_Switches()
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateSwitch()))
@@ -363,7 +340,7 @@ public class CliAttributeTests
 
     private record TestCliOptionsWithMultipleValues
     {
-        [CliOption("--values", AllowMultiple = true)]
+        [CliOption("--values")]
         public string[]? Values { get; set; }
     }
 
@@ -384,8 +361,6 @@ public class CliAttributeTests
         [CliFlag("--normal")]
         public bool? Normal { get; set; }
 
-        [CliOption("--valueless", ValueArity = CliOptionValueArity.None)]
-        public bool? Valueless { get; set; }
     }
 
     private record TestCliOptionsWithDuplicateSwitch
@@ -453,7 +428,7 @@ public class CliAttributeTests
         [CliOption("--namespace")]
         public string? Namespace { get; set; }
 
-        [CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+        [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
         public string[]? Set { get; set; }
     }
 }

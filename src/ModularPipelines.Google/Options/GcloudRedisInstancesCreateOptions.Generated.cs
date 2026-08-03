@@ -62,7 +62,7 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -107,7 +107,7 @@ public record GcloudRedisInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// A list of Redis config KEY=VALUE pairs to set on the instance according     to http://redis.io/topics/config. Currently, the only supported     parameters are:     Redis version 3.2 and newer: maxmemory-policy, notify-keyspace-events,     timeout, databases.     Redis version 4.0 and newer: activedefrag, lfu-decay-time,     lfu-log-factor, maxmemory-gb.     Redis version 5.0 and newer: stream-node-max-bytes,     stream-node-max-entries.
     /// </summary>
-    [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? RedisConfig { get; set; }
 
     /// <summary>

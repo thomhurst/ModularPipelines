@@ -54,7 +54,7 @@ public record PulumiStackNewOptions : PulumiOptions
     /// <summary>
     /// A list of team names that should have permission to read and update this stack, once created
     /// </summary>
-    [CliOption("--teams", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--teams", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Teams { get; set; }
 
     /// <summary>

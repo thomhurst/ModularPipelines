@@ -107,7 +107,7 @@ public record GhSearchCommitsOptions : GhOptions
     /// <summary>
     /// Filter on repository owner
     /// </summary>
-    [CliOption("--owner", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--owner", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Owner { get; set; }
 
     /// <summary>
@@ -119,7 +119,7 @@ public record GhSearchCommitsOptions : GhOptions
     /// <summary>
     /// Filter on repository
     /// </summary>
-    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Repo { get; set; }
 
     /// <summary>
@@ -143,7 +143,7 @@ public record GhSearchCommitsOptions : GhOptions
     /// <summary>
     /// Filter based on repository visibility: {public|private|internal}
     /// </summary>
-    [CliOption("--visibility", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--visibility", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Visibility { get; set; }
 
     /// <summary>

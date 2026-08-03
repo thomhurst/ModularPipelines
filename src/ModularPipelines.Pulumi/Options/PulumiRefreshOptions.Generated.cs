@@ -29,7 +29,7 @@ public record PulumiRefreshOptions : PulumiOptions
     /// <summary>
     /// Config to use during the refresh and save to the stack config file
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record PulumiRefreshOptions : PulumiOptions
     /// <summary>
     /// Specify a resource URN to ignore. These resources will not be refreshed. Multiple resources can be specified using --exclude urn1 --exclude urn2. Wildcards (*, **) are also supported
     /// </summary>
-    [CliOption("--exclude", ShortForm = "-x", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", ShortForm = "-x", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record PulumiRefreshOptions : PulumiOptions
     /// <summary>
     /// A list of form [[URN ID]...] describing the provider IDs of pending creates
     /// </summary>
-    [CliOption("--import-pending-creates", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--import-pending-creates", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ImportPendingCreates { get; set; }
 
     /// <summary>
@@ -185,7 +185,7 @@ public record PulumiRefreshOptions : PulumiOptions
     /// <summary>
     /// Specify a single resource URN to refresh. Multiple resource can be specified using: --target urn1 --target urn2
     /// </summary>
-    [CliOption("--target", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--target", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Target { get; set; }
 
     /// <summary>

@@ -71,7 +71,7 @@ public record DockerComposePsOptions : DockerOptions
     /// <summary>
     /// Filter services by status. Values: [paused | restarting | removing | running | dead | created | exited]
     /// </summary>
-    [CliOption("--status", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--status", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Status { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]

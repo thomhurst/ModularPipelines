@@ -23,7 +23,7 @@ public record PodmanNetworkConnectOptions : PodmanOptions
     /// <summary>
     /// network scoped alias for container
     /// </summary>
-    [CliOption("--alias", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--alias", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Alias { get; set; }
 
     /// <summary>

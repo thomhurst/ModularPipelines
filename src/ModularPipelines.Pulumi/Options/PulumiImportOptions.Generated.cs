@@ -107,7 +107,7 @@ public record PulumiImportOptions : PulumiOptions
     /// <summary>
     /// The property names to use for the import in the format name1,name2
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Properties { get; set; }
 
     /// <summary>

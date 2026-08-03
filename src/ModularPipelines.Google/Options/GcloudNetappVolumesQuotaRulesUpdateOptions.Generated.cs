@@ -43,7 +43,7 @@ public record GcloudNetappVolumesQuotaRulesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Volume resource - The volume for which quota rule applies. This represents   a Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? UpdateLabels { get; set; }
 
     /// <summary>

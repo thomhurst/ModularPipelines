@@ -29,13 +29,13 @@ public record PodmanContainerStopOptions : PodmanOptions
     /// <summary>
     /// Read the container ID from the file
     /// </summary>
-    [CliOption("--cidfile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cidfile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Cidfile { get; set; }
 
     /// <summary>
     /// Filter output based on conditions given
     /// </summary>
-    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>

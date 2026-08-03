@@ -73,7 +73,7 @@ public record MavenExecuteOptions : MavenOptions
     /// <summary>
     /// Define a user property
     /// </summary>
-    [CliOption("--define", ShortForm = "-D", AllowMultiple = true)]
+    [CliOption("--define", ShortForm = "-D")]
     public IEnumerable<KeyValue>? Define { get; set; }
 
     /// <summary>

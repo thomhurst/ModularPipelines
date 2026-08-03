@@ -103,13 +103,13 @@ public record GradleExecuteOptions : GradleOptions
     /// <summary>
     /// Includes the specified build in the composite.
     /// </summary>
-    [CliOption("--include-build", AllowMultiple = true)]
+    [CliOption("--include-build")]
     public IEnumerable<string>? IncludeBuild { get; set; }
 
     /// <summary>
     /// Specifies an initialization script.
     /// </summary>
-    [CliOption("--init-script", ShortForm = "-I", AllowMultiple = true)]
+    [CliOption("--init-script", ShortForm = "-I")]
     public IEnumerable<string>? InitScript { get; set; }
 
     /// <summary>
@@ -133,7 +133,7 @@ public record GradleExecuteOptions : GradleOptions
     /// <summary>
     /// Sets a project property for the build script (for example, -Pmyprop=myvalue).
     /// </summary>
-    [CliOption("--project-prop", ShortForm = "-P", AllowMultiple = true)]
+    [CliOption("--project-prop", ShortForm = "-P")]
     public IEnumerable<KeyValue>? ProjectProp { get; set; }
 
     /// <summary>
@@ -145,7 +145,7 @@ public record GradleExecuteOptions : GradleOptions
     /// <summary>
     /// Sets a JVM system property (for example, -Dmyprop=myvalue).
     /// </summary>
-    [CliOption("--system-prop", ShortForm = "-D", AllowMultiple = true)]
+    [CliOption("--system-prop", ShortForm = "-D")]
     public IEnumerable<KeyValue>? SystemProp { get; set; }
 
     /// <summary>
@@ -175,7 +175,7 @@ public record GradleExecuteOptions : GradleOptions
     /// <summary>
     /// Specifies a task to exclude from execution.
     /// </summary>
-    [CliOption("--exclude-task", ShortForm = "-x", AllowMultiple = true)]
+    [CliOption("--exclude-task", ShortForm = "-x")]
     public IEnumerable<string>? ExcludeTask { get; set; }
 
     /// <summary>

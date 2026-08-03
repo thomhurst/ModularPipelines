@@ -37,7 +37,7 @@ public record KindLoadDockerImageOptions(
     /// <summary>
     /// comma separated list of nodes to load images into
     /// </summary>
-    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>

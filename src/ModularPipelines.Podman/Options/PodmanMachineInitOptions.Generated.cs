@@ -71,7 +71,7 @@ public record PodmanMachineInitOptions : PodmanOptions
     /// <summary>
     /// USB Host passthrough: bus=$1,devnum=$2 or vendor=$1,product=$2
     /// </summary>
-    [CliOption("--usb", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--usb", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Usb { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record PodmanMachineInitOptions : PodmanOptions
     /// <summary>
     /// Volumes to mount, source:target (default [$HOME:$HOME])
     /// </summary>
-    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>

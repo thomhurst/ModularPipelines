@@ -31,7 +31,7 @@ public record GcloudComputeConnectToSerialPortOptions : GcloudOptions
     /// <summary>
     /// Optional arguments can be passed to the serial port connection by     passing key-value pairs to this flag, such as max-connections=N or     replay-lines=N. See     https://cloud.google.com/compute/docs/instances/interacting-with-serial-console     for additional options.
     /// </summary>
-    [CliOption("--extra-args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--extra-args", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ExtraArgs { get; set; }
 
     /// <summary>

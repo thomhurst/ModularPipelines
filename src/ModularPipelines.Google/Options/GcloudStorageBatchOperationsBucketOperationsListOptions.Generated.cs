@@ -24,7 +24,7 @@ public record GcloudStorageBatchOperationsBucketOperationsListOptions : GcloudOp
     /// <summary>
     /// If provided, only show operations for buckets in the list.
     /// </summary>
-    [CliOption("--buckets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--buckets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Buckets { get; set; }
 
 }

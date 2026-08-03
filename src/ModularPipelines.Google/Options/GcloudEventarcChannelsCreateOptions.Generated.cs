@@ -37,7 +37,7 @@ public record GcloudEventarcChannelsCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Provider resource - Provider to use for the channel. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --provider on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --provider on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property eventarc/location.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>

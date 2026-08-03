@@ -33,7 +33,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// <summary>
     /// A comma-separated list of the DNS servers to be used for Active     Directory. Only available for SQL Server instances. E.g:     10.0.0.1,10.0.0.2
     /// </summary>
-    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--active-directory-dns-servers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ActiveDirectoryDnsServers { get; set; }
 
     /// <summary>
@@ -94,7 +94,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// <summary>
     /// The list of external networks that are allowed to connect to the     instance. Specified in CIDR notation, also known as 'slash' notation     (e.g. 192.168.100.0/24).
     /// </summary>
-    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--authorized-networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -370,7 +370,7 @@ public record GcloudSqlInstancesPointInTimeRestoreOptions(
     /// <summary>
     /// A comma-separated list of projects. Each project in this list might be     represented by a project number (numeric) or by a project ID     (alphanumeric). This allows Private Service Connect connections to be     established from specified consumer projects.
     /// </summary>
-    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowed-psc-projects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedPscProjects { get; set; }
 
     /// <summary>

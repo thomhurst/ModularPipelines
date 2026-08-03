@@ -31,7 +31,7 @@ public record GcloudComputeSnapshotSettingsUpdateOptions : GcloudOptions
     /// <summary>
     /// The custom storage location that you specify for the project's     snapshots. You can specify only a single location. Use this flag only     when you use the specific-locations value for the     --storage-location-policy flag. For more information, refer to the     snapshot settings documentation at     https://cloud.google.com/compute/docs/disks/snapshot-settings.
     /// </summary>
-    [CliOption("--storage-location-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--storage-location-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? StorageLocationNames { get; set; }
 
     /// <summary>

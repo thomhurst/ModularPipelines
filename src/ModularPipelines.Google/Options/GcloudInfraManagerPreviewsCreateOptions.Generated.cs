@@ -27,7 +27,7 @@ public record GcloudInfraManagerPreviewsCreateOptions(
     /// <summary>
     /// Preview annotations cannot be updated after creation.
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Annotations { get; set; }
 
     /// <summary>
@@ -51,7 +51,7 @@ public record GcloudInfraManagerPreviewsCreateOptions(
     /// <summary>
     /// Preview labels cannot be updated after creation.    Location resource - the location to be used as parent. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ set the property infra-manager/location with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>

@@ -72,13 +72,13 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// <summary>
     /// A list of key-value pairs during sync process. These infos will be persisted in app.
     /// </summary>
-    [CliOption("--info", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--info", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Info { get; set; }
 
     /// <summary>
     /// Sync only specific resources with a label. This option may be specified repeatedly.
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -108,7 +108,7 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// <summary>
     /// Sync apps that belong to the specified projects. This option may be specified repeatedly.
     /// </summary>
-    [CliOption("--project", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--project", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Project { get; set; }
 
     /// <summary>
@@ -126,7 +126,7 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// <summary>
     /// Sync only specific resources as GROUP:KIND:NAME or !GROUP:KIND:NAME. Fields may be blank and '*' can be used. This option may be specified repeatedly
     /// </summary>
-    [CliOption("--resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Resource { get; set; }
 
     /// <summary>
@@ -168,7 +168,7 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// <summary>
     /// Show manifests at specific revisions for source position in source-positions
     /// </summary>
-    [CliOption("--revisions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--revisions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Revisions { get; set; }
 
     /// <summary>
@@ -198,13 +198,13 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// <summary>
     /// List of source names. Default is an empty array.
     /// </summary>
-    [CliOption("--source-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourceNames { get; set; }
 
     /// <summary>
     /// List of source positions. Default is empty array. Counting start at 1. (default [])
     /// </summary>
-    [CliOption("--source-positions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-positions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourcePositions { get; set; }
 
     /// <summary>
@@ -277,7 +277,7 @@ public record ArgoCdAppSyncOptions : ArgoCdOptions
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

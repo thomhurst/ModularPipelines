@@ -27,7 +27,7 @@ public record SkopeoCopyOptions(
     /// <summary>
     /// additional tags (supports docker-archive)
     /// </summary>
-    [CliOption("--additional-tag", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--additional-tag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdditionalTag { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public record SkopeoCopyOptions(
     /// <summary>
     /// *Experimental* key needed to decrypt the image
     /// </summary>
-    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>
@@ -161,7 +161,7 @@ public record SkopeoCopyOptions(
     /// <summary>
     /// *Experimental* key with the encryption protocol to use needed to encrypt the image (e.g. jwe:/path/to/key.pem)
     /// </summary>
-    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EncryptionKey { get; set; }
 
     /// <summary>

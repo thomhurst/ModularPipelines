@@ -56,19 +56,19 @@ public record NewmanRunOptions(
     /// <summary>
     /// Specify the folder to run from a
     /// </summary>
-    [CliOption("--folder", AllowMultiple = true)]
+    [CliOption("--folder")]
     public IEnumerable<string>? Folder { get; set; }
 
     /// <summary>
     /// Allows the specification of global
     /// </summary>
-    [CliOption("--global-var", AllowMultiple = true)]
+    [CliOption("--global-var")]
     public IEnumerable<string>? GlobalVar { get; set; }
 
     /// <summary>
     /// Allows the specification of environment
     /// </summary>
-    [CliOption("--env-var", AllowMultiple = true)]
+    [CliOption("--env-var")]
     public IEnumerable<string>? EnvVar { get; set; }
 
     /// <summary>

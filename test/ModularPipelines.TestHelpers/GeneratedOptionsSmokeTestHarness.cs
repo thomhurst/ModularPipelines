@@ -205,11 +205,6 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var optionName = option.Attribute.GetEffectiveName();
 
-        if (option.ValueArity == CliOptionValueArity.None)
-        {
-            return value is not false ? [optionName] : [];
-        }
-
         if (value is CliOptionValuePair pair)
         {
             return [optionName, pair.First, pair.Second];

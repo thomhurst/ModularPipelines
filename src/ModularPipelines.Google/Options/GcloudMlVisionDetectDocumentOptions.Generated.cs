@@ -26,7 +26,7 @@ public record GcloudMlVisionDetectDocumentOptions(
     /// <summary>
     /// List of languages to use for text detection.
     /// </summary>
-    [CliOption("--language-hints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--language-hints", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LanguageHints { get; set; }
 
 }
