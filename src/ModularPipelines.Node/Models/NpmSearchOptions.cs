@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliSubCommand("search", "terms")]
+[CliSubCommand("search")]
 public record NpmSearchOptions
     (
         [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value

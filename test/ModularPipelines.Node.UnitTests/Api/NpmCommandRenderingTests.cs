@@ -70,4 +70,28 @@ public class NpmCommandRenderingTests : TestBase
         await Assert.That(commandLine.ToString())
             .IsEqualTo("npm org rm example-org example-user");
     }
+
+    [Test]
+    public async Task Search_Does_Not_Add_A_Literal_Terms_Operand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new NpmSearchOptions("example-term"));
+
+        await Assert.That(commandLine.ToString()).IsEqualTo("npm search example-term");
+    }
+
+    [Test]
+    public async Task Exec_Renders_Npm_Options_Before_The_Separator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new NpmExecOptions("example-command", "example-argument")
+        {
+            Package = ["example-package"],
+        });
+
+        await Assert.That(commandLine.ToString()).IsEqualTo(
+            "npm exec --package example-package -- example-command example-argument");
+    }
 }

@@ -94,6 +94,45 @@ public class NpmCliScraperTests
         await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
     }
 
+    [Test]
+    public async Task Search_Does_Not_Treat_The_Operand_As_A_Subcommand()
+    {
+        var scraper = CreateScraper();
+        var command = await scraper.Parse(
+            ["npm", "search"],
+            """
+            Search for packages
+
+            Usage:
+            npm search <search term> [<search term> ...]
+            """);
+
+        await Assert.That(command!.CommandParts).IsEquivalentTo(["search"]);
+        await Assert.That(command.PositionalArguments).Count().IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Exec_Attaches_The_Separator_To_The_Command_Operand()
+    {
+        var scraper = CreateScraper();
+        var command = await scraper.Parse(
+            ["npm", "exec"],
+            """
+            Run a command
+
+            Usage:
+            npm exec --package=<pkg> -- <cmd> [args...]
+
+            Options:
+            [--package <package-spec>]
+            """);
+
+        await Assert.That(command!.CommandParts).IsEquivalentTo(["exec"]);
+        var operand = command.PositionalArguments.First();
+        await Assert.That(operand.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(operand.PrependOptionTerminator).IsTrue();
+    }
+
     private static TestNpmCliScraper CreateScraper() => new();
 
     private sealed class TestNpmCliScraper : NpmCliScraper
