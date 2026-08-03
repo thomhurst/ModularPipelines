@@ -187,6 +187,16 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Rejects_Grouped_Values_With_NonSpace_Separator()
+    {
+        var options = new TestCliOptionsWithInvalidGroupedValues { Values = ["first", "second"] };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("must use a space separator");
+    }
+
+    [Test]
     public async Task Parser_Renders_Bare_OptionalValue_Option()
     {
         var options = new TestCliOptionsWithSemanticPhases
@@ -356,6 +366,12 @@ public class CliAttributeTests
     private record TestCliOptionsWithGroupedValues
     {
         [CliOption("--values", GroupValues = true)]
+        public string[]? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithInvalidGroupedValues
+    {
+        [CliOption("--values", Format = OptionFormat.EqualsSeparated, GroupValues = true)]
         public string[]? Values { get; set; }
     }
 

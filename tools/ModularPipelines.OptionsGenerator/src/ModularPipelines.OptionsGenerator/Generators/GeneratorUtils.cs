@@ -375,6 +375,12 @@ public static partial class GeneratorUtils
     {
         var optionParts = new List<string> { FormatStringLiteral(option.SwitchName) };
 
+        if (option.GroupValues && option.ValueSeparator != " ")
+        {
+            throw new InvalidOperationException(
+                $"Grouped option '{option.SwitchName}' must use a space separator.");
+        }
+
         if (!string.IsNullOrEmpty(option.ShortForm))
         {
             optionParts.Add($"ShortForm = {FormatStringLiteral(option.ShortForm)}");

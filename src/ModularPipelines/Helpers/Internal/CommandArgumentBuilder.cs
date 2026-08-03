@@ -214,6 +214,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         CliOptionAttribute attribute,
         IEnumerable<string> values)
     {
+        if (attribute.GetSeparator() != " ")
+        {
+            throw new InvalidOperationException(
+                $"Grouped option '{attribute.GetEffectiveName()}' must use a space separator.");
+        }
+
         var renderedValues = values.Where(value => !string.IsNullOrWhiteSpace(value)).ToList();
         if (renderedValues.Count == 0)
         {
@@ -225,17 +231,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
-        var optionName = attribute.GetEffectiveName();
-        var separator = attribute.GetSeparator();
-        if (separator == " ")
-        {
-            args.Add(optionName);
-            args.AddRange(renderedValues);
-            return;
-        }
-
-        args.Add($"{optionName}{separator}{renderedValues[0]}");
-        args.AddRange(renderedValues.Skip(1));
+        args.Add(attribute.GetEffectiveName());
+        args.AddRange(renderedValues);
     }
 
     private static bool TryAddOptionValuePairs(List<string> args, OptionPart optionPart, object rawValue)

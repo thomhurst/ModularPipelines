@@ -57,6 +57,7 @@ public sealed class CliOptionAttribute : Attribute
     /// <summary>
     /// Gets or sets a value indicating whether collection values share one option occurrence.
     /// By default, collections repeat the option for every value.
+    /// Grouped values require <see cref="OptionFormat.SpaceSeparated"/>.
     /// </summary>
     /// <example><c>--arguments first=value second=value</c></example>
     public bool GroupValues { get; set; }

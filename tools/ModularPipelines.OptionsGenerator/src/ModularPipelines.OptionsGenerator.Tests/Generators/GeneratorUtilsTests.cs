@@ -431,6 +431,23 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task GenerateCliAttributeString_Rejects_Grouping_With_NonSpace_Separator()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "string[]?",
+            GroupValues = true,
+            ValueSeparator = "=",
+        };
+
+        await Assert.That(() => GeneratorUtils.GenerateCliAttributeString(option))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("must use a space separator");
+    }
+
+    [Test]
     public async Task GenerateCliAttributeString_Rejects_Unsupported_Separator()
     {
         var option = new CliOptionDefinition
