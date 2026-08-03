@@ -40,7 +40,7 @@ public class Module1 : Module<List<string>>
 
 public class Module1 : {{|#0:SyncModule<IEnumerable<string>>|}}
 {{
-    protected override IEnumerable<string>? Execute(
+    protected override IEnumerable<string> Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
@@ -72,7 +72,7 @@ namespace AnalyzerExamples
 
 public class Module1 : {{|#0:global::ModularPipelines.Modules.SyncModule<System.Collections.Generic.IEnumerable<string>>|}}
 {{
-    protected override List<string>? Execute(
+    protected override List<string> Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
@@ -86,7 +86,7 @@ public class Module1 : {{|#0:global::ModularPipelines.Modules.SyncModule<System.
 
 public class Module1 : global::ModularPipelines.Modules.SyncModule<global::System.Collections.Generic.List<string>>
 {{
-    protected override List<string>? Execute(
+    protected override List<string> Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
@@ -142,7 +142,7 @@ public partial class Module1 : SyncModule<IEnumerable<string>>
 
 public partial class Module1
 {{
-    protected override IEnumerable<string>? Execute(
+    protected override IEnumerable<string> Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
@@ -156,7 +156,7 @@ public partial class Module1
 
 public class Module1 : SyncModule<IEnumerable<string>>
 {{
-    protected override List<string>? Execute(
+    protected override List<string> Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
@@ -182,11 +182,11 @@ public abstract class BaseModule : Module<IEnumerable<string>>
 
 public class DerivedModule : BaseModule
 {{
-    protected override Task<IEnumerable<string>?> ExecuteAsync(
+    protected override Task<IEnumerable<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
-        return Task.FromResult<IEnumerable<string>?>([]);
+        return Task.FromResult<IEnumerable<string>>([]);
     }}
 }}
 ";
@@ -205,7 +205,7 @@ public class List<T>
 
 public class Module1 : {|#0:global::ModularPipelines.Modules.SyncModule<IEnumerable<string>>|}
 {
-    protected override global::System.Collections.Generic.List<string>? Execute(
+    protected override global::System.Collections.Generic.List<string> Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -228,7 +228,7 @@ public class List<T>
 
 public class Module1 : global::ModularPipelines.Modules.SyncModule<global::System.Collections.Generic.List<string>>
 {
-    protected override global::System.Collections.Generic.List<string>? Execute(
+    protected override global::System.Collections.Generic.List<string> Execute(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
