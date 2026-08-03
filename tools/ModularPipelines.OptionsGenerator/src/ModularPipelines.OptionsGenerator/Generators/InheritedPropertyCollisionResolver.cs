@@ -95,6 +95,11 @@ internal static class InheritedPropertyCollisionResolver
         HashSet<string> occupiedNames,
         Dictionary<string, string>? renamedProperties)
     {
+        if (renamedProperties?.TryGetValue(propertyName, out var existingRename) == true)
+        {
+            return existingRename;
+        }
+
         if (!IsInheritedPropertyName(propertyName))
         {
             return propertyName;

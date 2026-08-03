@@ -499,6 +499,36 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task OptionsClassGenerator_Deduplicates_Renamed_Positionals()
+    {
+        var command = Command("ToolJobSubmitOptions", "ToolOptions", ["job", "submit"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Arguments",
+                    CSharpType = "string",
+                    PositionIndex = 0,
+                    IsRequired = true,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "Arguments",
+                    CSharpType = "IEnumerable<string>?",
+                    PositionIndex = 1,
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("IEnumerable<string> JobArguments");
+        await Assert.That(generated).DoesNotContain("CliArguments");
+        await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Uses_Consistent_Line_Endings()
     {
         var command = Command("ToolRunOptions", "ToolOptions") with
