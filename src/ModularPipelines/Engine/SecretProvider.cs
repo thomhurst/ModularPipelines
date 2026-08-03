@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -252,6 +253,11 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         Justification = "Generated assemblies register themselves. Reference inspection only excludes third-party assemblies that cannot declare SecretValue properties.")]
     private static bool CanReferenceSecretValueAttribute(Assembly assembly)
     {
+        if (!RuntimeFeature.IsDynamicCodeSupported)
+        {
+            return false;
+        }
+
         return SecretAttributeReferenceCache.GetOrAdd(assembly, static candidate =>
         {
             var attributeAssembly = typeof(SecretValueAttribute).Assembly;

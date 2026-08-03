@@ -1,7 +1,6 @@
 using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.SourceGenerator;
@@ -119,8 +118,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var location = type.Locations.FirstOrDefault() ?? Location.None;
-        var isPartial = HasPartialDeclarationInHierarchy(type);
-        var canRegisterSecretCoverage = !isPartial;
+        var hasMultipleDeclarations = HasMultipleDeclarationsInHierarchy(type);
+        var canRegisterSecretCoverage = !hasMultipleDeclarations;
         var canReferenceType = IsTypeAccessible(type, compilation.Assembly) && !type.IsGenericType;
         if (!canReferenceType)
         {
@@ -143,11 +142,17 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             ? GetCommandProperties(type, compilation.Assembly)
             : PropertyCollection.Empty;
         var secretMetadata = GetSecretProperties(type, compilation.Assembly);
+        if (hasMultipleDeclarations
+            && (isCommandOptions || secretMetadata.HasAttributes))
+        {
+            return new TypeMetadataCandidate(typeName, location, Metadata: null);
+        }
+
         return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
             typeName,
             GetMetadataName(type),
             CanReferenceType: true,
-            CanRegisterCommandMetadata: !isPartial,
+            CanRegisterCommandMetadata: !hasMultipleDeclarations,
             CanRegisterSecretCoverage: canRegisterSecretCoverage,
             isCommandOptions,
             commandMetadata,
@@ -548,14 +553,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return true;
     }
 
-    private static bool HasPartialDeclarationInHierarchy(INamedTypeSymbol type)
+    private static bool HasMultipleDeclarationsInHierarchy(INamedTypeSymbol type)
     {
         for (var current = type; current is not null; current = current.BaseType)
         {
-            if (current.DeclaringSyntaxReferences
-                .Select(static reference => reference.GetSyntax())
-                .OfType<TypeDeclarationSyntax>()
-                .Any(static declaration => declaration.Modifiers.Any(SyntaxKind.PartialKeyword)))
+            if (current.DeclaringSyntaxReferences.Length > 1)
             {
                 return true;
             }

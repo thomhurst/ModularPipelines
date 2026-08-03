@@ -38,4 +38,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <Import Project="..\GeneratedOptionsSmokeTests\GeneratedOptionsSmokeTests.targets" />
 </Project>

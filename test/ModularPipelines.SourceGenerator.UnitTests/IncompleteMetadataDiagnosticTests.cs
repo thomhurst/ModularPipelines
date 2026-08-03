@@ -326,7 +326,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Partial_Secret_Type_Does_Not_Register_Complete_Coverage()
+    public async Task Single_Declaration_Partial_Secret_Type_Registers_Metadata()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -339,12 +339,18 @@ public class IncompleteMetadataDiagnosticTests
             }
             """);
 
-        await Assert.That(result.Diagnostics).IsEmpty();
-        await Assert.That(result.GeneratedTrees.Single().ToString()).DoesNotContain("PartialSecrets");
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("new(\"Token\"");
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.Register(\n            typeof(global::PartialSecrets)");
+        }
     }
 
     [Test]
-    public async Task Partial_Unannotated_Type_Does_Not_Register_Complete_Coverage()
+    public async Task Single_Declaration_Partial_Unannotated_Type_Registers_Empty_Metadata()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -353,12 +359,16 @@ public class IncompleteMetadataDiagnosticTests
             public partial class PartialOptions;
             """);
 
-        await Assert.That(result.Diagnostics).IsEmpty();
-        await Assert.That(result.GeneratedTrees.Single().ToString()).DoesNotContain("PartialOptions");
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(result.GeneratedTrees.Single().ToString()).Contains(
+                "GeneratedSecretMetadata.Register(typeof(global::PartialOptions))");
+        }
     }
 
     [Test]
-    public async Task Partial_Command_Options_Do_Not_Register_Command_Metadata()
+    public async Task Single_Declaration_Partial_Command_Options_Register_Metadata()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -376,15 +386,15 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).DoesNotContain(
+            await Assert.That(generatedSource).Contains(
                 "GeneratedCommandMetadata.Register(\n            typeof(global::PartialOptions)");
-            await Assert.That(generatedSource).DoesNotContain(
+            await Assert.That(generatedSource).Contains(
                 "GeneratedSecretMetadata.Register(typeof(global::PartialOptions))");
         }
     }
 
     [Test]
-    public async Task Partial_Base_Prevents_Complete_Derived_Metadata()
+    public async Task Single_Declaration_Partial_Base_Allows_Complete_Derived_Metadata()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -407,11 +417,73 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).DoesNotContain(
+            await Assert.That(generatedSource).Contains(
                 "GeneratedCommandMetadata.Register(\n            typeof(global::DerivedOptions)");
-            await Assert.That(generatedSource).DoesNotContain(
-                "GeneratedSecretMetadata.Register(typeof(global::DerivedOptions))");
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.Register(\n            typeof(global::DerivedOptions)");
         }
+    }
+
+    [Test]
+    public async Task Split_Partial_Command_Options_Report_Error()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public partial class PartialOptions
+                : ModularPipelines.Options.CommandLineToolOptions;
+
+            public partial class PartialOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                public string Value { get; } = "";
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Split_Partial_Secret_Type_Reports_Error()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public partial class PartialSecrets;
+
+            public partial class PartialSecrets
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "";
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialSecrets",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Split_Partial_Unannotated_Type_Does_Not_Register_Complete_Coverage()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public partial class PartialOptions;
+            public partial class PartialOptions;
+            """);
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+        await Assert.That(result.GeneratedTrees.Single().ToString()).DoesNotContain("PartialOptions");
     }
 
     [Test]
