@@ -428,7 +428,7 @@ internal sealed class PipelinePlanner
             var queuedAny = false;
             foreach (var plannedModule in readyModules)
             {
-                var profile = CreateSchedulingProfile(plannedModule.Module);
+                var profile = CreateSchedulingProfile(plannedModule);
                 if (scheduledModules.Any(module => module.QueueTime <= currentTime
                                                    && module.Finish > currentTime
                                                    && HasConstraintConflict(profile, module.Profile)))
@@ -487,10 +487,10 @@ internal sealed class PipelinePlanner
         return new SchedulingCandidate(plannedModule, duration, profile, timing);
     }
 
-    private static SchedulingProfile CreateSchedulingProfile(IModule module) => new(
-        GetConstraintKeys(module),
-        GetExecutionType(module),
-        GetParallelLimiter(module));
+    private static SchedulingProfile CreateSchedulingProfile(PipelinePlanModule plannedModule) => new(
+        GetConstraintKeys(plannedModule.Module),
+        GetExecutionType(plannedModule.Module),
+        plannedModule.ShouldSkip ? null : GetParallelLimiter(plannedModule.Module));
 
     private static IReadOnlyCollection<string>? GetConstraintKeys(IModule module)
     {

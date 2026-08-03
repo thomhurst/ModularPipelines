@@ -421,6 +421,16 @@ public class PipelineCommandLineTests
         public static int Limit => 1;
     }
 
+    private sealed class InvalidModuleLimit : IParallelLimit
+    {
+        public static int Limit => 0;
+    }
+
+    [ModularPipelines.Attributes.ParallelLimiter<InvalidModuleLimit>]
+    private sealed class ExcludedInvalidLimitModule : DryRunModule
+    {
+    }
+
     [Priority(ModulePriority.High)]
     [ModularPipelines.Attributes.ParallelLimiter<SingleModuleLimit>]
     private sealed class FirstLimitedModule : DryRunModule
@@ -1230,6 +1240,27 @@ public class PipelineCommandLineTests
                 .Contains(nameof(SkippedDependencyModule));
             await Assert.That(modules[typeof(UnrelatedModule)].SkipDecision!.Reason)
                 .Contains("runnable category");
+            await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.Zero);
+        }
+    }
+
+    [Test]
+    public async Task PlanAsyncDoesNotValidateLimiterForExcludedModule()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            SkippedModules = [nameof(ExcludedInvalidLimitModule)],
+        });
+        builder.AddModule<ExcludedInvalidLimitModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var plan = await pipeline.PlanAsync();
+        var plannedModule = plan.Waves.SelectMany(wave => wave.Modules).Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(plannedModule.ShouldSkip).IsTrue();
             await Assert.That(plan.EstimatedDuration).IsEqualTo(TimeSpan.Zero);
         }
     }
