@@ -152,7 +152,7 @@ jobs:
           test ! -d "$RUNNER_TEMP/published-caller/artifacts"
       - name: Run OptionsGenerator unit tests
         run: |
-          dotnet restore tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.sln
+          dotnet restore tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.slnx
           dotnet run \
             --project tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/ModularPipelines.OptionsGenerator.Tests.csproj \
             --configuration Release \
@@ -214,12 +214,12 @@ jobs:
             ${{ runner.os }}-nuget-analyzers-
             ${{ runner.os }}-nuget-
       - name: Restore core solution
-        run: dotnet restore ModularPipelines.sln
+        run: dotnet restore ModularPipelines.slnx
       - name: Build core solution with analyzers
         # Report existing analyzer debt without failing; the next step gates warning-level
         # diagnostics in changed files so the baseline can only improve.
         run: >
-          dotnet build ModularPipelines.sln
+          dotnet build ModularPipelines.slnx
           -c Release
           --no-restore
           -p:RunAnalyzers=true
@@ -261,7 +261,7 @@ jobs:
 
           $formatArguments = @(
             'format',
-            'ModularPipelines.sln',
+            'ModularPipelines.slnx',
             'analyzers',
             '--no-restore',
             '--verify-no-changes',
@@ -320,7 +320,7 @@ jobs:
       # (Upstash) discovery + a SignalR/cloudflared mesh; with Redis unavailable it fell back
       # to one overloaded instance doing the whole build+test load, which the runner kept
       # reclaiming (see #3179). Windows/macOS can't run this standalone either: their
-      # BuildSolutionOn*Module builds ModularPipelines.All.sln, which includes the running
+      # BuildSolutionOn*Module builds ModularPipelines.All.slnx, which includes the running
       # ModularPipelines.Build executable, so the build fails to overwrite its own locked
       # binary (MSB3027, see #3084). The unit tests are Linux-only, so a single ubuntu job
       # covers the real work; cross-platform build coverage can be reintroduced separately.
@@ -386,7 +386,7 @@ jobs:
         shell: bash
         run: |
           # Two consecutive builds exhausted the hosted runner while compiling
-          # ModularPipelines.Examples.sln after the full solution (MSB4166).
+          # ModularPipelines.Examples.slnx after the full solution (MSB4166).
           sudo swapoff -a || true
           sudo rm -f /mnt/swapfile || true
           sudo fallocate -l 10G /mnt/swapfile
@@ -420,7 +420,7 @@ jobs:
         # Doing the heavy compile out-of-process means the pipeline's own
         # BuildSolutionsModule finds everything already built (it runs with --no-restore and
         # MSBuild incremental, so it becomes a fast no-op) instead of doing the large
-        # All.sln compile inside the long-lived pipeline process (#3179). Default MSBuild
+        # All.slnx compile inside the long-lived pipeline process (#3179). Default MSBuild
         # parallelism is intentional: the runner reclaim came from a single test project that
         # referenced every integration at once (to snapshot all generated options), which pulled
         # the huge AWS/Azure/Google SDK metadata into one compilation unit. That test was removed,

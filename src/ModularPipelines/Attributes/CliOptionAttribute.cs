@@ -20,14 +20,15 @@ namespace ModularPipelines.Attributes;
 /// public string[]? Values { get; set; }
 /// </code>
 /// </example>
+/// <param name="name">The option name (e.g., "--namespace").</param>
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-public sealed class CliOptionAttribute : Attribute
+public sealed class CliOptionAttribute(string name) : Attribute
 {
     /// <summary>
     /// Gets the option name (e.g., "--namespace", "--output").
     /// </summary>
-    public string Name { get; }
+    public string Name { get; } = name;
 
     /// <summary>
     /// Gets or sets the short form of the option (e.g., "-n" for "--namespace").
@@ -66,37 +67,4 @@ public sealed class CliOptionAttribute : Attribute
     /// Gets or sets the semantic phase used to order this option.
     /// </summary>
     public CommandLinePhase Phase { get; set; } = CommandLinePhase.Normal;
-
-    /// <summary>
-    /// Initialises a new instance of the <see cref="CliOptionAttribute"/> class.
-    /// Initializes a new instance of the <see cref="CliOptionAttribute"/> class.
-    /// </summary>
-    /// <param name="name">The option name (e.g., "--namespace").</param>
-    public CliOptionAttribute(string name)
-    {
-        Name = name;
-    }
-
-    /// <summary>
-    /// Gets the effective option name based on <see cref="PreferShortForm"/> setting.
-    /// </summary>
-    /// <returns></returns>
-    public string GetEffectiveName() =>
-        PreferShortForm && !string.IsNullOrEmpty(ShortForm) ? ShortForm : Name;
-
-    /// <summary>
-    /// Gets the separator string to use between option name and value.
-    /// </summary>
-    /// <returns></returns>
-    public string GetSeparator()
-    {
-        return Format switch
-        {
-            OptionFormat.SpaceSeparated => " ",
-            OptionFormat.EqualsSeparated => "=",
-            OptionFormat.ColonSeparated => ":",
-            OptionFormat.NoSeparator => string.Empty,
-            _ => " ",
-        };
-    }
 }

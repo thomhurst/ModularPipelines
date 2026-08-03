@@ -117,7 +117,6 @@ public class CosignCliScraperTests
     private static CliPositionalArgument OptionalArgument(string propertyName, int position) => new()
     {
         PropertyName = propertyName,
-        PlaceholderName = propertyName.ToUpperInvariant(),
         CSharpType = "string?",
         IsRequired = false,
         PositionIndex = position,

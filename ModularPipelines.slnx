@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="src/ModularPipelines.Analyzers/ModularPipelines.Analyzers.CodeFixes/ModularPipelines.Analyzers.CodeFixes.csproj" />
+  <Project Path="src/ModularPipelines.Analyzers/ModularPipelines.Analyzers/ModularPipelines.Analyzers.csproj" />
+  <Project Path="src/ModularPipelines.Cmd/ModularPipelines.Cmd.csproj" />
+  <Project Path="src/ModularPipelines.SourceGenerator/ModularPipelines.SourceGenerator.csproj" />
+  <Project Path="src/ModularPipelines/ModularPipelines.csproj" />
+</Solution>

@@ -65,13 +65,13 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             var missingArgument = commandParts switch
             {
                 ["account", "delete-token"] => RequiredArgument(
-                    "Id", "ID", "string", "Token identifier."),
+                    "Id", "string", "Token identifier."),
                 ["appset", "create"] => RequiredArgument(
-                    "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
+                    "Files", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
                 ["appset", "generate"] => RequiredArgument(
-                    "Files", "FILE", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
+                    "Files", "IEnumerable<string>", "One or more ApplicationSet filenames or URLs."),
                 ["appset", "delete"] => RequiredArgument(
-                    "ApplicationSetNames", "APPSETNAME", "IEnumerable<string>", "One or more ApplicationSet names."),
+                    "ApplicationSetNames", "IEnumerable<string>", "One or more ApplicationSet names."),
                 _ => null,
             };
 
@@ -108,7 +108,6 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             [
                 RequiredArgument(
                     "Repositories",
-                    "REPO...",
                     "IEnumerable<string>",
                     "One or more repository URLs."),
             ],
@@ -132,7 +131,6 @@ public partial class ArgoCdCliScraper : CobraCliScraper
             [
                 RequiredArgument(
                     "ServerOrName",
-                    "SERVER/NAME",
                     "string",
                     "Cluster server address or configured name."),
             ],
@@ -154,7 +152,6 @@ public partial class ArgoCdCliScraper : CobraCliScraper
     private static CliPositionalArgument ApplicationNamesArgument() => new()
     {
         PropertyName = "ApplicationNames",
-        PlaceholderName = "APPNAME...",
         CSharpType = "IEnumerable<string>?",
         IsRequired = false,
         PositionIndex = 0,
@@ -163,25 +160,23 @@ public partial class ArgoCdCliScraper : CobraCliScraper
 
     private static IReadOnlyList<CliPositionalArgument> ProjectDestinationArguments() =>
     [
-        RequiredArgument("Project", "PROJECT", "string", "Project name.", 0),
+        RequiredArgument("Project", "string", "Project name.", 0),
         RequiredArgument(
             "ServerOrName",
-            "SERVER/NAME",
             "string",
             "Destination server address or configured name.",
             1),
-        RequiredArgument("Namespace", "NAMESPACE", "string", "Destination namespace.", 2),
+        RequiredArgument("Namespace", "string", "Destination namespace.", 2),
     ];
 
     private static IReadOnlyList<CliPositionalArgument> RbacCanArguments() =>
     [
-        RequiredArgument("RoleSubject", "ROLE/SUBJECT", "string", "Role or subject to check.", 0),
-        RequiredArgument("Action", "ACTION", "string", "Action to check.", 1),
-        RequiredArgument("Resource", "RESOURCE", "string", "Resource to check.", 2),
+        RequiredArgument("RoleSubject", "string", "Role or subject to check.", 0),
+        RequiredArgument("Action", "string", "Action to check.", 1),
+        RequiredArgument("Resource", "string", "Resource to check.", 2),
         new CliPositionalArgument
         {
             PropertyName = "SubResource",
-            PlaceholderName = "SUB-RESOURCE",
             CSharpType = "string?",
             IsRequired = false,
             PositionIndex = 3,
@@ -212,13 +207,11 @@ public partial class ArgoCdCliScraper : CobraCliScraper
 
     private static CliPositionalArgument RequiredArgument(
         string propertyName,
-        string placeholderName,
         string csharpType,
         string description,
         int positionIndex = 0) => new()
         {
             PropertyName = propertyName,
-            PlaceholderName = placeholderName,
             CSharpType = csharpType,
             IsRequired = true,
             PositionIndex = positionIndex,

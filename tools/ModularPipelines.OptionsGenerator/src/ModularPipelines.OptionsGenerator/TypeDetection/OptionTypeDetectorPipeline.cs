@@ -54,7 +54,9 @@ public class OptionTypeDetectorPipeline
             {
                 var result = await detector.DetectTypeAsync(context, cancellationToken);
 
-                if (result.Type == CliOptionType.Unknown)
+                if (result.Type == CliOptionType.Unknown
+                    && result.IsSecret is null
+                    && result.SecretValueKeys is null)
                 {
                     continue;
                 }
@@ -94,6 +96,20 @@ public class OptionTypeDetectorPipeline
 
         _logger.LogDebug("No detector could determine type for {Option}", context.OptionName);
         return OptionTypeDetectionResult.Unknown("Pipeline");
+    }
+
+    /// <summary>
+    /// Detects metadata using only the per-tool manual override, without invoking
+    /// help-text or heuristic detectors.
+    /// </summary>
+    public Task<OptionTypeDetectionResult> DetectManualOverrideAsync(
+        OptionDetectionContext context,
+        CancellationToken cancellationToken = default)
+    {
+        var detector = _detectors.OfType<ManualOverrideDetector>().FirstOrDefault();
+        return detector is not null && detector.CanHandle(context.ToolName)
+            ? detector.DetectTypeAsync(context, cancellationToken)
+            : Task.FromResult(OptionTypeDetectionResult.Unknown("ManualOverride"));
     }
 
     /// <summary>

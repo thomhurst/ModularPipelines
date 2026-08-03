@@ -93,8 +93,8 @@ public partial class TrivyCliScraper : CobraCliScraper
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
         var defaultArgument = commandParts is ["plugin", "upgrade"]
-            ? OptionalArgument("PluginNames", "PLUGIN_NAMES")
-            : OptionalArgument("RepoNames", "REPO_NAMES");
+            ? OptionalArgument("PluginNames")
+            : OptionalArgument("RepoNames");
         var arguments = positionalArguments.Count > 0
             ? positionalArguments
             : [defaultArgument];
@@ -112,17 +112,13 @@ public partial class TrivyCliScraper : CobraCliScraper
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
         var sourceArgument = positionalArguments.Count > 0
-            ? positionalArguments[0] with
-            {
-                PropertyName = "Source",
-                PlaceholderName = "NAME | URL | FILE_PATH",
-            }
-            : RequiredArgument("Source", "NAME | URL | FILE_PATH");
+            ? positionalArguments[0] with { PropertyName = "Source" }
+            : RequiredArgument("Source");
 
         return
         [
             sourceArgument with { PositionIndex = 0 },
-            OptionalArgument("PluginArguments", "PLUGIN_ARGUMENTS") with
+            OptionalArgument("PluginArguments") with
             {
                 CSharpType = "IEnumerable<string>?",
                 Phase = CommandLinePhase.Passthrough,
@@ -136,22 +132,22 @@ public partial class TrivyCliScraper : CobraCliScraper
         IReadOnlyList<CliPositionalArgument> positionalArguments) =>
         commandParts switch
         {
-            ["config"] => [RequiredArgument("Directory", "DIR")],
-            ["filesystem"] => [RequiredArgument("Path", "PATH")],
-            ["image"] => [OptionalArgument("ImageName", "IMAGE_NAME")],
-            ["repository"] => [RequiredArgument("Repository", "REPO_PATH | REPO_URL")],
-            ["rootfs"] => [RequiredArgument("RootDirectory", "ROOTDIR")],
-            ["sbom"] => [RequiredArgument("SbomPath", "SBOM_PATH")],
-            ["vm"] => [RequiredArgument("VmImage", "VM_IMAGE")],
-            ["convert"] => [RequiredArgument("ResultJson", "RESULT_JSON")],
+            ["config"] => [RequiredArgument("Directory")],
+            ["filesystem"] => [RequiredArgument("Path")],
+            ["image"] => [OptionalArgument("ImageName")],
+            ["repository"] => [RequiredArgument("Repository")],
+            ["rootfs"] => [RequiredArgument("RootDirectory")],
+            ["sbom"] => [RequiredArgument("SbomPath")],
+            ["vm"] => [RequiredArgument("VmImage")],
+            ["convert"] => [RequiredArgument("ResultJson")],
             ["module", "install"] or ["module", "uninstall"] =>
-                [RequiredArgument("Repository", "REPOSITORY")],
+                [RequiredArgument("Repository")],
             ["plugin", "info"] or ["plugin", "uninstall"] =>
-                [RequiredArgument("PluginName", "PLUGIN_NAME")],
+                [RequiredArgument("PluginName")],
             ["plugin", "install"] =>
-                [RequiredArgument("Source", "NAME | URL | FILE_PATH")],
+                [RequiredArgument("Source")],
             ["registry", "login"] or ["registry", "logout"] =>
-                [RequiredArgument("Server", "SERVER")],
+                [RequiredArgument("Server")],
             _ => positionalArguments,
         };
 
@@ -161,17 +157,16 @@ public partial class TrivyCliScraper : CobraCliScraper
         return TrivyCacheDirectoryPattern().Replace(normalizedDescription, "<cache>/trivy");
     }
 
-    private static CliPositionalArgument RequiredArgument(string propertyName, string placeholderName) => new()
+    private static CliPositionalArgument RequiredArgument(string propertyName) => new()
     {
         PropertyName = propertyName,
-        PlaceholderName = placeholderName,
         CSharpType = "string",
         IsRequired = true,
         PositionIndex = 0,
     };
 
-    private static CliPositionalArgument OptionalArgument(string propertyName, string placeholderName) =>
-        RequiredArgument(propertyName, placeholderName) with
+    private static CliPositionalArgument OptionalArgument(string propertyName) =>
+        RequiredArgument(propertyName) with
         {
             CSharpType = "string?",
             IsRequired = false,
