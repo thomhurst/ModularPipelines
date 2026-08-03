@@ -7,9 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -17,14 +17,27 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerBuilderDap : DockerBuildxDap
 {
+    private readonly ICommandContext _command;
+
     public DockerBuilderDap(ICommandContext command)
         : base(command)
     {
+        _command = command;
+    }
+
+    public virtual Task<CommandResult> ExecuteAsync(
+        DockerBuilderDapOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return base.ExecuteAsync(options, executionOptions, cancellationToken);
     }
 
     public virtual Task<CommandResult> BuildAsync(
-        DockerBuilderDapBuildOptions? options = null,
+        DockerBuilderDapBuildOptions options,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.BuildAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.BuildAsync(options, executionOptions, cancellationToken);
+    }
 }

@@ -18,15 +18,15 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "signer", "add")]
-public record DockerTrustSignerAddOptions : DockerOptions
+public record DockerTrustSignerAddOptions(
+    [property: CliArgument(0)] string Name,
+    [property: CliArgument(1)] IEnumerable<string> Repository
+) : DockerOptions
 {
     /// <summary>
     /// Path to the signer's public key file
     /// </summary>
     [CliOption("--key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Key { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Repository { get; set; }
 
 }

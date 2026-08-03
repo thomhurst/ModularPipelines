@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("history")]
-public record DockerHistoryOptions : DockerOptions
+public record DockerHistoryOptions(
+    [property: CliArgument(0)] string Image
+) : DockerOptions
 {
     /// <summary>
     /// Format output using a custom template: 'table':            Print output in table format with column headers (default) 'table TEMPLATE':   Print output in table format using the given Go template 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
@@ -29,7 +31,7 @@ public record DockerHistoryOptions : DockerOptions
     /// <summary>
     /// Print sizes and dates in human readable format (default true)
     /// </summary>
-    [CliFlag("--human", ShortForm = "-H")]
+    [CliOption("--human", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public bool? Human { get; set; }
 
     /// <summary>
@@ -49,8 +51,5 @@ public record DockerHistoryOptions : DockerOptions
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

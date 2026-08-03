@@ -44,10 +44,10 @@ public record DockerBuildxHistoryInspectAttachmentOptions : DockerOptions
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Digest { get; set; }
+    /// <summary>
+    /// The REF [DIGEST] operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? RefDigest { get; set; }
 
 }

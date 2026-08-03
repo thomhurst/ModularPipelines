@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -42,6 +43,6 @@ public record DockerBuildxDialStdioOptions : DockerOptions
     /// Set type of progress output ("auto", "plain", "rawjson", "tty"). Use plain to show container output (default "none")
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-    public string? Progress { get; set; }
+    public DockerBuildxDialStdioProgress? Progress { get; set; }
 
 }

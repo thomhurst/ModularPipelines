@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
-public record DockerImageSaveOptions : DockerOptions
+public record DockerImageSaveOptions(
+    [property: CliArgument(0)] IEnumerable<string> Image
+) : DockerOptions
 {
     /// <summary>
     /// Write to a file, instead of STDOUT
@@ -31,11 +33,5 @@ public record DockerImageSaveOptions : DockerOptions
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
 
 }

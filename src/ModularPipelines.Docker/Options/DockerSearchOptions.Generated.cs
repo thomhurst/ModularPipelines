@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("search")]
-public record DockerSearchOptions : DockerOptions
+public record DockerSearchOptions(
+    [property: CliArgument(0)] string Term
+) : DockerOptions
 {
     /// <summary>
     /// Filter output based on conditions provided
@@ -43,8 +45,5 @@ public record DockerSearchOptions : DockerOptions
     /// </summary>
     [CliFlag("--no-trunc")]
     public bool? NoTrunc { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

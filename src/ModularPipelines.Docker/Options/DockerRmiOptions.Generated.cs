@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rmi")]
-public record DockerRmiOptions : DockerOptions
+public record DockerRmiOptions(
+    [property: CliArgument(0)] IEnumerable<string> Image
+) : DockerOptions
 {
     /// <summary>
     /// Force removal of the image
@@ -31,11 +33,5 @@ public record DockerRmiOptions : DockerOptions
     /// </summary>
     [CliFlag("--no-prune")]
     public bool? NoPrune { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
 
 }

@@ -39,10 +39,10 @@ public record DockerLoginOptions : DockerOptions
     [CliOption("--username", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
     public string? Username { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The SERVER operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Server { get; set; }
 
 }

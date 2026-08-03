@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "inspect")]
-public record DockerTrustInspectOptions : DockerOptions
+public record DockerTrustInspectOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> ImageTag
+) : DockerOptions
 {
     /// <summary>
     /// Print the information in a human friendly format

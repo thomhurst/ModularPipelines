@@ -32,7 +32,4 @@ public record DockerContainerPruneOptions : DockerOptions
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
 }

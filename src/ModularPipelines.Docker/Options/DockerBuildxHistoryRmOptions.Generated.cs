@@ -38,10 +38,10 @@ public record DockerBuildxHistoryRmOptions : DockerOptions
     [CliFlag("--debug", ShortForm = "-D")]
     public bool? Debug { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Ref { get; set; }
+    /// <summary>
+    /// The REF operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Ref { get; set; }
 
 }

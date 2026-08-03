@@ -18,7 +18,10 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "cp")]
-public record DockerContainerCpOptions : DockerOptions
+public record DockerContainerCpOptions(
+    [property: CliArgument(0)] string ContainerSrcPath,
+    [property: CliArgument(1)] string DestPath
+) : DockerOptions
 {
     /// <summary>
     /// Archive mode (copy all uid/gid information)
@@ -37,8 +40,5 @@ public record DockerContainerCpOptions : DockerOptions
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -32,6 +32,21 @@ public class DockerTrustKey
     #region Commands
 
     /// <summary>
+    /// Manage keys for signing Docker images
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DockerTrustKeyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerTrustKeyOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Generate and load a signing key-pair
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -39,11 +54,11 @@ public class DockerTrustKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateAsync(
-        DockerTrustKeyGenerateOptions? options = null,
+        DockerTrustKeyGenerateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerTrustKeyGenerateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -54,11 +69,11 @@ public class DockerTrustKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LoadAsync(
-        DockerTrustKeyLoadOptions? options = null,
+        DockerTrustKeyLoadOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerTrustKeyLoadOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

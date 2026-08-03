@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "imagetools", "inspect")]
-public record DockerBuildxImageToolsInspectOptions : DockerOptions
+public record DockerBuildxImageToolsInspectOptions(
+    [property: CliArgument(0)] string Name
+) : DockerOptions
 {
     /// <summary>
     /// Override the configured builder instance
@@ -43,8 +45,5 @@ public record DockerBuildxImageToolsInspectOptions : DockerOptions
     /// </summary>
     [CliFlag("--raw")]
     public bool? Raw { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

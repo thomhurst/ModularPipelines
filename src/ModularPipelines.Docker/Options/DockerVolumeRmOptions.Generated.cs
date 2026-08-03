@@ -18,18 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "rm")]
-public record DockerVolumeRmOptions : DockerOptions
+public record DockerVolumeRmOptions(
+    [property: CliArgument(0)] IEnumerable<string> Volume
+) : DockerOptions
 {
     /// <summary>
     /// Force the removal of one or more volumes
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Volume { get; set; }
 
 }

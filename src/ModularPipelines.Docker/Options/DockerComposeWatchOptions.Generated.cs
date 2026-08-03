@@ -35,7 +35,7 @@ public record DockerComposeWatchOptions : DockerOptions
     /// <summary>
     /// Prune dangling images on rebuild (default true)
     /// </summary>
-    [CliFlag("--prune")]
+    [CliOption("--prune", Format = OptionFormat.EqualsSeparated)]
     public bool? Prune { get; set; }
 
     /// <summary>
@@ -44,7 +44,10 @@ public record DockerComposeWatchOptions : DockerOptions
     [CliFlag("--quiet")]
     public bool? Quiet { get; set; }
 
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
 }

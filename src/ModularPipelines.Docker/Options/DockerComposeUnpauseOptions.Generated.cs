@@ -26,7 +26,10 @@ public record DockerComposeUnpauseOptions : DockerOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    public IEnumerable<string>? Service { get; set; }
 
 }

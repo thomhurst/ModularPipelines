@@ -7,9 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -17,20 +17,35 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerBuilderImageTools : DockerBuildxImageTools
 {
+    private readonly ICommandContext _command;
+
     public DockerBuilderImageTools(ICommandContext command)
         : base(command)
     {
+        _command = command;
+    }
+
+    public virtual Task<CommandResult> ExecuteAsync(
+        DockerBuilderImageToolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return base.ExecuteAsync(options, executionOptions, cancellationToken);
     }
 
     public virtual Task<CommandResult> CreateAsync(
         DockerBuilderImageToolsCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.CreateAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.CreateAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> InspectAsync(
-        DockerBuilderImageToolsInspectOptions? options = null,
+        DockerBuilderImageToolsInspectOptions options,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.InspectAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.InspectAsync(options, executionOptions, cancellationToken);
+    }
 }

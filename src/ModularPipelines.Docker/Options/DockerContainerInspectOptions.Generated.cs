@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "inspect")]
-public record DockerContainerInspectOptions : DockerOptions
+public record DockerContainerInspectOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : DockerOptions
 {
     /// <summary>
     /// Format output using a custom template: 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
@@ -31,11 +33,5 @@ public record DockerContainerInspectOptions : DockerOptions
     /// </summary>
     [CliFlag("--size", ShortForm = "-s")]
     public bool? Size { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
 
 }

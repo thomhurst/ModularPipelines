@@ -32,6 +32,21 @@ public class DockerBuildxImageTools
     #region Commands
 
     /// <summary>
+    /// Commands to work on images in registry
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DockerBuildxImageToolsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxImageToolsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a new image based on source images
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -54,11 +69,11 @@ public class DockerBuildxImageTools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InspectAsync(
-        DockerBuildxImageToolsInspectOptions? options = null,
+        DockerBuildxImageToolsInspectOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxImageToolsInspectOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

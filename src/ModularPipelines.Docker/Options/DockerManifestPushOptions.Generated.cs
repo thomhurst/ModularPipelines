@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
-public record DockerManifestPushOptions : DockerOptions
+public record DockerManifestPushOptions(
+    [property: CliArgument(0)] string ManifestList
+) : DockerOptions
 {
     /// <summary>
     /// Allow push to an insecure registry
@@ -31,8 +33,5 @@ public record DockerManifestPushOptions : DockerOptions
     /// </summary>
     [CliFlag("--purge", ShortForm = "-p")]
     public bool? Purge { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

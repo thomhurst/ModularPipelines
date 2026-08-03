@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("start")]
-public record DockerStartOptions : DockerOptions
+public record DockerStartOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : DockerOptions
 {
     /// <summary>
     /// Attach STDOUT/STDERR and forward signals
@@ -37,11 +39,5 @@ public record DockerStartOptions : DockerOptions
     /// </summary>
     [CliFlag("--interactive", ShortForm = "-i")]
     public bool? Interactive { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "policy", "test")]
-public record DockerBuildxPolicyTestOptions : DockerOptions
+public record DockerBuildxPolicyTestOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path
+) : DockerOptions
 {
     /// <summary>
     /// Override the configured builder instance

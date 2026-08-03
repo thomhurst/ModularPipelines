@@ -18,7 +18,10 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "connect")]
-public record DockerNetworkConnectOptions : DockerOptions
+public record DockerNetworkConnectOptions(
+    [property: CliArgument(0)] string Network,
+    [property: CliArgument(1)] string Container
+) : DockerOptions
 {
     /// <summary>
     /// Add network-scoped alias for the container
@@ -61,8 +64,5 @@ public record DockerNetworkConnectOptions : DockerOptions
     /// </summary>
     [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? LinkLocalIp { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -18,15 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "disable")]
-public record DockerPluginDisableOptions : DockerOptions
+public record DockerPluginDisableOptions(
+    [property: CliArgument(0)] string Plugin
+) : DockerOptions
 {
     /// <summary>
     /// Force the disable of an active plugin
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

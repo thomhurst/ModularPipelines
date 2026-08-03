@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "run")]
-public record DockerComposeRunOptions : DockerOptions
+public record DockerComposeRunOptions(
+    [property: CliArgument(0)] string Service
+) : DockerOptions
 {
     /// <summary>
     /// Build image before starting container
@@ -71,7 +73,7 @@ public record DockerComposeRunOptions : DockerOptions
     /// <summary>
     /// Keep STDIN open even if not attached (default true)
     /// </summary>
-    [CliFlag("--interactive", ShortForm = "-i")]
+    [CliOption("--interactive", ShortForm = "-i", Format = OptionFormat.EqualsSeparated)]
     public bool? Interactive { get; set; }
 
     /// <summary>
@@ -89,7 +91,7 @@ public record DockerComposeRunOptions : DockerOptions
     /// <summary>
     /// Disable pseudo-TTY allocation (default: auto-detected) (default true)
     /// </summary>
-    [CliFlag("--no-TTY", ShortForm = "-T")]
+    [CliOption("--no-TTY", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
     public bool? NoTty { get; set; }
 
     /// <summary>
@@ -170,13 +172,16 @@ public record DockerComposeRunOptions : DockerOptions
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Command { get; set; }
 
-    [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Args { get; set; }
+    /// <summary>
+    /// The ARGS operand.
+    /// </summary>
+    [CliArgument(2)]
+    public IEnumerable<string>? Args { get; set; }
 
 }

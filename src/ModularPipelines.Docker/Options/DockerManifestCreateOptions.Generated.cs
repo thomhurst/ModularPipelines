@@ -18,7 +18,10 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "create")]
-public record DockerManifestCreateOptions : DockerOptions
+public record DockerManifestCreateOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ManifestList,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Manifest
+) : DockerOptions
 {
     /// <summary>
     /// Amend an existing manifest list
@@ -31,8 +34,5 @@ public record DockerManifestCreateOptions : DockerOptions
     /// </summary>
     [CliFlag("--insecure")]
     public bool? Insecure { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Manifest { get; set; }
 
 }

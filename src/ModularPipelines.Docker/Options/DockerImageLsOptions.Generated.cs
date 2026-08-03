@@ -62,7 +62,10 @@ public record DockerImageLsOptions : DockerOptions
     [CliFlag("--tree")]
     public bool? Tree { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
+    /// <summary>
+    /// The REPOSITORY[:TAG] operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? RepositoryTag { get; set; }
 
 }

@@ -32,7 +32,4 @@ public record DockerBuildxPolicyOptions : DockerOptions
     [CliFlag("--debug", ShortForm = "-D")]
     public bool? Debug { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
 }
