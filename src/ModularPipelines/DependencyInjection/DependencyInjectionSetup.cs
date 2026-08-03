@@ -235,8 +235,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<DependencyGraphExporter>()
             .AddSingleton<IDependencyGraphExporter>(provider =>
                 provider.GetRequiredService<DependencyGraphExporter>())
-            .AddSingleton<IPipelineSummaryDependencyGraphRenderer>(provider =>
-                provider.GetRequiredService<DependencyGraphExporter>())
             .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>();
     }
 

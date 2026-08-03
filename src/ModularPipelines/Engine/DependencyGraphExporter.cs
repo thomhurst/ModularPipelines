@@ -23,8 +23,7 @@ internal sealed class DependencyGraphExporter(
     ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
     IMediator mediator,
     IIgnoredModuleResultRegistrar ignoredModuleResultRegistrar) :
-    IDependencyGraphExporter,
-    IPipelineSummaryDependencyGraphRenderer
+    IDependencyGraphExporter
 {
     public async Task<string> RenderAsync(
         DependencyGraphFormat format,
@@ -34,7 +33,7 @@ internal sealed class DependencyGraphExporter(
         return Render(format, graph);
     }
 
-    public async Task<string> RenderAsync(
+    public async Task<string> RenderSummaryAsync(
         DependencyGraphFormat format,
         PipelineSummary pipelineSummary,
         CancellationToken cancellationToken = default)

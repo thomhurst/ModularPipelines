@@ -2096,12 +2096,12 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var summary = await pipeline.RunAsync();
         var renderer = pipeline.Services
-            .GetRequiredService<IPipelineSummaryDependencyGraphRenderer>();
+            .GetRequiredService<IDependencyGraphExporter>();
         using var cancellationTokenSource = new CancellationTokenSource();
         cancellationTokenSource.Cancel();
 
         await Assert.ThrowsAsync<OperationCanceledException>(
-            () => renderer.RenderAsync(
+            () => renderer.RenderSummaryAsync(
                 DependencyGraphFormat.Json,
                 summary,
                 cancellationTokenSource.Token));

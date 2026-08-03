@@ -45,13 +45,24 @@ public class GitHubMarkdownSummaryGeneratorTests
             Task.FromResult<string?>("executed");
     }
 
-    private sealed class OversizedDependencyGraphRenderer : IPipelineSummaryDependencyGraphRenderer
+    private sealed class OversizedDependencyGraphRenderer : IDependencyGraphExporter
     {
         public Task<string> RenderAsync(
+            DependencyGraphFormat format,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(new string('g', 1024 * 1024));
+
+        public Task<string> RenderSummaryAsync(
             DependencyGraphFormat format,
             PipelineSummary pipelineSummary,
             CancellationToken cancellationToken = default) =>
             Task.FromResult(new string('g', 1024 * 1024));
+
+        public Task ExportAsync(
+            DependencyGraphFormat format,
+            string path,
+            CancellationToken cancellationToken = default) =>
+            throw new NotSupportedException();
     }
 
     [Test]
@@ -125,7 +136,7 @@ public class GitHubMarkdownSummaryGeneratorTests
         {
             Environment.SetEnvironmentVariable("GITHUB_STEP_SUMMARY", path);
             using var builder = Pipeline.CreateBuilder();
-            builder.Services.AddSingleton<IPipelineSummaryDependencyGraphRenderer, OversizedDependencyGraphRenderer>();
+            builder.Services.AddSingleton<IDependencyGraphExporter, OversizedDependencyGraphRenderer>();
             builder.AddModule<DependencyModule>();
 
             await builder.ExecutePipelineAsync();

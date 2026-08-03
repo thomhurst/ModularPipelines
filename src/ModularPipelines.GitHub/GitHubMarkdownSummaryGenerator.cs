@@ -13,14 +13,14 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     private const long MaxFileSizeInBytes = 1 * 1024 * 1024; // 1MB
 
     private readonly ISummaryLogger _summaryLogger;
-    private readonly IPipelineSummaryDependencyGraphRenderer _dependencyGraphRenderer;
+    private readonly IDependencyGraphExporter _dependencyGraphExporter;
 
     public GitHubMarkdownSummaryGenerator(
         ISummaryLogger summaryLogger,
-        IPipelineSummaryDependencyGraphRenderer dependencyGraphRenderer)
+        IDependencyGraphExporter dependencyGraphExporter)
     {
         _summaryLogger = summaryLogger;
-        _dependencyGraphRenderer = dependencyGraphRenderer;
+        _dependencyGraphExporter = dependencyGraphExporter;
     }
 
     public Task OnPipelineStartAsync(IPipelineContext pipelineContext)
@@ -93,8 +93,8 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 
     private async Task<string> GenerateDependencyGraphAsync(PipelineSummary pipelineSummary)
     {
-        var graph = await _dependencyGraphRenderer
-            .RenderAsync(DependencyGraphFormat.Mermaid, pipelineSummary)
+        var graph = await _dependencyGraphExporter
+            .RenderSummaryAsync(DependencyGraphFormat.Mermaid, pipelineSummary)
             .ConfigureAwait(false);
         return $"""
                ### Dependency Graph
