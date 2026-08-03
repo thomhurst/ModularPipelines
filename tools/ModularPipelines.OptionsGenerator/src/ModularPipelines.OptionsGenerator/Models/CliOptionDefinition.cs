@@ -1,3 +1,7 @@
+using System.Collections.Concurrent;
+using System.Collections.Immutable;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.OptionsGenerator.Models;
@@ -7,48 +11,9 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliOptionDefinition
 {
-    private static readonly HashSet<string> CollectionTypeNames = new(StringComparer.Ordinal)
-    {
-        "ArraySegment",
-        "BindingList",
-        "BlockingCollection",
-        "Collection",
-        "ConcurrentBag",
-        "ConcurrentDictionary",
-        "ConcurrentQueue",
-        "ConcurrentStack",
-        "Dictionary",
-        "FrozenDictionary",
-        "FrozenSet",
-        "HashSet",
-        "ICollection",
-        "IDictionary",
-        "IEnumerable",
-        "IList",
-        "IReadOnlyCollection",
-        "IReadOnlyDictionary",
-        "IReadOnlyList",
-        "IReadOnlySet",
-        "ISet",
-        "ImmutableArray",
-        "ImmutableDictionary",
-        "ImmutableHashSet",
-        "ImmutableList",
-        "ImmutableQueue",
-        "ImmutableSortedDictionary",
-        "ImmutableSortedSet",
-        "ImmutableStack",
-        "LinkedList",
-        "List",
-        "ObservableCollection",
-        "Queue",
-        "ReadOnlyCollection",
-        "ReadOnlyObservableCollection",
-        "SortedDictionary",
-        "SortedList",
-        "SortedSet",
-        "Stack",
-    };
+    private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
+    private static readonly ConcurrentDictionary<string, bool> CollectionShapes = new(StringComparer.Ordinal);
+    private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);
 
     /// <summary>
     /// The CLI switch name (e.g., "--output", "-o").
@@ -90,25 +55,77 @@ public record CliOptionDefinition
         || GroupValues
         || IsCollectionType(CSharpType);
 
-    private static bool IsCollectionType(string cSharpType)
+    private static bool IsCollectionType(string cSharpType) =>
+        CollectionShapes.GetOrAdd(cSharpType, static typeName => IsEnumerableType(typeName));
+
+    private static bool IsEnumerableType(string cSharpType)
     {
-        var type = cSharpType.TrimEnd('?');
-        if (type.EndsWith("[]", StringComparison.Ordinal))
+        var source = $$"""
+            #nullable enable
+            using System;
+            using System.Collections;
+            using System.Collections.Concurrent;
+            using System.Collections.Frozen;
+            using System.Collections.Generic;
+            using System.Collections.Immutable;
+            using System.Collections.ObjectModel;
+
+            namespace CollectionShapeProbe;
+
+            internal sealed class Probe
+            {
+                internal {{cSharpType}} Value { get; } = default!;
+            }
+            """;
+        var compilation = CollectionProbeCompilation.Value.AddSyntaxTrees(
+            CSharpSyntaxTree.ParseText(source));
+        var propertyType = compilation.GetTypeByMetadataName(CollectionProbeTypeName)?
+            .GetMembers("Value")
+            .OfType<IPropertySymbol>()
+            .SingleOrDefault()?
+            .Type;
+        if (propertyType is INamedTypeSymbol
+            {
+                OriginalDefinition.SpecialType: SpecialType.System_Nullable_T,
+                TypeArguments.Length: 1,
+            } nullableType)
         {
-            return true;
+            propertyType = nullableType.TypeArguments[0];
         }
 
-        var genericStart = type.IndexOf('<');
-        if (genericStart < 0)
+        if (propertyType is null || propertyType.SpecialType == SpecialType.System_String)
         {
             return false;
         }
 
-        var qualifiedTypeName = type[..genericStart];
-        var separator = qualifiedTypeName.LastIndexOfAny(['.', ':']);
-        var typeName = qualifiedTypeName[(separator + 1)..];
-        return CollectionTypeNames.Contains(typeName);
+        return propertyType is IArrayTypeSymbol
+               || propertyType.SpecialType == SpecialType.System_Collections_IEnumerable
+               || propertyType.AllInterfaces.Any(
+                   interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_IEnumerable);
     }
+
+    private static IReadOnlyList<MetadataReference> GetPlatformReferences()
+    {
+        if (AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") is string trustedPlatformAssemblies)
+        {
+            return trustedPlatformAssemblies
+                .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+                .Select(path => MetadataReference.CreateFromFile(path))
+                .ToArray();
+        }
+
+        return
+        [
+            MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(ImmutableArray<>).Assembly.Location),
+        ];
+    }
+
+    private static CSharpCompilation CreateCollectionProbeCompilation() =>
+        CSharpCompilation.Create(
+            "CollectionShapeProbe",
+            references: GetPlatformReferences(),
+            options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
     /// <summary>
     /// Description for XML documentation.

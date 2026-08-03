@@ -238,6 +238,7 @@ public class CliOptionDefinitionTests
     [Test]
     [Arguments("Queue<string>?")]
     [Arguments("System.Collections.Immutable.ImmutableArray<string>?")]
+    [Arguments("System.Collections.ObjectModel.ReadOnlyDictionary<string, string>?")]
     public async Task PropertyType_Preserves_Framework_Optional_Collection_Shapes(string cSharpType)
     {
         var option = new CliOptionDefinition
