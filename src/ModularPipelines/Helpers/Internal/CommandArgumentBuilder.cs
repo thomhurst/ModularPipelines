@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Models;
@@ -261,7 +262,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         return GetCollectionValues(rawValue);
     }
 
-    private static string? GetSingleValue(object? rawValue)
+    internal static string? GetSingleValue(object? rawValue)
     {
         if (rawValue is null)
         {
@@ -284,11 +285,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return boolValue.ToString().ToLowerInvariant();
         }
 
-        if (rawValue is byte or short or ushort or int or uint or long or ulong or float or double or decimal)
-        {
-            return rawValue.ToString()!;
-        }
-
         if (rawValue.GetType().IsEnum)
         {
             return ParseEnum(rawValue);
@@ -299,7 +295,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return ParseUri(uri);
         }
 
-        return rawValue.ToString()!;
+        return rawValue is IFormattable formattable
+            ? formattable.ToString(null, CultureInfo.InvariantCulture)
+            : rawValue.ToString()!;
     }
 
     private static List<string> GetCollectionValues(object? rawValue)

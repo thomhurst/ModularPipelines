@@ -96,7 +96,7 @@ internal sealed class PlaceholderHandler : IPlaceholderHandler
             {
                 if (item is not null)
                 {
-                    var itemStr = item.ToString();
+                    var itemStr = CommandArgumentBuilder.GetSingleValue(item);
                     if (!string.IsNullOrEmpty(itemStr))
                     {
                         result.Add(itemStr);
@@ -106,7 +106,7 @@ internal sealed class PlaceholderHandler : IPlaceholderHandler
         }
         else
         {
-            var str = rawValue.ToString();
+            var str = CommandArgumentBuilder.GetSingleValue(rawValue);
             if (!string.IsNullOrEmpty(str))
             {
                 result.Add(str);
