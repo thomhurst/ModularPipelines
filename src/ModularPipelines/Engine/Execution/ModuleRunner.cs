@@ -134,6 +134,8 @@ internal class ModuleRunner : IModuleRunner
 
                 var executionContext = CreateExecutionContext(module, moduleType);
                 ApplyDependencySkip(moduleState, executionContext);
+                executionContext.AllowHistoricalResultWhenSkipped =
+                    !HasRunnableArtifactConsumer(moduleType, scheduler);
 
                 await ExecuteModuleWithPipeline(
                         moduleState,
@@ -142,7 +144,10 @@ internal class ModuleRunner : IModuleRunner
                         cancellationToken)
                     .ConfigureAwait(false);
 
-                await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken).ConfigureAwait(false);
+                if (moduleState.Result?.ModuleStatus is Enums.Status.Successful or Enums.Status.UsedHistory)
+                {
+                    await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken).ConfigureAwait(false);
+                }
 
                 scheduler.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.ModuleStatus);
             }
@@ -196,6 +201,13 @@ internal class ModuleRunner : IModuleRunner
         {
             _logger.LogError(ex, "Failed to upload artifacts for module {Module}", moduleType.Name);
         }
+    }
+
+    private bool HasRunnableArtifactConsumer(Type producerType, IModuleScheduler scheduler)
+    {
+        return _localArtifactConsumers.TryGetValue(producerType, out var consumersByArtifact)
+               && consumersByArtifact.Values.Any(consumers =>
+                   consumers.Any(consumerType => scheduler.GetModuleState(consumerType) is not null));
     }
 
     private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>

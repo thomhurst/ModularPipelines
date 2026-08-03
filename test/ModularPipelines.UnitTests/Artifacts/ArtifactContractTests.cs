@@ -21,6 +21,8 @@ public class ArtifactContractTests
     private const string RestoreDirectory = LocalArtifactRoot + "/restored";
     private const string CacheOnlyFile = LocalArtifactRoot + "/cache-only.bin";
     private const string MissingRuntimeFile = LocalArtifactRoot + "/missing/output.txt";
+    private const string FailedRuntimeFile = LocalArtifactRoot + "/failed/output.txt";
+    private const string FailedRestoreDirectory = LocalArtifactRoot + "/failed-restored";
 
     [ProducesArtifact("declared-output", "unused.txt")]
     private sealed class DeclaredProducerModule : Module<string>
@@ -181,6 +183,37 @@ public class ArtifactContractTests
         protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
             .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"))
             .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
+    [ProducesArtifact("failed-runtime", FailedRuntimeFile)]
+    private sealed class IgnoredFailureArtifactProducerModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithIgnoreFailures()
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Producer failed");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<IgnoredFailureArtifactProducerModule>]
+    [ConsumesArtifact(
+        typeof(IgnoredFailureArtifactProducerModule),
+        "failed-runtime",
+        RestorePath = FailedRestoreDirectory)]
+    private sealed class IgnoredFailureArtifactConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
 
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -505,6 +538,65 @@ public class ArtifactContractTests
                 await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
                 await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
                 await Assert.That(SkippedArtifactConsumerModule.Executed).IsFalse();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactProducerUsesHistoryWhenArtifactConsumerIsExcluded()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules = [nameof(SkippedArtifactConsumerModule)],
+            });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<SkippedArtifactConsumerModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+
+            await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task IgnoredFailureProducerDoesNotUploadStaleArtifact()
+    {
+        DeleteLocalArtifacts();
+        IgnoredFailureArtifactConsumerModule.Executed = false;
+
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(FailedRuntimeFile)!);
+            await File.WriteAllTextAsync(FailedRuntimeFile, "stale artifact");
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<IgnoredFailureArtifactProducerModule>();
+            builder.AddModule<IgnoredFailureArtifactConsumerModule>();
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => builder.ExecutePipelineAsync());
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(exception!.ToString()).Contains("failed-runtime");
+                await Assert.That(exception.ToString()).Contains("not found");
+                await Assert.That(IgnoredFailureArtifactConsumerModule.Executed).IsFalse();
             }
         }
         finally
