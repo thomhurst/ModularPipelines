@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.IO.Compression;
+using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
@@ -451,17 +452,22 @@ internal class ArtifactLifecycleManager
             return [];
         }
 
-        // Convert glob to search pattern
-        var searchPattern = Path.GetFileName(pathPattern);
-        if (string.IsNullOrEmpty(searchPattern))
-        {
-            searchPattern = "*";
-        }
+        var relativePattern = Path.GetRelativePath(baseDir, pathPattern)
+            .Replace(Path.DirectorySeparatorChar, '/');
+        var matcher = new Matcher(
+                OperatingSystem.IsWindows()
+                    ? StringComparison.OrdinalIgnoreCase
+                    : StringComparison.Ordinal)
+            .AddInclude(relativePattern);
+
+        bool Matches(string path) => matcher.Match(
+            Path.GetRelativePath(baseDir, path)
+                .Replace(Path.DirectorySeparatorChar, '/')).HasMatches;
 
         return
         [
-            .. Directory.GetFiles(baseDir, searchPattern, SearchOption.AllDirectories),
-            .. Directory.GetDirectories(baseDir, searchPattern, SearchOption.AllDirectories),
+            .. Directory.GetFiles(baseDir, "*", SearchOption.AllDirectories).Where(Matches),
+            .. Directory.GetDirectories(baseDir, "*", SearchOption.AllDirectories).Where(Matches),
         ];
     }
 

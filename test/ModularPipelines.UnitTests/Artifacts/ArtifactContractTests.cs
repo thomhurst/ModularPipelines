@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
@@ -12,6 +13,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Validation;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Artifacts;
 
@@ -32,6 +34,34 @@ public class ArtifactContractTests
     private const string FailedRestoreDirectory = LocalArtifactRoot + "/failed-restored";
     private const string CacheKeyArtifactFile = "cache-key-input.txt";
     private const string CacheKeyRestoreDirectory = "cache-key-restored";
+
+    [Test]
+    public async Task ResolvePathPatternMatchesWildcardDirectoryComponents()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), $"artifact-glob-{Guid.NewGuid():N}");
+        var releaseDirectory = Directory.CreateDirectory(Path.Combine(directory, "release-v1"));
+        var debugDirectory = Directory.CreateDirectory(Path.Combine(directory, "debug"));
+        var releaseManifest = Path.Combine(releaseDirectory.FullName, "manifest.json");
+        await File.WriteAllTextAsync(releaseManifest, "release");
+        await File.WriteAllTextAsync(Path.Combine(debugDirectory.FullName, "manifest.json"), "debug");
+
+        try
+        {
+            var manager = new ArtifactLifecycleManager(
+                Mock.Of<IDistributedArtifactStore>(),
+                Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+                NullLogger<ArtifactLifecycleManager>.Instance,
+                directory);
+
+            var matches = manager.ResolvePathPattern("release-*/manifest.json");
+
+            await Assert.That(matches).IsEquivalentTo([releaseManifest]);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
 
     [ProducesArtifact("declared-output", "unused.txt")]
     private sealed class DeclaredProducerModule : Module<string>
