@@ -658,6 +658,16 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("disposable-planning");
     }
 
+    private sealed class ThrowingDisposablePlanningModule : Module<string>, IDisposable
+    {
+        public void Dispose() => throw new InvalidOperationException("Planning disposal failed.");
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("throwing-disposable-planning");
+    }
+
     private sealed class CountPlanningRegistrationAttribute
         : Attribute, IModuleRegistrationEventReceiver
     {
@@ -2193,6 +2203,24 @@ public class DependencyGraphExporterTests
         _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
 
         await Assert.That(_planningDisposals).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Dispose_Planning_Modules_Continues_After_Failure()
+    {
+        _planningDisposals = 0;
+        var disposable = new DisposablePlanningModule();
+        var throwing = new ThrowingDisposablePlanningModule();
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(() =>
+            ModuleDiscoveryPlanner.DisposePlanningModulesAsync([disposable, throwing]));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(_planningDisposals).IsEqualTo(1);
+            await Assert.That(exception!.InnerExceptions).HasSingleItem();
+            await Assert.That(exception.InnerExceptions[0].Message).IsEqualTo("Planning disposal failed.");
+        }
     }
 
     [Test]

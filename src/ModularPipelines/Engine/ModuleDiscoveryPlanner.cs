@@ -526,11 +526,24 @@ internal sealed class ModuleDiscoveryPlanner(
 
     internal static async Task DisposePlanningModulesAsync(IEnumerable<IModule> planningModules)
     {
+        var exceptions = new List<Exception>();
         foreach (var module in planningModules
                      .Distinct<IModule>(ReferenceEqualityComparer.Instance)
                      .Reverse())
         {
-            await Disposer.DisposeObjectAsync(module).ConfigureAwait(false);
+            try
+            {
+                await Disposer.DisposeObjectAsync(module).ConfigureAwait(false);
+            }
+            catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+            {
+                exceptions.Add(exception);
+            }
+        }
+
+        if (exceptions.Count > 0)
+        {
+            throw new AggregateException("One or more planning modules failed to dispose", exceptions);
         }
     }
 
