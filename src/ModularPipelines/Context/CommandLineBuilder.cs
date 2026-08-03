@@ -18,7 +18,11 @@ namespace ModularPipelines.Context;
 /// 5. Render RunSettings as option-terminated pass-through arguments.
 /// 6. Validate option terminators against terminal options in one place.
 /// </remarks>
-internal sealed class CommandLineBuilder : ICommandLineBuilder
+internal sealed class CommandLineBuilder(
+    IToolResolver toolResolver,
+    ICommandPartsProvider commandPartsProvider,
+    ICommandModelProvider commandModelProvider,
+    ICommandArgumentBuilder commandArgumentBuilder) : ICommandLineBuilder
 {
     private static readonly IReadOnlyList<PropertyCommandLinePart> RunSettingsCommandModel =
     [
@@ -31,22 +35,10 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
             }),
     ];
 
-    private readonly IToolResolver _toolResolver;
-    private readonly ICommandPartsProvider _commandPartsProvider;
-    private readonly ICommandModelProvider _commandModelProvider;
-    private readonly ICommandArgumentBuilder _commandArgumentBuilder;
-
-    public CommandLineBuilder(
-        IToolResolver toolResolver,
-        ICommandPartsProvider commandPartsProvider,
-        ICommandModelProvider commandModelProvider,
-        ICommandArgumentBuilder commandArgumentBuilder)
-    {
-        _toolResolver = toolResolver;
-        _commandPartsProvider = commandPartsProvider;
-        _commandModelProvider = commandModelProvider;
-        _commandArgumentBuilder = commandArgumentBuilder;
-    }
+    private readonly IToolResolver _toolResolver = toolResolver;
+    private readonly ICommandPartsProvider _commandPartsProvider = commandPartsProvider;
+    private readonly ICommandModelProvider _commandModelProvider = commandModelProvider;
+    private readonly ICommandArgumentBuilder _commandArgumentBuilder = commandArgumentBuilder;
 
     /// <inheritdoc />
     public CommandLine Build(CommandLineToolOptions options)
@@ -82,11 +74,11 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
             options,
             ref emittedOptionTerminator);
         var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
-            terminalCommandModel.Where(static part => part is ArgumentPart).ToList(),
+            [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
             ref emittedOptionTerminator);
         var terminalOptionArgs = _commandArgumentBuilder.BuildArguments(
-            terminalCommandModel.Where(static part => part is FlagPart or OptionPart).ToList(),
+            [.. terminalCommandModel.Where(static part => part is FlagPart or OptionPart)],
             options,
             ref emittedOptionTerminator);
         var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
@@ -100,12 +92,7 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments
-        // Skip the tool name if it appears as the first argument (backward compatibility)
-        var manualArgs = options.Arguments?.ToList() ?? new List<string>();
-        if (manualArgs.Count > 0 && string.Equals(manualArgs[0], tool, StringComparison.Ordinal))
-        {
-            manualArgs = manualArgs.Skip(1).ToList();
-        }
+        var manualArgs = options.Arguments?.ToList() ?? [];
 
         allArgs.AddRange(manualArgs);
 

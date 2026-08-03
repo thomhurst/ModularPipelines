@@ -18,14 +18,15 @@ namespace ModularPipelines.Attributes;
 /// public int? Verbosity { get; set; }
 /// </code>
 /// </example>
+/// <param name="name">The flag name (e.g., "--debug").</param>
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-public sealed class CliFlagAttribute : Attribute
+public sealed class CliFlagAttribute(string name) : Attribute
 {
     /// <summary>
     /// Gets the flag name (e.g., "--debug", "--verbose").
     /// </summary>
-    public string Name { get; }
+    public string Name { get; } = name;
 
     /// <summary>
     /// Gets or sets the short form of the flag (e.g., "-d" for "--debug").
@@ -43,21 +44,4 @@ public sealed class CliFlagAttribute : Attribute
     /// Gets or sets the semantic phase used to order this flag.
     /// </summary>
     public CommandLinePhase Phase { get; set; } = CommandLinePhase.Normal;
-
-    /// <summary>
-    /// Initialises a new instance of the <see cref="CliFlagAttribute"/> class.
-    /// Initializes a new instance of the <see cref="CliFlagAttribute"/> class.
-    /// </summary>
-    /// <param name="name">The flag name (e.g., "--debug").</param>
-    public CliFlagAttribute(string name)
-    {
-        Name = name;
-    }
-
-    /// <summary>
-    /// Gets the effective flag name based on <see cref="PreferShortForm"/> setting.
-    /// </summary>
-    /// <returns></returns>
-    public string GetEffectiveName() =>
-        PreferShortForm && !string.IsNullOrEmpty(ShortForm) ? ShortForm : Name;
 }
