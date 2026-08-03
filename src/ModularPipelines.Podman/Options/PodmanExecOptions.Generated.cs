@@ -19,7 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
 public record PodmanExecOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0)] string Container,
+    [property: CliArgument(1)] string Command
 ) : PodmanOptions
 {
     /// <summary>
@@ -87,12 +88,6 @@ public record PodmanExecOptions(
     /// </summary>
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
-
-    /// <summary>
-    /// The COMMAND operand.
-    /// </summary>
-    [CliArgument(1)]
-    public string? Command { get; set; }
 
     /// <summary>
     /// The ARG operand.

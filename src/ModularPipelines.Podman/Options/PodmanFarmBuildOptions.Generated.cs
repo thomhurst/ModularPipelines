@@ -371,7 +371,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// Pull image policy ("always/true"|"missing"|"never/false"|"newer") (default "missing")
     /// </summary>
-    [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--pull", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? Pull { get; set; }
 
     /// <summary>
