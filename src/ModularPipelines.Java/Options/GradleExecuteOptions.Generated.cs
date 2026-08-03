@@ -134,7 +134,7 @@ public record GradleExecuteOptions : GradleOptions
     /// Sets a project property for the build script (for example, -Pmyprop=myvalue).
     /// </summary>
     [CliOption("--project-prop", ShortForm = "-P", AllowMultiple = true)]
-    public IEnumerable<KeyValue>? ProjectProp { get; set; }
+    public IReadOnlyList<KeyValue>? ProjectProp { get; set; }
 
     /// <summary>
     /// Refreshes the state of dependencies.
@@ -146,7 +146,7 @@ public record GradleExecuteOptions : GradleOptions
     /// Sets a JVM system property (for example, -Dmyprop=myvalue).
     /// </summary>
     [CliOption("--system-prop", ShortForm = "-D", AllowMultiple = true)]
-    public IEnumerable<KeyValue>? SystemProp { get; set; }
+    public IReadOnlyList<KeyValue>? SystemProp { get; set; }
 
     /// <summary>
     /// Continues task execution after a task failure.

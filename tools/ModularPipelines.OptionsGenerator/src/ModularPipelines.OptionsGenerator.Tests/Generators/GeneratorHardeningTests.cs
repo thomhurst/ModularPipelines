@@ -99,7 +99,7 @@ public class GeneratorHardeningTests
         {
             SwitchName = "--arg",
             PropertyName = "Arg",
-            CSharpType = "IEnumerable<CliOptionValuePair>?",
+            CSharpType = "IEnumerable<CliValuePair>?",
             IsFlag = false,
         };
         var tool = Tool(Command("ToolExecuteOptions", "ToolOptions", options: [option]));
@@ -116,7 +116,7 @@ public class GeneratorHardeningTests
         {
             SwitchName = "--arg",
             PropertyName = "Arg",
-            CSharpType = "IEnumerable<CliOptionValuePair>?",
+            CSharpType = "IEnumerable<CliValuePair>?",
         };
         var tool = Tool() with { GlobalOptions = [option] };
 

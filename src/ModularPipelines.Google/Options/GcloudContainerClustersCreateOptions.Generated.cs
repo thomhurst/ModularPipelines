@@ -101,7 +101,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or     all auto-provisioned nodes in the new Standard cluster.     Examples:       $ gcloud container clusters create example-cluster \         --autoprovisioning-resource-manager-tags=tagKeys/\       1234=tagValues/2345       $ gcloud container clusters create example-cluster \         --autoprovisioning-resource-manager-tags=my-project/key1=value1       $ gcloud container clusters create example-cluster \         --autoprovisioning-resource-manager-tags=12345/key1=value1,\       23456/key2=value2       $ gcloud container clusters create example-cluster \         --autoprovisioning-resource-manager-tags=     All nodes in an Autopilot cluster or all auto-provisioned nodes in a     Standard cluster, including nodes that are resized or re-created, will     have the specified tags on the corresponding Instance object in the     Compute Engine API. You can reference these tags in network firewall     policy rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
     /// </summary>
     [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? AutoprovisioningResourceManagerTags { get; set; }
+    public IReadOnlyList<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
     /// <summary>
     /// Set autoscaling behaviour, choices are 'optimize-utilization' and     'balanced'. Default is 'balanced'.
@@ -161,7 +161,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Create a new subnetwork for the cluster. The name and range of the     subnetwork can be customized via optional 'name' and 'range' key-value     pairs.     'name' specifies the name of the subnetwork to be created.     'range' specifies the IP range for the new subnetwork. This can either     be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If     a netmask size is specified, the IP is automatically taken from the     free space in the cluster's network.     Examples:     Create a new subnetwork with a default name and size.       $ gcloud container clusters create --create-subnetwork ""     Create a new subnetwork named "my-subnet" with netmask of size 21.       $ gcloud container clusters create \         --create-subnetwork name=my-subnet,range=/21     Create a new subnetwork with a default name with the primary range of     10.100.0.0/16.       $ gcloud container clusters create \         --create-subnetwork range=10.100.0.0/16     Create a new subnetwork with the name "my-subnet" with a default range.       $ gcloud container clusters create --create-subnetwork name=my-subnet     Cannot be specified unless '--enable-ip-alias' option is also     specified. Cannot be used in conjunction with '--subnetwork' option.
     /// </summary>
     [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? CreateSubnetwork { get; set; }
+    public IReadOnlyList<KeyValue>? CreateSubnetwork { get; set; }
 
     /// <summary>
     /// Specifies the number of local SSDs to be utilized for GKE Data Cache in     the cluster.
@@ -539,7 +539,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Labels to apply to the Google Cloud resources in use by the Kubernetes     Engine cluster. These are unrelated to Kubernetes labels.     Examples:       $ gcloud container clusters create example-cluster \         --labels=label_a=value1,label_b=,label_c=value3
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Set the components that have logging enabled. Valid component values     are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER,     KCP_HPA, KCP_VPA, NONE     For more information, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs     Examples:       $ gcloud container clusters create --logging=SYSTEM       $ gcloud container clusters create \         --logging=SYSTEM,API_SERVER,WORKLOAD       $ gcloud container clusters create --logging=NONE
@@ -593,7 +593,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Compute Engine metadata to be made available to the guest operating     system running on nodes within the node pool.     Each metadata entry is a key/value pair separated by an equals sign.     Metadata keys must be unique and less than 128 bytes in length. Values     must be less than or equal to 32,768 bytes in length. The total size of     all keys and values must be less than 512 KB. Multiple arguments can be     passed to this flag. For example:     --metadata key-1=value-1,key-2=value-2,key-3=value-3     Additionally, the following keys are reserved for use by Kubernetes     Engine:     ◆ cluster-location     ◆ cluster-name     ◆ cluster-uid     ◆ configure-sh     ◆ enable-os-login     ◆ gci-update-strategy     ◆ gci-ensure-gke-docker     ◆ instance-template     ◆ kube-env     ◆ startup-script     ◆ user-data     Google Kubernetes Engine sets the following keys by default:     ◆ serial-port-logging-enable     See also Compute Engine's documentation     (https://cloud.google.com/compute/docs/storing-retrieving-metadata) on     storing and retrieving instance metadata.
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Metadata { get; set; }
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// Same as --metadata except that the value for the entry will be read     from a local file.
@@ -722,7 +722,7 @@ public record GcloudContainerClustersCreateOptions(
     /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new default node pool(s)     of a new cluster.     Examples:       $ gcloud container clusters create example-cluster \         --resource-manager-tags=tagKeys/1234=tagValues/2345       $ gcloud container clusters create example-cluster \         --resource-manager-tags=my-project/key1=value1       $ gcloud container clusters create example-cluster \         --resource-manager-tags=12345/key1=value1,23456/key2=value2       $ gcloud container clusters create example-cluster \         --resource-manager-tags=     All nodes, including nodes that are resized or re-created, will have     the specified tags on the corresponding Instance object in the Compute     Engine API. You can reference these tags in network firewall policy     rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
     /// </summary>
     [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ResourceManagerTags { get; set; }
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// The name of the RBAC security group for use with Google security groups     in Kubernetes RBAC     (https://kubernetes.io/docs/reference/access-authn-authz/rbac/).     To include group membership as part of the claims issued by Google     during authentication, a group must be designated as a security group     by including it as a direct member of this group.     If unspecified, no groups will be returned for use with RBAC.

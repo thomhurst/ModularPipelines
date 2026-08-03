@@ -73,7 +73,7 @@ public record GcloudComputeInstancesUpdateContainerOptions(
     public string? Zone { get; set; }
 
     [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ContainerEnv { get; set; }
+    public IReadOnlyList<KeyValue>? ContainerEnv { get; set; }
 
     /// <summary>
     /// Update environment variables from a file. Same update rules as for     --container-env apply. Values, declared with --container-env flag     override those with the same KEY from file.     File with environment variables declarations in format used by docker     (almost). This means:     ◆ Lines are in format KEY=VALUE     ◆ Values must contain equality signs.     ◆ Variables without values are not supported (this is different from      docker format).     ◆ If # is first non-whitespace character in a line the line is      ignored as a comment.

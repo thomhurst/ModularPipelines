@@ -39,7 +39,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// Labels to apply to this instance. These can be later modified by the     setLabels method.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
     public string? MachineType { get; set; }
@@ -48,7 +48,7 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     /// Custom metadata to apply to this instance.     For example, to specify a Cloud Storage bucket for automatic backup,     you can use the gcs-data-bucket metadata tag. Format:     "--metadata=gcs-data-bucket=BUCKET".
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Metadata { get; set; }
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// Path to a Bash script that automatically runs after a notebook instance     fully boots up. The path must be a URL or Cloud Storage path     (gs://path-to-file/file-name).

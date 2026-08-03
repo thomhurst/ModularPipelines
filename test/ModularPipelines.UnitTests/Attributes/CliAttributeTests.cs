@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.UnitTests.Attributes;
@@ -160,6 +161,34 @@ public class CliAttributeTests
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--values", "file1.yaml", "--values", "file2.yaml" });
+    }
+
+    [Test]
+    public async Task Parser_Handles_Space_Separated_Value_Pairs()
+    {
+        var options = new TestCliOptionsWithValuePairs
+        {
+            Values = [new CliValuePair("name", "Ada"), new CliValuePair("environment", "ci")],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--arg", "name", "Ada", "--arg", "environment", "ci"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Rejects_NonSpace_Separated_Value_Pairs()
+    {
+        var options = new TestCliOptionsWithInvalidValuePairFormat
+        {
+            Values = [new CliValuePair("name", "Ada")],
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("OptionFormat.SpaceSeparated");
     }
 
     [Test]
@@ -338,6 +367,18 @@ public class CliAttributeTests
     {
         [CliOption("--values", AllowMultiple = true)]
         public string[]? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithValuePairs
+    {
+        [CliOption("--arg", AllowMultiple = true)]
+        public IReadOnlyList<CliValuePair>? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithInvalidValuePairFormat
+    {
+        [CliOption("--arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+        public IReadOnlyList<CliValuePair>? Values { get; set; }
     }
 
     private record TestCliOptionsWithSemanticPhases

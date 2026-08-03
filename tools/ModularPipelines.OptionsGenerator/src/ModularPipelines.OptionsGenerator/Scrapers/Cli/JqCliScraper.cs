@@ -308,7 +308,7 @@ public partial class JqCliScraper : CliScraperBase
 
         if (isPair)
         {
-            return "IEnumerable<CliOptionValuePair>?";
+            return "IEnumerable<CliValuePair>?";
         }
 
         if (isNumeric)

@@ -26,7 +26,7 @@ public record GcloudIamWorkforcePoolsProvidersScimTenantsUpdateOptions : GcloudO
     /// A comma-separated list of KEY=VALUE pairs defining attribute mappings.
     /// </summary>
     [CliOption("--claim-mapping", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ClaimMapping { get; set; }
+    public IReadOnlyList<KeyValue>? ClaimMapping { get; set; }
 
     /// <summary>
     /// Optional, user-specified description for the SCIM tenant (max 256     characters).

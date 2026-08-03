@@ -38,6 +38,6 @@ public record GcloudDataplexGlossariesCreateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the create action, but don't actually perform it.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
 }

@@ -29,7 +29,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
                 InlineArgument = "inline-value",
                 Verbose = true,
                 Output = "output-value",
-                Pair = new CliOptionValuePair("first", "second"),
+                Pair = new CliValuePair("first", "second"),
             });
 
         string[] expected =
@@ -79,7 +79,7 @@ public class GeneratedOptionsSmokeTestHarnessTests
         public string? Output { get; init; }
 
         [CliOption("--pair")]
-        public CliOptionValuePair? Pair { get; init; }
+        public CliValuePair? Pair { get; init; }
     }
 
     private record ShadowedOptionsBase : CommandLineToolOptions

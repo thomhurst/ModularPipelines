@@ -70,6 +70,6 @@ public record GcloudDeploymentManagerDeploymentsUpdateOptions(
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --composite-type=COMPOSITE_TYPE      Name of a composite type to deploy. For an example of creating and      deploying a composite type, see:      https://cloud.google.com/deployment-manager/docs/configuration/templates/create-composite-types#examplecompositetype     --config=CONFIG      Filename of a top-level yaml config that specifies resources to      deploy. For a guide to creating a configuration, refer to      https://cloud.google.com/deployment-manager/docs/configuration/create-basic-configuration     --template=TEMPLATE      Filename of a top-level jinja or python config template.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
 }

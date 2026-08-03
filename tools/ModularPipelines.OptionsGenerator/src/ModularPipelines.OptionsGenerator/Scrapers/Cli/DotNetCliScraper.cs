@@ -346,7 +346,7 @@ public partial class DotNetCliScraper : CliScraperBase
                 SwitchName = "-p",
                 ShortForm = null,
                 PropertyName = "Properties",
-                CSharpType = "IEnumerable<KeyValue>?",
+                CSharpType = "IReadOnlyList<KeyValue>?",
                 Description = "Set one or more MSBuild properties. Use format: PropertyName=Value",
                 IsFlag = false,
                 IsRequired = false,

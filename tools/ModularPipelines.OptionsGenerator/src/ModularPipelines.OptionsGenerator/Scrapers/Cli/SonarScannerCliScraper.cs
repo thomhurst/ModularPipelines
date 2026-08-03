@@ -151,7 +151,7 @@ public partial class SonarScannerCliScraper : CliScraperBase
 
             var isFlag = string.IsNullOrEmpty(valueHint);
             var isKeyValue = longForm == "--define";
-            var csharpType = isFlag ? "bool?" : isKeyValue ? "IEnumerable<KeyValue>?" : "string?";
+            var csharpType = isFlag ? "bool?" : isKeyValue ? "IReadOnlyList<KeyValue>?" : "string?";
 
             options.Add(new CliOptionDefinition
             {

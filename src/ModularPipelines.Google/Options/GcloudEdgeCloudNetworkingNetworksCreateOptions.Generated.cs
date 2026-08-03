@@ -38,7 +38,7 @@ public record GcloudEdgeCloudNetworkingNetworksCreateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Maximum transmission unit (MTU) is the size of the largest IP packet     that can be transmitted on this network. Default value is 1500 bytes,     and the valid values are 1500 and 9000.
