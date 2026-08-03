@@ -51,6 +51,19 @@ public class PipelineLifecycleTests
         }
     }
 
+    private sealed class CrossThreadReentrantDisposalTracker : IDisposable
+    {
+        public Func<ValueTask>? DisposePipeline { get; set; }
+
+        public bool IsDisposed { get; private set; }
+
+        public void Dispose()
+        {
+            Task.Run(() => DisposePipeline!().AsTask()).GetAwaiter().GetResult();
+            IsDisposed = true;
+        }
+    }
+
     private sealed class ThrowingDisposalTracker : IAsyncDisposable
     {
         public ValueTask DisposeAsync() =>
@@ -105,6 +118,21 @@ public class PipelineLifecycleTests
         builder.Services.AddSingleton<ReentrantDisposalTracker>();
         var pipeline = await builder.BuildAsync();
         var tracker = pipeline.Services.GetRequiredService<ReentrantDisposalTracker>();
+        tracker.DisposePipeline = pipeline.DisposeAsync;
+
+        await pipeline.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+
+        await Assert.That(tracker.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task Cross_Thread_Reentrant_Disposal_Does_Not_Deadlock()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<LifecycleModule>();
+        builder.Services.AddSingleton<CrossThreadReentrantDisposalTracker>();
+        var pipeline = await builder.BuildAsync();
+        var tracker = pipeline.Services.GetRequiredService<CrossThreadReentrantDisposalTracker>();
         tracker.DisposePipeline = pipeline.DisposeAsync;
 
         await pipeline.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));

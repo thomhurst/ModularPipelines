@@ -115,6 +115,8 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public ValueTask DisposeAsync()
     {
+        TaskCompletionSource completion;
+        Task disposeTask;
         lock (_disposeLock)
         {
             if (_disposeTask is not null)
@@ -124,12 +126,14 @@ internal sealed class PipelineImpl : IPipeline
                     : new ValueTask(_disposeTask);
             }
 
-            var completion = new TaskCompletionSource(
+            completion = new TaskCompletionSource(
                 TaskCreationOptions.RunContinuationsAsynchronously);
             _disposeTask = completion.Task;
-            _ = CompleteDisposalAsync(completion);
-            return new ValueTask(_disposeTask);
+            disposeTask = _disposeTask;
         }
+
+        _ = CompleteDisposalAsync(completion);
+        return new ValueTask(disposeTask);
     }
 
     private async Task CompleteDisposalAsync(TaskCompletionSource completion)
