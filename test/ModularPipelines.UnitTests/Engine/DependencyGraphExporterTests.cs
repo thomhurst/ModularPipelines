@@ -299,6 +299,36 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("shared-mutable-state");
     }
 
+    private readonly record struct StructWrappedState(List<string> Values);
+
+    private sealed class StructWrappedFactoryStateModule(StructWrappedState state) : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            state.Values.Add("configured");
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("struct-wrapped-state");
+    }
+
+    private sealed class OverloadedPlanningCopyModule : Module<string>
+    {
+        private Module<string> CreatePlanningCopy() =>
+            throw new InvalidOperationException("The parameterless helper must not be selected.");
+
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            new OverloadedPlanningCopyModule();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("overloaded-planning-copy");
+    }
+
     private sealed class FieldlessStateFactoryModule : Module<string>
     {
         private readonly object _gate = new();
@@ -1582,6 +1612,37 @@ public class DependencyGraphExporterTests
 
         await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
         await Assert.That(sharedState).Count().IsEqualTo(configurationCountBeforeExport);
+    }
+
+    [Test]
+    public async Task Render_Rejects_Factory_Replay_With_Struct_Wrapped_Shared_State()
+    {
+        var sharedState = new List<string>();
+        var state = new StructWrappedState(sharedState);
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => new StructWrappedFactoryStateModule(state));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var configurationCountBeforeExport = sharedState.Count;
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+        await Assert.That(sharedState).Count().IsEqualTo(configurationCountBeforeExport);
+    }
+
+    [Test]
+    public async Task Render_Selects_Planning_Copy_Override_By_Signature()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => new OverloadedPlanningCopyModule());
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var graph = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        await Assert.That(graph).Contains(nameof(OverloadedPlanningCopyModule));
     }
 
     [Test]

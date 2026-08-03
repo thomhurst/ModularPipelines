@@ -251,7 +251,10 @@ internal sealed class ModuleDiscoveryPlanner(
     {
         var method = module.GetType().GetMethod(
             "CreatePlanningCopy",
-            BindingFlags.Instance | BindingFlags.NonPublic);
+            BindingFlags.Instance | BindingFlags.NonPublic,
+            binder: null,
+            [typeof(IServiceProvider)],
+            modifiers: null);
         var declaringType = method?.DeclaringType;
         return declaringType is not null
                && (!declaringType.IsGenericType
@@ -312,9 +315,15 @@ internal sealed class ModuleDiscoveryPlanner(
         StateComparisonContext context)
     {
         var type = first.GetType();
-        if (type.IsValueType || first is string or Type)
+        if (first is string or Type
+            || (type.IsValueType && !ContainsReferenceFields(type)))
         {
             return first.Equals(second);
+        }
+
+        if (type.IsValueType)
+        {
+            return HasEquivalentFields(first, second, context);
         }
 
         var mapping = context.Map(first, second);
@@ -340,6 +349,26 @@ internal sealed class ModuleDiscoveryPlanner(
         }
 
         return HasEquivalentReferenceState(first, second, context);
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2070",
+        Justification = "Value-type fields are inspected only to detect embedded shared references during planning validation.")]
+    private static bool ContainsReferenceFields(Type type)
+    {
+        if (!type.IsValueType)
+        {
+            return true;
+        }
+
+        if (type.IsPrimitive || type.IsEnum || type.IsPointer)
+        {
+            return false;
+        }
+
+        return type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            .Any(field => ContainsReferenceFields(field.FieldType));
     }
 
     private static bool HasEquivalentReferenceState(
