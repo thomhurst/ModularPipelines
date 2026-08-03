@@ -186,8 +186,11 @@
   <data name="StatefulModuleAnalyzerMessageFormat" xml:space="preserve">
     <value>Field '{0}' in module '{1}' should be readonly to avoid state leakage between executions</value>
   </data>
+  <data name="StatefulModuleAnalyzerPropertyMessageFormat" xml:space="preserve">
+    <value>Property '{0}' in module '{1}' should be getter-only or init-only to avoid state leakage between executions</value>
+  </data>
   <data name="StatefulModuleAnalyzerDescription" xml:space="preserve">
-    <value>Modules are registered as Singletons in the dependency injection container and can be executed multiple times (retries, sub-modules, parallel pipelines). Instance fields can leak state between executions. Use readonly fields for injected dependencies, or store execution state in IModuleContext.</value>
+    <value>Modules are registered as Singletons in the dependency injection container and can be executed multiple times (retries, sub-modules, parallel pipelines). Instance fields and writable properties can leak state between executions. Use readonly fields or getter-only/init-only properties, or store execution state in IModuleContext.</value>
   </data>
   <data name="InvalidDependsOnTypeAnalyzerTitle" xml:space="preserve">
     <value>Invalid DependsOn type</value>
