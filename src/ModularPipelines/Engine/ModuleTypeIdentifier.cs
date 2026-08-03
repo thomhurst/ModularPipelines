@@ -7,6 +7,7 @@ internal static class ModuleTypeIdentifier
 {
     private static readonly Lock LoadContextLock = new();
     private static readonly ConditionalWeakTable<Type, string> TypeIdentities = [];
+    private static readonly ConditionalWeakTable<Type, string> RuntimeTypeIdentities = [];
     private static readonly ConditionalWeakTable<AssemblyLoadContext, Dictionary<string, LoadContextIdentity>> LoadContextIdentities = [];
     private static readonly Dictionary<string, List<ActiveLoadContextIdentity>> ActiveLoadContextIdentities = [with(StringComparer.Ordinal)];
 
@@ -14,7 +15,26 @@ internal static class ModuleTypeIdentifier
         TypeIdentities.GetValue(moduleType, CreateTypeIdentity);
 
     public static string GetRuntime(Type moduleType) =>
-        $"{Get(moduleType)}\0RuntimeAssembly={moduleType.Module.ModuleVersionId:N}";
+        RuntimeTypeIdentities.GetValue(moduleType, CreateRuntimeTypeIdentity);
+
+    private static string CreateRuntimeTypeIdentity(Type type)
+    {
+        var identity = $"{Get(type)}\0RuntimeAssembly={type.Module.ModuleVersionId:N}";
+        if (type.HasElementType)
+        {
+            return $"{identity}\0RuntimeElement={CreateRuntimeTypeIdentity(type.GetElementType()!)}";
+        }
+
+        if (!type.IsGenericType)
+        {
+            return identity;
+        }
+
+        var arguments = string.Join(
+            "\u001F",
+            type.GetGenericArguments().Select(CreateRuntimeTypeIdentity));
+        return $"{identity}\0RuntimeArguments={arguments}";
+    }
 
     private static string CreateTypeIdentity(Type moduleType)
     {

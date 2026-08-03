@@ -298,6 +298,39 @@ public class RunReportTests
             await Assert.That(firstIdentifier).DoesNotContain("Version=");
             await Assert.That(firstIdentifier).DoesNotContain("Culture=");
             await Assert.That(firstIdentifier).DoesNotContain("PublicKeyToken=");
+            await Assert.That(ModuleTypeIdentifier.GetRuntime(firstModuleType))
+                .IsNotEqualTo(ModuleTypeIdentifier.GetRuntime(secondModuleType));
+        }
+    }
+
+    [Test]
+    public async Task RuntimeIdentifierDistinguishesGenericArgumentsAcrossLoadContexts()
+    {
+        var firstContext = new DuplicateAssemblyLoadContext();
+        var secondContext = new DuplicateAssemblyLoadContext();
+        try
+        {
+            var assemblyBytes = await File.ReadAllBytesAsync(typeof(RunReportTests).Assembly.Location);
+            var firstAssembly = firstContext.LoadFromStream(new MemoryStream(assemblyBytes));
+            var secondAssembly = secondContext.LoadFromStream(new MemoryStream(assemblyBytes));
+            var argumentTypeName = typeof(DuplicateModuleBase).FullName!;
+            var firstArgument = firstAssembly.GetType(argumentTypeName, throwOnError: true)!;
+            var secondArgument = secondAssembly.GetType(argumentTypeName, throwOnError: true)!;
+            var firstModuleType = typeof(GenericModule<>).MakeGenericType(firstArgument);
+            var secondModuleType = typeof(GenericModule<>).MakeGenericType(secondArgument);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(ModuleTypeIdentifier.Get(firstModuleType))
+                    .IsEqualTo(ModuleTypeIdentifier.Get(secondModuleType));
+                await Assert.That(ModuleTypeIdentifier.GetRuntime(firstModuleType))
+                    .IsNotEqualTo(ModuleTypeIdentifier.GetRuntime(secondModuleType));
+            }
+        }
+        finally
+        {
+            firstContext.Unload();
+            secondContext.Unload();
         }
     }
 
