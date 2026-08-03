@@ -120,7 +120,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var canReferenceType = IsTypeAccessible(type, compilation.Assembly) && !type.IsGenericType;
         if (!canReferenceType)
         {
-            return isCommandOptions || hasKnownSecretAttribute
+            var hasSecretAttributes = hasKnownSecretAttribute
+                || GetSecretProperties(type, compilation.Assembly).HasAttributes;
+            return isCommandOptions || hasSecretAttributes
                 ? new TypeMetadataCandidate(typeName, location, Metadata: null)
                 : new TypeMetadataCandidate(typeName, location, new TypeMetadata(
                     typeName,

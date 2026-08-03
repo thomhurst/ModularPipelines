@@ -243,6 +243,29 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Generic_Type_Inheriting_Secret_Reports_Error()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public class SecretBase
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "";
+            }
+
+            public sealed class GenericOptions<T> : SecretBase;
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::GenericOptions<T>",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
     public async Task Generic_Command_Options_Type_Reports_Skipped_Diagnostic()
     {
         var result = GeneratorTestRunner.Run(
