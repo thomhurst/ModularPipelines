@@ -27,7 +27,22 @@ internal sealed class ModuleActivator : IModuleActivator
         return CreateModuleWithContext(
             moduleType,
             serviceProvider,
-            provider => (IModule) ActivatorUtilities.CreateInstance(provider, moduleType));
+            provider => (IModule) ActivatorUtilities.CreateInstance(provider, moduleType),
+            initializeConfiguration: true);
+    }
+
+    /// <inheritdoc />
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2067",
+        Justification = "This runtime-Type overload is the reflection fallback for dependency-graph planning.")]
+    public IModule CreatePlanningModule(Type moduleType, IServiceProvider serviceProvider)
+    {
+        return CreateModuleWithContext(
+            moduleType,
+            serviceProvider,
+            provider => (IModule) ActivatorUtilities.CreateInstance(provider, moduleType),
+            initializeConfiguration: false);
     }
 
     internal static TModule CreateModule<
@@ -38,13 +53,15 @@ internal sealed class ModuleActivator : IModuleActivator
         return CreateModuleWithContext(
             typeof(TModule),
             serviceProvider,
-            static provider => ActivatorUtilities.CreateInstance<TModule>(provider));
+            static provider => ActivatorUtilities.CreateInstance<TModule>(provider),
+            initializeConfiguration: true);
     }
 
     private static TModule CreateModuleWithContext<TModule>(
         Type moduleType,
         IServiceProvider serviceProvider,
-        Func<IServiceProvider, TModule> activate)
+        Func<IServiceProvider, TModule> activate,
+        bool initializeConfiguration)
         where TModule : IModule
     {
         var previousType = ModuleLogger.CurrentModuleType.Value;
@@ -53,7 +70,11 @@ internal sealed class ModuleActivator : IModuleActivator
         try
         {
             var module = activate(serviceProvider);
-            _ = module.Configuration;
+            if (initializeConfiguration)
+            {
+                _ = module.Configuration;
+            }
+
             return module;
         }
         finally

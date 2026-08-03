@@ -350,7 +350,9 @@ internal sealed class ModuleDiscoveryPlanner(
     {
         var type = first.GetType();
         if (first is string or Type
-            || (type.IsValueType && !ContainsReferenceFields(type)))
+            || type.IsPrimitive
+            || type.IsEnum
+            || type.IsPointer)
         {
             return first.Equals(second);
         }
@@ -383,26 +385,6 @@ internal sealed class ModuleDiscoveryPlanner(
         }
 
         return HasEquivalentReferenceState(first, second, context);
-    }
-
-    [UnconditionalSuppressMessage(
-        "ReflectionAnalysis",
-        "IL2070",
-        Justification = "Value-type fields are inspected only to detect embedded shared references during planning validation.")]
-    private static bool ContainsReferenceFields(Type type)
-    {
-        if (!type.IsValueType)
-        {
-            return true;
-        }
-
-        if (type.IsPrimitive || type.IsEnum || type.IsPointer)
-        {
-            return false;
-        }
-
-        return type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Any(field => ContainsReferenceFields(field.FieldType));
     }
 
     private static bool HasEquivalentReferenceState(
@@ -528,6 +510,12 @@ internal sealed class ModuleDiscoveryPlanner(
     {
         var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(planningServiceProvider);
         var module = copyProvider.CreatePlanningCopy(trackingServiceProvider);
+        if (copyProvider.IsConfigurationInitialized
+            && module is IPlanningModuleCopyProvider planningCopyProvider)
+        {
+            planningCopyProvider.InitializeConfiguration();
+        }
+
         return new PlanningModuleCreation(
             module,
             trackingServiceProvider.IsServiceProviderOwned,

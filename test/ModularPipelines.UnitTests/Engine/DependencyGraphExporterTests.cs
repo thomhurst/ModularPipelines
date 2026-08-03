@@ -223,6 +223,8 @@ public class DependencyGraphExporterTests
     {
         private readonly List<string> _configurationCalls = [];
 
+        public int ConfigurationCallCount => _configurationCalls.Count;
+
         protected override ModuleConfiguration Configure()
         {
             _configurationCalls.Add("configured");
@@ -598,6 +600,36 @@ public class DependencyGraphExporterTests
     {
         public ContainerOwnedPlanningModule Create() =>
             serviceProvider.GetRequiredService<ContainerOwnedPlanningModule>();
+    }
+
+    private readonly struct SelectiveEqualityState(bool includeDependency)
+    {
+        public bool IncludeDependency { get; } = includeDependency;
+
+        public override bool Equals(object? obj) => obj is SelectiveEqualityState;
+
+        public override int GetHashCode() => 0;
+    }
+
+    private sealed class StructEqualityFactoryModule(bool includeDependency = false) : Module<string>
+    {
+        private readonly SelectiveEqualityState _state = new(includeDependency);
+
+        protected override ModuleConfiguration Configure()
+        {
+            var builder = ModuleConfiguration.Create();
+            if (_state.IncludeDependency)
+            {
+                builder.DependsOn<DependencyModule>();
+            }
+
+            return builder.Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("struct-equality");
     }
 
     private sealed class ContainerOwnedPlanningState;
@@ -1714,6 +1746,47 @@ public class DependencyGraphExporterTests
             await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
             await Assert.That(factoryCalls).IsEqualTo(1);
         }
+    }
+
+    [Test]
+    public async Task Render_Configures_Factory_Copy_After_Validation()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => new MutableConfigurationStateModule());
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var runtimeModule = pipeline.Services.GetServices<IModule>()
+            .OfType<MutableConfigurationStateModule>()
+            .Single();
+        var planningModule = (MutableConfigurationStateModule) pipeline.Services
+            .GetRequiredService<IModuleActivator>()
+            .CreatePlanningModule(typeof(MutableConfigurationStateModule), pipeline.Services);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(runtimeModule.ConfigurationCallCount).IsEqualTo(1);
+            await Assert.That(planningModule.ConfigurationCallCount).IsEqualTo(0);
+        }
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var summary = await pipeline.RunAsync();
+
+        await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Successful);
+    }
+
+    [Test]
+    public async Task Render_Compares_User_Struct_Fields()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule(_ => new StructEqualityFactoryModule(includeDependency: true));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
     }
 
     [Test]

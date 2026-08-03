@@ -122,6 +122,10 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
     IModule IPlanningModuleCopyProvider.CreatePlanningCopy(IServiceProvider serviceProvider) =>
         CreatePlanningCopy(serviceProvider);
 
+    bool IPlanningModuleCopyProvider.IsConfigurationInitialized => _configuration.IsValueCreated;
+
+    void IPlanningModuleCopyProvider.InitializeConfiguration() => _ = _configuration.Value;
+
     IModule IPlanningModuleCopyProvider.CreatePlanningCopyFromRegisteredInstance()
     {
         var copy = (Module<T>) MemberwiseClone();
@@ -144,7 +148,7 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
     {
         return (Module<T>) serviceProvider
             .GetRequiredService<IModuleActivator>()
-            .CreateModule(GetType(), serviceProvider);
+            .CreatePlanningModule(GetType(), serviceProvider);
     }
 
     /// <summary>
@@ -323,9 +327,13 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
 
 internal interface IPlanningModuleCopyProvider
 {
+    bool IsConfigurationInitialized { get; }
+
     IModule CreatePlanningCopy(IServiceProvider serviceProvider);
 
     IModule CreatePlanningCopyFromRegisteredInstance();
+
+    void InitializeConfiguration();
 }
 
 #pragma warning restore SA1202
