@@ -42,6 +42,44 @@ public class Module2 : Module<string>
 }
 ```
 
+## Exporting the Dependency Graph
+
+Export the resolved graph without executing modules from the command line:
+
+```bash
+dotnet run -- --graph mermaid dependency-graph.mmd
+dotnet run -- --graph dot dependency-graph.dot
+dotnet run -- --graph json dependency-graph.json
+```
+
+The path is optional. The defaults are `dependency-graph.mmd`, `dependency-graph.dot`,
+and `dependency-graph.json`. Graph nodes include the module category, estimated duration,
+and skip status. Conditions that require runtime results or asynchronous work are shown as
+unresolved. Edges point from each dependency to the module that depends on it.
+
+Paths containing a directory separator can include `=` directly. For an ambiguous filename
+containing `=`, use the explicit path option so it is not treated as host configuration:
+
+```bash
+dotnet run -- --graph json --graph-path branch=main.json
+```
+
+You can also export programmatically:
+
+```csharp
+using ModularPipelines.Enums;
+
+using var builder = Pipeline.CreateBuilder(args);
+builder.AddModule<Module2>();
+
+await builder.ExportDependencyGraphAsync(
+    DependencyGraphFormat.Mermaid,
+    "dependency-graph.mmd");
+```
+
+When the `ModularPipelines.GitHub` integration writes `GITHUB_STEP_SUMMARY`, it includes
+the Mermaid dependency flowchart alongside the run Gantt and result table.
+
 ### Auto-Registration
 
 When you declare a required dependency, you don't need to explicitly register it:

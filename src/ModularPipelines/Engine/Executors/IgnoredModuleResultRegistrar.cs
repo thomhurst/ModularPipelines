@@ -21,52 +21,104 @@ namespace ModularPipelines.Engine.Executors;
 /// This ensures tests and other code can retrieve results for these modules.
 /// If a history repository is configured and has a cached result, it will be used.
 /// </summary>
-internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
+internal class IgnoredModuleResultRegistrar(
+    IModuleResultRegistry resultRegistry,
+    IModuleResultHistoryProvider resultHistoryProvider,
+    IPipelineContextProvider pipelineContextProvider,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
+    IOptions<DistributedOptions> distributedOptions,
+    RoleDetector roleDetector,
+    ILogger<IgnoredModuleResultRegistrar> logger,
+    ModulePlanningSkipEvaluator modulePlanningSkipEvaluator) : IIgnoredModuleResultRegistrar
 {
-    private readonly IModuleResultRegistry _resultRegistry;
-    private readonly IModuleResultHistoryProvider _resultHistoryProvider;
-    private readonly IPipelineContextProvider _pipelineContextProvider;
-    private readonly IModuleDependencyRegistry _dependencyRegistry;
-    private readonly IModuleMetadataRegistry _metadataRegistry;
-    private readonly IOptions<DistributedOptions> _distributedOptions;
-    private readonly RoleDetector _roleDetector;
-    private readonly ILogger<IgnoredModuleResultRegistrar> _logger;
-    private readonly ModulePlanningSkipEvaluator _modulePlanningSkipEvaluator;
-
-    public IgnoredModuleResultRegistrar(
-        IModuleResultRegistry resultRegistry,
-        IModuleResultHistoryProvider resultHistoryProvider,
-        IPipelineContextProvider pipelineContextProvider,
-        IModuleDependencyRegistry dependencyRegistry,
-        IModuleMetadataRegistry metadataRegistry,
-        IOptions<DistributedOptions> distributedOptions,
-        RoleDetector roleDetector,
-        ILogger<IgnoredModuleResultRegistrar> logger,
-        ModulePlanningSkipEvaluator modulePlanningSkipEvaluator)
-    {
-        _resultRegistry = resultRegistry;
-        _resultHistoryProvider = resultHistoryProvider;
-        _pipelineContextProvider = pipelineContextProvider;
-        _dependencyRegistry = dependencyRegistry;
-        _metadataRegistry = metadataRegistry;
-        _distributedOptions = distributedOptions;
-        _roleDetector = roleDetector;
-        _logger = logger;
-        _modulePlanningSkipEvaluator = modulePlanningSkipEvaluator;
-    }
+    private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IModuleResultHistoryProvider _resultHistoryProvider = resultHistoryProvider;
+    private readonly IPipelineContextProvider _pipelineContextProvider = pipelineContextProvider;
+    private readonly IModuleDependencyRegistry _dependencyRegistry = dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry = metadataRegistry;
+    private readonly IOptions<DistributedOptions> _distributedOptions = distributedOptions;
+    private readonly RoleDetector _roleDetector = roleDetector;
+    private readonly ILogger<IgnoredModuleResultRegistrar> _logger = logger;
+    private readonly ModulePlanningSkipEvaluator _modulePlanningSkipEvaluator = modulePlanningSkipEvaluator;
 
     /// <inheritdoc />
     public async Task<OrganizedModules> RegisterIgnoredModuleResultsAsync(OrganizedModules organizedModules)
     {
+        var resolution = await ResolveIgnoredModuleResultsCoreAsync(
+                organizedModules,
+                _dependencyRegistry,
+                _metadataRegistry,
+                registerResults: true,
+                historyModules: null,
+                CancellationToken.None)
+            .ConfigureAwait(false);
+        return resolution.OrganizedModules;
+    }
+
+    /// <inheritdoc />
+    public Task<IgnoredModuleResolution> ResolveIgnoredModuleResultsAsync(
+        OrganizedModules organizedModules,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        IReadOnlyDictionary<IModule, IModule> historyModules,
+        CancellationToken cancellationToken) =>
+        ResolveIgnoredModuleResultsCoreAsync(
+            organizedModules,
+            dependencyRegistry,
+            metadataRegistry,
+            registerResults: false,
+            historyModules,
+            cancellationToken);
+
+    /// <inheritdoc />
+    public async Task<IReadOnlySet<Type>> ResolveHistoryModuleTypesAsync(
+        IEnumerable<IModule> ignoredModules,
+        IReadOnlyDictionary<IModule, IModule> historyModules,
+        CancellationToken cancellationToken)
+    {
+        var usedHistoryModuleTypes = new HashSet<Type>();
         if (IsDistributedWorker())
         {
-            return organizedModules;
+            return usedHistoryModuleTypes;
+        }
+
+        var pipelineContext = _pipelineContextProvider.GetModuleContext();
+        foreach (var module in ignoredModules.Distinct<IModule>(ReferenceEqualityComparer.Instance))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var historicalResult = await _resultHistoryProvider
+                .TryGetAsync(historyModules[module], pipelineContext)
+                .ConfigureAwait(false);
+            cancellationToken.ThrowIfCancellationRequested();
+            if (historicalResult is not null)
+            {
+                usedHistoryModuleTypes.Add(module.GetType());
+            }
+        }
+
+        return usedHistoryModuleTypes;
+    }
+
+    private async Task<IgnoredModuleResolution> ResolveIgnoredModuleResultsCoreAsync(
+        OrganizedModules organizedModules,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        bool registerResults,
+        IReadOnlyDictionary<IModule, IModule>? historyModules,
+        CancellationToken cancellationToken)
+    {
+        if (IsDistributedWorker())
+        {
+            return new IgnoredModuleResolution(organizedModules, new HashSet<Type>());
         }
 
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var runnableModules = organizedModules.RunnableModules.ToList();
         var ignoredModules = organizedModules.IgnoredModules.ToList();
         var allModules = organizedModules.AllModules.ToArray();
+        var usedHistoryModuleTypes = new HashSet<Type>();
+        var skippedModuleTypes = new HashSet<Type>();
         var availableModuleTypes = allModules
             .Select(module => module.GetType())
             .Distinct()
@@ -80,8 +132,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             ReferenceEqualityComparer.Instance);
         foreach (var ignoredModule in ignoredModules)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             historicalResults[ignoredModule.Module] = await _resultHistoryProvider
-                .TryGetAsync(ignoredModule.Module, pipelineContext)
+                .TryGetAsync(
+                    GetHistoryModule(ignoredModule.Module, historyModules),
+                    pipelineContext)
                 .ConfigureAwait(false);
         }
 
@@ -92,27 +147,111 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             .Where(ignoredModule => historicalResults[ignoredModule.Module] is null)
             .Select(ignoredModule => ignoredModule.Module.GetType())
             .ToHashSet();
-        var consumedArtifactProducerTypes = await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
+        var consumedArtifactProducerTypes = await ResolveConsumedArtifactProducerTypesAsync(
+                runnableModules,
+                modulesByType,
+                availableModuleTypes,
+                ignoredModuleTypes,
+                ignoredModuleTypesWithoutHistory,
+                historicalResults,
+                planningSkipDecisions,
+                pipelineContext,
+                dependencyRegistry,
+                metadataRegistry,
+                historyModules,
+                cancellationToken)
+            .ConfigureAwait(false);
+        var cascadeResult = await DependencySkipCascade.ApplyAsync(
+            allModules,
+            runnableModules.Select(runnableModule => runnableModule.Module),
+            ignoredModules,
+            dependencyRegistry,
+            metadataRegistry,
+            async pendingIgnoredModules =>
+            {
+                foreach (var ignoredModule in pendingIgnoredModules)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    if (!historicalResults.TryGetValue(ignoredModule.Module, out var historicalResult))
+                    {
+                        historicalResult = await _resultHistoryProvider
+                            .TryGetAsync(
+                                GetHistoryModule(ignoredModule.Module, historyModules),
+                                pipelineContext)
+                            .ConfigureAwait(false);
+                        historicalResults[ignoredModule.Module] = historicalResult;
+                    }
+
+                    var result = CreateIgnoredModuleResult(
+                        ignoredModule,
+                        historicalResult,
+                        allowHistory: !consumedArtifactProducerTypes.Contains(
+                            ignoredModule.Module.GetType()));
+                    cancellationToken.ThrowIfCancellationRequested();
+                    var moduleType = ignoredModule.Module.GetType();
+                    if (result.ModuleStatus == Status.UsedHistory)
+                    {
+                        usedHistoryModuleTypes.Add(moduleType);
+                    }
+                    else
+                    {
+                        skippedModuleTypes.Add(moduleType);
+                    }
+
+                    if (registerResults)
+                    {
+                        _resultRegistry.RegisterResult(moduleType, result);
+                        SetModuleCompletionSource(ignoredModule.Module, ignoredModule.Module.ResultType, result);
+                    }
+                }
+            },
+            skippedModuleTypes.Contains,
+            cancellationToken)
+            .ConfigureAwait(false);
+        var remainingModules = cascadeResult.RunnableModules.ToHashSet<IModule>(
+            ReferenceEqualityComparer.Instance);
+
+        return new IgnoredModuleResolution(
+            new OrganizedModules(
+                [.. runnableModules.Where(runnableModule => remainingModules.Contains(runnableModule.Module))],
+                cascadeResult.IgnoredModules),
+            usedHistoryModuleTypes);
+    }
+
+    private async Task<HashSet<Type>> ResolveConsumedArtifactProducerTypesAsync(
+        IReadOnlyList<RunnableModule> runnableModules,
+        IReadOnlyDictionary<Type, IModule> modulesByType,
+        IReadOnlyCollection<Type> availableModuleTypes,
+        IReadOnlySet<Type> ignoredModuleTypes,
+        IReadOnlySet<Type> ignoredModuleTypesWithoutHistory,
+        IDictionary<IModule, IModuleResult?> historicalResults,
+        IDictionary<IModule, SkipDecision?> planningSkipDecisions,
+        IPipelineContext pipelineContext,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        IReadOnlyDictionary<IModule, IModule>? historyModules,
+        CancellationToken cancellationToken)
+    {
+        return await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var nextConsumedArtifactProducerTypes = new HashSet<Type>();
             var unrecoverableIgnoredModuleTypes = ignoredModuleTypesWithoutHistory
                 .Concat(currentDemand)
                 .ToHashSet();
             foreach (var runnableModule in runnableModules)
             {
-                var consumedArtifacts = runnableModule.Module.GetType()
+                var consumedProducerTypes = runnableModule.Module.GetType()
                     .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
                     .Cast<ConsumesArtifactAttribute>()
-                    .Where(attribute => ignoredModuleTypes.Contains(attribute.ProducerModule))
-                    .ToArray();
-                if (consumedArtifacts.Length == 0)
+                    .Select(attribute => attribute.ProducerModule)
+                    .Where(ignoredModuleTypes.Contains)
+                    .ToHashSet();
+                if (consumedProducerTypes.Count == 0)
                 {
                     continue;
                 }
 
-                var consumedProducerTypes = consumedArtifacts
-                    .Select(attribute => attribute.ProducerModule)
-                    .ToHashSet();
                 var dependencyDemand = await GetRequiredDependencyDemandAsync(
                         runnableModule.Module,
                         modulesByType,
@@ -122,7 +261,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                         consumedProducerTypes,
                         historicalResults,
                         planningSkipDecisions,
-                        pipelineContext)
+                        pipelineContext,
+                        dependencyRegistry,
+                        metadataRegistry,
+                        historyModules,
+                        cancellationToken)
                     .ConfigureAwait(false);
                 if (dependencyDemand.IsUnrecoverable)
                 {
@@ -135,9 +278,17 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                     continue;
                 }
 
-                var skipDecision = await _modulePlanningSkipEvaluator
-                    .EvaluateAsync(runnableModule.Module, CancellationToken.None)
-                    .ConfigureAwait(false);
+                if (!planningSkipDecisions.TryGetValue(runnableModule.Module, out var skipDecision))
+                {
+                    skipDecision = await EvaluatePlanningSkipAsync(
+                            runnableModule.Module,
+                            metadataRegistry,
+                            historyModules,
+                            cancellationToken)
+                        .ConfigureAwait(false);
+                    planningSkipDecisions[runnableModule.Module] = skipDecision;
+                }
+
                 if (skipDecision?.ShouldSkip != true)
                 {
                     nextConsumedArtifactProducerTypes.UnionWith(consumedProducerTypes);
@@ -146,39 +297,6 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
 
             return nextConsumedArtifactProducerTypes;
         }).ConfigureAwait(false);
-        var cascadeResult = await DependencySkipCascade.ApplyAsync(
-            allModules,
-            runnableModules.Select(runnableModule => runnableModule.Module),
-            ignoredModules,
-            _dependencyRegistry,
-            _metadataRegistry,
-            async pendingIgnoredModules =>
-            {
-                foreach (var ignoredModule in pendingIgnoredModules)
-                {
-                    if (!historicalResults.TryGetValue(ignoredModule.Module, out var historicalResult))
-                    {
-                        historicalResult = await _resultHistoryProvider
-                            .TryGetAsync(ignoredModule.Module, pipelineContext)
-                            .ConfigureAwait(false);
-                        historicalResults[ignoredModule.Module] = historicalResult;
-                    }
-
-                    RegisterIgnoredModuleResult(
-                        ignoredModule,
-                        historicalResult,
-                        allowHistory: !consumedArtifactProducerTypes.Contains(
-                            ignoredModule.Module.GetType()));
-                }
-            },
-            moduleType => _resultRegistry.GetResult(moduleType)?.ModuleStatus == Status.Skipped)
-            .ConfigureAwait(false);
-        var remainingModules = cascadeResult.RunnableModules.ToHashSet<IModule>(
-            ReferenceEqualityComparer.Instance);
-
-        return new OrganizedModules(
-            runnableModules.Where(runnableModule => remainingModules.Contains(runnableModule.Module)).ToList(),
-            cascadeResult.IgnoredModules);
     }
 
     private async Task<RequiredDependencyDemand> GetRequiredDependencyDemandAsync(
@@ -190,7 +308,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         IReadOnlySet<Type> consumedProducerTypes,
         IDictionary<IModule, IModuleResult?> historicalResults,
         IDictionary<IModule, SkipDecision?> planningSkipDecisions,
-        IPipelineContext pipelineContext)
+        IPipelineContext pipelineContext,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        IReadOnlyDictionary<IModule, IModule>? historyModules,
+        CancellationToken cancellationToken)
     {
         return await GetRequiredDependencyDemandAsync(
                 module,
@@ -202,6 +324,10 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                 historicalResults,
                 planningSkipDecisions,
                 pipelineContext,
+                dependencyRegistry,
+                metadataRegistry,
+                historyModules,
+                cancellationToken,
                 new HashSet<Type> { module.GetType() })
             .ConfigureAwait(false);
     }
@@ -216,6 +342,10 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         IDictionary<IModule, IModuleResult?> historicalResults,
         IDictionary<IModule, SkipDecision?> planningSkipDecisions,
         IPipelineContext pipelineContext,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        IReadOnlyDictionary<IModule, IModule>? historyModules,
+        CancellationToken cancellationToken,
         ISet<Type> visitedTypes)
     {
         var hasPendingDependency = false;
@@ -223,8 +353,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             .GetAllDependencies(
                 module,
                 availableModuleTypes,
-                _dependencyRegistry,
-                _metadataRegistry)
+                dependencyRegistry,
+                metadataRegistry)
             .Where(dependency => !dependency.Optional)
             .Select(dependency => dependency.DependencyType);
         foreach (var dependencyType in requiredDependencies)
@@ -239,7 +369,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                     visitedTypes,
                     historicalResults,
                     planningSkipDecisions,
-                    pipelineContext)
+                    pipelineContext,
+                    dependencyRegistry,
+                    metadataRegistry,
+                    historyModules,
+                    cancellationToken)
                 .ConfigureAwait(false);
             if (dependencyDemand.IsUnrecoverable)
             {
@@ -267,7 +401,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         ISet<Type> visitedTypes,
         IDictionary<IModule, IModuleResult?> historicalResults,
         IDictionary<IModule, SkipDecision?> planningSkipDecisions,
-        IPipelineContext pipelineContext)
+        IPipelineContext pipelineContext,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        IReadOnlyDictionary<IModule, IModule>? historyModules,
+        CancellationToken cancellationToken)
     {
         if (ignoredModuleTypes.Contains(dependencyType))
         {
@@ -294,6 +432,10 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                     historicalResults,
                     planningSkipDecisions,
                     pipelineContext,
+                    dependencyRegistry,
+                    metadataRegistry,
+                    historyModules,
+                    cancellationToken,
                     visitedTypes)
                 .ConfigureAwait(false);
             if (transitiveDemand.IsUnrecoverable)
@@ -310,8 +452,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
 
             if (!planningSkipDecisions.TryGetValue(dependencyModule, out var skipDecision))
             {
-                skipDecision = await _modulePlanningSkipEvaluator
-                    .EvaluateAsync(dependencyModule, CancellationToken.None)
+                skipDecision = await EvaluatePlanningSkipAsync(
+                        dependencyModule,
+                        metadataRegistry,
+                        historyModules,
+                        cancellationToken)
                     .ConfigureAwait(false);
                 planningSkipDecisions[dependencyModule] = skipDecision;
             }
@@ -326,7 +471,9 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             if (!historicalResults.TryGetValue(dependencyModule, out var historicalResult))
             {
                 historicalResult = await _resultHistoryProvider
-                    .TryGetAsync(dependencyModule, pipelineContext)
+                    .TryGetAsync(
+                        GetHistoryModule(dependencyModule, historyModules),
+                        pipelineContext)
                     .ConfigureAwait(false);
                 historicalResults[dependencyModule] = historicalResult;
             }
@@ -345,6 +492,23 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         bool IsUnrecoverable,
         bool HasPendingDependency);
 
+    private Task<SkipDecision?> EvaluatePlanningSkipAsync(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        IReadOnlyDictionary<IModule, IModule>? historyModules,
+        CancellationToken cancellationToken) =>
+        historyModules is null
+            ? _modulePlanningSkipEvaluator.EvaluateAsync(module, cancellationToken)
+            : _modulePlanningSkipEvaluator.EvaluateGraphSafeAsync(
+                module,
+                metadataRegistry,
+                cancellationToken);
+
+    private static IModule GetHistoryModule(
+        IModule module,
+        IReadOnlyDictionary<IModule, IModule>? historyModules) =>
+        historyModules is null ? module : historyModules[module];
+
     private bool IsDistributedWorker()
     {
         var options = _distributedOptions.Value;
@@ -353,7 +517,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                && _roleDetector.DetectRole() == DistributedRole.Worker;
     }
 
-    private void RegisterIgnoredModuleResult(
+    private IModuleResult CreateIgnoredModuleResult(
         IgnoredModule ignoredModule,
         IModuleResult? historicalResult,
         bool allowHistory)
@@ -367,10 +531,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);
             _logger.LogDebug("Using historical result for ignored module {ModuleName}",
                 moduleType.Name);
-            _resultRegistry.RegisterResult(moduleType, usedHistoryResult);
-
-            SetModuleCompletionSource(module, resultType, usedHistoryResult);
-            return;
+            return usedHistoryResult;
         }
 
         _logger.LogDebug("Registering skipped result for ignored module {ModuleName}",
@@ -386,20 +547,15 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         var hasGeneratedRuntime = GeneratedModuleMetadata.TryGetRuntime(
             moduleType,
             out var runtime);
-        var result = hasGeneratedRuntime
-            ? runtime.CreateSkipped(executionContext)
-            : ModuleResultFactory.CreateSkipped(resultType, executionContext);
-
-        _resultRegistry.RegisterResult(moduleType, result);
-
-        // Set the completion source so awaiting the module returns immediately
-        if (hasGeneratedRuntime)
+        try
         {
-            runtime.SetCompletionSource(module, result);
+            return hasGeneratedRuntime
+                ? runtime.CreateSkipped(executionContext)
+                : ModuleResultFactory.CreateSkipped(resultType, executionContext);
         }
-        else
+        finally
         {
-            SetModuleCompletionSource(module, resultType, result);
+            executionContext.ModuleCancellationTokenSource.Dispose();
         }
     }
 
@@ -409,6 +565,12 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     /// </summary>
     private static void SetModuleCompletionSource(IModule module, Type resultType, IModuleResult result)
     {
+        if (GeneratedModuleMetadata.TryGetRuntime(module.GetType(), out var runtime))
+        {
+            runtime.SetCompletionSource(module, result);
+            return;
+        }
+
         var setter = CompletionSourceSetterCache.GetOrCreate(resultType);
         setter(module, result);
     }

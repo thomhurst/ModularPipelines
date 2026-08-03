@@ -13,7 +13,7 @@ namespace ModularPipelines.Conditions;
 /// </code>
 /// </example>
 [ExcludeFromCodeCoverage]
-public sealed class OnMacOS : IRunCondition
+public sealed class OnMacOS : IPlanningRunCondition
 {
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineContext context)

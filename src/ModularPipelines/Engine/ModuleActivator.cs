@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -17,6 +18,9 @@ namespace ModularPipelines.Engine;
 /// </remarks>
 internal sealed class ModuleActivator : IModuleActivator
 {
+    private static readonly ConditionalWeakTable<IModule, ResolvedObjectTrackingServiceProvider>
+        RuntimeServiceOwnership = new();
+
     /// <inheritdoc />
     [UnconditionalSuppressMessage(
         "Trimming",
@@ -24,10 +28,28 @@ internal sealed class ModuleActivator : IModuleActivator
         Justification = "This runtime-Type overload is the reflection fallback; generated registrations use the annotated generic overload.")]
     public IModule CreateModule(Type moduleType, IServiceProvider serviceProvider)
     {
+        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
+        var module = CreateModuleWithContext(
+            moduleType,
+            trackingServiceProvider,
+            provider => (IModule) ActivatorUtilities.CreateInstance(provider, moduleType),
+            initializeConfiguration: true);
+        RuntimeServiceOwnership.Add(module, trackingServiceProvider);
+        return module;
+    }
+
+    /// <inheritdoc />
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2067",
+        Justification = "This runtime-Type overload is the reflection fallback for dependency-graph planning.")]
+    public IModule CreatePlanningModule(Type moduleType, IServiceProvider serviceProvider)
+    {
         return CreateModuleWithContext(
             moduleType,
             serviceProvider,
-            provider => (IModule) ActivatorUtilities.CreateInstance(provider, moduleType));
+            provider => (IModule) ActivatorUtilities.CreateInstance(provider, moduleType),
+            initializeConfiguration: false);
     }
 
     internal static TModule CreateModule<
@@ -35,16 +57,26 @@ internal sealed class ModuleActivator : IModuleActivator
         IServiceProvider serviceProvider)
         where TModule : class, IModule
     {
-        return CreateModuleWithContext(
+        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
+        var module = CreateModuleWithContext(
             typeof(TModule),
-            serviceProvider,
-            static provider => ActivatorUtilities.CreateInstance<TModule>(provider));
+            trackingServiceProvider,
+            static provider => ActivatorUtilities.CreateInstance<TModule>(provider),
+            initializeConfiguration: true);
+        RuntimeServiceOwnership.Add(module, trackingServiceProvider);
+        return module;
     }
+
+    internal static bool TryGetRuntimeServiceOwnership(
+        IModule module,
+        [NotNullWhen(true)] out ResolvedObjectTrackingServiceProvider? serviceOwnership) =>
+        RuntimeServiceOwnership.TryGetValue(module, out serviceOwnership);
 
     private static TModule CreateModuleWithContext<TModule>(
         Type moduleType,
         IServiceProvider serviceProvider,
-        Func<IServiceProvider, TModule> activate)
+        Func<IServiceProvider, TModule> activate,
+        bool initializeConfiguration)
         where TModule : IModule
     {
         var previousType = ModuleLogger.CurrentModuleType.Value;
@@ -53,7 +85,11 @@ internal sealed class ModuleActivator : IModuleActivator
         try
         {
             var module = activate(serviceProvider);
-            _ = module.Configuration;
+            if (initializeConfiguration)
+            {
+                _ = module.Configuration;
+            }
+
             return module;
         }
         finally
