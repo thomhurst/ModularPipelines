@@ -82,10 +82,10 @@ internal sealed class Command : ICommandContext
         var inputToLog = new Lazy<string>(() => GetInputToLog(commandInput, execOpts));
         var obfuscatedTool = _secretObfuscator.Obfuscate(tool, execOpts);
         using var activity = ModuleActivityTracing.StartCommandActivity(obfuscatedTool);
-        RecordTelemetryCommandInput(activity, inputToLog, execOpts);
 
         try
         {
+            RecordTelemetryCommandInput(activity, inputToLog, execOpts);
             var result = await ExecuteCommandCoreAsync(
                     invocation,
                     command,

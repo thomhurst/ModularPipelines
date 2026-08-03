@@ -118,6 +118,23 @@ public class TelemetryIntegrationTests
         }
     }
 
+    private sealed class ThrowingInputManipulatorCommandModule : Module<CommandResult>
+    {
+        protected internal override async Task<CommandResult?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return await context.Shell.Command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("throwing-input-manipulator-tool"),
+                new CommandExecutionOptions
+                {
+                    InputLoggingManipulator = _ =>
+                        throw new InvalidOperationException("Input manipulator failed"),
+                },
+                cancellationToken);
+        }
+    }
+
     private sealed class RetriedModule : Module<bool>
     {
         private int _attempts;
@@ -235,6 +252,29 @@ public class TelemetryIntegrationTests
             await Assert.That(_inputManipulatorInvocations).IsEqualTo(1);
             await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.CommandInputTag))
                 .IsEqualTo("manipulated-command-input");
+        }
+    }
+
+    [Test]
+    public async Task Command_Input_Manipulator_Failure_Is_Recorded_On_Activity()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddSingleton<ICommandInterceptor, SuccessfulCommandInterceptor>();
+        await Assert.ThrowsAsync<ModuleFailedException>(async () =>
+            await builder.AddModule<ThrowingInputManipulatorCommandModule>().ExecutePipelineAsync());
+
+        var commandActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == "Command.throwing-input-manipulator-tool");
+        using (Assert.Multiple())
+        {
+            await Assert.That(commandActivity.Status).IsEqualTo(ActivityStatusCode.Error);
+            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionTypeTag))
+                .IsEqualTo(typeof(InvalidOperationException).FullName);
+            await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.ExceptionMessageTag))
+                .IsEqualTo("Input manipulator failed");
         }
     }
 
