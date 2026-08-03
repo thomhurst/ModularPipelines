@@ -92,6 +92,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 return await HandleSkipped(module, executionContext, moduleContext, skipDecision, logger).ConfigureAwait(false);
             }
 
+            // Check for cancellation after skip check
+            executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            if (prepareExecutionAsync is not null)
+            {
+                preparingExecution = true;
+                await prepareExecutionAsync(executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
+                preparingExecution = false;
+            }
+
             var cachedResult = await TryUseCachedResultAsync(
                     module,
                     config,
@@ -102,16 +112,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             if (cachedResult is not null)
             {
                 return cachedResult;
-            }
-
-            // Check for cancellation after skip check
-            executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
-            if (prepareExecutionAsync is not null)
-            {
-                preparingExecution = true;
-                await prepareExecutionAsync(executionContext.ModuleCancellationTokenSource.Token)
-                    .ConfigureAwait(false);
-                preparingExecution = false;
             }
 
             // Execute direct before hook first (virtual override)

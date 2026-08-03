@@ -27,6 +27,8 @@ public class ArtifactContractTests
     private const string MissingRuntimeFile = LocalArtifactRoot + "/missing/output.txt";
     private const string FailedRuntimeFile = LocalArtifactRoot + "/failed/output.txt";
     private const string FailedRestoreDirectory = LocalArtifactRoot + "/failed-restored";
+    private const string CacheKeyArtifactFile = "cache-key-input.txt";
+    private const string CacheKeyRestoreDirectory = "cache-key-restored";
 
     [ProducesArtifact("declared-output", "unused.txt")]
     private sealed class DeclaredProducerModule : Module<string>
@@ -554,6 +556,51 @@ public class ArtifactContractTests
         }
     }
 
+    [ProducesArtifact("cache-key-input", CacheKeyArtifactFile)]
+    private sealed class CacheKeyArtifactProducerModule : Module<string>
+    {
+        public static string Root { get; set; } = string.Empty;
+
+        public static string Content { get; set; } = string.Empty;
+
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(Root, CacheKeyArtifactFile),
+                Content,
+                cancellationToken);
+            return "stable-producer-result";
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<CacheKeyArtifactProducerModule>]
+    [ConsumesArtifact(
+        typeof(CacheKeyArtifactProducerModule),
+        "cache-key-input",
+        RestorePath = CacheKeyRestoreDirectory)]
+    [CacheInputs(CacheKeyRestoreDirectory + "/cache-key-input")]
+    private sealed class CacheKeyArtifactConsumerModule : Module<string>
+    {
+        public static string Root { get; set; } = string.Empty;
+
+        public static int ExecutionCount;
+
+        public static string? ConsumedContent { get; set; }
+
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref ExecutionCount);
+            ConsumedContent = await File.ReadAllTextAsync(
+                Path.Combine(Root, CacheKeyRestoreDirectory, "cache-key-input"),
+                cancellationToken);
+            return ConsumedContent;
+        }
+    }
+
     [Test]
     public async Task BuildAsyncRejectsUnknownProducedArtifactName()
     {
@@ -714,6 +761,39 @@ public class ArtifactContractTests
         finally
         {
             DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionRestoresArtifactsBeforeCacheLookup()
+    {
+        var workingDirectory = Directory.CreateTempSubdirectory("modular-pipelines-artifact-cache-key-");
+        var cacheDirectory = Path.Combine(workingDirectory.FullName, "cache");
+        CacheKeyArtifactProducerModule.Root = workingDirectory.FullName;
+        CacheKeyArtifactConsumerModule.Root = workingDirectory.FullName;
+        CacheKeyArtifactConsumerModule.ExecutionCount = 0;
+        CacheKeyArtifactConsumerModule.ConsumedContent = null;
+
+        try
+        {
+            CacheKeyArtifactProducerModule.Content = "first";
+            await RunCacheKeyArtifactPipelineAsync(workingDirectory.FullName, cacheDirectory);
+
+            CacheKeyArtifactProducerModule.Content = "second";
+            var secondStatus = await RunCacheKeyArtifactPipelineAsync(
+                workingDirectory.FullName,
+                cacheDirectory);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(secondStatus).IsEqualTo(Enums.Status.Successful);
+                await Assert.That(CacheKeyArtifactConsumerModule.ExecutionCount).IsEqualTo(2);
+                await Assert.That(CacheKeyArtifactConsumerModule.ConsumedContent).IsEqualTo("second");
+            }
+        }
+        finally
+        {
+            workingDirectory.Delete(recursive: true);
         }
     }
 
@@ -1350,5 +1430,26 @@ public class ArtifactContractTests
         {
             Directory.Delete(LocalArtifactRoot, recursive: true);
         }
+    }
+
+    private static async Task<Enums.Status> RunCacheKeyArtifactPipelineAsync(
+        string workingDirectory,
+        string cacheDirectory)
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModuleCache<FileSystemModuleCache>(options =>
+        {
+            options.WorkingDirectory = workingDirectory;
+            options.CacheDirectory = cacheDirectory;
+        });
+        builder.AddModule<CacheKeyArtifactProducerModule>();
+        builder.AddModule<CacheKeyArtifactConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        await pipeline.RunAsync();
+        return pipeline.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(CacheKeyArtifactConsumerModule))!
+            .ModuleStatus;
     }
 }
