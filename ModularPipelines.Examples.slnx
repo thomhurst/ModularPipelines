@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="src/ModularPipelines.Analyzers/ModularPipelines.Analyzers.CodeFixes/ModularPipelines.Analyzers.CodeFixes.csproj" />
+  <Project Path="src/ModularPipelines.Analyzers/ModularPipelines.Analyzers.Package/ModularPipelines.Analyzers.Package.csproj" />
+  <Project Path="src/ModularPipelines.Analyzers/ModularPipelines.Analyzers/ModularPipelines.Analyzers.csproj" />
+  <Project Path="src/ModularPipelines.Azure/ModularPipelines.Azure.csproj" />
+  <Project Path="src/ModularPipelines.DotNet/ModularPipelines.DotNet.csproj" />
+  <Project Path="src/ModularPipelines.Examples/ModularPipelines.Examples.csproj" />
+  <Project Path="src/ModularPipelines.Git/ModularPipelines.Git.csproj" />
+  <Project Path="src/ModularPipelines/ModularPipelines.csproj" />
+</Solution>

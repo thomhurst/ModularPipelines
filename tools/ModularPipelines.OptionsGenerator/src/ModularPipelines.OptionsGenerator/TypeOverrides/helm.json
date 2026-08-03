@@ -12,6 +12,19 @@
     "--kube-insecure-skip-tls-verify": {
       "type": "bool",
       "reason": "Skip TLS certificate verification"
+    },
+    "--set": {
+      "type": "keyValue",
+      "secretValueKeys": [
+        "password",
+        "secret",
+        "token",
+        "apiKey",
+        "accessKey",
+        "secretKey",
+        "clientSecret"
+      ],
+      "reason": "Mixed key-value settings with selected secret keys"
     }
   },
   "commands": {
@@ -23,10 +36,6 @@
       "--dependency-update": {
         "type": "bool",
         "reason": "Update dependencies before installing"
-      },
-      "--dry-run": {
-        "type": "bool",
-        "reason": "Simulate an install"
       },
       "--force": {
         "type": "bool",
@@ -57,8 +66,17 @@
         "reason": "Delete on failure"
       },
       "--set": {
-        "type": "stringList",
-        "reason": "Set values on the command line"
+        "type": "keyValue",
+        "secretValueKeys": [
+          "password",
+          "secret",
+          "token",
+          "apiKey",
+          "accessKey",
+          "secretKey",
+          "clientSecret"
+        ],
+        "reason": "Mixed key-value settings with selected secret keys"
       },
       "--set-string": {
         "type": "stringList",
@@ -89,10 +107,6 @@
       "--dependency-update": {
         "type": "bool",
         "reason": "Update dependencies"
-      },
-      "--dry-run": {
-        "type": "bool",
-        "reason": "Simulate an upgrade"
       },
       "--force": {
         "type": "bool",

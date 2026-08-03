@@ -1,8 +1,8 @@
   # Solutions restored and built by CI and BuildSolutionsModule.
-ModularPipelines.Analyzers.sln
-ModularPipelines.All.sln
-ModularPipelines.Examples.sln
-tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.sln
-src/ModularPipelines.Azure/ModularPipelines.Azure.sln
-src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln
-src/ModularPipelines.Google/ModularPipelines.Google.sln
+ModularPipelines.Analyzers.slnx
+ModularPipelines.All.slnx
+ModularPipelines.Examples.slnx
+tools/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.slnx
+src/ModularPipelines.Azure/ModularPipelines.Azure.slnx
+src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.slnx
+src/ModularPipelines.Google/ModularPipelines.Google.slnx

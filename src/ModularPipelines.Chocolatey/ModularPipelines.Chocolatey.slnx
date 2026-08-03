@@ -1,0 +1,11 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="../../test/ModularPipelines.Chocolatey.UnitTests/ModularPipelines.Chocolatey.UnitTests.csproj" />
+  <Project Path="../../test/ModularPipelines.TestHelpers/ModularPipelines.TestHelpers.csproj" />
+  <Project Path="../ModularPipelines/ModularPipelines.csproj" />
+  <Project Path="ModularPipelines.Chocolatey.csproj" />
+</Solution>

@@ -200,7 +200,7 @@ After regeneration, build only the affected integration's solution. For example:
 pwsh scripts/Invoke-AgentDotNet.ps1 `
   -DotNetArguments @(
     'build',
-    'src/ModularPipelines.Docker/ModularPipelines.Docker.sln',
+    'src/ModularPipelines.Docker/ModularPipelines.Docker.slnx',
     '-c',
     'Release'
   )
@@ -215,7 +215,7 @@ Review:
 - unexpected API removals or renames; and
 - deterministic output from a second generation with the same inputs.
 
-Do not build `ModularPipelines.All.sln` for generator work.
+Do not build `ModularPipelines.All.slnx` for generator work.
 
 ## CI generation workflow
 
