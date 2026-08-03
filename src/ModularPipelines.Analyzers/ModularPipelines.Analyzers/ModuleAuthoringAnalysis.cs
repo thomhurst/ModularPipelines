@@ -559,6 +559,20 @@ internal static class ModuleAuthoringAnalysis
         bool requireTaskLike,
         Stack<(IOperation Operation, bool RequireTaskLike)> pending)
     {
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            var selectedBranch = condition
+                ? conditional.WhenTrue
+                : conditional.WhenFalse;
+            if (selectedBranch is not null)
+            {
+                pending.Push((selectedBranch, requireTaskLike));
+            }
+
+            pending.Push((conditional.Condition, true));
+            return;
+        }
+
         if (conditional.WhenFalse is { } whenFalse)
         {
             pending.Push((whenFalse, requireTaskLike));
@@ -1116,6 +1130,12 @@ internal static class ModuleAuthoringAnalysis
                 instanceRegisteredModules,
                 visitedLocals,
                 visitedMethods),
+            ISwitchExpressionOperation switchExpression => TryTrackServiceDescriptorSwitchExpression(
+                switchExpression,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
             IInvocationOperation descriptorFactory
                 when IsServiceDescriptorFactory(descriptorFactory.TargetMethod) =>
                 TrackServiceDescriptor(
@@ -1196,6 +1216,26 @@ internal static class ModuleAuthoringAnalysis
                        instanceRegisteredModules,
                        CloneVisitedLocals(visitedLocals),
                        CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static bool TryTrackServiceDescriptorSwitchExpression(
+        ISwitchExpressionOperation switchExpression,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var reachableArms = switchExpression.Arms
+            .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+            .Where(static arm => !AlwaysThrows(arm.Value))
+            .ToArray();
+        return reachableArms.Length > 0
+               && reachableArms.All(arm => TryTrackServiceDescriptor(
+                   arm.Value,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool TryTrackServiceDescriptorLocal(

@@ -850,6 +850,37 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_With_Switch_ServiceDescriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.Add(flag switch
+                    {
+                        true => ServiceDescriptor.Singleton<IModule, BuildModule>(),
+                        false => ServiceDescriptor.Singleton<IModule, BuildModule>(),
+                    });
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Replaced_ServiceDescriptor()
     {
         var source = $$"""
@@ -3089,6 +3120,27 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("FetchAsync");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Cancellation_Overload_In_Dead_Awaited_Conditional_Arm()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>?> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await (true ? Task.CompletedTask : FetchAsync());
+                return null;
+            }
+
+                private static Task FetchAsync() => Task.CompletedTask;
+
+                private static Task FetchAsync(CancellationToken cancellationToken) =>
+                    Task.CompletedTask;
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
