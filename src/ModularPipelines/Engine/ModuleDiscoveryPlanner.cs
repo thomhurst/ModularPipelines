@@ -333,6 +333,8 @@ internal sealed class ModuleDiscoveryPlanner(
             return context.IsServiceProviderOwned(first)
                    || first is Array { Length: 0 }
                    || IsKnownImmutableFrameworkSingleton(first)
+                   || (IsFrameworkComparer(first)
+                       && HasEquivalentFields(first, first, context))
                    || (first is Delegate sharedDelegate
                        && HasEquivalentDelegates(sharedDelegate, sharedDelegate, context));
         }
@@ -388,11 +390,43 @@ internal sealed class ModuleDiscoveryPlanner(
     private static bool IsKnownImmutableFrameworkSingleton(object value)
     {
         var type = value.GetType();
+        if (type.Assembly != typeof(object).Assembly)
+        {
+            return false;
+        }
+
+        if (value is StringComparer)
+        {
+            return ReferenceEquals(value, StringComparer.Ordinal)
+                   || ReferenceEquals(value, StringComparer.OrdinalIgnoreCase)
+                   || ReferenceEquals(value, StringComparer.InvariantCulture)
+                   || ReferenceEquals(value, StringComparer.InvariantCultureIgnoreCase);
+        }
+
+        return false;
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Framework comparer interfaces are inspected only to validate shared factory state.")]
+    private static bool IsFrameworkComparer(object value)
+    {
+        var type = value.GetType();
         return type.Assembly == typeof(object).Assembly
-               && (value is StringComparer
-                   || value is System.Collections.IComparer
+               && (value is System.Collections.IComparer
                    || value is System.Collections.IEqualityComparer
-                   || type.Name.EndsWith("Comparer", StringComparison.Ordinal));
+                   || type.GetInterfaces().Any(static interfaceType =>
+                   {
+                       if (!interfaceType.IsGenericType)
+                       {
+                           return false;
+                       }
+
+                       var definition = interfaceType.GetGenericTypeDefinition();
+                       return definition == typeof(IComparer<>)
+                              || definition == typeof(IEqualityComparer<>);
+                   }));
     }
 
     [UnconditionalSuppressMessage(

@@ -451,6 +451,25 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("comparer-backed");
     }
 
+    private sealed class CapturingComparerFactoryModule(IComparer<string> comparer) : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            var builder = ModuleConfiguration.Create();
+            if (comparer.Compare("dependency", "other") < 0)
+            {
+                builder.DependsOn<DependencyModule>();
+            }
+
+            return builder.Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("capturing-comparer");
+    }
+
     private class FactoryInitializedBaseModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
@@ -1679,6 +1698,32 @@ public class DependencyGraphExporterTests
             await exporter.RenderAsync(DependencyGraphFormat.Json));
 
         await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Render_Rejects_Shared_Comparer_With_Captured_State()
+    {
+        var comparisons = 0;
+        var comparer = Comparer<string>.Create((left, right) =>
+        {
+            comparisons++;
+            return StringComparer.Ordinal.Compare(left, right);
+        });
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule(_ => new CapturingComparerFactoryModule(comparer));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var comparisonsBeforeRender = comparisons;
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+            await Assert.That(comparisons).IsEqualTo(comparisonsBeforeRender);
+        }
     }
 
     [Test]
