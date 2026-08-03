@@ -217,6 +217,28 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray());
     }
 
+    internal static bool CanEvaluateConditionAttributesForPlanning(Type moduleType)
+    {
+        var attributes = CreateConditionAttributes(moduleType);
+        return attributes.Skip
+            .Concat(attributes.All)
+            .Concat(attributes.Any)
+            .All(IsPlanningConditionAttribute);
+    }
+
+    private static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
+    {
+        if (attribute is IPlanningConditionAttribute)
+        {
+            return true;
+        }
+
+        var conditionTypes = attribute.GetType().GetGenericArguments();
+        return conditionTypes.Length > 0
+               && conditionTypes.All(static type =>
+                   typeof(IPlanningRunCondition).IsAssignableFrom(type));
+    }
+
     private static async Task<(bool IsRunnable, SkipDecision? SkipDecision)> EvaluateConditions(
         ConditionAttributes attributes,
         IPipelineContext pipelineContext,

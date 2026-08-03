@@ -573,7 +573,8 @@ internal sealed class ModuleDiscoveryPlanner(
     private static bool ReferencesObject(
         object? value,
         object target,
-        ISet<object> visited)
+        ISet<object> visited,
+        bool inspectFields = false)
     {
         if (ReferenceEquals(value, target))
         {
@@ -598,7 +599,7 @@ internal sealed class ModuleDiscoveryPlanner(
         if (value is Delegate @delegate)
         {
             return @delegate.GetInvocationList().Any(invocation =>
-                ReferencesObject(invocation.Target, target, visited));
+                ReferencesObject(invocation.Target, target, visited, inspectFields: true));
         }
 
         if (value is Array array)
@@ -606,7 +607,8 @@ internal sealed class ModuleDiscoveryPlanner(
             return array.Cast<object?>().Any(item => ReferencesObject(item, target, visited));
         }
 
-        if (!type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
+        if (!inspectFields
+            && !type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
         {
             return false;
         }
