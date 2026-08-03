@@ -788,10 +788,10 @@ public static partial class GeneratorUtils
              index = propertyName.IndexOf(segment, index + 1, StringComparison.OrdinalIgnoreCase))
         {
             var startsAtBoundary = index == 0
-                                   || char.IsUpper(propertyName[index])
-                                   && (char.IsLower(propertyName[index - 1])
-                                       || char.IsDigit(propertyName[index - 1])
-                                       || propertyName[index - 1] == '_');
+                                   || (char.IsUpper(propertyName[index])
+                                       && (char.IsLower(propertyName[index - 1])
+                                           || char.IsDigit(propertyName[index - 1])
+                                           || propertyName[index - 1] == '_'));
             var endIndex = index + segment.Length;
             var endsAtBoundary = endIndex == propertyName.Length
                                  || char.IsUpper(propertyName[endIndex])
