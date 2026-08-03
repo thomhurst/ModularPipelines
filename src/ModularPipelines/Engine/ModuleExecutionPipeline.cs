@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -38,6 +39,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     private readonly IDirectHookInvoker _directHookInvoker;
     private readonly IModuleConditionHandler _moduleConditionHandler;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
+    private readonly HashSet<Type> _consumedArtifactProducerTypes;
 
     public ModuleExecutionPipeline(
         IModuleResultRepository resultRepository,
@@ -45,7 +47,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IDirectHookInvoker directHookInvoker,
         IModuleConditionHandler moduleConditionHandler,
         IOptions<PipelineOptions> pipelineOptions,
-        IModuleCacheResultRepository? cacheResultRepository = null)
+        IModuleCacheResultRepository? cacheResultRepository = null,
+        IEnumerable<IModule>? modules = null)
     {
         _resultRepository = resultRepository;
         _cacheResultRepository = cacheResultRepository;
@@ -53,6 +56,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         _directHookInvoker = directHookInvoker;
         _moduleConditionHandler = moduleConditionHandler;
         _pipelineOptions = pipelineOptions;
+        _consumedArtifactProducerTypes = modules?
+            .SelectMany(module => module.GetType()
+                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                .Cast<ConsumesArtifactAttribute>())
+            .Select(attribute => attribute.ProducerModule)
+            .ToHashSet()
+            ?? [];
     }
 
     public async Task<ModuleResult<T>> ExecuteAsync<T>(
@@ -320,7 +330,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Check if we should use historical data BEFORE setting completion source
         // For skipped modules with a history repository configured, check for cached results
-        if (_resultRepository.IsEnabled)
+        if (_resultRepository.IsEnabled
+            && !_consumedArtifactProducerTypes.Contains(module.GetType()))
         {
             var historicalResult = await TryGetHistoricalResult(module, moduleContext, logger).ConfigureAwait(false);
             if (historicalResult != null)

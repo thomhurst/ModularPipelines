@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
@@ -62,6 +63,12 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
         var runnableModules = organizedModules.RunnableModules.ToList();
         var ignoredModules = organizedModules.IgnoredModules.ToList();
+        var consumedArtifactProducerTypes = organizedModules.AllModules
+            .SelectMany(module => module.GetType()
+                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                .Cast<ConsumesArtifactAttribute>())
+            .Select(attribute => attribute.ProducerModule)
+            .ToHashSet();
         var cascadeResult = await DependencySkipCascade.ApplyAsync(
             organizedModules.AllModules.ToArray(),
             runnableModules.Select(runnableModule => runnableModule.Module),
@@ -72,7 +79,12 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             {
                 foreach (var ignoredModule in pendingIgnoredModules)
                 {
-                    await RegisterIgnoredModuleResultAsync(ignoredModule, pipelineContext).ConfigureAwait(false);
+                    await RegisterIgnoredModuleResultAsync(
+                            ignoredModule,
+                            pipelineContext,
+                            allowHistory: !consumedArtifactProducerTypes.Contains(
+                                ignoredModule.Module.GetType()))
+                        .ConfigureAwait(false);
                 }
             },
             moduleType => _resultRegistry.GetResult(moduleType)?.ModuleStatus == Status.Skipped)
@@ -95,15 +107,18 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
 
     private async Task RegisterIgnoredModuleResultAsync(
         IgnoredModule ignoredModule,
-        IPipelineContext pipelineContext)
+        IPipelineContext pipelineContext,
+        bool allowHistory)
     {
         var module = ignoredModule.Module;
         var moduleType = module.GetType();
         var resultType = module.ResultType;
 
-        var historicalResult = await _resultHistoryProvider
-            .TryGetAsync(module, pipelineContext)
-            .ConfigureAwait(false);
+        var historicalResult = allowHistory
+            ? await _resultHistoryProvider
+                .TryGetAsync(module, pipelineContext)
+                .ConfigureAwait(false)
+            : null;
         if (historicalResult != null)
         {
             var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);

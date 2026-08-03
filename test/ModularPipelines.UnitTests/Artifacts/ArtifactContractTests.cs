@@ -5,6 +5,7 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
+using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -190,6 +191,31 @@ public class ArtifactContractTests
         }
     }
 
+    private sealed class ArtifactHistoryRepository : IModuleResultRepository
+    {
+        public bool IsEnabled => true;
+
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext) =>
+            Task.CompletedTask;
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext)
+        {
+            if (module is not SkippedArtifactProducerModule)
+            {
+                return Task.FromResult<ModuleResult<T>?>(null);
+            }
+
+            var executionContext = new ModuleExecutionContext(module, module.GetType());
+            return Task.FromResult<ModuleResult<T>?>(
+                ModuleResult<T>.CreateSuccess(default!, executionContext));
+        }
+    }
+
     [ProducesArtifact("working-output", "working.txt")]
     private sealed class WorkingDirectoryProducerModule : Module<string>
     {
@@ -364,6 +390,18 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task StandaloneExecutionUsesFilesystemBackedArtifactStore()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CacheOnlyProducerModule>();
+        await using var pipeline = await builder.BuildAsync();
+
+        var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+
+        await Assert.That(store).IsTypeOf<FileSystemDistributedArtifactStore>();
+    }
+
+    [Test]
     public async Task StandaloneExecutionDoesNotUploadForExcludedConsumer()
     {
         DeleteLocalArtifacts();
@@ -434,6 +472,40 @@ public class ArtifactContractTests
             await builder.ExecutePipelineAsync();
 
             await Assert.That(SkippedArtifactConsumerModule.Executed).IsFalse();
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactProducerHistoryDoesNotKeepRequiredConsumerRunnable()
+    {
+        DeleteLocalArtifacts();
+        SkippedArtifactConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<SkippedArtifactConsumerModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<SkippedArtifactConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(SkippedArtifactConsumerModule.Executed).IsFalse();
+            }
         }
         finally
         {
