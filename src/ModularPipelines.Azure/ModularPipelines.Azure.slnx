@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Source/">
+    <Project Path="../ModularPipelines/ModularPipelines.csproj" />
+    <Project Path="ModularPipelines.Azure.csproj" />
+  </Folder>
+  <Folder Name="/Test/">
+    <Project Path="../../test/ModularPipelines.Azure.UnitTests/ModularPipelines.Azure.UnitTests.csproj" />
+    <Project Path="../../test/ModularPipelines.TestHelpers/ModularPipelines.TestHelpers.csproj" />
+  </Folder>
+</Solution>

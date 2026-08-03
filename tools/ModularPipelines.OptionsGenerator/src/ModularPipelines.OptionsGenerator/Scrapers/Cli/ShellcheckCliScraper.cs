@@ -82,7 +82,6 @@ public partial class ShellcheckCliScraper : CliScraperBase
                 new CliPositionalArgument
                 {
                     PropertyName = "Files",
-                    PlaceholderName = "FILES...",
                     CSharpType = "IEnumerable<string>?",
                     IsRequired = false,
                     PositionIndex = 0,

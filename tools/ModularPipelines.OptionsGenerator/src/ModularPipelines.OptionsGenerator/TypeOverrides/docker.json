@@ -12,6 +12,25 @@
     "--debug": {
       "type": "bool",
       "reason": "Debug mode flag"
+    },
+    "--build-arg": {
+      "type": "keyValue",
+      "secretValueKeys": [
+        "password",
+        "secret",
+        "token",
+        "apiKey",
+        "api_key",
+        "accessKey",
+        "access_key",
+        "secretKey",
+        "secret_key",
+        "clientSecret",
+        "client_secret",
+        "privateKey",
+        "private_key"
+      ],
+      "reason": "Mixed build arguments with selected secret keys"
     }
   },
   "commands": {
@@ -59,14 +78,6 @@
       "--quiet": {
         "type": "bool",
         "reason": "Suppress the pull output"
-      },
-      "--sig-proxy": {
-        "type": "bool",
-        "reason": "Proxy received signals to the process"
-      },
-      "--disable-content-trust": {
-        "type": "bool",
-        "reason": "Skip image verification"
       },
       "--env": {
         "type": "stringList",
@@ -127,10 +138,6 @@
       "--quiet": {
         "type": "bool",
         "reason": "Suppress verbose output"
-      },
-      "--disable-content-trust": {
-        "type": "bool",
-        "reason": "Skip image verification"
       }
     },
     "image.push": {
@@ -141,10 +148,6 @@
       "--quiet": {
         "type": "bool",
         "reason": "Suppress verbose output"
-      },
-      "--disable-content-trust": {
-        "type": "bool",
-        "reason": "Skip image signing"
       }
     }
   }

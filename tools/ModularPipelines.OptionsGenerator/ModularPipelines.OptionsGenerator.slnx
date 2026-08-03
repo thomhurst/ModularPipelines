@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/ModularPipelines.OptionsGenerator.Tests/ModularPipelines.OptionsGenerator.Tests.csproj" />
+  <Project Path="src/ModularPipelines.OptionsGenerator/ModularPipelines.OptionsGenerator.csproj" />
+</Solution>

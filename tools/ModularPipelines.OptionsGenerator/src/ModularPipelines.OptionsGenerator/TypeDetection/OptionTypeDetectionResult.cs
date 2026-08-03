@@ -37,6 +37,16 @@ public class OptionTypeDetectionResult
     public bool AcceptsMultipleValues { get; init; }
 
     /// <summary>
+    /// Optional manual override for secret handling.
+    /// </summary>
+    public bool? IsSecret { get; init; }
+
+    /// <summary>
+    /// Keys whose values are secret for a key-value option.
+    /// </summary>
+    public IReadOnlyList<string>? SecretValueKeys { get; init; }
+
+    /// <summary>
     /// Gets a value indicating whether collection values share one option occurrence.
     /// </summary>
     public bool GroupValues { get; init; }
