@@ -18,15 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "rm")]
-public record DockerNetworkRmOptions : DockerOptions
+public record DockerNetworkRmOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Network
+) : DockerOptions
 {
     /// <summary>
     /// Do not error if the network does not exist
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Network { get; set; }
 
 }

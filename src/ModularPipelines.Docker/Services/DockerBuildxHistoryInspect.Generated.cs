@@ -32,6 +32,21 @@ public class DockerBuildxHistoryInspect
     #region Commands
 
     /// <summary>
+    /// Inspect a build record
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DockerBuildxHistoryInspectOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxHistoryInspectOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Inspect a build record attachment
     /// </summary>
     /// <param name="options">The command options.</param>

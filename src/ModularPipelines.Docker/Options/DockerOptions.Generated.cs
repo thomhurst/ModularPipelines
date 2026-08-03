@@ -19,6 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("docker")]
+[CliGlobalOptions]
 public abstract record DockerOptions : CommandLineToolOptions
 {
 }

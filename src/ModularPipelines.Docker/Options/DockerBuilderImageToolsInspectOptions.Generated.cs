@@ -12,4 +12,13 @@ namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderImageToolsInspectOptions : DockerBuildxImageToolsInspectOptions;
+public record DockerBuilderImageToolsInspectOptions : DockerBuildxImageToolsInspectOptions
+{
+    public DockerBuilderImageToolsInspectOptions(
+        string Name
+    )
+        : base(Name)
+    {
+    }
+
+}

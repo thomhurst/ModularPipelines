@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -71,14 +72,14 @@ public record DockerBuildxImageToolsCreateOptions : DockerOptions
     /// <summary>
     /// When only a single source is specified, prefer outputting an image index or manifest list instead of performing a carbon copy (default true)
     /// </summary>
-    [CliFlag("--prefer-index")]
+    [CliOption("--prefer-index", Format = OptionFormat.EqualsSeparated)]
     public bool? PreferIndex { get; set; }
 
     /// <summary>
     /// Set type of progress output ("auto", "none", "plain", "rawjson", "tty"). Use plain to show container output (default "auto")
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-    public string? Progress { get; set; }
+    public DockerBuildxImageToolsCreateProgress? Progress { get; set; }
 
     /// <summary>
     /// Set reference for new image
@@ -86,10 +87,10 @@ public record DockerBuildxImageToolsCreateOptions : DockerOptions
     [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Tag { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Source { get; set; }
+    /// <summary>
+    /// The SOURCE operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Source { get; set; }
 
 }

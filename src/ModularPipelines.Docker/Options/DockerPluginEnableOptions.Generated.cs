@@ -18,15 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "enable")]
-public record DockerPluginEnableOptions : DockerOptions
+public record DockerPluginEnableOptions(
+    [property: CliArgument(0)] string Plugin
+) : DockerOptions
 {
     /// <summary>
     /// HTTP client timeout (in seconds) (default 30)
     /// </summary>
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -39,10 +39,10 @@ public record DockerVolumeCreateOptions : DockerOptions
     [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Opt { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The VOLUME operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Volume { get; set; }
 
 }

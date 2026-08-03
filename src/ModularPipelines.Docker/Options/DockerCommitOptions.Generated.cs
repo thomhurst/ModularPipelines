@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("commit")]
-public record DockerCommitOptions : DockerOptions
+public record DockerCommitOptions(
+    [property: CliArgument(0)] string Container
+) : DockerOptions
 {
     /// <summary>
     /// Author (e.g., "John Hannibal Smith &lt;hannibal@a-team.com&gt;")
@@ -41,10 +43,13 @@ public record DockerCommitOptions : DockerOptions
     /// <summary>
     /// Pause container during commit (default true)
     /// </summary>
-    [CliFlag("--pause", ShortForm = "-p")]
+    [CliOption("--pause", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public bool? Pause { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
+    /// <summary>
+    /// The REPOSITORY[:TAG] operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? RepositoryTag { get; set; }
 
 }

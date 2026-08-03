@@ -7,9 +7,23 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderDialStdioOptions : DockerBuildxDialStdioOptions;
+public record DockerBuilderDialStdioOptions : DockerBuildxDialStdioOptions
+{
+    [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
+    public new DockerBuilderDialStdioProgress? Progress
+    {
+        get => base.Progress is null
+            ? null
+            : (DockerBuilderDialStdioProgress)(int)base.Progress.Value;
+        set => base.Progress = value is null
+            ? null
+            : (DockerBuildxDialStdioProgress)(int)value.Value;
+    }
+}

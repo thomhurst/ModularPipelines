@@ -18,15 +18,15 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "disconnect")]
-public record DockerNetworkDisconnectOptions : DockerOptions
+public record DockerNetworkDisconnectOptions(
+    [property: CliArgument(0)] string Network,
+    [property: CliArgument(1)] string Container
+) : DockerOptions
 {
     /// <summary>
     /// Force the container to disconnect from a network
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -19,7 +19,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "update")]
-public record DockerContextUpdateOptions : DockerOptions
+public record DockerContextUpdateOptions(
+    [property: CliArgument(0)] string Context
+) : DockerOptions
 {
     /// <summary>
     /// Description of the context
@@ -32,8 +34,5 @@ public record DockerContextUpdateOptions : DockerOptions
     /// </summary>
     [CliOption("--docker", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Docker { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

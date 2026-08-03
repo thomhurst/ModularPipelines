@@ -18,18 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "rm")]
-public record DockerPluginRmOptions : DockerOptions
+public record DockerPluginRmOptions(
+    [property: CliArgument(0)] IEnumerable<string> Plugin
+) : DockerOptions
 {
     /// <summary>
     /// Force the removal of an active plugin
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Plugin { get; set; }
 
 }

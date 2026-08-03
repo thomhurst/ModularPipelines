@@ -42,6 +42,21 @@ public class DockerBuildxHistory
     #region Commands
 
     /// <summary>
+    /// Commands to work on build records
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DockerBuildxHistoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxHistoryOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Export build records into Docker Desktop bundle
     /// </summary>
     /// <param name="options">The command options.</param>

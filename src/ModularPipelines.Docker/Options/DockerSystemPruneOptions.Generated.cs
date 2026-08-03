@@ -44,7 +44,4 @@ public record DockerSystemPruneOptions : DockerOptions
     [CliFlag("--volumes")]
     public bool? Volumes { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
 }

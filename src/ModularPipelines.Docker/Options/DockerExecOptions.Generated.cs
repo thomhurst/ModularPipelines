@@ -18,7 +18,10 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
-public record DockerExecOptions : DockerOptions
+public record DockerExecOptions(
+    [property: CliArgument(0)] string Container,
+    [property: CliArgument(1)] string Command
+) : DockerOptions
 {
     /// <summary>
     /// Detached mode: run command in the background
@@ -74,10 +77,10 @@ public record DockerExecOptions : DockerOptions
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Arg { get; set; }
+    /// <summary>
+    /// The ARG operand.
+    /// </summary>
+    [CliArgument(2)]
+    public IEnumerable<string>? Arg { get; set; }
 
 }

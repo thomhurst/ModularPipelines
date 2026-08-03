@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "stop")]
-public record DockerContainerStopOptions : DockerOptions
+public record DockerContainerStopOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : DockerOptions
 {
     /// <summary>
     /// Signal to send to the container
@@ -31,11 +33,5 @@ public record DockerContainerStopOptions : DockerOptions
     /// </summary>
     [CliOption("--timeout", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Timeout { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
 
 }

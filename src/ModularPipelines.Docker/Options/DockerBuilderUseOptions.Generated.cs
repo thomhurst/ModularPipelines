@@ -12,4 +12,13 @@ namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderUseOptions : DockerBuildxUseOptions;
+public record DockerBuilderUseOptions : DockerBuildxUseOptions
+{
+    public DockerBuilderUseOptions(
+        string Name
+    )
+        : base(Name)
+    {
+    }
+
+}

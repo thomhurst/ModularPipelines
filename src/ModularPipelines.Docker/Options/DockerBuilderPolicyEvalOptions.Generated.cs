@@ -12,4 +12,13 @@ namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderPolicyEvalOptions : DockerBuildxPolicyEvalOptions;
+public record DockerBuilderPolicyEvalOptions : DockerBuildxPolicyEvalOptions
+{
+    public DockerBuilderPolicyEvalOptions(
+        string Source
+    )
+        : base(Source)
+    {
+    }
+
+}

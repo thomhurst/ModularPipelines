@@ -7,9 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -29,45 +29,67 @@ public class DockerBuilderHistory : DockerBuildxHistory
     public new DockerBuilderHistoryInspect Inspect =>
         _inspect ??= new DockerBuilderHistoryInspect(_command);
 
+    public virtual Task<CommandResult> ExecuteAsync(
+        DockerBuilderHistoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return base.ExecuteAsync(options, executionOptions, cancellationToken);
+    }
+
     public virtual Task<CommandResult> ExportAsync(
         DockerBuilderHistoryExportOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.ExportAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.ExportAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> ImportAsync(
         DockerBuilderHistoryImportOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.ImportAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.ImportAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> LogsAsync(
         DockerBuilderHistoryLogsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.LogsAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.LogsAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> LsAsync(
         DockerBuilderHistoryLsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.LsAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.LsAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> OpenAsync(
         DockerBuilderHistoryOpenOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.OpenAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.OpenAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> RmAsync(
         DockerBuilderHistoryRmOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.RmAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.RmAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> TraceAsync(
         DockerBuilderHistoryTraceOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.TraceAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.TraceAsync(options, executionOptions, cancellationToken);
+    }
 }

@@ -18,15 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "export")]
-public record DockerContainerExportOptions : DockerOptions
+public record DockerContainerExportOptions(
+    [property: CliArgument(0)] string Container
+) : DockerOptions
 {
     /// <summary>
     /// Write to a file, instead of STDOUT
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -18,12 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "upgrade")]
-public record DockerPluginUpgradeOptions : DockerOptions
+public record DockerPluginUpgradeOptions(
+    [property: CliArgument(0)] string Plugin
+) : DockerOptions
 {
     /// <summary>
     /// Skip image verification (default true)
     /// </summary>
-    [CliFlag("--disable-content-trust")]
+    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
@@ -38,10 +40,10 @@ public record DockerPluginUpgradeOptions : DockerOptions
     [CliFlag("--skip-remote-check")]
     public bool? SkipRemoteCheck { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The REMOTE operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Remote { get; set; }
 
 }

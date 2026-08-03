@@ -98,7 +98,10 @@ public record DockerBuildxCreateOptions : DockerOptions
     [CliFlag("--use")]
     public bool? Use { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0)]
+    public string? Context { get; set; }
 
 }

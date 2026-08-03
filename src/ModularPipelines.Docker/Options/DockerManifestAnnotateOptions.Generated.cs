@@ -18,7 +18,10 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "annotate")]
-public record DockerManifestAnnotateOptions : DockerOptions
+public record DockerManifestAnnotateOptions(
+    [property: CliArgument(0)] string ManifestList,
+    [property: CliArgument(1)] string Manifest
+) : DockerOptions
 {
     /// <summary>
     /// Set architecture
@@ -49,8 +52,5 @@ public record DockerManifestAnnotateOptions : DockerOptions
     /// </summary>
     [CliOption("--variant", Format = OptionFormat.EqualsSeparated)]
     public string? Variant { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }
