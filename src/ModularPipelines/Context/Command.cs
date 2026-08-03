@@ -55,6 +55,7 @@ internal sealed class Command : ICommandContext
 
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(options));
         _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(execOpts));
+        _secretRegistry.AddSecrets(_secretProvider.GetSecretsInObject(execOpts.CommandLineCredentials));
 
         var commandLine = _commandLineBuilder.Build(options);
         var resolvedTool = commandLine.Tool;

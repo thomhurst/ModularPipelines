@@ -1,3 +1,5 @@
+using ModularPipelines.Attributes;
+
 namespace ModularPipelines.Options;
 
 /// <summary>
@@ -18,6 +20,7 @@ public sealed record CommandLineCredentials
     /// <summary>
     /// Gets the password associated with the user account.
     /// </summary>
+    [SecretValue]
     public string? Password { get; init; }
 
     /// <summary>

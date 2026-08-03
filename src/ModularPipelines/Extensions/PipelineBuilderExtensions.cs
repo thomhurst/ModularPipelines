@@ -28,7 +28,7 @@ public static class PipelineBuilderExtensions
         where TModule : class, IModule
     {
         builder.Services.AddModule<TModule>();
-        return new ModuleRegistration<TModule>(builder, typeof(TModule));
+        return new ModuleRegistration<TModule>(builder);
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public static class PipelineBuilderExtensions
         where TModule : class, IModule
     {
         builder.Services.AddModule(module);
-        return new ModuleRegistration<TModule>(builder, module.GetType());
+        return new ModuleRegistration<TModule>(builder);
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public static class PipelineBuilderExtensions
         where TModule : class, IModule
     {
         builder.Services.AddModule(factory);
-        return new ModuleRegistration<TModule>(builder, typeof(TModule));
+        return new ModuleRegistration<TModule>(builder);
     }
 
     /// <summary>

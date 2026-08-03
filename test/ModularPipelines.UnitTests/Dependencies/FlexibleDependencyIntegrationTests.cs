@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
@@ -200,11 +201,11 @@ public class FlexibleDependencyIntegrationTests : TestBase
     #region Override-Based Tags Tests
 
     [Test]
-    public async Task ModuleWithOverrideTags_IsRecognizedByTagDependency()
+    public async Task ModuleWithConfiguredTags_IsRecognizedByTagDependency()
     {
         // Arrange & Act
         var result = await TestPipelineBuilder.Create()
-            .AddModule<ModuleWithOverrideTags>()
+            .AddModule<ModuleWithConfiguredTags>()
             .AddModule<AfterDatabaseModule>()
             .ExecutePipelineAsync();
 
@@ -212,19 +213,18 @@ public class FlexibleDependencyIntegrationTests : TestBase
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
 
         var order = GetExecutionOrder();
-        var overrideIndex = order.IndexOf(nameof(ModuleWithOverrideTags));
+        var configuredIndex = order.IndexOf(nameof(ModuleWithConfiguredTags));
         var afterDbIndex = order.IndexOf(nameof(AfterDatabaseModule));
 
-        // AfterDatabaseModule depends on "database" tag, which is set via override
-        await Assert.That(afterDbIndex).IsGreaterThan(overrideIndex);
+        await Assert.That(afterDbIndex).IsGreaterThan(configuredIndex);
     }
 
     [Test]
-    public async Task ModuleWithOverrideCategory_IsRecognizedByCategoryDependency()
+    public async Task ModuleWithConfiguredCategory_IsRecognizedByCategoryDependency()
     {
         // Arrange & Act
         var result = await TestPipelineBuilder.Create()
-            .AddModule<ModuleWithOverrideCategory>()
+            .AddModule<ModuleWithConfiguredCategory>()
             .AddModule<AfterInfrastructureModule>()
             .ExecutePipelineAsync();
 
@@ -232,78 +232,10 @@ public class FlexibleDependencyIntegrationTests : TestBase
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
 
         var order = GetExecutionOrder();
-        var overrideIndex = order.IndexOf(nameof(ModuleWithOverrideCategory));
+        var configuredIndex = order.IndexOf(nameof(ModuleWithConfiguredCategory));
         var afterInfraIndex = order.IndexOf(nameof(AfterInfrastructureModule));
 
-        // AfterInfrastructureModule depends on "infrastructure" category, which is set via override
-        await Assert.That(afterInfraIndex).IsGreaterThan(overrideIndex);
-    }
-
-    #endregion
-
-    #region Registration-Time Tags Tests
-
-    [Test]
-    public async Task ModuleWithRegistrationTags_IsRecognizedByTagDependency()
-    {
-        // Arrange & Act
-        var result = await TestPipelineBuilder.Create()
-            .AddModule<PlainModule>()
-            .WithTags("database")
-            .AddModule<AfterDatabaseModule>()
-            .ExecutePipelineAsync();
-
-        // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
-
-        var order = GetExecutionOrder();
-        var plainIndex = order.IndexOf(nameof(PlainModule));
-        var afterDbIndex = order.IndexOf(nameof(AfterDatabaseModule));
-
-        // AfterDatabaseModule depends on "database" tag, which was set at registration time
-        await Assert.That(afterDbIndex).IsGreaterThan(plainIndex);
-    }
-
-    [Test]
-    public async Task ModuleWithRegistrationCategory_IsRecognizedByCategoryDependency()
-    {
-        // Arrange & Act
-        var result = await TestPipelineBuilder.Create()
-            .AddModule<PlainModule>()
-            .WithCategory("infrastructure")
-            .AddModule<AfterInfrastructureModule>()
-            .ExecutePipelineAsync();
-
-        // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
-
-        var order = GetExecutionOrder();
-        var plainIndex = order.IndexOf(nameof(PlainModule));
-        var afterInfraIndex = order.IndexOf(nameof(AfterInfrastructureModule));
-
-        // AfterInfrastructureModule depends on "infrastructure" category, which was set at registration time
-        await Assert.That(afterInfraIndex).IsGreaterThan(plainIndex);
-    }
-
-    [Test]
-    public async Task ModuleWithBothAttributeAndRegistrationTags_MergesTags()
-    {
-        // Arrange & Act - DatabaseModuleA has "database" tag via attribute, add "slow" via registration
-        var result = await TestPipelineBuilder.Create()
-            .AddModule<DatabaseModuleA>()
-            .WithTags("slow")
-            .AddModule<AfterSlowModule>()
-            .ExecutePipelineAsync();
-
-        // Assert
-        await Assert.That(result.Status).IsEqualTo(Status.Successful);
-
-        var order = GetExecutionOrder();
-        var dbAIndex = order.IndexOf(nameof(DatabaseModuleA));
-        var afterSlowIndex = order.IndexOf(nameof(AfterSlowModule));
-
-        // AfterSlowModule depends on "slow" tag, which was added at registration time
-        await Assert.That(afterSlowIndex).IsGreaterThan(dbAIndex);
+        await Assert.That(afterInfraIndex).IsGreaterThan(configuredIndex);
     }
 
     #endregion
@@ -580,43 +512,33 @@ public class FlexibleDependencyIntegrationTests : TestBase
 
     #endregion
 
-    #region Test Modules - Override-Based Tags/Category
+    #region Test Modules - Configured Tags/Category
 
-    private class ModuleWithOverrideTags : Module<string>
+    private class ModuleWithConfiguredTags : Module<string>
     {
-        public override IReadOnlySet<string> Tags => new HashSet<string> { "database", "override-tag" };
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTags("database", "configured-tag")
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            RecordExecution(nameof(ModuleWithOverrideTags));
-            return "OverrideTags";
+            RecordExecution(nameof(ModuleWithConfiguredTags));
+            return "ConfiguredTags";
         }
     }
 
-    private class ModuleWithOverrideCategory : Module<string>
+    private class ModuleWithConfiguredCategory : Module<string>
     {
-        public override string? Category => "infrastructure";
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCategory("infrastructure")
+            .Build();
 
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            RecordExecution(nameof(ModuleWithOverrideCategory));
-            return "OverrideCategory";
-        }
-    }
-
-    #endregion
-
-    #region Test Modules - Registration-Time Tags
-
-    private class PlainModule : Module<string>
-    {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            RecordExecution(nameof(PlainModule));
-            return "Plain";
+            RecordExecution(nameof(ModuleWithConfiguredCategory));
+            return "ConfiguredCategory";
         }
     }
 
