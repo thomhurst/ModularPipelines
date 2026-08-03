@@ -55,6 +55,15 @@ public class GeneratedOptionsSmokeTestHarnessTests
         await Assert.That(result.PropertiesTested).IsEqualTo(1);
     }
 
+    [Test]
+    public async Task Reflection_Model_Ignores_Setter_Only_Shadow()
+    {
+        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsTypeUsingReflection(
+            typeof(SetterOnlyShadowedOptions));
+
+        await Assert.That(result.PropertiesTested).IsEqualTo(1);
+    }
+
     private sealed record RepresentativeOptions : CommandLineToolOptions
     {
         [CliArgument(0, PrependOptionTerminator = true)]
@@ -82,6 +91,17 @@ public class GeneratedOptionsSmokeTestHarnessTests
     private sealed record ShadowedOptions : ShadowedOptionsBase
     {
         [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-        public new string? Progress { get; init; }
+        public new int? Progress { get; init; }
+    }
+
+    private record SetterOnlyShadowedOptionsBase : CommandLineToolOptions
+    {
+        [CliOption("--value")]
+        public string? Value { get; init; }
+    }
+
+    private sealed record SetterOnlyShadowedOptions : SetterOnlyShadowedOptionsBase
+    {
+        public new string? Value { set { } }
     }
 }

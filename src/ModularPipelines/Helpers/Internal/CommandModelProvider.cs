@@ -43,11 +43,7 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     private static IReadOnlyList<PropertyCommandLinePart> BuildModel(Type type)
     {
         var parts = new List<PropertyCommandLinePart>();
-        var properties = type
-            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
-            .Where(property => IsMostDerivedProperty(type, property));
-
-        foreach (var property in properties)
+        foreach (var property in GetCommandProperties(type))
         {
             if (property.GetCustomAttribute<CliArgumentAttribute>() is { } arg)
             {
@@ -76,21 +72,23 @@ internal sealed class CommandModelProvider : ICommandModelProvider
     }
 
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
-    private static bool IsMostDerivedProperty(Type optionsType, PropertyInfo property)
+    private static IEnumerable<PropertyInfo> GetCommandProperties(Type optionsType)
     {
-        for (var currentType = optionsType;
-             currentType is not null && currentType != property.DeclaringType;
-             currentType = currentType.BaseType)
+        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        for (var currentType = optionsType; currentType is not null; currentType = currentType.BaseType)
         {
-            if (currentType
-                .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .Any(candidate => candidate.Name == property.Name))
+            foreach (var property in currentType.GetProperties(
+                         BindingFlags.Public
+                         | BindingFlags.NonPublic
+                         | BindingFlags.Instance
+                         | BindingFlags.DeclaredOnly))
             {
-                return false;
+                if (property.GetMethod is not null && seenPropertyNames.Add(property.Name))
+                {
+                    yield return property;
+                }
             }
         }
-
-        return true;
     }
 
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
