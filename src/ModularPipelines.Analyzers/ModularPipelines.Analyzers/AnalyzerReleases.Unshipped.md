@@ -12,8 +12,6 @@ MPCLI002 | Usage | Error | Value-less bool? CliOption should use CliFlag
 MPCLI003 | Usage | Error | Multiple CLI attributes applied to one property
 MPCLI004 | Usage | Error | Duplicate CLI switch in an options hierarchy
 MPCLI006 | Usage | Error | CLI attributes used outside CommandLineToolOptions
-MPCLI007 | Usage | Error | Conflicting CliTool identity in an options hierarchy
-MPCLI008 | Usage | Warning | Static subcommand options hierarchy has no CliTool
 
 ### Removed Rules
 

@@ -44,18 +44,40 @@ public class CliOptionsIdentityAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Reports_Static_Subcommand_Without_Tool()
+    public async Task Accepts_Subcommand_With_Runtime_Tool()
     {
         var source = $$"""
             {{TestSourceConstants.StandardUsingsWithOptions}}
 
-            [{|#0:CliSubCommand("run")|}]
-            public record RunOptions : CommandLineToolOptions;
+            [CliSubCommand("run")]
+            public record RunOptions : CommandLineToolOptions
+            {
+                public RunOptions()
+                {
+                    Tool = "runtime-tool";
+                }
+            }
             """;
 
-        var expected = VerifyCS.Diagnostic(CliOptionsIdentityAnalyzer.MissingToolDiagnosticId)
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Cli_Property_Attributes_On_Interfaces()
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardUsingsWithOptions}}
+
+            public interface {|#0:IOptions|}
+            {
+                [CliFlag("--force")]
+                bool? Force { get; }
+            }
+            """;
+
+        var expected = VerifyCS.Diagnostic(CliOptionsIdentityAnalyzer.InvalidOptionsBaseDiagnosticId)
             .WithLocation(0)
-            .WithArguments("RunOptions");
+            .WithArguments("IOptions");
 
         await VerifyCS.VerifyAnalyzerAsync(source, expected);
     }
