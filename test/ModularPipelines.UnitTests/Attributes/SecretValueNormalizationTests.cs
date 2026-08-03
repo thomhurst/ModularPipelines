@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
+using ModularPipelines.Models;
 using ModularPipelines.Options;
 using Moq;
 
@@ -32,6 +33,12 @@ internal class GeneratedCharacterSecretOptions
     [SecretValue]
     public IEnumerable<string> SecretCollection { get; init; } =
         ["collection-secret-one", "collection-secret-two"];
+
+    [SecretValue]
+    public CliOptionValue OptionalValueSecret { get; init; } = "optional-value-secret";
+
+    [SecretValue]
+    public CliOptionValue BareOptionalValue { get; init; } = CliOptionValue.Bare;
 }
 
 internal sealed class ReflectionCharacterSecretOptions : GeneratedCharacterSecretOptions
@@ -49,6 +56,7 @@ public class SecretValueNormalizationTests
         "memory-secret",
         "read-only-memory-secret",
         "segment-secret",
+        "optional-value-secret",
     ];
 
     private static readonly string[] ExpectedSecrets =

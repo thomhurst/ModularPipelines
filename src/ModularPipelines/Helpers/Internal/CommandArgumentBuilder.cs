@@ -286,7 +286,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         foreach (var pair in pairs)
         {
             if (string.IsNullOrWhiteSpace(pair.First)
-                || string.IsNullOrWhiteSpace(pair.Second))
+                || pair.Second is null)
             {
                 throw CreateEmptyRequiredValueException(optionsType, optionPart);
             }

@@ -56,6 +56,25 @@ public class JqOptionsTests
     }
 
     [Test]
+    public async Task Renders_Empty_And_Whitespace_String_Pair_Values()
+    {
+        var arguments = BuildArguments(new JqExecuteOptions
+        {
+            Arg =
+            [
+                new CliOptionValuePair("empty", ""),
+                new CliOptionValuePair("whitespace", "  "),
+            ],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "--arg", "empty", "",
+            "--arg", "whitespace", "  ",
+        ]);
+    }
+
+    [Test]
     public async Task Renders_RunTests_After_Positionals()
     {
         var arguments = BuildArguments(new JqExecuteOptions
