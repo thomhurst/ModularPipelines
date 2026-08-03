@@ -42,7 +42,15 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         var moduleClasses = moduleCandidates
             .Select(static (candidate, _) => candidate.Module);
         var collectedModules = moduleClasses.Collect();
-        context.RegisterSourceOutput(collectedModules, static (ctx, modules) => GenerateExtensions(ctx, modules));
+        var generationInputs = collectedModules.Combine(
+            context.CompilationProvider.Select(static (compilation, _) =>
+                GeneratedTypeName.FromAssembly(
+                    compilation.AssemblyName,
+                    "Modules",
+                    "ModuleContextExtensions")));
+        context.RegisterSourceOutput(
+            generationInputs,
+            static (ctx, input) => GenerateExtensions(ctx, input.Left, input.Right));
 
         var duplicateAccessors = moduleCandidates
             .Collect()
@@ -157,7 +165,10 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     /// <summary>
     /// Generates the extension methods file containing all module accessors.
     /// </summary>
-    private static void GenerateExtensions(SourceProductionContext context, ImmutableArray<ModuleClassInfo> modules)
+    private static void GenerateExtensions(
+        SourceProductionContext context,
+        ImmutableArray<ModuleClassInfo> modules,
+        string generatedTypeName)
     {
         if (modules.IsEmpty)
         {
@@ -196,7 +207,7 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         sb.AppendLine("/// Type-safe extension methods for retrieving module results.");
         sb.AppendLine("/// </summary>");
         sb.AppendLine($"[GeneratedCode(\"{GeneratorName}\", \"{GeneratorVersion}\")]");
-        sb.AppendLine("public static class ModuleContextExtensions");
+        sb.AppendLine($"public static class {generatedTypeName}");
         sb.AppendLine("{");
 
         foreach (var module in uniqueModules)
@@ -258,7 +269,8 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         const string suffix = "Module";
 
         // Only strip if there's actual content before "Module" (prevents "Module" → "")
-        if (className.Length > suffix.Length && className.EndsWith(suffix))
+        if (className.Length > suffix.Length
+            && className.EndsWith(suffix, StringComparison.Ordinal))
         {
             return className.Substring(0, className.Length - suffix.Length);
         }
