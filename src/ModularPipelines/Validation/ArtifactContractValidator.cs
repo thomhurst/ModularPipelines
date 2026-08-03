@@ -49,14 +49,14 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
         var modules = await services.GetRequiredService<ModuleRetriever>()
             .GetRunnableModulesForValidation()
             .ConfigureAwait(false);
-        var conditionHandler = services.GetRequiredService<IModuleConditionHandler>();
+        var skipEvaluator = services.GetRequiredService<ModulePlanningSkipEvaluator>();
         var runnableModules = new List<IModule>(modules.Count);
         foreach (var module in modules)
         {
-            var (shouldIgnore, _) = await conditionHandler
-                .ShouldIgnoreForPlanning(module)
+            var skipDecision = await skipEvaluator
+                .EvaluateAsync(module, CancellationToken.None)
                 .ConfigureAwait(false);
-            if (!shouldIgnore)
+            if (skipDecision?.ShouldSkip != true)
             {
                 runnableModules.Add(module);
             }
