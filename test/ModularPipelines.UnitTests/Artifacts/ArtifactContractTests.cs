@@ -117,6 +117,31 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Dependency-skipped consumer must not execute");
     }
 
+    private sealed class ArtifactValidationHistoryRepository : IModuleResultRepository
+    {
+        public bool IsEnabled => true;
+
+        public Task SaveResultAsync<T>(
+            Module<T> module,
+            ModuleResult<T> moduleResult,
+            IPipelineContext pipelineContext) =>
+            Task.CompletedTask;
+
+        public Task<ModuleResult<T>?> GetResultAsync<T>(
+            Module<T> module,
+            IPipelineContext pipelineContext)
+        {
+            if (module is not SkippedArtifactValidationDependencyModule)
+            {
+                return Task.FromResult<ModuleResult<T>?>(null);
+            }
+
+            var executionContext = new ModuleExecutionContext(module, module.GetType());
+            return Task.FromResult<ModuleResult<T>?>(
+                ModuleResult<T>.CreateSuccess(default!, executionContext));
+        }
+    }
+
     [ConsumesArtifact(typeof(DeclaredProducerModule), "declared-output")]
     private sealed class UnorderedArtifactConsumerModule : Module<string>
     {
@@ -727,6 +752,23 @@ public class ArtifactContractTests
         await using var pipeline = await builder.BuildAsync();
 
         await Assert.That(pipeline).IsNotNull();
+    }
+
+    [Test]
+    public async Task BuildAsyncRejectsInvalidContractWhenSkippedDependencyHasHistory()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddResultsRepository<ArtifactValidationHistoryRepository>();
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<SkippedArtifactValidationDependencyModule>();
+        builder.AddModule<DependencySkippedInvalidArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(DependencySkippedInvalidArtifactConsumerModule)
+            && error.Message.Contains("missing-output", StringComparison.Ordinal));
     }
 
     [Test]

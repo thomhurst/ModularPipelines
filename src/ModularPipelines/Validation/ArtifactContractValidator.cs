@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -68,14 +69,28 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             }
         }
 
+        var moduleTypesUsingHistory = new HashSet<Type>();
+        var resultHistoryProvider = services.GetRequiredService<IModuleResultHistoryProvider>();
+        var pipelineContext = services.GetRequiredService<IPipelineContextProvider>().GetModuleContext();
         var cascadeResult = await DependencySkipCascade.ApplyAsync(
                 modules,
                 runnableModules,
                 ignoredModules,
                 services.GetRequiredService<IModuleDependencyRegistry>(),
                 services.GetRequiredService<IModuleMetadataRegistry>(),
-                _ => Task.CompletedTask,
-                _ => true)
+                async pendingIgnoredModules =>
+                {
+                    foreach (var ignoredModule in pendingIgnoredModules)
+                    {
+                        if (await resultHistoryProvider
+                                .TryGetAsync(ignoredModule.Module, pipelineContext)
+                                .ConfigureAwait(false) is not null)
+                        {
+                            moduleTypesUsingHistory.Add(ignoredModule.Module.GetType());
+                        }
+                    }
+                },
+                moduleType => !moduleTypesUsingHistory.Contains(moduleType))
             .ConfigureAwait(false);
         return cascadeResult.RunnableModules;
     }
