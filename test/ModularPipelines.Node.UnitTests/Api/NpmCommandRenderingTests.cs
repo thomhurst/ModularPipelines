@@ -35,4 +35,39 @@ public class NpmCommandRenderingTests : TestBase
 
         await Assert.That(commandLine.ToString()).IsEqualTo("npx -c example-command");
     }
+
+    [Test]
+    public async Task Init_Does_Not_Render_Synopsis_Explanation()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new NpmInitOptions("example-package"));
+
+        await Assert.That(commandLine.ToString()).IsEqualTo("npm init example-package");
+    }
+
+    [Test]
+    public async Task Org_Ls_Renders_Operands_As_Arguments()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new NpmOrgLsOptions("example-org")
+        {
+            Username = "example-user",
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("npm org ls example-org example-user");
+    }
+
+    [Test]
+    public async Task Org_Rm_Renders_Operands_As_Arguments()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new NpmOrgRmOptions("example-org", "example-user"));
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("npm org rm example-org example-user");
+    }
 }

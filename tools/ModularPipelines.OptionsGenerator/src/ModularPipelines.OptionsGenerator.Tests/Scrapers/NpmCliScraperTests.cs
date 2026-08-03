@@ -74,6 +74,26 @@ public class NpmCliScraperTests
             .IsEqualTo("IEnumerable<string>?");
     }
 
+    [Test]
+    public async Task Keeps_Synopsis_Explanation_Out_Of_Command_Parts()
+    {
+        var scraper = CreateScraper();
+        var command = await scraper.Parse(
+            ["npm", "init"],
+            """
+            Create a package.json file
+
+            Usage:
+            npm init <package-spec> (same as `npx create-<package-spec>`)
+            npm init <@scope> (same as `npx <@scope>/create`)
+            """);
+
+        await Assert.That(command!.CommandParts).IsEquivalentTo(["init"]);
+        await Assert.That(command.PositionalArguments).Count().IsEqualTo(1);
+        await Assert.That(command.PositionalArguments[0].PropertyName).IsEqualTo("Value");
+        await Assert.That(command.PositionalArguments[0].IsRequired).IsTrue();
+    }
+
     private static TestNpmCliScraper CreateScraper() => new();
 
     private sealed class TestNpmCliScraper : NpmCliScraper
