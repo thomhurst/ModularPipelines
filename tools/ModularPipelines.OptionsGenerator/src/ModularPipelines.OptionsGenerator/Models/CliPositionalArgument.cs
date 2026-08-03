@@ -65,7 +65,9 @@ public record CliPositionalArgument
     public string? Description { get; init; }
 
     /// <summary>
-    /// Rendering phase relative to flags and options.
+    /// Rendering phase relative to flags and options. Generated operands default to
+    /// <see cref="CommandLinePhase.EarlyOperand"/> because scraper syntax places them beside
+    /// the command path; hand-written attributes retain their pass-through default for compatibility.
     /// </summary>
     public CommandLinePhase Phase { get; init; } = CommandLinePhase.EarlyOperand;
 

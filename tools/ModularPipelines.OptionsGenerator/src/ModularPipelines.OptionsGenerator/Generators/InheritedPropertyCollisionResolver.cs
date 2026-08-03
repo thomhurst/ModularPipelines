@@ -33,11 +33,18 @@ internal static class InheritedPropertyCollisionResolver
             [],
             globalNames,
             globalRenamedProperties);
+        var resolvedGlobalNames = globalOptions
+            .Concat(supplementalGlobalOptions)
+            .Select(option => option.PropertyName)
+            .ToHashSet(StringComparer.Ordinal);
 
         return tool with
         {
             Commands = tool.Commands
-                .Select(command => ResolveCommand(command, globalRenamedProperties))
+                .Select(command => ResolveCommand(
+                    command,
+                    globalRenamedProperties,
+                    resolvedGlobalNames))
                 .ToArray(),
             GlobalOptions = globalOptions,
             SupplementalGlobalOptions = supplementalGlobalOptions,
@@ -46,12 +53,14 @@ internal static class InheritedPropertyCollisionResolver
 
     private static CliCommandDefinition ResolveCommand(
         CliCommandDefinition command,
-        IReadOnlyDictionary<string, string> globalRenamedProperties)
+        IReadOnlyDictionary<string, string> globalRenamedProperties,
+        IReadOnlySet<string> globalPropertyNames)
     {
         var occupiedNames = command.Options
             .Select(option => option.PropertyName)
             .Concat(command.PositionalArguments.Select(argument => argument.PropertyName))
             .Concat(command.CompatibilityProperties.Select(property => property.PropertyName))
+            .Concat(globalPropertyNames)
             .ToHashSet(StringComparer.Ordinal);
         var renamedProperties = new Dictionary<string, string>(StringComparer.Ordinal);
         var options = ResolveOptions(

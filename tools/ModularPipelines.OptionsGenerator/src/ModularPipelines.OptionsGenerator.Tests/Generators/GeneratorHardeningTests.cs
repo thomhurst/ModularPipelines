@@ -469,6 +469,46 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task OptionsClassGenerator_Reserves_Global_Names_For_Command_Renames()
+    {
+        var command = Command("ToolJobSubmitOptions", "ToolOptions", ["job", "submit"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "bool?",
+                    IsFlag = true,
+                },
+            ],
+        };
+        var tool = Tool(command) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--job-arguments",
+                    PropertyName = "JobArguments",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool))
+            .Single(file => file.Content.Contains("record ToolJobSubmitOptions", StringComparison.Ordinal))
+            .Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public bool? CliArguments { get; set; }");
+            await Assert.That(generated).DoesNotContain("public bool? JobArguments { get; set; }");
+        }
+    }
+
+    [Test]
     public async Task OptionsClassGenerator_Deduplicates_Required_And_Optional_Positionals()
     {
         var command = Command("ToolLoadOptions", "ToolOptions") with
