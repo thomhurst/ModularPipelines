@@ -137,6 +137,23 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Generated_Runtime_Metadata_Allows_Obsolete_Types()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            "[System.Obsolete] public sealed class LegacyOptions;");
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("#pragma warning disable CS0618");
+            await Assert.That(generatedSource).Contains("typeof(global::LegacyOptions)");
+        }
+    }
+
+    [Test]
     public async Task Delegate_Type_Registers_Exact_Empty_Metadata()
     {
         var result = GeneratorTestRunner.Run(
