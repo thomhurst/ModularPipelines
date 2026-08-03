@@ -12,7 +12,7 @@ namespace ModularPipelines.Generated;
 /// Type-safe extension methods for retrieving module results.
 /// </summary>
 [GeneratedCode("ModularPipelines.SourceGenerator", "1.0.0")]
-public static class GeneratorTestsModuleContextExtensions
+public static class GeneratorTests_d1522dad3cd47b23ModuleContextExtensions
 {
     /// <summary>
     /// Gets the <see cref="global::Consumer.BuildModule"/> module instance.

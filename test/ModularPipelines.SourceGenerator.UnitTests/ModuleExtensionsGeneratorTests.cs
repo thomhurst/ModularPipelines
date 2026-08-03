@@ -143,7 +143,7 @@ public class ModuleExtensionsGeneratorTests
     }
 
     [Test]
-    public async Task Sanitized_Assembly_Names_Produce_Unique_Extension_Types()
+    public async Task Assembly_Names_Produce_Unique_Extension_Types()
     {
         const string source = """
             namespace Consumer
@@ -161,9 +161,21 @@ public class ModuleExtensionsGeneratorTests
             TestInfrastructure,
             source,
             "Shared.Modules");
+        var craftedValidName = GetGeneratedTypeName(hyphenated)
+            [..^"ModuleContextExtensions".Length];
+        var valid = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            craftedValidName);
 
-        await Assert.That(GetGeneratedTypeName(hyphenated))
-            .IsNotEqualTo(GetGeneratedTypeName(dotted));
+        using (Assert.Multiple())
+        {
+            await Assert.That(GetGeneratedTypeName(hyphenated))
+                .IsNotEqualTo(GetGeneratedTypeName(dotted));
+            await Assert.That(GetGeneratedTypeName(hyphenated))
+                .IsNotEqualTo(GetGeneratedTypeName(valid));
+        }
     }
 
     private static string GetGeneratedTypeName(GeneratorDriverRunResult result) =>

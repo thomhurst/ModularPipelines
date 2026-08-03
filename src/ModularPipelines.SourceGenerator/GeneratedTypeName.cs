@@ -11,13 +11,11 @@ internal static class GeneratedTypeName
         string suffix)
     {
         var name = assemblyName ?? fallbackName;
-        var builder = new StringBuilder(name.Length + suffix.Length + 1);
-        var wasSanitized = false;
+        var builder = new StringBuilder(name.Length + suffix.Length + 18);
 
         if (name.Length == 0 || !IsIdentifierStart(name[0]))
         {
             builder.Append('_');
-            wasSanitized = true;
         }
 
         foreach (var character in name)
@@ -29,15 +27,11 @@ internal static class GeneratedTypeName
             else
             {
                 builder.Append('_');
-                wasSanitized = true;
             }
         }
 
-        if (wasSanitized)
-        {
-            builder.Append('_');
-            builder.Append(ComputeStableHash(name).ToString("x16", CultureInfo.InvariantCulture));
-        }
+        builder.Append('_');
+        builder.Append(ComputeStableHash(name).ToString("x16", CultureInfo.InvariantCulture));
 
         return builder.Append(suffix).ToString();
     }
