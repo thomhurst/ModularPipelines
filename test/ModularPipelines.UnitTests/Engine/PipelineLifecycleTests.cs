@@ -38,6 +38,19 @@ public class PipelineLifecycleTests
         }
     }
 
+    private sealed class ReentrantDisposalTracker : IAsyncDisposable
+    {
+        public Func<ValueTask>? DisposePipeline { get; set; }
+
+        public Task? ReentrantDisposalTask { get; private set; }
+
+        public ValueTask DisposeAsync()
+        {
+            ReentrantDisposalTask = DisposePipeline!().AsTask();
+            return ValueTask.CompletedTask;
+        }
+    }
+
     [Test]
     public async Task Pipeline_Does_Not_Declare_A_Finalizer()
     {
@@ -57,6 +70,23 @@ public class PipelineLifecycleTests
 
         await pipeline.DisposeAsync();
         await pipeline.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Reentrant_Disposal_Observes_The_Published_Task()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<LifecycleModule>();
+        builder.Services.AddSingleton<ReentrantDisposalTracker>();
+        var pipeline = await builder.BuildAsync();
+        var tracker = pipeline.Services.GetRequiredService<ReentrantDisposalTracker>();
+        tracker.DisposePipeline = pipeline.DisposeAsync;
+
+        var disposalTask = pipeline.DisposeAsync().AsTask();
+        await disposalTask;
+
+        await Assert.That(tracker.ReentrantDisposalTask).IsNotNull();
+        await Assert.That(tracker.ReentrantDisposalTask!).IsSameReferenceAs(disposalTask);
     }
 
     [Test]

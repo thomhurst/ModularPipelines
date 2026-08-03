@@ -92,7 +92,29 @@ internal sealed class PipelineImpl : IPipeline
     {
         lock (_disposeLock)
         {
-            return new ValueTask(_disposeTask ??= DisposeCoreAsync());
+            if (_disposeTask is not null)
+            {
+                return new ValueTask(_disposeTask);
+            }
+
+            var completion = new TaskCompletionSource(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            _disposeTask = completion.Task;
+            _ = CompleteDisposalAsync(completion);
+            return new ValueTask(_disposeTask);
+        }
+    }
+
+    private async Task CompleteDisposalAsync(TaskCompletionSource completion)
+    {
+        try
+        {
+            await DisposeCoreAsync().ConfigureAwait(false);
+            completion.SetResult();
+        }
+        catch (Exception exception)
+        {
+            completion.SetException(exception);
         }
     }
 
