@@ -12,4 +12,13 @@ namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderPolicyTestOptions : DockerBuildxPolicyTestOptions;
+public record DockerBuilderPolicyTestOptions : DockerBuildxPolicyTestOptions
+{
+    public DockerBuilderPolicyTestOptions(
+        string Path
+    )
+        : base(Path)
+    {
+    }
+
+}

@@ -26,10 +26,10 @@ public record DockerContextInspectOptions : DockerOptions
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Context { get; set; }
+    /// <summary>
+    /// The CONTEXT operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Context { get; set; }
 
 }

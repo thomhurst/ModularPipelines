@@ -7,9 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -17,20 +17,35 @@ namespace ModularPipelines.Docker.Services;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class DockerBuilderPolicy : DockerBuildxPolicy
 {
+    private readonly ICommandContext _command;
+
     public DockerBuilderPolicy(ICommandContext command)
         : base(command)
     {
+        _command = command;
+    }
+
+    public virtual Task<CommandResult> ExecuteAsync(
+        DockerBuilderPolicyOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return base.ExecuteAsync(options, executionOptions, cancellationToken);
     }
 
     public virtual Task<CommandResult> EvalAsync(
-        DockerBuilderPolicyEvalOptions? options = null,
+        DockerBuilderPolicyEvalOptions options,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.EvalAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.EvalAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> TestAsync(
-        DockerBuilderPolicyTestOptions? options = null,
+        DockerBuilderPolicyTestOptions options,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.TestAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.TestAsync(options, executionOptions, cancellationToken);
+    }
 }

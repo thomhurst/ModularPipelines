@@ -18,7 +18,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "run")]
-public record PulumiDeploymentRunOptions : PulumiOptions
+public record PulumiDeploymentRunOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Operation
+) : PulumiOptions
 {
     /// <summary>
     /// The agent pool to use to run the deployment job. When empty, the Pulumi Cloud shared queue will be used.
@@ -106,7 +108,7 @@ public record PulumiDeploymentRunOptions : PulumiOptions
     /// <summary>
     /// Inherit deployment settings from the current stack (default true)
     /// </summary>
-    [CliFlag("--inherit-settings")]
+    [CliOption("--inherit-settings", Format = OptionFormat.EqualsSeparated)]
     public bool? InheritSettings { get; set; }
 
     /// <summary>
@@ -136,7 +138,7 @@ public record PulumiDeploymentRunOptions : PulumiOptions
     /// <summary>
     /// Suppress log streaming of the deployment job (default true)
     /// </summary>
-    [CliFlag("--suppress-stream-logs")]
+    [CliOption("--suppress-stream-logs", Format = OptionFormat.EqualsSeparated)]
     public bool? SuppressStreamLogs { get; set; }
 
     /// <summary>
@@ -194,7 +196,7 @@ public record PulumiDeploymentRunOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
@@ -216,5 +218,11 @@ public record PulumiDeploymentRunOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The url operand.
+    /// </summary>
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Url { get; set; }
 
 }

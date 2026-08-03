@@ -124,6 +124,23 @@ public class CommandGroupAliasGenerationTests
             .Contains("public IDockerBuilder Builder { get; }");
         await Assert.That(registration)
             .Contains("services.TryAddScoped<IDockerBuilder, DockerBuilder>();");
+
+        var dapOptions = optionFiles.Single(file =>
+            file.RelativePath.EndsWith(
+                "DockerBuilderDapOptions.Generated.cs",
+                StringComparison.Ordinal));
+        await Assert.That(dapOptions.Content)
+            .Contains("public DockerBuilderDapOptions(");
+        await Assert.That(dapOptions.Content)
+            .Contains("string Command");
+        await Assert.That(dapOptions.Content)
+            .Contains(": base(Command)");
+        var contentWithoutLineEndings = dapOptions.Content.Replace(Environment.NewLine, string.Empty);
+        using (Assert.Multiple())
+        {
+            await Assert.That(contentWithoutLineEndings).DoesNotContain('\r');
+            await Assert.That(contentWithoutLineEndings).DoesNotContain('\n');
+        }
     }
 
     private static CliToolDefinition CreateTool() =>
@@ -138,6 +155,19 @@ public class CommandGroupAliasGenerationTests
             [
                 Command(["buildx"], "DockerBuildxOptions", null),
                 Command(["buildx", "build"], "DockerBuildxBuildOptions", "Buildx"),
+                Command(
+                    ["buildx", "dap"],
+                    "DockerBuildxDapOptions",
+                    "Buildx",
+                    positionalArguments:
+                    [
+                        new CliPositionalArgument
+                        {
+                            PropertyName = "Command",
+                            CSharpType = "string?",
+                            IsRequired = true,
+                        },
+                    ]),
                 Command(
                     ["buildx", "history", "logs"],
                     "DockerBuildxHistoryLogsOptions",
@@ -189,7 +219,8 @@ public class CommandGroupAliasGenerationTests
         string[] commandParts,
         string className,
         string? subDomainGroup,
-        IReadOnlyList<CliOptionDefinition>? options = null) =>
+        IReadOnlyList<CliOptionDefinition>? options = null,
+        IReadOnlyList<CliPositionalArgument>? positionalArguments = null) =>
         new()
         {
             FullCommand = $"docker {string.Join(' ', commandParts)}",
@@ -198,6 +229,7 @@ public class CommandGroupAliasGenerationTests
             ParentClassName = "DockerOptions",
             ToolNamespacePrefix = "Docker",
             Options = options ?? [],
+            PositionalArguments = positionalArguments ?? [],
             SubDomainGroup = subDomainGroup,
         };
 }

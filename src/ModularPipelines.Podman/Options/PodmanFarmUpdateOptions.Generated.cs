@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("farm", "update")]
-public record PodmanFarmUpdateOptions : PodmanOptions
+public record PodmanFarmUpdateOptions(
+    [property: CliArgument(0)] string Farm
+) : PodmanOptions
 {
     /// <summary>
     /// add system connection(s) to farm

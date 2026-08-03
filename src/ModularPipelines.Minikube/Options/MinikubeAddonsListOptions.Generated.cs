@@ -23,8 +23,8 @@ public record MinikubeAddonsListOptions : MinikubeOptions
     /// <summary>
     /// If true, print web links to addons' documentation if using --output=list (default).
     /// </summary>
-    [CliOption("--docs", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
-    public string? Docs { get; set; }
+    [CliFlag("--docs", ShortForm = "-d")]
+    public bool? Docs { get; set; }
 
     /// <summary>
     /// minikube addons list --output OUTPUT. json, list

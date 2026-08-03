@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "inspect")]
-public record PodmanSecretInspectOptions : PodmanOptions
+public record PodmanSecretInspectOptions(
+    [property: CliArgument(0)] IEnumerable<string> Secret
+) : PodmanOptions
 {
     /// <summary>
     /// Format inspect output using Go template
@@ -37,8 +39,5 @@ public record PodmanSecretInspectOptions : PodmanOptions
     /// </summary>
     [CliFlag("--showsecret")]
     public bool? Showsecret { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Secret { get; set; }
 
 }

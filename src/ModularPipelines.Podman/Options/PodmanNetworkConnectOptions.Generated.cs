@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "connect")]
-public record PodmanNetworkConnectOptions : PodmanOptions
+public record PodmanNetworkConnectOptions(
+    [property: CliArgument(0)] string Network,
+    [property: CliArgument(1)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// network scoped alias for container

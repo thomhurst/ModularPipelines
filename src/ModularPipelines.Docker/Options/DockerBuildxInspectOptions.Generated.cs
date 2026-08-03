@@ -44,6 +44,9 @@ public record DockerBuildxInspectOptions : DockerOptions
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public string? Timeout { get; set; }
 
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Name { get; set; }
 

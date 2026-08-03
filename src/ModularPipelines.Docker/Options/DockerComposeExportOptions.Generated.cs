@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "export")]
-public record DockerComposeExportOptions : DockerOptions
+public record DockerComposeExportOptions(
+    [property: CliArgument(0)] string Service
+) : DockerOptions
 {
     /// <summary>
     /// Execute command in dry run mode
@@ -37,8 +39,5 @@ public record DockerComposeExportOptions : DockerOptions
     /// </summary>
     [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? Output { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

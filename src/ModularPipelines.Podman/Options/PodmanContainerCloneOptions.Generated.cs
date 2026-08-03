@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clone")]
-public record PodmanContainerCloneOptions : PodmanOptions
+public record PodmanContainerCloneOptions(
+    [property: CliArgument(0)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// Block IO weight (relative weight) accepts a weight value between 10 and 1000.
@@ -72,13 +74,13 @@ public record PodmanContainerCloneOptions : PodmanOptions
     /// CPUs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetCpus { get; set; }
+    public string? CpuSetCpus { get; set; }
 
     /// <summary>
     /// Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetMems { get; set; }
+    public string? CpuSetMems { get; set; }
 
     /// <summary>
     /// destroy the original container
@@ -145,5 +147,11 @@ public record PodmanContainerCloneOptions : PodmanOptions
     /// </summary>
     [CliFlag("--run")]
     public bool? Run { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(2)]
+    public string? Image { get; set; }
 
 }

@@ -56,24 +56,27 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             .SelectMany(static (metadata, _) => metadata)
             .WithComparer(ModuleMetadataInfoComparer.Instance);
 
-        var registeredClosedGenericModules = context.SyntaxProvider
+        var moduleRegistrations = context.SyntaxProvider
             .CreateSyntaxProvider(
                 static (node, _) => IsModuleRegistrationCandidate(node),
-                static (generatorContext, _) => GetRegisteredModuleMetadata(generatorContext))
-            .SelectMany(static (metadata, _) => metadata)
+                static (generatorContext, _) => GetModuleRegistration(generatorContext))
+            .Where(static registration => registration is not null)
+            .Select(static (registration, _) => registration!);
+
+        var registeredClosedGenericModules = moduleRegistrations
+            .SelectMany(static (registration, _) =>
+                registration is ClosedGenericModuleRegistration closedGeneric
+                    ? closedGeneric.Metadata
+                    : ImmutableArray<ModuleMetadataInfo>.Empty)
             .WithComparer(ModuleMetadataInfoComparer.Instance);
 
-        var genericModuleRegistrations = context.SyntaxProvider
-            .CreateSyntaxProvider(
-                static (node, _) => IsModuleRegistrationCandidate(node),
-                static (generatorContext, _) => GetGenericModuleRegistration(generatorContext))
-            .Where(static registration => registration is not null);
+        var genericModuleRegistrations = moduleRegistrations
+            .Where(static registration => registration is GenericModuleRegistration)
+            .Select(static (registration, _) => (GenericModuleRegistration) registration);
 
-        var nonConcreteModuleRegistrations = context.SyntaxProvider
-            .CreateSyntaxProvider(
-                static (node, _) => IsModuleRegistrationCandidate(node),
-                static (generatorContext, _) => GetNonConcreteModuleRegistration(generatorContext))
-            .Where(static registration => registration is not null);
+        var nonConcreteModuleRegistrations = moduleRegistrations
+            .Where(static registration => registration is NonConcreteModuleRegistration)
+            .Select(static (registration, _) => (NonConcreteModuleRegistration) registration);
 
         var allModules = modules
             .Collect()
@@ -94,7 +97,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             static (sourceContext, registration) =>
                 sourceContext.ReportDiagnostic(Diagnostic.Create(
                     GenericModuleRegistrationRuntimeMetadata,
-                    registration!.Location,
+                    registration.Location,
                     registration.TypeParameterName)));
 
         context.RegisterSourceOutput(
@@ -102,7 +105,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             static (sourceContext, registration) =>
                 sourceContext.ReportDiagnostic(Diagnostic.Create(
                     NonConcreteModuleRegistrationRuntimeMetadata,
-                    registration!.Location,
+                    registration.Location,
                     registration.TypeName)));
     }
 
@@ -217,40 +220,66 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         ];
     }
 
-    private static GenericModuleRegistrationInfo? GetGenericModuleRegistration(
+    private static ModuleRegistration? GetModuleRegistration(
         GeneratorSyntaxContext context)
     {
         if (context.Node is not InvocationExpressionSyntax invocation
-            || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
-            || !IsModuleRegistrationMethod(method)
-            || method.TypeArguments.Length != 1
-            || method.TypeArguments[0] is not ITypeParameterSymbol typeParameter)
+            || GetRegistrationMethod(context, invocation) is not { } method)
         {
             return null;
         }
 
-        return new GenericModuleRegistrationInfo(
-            typeParameter.Name,
-            invocation.GetLocation());
+        return method.TypeArguments[0] switch
+        {
+            ITypeParameterSymbol typeParameter => new GenericModuleRegistration(
+                typeParameter.Name,
+                invocation.GetLocation()),
+            INamedTypeSymbol type => GetNamedModuleRegistration(
+                type,
+                invocation,
+                context.SemanticModel.Compilation),
+            _ => null,
+        };
     }
 
-    private static NonConcreteModuleRegistrationInfo? GetNonConcreteModuleRegistration(
-        GeneratorSyntaxContext context)
+    private static IMethodSymbol? GetRegistrationMethod(
+        GeneratorSyntaxContext context,
+        InvocationExpressionSyntax invocation)
     {
-        if (context.Node is not InvocationExpressionSyntax invocation
-            || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
+        if (context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol method
             || !IsModuleRegistrationMethod(method)
-            || method.TypeArguments.Length != 1
-            || method.TypeArguments[0] is not INamedTypeSymbol type
-            || !ImplementsModule(type, context.SemanticModel.Compilation)
-            || (!type.IsAbstract && type.TypeKind != TypeKind.Interface))
+            || method.TypeArguments.Length != 1)
         {
             return null;
         }
 
-        return new NonConcreteModuleRegistrationInfo(
-            type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
-            invocation.GetLocation());
+        return method;
+    }
+
+    private static ModuleRegistration? GetNamedModuleRegistration(
+        INamedTypeSymbol type,
+        InvocationExpressionSyntax invocation,
+        Compilation compilation)
+    {
+        if (!ImplementsModule(type, compilation) || type.IsUnboundGenericType)
+        {
+            return null;
+        }
+
+        if (type.IsAbstract || type.TypeKind == TypeKind.Interface)
+        {
+            return new NonConcreteModuleRegistration(
+                type.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
+                invocation.GetLocation());
+        }
+
+        return type.IsGenericType
+            ? new ClosedGenericModuleRegistration(
+                GetRegisteredModuleMetadata(
+                    type,
+                    invocation,
+                    compilation))
+            : null;
     }
 
     private static bool IsModuleRegistrationMethod(IMethodSymbol method)
@@ -284,18 +313,13 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
     }
 
     private static ImmutableArray<ModuleMetadataInfo> GetRegisteredModuleMetadata(
-        GeneratorSyntaxContext context)
+        INamedTypeSymbol type,
+        InvocationExpressionSyntax invocation,
+        Compilation compilation)
     {
-        var type = GetRegisteredClosedGenericModule(context);
-        if (type is null)
-        {
-            return [];
-        }
-
-        var invocation = (InvocationExpressionSyntax) context.Node;
         if (!SymbolEqualityComparer.Default.Equals(
                 type.ContainingAssembly,
-                context.SemanticModel.Compilation.Assembly))
+                compilation.Assembly))
         {
             return
             [
@@ -312,7 +336,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
             ];
         }
 
-        return CreateModuleMetadataGraph(type, context.SemanticModel.Compilation);
+        return CreateModuleMetadataGraph(type, compilation);
     }
 
     private static ImmutableArray<ModuleMetadataInfo> CreateModuleMetadataGraph(
@@ -821,11 +845,16 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         bool Optional,
         bool EmitActivationRegistration);
 
-    private sealed record GenericModuleRegistrationInfo(
-        string TypeParameterName,
-        Location Location);
+    private abstract record ModuleRegistration;
 
-    private sealed record NonConcreteModuleRegistrationInfo(
+    private sealed record ClosedGenericModuleRegistration(
+        EquatableArray<ModuleMetadataInfo> Metadata) : ModuleRegistration;
+
+    private sealed record GenericModuleRegistration(
+        string TypeParameterName,
+        Location Location) : ModuleRegistration;
+
+    private sealed record NonConcreteModuleRegistration(
         string TypeName,
-        Location Location);
+        Location Location) : ModuleRegistration;
 }

@@ -26,7 +26,10 @@ public record PodmanFarmRemoveOptions : PodmanOptions
     [CliFlag("--all", ShortForm = "-a")]
     public bool? All { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The FARM operand.
+    /// </summary>
+    [CliArgument(0)]
     public IEnumerable<string>? Farm { get; set; }
 
 }

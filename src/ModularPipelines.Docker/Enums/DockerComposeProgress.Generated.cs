@@ -17,17 +17,17 @@ namespace ModularPipelines.Docker.Enums;
 public enum DockerComposeProgress
 {
     [EnumValue("auto")]
-    Auto,
+    Auto = 0,
 
     [EnumValue("tty")]
-    Tty,
+    Tty = 1,
 
     [EnumValue("plain")]
-    Plain,
+    Plain = 2,
 
     [EnumValue("json")]
-    Json,
+    Json = 3,
 
     [EnumValue("quiet")]
-    Quiet
+    Quiet = 4
 }

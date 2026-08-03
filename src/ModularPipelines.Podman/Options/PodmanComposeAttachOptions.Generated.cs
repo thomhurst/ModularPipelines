@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "attach")]
-public record PodmanComposeAttachOptions : PodmanOptions
+public record PodmanComposeAttachOptions(
+    [property: CliArgument(0)] string Service
+) : PodmanOptions
 {
     /// <summary>
     /// Override the key sequence for detaching from a container.
@@ -49,8 +51,5 @@ public record PodmanComposeAttachOptions : PodmanOptions
     /// </summary>
     [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

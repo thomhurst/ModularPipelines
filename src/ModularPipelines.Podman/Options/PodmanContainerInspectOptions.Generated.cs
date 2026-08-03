@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "inspect")]
-public record PodmanContainerInspectOptions : PodmanOptions
+public record PodmanContainerInspectOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Format the output to a Go template or json (default "json")
@@ -37,8 +39,5 @@ public record PodmanContainerInspectOptions : PodmanOptions
     /// </summary>
     [CliFlag("--size", ShortForm = "-s")]
     public bool? Size { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

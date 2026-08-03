@@ -32,6 +32,21 @@ public class PodmanComposeBridgeTransformations
     #region Commands
 
     /// <summary>
+    /// Manage transformation images
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanComposeBridgeTransformationsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeBridgeTransformationsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Create a new transformation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -39,11 +54,11 @@ public class PodmanComposeBridgeTransformations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAsync(
-        PodmanComposeBridgeTransformationsCreateOptions? options = null,
+        PodmanComposeBridgeTransformationsCreateOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeBridgeTransformationsCreateOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>

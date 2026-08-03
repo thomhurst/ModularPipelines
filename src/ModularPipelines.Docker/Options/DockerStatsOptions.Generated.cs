@@ -44,10 +44,10 @@ public record DockerStatsOptions : DockerOptions
     [CliFlag("--no-trunc")]
     public bool? NoTrunc { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Container { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "inspect")]
-public record DockerManifestInspectOptions : DockerOptions
+public record DockerManifestInspectOptions(
+    [property: CliArgument(1)] string Manifest
+) : DockerOptions
 {
     /// <summary>
     /// Allow communication with an insecure registry
@@ -32,10 +34,10 @@ public record DockerManifestInspectOptions : DockerOptions
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The MANIFEST_LIST operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? ManifestList { get; set; }
 
 }

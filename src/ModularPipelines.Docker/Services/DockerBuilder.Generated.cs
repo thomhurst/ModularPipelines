@@ -7,9 +7,9 @@
 
 using System.CodeDom.Compiler;
 using ModularPipelines.Context.Domains.Shell;
-using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
 
@@ -29,7 +29,8 @@ public class DockerBuilder : DockerBuildx, IDockerBuilder
         _command = command;
     }
 
-    public new DockerBuilderDap Dap => _dap ??= new DockerBuilderDap(_command);
+    public new DockerBuilderDap Dap =>
+        _dap ??= new DockerBuilderDap(_command);
 
     public new DockerBuilderHistory History =>
         _history ??= new DockerBuilderHistory(_command);
@@ -51,66 +52,88 @@ public class DockerBuilder : DockerBuildx, IDockerBuilder
     public virtual Task<CommandResult> BakeAsync(
         DockerBuilderBakeOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.BakeAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.BakeAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> BuildAsync(
-        DockerBuilderBuildOptions? options = null,
+        DockerBuilderBuildOptions options,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.BuildAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.BuildAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> CreateAsync(
         DockerBuilderCreateOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.CreateAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.CreateAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> DialStdioAsync(
         DockerBuilderDialStdioOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.DialStdioAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.DialStdioAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> DuAsync(
         DockerBuilderDuOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.DuAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.DuAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> InspectAsync(
         DockerBuilderInspectOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.InspectAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.InspectAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> LsAsync(
         DockerBuilderLsOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.LsAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.LsAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> PruneAsync(
         DockerBuilderPruneOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.PruneAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.PruneAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> RmAsync(
         DockerBuilderRmOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.RmAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.RmAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> StopAsync(
         DockerBuilderStopOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.StopAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.StopAsync(options, executionOptions, cancellationToken);
+    }
 
     public virtual Task<CommandResult> UseAsync(
-        DockerBuilderUseOptions? options = null,
+        DockerBuilderUseOptions options,
         CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default) =>
-        base.UseAsync(options, executionOptions, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        return base.UseAsync(options, executionOptions, cancellationToken);
+    }
 }

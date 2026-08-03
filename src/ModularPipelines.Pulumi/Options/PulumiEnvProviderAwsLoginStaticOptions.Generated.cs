@@ -18,7 +18,11 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "aws-login", "static")]
-public record PulumiEnvProviderAwsLoginStaticOptions : PulumiOptions
+public record PulumiEnvProviderAwsLoginStaticOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
+    [property: SecretValue, CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string AccessKeyId,
+    [property: SecretValue, CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string SecretAccessKey
+) : PulumiOptions
 {
     /// <summary>
     /// create the environment if it does not already exist
@@ -29,7 +33,7 @@ public record PulumiEnvProviderAwsLoginStaticOptions : PulumiOptions
     /// <summary>
     /// set flag without a value (--draft) to create a draft rather than saving changes directly. --draft=&lt;change-request-id&gt; to update an existing change request.
     /// </summary>
-    [CliOption("--draft", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--draft", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? Draft { get; set; }
 
     /// <summary>
@@ -112,7 +116,7 @@ public record PulumiEnvProviderAwsLoginStaticOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

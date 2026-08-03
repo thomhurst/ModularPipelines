@@ -104,7 +104,10 @@ public record PodmanNetworkCreateOptions : PodmanOptions
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Subnet { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Name { get; set; }
 
 }

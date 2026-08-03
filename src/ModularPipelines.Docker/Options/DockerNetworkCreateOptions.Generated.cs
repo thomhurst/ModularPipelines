@@ -19,7 +19,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "create")]
-public record DockerNetworkCreateOptions : DockerOptions
+public record DockerNetworkCreateOptions(
+    [property: CliArgument(0)] string Network
+) : DockerOptions
 {
     /// <summary>
     /// Enable manual container attachment
@@ -90,7 +92,7 @@ public record DockerNetworkCreateOptions : DockerOptions
     /// <summary>
     /// Enable or disable IPv4 address assignment (default true)
     /// </summary>
-    [CliFlag("--ipv4")]
+    [CliOption("--ipv4", Format = OptionFormat.EqualsSeparated)]
     public bool? Ipv4 { get; set; }
 
     /// <summary>
@@ -122,8 +124,5 @@ public record DockerNetworkCreateOptions : DockerOptions
     /// </summary>
     [CliOption("--subnet", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Subnet { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

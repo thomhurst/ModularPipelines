@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "export")]
-public record PodmanVolumeExportOptions : PodmanOptions
+public record PodmanVolumeExportOptions(
+    [property: CliArgument(0)] string Volume
+) : PodmanOptions
 {
     /// <summary>
     /// Write to a specified file (default: stdout, which must be redirected) (default "/dev/stdout")

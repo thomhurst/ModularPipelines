@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "publish")]
-public record DockerComposePublishOptions : DockerOptions
+public record DockerComposePublishOptions(
+    [property: CliArgument(0)] string RepositoryTag
+) : DockerOptions
 {
     /// <summary>
     /// Execute command in dry run mode
@@ -49,8 +51,5 @@ public record DockerComposePublishOptions : DockerOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

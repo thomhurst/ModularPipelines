@@ -87,7 +87,4 @@ public record DockerComposeOptions : DockerOptions
     [CliOption("--project-name", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? ProjectName { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
 }

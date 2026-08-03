@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("explore", "--")]
+[CliSubCommand("explore", "--")]
 public record NpmExploreOptions : NpmOptions
 {
     [CliOption("--shell")]

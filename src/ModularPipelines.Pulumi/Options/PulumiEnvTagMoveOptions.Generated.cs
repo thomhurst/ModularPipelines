@@ -18,7 +18,11 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "tag", "move")]
-public record PulumiEnvTagMoveOptions : PulumiOptions
+public record PulumiEnvTagMoveOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Name,
+    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string NewName
+) : PulumiOptions
 {
     /// <summary>
     /// help for move
@@ -93,7 +97,7 @@ public record PulumiEnvTagMoveOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

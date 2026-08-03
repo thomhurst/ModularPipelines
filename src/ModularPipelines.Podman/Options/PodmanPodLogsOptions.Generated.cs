@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "logs")]
-public record PodmanPodLogsOptions : PodmanOptions
+public record PodmanPodLogsOptions(
+    [property: CliArgument(0)] string Pod
+) : PodmanOptions
 {
     /// <summary>
     /// Output the containers within a pod with different colors in the log

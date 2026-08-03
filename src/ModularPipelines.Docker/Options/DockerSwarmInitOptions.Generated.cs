@@ -9,7 +9,6 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
-using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -78,8 +77,8 @@ public record DockerSwarmInitOptions : DockerOptions
     /// <summary>
     /// Specifications of one or more certificate signing endpoints
     /// </summary>
-    [CliOption("--external-ca", Format = OptionFormat.EqualsSeparated)]
-    public string? ExternalCa { get; set; }
+    [CliOption("--external-ca", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ExternalCa { get; set; }
 
     /// <summary>
     /// Force create a new cluster from current state
@@ -110,8 +109,5 @@ public record DockerSwarmInitOptions : DockerOptions
     /// </summary>
     [CliOption("--task-history-limit", Format = OptionFormat.EqualsSeparated)]
     public int? TaskHistoryLimit { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -74,6 +74,66 @@ public class NpmCliScraperTests
             .IsEqualTo("IEnumerable<string>?");
     }
 
+    [Test]
+    public async Task Keeps_Synopsis_Explanation_Out_Of_Command_Parts()
+    {
+        var scraper = CreateScraper();
+        var command = await scraper.Parse(
+            ["npm", "init"],
+            """
+            Create a package.json file
+
+            Usage:
+            npm init <package-spec> (same as `npx create-<package-spec>`)
+            npm init <@scope> (same as `npx <@scope>/create`)
+            """);
+
+        await Assert.That(command!.CommandParts).IsEquivalentTo(["init"]);
+        await Assert.That(command.PositionalArguments).Count().IsEqualTo(1);
+        await Assert.That(command.PositionalArguments[0].PropertyName).IsEqualTo("Value");
+        await Assert.That(command.PositionalArguments[0].CSharpType).IsEqualTo("string?");
+        await Assert.That(command.PositionalArguments[0].IsRequired).IsFalse();
+    }
+
+    [Test]
+    public async Task Search_Does_Not_Treat_The_Operand_As_A_Subcommand()
+    {
+        var scraper = CreateScraper();
+        var command = await scraper.Parse(
+            ["npm", "search"],
+            """
+            Search for packages
+
+            Usage:
+            npm search <search term> [<search term> ...]
+            """);
+
+        await Assert.That(command!.CommandParts).IsEquivalentTo(["search"]);
+        await Assert.That(command.PositionalArguments).Count().IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Exec_Attaches_The_Separator_To_The_Command_Operand()
+    {
+        var scraper = CreateScraper();
+        var command = await scraper.Parse(
+            ["npm", "exec"],
+            """
+            Run a command
+
+            Usage:
+            npm exec --package=<pkg> -- <cmd> [args...]
+
+            Options:
+            [--package <package-spec>]
+            """);
+
+        await Assert.That(command!.CommandParts).IsEquivalentTo(["exec"]);
+        var operand = command.PositionalArguments.First();
+        await Assert.That(operand.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(operand.PrependOptionTerminator).IsTrue();
+    }
+
     private static TestNpmCliScraper CreateScraper() => new();
 
     private sealed class TestNpmCliScraper : NpmCliScraper

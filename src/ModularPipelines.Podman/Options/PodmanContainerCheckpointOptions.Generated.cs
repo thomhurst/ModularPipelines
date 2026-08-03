@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "checkpoint")]
-public record PodmanContainerCheckpointOptions : PodmanOptions
+public record PodmanContainerCheckpointOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Checkpoint all running containers
@@ -103,8 +105,5 @@ public record PodmanContainerCheckpointOptions : PodmanOptions
     /// </summary>
     [CliFlag("--with-previous")]
     public bool? WithPrevious { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

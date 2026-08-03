@@ -18,7 +18,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("do")]
-public record PulumiDoOptions : PulumiOptions
+public record PulumiDoOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PkgModTyp
+) : PulumiOptions
 {
     /// <summary>
     /// Run the operation in preview mode
@@ -51,7 +53,7 @@ public record PulumiDoOptions : PulumiOptions
     public bool? ShowSecrets { get; set; }
 
     /// <summary>
-    /// Run create/patch/delete directly against the provider without persisting state. Required for now: the stateful (engine-driven) implementation is still in development, so create/patch/delete error out unless --stateless is set.
+    /// Run create/patch/delete directly against the provider without persisting state. Required for now: the stateful (engine-driven) implementation is still in development, so patch/delete error out unless --stateless is set.
     /// </summary>
     [CliFlag("--stateless")]
     public bool? Stateless { get; set; }
@@ -111,7 +113,7 @@ public record PulumiDoOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
@@ -133,5 +135,11 @@ public record PulumiDoOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The command operand.
+    /// </summary>
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Command { get; set; }
 
 }

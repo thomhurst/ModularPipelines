@@ -17,8 +17,8 @@ namespace ModularPipelines.Minikube.Enums;
 public enum MinikubeServiceListOutput
 {
     [EnumValue("json")]
-    Json,
+    Json = 0,
 
     [EnumValue("table")]
-    Table
+    Table = 1
 }

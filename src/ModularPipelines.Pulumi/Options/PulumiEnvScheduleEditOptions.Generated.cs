@@ -18,7 +18,10 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "schedule", "edit")]
-public record PulumiEnvScheduleEditOptions : PulumiOptions
+public record PulumiEnvScheduleEditOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ScheduleId
+) : PulumiOptions
 {
     /// <summary>
     /// a cron expression for a recurring schedule (minimum interval: once daily)
@@ -99,7 +102,7 @@ public record PulumiEnvScheduleEditOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

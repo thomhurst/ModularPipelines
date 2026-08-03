@@ -23,8 +23,8 @@ public record MinikubeSshHostOptions : MinikubeOptions
     /// <summary>
     /// Add host key to SSH known_hosts file
     /// </summary>
-    [CliOption("--append-known", Format = OptionFormat.EqualsSeparated)]
-    public string? AppendKnown { get; set; }
+    [CliFlag("--append-known")]
+    public bool? AppendKnown { get; set; }
 
     /// <summary>
     /// The node to ssh into. Defaults to the primary control plane.

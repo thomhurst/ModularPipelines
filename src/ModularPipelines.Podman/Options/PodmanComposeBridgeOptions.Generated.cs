@@ -26,7 +26,4 @@ public record PodmanComposeBridgeOptions : PodmanOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
 }

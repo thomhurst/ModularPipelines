@@ -18,15 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "key", "load")]
-public record DockerTrustKeyLoadOptions : DockerOptions
+public record DockerTrustKeyLoadOptions(
+    [property: CliArgument(0)] string Keyfile
+) : DockerOptions
 {
     /// <summary>
     /// Name for the loaded key (default "signer")
     /// </summary>
     [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

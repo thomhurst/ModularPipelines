@@ -32,4 +32,10 @@ public record DockerComposeScaleOptions : DockerOptions
     [CliFlag("--no-deps")]
     public bool? NoDeps { get; set; }
 
+    /// <summary>
+    /// The SERVICE=REPLICAS operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public IEnumerable<string>? ServiceReplicas { get; set; }
+
 }

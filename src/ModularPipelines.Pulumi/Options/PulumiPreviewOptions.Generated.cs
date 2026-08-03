@@ -23,8 +23,8 @@ public record PulumiPreviewOptions : PulumiOptions
     /// <summary>
     /// Enable the ability to attach a debugger to the program and source based plugins being executed. Can limit debug type to 'program', 'plugins', 'plugin:&lt;name&gt;' or 'all'.
     /// </summary>
-    [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated)]
-    public string? AttachDebugger { get; set; }
+    [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated, AllowMultiple = true, ValueArity = CliOptionValueArity.Optional)]
+    public IEnumerable<string>? AttachDebugger { get; set; }
 
     /// <summary>
     /// Config to use during the preview and save to the stack config file
@@ -105,6 +105,12 @@ public record PulumiPreviewOptions : PulumiOptions
     public bool? Neo { get; set; }
 
     /// <summary>
+    /// [EXPERIMENTAL] Override an imported environment for this run only, as &lt;env&gt;=&lt;replacement&gt;; repeatable
+    /// </summary>
+    [CliOption("--override-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? OverrideEnv { get; set; }
+
+    /// <summary>
     /// Allow P resource operations to run in parallel at once (1 for no parallelism). (default 16)
     /// </summary>
     [CliOption("--parallel", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
@@ -125,7 +131,7 @@ public record PulumiPreviewOptions : PulumiOptions
     /// <summary>
     /// Refresh the state of the stack's resources before this update
     /// </summary>
-    [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? Refresh { get; set; }
 
     /// <summary>
@@ -216,7 +222,7 @@ public record PulumiPreviewOptions : PulumiOptions
     /// <summary>
     /// Suppress display of the state permalink
     /// </summary>
-    [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? SuppressPermalink { get; set; }
 
     /// <summary>
@@ -304,7 +310,7 @@ public record PulumiPreviewOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

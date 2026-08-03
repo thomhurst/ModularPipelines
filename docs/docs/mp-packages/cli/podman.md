@@ -7,7 +7,13 @@ title: podman CLI reference
 
 `ModularPipelines.Podman` provides strongly typed access to the `podman` CLI.
 
-## Installation
+## Executable prerequisite
+
+This package does not install the `podman` executable. Install it separately and ensure `podman` is available on `PATH`.
+
+Follow the executable's official documentation for installation instructions.
+
+## Package installation
 
 ```shell
 dotnet add package ModularPipelines.Podman
@@ -17,23 +23,10 @@ Resolve the service with `context.Tools.Podman`. For projects older than C# 14, 
 
 ## Module example
 
-```csharp
-using ModularPipelines.Context;
-using ModularPipelines.Models;
-using ModularPipelines.Modules;
-using ModularPipelines.Podman.Options;
+Resolve the service in a module, then select a command from the table below. A runnable example is omitted when no command has complete safety metadata:
 
-public class RunCommandModule : Module<CommandResult>
-{
-    protected override async Task<CommandResult> ExecuteAsync(
-        IModuleContext context,
-        CancellationToken cancellationToken)
-    {
-        return await context.Tools.Podman.AttachAsync(
-            new PodmanAttachOptions(),
-            cancellationToken: cancellationToken);
-    }
-}
+```csharp
+var podman = context.Tools.Podman;
 ```
 
 ## Commands
@@ -44,6 +37,7 @@ public class RunCommandModule : Module<CommandResult>
 | `podman auto-update` | `PodmanAutoUpdateOptions` |
 | `podman build` | `PodmanBuildOptions` |
 | `podman commit` | `PodmanCommitOptions` |
+| `podman compose` | `PodmanComposeOptions` |
 | `podman compose attach` | `PodmanComposeAttachOptions` |
 | `podman compose bridge` | `PodmanComposeBridgeOptions` |
 | `podman compose bridge convert` | `PodmanComposeBridgeConvertOptions` |
@@ -103,6 +97,7 @@ public class RunCommandModule : Module<CommandResult>
 | `podman container port` | `PodmanContainerPortOptions` |
 | `podman container prune` | `PodmanContainerPruneOptions` |
 | `podman container ps` | `PodmanContainerPsOptions` |
+| `podman container rename` | `PodmanContainerRenameOptions` |
 | `podman container restart` | `PodmanContainerRestartOptions` |
 | `podman container restore` | `PodmanContainerRestoreOptions` |
 | `podman container rm` | `PodmanContainerRmOptions` |
@@ -130,9 +125,11 @@ public class RunCommandModule : Module<CommandResult>
 | `podman generate kube` | `PodmanGenerateKubeOptions` |
 | `podman generate spec` | `PodmanGenerateSpecOptions` |
 | `podman generate systemd` | `PodmanGenerateSystemdOptions` |
+| `podman healthcheck run` | `PodmanHealthcheckRunOptions` |
 | `podman history` | `PodmanHistoryOptions` |
 | `podman image build` | `PodmanImageBuildOptions` |
 | `podman image diff` | `PodmanImageDiffOptions` |
+| `podman image exists` | `PodmanImageExistsOptions` |
 | `podman image history` | `PodmanImageHistoryOptions` |
 | `podman image import` | `PodmanImageImportOptions` |
 | `podman image inspect` | `PodmanImageInspectOptions` |
@@ -147,10 +144,12 @@ public class RunCommandModule : Module<CommandResult>
 | `podman image scp` | `PodmanImageScpOptions` |
 | `podman image search` | `PodmanImageSearchOptions` |
 | `podman image sign` | `PodmanImageSignOptions` |
+| `podman image tag` | `PodmanImageTagOptions` |
 | `podman image tree` | `PodmanImageTreeOptions` |
 | `podman image trust set` | `PodmanImageTrustSetOptions` |
 | `podman image trust show` | `PodmanImageTrustShowOptions` |
 | `podman image unmount` | `PodmanImageUnmountOptions` |
+| `podman image untag` | `PodmanImageUntagOptions` |
 | `podman images` | `PodmanImagesOptions` |
 | `podman import` | `PodmanImportOptions` |
 | `podman init` | `PodmanInitOptions` |
@@ -172,15 +171,21 @@ public class RunCommandModule : Module<CommandResult>
 | `podman machine set` | `PodmanMachineSetOptions` |
 | `podman machine ssh` | `PodmanMachineSshOptions` |
 | `podman machine start` | `PodmanMachineStartOptions` |
+| `podman machine stop` | `PodmanMachineStopOptions` |
+| `podman manifest` | `PodmanManifestOptions` |
 | `podman manifest add` | `PodmanManifestAddOptions` |
 | `podman manifest annotate` | `PodmanManifestAnnotateOptions` |
 | `podman manifest create` | `PodmanManifestCreateOptions` |
+| `podman manifest exists` | `PodmanManifestExistsOptions` |
 | `podman manifest inspect` | `PodmanManifestInspectOptions` |
 | `podman manifest push` | `PodmanManifestPushOptions` |
+| `podman manifest remove` | `PodmanManifestRemoveOptions` |
+| `podman manifest rm` | `PodmanManifestRmOptions` |
 | `podman mount` | `PodmanMountOptions` |
 | `podman network connect` | `PodmanNetworkConnectOptions` |
 | `podman network create` | `PodmanNetworkCreateOptions` |
 | `podman network disconnect` | `PodmanNetworkDisconnectOptions` |
+| `podman network exists` | `PodmanNetworkExistsOptions` |
 | `podman network inspect` | `PodmanNetworkInspectOptions` |
 | `podman network ls` | `PodmanNetworkLsOptions` |
 | `podman network prune` | `PodmanNetworkPruneOptions` |
@@ -208,6 +213,7 @@ public class RunCommandModule : Module<CommandResult>
 | `podman ps` | `PodmanPsOptions` |
 | `podman pull` | `PodmanPullOptions` |
 | `podman push` | `PodmanPushOptions` |
+| `podman rename` | `PodmanRenameOptions` |
 | `podman restart` | `PodmanRestartOptions` |
 | `podman rm` | `PodmanRmOptions` |
 | `podman rmi` | `PodmanRmiOptions` |
@@ -215,6 +221,7 @@ public class RunCommandModule : Module<CommandResult>
 | `podman save` | `PodmanSaveOptions` |
 | `podman search` | `PodmanSearchOptions` |
 | `podman secret create` | `PodmanSecretCreateOptions` |
+| `podman secret exists` | `PodmanSecretExistsOptions` |
 | `podman secret inspect` | `PodmanSecretInspectOptions` |
 | `podman secret ls` | `PodmanSecretLsOptions` |
 | `podman secret rm` | `PodmanSecretRmOptions` |
@@ -222,23 +229,31 @@ public class RunCommandModule : Module<CommandResult>
 | `podman stats` | `PodmanStatsOptions` |
 | `podman stop` | `PodmanStopOptions` |
 | `podman system connection add` | `PodmanSystemConnectionAddOptions` |
+| `podman system connection default` | `PodmanSystemConnectionDefaultOptions` |
 | `podman system connection list` | `PodmanSystemConnectionListOptions` |
 | `podman system connection remove` | `PodmanSystemConnectionRemoveOptions` |
+| `podman system connection rename` | `PodmanSystemConnectionRenameOptions` |
 | `podman system df` | `PodmanSystemDfOptions` |
 | `podman system events` | `PodmanSystemEventsOptions` |
 | `podman system migrate` | `PodmanSystemMigrateOptions` |
 | `podman system prune` | `PodmanSystemPruneOptions` |
 | `podman system reset` | `PodmanSystemResetOptions` |
 | `podman system service` | `PodmanSystemServiceOptions` |
+| `podman tag` | `PodmanTagOptions` |
 | `podman top` | `PodmanTopOptions` |
 | `podman unmount` | `PodmanUnmountOptions` |
 | `podman unpause` | `PodmanUnpauseOptions` |
 | `podman unshare` | `PodmanUnshareOptions` |
+| `podman untag` | `PodmanUntagOptions` |
 | `podman update` | `PodmanUpdateOptions` |
 | `podman volume create` | `PodmanVolumeCreateOptions` |
+| `podman volume exists` | `PodmanVolumeExistsOptions` |
 | `podman volume export` | `PodmanVolumeExportOptions` |
+| `podman volume import` | `PodmanVolumeImportOptions` |
 | `podman volume inspect` | `PodmanVolumeInspectOptions` |
 | `podman volume ls` | `PodmanVolumeLsOptions` |
+| `podman volume mount` | `PodmanVolumeMountOptions` |
 | `podman volume prune` | `PodmanVolumePruneOptions` |
 | `podman volume rm` | `PodmanVolumeRmOptions` |
+| `podman volume unmount` | `PodmanVolumeUnmountOptions` |
 | `podman wait` | `PodmanWaitOptions` |

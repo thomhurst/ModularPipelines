@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "exec")]
-public record PodmanContainerExecOptions : PodmanOptions
+public record PodmanContainerExecOptions(
+    [property: CliArgument(0)] string Container,
+    [property: CliArgument(1)] string Command
+) : PodmanOptions
 {
     /// <summary>
     /// Run the exec session in detached mode (backgrounded)
@@ -86,7 +89,10 @@ public record PodmanContainerExecOptions : PodmanOptions
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The ARG operand.
+    /// </summary>
+    [CliArgument(2)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

@@ -134,10 +134,10 @@ public record DockerComposeConfigOptions : DockerOptions
     [CliFlag("--volumes")]
     public bool? Volumes { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Service { get; set; }
 
 }

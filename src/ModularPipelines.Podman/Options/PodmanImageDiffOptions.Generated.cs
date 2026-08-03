@@ -18,15 +18,14 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "diff")]
-public record PodmanImageDiffOptions : PodmanOptions
+public record PodmanImageDiffOptions(
+    [property: CliArgument(0)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// Change the output format (json)
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
 
 }

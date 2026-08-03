@@ -32,6 +32,21 @@ public class PulumiInsightsAccountScan
     #region Commands
 
     /// <summary>
+    /// [EXPERIMENTAL] Trigger a resource discovery scan for an Insights account.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PulumiInsightsAccountScanOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiInsightsAccountScanOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// [EXPERIMENTAL] Get details for a specific Pulumi Insights scan.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -39,11 +54,11 @@ public class PulumiInsightsAccountScan
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAsync(
-        PulumiInsightsAccountScanGetOptions? options = null,
+        PulumiInsightsAccountScanGetOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiInsightsAccountScanGetOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -54,11 +69,11 @@ public class PulumiInsightsAccountScan
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        PulumiInsightsAccountScanListOptions? options = null,
+        PulumiInsightsAccountScanListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiInsightsAccountScanListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -69,11 +84,11 @@ public class PulumiInsightsAccountScan
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> LogAsync(
-        PulumiInsightsAccountScanLogOptions? options = null,
+        PulumiInsightsAccountScanLogOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiInsightsAccountScanLogOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

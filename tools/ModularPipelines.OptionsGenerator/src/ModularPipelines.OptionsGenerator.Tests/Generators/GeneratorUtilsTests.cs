@@ -751,6 +751,8 @@ public class GeneratorUtilsTests
     [Arguments("ConfigFile")]
     [Arguments("Namespace")]
     [Arguments("Repository")]
+    [Arguments("SecretsProvider")]
+    [Arguments("NewSecretsProvider")]
     [Arguments("ExecutorRootPath")]
     [Arguments("GrpcWebRootPath")]
     [Arguments("RdbSnapshotPeriod")]

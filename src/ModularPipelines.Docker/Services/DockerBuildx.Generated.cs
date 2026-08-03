@@ -22,7 +22,7 @@ public class DockerBuildx : IDockerBuildx
     private readonly ICommandContext _command;
     private DockerBuildxDap? _dap;
     private DockerBuildxHistory? _history;
-    private DockerBuildxImageTools? _imagetools;
+    private DockerBuildxImageTools? _imageTools;
     private DockerBuildxPolicy? _policy;
 
     /// <summary>
@@ -48,7 +48,7 @@ public class DockerBuildx : IDockerBuildx
     /// <summary>
     /// docker imagetools sub-commands.
     /// </summary>
-    public DockerBuildxImageTools ImageTools => _imagetools ??= new DockerBuildxImageTools(_command);
+    public DockerBuildxImageTools ImageTools => _imageTools ??= new DockerBuildxImageTools(_command);
 
     /// <summary>
     /// docker policy sub-commands.
@@ -97,11 +97,11 @@ public class DockerBuildx : IDockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BuildAsync(
-        DockerBuildxBuildOptions? options = null,
+        DockerBuildxBuildOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxBuildOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -232,11 +232,11 @@ public class DockerBuildx : IDockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UseAsync(
-        DockerBuildxUseOptions? options = null,
+        DockerBuildxUseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxUseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

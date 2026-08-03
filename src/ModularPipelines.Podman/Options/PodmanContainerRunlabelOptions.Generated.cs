@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "runlabel")]
-public record PodmanContainerRunlabelOptions : PodmanOptions
+public record PodmanContainerRunlabelOptions(
+    [property: CliArgument(0)] string Label,
+    [property: CliArgument(1)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
@@ -68,7 +71,10 @@ public record PodmanContainerRunlabelOptions : PodmanOptions
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The ARG operand.
+    /// </summary>
+    [CliArgument(2)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

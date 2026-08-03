@@ -22,17 +22,16 @@ public class DockerTests : TestBase
                 .GetFolder("MyApp")
                 .GetFile("Dockerfile");
 
-            return await context.Docker().Image.BuildAsync(new DockerImageBuildOptions
+            return await context.Docker().Image.BuildAsync(new DockerImageBuildOptions(pretendPath.Path)
             {
-                BuildArg = new List<string>
-                {
+                BuildArg =
+                [
                     "Arg1=Value1",
                     "Arg2=Value2",
                     "Arg3=Value3",
-                },
-                Tag = new[] { "mytaggedimage" },
+                ],
+                Tag = ["mytaggedimage"],
                 Target = "build-env",
-                Arguments = [pretendPath.Path],
             },
             new CommandExecutionOptions
             {

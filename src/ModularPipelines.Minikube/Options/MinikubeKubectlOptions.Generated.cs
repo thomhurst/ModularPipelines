@@ -23,7 +23,7 @@ public record MinikubeKubectlOptions : MinikubeOptions
     /// <summary>
     /// Use SSH for running kubernetes client on the node
     /// </summary>
-    [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
-    public string? Ssh { get; set; }
+    [CliFlag("--ssh")]
+    public bool? Ssh { get; set; }
 
 }

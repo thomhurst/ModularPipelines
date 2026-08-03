@@ -47,4 +47,18 @@ public partial class PulumiCliScraper : CobraCliScraper
     {
         "--help", "-h", "--version", "help", "completion", "version", "about", "gen-completion", "schema"
     };
+
+    /// <summary>
+    /// Pulumi 3.255 renders the env get path as required, although its Cobra validator
+    /// accepts either the environment alone or the environment followed by a path.
+    /// </summary>
+    protected override IEnumerable<string> GetAdditionalUsageSynopses(
+        string[] commandPath,
+        string helpText)
+    {
+        if (commandPath is ["pulumi", "env", "get"])
+        {
+            yield return "pulumi env get [<org-name>/][<project-name>/]<environment-name>[@<version>] [path]";
+        }
+    }
 }

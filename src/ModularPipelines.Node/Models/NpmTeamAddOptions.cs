@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("team", "add")]
+[CliSubCommand("team", "add")]
 public record NpmTeamAddOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope,
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string User,

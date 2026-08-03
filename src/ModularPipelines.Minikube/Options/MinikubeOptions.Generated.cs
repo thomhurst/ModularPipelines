@@ -19,6 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("minikube")]
+[CliGlobalOptions]
 public abstract record MinikubeOptions : CommandLineToolOptions
 {
 }

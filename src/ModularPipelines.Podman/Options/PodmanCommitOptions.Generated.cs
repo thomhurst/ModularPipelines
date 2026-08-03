@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("commit")]
-public record PodmanCommitOptions : PodmanOptions
+public record PodmanCommitOptions(
+    [property: CliArgument(0)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// Set the author for the image committed
@@ -80,7 +82,10 @@ public record PodmanCommitOptions : PodmanOptions
     [CliFlag("--squash", ShortForm = "-s")]
     public bool? Squash { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Image { get; set; }
 
 }

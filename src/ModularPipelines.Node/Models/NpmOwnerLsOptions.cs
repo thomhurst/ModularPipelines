@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("owner", "ls")]
+[CliSubCommand("owner", "ls")]
 public record NpmOwnerLsOptions : NpmOptions
 {
     [CliOption("--registry")]

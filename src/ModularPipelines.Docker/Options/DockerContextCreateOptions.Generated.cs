@@ -19,7 +19,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "create")]
-public record DockerContextCreateOptions : DockerOptions
+public record DockerContextCreateOptions(
+    [property: CliArgument(0)] string Context
+) : DockerOptions
 {
     /// <summary>
     /// Description of the context
@@ -38,8 +40,5 @@ public record DockerContextCreateOptions : DockerOptions
     /// </summary>
     [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
     public string? From { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

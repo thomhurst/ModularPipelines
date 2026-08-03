@@ -18,7 +18,10 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "webhook", "delivery", "list")]
-public record PulumiEnvWebhookDeliveryListOptions : PulumiOptions
+public record PulumiEnvWebhookDeliveryListOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string WebhookName
+) : PulumiOptions
 {
     /// <summary>
     /// The maximum number of deliveries to return (all if unset)
@@ -105,7 +108,7 @@ public record PulumiEnvWebhookDeliveryListOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

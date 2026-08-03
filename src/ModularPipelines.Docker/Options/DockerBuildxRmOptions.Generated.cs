@@ -62,10 +62,10 @@ public record DockerBuildxRmOptions : DockerOptions
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
     public string? Timeout { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Name { get; set; }
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Name { get; set; }
 
 }

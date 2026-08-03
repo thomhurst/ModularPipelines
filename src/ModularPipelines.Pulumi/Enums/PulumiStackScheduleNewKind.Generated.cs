@@ -17,11 +17,11 @@ namespace ModularPipelines.Pulumi.Enums;
 public enum PulumiStackScheduleNewKind
 {
     [EnumValue("raw")]
-    Raw,
+    Raw = 0,
 
     [EnumValue("drift")]
-    Drift,
+    Drift = 1,
 
     [EnumValue("ttl")]
-    Ttl
+    Ttl = 2
 }

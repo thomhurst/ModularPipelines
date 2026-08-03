@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "install")]
-public record DockerPluginInstallOptions : DockerOptions
+public record DockerPluginInstallOptions(
+    [property: CliArgument(0)] string Plugin
+) : DockerOptions
 {
     /// <summary>
     /// Local name for plugin
@@ -35,7 +37,7 @@ public record DockerPluginInstallOptions : DockerOptions
     /// <summary>
     /// Skip image verification (default true)
     /// </summary>
-    [CliFlag("--disable-content-trust")]
+    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
@@ -44,7 +46,10 @@ public record DockerPluginInstallOptions : DockerOptions
     [CliFlag("--grant-all-permissions")]
     public bool? GrantAllPermissions { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
+    /// <summary>
+    /// The KEY=VALUE operand.
+    /// </summary>
+    [CliArgument(1)]
+    public IEnumerable<string>? KeyValue { get; set; }
 
 }

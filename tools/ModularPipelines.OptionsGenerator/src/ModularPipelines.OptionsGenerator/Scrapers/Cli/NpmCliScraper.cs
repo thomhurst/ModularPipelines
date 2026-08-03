@@ -77,10 +77,35 @@ public partial class NpmCliScraper(
             Description = ExtractDescription(helpText),
             DocumentationUrl = $"https://docs.npmjs.com/cli/commands/npm-{commandParts[0]}",
             Options = options,
-            PositionalArguments = usage.PositionalArguments,
+            PositionalArguments = NormalizePositionalArguments(
+                commandParts,
+                usage.PositionalArguments),
             SubDomainGroup = null,
             Enums = [],
         });
+    }
+
+    private static IReadOnlyList<CliPositionalArgument> NormalizePositionalArguments(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        if (commandParts is not ["init"])
+        {
+            return positionalArguments;
+        }
+
+        return
+        [
+            new CliPositionalArgument
+            {
+                PlaceholderName = "<package-spec>",
+                PropertyName = "Value",
+                CSharpType = "string?",
+                Placement = PositionalArgumentPosition.BeforeOptions,
+                PositionIndex = 0,
+                IsRequired = false,
+            },
+        ];
     }
 
     private static string? ExtractDescription(string helpText) =>

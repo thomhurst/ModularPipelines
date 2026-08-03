@@ -88,7 +88,8 @@ Use a comma-separated list for `--tools`, or `all`. Useful options are:
 
 For reproducible CI scraping, set `MODULARPIPELINES_CLI_EXECUTABLE` to the verified absolute
 path of the requested tool. The generator rejects an executable override when more than one
-tool is requested.
+tool is requested. The override applies only when that tool is executed; helper programs used
+by its scraper continue to resolve independently.
 
 ## Add a scraper
 
@@ -219,6 +220,11 @@ Do not build `ModularPipelines.All.sln` for generator work.
 ## CI generation workflow
 
 `.github/workflows/generate-cli-options.yml` runs weekly and on demand:
+
+This regenerate-and-diff workflow is the authoritative staleness check. Generated-code
+version attributes identify the generator release that produced a file, but matching a
+version attribute does not prove that the committed content matches the current parser.
+Regenerate outputs instead of changing version attributes in place.
 
 1. Test the exact-path staging safety script.
 2. Fan out one installed CLI per Linux or Windows matrix job.

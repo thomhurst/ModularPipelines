@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "kill")]
-public record PodmanContainerKillOptions : PodmanOptions
+public record PodmanContainerKillOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : PodmanOptions
 {
     /// <summary>
     /// Signal all running containers
@@ -43,8 +45,5 @@ public record PodmanContainerKillOptions : PodmanOptions
     /// </summary>
     [CliOption("--signal", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Signal { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Container { get; set; }
 
 }

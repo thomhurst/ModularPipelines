@@ -18,15 +18,14 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "revoke")]
-public record DockerTrustRevokeOptions : DockerOptions
+public record DockerTrustRevokeOptions(
+    [property: CliArgument(0)] string ImageTag
+) : DockerOptions
 {
     /// <summary>
     /// Do not prompt for confirmation
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

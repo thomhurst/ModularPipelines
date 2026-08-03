@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "policy", "eval")]
-public record DockerBuildxPolicyEvalOptions : DockerOptions
+public record DockerBuildxPolicyEvalOptions(
+    [property: CliArgument(0)] string Source
+) : DockerOptions
 {
     /// <summary>
     /// Override the configured builder instance
@@ -55,8 +57,5 @@ public record DockerBuildxPolicyEvalOptions : DockerOptions
     /// </summary>
     [CliFlag("--print")]
     public bool? Print { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

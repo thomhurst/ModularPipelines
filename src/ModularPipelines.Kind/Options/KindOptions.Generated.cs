@@ -19,6 +19,7 @@ namespace ModularPipelines.Kind.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("kind")]
+[CliGlobalOptions]
 public abstract record KindOptions : CommandLineToolOptions
 {
 }

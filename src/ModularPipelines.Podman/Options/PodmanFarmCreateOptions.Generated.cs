@@ -18,9 +18,14 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("farm", "create")]
-public record PodmanFarmCreateOptions : PodmanOptions
+public record PodmanFarmCreateOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+) : PodmanOptions
 {
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The CONNECTIONS operand.
+    /// </summary>
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
     public IEnumerable<string>? Connections { get; set; }
 
 }
