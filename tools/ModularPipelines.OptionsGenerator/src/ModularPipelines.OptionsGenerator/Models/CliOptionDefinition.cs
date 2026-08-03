@@ -104,14 +104,17 @@ public record CliOptionDefinition
                    interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_IEnumerable);
     }
 
-    private static IReadOnlyList<MetadataReference> GetPlatformReferences()
+    private static PortableExecutableReference[] GetPlatformReferences()
     {
         if (AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") is string trustedPlatformAssemblies)
         {
-            return trustedPlatformAssemblies
+            return
+            [
+                .. trustedPlatformAssemblies
                 .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
-                .Select(path => MetadataReference.CreateFromFile(path))
-                .ToArray();
+                .Where(File.Exists)
+                .Select(path => MetadataReference.CreateFromFile(path)),
+            ];
         }
 
         return
