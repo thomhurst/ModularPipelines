@@ -1,19 +1,10 @@
 using ModularPipelines.Attributes;
-using ModularPipelines.Helpers.Internal;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
 public class CliAttributeTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
-    private IReadOnlyList<string> BuildArguments(object optionsObject)
-    {
-        var model = _modelProvider.GetCommandModel(optionsObject.GetType());
-        return _argumentBuilder.BuildArguments(model, optionsObject);
-    }
-
     [Test]
     public async Task CliCommand_Returns_Tool_And_SubCommands()
     {

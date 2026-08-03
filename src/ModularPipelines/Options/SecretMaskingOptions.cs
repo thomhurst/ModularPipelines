@@ -79,6 +79,16 @@ public record SecretMaskingOptions
     public string MaskValue { get; set; } = "**********";
 
     /// <summary>
+    /// Gets or sets the configuration section paths whose leaf values are registered as secrets.
+    /// </summary>
+    /// <remarks>
+    /// Paths use the standard configuration delimiter, for example <c>Secrets</c> or
+    /// <c>Tenants:Production:Credentials</c>. Values are collected once during pipeline startup.
+    /// Missing sections and empty values are ignored.
+    /// </remarks>
+    public IReadOnlyList<string> MaskedConfigurationSections { get; set; } = [];
+
+    /// <summary>
     /// Gets default secret masking options with case-sensitive matching and minimum length of 3.
     /// </summary>
     public static SecretMaskingOptions Default { get; } = new();

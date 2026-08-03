@@ -15,21 +15,12 @@ public class ModuleConfigureTests
     {
         public int ConfigureCount { get; private set; }
 
-        public int TagsCount { get; private set; }
-
-        public override IReadOnlySet<string> Tags
-        {
-            get
-            {
-                TagsCount++;
-                return new HashSet<string> { "cached-tag" };
-            }
-        }
-
         protected override ModuleConfiguration Configure()
         {
             ConfigureCount++;
-            return ModuleConfiguration.Default;
+            return ModuleConfiguration.Create()
+                .WithTags("cached-tag")
+                .Build();
         }
 
         protected internal override Task<string?> ExecuteAsync(
@@ -116,27 +107,26 @@ public class ModuleConfigureTests
     }
 
     [Test]
-    public async Task ModuleActivator_Initializes_Configuration_And_Tags_Once()
+    public async Task ModuleActivator_Initializes_Configuration_Once()
     {
         using var services = new ServiceCollection().BuildServiceProvider();
-        var module = (CountingModule)new ModuleActivator()
+        var module = (CountingModule) new ModuleActivator()
             .CreateModule(typeof(CountingModule), services);
 
         var configurations = await Task.WhenAll(
             Enumerable.Range(0, 10)
-                .Select(_ => Task.Run(() => ((IModule)module).Configuration)));
-        var tags = ((ITaggedModule)module).Tags;
+                .Select(_ => Task.Run(() => ((IModule) module).Configuration)));
+        var tags = configurations[0].Tags;
 
         using (Assert.Multiple())
         {
             await Assert.That(module.ConfigureCount).IsEqualTo(1);
-            await Assert.That(module.TagsCount).IsEqualTo(1);
             await Assert.That(configurations.All(
                     configuration => ReferenceEquals(configuration, configurations[0])))
                 .IsTrue();
             await Assert.That(tags is FrozenSet<string>).IsTrue();
             await Assert.That(tags).Contains("cached-tag");
-            await Assert.That(((ITaggedModule)module).Tags).IsSameReferenceAs(tags);
+            await Assert.That(((IModule) module).Configuration.Tags).IsSameReferenceAs(tags);
         }
     }
 

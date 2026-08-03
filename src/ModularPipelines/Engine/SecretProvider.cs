@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Initialization.Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
@@ -24,6 +25,7 @@ namespace ModularPipelines.Engine;
 /// </para>
 /// <list type="bullet">
 /// <item>Properties marked with <see cref="SecretValueAttribute"/> on IOptions classes (discovered at initialization)</item>
+/// <item>Leaf values beneath configured <see cref="SecretMaskingOptions.MaskedConfigurationSections"/> paths</item>
 /// <item>Secrets registered programmatically via <see cref="ISecretRegistry"/> (can be added at any time)</item>
 /// </list>
 /// </remarks>
@@ -36,6 +38,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
     private readonly IOptions<SecretMaskingOptions> _maskingOptions;
     private readonly ILogger<SecretProvider> _logger;
+    private readonly IConfiguration? _configuration;
     private readonly HashSet<string> _secrets = new(StringComparer.Ordinal);
     private readonly ConcurrentDictionary<string, byte> _nativeMaskPatterns = new();
     private readonly ConcurrentDictionary<string, byte> _shortSecretWarnings = new();
@@ -62,12 +65,14 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         IOptionsProvider optionsProvider,
         IBuildSystemSecretMasker buildSystemSecretMasker,
         IOptions<SecretMaskingOptions> maskingOptions,
-        ILogger<SecretProvider> logger)
+        ILogger<SecretProvider> logger,
+        IConfiguration? configuration = null)
     {
         _optionsProvider = optionsProvider;
         _buildSystemSecretMasker = buildSystemSecretMasker;
         _maskingOptions = maskingOptions;
         _logger = logger;
+        _configuration = configuration;
     }
 
     /// <inheritdoc />
@@ -185,6 +190,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             }
 
             AddSecrets(GetSecrets(_optionsProvider.GetOptions()));
+            AddSecrets(GetConfiguredSectionSecrets());
 
             _initialized = true;
         }
@@ -275,6 +281,37 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             foreach (var secret in GetSecretsInObject(option))
             {
                 yield return secret;
+            }
+        }
+    }
+
+    private IEnumerable<string?> GetConfiguredSectionSecrets()
+    {
+        if (_configuration is null)
+        {
+            yield break;
+        }
+
+        foreach (var sectionPath in _maskingOptions.Value.MaskedConfigurationSections
+                     .Where(static path => !string.IsNullOrWhiteSpace(path))
+                     .Distinct(StringComparer.OrdinalIgnoreCase))
+        {
+            foreach (var value in GetLeafValues(_configuration.GetSection(sectionPath)))
+            {
+                yield return value;
+            }
+        }
+    }
+
+    private static IEnumerable<string?> GetLeafValues(IConfigurationSection section)
+    {
+        yield return section.Value;
+
+        foreach (var child in section.GetChildren())
+        {
+            foreach (var value in GetLeafValues(child))
+            {
+                yield return value;
             }
         }
     }

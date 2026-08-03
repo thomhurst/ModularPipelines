@@ -1,13 +1,10 @@
 using ModularPipelines.DotNet.Options;
-using ModularPipelines.Helpers.Internal;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.DotNet.UnitTests;
 
 public class DotNetBuildOptionsCompatibilityTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Nologo_Forwards_To_NoLogo_And_Renders_Stable_Switch()
     {
@@ -60,11 +57,5 @@ public class DotNetBuildOptionsCompatibilityTests
 
         await Assert.That(noLogo).IsTrue();
         await Assert.That(arguments).Contains("--nologo");
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

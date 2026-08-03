@@ -212,7 +212,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-analyzers-${{ hashFiles('**/*.csproj') }}
+          key: ${{ runner.os }}-nuget-analyzers-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-analyzers-
             ${{ runner.os }}-nuget-
@@ -567,6 +567,14 @@ jobs:
         uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: 10.0.x
+      - name: Cache NuGet
+        uses: actions/cache@v6
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-trim-aot-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-trim-aot-
+            ${{ runner.os }}-nuget-
       - name: Publish and run trimmed smoke
         shell: bash
         run: |
