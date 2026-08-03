@@ -147,11 +147,10 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains(
-                "GeneratedCommandMetadata.Register(\n            typeof(global::External.CrossLanguageOptions)");
+            await Assert.That(generatedSource).Contains("GeneratedCommandMetadata.RegisterExternal(");
+            await Assert.That(generatedSource).Contains("typeof(global::External.CrossLanguageOptions)");
             await Assert.That(generatedSource).Contains("OptionPart");
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.Register(\n            typeof(global::External.CrossLanguageOptions)");
+            await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.RegisterExternal(");
             await Assert.That(generatedSource).Contains("new(\"Token\"");
         }
     }

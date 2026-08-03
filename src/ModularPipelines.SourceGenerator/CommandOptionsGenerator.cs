@@ -224,6 +224,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 CanRegisterCommandMetadata: false,
                 CanRegisterSecretCoverage: canRegisterSecretCoverage,
                 UseTypeForEmptySecretCoverage: isExternal,
+                IsExternal: isExternal,
                 IsCommandOptions: false,
                 PropertyCollection.Empty,
                 PropertyCollection.Empty));
@@ -248,6 +249,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 CanRegisterCommandMetadata: !hasPartialDeclaration,
                 CanRegisterSecretCoverage: !hasPartialDeclaration,
                 UseTypeForEmptySecretCoverage: isExternal,
+                IsExternal: isExternal,
                 isCommandOptions,
                 commandMetadata,
                 secretMetadata);
@@ -583,7 +585,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void AppendCommandRegistration(StringBuilder sb, TypeMetadata item)
     {
-        sb.AppendLine("        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.Register(");
+        var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
+        sb.AppendLine($"        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.{registrationMethod}(");
         sb.AppendLine($"            typeof({item.TypeName}),");
         sb.AppendLine("            new global::ModularPipelines.Helpers.Internal.PropertyCommandLinePart[]");
         sb.AppendLine("            {");
@@ -643,13 +646,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             if (item.UseTypeForEmptySecretCoverage)
             {
-                sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(typeof({item.TypeName}));");
+                sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterExternal(typeof({item.TypeName}));");
             }
 
             return;
         }
 
-        sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(");
+        var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
+        sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{registrationMethod}(");
         sb.AppendLine($"            typeof({item.TypeName}),");
         sb.AppendLine("            new global::ModularPipelines.Engine.SecretPropertyAccessor[]");
         sb.AppendLine("            {");
@@ -951,6 +955,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool CanRegisterCommandMetadata,
         bool CanRegisterSecretCoverage,
         bool UseTypeForEmptySecretCoverage,
+        bool IsExternal,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
         PropertyCollection SecretMetadata);

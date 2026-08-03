@@ -298,6 +298,40 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task DuplicateExternalCommandMetadataRegistration_PreservesFirstModel()
+    {
+        var type = CreateDynamicType("DuplicateExternalCommand");
+        var firstModel = new List<PropertyCommandLinePart>();
+
+        GeneratedCommandMetadata.RegisterExternal(type, firstModel);
+        GeneratedCommandMetadata.RegisterExternal(type, new List<PropertyCommandLinePart>());
+
+        var found = GeneratedCommandMetadata.TryGet(type, out var registeredModel);
+        using (Assert.Multiple())
+        {
+            await Assert.That(found).IsTrue();
+            await Assert.That(registeredModel).IsSameReferenceAs(firstModel);
+        }
+    }
+
+    [Test]
+    public async Task DuplicateExternalSecretMetadataRegistration_PreservesFirstModel()
+    {
+        var type = CreateDynamicType("DuplicateExternalSecret");
+        var firstModel = new List<SecretPropertyAccessor>();
+
+        GeneratedSecretMetadata.RegisterExternal(type, firstModel);
+        GeneratedSecretMetadata.RegisterExternal(type, new List<SecretPropertyAccessor>());
+
+        var found = GeneratedSecretMetadata.TryGetAccessors(type, out var registeredModel);
+        using (Assert.Multiple())
+        {
+            await Assert.That(found).IsTrue();
+            await Assert.That(registeredModel).IsSameReferenceAs(firstModel);
+        }
+    }
+
+    [Test]
     public async Task LegacyRegistrationOverloads_PreserveCompleteness()
     {
         var completeCommandType = CreateDynamicType("CompleteCommand");

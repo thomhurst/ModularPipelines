@@ -91,6 +91,27 @@ public static class GeneratedSecretMetadata
     }
 
     /// <summary>
+    /// Registers empty secret metadata emitted by a consuming assembly for an external type.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterExternal(Type declaringType)
+    {
+        RegisterExternal(declaringType, Array.Empty<SecretPropertyAccessor>());
+    }
+
+    /// <summary>
+    /// Registers secret metadata emitted by a consuming assembly for an external type.
+    /// The first registration wins because multiple consumers can generate the same metadata.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterExternal(
+        Type declaringType,
+        IReadOnlyList<SecretPropertyAccessor> accessors)
+    {
+        _ = Accessors.GetValue(declaringType, _ => new SecretMetadata(accessors, IsComplete: true));
+    }
+
+    /// <summary>
     /// Registers partial source types whose final runtime shape requires reflection.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]

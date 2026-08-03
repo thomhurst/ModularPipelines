@@ -53,6 +53,18 @@ public static class GeneratedCommandMetadata
         }
     }
 
+    /// <summary>
+    /// Registers command metadata emitted by a consuming assembly for an external options type.
+    /// The first registration wins because multiple consumers can generate the same metadata.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterExternal(
+        Type optionsType,
+        IReadOnlyList<PropertyCommandLinePart> model)
+    {
+        _ = Models.GetValue(optionsType, _ => new CommandMetadata(model, IsComplete: true));
+    }
+
     internal static bool TryGet(Type optionsType, out IReadOnlyList<PropertyCommandLinePart> model)
     {
         if (Models.TryGetValue(optionsType, out var metadata) && metadata.IsComplete)
