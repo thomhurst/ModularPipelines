@@ -148,7 +148,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                     AddFlag(args, flagPart, rawValue);
                     break;
                 case OptionPart optionPart:
-                    AddOption(args, optionPart, rawValue);
+                    AddOption(args, optionPart, rawValue, optionsObject.GetType());
                     break;
             }
         }
@@ -167,7 +167,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
     }
 
-    private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
+    private static void AddOption(
+        List<string> args,
+        OptionPart optionPart,
+        object rawValue,
+        Type optionsType)
     {
         if (optionPart.ValueArity == CliOptionValueArity.None)
         {
@@ -179,41 +183,84 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
-        if (TryAddOptionValuePairs(args, optionPart, rawValue))
+        if (optionPart.ValueArity == CliOptionValueArity.Optional)
+        {
+            AddOptionalValueOption(args, optionPart, rawValue, optionsType);
+            return;
+        }
+
+        if (TryAddOptionValuePairs(args, optionPart, rawValue, optionsType))
         {
             return;
         }
 
         var values = GetValues(rawValue);
+        if (values.Count == 0)
+        {
+            throw CreateEmptyRequiredValueException(optionsType, optionPart);
+        }
 
         foreach (var value in values)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                if (optionPart.ValueArity == CliOptionValueArity.Optional)
-                {
-                    args.Add(optionPart.Attribute.GetEffectiveName());
-                }
-
-                continue;
+                throw CreateEmptyRequiredValueException(optionsType, optionPart);
             }
 
-            var optionName = optionPart.Attribute.GetEffectiveName();
-            var separator = optionPart.Attribute.GetSeparator();
-
-            if (separator == " ")
-            {
-                args.Add(optionName);
-                args.Add(value);
-            }
-            else
-            {
-                args.Add($"{optionName}{separator}{value}");
-            }
+            AddOptionValue(args, optionPart, value);
         }
     }
 
-    private static bool TryAddOptionValuePairs(List<string> args, OptionPart optionPart, object rawValue)
+    private static void AddOptionalValueOption(
+        List<string> args,
+        OptionPart optionPart,
+        object rawValue,
+        Type optionsType)
+    {
+        if (rawValue is not CliOptionValue optionValue)
+        {
+            throw new InvalidOperationException(
+                $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + $"must use {nameof(CliOptionValue)}?.");
+        }
+
+        if (optionValue.IsBare)
+        {
+            args.Add(optionPart.Attribute.GetEffectiveName());
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(optionValue.Value))
+        {
+            throw new InvalidOperationException(
+                $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + $"must use {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)} or a non-empty value.");
+        }
+
+        AddOptionValue(args, optionPart, optionValue.Value);
+    }
+
+    private static void AddOptionValue(List<string> args, OptionPart optionPart, string value)
+    {
+        var optionName = optionPart.Attribute.GetEffectiveName();
+        var separator = optionPart.Attribute.GetSeparator();
+
+        if (separator == " ")
+        {
+            args.Add(optionName);
+            args.Add(value);
+        }
+        else
+        {
+            args.Add($"{optionName}{separator}{value}");
+        }
+    }
+
+    private static bool TryAddOptionValuePairs(
+        List<string> args,
+        OptionPart optionPart,
+        object rawValue,
+        Type optionsType)
     {
         var pairs = rawValue switch
         {
@@ -235,15 +282,35 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         var optionName = optionPart.Attribute.GetEffectiveName();
+        var addedPair = false;
         foreach (var pair in pairs)
         {
+            if (string.IsNullOrWhiteSpace(pair.First)
+                || string.IsNullOrWhiteSpace(pair.Second))
+            {
+                throw CreateEmptyRequiredValueException(optionsType, optionPart);
+            }
+
             args.Add(optionName);
             args.Add(pair.First);
             args.Add(pair.Second);
+            addedPair = true;
+        }
+
+        if (!addedPair)
+        {
+            throw CreateEmptyRequiredValueException(optionsType, optionPart);
         }
 
         return true;
     }
+
+    private static InvalidOperationException CreateEmptyRequiredValueException(
+        Type optionsType,
+        OptionPart optionPart) =>
+        new(
+            $"Required CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+            + "cannot be empty or whitespace.");
 
     private static List<string> GetValues(object rawValue)
     {

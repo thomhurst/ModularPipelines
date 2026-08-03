@@ -450,11 +450,11 @@ public static class ExternalToolDefinitionLoader
     {
         var writable = command.Options
             .Where(option => !option.IsRequired)
-            .Select(option => (option.PropertyName, option.CSharpType))
+            .Select(option => (option.PropertyName, CSharpType: option.PropertyType))
             .Concat(command.PositionalArguments
                 .Where(argument => !argument.IsRequired)
                 .Select(argument => (argument.PropertyName, argument.CSharpType)))
-            .Concat(globalOptions.Select(option => (option.PropertyName, option.CSharpType)))
+            .Concat(globalOptions.Select(option => (option.PropertyName, CSharpType: option.PropertyType)))
             .ToDictionary(target => target.PropertyName, target => target.CSharpType, StringComparer.Ordinal);
         var all = writable.Keys
             .Concat(command.Options.Select(option => option.PropertyName))

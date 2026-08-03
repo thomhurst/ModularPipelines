@@ -93,7 +93,7 @@ public class JqOptionsTests
     [Test]
     public async Task Renders_Bare_RunTests_For_Standard_Input()
     {
-        var arguments = BuildArguments(new JqExecuteOptions { RunTests = string.Empty });
+        var arguments = BuildArguments(new JqExecuteOptions { RunTests = CliOptionValue.Bare });
 
         await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
     }

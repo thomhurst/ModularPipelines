@@ -33,6 +33,13 @@ public record CliOptionDefinition
     public required string CSharpType { get; init; }
 
     /// <summary>
+    /// C# type emitted for the generated property.
+    /// </summary>
+    public string PropertyType => ValueArity == CliOptionValueArity.Optional
+        ? "CliOptionValue?"
+        : CSharpType;
+
+    /// <summary>
     /// Description for XML documentation.
     /// </summary>
     public string? Description { get; init; }
@@ -81,7 +88,9 @@ public record CliOptionDefinition
     /// Whether generated code needs the ModularPipelines.Models namespace for this option type.
     /// </summary>
     public bool RequiresModelsNamespace
-        => IsKeyValue || CSharpType.Contains("CliValuePair", StringComparison.Ordinal);
+        => IsKeyValue
+           || ValueArity == CliOptionValueArity.Optional
+           || CSharpType.Contains("CliValuePair", StringComparison.Ordinal);
 
     /// <summary>
     /// Whether the value is numeric.

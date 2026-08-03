@@ -240,7 +240,7 @@ public class CommandLineBuilderTests : TestBase
             "--run-tests",
             ValueArity = CliOptionValueArity.Optional,
             Phase = CommandLinePhase.Terminal)]
-        public string? RunTests { get; set; }
+        public CliOptionValue? RunTests { get; set; }
     }
 
     [CliTool("mytool")]

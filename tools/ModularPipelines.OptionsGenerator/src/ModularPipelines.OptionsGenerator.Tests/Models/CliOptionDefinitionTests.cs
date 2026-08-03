@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Tests.Models;
@@ -223,4 +224,19 @@ public class CliOptionDefinitionTests
     }
 
     #endregion
+
+    [Test]
+    public async Task PropertyType_Uses_CliOptionValue_For_Optional_Value_Arity()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--run-tests",
+            PropertyName = "RunTests",
+            CSharpType = "string?",
+            ValueArity = CliOptionValueArity.Optional,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("CliOptionValue?");
+        await Assert.That(option.RequiresModelsNamespace).IsTrue();
+    }
 }

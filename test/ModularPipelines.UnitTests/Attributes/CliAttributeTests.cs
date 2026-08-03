@@ -1,3 +1,4 @@
+using System.Globalization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Models;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
@@ -192,12 +193,34 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Rejects_Empty_Required_Option_Collections()
+    {
+        var options = new TestCliOptionsWithMultipleValues { Values = [] };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining($"{typeof(TestCliOptionsWithMultipleValues).FullName}.Values");
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments("   ")]
+    public async Task Parser_Rejects_Empty_Required_Option_Values(string value)
+    {
+        var options = new TestCliOptionsWithOption { Namespace = value };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining($"{typeof(TestCliOptionsWithOption).FullName}.Namespace");
+    }
+
+    [Test]
     public async Task Parser_Renders_Bare_OptionalValue_Option()
     {
         var options = new TestCliOptionsWithSemanticPhases
         {
             Normal = true,
-            Terminal = string.Empty,
+            Terminal = CliOptionValue.Bare,
             Passthrough = "input.txt",
         };
 
@@ -223,6 +246,51 @@ public class CliAttributeTests
         await Assert.That(list).IsEquivalentTo(
             ["--normal", "input.txt", "--terminal", "tests.txt"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Omits_Null_OptionalValue_Option()
+    {
+        var list = BuildArguments(new TestCliOptionsWithSemanticPhases { Terminal = null });
+
+        await Assert.That(list).IsEmpty();
+    }
+
+    [Test]
+    public async Task Parser_Preserves_Explicit_Optional_Value_Across_Cultures()
+    {
+        var originalCulture = CultureInfo.CurrentCulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+            var list = BuildArguments(new TestCliOptionsWithSemanticPhases { Terminal = "1.5" });
+
+            await Assert.That(list).IsEquivalentTo(["--terminal", "1.5"]);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Default_OptionalValue()
+    {
+        var options = new TestCliOptionsWithSemanticPhases { Terminal = default(CliOptionValue) };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue.Bare));
+    }
+
+    [Test]
+    public async Task CliOptionValue_Implicitly_Converts_NonEmpty_Strings()
+    {
+        CliOptionValue optionValue = "tests.txt";
+
+        await Assert.That(optionValue.IsBare).IsFalse();
+        await Assert.That(optionValue.Value).IsEqualTo("tests.txt");
     }
 
     [Test]
@@ -390,7 +458,7 @@ public class CliAttributeTests
             "--terminal",
             ValueArity = CliOptionValueArity.Optional,
             Phase = CommandLinePhase.Terminal)]
-        public string? Terminal { get; set; }
+        public CliOptionValue? Terminal { get; set; }
 
         [CliArgument(0)]
         public string? Passthrough { get; set; }

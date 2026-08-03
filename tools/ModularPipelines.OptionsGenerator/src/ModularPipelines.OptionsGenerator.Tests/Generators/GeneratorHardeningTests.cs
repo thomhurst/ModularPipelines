@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
@@ -34,6 +35,29 @@ public class GeneratorHardeningTests
             Enums = enums ?? [],
             CompatibilityMethods = compatibilityMethods ?? [],
         };
+
+    [Test]
+    public async Task OptionsClassGenerator_Uses_CliOptionValue_For_Optional_Value_Arity()
+    {
+        var command = Command(
+            "ToolRunOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--run-tests",
+                    PropertyName = "RunTests",
+                    CSharpType = "string?",
+                    ValueArity = CliOptionValueArity.Optional,
+                },
+            ]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("using ModularPipelines.Models;");
+        await Assert.That(generated).Contains("public CliOptionValue? RunTests { get; set; }");
+    }
 
     private static CliToolDefinition Tool(params CliCommandDefinition[] commands) =>
         new()

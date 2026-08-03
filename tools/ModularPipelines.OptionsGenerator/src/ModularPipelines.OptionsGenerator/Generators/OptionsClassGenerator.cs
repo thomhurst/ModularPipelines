@@ -424,7 +424,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.CSharpType} {option.PropertyName} {{ get; set; }}");
+        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.PropertyType} {option.PropertyName} {{ get; set; }}");
     }
 
     private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)

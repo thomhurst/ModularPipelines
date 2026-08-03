@@ -112,7 +112,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public virtual {option.CSharpType} {option.PropertyName} {{ get; set; }}");
+        sb.AppendLine($"    public virtual {option.PropertyType} {option.PropertyName} {{ get; set; }}");
     }
 
     private static string? GetDescription(CliOptionDefinition option)

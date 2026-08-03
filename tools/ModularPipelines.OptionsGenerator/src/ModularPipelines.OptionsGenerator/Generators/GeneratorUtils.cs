@@ -534,7 +534,7 @@ public static partial class GeneratorUtils
         var parameters = command.RequiredOptions
             .Select(option => new RequiredConstructorParameter(
                 option.PropertyName,
-                option.CSharpType,
+                option.PropertyType,
                 option.IsSecret,
                 option,
                 null))

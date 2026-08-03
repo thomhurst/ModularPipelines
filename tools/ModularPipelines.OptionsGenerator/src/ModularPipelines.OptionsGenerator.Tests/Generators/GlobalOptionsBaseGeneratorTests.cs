@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -68,6 +69,34 @@ public class GlobalOptionsBaseGeneratorTests
         await Assert.That(generated).Contains("public virtual string? LicenseKey { get; set; }");
         await Assert.That(generated).Contains("Availability: Secure edition.");
         await Assert.That(generated).Contains("Documentation: https://example.test/license");
+    }
+
+    [Test]
+    public async Task Generate_Uses_CliOptionValue_For_Optional_Value_Arity()
+    {
+        var tool = new CliToolDefinition
+        {
+            ToolName = "fake",
+            NamespacePrefix = "Fake",
+            TargetNamespace = "ModularPipelines.Fake",
+            OutputDirectory = "src/ModularPipelines.Fake",
+            Commands = [],
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--run-tests",
+                    PropertyName = "RunTests",
+                    CSharpType = "string?",
+                    ValueArity = CliOptionValueArity.Optional,
+                },
+            ],
+        };
+
+        var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
+
+        await Assert.That(generated).Contains("using ModularPipelines.Models;");
+        await Assert.That(generated).Contains("public virtual CliOptionValue? RunTests { get; set; }");
     }
 
     [Test]
