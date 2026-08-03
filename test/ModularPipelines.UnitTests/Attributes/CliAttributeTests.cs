@@ -277,13 +277,11 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Rejects_Empty_Required_Option_Collections()
+    public async Task Parser_Omits_Empty_Required_Option_Collections()
     {
         var options = new TestCliOptionsWithMultipleValues { Values = [] };
 
-        await Assert.That(() => BuildArguments(options))
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining($"{typeof(TestCliOptionsWithMultipleValues).FullName}.Values");
+        await Assert.That(BuildArguments(options)).IsEmpty();
     }
 
     [Test]
@@ -309,13 +307,19 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Rejects_Empty_Grouped_Required_Option_Collections()
+    public async Task Parser_Omits_Empty_Grouped_Required_Option_Collections()
     {
         var options = new TestCliOptionsWithGroupedValues { Values = [] };
 
-        await Assert.That(() => BuildArguments(options))
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining($"{typeof(TestCliOptionsWithGroupedValues).FullName}.Values");
+        await Assert.That(BuildArguments(options)).IsEmpty();
+    }
+
+    [Test]
+    public async Task Parser_Omits_Empty_Required_Value_Pair_Collections()
+    {
+        var options = new TestCliOptionsWithValuePairs { Values = [] };
+
+        await Assert.That(BuildArguments(options)).IsEmpty();
     }
 
     [Test]
@@ -370,11 +374,41 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Skips_Null_Repeatable_Optional_Values()
+    {
+        var options = new TestCliOptionsWithMultipleOptionalValues
+        {
+            Output = [CliOptionValue.Bare, null!, "json"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "--output=json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     public async Task Parser_Preserves_Legacy_Multiple_Optional_String_Values()
     {
         var options = new TestCliOptionsWithLegacyMultipleOptionalValues
         {
             Output = [string.Empty, "json"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "--output=json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Skips_Null_Legacy_Repeatable_Optional_Values()
+    {
+        var options = new TestCliOptionsWithLegacyMultipleOptionalValues
+        {
+            Output = [string.Empty, null!, "json"],
         };
 
         var list = BuildArguments(options);

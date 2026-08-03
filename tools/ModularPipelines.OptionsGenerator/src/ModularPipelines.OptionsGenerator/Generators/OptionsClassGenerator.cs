@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -53,7 +54,8 @@ public class OptionsClassGenerator : ICodeGenerator
             command.ClassName);
         var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
         var enumOptions = command.Options
-            .Where(option => option.EnumDefinition is not null)
+            .Where(option => option.EnumDefinition is not null
+                             && option.ValueArity != CliOptionValueArity.Optional)
             .ToArray();
         var sb = new StringBuilder();
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);

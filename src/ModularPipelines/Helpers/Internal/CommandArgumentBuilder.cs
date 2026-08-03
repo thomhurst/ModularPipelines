@@ -180,7 +180,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         var values = GetValues(rawValue);
         if (values.Count == 0)
         {
-            throw CreateEmptyRequiredValueException(optionsType, optionPart);
+            return;
         }
 
         foreach (var value in values)
@@ -204,10 +204,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         var optionValues = rawValue switch
         {
             CliOptionValue optionValue => [optionValue],
-            IEnumerable<CliOptionValue> values => values,
+            IEnumerable<CliOptionValue> values => values.OfType<CliOptionValue>(),
             // Preserve compatibility with generated option packages that predate CliOptionValue.
             string value when isLegacyGeneratedOption => [ToLegacyOptionalValue(value)],
-            IEnumerable<string> values when isLegacyGeneratedOption => values.Select(ToLegacyOptionalValue),
+            IEnumerable<string> values when isLegacyGeneratedOption => values
+                .OfType<string>()
+                .Select(ToLegacyOptionalValue),
             _ => throw CreateInvalidOptionalValueTypeException(optionsType, optionPart),
         };
 
@@ -304,7 +306,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         var renderedValues = values.ToList();
-        if (renderedValues.Count == 0 || renderedValues.Any(string.IsNullOrWhiteSpace))
+        if (renderedValues.Count == 0)
+        {
+            return;
+        }
+
+        if (renderedValues.Any(string.IsNullOrWhiteSpace))
         {
             throw CreateEmptyRequiredValueException(optionsType, optionPart);
         }
@@ -337,7 +344,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         var optionName = optionPart.Attribute.GetEffectiveName();
-        var addedPair = false;
         foreach (var pair in pairs)
         {
             if (string.IsNullOrWhiteSpace(pair.First)
@@ -349,12 +355,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             args.Add(optionName);
             args.Add(pair.First);
             args.Add(pair.Second);
-            addedPair = true;
-        }
-
-        if (!addedPair)
-        {
-            throw CreateEmptyRequiredValueException(optionsType, optionPart);
         }
     }
 
