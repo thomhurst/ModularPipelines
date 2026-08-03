@@ -157,6 +157,7 @@ public class GitTests : TestBase
                 await RunGitAsync(workingDirectory, "config", "user.email", "tests@modularpipelines.local");
                 await RunGitAsync(workingDirectory, "config", "commit.gpgSign", "false");
                 await RunGitAsync(workingDirectory, "config", "push.gpgSign", "false");
+                await RunGitAsync(workingDirectory, "config", "protocol.file.allow", "always");
                 await RunGitAsync(workingDirectory, "config", "core.hooksPath", hooksDirectory);
 
                 await File.WriteAllTextAsync(Path.Combine(workingDirectory, "first.txt"), "first");
