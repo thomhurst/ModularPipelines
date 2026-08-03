@@ -110,6 +110,58 @@ public class Module1 : Module<int>
 }}
 ";
 
+    private const string BadModuleWithMutableAutoProperty = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : Module<int>
+{{
+    public int {{|#0:Counter|}} {{ get; set; }}
+
+    protected override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult(Counter);
+    }}
+}}
+";
+
+    private const string PartialModuleWithMutableField = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public partial class Module1 : Module<int>
+{{
+    private int {{|#0:_counter|}};
+
+    protected override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult(_counter);
+    }}
+}}
+
+public partial class Module1
+{{
+}}
+";
+
+    private const string GoodModuleWithNonWritableProperties = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : Module<int>
+{{
+    public int GetterOnly {{ get; }}
+
+    public int InitOnly {{ get; init; }}
+
+    public required int Required {{ get; set; }}
+
+    public static int Static {{ get; set; }}
+
+    protected override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult(GetterOnly + InitOnly + Required + Static);
+    }}
+}}
+";
+
     private const string BadModuleWithMutableCustomClass = $@"
 {TestSourceConstants.StandardModuleHeader}
 
@@ -726,6 +778,32 @@ public class Module1 : Module<int>
         var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_counter", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCounter, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_MutableAutoProperty()
+    {
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Counter", "Module1");
+
+        await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableAutoProperty, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerReportsMutableFieldOnce_When_ModuleIsPartial()
+    {
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("_counter", "Module1");
+
+        await VerifyCS.VerifyAnalyzerAsync(PartialModuleWithMutableField, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsNotTriggered_When_PropertiesCannotLeakMutableState()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(GoodModuleWithNonWritableProperties);
     }
 
     [TestMethod]
