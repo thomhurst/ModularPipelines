@@ -505,6 +505,27 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("precreated");
     }
 
+    private sealed class PrecreatedDisposableState : IDisposable
+    {
+        public bool IsDisposed { get; private set; }
+
+        public void Dispose() => IsDisposed = true;
+    }
+
+    private sealed class PrecreatedDisposableModule(PrecreatedDisposableState state)
+        : Module<string>, IDisposable
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            ObjectDisposedException.ThrowIf(state.IsDisposed, state);
+            return Task.FromResult<string?>("precreated-disposable");
+        }
+
+        public void Dispose() => state.Dispose();
+    }
+
     private sealed class CapturingComparerFactoryModule(IComparer<string> comparer) : Module<string>
     {
         protected override ModuleConfiguration Configure()
@@ -1801,6 +1822,26 @@ public class DependencyGraphExporterTests
             await exporter.RenderAsync(DependencyGraphFormat.Json));
 
         await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Dispose_State_Shared_With_Precreated_Module()
+    {
+        var state = new PrecreatedDisposableState();
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(new PrecreatedDisposableModule(state));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        await Assert.That(state.IsDisposed).IsFalse();
+
+        var summary = await pipeline.RunAsync();
+        var moduleResult = await summary.Modules
+            .OfType<PrecreatedDisposableModule>()
+            .Single();
+
+        await Assert.That(moduleResult.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
     [Test]

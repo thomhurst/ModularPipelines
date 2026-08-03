@@ -582,10 +582,9 @@ internal sealed class ModulePlanningFactory
                     customCopyServiceProvider.IsServiceProviderOwned);
             }
 
-            var registeredInstanceState = GetRegisteredInstanceState(_registeredInstance);
             return new PlanningModuleCreation(
                 copyProvider.CreatePlanningCopyFromRegisteredInstance(),
-                registeredInstanceState.Contains);
+                static _ => true);
         }
 
         var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
@@ -593,39 +592,6 @@ internal sealed class ModulePlanningFactory
         return new PlanningModuleCreation(
             module,
             trackingServiceProvider.IsServiceProviderOwned);
-    }
-
-    [UnconditionalSuppressMessage(
-        "ReflectionAnalysis",
-        "IL2075",
-        Justification = "Registered module fields are inspected only to identify constructor state shared by a planning snapshot.")]
-    private static HashSet<object> GetRegisteredInstanceState(IModule? module)
-    {
-        var state = new HashSet<object>(ReferenceEqualityComparer.Instance);
-        if (module is null)
-        {
-            return state;
-        }
-
-        for (var type = module.GetType();
-             type is not null && (!type.IsGenericType
-                                  || type.GetGenericTypeDefinition() != typeof(Module<>));
-             type = type.BaseType)
-        {
-            foreach (var field in type.GetFields(
-                         BindingFlags.Instance
-                         | BindingFlags.Public
-                         | BindingFlags.NonPublic
-                         | BindingFlags.DeclaredOnly))
-            {
-                if (field.GetValue(module) is { } value && !value.GetType().IsValueType)
-                {
-                    state.Add(value);
-                }
-            }
-        }
-
-        return state;
     }
 }
 
