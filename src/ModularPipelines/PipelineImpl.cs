@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,7 @@ internal sealed class PipelineImpl : IPipeline
     private readonly AsyncServiceScope _serviceScope;
     private readonly IDisposable _shutdownRegistration;
     private readonly object _disposeLock = new();
-    private readonly AsyncLocal<bool> _isDisposalOwner = new();
+    private readonly AsyncLocal<DisposalOwnership?> _disposalOwnership = new();
     private Task? _disposeTask;
 
     private PipelineImpl(IHost host)
@@ -121,7 +122,7 @@ internal sealed class PipelineImpl : IPipeline
         {
             if (_disposeTask is not null)
             {
-                return _isDisposalOwner.Value
+                return _disposalOwnership.Value?.IsActive == true
                     ? ValueTask.CompletedTask
                     : new ValueTask(_disposeTask);
             }
@@ -155,23 +156,49 @@ internal sealed class PipelineImpl : IPipeline
 
     private async Task DisposeCoreAsync()
     {
-        _isDisposalOwner.Value = true;
+        var ownership = new DisposalOwnership();
+        _disposalOwnership.Value = ownership;
         try
         {
             _shutdownRegistration.Dispose();
+            Exception? scopeException = null;
             try
             {
                 await _serviceScope.DisposeAsync().ConfigureAwait(false);
             }
-            finally
+            catch (Exception exception)
+            {
+                scopeException = exception;
+            }
+
+            try
             {
                 await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
+            }
+            catch (Exception hostException) when (scopeException is not null)
+            {
+                throw new AggregateException(scopeException, hostException);
+            }
+
+            if (scopeException is not null)
+            {
+                ExceptionDispatchInfo.Capture(scopeException).Throw();
             }
         }
         finally
         {
-            _isDisposalOwner.Value = false;
+            ownership.Deactivate();
+            _disposalOwnership.Value = null;
         }
+    }
+
+    private sealed class DisposalOwnership
+    {
+        private int _isActive = 1;
+
+        public bool IsActive => Volatile.Read(ref _isActive) == 1;
+
+        public void Deactivate() => Interlocked.Exchange(ref _isActive, 0);
     }
 
     private static void ValidateModuleDependencies(

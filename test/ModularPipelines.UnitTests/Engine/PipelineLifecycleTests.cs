@@ -64,6 +64,41 @@ public class PipelineLifecycleTests
         }
     }
 
+    private sealed class CapturedContextThrowingDisposalTracker : IAsyncDisposable
+    {
+        private ExecutionContext? _capturedContext;
+
+        public Func<ValueTask>? DisposePipeline { get; set; }
+
+        public ValueTask DisposeAsync()
+        {
+            _capturedContext = ExecutionContext.Capture();
+            return ValueTask.FromException(new ApplicationException("Captured cleanup failed"));
+        }
+
+        public async Task DisposePipelineInCapturedContextAsync()
+        {
+            ValueTask disposal = default;
+            ExecutionContext.Run(
+                _capturedContext!,
+                _ => disposal = DisposePipeline!(),
+                null);
+            await disposal;
+        }
+    }
+
+    private sealed class ThrowingScopedDisposalTracker : IAsyncDisposable
+    {
+        public ValueTask DisposeAsync() =>
+            ValueTask.FromException(new ApplicationException("Scope cleanup failed"));
+    }
+
+    private sealed class ThrowingRootDisposalTracker : IAsyncDisposable
+    {
+        public ValueTask DisposeAsync() =>
+            ValueTask.FromException(new ApplicationException("Host cleanup failed"));
+    }
+
     private sealed class ThrowingDisposalTracker : IAsyncDisposable
     {
         public ValueTask DisposeAsync() =>
@@ -138,6 +173,49 @@ public class PipelineLifecycleTests
         await pipeline.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
 
         await Assert.That(tracker.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task Captured_Disposal_Context_Observes_Completed_Failure()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<LifecycleModule>();
+        builder.Services.AddSingleton<CapturedContextThrowingDisposalTracker>();
+        var pipeline = await builder.BuildAsync();
+        var tracker = pipeline.Services
+            .GetRequiredService<CapturedContextThrowingDisposalTracker>();
+        tracker.DisposePipeline = pipeline.DisposeAsync;
+
+        _ = await Assert.ThrowsAsync<ApplicationException>(
+            () => pipeline.DisposeAsync().AsTask());
+        var repeatedException = await Assert.ThrowsAsync<ApplicationException>(
+            tracker.DisposePipelineInCapturedContextAsync);
+
+        await Assert.That(repeatedException!.Message).IsEqualTo("Captured cleanup failed");
+    }
+
+    [Test]
+    public async Task Disposal_Aggregates_Scope_And_Host_Failures()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<LifecycleModule>();
+        builder.Services.AddScoped<ThrowingScopedDisposalTracker>();
+        builder.Services.AddSingleton<ThrowingRootDisposalTracker>();
+        var pipeline = await builder.BuildAsync();
+        _ = pipeline.Services.GetRequiredService<ThrowingScopedDisposalTracker>();
+        _ = pipeline.Services.GetRequiredService<ThrowingRootDisposalTracker>();
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(
+            () => pipeline.DisposeAsync().AsTask());
+        var messages = exception!.Flatten().InnerExceptions
+            .Select(innerException => innerException.Message)
+            .ToArray();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(messages).Contains("Scope cleanup failed");
+            await Assert.That(messages).Contains("Host cleanup failed");
+        }
     }
 
     [Test]
