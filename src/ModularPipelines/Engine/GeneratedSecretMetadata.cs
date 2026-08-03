@@ -11,8 +11,8 @@ namespace ModularPipelines.Engine;
 /// </summary>
 public static class GeneratedSecretMetadata
 {
-    private static readonly ConditionalWeakTable<Type, SecretMetadata> Accessors = new();
-    private static readonly ConditionalWeakTable<Assembly, AssemblyCoverage> AssemblyCoverageByAssembly = new();
+    private static readonly ConditionalWeakTable<Type, SecretMetadata> Accessors = [];
+    private static readonly ConditionalWeakTable<Assembly, AssemblyCoverage> AssemblyCoverageByAssembly = [];
 
     /// <summary>
     /// Registers that an assembly ran the C# metadata generator.

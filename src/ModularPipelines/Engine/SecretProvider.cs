@@ -34,8 +34,8 @@ namespace ModularPipelines.Engine;
 /// <threadsafety static="true" instance="true"/>
 internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 {
-    private static readonly ConditionalWeakTable<Assembly, SecretAttributeReference> SecretAttributeReferenceCache = new();
-    private static readonly ConditionalWeakTable<Type, ReflectionAccessors> ReflectionAccessorsCache = new();
+    private static readonly ConditionalWeakTable<Assembly, SecretAttributeReference> SecretAttributeReferenceCache = [];
+    private static readonly ConditionalWeakTable<Type, ReflectionAccessors> ReflectionAccessorsCache = [];
 
     private readonly IOptionsProvider _optionsProvider;
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;

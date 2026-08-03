@@ -9,8 +9,8 @@ namespace ModularPipelines.Helpers.Internal;
 /// </summary>
 public static class GeneratedCommandMetadata
 {
-    private static readonly ConditionalWeakTable<Type, CommandMetadata> Models = new();
-    private static readonly ConditionalWeakTable<Assembly, ProcessedAssembly> ProcessedAssemblies = new();
+    private static readonly ConditionalWeakTable<Type, CommandMetadata> Models = [];
+    private static readonly ConditionalWeakTable<Assembly, ProcessedAssembly> ProcessedAssemblies = [];
 
     /// <summary>
     /// Registers that an assembly ran the C# command metadata generator.

@@ -10,7 +10,7 @@ namespace ModularPipelines.Helpers.Internal;
 /// <inheritdoc/>
 internal sealed class CommandModelProvider : ICommandModelProvider
 {
-    private readonly ConditionalWeakTable<Type, CommandModel> _cache = new();
+    private readonly ConditionalWeakTable<Type, CommandModel> _cache = [];
 
     /// <inheritdoc/>
     [UnconditionalSuppressMessage(
