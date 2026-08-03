@@ -70,6 +70,8 @@ public class CommandGroupAliasGenerationTests
         await Assert.That(historyLogsOptions.Content)
             .Contains("CliOptionValue RequiredOptionalProgress");
         await Assert.That(historyLogsOptions.Content)
+            .Contains("using ModularPipelines.Models;");
+        await Assert.That(historyLogsOptions.Content)
             .Contains(": base(RequiredOptionalProgress)");
         await Assert.That(historyLogsOptions.Content)
             .DoesNotContain("(int)RequiredOptionalProgress");

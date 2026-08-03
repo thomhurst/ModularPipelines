@@ -238,7 +238,19 @@ public static class GeneratedOptionsSmokeTestHarness
         if (option.Attribute.ValueArity == CliOptionValueArity.Optional
             && value is IEnumerable<CliOptionValue> optionValues)
         {
-            return optionValues
+            var optionalValues = optionValues.OfType<CliOptionValue>().ToList();
+            if (option.Attribute.GroupValues && optionalValues.Count > 0)
+            {
+                return
+                [
+                    optionName,
+                    .. optionalValues
+                        .Where(static item => !item.IsBare)
+                        .Select(static item => item.Value!),
+                ];
+            }
+
+            return optionalValues
                 .SelectMany(item => RenderOptionalValue(optionName, separator, item))
                 .ToList();
         }

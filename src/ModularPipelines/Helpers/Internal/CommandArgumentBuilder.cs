@@ -157,7 +157,15 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
         {
-            AddOptionalValueOption(args, optionPart, rawValue, optionsType);
+            if (optionPart.Attribute.GroupValues)
+            {
+                AddGroupedOptionalValueOption(args, optionPart, rawValue, optionsType);
+            }
+            else
+            {
+                AddOptionalValueOption(args, optionPart, rawValue, optionsType);
+            }
+
             return;
         }
 
@@ -200,8 +208,48 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
+        foreach (var optionValue in GetOptionalValues(rawValue, optionsType, optionPart))
+        {
+            AddOptionalValue(args, optionPart, optionValue, optionsType);
+        }
+    }
+
+    private static void AddGroupedOptionalValueOption(
+        List<string> args,
+        OptionPart optionPart,
+        object rawValue,
+        Type optionsType)
+    {
+        var optionValues = GetOptionalValues(rawValue, optionsType, optionPart).ToList();
+        if (optionValues.Count == 0)
+        {
+            return;
+        }
+
+        if (optionPart.Attribute.GetSeparator() != " ")
+        {
+            throw new InvalidOperationException(
+                $"Grouped option '{optionPart.Attribute.GetEffectiveName()}' must use a space separator.");
+        }
+
+        foreach (var optionValue in optionValues.Where(static value => !value.IsBare))
+        {
+            ValidateOptionalValue(optionValue, optionsType, optionPart);
+        }
+
+        args.Add(optionPart.Attribute.GetEffectiveName());
+        args.AddRange(optionValues
+            .Where(static value => !value.IsBare)
+            .Select(static value => value.Value!));
+    }
+
+    private static IEnumerable<CliOptionValue> GetOptionalValues(
+        object rawValue,
+        Type optionsType,
+        OptionPart optionPart)
+    {
         var isLegacyGeneratedOption = IsLegacyGeneratedOption(optionsType, optionPart);
-        var optionValues = rawValue switch
+        return rawValue switch
         {
             CliOptionValue optionValue => [optionValue],
             IEnumerable<CliOptionValue> values => values.OfType<CliOptionValue>(),
@@ -212,11 +260,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 .Select(ToLegacyOptionalValue),
             _ => throw CreateInvalidOptionalValueTypeException(optionsType, optionPart),
         };
-
-        foreach (var optionValue in optionValues)
-        {
-            AddOptionalValue(args, optionPart, optionValue, optionsType);
-        }
     }
 
     private static CliOptionValue ToLegacyOptionalValue(string value)
@@ -267,14 +310,21 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             return;
         }
 
+        ValidateOptionalValue(optionValue, optionsType, optionPart);
+        AddOptionValue(args, optionPart, optionValue.Value!);
+    }
+
+    private static void ValidateOptionalValue(
+        CliOptionValue optionValue,
+        Type optionsType,
+        OptionPart optionPart)
+    {
         if (string.IsNullOrWhiteSpace(optionValue.Value))
         {
             throw new InvalidOperationException(
                 $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
                 + $"must use {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)} or a non-empty value.");
         }
-
-        AddOptionValue(args, optionPart, optionValue.Value);
     }
 
     private static void AddOptionValue(List<string> args, OptionPart optionPart, string value)

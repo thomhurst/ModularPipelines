@@ -374,6 +374,21 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Groups_Optional_Values_Into_One_Occurrence()
+    {
+        var options = new TestCliOptionsWithGroupedOptionalValues
+        {
+            Output = ["first", "second"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "first", "second"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     public async Task Parser_Skips_Null_Repeatable_Optional_Values()
     {
         var options = new TestCliOptionsWithMultipleOptionalValues
@@ -725,6 +740,15 @@ public class CliAttributeTests
             "--output",
             Format = OptionFormat.EqualsSeparated,
             ValueArity = CliOptionValueArity.Optional)]
+        public IEnumerable<CliOptionValue>? Output { get; set; }
+    }
+
+    private record TestCliOptionsWithGroupedOptionalValues
+    {
+        [CliOption(
+            "--output",
+            ValueArity = CliOptionValueArity.Optional,
+            GroupValues = true)]
         public IEnumerable<CliOptionValue>? Output { get; set; }
     }
 

@@ -61,6 +61,12 @@ public class OptionsClassGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        if (requiredParameters.Any(static parameter =>
+                parameter.Option?.ValueArity == CliOptionValueArity.Optional))
+        {
+            sb.AppendLine("using ModularPipelines.Models;");
+        }
+
         if (enumOptions.Length > 0)
         {
             sb.AppendLine("using ModularPipelines.Attributes;");
