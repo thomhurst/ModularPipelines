@@ -46,6 +46,15 @@ public class GeneratedOptionsSmokeTestHarnessTests
         await Assert.That(arguments.SequenceEqual(expected, StringComparer.Ordinal)).IsTrue();
     }
 
+    [Test]
+    public async Task Reflection_Model_Uses_Most_Derived_Shadowed_Property()
+    {
+        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsTypeUsingReflection(
+            typeof(ShadowedOptions));
+
+        await Assert.That(result.PropertiesTested).IsEqualTo(1);
+    }
+
     private sealed record RepresentativeOptions : CommandLineToolOptions
     {
         [CliArgument(0, PrependOptionTerminator = true)]
@@ -62,5 +71,17 @@ public class GeneratedOptionsSmokeTestHarnessTests
 
         [CliOption("--pair")]
         public CliOptionValuePair? Pair { get; init; }
+    }
+
+    private record ShadowedOptionsBase : CommandLineToolOptions
+    {
+        [CliOption("--progress")]
+        public string? Progress { get; init; }
+    }
+
+    private sealed record ShadowedOptions : ShadowedOptionsBase
+    {
+        [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
+        public new string? Progress { get; init; }
     }
 }

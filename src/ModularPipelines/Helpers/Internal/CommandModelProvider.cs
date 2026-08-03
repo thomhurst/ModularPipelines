@@ -28,11 +28,24 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         });
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "This explicit reflection-only path is used to validate the documented fallback against preserved test assemblies.")]
+    internal static IReadOnlyList<PropertyCommandLinePart> GetReflectionCommandModel(Type optionsType)
+    {
+        var model = BuildModel(optionsType);
+        ValidateUniqueSwitches(optionsType, model);
+        return model;
+    }
+
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties. Ensure ModularPipelines.SourceGenerator runs for trim-safe command models.")]
     private static IReadOnlyList<PropertyCommandLinePart> BuildModel(Type type)
     {
         var parts = new List<PropertyCommandLinePart>();
-        var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+        var properties = type
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
+            .Where(property => IsMostDerivedProperty(type, property));
 
         foreach (var property in properties)
         {
@@ -60,6 +73,24 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         }
 
         return parts;
+    }
+
+    [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
+    private static bool IsMostDerivedProperty(Type optionsType, PropertyInfo property)
+    {
+        for (var currentType = optionsType;
+             currentType is not null && currentType != property.DeclaringType;
+             currentType = currentType.BaseType)
+        {
+            if (currentType
+                .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Any(candidate => candidate.Name == property.Name))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
