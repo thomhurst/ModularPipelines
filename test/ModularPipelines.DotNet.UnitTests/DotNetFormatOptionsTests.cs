@@ -5,7 +5,6 @@ namespace ModularPipelines.DotNet.UnitTests;
 
 public class DotNetFormatOptionsTests
 {
-
     [Test]
     public async Task ExcludeDiagnostics_Passes_Each_Id_Separately()
     {

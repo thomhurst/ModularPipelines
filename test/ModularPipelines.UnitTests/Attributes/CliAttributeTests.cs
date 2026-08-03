@@ -5,7 +5,6 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class CliAttributeTests
 {
-
     [Test]
     public async Task CliCommand_Returns_Tool_And_SubCommands()
     {

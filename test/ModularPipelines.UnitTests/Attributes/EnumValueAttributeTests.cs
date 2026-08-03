@@ -5,7 +5,6 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class EnumValueAttributeTests
 {
-
     [Test]
     [Arguments(Number.One, "1")]
     [Arguments(Number.Two, "2")]
