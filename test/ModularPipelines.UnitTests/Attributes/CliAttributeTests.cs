@@ -1,4 +1,5 @@
 using ModularPipelines.Attributes;
+using ModularPipelines.Models;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.UnitTests.Attributes;
@@ -184,6 +185,32 @@ public class CliAttributeTests
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(new[] { "--values", "first", "second" });
+    }
+
+    [Test]
+    public async Task Parser_Groups_CliOption_Value_Pairs()
+    {
+        var options = new TestCliOptionsWithGroupedPairs
+        {
+            Values = [new("first", "one"), new("second", "two")],
+        };
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            new[] { "--values", "first", "one", "second", "two" });
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Grouped_Value_Pairs_With_NonSpace_Separator()
+    {
+        var options = new TestCliOptionsWithInvalidGroupedPairs
+        {
+            Values = [new("first", "one")],
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("must use a space separator");
     }
 
     [Test]
@@ -373,6 +400,18 @@ public class CliAttributeTests
     {
         [CliOption("--values", Format = OptionFormat.EqualsSeparated, GroupValues = true)]
         public string[]? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithGroupedPairs
+    {
+        [CliOption("--values", GroupValues = true)]
+        public IEnumerable<CliOptionValuePair>? Values { get; set; }
+    }
+
+    private record TestCliOptionsWithInvalidGroupedPairs
+    {
+        [CliOption("--values", Format = OptionFormat.EqualsSeparated, GroupValues = true)]
+        public IEnumerable<CliOptionValuePair>? Values { get; set; }
     }
 
     private record TestCliOptionsWithSemanticPhases

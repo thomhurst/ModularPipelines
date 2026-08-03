@@ -169,20 +169,23 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
     {
-        if (TryAddOptionValuePairs(args, optionPart, rawValue))
-        {
-            return;
-        }
-
-        var values = GetValues(rawValue);
-
+        var valuePairs = GetOptionValuePairs(rawValue);
         if (optionPart.Attribute.GroupValues)
         {
+            var values = valuePairs is null
+                ? GetValues(rawValue)
+                : valuePairs.SelectMany(static pair => new[] { pair.First, pair.Second });
             AddGroupedOption(args, optionPart.Attribute, values);
             return;
         }
 
-        foreach (var value in values)
+        if (valuePairs is not null)
+        {
+            AddOptionValuePairs(args, optionPart.Attribute, valuePairs);
+            return;
+        }
+
+        foreach (var value in GetValues(rawValue))
         {
             if (string.IsNullOrWhiteSpace(value))
             {
@@ -235,29 +238,28 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         args.AddRange(renderedValues);
     }
 
-    private static bool TryAddOptionValuePairs(List<string> args, OptionPart optionPart, object rawValue)
+    private static IEnumerable<CliOptionValuePair>? GetOptionValuePairs(object rawValue)
     {
-        var pairs = rawValue switch
+        return rawValue switch
         {
             CliOptionValuePair pair => [pair],
             IEnumerable<CliOptionValuePair> pairCollection => pairCollection,
             _ => null,
         };
+    }
 
-        if (pairs is null)
-        {
-            return false;
-        }
-
-        var optionName = optionPart.Attribute.GetEffectiveName();
+    private static void AddOptionValuePairs(
+        List<string> args,
+        CliOptionAttribute attribute,
+        IEnumerable<CliOptionValuePair> pairs)
+    {
+        var optionName = attribute.GetEffectiveName();
         foreach (var pair in pairs)
         {
             args.Add(optionName);
             args.Add(pair.First);
             args.Add(pair.Second);
         }
-
-        return true;
     }
 
     private static List<string> GetValues(object rawValue)

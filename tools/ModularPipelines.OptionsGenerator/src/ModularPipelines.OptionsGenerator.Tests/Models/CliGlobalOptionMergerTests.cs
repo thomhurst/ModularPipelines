@@ -69,6 +69,18 @@ public class CliGlobalOptionMergerTests
     }
 
     [Test]
+    public async Task Merge_Rejects_Conflicting_GroupValues_For_The_Same_Switch()
+    {
+        var scraped = Option("--arguments", "Arguments") with { ValueSeparator = " " };
+
+        await Assert.That(() => CliGlobalOptionMerger.Merge(
+                [scraped],
+                [scraped with { GroupValues = true }]))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("--arguments");
+    }
+
+    [Test]
     public async Task Merge_Rejects_Different_Switches_With_The_Same_Property()
     {
         await Assert.That(() => CliGlobalOptionMerger.Merge(
