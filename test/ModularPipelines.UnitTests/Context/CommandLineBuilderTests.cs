@@ -148,6 +148,35 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_RunSettings_Terminator_Precedes_Terminal_Argument()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            RunSettings = ["--filter", "Category=Unit"],
+            TerminalArgument = "-x",
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq -- --filter Category=Unit -x");
+    }
+
+    [Test]
+    public async Task Build_Manual_Terminator_Is_Reused_For_RunSettings()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "-1"],
+            RunSettings = ["extra"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- -1 extra");
+    }
+
+    [Test]
     public async Task Build_Empty_RunSettings_Emit_No_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();

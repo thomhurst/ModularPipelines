@@ -73,16 +73,18 @@ internal sealed class CommandLineBuilder(
             commandSpecificModel,
             options,
             ref emittedOptionTerminator);
+        var manualArgs = options.Arguments?.ToList() ?? [];
+        emittedOptionTerminator |= manualArgs.Contains("--", StringComparer.Ordinal);
+        var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
+            RunSettingsCommandModel,
+            options,
+            ref emittedOptionTerminator);
         var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
             [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
             ref emittedOptionTerminator);
         var terminalOptionArgs = _commandArgumentBuilder.BuildArguments(
             [.. terminalCommandModel.Where(static part => part is FlagPart or OptionPart)],
-            options,
-            ref emittedOptionTerminator);
-        var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
-            RunSettingsCommandModel,
             options,
             ref emittedOptionTerminator);
 
@@ -92,17 +94,13 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments
-        var manualArgs = options.Arguments?.ToList() ?? [];
-
         allArgs.AddRange(manualArgs);
 
         // 6. Render RunSettings as option-terminated pass-through arguments.
         allArgs.AddRange(runSettingsArgs);
 
         // 7. A terminal option must not follow any rendered or manually supplied option terminator.
-        var hasOptionTerminator = emittedOptionTerminator
-                                  || manualArgs.Contains("--", StringComparer.Ordinal);
-        if (terminalOptionArgs.Count > 0 && hasOptionTerminator)
+        if (terminalOptionArgs.Count > 0 && emittedOptionTerminator)
         {
             throw new InvalidOperationException(
                 "Terminal options cannot be combined with arguments that emit or supply an "
