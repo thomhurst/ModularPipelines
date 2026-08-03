@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disks", "update")]
 public record GcloudPreviewComputeDisksUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DiskName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DiskName
 ) : GcloudOptions
 {
     /// <summary>
@@ -52,19 +52,19 @@ public record GcloudPreviewComputeDisksUpdateOptions(
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// "A list of license URIs or license codes. These licenses will be     appended to the existing licenses on the disk. Provided licenses can be     either license URIs or license codes but not a mix of both.
     /// </summary>
-    [CliOption("--append-licenses", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--append-licenses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AppendLicenses { get; set; }
 
     /// <summary>
     /// A list of license URIs or license codes. If present in the set of     existing licenses, these licenses will be removed. If not present, this     is a no-op. Provided licenses can be either license URIs or license     codes but not a mix of both.
     /// </summary>
-    [CliOption("--remove-licenses", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-licenses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLicenses { get; set; }
 
     /// <summary>

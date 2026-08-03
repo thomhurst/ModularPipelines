@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "history", "events")]
 public record PulumiStackHistoryEventsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string UpdateId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UpdateId
 ) : PulumiOptions
 {
     /// <summary>
@@ -37,7 +37,7 @@ public record PulumiStackHistoryEventsOptions(
     /// <summary>
     /// Filter by Pulumi Cloud engine event type code; numeric, repeatable
     /// </summary>
-    [CliOption("--event-type", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--event-type", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EventType { get; set; }
 
     /// <summary>

@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "cp")]
 public record DockerContainerCpOptions(
-    [property: CliArgument(0)] string ContainerSrcPath,
-    [property: CliArgument(1)] string DestPath
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string ContainerSrcPath,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string DestPath
 ) : DockerOptions
 {
     /// <summary>

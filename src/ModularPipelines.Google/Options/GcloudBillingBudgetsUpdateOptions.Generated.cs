@@ -44,43 +44,43 @@ public record GcloudBillingBudgetsUpdateOptions : GcloudOptions
     /// <summary>
     /// Set of credit types, specifying that usage from only this set of     credits should be included in the budget. If a nonempty list is     specified, then --credit-types-treatment must be     include-specified-credits.
     /// </summary>
-    [CliOption("--filter-credit-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter-credit-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FilterCreditTypes { get; set; }
 
     /// <summary>
     /// Single label and value pair specifying that usage from only this set of     labeled resources should be included in the budget. Currently, multiple     entries or multiple values per entry are not allowed. If omitted, the     report will include all labeled and unlabeled usage.
     /// </summary>
-    [CliOption("--filter-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? FilterLabels { get; set; }
 
     /// <summary>
     /// Set of projects in the form projects/{project_id}, specifying that     usage from only this set of projects should be included in the budget.     If omitted, all projects will be included.
     /// </summary>
-    [CliOption("--filter-projects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter-projects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FilterProjects { get; set; }
 
     /// <summary>
     /// A set of folder and organization names of the form folders/{folderId}     or organizations/{organizationId}, specifying that usage from only this     set of folders and organizations should be included in the budget. If     omitted, the budget includes all usage that the billing account pays     for. If the folder or organization contains projects that are paid for     by a different Cloud Billing account, the budget doesn't apply to those     projects.
     /// </summary>
-    [CliOption("--filter-resource-ancestors", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter-resource-ancestors", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FilterResourceAncestors { get; set; }
 
     /// <summary>
     /// Set of services of the form services/{service_id}, specifying that     usage from only this set of services should be included in the budget.     If omitted, the report will include usage for all services. The service     names are available through the Catalog API:     https://cloud.google.com/billing/v1/how-tos/catalog-api.
     /// </summary>
-    [CliOption("--filter-services", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter-services", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FilterServices { get; set; }
 
     /// <summary>
     /// Set of subaccounts of the form billingAccounts/{account_id}, specifying     that usage from only this set of subaccounts should be included in the     budget. If a subaccount is set to the name of the parent account, usage     from the parent account will be included. If omitted, the report will     include usage from the parent account and all subaccounts, if they     exist.
     /// </summary>
-    [CliOption("--filter-subaccounts", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter-subaccounts", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FilterSubaccounts { get; set; }
 
     /// <summary>
     /// Targets to send notifications to when a threshold is exceeded. This is     in addition to default recipients who have billing account roles. The     value is the full REST resource name of a monitoring notification     channel in the form     projects/{project_id}/notificationChannels/{channel_id}. A maximum of 5     channels is allowed. See     https://cloud.google.com/billing/docs/how-to/budgets-notification-recipients     for more details.
     /// </summary>
-    [CliOption("--notifications-rule-monitoring-notification-channels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--notifications-rule-monitoring-notification-channels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NotificationsRuleMonitoringNotificationChannels { get; set; }
 
     /// <summary>

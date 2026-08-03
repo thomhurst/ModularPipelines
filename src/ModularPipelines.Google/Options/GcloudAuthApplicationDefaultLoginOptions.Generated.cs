@@ -54,7 +54,7 @@ public record GcloudAuthApplicationDefaultLoginOptions : GcloudOptions
     /// <summary>
     /// The names of the scopes to authorize for. By default openid,     https://www.googleapis.com/auth/userinfo.email,     https://www.googleapis.com/auth/cloud-platform,     https://www.googleapis.com/auth/sqlservice.login scopes are used. The     list of possible scopes can be found at:     https://developers.google.com/identity/protocols/googlescopes. To add     scopes for applications outside of Google Cloud Platform, such as     Google Drive, create an OAuth Client ID     (https://support.google.com/cloud/answer/6158849) and provide it by     using the --client-id-file flag.
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
 }

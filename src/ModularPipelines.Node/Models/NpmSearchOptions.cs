@@ -7,7 +7,7 @@ namespace ModularPipelines.Node.Models;
 [CliSubCommand("search")]
 public record NpmSearchOptions
     (
-        [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
+        [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value
         ) : NpmOptions
 {
     [CliFlag("--long")]

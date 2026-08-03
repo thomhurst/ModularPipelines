@@ -20,7 +20,7 @@ namespace ModularPipelines.Ansible.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 public record AnsibleExecuteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Pattern
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Pattern
 ) : AnsibleOptions
 {
     /// <summary>
@@ -64,7 +64,7 @@ public record AnsibleExecuteOptions(
     /// <summary>
     /// the vault identity to use. This argument may be specified multiple times.
     /// </summary>
-    [CliOption("--vault-id", AllowMultiple = true)]
+    [CliOption("--vault-id")]
     public IEnumerable<string>? VaultId { get; set; }
 
     /// <summary>
@@ -113,7 +113,7 @@ public record AnsibleExecuteOptions(
     /// <summary>
     /// prepend colon-separated path(s) to module library (default={{ ANSIBLE_HOME ~ "/plugins/modules:/usr/share/ansible/plugins/modules" }}). This argument may be specified multiple times.
     /// </summary>
-    [CliOption("--module-path", ShortForm = "-M", AllowMultiple = true)]
+    [CliOption("--module-path", ShortForm = "-M")]
     public IEnumerable<string>? ModulePath { get; set; }
 
     /// <summary>
@@ -131,7 +131,7 @@ public record AnsibleExecuteOptions(
     /// <summary>
     /// set additional variables as key=value or YAML/JSON, if filename prepend with @. This argument may be specified multiple times.
     /// </summary>
-    [CliOption("--extra-vars", ShortForm = "-e", AllowMultiple = true)]
+    [CliOption("--extra-vars", ShortForm = "-e")]
     public IEnumerable<string>? ExtraVars { get; set; }
 
     /// <summary>
@@ -149,7 +149,7 @@ public record AnsibleExecuteOptions(
     /// <summary>
     /// specify inventory host path or comma separated host list. This argument may be specified multiple times.
     /// </summary>
-    [CliOption("--inventory", ShortForm = "-i", AllowMultiple = true)]
+    [CliOption("--inventory", ShortForm = "-i")]
     public IEnumerable<string>? Inventory { get; set; }
 
     /// <summary>

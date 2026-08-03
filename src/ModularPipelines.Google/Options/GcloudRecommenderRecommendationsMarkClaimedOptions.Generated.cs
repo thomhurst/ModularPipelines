@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "recommendations", "mark-claimed")]
 public record GcloudRecommenderRecommendationsMarkClaimedOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Recommendation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Recommendation
 ) : GcloudOptions
 {
 }

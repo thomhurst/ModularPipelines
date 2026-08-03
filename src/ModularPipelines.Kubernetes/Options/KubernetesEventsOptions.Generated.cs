@@ -72,7 +72,7 @@ public record KubernetesEventsOptions : KubernetesOptions
     /// <summary>
     /// Output only events of given types.
     /// </summary>
-    [CliOption("--types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>

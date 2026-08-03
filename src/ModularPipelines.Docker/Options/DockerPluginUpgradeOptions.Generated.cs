@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "upgrade")]
 public record DockerPluginUpgradeOptions(
-    [property: CliArgument(0)] string Plugin
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Plugin
 ) : DockerOptions
 {
     /// <summary>
@@ -43,7 +43,7 @@ public record DockerPluginUpgradeOptions(
     /// <summary>
     /// The REMOTE operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Remote { get; set; }
 
 }

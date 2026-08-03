@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "rm")]
 public record PodmanNetworkRmOptions(
-    [property: CliArgument(0)] IEnumerable<string> Network
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Network
 ) : PodmanOptions
 {
     /// <summary>

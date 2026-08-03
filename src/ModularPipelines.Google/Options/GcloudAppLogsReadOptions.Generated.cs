@@ -27,7 +27,7 @@ public record GcloudAppLogsReadOptions : GcloudOptions
     [CliOption("--limit", Format = OptionFormat.EqualsSeparated)]
     public string? Limit { get; set; }
 
-    [CliOption("--logs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Logs { get; set; }
 
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]

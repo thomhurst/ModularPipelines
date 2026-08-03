@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "managed-zones", "delete")]
 public record GcloudDnsManagedZonesDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ZoneName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ZoneName
 ) : GcloudOptions
 {
     /// <summary>

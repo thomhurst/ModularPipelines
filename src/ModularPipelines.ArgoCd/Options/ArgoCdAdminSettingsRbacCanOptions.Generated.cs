@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "rbac", "can")]
 public record ArgoCdAdminSettingsRbacCanOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RoleSubject,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Action,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Resource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RoleSubject,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Action,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Resource
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -34,7 +34,7 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -254,7 +254,7 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>
@@ -356,7 +356,7 @@ public record ArgoCdAdminSettingsRbacCanOptions(
     /// <summary>
     /// Optional sub-resource to check.
     /// </summary>
-    [CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(3, Phase = CommandLinePhase.EarlyOperand)]
     public string? SubResource { get; set; }
 
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "webhook", "edit")]
 public record PulumiStackWebhookEditOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
 ) : PulumiOptions
 {
     /// <summary>
@@ -31,13 +31,13 @@ public record PulumiStackWebhookEditOptions(
     /// <summary>
     /// An event type to add (repeatable)
     /// </summary>
-    [CliOption("--add-event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddEvent { get; set; }
 
     /// <summary>
     /// An event group to add (repeatable)
     /// </summary>
-    [CliOption("--add-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddGroup { get; set; }
 
     /// <summary>
@@ -67,13 +67,13 @@ public record PulumiStackWebhookEditOptions(
     /// <summary>
     /// An event type to remove (repeatable)
     /// </summary>
-    [CliOption("--remove-event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEvent { get; set; }
 
     /// <summary>
     /// An event group to remove (repeatable)
     /// </summary>
-    [CliOption("--remove-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveGroup { get; set; }
 
     /// <summary>

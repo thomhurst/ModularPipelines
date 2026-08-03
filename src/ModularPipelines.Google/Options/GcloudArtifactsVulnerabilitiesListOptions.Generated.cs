@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "vulnerabilities", "list")]
 public record GcloudArtifactsVulnerabilitiesListOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Uri
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Uri
 ) : GcloudOptions
 {
     /// <summary>

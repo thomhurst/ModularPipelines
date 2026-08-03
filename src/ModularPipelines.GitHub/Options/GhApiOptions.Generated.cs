@@ -77,7 +77,7 @@ public record GhApiOptions : GhOptions
     /// <summary>
     /// Opt into GitHub API previews (names should omit '-preview')
     /// </summary>
-    [CliOption("--preview", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--preview", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Preview { get; set; }
 
     /// <summary>

@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "sign-url")]
 public record GcloudStorageSignUrlOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Url
 ) : GcloudOptions
 {
     [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
@@ -30,7 +30,7 @@ public record GcloudStorageSignUrlOptions(
     /// <summary>
     /// Specifies the headers to be used in the signed request. Possible     headers are listed in the XML API's documentation:     https://cloud.google.com/storage/docs/xml-api/reference-headers#headers
     /// </summary>
-    [CliOption("--headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--headers", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Headers { get; set; }
 
     [CliOption("--http-verb", Format = OptionFormat.EqualsSeparated)]
@@ -56,7 +56,7 @@ public record GcloudStorageSignUrlOptions(
     /// <summary>
     /// Specifies the query parameters to be used in the signed request.     Possible query parameters are listed in the XML API's documentation:     https://cloud.google.com/storage/docs/xml-api/reference-headers#query
     /// </summary>
-    [CliOption("--query-params", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--query-params", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? QueryParams { get; set; }
 
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]

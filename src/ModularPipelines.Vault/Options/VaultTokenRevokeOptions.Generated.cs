@@ -24,7 +24,7 @@ public record VaultTokenRevokeOptions : VaultOptions
     /// <summary>
     /// The TOKEN operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Token { get; set; }
 
 }

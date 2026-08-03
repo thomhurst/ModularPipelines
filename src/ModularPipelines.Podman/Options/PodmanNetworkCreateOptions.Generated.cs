@@ -29,7 +29,7 @@ public record PodmanNetworkCreateOptions : PodmanOptions
     /// <summary>
     /// DNS servers this network will use
     /// </summary>
-    [CliOption("--dns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dns { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record PodmanNetworkCreateOptions : PodmanOptions
     /// <summary>
     /// allocate container IP from range
     /// </summary>
-    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IpRange { get; set; }
 
     /// <summary>
@@ -83,31 +83,31 @@ public record PodmanNetworkCreateOptions : PodmanOptions
     /// <summary>
     /// set metadata on a network
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
     /// Set driver specific options (default [])
     /// </summary>
-    [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Opt { get; set; }
 
     /// <summary>
     /// static routes
     /// </summary>
-    [CliOption("--route", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--route", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Route { get; set; }
 
     /// <summary>
     /// subnets in CIDR format
     /// </summary>
-    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Subnet { get; set; }
 
     /// <summary>
     /// The NAME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Name { get; set; }
 
 }

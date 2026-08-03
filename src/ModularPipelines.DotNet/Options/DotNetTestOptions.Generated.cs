@@ -84,7 +84,7 @@ public record DotNetTestOptions : DotNetOptions
     /// <summary>
     /// Sets the value of an environment variable. Creates the variable if it does not exist, overrides if it does. This argument can be specified multiple times to provide multiple variables.
     /// </summary>
-    [CliOption("--environment", ShortForm = "-e", AllowMultiple = true)]
+    [CliOption("--environment", ShortForm = "-e")]
     public IEnumerable<string>? Environment { get; set; }
 
     /// <summary>
@@ -162,7 +162,7 @@ public record DotNetTestOptions : DotNetOptions
     /// <summary>
     /// Set one or more MSBuild properties. Use format: PropertyName=Value
     /// </summary>
-    [CliOption("-p", Format = OptionFormat.ColonSeparated, AllowMultiple = true)]
+    [CliOption("-p", Format = OptionFormat.ColonSeparated)]
     public IReadOnlyList<KeyValue>? Properties { get; set; }
 
 }

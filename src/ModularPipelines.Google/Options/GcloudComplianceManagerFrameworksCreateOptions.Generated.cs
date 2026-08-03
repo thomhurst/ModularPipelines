@@ -24,7 +24,7 @@ public record GcloudComplianceManagerFrameworksCreateOptions : GcloudOptions
     /// <summary>
     /// The category of the framework. CATEGORY must be one of:      assured-workloads       An Assured Workloads framework.     custom-framework       A user-created framework.     data-security       A data security posture framework.     google-best-practices       A Google's best practices framework.     industry-defined-standard       An industry-defined framework.
     /// </summary>
-    [CliOption("--category", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--category", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Category { get; set; }
 
     /// <summary>

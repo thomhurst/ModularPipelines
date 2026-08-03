@@ -29,7 +29,7 @@ public record DockerComposeUnpauseOptions : DockerOptions
     /// <summary>
     /// The SERVICE operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? Service { get; set; }
 
 }

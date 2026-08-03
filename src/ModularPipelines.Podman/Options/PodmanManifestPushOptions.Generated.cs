@@ -19,14 +19,14 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
 public record PodmanManifestPushOptions(
-    [property: CliArgument(0)] string List,
-    [property: CliArgument(1)] string Destination
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string List,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Destination
 ) : PodmanOptions
 {
     /// <summary>
     /// add instances with selected compression while pushing
     /// </summary>
-    [CliOption("--add-compression", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-compression", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddCompression { get; set; }
 
     /// <summary>

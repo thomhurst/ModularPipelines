@@ -54,7 +54,7 @@ public record CargoRunOptions : CargoOptions
     /// <summary>
     /// The [ARGS] operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Args { get; set; }
 
 }

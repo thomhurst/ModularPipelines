@@ -30,7 +30,7 @@ public record GcloudDnsResponsePoliciesUpdateOptions : GcloudOptions
     /// <summary>
     /// The comma-separated list of GKE cluster names to associate with the     response policy.
     /// </summary>
-    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--gkeclusters", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gkeclusters { get; set; }
 
     /// <summary>
@@ -42,7 +42,7 @@ public record GcloudDnsResponsePoliciesUpdateOptions : GcloudOptions
     /// <summary>
     /// The comma-separated list of network names to associate with the     response policy.
     /// </summary>
-    [CliOption("--networks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Networks { get; set; }
 
 }

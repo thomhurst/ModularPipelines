@@ -49,7 +49,7 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// IPv4 address range for all services in the cluster.    Anthos on bare metal node access related settings for the admin cluster.
     /// </summary>
-    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IslandModeServiceAddressCidrBlocks { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// IPv4 addresses to be placed into maintenance mode.    Anthos on bare metal admin cluster workload node configuration.
     /// </summary>
-    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
 
     /// <summary>
@@ -85,25 +85,25 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// API Server argument configuration.    Anthos on bare metal cluster control plane node pool configuration.    Anthos on bare metal node pool configuration for control plane nodes.    Anthos on bare metal node configuration for control plane nodes.    Populate control plane node config.    At most one of these can be specified:     --control-plane-node-configs=[labels=LABELS],[node-ip=NODE-IP]      Control plane node configuration.
     /// </summary>
-    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ApiServerArgs { get; set; }
 
     /// <summary>
     /// Labels assigned to nodes of a node pool.
     /// </summary>
-    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels { get; set; }
 
     /// <summary>
     /// Node taint applied to every Kubernetes node in a node pool.    Anthos on bare metal cluster proxy configuration.
     /// </summary>
-    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints { get; set; }
 
     /// <summary>
     /// List of IPs, hostnames, and domains that should skip the proxy.
     /// </summary>
-    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NoProxy { get; set; }
 
     /// <summary>

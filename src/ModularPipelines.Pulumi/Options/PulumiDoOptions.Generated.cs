@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("do")]
 public record PulumiDoOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PkgModTyp
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PkgModTyp
 ) : PulumiOptions
 {
     /// <summary>
@@ -139,7 +139,7 @@ public record PulumiDoOptions(
     /// <summary>
     /// The command operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Command { get; set; }
 
 }

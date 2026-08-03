@@ -24,7 +24,7 @@ public record GcloudAssetSearchAllIamPoliciesOptions : GcloudOptions
     /// <summary>
     /// List of asset types that the IAM policies are attached to. If empty, it     will search the IAM policies that are attached to all the searchable     asset types     (https://cloud.google.com/asset-inventory/docs/supported-asset-types).     Regular expressions are also supported. For example:     ◆ compute.googleapis.com.* snapshots IAM policies attached to asset      type starts with compute.googleapis.com.     ◆ .*Instance snapshots IAM policies attached to asset type ends with      Instance.     ◆ .*Instance.* snapshots IAM policies attached to asset type contains      Instance.     See RE2 (https://github.com/google/re2/wiki/Syntax) for all supported     regular expression syntax. If the regular expression does not match any     supported asset type, an INVALID_ARGUMENT error will be returned.
     /// </summary>
-    [CliOption("--asset-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--asset-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AssetTypes { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "describe")]
 public record GcloudDnsRecordSetsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DnsName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DnsName
 ) : GcloudOptions
 {
 }

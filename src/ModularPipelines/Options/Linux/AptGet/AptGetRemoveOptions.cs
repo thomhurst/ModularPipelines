@@ -11,9 +11,9 @@ public partial record AptGetRemoveOptions : AptGetOptions
         Package = package;
     }
 
-    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string CommandName { get; } = "remove";
 
-    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string Package { get; }
 }

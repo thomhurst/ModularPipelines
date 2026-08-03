@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "scopes", "rbacrolebindings", "create")]
 public record GcloudContainerFleetScopesRbacrolebindingsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Rbacr
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Rbacr
 ) : GcloudOptions
 {
 }

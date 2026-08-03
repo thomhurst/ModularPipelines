@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "publish")]
 public record PodmanComposePublishOptions(
-    [property: CliArgument(0)] string RepositoryTag
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string RepositoryTag
 ) : PodmanOptions
 {
     /// <summary>

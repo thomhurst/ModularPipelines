@@ -60,7 +60,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// <summary>
     /// HelmReleases that must be ready before this release can be installed, supported formats '&lt;name&gt;' and '&lt;namespace&gt;/&lt;name&gt;'
     /// </summary>
-    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
@@ -115,13 +115,13 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// <summary>
     /// local path to values.yaml files, also accepts comma-separated values
     /// </summary>
-    [CliOption("--values", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Values { get; set; }
 
     /// <summary>
     /// a Kubernetes object reference that contains the values.yaml data key in the format '&lt;kind&gt;/&lt;name&gt;', where kind must be one of: (Secret,ConfigMap)
     /// </summary>
-    [CliOption("--values-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--values-from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<FluxCreateHelmreleaseValuesFrom>? ValuesFrom { get; set; }
 
     /// <summary>
@@ -133,7 +133,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -145,7 +145,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// <summary>
     /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
     /// </summary>
-    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>
@@ -229,7 +229,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// <summary>
     /// set labels on the resource (can specify multiple labels with commas: label1=value1,label2=value2)
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -284,7 +284,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// <summary>
     /// The name operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "keys", "create")]
 public record GcloudIamServiceAccountsKeysCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Output
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Output
 ) : GcloudOptions
 {
 }

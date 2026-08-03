@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "inspect")]
 public record DockerManifestInspectOptions(
-    [property: CliArgument(1)] string Manifest
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Manifest
 ) : DockerOptions
 {
     /// <summary>
@@ -37,7 +37,7 @@ public record DockerManifestInspectOptions(
     /// <summary>
     /// The MANIFEST_LIST operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? ManifestList { get; set; }
 
 }

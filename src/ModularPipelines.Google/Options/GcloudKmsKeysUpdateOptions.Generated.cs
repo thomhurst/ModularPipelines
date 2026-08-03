@@ -26,7 +26,7 @@ public record GcloudKmsKeysUpdateOptions : GcloudOptions
     /// <summary>
     /// The list of allowed Key Access Justifications access reasons on the     key. The key must be enrolled in Key Access Justifications to configure     this field. By default, this field is absent, and all justification     codes are allowed. For more information about justification codes, see     https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes.     ALLOWED_ACCESS_REASONS must be one of:     customer-authorized-workflow-servicing, customer-initiated-access,     customer-initiated-support, google-initiated-review,     google-initiated-service, google-initiated-system-operation,     google-response-to-production-alert,     modified-customer-initiated-access,     modified-google-initiated-system-operation, reason-not-expected,     reason-unspecified, third-party-data-request.
     /// </summary>
-    [CliOption("--allowed-access-reasons", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowed-access-reasons", Format = OptionFormat.EqualsSeparated)]
     public GcloudAllowedAccessReasons? AllowedAccessReasons { get; set; }
 
     /// <summary>
@@ -68,7 +68,7 @@ public record GcloudKmsKeysUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud kms keys update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud kms keys update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
 }

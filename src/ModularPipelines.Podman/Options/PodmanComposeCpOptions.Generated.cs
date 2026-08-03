@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "cp")]
 public record PodmanComposeCpOptions(
-    [property: CliArgument(0)] string ServiceSrcPath,
-    [property: CliArgument(1)] string DestPath
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string ServiceSrcPath,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string DestPath
 ) : PodmanOptions
 {
     /// <summary>

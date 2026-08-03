@@ -137,7 +137,7 @@ public record PulumiPluginInstallOptions : PulumiOptions
     /// <summary>
     /// The kind name [version] operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? KindNameVersion { get; set; }
 
 }

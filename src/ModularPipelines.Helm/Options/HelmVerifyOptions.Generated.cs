@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify")]
 public record HelmVerifyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path
 ) : HelmOptions
 {
     /// <summary>
@@ -55,7 +55,7 @@ public record HelmVerifyOptions(
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KubeAsGroup { get; set; }
 
     /// <summary>

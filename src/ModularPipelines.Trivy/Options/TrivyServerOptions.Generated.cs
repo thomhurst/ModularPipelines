@@ -59,7 +59,7 @@ public record TrivyServerOptions : TrivyOptions
     /// <summary>
     /// OCI repository(ies) to retrieve trivy-db in order of priority (default [mirror.gcr.io/aquasec/trivy-db:2,ghcr.io/aquasecurity/trivy-db:2])
     /// </summary>
-    [CliOption("--db-repository", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--db-repository", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DbRepository { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record TrivyServerOptions : TrivyOptions
     /// <summary>
     /// [EXPERIMENTAL] module names to enable
     /// </summary>
-    [CliOption("--enable-modules", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enable-modules", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
@@ -116,7 +116,7 @@ public record TrivyServerOptions : TrivyOptions
     /// password. Comma-separated passwords allowed. TRIVY_PASSWORD should be used for security reasons.
     /// </summary>
     [SecretValue]
-    [CliOption("--password", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Password { get; set; }
 
     /// <summary>
@@ -135,7 +135,7 @@ public record TrivyServerOptions : TrivyOptions
     /// <summary>
     /// username. Comma-separated usernames allowed.
     /// </summary>
-    [CliOption("--username", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Username { get; set; }
 
     /// <summary>

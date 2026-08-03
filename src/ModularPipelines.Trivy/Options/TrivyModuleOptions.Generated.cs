@@ -23,7 +23,7 @@ public record TrivyModuleOptions : TrivyOptions
     /// <summary>
     /// [EXPERIMENTAL] module names to enable
     /// </summary>
-    [CliOption("--enable-modules", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enable-modules", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record TrivyModuleOptions : TrivyOptions
     /// <summary>
     /// The command operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Command { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
 public record GcloudConfigSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Section
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Section
 ) : GcloudOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machine", "os", "apply")]
 public record PodmanMachineOsApplyOptions(
-    [property: CliArgument(0)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
 ) : PodmanOptions
 {
     /// <summary>
@@ -31,7 +31,7 @@ public record PodmanMachineOsApplyOptions(
     /// <summary>
     /// The NAME operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Name { get; set; }
 
 }

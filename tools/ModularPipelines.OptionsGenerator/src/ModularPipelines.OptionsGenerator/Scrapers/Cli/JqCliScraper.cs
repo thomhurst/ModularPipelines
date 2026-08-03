@@ -134,7 +134,7 @@ public partial class JqCliScraper : CliScraperBase
                     IsRequired = false,
                     PositionIndex = 0,
                     Description = "The jq filter expression to apply",
-                    Placement = PositionalArgumentPosition.AfterOptions
+                    Phase = CommandLinePhase.Passthrough
                 },
                 new CliPositionalArgument
                 {
@@ -144,7 +144,7 @@ public partial class JqCliScraper : CliScraperBase
                     IsRequired = false,
                     PositionIndex = 1,
                     Description = "Input JSON files or values (reads from stdin if not specified)",
-                    Placement = PositionalArgumentPosition.AfterOptions
+                    Phase = CommandLinePhase.Passthrough
                 }
             ],
             SubDomainGroup = null,
@@ -251,7 +251,6 @@ public partial class JqCliScraper : CliScraperBase
             CSharpType = "bool?",
             Description = "Stop processing options so filters beginning with a dash are treated as positional arguments",
             IsFlag = true,
-            ValueArity = CliOptionValueArity.None,
             Phase = CommandLinePhase.EndOfOptions
         });
     }

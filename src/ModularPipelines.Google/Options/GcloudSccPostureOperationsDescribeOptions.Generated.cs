@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "posture-operations", "describe")]
 public record GcloudSccPostureOperationsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string OperationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OperationName
 ) : GcloudOptions
 {
 }

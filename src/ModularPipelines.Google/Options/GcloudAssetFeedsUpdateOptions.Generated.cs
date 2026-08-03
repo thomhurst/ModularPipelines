@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "feeds", "update")]
 public record GcloudAssetFeedsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string FeedId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string FeedId
 ) : GcloudOptions
 {
 }

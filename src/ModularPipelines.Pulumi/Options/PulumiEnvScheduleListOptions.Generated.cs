@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "schedule", "list")]
 public record PulumiEnvScheduleListOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName
 ) : PulumiOptions
 {
     /// <summary>

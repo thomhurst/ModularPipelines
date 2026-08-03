@@ -6,14 +6,14 @@ namespace ModularPipelines.Attributes;
 public enum CommandLinePhase
 {
     /// <summary>
+    /// A positional operand rendered after the complete command chain and before regular flags and options.
+    /// </summary>
+    EarlyOperand,
+
+    /// <summary>
     /// Regular flags and options.
     /// </summary>
     Normal,
-
-    /// <summary>
-    /// A final option that must follow regular options and positional operands.
-    /// </summary>
-    Terminal,
 
     /// <summary>
     /// An explicit end-of-options marker such as <c>--</c>, rendered before pass-through operands.
@@ -24,4 +24,9 @@ public enum CommandLinePhase
     /// Positional or pass-through values rendered after option parsing and before terminal options.
     /// </summary>
     Passthrough,
+
+    /// <summary>
+    /// A final option that must follow regular options and positional operands.
+    /// </summary>
+    Terminal,
 }
