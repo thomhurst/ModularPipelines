@@ -451,6 +451,30 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("comparer-backed");
     }
 
+    private sealed class PrecreatedModuleSettings
+    {
+        public bool IncludeDependency { get; init; }
+    }
+
+    private sealed class PrecreatedConfiguredModule(PrecreatedModuleSettings settings) : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            var builder = ModuleConfiguration.Create();
+            if (settings.IncludeDependency)
+            {
+                builder.DependsOn<DependencyModule>();
+            }
+
+            return builder.Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("precreated");
+    }
+
     private sealed class CapturingComparerFactoryModule(IComparer<string> comparer) : Module<string>
     {
         protected override ModuleConfiguration Configure()
@@ -1691,6 +1715,24 @@ public class DependencyGraphExporterTests
         builder.AddModule<DependencyModule>();
         builder.AddModule(_ => new ComparerBackedFactoryModule(
             new HashSet<string>(StringComparer.OrdinalIgnoreCase)));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task Render_Clones_Precreated_Module_With_NonResolvable_Constructor_State()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule(new PrecreatedConfiguredModule(new PrecreatedModuleSettings
+        {
+            IncludeDependency = true,
+        }));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 

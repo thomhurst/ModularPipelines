@@ -80,6 +80,11 @@ internal static class ServiceCollectionExtensions
                 descriptor.ServiceType == typeof(IModule)
                 && ReferenceEquals(descriptor.ImplementationInstance, tModule)))
         {
+            if (tModule is IPlanningModuleCopyProvider)
+            {
+                services.AddSingleton(new ModulePlanningFactory(_ => tModule, tModule));
+            }
+
             services.AddSingleton<IModule>(tModule);
         }
 

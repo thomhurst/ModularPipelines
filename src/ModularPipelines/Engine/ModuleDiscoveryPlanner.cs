@@ -247,7 +247,7 @@ internal sealed class ModuleDiscoveryPlanner(
         "Trimming",
         "IL2075",
         Justification = "The already-loaded runtime module type is inspected only to detect a planning-copy override.")]
-    private static bool HasCustomPlanningCopy(IModule module)
+    internal static bool HasCustomPlanningCopy(IModule module)
     {
         var method = module.GetType().GetMethod(
             "CreatePlanningCopy",
@@ -515,13 +515,24 @@ internal sealed class ModuleDiscoveryPlanner(
     }
 }
 
-internal sealed class ModulePlanningFactory(Func<IServiceProvider, IModule> create)
+internal sealed class ModulePlanningFactory
 {
+    private readonly Func<IServiceProvider, IModule> _create;
+    private readonly IModule? _registeredInstance;
     private IModule? _runtimeModule;
+
+    public ModulePlanningFactory(
+        Func<IServiceProvider, IModule> create,
+        IModule? registeredInstance = null)
+    {
+        _create = create;
+        _registeredInstance = registeredInstance;
+        _runtimeModule = registeredInstance;
+    }
 
     public IModule CreateRuntimeModule(IServiceProvider serviceProvider)
     {
-        var module = create(serviceProvider);
+        var module = _create(serviceProvider);
         Interlocked.CompareExchange(ref _runtimeModule, module, null);
         return module;
     }
@@ -531,11 +542,61 @@ internal sealed class ModulePlanningFactory(Func<IServiceProvider, IModule> crea
 
     public PlanningModuleCreation CreatePlanningModule(IServiceProvider serviceProvider)
     {
+        if (_registeredInstance is IPlanningModuleCopyProvider copyProvider)
+        {
+            if (ModuleDiscoveryPlanner.HasCustomPlanningCopy(_registeredInstance))
+            {
+                var customCopyServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
+                var customCopy = copyProvider.CreatePlanningCopy(customCopyServiceProvider);
+                return new PlanningModuleCreation(
+                    customCopy,
+                    customCopyServiceProvider.IsServiceProviderOwned);
+            }
+
+            var registeredInstanceState = GetRegisteredInstanceState(_registeredInstance);
+            return new PlanningModuleCreation(
+                copyProvider.CreatePlanningCopyFromRegisteredInstance(),
+                registeredInstanceState.Contains);
+        }
+
         var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
-        var module = create(trackingServiceProvider);
+        var module = _create(trackingServiceProvider);
         return new PlanningModuleCreation(
             module,
             trackingServiceProvider.IsServiceProviderOwned);
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Registered module fields are inspected only to identify constructor state shared by a planning snapshot.")]
+    private static HashSet<object> GetRegisteredInstanceState(IModule? module)
+    {
+        var state = new HashSet<object>(ReferenceEqualityComparer.Instance);
+        if (module is null)
+        {
+            return state;
+        }
+
+        for (var type = module.GetType();
+             type is not null && (!type.IsGenericType
+                                  || type.GetGenericTypeDefinition() != typeof(Module<>));
+             type = type.BaseType)
+        {
+            foreach (var field in type.GetFields(
+                         BindingFlags.Instance
+                         | BindingFlags.Public
+                         | BindingFlags.NonPublic
+                         | BindingFlags.DeclaredOnly))
+            {
+                if (field.GetValue(module) is { } value && !value.GetType().IsValueType)
+                {
+                    state.Add(value);
+                }
+            }
+        }
+
+        return state;
     }
 }
 

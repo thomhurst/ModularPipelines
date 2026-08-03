@@ -55,23 +55,21 @@ namespace ModularPipelines.Modules;
 /// </example>
 public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
 {
-    private readonly Lazy<ModuleConfiguration> _configuration;
+    private Lazy<ModuleConfiguration> _configuration;
 
     // Exposes hook-transformed results to self-awaits without completing the public result early.
-    private readonly AsyncLocal<ModuleResult<T>?> _provisionalResult = new();
+    private AsyncLocal<ModuleResult<T>?> _provisionalResult = new();
 
     /// <summary>
     /// Initialises a new instance of the <see cref="Module{T}"/> class.
     /// </summary>
     protected Module()
     {
-        _configuration = new Lazy<ModuleConfiguration>(
-            CreateConfiguration,
-            LazyThreadSafetyMode.ExecutionAndPublication);
+        _configuration = CreateConfigurationLazy();
     }
 
-    internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; } =
-        new(TaskCreationOptions.RunContinuationsAsynchronously);
+    internal TaskCompletionSource<ModuleResult<T>> CompletionSource { get; private set; } =
+        CreateCompletionSource();
 
     /// <inheritdoc />
     Task<IModuleResult> IModule.ResultTask
@@ -123,6 +121,15 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
 
     IModule IPlanningModuleCopyProvider.CreatePlanningCopy(IServiceProvider serviceProvider) =>
         CreatePlanningCopy(serviceProvider);
+
+    IModule IPlanningModuleCopyProvider.CreatePlanningCopyFromRegisteredInstance()
+    {
+        var copy = (Module<T>) MemberwiseClone();
+        copy._configuration = copy.CreateConfigurationLazy();
+        copy._provisionalResult = new AsyncLocal<ModuleResult<T>?>();
+        copy.CompletionSource = CreateCompletionSource();
+        return copy;
+    }
 
     /// <summary>
     /// Creates an isolated module instance for dependency-graph planning.
@@ -306,11 +313,19 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
         ModuleConfigurationAttributeAdapter.Apply(
             GetType(),
             Configure());
+
+    private Lazy<ModuleConfiguration> CreateConfigurationLazy() =>
+        new(CreateConfiguration, LazyThreadSafetyMode.ExecutionAndPublication);
+
+    private static TaskCompletionSource<ModuleResult<T>> CreateCompletionSource() =>
+        new(TaskCreationOptions.RunContinuationsAsynchronously);
 }
 
 internal interface IPlanningModuleCopyProvider
 {
     IModule CreatePlanningCopy(IServiceProvider serviceProvider);
+
+    IModule CreatePlanningCopyFromRegisteredInstance();
 }
 
 #pragma warning restore SA1202
