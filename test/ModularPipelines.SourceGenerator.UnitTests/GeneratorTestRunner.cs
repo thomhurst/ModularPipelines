@@ -36,7 +36,8 @@ internal static class GeneratorTestRunner
             .Select(static path => MetadataReference.CreateFromFile(path));
         var compilation = CSharpCompilation.Create(
             "GeneratorTests",
-            sources.Select(static source => CSharpSyntaxTree.ParseText(source)),
+            sources.Select(static (source, index) =>
+                CSharpSyntaxTree.ParseText(source, path: $"Source{index}.cs")),
             references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         var compilationErrors = compilation.GetDiagnostics()

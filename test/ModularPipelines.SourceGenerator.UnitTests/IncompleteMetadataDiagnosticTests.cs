@@ -523,6 +523,31 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Same_Named_File_Local_Types_Register_Separate_Coverage()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            file sealed class FileOptions;
+            """,
+            """
+            file sealed class FileOptions;
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var registrations = generatedSource.Split(
+            "RegisterCoveredTypeName",
+            StringSplitOptions.None).Length - 1;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(registrations).IsEqualTo(2);
+        }
+    }
+
+    [Test]
     public async Task Inaccessible_Module_Type_Reports_Informational_Skip()
     {
         var result = GeneratorTestRunner.Run(

@@ -396,9 +396,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static string Generate(ImmutableArray<TypeMetadata> items)
     {
         var uniqueItems = items
-            .GroupBy(item => item.TypeName, StringComparer.Ordinal)
+            .GroupBy(item => item.MetadataName, StringComparer.Ordinal)
             .Select(group => group.First())
-            .OrderBy(item => item.TypeName, StringComparer.Ordinal)
+            .OrderBy(item => item.MetadataName, StringComparer.Ordinal)
             .ToList();
         var sb = new StringBuilder();
 
