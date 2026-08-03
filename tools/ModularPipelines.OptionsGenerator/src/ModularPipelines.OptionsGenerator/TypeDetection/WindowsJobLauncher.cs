@@ -70,6 +70,20 @@ internal static class WindowsJobLauncher
             return ReportNativeFailure("create the process job");
         }
 
+        using var target = TryStartTarget(executablePath, arguments, workingDirectory);
+        if (target is null || !TryContainAndResume(job, target))
+        {
+            return 1;
+        }
+
+        return WaitForCompletion(job, target.ProcessHandle);
+    }
+
+    private static SuspendedProcess? TryStartTarget(
+        string executablePath,
+        string arguments,
+        string workingDirectory)
+    {
         var startupInfo = new StartupInfo
         {
             Size = (uint) Marshal.SizeOf<StartupInfo>(),
@@ -96,25 +110,36 @@ internal static class WindowsJobLauncher
                 ref startupInfo,
                 out var processInformation))
         {
-            return ReportNativeFailure("start the target process");
+            ReportNativeFailure("start the target process");
+            return null;
         }
 
-        using var processHandle = new SafeProcessHandle(processInformation.Process, ownsHandle: true);
-        using var threadHandle = new SafeWaitHandle(processInformation.Thread, ownsHandle: true);
-        if (!WindowsJob.TryAssign(job, processHandle))
+        return new SuspendedProcess(processInformation);
+    }
+
+    private static bool TryContainAndResume(SafeFileHandle job, SuspendedProcess target)
+    {
+        if (!WindowsJob.TryAssign(job, target.ProcessHandle))
         {
             var nativeError = Marshal.GetLastPInvokeError();
-            _ = TerminateProcess(processHandle, 1);
-            return ReportNativeFailure("assign the target process to its job", nativeError);
+            _ = TerminateProcess(target.ProcessHandle, 1);
+            ReportNativeFailure("assign the target process to its job", nativeError);
+            return false;
         }
 
-        if (ResumeThread(threadHandle) == uint.MaxValue)
+        if (ResumeThread(target.ThreadHandle) == uint.MaxValue)
         {
             var nativeError = Marshal.GetLastPInvokeError();
-            _ = TerminateProcess(processHandle, 1);
-            return ReportNativeFailure("resume the target process", nativeError);
+            _ = TerminateProcess(target.ProcessHandle, 1);
+            ReportNativeFailure("resume the target process", nativeError);
+            return false;
         }
 
+        return true;
+    }
+
+    private static int WaitForCompletion(SafeFileHandle job, SafeProcessHandle processHandle)
+    {
         if (WaitForSingleObject(processHandle, Infinite) == uint.MaxValue)
         {
             return ReportNativeFailure("wait for the target process");
@@ -138,6 +163,25 @@ internal static class WindowsJobLauncher
             }
 
             Thread.Sleep(TimeSpan.FromMilliseconds(25));
+        }
+    }
+
+    private sealed class SuspendedProcess : IDisposable
+    {
+        public SuspendedProcess(ProcessInformation processInformation)
+        {
+            ProcessHandle = new SafeProcessHandle(processInformation.Process, ownsHandle: true);
+            ThreadHandle = new SafeWaitHandle(processInformation.Thread, ownsHandle: true);
+        }
+
+        public SafeProcessHandle ProcessHandle { get; }
+
+        public SafeWaitHandle ThreadHandle { get; }
+
+        public void Dispose()
+        {
+            ThreadHandle.Dispose();
+            ProcessHandle.Dispose();
         }
     }
 
