@@ -17,7 +17,7 @@ public abstract class BuildSolutionOnPlatformModule : Module<CommandResult>
 
         return await context.DotNet().BuildAsync(new DotNetBuildOptions
         {
-            ProjectSolution = Path.Combine(repositoryInfo.Root.Path, "ModularPipelines.All.sln"),
+            ProjectSolution = Path.Combine(repositoryInfo.Root.Path, "ModularPipelines.All.slnx"),
             Configuration = "Release",
             NoRestore = true,
         }, cancellationToken: cancellationToken);
