@@ -95,13 +95,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         foreach (var argumentPart in argumentParts)
         {
-            // Skip arguments that have a Name property - these are handled inline via
-            // placeholder replacement in Command.cs and should not be added again
-            if (argumentPart.Attribute.Name is not null)
-            {
-                continue;
-            }
-
             var rawValue = argumentPart.Getter(optionsObject);
             if (rawValue is null)
             {

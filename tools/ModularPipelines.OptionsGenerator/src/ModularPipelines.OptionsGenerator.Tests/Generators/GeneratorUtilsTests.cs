@@ -680,7 +680,6 @@ public class GeneratorUtilsTests
     [Test]
     [Arguments("Credential")]
     [Arguments("UserCredential")]
-    [Arguments("CredentialPath")]
     public async Task IsSecretOption_Returns_True_For_Credential_Variants(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
@@ -747,6 +746,10 @@ public class GeneratorUtilsTests
     [Arguments("Verbose")]
     [Arguments("Format")]
     [Arguments("ConfigFile")]
+    [Arguments("PrivateKeyFile")]
+    [Arguments("AccessTokenPath")]
+    [Arguments("CredentialKeyring")]
+    [Arguments("SecretDir")]
     [Arguments("Namespace")]
     [Arguments("Repository")]
     [Arguments("SecretsProvider")]
@@ -758,6 +761,17 @@ public class GeneratorUtilsTests
     public async Task IsSecretOption_Returns_False_For_Non_Secret_Names(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsSecretOption_Returns_False_When_Description_Identifies_A_Path()
+    {
+        var result = GeneratorUtils.IsSecretOption(
+            "PrivateKeyLocation",
+            isFlag: false,
+            "Path to the private key file.");
 
         await Assert.That(result).IsFalse();
     }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
 using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
@@ -50,8 +51,9 @@ public record DockerBuildOptions(
     /// <summary>
     /// Set build-time variables
     /// </summary>
+    [SecretValue("password", "secret", "token", "apiKey", "api_key", "accessKey", "access_key", "secretKey", "secret_key", "clientSecret", "client_secret", "privateKey", "private_key")]
     [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated)]
-    public IEnumerable<string>? BuildArg { get; set; }
+    public IReadOnlyList<KeyValue>? BuildArg { get; set; }
 
     /// <summary>
     /// Additional build contexts (e.g., name=path)

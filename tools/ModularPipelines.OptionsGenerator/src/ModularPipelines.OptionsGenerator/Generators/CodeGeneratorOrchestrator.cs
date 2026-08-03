@@ -787,6 +787,11 @@ public class CodeGeneratorOrchestrator
             ToolVersion = toolVersion,
             Errors = [],
         };
+        if (_typeEnhancer is not null)
+        {
+            completeToolDefinition = await _typeEnhancer
+                .EnhanceManualOverridesAsync(completeToolDefinition, cancellationToken);
+        }
 
         await GenerateForToolAsync(
             completeToolDefinition,

@@ -1,6 +1,6 @@
 {
   "solution": {
-    "path": "ModularPipelines.All.sln",
+    "path": "ModularPipelines.All.slnx",
     "projects": [
       "test\\ModularPipelines.UnitTests\\ModularPipelines.UnitTests.csproj"
     ]

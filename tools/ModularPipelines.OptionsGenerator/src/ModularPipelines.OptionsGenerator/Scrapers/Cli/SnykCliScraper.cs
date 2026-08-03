@@ -438,31 +438,31 @@ public partial class SnykCliScraper : CliScraperBase
         {
             "auth" =>
             [
-                CreatePositional("ApiToken", "API_TOKEN", "Snyk API token", isRequired: false, isSecret: true)
+                CreatePositional("ApiToken", "Snyk API token", isRequired: false, isSecret: true)
             ],
             "test" or "monitor" =>
             [
-                CreatePositional("Target", "TARGET", "Package, version, or repository target to scan", isRequired: false)
+                CreatePositional("Target", "Package, version, or repository target to scan", isRequired: false)
             ],
             "container test" or "container monitor" or "container sbom" =>
             [
-                CreatePositional("Image", "IMAGE", "Container image to scan", isRequired: true)
+                CreatePositional("Image", "Container image to scan", isRequired: true)
             ],
             "iac test" =>
             [
-                CreatePositional("Path", "PATH", "Infrastructure as Code path to scan", isRequired: false)
+                CreatePositional("Path", "Infrastructure as Code path to scan", isRequired: false)
             ],
             "code test" =>
             [
-                CreatePositional("Path", "PATH", "Source code path to scan", isRequired: false)
+                CreatePositional("Path", "Source code path to scan", isRequired: false)
             ],
             "sbom" =>
             [
-                CreatePositional("TargetDirectory", "TARGET_DIRECTORY", "Project directory to scan", isRequired: false)
+                CreatePositional("TargetDirectory", "Project directory to scan", isRequired: false)
             ],
             "policy" =>
             [
-                CreatePositional("PathToPolicyFile", "PATH_TO_POLICY_FILE", "Path to the Snyk policy file", isRequired: false)
+                CreatePositional("PathToPolicyFile", "Path to the Snyk policy file", isRequired: false)
             ],
             _ => []
         };
@@ -470,7 +470,6 @@ public partial class SnykCliScraper : CliScraperBase
 
     private static CliPositionalArgument CreatePositional(
         string propertyName,
-        string placeholderName,
         string description,
         bool isRequired,
         bool isSecret = false)
@@ -478,7 +477,6 @@ public partial class SnykCliScraper : CliScraperBase
         return new CliPositionalArgument
         {
             PropertyName = propertyName,
-            PlaceholderName = placeholderName,
             CSharpType = "string?",
             Description = description,
             IsRequired = isRequired,
