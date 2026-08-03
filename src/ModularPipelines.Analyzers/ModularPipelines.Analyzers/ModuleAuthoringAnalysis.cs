@@ -2058,15 +2058,17 @@ internal static class ModuleAuthoringAnalysis
             var returnValues = operation.DescendantsAndSelf()
                 .OfType<IReturnOperation>()
                 .Where(static returnOperation =>
-                    GetEnclosingCallable(returnOperation) is null)
+                    GetEnclosingCallable(returnOperation) is null
+                    && IsInReachableBranch(returnOperation))
                 .Select(static returnOperation => returnOperation.ReturnedValue)
                 .OfType<IOperation>()
                 .ToArray();
             if (returnValues.Length > 0)
             {
                 return returnValues.All(returnValue =>
-                    TryTrackInstanceModuleTypes(
+                    TryTrackInvocationModuleTypeReturn(
                         returnValue,
+                        invocation,
                         compilation,
                         instanceRegisteredModules,
                         CloneVisitedLocals(visitedLocals),
@@ -2083,6 +2085,109 @@ internal static class ModuleAuthoringAnalysis
 
         instanceRegisteredModules.Add(moduleType.OriginalDefinition);
         return true;
+    }
+
+    private static bool TryTrackInvocationModuleTypeReturn(
+        IOperation returnValue,
+        IInvocationOperation invocation,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        return returnValue switch
+        {
+            IConversionOperation conversion => TryTrackInvocationModuleTypeReturn(
+                conversion.Operand,
+                invocation,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
+            IParameterReferenceOperation parameterReference => TryTrackInvocationModuleTypeParameterReturn(
+                parameterReference,
+                invocation,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
+            IConditionalOperation conditional => TryTrackInvocationModuleTypeConditionalReturn(
+                conditional,
+                invocation,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
+            _ => TryTrackInstanceModuleTypes(
+                returnValue,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
+        };
+    }
+
+    private static bool TryTrackInvocationModuleTypeParameterReturn(
+        IParameterReferenceOperation parameterReference,
+        IInvocationOperation invocation,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var targetMethod = NormalizeMethod(invocation.TargetMethod);
+        var argument = invocation.Arguments.FirstOrDefault(candidate =>
+            SymbolEqualityComparer.Default.Equals(
+                GetTargetParameter(targetMethod, candidate.Parameter),
+                parameterReference.Parameter));
+        return argument is not null
+               && TryTrackInstanceModuleTypes(
+                   argument.Value,
+                   compilation,
+                   instanceRegisteredModules,
+                   visitedLocals,
+                   visitedMethods);
+    }
+
+    private static bool TryTrackInvocationModuleTypeConditionalReturn(
+        IConditionalOperation conditional,
+        IInvocationOperation invocation,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (conditional.Condition.ConstantValue is
+            { HasValue: true, Value: bool condition })
+        {
+            var selectedBranch = condition
+                ? conditional.WhenTrue
+                : conditional.WhenFalse;
+            return selectedBranch is not null
+                   && TryTrackInvocationModuleTypeReturn(
+                       selectedBranch,
+                       invocation,
+                       compilation,
+                       instanceRegisteredModules,
+                       visitedLocals,
+                       visitedMethods);
+        }
+
+        return TryTrackInvocationModuleTypeReturn(
+                   conditional.WhenTrue,
+                   invocation,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods))
+               && conditional.WhenFalse is { } whenFalse
+               && TryTrackInvocationModuleTypeReturn(
+                   whenFalse,
+                   invocation,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods));
     }
 
     private static HashSet<IMethodSymbol> CloneVisitedMethods(
@@ -3098,7 +3203,8 @@ internal static class ModuleAuthoringAnalysis
         Queue<IMethodSymbol> pending)
     {
         foreach (var invocation in invocations.Where(candidate =>
-                     SymbolEqualityComparer.Default.Equals(
+                     IsInReachableBranch(candidate)
+                     && SymbolEqualityComparer.Default.Equals(
                          GetCallableSymbol(GetEnclosingCallable(candidate)),
                          caller)))
         {
@@ -3741,7 +3847,8 @@ internal static class ModuleAuthoringAnalysis
     {
         foreach (var invocation in invocations)
         {
-            if (!IsInsideReachableCallable(invocation, reachableNestedCallables))
+            if (!IsInReachableBranch(invocation)
+                || !IsInsideReachableCallable(invocation, reachableNestedCallables))
             {
                 continue;
             }
@@ -3763,7 +3870,8 @@ internal static class ModuleAuthoringAnalysis
     {
         foreach (var propertyReference in propertyReferences)
         {
-            if (!IsInsideReachableCallable(
+            if (!IsInReachableBranch(propertyReference)
+                || !IsInsideReachableCallable(
                     propertyReference,
                     reachableNestedCallables))
             {
@@ -3788,7 +3896,8 @@ internal static class ModuleAuthoringAnalysis
     {
         foreach (var eventAssignment in eventAssignments)
         {
-            if (!IsInsideReachableCallable(
+            if (!IsInReachableBranch(eventAssignment)
+                || !IsInsideReachableCallable(
                     eventAssignment,
                     reachableNestedCallables))
             {

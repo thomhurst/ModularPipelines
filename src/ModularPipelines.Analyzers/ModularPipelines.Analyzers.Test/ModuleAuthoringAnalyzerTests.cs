@@ -1159,6 +1159,36 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Passed_Through_Factory_Helper()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.Services.AddSingleton<IModule>(
+                        _ => Pass(new BuildModule()));
+                }
+
+                private static IModule Pass(IModule module) => module;
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_With_Stored_TryAddEnumerable_Descriptor()
     {
         var source = $$"""
@@ -4318,6 +4348,28 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Async_Safety_In_Dead_Member_Helper_Call()
+    {
+        var source = ModuleSource("""
+            protected override Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                if (false)
+                {
+                    Dangerous();
+                }
+
+                return Task.FromResult<List<string>>(null!);
+            }
+
+                private static void Dangerous() => Thread.Sleep(1);
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Async_Safety_Inside_Source_Helper_Callback()
     {
         var source = ModuleSource("""
@@ -5120,6 +5172,49 @@ public class ModuleAuthoringAnalyzerTests
 
                         return new BuildModule();
                     });
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DeployModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_From_Dead_Factory_Helper_Return()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:DeployModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() => Pipeline.CreateBuilder().Services
+                    .AddSingleton<IModule>(_ => CreateModule());
+
+                private static IModule CreateModule()
+                {
+                    if (false)
+                    {
+                        return new DeployModule();
+                    }
+
+                    return new BuildModule();
+                }
             }
 
             {{EntryPoint}}
