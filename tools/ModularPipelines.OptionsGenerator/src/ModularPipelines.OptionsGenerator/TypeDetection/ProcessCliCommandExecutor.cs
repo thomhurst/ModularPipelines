@@ -50,15 +50,19 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         startInfo.Environment["GIT_PAGER"] = "";    // Git
         startInfo.Environment["NO_COLOR"] = "1";    // Disable color output which can cause parsing issues
 
+        var processLaunch = UnixProcessGroupLauncher.Wrap(startInfo);
+
         try
         {
-            using var process = new Process { StartInfo = startInfo };
+            using var process = new Process { StartInfo = processLaunch.StartInfo };
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             cts.CancelAfter(_timeout);
 
             process.Start();
             process.StandardInput.Close();
-            using var descendantTracker = new DescendantProcessTracker(process.Id);
+            using var descendantTracker = new DescendantProcessTracker(
+                process.Id,
+                processLaunch.UsesUnixProcessGroup);
 
             var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
             var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);

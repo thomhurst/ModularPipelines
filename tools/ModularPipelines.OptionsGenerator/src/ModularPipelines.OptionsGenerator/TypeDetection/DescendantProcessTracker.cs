@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -8,17 +10,18 @@ internal sealed class DescendantProcessTracker : IDisposable
     private static readonly TimeSpan SteadyPollingInterval = TimeSpan.FromMilliseconds(100);
     private static readonly TimeSpan InitialPollingDuration = TimeSpan.FromMilliseconds(250);
     private readonly Lock _lock = new();
-    private readonly int _rootProcessId;
-    private readonly Process? _rootProcess;
+    private readonly TrackedProcess? _rootProcess;
     private readonly DateTime _rootProcessStartTime;
-    private readonly Dictionary<int, Process> _capturedProcesses = [];
+    private readonly Dictionary<ProcessIdentity, TrackedProcess> _capturedProcesses = [];
     private readonly Stopwatch _trackingAge = Stopwatch.StartNew();
     private readonly Timer? _timer;
+    private readonly int? _unixProcessGroupId;
+    private readonly SafeFileHandle? _windowsJob;
     private bool _disposed;
 
-    public DescendantProcessTracker(int rootProcessId)
+    public DescendantProcessTracker(int rootProcessId, bool usesUnixProcessGroup = false)
     {
-        _rootProcessId = rootProcessId;
+        _unixProcessGroupId = usesUnixProcessGroup ? rootProcessId : null;
         if (!ChildProcessSnapshot.IsSupported)
         {
             return;
@@ -29,7 +32,12 @@ internal sealed class DescendantProcessTracker : IDisposable
         {
             rootProcess = Process.GetProcessById(rootProcessId);
             _rootProcessStartTime = rootProcess.StartTime;
-            _rootProcess = rootProcess;
+            _rootProcess = new TrackedProcess(
+                new ProcessIdentity(rootProcessId, _rootProcessStartTime),
+                rootProcess);
+            _windowsJob = OperatingSystem.IsWindows()
+                ? TryCreateWindowsJob(rootProcess)
+                : null;
         }
         catch (Exception exception) when (exception is
             ArgumentException
@@ -52,10 +60,11 @@ internal sealed class DescendantProcessTracker : IDisposable
     public void KillCapturedDescendants()
     {
         CaptureDescendants();
+        KillContainedProcesses();
         Process[] capturedProcesses;
         lock (_lock)
         {
-            capturedProcesses = [.. _capturedProcesses.Values.Reverse()];
+            capturedProcesses = [.. _capturedProcesses.Values.Select(static process => process.Process).Reverse()];
         }
 
         foreach (var process in capturedProcesses)
@@ -75,12 +84,13 @@ internal sealed class DescendantProcessTracker : IDisposable
             }
 
             _disposed = true;
-            capturedProcesses = [.. _capturedProcesses.Values];
+            capturedProcesses = [.. _capturedProcesses.Values.Select(static process => process.Process)];
             _capturedProcesses.Clear();
         }
 
         _timer?.Dispose();
-        _rootProcess?.Dispose();
+        _windowsJob?.Dispose();
+        _rootProcess?.Process.Dispose();
         foreach (var process in capturedProcesses)
         {
             process.Dispose();
@@ -106,6 +116,44 @@ internal sealed class DescendantProcessTracker : IDisposable
         }
     }
 
+    private void KillContainedProcesses()
+    {
+        if (_unixProcessGroupId is { } processGroupId)
+        {
+            _ = KillProcess(-processGroupId, 9);
+        }
+
+        if (_windowsJob is { IsInvalid: false, IsClosed: false })
+        {
+            _ = TerminateJobObject(_windowsJob, 1);
+        }
+    }
+
+    private static SafeFileHandle? TryCreateWindowsJob(Process process)
+    {
+        var job = CreateJobObject(nint.Zero, null);
+        if (job.IsInvalid)
+        {
+            job.Dispose();
+            return null;
+        }
+
+        try
+        {
+            if (AssignProcessToJobObject(job, process.SafeHandle))
+            {
+                return job;
+            }
+        }
+        catch (InvalidOperationException)
+        {
+            // The root process exited before it could be assigned.
+        }
+
+        job.Dispose();
+        return null;
+    }
+
     private void CaptureDescendants()
     {
         try
@@ -117,19 +165,19 @@ internal sealed class DescendantProcessTracker : IDisposable
             }
 
             var snapshot = ChildProcessSnapshot.Create();
-            var visited = new HashSet<int>();
-            while (pending.TryDequeue(out var parentProcessId))
+            var visited = new HashSet<ProcessIdentity>();
+            while (pending.TryDequeue(out var parentProcess))
             {
-                if (!visited.Add(parentProcessId))
+                if (!visited.Add(parentProcess.Identity))
                 {
                     continue;
                 }
 
-                foreach (var childProcessId in snapshot.GetChildProcessIds(parentProcessId))
+                foreach (var childProcessId in snapshot.GetChildProcessIds(parentProcess.Identity.ProcessId))
                 {
-                    if (CaptureProcess(childProcessId))
+                    if (TryCaptureProcess(childProcessId, parentProcess, out var childProcess))
                     {
-                        pending.Enqueue(childProcessId);
+                        pending.Enqueue(childProcess);
                     }
                 }
             }
@@ -167,9 +215,9 @@ internal sealed class DescendantProcessTracker : IDisposable
         }
     }
 
-    private Queue<int> GetCaptureRoots()
+    private Queue<TrackedProcess> GetCaptureRoots()
     {
-        var pending = new Queue<int>();
+        var pending = new Queue<TrackedProcess>();
         lock (_lock)
         {
             if (_disposed)
@@ -177,59 +225,62 @@ internal sealed class DescendantProcessTracker : IDisposable
                 return pending;
             }
 
-            if (_rootProcess is { HasExited: false })
+            if (_rootProcess is not null)
             {
-                pending.Enqueue(_rootProcessId);
+                pending.Enqueue(_rootProcess);
             }
 
-            foreach (var (processId, process) in _capturedProcesses)
+            foreach (var process in _capturedProcesses.Values)
             {
-                if (!process.HasExited)
-                {
-                    pending.Enqueue(processId);
-                }
+                pending.Enqueue(process);
             }
         }
 
         return pending;
     }
 
-    private bool CaptureProcess(int processId)
+    private bool TryCaptureProcess(
+        int processId,
+        TrackedProcess parentProcess,
+        out TrackedProcess trackedProcess)
     {
-        lock (_lock)
-        {
-            if (_disposed)
-            {
-                return false;
-            }
-
-            if (_capturedProcesses.TryGetValue(processId, out var capturedProcess))
-            {
-                return !capturedProcess.HasExited;
-            }
-        }
+        trackedProcess = null!;
 
         Process? process = null;
         try
         {
             process = Process.GetProcessById(processId);
-            if (process.HasExited
-                || !CanBeDescendant(_rootProcessStartTime, process.StartTime))
+            var processStartTime = process.StartTime;
+            if (!CanBeDescendant(_rootProcessStartTime, processStartTime)
+                || !TryGetExitTime(parentProcess.Process, out var parentExitTime)
+                || !CanBeChildOfParent(
+                    parentProcess.Identity.StartTime,
+                    parentExitTime,
+                    processStartTime))
             {
                 process.Dispose();
+                process = null;
                 return false;
             }
 
+            var identity = new ProcessIdentity(processId, processStartTime);
             lock (_lock)
             {
-                if (!_disposed && _capturedProcesses.TryAdd(processId, process))
+                if (_disposed)
                 {
-                    process = null;
+                    return false;
+                }
+
+                if (_capturedProcesses.TryGetValue(identity, out var existingProcess))
+                {
+                    trackedProcess = existingProcess;
                     return true;
                 }
 
-                return _capturedProcesses.TryGetValue(processId, out var capturedProcess)
-                       && !capturedProcess.HasExited;
+                trackedProcess = new TrackedProcess(identity, process);
+                _capturedProcesses.Add(identity, trackedProcess);
+                process = null;
+                return true;
             }
         }
         catch (Exception exception) when (exception is
@@ -251,4 +302,50 @@ internal sealed class DescendantProcessTracker : IDisposable
         DateTime rootProcessStartTime,
         DateTime candidateProcessStartTime) =>
         candidateProcessStartTime >= rootProcessStartTime;
+
+    internal static bool CanBeChildOfParent(
+        DateTime parentProcessStartTime,
+        DateTime? parentProcessExitTime,
+        DateTime candidateProcessStartTime) =>
+        candidateProcessStartTime >= parentProcessStartTime
+        && (!parentProcessExitTime.HasValue
+            || candidateProcessStartTime <= parentProcessExitTime.Value);
+
+    private static bool TryGetExitTime(Process process, out DateTime? exitTime)
+    {
+        try
+        {
+            exitTime = process.HasExited ? process.ExitTime : null;
+            return true;
+        }
+        catch (Exception exception) when (exception is
+            InvalidOperationException
+            or System.ComponentModel.Win32Exception)
+        {
+            exitTime = null;
+            return false;
+        }
+    }
+
+    private readonly record struct ProcessIdentity(int ProcessId, DateTime StartTime);
+
+    private sealed record TrackedProcess(ProcessIdentity Identity, Process Process);
+
+#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+    [DllImport("libc", EntryPoint = "kill", SetLastError = true)]
+    private static extern int KillProcess(int processId, int signal);
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern SafeFileHandle CreateJobObject(nint jobAttributes, string? name);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool AssignProcessToJobObject(
+        SafeFileHandle job,
+        SafeProcessHandle process);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool TerminateJobObject(SafeFileHandle job, uint exitCode);
+#pragma warning restore SYSLIB1054
 }

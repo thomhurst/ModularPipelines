@@ -32,6 +32,32 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task DescendantIdentity_Rejects_Child_Created_After_Parent_Exit()
+    {
+        var parentStart = new DateTime(2026, 8, 3, 12, 0, 0, DateTimeKind.Utc);
+        var parentExit = parentStart.AddSeconds(1);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(DescendantProcessTracker.CanBeChildOfParent(
+                    parentStart,
+                    parentExit,
+                    parentStart))
+                .IsTrue();
+            await Assert.That(DescendantProcessTracker.CanBeChildOfParent(
+                    parentStart,
+                    parentExit,
+                    parentExit))
+                .IsTrue();
+            await Assert.That(DescendantProcessTracker.CanBeChildOfParent(
+                    parentStart,
+                    parentExit,
+                    parentExit.AddTicks(1)))
+                .IsFalse();
+        }
+    }
+
+    [Test]
     public async Task ExecutableOverride_Applies_To_Matching_Command()
     {
         var applies = ProcessCliCommandExecutor.IsOverrideForCommand(
