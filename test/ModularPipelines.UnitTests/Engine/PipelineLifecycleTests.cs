@@ -64,20 +64,18 @@ public class PipelineLifecycleTests
         }
     }
 
-    private sealed class NonFlowingCrossThreadReentrantDisposalTracker : IDisposable
+    private sealed class BlockingDisposalTracker : IAsyncDisposable
     {
-        public Func<ValueTask>? DisposePipeline { get; set; }
+        public TaskCompletionSource Started { get; } = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public bool IsDisposed { get; private set; }
+        public TaskCompletionSource Release { get; } = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
-            using (ExecutionContext.SuppressFlow())
-            {
-                Task.Run(() => DisposePipeline!().AsTask()).GetAwaiter().GetResult();
-            }
-
-            IsDisposed = true;
+            Started.TrySetResult();
+            await Release.Task;
         }
     }
 
@@ -193,19 +191,23 @@ public class PipelineLifecycleTests
     }
 
     [Test]
-    public async Task Non_Flowing_Cross_Thread_Reentrant_Disposal_Does_Not_Deadlock()
+    public async Task Concurrent_Disposal_Awaits_The_Shared_Task()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<LifecycleModule>();
-        builder.Services.AddSingleton<NonFlowingCrossThreadReentrantDisposalTracker>();
+        builder.Services.AddSingleton<BlockingDisposalTracker>();
         var pipeline = await builder.BuildAsync();
         var tracker = pipeline.Services
-            .GetRequiredService<NonFlowingCrossThreadReentrantDisposalTracker>();
-        tracker.DisposePipeline = pipeline.DisposeAsync;
+            .GetRequiredService<BlockingDisposalTracker>();
 
-        await pipeline.DisposeAsync().AsTask().WaitAsync(TimeSpan.FromSeconds(5));
+        var firstDisposal = pipeline.DisposeAsync().AsTask();
+        await tracker.Started.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        var concurrentDisposal = pipeline.DisposeAsync().AsTask();
 
-        await Assert.That(tracker.IsDisposed).IsTrue();
+        await Assert.That(concurrentDisposal.IsCompleted).IsFalse();
+        tracker.Release.TrySetResult();
+        await Task.WhenAll(firstDisposal, concurrentDisposal)
+            .WaitAsync(TimeSpan.FromSeconds(5));
     }
 
     [Test]

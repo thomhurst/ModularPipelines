@@ -28,7 +28,6 @@ internal sealed class PipelineImpl : IPipeline
     private readonly IDisposable _shutdownRegistration;
     private readonly object _disposeLock = new();
     private readonly AsyncLocal<DisposalOwnership?> _disposalOwnership = new();
-    private int _isContainerDisposalActive;
     private Task? _disposeTask;
 
     private PipelineImpl(IHost host)
@@ -123,10 +122,7 @@ internal sealed class PipelineImpl : IPipeline
         {
             if (_disposeTask is not null)
             {
-                // Container teardown can invoke user disposers on a worker without a flowed
-                // ExecutionContext. Such reentry must not await the disposal waiting for it.
                 return _disposalOwnership.Value?.IsActive == true
-                    || Volatile.Read(ref _isContainerDisposalActive) == 1
                     ? ValueTask.CompletedTask
                     : new ValueTask(_disposeTask);
             }
@@ -165,36 +161,28 @@ internal sealed class PipelineImpl : IPipeline
         try
         {
             _shutdownRegistration.Dispose();
-            Volatile.Write(ref _isContainerDisposalActive, 1);
+            Exception? scopeException = null;
             try
             {
-                Exception? scopeException = null;
-                try
-                {
-                    await _serviceScope.DisposeAsync().ConfigureAwait(false);
-                }
-                catch (Exception exception)
-                {
-                    scopeException = exception;
-                }
-
-                try
-                {
-                    await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
-                }
-                catch (Exception hostException) when (scopeException is not null)
-                {
-                    throw new AggregateException(scopeException, hostException);
-                }
-
-                if (scopeException is not null)
-                {
-                    ExceptionDispatchInfo.Capture(scopeException).Throw();
-                }
+                await _serviceScope.DisposeAsync().ConfigureAwait(false);
             }
-            finally
+            catch (Exception exception)
             {
-                Volatile.Write(ref _isContainerDisposalActive, 0);
+                scopeException = exception;
+            }
+
+            try
+            {
+                await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
+            }
+            catch (Exception hostException) when (scopeException is not null)
+            {
+                throw new AggregateException(scopeException, hostException);
+            }
+
+            if (scopeException is not null)
+            {
+                ExceptionDispatchInfo.Capture(scopeException).Throw();
             }
         }
         finally
