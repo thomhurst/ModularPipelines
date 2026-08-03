@@ -1,45 +1,26 @@
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Reflection;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Dependencies;
 
 /// <summary>
-/// Stores metadata for modules set during registration.
+/// Stores resolved module metadata.
 /// </summary>
 internal class ModuleMetadataRegistry : IModuleMetadataRegistry
 {
     private readonly ConcurrentDictionary<(Type, string), object> _metadata = new();
-    private readonly ConcurrentDictionary<Type, HashSet<string>> _registrationTags = new();
-    private readonly ConcurrentDictionary<Type, string> _registrationCategories = new();
     private readonly ConcurrentDictionary<Type, Lazy<ModuleMetadata>> _finalizedMetadata = new();
     private readonly ConcurrentDictionary<(Type ModuleType, Type AttributeType), Attribute[]> _attributesByType = new();
     private readonly IModuleAttributeEventService _attributeEventService;
 
-    public ModuleMetadataRegistry(
-        IOptions<ModuleRegistrationOptions> registrationOptions,
-        IModuleAttributeEventService attributeEventService)
+    public ModuleMetadataRegistry(IModuleAttributeEventService attributeEventService)
     {
         _attributeEventService = attributeEventService;
-
-        // Import tags and categories from registration-time configuration
-        var options = registrationOptions.Value;
-
-        foreach (var kvp in options.Tags)
-        {
-            _registrationTags[kvp.Key] = new HashSet<string>(kvp.Value, StringComparer.OrdinalIgnoreCase);
-        }
-
-        foreach (var kvp in options.Categories)
-        {
-            _registrationCategories[kvp.Key] = kvp.Value;
-        }
     }
 
     public void SetMetadata(Type moduleType, string key, object value)
@@ -55,25 +36,6 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
         }
 
         return default;
-    }
-
-    public void AddRegistrationTags(Type moduleType, IEnumerable<string> tags)
-    {
-        _registrationTags.AddOrUpdate(
-            moduleType,
-            _ => new HashSet<string>(tags, StringComparer.OrdinalIgnoreCase),
-            (_, existing) =>
-            {
-                existing.UnionWith(tags);
-                return existing;
-            });
-        _finalizedMetadata.TryRemove(moduleType, out _);
-    }
-
-    public void SetRegistrationCategory(Type moduleType, string category)
-    {
-        _registrationCategories[moduleType] = category;
-        _finalizedMetadata.TryRemove(moduleType, out _);
     }
 
     public void FinalizeMetadata(Type moduleType, IModule instance)
@@ -123,34 +85,13 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
         var configuration = instance.Configuration;
         var tags = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Module<T> configuration combines attributes, overrides, and fluent metadata.
+        // Module<T> configuration combines attributes and fluent metadata.
         // Cached attributes preserve metadata for direct IModule implementations.
         tags.UnionWith(configuration.Tags);
         tags.UnionWith(GetAttributes<ModuleTagAttribute>(moduleType)
             .Select(attribute => attribute.Tag));
-        if (instance is ITaggedModule taggedModule)
-        {
-            tags.UnionWith(taggedModule.Tags);
-        }
-
-        // Registration tags supplement module-provided metadata.
-        if (_registrationTags.TryGetValue(moduleType, out var regTags))
-        {
-            tags.UnionWith(regTags);
-        }
-
-        // Registration metadata takes precedence over module configuration.
-        string? category;
-        if (_registrationCategories.TryGetValue(moduleType, out var regCat))
-        {
-            category = regCat;
-        }
-        else
-        {
-            category = configuration.Category
-                       ?? (instance as ITaggedModule)?.Category
+        var category = configuration.Category
                        ?? GetAttribute<ModuleCategoryAttribute>(moduleType)?.Category;
-        }
 
         return new ModuleMetadata(tags.ToFrozenSet(), category);
     }

@@ -111,7 +111,6 @@ internal static class DependencyInjectionSetup
             .Configure<SchedulerOptions>(_ => { })
             .Configure<ConcurrencyOptions>(_ => { })
             .Configure<HttpResilienceOptions>(_ => { })
-            .Configure<ModuleRegistrationOptions>(_ => { })
             .AddSingleton<IValidateOptions<ConcurrencyOptions>, ConcurrencyOptionsValidator>()
             .AddSingleton<IValidateOptions<HttpResilienceOptions>, HttpResilienceOptionsValidator>()
             .AddLogging(builder =>
