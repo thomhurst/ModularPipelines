@@ -63,6 +63,35 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
+    public async Task Duplicate_Inherited_Dependencies_Are_Emitted_Once()
+    {
+        var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
+            namespace Consumer
+            {
+                public sealed class DependencyModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+                public abstract class BaseModule : ModularPipelines.Modules.Module<string>;
+
+                [ModularPipelines.Attributes.DependsOn<DependencyModule>]
+                public sealed class BuildModule : BaseModule;
+            }
+            """);
+
+        var generated = result.GeneratedTrees.Single().GetText().ToString();
+        var buildRegistration = generated[generated.IndexOf(
+            "CreateRegistration<global::Consumer.BuildModule, string>",
+            StringComparison.Ordinal)..];
+        buildRegistration = buildRegistration[..buildRegistration.IndexOf(
+            "dependenciesComplete:",
+            StringComparison.Ordinal)];
+
+        await Assert.That(CountOccurrences(
+            buildRegistration,
+            "new(typeof(global::Consumer.DependencyModule), false)")).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Partial_Declarations_Produce_One_Registration()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
@@ -108,7 +137,7 @@ public class ModuleMetadataGeneratorTests
     }
 
     [Test]
-    public async Task Assembly_Metadata_Remains_Incomplete_When_No_Source_Module_Is_Visible()
+    public async Task Empty_Assembly_Does_Not_Emit_Registration()
     {
         var result = GeneratorTestHarness.Run(new ModuleMetadataGenerator(), TestInfrastructure, """
             namespace Consumer
@@ -117,13 +146,7 @@ public class ModuleMetadataGeneratorTests
             }
             """);
 
-        var generated = result.GeneratedTrees.Single().GetText().ToString();
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(generated).DoesNotContain("CreateRegistration<global::Consumer");
-            await Assert.That(generated).Contains("isComplete: false");
-        }
+        await Assert.That(result.GeneratedTrees).IsEmpty();
     }
 
     [Test]
@@ -480,8 +503,7 @@ public class ModuleMetadataGeneratorTests
             await Assert.That(result.Diagnostics)
                 .Contains(diagnostic => diagnostic.Id == "MPG0013"
                                         && diagnostic.GetMessage().Contains("AddModule<TModule>"));
-            await Assert.That(result.GeneratedTrees.Single().GetText().ToString())
-                .DoesNotContain("GenericModule<int>");
+            await Assert.That(result.GeneratedTrees).IsEmpty();
         }
     }
 
@@ -536,9 +558,7 @@ public class ModuleMetadataGeneratorTests
             await Assert.That(result.Diagnostics)
                 .All(diagnostic => diagnostic.Id != "MPG0015"
                                    || diagnostic.GetMessage().Contains("IModule"));
-            await Assert.That(result.GeneratedTrees.Single().GetText().ToString())
-                .DoesNotContain("GenericModule<int>")
-                .And.DoesNotContain("GenericModule<string>");
+            await Assert.That(result.GeneratedTrees).IsEmpty();
         }
     }
 
@@ -698,11 +718,9 @@ public class ModuleMetadataGeneratorTests
             }
             """);
 
-        var generated = result.GeneratedTrees.Single().GetText().ToString();
-
         using (Assert.Multiple())
         {
-            await Assert.That(generated).DoesNotContain("ExternalModules.GenericModule");
+            await Assert.That(result.GeneratedTrees).IsEmpty();
             await Assert.That(result.Diagnostics)
                 .Contains(diagnostic => diagnostic.Id == "MPG0012"
                                         && diagnostic.GetMessage()

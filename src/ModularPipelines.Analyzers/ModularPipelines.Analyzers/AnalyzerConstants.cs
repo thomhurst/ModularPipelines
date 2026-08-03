@@ -104,13 +104,13 @@ internal static class AnalyzerConstants
         internal const string Module = "ModularPipelines.Modules.Module`1";
 
         /// <summary>
-        /// The fully qualified System.Console type in global:: format.
+        /// The metadata name for System.Console.
         /// </summary>
-        internal const string SystemConsole = "global::System.Console";
+        internal const string SystemConsole = "System.Console";
 
         /// <summary>
-        /// The prefix for IEnumerable&lt;T&gt; in global:: fully qualified format.
+        /// The metadata name for the generic IEnumerable&lt;T&gt; interface.
         /// </summary>
-        internal const string IEnumerablePrefix = "global::System.Collections.Generic.IEnumerable<";
+        internal const string IEnumerable = "System.Collections.Generic.IEnumerable`1";
     }
 }
