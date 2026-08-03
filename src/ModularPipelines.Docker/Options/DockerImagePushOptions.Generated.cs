@@ -31,7 +31,7 @@ public record DockerImagePushOptions(
     /// <summary>
     /// Skip image signing (default true)
     /// </summary>
-    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>

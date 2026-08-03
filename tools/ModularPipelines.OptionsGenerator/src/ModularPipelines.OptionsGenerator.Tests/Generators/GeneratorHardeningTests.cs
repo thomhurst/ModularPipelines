@@ -816,9 +816,10 @@ public class GeneratorHardeningTests
     [Test]
     public async Task EscapeXmlComment_Normalizes_Windows_Runner_Home_Paths()
     {
-        var result = GeneratorUtils.EscapeXmlComment(@"default C:\Users\runneradmin\.config\tool");
+        var result = GeneratorUtils.EscapeXmlComment(@"default C:\Users\local developer\.config\tool");
 
-        await Assert.That(result).DoesNotContain("runneradmin");
+        await Assert.That(result).Contains(@"~\.config\tool");
+        await Assert.That(result).DoesNotContain("local developer");
     }
 
     #endregion

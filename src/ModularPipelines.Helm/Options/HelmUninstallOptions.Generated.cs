@@ -20,7 +20,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("uninstall")]
 public record HelmUninstallOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ReleaseName
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> ReleaseName
 ) : HelmOptions
 {
     /// <summary>

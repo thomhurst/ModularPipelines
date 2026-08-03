@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helm.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Helm.Options;
 
@@ -43,8 +44,9 @@ public record HelmLintOptions(
     /// <summary>
     /// set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
     /// </summary>
-    [CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Set { get; set; }
+    [SecretValue("password", "secret", "token", "apiKey", "accessKey", "secretKey", "clientSecret")]
+    [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Set { get; set; }
 
     /// <summary>
     /// set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)

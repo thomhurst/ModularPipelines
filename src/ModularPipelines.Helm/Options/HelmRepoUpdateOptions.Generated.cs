@@ -136,9 +136,15 @@ public record HelmRepoUpdateOptions : HelmOptions
     public string? RepositoryConfig { get; set; }
 
     /// <summary>
-    /// The REPO1 [REPO2 ...] operand.
+    /// The REPO1 operand.
     /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Repo1Repo2 { get; set; }
+    public string? Repo1 { get; set; }
+
+    /// <summary>
+    /// The REPO2 operand.
+    /// </summary>
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public IEnumerable<string>? Repo2 { get; set; }
 
 }

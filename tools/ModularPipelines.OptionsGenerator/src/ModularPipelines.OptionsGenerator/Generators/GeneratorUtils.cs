@@ -96,8 +96,8 @@ public static partial class GeneratorUtils
             return string.Empty;
         }
 
-        // Help text scraped on a CI runner can embed the runner's home directory in
-        // option defaults (e.g. "/home/runner/.config/helm/..."). Those paths are
+        // Help text scraped from a CLI can embed the generating user's home directory
+        // in option defaults (e.g. "/home/runner/.config/helm/..."). Those paths are
         // meaningless to consumers, so normalize them to "~" before shipping docs.
         text = RunnerHomePathPattern().Replace(text, "~");
         text = text
@@ -298,7 +298,7 @@ public static partial class GeneratorUtils
     [GeneratedRegex(@"[^\p{L}\p{Nd}_]")]
     private static partial Regex InvalidIdentifierCharacterPattern();
 
-    [GeneratedRegex(@"(?:/home/runner|/Users/runner(?:admin)?|[A-Za-z]:\\Users\\runneradmin)(?=[/\\])")]
+    [GeneratedRegex(@"(?:/home/[^/\\]+|/Users/[^/\\]+|[A-Za-z]:\\Users\\[^/\\]+)(?=[/\\])")]
     private static partial Regex RunnerHomePathPattern();
 
     /// <summary>

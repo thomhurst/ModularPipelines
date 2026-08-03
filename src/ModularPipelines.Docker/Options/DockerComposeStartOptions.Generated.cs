@@ -27,6 +27,18 @@ public record DockerComposeStartOptions : DockerOptions
     public bool? DryRun { get; set; }
 
     /// <summary>
+    /// Wait for services to be running|healthy. Implies detached mode.
+    /// </summary>
+    [CliFlag("--wait")]
+    public bool? Wait { get; set; }
+
+    /// <summary>
+    /// Maximum duration in seconds to wait for the project to be running|healthy
+    /// </summary>
+    [CliOption("--wait-timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? WaitTimeout { get; set; }
+
+    /// <summary>
     /// The SERVICE operand.
     /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]

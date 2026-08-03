@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -23,8 +24,9 @@ public record DockerComposeBuildOptions : DockerOptions
     /// <summary>
     /// Set build-time variables for services
     /// </summary>
-    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? BuildArg { get; set; }
+    [SecretValue("password", "secret", "token", "apiKey", "api_key", "accessKey", "access_key", "secretKey", "secret_key", "clientSecret", "client_secret", "privateKey", "private_key")]
+    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? BuildArg { get; set; }
 
     /// <summary>
     /// Set builder to use
@@ -63,6 +65,12 @@ public record DockerComposeBuildOptions : DockerOptions
     public bool? Print { get; set; }
 
     /// <summary>
+    /// Add a provenance attestation
+    /// </summary>
+    [CliOption("--provenance", Format = OptionFormat.EqualsSeparated)]
+    public string? Provenance { get; set; }
+
+    /// <summary>
     /// Always attempt to pull a newer version of the image
     /// </summary>
     [CliFlag("--pull")]
@@ -75,10 +83,16 @@ public record DockerComposeBuildOptions : DockerOptions
     public bool? Push { get; set; }
 
     /// <summary>
-    /// Don't print anything to STDOUT
+    /// Suppress the build output
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
+
+    /// <summary>
+    /// Add a SBOM attestation
+    /// </summary>
+    [CliOption("--sbom", Format = OptionFormat.EqualsSeparated)]
+    public string? Sbom { get; set; }
 
     /// <summary>
     /// Set SSH authentications used when building service images. (use 'default' for using your default SSH Agent)

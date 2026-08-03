@@ -182,7 +182,7 @@ public record DockerContainerRunOptions(
     /// <summary>
     /// Skip image verification (default true)
     /// </summary>
-    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--disable-content-trust")]
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
@@ -219,7 +219,7 @@ public record DockerContainerRunOptions(
     /// Set environment variables
     /// </summary>
     [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Env { get; set; }
+    public string[]? Env { get; set; }
 
     /// <summary>
     /// Read in a file of environment variables
@@ -338,8 +338,8 @@ public record DockerContainerRunOptions(
     /// <summary>
     /// Set meta data on a container
     /// </summary>
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Label { get; set; }
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Label { get; set; }
 
     /// <summary>
     /// Read in a line delimited file of labels
@@ -471,7 +471,7 @@ public record DockerContainerRunOptions(
     /// Publish a container's port(s) to the host
     /// </summary>
     [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Publish { get; set; }
+    public string[]? Publish { get; set; }
 
     /// <summary>
     /// Publish all exposed ports to random ports
@@ -530,7 +530,7 @@ public record DockerContainerRunOptions(
     /// <summary>
     /// Proxy received signals to the process (default true)
     /// </summary>
-    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
+    [CliFlag("--sig-proxy")]
     public bool? SigProxy { get; set; }
 
     /// <summary>
@@ -597,7 +597,7 @@ public record DockerContainerRunOptions(
     /// Bind mount a volume
     /// </summary>
     [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Volume { get; set; }
+    public string[]? Volume { get; set; }
 
     /// <summary>
     /// Optional volume driver for the container

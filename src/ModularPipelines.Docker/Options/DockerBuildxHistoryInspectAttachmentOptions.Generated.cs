@@ -45,9 +45,15 @@ public record DockerBuildxHistoryInspectAttachmentOptions : DockerOptions
     public string? Type { get; set; }
 
     /// <summary>
-    /// The REF [DIGEST] operand.
+    /// The REF operand.
     /// </summary>
     [CliArgument(0)]
-    public string? RefDigest { get; set; }
+    public string? Ref { get; set; }
+
+    /// <summary>
+    /// The DIGEST operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? Digest { get; set; }
 
 }

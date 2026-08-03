@@ -33,6 +33,18 @@ public record DockerComposeEventsOptions : DockerOptions
     public bool? Json { get; set; }
 
     /// <summary>
+    /// Show all events created since timestamp
+    /// </summary>
+    [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
+    public string? Since { get; set; }
+
+    /// <summary>
+    /// Stream events until this timestamp
+    /// </summary>
+    [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
+    public string? Until { get; set; }
+
+    /// <summary>
     /// The SERVICE operand.
     /// </summary>
     [CliArgument(0)]

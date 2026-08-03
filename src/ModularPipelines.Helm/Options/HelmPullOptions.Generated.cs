@@ -230,6 +230,6 @@ public record HelmPullOptions : HelmOptions
     /// The chart URL operand.
     /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ChartUrl { get; set; }
+    public IEnumerable<string>? ChartUrl { get; set; }
 
 }
