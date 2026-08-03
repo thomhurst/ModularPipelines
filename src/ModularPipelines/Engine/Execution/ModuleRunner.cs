@@ -132,7 +132,9 @@ internal class ModuleRunner : IModuleRunner
                     _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
                 }
 
-                if (_manageArtifactsLocally)
+                var executionContext = CreateExecutionContext(module, moduleType);
+                ApplyDependencySkip(moduleState, executionContext);
+                if (_manageArtifactsLocally && !executionContext.SkipResult.ShouldSkip)
                 {
                     await _artifactLifecycleManager
                         .DownloadConsumedArtifactsAsync(
@@ -142,7 +144,12 @@ internal class ModuleRunner : IModuleRunner
                         .ConfigureAwait(false);
                 }
 
-                await ExecuteModuleWithPipeline(moduleState, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+                await ExecuteModuleWithPipeline(
+                        moduleState,
+                        scope.ServiceProvider,
+                        executionContext,
+                        cancellationToken)
+                    .ConfigureAwait(false);
 
                 await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken).ConfigureAwait(false);
 
@@ -221,7 +228,11 @@ internal class ModuleRunner : IModuleRunner
                         StringComparer.Ordinal));
     }
 
-    private async Task ExecuteModuleWithPipeline(ModuleState moduleState, IServiceProvider scopedServiceProvider, CancellationToken cancellationToken)
+    private async Task ExecuteModuleWithPipeline(
+        ModuleState moduleState,
+        IServiceProvider scopedServiceProvider,
+        ModuleExecutionContext executionContext,
+        CancellationToken cancellationToken)
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
@@ -229,8 +240,6 @@ internal class ModuleRunner : IModuleRunner
         var pipelineContext = scopedServiceProvider.GetRequiredService<IPipelineContext>();
 
         // Create module-specific context
-        var executionContext = CreateExecutionContext(module, moduleType);
-        ApplyDependencySkip(moduleState, executionContext);
         var logger = GetModuleLogger(scopedServiceProvider, moduleType);
         var moduleContext = new ModuleContext(
             pipelineContext,

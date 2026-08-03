@@ -1,10 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Validation;
 
@@ -129,6 +131,34 @@ public class ArtifactContractTests
     [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
     [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
     private sealed class MissingRuntimeConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
+    [ProducesArtifact("skipped-runtime", MissingRuntimeFile)]
+    private sealed class SkippedArtifactProducerModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => SkipDecision.Skip("producer skipped"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Skipped producer must not execute");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
+    private sealed class SkippedArtifactConsumerModule : Module<string>
     {
         public static bool Executed { get; set; }
 
@@ -363,6 +393,28 @@ public class ArtifactContractTests
             await Assert.That(exception!.ToString()).Contains("missing-runtime");
             await Assert.That(exception.ToString()).Contains("not found");
             await Assert.That(MissingRuntimeConsumerModule.Executed).IsFalse();
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionSkipsArtifactRestoreForSkippedDependency()
+    {
+        DeleteLocalArtifacts();
+        SkippedArtifactConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<SkippedArtifactConsumerModule>();
+
+            await builder.ExecutePipelineAsync();
+
+            await Assert.That(SkippedArtifactConsumerModule.Executed).IsFalse();
         }
         finally
         {
