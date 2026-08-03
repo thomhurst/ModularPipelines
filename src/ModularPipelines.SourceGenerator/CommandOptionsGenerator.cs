@@ -123,27 +123,42 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var canReferenceType = IsTypeAccessible(type, compilation.Assembly) && !type.IsGenericType;
         if (!canReferenceType)
         {
-            var hasSecretAttributes = hasKnownSecretAttribute
-                || GetSecretProperties(type, compilation.Assembly).HasAttributes;
-            return isCommandOptions || hasSecretAttributes
-                ? new TypeMetadataCandidate(typeName, location, Metadata: null)
-                : new TypeMetadataCandidate(typeName, location, new TypeMetadata(
-                    typeName,
-                    GetMetadataName(type),
-                    CanReferenceType: false,
-                    CanRegisterCommandMetadata: false,
-                    CanRegisterSecretCoverage: canRegisterSecretCoverage,
-                    IsCommandOptions: false,
-                    PropertyCollection.Empty,
-                    PropertyCollection.Empty));
+            return GetInaccessibleTypeCandidate(
+                type,
+                compilation.Assembly,
+                typeName,
+                location,
+                isCommandOptions,
+                hasKnownSecretAttribute,
+                canRegisterSecretCoverage);
         }
 
         var commandMetadata = isCommandOptions
             ? GetCommandProperties(type, compilation.Assembly)
             : PropertyCollection.Empty;
         var secretMetadata = GetSecretProperties(type, compilation.Assembly);
-        if (hasMultipleDeclarations
-            && (isCommandOptions || secretMetadata.HasAttributes))
+        return GetAccessibleTypeCandidate(
+            type,
+            typeName,
+            location,
+            isCommandOptions,
+            hasMultipleDeclarations,
+            commandMetadata,
+            secretMetadata);
+    }
+
+    private static TypeMetadataCandidate GetInaccessibleTypeCandidate(
+        INamedTypeSymbol type,
+        IAssemblySymbol currentAssembly,
+        string typeName,
+        Location location,
+        bool isCommandOptions,
+        bool hasKnownSecretAttribute,
+        bool canRegisterSecretCoverage)
+    {
+        var hasSecretAttributes = hasKnownSecretAttribute
+            || GetSecretProperties(type, currentAssembly).HasAttributes;
+        if (isCommandOptions || hasSecretAttributes)
         {
             return new TypeMetadataCandidate(typeName, location, Metadata: null);
         }
@@ -151,12 +166,36 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
             typeName,
             GetMetadataName(type),
-            CanReferenceType: true,
-            CanRegisterCommandMetadata: !hasMultipleDeclarations,
+            CanReferenceType: false,
+            CanRegisterCommandMetadata: false,
             CanRegisterSecretCoverage: canRegisterSecretCoverage,
-            isCommandOptions,
-            commandMetadata,
-            secretMetadata));
+            IsCommandOptions: false,
+            PropertyCollection.Empty,
+            PropertyCollection.Empty));
+    }
+
+    private static TypeMetadataCandidate GetAccessibleTypeCandidate(
+        INamedTypeSymbol type,
+        string typeName,
+        Location location,
+        bool isCommandOptions,
+        bool hasMultipleDeclarations,
+        PropertyCollection commandMetadata,
+        PropertyCollection secretMetadata)
+    {
+        var metadata = hasMultipleDeclarations
+                       && (isCommandOptions || secretMetadata.HasAttributes)
+            ? null
+            : new TypeMetadata(
+                typeName,
+                GetMetadataName(type),
+                CanReferenceType: true,
+                CanRegisterCommandMetadata: !hasMultipleDeclarations,
+                CanRegisterSecretCoverage: !hasMultipleDeclarations,
+                isCommandOptions,
+                commandMetadata,
+                secretMetadata);
+        return new TypeMetadataCandidate(typeName, location, metadata);
     }
 
     private static PropertyCollection GetCommandProperties(
