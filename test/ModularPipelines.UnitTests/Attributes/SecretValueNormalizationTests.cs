@@ -111,6 +111,23 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
+    public async Task ArrayOptionsAreRecognizedAsEmptyMetadata()
+    {
+        var provider = CreateProvider(out _);
+        var options = Array.Empty<GeneratedNoSecretsOptions>();
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(options.GetType(), out var accessors);
+        var secrets = provider.GetSecretsInObject(options).ToList();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+            await Assert.That(secrets).IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task VisualBasicOptions_UseReflectionFallback()
     {
         var provider = CreateProvider(out _);

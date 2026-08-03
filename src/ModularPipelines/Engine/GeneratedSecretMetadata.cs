@@ -68,6 +68,12 @@ public static class GeneratedSecretMetadata
 
     internal static bool TryGetAccessors(Type type, out IReadOnlyList<SecretPropertyAccessor> accessors)
     {
+        if (type.IsArray)
+        {
+            accessors = Array.Empty<SecretPropertyAccessor>();
+            return true;
+        }
+
         if (Accessors.TryGetValue(type, out var metadata) && metadata.IsComplete)
         {
             accessors = metadata.Accessors;
