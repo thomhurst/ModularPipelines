@@ -199,6 +199,7 @@ public class ModuleTestBuilder<TModule>
                     module,
                     executionContext,
                     moduleContext,
+                    null,
                     CancellationToken.None)
                 .ConfigureAwait(false);
         }
