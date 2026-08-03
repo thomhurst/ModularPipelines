@@ -50,6 +50,17 @@ public class Module2 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string AliasedBadModuleSource = $@"
+{TestSourceConstants.StandardUsingsWithLogging}
+using Dependency = ModularPipelines.Attributes.DependsOnAttribute;
+
+{TestSourceConstants.ExamplesNamespace}
+
+[{{|#0:Dependency(typeof(Module1))|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     private const string DocumentedBadModuleSource = $@"
 {TestSourceConstants.StandardModuleHeaderWithLogging}
 
@@ -141,6 +152,16 @@ public class Module1 : Module<List<string>>
     public async Task AnalyzerIsNotTriggered_When_Module_Does_Not_Depend_On_Self()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_SelfDependency_UsesAlias()
+    {
+        var expected = VerifyCS.Diagnostic(SelfDependencyAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module1");
+
+        await VerifyCS.VerifyAnalyzerAsync(AliasedBadModuleSource, expected);
     }
 
     [TestMethod]

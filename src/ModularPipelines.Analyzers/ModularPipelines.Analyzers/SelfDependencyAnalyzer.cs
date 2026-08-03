@@ -33,12 +33,26 @@ public class SelfDependencyAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        context.RegisterSyntaxNodeAction(AnalyzeAttribute, SyntaxKind.Attribute);
+        context.RegisterCompilationStartAction(startContext =>
+        {
+            var usingAliasNames = startContext.Compilation.GetUsingAliasNames(
+                startContext.CancellationToken);
+            startContext.RegisterSyntaxNodeAction(
+                syntaxContext => AnalyzeAttribute(syntaxContext, usingAliasNames),
+                SyntaxKind.Attribute);
+        });
     }
 
-    private void AnalyzeAttribute(SyntaxNodeAnalysisContext context)
+    private void AnalyzeAttribute(
+        SyntaxNodeAnalysisContext context,
+        ImmutableHashSet<string> usingAliasNames)
     {
-        if (!TryGetDependsOnInfo(context, out var attributeSyntax, out var attributeType, out var dependencyType))
+        if (!TryGetDependsOnInfo(
+                context,
+                usingAliasNames,
+                out var attributeSyntax,
+                out var attributeType,
+                out var dependencyType))
         {
             return;
         }
@@ -57,6 +71,7 @@ public class SelfDependencyAnalyzer : DiagnosticAnalyzer
 
     private static bool TryGetDependsOnInfo(
         SyntaxNodeAnalysisContext context,
+        ImmutableHashSet<string> usingAliasNames,
         out AttributeSyntax attributeSyntax,
         out INamedTypeSymbol attributeType,
         out ITypeSymbol dependencyType)
@@ -66,7 +81,7 @@ public class SelfDependencyAnalyzer : DiagnosticAnalyzer
         dependencyType = null!;
 
         if (context.Node is not AttributeSyntax attrSyntax
-            || !attrSyntax.CouldBeDependsOnAttribute())
+            || !attrSyntax.CouldBeDependsOnAttribute(usingAliasNames))
         {
             return false;
         }

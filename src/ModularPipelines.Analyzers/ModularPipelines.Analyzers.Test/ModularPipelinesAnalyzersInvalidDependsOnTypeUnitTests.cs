@@ -47,6 +47,19 @@ public class Module2 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string AliasedBadModuleSource = $@"
+{TestSourceConstants.StandardUsingsWithLogging}
+using Dependency = ModularPipelines.Attributes.DependsOnAttribute;
+
+{TestSourceConstants.ExamplesNamespace}
+
+public class NotAModule {{ }}
+
+[{{|#0:Dependency(typeof(NotAModule))|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_DependsOn_NonModule_Type_Generic()
     {
@@ -61,6 +74,16 @@ public class Module2 : Module<List<string>>
     public async Task AnalyzerIsNotTriggered_When_DependsOn_Valid_Module()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_DependsOn_UsesAlias()
+    {
+        var expected = VerifyCS.Diagnostic(InvalidDependsOnTypeAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("NotAModule");
+
+        await VerifyCS.VerifyAnalyzerAsync(AliasedBadModuleSource, expected);
     }
 
     [TestMethod]
