@@ -286,17 +286,18 @@ public sealed class ModuleRegistration<TModule>
     public PipelineBuilder SetLogLevel(LogLevel logLevel) => Builder.SetLogLevel(logLevel);
 
     /// <summary>
-    /// Runs only modules in the specified categories.
+    /// Replaces the categories whose modules should be run exclusively.
     /// </summary>
-    /// <param name="categories">The categories to run.</param>
+    /// <param name="categories">The complete set of categories to run.</param>
     /// <returns>The pipeline builder.</returns>
-    public PipelineBuilder RunCategories(params string[] categories) => Builder.RunCategories(categories);
+    public PipelineBuilder RunOnlyCategories(params string[] categories) => Builder.RunOnlyCategories(categories);
 
     /// <summary>
-    /// Ignores modules in the specified categories.
+    /// Replaces the categories whose modules should be ignored.
     /// </summary>
-    /// <param name="categories">The categories to ignore.</param>
+    /// <param name="categories">The complete set of categories to ignore.</param>
     /// <returns>The pipeline builder.</returns>
+    /// <remarks>Calling this method again replaces the previous category filter.</remarks>
     public PipelineBuilder IgnoreCategories(params string[] categories) => Builder.IgnoreCategories(categories);
 
     /// <summary>

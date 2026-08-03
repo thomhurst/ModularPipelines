@@ -443,7 +443,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             : ExecuteModuleAttempt;
 
         // Use TimeoutHelper with detailed results to get information about token cooperation
-        TimeoutExecutionResult<T?> timeoutResult;
+        TimeoutExecutionResult<T> timeoutResult;
         try
         {
             timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
