@@ -32,6 +32,21 @@ public class PulumiDeploymentSettings
     #region Commands
 
     /// <summary>
+    /// Manage stack deployment settings
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PulumiDeploymentSettingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiDeploymentSettingsOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// [EXPERIMENTAL] Create or update deployment settings for a stack.
     /// </summary>
     /// <param name="options">The command options.</param>

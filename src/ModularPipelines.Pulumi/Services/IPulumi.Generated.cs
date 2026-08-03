@@ -51,6 +51,11 @@ public partial interface IPulumi
     IPulumiLogs Logs { get; }
 
     /// <summary>
+    /// Gets the neo sub-domain service.
+    /// </summary>
+    IPulumiNeo Neo { get; }
+
+    /// <summary>
     /// Gets the org sub-domain service.
     /// </summary>
     IPulumiOrg Org { get; }
@@ -137,7 +142,7 @@ public partial interface IPulumi
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DoAsync(PulumiDoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DoAsync(PulumiDoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Import resources into an existing stack.
@@ -174,15 +179,6 @@ public partial interface IPulumi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     Task<CommandResult> LogoutAsync(PulumiLogoutOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Creates a Pulumi Neo agent task in CLI tool execution mode and runs the local tool loop. Filesystem and shell tool calls from the agent run on this machine, in the working directory you select, instead of in the cloud agent container. If no prompt is provided, the TUI starts and waits for your first message.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> NeoAsync(PulumiNeoOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Pulumi project and stack from a template.

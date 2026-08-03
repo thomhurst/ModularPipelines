@@ -89,7 +89,6 @@ public record PulumiWatchOptions : PulumiOptions
     /// <summary>
     /// The type of the provider that should be used to encrypt and decrypt secrets (possible choices: default, passphrase, awskms, azurekeyvault, gcpkms, hashivault). Only used when creating a new stack from an existing template (default "default")
     /// </summary>
-    [SecretValue]
     [CliOption("--secrets-provider", Format = OptionFormat.EqualsSeparated)]
     public string? SecretsProvider { get; set; }
 
@@ -184,7 +183,7 @@ public record PulumiWatchOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

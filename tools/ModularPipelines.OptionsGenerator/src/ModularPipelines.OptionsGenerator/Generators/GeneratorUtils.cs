@@ -775,6 +775,13 @@ public static partial class GeneratorUtils
             return false;
         }
 
+        // A secrets provider identifies the encryption backend (for example "default"
+        // or "passphrase"); it is not itself secret material.
+        if (propertyName.EndsWith("SecretsProvider", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
         // Check if the property name contains any secret-related keywords
         return SecretKeywords.Any(keyword =>
                    propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))

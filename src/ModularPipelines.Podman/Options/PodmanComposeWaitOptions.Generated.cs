@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "wait")]
-public record PodmanComposeWaitOptions : PodmanOptions
+public record PodmanComposeWaitOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Service
+) : PodmanOptions
 {
     /// <summary>
     /// Drops project when the first container stops
@@ -31,11 +33,5 @@ public record PodmanComposeWaitOptions : PodmanOptions
     /// </summary>
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Service { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

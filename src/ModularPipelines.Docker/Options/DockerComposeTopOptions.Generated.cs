@@ -26,7 +26,10 @@ public record DockerComposeTopOptions : DockerOptions
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
+    /// <summary>
+    /// The SERVICES operand.
+    /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Services { get; set; }
+    public IEnumerable<string>? Services { get; set; }
 
 }

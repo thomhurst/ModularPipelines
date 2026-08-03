@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "trust", "set")]
-public record PodmanImageTrustSetOptions : PodmanOptions
+public record PodmanImageTrustSetOptions(
+    [property: CliArgument(0)] string Registry
+) : PodmanOptions
 {
     /// <summary>
     /// Path of installed public key(s) to trust for TARGET. Absolute path to keys is added to policy.json. May used multiple times to define multiple public keys. File(s) must exist before using this command

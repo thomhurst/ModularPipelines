@@ -42,6 +42,21 @@ public class PulumiInsightsAccount
     #region Commands
 
     /// <summary>
+    /// [EXPERIMENTAL] Manage Pulumi Insights accounts.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PulumiInsightsAccountOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiInsightsAccountOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// [EXPERIMENTAL] List Pulumi Insights accounts within an organization.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -64,11 +79,11 @@ public class PulumiInsightsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> NewAsync(
-        PulumiInsightsAccountNewOptions? options = null,
+        PulumiInsightsAccountNewOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiInsightsAccountNewOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

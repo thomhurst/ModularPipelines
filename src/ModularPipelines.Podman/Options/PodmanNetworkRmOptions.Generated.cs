@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "rm")]
-public record PodmanNetworkRmOptions : PodmanOptions
+public record PodmanNetworkRmOptions(
+    [property: CliArgument(0)] IEnumerable<string> Network
+) : PodmanOptions
 {
     /// <summary>
     /// remove any containers using network
@@ -31,8 +33,5 @@ public record PodmanNetworkRmOptions : PodmanOptions
     /// </summary>
     [CliOption("--time", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public int? Time { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Network { get; set; }
 
 }

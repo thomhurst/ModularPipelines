@@ -10,7 +10,6 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
 using ModularPipelines.Models;
-using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -20,7 +19,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run")]
-public record DockerRunOptions : DockerOptions
+public record DockerRunOptions(
+    [property: CliArgument(0)] string Image
+) : DockerOptions
 {
     /// <summary>
     /// Add a custom host-to-IP mapping (host:ip)
@@ -74,7 +75,7 @@ public record DockerRunOptions : DockerOptions
     /// Cgroup namespace to use (host|private) 'host':    Run the container in the Docker host's cgroup namespace 'private': Run the container in its own private cgroup namespace '':        Use the cgroup namespace as configured by the default-cgroupns-mode option on the daemon (default)
     /// </summary>
     [CliOption("--cgroupns", Format = OptionFormat.EqualsSeparated)]
-    public DockerRunCgroupns? Cgroupns { get; set; }
+    public string? Cgroupns { get; set; }
 
     /// <summary>
     /// Write the container ID to the file
@@ -122,13 +123,13 @@ public record DockerRunOptions : DockerOptions
     /// CPUs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetCpus { get; set; }
+    public string? CpuSetCpus { get; set; }
 
     /// <summary>
     /// MEMs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetMems { get; set; }
+    public string? CpuSetMems { get; set; }
 
     /// <summary>
     /// Run container in background and print container ID
@@ -181,7 +182,7 @@ public record DockerRunOptions : DockerOptions
     /// <summary>
     /// Skip image verification (default true)
     /// </summary>
-    [CliFlag("--disable-content-trust")]
+    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
@@ -449,7 +450,7 @@ public record DockerRunOptions : DockerOptions
     public string? Pid { get; set; }
 
     /// <summary>
-    /// Tune container pids limit (set
+    /// Tune container pids limit (set -1 for unlimited)
     /// </summary>
     [CliOption("--pids-limit", Format = OptionFormat.EqualsSeparated)]
     public int? PidsLimit { get; set; }
@@ -529,7 +530,7 @@ public record DockerRunOptions : DockerOptions
     /// <summary>
     /// Proxy received signals to the process (default true)
     /// </summary>
-    [CliFlag("--sig-proxy")]
+    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
 
     /// <summary>
@@ -616,13 +617,16 @@ public record DockerRunOptions : DockerOptions
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Command { get; set; }
 
-    [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Arg { get; set; }
+    /// <summary>
+    /// The ARG operand.
+    /// </summary>
+    [CliArgument(2)]
+    public IEnumerable<string>? Arg { get; set; }
 
 }

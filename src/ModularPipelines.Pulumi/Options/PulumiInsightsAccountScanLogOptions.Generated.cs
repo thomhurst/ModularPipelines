@@ -18,7 +18,10 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "account", "scan", "log")]
-public record PulumiInsightsAccountScanLogOptions : PulumiOptions
+public record PulumiInsightsAccountScanLogOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Account,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ScanId
+) : PulumiOptions
 {
     /// <summary>
     /// Fetch every entry (mutually exclusive with --count)
@@ -117,7 +120,7 @@ public record PulumiInsightsAccountScanLogOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

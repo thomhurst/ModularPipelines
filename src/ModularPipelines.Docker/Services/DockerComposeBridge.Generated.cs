@@ -20,6 +20,7 @@ namespace ModularPipelines.Docker.Services;
 public class DockerComposeBridge
 {
     private readonly ICommandContext _command;
+    private DockerComposeBridgeTransformations? _transformations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerComposeBridge"/> class.
@@ -29,7 +30,31 @@ public class DockerComposeBridge
         _command = command;
     }
 
+    #region Sub-command Groups
+
+    /// <summary>
+    /// docker transformations sub-commands.
+    /// </summary>
+    public DockerComposeBridgeTransformations Transformations => _transformations ??= new DockerComposeBridgeTransformations(_command);
+
+    #endregion
+
     #region Commands
+
+    /// <summary>
+    /// Convert compose files into another model
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DockerComposeBridgeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerComposeBridgeOptions(), executionOptions, cancellationToken);
+    }
 
     /// <summary>
     /// Convert compose files to Kubernetes manifests, Helm charts, or another model

@@ -18,15 +18,15 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "create")]
-public record DockerPluginCreateOptions : DockerOptions
+public record DockerPluginCreateOptions(
+    [property: CliArgument(0)] string Plugin,
+    [property: CliArgument(1)] string PluginDataDir
+) : DockerOptions
 {
     /// <summary>
     /// Compress the context using gzip
     /// </summary>
     [CliFlag("--compress")]
     public bool? Compress { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

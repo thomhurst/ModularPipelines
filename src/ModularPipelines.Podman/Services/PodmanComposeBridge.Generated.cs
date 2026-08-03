@@ -42,6 +42,21 @@ public class PodmanComposeBridge
     #region Commands
 
     /// <summary>
+    /// Convert compose files into another model
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PodmanComposeBridgeOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PodmanComposeBridgeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Convert compose files to Kubernetes manifests, Helm charts, or another model
     /// </summary>
     /// <param name="options">The command options.</param>

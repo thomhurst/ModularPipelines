@@ -17,11 +17,11 @@ namespace ModularPipelines.Minikube.Enums;
 public enum MinikubeDockerEnvOutput
 {
     [EnumValue("text")]
-    Text,
+    Text = 0,
 
     [EnumValue("yaml")]
-    Yaml,
+    Yaml = 1,
 
     [EnumValue("json")]
-    Json
+    Json = 2
 }

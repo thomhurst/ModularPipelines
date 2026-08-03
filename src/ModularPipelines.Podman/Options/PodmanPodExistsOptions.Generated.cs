@@ -18,6 +18,8 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "exists")]
-public record PodmanPodExistsOptions : PodmanOptions
+public record PodmanPodExistsOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Pod
+) : PodmanOptions
 {
 }

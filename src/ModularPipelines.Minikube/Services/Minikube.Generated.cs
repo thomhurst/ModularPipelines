@@ -73,6 +73,15 @@ internal partial class Minikube : IMinikube
     #region Commands
 
     /// <inheritdoc />
+    public virtual async Task<CommandResult> CpAsync(
+        MinikubeCpOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
+    }
+
+    /// <inheritdoc />
     public virtual async Task<CommandResult> DashboardAsync(
         MinikubeDashboardOptions? options = null,
         CommandExecutionOptions? executionOptions = null,
@@ -137,11 +146,11 @@ internal partial class Minikube : IMinikube
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> MountAsync(
-        MinikubeMountOptions? options = null,
+        MinikubeMountOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new MinikubeMountOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

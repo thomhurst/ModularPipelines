@@ -53,7 +53,7 @@ public record DockerComposePsOptions : DockerOptions
     /// <summary>
     /// Include orphaned services (not declared by project) (default true)
     /// </summary>
-    [CliFlag("--orphans")]
+    [CliOption("--orphans", Format = OptionFormat.EqualsSeparated)]
     public bool? Orphans { get; set; }
 
     /// <summary>
@@ -74,10 +74,10 @@ public record DockerComposePsOptions : DockerOptions
     [CliOption("--status", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Status { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Service { get; set; }
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Service { get; set; }
 
 }

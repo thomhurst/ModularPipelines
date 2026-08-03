@@ -24,32 +24,32 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Enable one or more addons, in a comma-separated format. See `minikube addons list` for a list of valid addon names.
     /// </summary>
-    [CliOption("--addons", Format = OptionFormat.EqualsSeparated)]
-    public string? Addons { get; set; }
+    [CliOption("--addons", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Addons { get; set; }
 
     /// <summary>
     /// A set of apiserver IP Addresses which are used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine
     /// </summary>
-    [CliOption("--apiserver-ips", Format = OptionFormat.EqualsSeparated)]
-    public string? ApiserverIps { get; set; }
+    [CliOption("--apiserver-ips", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ApiServerIps { get; set; }
 
     /// <summary>
     /// The authoritative apiserver hostname for apiserver certificates and connectivity. This can be used if you want to make the apiserver available from outside the machine
     /// </summary>
     [CliOption("--apiserver-name", Format = OptionFormat.EqualsSeparated)]
-    public string? ApiserverName { get; set; }
+    public string? ApiServerName { get; set; }
 
     /// <summary>
     /// A set of apiserver names which are used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine
     /// </summary>
-    [CliOption("--apiserver-names", Format = OptionFormat.EqualsSeparated)]
-    public string? ApiserverNames { get; set; }
+    [CliOption("--apiserver-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ApiServerNames { get; set; }
 
     /// <summary>
     /// The apiserver listening port
     /// </summary>
     [CliOption("--apiserver-port", Format = OptionFormat.EqualsSeparated)]
-    public string? ApiserverPort { get; set; }
+    public int? ApiServerPort { get; set; }
 
     /// <summary>
     /// Duration of inactivity before the minikube VM is paused (default 1m0s)
@@ -61,10 +61,10 @@ public record MinikubeStartOptions : MinikubeOptions
     /// If set, automatically updates drivers to the latest version. Defaults to true.
     /// </summary>
     [CliOption("--auto-update-drivers", Format = OptionFormat.EqualsSeparated)]
-    public string? AutoUpdateDrivers { get; set; }
+    public bool? AutoUpdateDrivers { get; set; }
 
     /// <summary>
-    /// The base image to use for docker/podman drivers. Intended for local development.
+    /// v0.0.50@sha256:eb4fec00e8ad70adf8e6436f195cc429825ffb85f95afcdb5d8d9deb576f3e93':
     /// </summary>
     [CliOption("--base-image", Format = OptionFormat.EqualsSeparated)]
     public string? BaseImage { get; set; }
@@ -79,7 +79,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// If true, cache docker images for the current bootstrapper and load them into the machine. Always false with --driver=none.
     /// </summary>
     [CliOption("--cache-images", Format = OptionFormat.EqualsSeparated)]
-    public string? CacheImages { get; set; }
+    public bool? CacheImages { get; set; }
 
     /// <summary>
     /// Duration until minikube certificate expiration, defaults to three years (26280h).
@@ -114,32 +114,32 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// If set, delete the current cluster if start fails and try again. Defaults to false.
     /// </summary>
-    [CliOption("--delete-on-failure", Format = OptionFormat.EqualsSeparated)]
-    public string? DeleteOnFailure { get; set; }
+    [CliFlag("--delete-on-failure")]
+    public bool? DeleteOnFailure { get; set; }
 
     /// <summary>
     /// If set, disable CoreDNS verbose logging. Defaults to false.
     /// </summary>
-    [CliOption("--disable-coredns-log", Format = OptionFormat.EqualsSeparated)]
-    public string? DisableCorednsLog { get; set; }
+    [CliFlag("--disable-coredns-log")]
+    public bool? DisableCorednsLog { get; set; }
 
     /// <summary>
     /// Disables the filesystem mounts provided by the hypervisors
     /// </summary>
-    [CliOption("--disable-driver-mounts", Format = OptionFormat.EqualsSeparated)]
-    public string? DisableDriverMounts { get; set; }
+    [CliFlag("--disable-driver-mounts")]
+    public bool? DisableDriverMounts { get; set; }
 
     /// <summary>
     /// If set, disables metrics reporting (CPU and memory usage), this can improve CPU usage. Defaults to false.
     /// </summary>
-    [CliOption("--disable-metrics", Format = OptionFormat.EqualsSeparated)]
-    public string? DisableMetrics { get; set; }
+    [CliFlag("--disable-metrics")]
+    public bool? DisableMetrics { get; set; }
 
     /// <summary>
     /// If set, disables optimizations that are set for local Kubernetes. Including decreasing CoreDNS replicas from 2 to 1. Defaults to false.
     /// </summary>
-    [CliOption("--disable-optimizations", Format = OptionFormat.EqualsSeparated)]
-    public string? DisableOptimizations { get; set; }
+    [CliFlag("--disable-optimizations")]
+    public bool? DisableOptimizations { get; set; }
 
     /// <summary>
     /// Disk size allocated to the minikube VM (format: &lt;number&gt;[&lt;unit&gt;], where unit = b, k, m or g).
@@ -156,26 +156,26 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Enable proxy for NAT DNS requests (virtualbox driver only)
     /// </summary>
-    [CliOption("--dns-proxy", Format = OptionFormat.EqualsSeparated)]
-    public string? DnsProxy { get; set; }
+    [CliFlag("--dns-proxy")]
+    public bool? DnsProxy { get; set; }
 
     /// <summary>
     /// Environment variables to pass to the Docker daemon. (format: key=value)
     /// </summary>
-    [CliOption("--docker-env", Format = OptionFormat.EqualsSeparated)]
-    public string? DockerEnv { get; set; }
+    [CliOption("--docker-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? DockerEnv { get; set; }
 
     /// <summary>
     /// Specify arbitrary flags to pass to the Docker daemon. (format: key=value)
     /// </summary>
-    [CliOption("--docker-opt", Format = OptionFormat.EqualsSeparated)]
-    public string? DockerOpt { get; set; }
+    [CliOption("--docker-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? DockerOpt { get; set; }
 
     /// <summary>
     /// If true, only download and cache files for later use - don't install or start anything.
     /// </summary>
-    [CliOption("--download-only", Format = OptionFormat.EqualsSeparated)]
-    public string? DownloadOnly { get; set; }
+    [CliFlag("--download-only")]
+    public bool? DownloadOnly { get; set; }
 
     /// <summary>
     /// Driver is one of: virtualbox, kvm2, qemu2, qemu, vmware, none, docker, podman, ssh (defaults to auto-detect)
@@ -186,20 +186,26 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// dry-run mode. Validates configuration, but does not mutate system state
     /// </summary>
-    [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
-    public string? DryRun { get; set; }
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
 
     /// <summary>
     /// if true, will embed the certs in kubeconfig.
     /// </summary>
-    [CliOption("--embed-certs", Format = OptionFormat.EqualsSeparated)]
-    public string? EmbedCerts { get; set; }
+    [CliFlag("--embed-certs")]
+    public bool? EmbedCerts { get; set; }
+
+    /// <summary>
+    /// A set of key=value pairs that describe configuration that may be passed to different components.   The key should be '.' separated, and the first part before the dot is the component to apply the configuration to.   Valid components are: kubelet, kubeadm, apiserver, controller-manager, etcd, proxy, scheduler   Valid kubeadm parameters: ignore-preflight-errors, dry-run, kubeconfig, kubeconfig-dir, node-name, cri-socket, experimental-upload-certs, certificate-key, rootfs, skip-phases, pod-network-cidr
+    /// </summary>
+    [CliOption("--extra-config", Format = OptionFormat.EqualsSeparated)]
+    public string? ExtraConfig { get; set; }
 
     /// <summary>
     /// Number of extra disks created and attached to the minikube VM (currently only implemented for hyperkit, kvm2, qemu2, vfkit, and krunkit drivers)
     /// </summary>
     [CliOption("--extra-disks", Format = OptionFormat.EqualsSeparated)]
-    public string? ExtraDisks { get; set; }
+    public int? ExtraDisks { get; set; }
 
     /// <summary>
     /// A set of key=value pairs that describe feature gates for alpha/experimental features.
@@ -210,14 +216,14 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Force minikube to perform possibly dangerous operations
     /// </summary>
-    [CliOption("--force", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// If set, force the container runtime to use systemd as cgroup manager. Defaults to false.
     /// </summary>
-    [CliOption("--force-systemd", Format = OptionFormat.EqualsSeparated)]
-    public string? ForceSystemd { get; set; }
+    [CliFlag("--force-systemd")]
+    public bool? ForceSystemd { get; set; }
 
     /// <summary>
     /// Allow pods to use your GPUs. Options include: [all,nvidia,amd] (Docker driver with Docker container-runtime only)
@@ -228,14 +234,14 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Create Highly Available Multi-Control Plane Cluster with a minimum of three control-plane nodes that will also be marked for work.
     /// </summary>
-    [CliOption("--ha", Format = OptionFormat.EqualsSeparated)]
-    public string? Ha { get; set; }
+    [CliFlag("--ha")]
+    public bool? Ha { get; set; }
 
     /// <summary>
     /// Enable host resolver for NAT DNS requests (virtualbox driver only)
     /// </summary>
     [CliOption("--host-dns-resolver", Format = OptionFormat.EqualsSeparated)]
-    public string? HostDnsResolver { get; set; }
+    public bool? HostDnsResolver { get; set; }
 
     /// <summary>
     /// The CIDR to be used for the minikube VM (virtualbox driver only)
@@ -247,7 +253,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// NIC Type used for host only network. One of Am79C970A, Am79C973, 82540EM, 82543GC, 82545EM, or virtio (virtualbox driver only)
     /// </summary>
     [CliOption("--host-only-nic-type", Format = OptionFormat.EqualsSeparated)]
-    public MinikubeStartHostOnlyNicType? HostOnlyNicType { get; set; }
+    public string? HostOnlyNicType { get; set; }
 
     /// <summary>
     /// Location of the VPNKit socket used for networking. If empty, disables Hyperkit VPNKitSock, if 'auto' uses Docker for Mac VPNKit connection, otherwise uses the specified VSock (hyperkit driver only)
@@ -258,8 +264,8 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// List of guest VSock ports that should be exposed as sockets on the host (hyperkit driver only)
     /// </summary>
-    [CliOption("--hyperkit-vsock-ports", Format = OptionFormat.EqualsSeparated)]
-    public string? HyperkitVsockPorts { get; set; }
+    [CliOption("--hyperkit-vsock-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? HyperkitVsockPorts { get; set; }
 
     /// <summary>
     /// External Adapter on which external switch will be created if no external switch is found. (hyperv driver only)
@@ -270,8 +276,8 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Whether to use external switch over Default Switch if virtual switch not explicitly specified. (hyperv driver only)
     /// </summary>
-    [CliOption("--hyperv-use-external-switch", Format = OptionFormat.EqualsSeparated)]
-    public string? HypervUseExternalSwitch { get; set; }
+    [CliFlag("--hyperv-use-external-switch")]
+    public bool? HypervUseExternalSwitch { get; set; }
 
     /// <summary>
     /// The hyperv virtual switch name. Defaults to first found. (hyperv driver only)
@@ -294,23 +300,23 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Insecure Docker registries to pass to the Docker daemon.  The default service CIDR range will automatically be added.
     /// </summary>
-    [CliOption("--insecure-registry", Format = OptionFormat.EqualsSeparated)]
-    public string? InsecureRegistry { get; set; }
+    [CliOption("--insecure-registry", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? InsecureRegistry { get; set; }
 
     /// <summary>
     /// If set, install addons. Defaults to true.
     /// </summary>
     [CliOption("--install-addons", Format = OptionFormat.EqualsSeparated)]
-    public string? InstallAddons { get; set; }
+    public bool? InstallAddons { get; set; }
 
     /// <summary>
     /// Allow user prompts for more information
     /// </summary>
     [CliOption("--interactive", Format = OptionFormat.EqualsSeparated)]
-    public string? Interactive { get; set; }
+    public bool? Interactive { get; set; }
 
     /// <summary>
-    /// Locations to fetch the minikube ISO from.
+    /// //storage.googleapis.com/minikube/iso/minikube-v1.38.0-amd64.iso,https://github.com/kubernetes/minikube/releases/download/v1.38.0/minikube-v1.38.0-amd64.iso,https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.38.0-amd64.iso]:
     /// </summary>
     [CliOption("--iso-url", Format = OptionFormat.EqualsSeparated)]
     public string? IsoUrl { get; set; }
@@ -318,8 +324,8 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// This will keep the existing kubectl context and will create a minikube context.
     /// </summary>
-    [CliOption("--keep-context", Format = OptionFormat.EqualsSeparated)]
-    public string? KeepContext { get; set; }
+    [CliFlag("--keep-context")]
+    public bool? KeepContext { get; set; }
 
     /// <summary>
     /// The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.35.1, 'latest' for v1.35.1). Defaults to 'stable'.
@@ -330,14 +336,14 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Enable experimental NVIDIA GPU support in minikube
     /// </summary>
-    [CliOption("--kvm-gpu", Format = OptionFormat.EqualsSeparated)]
-    public string? KvmGpu { get; set; }
+    [CliFlag("--kvm-gpu")]
+    public bool? KvmGpu { get; set; }
 
     /// <summary>
     /// Hide the hypervisor signature from the guest in minikube (kvm2 driver only)
     /// </summary>
-    [CliOption("--kvm-hidden", Format = OptionFormat.EqualsSeparated)]
-    public string? KvmHidden { get; set; }
+    [CliFlag("--kvm-hidden")]
+    public bool? KvmHidden { get; set; }
 
     /// <summary>
     /// The KVM default network name. (kvm2 driver only)
@@ -349,10 +355,10 @@ public record MinikubeStartOptions : MinikubeOptions
     /// Simulate numa node count in minikube, supported numa node count range is 1-8 (kvm2 driver only)
     /// </summary>
     [CliOption("--kvm-numa-count", Format = OptionFormat.EqualsSeparated)]
-    public string? KvmNumaCount { get; set; }
+    public int? KvmNumaCount { get; set; }
 
     /// <summary>
-    /// The KVM QEMU connection URI. (kvm2 driver only)
+    /// ///system':
     /// </summary>
     [CliOption("--kvm-qemu-uri", Format = OptionFormat.EqualsSeparated)]
     public string? KvmQemuUri { get; set; }
@@ -372,8 +378,8 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Kept for backward compatibility, value is ignored.
     /// </summary>
-    [CliOption("--mount", Format = OptionFormat.EqualsSeparated)]
-    public string? Mount { get; set; }
+    [CliFlag("--mount")]
+    public bool? Mount { get; set; }
 
     /// <summary>
     /// Specify the 9p version that the mount should use
@@ -397,19 +403,19 @@ public record MinikubeStartOptions : MinikubeOptions
     /// The number of bytes to use for 9p packet payload
     /// </summary>
     [CliOption("--mount-msize", Format = OptionFormat.EqualsSeparated)]
-    public string? MountMsize { get; set; }
+    public int? MountMsize { get; set; }
 
     /// <summary>
     /// Additional mount options, such as cache=fscache
     /// </summary>
-    [CliOption("--mount-options", Format = OptionFormat.EqualsSeparated)]
-    public string? MountOptions { get; set; }
+    [CliOption("--mount-options", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? MountOptions { get; set; }
 
     /// <summary>
     /// Specify the port that the mount should be setup on, where 0 means any free port.
     /// </summary>
     [CliOption("--mount-port", Format = OptionFormat.EqualsSeparated)]
-    public string? MountPort { get; set; }
+    public int? MountPort { get; set; }
 
     /// <summary>
     /// Directory to mount in the guest using format '/host-path:/guest-path'.
@@ -439,13 +445,13 @@ public record MinikubeStartOptions : MinikubeOptions
     /// NIC Type used for nat network. One of Am79C970A, Am79C973, 82540EM, 82543GC, 82545EM, or virtio (virtualbox driver only)
     /// </summary>
     [CliOption("--nat-nic-type", Format = OptionFormat.EqualsSeparated)]
-    public MinikubeStartNatNicType? NatNicType { get; set; }
+    public string? NatNicType { get; set; }
 
     /// <summary>
     /// Use native Golang SSH client (default true). Set to 'false' to use the command line 'ssh' command when accessing the docker machine. Useful for the machine drivers when they will not start with 'Waiting for SSH'.
     /// </summary>
     [CliOption("--native-ssh", Format = OptionFormat.EqualsSeparated)]
-    public string? NativeSsh { get; set; }
+    public bool? NativeSsh { get; set; }
 
     /// <summary>
     /// network to run minikube with. Used by docker/podman, qemu, kvm, and vfkit drivers. If left empty, minikube will create a new network.
@@ -456,8 +462,8 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Local folders to share with Guest via NFS mounts (hyperkit driver only)
     /// </summary>
-    [CliOption("--nfs-share", Format = OptionFormat.EqualsSeparated)]
-    public string? NfsShare { get; set; }
+    [CliOption("--nfs-share", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NfsShare { get; set; }
 
     /// <summary>
     /// Where to root the NFS Shares, defaults to /nfsshares (hyperkit driver only)
@@ -468,20 +474,20 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// If set, minikube VM/container will start without starting or configuring Kubernetes. (only works on new clusters)
     /// </summary>
-    [CliOption("--no-kubernetes", Format = OptionFormat.EqualsSeparated)]
-    public string? NoKubernetes { get; set; }
+    [CliFlag("--no-kubernetes")]
+    public bool? NoKubernetes { get; set; }
 
     /// <summary>
     /// Disable checking for the availability of hardware virtualization before the vm is started (virtualbox driver only)
     /// </summary>
-    [CliOption("--no-vtx-check", Format = OptionFormat.EqualsSeparated)]
-    public string? NoVtxCheck { get; set; }
+    [CliFlag("--no-vtx-check")]
+    public bool? NoVtxCheck { get; set; }
 
     /// <summary>
     /// The total number of nodes to spin up. Defaults to 1.
     /// </summary>
     [CliOption("--nodes", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Nodes { get; set; }
+    public int? Nodes { get; set; }
 
     /// <summary>
     /// Format to print stdout in. Options include: [text,json]
@@ -492,14 +498,14 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// List of ports that should be exposed (docker and podman driver only)
     /// </summary>
-    [CliOption("--ports", Format = OptionFormat.EqualsSeparated)]
-    public string? Ports { get; set; }
+    [CliOption("--ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Ports { get; set; }
 
     /// <summary>
     /// If set, download tarball of preloaded images if available to improve start time. Defaults to true.
     /// </summary>
     [CliOption("--preload", Format = OptionFormat.EqualsSeparated)]
-    public string? Preload { get; set; }
+    public bool? Preload { get; set; }
 
     /// <summary>
     /// Which source to download the preload from (valid options: gcs, github, auto). Defaults to auto (try both).
@@ -516,14 +522,14 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Registry mirrors to pass to the Docker daemon
     /// </summary>
-    [CliOption("--registry-mirror", Format = OptionFormat.EqualsSeparated)]
-    public string? RegistryMirror { get; set; }
+    [CliOption("--registry-mirror", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? RegistryMirror { get; set; }
 
     /// <summary>
     /// Enable Rosetta to support apps built for Intel processor on a Mac with Apple silicon (vfkit driver only)
     /// </summary>
-    [CliOption("--rosetta", Format = OptionFormat.EqualsSeparated)]
-    public string? Rosetta { get; set; }
+    [CliFlag("--rosetta")]
+    public bool? Rosetta { get; set; }
 
     /// <summary>
     /// The CIDR to be used for service cluster IPs.
@@ -559,7 +565,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// SSH port (ssh driver only)
     /// </summary>
     [CliOption("--ssh-port", Format = OptionFormat.EqualsSeparated)]
-    public string? SshPort { get; set; }
+    public int? SshPort { get; set; }
 
     /// <summary>
     /// SSH user (ssh driver only)
@@ -594,8 +600,8 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Filter to use only VM Drivers
     /// </summary>
-    [CliOption("--vm", Format = OptionFormat.EqualsSeparated)]
-    public string? Vm { get; set; }
+    [CliFlag("--vm")]
+    public bool? Vm { get; set; }
 
     /// <summary>
     /// comma separated list of Kubernetes components to verify and wait for after starting a cluster. defaults to "apiserver,system_pods", available options: "apiserver,system_pods,default_sa,apps_running,node_ready,kubelet,extra" . other acceptable values are 'all' or 'none', 'true' and 'false'

@@ -18,18 +18,15 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "signer", "remove")]
-public record DockerTrustSignerRemoveOptions : DockerOptions
+public record DockerTrustSignerRemoveOptions(
+    [property: CliArgument(0)] string Name,
+    [property: CliArgument(1)] IEnumerable<string> Repository
+) : DockerOptions
 {
     /// <summary>
     /// Do not prompt for confirmation before removing the most
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Repository { get; set; }
 
 }

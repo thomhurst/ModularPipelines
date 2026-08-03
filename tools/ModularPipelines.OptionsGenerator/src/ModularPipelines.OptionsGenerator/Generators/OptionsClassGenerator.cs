@@ -53,17 +53,11 @@ public class OptionsClassGenerator : ICodeGenerator
         CliToolDefinition tool,
         CliCommandGroupAlias alias)
     {
-        if (GeneratorUtils.HasRequiredParameters(command))
-        {
-            throw new InvalidOperationException(
-                $"Command-group compatibility alias '{alias.Alias}' cannot wrap "
-                + $"'{command.FullCommand}' because it has required constructor parameters.");
-        }
-
         var aliasClassName = GeneratorUtils.GetAliasedClassName(
             tool,
             alias,
             command.ClassName);
+        var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
         var enumOptions = command.Options
             .Where(option => option.EnumDefinition is not null)
             .ToArray();
@@ -82,7 +76,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine();
         sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
-        if (enumOptions.Length == 0)
+        if (enumOptions.Length == 0 && requiredParameters.Count == 0)
         {
             sb.AppendLine($"public record {aliasClassName} : {command.ClassName};");
         }
@@ -90,6 +84,12 @@ public class OptionsClassGenerator : ICodeGenerator
         {
             sb.AppendLine($"public record {aliasClassName} : {command.ClassName}");
             sb.AppendLine("{");
+            GenerateCompatibilityConstructor(
+                sb,
+                aliasClassName,
+                requiredParameters,
+                tool,
+                alias);
             foreach (var option in enumOptions)
             {
                 GenerateCompatibilityEnumProperty(sb, option, tool, alias);
@@ -106,6 +106,62 @@ public class OptionsClassGenerator : ICodeGenerator
                 $"{aliasClassName}.Generated.cs"),
             Content = sb.ToString(),
         };
+    }
+
+    private static void GenerateCompatibilityConstructor(
+        StringBuilder sb,
+        string aliasClassName,
+        IReadOnlyList<GeneratorUtils.RequiredConstructorParameter> requiredParameters,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        if (requiredParameters.Count == 0)
+        {
+            return;
+        }
+
+        var parameterDeclarations = requiredParameters.Select(parameter =>
+            $"        {GetCompatibilityParameterType(parameter, tool, alias)} {parameter.PropertyName}");
+        var baseArguments = requiredParameters.Select(parameter =>
+            GetCompatibilityBaseArgument(parameter, parameter.PropertyName));
+        sb.AppendLine($"    public {aliasClassName}(");
+        sb.AppendLine(string.Join($",{Environment.NewLine}", parameterDeclarations));
+        sb.AppendLine("    )");
+        sb.AppendLine($"        : base({string.Join(", ", baseArguments)})");
+        sb.AppendLine("    {");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+    }
+
+    private static string GetCompatibilityParameterType(
+        GeneratorUtils.RequiredConstructorParameter parameter,
+        CliToolDefinition tool,
+        CliCommandGroupAlias alias)
+    {
+        var type = parameter.CSharpType.TrimEnd('?');
+        var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
+        if (canonicalEnumName is null)
+        {
+            return type;
+        }
+
+        var aliasEnumName = GeneratorUtils.GetAliasedClassName(tool, alias, canonicalEnumName);
+        return type.Replace(canonicalEnumName, aliasEnumName, StringComparison.Ordinal);
+    }
+
+    private static string GetCompatibilityBaseArgument(
+        GeneratorUtils.RequiredConstructorParameter parameter,
+        string parameterName)
+    {
+        var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
+        if (canonicalEnumName is null)
+        {
+            return parameterName;
+        }
+
+        return parameter.CSharpType.Contains("IEnumerable<", StringComparison.Ordinal)
+            ? $"{parameterName}.Select(static value => ({canonicalEnumName})(int)value)"
+            : $"({canonicalEnumName})(int){parameterName}";
     }
 
     private static void GenerateCompatibilityEnumProperty(

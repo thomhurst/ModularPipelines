@@ -38,7 +38,10 @@ public record PodmanImageTrustShowOptions : PodmanOptions
     [CliFlag("--raw")]
     public bool? Raw { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The REGISTRY operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Registry { get; set; }
 
 }

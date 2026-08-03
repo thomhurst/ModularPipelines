@@ -18,13 +18,15 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "enable")]
-public record MinikubeAddonsEnableOptions : MinikubeOptions
+public record MinikubeAddonsEnableOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AddonName
+) : MinikubeOptions
 {
     /// <summary>
     /// If true, will perform potentially dangerous operations. Use with discretion.
     /// </summary>
-    [CliOption("--force", Format = OptionFormat.EqualsSeparated)]
-    public string? Force { get; set; }
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
 
     /// <summary>
     /// Images used by this addon. Separated by commas.
@@ -35,8 +37,8 @@ public record MinikubeAddonsEnableOptions : MinikubeOptions
     /// <summary>
     /// If true, pods might get deleted and restarted on addon enable
     /// </summary>
-    [CliOption("--refresh", Format = OptionFormat.EqualsSeparated)]
-    public string? Refresh { get; set; }
+    [CliFlag("--refresh")]
+    public bool? Refresh { get; set; }
 
     /// <summary>
     /// Registries used by this addon. Separated by commas.

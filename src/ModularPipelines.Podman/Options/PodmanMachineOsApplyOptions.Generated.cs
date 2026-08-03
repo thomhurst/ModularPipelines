@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("machine", "os", "apply")]
-public record PodmanMachineOsApplyOptions : PodmanOptions
+public record PodmanMachineOsApplyOptions(
+    [property: CliArgument(0)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// Restart VM to apply changes
@@ -26,7 +28,10 @@ public record PodmanMachineOsApplyOptions : PodmanOptions
     [CliFlag("--restart")]
     public bool? Restart { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Name { get; set; }
 
 }

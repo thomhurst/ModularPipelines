@@ -18,7 +18,10 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "cp")]
-public record DockerComposeCpOptions : DockerOptions
+public record DockerComposeCpOptions(
+    [property: CliArgument(0)] string ServiceSrcPath,
+    [property: CliArgument(1)] string DestPath
+) : DockerOptions
 {
     /// <summary>
     /// Include containers created by the run command
@@ -49,8 +52,5 @@ public record DockerComposeCpOptions : DockerOptions
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public int? Index { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

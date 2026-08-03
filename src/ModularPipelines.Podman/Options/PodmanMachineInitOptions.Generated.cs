@@ -98,7 +98,10 @@ public record PodmanMachineInitOptions : PodmanOptions
     [CliOption("--volume-driver", Format = OptionFormat.EqualsSeparated)]
     public string? VolumeDriver { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The NAME operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Name { get; set; }
 
 }

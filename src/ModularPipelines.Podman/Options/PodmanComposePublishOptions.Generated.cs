@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "publish")]
-public record PodmanComposePublishOptions : PodmanOptions
+public record PodmanComposePublishOptions(
+    [property: CliArgument(0)] string RepositoryTag
+) : PodmanOptions
 {
     /// <summary>
     /// Execute command in dry run mode
@@ -49,8 +51,5 @@ public record PodmanComposePublishOptions : PodmanOptions
     /// </summary>
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -96,7 +97,7 @@ public record DockerBuildxBakeOptions : DockerOptions
     /// Set type of progress output ("auto", "none",  "plain", "quiet", "rawjson", "tty"). Use plain to show container output (default "auto")
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-    public string? Progress { get; set; }
+    public DockerBuildxBakeProgress? Progress { get; set; }
 
     /// <summary>
     /// Shorthand for "--set=*.attest=type=provenance"
@@ -134,10 +135,10 @@ public record DockerBuildxBakeOptions : DockerOptions
     [CliOption("--var", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Var { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Target { get; set; }
+    /// <summary>
+    /// The TARGET operand.
+    /// </summary>
+    [CliArgument(0)]
+    public IEnumerable<string>? Target { get; set; }
 
 }

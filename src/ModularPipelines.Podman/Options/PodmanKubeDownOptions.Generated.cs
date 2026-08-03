@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "down")]
-public record PodmanKubeDownOptions : PodmanOptions
+public record PodmanKubeDownOptions(
+    [property: CliArgument(0)] string Kubefile
+) : PodmanOptions
 {
     /// <summary>
     /// remove volumes

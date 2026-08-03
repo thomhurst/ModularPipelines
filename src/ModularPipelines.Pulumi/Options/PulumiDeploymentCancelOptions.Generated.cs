@@ -18,7 +18,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "cancel")]
-public record PulumiDeploymentCancelOptions : PulumiOptions
+public record PulumiDeploymentCancelOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DeploymentId
+) : PulumiOptions
 {
     /// <summary>
     /// help for cancel
@@ -99,7 +101,7 @@ public record PulumiDeploymentCancelOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

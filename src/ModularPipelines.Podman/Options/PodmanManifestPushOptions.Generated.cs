@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
-public record PodmanManifestPushOptions : PodmanOptions
+public record PodmanManifestPushOptions(
+    [property: CliArgument(0)] string List,
+    [property: CliArgument(1)] string Destination
+) : PodmanOptions
 {
     /// <summary>
     /// add instances with selected compression while pushing

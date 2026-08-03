@@ -23,7 +23,7 @@ public record PulumiOrgWebhookNewOptions : PulumiOptions
     /// <summary>
     /// Whether the webhook is active (default true)
     /// </summary>
-    [CliFlag("--active")]
+    [CliOption("--active", Format = OptionFormat.EqualsSeparated)]
     public bool? Active { get; set; }
 
     /// <summary>
@@ -142,7 +142,7 @@ public record PulumiOrgWebhookNewOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

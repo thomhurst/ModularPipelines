@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rm")]
-public record DockerRmOptions : DockerOptions
+public record DockerRmOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : DockerOptions
 {
     /// <summary>
     /// Force the removal of a running container (uses SIGKILL)
@@ -37,11 +39,5 @@ public record DockerRmOptions : DockerOptions
     /// </summary>
     [CliFlag("--volumes", ShortForm = "-v")]
     public bool? Volumes { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
 
 }

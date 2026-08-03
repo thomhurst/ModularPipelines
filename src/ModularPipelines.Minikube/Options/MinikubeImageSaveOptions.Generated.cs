@@ -18,18 +18,26 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
-public record MinikubeImageSaveOptions : MinikubeOptions
+public record MinikubeImageSaveOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Image
+) : MinikubeOptions
 {
     /// <summary>
     /// Cache image to docker daemon
     /// </summary>
-    [CliOption("--daemon", Format = OptionFormat.EqualsSeparated)]
-    public string? Daemon { get; set; }
+    [CliFlag("--daemon")]
+    public bool? Daemon { get; set; }
 
     /// <summary>
     /// Cache image to remote registry
     /// </summary>
-    [CliOption("--remote", Format = OptionFormat.EqualsSeparated)]
-    public string? Remote { get; set; }
+    [CliFlag("--remote")]
+    public bool? Remote { get; set; }
+
+    /// <summary>
+    /// The ARCHIVE operand.
+    /// </summary>
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Archive { get; set; }
 
 }

@@ -32,6 +32,21 @@ public class PulumiStackHistory
     #region Commands
 
     /// <summary>
+    /// Display history for a stack
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PulumiStackHistoryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStackHistoryOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// [EXPERIMENTAL] Retrieve engine events for a specific update of a stack.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -39,11 +54,11 @@ public class PulumiStackHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EventsAsync(
-        PulumiStackHistoryEventsOptions? options = null,
+        PulumiStackHistoryEventsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStackHistoryEventsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

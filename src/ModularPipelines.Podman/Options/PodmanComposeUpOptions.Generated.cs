@@ -39,7 +39,7 @@ public record PodmanComposeUpOptions : PodmanOptions
     public bool? AlwaysRecreateDeps { get; set; }
 
     /// <summary>
-    /// Restrict attaching to the specified services. Incompatible with
+    /// Restrict attaching to the specified services. Incompatible with --attach-dependencies.
     /// </summary>
     [CliOption("--attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Attach { get; set; }
@@ -81,7 +81,7 @@ public record PodmanComposeUpOptions : PodmanOptions
     public bool? ForceRecreate { get; set; }
 
     /// <summary>
-    /// Enable interactive shortcuts when running attached. Incompatible with
+    /// Enable interactive shortcuts when running attached. Incompatible with --detach. Can also be enable/disable by setting COMPOSE_MENU environment var.
     /// </summary>
     [CliFlag("--menu")]
     public bool? Menu { get; set; }
@@ -117,7 +117,7 @@ public record PodmanComposeUpOptions : PodmanOptions
     public bool? NoLogPrefix { get; set; }
 
     /// <summary>
-    /// If containers already exist, don't recreate them. Incompatible with
+    /// If containers already exist, don't recreate them. Incompatible with --force-recreate.
     /// </summary>
     [CliFlag("--no-recreate")]
     public bool? NoRecreate { get; set; }
@@ -194,10 +194,10 @@ public record PodmanComposeUpOptions : PodmanOptions
     [CliFlag("--yes", ShortForm = "-y")]
     public bool? Yes { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The SERVICE operand.
+    /// </summary>
+    [CliArgument(0)]
     public IEnumerable<string>? Service { get; set; }
 
 }

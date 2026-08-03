@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "use")]
-public record DockerBuildxUseOptions : DockerOptions
+public record DockerBuildxUseOptions(
+    [property: CliArgument(0)] string Name
+) : DockerOptions
 {
     /// <summary>
     /// Override the configured builder instance
@@ -43,8 +45,5 @@ public record DockerBuildxUseOptions : DockerOptions
     /// </summary>
     [CliFlag("--global")]
     public bool? Global { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

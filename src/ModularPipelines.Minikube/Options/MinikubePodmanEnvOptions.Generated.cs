@@ -29,7 +29,7 @@ public record MinikubePodmanEnvOptions : MinikubeOptions
     /// <summary>
     /// Unset variables instead of setting them
     /// </summary>
-    [CliOption("--unset", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
-    public string? Unset { get; set; }
+    [CliFlag("--unset", ShortForm = "-u")]
+    public bool? Unset { get; set; }
 
 }

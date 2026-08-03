@@ -18,30 +18,32 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "load")]
-public record MinikubeImageLoadOptions : MinikubeOptions
+public record MinikubeImageLoadOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Image
+) : MinikubeOptions
 {
     /// <summary>
     /// Cache image from docker daemon
     /// </summary>
-    [CliOption("--daemon", Format = OptionFormat.EqualsSeparated)]
-    public string? Daemon { get; set; }
+    [CliFlag("--daemon")]
+    public bool? Daemon { get; set; }
 
     /// <summary>
     /// Overwrite image even if same image:tag name exists
     /// </summary>
     [CliOption("--overwrite", Format = OptionFormat.EqualsSeparated)]
-    public string? Overwrite { get; set; }
+    public bool? Overwrite { get; set; }
 
     /// <summary>
     /// Pull the remote image (no caching)
     /// </summary>
-    [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
-    public string? Pull { get; set; }
+    [CliFlag("--pull")]
+    public bool? Pull { get; set; }
 
     /// <summary>
     /// Cache image from remote registry
     /// </summary>
-    [CliOption("--remote", Format = OptionFormat.EqualsSeparated)]
-    public string? Remote { get; set; }
+    [CliFlag("--remote")]
+    public bool? Remote { get; set; }
 
 }

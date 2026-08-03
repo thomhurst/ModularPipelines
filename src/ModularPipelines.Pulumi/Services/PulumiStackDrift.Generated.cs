@@ -32,6 +32,21 @@ public class PulumiStackDrift
     #region Commands
 
     /// <summary>
+    /// [EXPERIMENTAL] Inspect stack drift detection results.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PulumiStackDriftOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiStackDriftOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// [EXPERIMENTAL] List drift detection runs for a stack.
     /// </summary>
     /// <param name="options">The command options.</param>

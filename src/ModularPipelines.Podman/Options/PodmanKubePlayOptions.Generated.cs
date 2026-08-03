@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kube", "play")]
-public record PodmanKubePlayOptions : PodmanOptions
+public record PodmanKubePlayOptions(
+    [property: CliArgument(0)] string Kubefile
+) : PodmanOptions
 {
     /// <summary>
     /// Add annotations to pods (key=value)

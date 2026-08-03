@@ -23,7 +23,7 @@ public record MinikubeNodeStartOptions : MinikubeOptions
     /// <summary>
     /// If set, delete the current cluster if start fails and try again. Defaults to false.
     /// </summary>
-    [CliOption("--delete-on-failure", Format = OptionFormat.EqualsSeparated)]
-    public string? DeleteOnFailure { get; set; }
+    [CliFlag("--delete-on-failure")]
+    public bool? DeleteOnFailure { get; set; }
 
 }

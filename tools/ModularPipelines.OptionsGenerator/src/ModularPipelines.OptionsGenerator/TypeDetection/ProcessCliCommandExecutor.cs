@@ -10,6 +10,7 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 public class ProcessCliCommandExecutor : ICliCommandExecutor
 {
     internal const string ExecutableOverrideVariableName = "MODULARPIPELINES_CLI_EXECUTABLE";
+    private static readonly TimeSpan ProcessTreeKillTimeout = TimeSpan.FromSeconds(2);
 
     private readonly ILogger<ProcessCliCommandExecutor> _logger;
     private readonly TimeSpan _timeout;
@@ -31,9 +32,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
         var executablePath = ResolveExecutablePath(command);
-        if (executablePath is null && OperatingSystem.IsWindows() && WindowsCommandResolver.IsCommandScript(command))
+        if (executablePath is null)
         {
-            _logger.LogWarning("Windows command script not found: {Command}", command);
+            _logger.LogWarning("Command not found: {Command}", command);
             return new CliCommandResult
             {
                 StandardOutput = string.Empty,
@@ -42,55 +43,80 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             };
         }
 
-        var startInfo = CreateStartInfo(executablePath ?? command, arguments, workingDirectory);
+        var startInfo = CreateStartInfo(executablePath, arguments, workingDirectory);
 
         // Disable pagers for CLI tools - many CLIs use pagers by default which hang in non-interactive mode
         startInfo.Environment["AWS_PAGER"] = "";    // AWS CLI
         startInfo.Environment["GIT_PAGER"] = "";    // Git
         startInfo.Environment["NO_COLOR"] = "1";    // Disable color output which can cause parsing issues
 
+        var processLaunch = OperatingSystem.IsWindows()
+            ? WindowsJobLauncher.Wrap(startInfo)
+            : UnixProcessGroupLauncher.Wrap(startInfo);
+
         try
         {
-            using var process = new Process { StartInfo = startInfo };
+            using var process = new Process { StartInfo = processLaunch.StartInfo };
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             cts.CancelAfter(_timeout);
 
             process.Start();
-
-            var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
-            var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
+            process.StandardInput.Close();
+            var descendantTracker = new DescendantProcessTracker(
+                process.Id,
+                processLaunch.UsesUnixProcessGroup,
+                processLaunch.UsesWindowsJobLauncher);
+            var disposeDescendantTracker = true;
 
             try
             {
-                await process.WaitForExitAsync(cts.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                // Kill the process to prevent resource leak
-                TryKillProcess(process, command, arguments);
-                throw;
-            }
+                var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
+                var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);
 
-            var stdout = await stdoutTask;
-            var stderr = await stderrTask;
+                try
+                {
+                    await process.WaitForExitAsync(cts.Token);
+                    await Task.WhenAll(stdoutTask, stderrTask).WaitAsync(cts.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    disposeDescendantTracker = !await TryKillProcessAsync(
+                            process,
+                            descendantTracker,
+                            command,
+                            arguments)
+                        .ConfigureAwait(false);
+                    throw;
+                }
 
-            _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
-            if (process.ExitCode != 0)
-            {
-                _logger.LogWarning(
-                    "Command failed: {Command} {Arguments} (exit code {ExitCode}). stderr: {StandardError}",
-                    command,
-                    arguments,
-                    process.ExitCode,
-                    stderr);
+                var stdout = await stdoutTask;
+                var stderr = await stderrTask;
+
+                _logger.LogDebug("Command completed with exit code {ExitCode}", process.ExitCode);
+                if (process.ExitCode != 0)
+                {
+                    _logger.LogWarning(
+                        "Command failed: {Command} {Arguments} (exit code {ExitCode}). stderr: {StandardError}",
+                        command,
+                        arguments,
+                        process.ExitCode,
+                        stderr);
+                }
+
+                return new CliCommandResult
+                {
+                    StandardOutput = stdout,
+                    StandardError = stderr,
+                    ExitCode = process.ExitCode
+                };
             }
-
-            return new CliCommandResult
+            finally
             {
-                StandardOutput = stdout,
-                StandardError = stderr,
-                ExitCode = process.ExitCode
-            };
+                if (disposeDescendantTracker)
+                {
+                    descendantTracker.Dispose();
+                }
+            }
         }
         catch (OperationCanceledException)
         {
@@ -117,9 +143,11 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     private static string? ResolveExecutablePath(string command)
     {
         var configuredPath = Environment.GetEnvironmentVariable(ExecutableOverrideVariableName);
-        if (!string.IsNullOrWhiteSpace(configuredPath))
+        if (!string.IsNullOrWhiteSpace(configuredPath)
+            && IsOverrideForCommand(command, configuredPath))
         {
-            return Path.GetFullPath(configuredPath);
+            var fullConfiguredPath = Path.GetFullPath(configuredPath);
+            return File.Exists(fullConfiguredPath) ? fullConfiguredPath : null;
         }
 
         return ResolveExecutablePath(
@@ -130,6 +158,12 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             Environment.CurrentDirectory);
     }
 
+    internal static bool IsOverrideForCommand(string command, string configuredPath) =>
+        Path.GetFileNameWithoutExtension(command)
+            .Equals(
+                Path.GetFileNameWithoutExtension(configuredPath),
+                StringComparison.OrdinalIgnoreCase);
+
     internal static string? ResolveExecutablePath(
         string command,
         string? searchPath,
@@ -139,7 +173,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     {
         if (!isWindows)
         {
-            return ResolveFromPath(command, searchPath) ?? command;
+            return ResolveFromPath(command, searchPath, processDirectory);
         }
 
         return WindowsCommandResolver.Resolve(command, processDirectory, searchPath, pathExtensions, isWindows: true);
@@ -166,6 +200,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
+            RedirectStandardInput = true,
             CreateNoWindow = true
         };
 
@@ -186,11 +221,22 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         return $"/d /s /c \"{command}\"";
     }
 
-    private static string? ResolveFromPath(string command, string? searchPath)
+    private static string? ResolveFromPath(
+        string command,
+        string? searchPath,
+        string? processDirectory = null)
     {
         if (Path.IsPathRooted(command))
         {
             return File.Exists(command) ? command : null;
+        }
+
+        if (!string.IsNullOrEmpty(Path.GetDirectoryName(command)))
+        {
+            var candidate = Path.GetFullPath(
+                command,
+                processDirectory ?? Environment.CurrentDirectory);
+            return File.Exists(candidate) ? candidate : null;
         }
 
         foreach (var pathDirectory in GetPathDirectories(searchPath))
@@ -217,7 +263,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             // Try to get version/help to check if command exists
             var result = await ExecuteAsync(command, "--version", cancellationToken);
             if (result.Success)
+            {
                 return true;
+            }
 
             // Some commands don't support --version, try --help
             result = await ExecuteAsync(command, "--help", cancellationToken);
@@ -233,20 +281,98 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     /// Attempts to kill a process gracefully, falling back to force kill.
     /// Logs but swallows exceptions to prevent masking the original error.
     /// </summary>
-    private void TryKillProcess(Process process, string command, string arguments)
+    private async Task<bool> TryKillProcessAsync(
+        Process process,
+        DescendantProcessTracker descendantTracker,
+        string command,
+        string arguments)
     {
+        _logger.LogDebug("Killing timed-out process tree: {Command} {Arguments}", command, arguments);
+        var processId = process.Id;
+        var processStartTime = TryGetProcessStartTime(process);
+        var cleanupOwnsDescendantTracker = false;
+        var killTreeTask = Task.Run(() =>
+        {
+            descendantTracker.KillCapturedDescendants();
+            KillProcessTree(processId, processStartTime);
+        });
+        try
+        {
+            await killTreeTask.WaitAsync(ProcessTreeKillTimeout).ConfigureAwait(false);
+            return false;
+        }
+        catch (TimeoutException)
+        {
+            cleanupOwnsDescendantTracker = true;
+            _ = killTreeTask.ContinueWith(
+                static (task, state) =>
+                {
+                    _ = task.Exception;
+                    ((DescendantProcessTracker) state!).Dispose();
+                },
+                descendantTracker,
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
+            _logger.LogWarning(
+                "Timed out killing descendants for process: {Command} {Arguments}",
+                command,
+                arguments);
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            _logger.LogWarning(ex, "Failed to kill process tree: {Command} {Arguments}", command, arguments);
+        }
+
         try
         {
             if (!process.HasExited)
             {
-                _logger.LogDebug("Killing timed-out process: {Command} {Arguments}", command, arguments);
-                process.Kill(entireProcessTree: true);
+                process.Kill();
             }
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
-            // Log but don't throw - we don't want to mask the original timeout exception
+            // Do not mask the original timeout or cancellation.
             _logger.LogWarning(ex, "Failed to kill process: {Command} {Arguments}", command, arguments);
         }
+
+        return cleanupOwnsDescendantTracker;
     }
+
+    private static DateTime? TryGetProcessStartTime(Process process)
+    {
+        try
+        {
+            return process.StartTime;
+        }
+        catch (Exception exception) when (exception is
+            InvalidOperationException
+            or System.ComponentModel.Win32Exception)
+        {
+            return null;
+        }
+    }
+
+    private static void KillProcessTree(int processId, DateTime? expectedStartTime)
+    {
+        try
+        {
+            using var process = Process.GetProcessById(processId);
+            if (!process.HasExited
+                && MatchesProcessIdentity(expectedStartTime, process.StartTime))
+            {
+                process.Kill(entireProcessTree: true);
+            }
+        }
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        {
+            // The direct process exited or could not be killed after its descendants were captured.
+        }
+    }
+
+    internal static bool MatchesProcessIdentity(
+        DateTime? expectedStartTime,
+        DateTime actualStartTime) =>
+        expectedStartTime.HasValue && expectedStartTime.Value == actualStartTime;
 }

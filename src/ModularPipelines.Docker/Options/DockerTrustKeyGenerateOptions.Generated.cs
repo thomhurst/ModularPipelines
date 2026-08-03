@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "key", "generate")]
-public record DockerTrustKeyGenerateOptions : DockerOptions
+public record DockerTrustKeyGenerateOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+) : DockerOptions
 {
     /// <summary>
     /// Directory to generate key in, defaults to current directory

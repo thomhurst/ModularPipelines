@@ -32,6 +32,21 @@ public class PulumiEnvWebhookDelivery
     #region Commands
 
     /// <summary>
+    /// [EXPERIMENTAL] Manage environment webhook deliveries
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        PulumiEnvWebhookDeliveryOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiEnvWebhookDeliveryOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// [EXPERIMENTAL] List environment webhook deliveries
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -39,11 +54,11 @@ public class PulumiEnvWebhookDelivery
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAsync(
-        PulumiEnvWebhookDeliveryListOptions? options = null,
+        PulumiEnvWebhookDeliveryListOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new PulumiEnvWebhookDeliveryListOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
-public record DockerImportOptions : DockerOptions
+public record DockerImportOptions(
+    [property: CliArgument(0)] string File
+) : DockerOptions
 {
     /// <summary>
     /// Apply Dockerfile instruction to the created image
@@ -38,7 +40,10 @@ public record DockerImportOptions : DockerOptions
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public string? Platform { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
+    /// <summary>
+    /// The REPOSITORY[:TAG] operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? RepositoryTag { get; set; }
 
 }

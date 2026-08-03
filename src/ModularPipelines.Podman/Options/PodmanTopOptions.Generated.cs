@@ -18,12 +18,20 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("top")]
-public record PodmanTopOptions : PodmanOptions
+public record PodmanTopOptions(
+    [property: CliArgument(0)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// Act on the latest container podman is aware of
     /// </summary>
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
+
+    /// <summary>
+    /// The FORMAT-DESCRIPTORS operand.
+    /// </summary>
+    [CliArgument(1)]
+    public IEnumerable<string>? FormatDescriptors { get; set; }
 
 }

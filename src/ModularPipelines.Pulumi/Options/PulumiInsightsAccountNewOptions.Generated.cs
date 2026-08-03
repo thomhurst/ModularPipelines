@@ -19,7 +19,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "account", "new")]
-public record PulumiInsightsAccountNewOptions : PulumiOptions
+public record PulumiInsightsAccountNewOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+) : PulumiOptions
 {
     /// <summary>
     /// ID of the agent pool to run discovery workflows (defaults to the org's default pool)
@@ -130,7 +132,7 @@ public record PulumiInsightsAccountNewOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

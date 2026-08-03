@@ -32,7 +32,4 @@ public record DockerSystemDfOptions : DockerOptions
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
 }

@@ -23,8 +23,8 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Enable the ability to attach a debugger to the program and source based plugins being executed. Can limit debug type to 'program', 'plugins', 'plugin:&lt;name&gt;' or 'all'.
     /// </summary>
-    [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated)]
-    public string? AttachDebugger { get; set; }
+    [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated, AllowMultiple = true, ValueArity = CliOptionValueArity.Optional)]
+    public IEnumerable<string>? AttachDebugger { get; set; }
 
     /// <summary>
     /// Config to use during the update and save to the stack config file
@@ -105,6 +105,12 @@ public record PulumiUpOptions : PulumiOptions
     public bool? Neo { get; set; }
 
     /// <summary>
+    /// [EXPERIMENTAL] Override an imported environment for this run only, as &lt;env&gt;=&lt;replacement&gt;; repeatable
+    /// </summary>
+    [CliOption("--override-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? OverrideEnv { get; set; }
+
+    /// <summary>
     /// Allow P resource operations to run in parallel at once (1 for no parallelism). (default 16)
     /// </summary>
     [CliOption("--parallel", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
@@ -125,7 +131,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Refresh the state of the stack's resources before this update
     /// </summary>
-    [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--refresh", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? Refresh { get; set; }
 
     /// <summary>
@@ -143,7 +149,6 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// The type of the provider that should be used to encrypt and decrypt secrets (possible choices: default, passphrase, awskms, azurekeyvault, gcpkms, hashivault). Only used when creating a new stack from an existing template (default "default")
     /// </summary>
-    [SecretValue]
     [CliOption("--secrets-provider", Format = OptionFormat.EqualsSeparated)]
     public string? SecretsProvider { get; set; }
 
@@ -228,7 +233,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Suppress display of the state permalink
     /// </summary>
-    [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--suppress-permalink", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? SuppressPermalink { get; set; }
 
     /// <summary>
@@ -322,7 +327,7 @@ public record PulumiUpOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
@@ -344,5 +349,11 @@ public record PulumiUpOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The template operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Template { get; set; }
 
 }

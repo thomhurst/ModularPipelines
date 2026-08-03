@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "sign")]
-public record DockerTrustSignOptions : DockerOptions
+public record DockerTrustSignOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImageTag
+) : DockerOptions
 {
     /// <summary>
     /// Sign a locally tagged image

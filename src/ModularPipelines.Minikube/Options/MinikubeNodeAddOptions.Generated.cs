@@ -23,19 +23,19 @@ public record MinikubeNodeAddOptions : MinikubeOptions
     /// <summary>
     /// If set, added node will become a control-plane. Defaults to false. Currently only supported for existing HA (multi-control plane) clusters.
     /// </summary>
-    [CliOption("--control-plane", Format = OptionFormat.EqualsSeparated)]
-    public string? ControlPlane { get; set; }
+    [CliFlag("--control-plane")]
+    public bool? ControlPlane { get; set; }
 
     /// <summary>
     /// If set, delete the current cluster if start fails and try again. Defaults to false.
     /// </summary>
-    [CliOption("--delete-on-failure", Format = OptionFormat.EqualsSeparated)]
-    public string? DeleteOnFailure { get; set; }
+    [CliFlag("--delete-on-failure")]
+    public bool? DeleteOnFailure { get; set; }
 
     /// <summary>
     /// If set, added node will be available as worker. Defaults to true.
     /// </summary>
     [CliOption("--worker", Format = OptionFormat.EqualsSeparated)]
-    public string? Worker { get; set; }
+    public bool? Worker { get; set; }
 
 }

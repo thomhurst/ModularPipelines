@@ -7,9 +7,23 @@
 
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-public record DockerBuilderBakeOptions : DockerBuildxBakeOptions;
+public record DockerBuilderBakeOptions : DockerBuildxBakeOptions
+{
+    [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
+    public new DockerBuilderBakeProgress? Progress
+    {
+        get => base.Progress is null
+            ? null
+            : (DockerBuilderBakeProgress)(int)base.Progress.Value;
+        set => base.Progress = value is null
+            ? null
+            : (DockerBuildxBakeProgress)(int)value.Value;
+    }
+}
