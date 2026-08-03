@@ -13,19 +13,21 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     /// <inheritdoc/>
     public IReadOnlyList<string> BuildArguments(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
-        object optionsObject) => BuildArguments(commandModel, optionsObject, out _);
+        object optionsObject)
+    {
+        var emittedOptionTerminator = false;
+        return BuildArguments(commandModel, optionsObject, ref emittedOptionTerminator);
+    }
 
     /// <inheritdoc/>
     public IReadOnlyList<string> BuildArguments(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject,
-        out bool emittedOptionTerminator)
+        ref bool emittedOptionTerminator)
     {
         var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
         var renderedPhases = new Dictionary<CommandLinePhase, IReadOnlyList<string>>();
-        emittedOptionTerminator = false;
-
         foreach (var phase in Enum.GetValues<CommandLinePhase>())
         {
             renderedPhases.Add(

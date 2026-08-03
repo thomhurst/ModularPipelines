@@ -77,22 +77,23 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
             .ToList();
         var globalCommandModel = nonTerminalCommandModel.Where(part => part.IsGlobalOption).ToList();
         var commandSpecificModel = nonTerminalCommandModel.Where(part => !part.IsGlobalOption).ToList();
+        var emittedOptionTerminator = false;
         var globalArgs = _commandArgumentBuilder.BuildArguments(
             globalCommandModel,
             options,
-            out var globalEmittedTerminator);
+            ref emittedOptionTerminator);
         var propertyArgs = _commandArgumentBuilder.BuildArguments(
             commandSpecificModel,
             options,
-            out var propertyEmittedTerminator);
+            ref emittedOptionTerminator);
         var terminalArgs = _commandArgumentBuilder.BuildArguments(
             terminalCommandModel,
             options,
-            out var terminalEmittedTerminator);
+            ref emittedOptionTerminator);
         var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
             RunSettingsCommandModel,
             options,
-            out var runSettingsEmittedTerminator);
+            ref emittedOptionTerminator);
 
         // 4. Combine: global args + preceding args (subcommands) + property args
         var allArgs = new List<string>(globalArgs);
@@ -113,12 +114,9 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         allArgs.AddRange(runSettingsArgs);
 
         // 7. A terminal option must not follow any rendered or manually supplied option terminator.
-        var emittedOptionTerminator = globalEmittedTerminator
-                                      || propertyEmittedTerminator
-                                      || terminalEmittedTerminator
-                                      || runSettingsEmittedTerminator
-                                      || manualArgs.Contains("--", StringComparer.Ordinal);
-        if (terminalArgs.Count > 0 && emittedOptionTerminator)
+        var hasOptionTerminator = emittedOptionTerminator
+                                  || manualArgs.Contains("--", StringComparer.Ordinal);
+        if (terminalArgs.Count > 0 && hasOptionTerminator)
         {
             throw new InvalidOperationException(
                 "Terminal options cannot be combined with arguments that emit or supply an "

@@ -133,6 +133,20 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Property_Terminator_Is_Reused_For_RunSettings()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            RunSettings = ["extra"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- -1 extra");
+    }
+
+    [Test]
     public async Task Build_FromAttributeBasedOptions_ResolvesToolAndSubcommands()
     {
         var builder = await GetService<ICommandLineBuilder>();
