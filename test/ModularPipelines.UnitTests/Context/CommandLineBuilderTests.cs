@@ -119,6 +119,19 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Accepts_Terminal_Argument_Own_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            TerminalArgument = "-x",
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- -x");
+    }
+
+    [Test]
     public async Task Build_Empty_RunSettings_Emit_No_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -362,6 +375,9 @@ public class CommandLineBuilderTests : TestBase
             ValueArity = CliOptionValueArity.Optional,
             Phase = CommandLinePhase.Terminal)]
         public string? RunTests { get; set; }
+
+        [CliArgument(1, Phase = CommandLinePhase.Terminal, PrependOptionTerminator = true)]
+        public string? TerminalArgument { get; set; }
     }
 
     [CliTool("mytool")]
