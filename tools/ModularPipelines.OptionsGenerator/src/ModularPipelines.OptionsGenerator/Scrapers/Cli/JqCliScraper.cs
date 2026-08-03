@@ -134,7 +134,7 @@ public partial class JqCliScraper : CliScraperBase
                     IsRequired = false,
                     PositionIndex = 0,
                     Description = "The jq filter expression to apply",
-                    Placement = PositionalArgumentPosition.AfterOptions,
+                    Phase = CommandLinePhase.Passthrough,
                     PrependOptionTerminator = true
                 },
                 new CliPositionalArgument
@@ -145,7 +145,7 @@ public partial class JqCliScraper : CliScraperBase
                     IsRequired = false,
                     PositionIndex = 1,
                     Description = "Input JSON files or values (reads from stdin if not specified)",
-                    Placement = PositionalArgumentPosition.AfterOptions
+                    Phase = CommandLinePhase.Passthrough
                 }
             ],
             SubDomainGroup = null,

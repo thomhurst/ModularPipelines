@@ -16,7 +16,7 @@ namespace ModularPipelines.Attributes;
 /// public string? ChartReference { get; set; }
 ///
 /// // Argument placed before options
-/// [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+/// [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
 /// public string? WorkingDirectory { get; set; }
 /// </code>
 /// </example>
@@ -30,12 +30,6 @@ public sealed class CliArgumentAttribute : Attribute
     public int Position { get; }
 
     /// <summary>
-    /// Gets or sets where this argument should be placed relative to options/flags.
-    /// Defaults to <see cref="ArgumentPlacement.AfterOptions"/>.
-    /// </summary>
-    public ArgumentPlacement Placement { get; set; } = ArgumentPlacement.AfterOptions;
-
-    /// <summary>
     /// Gets or sets the argument name for documentation purposes.
     /// This is not used in command building, only for generating help text.
     /// </summary>
@@ -44,6 +38,7 @@ public sealed class CliArgumentAttribute : Attribute
     /// <summary>
     /// Gets or sets the semantic phase used to order this argument.
     /// Positional arguments default to the pass-through phase after option parsing.
+    /// Use <see cref="CommandLinePhase.EarlyOperand"/> for operands that precede regular options.
     /// </summary>
     public CommandLinePhase Phase { get; set; } = CommandLinePhase.Passthrough;
 

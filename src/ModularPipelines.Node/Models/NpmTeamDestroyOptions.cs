@@ -6,8 +6,8 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("team", "destroy")]
 public record NpmTeamDestroyOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Otpcode
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Otpcode
 ) : NpmOptions
 {
     [CliOption("--registry")]

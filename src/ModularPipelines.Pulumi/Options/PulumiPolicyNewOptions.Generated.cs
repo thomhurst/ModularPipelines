@@ -53,7 +53,7 @@ public record PulumiPolicyNewOptions : PulumiOptions
     /// <summary>
     /// Additional options for the language runtime (format: key1=value1,key2=value2)
     /// </summary>
-    [CliOption("--runtime-options", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--runtime-options", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RuntimeOptions { get; set; }
 
     /// <summary>
@@ -137,7 +137,7 @@ public record PulumiPolicyNewOptions : PulumiOptions
     /// <summary>
     /// The template operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Template { get; set; }
 
 }

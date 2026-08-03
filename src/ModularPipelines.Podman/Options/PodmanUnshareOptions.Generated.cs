@@ -29,13 +29,13 @@ public record PodmanUnshareOptions : PodmanOptions
     /// <summary>
     /// The COMMAND operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Command { get; set; }
 
     /// <summary>
     /// The ARG operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

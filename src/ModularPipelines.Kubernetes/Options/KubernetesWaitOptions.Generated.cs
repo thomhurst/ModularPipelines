@@ -48,13 +48,13 @@ public record KubernetesWaitOptions : KubernetesOptions
     /// <summary>
     /// identifying the resource.
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>
     /// The condition to wait on: [create|delete|condition=condition-name[=condition-value]|jsonpath='{JSONPath expression}'=[JSONPath value]]. The default condition-value is true. Condition values are compared after Unicode simple case folding, which is a more general form of case-insensitivity. Multiple conditions are supported and AND'ed to each other in a sequential order. If --for=create is passed, it is always waited first.
     /// </summary>
-    [CliOption("--for", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--for", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? For { get; set; }
 
     /// <summary>

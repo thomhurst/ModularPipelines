@@ -19,7 +19,7 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("login")]
 public record SkopeoLoginOptions(
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Registry
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Registry
 ) : SkopeoOptions
 {
     /// <summary>
@@ -86,7 +86,7 @@ public record SkopeoLoginOptions(
     /// <summary>
     /// The command options operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? CommandOptions { get; set; }
 
 }

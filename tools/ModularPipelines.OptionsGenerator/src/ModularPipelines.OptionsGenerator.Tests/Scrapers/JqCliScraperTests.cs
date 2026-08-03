@@ -73,10 +73,10 @@ public class JqCliScraperTests
 
         await Assert.That(command.PositionalArguments).Count().IsEqualTo(2);
         await Assert.That(command.PositionalArguments[0].PropertyName).IsEqualTo("Filter");
-        await Assert.That(command.PositionalArguments[0].Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(command.PositionalArguments[0].Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(command.PositionalArguments[0].PrependOptionTerminator).IsTrue();
         await Assert.That(command.PositionalArguments[1].PropertyName).IsEqualTo("InputFiles");
-        await Assert.That(command.PositionalArguments[1].Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(command.PositionalArguments[1].Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     [Test]

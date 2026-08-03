@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "inspect")]
 public record DockerPluginInspectOptions(
-    [property: CliArgument(0)] IEnumerable<string> Plugin
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Plugin
 ) : DockerOptions
 {
     /// <summary>

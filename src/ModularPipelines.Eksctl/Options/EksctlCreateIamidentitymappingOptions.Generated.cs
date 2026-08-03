@@ -41,7 +41,7 @@ public record EksctlCreateIamidentitymappingOptions : EksctlOptions
     /// <summary>
     /// Groups within Kubernetes to which IAM role is mapped
     /// </summary>
-    [CliOption("--group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Group { get; set; }
 
     /// <summary>

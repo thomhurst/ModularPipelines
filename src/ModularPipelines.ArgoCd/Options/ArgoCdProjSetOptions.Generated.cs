@@ -20,31 +20,31 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "set")]
 public record ArgoCdProjSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project
 ) : ArgoCdOptions
 {
     /// <summary>
     /// List of allowed cluster level resources, optionally with group and name (e.g. ClusterRole, apiextensions.k8s.io/CustomResourceDefinition, /Namespace/team1-*)
     /// </summary>
-    [CliOption("--allow-cluster-resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allow-cluster-resource", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowClusterResource { get; set; }
 
     /// <summary>
     /// List of allowed namespaced resources
     /// </summary>
-    [CliOption("--allow-namespaced-resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allow-namespaced-resource", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowNamespacedResource { get; set; }
 
     /// <summary>
     /// List of denied cluster level resources, optionally with group and name (e.g. ClusterRole, apiextensions.k8s.io/CustomResourceDefinition, /Namespace/kube-*)
     /// </summary>
-    [CliOption("--deny-cluster-resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--deny-cluster-resource", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DenyClusterResource { get; set; }
 
     /// <summary>
     /// List of denied namespaced resources
     /// </summary>
-    [CliOption("--deny-namespaced-resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--deny-namespaced-resource", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DenyNamespacedResource { get; set; }
 
     /// <summary>
@@ -56,13 +56,13 @@ public record ArgoCdProjSetOptions(
     /// <summary>
     /// Permitted destination server and namespace (e.g. https://192.168.99.100:8443,default)
     /// </summary>
-    [CliOption("--dest", ShortForm = "-d", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dest", ShortForm = "-d", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dest { get; set; }
 
     /// <summary>
     /// Destination server, namespace and target service account (e.g. https://192.168.99.100:8443,default,default-sa)
     /// </summary>
-    [CliOption("--dest-service-accounts", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dest-service-accounts", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DestServiceAccounts { get; set; }
 
     /// <summary>
@@ -86,19 +86,19 @@ public record ArgoCdProjSetOptions(
     /// <summary>
     /// GnuPG public key IDs for commit signature verification
     /// </summary>
-    [CliOption("--signature-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--signature-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SignatureKeys { get; set; }
 
     /// <summary>
     /// List of source namespaces for applications
     /// </summary>
-    [CliOption("--source-namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourceNamespaces { get; set; }
 
     /// <summary>
     /// Permitted source repository URL
     /// </summary>
-    [CliOption("--src", ShortForm = "-s", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--src", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Src { get; set; }
 
     /// <summary>
@@ -159,7 +159,7 @@ public record ArgoCdProjSetOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

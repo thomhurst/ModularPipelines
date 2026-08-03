@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "push")]
 public record PodmanImagePushOptions(
-    [property: CliArgument(0)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
 ) : PodmanOptions
 {
     /// <summary>
@@ -80,7 +80,7 @@ public record PodmanImagePushOptions(
     /// <summary>
     /// Key with the encryption protocol to use to encrypt the image (e.g. jwe:/path/to/key.pem)
     /// </summary>
-    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EncryptionKey { get; set; }
 
     /// <summary>
@@ -142,7 +142,7 @@ public record PodmanImagePushOptions(
     /// <summary>
     /// The DESTINATION operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Destination { get; set; }
 
 }

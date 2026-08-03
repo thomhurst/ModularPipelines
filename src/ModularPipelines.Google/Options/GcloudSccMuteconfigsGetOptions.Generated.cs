@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "muteconfigs", "get")]
 public record GcloudSccMuteconfigsGetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string MuteConfig
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string MuteConfig
 ) : GcloudOptions
 {
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

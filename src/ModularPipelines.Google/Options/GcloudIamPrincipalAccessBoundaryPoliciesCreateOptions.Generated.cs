@@ -24,7 +24,7 @@ public record GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions : GcloudOpti
     /// <summary>
     /// User defined annotations. See https://google.aip.dev/148#annotations     for more details such as format and size limitations.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --annotations=string=string     JSON Example:       --annotations='{"string": "string"}'     File Example:       --annotations=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>

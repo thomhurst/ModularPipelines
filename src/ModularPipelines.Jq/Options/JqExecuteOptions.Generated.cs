@@ -132,31 +132,31 @@ public record JqExecuteOptions : JqOptions
     /// <summary>
     /// search modules from the directory
     /// </summary>
-    [CliOption("--library-path", ShortForm = "-L", PreferShortForm = true, AllowMultiple = true)]
+    [CliOption("--library-path", ShortForm = "-L", PreferShortForm = true)]
     public IEnumerable<string>? LibraryPath { get; set; }
 
     /// <summary>
     /// set $name to the string value
     /// </summary>
-    [CliOption("--arg", AllowMultiple = true)]
+    [CliOption("--arg")]
     public IEnumerable<CliValuePair>? Arg { get; set; }
 
     /// <summary>
     /// set $name to the JSON value
     /// </summary>
-    [CliOption("--argjson", AllowMultiple = true)]
+    [CliOption("--argjson")]
     public IEnumerable<CliValuePair>? ArgJson { get; set; }
 
     /// <summary>
     /// set $name to an array of JSON values read from the file
     /// </summary>
-    [CliOption("--slurpfile", AllowMultiple = true)]
+    [CliOption("--slurpfile")]
     public IEnumerable<CliValuePair>? SlurpFile { get; set; }
 
     /// <summary>
     /// set $name to string contents of file
     /// </summary>
-    [CliOption("--rawfile", AllowMultiple = true)]
+    [CliOption("--rawfile")]
     public IEnumerable<CliValuePair>? RawFile { get; set; }
 
     /// <summary>
@@ -216,7 +216,7 @@ public record JqExecuteOptions : JqOptions
     /// <summary>
     /// Input JSON files or values (reads from stdin if not specified)
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? InputFiles { get; set; }
 
 }

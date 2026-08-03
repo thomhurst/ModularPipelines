@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "sha", "delete")]
 public record GcloudSccManageCustomModulesShaDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ModuleIdOrName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ModuleIdOrName
 ) : GcloudOptions
 {
     /// <summary>

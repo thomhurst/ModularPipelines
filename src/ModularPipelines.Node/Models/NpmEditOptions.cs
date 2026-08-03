@@ -10,9 +10,9 @@ public record NpmEditOptions : NpmOptions
     [CliOption("--editor")]
     public virtual string? Editor { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Pkg { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Subpkg { get; set; }
 }

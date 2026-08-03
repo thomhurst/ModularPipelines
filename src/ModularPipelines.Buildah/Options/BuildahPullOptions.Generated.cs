@@ -53,7 +53,7 @@ public record BuildahPullOptions : BuildahOptions
     /// <summary>
     /// key needed to decrypt the image
     /// </summary>
-    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record BuildahPullOptions : BuildahOptions
     /// <summary>
     /// prefer OS/ARCH instead of the current operating system and architecture for choosing images (default [linux/amd64])
     /// </summary>
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>

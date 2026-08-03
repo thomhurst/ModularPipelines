@@ -29,7 +29,7 @@ public record PodmanFarmRemoveOptions : PodmanOptions
     /// <summary>
     /// The FARM operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Farm { get; set; }
 
 }

@@ -119,13 +119,13 @@ public record PulumiStateRenameOptions : PulumiOptions
     /// <summary>
     /// The resource-urn operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ResourceUrn { get; set; }
 
     /// <summary>
     /// The new-name operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? NewName { get; set; }
 
 }

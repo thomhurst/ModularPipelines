@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "delete")]
 public record GcloudTasksQueuesDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Queue
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Queue
 ) : GcloudOptions
 {
     /// <summary>

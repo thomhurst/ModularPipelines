@@ -5,6 +5,14 @@ namespace ModularPipelines.Attributes;
 /// </summary>
 public enum CommandLinePhase
 {
+    // Ordinals 0, 1, and 3 are emitted by older generated packages. Value 2 was
+    // retired with EndOfOptions, so new phases must not reuse it.
+
+    /// <summary>
+    /// A positional operand rendered after the complete command chain and before regular flags and options.
+    /// </summary>
+    EarlyOperand = 4,
+
     /// <summary>
     /// Regular flags and options.
     /// </summary>

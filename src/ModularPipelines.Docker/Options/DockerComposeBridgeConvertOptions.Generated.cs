@@ -41,7 +41,7 @@ public record DockerComposeBridgeConvertOptions : DockerOptions
     /// <summary>
     /// Transformation to apply to compose
     /// </summary>
-    [CliOption("--transformation", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--transformation", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Transformation { get; set; }
 
 }

@@ -25,9 +25,9 @@ public partial record AptGetInstallOptions : AptGetOptions
         Package = package;
     }
 
-    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string CommandName { get; } = "install";
 
-    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string? Package { get; }
 }

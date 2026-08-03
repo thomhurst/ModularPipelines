@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "info")]
 public record PulumiPackageInfoOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Provider
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Provider
 ) : PulumiOptions
 {
     /// <summary>
@@ -133,7 +133,7 @@ public record PulumiPackageInfoOptions(
     /// <summary>
     /// The [provider-parameter] operand.
     /// </summary>
-    [CliArgument(0, PrependOptionTerminator = true)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
     public IEnumerable<string>? ProviderParameter { get; set; }
 
 }

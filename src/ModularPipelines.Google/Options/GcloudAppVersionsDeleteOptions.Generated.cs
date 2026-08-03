@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "versions", "delete")]
 public record GcloudAppVersionsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Versions
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Versions
 ) : GcloudOptions
 {
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]

@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clone")]
 public record PodmanContainerCloneOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
 ) : PodmanOptions
 {
     /// <summary>
@@ -91,13 +91,13 @@ public record PodmanContainerCloneOptions(
     /// <summary>
     /// Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
     /// </summary>
-    [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceReadBps { get; set; }
 
     /// <summary>
     /// Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
     /// </summary>
-    [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceWriteBps { get; set; }
 
     /// <summary>
@@ -151,7 +151,7 @@ public record PodmanContainerCloneOptions(
     /// <summary>
     /// The IMAGE operand.
     /// </summary>
-    [CliArgument(2)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public string? Image { get; set; }
 
 }

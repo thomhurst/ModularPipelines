@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "exists")]
 public record PodmanSecretExistsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Secret
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Secret
 ) : PodmanOptions
 {
 }

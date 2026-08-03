@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -124,7 +125,7 @@ public partial class TrivyCliScraper : CobraCliScraper
             OptionalArgument("PluginArguments", "PLUGIN_ARGUMENTS") with
             {
                 CSharpType = "IEnumerable<string>?",
-                Placement = PositionalArgumentPosition.AfterOptions,
+                Phase = CommandLinePhase.Passthrough,
                 PositionIndex = 1,
             },
         ];

@@ -29,7 +29,7 @@ public record DockerContextInspectOptions : DockerOptions
     /// <summary>
     /// The CONTEXT operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Context { get; set; }
 
 }

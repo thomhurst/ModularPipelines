@@ -29,7 +29,7 @@ public record PulumiProjectNewOptions : PulumiOptions
     /// <summary>
     /// Config to save
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record PulumiProjectNewOptions : PulumiOptions
     /// <summary>
     /// Additional options for the language runtime (format: key1=value1,key2=value2)
     /// </summary>
-    [CliOption("--runtime-options", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--runtime-options", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RuntimeOptions { get; set; }
 
     /// <summary>
@@ -203,7 +203,7 @@ public record PulumiProjectNewOptions : PulumiOptions
     /// <summary>
     /// The template operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Template { get; set; }
 
 }

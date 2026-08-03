@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "raft", "join")]
 public record VaultOperatorRaftJoinOptions(
-    [property: CliArgument(0)] string LeaderApiAddr
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string LeaderApiAddr
 ) : VaultOptions
 {
 }

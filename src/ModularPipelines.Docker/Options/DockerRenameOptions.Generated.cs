@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rename")]
 public record DockerRenameOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Container,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string NewName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Container,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string NewName
 ) : DockerOptions
 {
 }

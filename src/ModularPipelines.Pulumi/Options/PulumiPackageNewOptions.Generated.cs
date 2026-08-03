@@ -149,7 +149,7 @@ public record PulumiPackageNewOptions : PulumiOptions
     /// <summary>
     /// The template operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Template { get; set; }
 
 }

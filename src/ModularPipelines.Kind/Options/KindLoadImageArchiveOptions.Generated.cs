@@ -19,7 +19,7 @@ namespace ModularPipelines.Kind.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("load", "image-archive")]
 public record KindLoadImageArchiveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImageTar
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImageTar
 ) : KindOptions
 {
     /// <summary>
@@ -37,7 +37,7 @@ public record KindLoadImageArchiveOptions(
     /// <summary>
     /// comma separated list of nodes to load images into
     /// </summary>
-    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>

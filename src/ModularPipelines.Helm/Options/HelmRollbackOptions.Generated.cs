@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rollback")]
 public record HelmRollbackOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Release
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Release
 ) : HelmOptions
 {
     /// <summary>
@@ -103,7 +103,7 @@ public record HelmRollbackOptions(
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KubeAsGroup { get; set; }
 
     /// <summary>
@@ -182,7 +182,7 @@ public record HelmRollbackOptions(
     /// <summary>
     /// The REVISION operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Revision { get; set; }
 
 }

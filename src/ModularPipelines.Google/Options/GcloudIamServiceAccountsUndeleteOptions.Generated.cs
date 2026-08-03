@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "undelete")]
 public record GcloudIamServiceAccountsUndeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AccountId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string AccountId
 ) : GcloudOptions
 {
 }

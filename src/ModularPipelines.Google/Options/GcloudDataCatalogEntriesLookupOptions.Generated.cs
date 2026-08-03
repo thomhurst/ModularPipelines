@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "entries", "lookup")]
 public record GcloudDataCatalogEntriesLookupOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Resource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Resource
 ) : GcloudOptions
 {
 }

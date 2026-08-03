@@ -60,7 +60,7 @@ public record GcloudDesignCenterSpacesApplicationTemplatesCreateOptions : Gcloud
     /// <summary>
     /// The SaaS names. Format for each SaaS:     projects/{project}/locations/{location}/saas/{saas}
     /// </summary>
-    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SaasRuntimeContextNames { get; set; }
 
 }

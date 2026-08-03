@@ -48,7 +48,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// set paths to ignore in git resource (can specify multiple paths with commas: path1,path2)
     /// </summary>
-    [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IgnorePaths { get; set; }
 
     /// <summary>
@@ -106,7 +106,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// set paths to sparse checkout in git resource (can specify multiple paths with commas: path1,path2)
     /// </summary>
-    [CliOption("--sparse-checkout-paths", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--sparse-checkout-paths", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SparseCheckoutPaths { get; set; }
 
     /// <summary>
@@ -160,7 +160,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -172,7 +172,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
     /// </summary>
-    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>
@@ -262,7 +262,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// set labels on the resource (can specify multiple labels with commas: label1=value1,label2=value2)
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -317,7 +317,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// The name operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
 
 }

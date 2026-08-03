@@ -22,31 +22,31 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clusters", "create")]
 public record GcloudContainerClustersCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
     /// Attaches accelerators (e.g. GPUs) to all nodes.      type       (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4)       of accelerator to attach to the instances. Use gcloud compute       accelerator-types list to learn about all available accelerator       types.      count       (Optional) The number of accelerators to attach to the instances.       The default value is 1.      gpu-driver-version       (Optional) The NVIDIA driver version to install. GPU_DRIVER_VERSION       must be one of:         `default`: Install the default driver version for this GKE version. For GKE version 1.30.1-gke.1156000 and later, this is the default option.         `latest`: Install the latest driver version available for this GKE version.         Can only be used for nodes that use Container-Optimized OS.         `disabled`: Skip automatic driver installation. You must manually install a         driver after you create the cluster. For GKE version 1.30.1-gke.1156000 and earlier, this is the default option.         To manually install the GPU driver, refer to https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers.      gpu-partition-size       (Optional) The GPU partition size used when running multi-instance       GPUs. For information about multi-instance GPUs, refer to:       https://cloud.google.com/kubernetes-engine/docs/how-to/gpus-multi      gpu-sharing-strategy       (Optional) The GPU sharing strategy (e.g. time-sharing) to use. For       information about GPU sharing, refer to:       https://cloud.google.com/kubernetes-engine/docs/concepts/timesharing-gpus      max-shared-clients-per-gpu       (Optional) The max number of containers allowed to share each GPU       on the node. This field is used together with gpu-sharing-strategy.
     /// </summary>
-    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Accelerator { get; set; }
 
     /// <summary>
     /// (DEPRECATED) The set of additional zones in which the specified node     footprint should be replicated. All zones must be in the same region as     the cluster's primary zone. If additional-zones is not specified, all     nodes will be in the cluster's primary zone.     Note that NUM_NODES nodes will be created in each zone, such that if     you specify --num-nodes=4 and choose one additional zone, 8 nodes will     be created.     Multiple locations can be specified, separated by commas. For example:       $ gcloud container clusters create example-cluster \         --zone us-central1-a \         --additional-zones us-central1-b,us-central1-c     This flag is deprecated. Use --node-locations=PRIMARY_ZONE,[ZONE,...]     instead.
     /// </summary>
-    [CliOption("--additional-zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--additional-zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdditionalZones { get; set; }
 
     /// <summary>
     /// Addons     (https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters#Cluster.AddonsConfig)     are additional Kubernetes cluster components. Addons specified by this     flag will be enabled. The others will be disabled. Default addons:     HttpLoadBalancing, HorizontalPodAutoscaling. The Istio addon is     deprecated and removed. For more information and migration, see     https://cloud.google.com/istio/docs/istio-on-gke/migrate-to-anthos-service-mesh.     ADDON must be one of: HttpLoadBalancing, HorizontalPodAutoscaling,     KubernetesDashboard, NetworkPolicy, NodeLocalDNS, ConfigConnector,     GcePersistentDiskCsiDriver, GcpFilestoreCsiDriver, BackupRestore,     GcsFuseCsiDriver, ParallelstoreCsiDriver, HighScaleCheckpointing,     LustreCsiDriver, RayOperator, SlurmOperator, NodeReadinessController,     CloudRun.
     /// </summary>
-    [CliOption("--addons", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--addons", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Addons { get; set; }
 
     /// <summary>
     /// Selectively enable or disable Kubernetes alpha and beta     kubernetesfeature gates on alpha GKE cluster. Alpha clusters are not     covered by the Kubernetes Engine SLA and should not be used for     production workloads.
     /// </summary>
-    [CliOption("--alpha-cluster-feature-gates", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--alpha-cluster-feature-gates", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AlphaClusterFeatureGates { get; set; }
 
     /// <summary>
@@ -76,7 +76,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Specifies which privileged workload allowlist paths can be referenced     and installed by AllowlistSynchronizers in Autopilot modes.     The value is a comma-separated list of paths in the format:     ◆ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot      partner allowlists     ◆ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists     By default, all GKE-managed allowlists (gke://*) are authorized. See     https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners     for all supported Autopilot partner allowlists. When setting this flag,     be careful to explicitly specify gke://* in addition to other entries     if you rely on this default behavior.     Wildcards (*) are supported. For example, if gke://* is authorized,     then AllowlistSynchronizers can be used to install     gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml.     Note: Use of user allowlists (gs://) requires special permissions and     is only available to a subset of high tier customers. Please contact     your account team for more information.     Examples:     Allow all GKE-managed allowlists (default behavior):       $ gcloud container clusters create \         --autopilot-privileged-admission=gke://*     Authorize only allowlists from a GKE Autopilot partner:       $ gcloud container clusters create \         --autopilot-privileged-admission=gke://my-partner/*     Authorize only a singular user-owned allowlist       $ gcloud container clusters create \         --autopilot-privileged-admission=gs://my-bucket/allowlists/\       my-allowlist.yaml     Authorize all user-owned allowlists under a given path:       $ gcloud container clusters create \         --autopilot-privileged-admission=gs://my-bucket/*     Authorize all GKE-managed allowlists and a specific user-owned     allowlist:       $ gcloud container clusters create \         --autopilot-privileged-admission=gke://*,gs://my-bucket/\       allowlists/my-allowlist.yaml     Disable allowlist installation entirely:       $ gcloud container clusters create \         --autopilot-privileged-admission=""     Exercise caution when using this flag on an existing cluster. Upon     updates, existing AllowlistSynchronizers will uninstall allowlists that     are no longer authorized.     For instructions on installing allowlists in the cluster after     authorization, please refer to:     https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads
     /// </summary>
-    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
 
     /// <summary>
@@ -94,13 +94,13 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Applies the given Compute Engine tags (comma separated) on all nodes in     the auto-provisioned node pools of the new Standard cluster or the new     Autopilot cluster.     Examples:       $ gcloud container clusters create example-cluster \         --autoprovisioning-network-tags=tag1,tag2     New nodes in auto-provisioned node pools, including ones created by     resize or recreate, will have these tags on the Compute Engine API     instance object and can be used in firewall rules. See     https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create     for examples.
     /// </summary>
-    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--autoprovisioning-network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AutoprovisioningNetworkTags { get; set; }
 
     /// <summary>
     /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or     all auto-provisioned nodes in the new Standard cluster.     Examples:       $ gcloud container clusters create example-cluster \         --autoprovisioning-resource-manager-tags=tagKeys/\       1234=tagValues/2345       $ gcloud container clusters create example-cluster \         --autoprovisioning-resource-manager-tags=my-project/key1=value1       $ gcloud container clusters create example-cluster \         --autoprovisioning-resource-manager-tags=12345/key1=value1,\       23456/key2=value2       $ gcloud container clusters create example-cluster \         --autoprovisioning-resource-manager-tags=     All nodes in an Autopilot cluster or all auto-provisioned nodes in a     Standard cluster, including nodes that are resized or re-created, will     have the specified tags on the corresponding Instance object in the     Compute Engine API. You can reference these tags in network firewall     policy rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
     /// </summary>
-    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? AutoprovisioningResourceManagerTags { get; set; }
 
     /// <summary>
@@ -118,7 +118,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Configurations for Cloud Run addon, requires --addons=CloudRun for     create and --update-addons=CloudRun=ENABLED for update.      load-balancer-type       (Optional) Type of load-balancer-type EXTERNAL or INTERNAL.       Examples:         $ gcloud container clusters create example-cluster \           --cloud-run-config=load-balancer-type=INTERNAL
     /// </summary>
-    [CliOption("--cloud-run-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cloud-run-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CloudRunConfig { get; set; }
 
     /// <summary>
@@ -160,7 +160,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Create a new subnetwork for the cluster. The name and range of the     subnetwork can be customized via optional 'name' and 'range' key-value     pairs.     'name' specifies the name of the subnetwork to be created.     'range' specifies the IP range for the new subnetwork. This can either     be a netmask size (e.g. '/20') or a CIDR range (e.g. '10.0.0.0/20'). If     a netmask size is specified, the IP is automatically taken from the     free space in the cluster's network.     Examples:     Create a new subnetwork with a default name and size.       $ gcloud container clusters create --create-subnetwork ""     Create a new subnetwork named "my-subnet" with netmask of size 21.       $ gcloud container clusters create \         --create-subnetwork name=my-subnet,range=/21     Create a new subnetwork with a default name with the primary range of     10.100.0.0/16.       $ gcloud container clusters create \         --create-subnetwork range=10.100.0.0/16     Create a new subnetwork with the name "my-subnet" with a default range.       $ gcloud container clusters create --create-subnetwork name=my-subnet     Cannot be specified unless '--enable-ip-alias' option is also     specified. Cannot be used in conjunction with '--subnetwork' option.
     /// </summary>
-    [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--create-subnetwork", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? CreateSubnetwork { get; set; }
 
     /// <summary>
@@ -394,7 +394,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Enable Kubernetes beta API features on this cluster. Beta APIs are not     expected to be production ready and should be avoided in     production-grade environments.
     /// </summary>
-    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enable-kubernetes-unstable-apis", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnableKubernetesUnstableApis { get; set; }
 
     /// <summary>
@@ -538,13 +538,13 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Labels to apply to the Google Cloud resources in use by the Kubernetes     Engine cluster. These are unrelated to Kubernetes labels.     Examples:       $ gcloud container clusters create example-cluster \         --labels=label_a=value1,label_b=,label_c=value3
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Set the components that have logging enabled. Valid component values     are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER,     KCP_HPA, KCP_VPA, NONE     For more information, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs     Examples:       $ gcloud container clusters create --logging=SYSTEM       $ gcloud container clusters create \         --logging=SYSTEM,API_SERVER,WORKLOAD       $ gcloud container clusters create --logging=NONE
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Logging { get; set; }
 
     /// <summary>
@@ -592,13 +592,13 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Compute Engine metadata to be made available to the guest operating     system running on nodes within the node pool.     Each metadata entry is a key/value pair separated by an equals sign.     Metadata keys must be unique and less than 128 bytes in length. Values     must be less than or equal to 32,768 bytes in length. The total size of     all keys and values must be less than 512 KB. Multiple arguments can be     passed to this flag. For example:     --metadata key-1=value-1,key-2=value-2,key-3=value-3     Additionally, the following keys are reserved for use by Kubernetes     Engine:     ◆ cluster-location     ◆ cluster-name     ◆ cluster-uid     ◆ configure-sh     ◆ enable-os-login     ◆ gci-update-strategy     ◆ gci-ensure-gke-docker     ◆ instance-template     ◆ kube-env     ◆ startup-script     ◆ user-data     Google Kubernetes Engine sets the following keys by default:     ◆ serial-port-logging-enable     See also Compute Engine's documentation     (https://cloud.google.com/compute/docs/storing-retrieving-metadata) on     storing and retrieving instance metadata.
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// Same as --metadata except that the value for the entry will be read     from a local file.
     /// </summary>
-    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MetadataFromFile { get; set; }
 
     /// <summary>
@@ -610,7 +610,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Set the components that have monitoring enabled. Valid component values     are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER,     CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD,     STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET     Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR,     KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be     enabled.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics     Examples:       $ gcloud container clusters create --monitoring=SYSTEM,API_SERVER,POD       $ gcloud container clusters create --monitoring=NONE
     /// </summary>
-    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Monitoring { get; set; }
 
     /// <summary>
@@ -622,7 +622,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Configures network performance settings for the cluster. Node pools can     override with their own settings.      total-egress-bandwidth-tier       Total egress bandwidth is the available outbound bandwidth from a       VM, regardless of whether the traffic is going to internal IP or       external IP destinations. The following tier values are allowed:       [TIER_UNSPECIFIED,TIER_1].       See       https://cloud.google.com/compute/docs/networking/configure-vm-with-high-bandwidth-configuration       for more information.
     /// </summary>
-    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkPerformanceConfigs { get; set; }
 
     /// <summary>
@@ -640,19 +640,19 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Applies the given Kubernetes labels on all nodes in the new node pool.     Examples:       $ gcloud container clusters create example-cluster \         --node-labels=label-a=value1,label-2=value2     Updating the node pool's --node-labels flag applies the labels to the     Kubernetes Node objects for existing nodes in-place; it does not     re-create or replace nodes. New nodes, including ones created by     resizing or re-creating nodes, will have these labels on the Kubernetes     API Node object. The labels can be used in the nodeSelector field. See     https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/     for examples.     Note that Kubernetes labels, intended to associate cluster components     and resources with one another and manage resource lifecycles, are     different from Google Kubernetes Engine labels that are used for the     purpose of tracking billing and usage information.
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeLabels { get; set; }
 
     /// <summary>
     /// The set of zones in which the specified node footprint should be     replicated. All zones must be in the same region as the cluster's     master(s), specified by the -location, --zone, or --region flag.     Additionally, for zonal clusters, --node-locations must contain the     cluster's primary zone. If not specified, all nodes will be in the     cluster's primary zone (for zonal clusters) or spread across three     randomly chosen zones within the cluster's region (for regional     clusters).     Note that NUM_NODES nodes will be created in each zone, such that if     you specify --num-nodes=4 and choose two locations, 8 nodes will be     created.     Multiple locations can be specified, separated by commas. For example:       $ gcloud container clusters create example-cluster \         --location us-central1-a \         --node-locations us-central1-a,us-central1-b
     /// </summary>
-    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeLocations { get; set; }
 
     /// <summary>
     /// Applies the given kubernetes taints on all nodes in default node     pool(s) in new cluster, which can be used with tolerations for pod     scheduling.     Examples:       $ gcloud container clusters create example-cluster \         --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule     To read more about node-taints, see     https://cloud.google.com/kubernetes-engine/docs/node-taints.
     /// </summary>
-    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeTaints { get; set; }
 
     /// <summary>
@@ -664,7 +664,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// The notification configuration of the cluster. GKE supports publishing     cluster upgrade notifications to any Pub/Sub topic you created in the     same project. Create a subscription for the topic specified to receive     notification messages. See https://cloud.google.com/pubsub/docs/admin     on how to manage Pub/Sub topics and subscriptions. You can also use the     filter option to specify which event types you'd like to receive from     the following options: SecurityBulletinEvent, UpgradeEvent,     UpgradeInfoEvent, UpgradeAvailableEvent.     Examples:       $ gcloud container clusters create example-cluster \         --notification-config=pubsub=ENABLED,pubsub-topic=projects/\       {project}/topics/{topic-name}       $ gcloud container clusters create example-cluster \         --notification-config=pubsub=ENABLED,pubsub-topic=projects/\       {project}/topics/{topic-name},\       filter="SecurityBulletinEvent|UpgradeEvent"     The project of the Pub/Sub topic must be the same one as the cluster.     It can be either the project ID or the project number.
     /// </summary>
-    [CliOption("--notification-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--notification-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NotificationConfig { get; set; }
 
     [CliOption("--num-nodes", Format = OptionFormat.EqualsSeparated)]
@@ -721,7 +721,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new default node pool(s)     of a new cluster.     Examples:       $ gcloud container clusters create example-cluster \         --resource-manager-tags=tagKeys/1234=tagValues/2345       $ gcloud container clusters create example-cluster \         --resource-manager-tags=my-project/key1=value1       $ gcloud container clusters create example-cluster \         --resource-manager-tags=12345/key1=value1,23456/key2=value2       $ gcloud container clusters create example-cluster \         --resource-manager-tags=     All nodes, including nodes that are resized or re-created, will have     the specified tags on the corresponding Instance object in the Compute     Engine API. You can reference these tags in network firewall policy     rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
@@ -775,7 +775,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// A list of storage pools where the cluster's boot disks will be     provisioned.     STORAGE_POOL must be in the format     projects/project/zones/zone/storagePools/storagePool
     /// </summary>
-    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? StoragePools { get; set; }
 
     /// <summary>
@@ -793,7 +793,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// Applies the given Compute Engine tags (comma separated) on all nodes in     the new node-pool.     Examples:       $ gcloud container clusters create example-cluster --tags=tag1,tag2     New nodes, including ones created by resize or recreate, will have     these tags on the Compute Engine API instance object and can be used in     firewall rules. See     https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create     for examples.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -865,13 +865,13 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to     sign service account tokens
     /// </summary>
-    [CliOption("--service-account-signing-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--service-account-signing-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountSigningKeys { get; set; }
 
     /// <summary>
     /// A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to     verify service account tokens. Maybe specified multiple times.    Flags for Binary Authorization:    At most one of these can be specified:     --binauthz-evaluation-mode=BINAUTHZ_EVALUATION_MODE      Enable Binary Authorization for this cluster.      BINAUTHZ_EVALUATION_MODE must be one of: disabled,      project-singleton-policy-enforce.     --enable-binauthz      (DEPRECATED) Enable Binary Authorization for this cluster.      The --enable-binauthz flag is deprecated. Please use      --binauthz-evaluation-mode instead.    Configure boot disk options.
     /// </summary>
-    [CliOption("--service-account-verification-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--service-account-verification-keys", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountVerificationKeys { get; set; }
 
     /// <summary>
@@ -967,7 +967,7 @@ public record GcloudContainerClustersCreateOptions(
     /// <summary>
     /// The list of CIDR blocks (up to 100 for private cluster, 50 for public     cluster) that are allowed to connect to Kubernetes master through     HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be     specified unless --enable-master-authorized-networks is also specified.    Exports cluster's usage of cloud resources
     /// </summary>
-    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>
@@ -1075,7 +1075,7 @@ public record GcloudContainerClustersCreateOptions(
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
     public GcloudReservationAffinity? ReservationAffinity { get; set; }
 
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>

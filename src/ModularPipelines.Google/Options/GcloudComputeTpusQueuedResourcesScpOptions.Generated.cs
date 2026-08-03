@@ -61,7 +61,7 @@ public record GcloudComputeTpusQueuedResourcesScpOptions : GcloudOptions
     /// <summary>
     /// Additional flags to be passed to scp(1). This flag may be repeated.
     /// </summary>
-    [CliOption("--scp-flag", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scp-flag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ScpFlag { get; set; }
 
     /// <summary>

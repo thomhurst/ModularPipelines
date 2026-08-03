@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "account", "scan", "list")]
 public record PulumiInsightsAccountScanListOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Account
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Account
 ) : PulumiOptions
 {
     /// <summary>

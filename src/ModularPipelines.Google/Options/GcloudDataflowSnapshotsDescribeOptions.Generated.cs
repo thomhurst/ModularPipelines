@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "snapshots", "describe")]
 public record GcloudDataflowSnapshotsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SnapshotId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SnapshotId
 ) : GcloudOptions
 {
 }

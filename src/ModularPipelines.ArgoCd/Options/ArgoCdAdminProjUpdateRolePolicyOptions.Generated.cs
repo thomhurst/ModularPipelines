@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "proj", "update-role-policy")]
 public record ArgoCdAdminProjUpdateRolePolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ProjectGlob,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Modification,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Action
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ProjectGlob,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Modification,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Action
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -34,7 +34,7 @@ public record ArgoCdAdminProjUpdateRolePolicyOptions(
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -241,7 +241,7 @@ public record ArgoCdAdminProjUpdateRolePolicyOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

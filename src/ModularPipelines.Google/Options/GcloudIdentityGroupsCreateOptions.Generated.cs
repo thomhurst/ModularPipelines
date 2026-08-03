@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "create")]
 public record GcloudIdentityGroupsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Email
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Email
 ) : GcloudOptions
 {
 }

@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "sole-tenancy", "node-groups", "update")]
 public record GcloudPreviewComputeSoleTenancyNodeGroupsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
@@ -63,7 +63,7 @@ public record GcloudPreviewComputeSoleTenancyNodeGroupsUpdateOptions(
     /// <summary>
     /// A list of specific projects this node group should be shared with.
     /// </summary>
-    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ShareWith { get; set; }
 
 }

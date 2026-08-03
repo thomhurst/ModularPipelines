@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workforce-pools", "create-login-config")]
 public record GcloudIamWorkforcePoolsCreateLoginConfigOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Audience
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Audience
 ) : GcloudOptions
 {
 }

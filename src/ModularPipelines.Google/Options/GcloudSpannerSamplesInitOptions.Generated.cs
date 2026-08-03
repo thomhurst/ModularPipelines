@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "samples", "init")]
 public record GcloudSpannerSamplesInitOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Appname
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Appname
 ) : GcloudOptions
 {
 }

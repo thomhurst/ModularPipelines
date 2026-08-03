@@ -53,13 +53,13 @@ public record KubernetesDebugOptions : KubernetesOptions
     /// <summary>
     /// Environment variables to set in the container.
     /// </summary>
-    [CliOption("--env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
     /// identifying the resource to debug
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>
@@ -137,7 +137,7 @@ public record KubernetesDebugOptions : KubernetesOptions
     /// <summary>
     /// When used with '--copy-to', a list of name=image pairs for changing container images, similar to how 'kubectl set image' works.
     /// </summary>
-    [CliOption("--set-image", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--set-image", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetImage { get; set; }
 
     /// <summary>

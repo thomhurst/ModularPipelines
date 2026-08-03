@@ -25,7 +25,7 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     /// <summary>
     /// A Single or Range of ports externally accessible in the workstation. If     not specified defaults to ports 22, 80 and ports 1024-65535.     To specify a single port, both first and last should be same.     Example:       $ gcloud workstations configs update \         --allowed-ports=first=9000,last=9090       $ gcloud workstations configs update --allowed-ports=first=80,last=80     Sets allowed_ports value.      first       Required, sets first value.      last       Required, sets last value.     Shorthand Example:       --allowed-ports=first=int,last=int     JSON Example:       --allowed-ports='{"first": int, "last": int}'     File Example:       --allowed-ports=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--allowed-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowed-ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedPorts { get; set; }
 
     /// <summary>
@@ -43,19 +43,19 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     /// <summary>
     /// Arguments passed to the entrypoint.     Example:       $ gcloud workstations configs update --container-args=arg_1,arg_2
     /// </summary>
-    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--container-args", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerArgs { get; set; }
 
     /// <summary>
     /// If set, overrides the default ENTRYPOINT specified by the image.     Example:       $ gcloud workstations configs update \         --container-command=executable,parameter_1,parameter_2
     /// </summary>
-    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--container-command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerCommand { get; set; }
 
     /// <summary>
     /// Environment variables passed to the container.     Example:       $ gcloud workstations configs update \         --container-env=key1=value1,key2=value2
     /// </summary>
-    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--container-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerEnv { get; set; }
 
     /// <summary>
@@ -115,13 +115,13 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     /// <summary>
     /// Custom metadata to apply to Compute Engine instances.     Example:       $ gcloud workstations configs update \         --instance-metadata=key1=value1,key2=value2
     /// </summary>
-    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--instance-metadata", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InstanceMetadata { get; set; }
 
     /// <summary>
     /// Labels that are applied to the configuration and propagated to the     underlying Compute Engine resources.     Example:       $ gcloud workstations configs update \         --labels=label1=value1,label2=value2
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -139,7 +139,7 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     /// <summary>
     /// Network tags to add to the Google Compute Engine machines backing the     Workstations.     Example:       $ gcloud workstations configs update --network-tags=tag_1,tag_2
     /// </summary>
-    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkTags { get; set; }
 
     /// <summary>
@@ -163,7 +163,7 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     /// <summary>
     /// Scopes to grant to the service_account. Various scopes are     automatically added based on feature usage. When specified, users of     workstations under this configuration must have     iam.serviceAccounts.actAs on the service account.
     /// </summary>
-    [CliOption("--service-account-scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--service-account-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceAccountScopes { get; set; }
 
     /// <summary>
@@ -193,7 +193,7 @@ public record GcloudWorkstationsConfigsUpdateOptions : GcloudOptions
     /// <summary>
     /// Resource manager tags to be bound to the instance. Tag keys and values     have the same definition as     https://cloud.google.com/resource-manager/docs/tags/tags-overview     Example:       $ gcloud workstations configs update \         --vm-tags=tagKeys/key1=tagValues/value1,tagKeys/key2=tagValues/\       value2    Accelerator settings
     /// </summary>
-    [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vm-tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VmTags { get; set; }
 
     /// <summary>
