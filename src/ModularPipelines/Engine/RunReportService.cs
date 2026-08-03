@@ -21,13 +21,15 @@ internal sealed class RunReportService(
     IDistributedCoordinator distributedCoordinator,
     ICommandExecutionCounter commandExecutionCounter,
     ILogger<RunReportService> logger,
-    TimeSpan? historyStoreTimeout = null) : IRunReportService
+    TimeSpan? historyStoreTimeout = null,
+    TimeSpan? workerMetricsTimeout = null) : IRunReportService
 {
     private static readonly TimeSpan DefaultHistoryStoreTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan ReportWriteTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan WorkerMetricsTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan WorkerMetricsPollingInterval = TimeSpan.FromMilliseconds(100);
     private readonly TimeSpan _historyStoreTimeout = historyStoreTimeout ?? DefaultHistoryStoreTimeout;
+    private readonly TimeSpan _workerMetricsTimeout = workerMetricsTimeout ?? WorkerMetricsTimeout;
 
     public async Task<PipelineRunReport> CompleteAsync(
         PipelineSummary summary,
@@ -222,7 +224,7 @@ internal sealed class RunReportService(
 
         try
         {
-            using var timeout = new CancellationTokenSource(WorkerMetricsTimeout);
+            using var timeout = new CancellationTokenSource(_workerMetricsTimeout);
             await distributedCoordinator.RegisterWorkerAsync(
                     new WorkerRegistration(
                         options.InstanceIndex,
@@ -241,6 +243,7 @@ internal sealed class RunReportService(
                                 StringComparer.Ordinal),
                     },
                     timeout.Token)
+                .WaitAsync(timeout.Token)
                 .ConfigureAwait(false);
         }
         catch (Exception exception)
@@ -251,7 +254,7 @@ internal sealed class RunReportService(
 
     private async Task AggregateWorkerMetricsAsync(PipelineSummary summary)
     {
-        using var timeout = new CancellationTokenSource(WorkerMetricsTimeout);
+        using var timeout = new CancellationTokenSource(_workerMetricsTimeout);
         try
         {
             var options = distributedOptions.Value;
@@ -353,6 +356,7 @@ internal sealed class RunReportService(
         {
             initialWorkers = await distributedCoordinator
                 .GetRegisteredWorkersAsync(cancellationToken)
+                .WaitAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -397,6 +401,7 @@ internal sealed class RunReportService(
             {
                 workers = await distributedCoordinator
                     .GetRegisteredWorkersAsync(cancellationToken)
+                    .WaitAsync(cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)

@@ -1134,6 +1134,56 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task DistributedWorkerMetricsTimeoutWhenCoordinatorIgnoresCancellation()
+    {
+        var coordinator = new Mock<IDistributedCoordinator>();
+        var registrationCompletion = new TaskCompletionSource(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        coordinator.Setup(x => x.RegisterWorkerAsync(
+                It.IsAny<WorkerRegistration>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(registrationCompletion.Task);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 1,
+            TotalInstances = 2,
+        });
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
+        Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "1");
+
+        try
+        {
+            var service = new RunReportService(
+                Mock.Of<IRunHistoryStore>(),
+                new PipelineRunReportFactory(
+                    commandExecutionCounter,
+                    new PassthroughSecretObfuscator()),
+                Mock.Of<IBuildSystemDetector>(),
+                OptionsFactory.Create(new PipelineOptions()),
+                distributedOptions,
+                new RoleDetector(distributedOptions),
+                coordinator.Object,
+                commandExecutionCounter,
+                NullLogger<RunReportService>.Instance,
+                workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+
+            var report = await service.CompleteAsync(CreateEmptySummary())
+                .WaitAsync(TimeSpan.FromSeconds(2));
+
+            await Assert.That(report).IsNotNull();
+            coordinator.Verify(x => x.RegisterWorkerAsync(
+                It.IsAny<WorkerRegistration>(),
+                It.IsAny<CancellationToken>()), Times.Once);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", previousInstance);
+        }
+    }
+
+    [Test]
     public async Task RunHistoryOperationsTimeoutWhenStoreIgnoresCancellation()
     {
         var directory = CreateTemporaryDirectory();
@@ -1661,6 +1711,54 @@ public class RunReportTests
             }
 
             await Assert.That(pollingCount).IsGreaterThan(12);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", previousInstance);
+        }
+    }
+
+    [Test]
+    public async Task DistributedMasterMetricsTimeoutWhenCoordinatorIgnoresCancellation()
+    {
+        var queryCompletion = new TaskCompletionSource<IReadOnlyList<WorkerRegistration>>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+            .Returns(queryCompletion.Task);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 2,
+        });
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
+        Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
+
+        try
+        {
+            var service = new RunReportService(
+                Mock.Of<IRunHistoryStore>(),
+                new PipelineRunReportFactory(
+                    commandExecutionCounter,
+                    new PassthroughSecretObfuscator()),
+                Mock.Of<IBuildSystemDetector>(),
+                OptionsFactory.Create(new PipelineOptions()),
+                distributedOptions,
+                new RoleDetector(distributedOptions),
+                coordinator.Object,
+                commandExecutionCounter,
+                NullLogger<RunReportService>.Instance,
+                workerMetricsTimeout: TimeSpan.FromMilliseconds(50));
+
+            var report = await service.CompleteAsync(CreateEmptySummary())
+                .WaitAsync(TimeSpan.FromSeconds(2));
+
+            await Assert.That(report).IsNotNull();
+            coordinator.Verify(
+                x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()),
+                Times.Once);
         }
         finally
         {
