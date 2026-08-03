@@ -64,10 +64,17 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
             && SymbolEqualityComparer.Default.Equals(method.ContainingType, consoleType);
         var candidateMethodIsConsole = symbolInfo.CandidateSymbols
             .OfType<IMethodSymbol>()
-            .Any(candidate => SymbolEqualityComparer.Default.Equals(
-                candidate.ContainingType,
-                consoleType));
+            .Any(candidate => IsConsoleMethod(candidate, consoleType));
         if (resolvedMethodIsConsole || candidateMethodIsConsole)
+        {
+            return true;
+        }
+
+        var memberGroupMethodIsConsole = context.SemanticModel
+            .GetMemberGroup(invocation.Expression, context.CancellationToken)
+            .OfType<IMethodSymbol>()
+            .Any(candidate => IsConsoleMethod(candidate, consoleType));
+        if (memberGroupMethodIsConsole)
         {
             return true;
         }
@@ -99,4 +106,7 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
 
         return false;
     }
+
+    private static bool IsConsoleMethod(IMethodSymbol method, INamedTypeSymbol consoleType) =>
+        SymbolEqualityComparer.Default.Equals(method.ContainingType, consoleType);
 }

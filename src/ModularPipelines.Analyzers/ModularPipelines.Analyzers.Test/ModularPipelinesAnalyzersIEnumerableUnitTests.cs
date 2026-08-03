@@ -263,6 +263,22 @@ public abstract class Module1 : Module<global::System.Collections.Generic.List<
 }
 """;
 
+    private const string NullableEnumerableSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public abstract class Module1 : {{|#0:Module<IEnumerable<string>?>|}}
+{{
+}}
+";
+
+    private const string FixedNullableEnumerableSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public abstract class Module1 : Module<global::System.Collections.Generic.List<string>?>
+{{
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_IEnumerable()
     {
@@ -362,6 +378,18 @@ public abstract class Module1 : Module<global::System.Collections.Generic.List<
             DirectiveElementSource,
             expected,
             FixedDirectiveElementSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Preserves_Nullable_Result_Annotation()
+    {
+        var expected = VerifyCodeFixCS.Diagnostic(EnumerableModuleResultAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCodeFixCS.VerifyCodeFixAsync(
+            NullableEnumerableSource,
+            expected,
+            FixedNullableEnumerableSource);
     }
 
     [TestMethod]

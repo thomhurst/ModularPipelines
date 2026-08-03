@@ -99,7 +99,8 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
                 replacement.EnumerableGenericType.TypeArgumentList));
         var newRoot = replacement.DocumentRoot.ReplaceNode(
             replacement.EnumerableType,
-            listType.WithTriviaFrom(replacement.EnumerableType));
+            PreserveNullableAnnotation(replacement, listType)
+                .WithTriviaFrom(replacement.EnumerableType));
 
         return context.Document.WithSyntaxRoot(newRoot);
     }
@@ -124,7 +125,17 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
 
         return context.Document.WithSyntaxRoot(replacement.DocumentRoot.ReplaceNode(
             replacement.EnumerableType,
-            arrayType.WithTriviaFrom(replacement.EnumerableType)));
+            PreserveNullableAnnotation(replacement, arrayType)
+                .WithTriviaFrom(replacement.EnumerableType)));
+    }
+
+    private static TypeSyntax PreserveNullableAnnotation(
+        ReplacementContext replacement,
+        TypeSyntax replacementType)
+    {
+        return replacement.EnumerableType is NullableTypeSyntax nullableType
+            ? SyntaxFactory.NullableType(replacementType, nullableType.QuestionToken)
+            : replacementType;
     }
 
     private static async Task<ReplacementContext?> GetReplacementContext(

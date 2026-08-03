@@ -91,6 +91,25 @@ public class Module1 : Module<List<string>>
 }}
 ";
 
+    private const string DynamicUsingStaticConsoleSource = $@"
+{TestSourceConstants.StandardUsings}
+using static System.Console;
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        dynamic message = ""Done!"";
+        {{|#0:WriteLine(message)|}};
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerReportsOnlyTheConsoleInvocationInAReceiverChain()
     {
@@ -105,6 +124,14 @@ public class Module1 : Module<List<string>>
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyAnalyzerAsync(DynamicConsoleArgumentSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerReportsDynamicUsingStaticConsoleInvocation()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(DynamicUsingStaticConsoleSource, expected);
     }
 
     private const string CustomConsoleSource = $@"
