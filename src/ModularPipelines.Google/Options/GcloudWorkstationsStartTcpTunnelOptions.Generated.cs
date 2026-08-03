@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("workstations", "start-tcp-tunnel")]
 public record GcloudWorkstationsStartTcpTunnelOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string WorkstationPort
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string WorkstationPort
 ) : GcloudOptions
 {
     [CliOption("--local-host-port", Format = OptionFormat.EqualsSeparated)]

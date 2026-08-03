@@ -144,7 +144,7 @@ public record HelmRepoIndexOptions : HelmOptions
     /// <summary>
     /// The DIR operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Dir { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "rotate-auth")]
 public record ArgoCdClusterRotateAuthOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ServerOrName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ServerOrName
 ) : ArgoCdOptions
 {
     /// <summary>

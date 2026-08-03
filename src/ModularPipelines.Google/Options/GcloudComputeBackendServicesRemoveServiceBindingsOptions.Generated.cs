@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-services", "remove-service-bindings")]
 public record GcloudComputeBackendServicesRemoveServiceBindingsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string BackendServiceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendServiceName
 ) : GcloudOptions
 {
 }

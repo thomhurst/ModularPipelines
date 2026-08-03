@@ -19,7 +19,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "run")]
 public record TrivyPluginRunOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Source
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Source
 ) : TrivyOptions
 {
     /// <summary>
@@ -82,7 +82,7 @@ public record TrivyPluginRunOptions(
     [CliFlag("--version", ShortForm = "-v")]
     public bool? Version { get; set; }
 
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? PluginArguments { get; set; }
 
 }

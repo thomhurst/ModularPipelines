@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "commit")]
 public record PodmanComposeCommitOptions(
-    [property: CliArgument(0)] string Service
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service
 ) : PodmanOptions
 {
     /// <summary>
@@ -61,7 +61,7 @@ public record PodmanComposeCommitOptions(
     /// <summary>
     /// The REPOSITORY[:TAG] operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? RepositoryTag { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("push")]
 public record PodmanPushOptions(
-    [property: CliArgument(0)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
 ) : PodmanOptions
 {
     /// <summary>
@@ -142,7 +142,7 @@ public record PodmanPushOptions(
     /// <summary>
     /// The DESTINATION operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Destination { get; set; }
 
 }

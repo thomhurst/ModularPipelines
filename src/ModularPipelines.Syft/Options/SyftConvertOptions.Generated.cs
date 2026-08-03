@@ -71,13 +71,13 @@ public record SyftConvertOptions : SyftOptions
     /// <summary>
     /// The SOURCE-SBOM operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? SourceSbom { get; set; }
 
     /// <summary>
     /// The FORMAT operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Format { get; set; }
 
 }

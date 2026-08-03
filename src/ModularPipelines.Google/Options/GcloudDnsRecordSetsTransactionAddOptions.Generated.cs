@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "transaction", "add")]
 public record GcloudDnsRecordSetsTransactionAddOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Rrdatas
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Rrdatas
 ) : GcloudOptions
 {
 }

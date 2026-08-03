@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "views", "add-iam-policy-binding")]
 public record GcloudLoggingViewsAddIamPolicyBindingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ViewId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ViewId
 ) : GcloudOptions
 {
 }

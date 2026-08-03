@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config")]
 public record TrivyConfigOptions(
-    [property: CliArgument(0)] string Dir
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Dir
 ) : TrivyOptions
 {
     /// <summary>

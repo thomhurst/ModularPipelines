@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("apigee", "apis", "describe")]
 public record GcloudApigeeApisDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Api
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Api
 ) : GcloudOptions
 {
     /// <summary>

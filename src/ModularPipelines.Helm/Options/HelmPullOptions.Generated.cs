@@ -229,7 +229,7 @@ public record HelmPullOptions : HelmOptions
     /// <summary>
     /// The chart URL operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ChartUrl { get; set; }
 
 }

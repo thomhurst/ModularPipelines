@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keyrings", "set-iam-policy")]
 public record GcloudKmsKeyringsSetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Keyring
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Keyring
 ) : GcloudOptions
 {
     /// <summary>

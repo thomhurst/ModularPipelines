@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("gpg", "get")]
 public record ArgoCdGpgGetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string KeyId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string KeyId
 ) : ArgoCdOptions
 {
     /// <summary>

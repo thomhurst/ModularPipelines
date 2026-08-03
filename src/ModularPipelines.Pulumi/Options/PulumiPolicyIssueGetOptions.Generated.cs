@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "issue", "get")]
 public record PulumiPolicyIssueGetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string IssueId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string IssueId
 ) : PulumiOptions
 {
     /// <summary>

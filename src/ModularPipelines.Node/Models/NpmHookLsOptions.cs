@@ -13,6 +13,6 @@ public record NpmHookLsOptions : NpmOptions
     [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Pkg { get; set; }
 }

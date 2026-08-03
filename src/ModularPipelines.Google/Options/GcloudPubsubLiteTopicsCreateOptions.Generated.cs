@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-topics", "create")]
 public record GcloudPubsubLiteTopicsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Topic
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Topic
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "cluster", "namespaces", "enable-namespaced-mode")]
 public record ArgoCdAdminClusterNamespacesEnableNamespacedModeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Pattern
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Pattern
 ) : ArgoCdOptions
 {
     /// <summary>

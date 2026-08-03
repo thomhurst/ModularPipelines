@@ -458,21 +458,7 @@ public class OptionsClassGenerator : ICodeGenerator
     private static string GetPositionalAttributeString(CliPositionalArgument positional)
     {
         var parts = new List<string> { positional.PositionIndex.ToString() };
-
-        // Map to ArgumentPlacement enum
-        var placement = positional.Placement switch
-        {
-            PositionalArgumentPosition.BeforeOptions or PositionalArgumentPosition.BeforeSwitches =>
-                "ArgumentPlacement.BeforeOptions",
-            PositionalArgumentPosition.ImmediatelyAfterCommand =>
-                "ArgumentPlacement.ImmediatelyAfterCommand",
-            _ => null // AfterOptions is the default, no need to specify
-        };
-
-        if (placement is not null)
-        {
-            parts.Add($"Placement = {placement}");
-        }
+        parts.Add($"Phase = CommandLinePhase.{positional.Phase}");
 
         if (positional.PrependOptionTerminator)
         {

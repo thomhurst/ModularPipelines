@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "rename")]
 public record PodmanContainerRenameOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Container,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Container,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : PodmanOptions
 {
 }

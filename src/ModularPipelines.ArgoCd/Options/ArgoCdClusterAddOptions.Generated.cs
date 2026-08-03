@@ -21,7 +21,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "add")]
 public record ArgoCdClusterAddOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Context
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Context
 ) : ArgoCdOptions
 {
     /// <summary>

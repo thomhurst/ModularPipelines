@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "import")]
 public record DockerImageImportOptions(
-    [property: CliArgument(0)] string File
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string File
 ) : DockerOptions
 {
     /// <summary>
@@ -43,7 +43,7 @@ public record DockerImageImportOptions(
     /// <summary>
     /// The REPOSITORY[:TAG] operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? RepositoryTag { get; set; }
 
 }

@@ -169,13 +169,13 @@ public record HelmPushOptions : HelmOptions
     /// <summary>
     /// The chart operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Chart { get; set; }
 
     /// <summary>
     /// The remote operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Remote { get; set; }
 
 }

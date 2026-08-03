@@ -615,7 +615,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// The CONTEXT operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Context { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("endpoints", "services", "deploy")]
 public record GcloudEndpointsServicesDeployOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> ServiceConfigFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> ServiceConfigFile
 ) : GcloudOptions
 {
     /// <summary>

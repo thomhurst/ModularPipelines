@@ -7,11 +7,11 @@ namespace ModularPipelines.Node.Models;
 [CliCommand("org", "set")]
 public record NpmOrgSetOptions
 (
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string OrgName,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Username
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string OrgName,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Username
 ) : NpmOptions
 {
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? PermissionLevel { get; set; }
 
     [CliOption("--registry")]

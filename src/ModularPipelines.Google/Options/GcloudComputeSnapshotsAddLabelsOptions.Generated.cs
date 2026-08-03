@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "snapshots", "add-labels")]
 public record GcloudComputeSnapshotsAddLabelsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SnapshotName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SnapshotName
 ) : GcloudOptions
 {
 }

@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
 public record DockerExecOptions(
-    [property: CliArgument(0)] string Container,
-    [property: CliArgument(1)] string Command
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Command
 ) : DockerOptions
 {
     /// <summary>
@@ -80,7 +80,7 @@ public record DockerExecOptions(
     /// <summary>
     /// The ARG operand.
     /// </summary>
-    [CliArgument(2)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

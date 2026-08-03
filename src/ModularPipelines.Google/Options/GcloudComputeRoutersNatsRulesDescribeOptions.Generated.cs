@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "routers", "nats", "rules", "describe")]
 public record GcloudComputeRoutersNatsRulesDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RuleNumber
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RuleNumber
 ) : GcloudOptions
 {
 }

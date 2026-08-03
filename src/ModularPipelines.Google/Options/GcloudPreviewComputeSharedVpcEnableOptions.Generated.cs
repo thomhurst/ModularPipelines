@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "shared-vpc", "enable")]
 public record GcloudPreviewComputeSharedVpcEnableOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ProjectId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ProjectId
 ) : GcloudOptions
 {
 }

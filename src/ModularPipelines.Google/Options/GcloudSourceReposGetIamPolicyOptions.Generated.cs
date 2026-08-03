@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "repos", "get-iam-policy")]
 public record GcloudSourceReposGetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RepositoryName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RepositoryName
 ) : GcloudOptions
 {
 }

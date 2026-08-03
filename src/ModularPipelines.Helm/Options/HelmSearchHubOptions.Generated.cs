@@ -157,7 +157,7 @@ public record HelmSearchHubOptions : HelmOptions
     /// <summary>
     /// The KEYWORD operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Keyword { get; set; }
 
 }

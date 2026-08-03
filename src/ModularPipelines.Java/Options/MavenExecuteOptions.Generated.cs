@@ -273,7 +273,7 @@ public record MavenExecuteOptions : MavenOptions
     /// <summary>
     /// Maven goals and lifecycle phases to execute.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? GoalsAndPhases { get; set; }
 
 }

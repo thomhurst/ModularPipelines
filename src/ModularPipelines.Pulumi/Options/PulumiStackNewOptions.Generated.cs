@@ -143,7 +143,7 @@ public record PulumiStackNewOptions : PulumiOptions
     /// <summary>
     /// The [org-name Or ]&lt;stack-name&gt; operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? OrgNameOrStackName { get; set; }
 
 }

@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "annotate")]
 public record PodmanManifestAnnotateOptions(
-    [property: CliArgument(0)] string List,
-    [property: CliArgument(1)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string List,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Image
 ) : PodmanOptions
 {
     /// <summary>

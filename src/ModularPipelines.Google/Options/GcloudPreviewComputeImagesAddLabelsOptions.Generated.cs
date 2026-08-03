@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "images", "add-labels")]
 public record GcloudPreviewComputeImagesAddLabelsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImageName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImageName
 ) : GcloudOptions
 {
 }

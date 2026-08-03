@@ -179,7 +179,7 @@ public record PulumiApiOptions : PulumiOptions
     /// <summary>
     /// The path-or-operation-id operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? PathOrOperationId { get; set; }
 
 }

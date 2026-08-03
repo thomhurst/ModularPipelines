@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cert", "add-tls")]
 public record ArgoCdCertAddTlsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RepositoryServerName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RepositoryServerName
 ) : ArgoCdOptions
 {
     /// <summary>

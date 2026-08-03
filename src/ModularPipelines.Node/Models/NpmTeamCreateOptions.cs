@@ -6,8 +6,8 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("team", "create")]
 public record NpmTeamCreateOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Otpcode
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Otpcode
 ) : NpmOptions
 {
     [CliOption("--registry")]

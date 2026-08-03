@@ -218,7 +218,7 @@ public record HelmPackageOptions : HelmOptions
     /// <summary>
     /// The CHART_PATH operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ChartPath { get; set; }
 
 }

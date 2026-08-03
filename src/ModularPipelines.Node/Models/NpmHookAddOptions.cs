@@ -6,9 +6,9 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("hook", "add")]
 public record NpmHookAddOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Pkg,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Url,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Secret
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Pkg,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Url,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Secret
 ) : NpmOptions
 {
     [CliOption("--registry")]
@@ -17,6 +17,6 @@ public record NpmHookAddOptions(
     [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Type { get; set; }
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bms", "ssh-keys", "remove")]
 public record GcloudBmsSshKeysRemoveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Ssh
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Ssh
 ) : GcloudOptions
 {
 }

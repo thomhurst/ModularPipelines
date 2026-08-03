@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "write")]
 public record GcloudLoggingWriteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string LogName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string LogName
 ) : GcloudOptions
 {
     [CliOption("--monitored-resource-labels", Format = OptionFormat.EqualsSeparated)]

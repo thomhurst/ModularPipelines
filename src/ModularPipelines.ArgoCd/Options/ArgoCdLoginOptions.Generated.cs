@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("login")]
 public record ArgoCdLoginOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Server
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Server
 ) : ArgoCdOptions
 {
     /// <summary>

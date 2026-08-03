@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("access", "revoke")]
 public record NpmAccessRevokeOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope
 ) : NpmOptions
 {
     [CliFlag("--json")]
@@ -18,6 +18,6 @@ public record NpmAccessRevokeOptions(
     [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string? Package { get; set; }
 }

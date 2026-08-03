@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("owner", "rm")]
 public record NpmOwnerRmOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string User
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string User
 ) : NpmOptions
 {
     [CliOption("--registry")]

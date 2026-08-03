@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "promote-replica")]
 public record GcloudSqlInstancesPromoteReplicaOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Replica
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Replica
 ) : GcloudOptions
 {
     /// <summary>

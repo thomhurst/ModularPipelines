@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get", "manifest")]
 public record HelmGetManifestOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ReleaseName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ReleaseName
 ) : HelmOptions
 {
     /// <summary>

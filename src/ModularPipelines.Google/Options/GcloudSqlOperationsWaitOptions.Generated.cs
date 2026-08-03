@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "operations", "wait")]
 public record GcloudSqlOperationsWaitOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Operation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Operation
 ) : GcloudOptions
 {
     [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]

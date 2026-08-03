@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "settings", "resource-overrides", "health")]
 public record ArgoCdAdminSettingsResourceOverridesHealthOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ResourceYamlPath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ResourceYamlPath
 ) : ArgoCdOptions
 {
     /// <summary>

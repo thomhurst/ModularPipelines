@@ -6,9 +6,9 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("hook", "update")]
 public record NpmHookUpdateOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Id,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Url,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Secret
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Id,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Url,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Secret
 ) : NpmOptions
 {
     [CliOption("--registry")]

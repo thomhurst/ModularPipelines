@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate", "systemd")]
 public record PodmanGenerateSystemdOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
 ) : PodmanOptions
 {
     /// <summary>

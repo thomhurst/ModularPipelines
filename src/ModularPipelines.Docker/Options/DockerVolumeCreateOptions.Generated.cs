@@ -42,7 +42,7 @@ public record DockerVolumeCreateOptions : DockerOptions
     /// <summary>
     /// The VOLUME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Volume { get; set; }
 
 }

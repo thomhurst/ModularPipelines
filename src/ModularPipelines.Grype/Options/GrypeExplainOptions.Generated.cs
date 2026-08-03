@@ -59,7 +59,7 @@ public record GrypeExplainOptions : GrypeOptions
     /// <summary>
     /// The VULNERABILITY ID operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? VulnerabilityId { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "set-scheduling")]
 public record GcloudPreviewComputeInstancesSetSchedulingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InstanceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceName
 ) : GcloudOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "set")]
 public record ArgoCdClusterSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ClusterName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ClusterName
 ) : ArgoCdOptions
 {
     /// <summary>

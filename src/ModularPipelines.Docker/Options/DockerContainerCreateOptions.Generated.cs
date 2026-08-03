@@ -20,7 +20,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "create")]
 public record DockerContainerCreateOptions(
-    [property: CliArgument(0)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
 ) : DockerOptions
 {
     /// <summary>
@@ -602,13 +602,13 @@ public record DockerContainerCreateOptions(
     /// <summary>
     /// The COMMAND operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Command { get; set; }
 
     /// <summary>
     /// The ARG operand.
     /// </summary>
-    [CliArgument(2)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

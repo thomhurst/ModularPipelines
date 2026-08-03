@@ -186,7 +186,7 @@ public record FluxCreateOptions : FluxOptions
     /// <summary>
     /// The command operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Command { get; set; }
 
 }

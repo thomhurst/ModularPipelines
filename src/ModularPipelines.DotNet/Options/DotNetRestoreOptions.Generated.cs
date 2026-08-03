@@ -144,7 +144,7 @@ public record DotNetRestoreOptions : DotNetOptions
     /// <summary>
     /// The project or solution or C# (file-based
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }
 
 }

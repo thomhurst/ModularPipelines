@@ -223,7 +223,7 @@ public record ArgoCdAppDeleteOptions : ArgoCdOptions
     /// <summary>
     /// Optional application names to target.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? ApplicationNames { get; set; }
 
 }

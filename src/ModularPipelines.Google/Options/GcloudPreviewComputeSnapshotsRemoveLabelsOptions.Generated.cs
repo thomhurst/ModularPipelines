@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "snapshots", "remove-labels")]
 public record GcloudPreviewComputeSnapshotsRemoveLabelsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SnapshotName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SnapshotName
 ) : GcloudOptions
 {
 }

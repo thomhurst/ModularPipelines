@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("organizations", "get-iam-policy")]
 public record GcloudOrganizationsGetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string OrganizationId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OrganizationId
 ) : GcloudOptions
 {
 }

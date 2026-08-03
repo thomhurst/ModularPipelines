@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "domain-mappings", "create")]
 public record GcloudAppDomainMappingsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Domain
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Domain
 ) : GcloudOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate", "spec")]
 public record PodmanGenerateSpecOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
 ) : PodmanOptions
 {
     /// <summary>

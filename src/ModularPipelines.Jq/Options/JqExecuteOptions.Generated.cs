@@ -216,13 +216,13 @@ public record JqExecuteOptions : JqOptions
     /// <summary>
     /// The jq filter expression to apply
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Filter { get; set; }
 
     /// <summary>
     /// Input JSON files or values (reads from stdin if not specified)
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? InputFiles { get; set; }
 
 }

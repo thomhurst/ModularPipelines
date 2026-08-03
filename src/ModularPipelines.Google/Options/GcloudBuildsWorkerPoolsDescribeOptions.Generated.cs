@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("builds", "worker-pools", "describe")]
 public record GcloudBuildsWorkerPoolsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string WorkerPool
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string WorkerPool
 ) : GcloudOptions
 {
     /// <summary>

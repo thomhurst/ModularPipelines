@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "views", "update")]
 public record GcloudLoggingViewsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ViewId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ViewId
 ) : GcloudOptions
 {
 }

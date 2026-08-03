@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "rollback")]
 public record ArgoCdAppRollbackOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ApplicationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ApplicationName
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -210,7 +210,7 @@ public record ArgoCdAppRollbackOptions(
     [CliOption("--server-name", Format = OptionFormat.EqualsSeparated)]
     public string? ServerName { get; set; }
 
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Id { get; set; }
 
 }

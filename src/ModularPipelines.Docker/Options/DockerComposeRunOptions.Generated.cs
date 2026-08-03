@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "run")]
 public record DockerComposeRunOptions(
-    [property: CliArgument(0)] string Service
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service
 ) : DockerOptions
 {
     /// <summary>
@@ -175,13 +175,13 @@ public record DockerComposeRunOptions(
     /// <summary>
     /// The COMMAND operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Command { get; set; }
 
     /// <summary>
     /// The ARGS operand.
     /// </summary>
-    [CliArgument(2)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Args { get; set; }
 
 }

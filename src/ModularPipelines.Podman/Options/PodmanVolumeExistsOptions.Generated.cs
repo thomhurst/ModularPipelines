@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "exists")]
 public record PodmanVolumeExistsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Volume
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Volume
 ) : PodmanOptions
 {
 }

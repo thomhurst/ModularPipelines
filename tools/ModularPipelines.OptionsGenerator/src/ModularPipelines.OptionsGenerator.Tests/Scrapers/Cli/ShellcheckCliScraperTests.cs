@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -63,7 +64,7 @@ public class ShellcheckCliScraperTests
         await Assert.That(files.PropertyName).IsEqualTo("Files");
         await Assert.That(files.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(files.IsRequired).IsFalse();
-        await Assert.That(files.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(files.Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     private const string HelpText = """

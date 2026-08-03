@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -62,7 +63,7 @@ public class GradleCliScraperTests
         await Assert.That(argument.PropertyName).IsEqualTo("Tasks");
         await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(argument.IsRequired).IsFalse();
-        await Assert.That(argument.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     private sealed class TestGradleCliScraper : GradleCliScraper

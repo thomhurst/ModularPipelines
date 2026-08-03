@@ -493,7 +493,7 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("[property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Image");
+        await Assert.That(generated).Contains("[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Image");
         await Assert.That(generated).DoesNotContain("public string? Image { get; set; }");
         await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
     }

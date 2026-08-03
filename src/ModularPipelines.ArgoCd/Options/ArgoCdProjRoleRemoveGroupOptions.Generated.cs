@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "role", "remove-group")]
 public record ArgoCdProjRoleRemoveGroupOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string RoleName,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string GroupClaim
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string RoleName,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string GroupClaim
 ) : ArgoCdOptions
 {
     /// <summary>

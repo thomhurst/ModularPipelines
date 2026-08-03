@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lint")]
 public record HelmLintOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path
 ) : HelmOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "export")]
 public record GcloudFirestoreExportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string OutputUriPrefix
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OutputUriPrefix
 ) : GcloudOptions
 {
     /// <summary>

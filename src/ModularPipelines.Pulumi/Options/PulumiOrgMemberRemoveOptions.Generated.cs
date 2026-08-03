@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "member", "remove")]
 public record PulumiOrgMemberRemoveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string UserLogin
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UserLogin
 ) : PulumiOptions
 {
     /// <summary>

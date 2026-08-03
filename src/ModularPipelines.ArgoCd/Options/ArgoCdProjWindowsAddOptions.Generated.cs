@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "windows", "add")]
 public record ArgoCdProjWindowsAddOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project
 ) : ArgoCdOptions
 {
     /// <summary>

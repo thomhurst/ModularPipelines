@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "start-async-replication")]
 public record GcloudComputeDisksStartAsyncReplicationOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DiskName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DiskName
 ) : GcloudOptions
 {
 }

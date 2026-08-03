@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "key", "load")]
 public record DockerTrustKeyLoadOptions(
-    [property: CliArgument(0)] string Keyfile
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Keyfile
 ) : DockerOptions
 {
     /// <summary>

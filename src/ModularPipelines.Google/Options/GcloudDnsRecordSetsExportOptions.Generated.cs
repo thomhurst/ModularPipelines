@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "export")]
 public record GcloudDnsRecordSetsExportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RecordsFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RecordsFile
 ) : GcloudOptions
 {
 }

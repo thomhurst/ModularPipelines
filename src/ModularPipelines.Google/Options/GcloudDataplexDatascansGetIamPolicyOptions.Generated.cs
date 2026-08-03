@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataplex", "datascans", "get-iam-policy")]
 public record GcloudDataplexDatascansGetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Iam
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Iam
 ) : GcloudOptions
 {
 }

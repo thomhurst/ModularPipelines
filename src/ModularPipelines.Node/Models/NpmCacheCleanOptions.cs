@@ -10,6 +10,6 @@ public record NpmCacheCleanOptions : NpmOptions
     [CliOption("--cache")]
     public virtual string? Cache { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Key { get; set; }
 }

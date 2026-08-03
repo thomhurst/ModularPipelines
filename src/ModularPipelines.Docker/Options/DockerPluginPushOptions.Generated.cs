@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "push")]
 public record DockerPluginPushOptions(
-    [property: CliArgument(0)] string PluginTag
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string PluginTag
 ) : DockerOptions
 {
     /// <summary>

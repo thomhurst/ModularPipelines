@@ -19,7 +19,7 @@ namespace ModularPipelines.Kind.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("load", "image-archive")]
 public record KindLoadImageArchiveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImageTar
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImageTar
 ) : KindOptions
 {
     /// <summary>

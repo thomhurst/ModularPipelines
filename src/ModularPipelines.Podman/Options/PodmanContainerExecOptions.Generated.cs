@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "exec")]
 public record PodmanContainerExecOptions(
-    [property: CliArgument(0)] string Container,
-    [property: CliArgument(1)] string Command
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Command
 ) : PodmanOptions
 {
     /// <summary>
@@ -92,7 +92,7 @@ public record PodmanContainerExecOptions(
     /// <summary>
     /// The ARG operand.
     /// </summary>
-    [CliArgument(2)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "capabilities", "update")]
 public record GcloudResourceManagerCapabilitiesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string CapabilityId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string CapabilityId
 ) : GcloudOptions
 {
 }
