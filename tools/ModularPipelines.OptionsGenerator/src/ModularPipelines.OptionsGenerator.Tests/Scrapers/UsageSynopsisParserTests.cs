@@ -9,6 +9,29 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Retains_Compound_Endpoint_Placeholders_As_Single_Operands()
+    {
+        var copy = UsageSynopsisParser.Parse(
+            "Usage: minikube cp <source node name>:<source file path> <target node name>:<target absolute file path>",
+            ["minikube", "cp"]);
+        var mount = UsageSynopsisParser.Parse(
+            "Usage: minikube mount <source directory>:<target directory> [flags]",
+            ["minikube", "mount"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(copy.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(copy.PositionalArguments[0].PlaceholderName)
+                .IsEqualTo("source node name>:<source file path");
+            await Assert.That(copy.PositionalArguments[1].PlaceholderName)
+                .IsEqualTo("target node name>:<target absolute file path");
+            await Assert.That(mount.PositionalArguments).Count().IsEqualTo(1);
+            await Assert.That(mount.PositionalArguments[0].PlaceholderName)
+                .IsEqualTo("source directory>:<target directory");
+        }
+    }
+
+    [Test]
     public async Task Command_Group_Placeholders_Are_Not_Operands()
     {
         var parsed = UsageSynopsisParser.Parse(

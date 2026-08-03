@@ -163,6 +163,15 @@ public abstract partial class CliScraperBase : ICliScraper
         try
         {
             var result = await Executor.ExecuteAsync(ExecutablePath, VersionArguments, cancellationToken);
+            if (!result.Success)
+            {
+                Logger.LogWarning(
+                    "Could not determine installed {Tool} version: command exited with {ExitCode}",
+                    ToolName,
+                    result.ExitCode);
+                return null;
+            }
+
             var version = result.CombinedOutput.ReplaceLineEndings(" ").Trim();
             return version.Length switch
             {

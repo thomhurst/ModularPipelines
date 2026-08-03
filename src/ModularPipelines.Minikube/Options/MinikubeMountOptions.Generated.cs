@@ -19,8 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mount")]
 public record MinikubeMountOptions(
-    [property: CliArgument(0)] string SourceDirectoryTarget,
-    [property: CliArgument(1)] string Directory
+    [property: CliArgument(0)] string SourceDirectoryTargetDirectory
 ) : MinikubeOptions
 {
     /// <summary>

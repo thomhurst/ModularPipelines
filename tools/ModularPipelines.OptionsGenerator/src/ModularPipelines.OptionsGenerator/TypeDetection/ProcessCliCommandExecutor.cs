@@ -10,6 +10,7 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 public class ProcessCliCommandExecutor : ICliCommandExecutor
 {
     internal const string ExecutableOverrideVariableName = "MODULARPIPELINES_CLI_EXECUTABLE";
+    private static readonly TimeSpan ProcessTreeKillTimeout = TimeSpan.FromSeconds(2);
 
     private readonly ILogger<ProcessCliCommandExecutor> _logger;
     private readonly TimeSpan _timeout;
@@ -68,10 +69,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             }
             catch (OperationCanceledException)
             {
-                // Kill the direct process without synchronously walking its process tree.
-                // Some plugin-based CLIs leave descendants in states where whole-tree
-                // enumeration can block the generator after the timeout has fired.
-                TryKillProcess(process, command, arguments);
+                await TryKillProcessAsync(process, command, arguments).ConfigureAwait(false);
                 throw;
             }
 
@@ -247,20 +245,57 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     /// Attempts to kill a process gracefully, falling back to force kill.
     /// Logs but swallows exceptions to prevent masking the original error.
     /// </summary>
-    private void TryKillProcess(Process process, string command, string arguments)
+    private async Task TryKillProcessAsync(Process process, string command, string arguments)
     {
+        if (process.HasExited)
+        {
+            return;
+        }
+
+        _logger.LogDebug("Killing timed-out process tree: {Command} {Arguments}", command, arguments);
+        var killTreeTask = Task.Run(() => KillProcessTree(process.Id));
+        try
+        {
+            await killTreeTask.WaitAsync(ProcessTreeKillTimeout).ConfigureAwait(false);
+            return;
+        }
+        catch (TimeoutException)
+        {
+            _ = killTreeTask.ContinueWith(
+                static task => _ = task.Exception,
+                CancellationToken.None,
+                TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
+            _logger.LogWarning(
+                "Timed out killing descendants for process: {Command} {Arguments}",
+                command,
+                arguments);
+        }
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        {
+            _logger.LogWarning(ex, "Failed to kill process tree: {Command} {Arguments}", command, arguments);
+        }
+
         try
         {
             if (!process.HasExited)
             {
-                _logger.LogDebug("Killing timed-out process: {Command} {Arguments}", command, arguments);
                 process.Kill();
             }
         }
         catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
-            // Log but don't throw - we don't want to mask the original timeout exception
+            // Do not mask the original timeout or cancellation.
             _logger.LogWarning(ex, "Failed to kill process: {Command} {Arguments}", command, arguments);
+        }
+    }
+
+    private static void KillProcessTree(int processId)
+    {
+        using var process = Process.GetProcessById(processId);
+        if (!process.HasExited)
+        {
+            process.Kill(entireProcessTree: true);
         }
     }
 }

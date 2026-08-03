@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "toolName": "minikube",
-  "toolVersion": "Error: unknown flag: --version See \u0027minikube --help\u0027 for usage.",
+  "toolVersion": "v1.38.1",
   "commandCount": 46,
   "commandTreeSha256": "fe004f502186d3380241c4979ceefbcc1c6f7c2ea8c76bd41efd9b802f971224",
   "commands": [

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -121,17 +122,37 @@ public class ProcessCliCommandExecutorTests
             return;
         }
 
-        var executor = new ProcessCliCommandExecutor(
-            NullLogger<ProcessCliCommandExecutor>.Instance,
-            TimeSpan.FromMilliseconds(100));
-
-        var execution = executor.ExecuteAsync("/bin/sh", "-c \"sleep 30 & wait\"");
-        var result = await execution.WaitAsync(TimeSpan.FromSeconds(5));
-
-        using (Assert.Multiple())
+        var childPidPath = Path.Combine(
+            Path.GetTempPath(),
+            $"mp-cli-child-{Guid.NewGuid():N}.pid");
+        int? childPid = null;
+        try
         {
-            await Assert.That(result.ExitCode).IsEqualTo(-1);
-            await Assert.That(result.StandardError).Contains("timed out");
+            var executor = new ProcessCliCommandExecutor(
+                NullLogger<ProcessCliCommandExecutor>.Instance,
+                TimeSpan.FromMilliseconds(100));
+            var arguments = $"-c \"sleep 30 & child=$!; echo $child > '{childPidPath}'; wait\"";
+
+            var execution = executor.ExecuteAsync("/bin/sh", arguments);
+            var result = await execution.WaitAsync(TimeSpan.FromSeconds(5));
+            childPid = int.Parse(await File.ReadAllTextAsync(childPidPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ExitCode).IsEqualTo(-1);
+                await Assert.That(result.StandardError).Contains("timed out");
+                await Assert.That(await WaitForProcessExitAsync(childPid.Value)).IsTrue();
+            }
+        }
+        finally
+        {
+            if (childPid.HasValue && IsProcessRunning(childPid.Value))
+            {
+                using var childProcess = Process.GetProcessById(childPid.Value);
+                childProcess.Kill();
+            }
+
+            File.Delete(childPidPath);
         }
     }
 
@@ -265,5 +286,34 @@ public class ProcessCliCommandExecutorTests
         var isAvailable = await executor.IsAvailableAsync($"missing-{Guid.NewGuid():N}.cmd");
 
         await Assert.That(isAvailable).IsFalse();
+    }
+
+    private static async Task<bool> WaitForProcessExitAsync(int processId)
+    {
+        var timeout = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(2);
+        while (DateTimeOffset.UtcNow < timeout)
+        {
+            if (!IsProcessRunning(processId))
+            {
+                return true;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(50));
+        }
+
+        return !IsProcessRunning(processId);
+    }
+
+    private static bool IsProcessRunning(int processId)
+    {
+        try
+        {
+            using var process = Process.GetProcessById(processId);
+            return !process.HasExited;
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
     }
 }

@@ -385,30 +385,26 @@ public static class UsageSynopsisParser
             }
 
             var start = index;
-            if (TryGetClosingDelimiter(synopsis[index], out var closingDelimiter))
+            var closingDelimiters = new Stack<char>();
+            while (index < synopsis.Length)
             {
+                var character = synopsis[index];
+                if (closingDelimiters.Count == 0 && char.IsWhiteSpace(character))
+                {
+                    break;
+                }
+
+                if (TryGetClosingDelimiter(character, out var closingDelimiter))
+                {
+                    closingDelimiters.Push(closingDelimiter);
+                }
+                else if (closingDelimiters.TryPeek(out var expectedDelimiter)
+                         && character == expectedDelimiter)
+                {
+                    closingDelimiters.Pop();
+                }
+
                 index++;
-                while (index < synopsis.Length && synopsis[index] != closingDelimiter)
-                {
-                    index++;
-                }
-
-                if (index < synopsis.Length)
-                {
-                    index++;
-                }
-
-                while (index < synopsis.Length && !char.IsWhiteSpace(synopsis[index]))
-                {
-                    index++;
-                }
-            }
-            else
-            {
-                while (index < synopsis.Length && !char.IsWhiteSpace(synopsis[index]))
-                {
-                    index++;
-                }
             }
 
             tokens.Add(synopsis[start..index]);

@@ -58,6 +58,8 @@ public partial class MinikubeCliScraper : CobraCliScraper
 
     public override string OutputDirectory => "src/ModularPipelines.Minikube";
 
+    protected override string VersionArguments => "version --short";
+
     /// <summary>
     /// Minikube help can initialize multiple provider clients. Bound concurrent
     /// processes to keep discovery stable on shared CI runners.

@@ -19,11 +19,8 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cp")]
 public record MinikubeCpOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SourceNodeNameSource,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string File,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Path,
-    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string TargetNodeNameTarget,
-    [property: CliArgument(4, Placement = ArgumentPlacement.BeforeOptions)] string Absolute
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SourceNodeNameSourceFilePath,
+    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string TargetNodeNameTargetFileAbsolutePath
 ) : MinikubeOptions
 {
 }
