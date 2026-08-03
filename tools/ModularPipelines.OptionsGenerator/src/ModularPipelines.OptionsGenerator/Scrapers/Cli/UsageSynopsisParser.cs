@@ -160,7 +160,8 @@ public static class UsageSynopsisParser
             .Any(IsOptionControlToken)
                 ? PositionalArgumentPosition.AfterOptions
                 : PositionalArgumentPosition.BeforeOptions;
-        foreach (var token in CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1)))
+        foreach (var token in TrimTrailingUsageExplanation(
+                     CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1))))
         {
             if (IsOptionControlToken(token))
             {
@@ -582,6 +583,22 @@ public static class UsageSynopsisParser
         }
 
         return collapsed;
+    }
+
+    private static IReadOnlyList<string> TrimTrailingUsageExplanation(IEnumerable<string> sourceTokens)
+    {
+        var tokens = sourceTokens.ToList();
+        var boundaryIndex = tokens.FindIndex(static token =>
+            token.Length > 1
+            && token[^1] == '.'
+            && token[^2] is ']' or '>' or '}' or ')');
+        if (boundaryIndex < 0)
+        {
+            return tokens;
+        }
+
+        tokens[boundaryIndex] = tokens[boundaryIndex][..^1];
+        return tokens.Take(boundaryIndex + 1).ToList();
     }
 
     private static string? NormalizeOperandName(string content)

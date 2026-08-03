@@ -613,22 +613,12 @@ public class SubDomainClassGenerator : ICodeGenerator
 
     private static void GenerateExecuteMethod(StringBuilder sb, CliCommandDefinition command)
     {
-        // ExecuteAsync method for parent commands uses custom description if none provided
-        // and always has nullable options (unlike regular commands which check RequiredOptions)
         var description = !string.IsNullOrEmpty(command.Description)
             ? command.Description
             : "Executes the parent command directly.";
-        GeneratorUtils.GenerateXmlDocumentation(sb, description);
-        sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
-        sb.AppendLine("    /// <param name=\"executionOptions\">The execution configuration options.</param>");
-        sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
-        sb.AppendLine("    /// <returns>The command result.</returns>");
-        sb.AppendLine($"    public virtual async Task<CommandResult> ExecuteAsync(");
-        sb.AppendLine($"        {command.ClassName}? options = null,");
-        sb.AppendLine($"        {GeneratorUtils.ExecutionOptionsParameter},");
-        sb.AppendLine("        CancellationToken cancellationToken = default)");
-        sb.AppendLine("    {");
-        sb.AppendLine($"        return await _command.ExecuteCommandLineToolAsync(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
-        sb.AppendLine("    }");
+        GeneratorUtils.GenerateServiceMethod(
+            sb,
+            "Execute",
+            command with { Description = description });
     }
 }

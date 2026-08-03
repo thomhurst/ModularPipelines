@@ -229,6 +229,21 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Ignores_Explanation_After_Terminated_Wrapped_Operand()
+    {
+        const string helpText = """
+            Usage:
+              minikube profile [MINIKUBE_PROFILE_NAME]. You can return to the default profile [flags]
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["minikube", "profile"]);
+
+        var argument = result.PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo("MinikubeProfileName");
+        await Assert.That(argument.IsRequired).IsFalse();
+    }
+
+    [Test]
     public async Task Carries_Standalone_Option_Terminator_To_Following_Operand()
     {
         var required = UsageSynopsisParser.Parse(

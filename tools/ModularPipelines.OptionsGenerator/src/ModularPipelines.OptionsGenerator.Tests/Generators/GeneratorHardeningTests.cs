@@ -311,6 +311,40 @@ public class GeneratorHardeningTests
     }
 
     [Test]
+    public async Task SubDomain_Parent_Requires_Options_When_It_Has_Required_Operands()
+    {
+        var parent = Command("ToolServiceOptions", "ToolOptions", ["service"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Service",
+                    PlaceholderName = "SERVICE",
+                    CSharpType = "string",
+                    IsRequired = true,
+                },
+            ],
+        };
+        var tool = Tool(
+            parent,
+            Command(
+                "ToolServiceListOptions",
+                "ToolOptions",
+                ["service", "list"],
+                subDomainGroup: "service"));
+
+        var subDomainFiles = await new SubDomainClassGenerator().GenerateAsync(tool);
+        var service = subDomainFiles.Single(file =>
+            Path.GetFileName(file.RelativePath) == "ToolService.Generated.cs");
+
+        await Assert.That(service.Content)
+            .Contains("ToolServiceOptions options,");
+        await Assert.That(service.Content)
+            .DoesNotContain("new ToolServiceOptions()");
+    }
+
+    [Test]
     public async Task SubDomain_Generators_Expose_Kubectl_ClusterInfo_Parent()
     {
         var tool = Tool(
