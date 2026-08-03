@@ -195,7 +195,10 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         summary = summary with
         {
-            RunReport = await _runReportService.CompleteAsync(summary, pipelineException).ConfigureAwait(false),
+            RunReport = await _runReportService.CompleteAsync(
+                    summary,
+                    GetPipelineReportException(summary, pipelineException))
+                .ConfigureAwait(false),
             StatusOverride = pipelineException is null ? summary.StatusOverride : Status.Failed,
         };
 
@@ -219,6 +222,35 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         return summary;
+    }
+
+    private static Exception? GetPipelineReportException(
+        PipelineSummary summary,
+        Exception? pipelineException)
+    {
+        return pipelineException is not null
+               && summary.Results.Any(result =>
+                   result.ExceptionOrDefault is { } moduleException
+                   && ContainsException(pipelineException, moduleException))
+            ? null
+            : pipelineException;
+    }
+
+    private static bool ContainsException(Exception exception, Exception expected)
+    {
+        if (ReferenceEquals(exception, expected))
+        {
+            return true;
+        }
+
+        if (exception is AggregateException aggregateException)
+        {
+            return aggregateException.InnerExceptions.Any(innerException =>
+                ContainsException(innerException, expected));
+        }
+
+        return exception.InnerException is { } innerException
+               && ContainsException(innerException, expected);
     }
 
     private static PipelineMetrics? RecomputeDurationMetrics(

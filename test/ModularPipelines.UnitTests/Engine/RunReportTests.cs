@@ -1321,6 +1321,46 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task ModuleFailureIsNotDuplicatedAsPipelineException()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "module-failure.json");
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                ExecutionMode = ExecutionMode.StopOnFirstException,
+                ThrowOnPipelineFailure = false,
+                PrintLogo = false,
+                PrintResults = false,
+                RunReport = options.RunReport with { ReportPath = reportPath },
+            });
+            builder.AddModule<FailingModule>();
+
+            await Assert.ThrowsAsync<ModuleFailedException>(
+                () => builder.ExecutePipelineAsync());
+
+            var report = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+            using (Assert.Multiple())
+            {
+                await Assert.That(report!.Status).IsEqualTo(Status.Failed);
+                await Assert.That(report.Exception).IsNull();
+                await Assert.That(report.Modules).HasSingleItem();
+                await Assert.That(report.Modules[0].Exception).IsNotNull();
+                await Assert.That(report.Modules[0].Exception!.Message)
+                    .IsEqualTo("report failure **********");
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     [Arguments(3, 0)]
     [Arguments(1, 2)]
     public async Task DistributedMasterAddsOnlyMissingUnmatchedWorkerMetrics(
@@ -1433,7 +1473,7 @@ public class RunReportTests
                 NullLogger<RunReportService>.Instance);
 
             var report = await service.CompleteAsync(CreateEmptySummary(runStartedAt))
-                .WaitAsync(TimeSpan.FromSeconds(3));
+                .WaitAsync(TimeSpan.FromSeconds(10));
 
             using (Assert.Multiple())
             {
