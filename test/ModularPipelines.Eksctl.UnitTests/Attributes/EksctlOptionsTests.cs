@@ -1,15 +1,12 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Eksctl.Enums;
 using ModularPipelines.Eksctl.Options;
-using ModularPipelines.Helpers.Internal;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Eksctl.UnitTests.Attributes;
 
 public class EksctlOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task CreateCluster_Renders_Scalar_Collections_And_Flags()
     {
@@ -109,11 +106,5 @@ public class EksctlOptionsTests
 
         await Assert.That(arguments).IsEquivalentTo(["--encrypt-existing-secrets=false"]);
         await Assert.That(property!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsFalse();
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }
