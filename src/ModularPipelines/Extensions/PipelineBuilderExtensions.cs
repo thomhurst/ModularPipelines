@@ -285,6 +285,38 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
+    /// Writes a schema-versioned JSON report when the pipeline finishes.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="path">The report path.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder WriteRunReport(this PipelineBuilder builder, string path)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+        return builder.ConfigurePipelineOptions(options => options with
+        {
+            RunReport = options.RunReport with { ReportPath = path },
+        });
+    }
+
+    /// <summary>
+    /// Replaces the default file-system run history store.
+    /// </summary>
+    /// <typeparam name="TStore">The history store implementation type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddRunHistoryStore<
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TStore>(
+        this PipelineBuilder builder)
+        where TStore : class, IRunHistoryStore
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        builder.Services.Replace(ServiceDescriptor.Singleton<IRunHistoryStore, TStore>());
+        return builder;
+    }
+
+    /// <summary>
     /// Configures pipeline options with builder context.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>

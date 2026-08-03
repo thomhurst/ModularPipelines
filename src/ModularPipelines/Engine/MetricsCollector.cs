@@ -129,7 +129,8 @@ internal class MetricsCollector : IMetricsCollector
             .Select(data => new ModuleTimeline
             {
                 ModuleName = data.ModuleType.Name,
-                ModuleTypeName = data.ModuleType.FullName ?? data.ModuleType.Name,
+                ModuleTypeName = ModuleTypeIdentifier.Get(data.ModuleType),
+                RuntimeModuleTypeName = ModuleTypeIdentifier.GetRuntime(data.ModuleType),
                 Priority = data.Priority,
                 ExecutionType = data.ExecutionType,
                 ReadyTime = data.ReadyTime,

@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Caching;
+using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Caching;
 using ModularPipelines.Distributed.Redis.Configuration;
@@ -60,8 +61,14 @@ public static class RedisDistributedExtensions
     {
         var options = new RedisDistributedOptions();
         configure(options);
+        options.RunIdentifier = RunIdentifierResolver.ResolveExecutionIdentifier(options.RunIdentifier)
+            ?? throw new InvalidOperationException(
+                "Redis distributed coordination requires a unique RunIdentifier for each pipeline execution. "
+                + "Configure RunIdentifier explicitly or provide a supported CI run identifier.");
 
         builder.Services.AddSingleton(options);
+        builder.Services.PostConfigure<DistributedOptions>(distributedOptions =>
+            distributedOptions.ExecutionIdentifier ??= options.RunIdentifier);
         builder.Services.TryAddSingleton<IConnectionMultiplexer>(sp =>
         {
             var opts = sp.GetRequiredService<RedisDistributedOptions>();

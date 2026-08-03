@@ -1,5 +1,6 @@
 using System.Text.Json;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 
@@ -28,7 +29,9 @@ public class ModuleResultSerializerTests
     {
         var registry = new ModuleTypeRegistry();
         registry.Register(typeof(SimpleModule));
-        var serializer = new ModuleResultSerializer(registry);
+        var commandExecutionCounter = new CommandExecutionCounter();
+        commandExecutionCounter.Add(typeof(SimpleModule), 3);
+        var serializer = new ModuleResultSerializer(registry, commandExecutionCounter);
 
         var result = new ModuleResult<SimpleResult>.Success(new SimpleResult { Name = "test", Count = 42 })
         {
@@ -44,11 +47,13 @@ public class ModuleResultSerializerTests
 
         await Assert.That(serialized.ModuleTypeName).IsEqualTo(typeof(SimpleModule).FullName);
         await Assert.That(serialized.WorkerIndex).IsEqualTo(1);
+        await Assert.That(serialized.CommandCount).IsEqualTo(3);
         await Assert.That(serialized.SerializedJson).IsNotNull();
 
         var deserialized = serializer.Deserialize(serialized);
         await Assert.That(deserialized).IsNotNull();
         await Assert.That(deserialized!.ModuleStatus).IsEqualTo(Status.Successful);
+        await Assert.That(deserialized.ModuleTypeName).IsEqualTo(ModuleTypeIdentifier.Get(typeof(SimpleModule)));
     }
 
     [Test]
@@ -65,5 +70,21 @@ public class ModuleResultSerializerTests
             CompletedAt: DateTimeOffset.UtcNow);
 
         Assert.Throws<InvalidOperationException>(() => serializer.Deserialize(serialized));
+    }
+
+    [Test]
+    public async Task Serialized_Result_Preserves_Six_Parameter_Constructor()
+    {
+        var constructor = typeof(SerializedModuleResult).GetConstructor(
+        [
+            typeof(string),
+            typeof(string),
+            typeof(int),
+            typeof(string),
+            typeof(DateTimeOffset),
+            typeof(IReadOnlyList<ArtifactReference>),
+        ]);
+
+        await Assert.That(constructor).IsNotNull();
     }
 }
