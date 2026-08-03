@@ -5840,6 +5840,36 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Field_Startup_Lambda()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Action<IServiceCollection> Callback = services =>
+                    services.AddSingleton<IModule, BuildModule>();
+
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.ConfigureServices(Callback);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_With_Local_Unresolved_Descriptor()
     {
         var source = $$"""
@@ -5861,6 +5891,76 @@ public class ModuleAuthoringAnalyzerTests
                         ChooseImplementationType());
                     services.Add(descriptor);
                 }
+
+                private static Type ChooseImplementationType() => typeof(BuildModule);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_With_Member_Service_Descriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            internal class DeployModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly ServiceDescriptor Descriptor =
+                    ServiceDescriptor.Singleton<IModule, BuildModule>();
+
+                private static ServiceDescriptor PropertyDescriptor =>
+                    ServiceDescriptor.Singleton<IModule, DeployModule>();
+
+                public static void Register()
+                {
+                    var services = Pipeline.CreateBuilder().Services;
+                    services.Add(Descriptor);
+                    services.Add(PropertyDescriptor);
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Unresolved_Descriptor_Passed_Through_Helper_Suppresses_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().Services.Add(Pass(
+                        ServiceDescriptor.Singleton(
+                            typeof(IModule),
+                            ChooseImplementationType())));
+
+                private static ServiceDescriptor Pass(ServiceDescriptor descriptor) => descriptor;
 
                 private static Type ChooseImplementationType() => typeof(BuildModule);
             }

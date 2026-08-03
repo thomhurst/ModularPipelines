@@ -232,13 +232,12 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var invocation = (IInvocationOperation) context.Operation;
-        if (!IsInReachableBranch(invocation)
-            || !IsInsideReachableNestedCallable(invocation))
+        if (!IsInReachableBranch(invocation))
         {
             return;
         }
 
-        var containingMethods = GetContainingExecutionMethods(context.ContainingSymbol);
+        var containingMethods = GetContainingExecutionMethods(invocation, context.ContainingSymbol);
         foreach (var containingMethod in containingMethods.OfType<IMethodSymbol>())
         {
             methodCalls.Add((
@@ -360,17 +359,23 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            foreach (var methodReference in GetValueAndReachingCallbackValues(
+            foreach (var callback in GetValueAndReachingCallbackValues(
                              argument.Value,
                              compilation,
                              [with(SymbolEqualityComparer.Default)],
                              [with(SymbolEqualityComparer.Default)])
                          .SelectMany(static value => value.DescendantsAndSelf())
-                         .OfType<IMethodReferenceOperation>())
+                         .Select(static operation => operation switch
+                         {
+                             IMethodReferenceOperation methodReference => methodReference.Method,
+                             IAnonymousFunctionOperation anonymousFunction => anonymousFunction.Symbol,
+                             _ => null,
+                         })
+                         .OfType<IMethodSymbol>())
             {
                 methodCalls.Add((
                     NormalizeMethod(containingMethod),
-                    NormalizeMethod(methodReference.Method)));
+                    NormalizeMethod(callback)));
             }
         }
     }
@@ -1168,12 +1173,13 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsUnresolvedModuleServiceDescriptor(IOperation operation)
     {
-        return IsUnresolvedModuleServiceDescriptor(operation, []);
+        return IsUnresolvedModuleServiceDescriptor(operation, [], []);
     }
 
     private static bool IsUnresolvedModuleServiceDescriptor(
         IOperation operation,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         while (operation is IConversionOperation conversion)
         {
@@ -1183,45 +1189,60 @@ internal static class ModuleAuthoringAnalysis
         return operation switch
         {
             IConversionOperation conversion =>
-                IsUnresolvedModuleServiceDescriptor(conversion.Operand, visitedLocals),
+                IsUnresolvedModuleServiceDescriptor(conversion.Operand, visitedLocals, visitedMethods),
             IArrayCreationOperation { Initializer: { } initializer } =>
                 initializer.ElementValues.Any(element =>
                     IsUnresolvedModuleServiceDescriptor(
                         element,
-                        CloneVisitedLocals(visitedLocals))),
+                        CloneVisitedLocals(visitedLocals),
+                        CloneVisitedMethods(visitedMethods))),
             ICollectionExpressionOperation collection =>
                 collection.Elements.Any(element =>
                     IsUnresolvedModuleServiceDescriptor(
                         element,
-                        CloneVisitedLocals(visitedLocals))),
+                        CloneVisitedLocals(visitedLocals),
+                        CloneVisitedMethods(visitedMethods))),
             ISpreadOperation spread =>
-                IsUnresolvedModuleServiceDescriptor(spread.Operand, visitedLocals),
+                IsUnresolvedModuleServiceDescriptor(spread.Operand, visitedLocals, visitedMethods),
             IConditionalOperation conditional =>
-                IsUnresolvedModuleServiceDescriptorConditional(conditional, visitedLocals),
+                IsUnresolvedModuleServiceDescriptorConditional(
+                    conditional,
+                    visitedLocals,
+                    visitedMethods),
             ICoalesceOperation coalesce =>
                 IsUnresolvedModuleServiceDescriptor(
                     coalesce.Value,
-                    CloneVisitedLocals(visitedLocals))
+                    CloneVisitedLocals(visitedLocals),
+                    CloneVisitedMethods(visitedMethods))
                 || IsUnresolvedModuleServiceDescriptor(
                     coalesce.WhenNull,
-                    CloneVisitedLocals(visitedLocals)),
+                    CloneVisitedLocals(visitedLocals),
+                    CloneVisitedMethods(visitedMethods)),
             ISwitchExpressionOperation switchExpression =>
                 switchExpression.Arms
                     .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
                     .Any(arm =>
                     IsUnresolvedModuleServiceDescriptor(
                         arm.Value,
-                        CloneVisitedLocals(visitedLocals))),
+                        CloneVisitedLocals(visitedLocals),
+                        CloneVisitedMethods(visitedMethods))),
             ILocalReferenceOperation localReference =>
-                IsUnresolvedModuleServiceDescriptorLocal(localReference, visitedLocals),
-            IInvocationOperation invocation => IsUnresolvedModuleServiceDescriptorFactory(invocation),
+                IsUnresolvedModuleServiceDescriptorLocal(
+                    localReference,
+                    visitedLocals,
+                    visitedMethods),
+            IInvocationOperation invocation => IsUnresolvedModuleServiceDescriptorInvocation(
+                invocation,
+                visitedLocals,
+                visitedMethods),
             _ => false,
         };
     }
 
     private static bool IsUnresolvedModuleServiceDescriptorConditional(
         IConditionalOperation conditional,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
         {
@@ -1229,27 +1250,89 @@ internal static class ModuleAuthoringAnalysis
                 ? conditional.WhenTrue
                 : conditional.WhenFalse;
             return selectedBranch is not null
-                   && IsUnresolvedModuleServiceDescriptor(selectedBranch, visitedLocals);
+                   && IsUnresolvedModuleServiceDescriptor(
+                       selectedBranch,
+                       visitedLocals,
+                       visitedMethods);
         }
 
         return IsUnresolvedModuleServiceDescriptor(
                    conditional.WhenTrue,
-                   CloneVisitedLocals(visitedLocals))
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods))
                || (conditional.WhenFalse is not null
                    && IsUnresolvedModuleServiceDescriptor(
                        conditional.WhenFalse,
-                       CloneVisitedLocals(visitedLocals)));
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool IsUnresolvedModuleServiceDescriptorLocal(
         ILocalReferenceOperation localReference,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         return visitedLocals.Add(localReference.Local)
                && FindReachingLocalValues(localReference, localReference.Local)
                    .Any(value => IsUnresolvedModuleServiceDescriptor(
                        value,
-                       CloneVisitedLocals(visitedLocals)));
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static bool IsUnresolvedModuleServiceDescriptorInvocation(
+        IInvocationOperation invocation,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (IsUnresolvedModuleServiceDescriptorFactory(invocation))
+        {
+            return true;
+        }
+
+        var method = invocation.TargetMethod.OriginalDefinition;
+        if (!visitedMethods.Add(method)
+            || invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return false;
+        }
+
+        return operation.DescendantsAndSelf()
+            .OfType<IReturnOperation>()
+            .Where(static returnOperation =>
+                GetEnclosingCallable(returnOperation) is null
+                && IsInReachableBranch(returnOperation))
+            .Select(static returnOperation => returnOperation.ReturnedValue)
+            .OfType<IOperation>()
+            .Any(returnValue => IsUnresolvedModuleServiceDescriptorInvocationReturn(
+                returnValue,
+                invocation,
+                visitedLocals,
+                visitedMethods));
+    }
+
+    private static bool IsUnresolvedModuleServiceDescriptorInvocationReturn(
+        IOperation returnValue,
+        IInvocationOperation invocation,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (returnValue is IParameterReferenceOperation parameterReference)
+        {
+            var targetMethod = NormalizeMethod(invocation.TargetMethod);
+            var argument = invocation.Arguments.FirstOrDefault(candidate =>
+                SymbolEqualityComparer.Default.Equals(
+                    GetTargetParameter(targetMethod, candidate.Parameter),
+                    parameterReference.Parameter));
+            return argument is not null
+                   && IsUnresolvedModuleServiceDescriptor(
+                       argument.Value,
+                       visitedLocals,
+                       visitedMethods);
+        }
+
+        return IsUnresolvedModuleServiceDescriptor(returnValue, visitedLocals, visitedMethods);
     }
 
     private static bool IsUnresolvedModuleServiceDescriptorFactory(IInvocationOperation invocation)
@@ -1283,6 +1366,22 @@ internal static class ModuleAuthoringAnalysis
                 instanceRegisteredModules,
                 visitedLocals,
                 visitedMethods),
+            IFieldReferenceOperation fieldReference => TryTrackServiceDescriptorMember(
+                fieldReference,
+                fieldReference.Field,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods,
+                [with(SymbolEqualityComparer.Default)]),
+            IPropertyReferenceOperation propertyReference => TryTrackServiceDescriptorMember(
+                propertyReference,
+                propertyReference.Property,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods,
+                [with(SymbolEqualityComparer.Default)]),
             IConditionalOperation conditional => TryTrackServiceDescriptorConditional(
                 conditional,
                 compilation,
@@ -1454,6 +1553,99 @@ internal static class ModuleAuthoringAnalysis
             visitedMethods);
     }
 
+    private static bool TryTrackServiceDescriptorMember(
+        IOperation memberReference,
+        ISymbol member,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<ISymbol> visitedMembers)
+    {
+        if (!visitedMembers.Add(member))
+        {
+            return false;
+        }
+
+        IOperation[] memberValues = [.. FindReachingMemberValues(memberReference, member)];
+        if (memberValues.Length == 0)
+        {
+            memberValues = [.. GetStaticConstructorMemberValues(member, compilation)];
+        }
+
+        if (memberValues.Length == 0)
+        {
+            memberValues = [.. GetDeclaredServiceDescriptorMemberValues(member, compilation)];
+        }
+
+        return memberValues.Length > 0
+               && memberValues.All(value => value switch
+               {
+                   IFieldReferenceOperation fieldReference => TryTrackServiceDescriptorMember(
+                       fieldReference,
+                       fieldReference.Field,
+                       compilation,
+                       instanceRegisteredModules,
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods),
+                       new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)),
+                   IPropertyReferenceOperation propertyReference => TryTrackServiceDescriptorMember(
+                       propertyReference,
+                       propertyReference.Property,
+                       compilation,
+                       instanceRegisteredModules,
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods),
+                       new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)),
+                   _ => TryTrackServiceDescriptor(
+                       value,
+                       compilation,
+                       instanceRegisteredModules,
+                       CloneVisitedLocals(visitedLocals),
+                       CloneVisitedMethods(visitedMethods)),
+               });
+    }
+
+    private static IEnumerable<IOperation> GetDeclaredServiceDescriptorMemberValues(
+        ISymbol member,
+        Compilation compilation)
+    {
+        var operations = GetDeclaredMemberOperations(member, compilation).ToArray();
+        var foundValue = false;
+        foreach (var operation in operations)
+        {
+            switch (operation)
+            {
+                case IFieldInitializerOperation fieldInitializer
+                    when fieldInitializer.InitializedFields.Any(field =>
+                        SymbolEqualityComparer.Default.Equals(field, member)):
+                    foundValue = true;
+                    yield return fieldInitializer.Value;
+                    break;
+                case IPropertyInitializerOperation propertyInitializer
+                    when propertyInitializer.InitializedProperties.Any(property =>
+                        SymbolEqualityComparer.Default.Equals(property, member)):
+                    foundValue = true;
+                    yield return propertyInitializer.Value;
+                    break;
+                case IReturnOperation { ReturnedValue: { } returnedValue }
+                    when IsInReachableBranch(operation):
+                    foundValue = true;
+                    yield return returnedValue;
+                    break;
+            }
+        }
+
+        if (!foundValue
+            && operations
+                .Where(operation => operation.Type is { } type && IsServiceDescriptorType(type))
+                .OrderByDescending(static operation => operation.Syntax.Span.Length)
+                .FirstOrDefault() is { } expressionValue)
+        {
+            yield return expressionValue;
+        }
+    }
+
     private static bool TryTrackServiceDescriptorInvocation(
         IInvocationOperation invocation,
         Compilation compilation,
@@ -1616,14 +1808,13 @@ internal static class ModuleAuthoringAnalysis
     {
         var assignment = (ISimpleAssignmentOperation) context.Operation;
         if (!IsInReachableBranch(assignment)
-            || !IsInsideReachableNestedCallable(assignment)
             || !IsServiceCollectionIndexerAssignment(assignment))
         {
             return;
         }
 
         foreach (var containingMethod in
-                 GetContainingExecutionMethods(context.ContainingSymbol))
+                 GetContainingExecutionMethods(assignment, context.ContainingSymbol))
         {
             assignments.Add((assignment, containingMethod));
         }
@@ -2736,6 +2927,15 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return [null];
+    }
+
+    private static ImmutableArray<IMethodSymbol?> GetContainingExecutionMethods(
+        IOperation operation,
+        ISymbol containingSymbol)
+    {
+        return GetCallableSymbol(GetEnclosingCallable(operation)) is { } callable
+            ? [callable]
+            : GetContainingExecutionMethods(containingSymbol);
     }
 
     private static bool IsInReachableBranch(IOperation operation)
