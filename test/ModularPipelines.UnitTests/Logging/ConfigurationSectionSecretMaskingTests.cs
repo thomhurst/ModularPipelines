@@ -69,7 +69,7 @@ public class ConfigurationSectionSecretMaskingTests
     [Arguments("   ")]
     public async Task FluentConfigurationRejectsInvalidPaths(string? sectionPath)
     {
-        using var builder = TestPipelineHostBuilder.Create();
+        using var builder = TestPipelineBuilder.Create();
 
         await Assert.That(() => builder.MaskConfigurationSection(sectionPath!))
             .Throws<ArgumentException>();
@@ -77,7 +77,7 @@ public class ConfigurationSectionSecretMaskingTests
 
     private static PipelineBuilder CreateBuilder(StringBuilder output)
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.Configuration.AddInMemoryCollection(new Dictionary<string, string?>
         {
             ["Secrets"] = "section-secret-789",

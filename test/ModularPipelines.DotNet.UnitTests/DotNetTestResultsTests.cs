@@ -63,7 +63,7 @@ public class DotNetTestResultsTests : TestBase
     [Test]
     public async Task Can_Parse_Trx_Using_Helper()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<TrueModule>()
             .BuildAsync();
 

@@ -175,14 +175,6 @@ public sealed class ModuleRegistration<TModule>
         => Builder.ConfigureServices(configureServices);
 
     /// <summary>
-    /// Configures services for the pipeline with builder context.
-    /// </summary>
-    /// <param name="configureServices">The service configuration action.</param>
-    /// <returns>The pipeline builder.</returns>
-    public PipelineBuilder ConfigureServices(Action<PipelineBuilder, IServiceCollection> configureServices)
-        => Builder.ConfigureServices(configureServices);
-
-    /// <summary>
     /// Adds a custom result repository.
     /// </summary>
     /// <typeparam name="TRepository">The repository type.</typeparam>

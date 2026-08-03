@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,46 +23,63 @@ namespace ModularPipelines;
 /// </summary>
 internal sealed class PipelineImpl : IPipeline
 {
+    private const string DisposalExceptionDataKey = "ModularPipelines.PipelineDisposalException";
+
     private readonly IHost _host;
     private readonly AsyncServiceScope _serviceScope;
-
-    [ExcludeFromCodeCoverage]
-    ~PipelineImpl()
-    {
-        DisposeAsync().AsTask().GetAwaiter().GetResult();
-    }
+    private readonly IDisposable _shutdownRegistration;
+    private readonly object _disposeLock = new();
+    private readonly AsyncLocal<DisposalOwnership?> _disposalOwnership = new();
+    private int _isSynchronousContainerDisposalActive;
+    private Task? _disposeTask;
 
     private PipelineImpl(IHost host)
     {
         _host = host;
         _serviceScope = host.Services.CreateAsyncScope();
 
-        Disposer.RegisterOnShutdown(this);
+        _shutdownRegistration = Disposer.RegisterOnShutdownWithUnregistration(this);
     }
 
     internal static async Task<PipelineImpl> CreateAsync(IHostBuilder hostBuilder)
     {
-        var host = new PipelineImpl(hostBuilder.Build());
-        var services = host._host.Services;
+        var pipeline = new PipelineImpl(hostBuilder.Build());
+        var services = pipeline._host.Services;
 
         try
         {
-            ValidateModuleDependencies(services, services.GetServices<IModule>());
-        }
-        catch (Exception exception) when (exception is ModuleNotRegisteredException
-            or ModuleReferencingSelfException
-            or DependencyCollisionException)
-        {
-            await services.InitializeAsync().ConfigureAwait(false);
-            var runnableModules = await services.GetRequiredService<ModuleRetriever>()
-                .GetRunnableModulesForValidation()
-                .ConfigureAwait(false);
-            ValidateModuleDependencies(services, runnableModules);
-            return host;
-        }
+            try
+            {
+                ValidateModuleDependencies(services, services.GetServices<IModule>());
+            }
+            catch (Exception exception) when (exception is ModuleNotRegisteredException
+                or ModuleReferencingSelfException
+                or DependencyCollisionException)
+            {
+                await services.InitializeAsync().ConfigureAwait(false);
+                var runnableModules = await services.GetRequiredService<ModuleRetriever>()
+                    .GetRunnableModulesForValidation()
+                    .ConfigureAwait(false);
+                ValidateModuleDependencies(services, runnableModules);
+                return pipeline;
+            }
 
-        await services.InitializeAsync().ConfigureAwait(false);
-        return host;
+            await services.InitializeAsync().ConfigureAwait(false);
+            return pipeline;
+        }
+        catch (Exception startupException)
+        {
+            try
+            {
+                await pipeline.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (Exception disposalException)
+            {
+                startupException.Data[DisposalExceptionDataKey] = disposalException;
+            }
+
+            throw;
+        }
     }
 
     /// <inheritdoc />
@@ -123,11 +140,114 @@ internal sealed class PipelineImpl : IPipeline
     }
 
     /// <inheritdoc />
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
-        await _serviceScope.DisposeAsync().ConfigureAwait(false);
-        await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
-        GC.SuppressFinalize(this);
+        TaskCompletionSource completion;
+        Task disposeTask;
+        lock (_disposeLock)
+        {
+            if (_disposeTask is not null)
+            {
+                return _disposalOwnership.Value?.IsActive == true
+                    || Volatile.Read(ref _isSynchronousContainerDisposalActive) == 1
+                    ? ValueTask.CompletedTask
+                    : new ValueTask(_disposeTask);
+            }
+
+            completion = new TaskCompletionSource(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            _disposeTask = completion.Task;
+            disposeTask = _disposeTask;
+        }
+
+        _ = CompleteDisposalAsync(completion);
+        return new ValueTask(disposeTask);
+    }
+
+    private async Task CompleteDisposalAsync(TaskCompletionSource completion)
+    {
+        try
+        {
+            await DisposeCoreAsync().ConfigureAwait(false);
+            completion.SetResult();
+        }
+        catch (OperationCanceledException cancellationException)
+        {
+            completion.SetCanceled(cancellationException.CancellationToken);
+        }
+        catch (Exception exception)
+        {
+            completion.SetException(exception);
+        }
+    }
+
+    private async Task DisposeCoreAsync()
+    {
+        var ownership = new DisposalOwnership();
+        _disposalOwnership.Value = ownership;
+        try
+        {
+            _shutdownRegistration.Dispose();
+            Exception? scopeException = null;
+            try
+            {
+                ValueTask scopeDisposal;
+                Volatile.Write(ref _isSynchronousContainerDisposalActive, 1);
+                try
+                {
+                    scopeDisposal = _serviceScope.DisposeAsync();
+                }
+                finally
+                {
+                    Volatile.Write(ref _isSynchronousContainerDisposalActive, 0);
+                }
+
+                await scopeDisposal.ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                scopeException = exception;
+            }
+
+            try
+            {
+                Task hostDisposal;
+                Volatile.Write(ref _isSynchronousContainerDisposalActive, 1);
+                try
+                {
+                    hostDisposal = Disposer.DisposeObjectAsync(_host);
+                }
+                finally
+                {
+                    Volatile.Write(ref _isSynchronousContainerDisposalActive, 0);
+                }
+
+                await hostDisposal.ConfigureAwait(false);
+            }
+            catch (Exception hostException) when (scopeException is not null)
+            {
+                throw new AggregateException(scopeException, hostException);
+            }
+
+            if (scopeException is not null)
+            {
+                ExceptionDispatchInfo.Capture(scopeException).Throw();
+            }
+        }
+        finally
+        {
+            ownership.Deactivate();
+            _disposalOwnership.Value = null;
+        }
+    }
+
+    private sealed class DisposalOwnership
+    {
+        private int _isActive = 1;
+
+        public bool IsActive => Volatile.Read(ref _isActive) == 1;
+
+        public void Deactivate() => Interlocked.Exchange(ref _isActive, 0);
     }
 
     private static void ValidateModuleDependencies(

@@ -56,7 +56,7 @@ public class JsonSerializationTests : TestBase
     [Test]
     public async Task Test1()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .BuildAsync();
 

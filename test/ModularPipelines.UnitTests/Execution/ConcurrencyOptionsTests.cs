@@ -44,7 +44,7 @@ public class ConcurrencyOptionsTests : TestBase
     [Test]
     public async Task Pipeline_RespectsMaxParallelismSetting()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
             .AddModule<SimpleModule2>()
             .ConfigurePipelineOptions((_, options) => options with
@@ -59,7 +59,7 @@ public class ConcurrencyOptionsTests : TestBase
     [Test]
     public async Task Pipeline_RespectsMaxCpuIntensiveModulesSetting()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
             .ConfigurePipelineOptions((_, options) => options with
             {
@@ -73,7 +73,7 @@ public class ConcurrencyOptionsTests : TestBase
     [Test]
     public async Task Pipeline_RespectsMaxIoIntensiveModulesSetting()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SimpleModule>()
             .ConfigurePipelineOptions((_, options) => options with
             {

@@ -121,7 +121,7 @@ public class CategoryFilterDependencyTests : TestBase
     public async Task Optional_Dependency_Works_When_Filtered_By_Category()
     {
         // Issue #2164: Running only "test" category with optional deps should work
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDep>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
@@ -140,7 +140,7 @@ public class CategoryFilterDependencyTests : TestBase
     {
         // When using category filters, dependencies in other categories should be marked optional
         // This test verifies that optional deps work correctly with category filtering
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDepForCategoryFilter>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })
@@ -157,7 +157,7 @@ public class CategoryFilterDependencyTests : TestBase
     [Test]
     public async Task Required_Dependency_Filtered_By_Category_Cascade_Skips_Dependents()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithRequiredDep>()
             .AddModule<TransitiveRequiredDepModule>()
@@ -187,7 +187,7 @@ public class CategoryFilterDependencyTests : TestBase
         var firstCompileModule = new CompileModule();
         var secondCompileModule = new CompileModule();
 
-        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => TestPipelineHostBuilder.Create()
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => TestPipelineBuilder.Create()
             .AddModule(firstCompileModule)
             .AddModule(secondCompileModule)
             .AddModule<TestModuleWithRequiredDep>()
@@ -203,7 +203,7 @@ public class CategoryFilterDependencyTests : TestBase
     {
         var compileModule = new CompileModule();
 
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule(compileModule)
             .AddModule(compileModule)
             .AddModule<CompileResultConsumerModule>()
@@ -226,7 +226,7 @@ public class CategoryFilterDependencyTests : TestBase
     {
         var compileModule = new CompileModule();
 
-        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => TestPipelineHostBuilder.Create()
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => TestPipelineBuilder.Create()
             .AddModule<CompileModule>(_ => compileModule)
             .AddModule<CompileModule>(_ => compileModule)
             .AddModule<CompileResultConsumerModule>()
@@ -240,7 +240,7 @@ public class CategoryFilterDependencyTests : TestBase
     [Test]
     public async Task Fluent_Skip_Cascade_Skips_Required_Dependent()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<FluentlySkippedModule>()
             .AddModule<FluentSkipDependentModule>()
             .ExecutePipelineAsync();
@@ -257,7 +257,7 @@ public class CategoryFilterDependencyTests : TestBase
     [Test]
     public async Task Value_Equal_Module_Instances_Are_Discovered_Independently()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<FirstValueEqualModule>()
             .AddModule<SecondValueEqualModule>()
             .ExecutePipelineAsync();
@@ -271,7 +271,7 @@ public class CategoryFilterDependencyTests : TestBase
     [Test]
     public async Task Both_Categories_Run_Successfully()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<CompileModule>()
             .AddModule<TestModuleWithOptionalDep>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["compile", "test"] })

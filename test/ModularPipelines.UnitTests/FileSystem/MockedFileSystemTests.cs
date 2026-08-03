@@ -20,8 +20,8 @@ public class MockedFileSystemTests
             .ReturnsAsync("{\"enabled\": true}");
 
         // Act - run pipeline with mock provider
-        var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        var result = await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 // Replace the default provider with our mock
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
@@ -47,8 +47,8 @@ public class MockedFileSystemTests
         var mockProvider = new Mock<IFileSystemProvider>();
 
         // Act
-        var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        var result = await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
             })
@@ -73,8 +73,8 @@ public class MockedFileSystemTests
         mockProvider.Setup(p => p.Combine(It.IsAny<string[]>())).Returns((string[] args) => Path.Combine(args));
 
         // Act
-        var result = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        var result = await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
             })

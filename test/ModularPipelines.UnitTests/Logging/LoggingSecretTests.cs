@@ -42,8 +42,8 @@ public class LoggingSecretTests
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection
                     .AddSingleton<ILogger<SecretValueLoggingModule1>>(new StringLogger<SecretValueLoggingModule1>(stringBuilder))

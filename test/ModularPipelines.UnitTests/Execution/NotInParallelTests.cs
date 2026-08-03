@@ -56,7 +56,7 @@ public class NotInParallelTests : TestBase
     {
         Tracker.Reset();
 
-        await TestPipelineHostBuilder.Create()
+        await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
@@ -69,7 +69,7 @@ public class NotInParallelTests : TestBase
     {
         Tracker.Reset();
 
-        await TestPipelineHostBuilder.Create()
+        await TestPipelineBuilder.Create()
             .AddModule<NotParallelModuleWithParallelDependency>()
             .AddModule<ParallelDependency>()
             .ExecutePipelineAsync();
@@ -82,7 +82,7 @@ public class NotInParallelTests : TestBase
     {
         Tracker.Reset();
 
-        await TestPipelineHostBuilder.Create()
+        await TestPipelineBuilder.Create()
             .AddModule<NotParallelModuleWithParallelDependency>()
             .AddModule<ParallelDependency>()
             .AddModule<NotParallelModuleWithNonParallelDependency>()
