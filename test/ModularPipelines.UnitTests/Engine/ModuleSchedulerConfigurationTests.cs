@@ -50,9 +50,7 @@ public class ModuleSchedulerConfigurationTests
             TimeProvider.System,
             Microsoft.Extensions.Options.Options.Create(new SchedulerOptions()),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             Mock.Of<IMetricsCollector>(),
             Mock.Of<IModuleConstraintEvaluator>(),
             Mock.Of<ISchedulerStatusReporter>());
