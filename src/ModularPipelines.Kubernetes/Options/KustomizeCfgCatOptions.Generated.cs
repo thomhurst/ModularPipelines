@@ -77,7 +77,7 @@ public record KustomizeCfgCatOptions : KustomizeOptions
     /// <summary>
     /// yaml styles to apply.  may be 'TaggedStyle', 'DoubleQuotedStyle', 'LiteralStyle', 'FoldedStyle', 'FlowStyle'.
     /// </summary>
-    [CliOption("--style", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--style", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Style { get; set; }
 
     /// <summary>

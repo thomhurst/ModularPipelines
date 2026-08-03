@@ -32,7 +32,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Set metadata annotations (e.g. example=value)
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
@@ -116,7 +116,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Helm api-versions (in format [group/]version/kind) to use when running helm template (Can be repeated to set several values: --helm-api-versions traefik.io/v1alpha1/TLSOption --helm-api-versions v1/Service). If not set, use the api-versions from the destination cluster
     /// </summary>
-    [CliOption("--helm-api-versions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-api-versions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmApiVersions { get; set; }
 
     /// <summary>
@@ -146,19 +146,19 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Helm set values on the command line (can be repeated to set several values: --helm-set key1=val1 --helm-set key2=val2)
     /// </summary>
-    [CliOption("--helm-set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-set", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmSet { get; set; }
 
     /// <summary>
     /// Helm set values from respective files specified via the command line (can be repeated to set several values: --helm-set-file key1=path1 --helm-set-file key2=path2)
     /// </summary>
-    [CliOption("--helm-set-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-set-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmSetFile { get; set; }
 
     /// <summary>
     /// Helm set STRING values on the command line (can be repeated to set several values: --helm-set-string key1=val1 --helm-set-string key2=val2)
     /// </summary>
-    [CliOption("--helm-set-string", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-set-string", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmSetString { get; set; }
 
     /// <summary>
@@ -218,49 +218,49 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Jsonnet ext var
     /// </summary>
-    [CliOption("--jsonnet-ext-var-code", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--jsonnet-ext-var-code", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonnetExtVarCode { get; set; }
 
     /// <summary>
     /// Jsonnet string ext var
     /// </summary>
-    [CliOption("--jsonnet-ext-var-str", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--jsonnet-ext-var-str", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonnetExtVarStr { get; set; }
 
     /// <summary>
     /// Additional jsonnet libs (prefixed by repoRoot)
     /// </summary>
-    [CliOption("--jsonnet-libs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--jsonnet-libs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonnetLibs { get; set; }
 
     /// <summary>
     /// Jsonnet top level code arguments
     /// </summary>
-    [CliOption("--jsonnet-tla-code", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--jsonnet-tla-code", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonnetTlaCode { get; set; }
 
     /// <summary>
     /// Jsonnet top level string arguments
     /// </summary>
-    [CliOption("--jsonnet-tla-str", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--jsonnet-tla-str", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonnetTlaStr { get; set; }
 
     /// <summary>
     /// api-versions (in format [group/]version/kind) to use when running helm template (Can be repeated to set several values: --helm-api-versions traefik.io/v1alpha1/TLSOption --helm-api-versions v1/Service). If not set, use the api-versions from the destination cluster. Only applicable when Helm is enabled for Kustomize builds
     /// </summary>
-    [CliOption("--kustomize-api-versions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kustomize-api-versions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KustomizeApiVersions { get; set; }
 
     /// <summary>
     /// Set common labels in Kustomize
     /// </summary>
-    [CliOption("--kustomize-common-annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kustomize-common-annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KustomizeCommonAnnotation { get; set; }
 
     /// <summary>
     /// Set common labels in Kustomize
     /// </summary>
-    [CliOption("--kustomize-common-label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kustomize-common-label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KustomizeCommonLabel { get; set; }
 
     /// <summary>
@@ -278,7 +278,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Kustomize images (e.g. --kustomize-image node:8.15.0 --kustomize-image mysql=mariadb,alpine@sha256:24a0c4b4a4c0eb97a1aabb8e29f18e917d05abfe1b7a7c07857230879ce7d3d)
     /// </summary>
-    [CliOption("--kustomize-image", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kustomize-image", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KustomizeImage { get; set; }
 
     /// <summary>
@@ -308,7 +308,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Kustomize replicas (e.g. --kustomize-replica my-development=2 --kustomize-replica my-statefulset=4)
     /// </summary>
-    [CliOption("--kustomize-replica", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kustomize-replica", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KustomizeReplica { get; set; }
 
     /// <summary>
@@ -320,7 +320,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Labels to apply to the app
     /// </summary>
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -350,7 +350,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// set a parameter override (e.g. -p guestbook=image=example/guestbook:latest)
     /// </summary>
-    [CliOption("--parameter", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--parameter", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Parameter { get; set; }
 
     /// <summary>
@@ -362,7 +362,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Additional plugin envs
     /// </summary>
-    [CliOption("--plugin-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--plugin-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PluginEnv { get; set; }
 
     /// <summary>
@@ -422,7 +422,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Add or remove a sync option, e.g add Prune=false. Remove using `!` prefix, e.g. `!Prune=false`
     /// </summary>
-    [CliOption("--sync-option", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--sync-option", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SyncOption { get; set; }
 
     /// <summary>
@@ -482,7 +482,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Helm values file(s) to use
     /// </summary>
-    [CliOption("--values", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Values { get; set; }
 
     /// <summary>
@@ -549,7 +549,7 @@ public record ArgoCdAdminAppGenerateSpecOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

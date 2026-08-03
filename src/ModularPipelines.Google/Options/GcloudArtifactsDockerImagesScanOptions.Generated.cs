@@ -26,7 +26,7 @@ public record GcloudArtifactsDockerImagesScanOptions(
     /// <summary>
     /// (DEPRECATED) A comma-separated list of package types to scan in     addition to OS packages.     This flag is deprecated as scanning for all package types is now the     default. To skip scanning for specific package types, use     --skip-package-types. ADDITIONAL_PACKAGE_TYPES must be one of:      COMPOSER       PHP Composer package.     GO       Go standard library and third party packages.     MAVEN       Maven package.     NPM       NPM package.     NUGET       NuGet package.     PYTHON       Python package.     RUBYGEMS       RubyGems package.     RUST       Rust package.
     /// </summary>
-    [CliOption("--additional-package-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--additional-package-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdditionalPackageTypes { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record GcloudArtifactsDockerImagesScanOptions(
     /// <summary>
     /// A comma-separated list of package types to skip when scanning.     SKIP_PACKAGE_TYPES must be one of:      COMPOSER       PHP Composer package.     GO       Go standard library and third party packages.     MAVEN       Maven package.     NPM       NPM package.     NUGET       NuGet package.     PYTHON       Python package.     RUBYGEMS       RubyGems package.     RUST       Rust package.
     /// </summary>
-    [CliOption("--skip-package-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--skip-package-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SkipPackageTypes { get; set; }
 
 }

@@ -37,7 +37,7 @@ public record DockerBuildxPolicyEvalOptions(
     /// <summary>
     /// Fields to evaluate
     /// </summary>
-    [CliOption("--fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Fields { get; set; }
 
     /// <summary>

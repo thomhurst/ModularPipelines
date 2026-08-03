@@ -24,19 +24,19 @@ public record GcloudIamOauthClientsUpdateOptions : GcloudOptions
     /// <summary>
     /// A list of OAuth grant types that are allowed for the OAuth client.     The following grant types are currently supported:     ◆ authorization-code-grant     ◆ refresh-token-grant
     /// </summary>
-    [CliOption("--allowed-grant-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowed-grant-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedGrantTypes { get; set; }
 
     /// <summary>
     /// A list of redirect uris that is allowed for redirecting when the     authorization is completed.
     /// </summary>
-    [CliOption("--allowed-redirect-uris", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowed-redirect-uris", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedRedirectUris { get; set; }
 
     /// <summary>
     /// A list of scopes that the OAuth client is allowed to request during     OAuth flows.     The following scopes are currently supported:     ◆ https://www.googleapis.com/auth/cloud-platform: View, edit,      configure, and delete your Google Cloud data, and view the email      address for your Google Account.     ◆ openid: Associate you with your personal info on Google Cloud.     ◆ email: The OAuth client can read a federated identity's email      address.     ◆ groups: The OAuth client can read a federated identity's groups.
     /// </summary>
-    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowed-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedScopes { get; set; }
 
     /// <summary>

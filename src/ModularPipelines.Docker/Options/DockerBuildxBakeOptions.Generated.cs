@@ -24,7 +24,7 @@ public record DockerBuildxBakeOptions : DockerOptions
     /// <summary>
     /// Allow build to access specified resources
     /// </summary>
-    [CliOption("--allow", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allow", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Allow { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record DockerBuildxBakeOptions : DockerOptions
     /// <summary>
     /// Build definition file
     /// </summary>
-    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--file", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? File { get; set; }
 
     /// <summary>
@@ -84,7 +84,7 @@ public record DockerBuildxBakeOptions : DockerOptions
     /// <summary>
     /// Global policy evaluation options (format: "[disabled=true|false][,strict=true|false][,log-level=level]")
     /// </summary>
-    [CliOption("--policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Policy { get; set; }
 
     /// <summary>
@@ -126,13 +126,13 @@ public record DockerBuildxBakeOptions : DockerOptions
     /// <summary>
     /// Override target value (e.g., "targetpattern.key=value")
     /// </summary>
-    [CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Set { get; set; }
 
     /// <summary>
     /// Set a variable value (e.g., "name=value")
     /// </summary>
-    [CliOption("--var", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--var", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Var { get; set; }
 
     /// <summary>

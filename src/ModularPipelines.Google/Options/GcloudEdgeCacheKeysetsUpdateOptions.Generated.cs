@@ -37,7 +37,7 @@ public record GcloudEdgeCacheKeysetsUpdateOptions : GcloudOptions
     /// <summary>
     /// List of KEY=VALUE labels to attach to this resource.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>

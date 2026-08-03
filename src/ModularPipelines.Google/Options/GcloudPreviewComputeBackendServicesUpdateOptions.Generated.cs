@@ -51,13 +51,13 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     /// <summary>
     /// Specifies a comma-separated list of HTTP headers, by field name, to     include in cache keys. Only the request URL is included in the cache     key by default.
     /// </summary>
-    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheKeyIncludeHttpHeader { get; set; }
 
     /// <summary>
     /// Specifies a comma-separated list of HTTP cookie names to include in     cache keys. The name=value pair are used in the cache key Cloud CDN     generates. Cookies are not included in cache keys by default.
     /// </summary>
-    [CliOption("--cache-key-include-named-cookie", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-key-include-named-cookie", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheKeyIncludeNamedCookie { get; set; }
 
     /// <summary>
@@ -135,7 +135,7 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     /// <summary>
     /// Specifies a list of health check objects for checking the health of the     backend service. Currently at most one health check can be specified.     Health checks need not be for the same protocol as that of the backend     service.
     /// </summary>
-    [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HealthChecks { get; set; }
 
     /// <summary>
@@ -147,13 +147,13 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     /// <summary>
     /// Specifies a list of legacy HTTP health check objects for checking the     health of the backend service.     Legacy health checks are not recommended for backend services. It is     possible to use a legacy health check on a backend service for an     Application Load Balancer if that backend service uses instance groups.     For more information, refer to this guide:     https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide.
     /// </summary>
-    [CliOption("--http-health-checks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--http-health-checks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HttpHealthChecks { get; set; }
 
     /// <summary>
     /// Specifies a list of legacy HTTPS health check objects for checking the     health of the backend service.     Legacy health checks are not recommended for backend services. It is     possible to use a legacy health check on a backend service for an     Application Load Balancer if that backend service uses instance groups.     For more information, refer to this guide:     https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide.
     /// </summary>
-    [CliOption("--https-health-checks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--https-health-checks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HttpsHealthChecks { get; set; }
 
     /// <summary>
@@ -189,7 +189,7 @@ public record GcloudPreviewComputeBackendServicesUpdateOptions(
     /// <summary>
     /// This field can only be specified if logging is enabled for the backend     service and "--logging-optional" was set to CUSTOM. Contains a     comma-separated list of optional fields you want to include in the     logs. For example: serverInstance, serverGkeDetails.cluster,     serverGkeDetails.pod.podNamespace. This can only be specified for     internal and external passthrough Network Load Balancers.
     /// </summary>
-    [CliOption("--logging-optional-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging-optional-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LoggingOptionalFields { get; set; }
 
     /// <summary>

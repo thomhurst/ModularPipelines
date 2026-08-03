@@ -29,19 +29,19 @@ public record GrypeExplainOptions : GrypeOptions
     /// <summary>
     /// CVE IDs to explain
     /// </summary>
-    [CliOption("--id", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--id", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Id { get; set; }
 
     /// <summary>
     /// grype configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>

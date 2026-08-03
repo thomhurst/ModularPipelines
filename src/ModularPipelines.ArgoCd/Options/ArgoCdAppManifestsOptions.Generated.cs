@@ -50,7 +50,7 @@ public record ArgoCdAppManifestsOptions(
     /// <summary>
     /// Show manifests at specific revisions for the source at position in source-positions
     /// </summary>
-    [CliOption("--revisions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--revisions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Revisions { get; set; }
 
     /// <summary>
@@ -62,13 +62,13 @@ public record ArgoCdAppManifestsOptions(
     /// <summary>
     /// List of source names. Default is an empty array.
     /// </summary>
-    [CliOption("--source-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourceNames { get; set; }
 
     /// <summary>
     /// List of source positions. Default is empty array. Counting start at 1. (default [])
     /// </summary>
-    [CliOption("--source-positions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-positions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourcePositions { get; set; }
 
     /// <summary>
@@ -129,7 +129,7 @@ public record ArgoCdAppManifestsOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

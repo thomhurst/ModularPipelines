@@ -25,7 +25,7 @@ public record GcloudPubsubTopicsCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -43,7 +43,7 @@ public record GcloudPubsubTopicsCreateOptions : GcloudOptions
     /// <summary>
     /// List of tags KEY=VALUE pairs to bind. Each item must be expressed as     &lt;tag-key-namespaced-name&gt;=&lt;tag-value-short-name&gt;. Example:     123/environment=production,123/costCenter=marketing    Following flags are for specifying the data source settings for an import   topic
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Tags { get; set; }
 
     /// <summary>
@@ -73,7 +73,7 @@ public record GcloudPubsubTopicsCreateOptions : GcloudOptions
     /// <summary>
     /// A list of one or more Cloud regions where messages are allowed to be     stored at rest.     This flag argument must be specified if any of the other arguments in     this group are specified.
     /// </summary>
-    [CliOption("--message-storage-policy-allowed-regions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--message-storage-policy-allowed-regions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MessageStoragePolicyAllowedRegions { get; set; }
 
     /// <summary>

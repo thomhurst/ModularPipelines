@@ -55,7 +55,7 @@ public record GcloudDataprocBatchesSubmitOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record GcloudDataprocBatchesSubmitOptions : GcloudOptions
     /// <summary>
     /// Specifies configuration properties for the workload. See Dataproc     Serverless for Spark documentation     (https://cloud.google.com/dataproc-serverless/docs/concepts/properties)     for the list of supported properties.    Region resource - Dataproc region to use. Each Dataproc region constitutes   an independent resource namespace constrained to deploying instances into   Compute Engine zones inside the region. This represents a Cloud resource.   (NOTE) Some attributes are not given arguments in this group but can be   set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ set the property dataproc/region with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Properties { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public record GcloudDataprocBatchesSubmitOptions : GcloudOptions
     /// <summary>
     /// Network tags for traffic control.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

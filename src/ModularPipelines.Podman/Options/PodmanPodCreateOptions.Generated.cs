@@ -23,7 +23,7 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Add a custom host-to-IP mapping (host:ip) (default [])
     /// </summary>
-    [CliOption("--add-host", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-host", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddHost { get; set; }
 
     /// <summary>
@@ -71,37 +71,37 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Add a host device to the container
     /// </summary>
-    [CliOption("--device", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Device { get; set; }
 
     /// <summary>
     /// Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)
     /// </summary>
-    [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceReadBps { get; set; }
 
     /// <summary>
     /// Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)
     /// </summary>
-    [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceWriteBps { get; set; }
 
     /// <summary>
     /// Set custom DNS servers
     /// </summary>
-    [CliOption("--dns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dns { get; set; }
 
     /// <summary>
     /// Set custom DNS options
     /// </summary>
-    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsOption { get; set; }
 
     /// <summary>
     /// Set custom DNS search domains
     /// </summary>
-    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsSearch { get; set; }
 
     /// <summary>
@@ -113,7 +113,7 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// GID map to use for the user namespace
     /// </summary>
-    [CliOption("--gidmap", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--gidmap", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gidmap { get; set; }
 
     [CliFlag("--help")]
@@ -170,13 +170,13 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Set metadata on container
     /// </summary>
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
     /// Read in a line delimited file of labels
     /// </summary>
-    [CliOption("--label-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LabelFile { get; set; }
 
     /// <summary>
@@ -206,13 +206,13 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Connect a container to a network
     /// </summary>
-    [CliOption("--network", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Network { get; set; }
 
     /// <summary>
     /// Add network-scoped alias for the container
     /// </summary>
-    [CliOption("--network-alias", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-alias", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkAlias { get; set; }
 
     /// <summary>
@@ -236,7 +236,7 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Publish a container's port, or a range of ports, to the host (default [])
     /// </summary>
-    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Publish { get; set; }
 
     /// <summary>
@@ -254,7 +254,7 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Security Options
     /// </summary>
-    [CliOption("--security-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--security-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SecurityOpt { get; set; }
 
     /// <summary>
@@ -296,13 +296,13 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Sysctl options
     /// </summary>
-    [CliOption("--sysctl", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--sysctl", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Sysctl { get; set; }
 
     /// <summary>
     /// UID map to use for the user namespace
     /// </summary>
-    [CliOption("--uidmap", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--uidmap", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Uidmap { get; set; }
 
     /// <summary>
@@ -320,13 +320,13 @@ public record PodmanPodCreateOptions : PodmanOptions
     /// <summary>
     /// Bind mount a volume into the container
     /// </summary>
-    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>
     /// Mount volumes from the specified container(s)
     /// </summary>
-    [CliOption("--volumes-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volumes-from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VolumesFrom { get; set; }
 
 }

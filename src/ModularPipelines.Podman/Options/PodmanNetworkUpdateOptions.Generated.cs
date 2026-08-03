@@ -25,13 +25,13 @@ public record PodmanNetworkUpdateOptions(
     /// <summary>
     /// add network level nameservers
     /// </summary>
-    [CliOption("--dns-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsAdd { get; set; }
 
     /// <summary>
     /// remove network level nameservers
     /// </summary>
-    [CliOption("--dns-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-drop", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsDrop { get; set; }
 
 }

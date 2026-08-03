@@ -78,43 +78,43 @@ public record HadolintExecuteOptions : HadolintOptions
     /// <summary>
     /// Make the rule `RULECODE` have the level `error`
     /// </summary>
-    [CliOption("--error", AllowMultiple = true)]
+    [CliOption("--error")]
     public IEnumerable<string>? Error { get; set; }
 
     /// <summary>
     /// Make the rule `RULECODE` have the level `warning`
     /// </summary>
-    [CliOption("--warning", AllowMultiple = true)]
+    [CliOption("--warning")]
     public IEnumerable<string>? Warning { get; set; }
 
     /// <summary>
     /// Make the rule `RULECODE` have the level `info`
     /// </summary>
-    [CliOption("--info", AllowMultiple = true)]
+    [CliOption("--info")]
     public IEnumerable<string>? Info { get; set; }
 
     /// <summary>
     /// Make the rule `RULECODE` have the level `style`
     /// </summary>
-    [CliOption("--style", AllowMultiple = true)]
+    [CliOption("--style")]
     public IEnumerable<string>? Style { get; set; }
 
     /// <summary>
     /// A rule to ignore. If present, the ignore list in the config file is ignored
     /// </summary>
-    [CliOption("--ignore", AllowMultiple = true)]
+    [CliOption("--ignore")]
     public IEnumerable<string>? Ignore { get; set; }
 
     /// <summary>
     /// A docker registry to allow to appear in FROM instructions
     /// </summary>
-    [CliOption("--trusted-registry", AllowMultiple = true)]
+    [CliOption("--trusted-registry")]
     public IEnumerable<string>? TrustedRegistry { get; set; }
 
     /// <summary>
     /// The option --require-label=label:format makes Hadolint check that the label `label` conforms to format requirement `format`
     /// </summary>
-    [CliOption("--require-label", AllowMultiple = true)]
+    [CliOption("--require-label")]
     public IEnumerable<string>? RequireLabel { get; set; }
 
     /// <summary>

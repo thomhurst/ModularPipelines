@@ -43,7 +43,7 @@ public record PodmanPodStopOptions(
     /// <summary>
     /// Write the pod ID to the file
     /// </summary>
-    [CliOption("--pod-id-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pod-id-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PodIdFile { get; set; }
 
     /// <summary>

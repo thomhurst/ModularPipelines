@@ -72,7 +72,7 @@ public record ArgoCdAppWaitOptions : ArgoCdOptions
     /// <summary>
     /// Sync only specific resources as GROUP:KIND:NAME or !GROUP:KIND:NAME. Fields may be blank and '*' can be used. This option may be specified repeatedly
     /// </summary>
-    [CliOption("--resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Resource { get; set; }
 
     /// <summary>
@@ -157,7 +157,7 @@ public record ArgoCdAppWaitOptions : ArgoCdOptions
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

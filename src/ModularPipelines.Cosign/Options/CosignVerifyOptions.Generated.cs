@@ -38,7 +38,7 @@ public record CosignVerifyOptions(
     /// <summary>
     /// extra key=value pairs to sign
     /// </summary>
-    [CliOption("--annotations", ShortForm = "-a", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotations", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>

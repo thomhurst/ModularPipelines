@@ -169,16 +169,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
     {
-        if (optionPart.ValueArity == CliOptionValueArity.None)
-        {
-            if (rawValue is not bool value || value)
-            {
-                args.Add(optionPart.Attribute.GetEffectiveName());
-            }
-
-            return;
-        }
-
         if (TryAddOptionValuePairs(args, optionPart, rawValue))
         {
             return;
@@ -190,7 +180,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                if (optionPart.ValueArity == CliOptionValueArity.Optional)
+                if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
                 {
                     args.Add(optionPart.Attribute.GetEffectiveName());
                 }

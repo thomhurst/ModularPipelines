@@ -71,19 +71,19 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// A list of Google Cloud Storage URIs of executables to run on each node     in the cluster.
     /// </summary>
-    [CliOption("--initialization-actions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--initialization-actions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InitializationActions { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
     /// Attaches accelerators, such as GPUs, to the master instance(s).      type       The specific type of accelerator to attach to the instances, such       as nvidia-tesla-t4 for NVIDIA T4. Use gcloud compute       accelerator-types list to display available accelerator types.      count       The number of accelerators to attach to each instance. The default       value is 1.
     /// </summary>
-    [CliOption("--master-accelerator", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--master-accelerator", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MasterAccelerator { get; set; }
 
     /// <summary>
@@ -167,7 +167,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// List of optional components to be installed on cluster machines.     The following page documents the optional components that can be     installed:     https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/optional-components.
     /// </summary>
-    [CliOption("--optional-components", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--optional-components", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OptionalComponents { get; set; }
 
     /// <summary>
@@ -179,13 +179,13 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// Specifies configuration properties for installed packages, such as     Hadoop and Spark.     Properties are mapped to configuration files by specifying a prefix,     such as "core:io.serializations". The following are supported prefixes     and their mappings:      Prefix       File          Purpose of file      capacity-scheduler capacity-scheduler.xml Hadoop YARN Capacity                            Scheduler configuration      core        core-site.xml      Hadoop general                            configuration      distcp       distcp-default.xml   Hadoop Distributed Copy                            configuration      hadoop-env     hadoop-env.sh      Hadoop specific                            environment variables      hdfs        hdfs-site.xml      Hadoop HDFS configuration      hive        hive-site.xml      Hive configuration      mapred       mapred-site.xml     Hadoop MapReduce                            configuration      mapred-env     mapred-env.sh      Hadoop MapReduce specific                            environment variables      pig         pig.properties     Pig configuration      spark        spark-defaults.conf   Spark configuration      spark-env      spark-env.sh      Spark specific environment                            variables      yarn        yarn-site.xml      Hadoop YARN configuration      yarn-env      yarn-env.sh       Hadoop YARN specific                            environment variables     See     https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/cluster-properties     for more information.
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Properties { get; set; }
 
     /// <summary>
     /// Attaches accelerators, such as GPUs, to the secondary-worker     instance(s).      type       The specific type of accelerator to attach to the instances, such       as nvidia-tesla-t4 for NVIDIA T4. Use gcloud compute       accelerator-types list to display available accelerator types.      count       The number of accelerators to attach to each instance. The default       value is 1.
     /// </summary>
-    [CliOption("--secondary-worker-accelerator", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--secondary-worker-accelerator", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SecondaryWorkerAccelerator { get; set; }
 
     /// <summary>
@@ -215,7 +215,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// Types of machines with optional rank for secondary workers to use.     Defaults to server-specified.eg.     --secondary-worker-machine-types="type=e2-standard-8,type=t2d-standard-8,rank=0"
     /// </summary>
-    [CliOption("--secondary-worker-machine-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--secondary-worker-machine-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SecondaryWorkerMachineTypes { get; set; }
 
     /// <summary>
@@ -257,7 +257,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// Attaches accelerators, such as GPUs, to the worker instance(s).      type       The specific type of accelerator to attach to the instances, such       as nvidia-tesla-t4 for NVIDIA T4. Use gcloud compute       accelerator-types list to display available accelerator types.      count       The number of accelerators to attach to each instance. The default       value is 1.
     /// </summary>
-    [CliOption("--worker-accelerator", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--worker-accelerator", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? WorkerAccelerator { get; set; }
 
     /// <summary>
@@ -329,19 +329,19 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// Metadata to be made available to the guest operating system running on     the instances
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Metadata { get; set; }
 
     /// <summary>
     /// Specifies a list of resource manager tags to apply to each cluster node     (master and worker nodes).
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// Specifies scopes for the node instances. Multiple SCOPEs can be     specified, separated by commas. Examples:       $ gcloud dataproc workflow-templates set-managed-cluster \         example-cluster \         --scopes https://www.googleapis.com/auth/bigtable.admin       $ gcloud dataproc workflow-templates set-managed-cluster \         example-cluster --scopes sqlservice,bigquery     The following minimum scopes are necessary for the cluster to function     properly and are always added, even if not explicitly specified:       https://www.googleapis.com/auth/devstorage.read_write       https://www.googleapis.com/auth/logging.write     If the --scopes flag is not specified, the following default scopes are     also included:       https://www.googleapis.com/auth/bigquery       https://www.googleapis.com/auth/bigtable.admin.table       https://www.googleapis.com/auth/bigtable.data       https://www.googleapis.com/auth/devstorage.full_control     If you want to enable all scopes use the 'cloud-platform' scope.     SCOPE can be either the full URI of the scope or an alias. Default     scopes are assigned to all instances. Available aliases are:      Alias         URI      bigquery        https://www.googleapis.com/auth/bigquery      cloud-platform     https://www.googleapis.com/auth/cloud-platform      cloud-source-repos   https://www.googleapis.com/auth/source.full_control      cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only      compute-ro       https://www.googleapis.com/auth/compute.readonly      compute-rw       https://www.googleapis.com/auth/compute      datastore       https://www.googleapis.com/auth/datastore      default        https://www.googleapis.com/auth/devstorage.read_only                 https://www.googleapis.com/auth/logging.write                 https://www.googleapis.com/auth/monitoring.write                 https://www.googleapis.com/auth/pubsub                 https://www.googleapis.com/auth/service.management.readonly                 https://www.googleapis.com/auth/servicecontrol                 https://www.googleapis.com/auth/trace.append      gke-default      https://www.googleapis.com/auth/devstorage.read_only                 https://www.googleapis.com/auth/logging.write                 https://www.googleapis.com/auth/monitoring                 https://www.googleapis.com/auth/service.management.readonly                 https://www.googleapis.com/auth/servicecontrol                 https://www.googleapis.com/auth/trace.append      logging-write     https://www.googleapis.com/auth/logging.write      monitoring       https://www.googleapis.com/auth/monitoring      monitoring-read    https://www.googleapis.com/auth/monitoring.read      monitoring-write    https://www.googleapis.com/auth/monitoring.write      pubsub         https://www.googleapis.com/auth/pubsub      service-control    https://www.googleapis.com/auth/servicecontrol      service-management   https://www.googleapis.com/auth/service.management.readonly      sql (deprecated)    https://www.googleapis.com/auth/sqlservice      sql-admin       https://www.googleapis.com/auth/sqlservice.admin      storage-full      https://www.googleapis.com/auth/devstorage.full_control      storage-ro       https://www.googleapis.com/auth/devstorage.read_only      storage-rw       https://www.googleapis.com/auth/devstorage.read_write      taskqueue       https://www.googleapis.com/auth/taskqueue      trace         https://www.googleapis.com/auth/trace.append      userinfo-email     https://www.googleapis.com/auth/userinfo.email     DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice account     scope and sql alias do not provide SQL instance management capabilities     and have been deprecated. Please, use     https://www.googleapis.com/auth/sqlservice.admin or sql-admin to manage     your Google SQL Service instances.
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>
@@ -353,7 +353,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// Specifies a list of tags to apply to the instance. These tags allow     network firewall rules and routes to be applied to specified VM     instances. See gcloud compute firewall-rules create(1) for more     details.     To read more about configuring network tags, read this guide:     https://cloud.google.com/vpc/docs/add-remove-network-tags     To list instances with their respective status and tags, run:       $ gcloud compute instances list \         --format='table(name,status,tags.list())'     To list instances tagged with a specific tag, tag1, run:       $ gcloud compute instances list --filter='tags:tag1'    At most one of these can be specified:     --network=NETWORK      The Compute Engine network that the VM instances of the cluster will      be part of. This is mutually exclusive with --subnet. If neither is      specified, this defaults to the "default" network.     --subnet=SUBNET      Specifies the subnet that the cluster will be part of. This is      mutally exclusive with --network.    Specifies the reservation for the instance.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -368,7 +368,7 @@ public record GcloudDataprocWorkflowTemplatesSetManagedClusterOptions : GcloudOp
     /// <summary>
     /// Specifies a list of cluster Metric Sources     (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics)     to collect custom metrics. METRIC_SOURCE must be one of: FLINK, HDFS,     HIVEMETASTORE, HIVESERVER2, MONITORING_AGENT_DEFAULTS, SPARK,     SPARK_HISTORY_SERVER, YARN.    At most one of these can be specified:     --metric-overrides=[METRIC_SOURCE:INSTANCE:GROUP:METRIC,...]      List of metrics that override the default metrics enabled for the      metric sources. Any of the available OSS metrics      (https://cloud.google.com/dataproc/docs/guides/monitoring#available_oss_metrics)      and all Spark metrics, can be listed for collection as a metric      override. Override metric values are case sensitive, and must be      provided, if appropriate, in CamelCase format, for example:      sparkHistoryServer:JVM:Memory:NonHeapMemoryUsage.committed      hiveserver2:JVM:Memory:NonHeapMemoryUsage.used      Only the specified overridden metrics will be collected from a given      metric source. For example, if one or more spark:executive metrics      are listed as metric overrides, other SPARK metrics will not be      collected. The collection of default OSS metrics from other metric      sources is unaffected. For example, if both SPARK and YARN metric      sources are enabled, and overrides are provided for Spark metrics      only, all default YARN metrics will be collected.      The source of the specified metric override must be enabled. For      example, if one or more spark:driver metrics are provided as metric      overrides, the spark metric source must be enabled      (--metric-sources=spark).     --metric-overrides-file=METRIC_OVERRIDES_FILE      Path to a file containing list of Metrics that override the default      metrics enabled for the metric sources. The path can be a Cloud      Storage URL (example: gs://path/to/file) or a local file system path.    At most one of these can be specified:     --no-address      If provided, the instances in the cluster will not be assigned      external IP addresses.      If omitted, then the Dataproc service will apply a default policy to      determine if each instance in the cluster gets an external IP address      or not.      Note: Dataproc VMs need access to the Dataproc API. This can be      achieved without external IP addresses using Private Google Access      (https://cloud.google.com/compute/docs/private-google-access).     --public-ip-address      If provided, cluster instances are assigned external IP addresses.      If omitted, the Dataproc service applies a default policy to      determine whether or not each instance in the cluster gets an      external IP address.      Note: Dataproc VMs need access to the Dataproc API. This can be      achieved without external IP addresses using Private Google Access      (https://cloud.google.com/compute/docs/private-google-access).    At most one of these can be specified:     --single-node      Create a single node cluster.      A single node cluster has all master and worker components. It cannot      have any separate worker nodes. If this flag is not specified, a      cluster with separate workers is created.     Or at least one of these can be specified:      Multi-node cluster flags      --min-num-workers=MIN_NUM_WORKERS       Minimum number of primary worker nodes to provision for cluster       creation to succeed.      --num-secondary-workers=NUM_SECONDARY_WORKERS       The number of secondary worker nodes in the cluster.      --num-workers=NUM_WORKERS       The number of worker nodes in the cluster. Defaults to       server-specified.      --secondary-worker-type=TYPE; default="preemptible"       The type of the secondary worker group. TYPE must be one of:       preemptible, non-preemptible, spot.    At most one of these can be specified:     --worker-machine-type=WORKER_MACHINE_TYPE      The type of machine to use for primary workers. Defaults to      server-specified.     --worker-machine-types=type=MACHINE_TYPE[,type=MACHINE_TYPE...][,rank=RANK]      Machine types      (https://cloud.google.com/dataproc/docs/concepts/compute/supported-machine-types)      for primary worker nodes to use with optional rank. A lower rank      number is given higher preference. Based on availablilty, Dataproc      tries to create primary worker VMs using the worker machine type with      the lowest rank, and then tries to use machine types with higher      ranks as necessary. Machine types with the same rank are given the      same preference. Example use:      --worker-machine-types="type=e2-standard-8,type=n2-standard-8,rank=0".      For more information, see Dataproc Flexible VMs      (https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/flexible-vms)
     /// </summary>
-    [CliOption("--metric-sources", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metric-sources", Format = OptionFormat.EqualsSeparated)]
     public GcloudMetricSources? MetricSources { get; set; }
 
 }

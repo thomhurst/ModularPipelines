@@ -60,7 +60,7 @@ public record KubernetesAnnotateOptions : KubernetesOptions
     /// <summary>
     /// Filename, directory, or URL to files identifying the resource to update the annotation
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>

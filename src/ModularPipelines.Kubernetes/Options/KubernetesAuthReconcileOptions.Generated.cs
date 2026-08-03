@@ -36,7 +36,7 @@ public record KubernetesAuthReconcileOptions : KubernetesOptions
     /// <summary>
     /// Filename, directory, or URL to files identifying the resource to reconcile.
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>

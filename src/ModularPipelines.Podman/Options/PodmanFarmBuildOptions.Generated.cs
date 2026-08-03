@@ -29,7 +29,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// set metadata for an image (default [])
     /// </summary>
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
@@ -59,13 +59,13 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// remote repository list to utilise as potential cache source.
     /// </summary>
-    [CliOption("--cache-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheFrom { get; set; }
 
     /// <summary>
     /// remote repository list to utilise as potential cache destination.
     /// </summary>
-    [CliOption("--cache-to", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-to", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheTo { get; set; }
 
     /// <summary>
@@ -77,13 +77,13 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// add the specified capability when running (default [])
     /// </summary>
-    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapAdd { get; set; }
 
     /// <summary>
     /// drop the specified capability when running (default [])
     /// </summary>
-    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapDrop { get; set; }
 
     /// <summary>
@@ -113,7 +113,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// set additional flag to pass to C preprocessor (cpp)
     /// </summary>
-    [CliOption("--cpp-flag", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cpp-flag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CppFlag { get; set; }
 
     /// <summary>
@@ -155,13 +155,13 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// key needed to decrypt the image
     /// </summary>
-    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>
     /// additional devices to be used within containers (default [])
     /// </summary>
-    [CliOption("--device", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Device { get; set; }
 
     /// <summary>
@@ -179,19 +179,19 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// set custom DNS options
     /// </summary>
-    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsOption { get; set; }
 
     /// <summary>
     /// set custom DNS search domains
     /// </summary>
-    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsSearch { get; set; }
 
     /// <summary>
     /// set environment variable for the image
     /// </summary>
-    [CliOption("--env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
@@ -221,13 +221,13 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// add additional groups to the primary container process. 'keep-groups' allows container processes to use supplementary groups.
     /// </summary>
-    [CliOption("--group-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--group-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GroupAdd { get; set; }
 
     /// <summary>
     /// set the OCI hooks directory path (may be set multiple times)
     /// </summary>
-    [CliOption("--hooks-dir", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--hooks-dir", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HooksDir { get; set; }
 
     /// <summary>
@@ -275,13 +275,13 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// set metadata for an image (default [])
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
     /// set metadata for an intermediate image (default [])
     /// </summary>
-    [CliOption("--layer-label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--layer-label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LayerLabel { get; set; }
 
     /// <summary>
@@ -365,7 +365,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// Build only on farm nodes that match the given platforms
     /// </summary>
-    [CliOption("--platforms", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--platforms", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Platforms { get; set; }
 
     /// <summary>
@@ -401,20 +401,20 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// add global flags for the container runtime
     /// </summary>
-    [CliOption("--runtime-flag", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--runtime-flag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RuntimeFlag { get; set; }
 
     /// <summary>
     /// secret file to expose to the build
     /// </summary>
     [SecretValue]
-    [CliOption("--secret", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Secret { get; set; }
 
     /// <summary>
     /// security options (default [])
     /// </summary>
-    [CliOption("--security-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--security-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SecurityOpt { get; set; }
 
     /// <summary>
@@ -444,7 +444,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// SSH agent socket or keys to expose to the build. (format: default|&lt;id&gt;[=&lt;socket&gt;|&lt;key&gt;[,&lt;key&gt;]])
     /// </summary>
-    [CliOption("--ssh", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ssh { get; set; }
 
     /// <summary>
@@ -474,19 +474,19 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// ulimit options
     /// </summary>
-    [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ulimit { get; set; }
 
     /// <summary>
     /// unset environment variable from final image
     /// </summary>
-    [CliOption("--unsetenv", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--unsetenv", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Unsetenv { get; set; }
 
     /// <summary>
     /// unset label when inheriting labels from base image
     /// </summary>
-    [CliOption("--unsetlabel", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--unsetlabel", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Unsetlabel { get; set; }
 
     /// <summary>
@@ -528,7 +528,7 @@ public record PodmanFarmBuildOptions : PodmanOptions
     /// <summary>
     /// bind mount a volume into the container
     /// </summary>
-    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>

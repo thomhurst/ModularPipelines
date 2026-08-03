@@ -30,7 +30,7 @@ public record GcloudVmwarePrivateCloudsClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// (DEPRECATED) Information about the type and number of nodes associated     with the cluster.       type (required): canonical identifier of the node type.       count (required): number of nodes of this type in the cluster.       custom_core_count: can be passed, but the value will be ignored. Updating custom core count is not supported.     The --node-type-config option is deprecated; please use     --update-nodes-config and --remove-nodes-config instead.
     /// </summary>
-    [CliOption("--node-type-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-type-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeTypeConfig { get; set; }
 
     /// <summary>

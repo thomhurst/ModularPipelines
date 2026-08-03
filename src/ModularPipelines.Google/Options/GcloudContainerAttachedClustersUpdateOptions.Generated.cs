@@ -25,7 +25,7 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Annotations for the cluster.
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Set the components that have logging enabled.     Examples:       $ gcloud container attached clusters update --logging=SYSTEM       $ gcloud container attached clusters update --logging=SYSTEM,WORKLOAD       $ gcloud container attached clusters update --logging=NONE     COMPONENT must be one of: NONE, SYSTEM, WORKLOAD.
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public GcloudLogging? Logging { get; set; }
 
     /// <summary>

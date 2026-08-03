@@ -56,7 +56,7 @@ public record DockerNetworkCreateOptions(
     /// <summary>
     /// IPv4 or IPv6 Gateway for the master subnet
     /// </summary>
-    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gateway { get; set; }
 
     /// <summary>
@@ -74,7 +74,7 @@ public record DockerNetworkCreateOptions(
     /// <summary>
     /// Allocate container ip from a sub-range
     /// </summary>
-    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IpRange { get; set; }
 
     /// <summary>
@@ -104,7 +104,7 @@ public record DockerNetworkCreateOptions(
     /// <summary>
     /// Set metadata on a network
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -122,7 +122,7 @@ public record DockerNetworkCreateOptions(
     /// <summary>
     /// Subnet in CIDR format that represents a network segment
     /// </summary>
-    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Subnet { get; set; }
 
 }

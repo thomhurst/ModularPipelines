@@ -28,7 +28,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Attaches accelerators (e.g. GPUs) to all nodes.      type       (Required) The specific type (e.g. nvidia-tesla-t4 for NVIDIA T4)       of accelerator to attach to the instances. Use gcloud compute       accelerator-types list to learn about all available accelerator       types.      count       (Optional) The number of accelerators to attach to the instances.       The default value is 1.      gpu-driver-version       (Optional) The NVIDIA driver version to install. GPU_DRIVER_VERSION       must be one of:         `default`: Install the default driver version for this GKE version. For GKE version 1.30.1-gke.1156000 and later, this is the default option.         `latest`: Install the latest driver version available for this GKE version.         Can only be used for nodes that use Container-Optimized OS.         `disabled`: Skip automatic driver installation. You must manually install a         driver after you create the cluster. For GKE version 1.30.1-gke.1156000 and earlier, this is the default option.         To manually install the GPU driver, refer to https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers.      gpu-partition-size       (Optional) The GPU partition size used when running multi-instance       GPUs. For information about multi-instance GPUs, refer to:       https://cloud.google.com/kubernetes-engine/docs/how-to/gpus-multi      gpu-sharing-strategy       (Optional) The GPU sharing strategy (e.g. time-sharing) to use. For       information about GPU sharing, refer to:       https://cloud.google.com/kubernetes-engine/docs/concepts/timesharing-gpus      max-shared-clients-per-gpu       (Optional) The max number of containers allowed to share each GPU       on the node. This field is used together with gpu-sharing-strategy.
     /// </summary>
-    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--accelerator", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Accelerator { get; set; }
 
     /// <summary>
@@ -46,13 +46,13 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Attach an additional network interface to each node in the pool. This     parameter can be specified up to 7 times.     E.g., to configure the additional interface with 'dataplane' network,     'subnet-dp' subnetwork and dual-stack, run: --additional-node-network     network=dataplane,subnetwork=subnet-dp,stack-type=ipv4-ipv6      network       (Required) The network to attach the new interface to.      subnetwork       (Required) The subnetwork to attach the new interface to.      stack-type       (Optional) The stack-type to be set on the new interface.       STACK_TYPE must be one of: ipv4, ipv4-ipv6, ipv6.
     /// </summary>
-    [CliOption("--additional-node-network", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--additional-node-network", Format = OptionFormat.EqualsSeparated)]
     public GcloudAdditionalNodeNetwork? AdditionalNodeNetwork { get; set; }
 
     /// <summary>
     /// Specify the details of a secondary range to be used for an additional     pod network. Not needed if you use "host" typed NIC from this network.     This parameter can be specified up to 35 times.     e.g. --additional-pod-network     subnetwork=subnet-dp,pod-ipv4-range=sec-range-blue,max-pods-per-node=8.      subnetwork       (Optional) The name of the subnetwork to link the pod network to.       If not specified, the pod network defaults to the subnet connected       to the default network interface.      pod-ipv4-range       (Required) The name of the secondary range in the subnetwork. The       range must hold at least (2 * MAX_PODS_PER_NODE *       MAX_NODES_IN_RANGE) IPs.      max-pods-per-node       (Optional) Maximum amount of pods per node that can utilize this       ipv4-range. Defaults to NodePool (if specified) or Cluster value.
     /// </summary>
-    [CliOption("--additional-pod-network", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--additional-pod-network", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdditionalPodNetwork { get; set; }
 
     /// <summary>
@@ -238,7 +238,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Labels to apply to the Google Cloud resources of node pools in the     Kubernetes Engine cluster. These are unrelated to Kubernetes labels.     Warning: Updating this label will causes the node(s) to be recreated.     Examples:       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster --labels=label1=value1,label2=value2
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -274,13 +274,13 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Compute Engine metadata to be made available to the guest operating     system running on nodes within the node pool.     Each metadata entry is a key/value pair separated by an equals sign.     Metadata keys must be unique and less than 128 bytes in length. Values     must be less than or equal to 32,768 bytes in length. The total size of     all keys and values must be less than 512 KB. Multiple arguments can be     passed to this flag. For example:     --metadata key-1=value-1,key-2=value-2,key-3=value-3     Additionally, the following keys are reserved for use by Kubernetes     Engine:     ◆ cluster-location     ◆ cluster-name     ◆ cluster-uid     ◆ configure-sh     ◆ enable-os-login     ◆ gci-update-strategy     ◆ gci-ensure-gke-docker     ◆ instance-template     ◆ kube-env     ◆ startup-script     ◆ user-data     Google Kubernetes Engine sets the following keys by default:     ◆ serial-port-logging-enable     See also Compute Engine's documentation     (https://cloud.google.com/compute/docs/storing-retrieving-metadata) on     storing and retrieving instance metadata.
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Metadata { get; set; }
 
     /// <summary>
     /// Same as --metadata except that the value for the entry will be read     from a local file.
     /// </summary>
-    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata-from-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MetadataFromFile { get; set; }
 
     /// <summary>
@@ -292,7 +292,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Configures network performance settings for the node pool. If this flag     is not specified, the pool will be created with its default network     performance configuration.      total-egress-bandwidth-tier       Total egress bandwidth is the available outbound bandwidth from a       VM, regardless of whether the traffic is going to internal IP or       external IP destinations. The following tier values are allowed:       [TIER_UNSPECIFIED,TIER_1]
     /// </summary>
-    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-performance-configs", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? NetworkPerformanceConfigs { get; set; }
 
     /// <summary>
@@ -310,13 +310,13 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Applies the given Kubernetes labels on all nodes in the new node pool.     Examples:       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster \         --node-labels=label1=value1,label2=value2     Updating the node pool's --node-labels flag applies the labels to the     Kubernetes Node objects for existing nodes in-place; it does not     re-create or replace nodes. New nodes, including ones created by     resizing or re-creating nodes, will have these labels on the Kubernetes     API Node object. The labels can be used in the nodeSelector field. See     https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/     for examples.     Note that Kubernetes labels, intended to associate cluster components     and resources with one another and manage resource lifecycles, are     different from Google Kubernetes Engine labels that are used for the     purpose of tracking billing and usage information.
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeLabels { get; set; }
 
     /// <summary>
     /// The set of zones in which the node pool's nodes should be located.     Multiple locations can be specified, separated by commas. For example:       $ gcloud container node-pools create node-pool-1 \         --cluster=sample-cluster \         --node-locations=us-central1-a,us-central1-b
     /// </summary>
-    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-locations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeLocations { get; set; }
 
     /// <summary>
@@ -328,7 +328,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Applies the given kubernetes taints on all nodes in the new node pool,     which can be used with tolerations for pod scheduling.     Examples:       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster \         --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule     To read more about node-taints, see     https://cloud.google.com/kubernetes-engine/docs/node-taints.
     /// </summary>
-    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NodeTaints { get; set; }
 
     /// <summary>
@@ -346,7 +346,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Opportunistic maintenance options.     node-idle-time: Time to be spent waiting for node to be idle before     starting maintenance, ending with 's'. Example: "3.5s"     window: The window of time that opportunistic maintenance can run,     ending with 's'. Example: A setting of 14 days (1209600s) implies that     opportunistic maintenance can only be ran in the 2 weeks leading up to     the scheduled maintenance date. Setting 28 days(2419200s) allows     opportunistic maintenance to run at any time in the scheduled     maintenance window.     min-nodes: Minimum number of nodes in the node pool to be available     during the opportunistic triggered maintenance.       $ gcloud container node-pools create example-cluster \         --opportunistic-maintenance=node-idle-time=600s,window=600s,\       min-nodes=2
     /// </summary>
-    [CliOption("--opportunistic-maintenance", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--opportunistic-maintenance", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OpportunisticMaintenance { get; set; }
 
     /// <summary>
@@ -376,7 +376,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new node pool.     Examples:       $ gcloud container node-pools create example-node-pool \         --resource-manager-tags=tagKeys/1234=tagValues/2345       $ gcloud container node-pools create example-node-pool \         --resource-manager-tags=my-project/key1=value1       $ gcloud container node-pools create example-node-pool \         --resource-manager-tags=12345/key1=value1,23456/key2=value2       $ gcloud container node-pools create example-node-pool \         --resource-manager-tags=     All nodes, including nodes that are resized or re-created, will have     the specified tags on the corresponding Instance object in the Compute     Engine API. You can reference these tags in network firewall policy     rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ResourceManagerTags { get; set; }
 
     /// <summary>
@@ -388,7 +388,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Attaches secondary boot disks to all nodes in the node pool. Secondary     Boot Disks (SBD) can accelerate container startup times by preloading     container images or data onto disks attached to the nodes. Learn more     about Using Secondary Boot Disks     (https://cloud.google.com/kubernetes-engine/docs/how-to/data-container-image-preloading)     for full requirements (including version, API enablement and source     disk images).     The value for this flag is a list of key=value pairs. Available keys     are:      disk-image       (Required) The full resource path to the source disk image to       create the secondary boot disks from (e.g.,       projects/my-project/global/images/my-disk-image).      mode       (Optional) The mode of the secondary boot disk. Supported values       are:       ▸ CONTAINER_IMAGE_CACHE: The disk is used to cache container        images. This is the default if not specified.       ▸ DATA: The disk is used to preload arbitrary data, accessible        via hostPath volume mounts.
     /// </summary>
-    [CliOption("--secondary-boot-disk", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--secondary-boot-disk", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SecondaryBootDisk { get; set; }
 
     /// <summary>
@@ -424,13 +424,13 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Standard rollout policy options for blue-green upgrade.     Batch sizes are specified by one of, batch-node-count or batch-percent.     The duration between batches is specified by batch-soak-duration.       $ gcloud container node-pools create example-cluster \         --standard-rollout-policy=batch-node-count=3,\       batch-soak-duration=60s       $ gcloud container node-pools create example-cluster \         --standard-rollout-policy=batch-percent=0.3,\       batch-soak-duration=60s
     /// </summary>
-    [CliOption("--standard-rollout-policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--standard-rollout-policy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? StandardRolloutPolicy { get; set; }
 
     /// <summary>
     /// A list of storage pools where the node pool's boot disks will be     provisioned.     STORAGE_POOL must be in the format     projects/project/zones/zone/storagePools/storagePool
     /// </summary>
-    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--storage-pools", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? StoragePools { get; set; }
 
     /// <summary>
@@ -448,7 +448,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     /// <summary>
     /// Applies the given Compute Engine tags (comma separated) on all nodes in     the new node-pool. Example:       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster --tags=tag1,tag2     New nodes, including ones created by resize or recreate, will have     these tags on the Compute Engine API instance object and can be used in     firewall rules. See     https://cloud.google.com/sdk/gcloud/reference/compute/firewall-rules/create     for examples.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -553,7 +553,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
     public GcloudReservationAffinity? ReservationAffinity { get; set; }
 
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>

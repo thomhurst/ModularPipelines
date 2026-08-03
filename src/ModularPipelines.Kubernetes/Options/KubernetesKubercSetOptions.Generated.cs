@@ -24,13 +24,13 @@ public record KubernetesKubercSetOptions : KubernetesOptions
     /// <summary>
     /// Allowlist entry the form field=value (can be specified multiple times)
     /// </summary>
-    [CliOption("--allowlist-entry", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowlist-entry", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowlistEntry { get; set; }
 
     /// <summary>
     /// Argument to append to the command (can be specified multiple times, for aliases only)
     /// </summary>
-    [CliOption("--appendarg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--appendarg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Appendarg { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record KubernetesKubercSetOptions : KubernetesOptions
     /// <summary>
     /// Flag option in the form flag=value (can be specified multiple times)
     /// </summary>
-    [CliOption("--option", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--option", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Option { get; set; }
 
     /// <summary>
@@ -72,7 +72,7 @@ public record KubernetesKubercSetOptions : KubernetesOptions
     /// <summary>
     /// Argument to prepend to the command (can be specified multiple times, for aliases only)
     /// </summary>
-    [CliOption("--prependarg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--prependarg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Prependarg { get; set; }
 
     /// <summary>

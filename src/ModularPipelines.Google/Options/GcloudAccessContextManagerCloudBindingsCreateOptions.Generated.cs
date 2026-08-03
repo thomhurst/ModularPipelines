@@ -30,7 +30,7 @@ public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptio
     /// <summary>
     /// The dry run access level that binds to the given group. The dry run     access level will be evaluated but won't be enforced. Denial on dry run     access level will be logged. The input must be the full identifier of     an access level, such as accessPolicies/123/accessLevels/new-def.
     /// </summary>
-    [CliOption("--dry-run-level", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dry-run-level", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DryRunLevel { get; set; }
 
     /// <summary>
@@ -48,7 +48,7 @@ public record GcloudAccessContextManagerCloudBindingsCreateOptions : GcloudOptio
     /// <summary>
     /// The access level that binds to the given group. The input must be the     full identifier of an access level, such as     accessPolicies/123/accessLevels/abc.
     /// </summary>
-    [CliOption("--level", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--level", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Level { get; set; }
 
     /// <summary>

@@ -41,7 +41,7 @@ public record PodmanComposeUpOptions : PodmanOptions
     /// <summary>
     /// Restrict attaching to the specified services. Incompatible with --attach-dependencies.
     /// </summary>
-    [CliOption("--attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attach { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record PodmanComposeUpOptions : PodmanOptions
     /// <summary>
     /// Do not attach (stream logs) to the specified services
     /// </summary>
-    [CliOption("--no-attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--no-attach", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NoAttach { get; set; }
 
     /// <summary>

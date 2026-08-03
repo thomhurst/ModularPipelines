@@ -58,13 +58,13 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// <summary>
     /// Specifies a comma-separated list of HTTP headers, by field name, to     include in cache keys. Only the request URL is included in the cache     key by default.
     /// </summary>
-    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheKeyIncludeHttpHeader { get; set; }
 
     /// <summary>
     /// Specifies a comma-separated list of HTTP cookie names to include in     cache keys. The name=value pair are used in the cache key Cloud CDN     generates. Cookies are not included in cache keys by default.
     /// </summary>
-    [CliOption("--cache-key-include-named-cookie", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-key-include-named-cookie", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheKeyIncludeNamedCookie { get; set; }
 
     /// <summary>
@@ -154,19 +154,19 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// <summary>
     /// Specifies a list of health check objects for checking the health of the     backend service. Currently at most one health check can be specified.     Health checks need not be for the same protocol as that of the backend     service.
     /// </summary>
-    [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--health-checks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HealthChecks { get; set; }
 
     /// <summary>
     /// Specifies a list of legacy HTTP health check objects for checking the     health of the backend service.     Legacy health checks are not recommended for backend services. It is     possible to use a legacy health check on a backend service for an     Application Load Balancer if that backend service uses instance groups.     For more information, refer to this guide:     https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide.
     /// </summary>
-    [CliOption("--http-health-checks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--http-health-checks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HttpHealthChecks { get; set; }
 
     /// <summary>
     /// Specifies a list of legacy HTTPS health check objects for checking the     health of the backend service.     Legacy health checks are not recommended for backend services. It is     possible to use a legacy health check on a backend service for an     Application Load Balancer if that backend service uses instance groups.     For more information, refer to this guide:     https://cloud.google.com/load-balancing/docs/health-check-concepts#lb_guide.
     /// </summary>
-    [CliOption("--https-health-checks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--https-health-checks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HttpsHealthChecks { get; set; }
 
     /// <summary>
@@ -199,13 +199,13 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// <summary>
     /// This field can only be specified if logging is enabled for the backend     service. Contains a comma-separated list of HTTP request headers you     want to include in the logs.
     /// </summary>
-    [CliOption("--logging-http-request-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging-http-request-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LoggingHttpRequestHeaders { get; set; }
 
     /// <summary>
     /// This field can only be specified if logging is enabled for the backend     service. Contains a comma-separated list of HTTP response headers you     want to include in the logs.
     /// </summary>
-    [CliOption("--logging-http-response-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging-http-response-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LoggingHttpResponseHeaders { get; set; }
 
     /// <summary>
@@ -217,7 +217,7 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// <summary>
     /// This field can only be specified if logging is enabled for the backend     service and "--logging-optional" was set to CUSTOM. Contains a     comma-separated list of optional fields you want to include in the     logs. For example: serverInstance, serverGkeDetails.cluster,     serverGkeDetails.pod.podNamespace. This can only be specified for     internal and external passthrough Network Load Balancers.
     /// </summary>
-    [CliOption("--logging-optional-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging-optional-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LoggingOptionalFields { get; set; }
 
     /// <summary>
@@ -235,7 +235,7 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// <summary>
     /// Sets a cache TTL for the specified HTTP status code.     NegativeCaching must be enabled to config the negativeCachingPolicy.     If you omit the policy and leave negativeCaching enabled, Cloud CDN's     default cache TTLs are used.     Note that when specifying an explicit negative caching policy, make     sure that you specify a cache TTL for all response codes that you want     to cache. Cloud CDN doesn't apply any default negative caching when a     policy exists.     CODE is the HTTP status code to define a TTL against. Only HTTP status     codes 300, 301, 308, 404, 405, 410, 421, 451, and 501 can be specified     as values, and you cannot specify a status code more than once.     TTL is the time to live (in seconds) for which to cache responses for     the specified CODE. The maximum allowed value is 1800s (30 minutes),     noting that infrequently accessed objects may be evicted from the cache     before the defined TTL.
     /// </summary>
-    [CliOption("--negative-caching-policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--negative-caching-policy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NegativeCachingPolicy { get; set; }
 
     /// <summary>
@@ -259,7 +259,7 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// <summary>
     /// A comma-separated list of Resource Manager tags to apply to the backend     service.
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ResourceManagerTags { get; set; }
 
     /// <summary>
@@ -271,7 +271,7 @@ public record GcloudComputeBackendServicesCreateOptions(
     /// <summary>
     /// List of service bindings to be attached to this backend service. Can     only be set if load balancing scheme is INTERNAL_SELF_MANAGED. If set,     lists of backends and health checks must be both empty.
     /// </summary>
-    [CliOption("--service-bindings", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--service-bindings", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ServiceBindings { get; set; }
 
     /// <summary>

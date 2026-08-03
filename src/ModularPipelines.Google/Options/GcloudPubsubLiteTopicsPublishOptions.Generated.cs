@@ -25,7 +25,7 @@ public record GcloudPubsubLiteTopicsPublishOptions : GcloudOptions
     /// <summary>
     /// Comma-separated list of attributes. Each ATTRIBUTE has the form     name="value". You can specify up to 100 attributes.
     /// </summary>
-    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Attributes { get; set; }
 
     /// <summary>

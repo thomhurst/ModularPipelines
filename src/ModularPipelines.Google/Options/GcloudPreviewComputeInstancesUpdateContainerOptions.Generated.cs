@@ -84,25 +84,25 @@ public record GcloudPreviewComputeInstancesUpdateContainerOptions(
     /// <summary>
     /// Removes environment variables KEY from container declaration Does     nothing, if a variable is not present.
     /// </summary>
-    [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-container-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainerEnv { get; set; }
 
     /// <summary>
     /// Mounts a volume by using host-path.     ◆ Adds a volume, if mount-path is not yet declared.     ◆ Replaces a volume, if mount-path is declared. All parameters      (host-path, mount-path, mode) are completely replaced.      host-path       Path on host to mount from.      mount-path       Path on container to mount to. Mount paths with spaces and commas       (and other special characters) are not supported by this command.      mode       Volume mount mode: rw (read/write) or ro (read-only).       Default: rw.
     /// </summary>
-    [CliOption("--container-mount-host-path", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--container-mount-host-path", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerMountHostPath { get; set; }
 
     /// <summary>
     /// Mounts empty tmpfs into container at MOUNTPATH.      mount-path       Path on container to mount to. Mount paths with spaces and commas       (and other special characters) are not supported by this command.
     /// </summary>
-    [CliOption("--container-mount-tmpfs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--container-mount-tmpfs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ContainerMountTmpfs { get; set; }
 
     /// <summary>
     /// Removes volume mounts (host-path, tmpfs, disk) with mountPath:     MOUNTPATH from container declaration.     Does nothing, if a volume mount is not declared.
     /// </summary>
-    [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-container-mounts", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveContainerMounts { get; set; }
 
 }

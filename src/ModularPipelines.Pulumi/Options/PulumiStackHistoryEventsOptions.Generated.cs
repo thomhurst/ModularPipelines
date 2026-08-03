@@ -37,7 +37,7 @@ public record PulumiStackHistoryEventsOptions(
     /// <summary>
     /// Filter by Pulumi Cloud engine event type code; numeric, repeatable
     /// </summary>
-    [CliOption("--event-type", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--event-type", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EventType { get; set; }
 
     /// <summary>

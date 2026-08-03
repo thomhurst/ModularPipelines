@@ -26,7 +26,7 @@ public record GcloudPreviewComputeInterconnectsAttachmentsGroupsUpdateOptions(
     /// <summary>
     /// Member interconnect attachments to add to the interconnect attachment     group initially.
     /// </summary>
-    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attachments { get; set; }
 
     /// <summary>

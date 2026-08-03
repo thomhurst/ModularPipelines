@@ -80,7 +80,7 @@ public record PodmanPushOptions(
     /// <summary>
     /// Key with the encryption protocol to use to encrypt the image (e.g. jwe:/path/to/key.pem)
     /// </summary>
-    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--encryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EncryptionKey { get; set; }
 
     /// <summary>

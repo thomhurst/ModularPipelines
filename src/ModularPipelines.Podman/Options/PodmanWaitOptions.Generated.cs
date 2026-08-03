@@ -25,7 +25,7 @@ public record PodmanWaitOptions(
     /// <summary>
     /// Condition to wait on
     /// </summary>
-    [CliOption("--condition", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--condition", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Condition { get; set; }
 
     /// <summary>

@@ -26,7 +26,7 @@ public record GcloudPreviewComputeSslPoliciesUpdateOptions(
     /// <summary>
     /// A comma-separated list of custom features, required when the profile     being used is CUSTOM.     Using CUSTOM profile allows customization of the features that are part     of the SSL policy. This flag allows specifying those custom features.     The list of all supported custom features can be obtained using:       gcloud compute ssl-policies list-available-features
     /// </summary>
-    [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomFeatures { get; set; }
 
     /// <summary>

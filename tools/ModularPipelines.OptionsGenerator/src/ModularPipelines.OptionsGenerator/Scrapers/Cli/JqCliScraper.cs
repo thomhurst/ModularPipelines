@@ -251,7 +251,6 @@ public partial class JqCliScraper : CliScraperBase
             CSharpType = "bool?",
             Description = "Stop processing options so filters beginning with a dash are treated as positional arguments",
             IsFlag = true,
-            ValueArity = CliOptionValueArity.None,
             Phase = CommandLinePhase.EndOfOptions
         });
     }

@@ -30,7 +30,7 @@ public record DockerVolumeCreateOptions : DockerOptions
     /// <summary>
     /// Set metadata for a volume
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>

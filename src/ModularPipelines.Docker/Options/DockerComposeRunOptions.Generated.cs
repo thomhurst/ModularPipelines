@@ -31,13 +31,13 @@ public record DockerComposeRunOptions(
     /// <summary>
     /// Add Linux capabilities
     /// </summary>
-    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapAdd { get; set; }
 
     /// <summary>
     /// Drop Linux capabilities
     /// </summary>
-    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapDrop { get; set; }
 
     /// <summary>
@@ -61,13 +61,13 @@ public record DockerComposeRunOptions(
     /// <summary>
     /// Set environment variables
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
     /// Set environment variables from file
     /// </summary>
-    [CliOption("--env-from-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env-from-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnvFromFile { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record DockerComposeRunOptions(
     /// <summary>
     /// Add or override a label
     /// </summary>
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -103,7 +103,7 @@ public record DockerComposeRunOptions(
     /// <summary>
     /// Publish a container's port(s) to the host
     /// </summary>
-    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Publish { get; set; }
 
     /// <summary>
@@ -163,7 +163,7 @@ public record DockerComposeRunOptions(
     /// <summary>
     /// Bind mount a volume
     /// </summary>
-    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>

@@ -32,7 +32,7 @@ public record PulumiEnvWebhookNewOptions(
     /// <summary>
     /// Event types to subscribe to (repeatable)
     /// </summary>
-    [CliOption("--event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Event { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public record PulumiEnvWebhookNewOptions(
     /// <summary>
     /// Event groups to subscribe to (repeatable)
     /// </summary>
-    [CliOption("--group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Group { get; set; }
 
     /// <summary>

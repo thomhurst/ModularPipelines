@@ -36,7 +36,7 @@ public record NbgvInstallOptions : NbgvOptions
     /// <summary>
     /// The URI(s) of the NuGet package source(s) used to determine the latest stable version of the Nerdbank.GitVersioning package. This setting overrides all of the sources specified in the NuGet.Config files.
     /// </summary>
-    [CliOption("--source", ShortForm = "-s", AllowMultiple = true)]
+    [CliOption("--source", ShortForm = "-s")]
     public IEnumerable<string>? Source { get; set; }
 
 }

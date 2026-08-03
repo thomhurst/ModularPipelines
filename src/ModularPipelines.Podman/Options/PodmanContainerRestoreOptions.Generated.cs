@@ -103,7 +103,7 @@ public record PodmanContainerRestoreOptions(
     /// <summary>
     /// Publish a container's port, or a range of ports, to the host (default [])
     /// </summary>
-    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Publish { get; set; }
 
     /// <summary>

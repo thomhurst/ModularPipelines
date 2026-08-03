@@ -114,7 +114,7 @@ public record PulumiDeploymentRunOptions(
     /// <summary>
     /// Commands to run before the remote operation
     /// </summary>
-    [CliOption("--pre-run-command", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pre-run-command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PreRunCommand { get; set; }
 
     /// <summary>

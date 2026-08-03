@@ -37,7 +37,7 @@ public record GcloudFirebaseTestIosRunOptions : GcloudOptions
     /// <summary>
     /// Comma-separated, KEY=VALUE map of additional details to attach to the     test matrix. Arbitrary KEY=VALUE pairs may be attached to a test matrix     to provide additional context about the tests being run. When consuming     the test results, such as in Cloud Functions or a CI system, these     details can add additional context such as a link to the corresponding     pull request.     Example:       --client-details=buildNumber=1234,pullRequest=https://example.com/link/to/pull-request     To help you identify and locate your test matrix in the Firebase     console, use the matrixLabel key.     Example:       --client-details=matrixLabel="Example matrix label"
     /// </summary>
-    [CliOption("--client-details", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--client-details", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ClientDetails { get; set; }
 
     /// <summary>

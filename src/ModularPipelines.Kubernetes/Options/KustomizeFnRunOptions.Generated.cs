@@ -41,7 +41,7 @@ public record KustomizeFnRunOptions : KustomizeOptions
     /// <summary>
     /// a list of environment variables to be used by functions
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record KustomizeFnRunOptions : KustomizeOptions
     /// <summary>
     /// read functions from these directories instead of the configuration directory.
     /// </summary>
-    [CliOption("--fn-path", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--fn-path", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FnPath { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record KustomizeFnRunOptions : KustomizeOptions
     /// <summary>
     /// a list of storage options read from the filesystem
     /// </summary>
-    [CliOption("--mount", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Mount { get; set; }
 
     /// <summary>

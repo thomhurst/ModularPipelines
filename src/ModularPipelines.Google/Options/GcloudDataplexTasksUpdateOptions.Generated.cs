@@ -43,13 +43,13 @@ public record GcloudDataplexTasksUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud dataplex tasks update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud dataplex tasks update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Spec related to how a task is executed.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? UpdateLabels { get; set; }
 
     /// <summary>
     /// The arguments to pass to the task. The args can use placeholders of the     format ${placeholder} as part of key/value string. These will be     interpolated before passing the args to the driver. Currently supported     placeholders:     ◆ ${task_id}     ◆ ${job_time} To pass positional args, set the key as TASK_ARGS. The      value should be a comma-separated string of all the positional      arguments. To use a delimiter other than comma, refer to      https://cloud.google.com/sdk/gcloud/reference/topic/escaping. In case      of other keys being present in the args, then TASK_ARGS will be      passed as the last argument.
     /// </summary>
-    [CliOption("--execution-args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--execution-args", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ExecutionArgs { get; set; }
 
     /// <summary>

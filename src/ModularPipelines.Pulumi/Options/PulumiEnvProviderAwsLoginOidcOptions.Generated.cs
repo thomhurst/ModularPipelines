@@ -57,13 +57,13 @@ public record PulumiEnvProviderAwsLoginOidcOptions(
     /// <summary>
     /// AWS managed-policy ARN to attach to the role session (repeatable)
     /// </summary>
-    [CliOption("--policy-arn", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy-arn", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PolicyArn { get; set; }
 
     /// <summary>
     /// OIDC subject attribute to include in the session token (repeatable)
     /// </summary>
-    [CliOption("--subject-attribute", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subject-attribute", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SubjectAttribute { get; set; }
 
     /// <summary>

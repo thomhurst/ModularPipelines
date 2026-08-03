@@ -68,10 +68,10 @@ public record GcloudStorageRsyncOptions(
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
-    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GzipInFlight { get; set; }
 
     [CliFlag("--gzip-in-flight-all")]

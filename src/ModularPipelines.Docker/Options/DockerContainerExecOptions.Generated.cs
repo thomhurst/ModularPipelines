@@ -38,13 +38,13 @@ public record DockerContainerExecOptions(
     /// <summary>
     /// Set environment variables
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
     /// Read in a file of environment variables
     /// </summary>
-    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnvFile { get; set; }
 
     /// <summary>

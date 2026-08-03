@@ -36,7 +36,7 @@ public record GcloudApihubDeploymentsUpdateOptions : GcloudOptions
     /// <summary>
     /// The endpoints at which this deployment resource is listening for API     requests. This could be a list of complete URIs, hostnames or an IP     addresses.
     /// </summary>
-    [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--endpoints", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Endpoints { get; set; }
 
     /// <summary>

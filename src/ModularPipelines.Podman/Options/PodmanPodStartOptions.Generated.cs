@@ -37,7 +37,7 @@ public record PodmanPodStartOptions(
     /// <summary>
     /// Read the pod ID from the file
     /// </summary>
-    [CliOption("--pod-id-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pod-id-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PodIdFile { get; set; }
 
 }

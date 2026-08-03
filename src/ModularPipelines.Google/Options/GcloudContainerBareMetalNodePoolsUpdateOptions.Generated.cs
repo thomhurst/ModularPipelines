@@ -49,13 +49,13 @@ public record GcloudContainerBareMetalNodePoolsUpdateOptions : GcloudOptions
     /// <summary>
     /// Labels assigned to nodes of a node pool.
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? NodeLabels { get; set; }
 
     /// <summary>
     /// Node taint applied to every Kubernetes node in a node pool.    Modifiable kubelet configurations for bare metal machines.
     /// </summary>
-    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? NodeTaints { get; set; }
 
     /// <summary>

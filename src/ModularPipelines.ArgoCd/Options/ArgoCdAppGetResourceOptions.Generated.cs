@@ -26,7 +26,7 @@ public record ArgoCdAppGetResourceOptions(
     /// <summary>
     /// A comma separated list of fields to display, if not provided will output the entire manifest
     /// </summary>
-    [CliOption("--filter-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FilterFields { get; set; }
 
     /// <summary>
@@ -129,7 +129,7 @@ public record ArgoCdAppGetResourceOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

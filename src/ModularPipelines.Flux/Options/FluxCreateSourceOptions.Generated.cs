@@ -41,7 +41,7 @@ public record FluxCreateSourceOptions : FluxOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record FluxCreateSourceOptions : FluxOptions
     /// <summary>
     /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
     /// </summary>
-    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>
@@ -137,7 +137,7 @@ public record FluxCreateSourceOptions : FluxOptions
     /// <summary>
     /// set labels on the resource (can specify multiple labels with commas: label1=value1,label2=value2)
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>

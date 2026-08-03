@@ -66,7 +66,7 @@ public record GcloudPreviewComputeNetworksCreateOptions(
     /// <summary>
     /// A comma-separated list of Resource Manager tags to apply to the     network.
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? ResourceManagerTags { get; set; }
 
     /// <summary>

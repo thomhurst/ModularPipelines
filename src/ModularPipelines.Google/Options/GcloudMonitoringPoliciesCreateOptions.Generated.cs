@@ -25,7 +25,7 @@ public record GcloudMonitoringPoliciesCreateOptions : GcloudOptions
     /// <summary>
     /// IDs of the Notification Channels or fully qualified identifiers for the     Notification Channels.     To set the notification_channels attribute:     ◆ provide the argument --notification-channels on the command line.    Condition Settings. This will add a condition to the created policy. If   any conditions are already specified, this condition will be appended.
     /// </summary>
-    [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NotificationChannels { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record GcloudMonitoringPoliciesCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.     If the policy was given as a JSON/YAML object from a string or file,     this flag will replace the labels value in the given policy.    Documentation
     /// </summary>
-    [CliOption("--user-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--user-labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? UserLabels { get; set; }
 
     [CliOption("--documentation-format", Format = OptionFormat.EqualsSeparated)]

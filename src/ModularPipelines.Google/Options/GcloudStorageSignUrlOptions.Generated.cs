@@ -30,7 +30,7 @@ public record GcloudStorageSignUrlOptions(
     /// <summary>
     /// Specifies the headers to be used in the signed request. Possible     headers are listed in the XML API's documentation:     https://cloud.google.com/storage/docs/xml-api/reference-headers#headers
     /// </summary>
-    [CliOption("--headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--headers", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Headers { get; set; }
 
     [CliOption("--http-verb", Format = OptionFormat.EqualsSeparated)]
@@ -56,7 +56,7 @@ public record GcloudStorageSignUrlOptions(
     /// <summary>
     /// Specifies the query parameters to be used in the signed request.     Possible query parameters are listed in the XML API's documentation:     https://cloud.google.com/storage/docs/xml-api/reference-headers#query
     /// </summary>
-    [CliOption("--query-params", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--query-params", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? QueryParams { get; set; }
 
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]

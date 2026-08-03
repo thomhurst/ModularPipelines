@@ -25,7 +25,7 @@ public record PodmanGenerateSystemdOptions(
     /// <summary>
     /// Add dependencies order to the generated unit file
     /// </summary>
-    [CliOption("--after", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--after", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? After { get; set; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public record PodmanGenerateSystemdOptions(
     /// <summary>
     /// Set environment variables to the systemd unit files
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public record PodmanGenerateSystemdOptions(
     /// <summary>
     /// Similar to wants, but declares stronger requirement dependencies
     /// </summary>
-    [CliOption("--requires", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--requires", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Requires { get; set; }
 
     /// <summary>
@@ -121,7 +121,7 @@ public record PodmanGenerateSystemdOptions(
     /// <summary>
     /// Add (weak) requirement dependencies to the generated unit file
     /// </summary>
-    [CliOption("--wants", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--wants", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Wants { get; set; }
 
 }

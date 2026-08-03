@@ -47,7 +47,7 @@ public record PulumiApiOptions : PulumiOptions
     /// <summary>
     /// Typed key=value; numbers/bools/null auto-detected; JSON object/array literals parsed; @file reads file; @- reads stdin. Sent as query params on GET/HEAD, JSON body fields otherwise
     /// </summary>
-    [CliOption("--field", ShortForm = "-F", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--field", ShortForm = "-F", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Field { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record PulumiApiOptions : PulumiOptions
     /// <summary>
     /// String key=value with no type coercion. Sent as query params on GET/HEAD, JSON body fields otherwise
     /// </summary>
-    [CliOption("--raw-field", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--raw-field", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RawField { get; set; }
 
     /// <summary>

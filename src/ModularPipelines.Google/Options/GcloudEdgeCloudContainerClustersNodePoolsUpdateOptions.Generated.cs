@@ -55,13 +55,13 @@ public record GcloudEdgeCloudContainerClustersNodePoolsUpdateOptions : GcloudOpt
     /// <summary>
     /// Comma-delimited list of key-value pairs that comprise labels for the     individual nodes in the node pool. This flag updates the Kubernetes     labels, unlike --update-labels, --remove-labels, and --clear-labels     which update the cloud resource labels.
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? NodeLabels { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? UpdateLabels { get; set; }
 
     /// <summary>

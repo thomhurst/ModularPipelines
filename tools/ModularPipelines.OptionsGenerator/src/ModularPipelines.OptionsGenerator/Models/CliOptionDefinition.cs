@@ -114,24 +114,6 @@ public record CliOptionDefinition
     /// </summary>
     public CliValidationConstraints? ValidationConstraints { get; init; }
 
-    /// <summary>
-    /// Determines the appropriate attribute type.
-    /// </summary>
-    public OptionAttributeType AttributeType => IsFlag
-        ? OptionAttributeType.BooleanCommandSwitch
-        : ValueSeparator == "="
-            ? OptionAttributeType.CommandEqualsSeparatorSwitch
-            : OptionAttributeType.CommandSwitch;
-}
-
-/// <summary>
-/// The type of attribute to use for this option.
-/// </summary>
-public enum OptionAttributeType
-{
-    CommandSwitch,
-    BooleanCommandSwitch,
-    CommandEqualsSeparatorSwitch
 }
 
 /// <summary>

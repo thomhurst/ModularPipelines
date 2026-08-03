@@ -35,7 +35,7 @@ public record PodmanImageListOptions : PodmanOptions
     /// <summary>
     /// Filter output based on conditions provided (default [])
     /// </summary>
-    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>

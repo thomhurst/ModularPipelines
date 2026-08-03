@@ -39,7 +39,7 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     /// <summary>
     /// A comma-separated list of custom Content-Type header values to apply     JSON parsing for preconfigured WAF rules. Only applicable when JSON     parsing is enabled, like --json-parsing=STANDARD. When configuring a     Content-Type header value, only the type/subtype needs to be specified,     and the parameters should be excluded.
     /// </summary>
-    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonCustomContentTypes { get; set; }
 
     /// <summary>
@@ -75,7 +75,7 @@ public record GcloudComputeSecurityPoliciesUpdateOptions(
     /// <summary>
     /// A comma-separated list of request header names to use for resolving the     caller's user IP address.    At most one of these can be specified:     --global      If set, the security policy is global.     --region=REGION      Region of the security policy to update. Overrides the default      compute/region property value for this command invocation.
     /// </summary>
-    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UserIpRequestHeaders { get; set; }
 
 }

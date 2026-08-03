@@ -25,19 +25,19 @@ public record PulumiPolicyGroupEditOptions(
     /// <summary>
     /// Add an Insights account to the Policy Group (repeatable)
     /// </summary>
-    [CliOption("--add-insights-account", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-insights-account", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddInsightsAccount { get; set; }
 
     /// <summary>
     /// Add a Policy Pack to the Policy Group (repeatable). Format: 'name@version' or 'name'
     /// </summary>
-    [CliOption("--add-policy-pack", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-policy-pack", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddPolicyPack { get; set; }
 
     /// <summary>
     /// Add a stack to the Policy Group (repeatable). Format: 'project/stack' or 'stack'
     /// </summary>
-    [CliOption("--add-stack", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-stack", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddStack { get; set; }
 
     /// <summary>
@@ -61,19 +61,19 @@ public record PulumiPolicyGroupEditOptions(
     /// <summary>
     /// Remove an Insights account from the Policy Group (repeatable)
     /// </summary>
-    [CliOption("--remove-insights-account", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-insights-account", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveInsightsAccount { get; set; }
 
     /// <summary>
     /// Remove a Policy Pack from the Policy Group (repeatable). Format: 'name@version' or 'name'
     /// </summary>
-    [CliOption("--remove-policy-pack", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-policy-pack", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemovePolicyPack { get; set; }
 
     /// <summary>
     /// Remove a stack from the Policy Group (repeatable). Format: 'project/stack' or 'stack'
     /// </summary>
-    [CliOption("--remove-stack", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-stack", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveStack { get; set; }
 
     /// <summary>

@@ -63,7 +63,7 @@ public record GcloudComputeSoleTenancyNodeGroupsUpdateOptions(
     /// <summary>
     /// A list of specific projects this node group should be shared with.
     /// </summary>
-    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ShareWith { get; set; }
 
 }

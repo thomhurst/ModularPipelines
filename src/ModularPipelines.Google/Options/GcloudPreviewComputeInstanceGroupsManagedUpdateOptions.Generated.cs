@@ -44,13 +44,13 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateOptions(
     /// <summary>
     /// Named selection of machine types with an optional rank. For example,     --instance-selection="name=instance-selection-1,machine-type=e2-standard-8,machine-type=t2d-standard-8,rank=0"
     /// </summary>
-    [CliOption("--instance-selection", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--instance-selection", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InstanceSelection { get; set; }
 
     /// <summary>
     /// A single selection of machine types. If not provided, the machine type     specified in the instance template is used.
     /// </summary>
-    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InstanceSelectionMachineTypes { get; set; }
 
     /// <summary>
@@ -68,7 +68,7 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateOptions(
     /// <summary>
     /// Remove specific instance selections from the instance flexibility     policy.
     /// </summary>
-    [CliOption("--remove-instance-selections", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-instance-selections", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveInstanceSelections { get; set; }
 
     /// <summary>
@@ -116,19 +116,19 @@ public record GcloudPreviewComputeInstanceGroupsManagedUpdateOptions(
     /// <summary>
     /// Remove stateful configuration for the specified disks.
     /// </summary>
-    [CliOption("--remove-stateful-disks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-stateful-disks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveStatefulDisks { get; set; }
 
     /// <summary>
     /// Remove stateful configuration for the specified interfaces for external     IPs.
     /// </summary>
-    [CliOption("--remove-stateful-external-ips", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-stateful-external-ips", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveStatefulExternalIps { get; set; }
 
     /// <summary>
     /// Remove stateful configuration for the specified interfaces for internal     IPs.
     /// </summary>
-    [CliOption("--remove-stateful-internal-ips", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-stateful-internal-ips", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveStatefulInternalIps { get; set; }
 
     /// <summary>

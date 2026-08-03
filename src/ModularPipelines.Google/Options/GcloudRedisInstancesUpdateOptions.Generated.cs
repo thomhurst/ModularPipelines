@@ -74,7 +74,7 @@ public record GcloudRedisInstancesUpdateOptions : GcloudOptions
     /// <summary>
     /// A list of Redis config parameters to remove. Removing a non-existent     config parameter is silently ignored.
     /// </summary>
-    [CliOption("--remove-redis-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-redis-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveRedisConfig { get; set; }
 
     /// <summary>
@@ -98,7 +98,7 @@ public record GcloudRedisInstancesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? UpdateLabels { get; set; }
 
     /// <summary>

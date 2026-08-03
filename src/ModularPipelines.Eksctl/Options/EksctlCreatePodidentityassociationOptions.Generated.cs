@@ -78,7 +78,7 @@ public record EksctlCreatePodidentityassociationOptions : EksctlOptions
     /// <summary>
     /// List of ARNs of the IAM permission policies to attach
     /// </summary>
-    [CliOption("--permission-policy-arns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--permission-policy-arns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PermissionPolicyArns { get; set; }
 
     /// <summary>

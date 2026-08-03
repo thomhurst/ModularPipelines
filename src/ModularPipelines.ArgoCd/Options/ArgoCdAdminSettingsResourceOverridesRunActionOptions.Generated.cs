@@ -33,7 +33,7 @@ public record ArgoCdAdminSettingsResourceOverridesRunActionOptions(
     /// <summary>
     /// Action parameters (e.g. --param key1=value1)
     /// </summary>
-    [CliOption("--param", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--param", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Param { get; set; }
 
     /// <summary>
@@ -64,7 +64,7 @@ public record ArgoCdAdminSettingsResourceOverridesRunActionOptions(
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -161,7 +161,7 @@ public record ArgoCdAdminSettingsResourceOverridesRunActionOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

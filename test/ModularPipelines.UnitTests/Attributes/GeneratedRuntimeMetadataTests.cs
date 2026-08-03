@@ -22,7 +22,6 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
     [CliOption(
         "--output",
         Format = OptionFormat.EqualsSeparated,
-        AllowMultiple = true,
         ValueArity = CliOptionValueArity.Optional,
         Phase = CommandLinePhase.Terminal)]
     public string[]? Output { get; init; }
@@ -52,7 +51,7 @@ internal sealed record IncompleteGeneratedMetadataOptions : CommandLineToolOptio
 [CliTool("control-character-test")]
 internal sealed record ControlCharacterMetadataOptions : CommandLineToolOptions
 {
-    [CliOption("--value\0", ShortForm = "-\b", CustomSeparator = "\f\v")]
+    [CliOption("--value\0", ShortForm = "-\b", Format = OptionFormat.ColonSeparated)]
     public string? Value { get; init; }
 }
 
@@ -139,14 +138,10 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That((bool) flag.Getter(options)!).IsTrue();
         await Assert.That(flag.Attribute.GetEffectiveName()).IsEqualTo("-v");
         await Assert.That(flag.Attribute.Phase).IsEqualTo(CommandLinePhase.Normal);
-        await Assert.That(flag.ValueArity).IsEqualTo(CliOptionValueArity.None);
-
         var option = model.OfType<OptionPart>().Single();
         await Assert.That(option.Getter(options)).IsEqualTo(options.Output);
         await Assert.That(option.Attribute.GetSeparator()).IsEqualTo("=");
-        await Assert.That(option.Attribute.AllowMultiple).IsTrue();
         await Assert.That(option.Attribute.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
-        await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
         await Assert.That(option.Attribute.Phase).IsEqualTo(CommandLinePhase.Terminal);
     }
 
@@ -253,7 +248,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(found).IsTrue();
         await Assert.That(option.Attribute.Name).IsEqualTo("--value\0");
         await Assert.That(option.Attribute.ShortForm).IsEqualTo("-\b");
-        await Assert.That(option.Attribute.CustomSeparator).IsEqualTo("\f\v");
+        await Assert.That(option.Attribute.GetSeparator()).IsEqualTo(":");
     }
 
     [Test]

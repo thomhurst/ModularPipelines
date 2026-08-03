@@ -32,13 +32,13 @@ public record GcloudPreviewComputeNetworkAttachmentsUpdateOptions(
     /// <summary>
     /// Projects that are allowed to connect to this network attachment.
     /// </summary>
-    [CliOption("--producer-accept-list", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--producer-accept-list", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProducerAcceptList { get; set; }
 
     /// <summary>
     /// Projects that are not allowed to connect to this network attachment.
     /// </summary>
-    [CliOption("--producer-reject-list", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--producer-reject-list", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ProducerRejectList { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record GcloudPreviewComputeNetworkAttachmentsUpdateOptions(
     /// <summary>
     /// The subnetworks provided by the consumer for the producers
     /// </summary>
-    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>

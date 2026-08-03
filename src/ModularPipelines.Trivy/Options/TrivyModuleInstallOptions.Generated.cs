@@ -55,7 +55,7 @@ public record TrivyModuleInstallOptions(
     /// <summary>
     /// [EXPERIMENTAL] module names to enable
     /// </summary>
-    [CliOption("--enable-modules", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enable-modules", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>

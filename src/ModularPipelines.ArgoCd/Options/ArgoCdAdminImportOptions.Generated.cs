@@ -26,13 +26,13 @@ public record ArgoCdAdminImportOptions(
     /// <summary>
     /// Comma separated list of namespace globs to which import of applications is allowed. If not provided, value from 'application.namespaces' in argocd-cmd-params-cm will be used. If it's not defined, only applications without an explicit namespace will be imported to the Argo CD namespace
     /// </summary>
-    [CliOption("--application-namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--application-namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApplicationNamespaces { get; set; }
 
     /// <summary>
     /// Comma separated list of namespace globs which import of applicationsets is allowed. If not provided, value from 'applicationsetcontroller.namespaces' in argocd-cmd-params-cm will be used. If it's not defined, only applicationsets without an explicit namespace will be imported to the Argo CD namespace
     /// </summary>
-    [CliOption("--applicationset-namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--applicationset-namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApplicationsetNamespaces { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public record ArgoCdAdminImportOptions(
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -269,7 +269,7 @@ public record ArgoCdAdminImportOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

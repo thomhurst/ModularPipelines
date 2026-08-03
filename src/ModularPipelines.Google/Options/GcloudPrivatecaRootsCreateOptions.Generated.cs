@@ -37,25 +37,25 @@ public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
     /// <summary>
     /// One or more comma-separated URLs that will be added to the Authority     Information Access extension in the issued certificate. These URLs are     where the issuer CA certificate is located.
     /// </summary>
-    [CliOption("--custom-aia-urls", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--custom-aia-urls", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomAiaUrls { get; set; }
 
     /// <summary>
     /// One or more comma-separated URLs that will be added to the CRL     Distribution Points (CDP) extension in the issued certificate. These     URLs are where CRL information is located.
     /// </summary>
-    [CliOption("--custom-cdp-urls", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--custom-cdp-urls", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomCdpUrls { get; set; }
 
     /// <summary>
     /// One or more comma-separated DNS Subject Alternative Names.
     /// </summary>
-    [CliOption("--dns-san", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-san", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsSan { get; set; }
 
     /// <summary>
     /// One or more comma-separated email Subject Alternative Names.    Source CA resource - An existing CA from which to copy configuration   values for the new CA. You can still override any of those values by   explicitly providing the appropriate flags. The specified existing CA must   be part of the same pool as the one being created. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property privateca/location.    To set the pool attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --pool on the command line.
     /// </summary>
-    [CliOption("--email-san", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--email-san", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EmailSan { get; set; }
 
     /// <summary>
@@ -67,19 +67,19 @@ public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
     /// <summary>
     /// One or more comma-separated IP Subject Alternative Names.
     /// </summary>
-    [CliOption("--ip-san", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ip-san", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IpSan { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
     /// X.501 name of the certificate subject. Example: --subject     "C=US,ST=California,L=Mountain View,O=Google LLC,CN=google.com"
     /// </summary>
-    [CliOption("--subject", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subject", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Subject { get; set; }
 
     /// <summary>
@@ -91,7 +91,7 @@ public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
     /// <summary>
     /// One or more comma-separated URI Subject Alternative Names.
     /// </summary>
-    [CliOption("--uri-san", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--uri-san", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UriSan { get; set; }
 
     [CliOption("--validity", Format = OptionFormat.EqualsSeparated)]

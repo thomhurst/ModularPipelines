@@ -29,7 +29,7 @@ public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
     /// <summary>
     /// 'key=value' arguments for the auth provider
     /// </summary>
-    [CliOption("--auth-provider-arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--auth-provider-arg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AuthProviderArg { get; set; }
 
     /// <summary>
@@ -59,7 +59,7 @@ public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
     /// <summary>
     /// New arguments for the exec credential plugin command for the user entry in kubeconfig
     /// </summary>
-    [CliOption("--exec-arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exec-arg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExecArg { get; set; }
 
     /// <summary>
@@ -71,7 +71,7 @@ public record KubernetesConfigSetCredentialsOptions : KubernetesOptions
     /// <summary>
     /// 'key=value' environment values for the exec credential plugin
     /// </summary>
-    [CliOption("--exec-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exec-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExecEnv { get; set; }
 
     /// <summary>

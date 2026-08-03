@@ -45,7 +45,7 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     /// <summary>
     /// Path to Python archives used for training. These can be local paths     (absolute or relative), in which case they will be uploaded to the     Cloud Storage bucket given by --staging-bucket, or Cloud Storage URLs     ('gs://bucket-name/path/to/package.tar.gz').
     /// </summary>
-    [CliOption("--packages", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--packages", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Packages { get; set; }
 
     /// <summary>

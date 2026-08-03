@@ -37,13 +37,13 @@ public record FluxCreateKustomizationOptions : FluxOptions
     /// <summary>
     /// Kustomization that must be ready before this Kustomization can be applied, supported formats '&lt;name&gt;' and '&lt;namespace&gt;/&lt;name&gt;', also accepts comma-separated values
     /// </summary>
-    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DependsOn { get; set; }
 
     /// <summary>
     /// workload to be included in the health assessment, in the format '&lt;kind&gt;/&lt;name&gt;.&lt;namespace&gt;'
     /// </summary>
-    [CliOption("--health-check", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--health-check", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HealthCheck { get; set; }
 
     /// <summary>
@@ -116,7 +116,7 @@ public record FluxCreateKustomizationOptions : FluxOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -128,7 +128,7 @@ public record FluxCreateKustomizationOptions : FluxOptions
     /// <summary>
     /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
     /// </summary>
-    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>
@@ -212,7 +212,7 @@ public record FluxCreateKustomizationOptions : FluxOptions
     /// <summary>
     /// set labels on the resource (can specify multiple labels with commas: label1=value1,label2=value2)
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>

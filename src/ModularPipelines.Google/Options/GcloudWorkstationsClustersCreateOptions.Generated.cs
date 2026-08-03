@@ -49,7 +49,7 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     /// <summary>
     /// Labels that are applied to the cluster and propagated to the underlying     Compute Engine resources.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
@@ -67,7 +67,7 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     /// <summary>
     /// Resource manager tags to be bound to this cluster. For example:     "123/environment=production" "123/costCenter=marketing"
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? Tags { get; set; }
 
     /// <summary>

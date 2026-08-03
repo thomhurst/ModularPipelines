@@ -55,7 +55,7 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     /// <summary>
     /// The labels or tags associated with the Autonomous Database.      KEY       Keys must start with a lowercase character and contain only hyphens       (-), underscores (_), lowercase characters, and numbers.      VALUE       Values must contain only hyphens (-), underscores (_), lowercase       characters, and numbers.     Shorthand Example:       --labels=string=string     JSON Example:       --labels='{"string": "string"}'     File Example:       --labels=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -117,7 +117,7 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     /// <summary>
     /// The list of allowlisted IP addresses for the Autonomous Database.
     /// </summary>
-    [CliOption("--properties-allowlisted-ips", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--properties-allowlisted-ips", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PropertiesAllowlistedIps { get; set; }
 
     /// <summary>

@@ -23,7 +23,7 @@ public record PodmanComposeBuildOptions : PodmanOptions
     /// <summary>
     /// Set build-time variables for services
     /// </summary>
-    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BuildArg { get; set; }
 
     /// <summary>

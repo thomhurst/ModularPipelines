@@ -73,13 +73,13 @@ public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions
     /// <summary>
     /// Kubernetes labels (key/value pairs) to be applied to each node.
     /// </summary>
-    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? NodeLabels { get; set; }
 
     /// <summary>
     /// Applies the given kubernetes taints on all nodes in the new node pool,     which can be used with tolerations for pod scheduling.     Taint effect must be one of the following: NoSchedule,     PreferNoSchedule, or NoExecute.     Examples:       $ gcloud container vmware node-pools update node-pool-1 \         --cluster=example-cluster \         --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule
     /// </summary>
-    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated)]
     public KeyValue[]? NodeTaints { get; set; }
 
     /// <summary>

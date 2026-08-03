@@ -26,7 +26,7 @@ public record DockerTrustSignerAddOptions(
     /// <summary>
     /// Path to the signer's public key file
     /// </summary>
-    [CliOption("--key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Key { get; set; }
 
 }
