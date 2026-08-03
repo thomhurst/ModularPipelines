@@ -152,6 +152,7 @@ public class GitTests : TestBase
             try
             {
                 await RunGitAsync(temporaryRoot, "init", "--bare", "--initial-branch=main", remoteDirectory);
+                await RunGitAsync(remoteDirectory, "config", "core.hooksPath", hooksDirectory);
                 await RunGitAsync(temporaryRoot, "init", "--initial-branch=main", workingDirectory);
                 await RunGitAsync(workingDirectory, "config", "user.name", "Modular Pipelines Tests");
                 await RunGitAsync(workingDirectory, "config", "user.email", "tests@modularpipelines.local");
