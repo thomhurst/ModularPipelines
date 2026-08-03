@@ -587,6 +587,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
         sb.AppendLine($"        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.{registrationMethod}(");
+        if (item.IsExternal)
+        {
+            sb.AppendLine("            assembly,");
+        }
+
         sb.AppendLine($"            typeof({item.TypeName}),");
         sb.AppendLine("            new global::ModularPipelines.Helpers.Internal.PropertyCommandLinePart[]");
         sb.AppendLine("            {");
@@ -646,7 +651,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             if (item.UseTypeForEmptySecretCoverage)
             {
-                sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterExternal(typeof({item.TypeName}));");
+                sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterExternal(assembly, typeof({item.TypeName}));");
             }
 
             return;
@@ -654,6 +659,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
         sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{registrationMethod}(");
+        if (item.IsExternal)
+        {
+            sb.AppendLine("            assembly,");
+        }
+
         sb.AppendLine($"            typeof({item.TypeName}),");
         sb.AppendLine("            new global::ModularPipelines.Engine.SecretPropertyAccessor[]");
         sb.AppendLine("            {");

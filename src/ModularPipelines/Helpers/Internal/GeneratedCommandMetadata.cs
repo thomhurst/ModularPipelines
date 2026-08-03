@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,7 @@ public static class GeneratedCommandMetadata
 {
     private static readonly ConditionalWeakTable<Type, CommandMetadata> Models = [];
     private static readonly ConditionalWeakTable<Assembly, ProcessedAssembly> ProcessedAssemblies = [];
+    private static readonly ConditionalWeakTable<Assembly, ExternalCommandMetadata> ExternalModels = [];
 
     /// <summary>
     /// Registers that an assembly ran the C# command metadata generator.
@@ -55,14 +57,18 @@ public static class GeneratedCommandMetadata
 
     /// <summary>
     /// Registers command metadata emitted by a consuming assembly for an external options type.
-    /// The first registration wins because multiple consumers can generate the same metadata.
+    /// Registrations are scoped weakly to the consumer so collectible assemblies are not retained.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void RegisterExternal(
+        Assembly consumerAssembly,
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model)
     {
-        _ = Models.GetValue(optionsType, _ => new CommandMetadata(model, IsComplete: true));
+        var registrations = ExternalModels.GetValue(
+            consumerAssembly,
+            static _ => new ExternalCommandMetadata());
+        registrations.Models.TryAdd(optionsType, new CommandMetadata(model, IsComplete: true));
     }
 
     internal static bool TryGet(Type optionsType, out IReadOnlyList<PropertyCommandLinePart> model)
@@ -73,6 +79,16 @@ public static class GeneratedCommandMetadata
             return true;
         }
 
+        foreach (var registrations in ExternalModels)
+        {
+            if (registrations.Value.Models.TryGetValue(optionsType, out metadata)
+                && metadata.IsComplete)
+            {
+                model = metadata.Model;
+                return true;
+            }
+        }
+
         model = Array.Empty<PropertyCommandLinePart>();
         return false;
     }
@@ -81,6 +97,11 @@ public static class GeneratedCommandMetadata
         ProcessedAssemblies.TryGetValue(assembly, out _);
 
     private sealed record CommandMetadata(IReadOnlyList<PropertyCommandLinePart> Model, bool IsComplete);
+
+    private sealed class ExternalCommandMetadata
+    {
+        public ConcurrentDictionary<Type, CommandMetadata> Models { get; } = [];
+    }
 
     private sealed class ProcessedAssembly;
 }

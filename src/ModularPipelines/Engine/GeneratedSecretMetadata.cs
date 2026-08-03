@@ -13,6 +13,7 @@ public static class GeneratedSecretMetadata
 {
     private static readonly ConditionalWeakTable<Type, SecretMetadata> Accessors = [];
     private static readonly ConditionalWeakTable<Assembly, AssemblyCoverage> AssemblyCoverageByAssembly = [];
+    private static readonly ConditionalWeakTable<Assembly, ExternalSecretMetadata> ExternalAccessors = [];
 
     /// <summary>
     /// Registers that an assembly ran the C# metadata generator.
@@ -94,21 +95,27 @@ public static class GeneratedSecretMetadata
     /// Registers empty secret metadata emitted by a consuming assembly for an external type.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void RegisterExternal(Type declaringType)
+    public static void RegisterExternal(Assembly consumerAssembly, Type declaringType)
     {
-        RegisterExternal(declaringType, Array.Empty<SecretPropertyAccessor>());
+        RegisterExternal(consumerAssembly, declaringType, Array.Empty<SecretPropertyAccessor>());
     }
 
     /// <summary>
     /// Registers secret metadata emitted by a consuming assembly for an external type.
-    /// The first registration wins because multiple consumers can generate the same metadata.
+    /// Registrations are scoped weakly to the consumer so collectible assemblies are not retained.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void RegisterExternal(
+        Assembly consumerAssembly,
         Type declaringType,
         IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        _ = Accessors.GetValue(declaringType, _ => new SecretMetadata(accessors, IsComplete: true));
+        var registrations = ExternalAccessors.GetValue(
+            consumerAssembly,
+            static _ => new ExternalSecretMetadata());
+        registrations.Accessors.TryAdd(
+            declaringType,
+            new SecretMetadata(accessors, IsComplete: true));
     }
 
     /// <summary>
@@ -141,6 +148,16 @@ public static class GeneratedSecretMetadata
         {
             accessors = metadata.Accessors;
             return true;
+        }
+
+        foreach (var registrations in ExternalAccessors)
+        {
+            if (registrations.Value.Accessors.TryGetValue(type, out metadata)
+                && metadata.IsComplete)
+            {
+                accessors = metadata.Accessors;
+                return true;
+            }
         }
 
         var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
@@ -188,6 +205,11 @@ public static class GeneratedSecretMetadata
     }
 
     private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors, bool IsComplete);
+
+    private sealed class ExternalSecretMetadata
+    {
+        public ConcurrentDictionary<Type, SecretMetadata> Accessors { get; } = [];
+    }
 
     private sealed class AssemblyCoverage
     {

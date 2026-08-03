@@ -303,8 +303,12 @@ public class GeneratedRuntimeMetadataTests
         var type = CreateDynamicType("DuplicateExternalCommand");
         var firstModel = new List<PropertyCommandLinePart>();
 
-        GeneratedCommandMetadata.RegisterExternal(type, firstModel);
-        GeneratedCommandMetadata.RegisterExternal(type, new List<PropertyCommandLinePart>());
+        var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
+        GeneratedCommandMetadata.RegisterExternal(consumerAssembly, type, firstModel);
+        GeneratedCommandMetadata.RegisterExternal(
+            consumerAssembly,
+            type,
+            new List<PropertyCommandLinePart>());
 
         var found = GeneratedCommandMetadata.TryGet(type, out var registeredModel);
         using (Assert.Multiple())
@@ -320,8 +324,12 @@ public class GeneratedRuntimeMetadataTests
         var type = CreateDynamicType("DuplicateExternalSecret");
         var firstModel = new List<SecretPropertyAccessor>();
 
-        GeneratedSecretMetadata.RegisterExternal(type, firstModel);
-        GeneratedSecretMetadata.RegisterExternal(type, new List<SecretPropertyAccessor>());
+        var consumerAssembly = typeof(GeneratedRuntimeMetadataTests).Assembly;
+        GeneratedSecretMetadata.RegisterExternal(consumerAssembly, type, firstModel);
+        GeneratedSecretMetadata.RegisterExternal(
+            consumerAssembly,
+            type,
+            new List<SecretPropertyAccessor>());
 
         var found = GeneratedSecretMetadata.TryGetAccessors(type, out var registeredModel);
         using (Assert.Multiple())
@@ -372,6 +380,25 @@ public class GeneratedRuntimeMetadataTests
         }
     }
 
+    [Test]
+    public async Task ExternalMetadata_DoesNotRootCollectibleConsumerAssembly()
+    {
+        var (assemblyReference, typeReference) = RegisterCollectibleExternalMetadata();
+
+        for (var attempt = 0; attempt < 10 && (assemblyReference.IsAlive || typeReference.IsAlive); attempt++)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(assemblyReference.IsAlive).IsFalse();
+            await Assert.That(typeReference.IsAlive).IsFalse();
+        }
+    }
+
     private static Type CreateDynamicType(string name)
     {
         var assembly = AssemblyBuilder.DefineDynamicAssembly(
@@ -401,11 +428,54 @@ public class GeneratedRuntimeMetadataTests
         return (new WeakReference(assembly), new WeakReference(type));
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static (WeakReference Assembly, WeakReference Type) RegisterCollectibleExternalMetadata()
+    {
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"ExternalMetadataConsumer_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.RunAndCollect);
+        var typeBuilder = assembly.DefineDynamicModule("Main")
+            .DefineType("ExternalMetadataConsumer", TypeAttributes.Public);
+        var getterMethod = typeBuilder.DefineMethod(
+            "GetValue",
+            MethodAttributes.Public | MethodAttributes.Static,
+            typeof(object),
+            [typeof(object)]);
+        var il = getterMethod.GetILGenerator();
+        il.Emit(OpCodes.Ldnull);
+        il.Emit(OpCodes.Ret);
+        var consumerType = typeBuilder.CreateType()!;
+        var getter = (Func<object, object?>) Delegate.CreateDelegate(
+            typeof(Func<object, object?>),
+            consumerType.GetMethod("GetValue")!);
+        var sharedOptionsType = typeof(ExternalConsumerSharedMetadataType);
+
+        GeneratedCommandMetadata.RegisterExternal(
+            assembly,
+            sharedOptionsType,
+            [new FlagPart("Value", getter, new CliFlagAttribute("--value"))]);
+        GeneratedSecretMetadata.RegisterExternal(
+            assembly,
+            sharedOptionsType,
+            [new SecretPropertyAccessor("Value", getter)]);
+        if (!GeneratedCommandMetadata.TryGet(sharedOptionsType, out _)
+            || !GeneratedSecretMetadata.TryGetAccessors(sharedOptionsType, out _))
+        {
+            throw new InvalidOperationException("External metadata registration was not visible.");
+        }
+
+        return (new WeakReference(assembly), new WeakReference(consumerType));
+    }
+
     private sealed class DuplicateCommandMetadataType
     {
     }
 
     private sealed class DuplicateSecretMetadataType
+    {
+    }
+
+    private sealed class ExternalConsumerSharedMetadataType
     {
     }
 }
