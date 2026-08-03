@@ -17,6 +17,7 @@ public class ArtifactContractTests
     private const string ProducedFile = LocalArtifactRoot + "/produced/output.txt";
     private const string RestoreDirectory = LocalArtifactRoot + "/restored";
     private const string CacheOnlyFile = LocalArtifactRoot + "/cache-only.bin";
+    private const string MissingRuntimeFile = LocalArtifactRoot + "/missing/output.txt";
 
     [ProducesArtifact("declared-output", "unused.txt")]
     private sealed class DeclaredProducerModule : Module<string>
@@ -38,6 +39,16 @@ public class ArtifactContractTests
 
     [ConsumesArtifact(typeof(DeclaredProducerModule), "declared-output")]
     private sealed class UnorderedArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("consumed");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DeclaredProducerModule>(Optional = true)]
+    [ConsumesArtifact(typeof(DeclaredProducerModule), "declared-output")]
+    private sealed class OptionalArtifactConsumerModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -103,6 +114,30 @@ public class ArtifactContractTests
             Directory.CreateDirectory(Path.GetDirectoryName(CacheOnlyFile)!);
             await File.WriteAllTextAsync(CacheOnlyFile, "cache only", cancellationToken);
             return "produced";
+        }
+    }
+
+    [ProducesArtifact("missing-runtime", MissingRuntimeFile)]
+    private sealed class MissingRuntimeProducerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("produced");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
+    [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
+    private sealed class MissingRuntimeConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
         }
     }
 
@@ -189,6 +224,21 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task BuildAsyncRejectsOptionalProducerDependency()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<OptionalArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(OptionalArtifactConsumerModule)
+            && error.Message.Contains("required dependencies", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Test]
     public async Task BuildAsyncIgnoresInvalidContractOnExcludedConsumer()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -257,6 +307,62 @@ public class ArtifactContractTests
                 CancellationToken.None);
 
             await Assert.That(artifacts).IsEmpty();
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionDoesNotUploadForExcludedConsumer()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules = [nameof(LocalConsumerModule)],
+            });
+            builder.AddModule<LocalProducerModule>();
+            builder.AddModule<LocalConsumerModule>();
+            await using var pipeline = await builder.BuildAsync();
+
+            _ = await pipeline.RunAsync();
+            var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+            var artifacts = await store.ListArtifactsAsync(
+                typeof(LocalProducerModule).FullName!,
+                CancellationToken.None);
+
+            await Assert.That(File.Exists(ProducedFile)).IsTrue();
+            await Assert.That(artifacts).IsEmpty();
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionFailsWhenConsumedArtifactWasNotUploaded()
+    {
+        DeleteLocalArtifacts();
+        MissingRuntimeConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<MissingRuntimeProducerModule>();
+            builder.AddModule<MissingRuntimeConsumerModule>();
+
+            var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+                () => builder.ExecutePipelineAsync());
+
+            await Assert.That(exception!.ToString()).Contains("missing-runtime");
+            await Assert.That(exception.ToString()).Contains("not found");
+            await Assert.That(MissingRuntimeConsumerModule.Executed).IsFalse();
         }
         finally
         {

@@ -41,7 +41,8 @@ internal class ModuleRunner : IModuleRunner
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ArtifactLifecycleManager _artifactLifecycleManager;
     private readonly bool _manageArtifactsLocally;
-    private readonly IReadOnlyDictionary<Type, IReadOnlySet<string>> _locallyConsumedArtifacts;
+    private readonly IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
+        _localArtifactConsumers;
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -81,16 +82,7 @@ internal class ModuleRunner : IModuleRunner
         _artifactLifecycleManager = artifactLifecycleManager;
         _manageArtifactsLocally = !distributedOptions.Value.Enabled
                                   || distributedOptions.Value.TotalInstances <= 1;
-        _locallyConsumedArtifacts = modules
-            .SelectMany(module => module.GetType()
-                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
-                .Cast<ConsumesArtifactAttribute>())
-            .GroupBy(attribute => attribute.ProducerModule)
-            .ToDictionary(
-                group => group.Key,
-                group => (IReadOnlySet<string>) group
-                    .Select(attribute => attribute.ArtifactName)
-                    .ToHashSet(StringComparer.Ordinal));
+        _localArtifactConsumers = GetLocalArtifactConsumers(modules);
     }
 
     /// <inheritdoc />
@@ -143,13 +135,16 @@ internal class ModuleRunner : IModuleRunner
                 if (_manageArtifactsLocally)
                 {
                     await _artifactLifecycleManager
-                        .DownloadConsumedArtifactsAsync(moduleType, cancellationToken)
+                        .DownloadConsumedArtifactsAsync(
+                            moduleType,
+                            failIfMissing: true,
+                            cancellationToken)
                         .ConfigureAwait(false);
                 }
 
                 await ExecuteModuleWithPipeline(moduleState, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
 
-                await UploadProducedArtifactsAsync(moduleType, cancellationToken).ConfigureAwait(false);
+                await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken).ConfigureAwait(false);
 
                 scheduler.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.ModuleStatus);
             }
@@ -172,10 +167,23 @@ internal class ModuleRunner : IModuleRunner
         }
     }
 
-    private async Task UploadProducedArtifactsAsync(Type moduleType, CancellationToken cancellationToken)
+    private async Task UploadProducedArtifactsAsync(
+        Type moduleType,
+        IModuleScheduler scheduler,
+        CancellationToken cancellationToken)
     {
         if (!_manageArtifactsLocally
-            || !_locallyConsumedArtifacts.TryGetValue(moduleType, out var artifactNames))
+            || !_localArtifactConsumers.TryGetValue(moduleType, out var consumersByArtifact))
+        {
+            return;
+        }
+
+        var artifactNames = consumersByArtifact
+            .Where(entry => entry.Value.Any(consumerType =>
+                scheduler.GetModuleState(consumerType) is not null))
+            .Select(entry => entry.Key)
+            .ToHashSet(StringComparer.Ordinal);
+        if (artifactNames.Count == 0)
         {
             return;
         }
@@ -190,6 +198,27 @@ internal class ModuleRunner : IModuleRunner
         {
             _logger.LogError(ex, "Failed to upload artifacts for module {Module}", moduleType.Name);
         }
+    }
+
+    private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
+        GetLocalArtifactConsumers(IEnumerable<IModule> modules)
+    {
+        return modules
+            .SelectMany(module => module.GetType()
+                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                .Cast<ConsumesArtifactAttribute>()
+                .Select(attribute => (ConsumerType: module.GetType(), Attribute: attribute)))
+            .GroupBy(item => item.Attribute.ProducerModule)
+            .ToDictionary(
+                producerGroup => producerGroup.Key,
+                producerGroup => (IReadOnlyDictionary<string, IReadOnlySet<Type>>) producerGroup
+                    .GroupBy(item => item.Attribute.ArtifactName, StringComparer.Ordinal)
+                    .ToDictionary(
+                        artifactGroup => artifactGroup.Key,
+                        artifactGroup => (IReadOnlySet<Type>) artifactGroup
+                            .Select(item => item.ConsumerType)
+                            .ToHashSet(),
+                        StringComparer.Ordinal));
     }
 
     private async Task ExecuteModuleWithPipeline(ModuleState moduleState, IServiceProvider scopedServiceProvider, CancellationToken cancellationToken)

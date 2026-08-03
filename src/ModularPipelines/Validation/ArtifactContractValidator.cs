@@ -134,7 +134,8 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Artifact,
                 $"Module '{consumerType.Name}' consumes artifact '{consumedArtifact.ArtifactName}' " +
-                $"from '{producerType.Name}' but does not depend on that producer.",
+                $"from '{producerType.Name}' but does not depend on that producer through " +
+                "required dependencies.",
                 consumerType));
         }
     }
@@ -158,12 +159,17 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
                 continue;
             }
 
-            foreach (var (dependencyType, _) in ModuleDependencyResolver.GetAllDependencies(
+            foreach (var (dependencyType, optional) in ModuleDependencyResolver.GetAllDependencies(
                          module,
                          availableModuleTypes,
                          dependencyRegistry,
                          metadataRegistry))
             {
+                if (optional)
+                {
+                    continue;
+                }
+
                 if (dependencyType == producerType)
                 {
                     return true;

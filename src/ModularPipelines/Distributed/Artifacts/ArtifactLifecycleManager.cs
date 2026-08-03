@@ -164,7 +164,13 @@ internal class ArtifactLifecycleManager
     /// Deduplicates downloads — if another module already restored the same artifact to the same path,
     /// this call awaits that existing operation instead of downloading again.
     /// </summary>
-    public async Task DownloadConsumedArtifactsAsync(Type moduleType, CancellationToken cancellationToken)
+    public Task DownloadConsumedArtifactsAsync(Type moduleType, CancellationToken cancellationToken) =>
+        DownloadConsumedArtifactsAsync(moduleType, failIfMissing: false, cancellationToken);
+
+    internal async Task DownloadConsumedArtifactsAsync(
+        Type moduleType,
+        bool failIfMissing,
+        CancellationToken cancellationToken)
     {
         var attributes = moduleType.GetCustomAttributes(typeof(ConsumesArtifactAttribute), true)
             .Cast<ConsumesArtifactAttribute>()
@@ -179,7 +185,13 @@ internal class ArtifactLifecycleManager
         {
             var producerTypeName = attr.ProducerModule.FullName!;
             var restorePath = attr.RestorePath ?? _workingDirectory;
-            await DownloadConsumedArtifactsForPathAsync(producerTypeName, attr.ArtifactName, restorePath, moduleType, cancellationToken);
+            await DownloadConsumedArtifactsForPathAsync(
+                producerTypeName,
+                attr.ArtifactName,
+                restorePath,
+                moduleType,
+                failIfMissing,
+                cancellationToken);
         }
     }
 
@@ -188,21 +200,42 @@ internal class ArtifactLifecycleManager
     /// If the same artifact has already been restored to the same path (by this or another module),
     /// this call is a no-op. Concurrent calls for the same key share a single in-flight download.
     /// </summary>
+    internal Task DownloadConsumedArtifactsForPathAsync(
+        string producerTypeName,
+        string artifactName,
+        string restorePath,
+        Type consumerModuleType,
+        CancellationToken cancellationToken) =>
+        DownloadConsumedArtifactsForPathAsync(
+            producerTypeName,
+            artifactName,
+            restorePath,
+            consumerModuleType,
+            failIfMissing: false,
+            cancellationToken);
+
     internal async Task DownloadConsumedArtifactsForPathAsync(
         string producerTypeName,
         string artifactName,
         string restorePath,
         Type consumerModuleType,
+        bool failIfMissing,
         CancellationToken cancellationToken)
     {
         var normalizedPath = ResolvePath(restorePath);
-        var restoreKey = $"{producerTypeName}:{artifactName}:{normalizedPath}";
+        var restoreKey = $"{producerTypeName}:{artifactName}:{normalizedPath}:{failIfMissing}";
 
         // Use CancellationToken.None for the shared download so one caller's cancellation
         // doesn't abort the download for other modules consuming the same artifact.
         var lazyTask = _completedRestores.GetOrAdd(
             restoreKey,
-            _ => new Lazy<Task>(() => RestoreArtifactAsync(producerTypeName, artifactName, normalizedPath, consumerModuleType, CancellationToken.None)));
+            _ => new Lazy<Task>(() => RestoreArtifactAsync(
+                producerTypeName,
+                artifactName,
+                normalizedPath,
+                consumerModuleType,
+                failIfMissing,
+                CancellationToken.None)));
 
         try
         {
@@ -229,6 +262,7 @@ internal class ArtifactLifecycleManager
         string artifactName,
         string restorePath,
         Type consumerModuleType,
+        bool failIfMissing,
         CancellationToken cancellationToken)
     {
         var artifacts = await _store.ListArtifactsAsync(producerTypeName, cancellationToken);
@@ -236,8 +270,15 @@ internal class ArtifactLifecycleManager
 
         if (artifact is null)
         {
+            var message = $"Artifact '{artifactName}' from module '{producerTypeName}' " +
+                          $"was not found for consumer '{consumerModuleType.Name}'.";
+            if (failIfMissing)
+            {
+                throw new InvalidOperationException(message);
+            }
+
             _logger.LogWarning(
-                "Artifact '{Name}' from module '{Producer}' not found for consumer {Module}",
+                "Artifact '{Name}' from module '{Producer}' was not found for consumer {Module}",
                 artifactName, producerTypeName, consumerModuleType.Name);
             return;
         }
