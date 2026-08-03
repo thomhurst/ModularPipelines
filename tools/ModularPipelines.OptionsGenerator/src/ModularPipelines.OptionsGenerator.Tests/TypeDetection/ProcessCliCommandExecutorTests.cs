@@ -362,6 +362,16 @@ public class ProcessCliCommandExecutorTests
         await Assert.That(isAvailable).IsFalse();
     }
 
+    [Test]
+    public async Task IsAvailableAsync_Returns_False_For_Missing_Command()
+    {
+        var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+        var isAvailable = await executor.IsAvailableAsync($"missing-{Guid.NewGuid():N}");
+
+        await Assert.That(isAvailable).IsFalse();
+    }
+
     private static async Task<bool> WaitForProcessExitAsync(int processId)
     {
         var timeout = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(2);

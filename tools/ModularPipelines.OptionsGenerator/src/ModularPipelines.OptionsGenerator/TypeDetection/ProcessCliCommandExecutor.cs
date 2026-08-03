@@ -32,9 +32,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
         var executablePath = ResolveExecutablePath(command);
-        if (executablePath is null && OperatingSystem.IsWindows() && WindowsCommandResolver.IsCommandScript(command))
+        if (executablePath is null)
         {
-            _logger.LogWarning("Windows command script not found: {Command}", command);
+            _logger.LogWarning("Command not found: {Command}", command);
             return new CliCommandResult
             {
                 StandardOutput = string.Empty,
@@ -43,7 +43,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             };
         }
 
-        var startInfo = CreateStartInfo(executablePath ?? command, arguments, workingDirectory);
+        var startInfo = CreateStartInfo(executablePath, arguments, workingDirectory);
 
         // Disable pagers for CLI tools - many CLIs use pagers by default which hang in non-interactive mode
         startInfo.Environment["AWS_PAGER"] = "";    // AWS CLI
@@ -146,7 +146,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         if (!string.IsNullOrWhiteSpace(configuredPath)
             && IsOverrideForCommand(command, configuredPath))
         {
-            return Path.GetFullPath(configuredPath);
+            var fullConfiguredPath = Path.GetFullPath(configuredPath);
+            return File.Exists(fullConfiguredPath) ? fullConfiguredPath : null;
         }
 
         return ResolveExecutablePath(
@@ -172,7 +173,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     {
         if (!isWindows)
         {
-            return ResolveFromPath(command, searchPath) ?? command;
+            return ResolveFromPath(command, searchPath, processDirectory);
         }
 
         return WindowsCommandResolver.Resolve(command, processDirectory, searchPath, pathExtensions, isWindows: true);
@@ -220,11 +221,22 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         return $"/d /s /c \"{command}\"";
     }
 
-    private static string? ResolveFromPath(string command, string? searchPath)
+    private static string? ResolveFromPath(
+        string command,
+        string? searchPath,
+        string? processDirectory = null)
     {
         if (Path.IsPathRooted(command))
         {
             return File.Exists(command) ? command : null;
+        }
+
+        if (!string.IsNullOrEmpty(Path.GetDirectoryName(command)))
+        {
+            var candidate = Path.GetFullPath(
+                command,
+                processDirectory ?? Environment.CurrentDirectory);
+            return File.Exists(candidate) ? candidate : null;
         }
 
         foreach (var pathDirectory in GetPathDirectories(searchPath))
