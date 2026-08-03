@@ -217,14 +217,21 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     {
         var pairs = rawValue switch
         {
-            CliOptionValuePair pair => [pair],
-            IEnumerable<CliOptionValuePair> pairCollection => pairCollection,
+            CliValuePair pair => [pair],
+            IEnumerable<CliValuePair> pairCollection => pairCollection,
             _ => null,
         };
 
         if (pairs is null)
         {
             return false;
+        }
+
+        if (optionPart.Attribute.GetSeparator() != " ")
+        {
+            throw new InvalidOperationException(
+                $"Two-operand CLI option property '{optionPart.PropertyName}' must use "
+                + $"{nameof(OptionFormat)}.{nameof(OptionFormat.SpaceSeparated)}.");
         }
 
         var optionName = optionPart.Attribute.GetEffectiveName();

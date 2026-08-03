@@ -277,10 +277,10 @@ public static class ExternalToolDefinitionLoader
                 $"{propertyName}[].isSecret must be true when secretValueKeys are declared.");
         }
 
-        if (!option.IsKeyValue || !IsEnumerableKeyValueType(option.CSharpType))
+        if (!option.IsKeyValue || !IsReadOnlyListKeyValueType(option.CSharpType))
         {
             throw new InvalidDataException(
-                $"{propertyName}[].secretValueKeys require isKeyValue=true and cSharpType IEnumerable<KeyValue>.");
+                $"{propertyName}[].secretValueKeys require isKeyValue=true and cSharpType IReadOnlyList<KeyValue>.");
         }
     }
 
@@ -326,13 +326,13 @@ public static class ExternalToolDefinitionLoader
         }
     }
 
-    private static bool IsEnumerableKeyValueType(string cSharpType)
+    private static bool IsReadOnlyListKeyValueType(string cSharpType)
     {
         var type = cSharpType.Replace(" ", string.Empty, StringComparison.Ordinal);
-        return type is "IEnumerable<KeyValue>"
-            or "IEnumerable<KeyValue>?"
-            or "System.Collections.Generic.IEnumerable<ModularPipelines.Models.KeyValue>"
-            or "System.Collections.Generic.IEnumerable<ModularPipelines.Models.KeyValue>?";
+        return type is "IReadOnlyList<KeyValue>"
+            or "IReadOnlyList<KeyValue>?"
+            or "System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>"
+            or "System.Collections.Generic.IReadOnlyList<ModularPipelines.Models.KeyValue>?";
     }
 
     private static bool IsSupportedFlagType(string cSharpType)

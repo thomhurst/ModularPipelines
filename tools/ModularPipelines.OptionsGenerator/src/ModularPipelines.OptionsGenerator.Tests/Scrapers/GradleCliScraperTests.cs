@@ -47,7 +47,7 @@ public class GradleCliScraperTests
         await Assert.That(console.EnumDefinition!.Values.Select(x => x.CliValue)).IsEquivalentTo(["plain", "auto", "rich"]);
 
         var projectProperty = command.Options.Single(x => x.PropertyName == "ProjectProp");
-        await Assert.That(projectProperty.CSharpType).IsEqualTo("IEnumerable<KeyValue>?");
+        await Assert.That(projectProperty.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
         await Assert.That(projectProperty.AcceptsMultipleValues).IsTrue();
         await Assert.That(projectProperty.IsKeyValue).IsTrue();
         await Assert.That(command.Options.Single(x => x.PropertyName == "WatchFs").IsFlag).IsTrue();

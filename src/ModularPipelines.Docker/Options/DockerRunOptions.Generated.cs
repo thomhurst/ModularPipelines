@@ -33,7 +33,7 @@ public record DockerRunOptions(
     /// Add an annotation to the container (passed through to the OCI runtime) (default map[])
     /// </summary>
     [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Annotation { get; set; }
+    public IReadOnlyList<KeyValue>? Annotation { get; set; }
 
     /// <summary>
     /// Attach to STDIN, STDOUT or STDERR
@@ -555,7 +555,7 @@ public record DockerRunOptions(
     /// Sysctl options (default map[])
     /// </summary>
     [CliOption("--sysctl", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Sysctl { get; set; }
+    public IReadOnlyList<KeyValue>? Sysctl { get; set; }
 
     /// <summary>
     /// Mount a tmpfs directory

@@ -32,7 +32,7 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance    Data disk configurations.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Resource policies to apply to the data disk. Format:     projects/{project}/regions/{region}/resourcePolicies/{policy}.
@@ -50,7 +50,7 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     /// Custom metadata to apply to this instance.
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Metadata { get; set; }
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// Tags to apply to this instance.    Accelerator configurations.

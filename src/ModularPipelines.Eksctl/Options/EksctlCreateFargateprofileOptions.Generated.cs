@@ -37,13 +37,13 @@ public record EksctlCreateFargateprofileOptions : EksctlOptions
     /// Kubernetes selector labels of the workloads to schedule on Fargate. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--labels", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Used to tag the AWS resources. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--tags", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Tags { get; set; }
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// EKS cluster name

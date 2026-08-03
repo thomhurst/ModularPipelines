@@ -38,7 +38,7 @@ public record GcloudFirebaseTestIosRunOptions : GcloudOptions
     /// Comma-separated, KEY=VALUE map of additional details to attach to the     test matrix. Arbitrary KEY=VALUE pairs may be attached to a test matrix     to provide additional context about the tests being run. When consuming     the test results, such as in Cloud Functions or a CI system, these     details can add additional context such as a link to the corresponding     pull request.     Example:       --client-details=buildNumber=1234,pullRequest=https://example.com/link/to/pull-request     To help you identify and locate your test matrix in the Firebase     console, use the matrixLabel key.     Example:       --client-details=matrixLabel="Example matrix label"
     /// </summary>
     [CliOption("--client-details", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ClientDetails { get; set; }
+    public IReadOnlyList<KeyValue>? ClientDetails { get; set; }
 
     /// <summary>
     /// Specifies the number of times a test execution should be reattempted if     one or more of its test cases fail for any reason. An execution that     initially fails but succeeds on any reattempt is reported as FLAKY.     The maximum number of reruns allowed is 10. (Default: 0, which implies     no reruns.) All additional attempts are executed in parallel.

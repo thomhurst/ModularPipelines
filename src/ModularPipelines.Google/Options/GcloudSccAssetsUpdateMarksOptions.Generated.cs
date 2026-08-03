@@ -26,7 +26,7 @@ public record GcloudSccAssetsUpdateMarksOptions : GcloudOptions
     /// SecurityMarks resource to be passed as the request body. It's a     key=value pair separated by comma (,). For example:     --security-marks="key1=val1,key2=val2".
     /// </summary>
     [CliOption("--security-marks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? SecurityMarks { get; set; }
+    public IReadOnlyList<KeyValue>? SecurityMarks { get; set; }
 
     /// <summary>
     /// Time at which the updated SecurityMarks take effect. See $ gcloud topic     datetimes for information on supported time formats.

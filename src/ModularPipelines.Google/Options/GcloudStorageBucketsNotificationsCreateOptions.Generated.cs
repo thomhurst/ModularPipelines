@@ -25,7 +25,7 @@ public record GcloudStorageBucketsNotificationsCreateOptions(
 ) : GcloudOptions
 {
     [CliOption("--custom-attributes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? CustomAttributes { get; set; }
+    public IReadOnlyList<KeyValue>? CustomAttributes { get; set; }
 
     [CliOption("--event-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? EventTypes { get; set; }

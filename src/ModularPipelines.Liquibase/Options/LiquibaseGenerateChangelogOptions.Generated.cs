@@ -44,7 +44,7 @@ public record LiquibaseGenerateChangelogOptions : LiquibaseOptions
     /// Pass a name/value pair for substitution in the changelog(s) Pass as -D&lt;property.name&gt;=&lt;property.value&gt; [deprecated: set changelog properties in defaults file or environment variables]
     /// </summary>
     [CliOption("-D", Format = OptionFormat.NoSeparator, AllowMultiple = true)]
-    public IEnumerable<KeyValue>? ChangelogProperty { get; set; }
+    public IReadOnlyList<KeyValue>? ChangelogProperty { get; set; }
 
     /// <summary>
     /// Specifies a directory to send the loadData output of a diff-changelog/generate-changelog command as a CSV file.

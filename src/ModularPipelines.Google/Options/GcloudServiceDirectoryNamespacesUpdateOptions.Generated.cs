@@ -26,6 +26,6 @@ public record GcloudServiceDirectoryNamespacesUpdateOptions : GcloudOptions
     /// Resource labels associated with the namespace.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
 }

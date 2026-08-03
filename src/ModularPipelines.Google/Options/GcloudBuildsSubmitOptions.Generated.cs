@@ -114,7 +114,7 @@ public record GcloudBuildsSubmitOptions : GcloudOptions
     /// Parameters to be substituted in the build specification.     For example (using some nonsensical substitution keys; all keys must     begin with an underscore):       $ gcloud builds submit . --config config.yaml \         --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10     This will result in a build where every occurrence of     ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and     similarly for ${_NUM_CANDIES} and "10".     Only the following built-in variables can be specified with the     --substitutions flag: REPO_NAME, BRANCH_NAME, TAG_NAME, REVISION_ID,     COMMIT_SHA, SHORT_SHA.     For more details, see:     https://cloud.google.com/cloud-build/docs/api/build-requests#substitutions
     /// </summary>
     [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Substitutions { get; set; }
+    public IReadOnlyList<KeyValue>? Substitutions { get; set; }
 
     /// <summary>
     /// If set, build logs not streamed to stdout.

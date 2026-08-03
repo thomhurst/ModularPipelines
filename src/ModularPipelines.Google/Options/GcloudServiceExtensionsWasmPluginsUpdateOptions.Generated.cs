@@ -38,7 +38,7 @@ public record GcloudServiceExtensionsWasmPluginsUpdateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Logging options for the activity performed by this plugin. The     following options can be set:     ◆ enable: whether to enable logging. If log-config flag is set,      enable option is required.     ◆ sample-rate: configures the sampling rate of activity logs, where      1.0 means all logged activity is reported and 0.0 means no activity      is reported. The default value is 1.0, and the value of the field      must be in range 0 to 1 (inclusive).     ◆ min-log-level: specifies the lowest level of the logs that should      be exported to Cloud Logging. The default value is INFO.     Example usage:     --log-config=enable=True,sample-rate=0.5,min-log-level=INFO     --log_config=enable=False

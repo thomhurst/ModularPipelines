@@ -86,19 +86,19 @@ public record GcloudContainerBareMetalClustersUpdateOptions : GcloudOptions
     /// API Server argument configuration.    Anthos on bare metal cluster control plane node pool configuration.    Anthos on bare metal node pool configuration for control plane nodes.    Anthos on bare metal node configuration for control plane nodes.    Populate control plane node config.    At most one of these can be specified:     --control-plane-node-configs=[labels=LABELS],[node-ip=NODE-IP]      Control plane node configuration.
     /// </summary>
     [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ApiServerArgs { get; set; }
+    public IReadOnlyList<KeyValue>? ApiServerArgs { get; set; }
 
     /// <summary>
     /// Labels assigned to nodes of a node pool.
     /// </summary>
     [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ControlPlaneNodeLabels { get; set; }
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeLabels { get; set; }
 
     /// <summary>
     /// Node taint applied to every Kubernetes node in a node pool.    Modifiable kubelet configurations for bare metal machines.
     /// </summary>
     [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ControlPlaneNodeTaints { get; set; }
+    public IReadOnlyList<KeyValue>? ControlPlaneNodeTaints { get; set; }
 
     /// <summary>
     /// Maximum size of bursty pulls, temporarily allow pulls to burst to this     number, while still not exceeding registry_pull_qps.

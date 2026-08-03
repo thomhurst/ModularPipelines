@@ -37,7 +37,7 @@ public record EksctlSetLabelsOptions : EksctlOptions
     /// Labels. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--labels", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// AWS region. Defaults to the value set in your AWS config (~/.aws/config)

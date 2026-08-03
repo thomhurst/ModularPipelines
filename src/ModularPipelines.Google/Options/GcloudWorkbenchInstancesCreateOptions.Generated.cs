@@ -57,7 +57,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// String. VM instance with CC (Confidential Compute) of type. Supported     values: SEV.
@@ -87,7 +87,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// Custom metadata to apply to this instance.
     /// </summary>
     [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Metadata { get; set; }
+    public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// The minimum CPU platform to use for this instance. The list of valid     values can be found in     https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones    The service account on this instance, giving access to other Google Cloud   services. You can use any service account within the same project, but you   must grant the service account user permission to use the instance. If not   specified, the Compute Engine default service account is used.

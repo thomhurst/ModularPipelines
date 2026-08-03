@@ -163,6 +163,6 @@ public record DotNetTestOptions : DotNetOptions
     /// Set one or more MSBuild properties. Use format: PropertyName=Value
     /// </summary>
     [CliOption("-p", Format = OptionFormat.ColonSeparated, AllowMultiple = true)]
-    public IEnumerable<KeyValue>? Properties { get; set; }
+    public IReadOnlyList<KeyValue>? Properties { get; set; }
 
 }

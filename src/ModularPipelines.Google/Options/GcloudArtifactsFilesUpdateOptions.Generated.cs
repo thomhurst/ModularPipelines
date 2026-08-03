@@ -26,6 +26,6 @@ public record GcloudArtifactsFilesUpdateOptions : GcloudOptions
     /// List of annotations in the format of KEY=VALUE pairs to add, update, or     remove. Duplicate keys will be overwritten. For more details on     annotations, see https://google.aip.dev/148#annotations.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --annotations=string=string     JSON Example:       --annotations='{"string": "string"}'     File Example:       --annotations=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Annotations { get; set; }
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
 }

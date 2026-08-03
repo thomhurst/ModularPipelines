@@ -86,7 +86,7 @@ public class GlobalOptionsBaseGeneratorTests
                 {
                     SwitchName = "--property",
                     PropertyName = "Property",
-                    CSharpType = "IEnumerable<KeyValue>?",
+                    CSharpType = "IReadOnlyList<KeyValue>?",
                     IsSecret = true,
                     IsKeyValue = true,
                     SecretValueKeys = ["token", "password"],

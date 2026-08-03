@@ -58,7 +58,7 @@ public record GcloudPreviewComputeDisksSnapshotOptions(
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Names to assign to the created snapshots. Without this option, the name     of each snapshot will be a random 12-character alphanumeric string that     starts with a letter. The values of this option run parallel to the     disks specified. For example,       gcloud preview compute disks snapshot my-disk-1 my-disk-2 my-disk-3 --snapshot-names snapshot-1,snapshot-2,snapshot-3     will result in my-disk-1 being snapshotted as snapshot-1, my-disk-2 as     snapshot-2, and so on. The name must match the     (?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?) regular expression, which means     it must start with an alphabetic character followed by one or more     alphanumeric characters or dashes. The name must not exceed 63     characters and must not contain special symbols. All characters must be     lowercase.
