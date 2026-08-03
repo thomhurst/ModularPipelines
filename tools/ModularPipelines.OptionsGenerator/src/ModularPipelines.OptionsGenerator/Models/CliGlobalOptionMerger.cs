@@ -105,9 +105,12 @@ public static class CliGlobalOptionMerger
                && left.PropertyName.Equals(right.PropertyName, StringComparison.Ordinal)
                && left.CSharpType.Equals(right.CSharpType, StringComparison.Ordinal)
                && left.IsFlag == right.IsFlag
+               && left.ValueArity == right.ValueArity
+               && left.Phase == right.Phase
                && left.IsRequired == right.IsRequired
                && left.AcceptsMultipleValues == right.AcceptsMultipleValues
                && left.GroupValues == right.GroupValues
+               && left.IsCollection == right.IsCollection
                && left.IsKeyValue == right.IsKeyValue
                && left.IsNumeric == right.IsNumeric
                && left.IsSecret == right.IsSecret

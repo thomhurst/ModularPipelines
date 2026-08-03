@@ -287,6 +287,12 @@ public static class ExternalToolDefinitionLoader
 
     private static void ValidateFlagType(CliOptionDefinition option, string propertyName)
     {
+        if (option.IsFlag && option.ValueArity == CliOptionValueArity.Optional)
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].valueArity cannot be optional when isFlag is true.");
+        }
+
         if (option.IsFlag && !IsSupportedFlagType(option.CSharpType))
         {
             throw new InvalidDataException(
