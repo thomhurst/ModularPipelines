@@ -35,19 +35,19 @@ public record EksctlUtilsDescribeAddonVersionsOptions : EksctlOptions
     /// <summary>
     /// Addon type (optional, can be comma separated list e.g., --types "typeA, typeB"
     /// </summary>
-    [CliOption("--types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>
     /// Addon owner (optional, can be comma separated list e.g., --owners "ownerA, ownerB"
     /// </summary>
-    [CliOption("--owners", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--owners", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Owners { get; set; }
 
     /// <summary>
     /// Addon publisher (optional, can be comma separated list e.g., --publishers "publisherA, publisherB"
     /// </summary>
-    [CliOption("--publishers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--publishers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Publishers { get; set; }
 
     /// <summary>

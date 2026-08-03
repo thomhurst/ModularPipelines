@@ -15,9 +15,4 @@ public enum CliOptionValueArity
     /// A null property omits the option; an empty string renders it bare.
     /// </summary>
     Optional,
-
-    /// <summary>
-    /// The option does not accept a value.
-    /// </summary>
-    None,
 }

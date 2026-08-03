@@ -35,7 +35,7 @@ public record GhExtensionSearchOptions : GhOptions
     /// <summary>
     /// Filter based on license type
     /// </summary>
-    [CliOption("--license", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--license", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? License { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record GhExtensionSearchOptions : GhOptions
     /// <summary>
     /// Filter on owner
     /// </summary>
-    [CliOption("--owner", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--owner", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Owner { get; set; }
 
     /// <summary>

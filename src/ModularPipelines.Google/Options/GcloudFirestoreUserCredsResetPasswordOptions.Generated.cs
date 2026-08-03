@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "user-creds", "reset-password")]
 public record GcloudFirestoreUserCredsResetPasswordOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string UserCreds
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UserCreds
 ) : GcloudOptions
 {
 }

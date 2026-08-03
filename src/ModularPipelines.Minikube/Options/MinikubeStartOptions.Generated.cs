@@ -24,13 +24,13 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Enable one or more addons, in a comma-separated format. See `minikube addons list` for a list of valid addon names.
     /// </summary>
-    [CliOption("--addons", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--addons", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Addons { get; set; }
 
     /// <summary>
     /// A set of apiserver IP Addresses which are used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine
     /// </summary>
-    [CliOption("--apiserver-ips", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--apiserver-ips", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApiServerIps { get; set; }
 
     /// <summary>
@@ -42,7 +42,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// A set of apiserver names which are used in the generated certificate for kubernetes.  This can be used if you want to make the apiserver available from outside the machine
     /// </summary>
-    [CliOption("--apiserver-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--apiserver-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApiServerNames { get; set; }
 
     /// <summary>
@@ -162,13 +162,13 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Environment variables to pass to the Docker daemon. (format: key=value)
     /// </summary>
-    [CliOption("--docker-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--docker-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DockerEnv { get; set; }
 
     /// <summary>
     /// Specify arbitrary flags to pass to the Docker daemon. (format: key=value)
     /// </summary>
-    [CliOption("--docker-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--docker-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DockerOpt { get; set; }
 
     /// <summary>
@@ -264,7 +264,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// List of guest VSock ports that should be exposed as sockets on the host (hyperkit driver only)
     /// </summary>
-    [CliOption("--hyperkit-vsock-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--hyperkit-vsock-ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HyperkitVsockPorts { get; set; }
 
     /// <summary>
@@ -300,7 +300,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Insecure Docker registries to pass to the Docker daemon.  The default service CIDR range will automatically be added.
     /// </summary>
-    [CliOption("--insecure-registry", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--insecure-registry", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? InsecureRegistry { get; set; }
 
     /// <summary>
@@ -408,7 +408,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Additional mount options, such as cache=fscache
     /// </summary>
-    [CliOption("--mount-options", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--mount-options", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MountOptions { get; set; }
 
     /// <summary>
@@ -462,7 +462,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Local folders to share with Guest via NFS mounts (hyperkit driver only)
     /// </summary>
-    [CliOption("--nfs-share", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--nfs-share", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NfsShare { get; set; }
 
     /// <summary>
@@ -498,7 +498,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// List of ports that should be exposed (docker and podman driver only)
     /// </summary>
-    [CliOption("--ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ports { get; set; }
 
     /// <summary>
@@ -522,7 +522,7 @@ public record MinikubeStartOptions : MinikubeOptions
     /// <summary>
     /// Registry mirrors to pass to the Docker daemon
     /// </summary>
-    [CliOption("--registry-mirror", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--registry-mirror", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RegistryMirror { get; set; }
 
     /// <summary>

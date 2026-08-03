@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Models;
 using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
@@ -20,43 +21,44 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "dap", "build")]
 public record DockerBuildxDapBuildOptions(
-    [property: CliArgument(0)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
 ) : DockerOptions
 {
     /// <summary>
     /// Add a custom host-to-IP mapping (format: "host:ip")
     /// </summary>
-    [CliOption("--add-host", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-host", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddHost { get; set; }
 
     /// <summary>
     /// Allow extra privileged entitlement (e.g., "network.host", "security.insecure", "device", "buildx.local.delete")
     /// </summary>
-    [CliOption("--allow", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allow", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Allow { get; set; }
 
     /// <summary>
     /// Add annotation to the image
     /// </summary>
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
     /// Attestation parameters (format: "type=sbom,generator=image")
     /// </summary>
-    [CliOption("--attest", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attest", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attest { get; set; }
 
     /// <summary>
     /// Set build-time variables
     /// </summary>
-    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? BuildArg { get; set; }
+    [SecretValue("password", "secret", "token", "apiKey", "api_key", "accessKey", "access_key", "secretKey", "secret_key", "clientSecret", "client_secret", "privateKey", "private_key")]
+    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? BuildArg { get; set; }
 
     /// <summary>
     /// Additional build contexts (e.g., name=path)
     /// </summary>
-    [CliOption("--build-context", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--build-context", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BuildContext { get; set; }
 
     /// <summary>
@@ -68,13 +70,13 @@ public record DockerBuildxDapBuildOptions(
     /// <summary>
     /// External cache sources (e.g., "user/app:cache", "type=local,src=path/to/dir")
     /// </summary>
-    [CliOption("--cache-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheFrom { get; set; }
 
     /// <summary>
     /// Cache export destinations (e.g., "user/app:cache", "type=local,dest=path/to/dir")
     /// </summary>
-    [CliOption("--cache-to", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-to", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheTo { get; set; }
 
     /// <summary>
@@ -116,7 +118,7 @@ public record DockerBuildxDapBuildOptions(
     /// <summary>
     /// Set metadata for an image
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -146,25 +148,25 @@ public record DockerBuildxDapBuildOptions(
     /// <summary>
     /// Do not cache specified stages
     /// </summary>
-    [CliOption("--no-cache-filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--no-cache-filter", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NoCacheFilter { get; set; }
 
     /// <summary>
     /// Output destination (format: "type=local,dest=path")
     /// </summary>
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Output { get; set; }
 
     /// <summary>
     /// Set target platform for build
     /// </summary>
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
     /// Policy configuration (format: "filename=path[,filename=path][,reset=true|false][,disabled=true|false][,strict=true|false][,log-level=level]")
     /// </summary>
-    [CliOption("--policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Policy { get; set; }
 
     /// <summary>
@@ -200,7 +202,7 @@ public record DockerBuildxDapBuildOptions(
     /// <summary>
     /// Resource limits for build containers (format: "memory=2g", "cpu-quota=50000")
     /// </summary>
-    [CliOption("--resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Resource { get; set; }
 
     /// <summary>
@@ -213,7 +215,7 @@ public record DockerBuildxDapBuildOptions(
     /// Secret to expose to the build
     /// </summary>
     [SecretValue]
-    [CliOption("--secret", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Secret { get; set; }
 
     /// <summary>
@@ -225,13 +227,13 @@ public record DockerBuildxDapBuildOptions(
     /// <summary>
     /// SSH agent socket or keys to expose
     /// </summary>
-    [CliOption("--ssh", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ssh", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ssh { get; set; }
 
     /// <summary>
     /// Image identifier (format: "[registry/]repository[:tag]")
     /// </summary>
-    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tag", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tag { get; set; }
 
     /// <summary>

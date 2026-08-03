@@ -41,7 +41,7 @@ public record DockerComposeUpOptions : DockerOptions
     /// <summary>
     /// Restrict attaching to the specified services. Incompatible with --attach-dependencies.
     /// </summary>
-    [CliOption("--attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attach", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attach { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record DockerComposeUpOptions : DockerOptions
     /// <summary>
     /// Do not attach (stream logs) to the specified services
     /// </summary>
-    [CliOption("--no-attach", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--no-attach", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NoAttach { get; set; }
 
     /// <summary>
@@ -133,6 +133,12 @@ public record DockerComposeUpOptions : DockerOptions
     /// </summary>
     [CliOption("--pull", Format = OptionFormat.EqualsSeparated)]
     public string? Pull { get; set; }
+
+    /// <summary>
+    /// Suppress the build output
+    /// </summary>
+    [CliFlag("--quiet-build")]
+    public bool? QuietBuild { get; set; }
 
     /// <summary>
     /// Pull without printing progress information
@@ -197,7 +203,7 @@ public record DockerComposeUpOptions : DockerOptions
     /// <summary>
     /// The SERVICE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
 
 }

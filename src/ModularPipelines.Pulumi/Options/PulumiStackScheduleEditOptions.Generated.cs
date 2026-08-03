@@ -20,7 +20,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "schedule", "edit")]
 public record PulumiStackScheduleEditOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ScheduleId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ScheduleId
 ) : PulumiOptions
 {
     /// <summary>

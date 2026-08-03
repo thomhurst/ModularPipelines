@@ -30,19 +30,19 @@ public record GcloudVectorSearchCollectionsDataObjectsQueryOptions : GcloudOptio
     /// <summary>
     /// List of data fields to include in the output. Use * to include all data     fields.
     /// </summary>
-    [CliOption("--output-data-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--output-data-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OutputDataFields { get; set; }
 
     /// <summary>
     /// List of metadata fields to include in the output. Use * to include all     metadata fields.
     /// </summary>
-    [CliOption("--output-metadata-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--output-metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OutputMetadataFields { get; set; }
 
     /// <summary>
     /// List of vector fields to include in the output. Use * to include all     vector fields.
     /// </summary>
-    [CliOption("--output-vector-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--output-vector-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OutputVectorFields { get; set; }
 
 }

@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("team", "ls")]
 public record NpmTeamLsOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value
 ) : NpmOptions
 {
     [CliOption("--registry")]
@@ -21,6 +21,6 @@ public record NpmTeamLsOptions(
     [CliFlag("--json")]
     public virtual bool? Json { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string? Scope { get; set; }
 }

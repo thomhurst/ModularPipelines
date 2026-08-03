@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "org-security-policies", "update")]
 public record GcloudPreviewComputeOrgSecurityPoliciesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SecurityPolicy
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SecurityPolicy
 ) : GcloudOptions
 {
     /// <summary>
@@ -32,7 +32,7 @@ public record GcloudPreviewComputeOrgSecurityPoliciesUpdateOptions(
     /// <summary>
     /// A comma-separated list of custom Content-Type header values to apply     JSON parsing for preconfigured WAF rules. Only applicable when JSON     parsing is enabled, like --json-parsing=STANDARD. When configuring a     Content-Type header value, only the type/subtype needs to be specified,     and the parameters should be excluded.
     /// </summary>
-    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--json-custom-content-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JsonCustomContentTypes { get; set; }
 
     /// <summary>
@@ -56,7 +56,7 @@ public record GcloudPreviewComputeOrgSecurityPoliciesUpdateOptions(
     /// <summary>
     /// A comma-separated list of request header names to use for resolving the     caller's user IP address.
     /// </summary>
-    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--user-ip-request-headers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? UserIpRequestHeaders { get; set; }
 
 }

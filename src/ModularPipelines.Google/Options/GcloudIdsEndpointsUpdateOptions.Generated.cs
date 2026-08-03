@@ -33,7 +33,7 @@ public record GcloudIdsEndpointsUpdateOptions : GcloudOptions
     /// <summary>
     /// List of threat IDs to be excepted from alerting. Passing empty list     clears the exceptions.
     /// </summary>
-    [CliOption("--threat-exceptions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--threat-exceptions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ThreatExceptions { get; set; }
 
 }

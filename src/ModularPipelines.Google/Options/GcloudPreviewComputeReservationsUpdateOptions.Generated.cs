@@ -20,19 +20,19 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "reservations", "update")]
 public record GcloudPreviewComputeReservationsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Reservation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Reservation
 ) : GcloudOptions
 {
     /// <summary>
     /// If this reservation is shared (--share-setting is projects), then     specify a comma-separated list of projects to share the reservation     with. You must list the projects using project IDs or project numbers.
     /// </summary>
-    [CliOption("--add-share-with", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-share-with", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddShareWith { get; set; }
 
     /// <summary>
     /// Specify a comma-separated list of projects to share the reservation     with. You must list the projects using project IDs or project numbers.
     /// </summary>
-    [CliOption("--add-share-with-project", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-share-with-project", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddShareWithProject { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public record GcloudPreviewComputeReservationsUpdateOptions(
     /// <summary>
     /// A list of specific projects to remove from the list of projects that     this reservation is shared with. List must contain project IDs or     project numbers.
     /// </summary>
-    [CliOption("--remove-share-with", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-share-with", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveShareWith { get; set; }
 
     /// <summary>

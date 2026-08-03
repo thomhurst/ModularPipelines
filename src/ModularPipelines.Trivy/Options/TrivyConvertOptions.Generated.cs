@@ -20,13 +20,13 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("convert")]
 public record TrivyConvertOptions(
-    [property: CliArgument(0)] string ResultJson
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string ResultJson
 ) : TrivyOptions
 {
     /// <summary>
     /// List of scanners included when generating the json report. Used only for rendering the summary table. (allowed values: vuln,misconfig,secret,license)
     /// </summary>
-    [CliOption("--scanners", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scanners", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyConvertScanners>? Scanners { get; set; }
 
     /// <summary>
@@ -98,7 +98,7 @@ public record TrivyConvertOptions(
     /// <summary>
     /// severities of security issues to be displayed Allowed values: - UNKNOWN - LOW - MEDIUM - HIGH - CRITICAL (default [UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL])
     /// </summary>
-    [CliOption("--severity", ShortForm = "-s", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--severity", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyConvertSeverity>? Severity { get; set; }
 
     /// <summary>
@@ -110,7 +110,7 @@ public record TrivyConvertOptions(
     /// <summary>
     /// [EXPERIMENTAL] tables that will be displayed in 'table' format (allowed values: summary,detailed) (default [summary,detailed])
     /// </summary>
-    [CliOption("--table-mode", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--table-mode", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyConvertTableMode>? TableMode { get; set; }
 
     /// <summary>

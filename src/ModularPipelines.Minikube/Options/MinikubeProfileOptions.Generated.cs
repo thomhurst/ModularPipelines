@@ -23,7 +23,7 @@ public record MinikubeProfileOptions : MinikubeOptions
     /// <summary>
     /// The MINIKUBE_PROFILE_NAME operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? MinikubeProfileName { get; set; }
 
 }

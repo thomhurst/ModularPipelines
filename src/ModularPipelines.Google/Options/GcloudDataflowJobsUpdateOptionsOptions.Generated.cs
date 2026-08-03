@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataflow", "jobs", "update-options")]
 public record GcloudDataflowJobsUpdateOptionsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string JobId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string JobId
 ) : GcloudOptions
 {
     /// <summary>

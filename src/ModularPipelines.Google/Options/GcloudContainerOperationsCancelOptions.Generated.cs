@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "operations", "cancel")]
 public record GcloudContainerOperationsCancelOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string OperationId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OperationId
 ) : GcloudOptions
 {
 }

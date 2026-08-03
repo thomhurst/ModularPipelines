@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "notifications", "trigger", "run")]
 public record ArgoCdAdminNotificationsTriggerRunOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ResourceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ResourceName
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -63,7 +63,7 @@ public record ArgoCdAdminNotificationsTriggerRunOptions(
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -166,7 +166,7 @@ public record ArgoCdAdminNotificationsTriggerRunOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

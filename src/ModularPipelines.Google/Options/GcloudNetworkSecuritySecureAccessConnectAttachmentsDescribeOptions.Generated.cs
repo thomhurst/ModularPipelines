@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network-security", "secure-access-connect", "attachments", "describe")]
 public record GcloudNetworkSecuritySecureAccessConnectAttachmentsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Sac
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Sac
 ) : GcloudOptions
 {
 }

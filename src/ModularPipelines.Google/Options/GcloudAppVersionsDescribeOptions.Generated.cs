@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "versions", "describe")]
 public record GcloudAppVersionsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Version
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Version
 ) : GcloudOptions
 {
 }

@@ -24,7 +24,7 @@ public record VaultLoginOptions : VaultOptions
     /// <summary>
     /// The AUTH K=V operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? AuthKV { get; set; }
 
 }

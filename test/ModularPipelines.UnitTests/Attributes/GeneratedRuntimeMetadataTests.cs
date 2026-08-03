@@ -11,7 +11,7 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
 {
     [CliArgument(
         0,
-        Placement = ArgumentPlacement.BeforeOptions,
+        Phase = CommandLinePhase.EarlyOperand,
         Name = "<FILE>",
         PrependOptionTerminator = true)]
     public string? File { get; init; }
@@ -22,8 +22,8 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
     [CliOption(
         "--output",
         Format = OptionFormat.EqualsSeparated,
-        AllowMultiple = true,
         ValueArity = CliOptionValueArity.Optional,
+        GroupValues = true,
         Phase = CommandLinePhase.Terminal)]
     public string[]? Output { get; init; }
 
@@ -52,7 +52,7 @@ internal sealed record IncompleteGeneratedMetadataOptions : CommandLineToolOptio
 [CliTool("control-character-test")]
 internal sealed record ControlCharacterMetadataOptions : CommandLineToolOptions
 {
-    [CliOption("--value\0", ShortForm = "-\b", CustomSeparator = "\f\v")]
+    [CliOption("--value\0", ShortForm = "-\b", Format = OptionFormat.ColonSeparated)]
     public string? Value { get; init; }
 }
 
@@ -130,8 +130,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(argument.PropertyName).IsEqualTo(nameof(GeneratedMetadataOptions.File));
         await Assert.That(argument.Getter(options)).IsEqualTo("pipeline.yml");
         await Assert.That(argument.Attribute.Position).IsEqualTo(0);
-        await Assert.That(argument.Attribute.Placement).IsEqualTo(ArgumentPlacement.BeforeOptions);
-        await Assert.That(argument.Attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
+        await Assert.That(argument.Attribute.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
         await Assert.That(argument.Attribute.Name).IsEqualTo("<FILE>");
         await Assert.That(argument.Attribute.PrependOptionTerminator).IsTrue();
 
@@ -141,15 +140,11 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(flag.Attribute.ShortForm).IsEqualTo("-v");
         await Assert.That(flag.Attribute.PreferShortForm).IsTrue();
         await Assert.That(flag.Attribute.Phase).IsEqualTo(CommandLinePhase.Normal);
-        await Assert.That(flag.ValueArity).IsEqualTo(CliOptionValueArity.None);
-
         var option = model.OfType<OptionPart>().Single();
         await Assert.That(option.Getter(options)).IsEqualTo(options.Output);
         await Assert.That(option.Attribute.Format).IsEqualTo(OptionFormat.EqualsSeparated);
-        await Assert.That(option.Attribute.CustomSeparator).IsNull();
-        await Assert.That(option.Attribute.AllowMultiple).IsTrue();
         await Assert.That(option.Attribute.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
-        await Assert.That(option.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        await Assert.That(option.Attribute.GroupValues).IsTrue();
         await Assert.That(option.Attribute.Phase).IsEqualTo(CommandLinePhase.Terminal);
     }
 
@@ -256,7 +251,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(found).IsTrue();
         await Assert.That(option.Attribute.Name).IsEqualTo("--value\0");
         await Assert.That(option.Attribute.ShortForm).IsEqualTo("-\b");
-        await Assert.That(option.Attribute.CustomSeparator).IsEqualTo("\f\v");
+        await Assert.That(option.Attribute.Format).IsEqualTo(OptionFormat.ColonSeparated);
     }
 
     [Test]

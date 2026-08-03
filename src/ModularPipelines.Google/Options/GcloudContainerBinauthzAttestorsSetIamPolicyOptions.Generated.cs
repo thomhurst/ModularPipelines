@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "binauthz", "attestors", "set-iam-policy")]
 public record GcloudContainerBinauthzAttestorsSetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AttestorName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string AttestorName
 ) : GcloudOptions
 {
 }

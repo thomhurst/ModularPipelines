@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "describe")]
 public record GcloudOrgPoliciesDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Constraint
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Constraint
 ) : GcloudOptions
 {
 }

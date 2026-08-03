@@ -25,13 +25,13 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Groups of users that can perform operations as a cluster administrator.
     /// </summary>
-    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--admin-groups", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdminGroups { get; set; }
 
     /// <summary>
     /// Users that can perform operations as a cluster administrator.
     /// </summary>
-    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--admin-users", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AdminUsers { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public record GcloudContainerAzureClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// Set the components that have logging enabled.     Examples:       $ gcloud container azure clusters update --logging=SYSTEM       $ gcloud container azure clusters update --logging=SYSTEM,WORKLOAD     COMPONENT must be one of: SYSTEM, WORKLOAD.
     /// </summary>
-    [CliOption("--logging", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging", Format = OptionFormat.EqualsSeparated)]
     public GcloudLogging? Logging { get; set; }
 
     /// <summary>

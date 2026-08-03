@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "ssl-policies", "create")]
 public record GcloudComputeSslPoliciesCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SslPolicy
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SslPolicy
 ) : GcloudOptions
 {
     /// <summary>
     /// A comma-separated list of custom features, required when the profile     being used is CUSTOM.     Using CUSTOM profile allows customization of the features that are part     of the SSL policy. This flag allows specifying those custom features.     The list of all supported custom features can be obtained using:       gcloud compute ssl-policies list-available-features
     /// </summary>
-    [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--custom-features", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CustomFeatures { get; set; }
 
     /// <summary>

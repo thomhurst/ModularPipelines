@@ -26,9 +26,9 @@ public class DockerTests : TestBase
             {
                 BuildArg =
                 [
-                    "Arg1=Value1",
-                    "Arg2=Value2",
-                    "Arg3=Value3",
+                    ("Arg1", "Value1"),
+                    ("Arg2", "Value2"),
+                    ("Arg3", "Value3"),
                 ],
                 Tag = ["mytaggedimage"],
                 Target = "build-env",

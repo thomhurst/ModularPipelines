@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment", "run")]
 public record PulumiDeploymentRunOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Operation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Operation
 ) : PulumiOptions
 {
     /// <summary>
@@ -114,7 +114,7 @@ public record PulumiDeploymentRunOptions(
     /// <summary>
     /// Commands to run before the remote operation
     /// </summary>
-    [CliOption("--pre-run-command", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pre-run-command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PreRunCommand { get; set; }
 
     /// <summary>
@@ -222,7 +222,7 @@ public record PulumiDeploymentRunOptions(
     /// <summary>
     /// The url operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Url { get; set; }
 
 }

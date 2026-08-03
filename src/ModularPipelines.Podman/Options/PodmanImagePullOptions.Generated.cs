@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "pull")]
 public record PodmanImagePullOptions(
-    [property: CliArgument(0)] IEnumerable<string> Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Image
 ) : PodmanOptions
 {
     /// <summary>
@@ -55,7 +55,7 @@ public record PodmanImagePullOptions(
     /// <summary>
     /// Key needed to decrypt the image (e.g. /path/to/key.pem)
     /// </summary>
-    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>

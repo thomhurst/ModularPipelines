@@ -787,6 +787,11 @@ public class CodeGeneratorOrchestrator
             ToolVersion = toolVersion,
             Errors = [],
         };
+        if (_typeEnhancer is not null)
+        {
+            completeToolDefinition = await _typeEnhancer
+                .EnhanceManualOverridesAsync(completeToolDefinition, cancellationToken);
+        }
 
         await GenerateForToolAsync(
             completeToolDefinition,
@@ -829,12 +834,13 @@ public class CodeGeneratorOrchestrator
     {
         var globalOptions = tool.GetGlobalOptions();
         var normalizedCommands = GeneratorUtils.NormalizeCommandClassNames(tool.Commands);
-        var toolDefinition = ExecutablePrerequisiteCatalog.PrepareForGeneration(tool with
-        {
-            Commands = normalizedCommands,
-            GlobalOptions = globalOptions,
-            SupplementalGlobalOptions = [],
-        });
+        var toolDefinition = InheritedPropertyCollisionResolver.Resolve(
+            ExecutablePrerequisiteCatalog.PrepareForGeneration(tool with
+            {
+                Commands = normalizedCommands,
+                GlobalOptions = globalOptions,
+                SupplementalGlobalOptions = [],
+            }));
 
         if (enforceOutputContainment)
         {

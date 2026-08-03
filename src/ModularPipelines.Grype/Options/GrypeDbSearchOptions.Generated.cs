@@ -29,7 +29,7 @@ public record GrypeDbSearchOptions : GrypeOptions
     /// <summary>
     /// refine to results with the given operating system (format: 'name', 'name[-:@]version', 'name[-:@]maj.min', 'name[-:@]codename')
     /// </summary>
-    [CliOption("--distro", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--distro", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Distro { get; set; }
 
     /// <summary>
@@ -41,7 +41,7 @@ public record GrypeDbSearchOptions : GrypeOptions
     /// <summary>
     /// only show vulnerabilities with the given fix state (fixed, not-fixed, unknown, wont-fix)
     /// </summary>
-    [CliOption("--fixed-state", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--fixed-state", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FixedState { get; set; }
 
     /// <summary>
@@ -71,13 +71,13 @@ public record GrypeDbSearchOptions : GrypeOptions
     /// <summary>
     /// package name/CPE/PURL to search for
     /// </summary>
-    [CliOption("--pkg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pkg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Pkg { get; set; }
 
     /// <summary>
     /// only show vulnerabilities from the given provider
     /// </summary>
-    [CliOption("--provider", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Provider { get; set; }
 
     /// <summary>
@@ -89,19 +89,19 @@ public record GrypeDbSearchOptions : GrypeOptions
     /// <summary>
     /// only show results for the given vulnerability ID
     /// </summary>
-    [CliOption("--vuln", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vuln", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Vuln { get; set; }
 
     /// <summary>
     /// grype configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>
@@ -119,7 +119,7 @@ public record GrypeDbSearchOptions : GrypeOptions
     /// <summary>
     /// The command operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Command { get; set; }
 
 }

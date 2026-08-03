@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "diff")]
 public record ArgoCdAppDiffOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ApplicationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ApplicationName
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -68,7 +68,7 @@ public record ArgoCdAppDiffOptions(
     /// <summary>
     /// Used with --server-side-generate, specify patterns of filenames to send. Matching is based on filename and not path. (default [*.yaml,*.yml,*.json])
     /// </summary>
-    [CliOption("--local-include", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--local-include", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LocalInclude { get; set; }
 
     /// <summary>
@@ -92,7 +92,7 @@ public record ArgoCdAppDiffOptions(
     /// <summary>
     /// Show manifests at specific revisions for source position in source-positions
     /// </summary>
-    [CliOption("--revisions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--revisions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Revisions { get; set; }
 
     /// <summary>
@@ -122,13 +122,13 @@ public record ArgoCdAppDiffOptions(
     /// <summary>
     /// List of source names. Default is an empty array.
     /// </summary>
-    [CliOption("--source-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourceNames { get; set; }
 
     /// <summary>
     /// List of source positions. Default is empty array. Counting start at 1. (default [])
     /// </summary>
-    [CliOption("--source-positions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-positions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourcePositions { get; set; }
 
     /// <summary>
@@ -189,7 +189,7 @@ public record ArgoCdAppDiffOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

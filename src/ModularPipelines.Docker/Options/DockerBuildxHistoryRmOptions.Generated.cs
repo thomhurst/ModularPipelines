@@ -41,7 +41,7 @@ public record DockerBuildxHistoryRmOptions : DockerOptions
     /// <summary>
     /// The REF operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Ref { get; set; }
 
 }

@@ -142,7 +142,7 @@ public class GeneratorHardeningTests
         var generatedFile = (await new OptionsClassGenerator().GenerateAsync(tool)).Single();
 
         await Assert.That(generatedFile.Content)
-            .Contains("[CliOption(\"--library-path\", ShortForm = \"-L\", PreferShortForm = true, AllowMultiple = true)]");
+            .Contains("[CliOption(\"--library-path\", ShortForm = \"-L\", PreferShortForm = true)]");
     }
 
     [Test]
@@ -425,9 +425,9 @@ public class GeneratorHardeningTests
     #region Positional argument deduplication
 
     [Test]
-    public async Task OptionsClassGenerator_Marks_Inherited_Name_Collisions_As_New()
+    public async Task OptionsClassGenerator_Renames_Inherited_Name_Collisions()
     {
-        var command = Command("ToolRunOptions", "ToolOptions") with
+        var command = Command("ToolJobSubmitOptions", "ToolOptions", ["job", "submit"]) with
         {
             Options =
             [
@@ -461,10 +461,51 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("public new string? Tool { get; set; }");
-        await Assert.That(generated).Contains("public new IEnumerable<string>? CommandParts { get; set; }");
-        await Assert.That(generated).Contains("public new bool? Arguments { get; set; }");
-        await Assert.That(generated).Contains("public new IEnumerable<string>? RunSettings { get; set; }");
+        await Assert.That(generated).Contains("public string? JobTool { get; set; }");
+        await Assert.That(generated).Contains("public IEnumerable<string>? JobCommandParts { get; set; }");
+        await Assert.That(generated).Contains("public bool? JobArguments { get; set; }");
+        await Assert.That(generated).Contains("public IEnumerable<string>? JobRunSettings { get; set; }");
+        await Assert.That(generated).DoesNotContain("public new ");
+    }
+
+    [Test]
+    public async Task OptionsClassGenerator_Reserves_Global_Names_For_Command_Renames()
+    {
+        var command = Command("ToolJobSubmitOptions", "ToolOptions", ["job", "submit"]) with
+        {
+            Options =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "bool?",
+                    IsFlag = true,
+                },
+            ],
+        };
+        var tool = Tool(command) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--job-arguments",
+                    PropertyName = "JobArguments",
+                    CSharpType = "string?",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool))
+            .Single(file => file.Content.Contains("record ToolJobSubmitOptions", StringComparison.Ordinal))
+            .Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("public bool? CliArguments { get; set; }");
+            await Assert.That(generated).DoesNotContain("public bool? JobArguments { get; set; }");
+        }
     }
 
     [Test]
@@ -492,8 +533,38 @@ public class GeneratorHardeningTests
 
         var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
 
-        await Assert.That(generated).Contains("[property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Image");
+        await Assert.That(generated).Contains("[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Image");
         await Assert.That(generated).DoesNotContain("public string? Image { get; set; }");
+        await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task OptionsClassGenerator_Deduplicates_Renamed_Positionals()
+    {
+        var command = Command("ToolJobSubmitOptions", "ToolOptions", ["job", "submit"]) with
+        {
+            PositionalArguments =
+            [
+                new CliPositionalArgument
+                {
+                    PropertyName = "Arguments",
+                    CSharpType = "string",
+                    PositionIndex = 0,
+                    IsRequired = true,
+                },
+                new CliPositionalArgument
+                {
+                    PropertyName = "Arguments",
+                    CSharpType = "IEnumerable<string>?",
+                    PositionIndex = 1,
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("IEnumerable<string> JobArguments");
+        await Assert.That(generated).DoesNotContain("CliArguments");
         await Assert.That(generated.Split("CliArgument(")).Count().IsEqualTo(2);
     }
 
@@ -602,6 +673,46 @@ public class GeneratorHardeningTests
         await Assert.That(generated).Contains("public bool? NoLogo { get; set; }");
         await Assert.That(generated).Contains("public bool? Nologo");
         await Assert.That(generated).Contains("get => NoLogo;");
+    }
+
+    [Test]
+    public async Task OptionsClassGenerator_Renames_Global_Compatibility_Targets()
+    {
+        var command = Command("ToolRunOptions", "ToolOptions", ["run"]) with
+        {
+            CompatibilityProperties =
+            [
+                new CliCompatibilityProperty
+                {
+                    PropertyName = "LegacyArguments",
+                    CSharpType = "IEnumerable<string>?",
+                    ForwardToPropertyName = "Arguments",
+                    ObsoleteMessage = "Use Arguments instead.",
+                },
+            ],
+        };
+        var tool = Tool(command) with
+        {
+            GlobalOptions =
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--arguments",
+                    PropertyName = "Arguments",
+                    CSharpType = "IEnumerable<string>?",
+                },
+            ],
+        };
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(tool))
+            .Single(file => file.Content.Contains("record ToolRunOptions", StringComparison.Ordinal))
+            .Content;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(generated).Contains("get => CliArguments;");
+            await Assert.That(generated).Contains("set => CliArguments = value;");
+        }
     }
 
     [Test]
@@ -818,7 +929,30 @@ public class GeneratorHardeningTests
     {
         var result = GeneratorUtils.EscapeXmlComment(@"default C:\Users\runneradmin\.config\tool");
 
+        await Assert.That(result).Contains(@"~\.config\tool");
         await Assert.That(result).DoesNotContain("runneradmin");
+    }
+
+    [Test]
+    public async Task EscapeXmlComment_Normalizes_Current_User_Home_Path()
+    {
+        var homeDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        var path = Path.Combine(homeDirectory, ".config", "tool");
+
+        var result = GeneratorUtils.EscapeXmlComment($"default {path}");
+
+        await Assert.That(result).StartsWith("default ~");
+        await Assert.That(result).DoesNotContain(homeDirectory);
+    }
+
+    [Test]
+    public async Task EscapeXmlComment_Preserves_Unrelated_Home_Shaped_Paths()
+    {
+        const string path = "/home/site/deployments/tools/";
+
+        var result = GeneratorUtils.EscapeXmlComment($"deployment path {path}");
+
+        await Assert.That(result).Contains(path);
     }
 
     #endregion

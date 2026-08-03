@@ -57,13 +57,13 @@ public record DotNetNuGetDeleteOptions : DotNetOptions
     /// <summary>
     /// The package ID to delete.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? PackageName { get; set; }
 
     /// <summary>
     /// The package version to delete.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Version { get; set; }
 
 }

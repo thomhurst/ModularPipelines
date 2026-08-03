@@ -35,7 +35,7 @@ public record PodmanMachineStartOptions : PodmanOptions
     /// <summary>
     /// The MACHINE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Machine { get; set; }
 
 }

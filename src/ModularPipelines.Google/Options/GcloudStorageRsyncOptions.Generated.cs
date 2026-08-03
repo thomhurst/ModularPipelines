@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "rsync")]
 public record GcloudStorageRsyncOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Source
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Source
 ) : GcloudOptions
 {
     /// <summary>
@@ -68,10 +68,10 @@ public record GcloudStorageRsyncOptions(
     [CliFlag("--dry-run")]
     public bool? DryRun { get; set; }
 
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
-    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--gzip-in-flight", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GzipInFlight { get; set; }
 
     [CliFlag("--gzip-in-flight-all")]

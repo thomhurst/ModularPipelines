@@ -6,9 +6,9 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("team", "rm")]
 public record NpmTeamRmOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string User,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Otpcode
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string User,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Otpcode
 ) : NpmOptions
 {
     [CliOption("--registry")]

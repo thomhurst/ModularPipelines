@@ -21,13 +21,13 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "subnets", "update")]
 public record GcloudComputeNetworksSubnetsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
     /// Adds secondary IP ranges that are associated with internal range     resources.     For example, --add-secondary-ranges-with-reserved-internal-range     range1=//networkconnectivity.googleapis.com/projects/PROJECT/locations/global/internalRanges/RANGE     adds a secondary range with the reserved internal range resource.     ◆ RANGE_NAME - Name of the secondary range.     ◆ INTERNAL_RANGE_URL - URL of an internal range resource.
     /// </summary>
-    [CliOption("--add-secondary-ranges-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-secondary-ranges-with-reserved-internal-range", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddSecondaryRangesWithReservedInternalRange { get; set; }
 
     [CliOption("--drain-timeout", Format = OptionFormat.EqualsSeparated)]
@@ -84,7 +84,7 @@ public record GcloudComputeNetworksSubnetsUpdateOptions(
     /// <summary>
     /// Can only be specified if VPC Flow Logs for this subnetwork is enabled     and "metadata" is set to CUSTOM_METADATA. The comma-separated list of     metadata fields that should be added to reported logs.
     /// </summary>
-    [CliOption("--logging-metadata-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--logging-metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LoggingMetadataFields { get; set; }
 
     /// <summary>

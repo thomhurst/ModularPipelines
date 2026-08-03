@@ -24,7 +24,7 @@ public record GcloudDeveloperConnectConnectionsCreateOptions : GcloudOptions
     /// <summary>
     /// Allows clients to store small amounts of arbitrary data.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --annotations=string=string     JSON Example:       --annotations='{"string": "string"}'     File Example:       --annotations=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record GcloudDeveloperConnectConnectionsCreateOptions : GcloudOptions
     /// <summary>
     /// Labels as key value pairs.      KEY       Keys must start with a lowercase character and contain only hyphens       (-), underscores (_), lowercase characters, and numbers.      VALUE       Values must contain only hyphens (-), underscores (_), lowercase       characters, and numbers.     Shorthand Example:       --labels=string=string     JSON Example:       --labels='{"string": "string"}'     File Example:       --labels=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>

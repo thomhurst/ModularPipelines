@@ -41,13 +41,13 @@ public record KustomizeEditAddConfigmapOptions : KustomizeOptions
     /// <summary>
     /// Key file can be specified using its file path, in which case file basename will be used as configmap key, or optionally with a key and file path, in which case the given key will be used.  Specifying a directory will iterate each named file in the directory whose basename is a valid configmap key.
     /// </summary>
-    [CliOption("--from-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--from-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FromFile { get; set; }
 
     /// <summary>
     /// Specify a key and literal value to insert in configmap (i.e. mykey=somevalue)
     /// </summary>
-    [CliOption("--from-literal", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--from-literal", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FromLiteral { get; set; }
 
     /// <summary>

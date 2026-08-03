@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "rm")]
 public record PodmanContainerRmOptions(
-    [property: CliArgument(0)] IEnumerable<string> Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Container
 ) : PodmanOptions
 {
     /// <summary>
@@ -31,7 +31,7 @@ public record PodmanContainerRmOptions(
     /// <summary>
     /// Read the container ID from the file
     /// </summary>
-    [CliOption("--cidfile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cidfile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Cidfile { get; set; }
 
     /// <summary>
@@ -43,7 +43,7 @@ public record PodmanContainerRmOptions(
     /// <summary>
     /// Filter output based on conditions given
     /// </summary>
-    [CliOption("--filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>

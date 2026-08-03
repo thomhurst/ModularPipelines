@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("projects", "undelete")]
 public record GcloudProjectsUndeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ProjectIdOrNumber
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ProjectIdOrNumber
 ) : GcloudOptions
 {
 }

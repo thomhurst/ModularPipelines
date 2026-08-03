@@ -29,13 +29,13 @@ public record SyftScanOptions : SyftOptions
     /// <summary>
     /// enable package data enrichment from local and online sources (options: all, golang, java, javascript, python, vcpkg)
     /// </summary>
-    [CliOption("--enrich", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enrich", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Enrich { get; set; }
 
     /// <summary>
     /// exclude paths from being scanned using a glob expression
     /// </summary>
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
@@ -47,7 +47,7 @@ public record SyftScanOptions : SyftOptions
     /// <summary>
     /// specify the source behavior to use (e.g. docker, registry, oci-dir, ...)
     /// </summary>
-    [CliOption("--from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? From { get; set; }
 
     /// <summary>
@@ -59,13 +59,13 @@ public record SyftScanOptions : SyftOptions
     /// <summary>
     /// report output format (&lt;format&gt;=&lt;file&gt; to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json purls spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
     /// </summary>
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Output { get; set; }
 
     /// <summary>
     /// set the base set of catalogers to use (defaults to 'image' or 'directory' depending on the scan source)
     /// </summary>
-    [CliOption("--override-default-catalogers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--override-default-catalogers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OverrideDefaultCatalogers { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record SyftScanOptions : SyftOptions
     /// <summary>
     /// add, remove, and filter the catalogers to be used
     /// </summary>
-    [CliOption("--select-catalogers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--select-catalogers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SelectCatalogers { get; set; }
 
     /// <summary>
@@ -119,13 +119,13 @@ public record SyftScanOptions : SyftOptions
     /// <summary>
     /// syft configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>
@@ -143,7 +143,7 @@ public record SyftScanOptions : SyftOptions
     /// <summary>
     /// The SOURCE operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Source { get; set; }
 
 }

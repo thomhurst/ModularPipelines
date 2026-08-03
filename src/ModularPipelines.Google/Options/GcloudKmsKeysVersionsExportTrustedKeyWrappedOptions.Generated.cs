@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "keys", "versions", "export-trusted-key-wrapped")]
 public record GcloudKmsKeysVersionsExportTrustedKeyWrappedOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Version
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Version
 ) : GcloudOptions
 {
 }

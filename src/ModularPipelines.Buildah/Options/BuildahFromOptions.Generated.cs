@@ -41,13 +41,13 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// add the specified capability when running (default [])
     /// </summary>
-    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapAdd { get; set; }
 
     /// <summary>
     /// drop the specified capability when running (default [])
     /// </summary>
-    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapDrop { get; set; }
 
     /// <summary>
@@ -113,13 +113,13 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// key needed to decrypt the image
     /// </summary>
-    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--decryption-key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DecryptionKey { get; set; }
 
     /// <summary>
     /// additional devices to be used within containers (default [])
     /// </summary>
-    [CliOption("--device", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Device { get; set; }
 
     /// <summary>
@@ -131,13 +131,13 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// set custom DNS options
     /// </summary>
-    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsOption { get; set; }
 
     /// <summary>
     /// set custom DNS search domains
     /// </summary>
-    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsSearch { get; set; }
 
     /// <summary>
@@ -149,7 +149,7 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// add additional groups to the primary container process. 'keep-groups' allows container processes to use supplementary groups.
     /// </summary>
-    [CliOption("--group-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--group-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GroupAdd { get; set; }
 
     /// <summary>
@@ -245,7 +245,7 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// security options (default [])
     /// </summary>
-    [CliOption("--security-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--security-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SecurityOpt { get; set; }
 
     /// <summary>
@@ -263,7 +263,7 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// ulimit options
     /// </summary>
-    [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Ulimit { get; set; }
 
     /// <summary>
@@ -311,7 +311,7 @@ public record BuildahFromOptions : BuildahOptions
     /// <summary>
     /// bind mount a volume into the container
     /// </summary>
-    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }
 
 }

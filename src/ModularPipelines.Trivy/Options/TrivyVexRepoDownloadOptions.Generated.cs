@@ -83,7 +83,7 @@ public record TrivyVexRepoDownloadOptions : TrivyOptions
     /// <summary>
     /// The REPO_NAMES operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? RepoNames { get; set; }
 
 }

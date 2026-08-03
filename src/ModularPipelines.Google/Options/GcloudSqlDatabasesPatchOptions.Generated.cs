@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "databases", "patch")]
 public record GcloudSqlDatabasesPatchOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Database
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Database
 ) : GcloudOptions
 {
 }

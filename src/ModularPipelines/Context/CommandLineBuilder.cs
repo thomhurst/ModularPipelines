@@ -18,27 +18,18 @@ namespace ModularPipelines.Context;
 /// 5. Add manual Arguments if present
 /// 6. Add RunSettings after "--" if present.
 /// </remarks>
-internal sealed class CommandLineBuilder : ICommandLineBuilder
+internal sealed class CommandLineBuilder(
+    IToolResolver toolResolver,
+    ICommandPartsProvider commandPartsProvider,
+    IPlaceholderHandler placeholderHandler,
+    ICommandModelProvider commandModelProvider,
+    ICommandArgumentBuilder commandArgumentBuilder) : ICommandLineBuilder
 {
-    private readonly IToolResolver _toolResolver;
-    private readonly ICommandPartsProvider _commandPartsProvider;
-    private readonly IPlaceholderHandler _placeholderHandler;
-    private readonly ICommandModelProvider _commandModelProvider;
-    private readonly ICommandArgumentBuilder _commandArgumentBuilder;
-
-    public CommandLineBuilder(
-        IToolResolver toolResolver,
-        ICommandPartsProvider commandPartsProvider,
-        IPlaceholderHandler placeholderHandler,
-        ICommandModelProvider commandModelProvider,
-        ICommandArgumentBuilder commandArgumentBuilder)
-    {
-        _toolResolver = toolResolver;
-        _commandPartsProvider = commandPartsProvider;
-        _placeholderHandler = placeholderHandler;
-        _commandModelProvider = commandModelProvider;
-        _commandArgumentBuilder = commandArgumentBuilder;
-    }
+    private readonly IToolResolver _toolResolver = toolResolver;
+    private readonly ICommandPartsProvider _commandPartsProvider = commandPartsProvider;
+    private readonly IPlaceholderHandler _placeholderHandler = placeholderHandler;
+    private readonly ICommandModelProvider _commandModelProvider = commandModelProvider;
+    private readonly ICommandArgumentBuilder _commandArgumentBuilder = commandArgumentBuilder;
 
     /// <inheritdoc />
     public CommandLine Build(CommandLineToolOptions options)

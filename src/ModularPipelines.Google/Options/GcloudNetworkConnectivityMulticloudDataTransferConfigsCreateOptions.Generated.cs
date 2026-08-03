@@ -42,7 +42,7 @@ public record GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOption
     /// <summary>
     /// User-defined labels.      KEY       Keys must start with a lowercase character and contain only hyphens       (-), underscores (_), lowercase characters, and numbers.      VALUE       Values must contain only hyphens (-), underscores (_), lowercase       characters, and numbers.     Shorthand Example:       --labels=string=string     JSON Example:       --labels='{"string": "string"}'     File Example:       --labels=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public record GcloudNetworkConnectivityMulticloudDataTransferConfigsCreateOption
     /// <summary>
     /// Maps services to their current or planned states. Service names are     keys, and the associated values describe the state of the service. If a     state change is expected, the value is either ADDING or DELETING,     depending on the actions taken.     Sample output: "services": { "big-query": { "states": [ {     "effectiveTime": "2024-12-12T08:00:00Z" "state": "ADDING", }, ] },     "cloud-storage": { "states": [ { "state": "ACTIVE", } ] } }.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --services=string     JSON Example:       --services='{"string": {}}'     File Example:       --services=path_to_file.(yaml|json)
     /// </summary>
-    [CliOption("--services", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--services", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Services { get; set; }
 
 }

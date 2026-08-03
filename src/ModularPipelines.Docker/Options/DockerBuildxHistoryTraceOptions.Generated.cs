@@ -47,7 +47,7 @@ public record DockerBuildxHistoryTraceOptions : DockerOptions
     /// <summary>
     /// The REF operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Ref { get; set; }
 
 }

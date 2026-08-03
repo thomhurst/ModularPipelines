@@ -60,7 +60,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// OCI repository(ies) to retrieve trivy-db in order of priority (default [mirror.gcr.io/aquasec/trivy-db:2,ghcr.io/aquasecurity/trivy-db:2])
     /// </summary>
-    [CliOption("--db-repository", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--db-repository", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DbRepository { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// OCI repository(ies) to retrieve trivy-java-db in order of priority (default [mirror.gcr.io/aquasec/trivy-java-db:1,ghcr.io/aquasecurity/trivy-java-db:1])
     /// </summary>
-    [CliOption("--java-db-repository", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--java-db-repository", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JavaDbRepository { get; set; }
 
     /// <summary>
@@ -102,7 +102,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// image source(s) to use, in priority order (allowed values: docker,containerd,podman,remote) (default [docker,containerd,podman,remote])
     /// </summary>
-    [CliOption("--image-src", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--image-src", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyKubernetesImageSrc>? ImageSrc { get; set; }
 
     /// <summary>
@@ -120,19 +120,19 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// indicate the kinds exclude from scanning (example: node)
     /// </summary>
-    [CliOption("--exclude-kinds", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude-kinds", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeKinds { get; set; }
 
     /// <summary>
     /// indicate the namespaces excluded from scanning (example: kube-system)
     /// </summary>
-    [CliOption("--exclude-namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude-namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeNamespaces { get; set; }
 
     /// <summary>
     /// indicate the node labels that the node-collector job should exclude from scanning (example: kubernetes.io/arch:arm64,team:dev)
     /// </summary>
-    [CliOption("--exclude-nodes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude-nodes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeNodes { get; set; }
 
     /// <summary>
@@ -144,13 +144,13 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// indicate the kinds included in scanning (example: node)
     /// </summary>
-    [CliOption("--include-kinds", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include-kinds", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludeKinds { get; set; }
 
     /// <summary>
     /// indicate the namespaces included in scanning (example: kube-system)
     /// </summary>
-    [CliOption("--include-namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include-namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludeNamespaces { get; set; }
 
     /// <summary>
@@ -192,25 +192,25 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// specify node-collector job tolerations (example: key1=value1:NoExecute,key2=value2:NoSchedule)
     /// </summary>
-    [CliOption("--tolerations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tolerations", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tolerations { get; set; }
 
     /// <summary>
     /// set additional variables as key=value or @file (YAML/JSON)
     /// </summary>
-    [CliOption("--ansible-extra-vars", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ansible-extra-vars", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AnsibleExtraVars { get; set; }
 
     /// <summary>
     /// specify inventory host path or comma separated host list
     /// </summary>
-    [CliOption("--ansible-inventory", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ansible-inventory", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AnsibleInventory { get; set; }
 
     /// <summary>
     /// specify playbook file path(s) to scan
     /// </summary>
-    [CliOption("--ansible-playbook", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ansible-playbook", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AnsiblePlaybook { get; set; }
 
     /// <summary>
@@ -222,13 +222,13 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// specify paths to JSON configuration file schemas to determine that a file matches some configuration and pass the schema to Rego checks for type checking
     /// </summary>
-    [CliOption("--config-file-schemas", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config-file-schemas", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ConfigFileSchemas { get; set; }
 
     /// <summary>
     /// Available API versions used for Capabilities.APIVersions. This flag is the same as the api-versions flag of the helm template command. (can specify multiple or separate values with commas: policy/v1/PodDisruptionBudget,apps/v1/Deployment)
     /// </summary>
-    [CliOption("--helm-api-versions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-api-versions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmApiVersions { get; set; }
 
     /// <summary>
@@ -240,25 +240,25 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// specify Helm values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
     /// </summary>
-    [CliOption("--helm-set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-set", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmSet { get; set; }
 
     /// <summary>
     /// specify Helm values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
     /// </summary>
-    [CliOption("--helm-set-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-set-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmSetFile { get; set; }
 
     /// <summary>
     /// specify Helm string values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
     /// </summary>
-    [CliOption("--helm-set-string", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-set-string", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmSetString { get; set; }
 
     /// <summary>
     /// specify paths to override the Helm values.yaml files
     /// </summary>
-    [CliOption("--helm-values", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmValues { get; set; }
 
     /// <summary>
@@ -270,19 +270,19 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// comma-separated list of misconfig scanners to use for misconfiguration scanning (default [azure-arm,cloudformation,dockerfile,helm,kubernetes,terraform,terraformplan-json,terraformplan-snapshot,ansible])
     /// </summary>
-    [CliOption("--misconfig-scanners", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--misconfig-scanners", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MisconfigScanners { get; set; }
 
     /// <summary>
     /// specify the types of scanners that will also scan raw configurations. For example, scanners will scan a non-adapted configuration into a shared state (allowed values: terraform)
     /// </summary>
-    [CliOption("--raw-config-scanners", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--raw-config-scanners", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RawConfigScanners { get; set; }
 
     /// <summary>
     /// specify configuration types for which the rendered causes will be shown in the table report (allowed values: terraform,ansible)
     /// </summary>
-    [CliOption("--render-cause", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--render-cause", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyKubernetesRenderCause>? RenderCause { get; set; }
 
     /// <summary>
@@ -294,31 +294,31 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// list of package relationships Allowed values: - unknown - root - workspace - direct - indirect (default [unknown,root,workspace,direct,indirect])
     /// </summary>
-    [CliOption("--pkg-relationships", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pkg-relationships", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyKubernetesPkgRelationships>? PkgRelationships { get; set; }
 
     /// <summary>
     /// list of package types (allowed values: os,library) (default [os,library])
     /// </summary>
-    [CliOption("--pkg-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pkg-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyKubernetesPkgTypes>? PkgTypes { get; set; }
 
     /// <summary>
     /// Rego namespaces
     /// </summary>
-    [CliOption("--check-namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--check-namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CheckNamespaces { get; set; }
 
     /// <summary>
     /// specify the paths to the Rego check files or to the directories containing them, applying config files
     /// </summary>
-    [CliOption("--config-check", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config-check", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ConfigCheck { get; set; }
 
     /// <summary>
     /// specify paths from which data for the Rego checks will be recursively loaded
     /// </summary>
-    [CliOption("--config-data", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config-data", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ConfigData { get; set; }
 
     /// <summary>
@@ -408,7 +408,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// severities of security issues to be displayed Allowed values: - UNKNOWN - LOW - MEDIUM - HIGH - CRITICAL (default [UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL])
     /// </summary>
-    [CliOption("--severity", ShortForm = "-s", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--severity", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyKubernetesSeverity>? Severity { get; set; }
 
     /// <summary>
@@ -444,7 +444,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// specify config file patterns
     /// </summary>
-    [CliOption("--file-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--file-patterns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FilePatterns { get; set; }
 
     /// <summary>
@@ -468,25 +468,25 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// [EXPERIMENTAL] try to retrieve SBOM from the specified sources (allowed values: oci,rekor)
     /// </summary>
-    [CliOption("--sbom-sources", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--sbom-sources", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyKubernetesSbomSources>? SbomSources { get; set; }
 
     /// <summary>
     /// comma-separated list of what security issues to detect (allowed values: vuln,misconfig,secret,rbac) (default [vuln,misconfig,secret,rbac])
     /// </summary>
-    [CliOption("--scanners", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scanners", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyKubernetesScanners>? Scanners { get; set; }
 
     /// <summary>
     /// specify the directories or glob patterns to skip
     /// </summary>
-    [CliOption("--skip-dirs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--skip-dirs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SkipDirs { get; set; }
 
     /// <summary>
     /// specify the files or glob patterns to skip
     /// </summary>
-    [CliOption("--skip-files", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--skip-files", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SkipFiles { get; set; }
 
     /// <summary>
@@ -506,7 +506,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// password. Comma-separated passwords allowed. TRIVY_PASSWORD should be used for security reasons.
     /// </summary>
     [SecretValue]
-    [CliOption("--password", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Password { get; set; }
 
     /// <summary>
@@ -525,13 +525,13 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// username. Comma-separated usernames allowed.
     /// </summary>
-    [CliOption("--username", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Username { get; set; }
 
     /// <summary>
     /// comma-separated list of vulnerability status to ignore Allowed values: - unknown - not_affected - affected - fixed - under_investigation - will_not_fix - fix_deferred - end_of_life
     /// </summary>
-    [CliOption("--ignore-status", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ignore-status", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<TrivyKubernetesIgnoreStatus>? IgnoreStatus { get; set; }
 
     /// <summary>
@@ -549,13 +549,13 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// [EXPERIMENTAL] VEX sources ("repo", "oci" or file path)
     /// </summary>
-    [CliOption("--vex", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vex", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Vex { get; set; }
 
     /// <summary>
     /// order of data sources for selecting vulnerability severity level Allowed values: - nvd - redhat - redhat-oval - debian - ubuntu - alpine - amazon - oracle-oval - suse-cvrf - photon - arch-linux - alma - rocky - cbl-mariner - azure - ruby-advisory-db - php-security-advisories - nodejs-security-wg - ghsa - glad - aqua - osv - k8s - wolfi - chainguard - bitnami - govulndb - julia - echo - minimos - rootio - auto (default [auto])
     /// </summary>
-    [CliOption("--vuln-severity-source", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--vuln-severity-source", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VulnSeveritySource { get; set; }
 
     /// <summary>
@@ -615,7 +615,7 @@ public record TrivyKubernetesOptions : TrivyOptions
     /// <summary>
     /// The CONTEXT operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Context { get; set; }
 
 }

@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "create")]
 public record DockerPluginCreateOptions(
-    [property: CliArgument(0)] string Plugin,
-    [property: CliArgument(1)] string PluginDataDir
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Plugin,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string PluginDataDir
 ) : DockerOptions
 {
     /// <summary>

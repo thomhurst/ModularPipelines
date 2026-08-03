@@ -35,7 +35,7 @@ public record PodmanImageMountOptions : PodmanOptions
     /// <summary>
     /// The IMAGE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Image { get; set; }
 
 }

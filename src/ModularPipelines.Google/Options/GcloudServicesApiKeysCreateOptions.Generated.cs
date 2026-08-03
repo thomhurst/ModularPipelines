@@ -25,7 +25,7 @@ public record GcloudServicesApiKeysCreateOptions : GcloudOptions
     /// <summary>
     /// Annotations are key resource. Specify annotations as a key-value     dictionary for small amounts of arbitrary client data.
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record GcloudServicesApiKeysCreateOptions : GcloudOptions
     /// <summary>
     /// Repeatable. Specify service and optionally one or multiple specific     methods. Both fields are case insensitive. Methods can be specified as     a colon-separated list (e.g.,     --api-target="service=foo.service.com,methods=method1:method2"), or     using --flags-file (see $ gcloud topic flags-file for details).    At most one of these can be specified:     --allowed-application=[sha1_fingerprint=SHA1_FINGERPRINT,package_name=PACKAGE_NAME,...]      Repeatable. Specify multiple allowed applications. The accepted keys      are sha1_fingerprint and package_name.     --allowed-bundle-ids=[ALLOWED_BUNDLE_IDS,...]      iOS app's bundle ids that are allowed to use the key.     --allowed-ips=[ALLOWED_IPS,...]      A list of the caller IP addresses that are allowed to make API calls      with this key.     --allowed-referrers=[ALLOWED_REFERRERS,...]      A list of regular expressions for the referrer URLs that are allowed      to make API calls with this key.
     /// </summary>
-    [CliOption("--api-target", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--api-target", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApiTarget { get; set; }
 
 }

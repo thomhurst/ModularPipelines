@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "export")]
 public record GcloudSqlInstancesExportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Instance
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Instance
 ) : GcloudOptions
 {
     /// <summary>
@@ -29,10 +29,10 @@ public record GcloudSqlInstancesExportOptions(
     [CliFlag("--async")]
     public bool? Async { get; set; }
 
-    [CliOption("--database", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Database { get; set; }
 
-    [CliOption("--table", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--table", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Table { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "autokey-config", "update")]
 public record GcloudKmsAutokeyConfigUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ConfigFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ConfigFile
 ) : GcloudOptions
 {
 }

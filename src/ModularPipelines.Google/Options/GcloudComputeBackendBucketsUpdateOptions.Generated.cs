@@ -21,19 +21,19 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "backend-buckets", "update")]
 public record GcloudComputeBackendBucketsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string BackendBucketName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendBucketName
 ) : GcloudOptions
 {
     /// <summary>
     /// Specifies a comma-separated list of HTTP headers, by field name, to     include in cache keys. Only the request URL is included in the cache     key by default.
     /// </summary>
-    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-key-include-http-header", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheKeyIncludeHttpHeader { get; set; }
 
     /// <summary>
     /// Specifies a comma-separated list of query string parameters to include     in cache keys. Default parameters are always included. '&amp;' and '=' are     percent encoded and not treated as delimiters.
     /// </summary>
-    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cache-key-query-string-whitelist", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CacheKeyQueryStringWhitelist { get; set; }
 
     /// <summary>
