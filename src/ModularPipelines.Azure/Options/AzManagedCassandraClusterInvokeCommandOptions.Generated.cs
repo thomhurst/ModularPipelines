@@ -23,7 +23,7 @@ public record AzManagedCassandraClusterInvokeCommandOptions : AzOptions
     /// <summary>
     /// The key="value" of arguments for the command.
     /// </summary>
-    [CliOption("--arguments")]
+    [CliOption("--arguments", GroupValues = true)]
     public string[]? ClusterArguments { get; set; }
 
     /// <summary>

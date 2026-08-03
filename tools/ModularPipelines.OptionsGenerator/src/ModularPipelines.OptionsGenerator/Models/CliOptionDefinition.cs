@@ -73,6 +73,11 @@ public record CliOptionDefinition
     public bool AcceptsMultipleValues { get; init; }
 
     /// <summary>
+    /// Whether collection values render after one option occurrence.
+    /// </summary>
+    public bool GroupValues { get; init; }
+
+    /// <summary>
     /// Whether this is a key-value pair option.
     /// </summary>
     public bool IsKeyValue { get; init; }

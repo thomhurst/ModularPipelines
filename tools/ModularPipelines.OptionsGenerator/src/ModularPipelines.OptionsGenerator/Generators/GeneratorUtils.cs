@@ -408,6 +408,11 @@ public static partial class GeneratorUtils
             optionParts.Add($"ValueArity = CliOptionValueArity.{option.ValueArity}");
         }
 
+        if (option.GroupValues)
+        {
+            optionParts.Add("GroupValues = true");
+        }
+
         if (option.Phase != CommandLinePhase.Normal)
         {
             optionParts.Add($"Phase = CommandLinePhase.{option.Phase}");

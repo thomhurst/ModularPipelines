@@ -62,7 +62,7 @@ public class AzureCommandTests : TestBase
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["--arguments", "first=value", "--arguments", "second=value"],
+            ["--arguments", "first=value", "second=value"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(typeof(AzSynapseSparkJobSubmitOptions).GetProperty(nameof(CommandLineToolOptions.Arguments))!.DeclaringType)
             .IsEqualTo(typeof(CommandLineToolOptions));
@@ -77,7 +77,7 @@ public class AzureCommandTests : TestBase
         });
 
         await Assert.That(arguments).IsEquivalentTo(
-            ["--arguments", "first=value", "--arguments", "second=value"],
+            ["--arguments", "first=value", "second=value"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
         await Assert.That(typeof(AzManagedCassandraClusterInvokeCommandOptions).GetProperty(nameof(CommandLineToolOptions.Arguments))!.DeclaringType)
             .IsEqualTo(typeof(CommandLineToolOptions));

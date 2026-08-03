@@ -218,7 +218,15 @@ public static class GeneratedOptionsSmokeTestHarness
         }
 
         var separator = option.Attribute.GetSeparator();
-        return GetValues(value)
+        var values = GetValues(value);
+        if (option.Attribute.GroupValues && values.Count > 0)
+        {
+            return separator == " "
+                ? [optionName, .. values]
+                : [$"{optionName}{separator}{values[0]}", .. values.Skip(1)];
+        }
+
+        return values
             .SelectMany(renderedValue => separator == " "
                 ? new[] { optionName, renderedValue }
                 : new[] { $"{optionName}{separator}{renderedValue}" })

@@ -29,7 +29,7 @@ public record AzSynapseSparkJobSubmitOptions : AzOptions
     /// <summary>
     /// Optional arguments to the job (Note: please use storage URIs for file arguments).
     /// </summary>
-    [CliOption("--arguments")]
+    [CliOption("--arguments", GroupValues = true)]
     public string[]? JobArguments { get; set; }
 
     /// <summary>

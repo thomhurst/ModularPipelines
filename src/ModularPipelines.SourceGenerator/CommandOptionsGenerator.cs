@@ -233,6 +233,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     null,
                     null,
                     false,
+                    false,
                     0,
                     0,
                     0,
@@ -273,6 +274,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedString(attribute, "Name"),
                 null,
                 GetNamedBool(attribute, "PrependOptionTerminator"),
+                false,
                 GetConstructorInt(attribute),
                 GetNamedInt(attribute, "Placement"),
                 GetNamedInt(attribute, "Phase", defaultValue: PassthroughCommandLinePhase),
@@ -289,6 +291,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetConstructorString(attribute),
                 GetNamedString(attribute, "ShortForm"),
                 GetNamedBool(attribute, "PreferShortForm"),
+                false,
                 0,
                 0,
                 GetNamedInt(attribute, "Phase"),
@@ -303,6 +306,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetConstructorString(attribute),
             GetNamedString(attribute, "ShortForm"),
             GetNamedBool(attribute, "PreferShortForm"),
+            GetNamedBool(attribute, "GroupValues"),
             GetNamedInt(attribute, "Format"),
             0,
             GetNamedInt(attribute, "Phase"),
@@ -433,6 +437,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        PreferShortForm = {BooleanLiteral(property.BooleanValue)},");
                     sb.AppendLine($"                        Format = (global::ModularPipelines.Attributes.OptionFormat){property.FirstInt},");
                     sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
+                    sb.AppendLine($"                        GroupValues = {BooleanLiteral(property.GroupValues)},");
                     sb.AppendLine($"                        Phase = (global::ModularPipelines.Attributes.CommandLinePhase){property.Phase},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
@@ -612,6 +617,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string? PrimaryValue,
         string? ShortForm,
         bool BooleanValue,
+        bool GroupValues,
         int FirstInt,
         int SecondInt,
         int Phase,

@@ -135,7 +135,10 @@ public class OptionTypeEnhancer
                 var newIsFlag = result.Type == CliOptionType.Bool;
 
                 // Only update if the detection changed the type
-                if (newCSharpType != option.CSharpType || newIsFlag != option.IsFlag || enumDef is not null)
+                if (newCSharpType != option.CSharpType
+                    || newIsFlag != option.IsFlag
+                    || result.GroupValues != option.GroupValues
+                    || enumDef is not null)
                 {
                     _logger.LogInformation(
                         "Enhanced {Command} {Option}: {OldType} -> {NewType} (confidence: {Confidence}, source: {Source}){EnumInfo}",
@@ -153,6 +156,7 @@ public class OptionTypeEnhancer
                         IsFlag = newIsFlag,
                         IsNumeric = result.Type == CliOptionType.Int || result.Type == CliOptionType.Decimal,
                         AcceptsMultipleValues = acceptsMultipleValues,
+                        GroupValues = result.GroupValues,
                         IsKeyValue = result.Type == CliOptionType.KeyValue,
                         ValueSeparator = newIsFlag ? " " : option.ValueSeparator,
                         EnumDefinition = effectiveEnumDef

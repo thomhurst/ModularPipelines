@@ -21,6 +21,7 @@ public class ManualOverrideDetectorTests
         });
 
         await Assert.That(result.Type).IsEqualTo(CliOptionType.StringList);
+        await Assert.That(result.GroupValues).IsTrue();
     }
 
     [Test]
@@ -66,6 +67,7 @@ public class ManualOverrideDetectorTests
         await Assert.That(option.CSharpType).IsEqualTo("string[]?");
         await Assert.That(option.IsFlag).IsFalse();
         await Assert.That(option.AcceptsMultipleValues).IsTrue();
+        await Assert.That(option.GroupValues).IsTrue();
         await Assert.That(option.ValueSeparator).IsEqualTo(" ");
     }
 }

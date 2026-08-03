@@ -55,6 +55,13 @@ public sealed class CliOptionAttribute : Attribute
     public CliOptionValueArity ValueArity { get; set; } = CliOptionValueArity.Required;
 
     /// <summary>
+    /// Gets or sets a value indicating whether collection values share one option occurrence.
+    /// By default, collections repeat the option for every value.
+    /// </summary>
+    /// <example><c>--arguments first=value second=value</c></example>
+    public bool GroupValues { get; set; }
+
+    /// <summary>
     /// Gets or sets the semantic phase used to order this option.
     /// </summary>
     public CommandLinePhase Phase { get; set; } = CommandLinePhase.Normal;

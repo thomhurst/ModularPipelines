@@ -23,6 +23,7 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
         "--output",
         Format = OptionFormat.EqualsSeparated,
         ValueArity = CliOptionValueArity.Optional,
+        GroupValues = true,
         Phase = CommandLinePhase.Terminal)]
     public string[]? Output { get; init; }
 
@@ -142,6 +143,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(option.Getter(options)).IsEqualTo(options.Output);
         await Assert.That(option.Attribute.GetSeparator()).IsEqualTo("=");
         await Assert.That(option.Attribute.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        await Assert.That(option.Attribute.GroupValues).IsTrue();
         await Assert.That(option.Attribute.Phase).IsEqualTo(CommandLinePhase.Terminal);
     }
 

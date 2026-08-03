@@ -104,12 +104,14 @@
     "managed-cassandra.cluster.invoke-command": {
       "--arguments": {
         "type": "stringList",
+        "groupValues": true,
         "reason": "Command arguments are space-separated key-value pairs"
       }
     },
     "synapse.spark.job.submit": {
       "--arguments": {
         "type": "stringList",
+        "groupValues": true,
         "reason": "Spark job arguments are space-separated values"
       }
     }

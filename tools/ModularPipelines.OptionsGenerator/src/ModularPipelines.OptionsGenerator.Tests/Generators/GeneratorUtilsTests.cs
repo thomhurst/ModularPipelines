@@ -414,6 +414,23 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    public async Task GenerateCliAttributeString_Includes_Grouped_Values()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "string[]?",
+            GroupValues = true,
+        };
+
+        var attribute = GeneratorUtils.GenerateCliAttributeString(option);
+
+        await Assert.That(attribute)
+            .IsEqualTo("CliOption(\"--arguments\", GroupValues = true)");
+    }
+
+    [Test]
     public async Task GenerateCliAttributeString_Rejects_Unsupported_Separator()
     {
         var option = new CliOptionDefinition

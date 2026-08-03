@@ -176,6 +176,12 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         var values = GetValues(rawValue);
 
+        if (optionPart.Attribute.GroupValues)
+        {
+            AddGroupedOption(args, optionPart.Attribute, values);
+            return;
+        }
+
         foreach (var value in values)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -201,6 +207,35 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 args.Add($"{optionName}{separator}{value}");
             }
         }
+    }
+
+    private static void AddGroupedOption(
+        List<string> args,
+        CliOptionAttribute attribute,
+        IEnumerable<string> values)
+    {
+        var renderedValues = values.Where(value => !string.IsNullOrWhiteSpace(value)).ToList();
+        if (renderedValues.Count == 0)
+        {
+            if (attribute.ValueArity == CliOptionValueArity.Optional)
+            {
+                args.Add(attribute.GetEffectiveName());
+            }
+
+            return;
+        }
+
+        var optionName = attribute.GetEffectiveName();
+        var separator = attribute.GetSeparator();
+        if (separator == " ")
+        {
+            args.Add(optionName);
+            args.AddRange(renderedValues);
+            return;
+        }
+
+        args.Add($"{optionName}{separator}{renderedValues[0]}");
+        args.AddRange(renderedValues.Skip(1));
     }
 
     private static bool TryAddOptionValuePairs(List<string> args, OptionPart optionPart, object rawValue)
