@@ -229,16 +229,27 @@ internal sealed class DescendantProcessTracker : IDisposable
 
             if (_rootProcess is not null)
             {
-                pending.Enqueue(_rootProcess);
+                EnqueueIfIdentityIsSafe(pending, _rootProcess);
             }
 
             foreach (var process in _capturedProcesses.Values)
             {
-                pending.Enqueue(process);
+                EnqueueIfIdentityIsSafe(pending, process);
             }
         }
 
         return pending;
+    }
+
+    private static void EnqueueIfIdentityIsSafe(
+        Queue<TrackedProcess> pending,
+        TrackedProcess process)
+    {
+        if (TryGetExitState(process.Process, out var hasExited, out var exitTime)
+            && CanCaptureChildren(hasExited, exitTime))
+        {
+            pending.Enqueue(process);
+        }
     }
 
     private bool TryCaptureProcess(
@@ -254,7 +265,11 @@ internal sealed class DescendantProcessTracker : IDisposable
             process = Process.GetProcessById(processId);
             var processStartTime = process.StartTime;
             if (!CanBeDescendant(_rootProcessStartTime, processStartTime)
-                || !TryGetExitTime(parentProcess.Process, out var parentExitTime)
+                || !TryGetExitState(
+                    parentProcess.Process,
+                    out var parentHasExited,
+                    out var parentExitTime)
+                || !CanCaptureChildren(parentHasExited, parentExitTime)
                 || !CanBeChildOfParent(
                     parentProcess.Identity.StartTime,
                     parentExitTime,
@@ -313,20 +328,30 @@ internal sealed class DescendantProcessTracker : IDisposable
         && (!parentProcessExitTime.HasValue
             || candidateProcessStartTime <= parentProcessExitTime.Value);
 
-    private static bool TryGetExitTime(Process process, out DateTime? exitTime)
+    internal static bool CanCaptureChildren(bool hasExited, DateTime? exitTime) =>
+        !hasExited || exitTime.HasValue;
+
+    private static bool TryGetExitState(
+        Process process,
+        out bool hasExited,
+        out DateTime? exitTime)
     {
         try
         {
             if (!process.HasExited)
             {
+                hasExited = false;
                 exitTime = null;
                 return true;
             }
+
+            hasExited = true;
         }
         catch (Exception exception) when (exception is
             InvalidOperationException
             or System.ComponentModel.Win32Exception)
         {
+            hasExited = false;
             exitTime = null;
             return false;
         }
@@ -339,8 +364,7 @@ internal sealed class DescendantProcessTracker : IDisposable
             InvalidOperationException
             or System.ComponentModel.Win32Exception)
         {
-            // Unix may report HasExited while no longer exposing ExitTime.
-            // The parent is still valid; an unknown exit time is an unbounded upper limit.
+            // Without an exit-time bound, a reused PID cannot be distinguished safely.
             exitTime = null;
         }
 

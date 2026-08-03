@@ -289,11 +289,12 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     {
         _logger.LogDebug("Killing timed-out process tree: {Command} {Arguments}", command, arguments);
         var processId = process.Id;
+        var processStartTime = TryGetProcessStartTime(process);
         var cleanupOwnsDescendantTracker = false;
         var killTreeTask = Task.Run(() =>
         {
             descendantTracker.KillCapturedDescendants();
-            KillProcessTree(processId);
+            KillProcessTree(processId, processStartTime);
         });
         try
         {
@@ -339,12 +340,27 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         return cleanupOwnsDescendantTracker;
     }
 
-    private static void KillProcessTree(int processId)
+    private static DateTime? TryGetProcessStartTime(Process process)
+    {
+        try
+        {
+            return process.StartTime;
+        }
+        catch (Exception exception) when (exception is
+            InvalidOperationException
+            or System.ComponentModel.Win32Exception)
+        {
+            return null;
+        }
+    }
+
+    private static void KillProcessTree(int processId, DateTime? expectedStartTime)
     {
         try
         {
             using var process = Process.GetProcessById(processId);
-            if (!process.HasExited)
+            if (!process.HasExited
+                && MatchesProcessIdentity(expectedStartTime, process.StartTime))
             {
                 process.Kill(entireProcessTree: true);
             }
@@ -354,4 +370,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             // The direct process exited or could not be killed after its descendants were captured.
         }
     }
+
+    internal static bool MatchesProcessIdentity(
+        DateTime? expectedStartTime,
+        DateTime actualStartTime) =>
+        expectedStartTime.HasValue && expectedStartTime.Value == actualStartTime;
 }

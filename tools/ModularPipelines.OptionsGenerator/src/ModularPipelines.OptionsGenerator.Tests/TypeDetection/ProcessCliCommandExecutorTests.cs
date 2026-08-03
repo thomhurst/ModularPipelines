@@ -58,6 +58,50 @@ public class ProcessCliCommandExecutorTests
     }
 
     [Test]
+    public async Task DescendantIdentity_Stops_When_Exited_Parent_Has_No_Exit_Time()
+    {
+        var exitTime = new DateTime(2026, 8, 3, 12, 0, 1, DateTimeKind.Utc);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(DescendantProcessTracker.CanCaptureChildren(
+                    hasExited: false,
+                    exitTime: null))
+                .IsTrue();
+            await Assert.That(DescendantProcessTracker.CanCaptureChildren(
+                    hasExited: true,
+                    exitTime: exitTime))
+                .IsTrue();
+            await Assert.That(DescendantProcessTracker.CanCaptureChildren(
+                    hasExited: true,
+                    exitTime: null))
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Deferred_Kill_Requires_Matching_Process_Identity()
+    {
+        var expectedStart = new DateTime(2026, 8, 3, 12, 0, 0, DateTimeKind.Utc);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(ProcessCliCommandExecutor.MatchesProcessIdentity(
+                    expectedStart,
+                    expectedStart))
+                .IsTrue();
+            await Assert.That(ProcessCliCommandExecutor.MatchesProcessIdentity(
+                    expectedStart,
+                    expectedStart.AddTicks(1)))
+                .IsFalse();
+            await Assert.That(ProcessCliCommandExecutor.MatchesProcessIdentity(
+                    expectedStartTime: null,
+                    actualStartTime: expectedStart))
+                .IsFalse();
+        }
+    }
+
+    [Test]
     public async Task ExecutableOverride_Applies_To_Matching_Command()
     {
         var applies = ProcessCliCommandExecutor.IsOverrideForCommand(
