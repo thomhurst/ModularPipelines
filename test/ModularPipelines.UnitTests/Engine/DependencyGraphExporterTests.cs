@@ -2085,6 +2085,28 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Render_Does_Not_Dispose_Root_Provider_Owned_Planning_Module()
+    {
+        _planningDisposals = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddTransient<ContainerOwnedPlanningModule>();
+        builder.Services.AddSingleton<ContainerOwnedPlanningModuleFactory>();
+        builder.AddModule(serviceProvider => serviceProvider
+            .GetRequiredService<ContainerOwnedPlanningModuleFactory>()
+            .Create());
+
+        await using (var pipeline = await builder.BuildAsync())
+        {
+            var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+            _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+            await Assert.That(_planningDisposals).IsEqualTo(0);
+        }
+
+        await Assert.That(_planningDisposals).IsGreaterThan(0);
+    }
+
+    [Test]
     public async Task Render_Accepts_Indirectly_Resolved_Container_State()
     {
         using var builder = Pipeline.CreateBuilder();

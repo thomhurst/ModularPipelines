@@ -1057,6 +1057,18 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task GraphCommandDoesNotConsumeHostConfigurationAsPath()
+    {
+        var options = PipelineCommandLineParser.Parse(["--graph", "json", "Feature:Enabled=true"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(options.GraphPath).IsEqualTo("dependency-graph.json");
+            await Assert.That(options.HostArguments).IsEquivalentTo(["Feature:Enabled=true"]);
+        }
+    }
+
+    [Test]
     [Arguments("0")]
     [Arguments("1")]
     [Arguments("2")]

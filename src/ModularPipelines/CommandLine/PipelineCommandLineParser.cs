@@ -130,11 +130,15 @@ internal static class PipelineCommandLineParser
         }
 
         path = index + 1 < arguments.Count
-               && !arguments[index + 1].StartsWith("--", StringComparison.Ordinal)
+               && IsGraphPath(arguments[index + 1])
             ? arguments[++index]
             : null;
         return true;
     }
+
+    private static bool IsGraphPath(string argument) =>
+        !argument.StartsWith("--", StringComparison.Ordinal)
+        && !argument.Contains('=');
 
     private static string GetDefaultGraphPath(DependencyGraphFormat format) =>
         format switch

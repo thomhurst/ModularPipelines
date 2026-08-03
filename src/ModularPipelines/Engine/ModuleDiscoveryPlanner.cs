@@ -621,16 +621,29 @@ internal sealed class ResolvedObjectTrackingServiceProvider(IServiceProvider inn
                || IsCachedService(value);
     }
 
+    private bool IsTrackedDisposable(object value)
+    {
+        if (ContainsTrackedDisposable(innerServiceProvider, value))
+        {
+            return true;
+        }
+
+        var rootScope = GetRootScope();
+        return rootScope is not null
+               && !ReferenceEquals(rootScope, innerServiceProvider)
+               && ContainsTrackedDisposable(rootScope, value);
+    }
+
     [UnconditionalSuppressMessage(
         "ReflectionAnalysis",
         "IL2075",
         Justification = "Microsoft DI's internal disposal list is inspected only to establish exact instance ownership.")]
-    private bool IsTrackedDisposable(object value)
+    private static bool ContainsTrackedDisposable(object scope, object value)
     {
-        var disposablesField = innerServiceProvider.GetType().GetField(
+        var disposablesField = scope.GetType().GetField(
             "_disposables",
             BindingFlags.Instance | BindingFlags.NonPublic);
-        return disposablesField?.GetValue(innerServiceProvider) is IEnumerable<object> disposables
+        return disposablesField?.GetValue(scope) is IEnumerable<object> disposables
                && disposables.Any(disposable => ReferenceEquals(disposable, value));
     }
 
@@ -645,15 +658,20 @@ internal sealed class ResolvedObjectTrackingServiceProvider(IServiceProvider inn
             return true;
         }
 
-        var rootProvider = GetPropertyValue(innerServiceProvider, "RootProvider")
-                           ?? innerServiceProvider;
-        var rootScope = GetPropertyValue(innerServiceProvider, "Root")
-                        ?? GetPropertyValue(rootProvider, "Root");
+        var rootProvider = GetRootProvider();
+        var rootScope = GetRootScope();
         return (rootScope is not null
                 && !ReferenceEquals(rootScope, innerServiceProvider)
                 && ContainsResolvedService(rootScope, value))
                || ContainsSingletonCallSiteValue(rootProvider, value);
     }
+
+    private object GetRootProvider() =>
+        GetPropertyValue(innerServiceProvider, "RootProvider") ?? innerServiceProvider;
+
+    private object? GetRootScope() =>
+        GetPropertyValue(innerServiceProvider, "Root")
+        ?? GetPropertyValue(GetRootProvider(), "Root");
 
     private static bool ContainsResolvedService(object scope, object value)
     {
