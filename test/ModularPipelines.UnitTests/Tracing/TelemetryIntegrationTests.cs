@@ -314,6 +314,35 @@ public class TelemetryIntegrationTests
     }
 
     [Test]
+    public async Task Canceled_Pipeline_Failures_Are_Tagged_As_Terminated()
+    {
+        var stoppedActivities = new ConcurrentBag<Activity>();
+        using var listener = CreateActivityListener(stoppedActivities);
+        using var engineCancellationToken = new ModularPipelines.Engine.EngineCancellationToken(
+            Mock.Of<IPrimaryExceptionContainer>());
+        var exceptions = new Exception[]
+        {
+            new OperationCanceledException(),
+            new TaskCanceledException(),
+            new PipelineCancelledException(engineCancellationToken),
+        };
+
+        foreach (var exception in exceptions)
+        {
+            using var activity = ModuleActivityTracing.StartPipelineActivity("TestPipeline");
+            ModuleActivityTracing.RecordPipelineFailure(activity, exception, exception.Message);
+        }
+
+        await Assert.That(stoppedActivities).Count().IsEqualTo(exceptions.Length);
+        foreach (var activity in stoppedActivities)
+        {
+            await Assert.That(activity.GetTagItem(ModuleActivityTracing.PipelineStatusTag))
+                .IsEqualTo("PipelineTerminated");
+            await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Error);
+        }
+    }
+
+    [Test]
     public async Task UsedHistory_Is_Preserved_In_Module_Activity()
     {
         var stoppedActivities = new ConcurrentBag<Activity>();

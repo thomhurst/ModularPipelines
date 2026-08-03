@@ -112,9 +112,12 @@ public static class ModuleActivityTracing
         Exception exception,
         string obfuscatedMessage)
     {
-        var status = exception is PipelineFailedException pipelineFailedException
-            ? pipelineFailedException.Summary.Status
-            : Status.Failed;
+        var status = exception switch
+        {
+            PipelineFailedException pipelineFailedException => pipelineFailedException.Summary.Status,
+            PipelineCancelledException or OperationCanceledException => Status.PipelineTerminated,
+            _ => Status.Failed,
+        };
         activity?.SetTag(PipelineStatusTag, status.ToString());
         RecordException(activity, exception, obfuscatedMessage);
     }
