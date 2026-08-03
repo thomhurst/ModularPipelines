@@ -230,6 +230,22 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Applies_Bracketed_Standalone_Repeat_To_Preceding_Operand()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: podman inspect [options] {CONTAINER|IMAGE} [...]",
+            ["podman", "inspect"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.IsRequired).IsTrue();
+            await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>");
+        }
+    }
+
+    [Test]
     public async Task Preserves_Required_Core_Inside_Optional_Operand_Qualifiers()
     {
         var result = UsageSynopsisParser.Parse(

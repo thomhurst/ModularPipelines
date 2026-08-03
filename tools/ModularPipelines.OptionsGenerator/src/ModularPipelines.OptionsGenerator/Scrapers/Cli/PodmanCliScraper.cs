@@ -118,7 +118,7 @@ public partial class PodmanCliScraper : CobraCliScraper
         return string.Join(' ', commandParts) switch
         {
             "container clone" or "pod clone" => SetRequiredCount(positionalArguments, 1),
-            "exec" => SetRequiredCount(positionalArguments, 2),
+            "exec" or "container exec" => SetRequiredCount(positionalArguments, 2),
             "secret exists" or "secret inspect" or "secret rm" => positionalArguments
                 .Select(argument => argument with { IsSecret = false })
                 .ToList(),

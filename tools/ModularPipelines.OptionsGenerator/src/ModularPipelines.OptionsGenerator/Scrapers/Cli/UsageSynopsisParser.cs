@@ -691,7 +691,7 @@ public static class UsageSynopsisParser
         string token,
         List<CliPositionalArgument> arguments)
     {
-        if (token is not ("..." or "…") || arguments.Count == 0)
+        if (token is not ("..." or "…" or "[...]" or "[…]") || arguments.Count == 0)
         {
             return false;
         }

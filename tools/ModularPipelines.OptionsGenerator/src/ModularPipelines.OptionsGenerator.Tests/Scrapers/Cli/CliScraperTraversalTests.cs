@@ -255,13 +255,16 @@ public class CliScraperTraversalTests
     }
 
     [Test]
-    public async Task PodmanExec_Requires_Container_And_Command()
+    [Arguments("exec")]
+    [Arguments("container exec")]
+    public async Task PodmanExec_Requires_Container_And_Command(string command)
     {
         var scraper = new TestPodmanCliScraper(new StubExecutor(
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
-        const string helpText = "Usage: podman exec [options] CONTAINER COMMAND [ARG...]";
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] CONTAINER COMMAND [ARG...]";
 
-        var definition = await scraper.Parse(["podman", "exec"], helpText);
+        var definition = await scraper.Parse(commandPath, helpText);
 
         using (Assert.Multiple())
         {
