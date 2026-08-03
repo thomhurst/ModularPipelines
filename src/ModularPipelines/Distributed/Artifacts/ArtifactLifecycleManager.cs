@@ -3,6 +3,7 @@ using System.IO.Compression;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Caching;
 
 namespace ModularPipelines.Distributed.Artifacts;
 
@@ -31,6 +32,15 @@ internal class ArtifactLifecycleManager
     {
     }
 
+    public ArtifactLifecycleManager(
+        IDistributedArtifactStore store,
+        IOptions<ArtifactOptions> options,
+        ILogger<ArtifactLifecycleManager> logger,
+        IOptions<ModuleCacheOptions> cacheOptions)
+        : this(store, options, logger, cacheOptions.Value.WorkingDirectory)
+    {
+    }
+
     internal ArtifactLifecycleManager(
         IDistributedArtifactStore store,
         IOptions<ArtifactOptions> options,
@@ -46,10 +56,19 @@ internal class ArtifactLifecycleManager
     /// <summary>
     /// Scans a module type for <see cref="ProducesArtifactAttribute"/> and uploads matching artifacts.
     /// </summary>
-    public async Task<IReadOnlyList<ArtifactReference>> UploadProducedArtifactsAsync(Type moduleType, CancellationToken cancellationToken)
+    public Task<IReadOnlyList<ArtifactReference>> UploadProducedArtifactsAsync(
+        Type moduleType,
+        CancellationToken cancellationToken) =>
+        UploadProducedArtifactsAsync(moduleType, artifactNames: null, cancellationToken);
+
+    internal async Task<IReadOnlyList<ArtifactReference>> UploadProducedArtifactsAsync(
+        Type moduleType,
+        IReadOnlySet<string>? artifactNames,
+        CancellationToken cancellationToken)
     {
         var attributes = moduleType.GetCustomAttributes(typeof(ProducesArtifactAttribute), true)
             .Cast<ProducesArtifactAttribute>()
+            .Where(attribute => artifactNames is null || artifactNames.Contains(attribute.Name))
             .ToList();
 
         if (attributes.Count == 0)

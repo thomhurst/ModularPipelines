@@ -4,6 +4,7 @@ using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
@@ -40,6 +41,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ArtifactLifecycleManager _artifactLifecycleManager;
     private readonly bool _manageArtifactsLocally;
+    private readonly IReadOnlyDictionary<Type, IReadOnlySet<string>> _locallyConsumedArtifacts;
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -58,6 +60,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleResultRegistrar resultRegistrar,
         ArtifactLifecycleManager artifactLifecycleManager,
         IOptions<DistributedOptions> distributedOptions,
+        IEnumerable<IModule> modules,
         ISecretObfuscator secretObfuscator)
     {
         _serviceProvider = serviceProvider;
@@ -78,6 +81,16 @@ internal class ModuleRunner : IModuleRunner
         _artifactLifecycleManager = artifactLifecycleManager;
         _manageArtifactsLocally = !distributedOptions.Value.Enabled
                                   || distributedOptions.Value.TotalInstances <= 1;
+        _locallyConsumedArtifacts = modules
+            .SelectMany(module => module.GetType()
+                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                .Cast<ConsumesArtifactAttribute>())
+            .GroupBy(attribute => attribute.ProducerModule)
+            .ToDictionary(
+                group => group.Key,
+                group => (IReadOnlySet<string>) group
+                    .Select(attribute => attribute.ArtifactName)
+                    .ToHashSet(StringComparer.Ordinal));
     }
 
     /// <inheritdoc />
@@ -161,7 +174,8 @@ internal class ModuleRunner : IModuleRunner
 
     private async Task UploadProducedArtifactsAsync(Type moduleType, CancellationToken cancellationToken)
     {
-        if (!_manageArtifactsLocally)
+        if (!_manageArtifactsLocally
+            || !_locallyConsumedArtifacts.TryGetValue(moduleType, out var artifactNames))
         {
             return;
         }
@@ -169,7 +183,7 @@ internal class ModuleRunner : IModuleRunner
         try
         {
             await _artifactLifecycleManager
-                .UploadProducedArtifactsAsync(moduleType, cancellationToken)
+                .UploadProducedArtifactsAsync(moduleType, artifactNames, cancellationToken)
                 .ConfigureAwait(false);
         }
         catch (Exception ex)

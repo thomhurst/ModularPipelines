@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Engine;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Validation;
@@ -13,15 +15,51 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
     public int Order => 250;
 
     /// <inheritdoc />
-    public ValidationResult Validate(IServiceProvider services) =>
-        ValidateModules(services.GetServices<IModule>());
+    public ValidationResult Validate(IServiceProvider services)
+    {
+        var result = ValidateModules(services, services.GetServices<IModule>());
+        if (!result.HasErrors)
+        {
+            return result;
+        }
 
-    internal static ValidationResult ValidateModules(IEnumerable<IModule> modules)
+        var runnableModules = services.GetRequiredService<ModuleRetriever>()
+            .GetRunnableModulesForValidation()
+            .GetAwaiter()
+            .GetResult();
+        return ValidateModules(services, runnableModules);
+    }
+
+    /// <inheritdoc />
+    public async Task<ValidationResult> ValidateAsync(IServiceProvider services)
+    {
+        var result = ValidateModules(services, services.GetServices<IModule>());
+        if (!result.HasErrors)
+        {
+            return result;
+        }
+
+        var runnableModules = await services.GetRequiredService<ModuleRetriever>()
+            .GetRunnableModulesForValidation()
+            .ConfigureAwait(false);
+        return ValidateModules(services, runnableModules);
+    }
+
+    private static ValidationResult ValidateModules(
+        IServiceProvider services,
+        IEnumerable<IModule> modules)
     {
         var result = new ValidationResult();
-        var moduleTypes = modules
-            .Select(module => module.GetType())
-            .ToHashSet();
+        var modulesByType = modules
+            .GroupBy(module => module.GetType())
+            .ToDictionary(group => group.Key, group => group.First());
+        var moduleTypes = modulesByType.Keys.ToArray();
+        var dependencyRegistry = services.GetRequiredService<IModuleDependencyRegistry>();
+        var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
+        foreach (var (moduleType, module) in modulesByType)
+        {
+            metadataRegistry.FinalizeMetadata(moduleType, module);
+        }
 
         foreach (var consumerType in moduleTypes)
         {
@@ -31,7 +69,13 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
 
             foreach (var consumedArtifact in consumedArtifacts)
             {
-                ValidateConsumedArtifact(consumerType, consumedArtifact, moduleTypes, result);
+                ValidateConsumedArtifact(
+                    consumerType,
+                    consumedArtifact,
+                    modulesByType,
+                    dependencyRegistry,
+                    metadataRegistry,
+                    result);
             }
         }
 
@@ -41,11 +85,13 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
     private static void ValidateConsumedArtifact(
         Type consumerType,
         ConsumesArtifactAttribute consumedArtifact,
-        IReadOnlySet<Type> registeredModuleTypes,
+        IReadOnlyDictionary<Type, IModule> modulesByType,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
         ValidationResult result)
     {
         var producerType = consumedArtifact.ProducerModule;
-        if (!registeredModuleTypes.Contains(producerType))
+        if (!modulesByType.ContainsKey(producerType))
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Artifact,
@@ -60,23 +106,76 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             .Cast<ProducesArtifactAttribute>()
             .ToArray();
 
-        if (producedArtifacts.Any(producedArtifact =>
+        if (!producedArtifacts.Any(producedArtifact =>
                 string.Equals(
                     producedArtifact.Name,
                     consumedArtifact.ArtifactName,
                     StringComparison.Ordinal)))
         {
+            var availableArtifacts = producedArtifacts.Length == 0
+                ? "none"
+                : string.Join(", ", producedArtifacts.Select(artifact => $"'{artifact.Name}'"));
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Artifact,
+                $"Module '{consumerType.Name}' consumes artifact '{consumedArtifact.ArtifactName}', " +
+                $"but producer module '{producerType.Name}' does not declare it. " +
+                $"Available artifacts: {availableArtifacts}.",
+                consumerType));
             return;
         }
 
-        var availableArtifacts = producedArtifacts.Length == 0
-            ? "none"
-            : string.Join(", ", producedArtifacts.Select(artifact => $"'{artifact.Name}'"));
-        result.AddError(new ValidationError(
-            ValidationErrorCategory.Artifact,
-            $"Module '{consumerType.Name}' consumes artifact '{consumedArtifact.ArtifactName}', " +
-            $"but producer module '{producerType.Name}' does not declare it. " +
-            $"Available artifacts: {availableArtifacts}.",
-            consumerType));
+        if (!HasDependencyPath(
+                consumerType,
+                producerType,
+                modulesByType,
+                dependencyRegistry,
+                metadataRegistry))
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Artifact,
+                $"Module '{consumerType.Name}' consumes artifact '{consumedArtifact.ArtifactName}' " +
+                $"from '{producerType.Name}' but does not depend on that producer.",
+                consumerType));
+        }
+    }
+
+    private static bool HasDependencyPath(
+        Type consumerType,
+        Type producerType,
+        IReadOnlyDictionary<Type, IModule> modulesByType,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry)
+    {
+        var availableModuleTypes = modulesByType.Keys.ToArray();
+        var pending = new Queue<Type>();
+        var visited = new HashSet<Type> { consumerType };
+        pending.Enqueue(consumerType);
+
+        while (pending.TryDequeue(out var moduleType))
+        {
+            if (!modulesByType.TryGetValue(moduleType, out var module))
+            {
+                continue;
+            }
+
+            foreach (var (dependencyType, _) in ModuleDependencyResolver.GetAllDependencies(
+                         module,
+                         availableModuleTypes,
+                         dependencyRegistry,
+                         metadataRegistry))
+            {
+                if (dependencyType == producerType)
+                {
+                    return true;
+                }
+
+                if (visited.Add(dependencyType))
+                {
+                    pending.Enqueue(dependencyType);
+                }
+            }
+        }
+
+        return false;
     }
 }

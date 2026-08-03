@@ -1,5 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Caching;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 using ModularPipelines.Validation;
@@ -12,6 +16,7 @@ public class ArtifactContractTests
     private const string LocalArtifactRoot = ".modular-pipelines-local-artifact-tests";
     private const string ProducedFile = LocalArtifactRoot + "/produced/output.txt";
     private const string RestoreDirectory = LocalArtifactRoot + "/restored";
+    private const string CacheOnlyFile = LocalArtifactRoot + "/cache-only.bin";
 
     [ProducesArtifact("declared-output", "unused.txt")]
     private sealed class DeclaredProducerModule : Module<string>
@@ -24,6 +29,15 @@ public class ArtifactContractTests
 
     [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
     private sealed class MissingArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("consumed");
+    }
+
+    [ConsumesArtifact(typeof(DeclaredProducerModule), "declared-output")]
+    private sealed class UnorderedArtifactConsumerModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
@@ -79,6 +93,56 @@ public class ArtifactContractTests
         }
     }
 
+    [ProducesArtifact("cache-only", CacheOnlyFile)]
+    private sealed class CacheOnlyProducerModule : Module<string>
+    {
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(CacheOnlyFile)!);
+            await File.WriteAllTextAsync(CacheOnlyFile, "cache only", cancellationToken);
+            return "produced";
+        }
+    }
+
+    [ProducesArtifact("working-output", "working.txt")]
+    private sealed class WorkingDirectoryProducerModule : Module<string>
+    {
+        public static string Root { get; set; } = string.Empty;
+
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            await File.WriteAllTextAsync(
+                Path.Combine(Root, "working.txt"),
+                "working directory content",
+                cancellationToken);
+            return "produced";
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<WorkingDirectoryProducerModule>]
+    [ConsumesArtifact(
+        typeof(WorkingDirectoryProducerModule),
+        "working-output",
+        RestorePath = "restored")]
+    private sealed class WorkingDirectoryConsumerModule : Module<string>
+    {
+        public static string? ConsumedContent { get; set; }
+
+        protected internal override async Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            ConsumedContent = await File.ReadAllTextAsync(
+                Path.Combine(WorkingDirectoryProducerModule.Root, "restored", "working-output"),
+                cancellationToken);
+            return ConsumedContent;
+        }
+    }
+
     [Test]
     public async Task BuildAsyncRejectsUnknownProducedArtifactName()
     {
@@ -107,6 +171,37 @@ public class ArtifactContractTests
             error.Category == ValidationErrorCategory.Artifact
             && error.SourceType == typeof(UnregisteredProducerConsumerModule)
             && error.Message.Contains("unregistered producer", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Test]
+    public async Task BuildAsyncRejectsConsumerWithoutProducerDependency()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<UnorderedArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(UnorderedArtifactConsumerModule)
+            && error.Message.Contains("does not depend", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Test]
+    public async Task BuildAsyncIgnoresInvalidContractOnExcludedConsumer()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            SkippedModules = [nameof(MissingArtifactConsumerModule)],
+        });
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<MissingArtifactConsumerModule>();
+
+        await using var pipeline = await builder.BuildAsync();
+
+        await Assert.That(pipeline).IsNotNull();
     }
 
     [Test]
@@ -141,6 +236,57 @@ public class ArtifactContractTests
         finally
         {
             DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionDoesNotUploadUnconsumedArtifacts()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<CacheOnlyProducerModule>();
+            await using var pipeline = await builder.BuildAsync();
+
+            _ = await pipeline.RunAsync();
+            var store = pipeline.Services.GetRequiredService<IDistributedArtifactStore>();
+            var artifacts = await store.ListArtifactsAsync(
+                typeof(CacheOnlyProducerModule).FullName!,
+                CancellationToken.None);
+
+            await Assert.That(artifacts).IsEmpty();
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneArtifactsUseConfiguredCacheWorkingDirectory()
+    {
+        var workingDirectory = Directory.CreateTempSubdirectory("modular-pipelines-artifact-root-");
+        WorkingDirectoryProducerModule.Root = workingDirectory.FullName;
+        WorkingDirectoryConsumerModule.ConsumedContent = null;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.Services.Configure<ModuleCacheOptions>(options =>
+                options.WorkingDirectory = workingDirectory.FullName);
+            builder.AddModule<WorkingDirectoryProducerModule>();
+            builder.AddModule<WorkingDirectoryConsumerModule>();
+
+            await builder.ExecutePipelineAsync();
+
+            await Assert.That(WorkingDirectoryConsumerModule.ConsumedContent)
+                .IsEqualTo("working directory content");
+        }
+        finally
+        {
+            workingDirectory.Delete(recursive: true);
         }
     }
 
