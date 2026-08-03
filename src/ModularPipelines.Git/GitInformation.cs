@@ -14,7 +14,9 @@ internal class GitInformation : IGitInformation
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IGitCommitMapper _gitCommitMapper;
-    private readonly Lazy<Task<GitRepositoryInfo?>> _repositoryInfo;
+    private readonly SemaphoreSlim _repositoryInfoLock = new(1, 1);
+    private GitRepositoryInfo? _repositoryInfo;
+    private bool _repositoryInfoLoaded;
 
     public GitInformation(
         IServiceScopeFactory serviceScopeFactory,
@@ -22,12 +24,31 @@ internal class GitInformation : IGitInformation
     {
         _serviceScopeFactory = serviceScopeFactory;
         _gitCommitMapper = gitCommitMapper;
-        _repositoryInfo = new Lazy<Task<GitRepositoryInfo?>>(
-            LoadInfoAsync,
-            LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
-    public Task<GitRepositoryInfo?> GetInfoAsync() => _repositoryInfo.Value;
+    public async Task<GitRepositoryInfo?> GetInfoAsync(CancellationToken cancellationToken = default)
+    {
+        if (Volatile.Read(ref _repositoryInfoLoaded))
+        {
+            return _repositoryInfo;
+        }
+
+        await _repositoryInfoLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            if (!_repositoryInfoLoaded)
+            {
+                _repositoryInfo = await LoadInfoAsync(cancellationToken).ConfigureAwait(false);
+                Volatile.Write(ref _repositoryInfoLoaded, true);
+            }
+
+            return _repositoryInfo;
+        }
+        finally
+        {
+            _repositoryInfoLock.Release();
+        }
+    }
 
     public IAsyncEnumerable<GitCommit> Commits(
         GitOptions? options = null,
@@ -49,6 +70,7 @@ internal class GitInformation : IGitInformation
         {
             var output = await gitCommandRunner.RunCommandsOrNull(
                 null,
+                cancellationToken,
                 "log",
                 branch,
                 $"--skip={index}",
@@ -65,7 +87,7 @@ internal class GitInformation : IGitInformation
         }
     }
 
-    private async Task<GitRepositoryInfo?> LoadInfoAsync()
+    private async Task<GitRepositoryInfo?> LoadInfoAsync(CancellationToken cancellationToken)
     {
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<GitInformation>>();
@@ -74,7 +96,8 @@ internal class GitInformation : IGitInformation
         var root = await GetOutput(
             command,
             logger,
-            new GitRevParseOptions { ShowToplevel = true }).ConfigureAwait(false);
+            new GitRevParseOptions { ShowToplevel = true },
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(root))
         {
@@ -84,29 +107,35 @@ internal class GitInformation : IGitInformation
         var branchName = GetOutput(
             command,
             logger,
-            new GitBranchOptions { ShowCurrent = true });
-        var defaultBranchName = GetDefaultBranchName(command, logger);
+            new GitBranchOptions { ShowCurrent = true },
+            cancellationToken: cancellationToken);
+        var defaultBranchName = GetDefaultBranchName(command, logger, cancellationToken);
         var lastCommitSha = GetOutput(
             command,
             logger,
-            new GitRevParseOptions { Committish = "HEAD" });
+            new GitRevParseOptions { Committish = "HEAD" },
+            cancellationToken: cancellationToken);
         var lastCommitShortSha = GetOutput(
             command,
             logger,
-            new GitRevParseOptions { Short = true, Committish = "HEAD" });
+            new GitRevParseOptions { Short = true, Committish = "HEAD" },
+            cancellationToken: cancellationToken);
         var tag = GetOutput(
             command,
             logger,
-            new GitDescribeOptions { Tags = true });
+            new GitDescribeOptions { Tags = true },
+            cancellationToken: cancellationToken);
         var commitCount = GetOutput(
             command,
             logger,
-            new GitRevListOptions { Count = true, Ref = "HEAD" });
+            new GitRevListOptions { Count = true, Ref = "HEAD" },
+            cancellationToken: cancellationToken);
         var lastCommitTimestamp = GetOutput(
             command,
             logger,
-            new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, MaxCount = "1" });
-        var previousCommit = GetPreviousCommit(gitCommandRunner);
+            new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, MaxCount = "1" },
+            cancellationToken: cancellationToken);
+        var previousCommit = GetPreviousCommit(gitCommandRunner, cancellationToken);
 
         await Task.WhenAll(
             branchName,
@@ -131,40 +160,56 @@ internal class GitInformation : IGitInformation
         };
     }
 
-    private static async Task<string?> GetDefaultBranchName(ICommandContext command, ILogger logger)
+    private static async Task<string?> GetDefaultBranchName(
+        ICommandContext command,
+        ILogger logger,
+        CancellationToken cancellationToken)
     {
-        try
-        {
-            var output = await GetOutput(command, logger, new GitRemoteShowOptions { Remote = "origin" }).ConfigureAwait(false);
-            if (output == null)
+        var localOutput = await GetOutput(
+            command,
+            logger,
+            new GenericCommandLineToolOptions("git")
             {
-                return null;
-            }
-
-            return output.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-                .FirstOrDefault(x => x.StartsWith("HEAD branch:"))
-                ?.Split("HEAD branch: ")[1];
-        }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
-        {
-            // Fallback: If 'git remote show origin' fails (e.g., no remote configured, network issues,
-            // or shallow clone), try parsing origin/HEAD reference instead. This provides a best-effort
-            // approach to determine the default branch in various git repository states.
-            logger.LogDebug(ex, "Failed to get default branch from 'git remote show origin', falling back to origin/HEAD");
-            var output = await GetOutput(command, logger, new GitRevParseOptions
-            {
-                Committish = "origin/HEAD",
-                AbbrevRef = true,
-            }, new CommandExecutionOptions
+                Arguments = ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"],
+            },
+            new CommandExecutionOptions
             {
                 ThrowOnNonZeroExitCode = false,
-            }).ConfigureAwait(false);
-
-            return output?.Replace("origin/", string.Empty);
+            },
+            cancellationToken).ConfigureAwait(false);
+        if (localOutput?.StartsWith("origin/", StringComparison.Ordinal) == true)
+        {
+            return localOutput["origin/".Length..];
         }
+
+        var remoteOutput = await GetOutput(
+            command,
+            logger,
+            new GitRemoteShowOptions { Remote = "origin" },
+            new CommandExecutionOptions
+            {
+                ThrowOnNonZeroExitCode = false,
+                ExecutionTimeout = TimeSpan.FromSeconds(10),
+            },
+            cancellationToken).ConfigureAwait(false);
+        if (remoteOutput == null)
+        {
+            return null;
+        }
+
+        const string headBranchPrefix = "HEAD branch:";
+        var headBranch = remoteOutput
+            .Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            .FirstOrDefault(line => line.StartsWith(headBranchPrefix, StringComparison.Ordinal));
+        return headBranch?[headBranchPrefix.Length..].Trim();
     }
 
-    private static async Task<string?> GetOutput(ICommandContext command, ILogger logger, GitOptions gitOptions, CommandExecutionOptions? executionOptions = null)
+    private static async Task<string?> GetOutput(
+        ICommandContext command,
+        ILogger logger,
+        CommandLineToolOptions gitOptions,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
     {
         try
         {
@@ -175,19 +220,21 @@ internal class GitInformation : IGitInformation
                 // These are internal one-time setup commands that don't need to be logged
                 LogSettings = CommandLoggingOptions.Silent,
             };
-            var result = await command.ExecuteCommandLineToolAsync(gitOptions, options).ConfigureAwait(false);
+            var result = await command.ExecuteCommandLineToolAsync(gitOptions, options, cancellationToken).ConfigureAwait(false);
             return result.StandardOutput.Trim();
         }
-        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
+        catch (Exception exception) when (exception is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
         {
             logger.LogDebug(exception, "Error running Git command");
             return null;
         }
     }
 
-    private async Task<GitCommit?> GetPreviousCommit(IGitCommandRunner gitCommandRunner)
+    private async Task<GitCommit?> GetPreviousCommit(
+        IGitCommandRunner gitCommandRunner,
+        CancellationToken cancellationToken)
     {
-        var output = await gitCommandRunner.RunCommandsOrNull(null, "log", "--skip=0", "-1",
+        var output = await gitCommandRunner.RunCommandsOrNull(null, cancellationToken, "log", "--skip=0", "-1",
             $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
 
         return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);

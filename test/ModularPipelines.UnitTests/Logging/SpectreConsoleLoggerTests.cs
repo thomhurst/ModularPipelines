@@ -39,6 +39,17 @@ public class SpectreConsoleLoggerTests
     }
 
     [Test]
+    public async Task Configuration_Disables_External_Scope_And_Activity_Rendering()
+    {
+        var options = new SpectreConsoleLoggerOptions();
+
+        DependencyInjectionSetup.ConfigureSpectreConsoleLogger(options, AnsiConsole.Console);
+
+        await Assert.That(options.IncludeScopes).IsFalse();
+        await Assert.That(options.IncludeActivity).IsFalse();
+    }
+
+    [Test]
     public async Task Terminates_Each_Log_Entry_Once()
     {
         var writer = new StringWriter();

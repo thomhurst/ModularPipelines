@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using MEL.Spectre;
@@ -27,20 +26,20 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class ModuleOutputBuffer : IModuleOutputBuffer
 {
-    private static readonly TimeSpan DefaultSynchronizationLockTimeout = TimeSpan.FromSeconds(1);
-    private static readonly TimeSpan SynchronizationLockPollInterval = TimeSpan.FromMilliseconds(50);
+    private static readonly TimeSpan DefaultRenderGateTimeout = TimeSpan.FromSeconds(1);
     private readonly List<BufferedOutput> _outputs = [];
     private readonly List<StructuredDeliveryRetry> _structuredDeliveryRetries = [];
     private readonly Lock _lock = new();
     private readonly string _moduleName;
     private readonly DateTime _startTimeUtc;
     private readonly int _outputFlushThreshold;
-    private readonly TimeSpan _synchronizationLockTimeout;
+    private readonly TimeSpan _renderGateTimeout;
     private readonly Func<LogLevel, bool> _isSpectreEnabled;
     private readonly Action<IModuleOutputBuffer>? _requestIncrementalFlush;
     private readonly ConditionalWeakTable<TextWriter, IAnsiConsole> _directConsoles = [];
     private Exception? _exception;
     private bool _isComplete;
+    private bool _hasRenderedCompletionHeader;
     private bool _isIncrementalFlushInProgress;
     private bool _hasRenderedIncrementalOutput;
     private bool _thresholdFlushRequested;
@@ -55,20 +54,20 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="moduleType">The module type.</param>
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
-    /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
+    /// <param name="renderGateTimeout">Maximum time to wait for the Spectre logger render gate.</param>
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     public ModuleOutputBuffer(
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
-        TimeSpan? synchronizationLockTimeout = null,
+        TimeSpan? renderGateTimeout = null,
         Func<LogLevel, bool>? isSpectreEnabled = null)
         : this(
             moduleType.Name,
             moduleType,
             outputFlushThreshold,
             requestIncrementalFlush,
-            synchronizationLockTimeout,
+            renderGateTimeout,
             isSpectreEnabled)
     {
     }
@@ -81,14 +80,14 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <param name="moduleType">Placeholder type.</param>
     /// <param name="outputFlushThreshold">The output count that triggers an incremental flush, or zero to disable threshold flushing.</param>
     /// <param name="requestIncrementalFlush">Callback that requests an incremental flush.</param>
-    /// <param name="synchronizationLockTimeout">Maximum time to wait for the Spectre logger synchronization lock.</param>
+    /// <param name="renderGateTimeout">Maximum time to wait for the Spectre logger render gate.</param>
     /// <param name="isSpectreEnabled">Determines whether Spectre would render a structured event level.</param>
     internal ModuleOutputBuffer(
         string name,
         Type moduleType,
         int outputFlushThreshold = 0,
         Action<IModuleOutputBuffer>? requestIncrementalFlush = null,
-        TimeSpan? synchronizationLockTimeout = null,
+        TimeSpan? renderGateTimeout = null,
         Func<LogLevel, bool>? isSpectreEnabled = null)
     {
         ModuleType = moduleType;
@@ -96,7 +95,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         _startTimeUtc = DateTime.UtcNow;
         _outputFlushThreshold = outputFlushThreshold;
         _requestIncrementalFlush = requestIncrementalFlush;
-        _synchronizationLockTimeout = synchronizationLockTimeout ?? DefaultSynchronizationLockTimeout;
+        _renderGateTimeout = renderGateTimeout ?? DefaultRenderGateTimeout;
         _isSpectreEnabled = isSpectreEnabled ?? (static _ => true);
     }
 
@@ -129,6 +128,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         lock (_lock)
         {
             _exception = exception;
+            _hasRenderedCompletionHeader = false;
         }
     }
 
@@ -178,7 +178,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 return _outputs.Count > 0
                        || _structuredDeliveryRetries.Count > 0
                        || _isIncrementalFlushInProgress
-                       || _hasRenderedIncrementalOutput;
+                       || (_exception is not null && !_hasRenderedCompletionHeader);
             }
         }
     }
@@ -193,7 +193,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     }
 
     /// <inheritdoc />
-    public Task FlushToAsync(
+    public async Task FlushToAsync(
         TextWriter console,
         IBuildSystemFormatter formatter,
         ILogger logger,
@@ -207,9 +207,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 out var outputs,
                 out var structuredDeliveryRetries,
                 out var shouldRenderOutputGroup,
+                out var isContinuation,
                 out var exception))
         {
-            return Task.CompletedTask;
+            return;
         }
 
         var directConsole = GetDirectConsole(console);
@@ -227,14 +228,19 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
             if (shouldRenderOutputGroup)
             {
+                using var renderGate = await loggerControl
+                    .TryAcquireRenderGateAsync(_renderGateTimeout, cancellationToken)
+                    .ConfigureAwait(false);
                 RenderOutputs(
                     console,
                     directConsole,
                     formatter,
                     logger,
-                    loggerControl.SynchronizationLock,
+                    loggerControl,
+                    renderGate,
                     exception,
                     flushKind,
+                    isContinuation,
                     outputs,
                     effectiveFallbackLoggers,
                     failedStructuredDeliveries,
@@ -258,7 +264,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         RecordRenderedOutput(flushKind, renderedCount);
-        return Task.CompletedTask;
     }
 
     internal IAnsiConsole GetDirectConsole(TextWriter writer)
@@ -296,6 +301,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         out List<BufferedOutput> outputs,
         out List<StructuredDeliveryRetry> structuredDeliveryRetries,
         out bool shouldRenderOutputGroup,
+        out bool isContinuation,
         out Exception? exception)
     {
         lock (_lock)
@@ -305,26 +311,35 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 outputs = null!;
                 structuredDeliveryRetries = null!;
                 shouldRenderOutputGroup = false;
+                isContinuation = false;
                 exception = null;
                 return false;
             }
 
+            var needsExceptionHeader = flushKind is OutputFlushKind.Complete
+                                       && _exception is not null
+                                       && !_hasRenderedCompletionHeader;
             if (_outputs.Count == 0
                 && _structuredDeliveryRetries.Count == 0
-                && (flushKind is OutputFlushKind.Incremental || !_hasRenderedIncrementalOutput))
+                && !needsExceptionHeader)
             {
+                if (flushKind is OutputFlushKind.Complete)
+                {
+                    _hasRenderedIncrementalOutput = false;
+                }
+
                 outputs = null!;
                 structuredDeliveryRetries = null!;
                 shouldRenderOutputGroup = false;
+                isContinuation = false;
                 exception = null;
                 return false;
             }
 
             outputs = [.. _outputs];
             structuredDeliveryRetries = [.. _structuredDeliveryRetries];
-            shouldRenderOutputGroup = _outputs.Count > 0
-                                      || (flushKind is OutputFlushKind.Complete
-                                          && _hasRenderedIncrementalOutput);
+            shouldRenderOutputGroup = _outputs.Count > 0 || needsExceptionHeader;
+            isContinuation = _hasRenderedIncrementalOutput;
             _outputs.Clear();
             _structuredDeliveryRetries.Clear();
             _thresholdFlushRequested = false;
@@ -339,23 +354,39 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         IAnsiConsole directConsole,
         IBuildSystemFormatter formatter,
         ILogger logger,
-        object synchronizationLock,
+        ISpectreConsoleLoggerControl loggerControl,
+        IDisposable? renderGate,
         Exception? exception,
         OutputFlushKind flushKind,
+        bool isContinuation,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        var lockTaken = TryEnterSynchronizationLock(synchronizationLock, cancellationToken);
-        if (!lockTaken)
+        if (renderGate is null)
         {
             console.WriteLine(
-                $"Timed out waiting for the console logger lock for {_moduleName}; writing buffered output directly.");
+                $"Timed out waiting for the console logger render gate for {_moduleName}; writing buffered output directly.");
+            RenderOutputGroup(
+                console,
+                directConsole,
+                formatter,
+                logger,
+                exception,
+                flushKind,
+                isContinuation,
+                outputs,
+                fallbackLoggers,
+                failedStructuredDeliveries,
+                writeStructuredLogsDirectly: true,
+                ref renderedCount,
+                cancellationToken);
+            return;
         }
 
-        try
+        lock (loggerControl.SynchronizationLock)
         {
             RenderOutputGroup(
                 console,
@@ -364,19 +395,13 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 logger,
                 exception,
                 flushKind,
+                isContinuation,
                 outputs,
                 fallbackLoggers,
                 failedStructuredDeliveries,
-                writeStructuredLogsDirectly: !lockTaken,
+                writeStructuredLogsDirectly: false,
                 ref renderedCount,
                 cancellationToken);
-        }
-        finally
-        {
-            if (lockTaken)
-            {
-                Monitor.Exit(synchronizationLock);
-            }
         }
     }
 
@@ -387,6 +412,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ILogger logger,
         Exception? exception,
         OutputFlushKind flushKind,
+        bool isContinuation,
         List<BufferedOutput> outputs,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
@@ -394,7 +420,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         ref int renderedCount,
         CancellationToken cancellationToken)
     {
-        var header = FormatHeader(exception, flushKind);
+        var header = FormatHeader(exception, flushKind, isContinuation);
         var startCommand = formatter.GetStartBlockCommand(header);
         var endCommand = formatter.GetEndBlockCommand(header);
         var groupStarted = false;
@@ -509,6 +535,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             if (flushKind is OutputFlushKind.Complete)
             {
                 _hasRenderedIncrementalOutput = false;
+                _hasRenderedCompletionHeader = true;
             }
             else
             {
@@ -519,36 +546,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 }
             }
         }
-    }
-
-    private bool TryEnterSynchronizationLock(
-        object synchronizationLock,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        var stopwatch = Stopwatch.StartNew();
-
-        while (stopwatch.Elapsed < _synchronizationLockTimeout)
-        {
-            var remaining = _synchronizationLockTimeout - stopwatch.Elapsed;
-            if (remaining <= TimeSpan.Zero)
-            {
-                return false;
-            }
-
-            var wait = remaining < SynchronizationLockPollInterval
-                ? remaining
-                : SynchronizationLockPollInterval;
-
-            if (Monitor.TryEnter(synchronizationLock, wait))
-            {
-                return true;
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-        }
-
-        return false;
     }
 
     private static IReadOnlyList<ILogger> WriteToFallbackLoggers(
@@ -634,19 +631,23 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
     }
 
-    private string FormatHeader(Exception? exception, OutputFlushKind flushKind)
+    private string FormatHeader(
+        Exception? exception,
+        OutputFlushKind flushKind,
+        bool isContinuation)
     {
         var duration = DateTime.UtcNow - _startTimeUtc;
         var durationText = duration.ToDisplayString();
+        var continuationText = isContinuation ? " (continued)" : string.Empty;
 
         if (exception != null)
         {
-            return $"{_moduleName} \u2717 ({durationText}) - {exception.GetType().Name}";
+            return $"{_moduleName} \u2717{continuationText} ({durationText}) - {exception.GetType().Name}";
         }
 
         return flushKind is OutputFlushKind.Complete
-            ? $"{_moduleName} \u2713 ({durationText})"
-            : $"{_moduleName} \u2026 ({durationText})";
+            ? $"{_moduleName} \u2713{continuationText} ({durationText})"
+            : $"{_moduleName} \u2026{continuationText} ({durationText})";
     }
 
     private static IAnsiConsole CreateDirectConsole(TextWriter writer)

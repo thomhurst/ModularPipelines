@@ -24,6 +24,15 @@ public class PipelineBuilderRegistrationTests
         protected override bool Result => true;
     }
 
+    private abstract class TestModuleBase : SimpleTestModule<bool>
+    {
+    }
+
+    private sealed class DerivedTestModule : TestModuleBase
+    {
+        protected override bool Result => true;
+    }
+
     private sealed class TestAssembly(
         AssemblyName assemblyName,
         params AssemblyName[] referencedAssemblies) : Assembly
@@ -38,25 +47,36 @@ public class PipelineBuilderRegistrationTests
     }
 
     [Test]
-    public async Task AddModule_ReturnsSamePipelineBuilder()
+    public async Task AddModule_ReturnsTypedRegistrationConvertibleToBuilder()
     {
         var builder = TestPipelineHostBuilder.Create();
 
         var result = builder.AddModule<TestModuleA>();
+        PipelineBuilder convertedBuilder = result;
 
-        await Assert.That(result).IsSameReferenceAs(builder);
+        await Assert.That(result).IsTypeOf<ModuleRegistration<TestModuleA>>();
+        await Assert.That(convertedBuilder).IsSameReferenceAs(builder);
     }
 
     [Test]
-    public async Task RegistrationApi_UsesOnlyPipelineBuilder()
+    public async Task RegistrationApi_UsesTypedHandlesOnlyForAddModule()
     {
         var addMethods = typeof(PipelineBuilderExtensions)
             .GetMethods()
             .Where(method => method.IsPublic && method.Name.StartsWith("Add", StringComparison.Ordinal))
             .ToList();
+        var addModuleMethods = addMethods
+            .Where(method => method.Name == nameof(PipelineBuilderExtensions.AddModule))
+            .ToList();
+        var otherAddMethods = addMethods.Except(addModuleMethods).ToList();
 
-        await Assert.That(addMethods).IsNotEmpty();
-        await Assert.That(addMethods.All(method => method.ReturnType == typeof(PipelineBuilder))).IsTrue();
+        await Assert.That(addModuleMethods.Count).IsEqualTo(3);
+        await Assert.That(addModuleMethods.All(method =>
+            method.ReturnType.IsGenericType
+            && method.ReturnType.GetGenericTypeDefinition() == typeof(ModuleRegistration<>))).IsTrue();
+        await Assert.That(otherAddMethods.All(method => method.ReturnType == typeof(PipelineBuilder))).IsTrue();
+        await Assert.That(typeof(PipelineBuilderExtensions).GetMethods()
+            .Any(method => method.Name is "WithTags" or "WithCategory")).IsFalse();
         await Assert.That(typeof(ServiceCollectionExtensions).IsPublic).IsFalse();
     }
 
@@ -208,60 +228,6 @@ public class PipelineBuilderRegistrationTests
             .ToList();
 
         await Assert.That(moduleDescriptors.Count).IsEqualTo(2);
-    }
-
-    [Test]
-    public async Task WithTags_ConfiguresLatestModule()
-    {
-        var builder = TestPipelineHostBuilder.Create()
-            .AddModule<TestModuleA>()
-            .WithTags("tag1", "tag2");
-
-        using var provider = builder.Services.BuildServiceProvider();
-        var options = provider.GetRequiredService<IOptions<ModuleRegistrationOptions>>().Value;
-
-        await Assert.That(options.Tags[typeof(TestModuleA)]).IsEquivalentTo(["tag1", "tag2"]);
-    }
-
-    [Test]
-    public async Task WithCategory_ConfiguresLatestModule()
-    {
-        var builder = TestPipelineHostBuilder.Create()
-            .AddModule<TestModuleA>()
-            .WithCategory("TestCategory");
-
-        using var provider = builder.Services.BuildServiceProvider();
-        var options = provider.GetRequiredService<IOptions<ModuleRegistrationOptions>>().Value;
-
-        await Assert.That(options.Categories[typeof(TestModuleA)]).IsEqualTo("TestCategory");
-    }
-
-    [Test]
-    public async Task ModuleMetadata_CanChainAcrossModules()
-    {
-        var builder = TestPipelineHostBuilder.Create()
-            .AddModule<TestModuleA>()
-            .WithTags("tag1")
-            .WithTags("tag2", "tag3")
-            .WithCategory("Category1")
-            .AddModule<TestModuleB>()
-            .WithCategory("Category2");
-
-        using var provider = builder.Services.BuildServiceProvider();
-        var options = provider.GetRequiredService<IOptions<ModuleRegistrationOptions>>().Value;
-
-        await Assert.That(options.Tags[typeof(TestModuleA)]).IsEquivalentTo(["tag1", "tag2", "tag3"]);
-        await Assert.That(options.Categories[typeof(TestModuleA)]).IsEqualTo("Category1");
-        await Assert.That(options.Categories[typeof(TestModuleB)]).IsEqualTo("Category2");
-    }
-
-    [Test]
-    public async Task ModuleMetadata_RequiresPriorModule()
-    {
-        var builder = TestPipelineHostBuilder.Create();
-
-        await Assert.That(() => builder.WithTags("tag"))
-            .Throws<InvalidOperationException>();
     }
 
     [Test]

@@ -108,15 +108,14 @@ public static class CurrentApiSnippets
     }
 
     [DependsOn<BuildModule>]
-    public sealed class PublishModule : Module<None>
+    public sealed class PublishModule : Module
     {
-        protected override async Task<None> ExecuteAsync(
+        protected override async Task ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
             var buildResult = await context.GetModule<BuildModule>();
             _ = buildResult.Value.OutputPath;
-            return None.Value;
         }
     }
 

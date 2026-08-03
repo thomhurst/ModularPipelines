@@ -1,15 +1,13 @@
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
 /// <summary>
-/// Analyzer that detects mutable instance fields in modules.
+/// Analyzer that detects mutable instance state in modules.
 /// Modules are registered as Singletons, so any instance state can leak between executions.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -17,7 +15,7 @@ namespace ModularPipelines.Analyzers;
 public class StatefulModuleAnalyzer : DiagnosticAnalyzer
 {
     /// <summary>
-    /// Diagnostic ID for mutable instance fields in modules.
+    /// Diagnostic ID for mutable instance state in modules.
     /// </summary>
     public const string DiagnosticId = "MP0008";
 
@@ -32,8 +30,19 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
         category: "Design",
         severity: DiagnosticSeverity.Warning);
 
+    /// <summary>
+    /// Gets the diagnostic rule for mutable auto-properties in modules.
+    /// </summary>
+    public static DiagnosticDescriptor PropertyRule { get; } = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.StatefulModuleAnalyzerTitle),
+        "StatefulModuleAnalyzerPropertyMessageFormat",
+        nameof(Resources.StatefulModuleAnalyzerDescription),
+        category: "Design",
+        severity: DiagnosticSeverity.Warning);
+
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule, PropertyRule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -41,18 +50,12 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        context.RegisterSyntaxNodeAction(AnalyzeClassDeclaration, SyntaxKind.ClassDeclaration);
+        context.RegisterSymbolAction(AnalyzeNamedType, SymbolKind.NamedType);
     }
 
-    private static void AnalyzeClassDeclaration(SyntaxNodeAnalysisContext context)
+    private static void AnalyzeNamedType(SymbolAnalysisContext context)
     {
-        if (context.Node is not ClassDeclarationSyntax classDeclaration)
-        {
-            return;
-        }
-
-        var classSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
-        if (classSymbol is null)
+        if (context.Symbol is not INamedTypeSymbol { TypeKind: TypeKind.Class } classSymbol)
         {
             return;
         }
@@ -63,17 +66,35 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Analyze all instance fields declared directly in this class
-        foreach (var member in classSymbol.GetMembers())
+        var members = classSymbol.GetMembers();
+        var autoProperties = members
+            .OfType<IFieldSymbol>()
+            .Where(static field => field.IsImplicitlyDeclared)
+            .Select(static field => field.AssociatedSymbol)
+            .OfType<IPropertySymbol>()
+            .ToImmutableHashSet<IPropertySymbol>(SymbolEqualityComparer.Default);
+
+        // Analyze all instance state declared directly in this class.
+        foreach (var member in members)
         {
-            if (member is IFieldSymbol fieldSymbol && !fieldSymbol.IsStatic && !fieldSymbol.IsConst)
+            switch (member)
             {
-                AnalyzeField(context, fieldSymbol, classSymbol);
+                case IFieldSymbol { IsStatic: false, IsConst: false } field:
+                    AnalyzeField(context, field, classSymbol);
+                    break;
+                case IPropertySymbol property when IsWritableAutoProperty(
+                    property,
+                    autoProperties):
+                    ReportDiagnostic(context, PropertyRule, property, classSymbol);
+                    break;
             }
         }
     }
 
-    private static void AnalyzeField(SyntaxNodeAnalysisContext context, IFieldSymbol fieldSymbol, INamedTypeSymbol classSymbol)
+    private static void AnalyzeField(
+        SymbolAnalysisContext context,
+        IFieldSymbol fieldSymbol,
+        INamedTypeSymbol classSymbol)
     {
         // Skip readonly fields - they're safe if initialized in constructor
         if (fieldSymbol.IsReadOnly)
@@ -87,18 +108,35 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Get field location for reporting
-        var location = fieldSymbol.Locations.FirstOrDefault();
+        ReportDiagnostic(context, Rule, fieldSymbol, classSymbol);
+    }
+
+    private static bool IsWritableAutoProperty(
+        IPropertySymbol property,
+        ImmutableHashSet<IPropertySymbol> autoProperties)
+    {
+        return !property.IsStatic
+               && !property.IsIndexer
+               && property.SetMethod is { IsInitOnly: false }
+               && autoProperties.Contains(property);
+    }
+
+    private static void ReportDiagnostic(
+        SymbolAnalysisContext context,
+        DiagnosticDescriptor rule,
+        ISymbol member,
+        INamedTypeSymbol classSymbol)
+    {
+        var location = member.Locations.FirstOrDefault();
         if (location is null)
         {
             return;
         }
 
-        // Report diagnostic for non-readonly instance fields
         var diagnostic = Diagnostic.Create(
-            Rule,
+            rule,
             location,
-            fieldSymbol.Name,
+            member.Name,
             classSymbol.Name);
 
         context.ReportDiagnostic(diagnostic);

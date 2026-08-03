@@ -8,9 +8,8 @@ namespace ModularPipelines.Context;
 /// This is a pure transformation with no side effects.
 /// </summary>
 /// <remarks>
-/// This interface is distinct from <see cref="Builders.ICommandBuilder{TBuilder, TOptions}"/> which is a fluent
-/// builder pattern for configuring and executing commands. This interface is specifically
-/// for transforming <see cref="CommandLineToolOptions"/> into a <see cref="CommandLine"/> model.
+/// This interface specifically transforms <see cref="CommandLineToolOptions"/> into a
+/// <see cref="CommandLine"/> model.
 /// </remarks>
 internal interface ICommandLineBuilder
 {

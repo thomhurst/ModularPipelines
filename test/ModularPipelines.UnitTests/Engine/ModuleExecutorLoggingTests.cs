@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Text;
 using System.Threading.Channels;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
@@ -93,9 +94,7 @@ public class ModuleExecutorLoggingTests
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             Mock.Of<ISecondaryExceptionContainer>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             new StringLogger<ModuleExecutor>(logs));
@@ -160,9 +159,7 @@ public class ModuleExecutorLoggingTests
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             Mock.Of<ISecondaryExceptionContainer>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             NullLogger<ModuleExecutor>.Instance);
@@ -308,9 +305,7 @@ public class ModuleExecutorLoggingTests
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             new SecondaryExceptionContainer(),
             pipelineOptions,
             NullLogger<ModuleExecutor>.Instance);
@@ -410,9 +405,7 @@ public class ModuleExecutorLoggingTests
     public async Task WaitForAllModules_WorkerFault_DoesNotStopRemainingModules()
     {
         var dependencyRegistry = new ModuleDependencyRegistry();
-        var metadataRegistry = new ModuleMetadataRegistry(
-            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-            new ModuleAttributeEventService());
+        var metadataRegistry = new ModuleMetadataRegistry(new ModuleAttributeEventService());
         var scheduler = new ModuleScheduler(
             NullLogger.Instance,
             TimeProvider.System,
@@ -552,9 +545,7 @@ public class ModuleExecutorLoggingTests
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             secondaryExceptionContainer.Object,
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
@@ -591,6 +582,33 @@ public class ModuleExecutorLoggingTests
                 false,
                 Status.Failed),
             Times.Once);
+    }
+
+    [Test]
+    [Arguments(LogLevel.Debug, false)]
+    [Arguments(LogLevel.Trace, true)]
+    public async Task MarkModuleCompleted_Logs_Dependent_Detail_Only_At_Trace(
+        LogLevel minimumLevel,
+        bool expectsDependentDetail)
+    {
+        var logs = new StringBuilder();
+        var completedState = new ModuleState(new FaultingModule(), typeof(FaultingModule));
+        var dependentState = new ModuleState(new LaterModule(), typeof(LaterModule));
+        dependentState.UnresolvedDependencies.Add(completedState.ModuleType);
+        completedState.DependentModules.Add(dependentState);
+        var moduleStates = new ConcurrentDictionary<Type, ModuleState>(
+        [
+            new(completedState.ModuleType, completedState),
+            new(dependentState.ModuleType, dependentState),
+        ]);
+        var tracker = CreateModuleStateTracker(logs, moduleStates, minimumLevel: minimumLevel);
+
+        tracker.MarkModuleCompleted(completedState.ModuleType, success: true);
+
+        var output = logs.ToString();
+        await Assert.That(output).Contains("completion unblocks 1 dependents");
+        await Assert.That(output.Contains("now ready to execute"))
+            .IsEqualTo(expectsDependentDetail);
     }
 
     [Test]
@@ -688,9 +706,7 @@ public class ModuleExecutorLoggingTests
             registrationEvents.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             new SecondaryExceptionContainer(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions
             {
@@ -702,10 +718,11 @@ public class ModuleExecutorLoggingTests
     private static ModuleStateTracker CreateModuleStateTracker(
         StringBuilder logs,
         ConcurrentDictionary<Type, ModuleState> moduleStates,
-        IMetricsCollector? metricsCollector = null)
+        IMetricsCollector? metricsCollector = null,
+        LogLevel minimumLevel = LogLevel.Trace)
     {
         return new ModuleStateTracker(
-            new StringLogger<ModuleStateTracker>(logs),
+            new StringLogger<ModuleStateTracker>(logs, minimumLevel),
             TimeProvider.System,
             metricsCollector ?? Mock.Of<IMetricsCollector>(),
             Mock.Of<IModuleConstraintEvaluator>(),

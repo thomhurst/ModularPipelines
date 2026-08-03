@@ -1,15 +1,12 @@
 using ModularPipelines.Attributes;
 using ModularPipelines.Cosign.Enums;
 using ModularPipelines.Cosign.Options;
-using ModularPipelines.Helpers.Internal;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Cosign.UnitTests.Attributes;
 
 public class CosignOptionsTests
 {
-    private readonly CommandModelProvider _modelProvider = new();
-    private readonly CommandArgumentBuilder _argumentBuilder = new();
-
     [Test]
     public async Task Sign_Renders_Images_Repeated_Annotations_Enum_And_Flags()
     {
@@ -94,11 +91,5 @@ public class CosignOptionsTests
         await Assert.That(registryToken!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
         await Assert.That(password!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
         await Assert.That(oldManagementKey!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
-    }
-
-    private IReadOnlyList<string> BuildArguments(object options)
-    {
-        var model = _modelProvider.GetCommandModel(options.GetType());
-        return _argumentBuilder.BuildArguments(model, options);
     }
 }

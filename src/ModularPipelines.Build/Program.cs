@@ -79,8 +79,7 @@ builder
     .AddModule<GenerateReadMeModule>()
     .AddModule<FormatMarkdownModule>()
     .AddModule<PrintGitInformationModule>()
-    .AddModule<PushVersionTagModule>()
-    .AddModuleEventReceiver<MyModuleEventReceiver>();
+    .AddModule<PushVersionTagModule>();
 
 if (!await BuildPipelineConfiguration.ConfigureDistributedModeAsync(builder))
 {

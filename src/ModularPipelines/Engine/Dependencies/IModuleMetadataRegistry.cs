@@ -4,7 +4,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Engine.Dependencies;
 
 /// <summary>
-/// Registry for module metadata set during registration.
+/// Registry for resolved module metadata.
 /// </summary>
 internal interface IModuleMetadataRegistry : IDependencyContext
 {
@@ -13,24 +13,8 @@ internal interface IModuleMetadataRegistry : IDependencyContext
     T? GetMetadata<T>(Type moduleType, string key);
 
     /// <summary>
-    /// Adds tags to a module during registration.
-    /// </summary>
-    /// <param name="moduleType">The module type.</param>
-    /// <param name="tags">The tags to add.</param>
-    /// <remarks>Call <see cref="FinalizeMetadata"/> again before reading metadata after this mutation.</remarks>
-    void AddRegistrationTags(Type moduleType, IEnumerable<string> tags);
-
-    /// <summary>
-    /// Sets the category for a module during registration.
-    /// </summary>
-    /// <param name="moduleType">The module type.</param>
-    /// <param name="category">The category to set.</param>
-    /// <remarks>Call <see cref="FinalizeMetadata"/> again before reading metadata after this mutation.</remarks>
-    void SetRegistrationCategory(Type moduleType, string category);
-
-    /// <summary>
     /// Finalizes metadata for a module after it's instantiated.
-    /// Merges tags and categories from attributes, instance overrides, and registration-time configuration.
+    /// Merges tags and categories from attributes and module configuration.
     /// </summary>
     /// <param name="moduleType">The module type.</param>
     /// <param name="instance">The module instance.</param>

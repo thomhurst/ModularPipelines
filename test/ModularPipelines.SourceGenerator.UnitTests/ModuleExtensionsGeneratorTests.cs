@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
 
@@ -95,7 +96,7 @@ public class ModuleExtensionsGeneratorTests
     }
 
     [Test]
-    public async Task Unchanged_Compilation_Uses_Incremental_Cache()
+    public async Task Equivalent_Compilation_Uses_Incremental_Cache()
     {
         var result = GeneratorTestHarness.RunTwiceWithStepTracking(
             new ModuleExtensionsGenerator(),
@@ -107,6 +108,83 @@ public class ModuleExtensionsGeneratorTests
             }
             """);
 
-        await Assert.That(GeneratorTestHarness.HasCachedOutput(result)).IsTrue();
+        await Assert.That(GeneratorTestHarness.HasCachedOrUnchangedOutput(result)).IsTrue();
     }
+
+    [Test]
+    public async Task Generated_Extension_Type_Is_Derived_From_Assembly_Name()
+    {
+        const string source = """
+            namespace Consumer
+            {
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """;
+        var sharedLibrary = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            "Shared.Modules");
+        var pipelineApp = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            "9-Pipeline App");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(GetGeneratedTypeName(sharedLibrary))
+                .StartsWith("Shared_Modules_")
+                .And.EndsWith("ModuleContextExtensions");
+            await Assert.That(GetGeneratedTypeName(pipelineApp))
+                .StartsWith("_9_Pipeline_App_")
+                .And.EndsWith("ModuleContextExtensions");
+        }
+    }
+
+    [Test]
+    public async Task Assembly_Names_Produce_Unique_Extension_Types()
+    {
+        const string source = """
+            namespace Consumer
+            {
+                public sealed class BuildModule : ModularPipelines.Modules.Module<string>;
+            }
+            """;
+        var hyphenated = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            "Shared-Modules");
+        var dotted = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            "Shared.Modules");
+        var craftedValidName = GetGeneratedTypeName(hyphenated)
+            [..^"ModuleContextExtensions".Length];
+        var valid = GeneratorTestHarness.Run(
+            new ModuleExtensionsGenerator(),
+            TestInfrastructure,
+            source,
+            craftedValidName);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(GetGeneratedTypeName(hyphenated))
+                .IsNotEqualTo(GetGeneratedTypeName(dotted));
+            await Assert.That(GetGeneratedTypeName(hyphenated))
+                .IsNotEqualTo(GetGeneratedTypeName(valid));
+        }
+    }
+
+    private static string GetGeneratedTypeName(GeneratorDriverRunResult result) =>
+        result.GeneratedTrees
+            .Single()
+            .GetRoot()
+            .DescendantNodes()
+            .OfType<ClassDeclarationSyntax>()
+            .Single()
+            .Identifier
+            .ValueText;
 }

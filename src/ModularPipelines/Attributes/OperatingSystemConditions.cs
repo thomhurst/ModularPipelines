@@ -20,8 +20,11 @@ internal static class OperatingSystemConditions
     /// <summary>Capability identifier for macOS-only modules.</summary>
     public const string MacOS = "macos";
 
+    /// <summary>Capability identifier for FreeBSD-only modules.</summary>
+    public const string FreeBSD = "freebsd";
+
     private const string AlternativeCapabilityPrefix = "operating-system:";
-    private static readonly string[] OperatingSystems = [Windows, Linux, MacOS];
+    private static readonly string[] OperatingSystems = [Windows, Linux, MacOS, FreeBSD];
 
     /// <summary>
     /// Returns the operating-system capabilities targeted by an all-platform condition.
@@ -100,12 +103,22 @@ internal static class OperatingSystemConditions
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2067",
-        Justification = "Condition types come from RunIfAll<T> generic arguments, whose new() constraint preserves a public parameterless constructor.")]
+        Justification = "Stateful OS attributes expose identifiers directly; generic conditions have a new() constraint preserving a public parameterless constructor.")]
     private static HashSet<string>? GetSupportedOperatingSystems(IConditionAttribute attribute)
     {
         if (attribute.Logic != ConditionLogic.All)
         {
             return null;
+        }
+
+        if (attribute is IOperatingSystemConditionAttribute operatingSystemAttribute)
+        {
+            var operatingSystems = operatingSystemAttribute.OperatingSystems
+                .Select(GetOperatingSystem)
+                .ToArray();
+            return operatingSystems.Any(operatingSystem => operatingSystem is null)
+                ? null
+                : new HashSet<string>(operatingSystems!, StringComparer.OrdinalIgnoreCase);
         }
 
         var conditionTypes = attribute.GetType().GetGenericArguments();
@@ -196,6 +209,18 @@ internal static class OperatingSystemConditions
         }
 
         return conditionType == typeof(OnMacOS) ? MacOS : null;
+    }
+
+    private static string? GetOperatingSystem(OperatingSystemIdentifier operatingSystem)
+    {
+        return operatingSystem switch
+        {
+            OperatingSystemIdentifier.Windows => Windows,
+            OperatingSystemIdentifier.Linux => Linux,
+            OperatingSystemIdentifier.MacOS => MacOS,
+            OperatingSystemIdentifier.FreeBSD => FreeBSD,
+            _ => null,
+        };
     }
 
     private static string CreateCapability(IEnumerable<string> operatingSystems)

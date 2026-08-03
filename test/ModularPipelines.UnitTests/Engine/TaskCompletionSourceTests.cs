@@ -317,9 +317,7 @@ public class TaskCompletionSourceTests
             registrationEventExecutor.Object,
             Mock.Of<IMetricsCollector>(),
             new ModuleDependencyRegistry(),
-            new ModuleMetadataRegistry(
-                Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-                new ModuleAttributeEventService()),
+            new ModuleMetadataRegistry(new ModuleAttributeEventService()),
             Mock.Of<ISecondaryExceptionContainer>(),
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             NullLogger<ModuleExecutor>.Instance);

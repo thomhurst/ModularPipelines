@@ -229,7 +229,7 @@ public class ModuleOutputBufferTests
         await Assert.That(output).Contains("partial output");
         await Assert.That(output).DoesNotContain("ModuleOutputBufferTests ✓");
         await Assert.That(buffer.HasOutput).IsFalse();
-        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
     }
 
     [Test]
@@ -288,7 +288,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task CompleteFlush_WritesFinalHeaderAfterIncrementalDrain()
+    public async Task CompleteFlush_SuppressesEmptyGroupAfterIncrementalDrain()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
@@ -311,9 +311,102 @@ public class ModuleOutputBufferTests
 
         var output = writer.ToString();
         await Assert.That(output).Contains("ModuleOutputBufferTests …");
-        await Assert.That(output).Contains("ModuleOutputBufferTests ✓");
+        await Assert.That(output).DoesNotContain("ModuleOutputBufferTests ✓");
         await Assert.That(output).Contains("partial output");
         await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
+    public async Task CompleteFlush_RendersFailureHeaderAfterIncrementalDrain()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("partial output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.WriteLine("failure output");
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.SetException(new InvalidOperationException("module failure"));
+        buffer.MarkComplete();
+
+        await Assert.That(buffer.NeedsCompletionFlush).IsTrue();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests ✗ (continued)");
+        await Assert.That(output).Contains(nameof(InvalidOperationException));
+        await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
+    }
+
+    [Test]
+    public async Task LaterFlushes_AreLabelledAsContinued()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("first output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.WriteLine("second output");
+        buffer.MarkComplete();
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Complete);
+
+        var output = writer.ToString();
+        await Assert.That(output).Contains("ModuleOutputBufferTests … (");
+        await Assert.That(output).Contains("ModuleOutputBufferTests ✓ (continued) (");
+        await Assert.That(output).Contains("first output");
+        await Assert.That(output).Contains("second output");
+    }
+
+    [Test]
+    public async Task LaterIncrementalFlushes_AreLabelledAsContinued()
+    {
+        var writer = new StringWriter();
+        var loggerControl = new SynchronousLoggerControl(writer);
+        var buffer = new ModuleOutputBuffer(typeof(ModuleOutputBufferTests));
+        buffer.WriteLine("first output");
+
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+        buffer.WriteLine("second output");
+        await buffer.FlushToAsync(
+            writer,
+            new GitHubActionsFormatter(),
+            loggerControl,
+            loggerControl,
+            OutputFlushKind.Incremental);
+
+        await Assert.That(writer.ToString()).Contains("ModuleOutputBufferTests … (continued) (");
     }
 
     [Test]
@@ -357,7 +450,7 @@ public class ModuleOutputBufferTests
             loggerControl,
             OutputFlushKind.Complete);
 
-        await Assert.That(writer.ToString()).Contains("ModuleOutputBufferTests ✓");
+        await Assert.That(writer.ToString()).DoesNotContain("ModuleOutputBufferTests ✓");
         await Assert.That(buffer.NeedsCompletionFlush).IsFalse();
     }
 
@@ -525,7 +618,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task Flush_CancellationInterruptsSynchronizationLockWait()
+    public async Task Flush_CancellationInterruptsRenderGateWait()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
@@ -564,7 +657,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task Flush_LockTimeout_WritesBufferedOutputDirectly()
+    public async Task Flush_RenderGateTimeout_WritesBufferedOutputDirectly()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
@@ -609,7 +702,7 @@ public class ModuleOutputBufferTests
         }
 
         var output = writer.ToString();
-        await Assert.That(output).Contains("Timed out waiting for the console logger lock");
+        await Assert.That(output).Contains("Timed out waiting for the console logger render gate");
         await Assert.That(output).Contains("[WARN] structured ***");
         await Assert.That(output).DoesNotContain("structured secret");
         await Assert.That(output).Contains(nameof(InvalidOperationException));
@@ -623,7 +716,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task Flush_LockTimeout_Respects_Spectre_Filter()
+    public async Task Flush_RenderGateTimeout_Respects_Spectre_Filter()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
@@ -663,7 +756,7 @@ public class ModuleOutputBufferTests
         }
 
         var output = writer.ToString();
-        await Assert.That(output).Contains("Timed out waiting for the console logger lock");
+        await Assert.That(output).Contains("Timed out waiting for the console logger render gate");
         await Assert.That(output).Contains("direct output");
         await Assert.That(output).DoesNotContain("filtered structured log");
         await Assert.That(fallbackLogger.Entries).HasSingleItem();
@@ -671,7 +764,7 @@ public class ModuleOutputBufferTests
     }
 
     [Test]
-    public async Task Flush_LockTimeout_RetriesFailedProviderWithoutRepeatingConsoleOutput()
+    public async Task Flush_RenderGateTimeout_RetriesFailedProviderWithoutRepeatingConsoleOutput()
     {
         var writer = new StringWriter();
         var loggerControl = new SynchronousLoggerControl(writer);
@@ -736,7 +829,7 @@ public class ModuleOutputBufferTests
     }
 
     private static ModuleOutputBuffer CreateBufferWithStructuredLog(
-        TimeSpan? synchronizationLockTimeout = null,
+        TimeSpan? renderGateTimeout = null,
         string message = "structured log",
         ISecretObfuscator? secretObfuscator = null,
         Exception? exception = null,
@@ -745,7 +838,7 @@ public class ModuleOutputBufferTests
     {
         var buffer = new ModuleOutputBuffer(
             typeof(ModuleOutputBufferTests),
-            synchronizationLockTimeout: synchronizationLockTimeout,
+            renderGateTimeout: renderGateTimeout,
             isSpectreEnabled: isSpectreEnabled);
         buffer.AddLogEvent(new BufferedLogEvent<string>(
             logLevel,
@@ -872,7 +965,64 @@ public class ModuleOutputBufferTests
             }
         }
 
+        public IDisposable Suspend() => GateLease.Instance;
+
+        public bool WouldRender(string categoryName, LogLevel logLevel) => true;
+
+        public bool TryAcquireRenderGate(TimeSpan timeout, out IDisposable? gate)
+        {
+            if (!Monitor.TryEnter(SynchronizationLock, timeout))
+            {
+                gate = null;
+                return false;
+            }
+
+            Monitor.Exit(SynchronizationLock);
+            gate = GateLease.Instance;
+            return true;
+        }
+
+        public async ValueTask<IDisposable?> TryAcquireRenderGateAsync(
+            TimeSpan timeout,
+            CancellationToken cancellationToken = default)
+        {
+            var deadline = DateTime.UtcNow + timeout;
+            while (DateTime.UtcNow < deadline)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                if (Monitor.TryEnter(SynchronizationLock))
+                {
+                    Monitor.Exit(SynchronizationLock);
+                    return GateLease.Instance;
+                }
+
+                var remaining = deadline - DateTime.UtcNow;
+                if (remaining <= TimeSpan.Zero)
+                {
+                    return null;
+                }
+
+                await Task.Delay(
+                        remaining < TimeSpan.FromMilliseconds(10)
+                            ? remaining
+                            : TimeSpan.FromMilliseconds(10),
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+
+            return null;
+        }
+
         public Task FlushAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+        private sealed class GateLease : IDisposable
+        {
+            public static GateLease Instance { get; } = new();
+
+            public void Dispose()
+            {
+            }
+        }
     }
 
     private sealed class MarkupLikeBuildSystemFormatter : IBuildSystemFormatter

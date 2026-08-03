@@ -29,7 +29,7 @@ public class LiquibaseOptionsTests : TestBase
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "liquibase --search-path=changelogs update --changelog-file=changelog.xml -Dtenant=alpha -Dregion=eu --password=secret --show-summary=verbose --url=jdbc:h2:mem:test");
+            "liquibase --search-path=changelogs update --changelog-file=changelog.xml -Dtenant=alpha -Dregion=eu --password=********** --show-summary=verbose --url=jdbc:h2:mem:test");
     }
 
     [Test]
@@ -65,7 +65,7 @@ public class LiquibaseOptionsTests : TestBase
         });
 
         await Assert.That(result.CommandInput).IsEqualTo(
-            "liquibase --license-key=secret-license update --changelog-file=changelog.xml");
+            "liquibase --license-key=********** update --changelog-file=changelog.xml");
 
         var licenseKeyProperty = typeof(LiquibaseUpdateOptions).GetProperty(nameof(LiquibaseUpdateOptions.LicenseKey));
         await Assert.That(licenseKeyProperty).IsNotNull();

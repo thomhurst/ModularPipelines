@@ -156,7 +156,6 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
              !extensionMethod.Name.EndsWith(OptionalModuleAccessorSuffix, StringComparison.Ordinal)) ||
             extensionMethod.Parameters.Length == 0 ||
             !SymbolEqualityComparer.Default.Equals(extensionMethod.Parameters[0].Type, moduleContextType) ||
-            extensionMethod.ContainingType.ToDisplayString() != "ModularPipelines.Generated.ModuleContextExtensions" ||
             !IsGeneratedModuleAccessor(extensionMethod.ContainingType))
         {
             return false;
@@ -174,7 +173,9 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 
     private static bool IsGeneratedModuleAccessor(INamedTypeSymbol containingType)
     {
-        return containingType.GetAttributes().Any(attribute =>
+        return containingType.Name.EndsWith("ModuleContextExtensions", StringComparison.Ordinal)
+            && containingType.ContainingNamespace.ToDisplayString() == "ModularPipelines.Generated"
+            && containingType.GetAttributes().Any(attribute =>
             attribute.AttributeClass?.ToDisplayString() == "System.CodeDom.Compiler.GeneratedCodeAttribute" &&
             attribute.ConstructorArguments.Length > 0 &&
             attribute.ConstructorArguments[0].Value is "ModularPipelines.SourceGenerator");
