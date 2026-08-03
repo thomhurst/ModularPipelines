@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
+using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Events;
 using ModularPipelines.Helpers;
@@ -36,6 +38,8 @@ internal class ModuleRunner : IModuleRunner
     private readonly IModuleAttributeEventService _moduleAttributeEventService;
     private readonly IModuleResultRegistrar _resultRegistrar;
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly ArtifactLifecycleManager _artifactLifecycleManager;
+    private readonly bool _manageArtifactsLocally;
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -52,6 +56,8 @@ internal class ModuleRunner : IModuleRunner
         IModuleLifecycleEventInvoker lifecycleEventInvoker,
         IModuleAttributeEventService moduleAttributeEventService,
         IModuleResultRegistrar resultRegistrar,
+        ArtifactLifecycleManager artifactLifecycleManager,
+        IOptions<DistributedOptions> distributedOptions,
         ISecretObfuscator secretObfuscator)
     {
         _serviceProvider = serviceProvider;
@@ -69,6 +75,9 @@ internal class ModuleRunner : IModuleRunner
         _moduleAttributeEventService = moduleAttributeEventService;
         _resultRegistrar = resultRegistrar;
         _secretObfuscator = secretObfuscator;
+        _artifactLifecycleManager = artifactLifecycleManager;
+        _manageArtifactsLocally = !distributedOptions.Value.Enabled
+                                  || distributedOptions.Value.TotalInstances <= 1;
     }
 
     /// <inheritdoc />
@@ -118,7 +127,16 @@ internal class ModuleRunner : IModuleRunner
                     _logger.LogDebug("Skipping dependency wait for late-started AlwaysRun module: {ModuleName}", moduleName);
                 }
 
+                if (_manageArtifactsLocally)
+                {
+                    await _artifactLifecycleManager
+                        .DownloadConsumedArtifactsAsync(moduleType, cancellationToken)
+                        .ConfigureAwait(false);
+                }
+
                 await ExecuteModuleWithPipeline(moduleState, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
+
+                await UploadProducedArtifactsAsync(moduleType, cancellationToken).ConfigureAwait(false);
 
                 scheduler.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.ModuleStatus);
             }
@@ -138,6 +156,25 @@ internal class ModuleRunner : IModuleRunner
                     throw;
                 }
             }
+        }
+    }
+
+    private async Task UploadProducedArtifactsAsync(Type moduleType, CancellationToken cancellationToken)
+    {
+        if (!_manageArtifactsLocally)
+        {
+            return;
+        }
+
+        try
+        {
+            await _artifactLifecycleManager
+                .UploadProducedArtifactsAsync(moduleType, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to upload artifacts for module {Module}", moduleType.Name);
         }
     }
 

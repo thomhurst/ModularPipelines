@@ -3,7 +3,7 @@ namespace ModularPipelines.Attributes;
 /// <summary>
 /// Declares that a module requires an artifact produced by another module.
 /// The framework automatically downloads the artifact before module execution.
-/// In non-distributed mode, this attribute has no effect.
+/// This behavior applies to both standalone and distributed execution.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
 public sealed class ConsumesArtifactAttribute : Attribute

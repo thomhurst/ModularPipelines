@@ -363,6 +363,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineValidationService, PipelineValidationService>()
             .AddSingleton<IPipelineValidator, OptionsValidator>()
             .AddSingleton<IPipelineValidator, DependencyValidator>()
+            .AddSingleton<IPipelineValidator, ArtifactContractValidator>()
             .AddSingleton<IPipelineValidator, ModuleSelectionValidator>()
             .AddSingleton<IPipelineValidator, ModuleConfigurationValidator>();
     }
