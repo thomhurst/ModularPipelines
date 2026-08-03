@@ -362,6 +362,14 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        if (!HelpMatchesCommandPath(path, helpText))
+        {
+            Logger.LogWarning(
+                "Ignoring help that does not describe requested command: {Command}",
+                string.Join(" ", path));
+            return;
+        }
+
         var subcommands = ExtractSubcommands(helpText).ToList();
         try
         {
@@ -676,6 +684,11 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual CliCommandGroupAlias? DetectCommandGroupAlias(
         string[] commandPath,
         string helpText) => null;
+
+    /// <summary>
+    /// Returns whether the help output belongs to the requested command path.
+    /// </summary>
+    protected virtual bool HelpMatchesCommandPath(string[] commandPath, string helpText) => true;
 
     /// <summary>
     /// Parses positional operands through the shared usage/synopsis model.

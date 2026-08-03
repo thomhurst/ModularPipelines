@@ -59,6 +59,12 @@ public partial class MinikubeCliScraper : CobraCliScraper
     public override string OutputDirectory => "src/ModularPipelines.Minikube";
 
     /// <summary>
+    /// Minikube help can initialize multiple provider clients. Bound concurrent
+    /// processes to keep discovery stable on shared CI runners.
+    /// </summary>
+    protected override int MaxParallelism => 4;
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)

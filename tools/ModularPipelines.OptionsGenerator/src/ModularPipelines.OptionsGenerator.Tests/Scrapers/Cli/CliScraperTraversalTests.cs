@@ -143,6 +143,70 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task CobraTraversal_Does_Not_Treat_Trailing_Guidance_As_Commands()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake [command]
+
+                Available Commands:
+                  run    Run the operation
+
+                Use "fake [command] --help" for more information.
+
+                Learn More
+                  Read the CLI reference.
+                """,
+            ["run --help"] = """
+                Usage:
+                  fake run [flags]
+
+                Flags:
+                  --value string   Supply a value
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["fake run"]);
+        await Assert.That(executor.Arguments)
+            .IsEquivalentTo(["--help", "run --help"]);
+    }
+
+    [Test]
+    public async Task CobraTraversal_Stops_When_Nested_Command_Reprints_Parent_Help()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake [command]
+
+                Commands:
+                  init    Initialize a project
+                """,
+            ["init --help"] = """
+                Usage:
+                  fake [command]
+
+                Commands:
+                  init    Initialize a project
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands).IsEmpty();
+        await Assert.That(executor.Arguments)
+            .IsEquivalentTo(["--help", "init --help"]);
+    }
+
+    [Test]
     public async Task PodmanTraversal_Uses_ComposeProvider_Help()
     {
         var executor = new ComposeProviderExecutor();

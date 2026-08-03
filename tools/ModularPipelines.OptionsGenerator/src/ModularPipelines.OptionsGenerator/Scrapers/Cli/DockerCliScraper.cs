@@ -15,6 +15,12 @@ public class DockerCliScraper : CobraCliScraper
     public override string TargetNamespace => "ModularPipelines.Docker";
     public override string OutputDirectory => "src/ModularPipelines.Docker";
 
+    /// <summary>
+    /// Docker commands can dispatch to separate CLI plugins. Keep concurrent plugin
+    /// processes bounded so command discovery does not exhaust runner memory.
+    /// </summary>
+    protected override int MaxParallelism => 4;
+
     public DockerCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<DockerCliScraper> logger)
         : base(executor, helpCache, logger)
     {

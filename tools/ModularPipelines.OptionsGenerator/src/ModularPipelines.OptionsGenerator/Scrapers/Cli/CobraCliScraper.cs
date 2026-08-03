@@ -34,6 +34,18 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
     // ScrapeAsync is now provided by CliScraperBase - no need to override
 
+    /// <inheritdoc />
+    protected override bool HelpMatchesCommandPath(string[] commandPath, string helpText)
+    {
+        if (commandPath.Length == 1)
+        {
+            return true;
+        }
+
+        var usage = ParseUsageSynopsis(commandPath, helpText);
+        return !usage.HasExtractedSynopses || usage.CommandMatched;
+    }
+
     /// <summary>
     /// Extracts subcommand names from Cobra-style help text.
     /// Handles multiple command sections (Common Commands, Management Commands, etc.)
@@ -75,6 +87,14 @@ public abstract partial class CobraCliScraper : CliScraperBase
             var sectionCommandCount = 0;
             foreach (var line in lines)
             {
+                // Cobra separates its command table from trailing guidance with a blank line.
+                // Stop there so prose such as `Use ...` and `Learn More` cannot become
+                // recursive command paths when an unrecognised command prints parent help.
+                if (sectionCommandCount > 0 && string.IsNullOrWhiteSpace(line))
+                {
+                    break;
+                }
+
                 var match = SubcommandLinePattern().Match(line);
                 if (match.Success)
                 {

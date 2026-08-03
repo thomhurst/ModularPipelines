@@ -73,7 +73,11 @@ public static class UsageSynopsisParser
             .ToList();
         if (candidates.Count == 0)
         {
-            return UsageSynopsisParseResult.Empty;
+            return UsageSynopsisParseResult.Empty with
+            {
+                HasExtractedSynopses = synopses.Count > 0,
+                Synopsis = synopses.FirstOrDefault(),
+            };
         }
 
         var rankedCandidates = candidates
@@ -94,6 +98,7 @@ public static class UsageSynopsisParser
 
         return selected with
         {
+            HasExtractedSynopses = true,
             MatchedSynopsisCount = candidates.Count,
             HasAmbiguousMatch = rankedCandidates
                 .Skip(1)
@@ -707,6 +712,8 @@ public sealed record UsageSynopsisParseResult
     public string? Synopsis { get; init; }
 
     public bool CommandMatched { get; init; }
+
+    public bool HasExtractedSynopses { get; init; }
 
     public int MatchedCommandPartCount { get; init; }
 
