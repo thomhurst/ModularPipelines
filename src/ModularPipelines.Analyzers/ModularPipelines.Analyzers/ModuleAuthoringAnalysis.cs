@@ -108,6 +108,11 @@ internal static class ModuleAuthoringAnalysis
                 methodCalls),
             OperationKind.PropertyReference);
         context.RegisterOperationAction(
+            operationContext => CollectStaticFieldInitializationCall(
+                operationContext,
+                methodCalls),
+            OperationKind.FieldReference);
+        context.RegisterOperationAction(
             operationContext => CollectServiceCollectionIndexerAssignment(
                 operationContext,
                 indexerAssignments),
@@ -1762,6 +1767,32 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static void CollectStaticFieldInitializationCall(
+        OperationAnalysisContext context,
+        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
+    {
+        var fieldReference = (IFieldReferenceOperation) context.Operation;
+        if (!fieldReference.Field.IsStatic
+            || fieldReference.Field.IsConst
+            || !IsInReachableBranch(fieldReference))
+        {
+            return;
+        }
+
+        foreach (var containingMethod in
+                 GetContainingExecutionMethods(context.ContainingSymbol)
+                     .OfType<IMethodSymbol>())
+        {
+            foreach (var staticConstructor in
+                     fieldReference.Field.ContainingType.StaticConstructors)
+            {
+                methodCalls.Add((
+                    NormalizeMethod(containingMethod),
+                    NormalizeMethod(staticConstructor)));
+            }
+        }
+    }
+
     private static bool TryTrackAnonymousFunctionModuleTypes(
         IAnonymousFunctionOperation anonymousFunction,
         Compilation compilation,
@@ -2220,10 +2251,21 @@ internal static class ModuleAuthoringAnalysis
         IEnumerable<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var comparer = SymbolEqualityComparer.Default;
-        var calls = methodCalls.ToImmutableArray();
-        var candidateMethods = registrationMethods
+        var directCalls = methodCalls.ToImmutableArray();
+        var directCandidateMethods = registrationMethods
             .OfType<IMethodSymbol>()
             .Select(NormalizeMethod)
+            .Concat(directCalls.SelectMany(static call => new[] { call.Caller, call.Callee }))
+            .Distinct<IMethodSymbol>(comparer)
+            .ToImmutableArray();
+        var calls = directCalls
+            .Concat(directCandidateMethods.SelectMany(static method =>
+                method.MethodKind == MethodKind.StaticConstructor
+                    ? []
+                    : method.ContainingType.StaticConstructors.Select(staticConstructor =>
+                        (Caller: method, Callee: NormalizeMethod(staticConstructor)))))
+            .ToImmutableArray();
+        var candidateMethods = directCandidateMethods
             .Concat(calls.SelectMany(static call => new[] { call.Caller, call.Callee }))
             .Distinct<IMethodSymbol>(comparer)
             .ToImmutableArray();
@@ -2266,7 +2308,6 @@ internal static class ModuleAuthoringAnalysis
                 && SymbolEqualityComparer.Default.Equals(
                     method,
                     NormalizeMethod(entryPoint)))
-               || method.MethodKind == MethodKind.StaticConstructor
                || (method.MethodKind != MethodKind.Constructor
                    && method.DeclaredAccessibility is not
                        (Accessibility.Private or Accessibility.NotApplicable));
@@ -4300,6 +4341,7 @@ internal static class ModuleAuthoringAnalysis
                     memberValues =
                     [
                         .. GetDeclaredMemberOperations(member, compilation),
+                        .. GetStaticConstructorMemberValues(member, compilation),
                     ];
                 }
 
@@ -4312,6 +4354,41 @@ internal static class ModuleAuthoringAnalysis
                                  visitedMembers))
                     {
                         yield return operation;
+                    }
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> GetStaticConstructorMemberValues(
+        ISymbol member,
+        Compilation compilation)
+    {
+        if (!member.IsStatic)
+        {
+            yield break;
+        }
+
+        foreach (var staticConstructor in member.ContainingType.StaticConstructors)
+        {
+            foreach (var syntaxReference in staticConstructor.DeclaringSyntaxReferences)
+            {
+                var syntaxTree = syntaxReference.SyntaxTree;
+                if (!compilation.ContainsSyntaxTree(syntaxTree))
+                {
+                    continue;
+                }
+
+                var semanticModel = compilation.GetSemanticModel(syntaxTree);
+                foreach (var syntax in syntaxReference.GetSyntax().DescendantNodesAndSelf())
+                {
+                    if (semanticModel.GetOperation(syntax) is ISimpleAssignmentOperation assignment
+                        && IsInReachableBranch(assignment)
+                        && SymbolEqualityComparer.Default.Equals(
+                            GetReferencedMember(assignment.Target),
+                            member))
+                    {
+                        yield return assignment.Value;
                     }
                 }
             }

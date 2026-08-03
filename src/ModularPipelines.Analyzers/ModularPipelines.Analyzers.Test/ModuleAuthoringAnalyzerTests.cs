@@ -153,6 +153,33 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Reports_Module_Registered_Only_By_Unreachable_Static_Constructor()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                static Registration() =>
+                    Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Module_Registered_Only_Inside_Uninvoked_Lambda()
     {
         var source = $$"""
@@ -5081,6 +5108,40 @@ public class ModuleAuthoringAnalyzerTests
             public static class Registration
             {
                 private static readonly Action<IServiceCollection> Callback = RegisterModules;
+
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    builder.ConfigureServices(Callback);
+                }
+
+                private static void RegisterModules(IServiceCollection services) =>
+                    services.AddSingleton<IModule, BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Static_Constructor_Field_Assignment()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Action<IServiceCollection> Callback;
+
+                static Registration() => Callback = RegisterModules;
 
                 public static void Register()
                 {
