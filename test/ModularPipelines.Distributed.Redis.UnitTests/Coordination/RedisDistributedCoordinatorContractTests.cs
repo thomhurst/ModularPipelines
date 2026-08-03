@@ -28,7 +28,7 @@ public class RedisDistributedCoordinatorContractTests
         return RunContractAsync(DistributedCoordinatorContract.CompletionUnblocksPendingDequeueAsync);
     }
 
-    private static async Task RunContractAsync(Func<IDistributedCoordinator, Task> contract)
+    private static async Task RunContractAsync(Func<IDistributedCoordinator, Task, Task> contract)
     {
         var connectionString = Environment.GetEnvironmentVariable(ConnectionStringVariable);
         if (string.IsNullOrWhiteSpace(connectionString))
@@ -44,9 +44,15 @@ public class RedisDistributedCoordinatorContractTests
             KeyPrefix = "modpipe-contract",
             RunIdentifier = Guid.NewGuid().ToString("N"),
         };
-        var factory = new RedisDistributedCoordinatorFactory(options, connection);
-        var coordinator = await factory.CreateAsync(CancellationToken.None);
+        var keys = new RedisKeyBuilder(options.KeyPrefix, options.RunIdentifier!);
+        var ready = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var coordinator = new RedisDistributedCoordinator(
+            connection.GetDatabase(),
+            connection.GetSubscriber(),
+            keys,
+            options,
+            () => ready.TrySetResult());
 
-        await contract(coordinator);
+        await contract(coordinator, ready.Task);
     }
 }
