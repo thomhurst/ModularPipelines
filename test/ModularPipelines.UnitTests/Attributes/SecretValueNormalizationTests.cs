@@ -4,6 +4,7 @@ using System.Reflection.Emit;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.FSharp.TestFixtures;
 using ModularPipelines.Options;
 using Moq;
 
@@ -73,16 +74,34 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
-    public async Task ProcessedAssemblyWithoutSecrets_ReturnsEmpty()
+    public async Task GeneratedExactEmptyMetadata_ReturnsEmpty()
     {
         var provider = CreateProvider(out _);
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(
+            typeof(GeneratedNoSecretsOptions),
+            out var accessors);
         var secrets = provider.GetSecretsInObject(new GeneratedNoSecretsOptions()).ToList();
 
-        await Assert.That(secrets).IsEmpty();
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+            await Assert.That(secrets).IsEmpty();
+        }
     }
 
     [Test]
-    public async Task UnprocessedAssembly_ThrowsActionableException()
+    public async Task FSharpOptions_UseReflectionFallback()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new FSharpSecretOptions()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["fsharp-secret"]);
+    }
+
+    [Test]
+    public async Task MissingExactMetadata_ThrowsActionableException()
     {
         var provider = CreateProvider(out _);
         var assembly = AssemblyBuilder.DefineDynamicAssembly(

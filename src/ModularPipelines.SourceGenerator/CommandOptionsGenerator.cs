@@ -83,12 +83,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     internal static bool IsTypeCandidate(SyntaxNode node)
     {
-        return node is ClassDeclarationSyntax { BaseList.Types.Count: > 0 }
+        return node is ClassDeclarationSyntax
             || (node is RecordDeclarationSyntax record
-                && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword)
-                && (record.BaseList is { Types.Count: > 0 }
-                    || record.ParameterList?.Parameters.Any(
-                        static parameter => parameter.AttributeLists.Count > 0) == true));
+                && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword));
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorSyntaxContext context)
@@ -138,11 +135,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             ? GetCommandProperties(type, compilation.Assembly)
             : PropertyCollection.Empty;
         var secretMetadata = GetSecretProperties(type, compilation.Assembly);
-        if (!isCommandOptions && !secretMetadata.HasAttributes)
-        {
-            return null;
-        }
-
         return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
             typeName,
             isCommandOptions,
@@ -364,8 +356,6 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    internal static void Register()");
         sb.AppendLine("    {");
-        sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterAssembly(global::System.Reflection.Assembly.GetExecutingAssembly());");
-
         foreach (var item in uniqueItems)
         {
             if (item.IsCommandOptions && item.CommandMetadata.IsComplete)
@@ -373,7 +363,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 AppendCommandRegistration(sb, item);
             }
 
-            if (item.SecretMetadata is { HasAttributes: true, IsComplete: true })
+            if (item.SecretMetadata.IsComplete)
             {
                 AppendSecretRegistration(sb, item);
             }
@@ -467,6 +457,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)
     {
+        if (item.SecretMetadata.Properties.Count == 0)
+        {
+            sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(typeof({item.TypeName}));");
+            return;
+        }
+
         sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(");
         sb.AppendLine($"            typeof({item.TypeName}),");
         sb.AppendLine("            new global::ModularPipelines.Engine.SecretPropertyAccessor[]");

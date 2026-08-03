@@ -7,7 +7,9 @@ sidebar_position: 18
 
 Modular Pipelines generates registration metadata at compile time. A generator
 diagnostic explains why metadata could not be emitted safely and whether the build
-will fail or runtime reflection will be used as a fallback.
+will fail. Command and secret metadata must be generated for C# types; runtime
+reflection remains only for F# secret properties because F# cannot run the C# source
+generator.
 
 ## MPG0001
 
@@ -28,18 +30,18 @@ stripping the `Module` suffix produces a unique name.
 ## MPG0003
 
 An inaccessible property with a CLI attribute prevents complete command metadata
-generation. Make the property and getter accessible to generated code. Until fixed,
-Modular Pipelines uses runtime reflection for the missing metadata.
+generation. Make the property and getter accessible to generated code. The build
+fails until every attributed property can be generated.
 
-**Severity:** Warning
+**Severity:** Error
 
 ## MPG0004
 
 An inaccessible property marked with `[SecretValue]` prevents complete secret
-metadata generation. Make the property and getter accessible to generated code.
-Until fixed, Modular Pipelines uses runtime reflection for the missing metadata.
+metadata generation. Make the property and getter accessible to generated code. The
+build fails until every attributed property can be generated.
 
-**Severity:** Warning
+**Severity:** Error
 
 ## MPG0005
 
@@ -54,11 +56,10 @@ Modular Pipelines uses runtime reflection for the missing metadata.
 
 Command or secret metadata generation was skipped because its declaring type is
 generic or inaccessible to generated code. Make the type and its containing types
-accessible and non-generic before publishing with trimming or Native AOT. Until
-fixed, Modular Pipelines uses runtime reflection, and required command or secret
-members may be removed by trimming.
+accessible and non-generic. The build fails because command and secret reflection
+fallbacks are not available for C# types.
 
-**Severity:** Warning
+**Severity:** Error
 
 ## MPG0007
 

@@ -1,6 +1,5 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace ModularPipelines.Engine;
 
@@ -10,15 +9,14 @@ namespace ModularPipelines.Engine;
 public static class GeneratedSecretMetadata
 {
     private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> Accessors = new();
-    private static readonly ConcurrentDictionary<Assembly, byte> ProcessedAssemblies = new();
 
     /// <summary>
-    /// Records that an assembly was processed by ModularPipelines.SourceGenerator.
+    /// Registers that a declaring type has no secret properties.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void RegisterAssembly(Assembly assembly)
+    public static void Register(Type declaringType)
     {
-        ProcessedAssemblies.TryAdd(assembly, 0);
+        Register(declaringType, Array.Empty<SecretPropertyAccessor>());
     }
 
     /// <summary>
@@ -46,8 +44,6 @@ public static class GeneratedSecretMetadata
         accessors = Array.Empty<SecretPropertyAccessor>();
         return false;
     }
-
-    internal static bool IsAssemblyProcessed(Assembly assembly) => ProcessedAssemblies.ContainsKey(assembly);
 }
 
 /// <summary>

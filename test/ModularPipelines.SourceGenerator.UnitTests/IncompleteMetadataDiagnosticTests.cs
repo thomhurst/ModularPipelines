@@ -78,7 +78,8 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(generatedSource).DoesNotContain("FlagPart");
             await Assert.That(generatedSource).DoesNotContain("OptionPart");
-            await Assert.That(generatedSource).DoesNotContain("GeneratedCommandMetadata.Register");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedCommandMetadata.Register(\n            typeof(global::TestOptions)");
         }
     }
 
@@ -113,7 +114,25 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains("OptionPart");
             await Assert.That(generatedSource).Contains("new(\"Token\"");
-            await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.RegisterAssembly");
+            await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.Register");
+        }
+    }
+
+    [Test]
+    public async Task Accessible_Type_Without_Secrets_Registers_Exact_Empty_Metadata()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            "public sealed class PlainOptions;");
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("typeof(global::PlainOptions)");
+            await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.Register");
+            await Assert.That(generatedSource).DoesNotContain("RegisterAssembly");
         }
     }
 

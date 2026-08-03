@@ -34,6 +34,8 @@ namespace ModularPipelines.Engine;
 internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 {
     private static readonly ConcurrentDictionary<Assembly, bool> SecretAttributeReferenceCache = new();
+    private static readonly ConcurrentDictionary<Assembly, bool> FSharpAssemblyCache = new();
+    private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> ReflectionAccessorsCache = new();
 
     private readonly IOptionsProvider _optionsProvider;
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
@@ -145,6 +147,10 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         }
     }
 
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "C# types require generated metadata. Reflection remains only for F# assemblies, which already warn for trimming and Native AOT.")]
     public IEnumerable<string> GetSecretsInObject(object? value)
     {
         if (value is null)
@@ -155,13 +161,18 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         var type = value.GetType();
         if (!GeneratedSecretMetadata.TryGetAccessors(type, out var secretProperties))
         {
-            if (!GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly)
-                && CanReferenceSecretValueAttribute(type.Assembly))
+            if (IsFSharpAssembly(type.Assembly))
+            {
+                secretProperties = ReflectionAccessorsCache.GetOrAdd(type, GetSecretProperties);
+            }
+            else if (CanReferenceSecretValueAttribute(type.Assembly))
             {
                 throw new MissingSecretMetadataException(type);
             }
-
-            yield break;
+            else
+            {
+                yield break;
+            }
         }
 
         foreach (var property in secretProperties)
@@ -253,6 +264,30 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
                            attributeAssemblyName,
                            StringComparison.Ordinal));
         });
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "F# assemblies require a JIT-only reflection fallback and already warn for trimming and Native AOT.")]
+    private static bool IsFSharpAssembly(Assembly assembly)
+    {
+        return FSharpAssemblyCache.GetOrAdd(assembly, static candidate =>
+            candidate.GetReferencedAssemblies().Any(reference =>
+                string.Equals(reference.Name, "FSharp.Core", StringComparison.Ordinal)));
+    }
+
+    [RequiresUnreferencedCode("F# does not run the C# source generator, so secret properties require reflection and are not trim-safe.")]
+    private static IReadOnlyList<SecretPropertyAccessor> GetSecretProperties(Type type)
+    {
+        return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Concat(type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance))
+            .Where(property => property.GetCustomAttribute<SecretValueAttribute>() is not null)
+            .Select(property => new SecretPropertyAccessor(
+                property.Name,
+                property.GetValue,
+                property.GetCustomAttribute<SecretValueAttribute>()!.Keys))
+            .ToArray();
     }
 
     private static IEnumerable<string?> NormalizeSecrets(object? value)
