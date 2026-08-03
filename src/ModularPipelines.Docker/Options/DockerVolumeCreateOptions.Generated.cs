@@ -37,7 +37,7 @@ public record DockerVolumeCreateOptions : DockerOptions
     /// Set driver specific options (default map[])
     /// </summary>
     [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Opt { get; set; }
+    public IReadOnlyList<KeyValue>? Opt { get; set; }
 
     /// <summary>
     /// The VOLUME operand.

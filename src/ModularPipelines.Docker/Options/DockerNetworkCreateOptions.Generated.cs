@@ -33,7 +33,7 @@ public record DockerNetworkCreateOptions(
     /// Auxiliary IPv4 or IPv6 addresses used by Network driver (default map[])
     /// </summary>
     [CliOption("--aux-address", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? AuxAddress { get; set; }
+    public IReadOnlyList<KeyValue>? AuxAddress { get; set; }
 
     /// <summary>
     /// The network from which to copy the configuration
@@ -87,7 +87,7 @@ public record DockerNetworkCreateOptions(
     /// Set IPAM driver specific options (default map[])
     /// </summary>
     [CliOption("--ipam-opt", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? IpamOpt { get; set; }
+    public IReadOnlyList<KeyValue>? IpamOpt { get; set; }
 
     /// <summary>
     /// Enable or disable IPv4 address assignment (default true)
@@ -111,7 +111,7 @@ public record DockerNetworkCreateOptions(
     /// Set driver specific options (default map[])
     /// </summary>
     [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Opt { get; set; }
+    public IReadOnlyList<KeyValue>? Opt { get; set; }
 
     /// <summary>
     /// Control the network's scope

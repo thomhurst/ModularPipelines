@@ -87,7 +87,7 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Day of week when the window starts, e.g. sunday. MAINTENANCE_WINDOW_DAY     must be one of: friday, monday, saturday, sunday, thursday, tuesday,     wednesday.
@@ -141,7 +141,7 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     /// A list of Redis config KEY=VALUE pairs to set on the Redis Cluster     according to http://redis.io/topics/config. Currently the supported     Redis configs are:       maxmemory-clients, maxmemory, maxmemory-policy, notify-keyspace-events,       slowlog-log-slower-than, maxclients.
     /// </summary>
     [CliOption("--redis-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? RedisConfig { get; set; }
+    public IReadOnlyList<KeyValue>? RedisConfig { get; set; }
 
     /// <summary>
     /// The replica count of each shard.

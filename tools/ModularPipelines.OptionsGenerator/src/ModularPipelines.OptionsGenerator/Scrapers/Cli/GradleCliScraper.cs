@@ -234,7 +234,7 @@ public partial class GradleCliScraper : CliScraperBase
 
         if (isKeyValue)
         {
-            return "IEnumerable<KeyValue>?";
+            return "IReadOnlyList<KeyValue>?";
         }
 
         if (acceptsMultipleValues)

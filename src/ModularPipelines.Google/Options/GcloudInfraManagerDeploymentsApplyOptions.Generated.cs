@@ -26,7 +26,7 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions
     /// Annotations to apply to the deployment. Existing values are     overwritten. To retain the existing annotations on a deployment, do not     specify this flag.     Examples:     Update annotations for an existing deployment:       $ gcloud infra-manager deployments apply \         projects/p1/locations/us-central1/deployments/my-deployment \         --gcs-source="gs://my-bucket" \         --annotations="env=prod,team=finance"     Clear annotations for an existing deployment:       $ gcloud infra-manager deployments apply \         projects/p1/locations/us-central1/deployments/my-deployment \         --gcs-source="gs://my-bucket" --annotations=""     Add an annotation to an existing deployment:       First, fetch the current annotations using the `describe` command, then follow the       preceding example for updating annotations.
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Annotations { get; set; }
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
     /// user-defined location of Cloud Build logs, artifacts, and Terraform     state files in Google Cloud Storage. Format: gs://{bucket}/{folder} A     default bucket will be bootstrapped if the field is not set or empty
@@ -50,7 +50,7 @@ public record GcloudInfraManagerDeploymentsApplyOptions : GcloudOptions
     /// Labels to apply to the deployment. Existing values are overwritten. To     retain the existing labels on a deployment, do not specify this flag.     Examples:     Update labels for an existing deployment:       $ gcloud infra-manager deployments apply \         projects/p1/locations/us-central1/deployments/my-deployment \         --gcs-source="gs://my-bucket" --labels="env=prod,team=finance"     Clear labels for an existing deployment:       $ gcloud infra-manager deployments apply \         projects/p1/locations/us-central1/deployments/my-deployment \         --gcs-source="gs://my-bucket" --labels=""     Add a label to an existing deployment:       First, fetch the current labels using the `describe` command, then follow the       preceding example for updating labels.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Input to control quota checks for resources in terraform configuration     files. There are limited resources on which quota validation applies.     Supported values are QUOTA_VALIDATION_UNSPECIFIED, ENABLED, ENFORCED

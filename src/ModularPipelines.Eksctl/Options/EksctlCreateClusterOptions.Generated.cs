@@ -31,7 +31,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// Used to tag the AWS resources. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Tags { get; set; }
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// AWS region. Defaults to the value set in your AWS config (~/.aws/config)
@@ -187,7 +187,7 @@ public record EksctlCreateClusterOptions : EksctlOptions
     /// extra labels to add when registering the nodes in the nodegroup. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? NodeLabels { get; set; }
+    public IReadOnlyList<KeyValue>? NodeLabels { get; set; }
 
     /// <summary>
     /// (inherited from the cluster if unspecified)

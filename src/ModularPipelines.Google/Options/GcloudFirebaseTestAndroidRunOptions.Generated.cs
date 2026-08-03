@@ -50,7 +50,7 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     /// Comma-separated, KEY=VALUE map of additional details to attach to the     test matrix. Arbitrary KEY=VALUE pairs may be attached to a test matrix     to provide additional context about the tests being run. When consuming     the test results, such as in Cloud Functions or a CI system, these     details can add additional context such as a link to the corresponding     pull request.     Example:       --client-details=buildNumber=1234,pullRequest=https://example.com/link/to/pull-request     To help you identify and locate your test matrix in the Firebase     console, use the matrixLabel key.     Example:       --client-details=matrixLabel="Example matrix label"
     /// </summary>
     [CliOption("--client-details", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ClientDetails { get; set; }
+    public IReadOnlyList<KeyValue>? ClientDetails { get; set; }
 
     /// <summary>
     /// A list of paths that will be copied from the device's storage to the     designated results bucket after the test is complete. These must be     absolute paths under /sdcard, /storage, or /data/local/tmp (for     example, --directories-to-pull     /sdcard/tempDir1,/data/local/tmp/tempDir2). Path names are restricted     to the characters a-zA-Z0-9_-./+. The paths /sdcard and /data will be     made available and treated as implicit path substitutions. E.g. if     /sdcard on a particular device does not map to external storage, the     system will replace it with the external storage path prefix for that     device. Note that access to some directories on API levels 29 and later     may also be limited by scoped storage rules.
@@ -62,7 +62,7 @@ public record GcloudFirebaseTestAndroidRunOptions : GcloudOptions
     /// A comma-separated, key=value map of environment variables and their     desired values. The environment variables are mirrored as extra options     to the am instrument -e KEY1 VALUE1 ... command and passed to your test     runner (typically AndroidJUnitRunner). Examples:     Enable code coverage and provide a directory to store the coverage     results when using Android Test Orchestrator (--use-orchestrator):       --environment-variables clearPackageData=true,coverage=true,coverageFilePath=/sdcard/Download/     Enable code coverage and provide a file path to store the coverage     results when not using Android Test Orchestrator     (--no-use-orchestrator):       --environment-variables coverage=true,coverageFile=/sdcard/Download/coverage.ec     Note: If you need to embed a comma into a VALUE string, please refer to     gcloud topic escaping for ways to change the default list delimiter.
     /// </summary>
     [CliOption("--environment-variables", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? EnvironmentVariables { get; set; }
+    public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
 
     /// <summary>
     /// The name of the network traffic profile, for example     --network-profile=LTE, which consists of a set of parameters to emulate     network conditions when running the test (default: no network shaping;     see available profiles listed by the $ gcloud firebase test     network-profiles list command). This feature only works on physical     devices.

@@ -16,8 +16,8 @@ public class JqOptionsTests
             Indent = 2,
             Arg =
             [
-                new CliOptionValuePair("name", "Ada"),
-                new CliOptionValuePair("environment", "ci"),
+                new CliValuePair("name", "Ada"),
+                new CliValuePair("environment", "ci"),
             ],
             Filter = ".user",
             InputFiles = ["input.json"],
@@ -41,8 +41,8 @@ public class JqOptionsTests
         var arguments = BuildArguments(new JqExecuteOptions
         {
             FromFile = "filter.jq",
-            SlurpFile = [new CliOptionValuePair("documents", "documents.json")],
-            RawFile = [new CliOptionValuePair("template", "template.txt")],
+            SlurpFile = [new CliValuePair("documents", "documents.json")],
+            RawFile = [new CliValuePair("template", "template.txt")],
             InputFiles = ["input.json"],
         });
 

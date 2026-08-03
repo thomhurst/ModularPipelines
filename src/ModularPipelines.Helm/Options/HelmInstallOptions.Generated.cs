@@ -134,7 +134,7 @@ public record HelmInstallOptions : HelmOptions
     /// Labels that would be added to release metadata. Should be divided by comma. (default [])
     /// </summary>
     [CliOption("--labels", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// specify template used to name the release

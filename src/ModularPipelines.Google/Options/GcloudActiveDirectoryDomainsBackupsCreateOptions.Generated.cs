@@ -32,6 +32,6 @@ public record GcloudActiveDirectoryDomainsBackupsCreateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
 }

@@ -138,7 +138,7 @@ public record GcloudSqlInstancesCreateOptions(
     /// Comma-separated list of connection pool flags to set on the instance     connection pool. Use an equals sign to separate flag name and value.     More information on available flags can be found here:     https://cloud.google.com/sql/docs/mysql/managed-connection-pooling#configuration-options     for MySQL and     https://cloud.google.com/sql/docs/postgres/managed-connection-pooling#configuration-options     for PostgreSQL. (e.g., --connection-pool-flags     max_pool_size=1000,max_client_connections=20)
     /// </summary>
     [CliOption("--connection-pool-flags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ConnectionPoolFlags { get; set; }
+    public IReadOnlyList<KeyValue>? ConnectionPoolFlags { get; set; }
 
     /// <summary>
     /// Cloud SQL Connector enforcement mode. It determines how Cloud SQL     Connectors are used in the connection. See the list of modes here     (https://cloud.google.com/sql/docs/mysql/admin-api/rest/v1beta4/instances#connectorenforcement).     CONNECTOR_ENFORCEMENT must be one of:      CONNECTOR_ENFORCEMENT_UNSPECIFIED       The requirement for Cloud SQL connectors is unknown.     NOT_REQUIRED       Does not require Cloud SQL connectors.     REQUIRED       Requires all connections to use Cloud SQL connectors, including the       Cloud SQL Auth Proxy and Cloud SQL Java, Python, and Go connectors.       Note: This disables all existing authorized networks.
@@ -168,7 +168,7 @@ public record GcloudSqlInstancesCreateOptions(
     /// Comma-separated list of database flags to set on the instance. Use an     equals sign to separate flag name and value. Flags without values, like     skip_grant_tables, can be written out without a value after, e.g.,     skip_grant_tables=. Use on/off for booleans. View the Instance Resource     API for allowed flags. (e.g., --database-flags     max_allowed_packet=55555,skip_grant_tables=,log_output=1)
     /// </summary>
     [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? DatabaseFlags { get; set; }
+    public IReadOnlyList<KeyValue>? DatabaseFlags { get; set; }
 
     [CliOption("--database-version", Format = OptionFormat.EqualsSeparated)]
     public string? DatabaseVersion { get; set; }
@@ -337,7 +337,7 @@ public record GcloudSqlInstancesCreateOptions(
     /// A comma-separated list of performance capture settings to add to the     MySQL instance. The input should be in a format of key=value. Available     case-sensitive keys are: enabled (boolean), probing-interval-seconds     (integer), probe-threshold (integer), running-threads-threshold     (integer), seconds-behind-source-threshold (integer),     transaction-duration-threshold (integer),     cpu-utilization-threshold-percent (integer),     memory-usage-threshold-percent (integer),     transaction-lock-wait-threshold-count (integer),     semaphore-wait-threshold-count (integer),     history-list-length-threshold-count (integer),     transaction-kill-threshold-seconds (integer), transaction-kill-type     (string), transaction-kill-excluded-user-hosts (string,     semicolon-separated list) Example: --performance-capture-config     enabled=true,probe-threshold=5, cpu-utilization-threshold-percent=80,     transaction-kill-excluded-user-hosts=user1@host1;user2@%,     transaction-kill-type=READ_ONLY_TRANSACTIONS
     /// </summary>
     [CliOption("--performance-capture-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? PerformanceCaptureConfig { get; set; }
+    public IReadOnlyList<KeyValue>? PerformanceCaptureConfig { get; set; }
 
     /// <summary>
     /// A comma-separated list of networks or network-project pairs. Each     project is represented by a project number (numeric) or by a project ID     (alphanumeric). This allows Private Service Connect connections to be     created automatically for the specified networks. For example, this     connection uses "the form     psc-auto-connections=network=projects/testproject1/global/networks/testnetwork1"     or "the form     psc-auto-connections=project=testproject1,network=projects/testproject1/global/networks/testnetwork1".     Sets psc_auto_connections value.      network       Required, sets network value.      project       Sets project value.     Shorthand Example:       --psc-auto-connections=network=string,project=string     JSON Example:       --psc-auto-connections='{"network": "string", "project": "string"}'     File Example:       --psc-auto-connections=path_to_file.(yaml|json)
@@ -440,7 +440,7 @@ public record GcloudSqlInstancesCreateOptions(
     /// Comma-separated list of tags to set on the instance. Use an equals     signto separate tag name and value.(e.g., --tags     tag1:value1,tag2=value2)
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Tags { get; set; }
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The number of threads per core. The value of this flag can be 1 or 2.     To disable SMT, set this flag to 1. Only available in Cloud SQL for SQL     Server instances.
@@ -536,6 +536,6 @@ public record GcloudSqlInstancesCreateOptions(
     /// Target metrics for read pool auto scaling. Options are:     AVERAGE_CPU_UTILIZATION and AVERAGE_DB_CONNECTIONS. Example:     --auto-scale-target-metrics=AVERAGE_CPU_UTILIZATION=0.8    At most one of these can be specified:     --region=REGION; default="us-central"      Regional location (e.g. asia-east1, us-east1). See the full list of      regions at https://cloud.google.com/sql/docs/instance-locations.     Or at most one of these can be specified:      --gce-zone=GCE_ZONE       (DEPRECATED) Preferred Compute Engine zone (e.g. us-central1-a,       us-central1-b, etc.).       Flag --gce-zone is deprecated and will be removed by release       255.0.0. Use --zone instead.      Or at least one of these can be specified:       --secondary-zone=SECONDARY_ZONE        Preferred secondary Compute Engine zone (e.g. us-central1-a,        us-central1-b, etc.).       --zone=ZONE        Preferred Compute Engine zone (e.g. us-central1-a, us-central1-b,        etc.).
     /// </summary>
     [CliOption("--auto-scale-target-metrics", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? AutoScaleTargetMetrics { get; set; }
+    public IReadOnlyList<KeyValue>? AutoScaleTargetMetrics { get; set; }
 
 }

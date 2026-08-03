@@ -38,7 +38,7 @@ public record GcloudNetappKmsConfigsUpdateOptions : GcloudOptions
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud netapp kms-configs update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud netapp kms-configs update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Kms key resource - The Cloud KMS (Key Management Service) Crypto Key that   will be used The arguments in this group can be used to specify the   attributes of this resource.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// ID of the kms_key or fully qualified identifier for the kms_key.     To set the kms-key attribute:     ◆ provide the argument --kms-key on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.

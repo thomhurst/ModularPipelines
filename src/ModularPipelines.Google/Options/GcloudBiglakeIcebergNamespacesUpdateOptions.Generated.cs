@@ -38,6 +38,6 @@ public record GcloudBiglakeIcebergNamespacesUpdateOptions : GcloudOptions
     /// List of properties to update or add.
     /// </summary>
     [CliOption("--update-properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateProperties { get; set; }
+    public IReadOnlyList<KeyValue>? UpdateProperties { get; set; }
 
 }

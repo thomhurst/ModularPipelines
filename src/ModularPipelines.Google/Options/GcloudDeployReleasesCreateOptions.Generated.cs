@@ -26,13 +26,13 @@ public record GcloudDeployReleasesCreateOptions : GcloudOptions
     /// Annotations to apply to the release. Annotations take the form of     key/value string pairs.     Examples:     Add annotations:       $ gcloud deploy releases create \         --annotations="from_target=test,status=stable"
     /// </summary>
     [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Annotations { get; set; }
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
     /// Deployment parameters to apply to the release. Deployment parameters     take the form of key/value string pairs.     Examples:     Add deployment parameters:       $ gcloud deploy releases create \         --deploy-parameters="key1=value1,key2=value2"
     /// </summary>
     [CliOption("--deploy-parameters", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? DeployParameters { get; set; }
+    public IReadOnlyList<KeyValue>? DeployParameters { get; set; }
 
     /// <summary>
     /// Description of the release.
@@ -86,7 +86,7 @@ public record GcloudDeployReleasesCreateOptions : GcloudOptions
     /// Labels to apply to the release. Labels take the form of key/value     string pairs.     Examples:     Add labels:       $ gcloud deploy releases create --labels="commit=abc123,author=foo"
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Deploy policies to override

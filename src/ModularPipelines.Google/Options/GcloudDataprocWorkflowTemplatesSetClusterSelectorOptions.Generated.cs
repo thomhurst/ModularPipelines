@@ -26,6 +26,6 @@ public record GcloudDataprocWorkflowTemplatesSetClusterSelectorOptions : GcloudO
     /// A list of label KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--cluster-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ClusterLabels { get; set; }
+    public IReadOnlyList<KeyValue>? ClusterLabels { get; set; }
 
 }

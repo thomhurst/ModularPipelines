@@ -67,7 +67,7 @@ public record EksctlCreateIamserviceaccountOptions : EksctlOptions
     /// Used to tag the IAM role. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Tags { get; set; }
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// create IAM roles for existing serviceaccounts and update the serviceaccount

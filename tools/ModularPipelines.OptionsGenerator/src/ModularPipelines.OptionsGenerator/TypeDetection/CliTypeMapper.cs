@@ -82,7 +82,7 @@ public static class CliTypeMapper
             CliOptionType.Int => "int?",
             CliOptionType.Decimal => "decimal?",
             CliOptionType.StringList => "string[]?",
-            CliOptionType.KeyValue => "IEnumerable<KeyValue>?",
+            CliOptionType.KeyValue => "IReadOnlyList<KeyValue>?",
             CliOptionType.Enum when enumDef is not null => $"{enumDef.EnumName}?",
             CliOptionType.Enum => "string?", // Fallback when no enum definition provided
             _ when enumDef is not null => $"{enumDef.EnumName}?", // Any type with enum def

@@ -139,25 +139,25 @@ public record JqExecuteOptions : JqOptions
     /// set $name to the string value
     /// </summary>
     [CliOption("--arg", AllowMultiple = true)]
-    public IEnumerable<CliOptionValuePair>? Arg { get; set; }
+    public IEnumerable<CliValuePair>? Arg { get; set; }
 
     /// <summary>
     /// set $name to the JSON value
     /// </summary>
     [CliOption("--argjson", AllowMultiple = true)]
-    public IEnumerable<CliOptionValuePair>? ArgJson { get; set; }
+    public IEnumerable<CliValuePair>? ArgJson { get; set; }
 
     /// <summary>
     /// set $name to an array of JSON values read from the file
     /// </summary>
     [CliOption("--slurpfile", AllowMultiple = true)]
-    public IEnumerable<CliOptionValuePair>? SlurpFile { get; set; }
+    public IEnumerable<CliValuePair>? SlurpFile { get; set; }
 
     /// <summary>
     /// set $name to string contents of file
     /// </summary>
     [CliOption("--rawfile", AllowMultiple = true)]
-    public IEnumerable<CliOptionValuePair>? RawFile { get; set; }
+    public IEnumerable<CliValuePair>? RawFile { get; set; }
 
     /// <summary>
     /// consume remaining arguments as positional string values

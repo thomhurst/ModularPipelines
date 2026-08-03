@@ -44,7 +44,7 @@ public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : 
     /// List of label KEY=VALUE pairs to add.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Option that determines where the producer instances can be located for     which connections can be created in the network controlled by this     policy. PRODUCER_INSTANCE_LOCATION must be one of:      custom-resource-hierarchy-levels       The producer instance must be located in one of the values provided       in the allowed-google-producers-resource-hierarchy-level flag.     none       The producer instance must be within the same project as this       connection policy.

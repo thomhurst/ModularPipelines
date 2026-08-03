@@ -74,7 +74,7 @@ public record MavenExecuteOptions : MavenOptions
     /// Define a user property
     /// </summary>
     [CliOption("--define", ShortForm = "-D", AllowMultiple = true)]
-    public IEnumerable<KeyValue>? Define { get; set; }
+    public IReadOnlyList<KeyValue>? Define { get; set; }
 
     /// <summary>
     /// Produce execution error messages

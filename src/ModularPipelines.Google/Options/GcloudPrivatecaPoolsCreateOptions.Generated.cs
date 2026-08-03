@@ -40,7 +40,7 @@ public record GcloudPrivatecaPoolsCreateOptions(
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// If this is enabled, the following will happen: 1) The CA certificates     will be written to a known location within the CA distribution point.     2) The AIA extension in all issued certificates will point to the CA     cert URL in that distribition point.     Note that the same bucket may be used for the CRLs if --publish-crl is     set.     Enabled by default, use --no-publish-ca-cert to disable.

@@ -55,7 +55,7 @@ public record FluxBuildKustomizationOptions : FluxOptions
     /// Comma-separated list of repositories in format: Kind/namespace/name=path (default [])
     /// </summary>
     [CliOption("--local-sources", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? LocalSources { get; set; }
+    public IReadOnlyList<KeyValue>? LocalSources { get; set; }
 
     /// <summary>
     /// Path to the manifests location.

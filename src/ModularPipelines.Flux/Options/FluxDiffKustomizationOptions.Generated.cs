@@ -55,7 +55,7 @@ public record FluxDiffKustomizationOptions : FluxOptions
     /// Comma-separated list of repositories in format: Kind/namespace/name=path (default [])
     /// </summary>
     [CliOption("--local-sources", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? LocalSources { get; set; }
+    public IReadOnlyList<KeyValue>? LocalSources { get; set; }
 
     /// <summary>
     /// Path to a local directory that matches the specified Kustomization.spec.path.

@@ -44,7 +44,7 @@ public class LiquibaseCliScraperTests
         var options = _scraper.ParseLiquibaseOptions(helpText);
 
         var define = options.Single(x => x.SwitchName == "-D");
-        await Assert.That(define.CSharpType).IsEqualTo("IEnumerable<KeyValue>?");
+        await Assert.That(define.CSharpType).IsEqualTo("IReadOnlyList<KeyValue>?");
         await Assert.That(define.AcceptsMultipleValues).IsTrue();
         await Assert.That(define.IsKeyValue).IsTrue();
         await Assert.That(define.ValueSeparator).IsEqualTo(string.Empty);
