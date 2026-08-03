@@ -57,7 +57,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task When_RunCategories_Specified_Then_Expected_Modules_Run()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunnableModule1>()
             .AddModule<RunnableModule2>()
             .AddModule<NonRunnableModule1>()
@@ -85,7 +85,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task RunCategories_Matches_Module_Category_Ignoring_Case()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunnableModule1>()
             .RunCategories("run1")
             .BuildAsync();
@@ -100,7 +100,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task When_IgnoreCategories_Specified_Then_Expected_Modules_Run()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<RunnableModule1>()
             .AddModule<RunnableModule2>()
             .AddModule<NonRunnableModule1>()
@@ -128,7 +128,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task IgnoreCategories_Matches_Module_Category_Ignoring_Case()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<NonRunnableModule1>()
             .IgnoreCategories("norun1")
             .BuildAsync();
@@ -143,7 +143,7 @@ public class RunnableCategoryTests : TestBase
     [Test]
     public async Task Configured_Category_Is_Used_For_Run_Filtering()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<ConfiguredCategoryModule>()
             .RunCategories("Run1")
             .BuildAsync();

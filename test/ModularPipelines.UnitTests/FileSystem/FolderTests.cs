@@ -74,8 +74,8 @@ public class FolderTests : TestBase
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(collection =>
             {
                 collection
                     .AddSingleton<ILogger<FindFileModule>>(

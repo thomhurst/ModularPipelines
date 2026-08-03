@@ -115,7 +115,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [Test]
     public async Task SuccessfulModule_InvokesStartAndEndEvents()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SuccessfulModule>()
             .ExecutePipelineAsync();
 
@@ -129,7 +129,7 @@ public class LifecycleEventIntegrationTests : TestBase
     {
         try
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<FailingModule>()
                 .ConfigurePipelineOptions((_, options) => options with
                 {
@@ -149,7 +149,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [Test]
     public async Task SkippingModule_InvokesStartAndSkippedEvents()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<SkippingModule>()
             .ExecutePipelineAsync();
 
@@ -161,7 +161,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [Test]
     public async Task AttributeSkippingModule_InvokesStartAndSkippedEvents()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<AttributeSkippingModule>()
             .ExecutePipelineAsync();
 

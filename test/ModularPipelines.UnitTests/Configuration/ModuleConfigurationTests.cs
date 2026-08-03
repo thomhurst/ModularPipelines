@@ -549,7 +549,7 @@ public class ModuleConfigurationTests
     public async Task Builder_FluentChaining_AllMethodsChain()
     {
         var config = ModuleConfiguration.Create()
-            .WithSkipWhen(_ => false)
+            .WithSkipWhen(_ => SkipDecision.DoNotSkip)
             .WithTimeout(TimeSpan.FromMinutes(1))
             .WithRetry(3)
             .WithIgnoreFailures()

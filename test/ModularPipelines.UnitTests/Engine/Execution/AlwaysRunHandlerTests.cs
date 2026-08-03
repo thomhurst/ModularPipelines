@@ -334,7 +334,7 @@ public class AlwaysRunHandlerTests
     [Test]
     public async Task WaitForAlwaysRunModulesAsync_TimesOutWhenSchedulerCannotMakeProgress()
     {
-        var timeProvider = TestPipelineHostBuilder.CreateFakeTimeProvider();
+        var timeProvider = TestPipelineBuilder.CreateFakeTimeProvider();
         var module = new FirstAlwaysRunModule();
         var blocker = new BlockingModule();
         var moduleState = new ModuleState(module, module.GetType());
@@ -374,7 +374,7 @@ public class AlwaysRunHandlerTests
     [Test]
     public async Task WaitForAlwaysRunModulesAsync_UsesCumulativeSchedulerProgressTimeout()
     {
-        var timeProvider = TestPipelineHostBuilder.CreateFakeTimeProvider();
+        var timeProvider = TestPipelineBuilder.CreateFakeTimeProvider();
         var module = new FirstAlwaysRunModule();
         var firstBlocker = new FirstBlockingModule();
         var secondBlocker = new SecondBlockingModule();

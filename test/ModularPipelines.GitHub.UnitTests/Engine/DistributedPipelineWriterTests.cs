@@ -17,7 +17,7 @@ public class DistributedPipelineWriterTests : TestBase
             "nested",
             "distributed.yml"));
 
-        await TestPipelineHostBuilder.Create()
+        await TestPipelineBuilder.Create()
             .AddModule<LinuxModule>()
             .AddModule<WindowsModule>()
             .AddModule<MacOrWindowsModule>()
@@ -81,7 +81,7 @@ public class DistributedPipelineWriterTests : TestBase
             File.GetNewTemporaryFilePath().Path,
             "distributed.yml"));
 
-        await TestPipelineHostBuilder.Create()
+        await TestPipelineBuilder.Create()
             .AddModule<WindowsConditionModule>()
             .AddModule<MacConditionModule>()
             .WriteDistributedWorkflow(new DistributedWorkflowOptions
@@ -107,7 +107,7 @@ public class DistributedPipelineWriterTests : TestBase
             File.GetNewTemporaryFilePath().Path,
             "distributed.yml"));
 
-        await TestPipelineHostBuilder.Create()
+        await TestPipelineBuilder.Create()
             .AddModule<LinuxModule>()
             .WriteDistributedWorkflow(new DistributedWorkflowOptions
             {

@@ -17,7 +17,7 @@ public class GitIntegrationMetadataTests
                     .GetCustomAttributes<ModularPipelinesContextAttribute>())
             .HasSingleItem();
 
-        await using var pipeline = await TestPipelineHostBuilder.Create()
+        await using var pipeline = await TestPipelineBuilder.Create()
             .AddModule<TrueModule>()
             .BuildAsync();
 

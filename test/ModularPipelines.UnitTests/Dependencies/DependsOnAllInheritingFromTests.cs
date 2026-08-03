@@ -94,7 +94,7 @@ public class DependsOnAllInheritingFromTests : TestBase
     {
         var timeProvider = new FakeTimeProvider();
 
-        var host = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
+        var host = await TestPipelineBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<Module3>()
@@ -127,7 +127,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         // GenericModule1 : GenericBaseModule<int> and GenericModule2 : GenericBaseModule<string>
         var timeProvider = new FakeTimeProvider();
 
-        var host = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
+        var host = await TestPipelineBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<GenericModule1>()
             .AddModule<GenericModule2>()
             .AddModule<DependsOnOpenGenericModule>()

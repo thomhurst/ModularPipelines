@@ -154,7 +154,7 @@ public class ParallelLimiterTests
 
         var timeProvider = new FakeTimeProvider();
 
-        await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
+        await TestPipelineBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<Module3>()

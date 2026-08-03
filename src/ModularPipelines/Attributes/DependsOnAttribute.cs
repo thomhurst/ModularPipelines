@@ -63,7 +63,7 @@ public class DependsOnAttribute : Attribute
     }
 
     /// <summary>
-    /// Internal constructor for use by the generic DependsOnAttribute to bypass the obsolete warning.
+    /// Internal constructor used by the generic DependsOnAttribute to bypass redundant runtime validation.
     /// </summary>
     internal DependsOnAttribute(Type type, bool skipValidation)
     {

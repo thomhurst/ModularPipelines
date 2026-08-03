@@ -85,8 +85,8 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string secret = "MySecretPassword";
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -109,8 +109,8 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string secret = "MySecretPassword";
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -137,8 +137,8 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string shortSecret = "ab"; // 2 chars, below configured minimum of 3
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -160,8 +160,8 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string exactLengthSecret = "abc"; // 3 chars, exactly at configured minimum
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -183,8 +183,8 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string tinySecret = "x"; // 1 char, default minimum is 1
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -211,8 +211,8 @@ public class SecretMaskingTests
         const string secret = "MySecretPassword";
         const string customMask = "[REDACTED]";
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -237,8 +237,8 @@ public class SecretMaskingTests
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<DynamicSecretModule>>(new StringLogger<DynamicSecretModule>(stringBuilder))
@@ -264,8 +264,8 @@ public class SecretMaskingTests
         const string apiKey = "api-key-secret-123";
         const string password = "super-secret-password";
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -291,8 +291,8 @@ public class SecretMaskingTests
         const string firstPassword = "registry-secret-one";
         const string secondPassword = "registry-secret-two";
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -317,8 +317,8 @@ public class SecretMaskingTests
         const string shortSecret = "secret";
         const string longSecret = "my-secret-password";
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -343,8 +343,8 @@ public class SecretMaskingTests
     {
         var stringBuilder = new StringBuilder();
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -368,8 +368,8 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string specialSecret = "p@$$w0rd!#$%^&*()";
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))
@@ -390,8 +390,8 @@ public class SecretMaskingTests
         var stringBuilder = new StringBuilder();
         const string unicodeSecret = "password123";
 
-        await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, services) =>
+        await TestPipelineBuilder.Create()
+            .ConfigureServices(services =>
             {
                 services
                     .AddSingleton<ILogger<SecretLoggingModule>>(new StringLogger<SecretLoggingModule>(stringBuilder))

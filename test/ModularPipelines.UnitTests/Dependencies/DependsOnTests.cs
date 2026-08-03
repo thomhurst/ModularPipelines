@@ -75,7 +75,7 @@ public class DependsOnTests : TestBase
     [Test]
     public async Task No_Exception_Thrown_When_Dependent_Module_Present()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
@@ -85,7 +85,7 @@ public class DependsOnTests : TestBase
     [Test]
     public async Task No_Exception_Thrown_When_Dependent_Module_Present_With_Optional()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module3>()
             .ExecutePipelineAsync();
@@ -96,7 +96,7 @@ public class DependsOnTests : TestBase
     public async Task Required_Dependency_Is_Auto_Registered_When_Missing()
     {
         // New behavior: Required dependencies are auto-registered if not present
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module2>()
             .ExecutePipelineAsync();
 
@@ -109,7 +109,7 @@ public class DependsOnTests : TestBase
     public async Task Optional_Dependency_Not_Auto_Registered_When_Missing()
     {
         // Optional dependencies are NOT auto-registered
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module3>()
             .ExecutePipelineAsync();
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
@@ -120,7 +120,7 @@ public class DependsOnTests : TestBase
     [Test]
     public async Task No_Exception_Thrown_When_Optional_Dependency_Missing_And_Get_If_Registered_Called()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<Module3WithGetIfRegistered>()
             .ExecutePipelineAsync();
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
@@ -130,7 +130,7 @@ public class DependsOnTests : TestBase
     public async Task Exception_Thrown_When_Optional_Dependency_Missing_And_Get_Module_Called()
     {
         // GetModule throws when module is not registered, even for optional deps
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineBuilder.Create()
                 .AddModule<Module3WithGet>()
                 .ExecutePipelineAsync()).
             ThrowsException();
@@ -140,7 +140,7 @@ public class DependsOnTests : TestBase
     public async Task Depends_On_Self_Module_Throws_Exception()
     {
         var exception = await Assert.ThrowsAsync<PipelineValidationException>(
-            async () => await TestPipelineHostBuilder.Create()
+            async () => await TestPipelineBuilder.Create()
                 .AddModule<DependsOnSelfModule>()
                 .ExecutePipelineAsync());
 
@@ -152,7 +152,7 @@ public class DependsOnTests : TestBase
     [Test]
     public async Task Depends_On_Non_Module_Throws_Exception()
     {
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineBuilder.Create()
                 .AddModule<DependsOnNonModule>()
                 .ExecutePipelineAsync()).
             Throws<InvalidModuleTypeException>()
@@ -169,7 +169,7 @@ public class DependsOnTests : TestBase
     public async Task Optional_Dependency_Works_When_Missing()
     {
         // Optional deps don't require the module to be present
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithOptionalDep>()
             .ExecutePipelineAsync();
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
@@ -185,7 +185,7 @@ public class DependsOnTests : TestBase
     public async Task Required_Dependency_Auto_Registers_Missing_Module()
     {
         // Required dependencies get auto-registered
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithRequiredDep>()
             .ExecutePipelineAsync();
 
@@ -209,7 +209,7 @@ public class DependsOnTests : TestBase
     [Test]
     public async Task Optional_Dependency_Returns_Null_When_GetModuleIfRegistered_Called_On_Unregistered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleCheckingUnregisteredDep>()
             .ExecutePipelineAsync();
 

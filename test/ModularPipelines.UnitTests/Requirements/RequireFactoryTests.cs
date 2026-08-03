@@ -17,7 +17,7 @@ public class RequireFactoryTests
     [Test]
     public async Task Require_That_With_True_Condition_Passes()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement(Require.That(_ => true, "Should not fail"))
             .BuildAsync();
@@ -35,7 +35,7 @@ public class RequireFactoryTests
         const string reason = "Custom failure reason";
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.That(_ => false, reason))
                 .ExecutePipelineAsync();
@@ -49,7 +49,7 @@ public class RequireFactoryTests
     [Test]
     public async Task Require_ThatAsync_With_True_Condition_Passes()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement(Require.ThatAsync(async _ =>
             {
@@ -71,7 +71,7 @@ public class RequireFactoryTests
         const string reason = "Async failure reason";
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.ThatAsync(async _ =>
                 {
@@ -93,7 +93,7 @@ public class RequireFactoryTests
         Environment.SetEnvironmentVariable(varName, "some-value");
         try
         {
-            var host = await TestPipelineHostBuilder.Create()
+            var host = await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.EnvironmentVariable(varName))
                 .BuildAsync();
@@ -117,7 +117,7 @@ public class RequireFactoryTests
 
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.EnvironmentVariable(varName))
                 .ExecutePipelineAsync();
@@ -136,7 +136,7 @@ public class RequireFactoryTests
 
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement(Require.EnvironmentVariable(varName, customReason))
                 .ExecutePipelineAsync();

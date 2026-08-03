@@ -62,7 +62,7 @@ public class AlwaysRunTests : TestBase
     [Test]
     public async Task AlwaysRunModules_Will_Run_Even_With_Exception()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<MyModule1>()
             .AddModule<MyModule2>()
             .AddModule<MyModule3>()

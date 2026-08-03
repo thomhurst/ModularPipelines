@@ -49,7 +49,7 @@ public class PipelineBuilderRegistrationTests
     [Test]
     public async Task AddModule_ReturnsTypedRegistrationConvertibleToBuilder()
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
 
         var result = builder.AddModule<TestModuleA>();
         PipelineBuilder convertedBuilder = result;
@@ -93,7 +93,7 @@ public class PipelineBuilderRegistrationTests
     [Test]
     public async Task ModularPipelineAssemblyLoading_IsOptIn()
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
 
         await Assert.That(builder.Options.LoadModularPipelineAssemblies).IsFalse();
 
@@ -198,7 +198,7 @@ public class PipelineBuilderRegistrationTests
     [Test]
     public async Task AddModules_RegistersRuntimeTypes()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModules(typeof(TestModuleA), typeof(TestModuleB));
 
         var registeredTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(builder.Services);
@@ -210,7 +210,7 @@ public class PipelineBuilderRegistrationTests
     [Test]
     public async Task AddModules_RejectsNonModuleTypes()
     {
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
 
         await Assert.That(() => builder.AddModules(typeof(string)))
             .Throws<ArgumentException>();
@@ -219,7 +219,7 @@ public class PipelineBuilderRegistrationTests
     [Test]
     public async Task AddModule_ChainedCalls_RegisterAllModules()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<TestModuleA>()
             .AddModule<TestModuleB>();
 
@@ -233,7 +233,7 @@ public class PipelineBuilderRegistrationTests
     [Test]
     public async Task Builder_CanAddRequirement()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<TestModuleA>()
             .AddRequirement<TestRequirement>();
 
@@ -248,7 +248,7 @@ public class PipelineBuilderRegistrationTests
     public async Task Builder_CanConfigureOptions()
     {
         var configuredValue = false;
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<TestModuleA>()
             .Configure<TestOptions>(_ => configuredValue = true);
 

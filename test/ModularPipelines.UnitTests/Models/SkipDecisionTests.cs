@@ -7,19 +7,7 @@ namespace ModularPipelines.UnitTests.Models;
 public class SkipDecisionTests
 {
     [Test]
-    public async Task True_Implicit_Cast()
-    {
-        SkipDecision skipDecision = true;
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(skipDecision.ShouldSkip).IsTrue();
-            await Assert.That(skipDecision.Reason).IsNull();
-        }
-    }
-
-    [Test]
-    public async Task ImplicitConversions_OnlyExposeBooleanToSkipDecision()
+    public async Task ImplicitConversions_AreNotExposed()
     {
         var conversions = typeof(SkipDecision)
             .GetMethods()
@@ -28,8 +16,7 @@ public class SkipDecisionTests
                 $"{method.GetParameters().Single().ParameterType.FullName}->{method.ReturnType.FullName}")
             .ToArray();
 
-        await Assert.That(conversions).IsEquivalentTo(
-            [$"{typeof(bool).FullName}->{typeof(SkipDecision).FullName}"]);
+        await Assert.That(conversions).IsEmpty();
     }
 
     [Test]
@@ -52,18 +39,6 @@ public class SkipDecisionTests
         var actual = JsonSerializer.Deserialize<SkipDecision>(json);
 
         await Assert.That(actual).IsEqualTo(expected);
-    }
-
-    [Test]
-    public async Task False_Implicit_Cast()
-    {
-        SkipDecision skipDecision = false;
-
-        using (Assert.Multiple())
-        {
-            await Assert.That(skipDecision.ShouldSkip).IsFalse();
-            await Assert.That(skipDecision.Reason).IsNull();
-        }
     }
 
     [Test]

@@ -98,7 +98,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [Test]
     public async Task DynamicDependency_ModuleBWaitsForModuleA()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<ModuleA>()
             .AddModule<ModuleB>()
             .ExecutePipelineAsync();
@@ -115,7 +115,7 @@ public class DynamicDependencyIntegrationTests : TestBase
         // caught by the run-time revalidation of the canonical graph, before the scheduler runs,
         // rather than surfacing late as a dependency-waiter failure.
         await Assert.ThrowsAsync<ModuleNotRegisteredException>(() =>
-            TestPipelineHostBuilder.Create()
+            TestPipelineBuilder.Create()
                 .AddModule<ModuleWithMissingDynamicDependency>()
                 .ExecutePipelineAsync());
     }
@@ -123,7 +123,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [Test]
     public async Task DynamicDependency_OnFilteredModule_CascadeSkipsDependent()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DynamicallySkippedDependency>()
             .AddModule<DynamicallySkippedDependent>()
             .ConfigurePipelineOptions(options => options with { RunOnlyCategories = ["test"] })

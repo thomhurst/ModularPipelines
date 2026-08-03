@@ -110,8 +110,8 @@ public class PipelineProgressTests
         });
 
         await Assert.That(async () =>
-                await TestPipelineHostBuilder.Create()
-                    .ConfigureServices((_, services) => services.AddSingleton<IAnsiConsole>(console))
+                await TestPipelineBuilder.Create()
+                    .ConfigureServices(services => services.AddSingleton<IAnsiConsole>(console))
                     .ConfigurePipelineOptions((_, options) => options with
                     {
                         PrintResults = false,

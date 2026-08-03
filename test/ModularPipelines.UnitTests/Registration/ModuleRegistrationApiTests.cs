@@ -52,7 +52,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_TwoModules_RegistersBothModules()
     {
         // Arrange & Act
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>();
         var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
@@ -68,7 +68,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_ThreeModules_RegistersAllModules()
     {
         // Arrange & Act
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
         var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
@@ -82,7 +82,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_FourModules_RegistersAllModules()
     {
         // Arrange & Act
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
         var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
@@ -96,7 +96,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_FiveModules_RegistersAllModules()
     {
         // Arrange & Act
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>();
         var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
@@ -110,7 +110,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_SixModules_RegistersAllModules()
     {
         // Arrange & Act
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>().AddModule<ModuleF>();
         var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
@@ -128,7 +128,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_CanChainWithAddModule()
     {
         // Arrange & Act
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
         var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
@@ -142,7 +142,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_CanChainMultipleCalls()
     {
         // Arrange & Act
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
         var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
@@ -160,7 +160,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModulesFromAssemblyContainingType_RegistersModulesFromAssembly()
     {
         // Arrange - test assembly scanning by verifying service registration
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
 
         // Act - scan TestHelpers assembly which contains TrueModule, NullModule, and ExceptionModule
         builder.AddModulesFromAssemblyContainingType<TrueModule>();
@@ -184,7 +184,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModulesFromAssembly_RegistersModulesFromAssembly()
     {
         // Arrange
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         var assembly = typeof(TrueModule).Assembly;
 
         // Act
@@ -200,7 +200,7 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         // Test that assembly scanning can be chained with explicit registration
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         builder.AddModule<TrueModule>().AddModule<NullModule>().AddModule<ModuleA>();
         var pipeline = await builder.BuildAsync();
         var result = await pipeline.RunAsync();
@@ -214,7 +214,7 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModulesFromAssembly_FiltersOutOpenGenericTypes()
     {
         // Arrange - this test verifies open generic types like ThrowingSyncTestModule<T> are filtered out
-        var builder = TestPipelineHostBuilder.Create();
+        var builder = TestPipelineBuilder.Create();
         var assembly = typeof(TrueModule).Assembly;
 
         // Act
