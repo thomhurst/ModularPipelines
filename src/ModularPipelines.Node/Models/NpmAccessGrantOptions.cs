@@ -6,8 +6,8 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("access", "grant")]
 public record NpmAccessGrantOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Scope
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope
 ) : NpmOptions
 {
     [CliFlag("--json")]
@@ -19,6 +19,6 @@ public record NpmAccessGrantOptions(
     [CliOption("--registry")]
     public virtual Uri? Registry { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(Phase = CommandLinePhase.Passthrough)]
     public virtual string? Package { get; set; }
 }

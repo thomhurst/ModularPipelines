@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("config", "set", "registry")]
 public record NpmConfigSetRegistryOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Registry
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Registry
 ) : NpmOptions
 {
     [CliFlag("--json")]
@@ -24,6 +24,6 @@ public record NpmConfigSetRegistryOptions(
     [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Key { get; set; }
 }

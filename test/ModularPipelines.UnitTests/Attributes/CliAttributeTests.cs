@@ -86,11 +86,10 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task CliArgument_Defaults_To_AfterOptions_Placement()
+    public async Task CliArgument_Defaults_To_Passthrough_Phase()
     {
         var attribute = new CliArgumentAttribute(0);
 
-        await Assert.That(attribute.Placement).IsEqualTo(ArgumentPlacement.AfterOptions);
         await Assert.That(attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
@@ -245,6 +244,7 @@ public class CliAttributeTests
     {
         var options = new TestCliOptionsWithSemanticPhases
         {
+            EarlyOperand = "command-input",
             Normal = true,
             Terminal = "tests.txt",
             Passthrough = "input.txt",
@@ -253,7 +253,7 @@ public class CliAttributeTests
         var list = BuildArguments(options);
 
         await Assert.That(list).IsEquivalentTo(
-            ["--normal", "input.txt", "--terminal", "tests.txt"],
+            ["command-input", "--normal", "input.txt", "--terminal", "tests.txt"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
     }
 
@@ -416,6 +416,9 @@ public class CliAttributeTests
 
     private record TestCliOptionsWithSemanticPhases
     {
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+        public string? EarlyOperand { get; set; }
+
         [CliFlag("--", Phase = CommandLinePhase.EndOfOptions)]
         public bool? EndOfOptions { get; set; }
 
@@ -452,7 +455,7 @@ public class CliAttributeTests
 
     private record TestCliOptionsWithArgumentBeforeOptions
     {
-        [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? Path { get; set; }
 
         [CliFlag("--debug")]

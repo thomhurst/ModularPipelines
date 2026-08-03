@@ -7,8 +7,8 @@ namespace ModularPipelines.Node.Models;
 [CliCommand("org", "rm", "orgname", "username")]
 public record NpmOrgRmOptions
 (
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string OrgName,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Username
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string OrgName,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Username
 ) : NpmOptions
 {
     [CliOption("--registry")]

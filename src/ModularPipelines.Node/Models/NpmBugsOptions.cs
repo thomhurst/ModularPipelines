@@ -22,6 +22,6 @@ public record NpmBugsOptions : NpmOptions
     [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Pkgname { get; set; }
 }

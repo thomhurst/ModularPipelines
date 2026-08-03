@@ -14,82 +14,44 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject)
     {
-        var args = new List<string>();
-
-        // Group arguments by placement
-        var argumentsByPlacement = commandModel
-            .OfType<ArgumentPart>()
-            .GroupBy(a => a.Attribute.Placement)
-            .ToDictionary(g => g.Key, g => g.OrderBy(a => a.Attribute.Position).ToList());
-
+        var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
+        var renderedPhases = Enum.GetValues<CommandLinePhase>()
+            .ToDictionary(
+                phase => phase,
+                phase => RenderPhase(
+                    phase,
+                    flagsAndOptions,
+                    arguments,
+                    optionsObject));
 
-        // Add arguments immediately after command first
-        AddArguments(args, argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.ImmediatelyAfterCommand), optionsObject);
-
-        // Add arguments before options
-        AddArguments(args, argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.BeforeOptions), optionsObject);
-
-        var argumentsAfterOptions =
-            argumentsByPlacement.GetValueOrDefault(ArgumentPlacement.AfterOptions) ?? [];
-
-        var normal = RenderPhase(
-            CommandLinePhase.Normal,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject);
-        var endOfOptions = RenderPhase(
-            CommandLinePhase.EndOfOptions,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject);
-        var passthrough = RenderPhase(
-            CommandLinePhase.Passthrough,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject);
-        var terminal = RenderPhase(
-            CommandLinePhase.Terminal,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject,
-            argumentsFirst: true);
-
-        if (endOfOptions.Count > 0 && terminal.Count > 0)
+        if (renderedPhases[CommandLinePhase.EndOfOptions].Count > 0
+            && renderedPhases[CommandLinePhase.Terminal].Count > 0)
         {
             throw new InvalidOperationException(
                 "Terminal options cannot be combined with an end-of-options marker.");
         }
 
-        args.AddRange(normal);
-        args.AddRange(endOfOptions);
-        args.AddRange(passthrough);
-        args.AddRange(terminal);
-
-        return args;
+        return renderedPhases
+            .OrderBy(pair => pair.Key)
+            .SelectMany(pair => pair.Value)
+            .ToList();
     }
 
     private static List<string> RenderPhase(
         CommandLinePhase phase,
         IEnumerable<PropertyCommandLinePart> flagsAndOptions,
         IEnumerable<ArgumentPart> arguments,
-        object optionsObject,
-        bool argumentsFirst = false)
+        object optionsObject)
     {
         var rendered = new List<string>();
         var phaseOptions = flagsAndOptions.Where(part => part.Phase == phase);
-        var phaseArguments = arguments.Where(part => part.Phase == phase);
+        var phaseArguments = arguments
+            .Where(part => part.Phase == phase)
+            .OrderBy(part => part.Attribute.Position);
 
-        if (argumentsFirst)
-        {
-            AddArguments(rendered, phaseArguments, optionsObject);
-            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
-        }
-        else
-        {
-            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
-            AddArguments(rendered, phaseArguments, optionsObject);
-        }
+        AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+        AddArguments(rendered, phaseArguments, optionsObject);
 
         return rendered;
     }

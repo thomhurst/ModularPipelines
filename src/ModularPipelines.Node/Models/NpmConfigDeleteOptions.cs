@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("config", "delete")]
 public record NpmConfigDeleteOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Key
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Key
 ) : NpmOptions
 {
     [CliFlag("--json")]

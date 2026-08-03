@@ -19,6 +19,6 @@ public record NpmProfileGetOptions : NpmOptions
     [CliOption("--otp")]
     public virtual string? Otp { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Key { get; set; }
 }

@@ -7,7 +7,7 @@ namespace ModularPipelines.Node.Models;
 [CliCommand("org", "ls", "orgname")]
 public record NpmOrgLsOptions
 (
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string OrgName
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string OrgName
 ) : NpmOptions
 {
     [CliOption("--registry")]
@@ -22,6 +22,6 @@ public record NpmOrgLsOptions
     [CliFlag("--parseable")]
     public virtual bool? Parseable { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Username { get; set; }
 }

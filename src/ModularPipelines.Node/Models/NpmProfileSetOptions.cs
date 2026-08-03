@@ -6,8 +6,8 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliCommand("profile", "set")]
 public record NpmProfileSetOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Key,
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Key,
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value
 ) : NpmOptions
 {
     [CliOption("--registry")]

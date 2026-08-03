@@ -1,3 +1,5 @@
+using ModularPipelines.Attributes;
+
 namespace ModularPipelines.OptionsGenerator.Models;
 
 /// <summary>
@@ -31,12 +33,12 @@ public record CliPositionalArgument
             .OrderBy(argument => argument.PositionIndex)
             .ToList();
 
-        var nextPositions = new Dictionary<PositionalArgumentPosition, int>();
+        var nextPositions = new Dictionary<CommandLinePhase, int>();
         return merged
             .Select(argument =>
             {
-                var position = nextPositions.GetValueOrDefault(argument.Placement);
-                nextPositions[argument.Placement] = position + 1;
+                var position = nextPositions.GetValueOrDefault(argument.Phase);
+                nextPositions[argument.Phase] = position + 1;
                 return argument with { PositionIndex = position };
             })
             .ToList();
@@ -63,13 +65,12 @@ public record CliPositionalArgument
     public string? Description { get; init; }
 
     /// <summary>
-    /// Placement relative to options. Defaults to BeforeOptions as most CLI tools
-    /// expect positional arguments before options (e.g., "cmd arg --option value").
+    /// Rendering phase relative to flags and options.
     /// </summary>
-    public PositionalArgumentPosition Placement { get; init; } = PositionalArgumentPosition.BeforeOptions;
+    public CommandLinePhase Phase { get; init; } = CommandLinePhase.Passthrough;
 
     /// <summary>
-    /// Zero-based position index among positional arguments with the same placement.
+    /// Zero-based position index among positional arguments in the same phase.
     /// </summary>
     public int PositionIndex { get; init; }
 
@@ -92,31 +93,4 @@ public record CliPositionalArgument
     /// Whether this positional argument contains a secret value that should be obfuscated in logs.
     /// </summary>
     public bool IsSecret { get; init; }
-}
-
-/// <summary>
-/// Position of the argument relative to options.
-/// Maps to ModularPipelines.Attributes.ArgumentPlacement.
-/// </summary>
-public enum PositionalArgumentPosition
-{
-    /// <summary>
-    /// Argument is placed after all options and flags.
-    /// </summary>
-    AfterOptions,
-
-    /// <summary>
-    /// Argument is placed before any options and flags (default).
-    /// Most CLI tools expect: "cmd arg --option value"
-    /// </summary>
-    BeforeOptions,
-
-    /// <summary>
-    /// Argument is placed immediately after the command, before options.
-    /// </summary>
-    ImmediatelyAfterCommand,
-
-    // Legacy aliases for backwards compatibility
-    BeforeSwitches = BeforeOptions,
-    AfterSwitches = AfterOptions,
 }
