@@ -158,7 +158,6 @@ public static class GeneratedOptionsSmokeTestHarness
         foreach (var phase in new[]
                  {
                      CommandLinePhase.Normal,
-                     CommandLinePhase.EndOfOptions,
                      CommandLinePhase.Passthrough,
                      CommandLinePhase.Terminal,
                  })

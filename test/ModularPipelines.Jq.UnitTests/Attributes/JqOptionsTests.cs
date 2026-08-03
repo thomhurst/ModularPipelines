@@ -1,10 +1,12 @@
+using ModularPipelines.Context;
 using ModularPipelines.Jq.Options;
 using ModularPipelines.Models;
+using ModularPipelines.TestHelpers;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Jq.UnitTests.Attributes;
 
-public class JqOptionsTests
+public class JqOptionsTests : TestBase
 {
     [Test]
     public async Task Renders_Aliases_Numeric_Options_Pairs_And_Positionals()
@@ -30,6 +32,7 @@ public class JqOptionsTests
             "--indent", "2",
             "--arg", "name", "Ada",
             "--arg", "environment", "ci",
+            "--",
             ".user",
             "input.json",
         ]);
@@ -56,9 +59,11 @@ public class JqOptionsTests
     }
 
     [Test]
-    public async Task Renders_RunTests_After_Positionals()
+    public async Task Rejects_RunTests_With_OptionTerminated_Filter()
     {
-        var arguments = BuildArguments(new JqExecuteOptions
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new JqExecuteOptions
         {
             LibraryPath = ["modules"],
             Binary = true,
@@ -66,22 +71,16 @@ public class JqOptionsTests
             Filter = "-1",
         });
 
-        await Assert.That(arguments).IsEquivalentTo(
-        [
-            "-L", "modules",
-            "-b",
-            "-1",
-            "--run-tests", "tests.jq",
-        ],
-        TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
     }
 
     [Test]
-    public async Task Renders_EndOfOptions_Before_DashPrefixed_Filter()
+    public async Task Renders_OptionTerminator_Before_DashPrefixed_Filter()
     {
         var arguments = BuildArguments(new JqExecuteOptions
         {
-            EndOfOptions = true,
             Filter = "-1",
         });
 

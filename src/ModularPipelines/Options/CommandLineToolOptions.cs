@@ -25,7 +25,8 @@ public abstract record CommandLineToolOptions
     public IEnumerable<string>? Arguments { get; init; }
 
     /// <summary>
-    /// Gets used for command line tools that support -- syntax.
+    /// Gets pass-through values rendered after one <c>--</c> option terminator.
+    /// Null or empty values emit no terminator.
     /// </summary>
     public IEnumerable<string>? RunSettings { get; init; }
 }

@@ -178,6 +178,12 @@ public record JqExecuteOptions : JqOptions
     public bool? ExitStatus { get; set; }
 
     /// <summary>
+    /// Open input/output streams in binary mode
+    /// </summary>
+    [CliFlag("--binary", ShortForm = "-b", PreferShortForm = true)]
+    public bool? Binary { get; set; }
+
+    /// <summary>
     /// show the version
     /// </summary>
     [CliFlag("--version", ShortForm = "-V")]
@@ -202,21 +208,9 @@ public record JqExecuteOptions : JqOptions
     public string? RunTests { get; set; }
 
     /// <summary>
-    /// Open input/output streams in binary mode
-    /// </summary>
-    [CliFlag("--binary", ShortForm = "-b", PreferShortForm = true)]
-    public bool? Binary { get; set; }
-
-    /// <summary>
-    /// Stop processing options so filters beginning with a dash are treated as positional arguments
-    /// </summary>
-    [CliFlag("--", Phase = CommandLinePhase.EndOfOptions)]
-    public bool? EndOfOptions { get; set; }
-
-    /// <summary>
     /// The jq filter expression to apply
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, PrependOptionTerminator = true)]
     public string? Filter { get; set; }
 
     /// <summary>

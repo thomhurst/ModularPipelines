@@ -16,11 +16,6 @@ public enum CommandLinePhase
     Terminal,
 
     /// <summary>
-    /// An explicit end-of-options marker such as <c>--</c>, rendered before pass-through operands.
-    /// </summary>
-    EndOfOptions,
-
-    /// <summary>
     /// Positional or pass-through values rendered after option parsing and before terminal options.
     /// </summary>
     Passthrough,

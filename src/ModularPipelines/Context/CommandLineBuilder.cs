@@ -16,10 +16,22 @@ namespace ModularPipelines.Context;
 /// 3. Handle placeholder replacement in command parts
 /// 4. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
 /// 5. Add manual Arguments if present
-/// 6. Add RunSettings after "--" if present.
+/// 6. Render RunSettings as option-terminated pass-through arguments.
+/// 7. Validate option terminators against terminal options in one place.
 /// </remarks>
 internal sealed class CommandLineBuilder : ICommandLineBuilder
 {
+    private static readonly IReadOnlyList<PropertyCommandLinePart> RunSettingsCommandModel =
+    [
+        new ArgumentPart(
+            nameof(CommandLineToolOptions.RunSettings),
+            static options => ((CommandLineToolOptions) options).RunSettings,
+            new CliArgumentAttribute
+            {
+                PrependOptionTerminator = true,
+            }),
+    ];
+
     private readonly IToolResolver _toolResolver;
     private readonly ICommandPartsProvider _commandPartsProvider;
     private readonly IPlaceholderHandler _placeholderHandler;
@@ -68,6 +80,7 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         var globalArgs = _commandArgumentBuilder.BuildArguments(globalCommandModel, options);
         var propertyArgs = _commandArgumentBuilder.BuildArguments(commandSpecificModel, options);
         var terminalArgs = _commandArgumentBuilder.BuildArguments(terminalCommandModel, options);
+        var runSettingsArgs = _commandArgumentBuilder.BuildArguments(RunSettingsCommandModel, options);
 
         // 4. Combine: global args + preceding args (subcommands) + property args
         var allArgs = new List<string>(globalArgs);
@@ -82,29 +95,14 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
             manualArgs = manualArgs.Skip(1).ToList();
         }
 
-        if (terminalArgs.Count > 0)
-        {
-            var endOfOptionsModel = commandModel
-                .Where(part => part.Phase == CommandLinePhase.EndOfOptions)
-                .ToList();
-            var hasPropertyEndOfOptions =
-                _commandArgumentBuilder.BuildArguments(endOfOptionsModel, options).Count > 0;
-            var hasManualEndOfOptions = manualArgs.Contains("--", StringComparer.Ordinal);
-
-            if (hasPropertyEndOfOptions || hasManualEndOfOptions || options.RunSettings is not null)
-            {
-                throw new InvalidOperationException(
-                    "Terminal options cannot be combined with an end-of-options marker.");
-            }
-        }
-
         allArgs.AddRange(manualArgs);
+        allArgs.AddRange(runSettingsArgs);
 
-        // 6. Add RunSettings after "--" if present
-        if (options.RunSettings != null)
+        // 6. A terminal option must not follow any rendered or manually supplied option terminator.
+        if (terminalArgs.Count > 0 && allArgs.Contains("--", StringComparer.Ordinal))
         {
-            allArgs.Add("--");
-            allArgs.AddRange(options.RunSettings);
+            throw new InvalidOperationException(
+                "Terminal options cannot be combined with an end-of-options marker.");
         }
 
         // 7. Terminal options must follow every positional argument source.

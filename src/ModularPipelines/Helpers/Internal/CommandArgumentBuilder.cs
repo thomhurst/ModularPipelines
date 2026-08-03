@@ -38,11 +38,6 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             flagsAndOptions,
             argumentsAfterOptions,
             optionsObject);
-        var endOfOptions = RenderPhase(
-            CommandLinePhase.EndOfOptions,
-            flagsAndOptions,
-            argumentsAfterOptions,
-            optionsObject);
         var passthrough = RenderPhase(
             CommandLinePhase.Passthrough,
             flagsAndOptions,
@@ -55,14 +50,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             optionsObject,
             argumentsFirst: true);
 
-        if (endOfOptions.Count > 0 && terminal.Count > 0)
-        {
-            throw new InvalidOperationException(
-                "Terminal options cannot be combined with an end-of-options marker.");
-        }
-
         args.AddRange(normal);
-        args.AddRange(endOfOptions);
         args.AddRange(passthrough);
         args.AddRange(terminal);
 

@@ -226,31 +226,6 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Renders_EndOfOptions_Before_Passthrough()
-    {
-        var list = BuildArguments(new TestCliOptionsWithSemanticPhases
-        {
-            Normal = true,
-            EndOfOptions = true,
-            Passthrough = "-input.txt",
-        });
-
-        await Assert.That(list).IsEquivalentTo(
-            ["--normal", "--", "-input.txt"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
-    }
-
-    [Test]
-    public async Task Parser_Rejects_Terminal_Option_After_EndOfOptions()
-    {
-        await Assert.That(() => BuildArguments(new TestCliOptionsWithSemanticPhases
-        {
-            Terminal = "tests.txt",
-            EndOfOptions = true,
-        })).Throws<InvalidOperationException>();
-    }
-
-    [Test]
     public async Task Parser_Renders_None_Arity_Option_Without_Value()
     {
         var list = BuildArguments(new TestCliOptionsWithSemanticPhases
@@ -383,9 +358,6 @@ public class CliAttributeTests
 
     private record TestCliOptionsWithSemanticPhases
     {
-        [CliFlag("--", Phase = CommandLinePhase.EndOfOptions)]
-        public bool? EndOfOptions { get; set; }
-
         [CliOption(
             "--terminal",
             ValueArity = CliOptionValueArity.Optional,

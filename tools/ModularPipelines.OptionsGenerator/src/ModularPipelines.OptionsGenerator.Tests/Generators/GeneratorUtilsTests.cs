@@ -447,24 +447,6 @@ public class GeneratorUtilsTests
             "CliOption(\"--valueless\", ValueArity = CliOptionValueArity.None)");
     }
 
-    [Test]
-    public async Task GenerateCliAttributeString_Includes_EndOfOptions_Phase_For_Flag()
-    {
-        var option = new CliOptionDefinition
-        {
-            SwitchName = "--",
-            PropertyName = "EndOfOptions",
-            CSharpType = "bool?",
-            IsFlag = true,
-            Phase = CommandLinePhase.EndOfOptions,
-        };
-
-        var result = GeneratorUtils.GenerateCliAttributeString(option);
-
-        await Assert.That(result).IsEqualTo(
-            "CliFlag(\"--\", Phase = CommandLinePhase.EndOfOptions)");
-    }
-
     #endregion
 
     #region GenerateMethodNameFromCommandParts Tests

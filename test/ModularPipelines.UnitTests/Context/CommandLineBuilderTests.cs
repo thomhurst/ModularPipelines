@@ -73,6 +73,52 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Terminal_Options_With_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Terminal_Options_With_Manual_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--", "-1"],
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
+    public async Task Build_Empty_RunSettings_Emit_No_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new GenericCommandLineToolOptions("dotnet")
+        {
+            Arguments = ["test"],
+            RunSettings = [],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("dotnet test");
+    }
+
+    [Test]
     public async Task Build_FromAttributeBasedOptions_ResolvesToolAndSubcommands()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -236,6 +282,9 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("jq")]
     private record TestTerminalOptions : CommandLineToolOptions
     {
+        [CliArgument(0, PrependOptionTerminator = true)]
+        public string? Filter { get; set; }
+
         [CliOption(
             "--run-tests",
             ValueArity = CliOptionValueArity.Optional,

@@ -134,7 +134,8 @@ public partial class JqCliScraper : CliScraperBase
                     IsRequired = false,
                     PositionIndex = 0,
                     Description = "The jq filter expression to apply",
-                    Placement = PositionalArgumentPosition.AfterOptions
+                    Placement = PositionalArgumentPosition.AfterOptions,
+                    PrependOptionTerminator = true
                 },
                 new CliPositionalArgument
                 {
@@ -241,18 +242,6 @@ public partial class JqCliScraper : CliScraperBase
             CSharpType = "bool?",
             Description = "Open input/output streams in binary mode",
             IsFlag = true
-        });
-
-        // jq -h omits the POSIX end-of-options marker documented by its manual.
-        options.Add(new CliOptionDefinition
-        {
-            SwitchName = "--",
-            PropertyName = "EndOfOptions",
-            CSharpType = "bool?",
-            Description = "Stop processing options so filters beginning with a dash are treated as positional arguments",
-            IsFlag = true,
-            ValueArity = CliOptionValueArity.None,
-            Phase = CommandLinePhase.EndOfOptions
         });
     }
 
