@@ -165,45 +165,49 @@ internal class GitInformation : IGitInformation
         ILogger logger,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var output = await GetOutput(
-                command,
-                logger,
-                new GitRemoteShowOptions { Remote = "origin" },
-                cancellationToken: cancellationToken).ConfigureAwait(false);
-            if (output == null)
+        var localOutput = await GetOutput(
+            command,
+            logger,
+            new GenericCommandLineToolOptions("git")
             {
-                return null;
-            }
-
-            return output.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-                .FirstOrDefault(x => x.StartsWith("HEAD branch:"))
-                ?.Split("HEAD branch: ")[1];
-        }
-        catch (Exception ex) when (ex is not (OperationCanceledException or OutOfMemoryException or StackOverflowException))
-        {
-            // Fallback: If 'git remote show origin' fails (e.g., no remote configured, network issues,
-            // or shallow clone), try parsing origin/HEAD reference instead. This provides a best-effort
-            // approach to determine the default branch in various git repository states.
-            logger.LogDebug(ex, "Failed to get default branch from 'git remote show origin', falling back to origin/HEAD");
-            var output = await GetOutput(command, logger, new GitRevParseOptions
-            {
-                Committish = "origin/HEAD",
-                AbbrevRef = true,
-            }, new CommandExecutionOptions
+                Arguments = ["symbolic-ref", "--short", "refs/remotes/origin/HEAD"],
+            },
+            new CommandExecutionOptions
             {
                 ThrowOnNonZeroExitCode = false,
-            }, cancellationToken).ConfigureAwait(false);
-
-            return output?.Replace("origin/", string.Empty);
+            },
+            cancellationToken).ConfigureAwait(false);
+        if (localOutput?.StartsWith("origin/", StringComparison.Ordinal) == true)
+        {
+            return localOutput["origin/".Length..];
         }
+
+        var remoteOutput = await GetOutput(
+            command,
+            logger,
+            new GitRemoteShowOptions { Remote = "origin" },
+            new CommandExecutionOptions
+            {
+                ThrowOnNonZeroExitCode = false,
+                ExecutionTimeout = TimeSpan.FromSeconds(10),
+            },
+            cancellationToken).ConfigureAwait(false);
+        if (remoteOutput == null)
+        {
+            return null;
+        }
+
+        const string headBranchPrefix = "HEAD branch:";
+        var headBranch = remoteOutput
+            .Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            .FirstOrDefault(line => line.StartsWith(headBranchPrefix, StringComparison.Ordinal));
+        return headBranch?[headBranchPrefix.Length..].Trim();
     }
 
     private static async Task<string?> GetOutput(
         ICommandContext command,
         ILogger logger,
-        GitOptions gitOptions,
+        CommandLineToolOptions gitOptions,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {

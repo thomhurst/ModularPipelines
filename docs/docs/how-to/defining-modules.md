@@ -181,8 +181,10 @@ Or define them programmatically:
 ```csharp
 public class BuildModule : Module<BuildOutput>
 {
-    public override string? Category => "Build";
-    public override IReadOnlySet<string> Tags => new HashSet<string> { "critical", "fast" };
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithCategory("Build")
+        .WithTags("critical", "fast")
+        .Build();
 
     protected override async Task<BuildOutput?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)

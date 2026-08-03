@@ -279,7 +279,6 @@ public class AlwaysRunHandlerTests
     [Test]
     public async Task WaitForAlwaysRunModulesAsync_PreservesAlwaysRunDependencyOrder()
     {
-        var timeProvider = TestPipelineHostBuilder.CreateFakeTimeProvider();
         var prerequisite = new FirstAlwaysRunModule();
         var dependent = new SecondAlwaysRunModule();
         var prerequisiteState = new ModuleState(prerequisite, prerequisite.GetType());
@@ -290,6 +289,7 @@ public class AlwaysRunHandlerTests
         var prerequisiteStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var releasePrerequisite = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var dependentStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        ModuleExecutionState? prerequisiteStateWhenDependentStarted = null;
 
         moduleRunner
             .Setup(x => x.ExecuteWithoutDependencyWaitAsync(
@@ -310,27 +310,25 @@ public class AlwaysRunHandlerTests
                 CancellationToken.None))
             .Returns(() =>
             {
+                prerequisiteStateWhenDependentStarted = prerequisiteState.State;
                 dependentStarted.TrySetResult();
                 dependentState.State = ModuleExecutionState.Completed;
                 dependentState.CompletionSource.TrySetResult(dependent);
                 return Task.CompletedTask;
             });
 
-        var handler = CreateHandler(moduleRunner.Object, timeProvider: timeProvider);
+        var handler = CreateHandler(moduleRunner.Object);
         var handlerTask = handler.WaitForAlwaysRunModulesAsync(
             scheduler.Object,
             [prerequisite, dependent]);
 
         await prerequisiteStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
-        var dependencyObservation = Task.WhenAny(
-            dependentStarted.Task,
-            Task.Delay(TimeSpan.FromMilliseconds(200), timeProvider));
-        timeProvider.Advance(TimeSpan.FromMilliseconds(200));
-        var dependentStartedBeforePrerequisiteCompleted = await dependencyObservation == dependentStarted.Task;
         releasePrerequisite.TrySetResult();
+        await dependentStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         await handlerTask;
 
-        await Assert.That(dependentStartedBeforePrerequisiteCompleted).IsFalse();
+        await Assert.That(prerequisiteStateWhenDependentStarted)
+            .IsEqualTo(ModuleExecutionState.Completed);
     }
 
     [Test]

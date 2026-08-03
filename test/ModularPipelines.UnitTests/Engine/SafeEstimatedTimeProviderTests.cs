@@ -55,12 +55,82 @@ public class SafeEstimatedTimeProviderTests
         await Assert.That(result.ModuleStatus).IsEqualTo(Status.Successful);
     }
 
+    [Test]
+    public async Task Pipeline_Termination_Does_Not_Save_Module_Time()
+    {
+        TrackingTimeProvider.SaveCount = 0;
+        CancellableModule.Reset();
+        var host = await TestPipelineHostBuilder.Create()
+            .AddModule<CancellableModule>()
+            .AddModuleEstimatedTimeProvider<TrackingTimeProvider>()
+            .BuildAsync();
+        using var cancellationTokenSource = new CancellationTokenSource();
+        var runTask = host.RunAsync(cancellationTokenSource.Token);
+        await CancellableModule.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        cancellationTokenSource.Cancel();
+
+        try
+        {
+            await runTask;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+
+        await Assert.That(TrackingTimeProvider.SaveCount).IsEqualTo(0);
+    }
+
     private class DummyModule : Module<bool>
     {
         protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
         }
+    }
+
+    private class CancellableModule : Module<bool>
+    {
+        public static TaskCompletionSource Entered { get; private set; } = CreateSignal();
+
+        public static void Reset() => Entered = CreateSignal();
+
+        protected internal override async Task<bool> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Entered.TrySetResult();
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            return true;
+        }
+
+        private static TaskCompletionSource CreateSignal() =>
+            new(TaskCreationOptions.RunContinuationsAsynchronously);
+    }
+
+    private class TrackingTimeProvider : IModuleEstimatedTimeProvider
+    {
+        public static int SaveCount
+        {
+            get => Volatile.Read(ref _saveCount);
+            set => Interlocked.Exchange(ref _saveCount, value);
+        }
+
+        public Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType) =>
+            Task.FromResult(TimeSpan.FromMinutes(1));
+
+        public Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
+        {
+            Interlocked.Increment(ref _saveCount);
+            return Task.CompletedTask;
+        }
+
+        public Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType) =>
+            Task.FromResult<IEnumerable<SubModuleEstimation>>([]);
+
+        public Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation) =>
+            Task.CompletedTask;
+
+        private static int _saveCount;
     }
 
     private class SuccessfulTimeProvider : IModuleEstimatedTimeProvider

@@ -192,9 +192,7 @@ public class DistributedWorkPublisherTests
         var dependencyResult = CreateSuccessResult(new DepResult { Value = "tagged" }, "TaggedDependencyModule");
         resultRegistry.RegisterResult(typeof(TaggedDependencyModule), dependencyResult);
         var dependencyRegistry = new ModuleDependencyRegistry();
-        var metadataRegistry = new ModuleMetadataRegistry(
-            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-            new ModuleAttributeEventService());
+        var metadataRegistry = new ModuleMetadataRegistry(new ModuleAttributeEventService());
         var dependencyModule = new TaggedDependencyModule();
         var consumerModule = new TaggedConsumerModule();
         metadataRegistry.FinalizeMetadata(typeof(TaggedDependencyModule), dependencyModule);
