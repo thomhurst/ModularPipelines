@@ -738,6 +738,8 @@ public class GeneratorUtilsTests
     [Arguments("ConfigFile")]
     [Arguments("Namespace")]
     [Arguments("Repository")]
+    [Arguments("SecretsProvider")]
+    [Arguments("NewSecretsProvider")]
     public async Task IsSecretOption_Returns_False_For_Non_Secret_Names(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
