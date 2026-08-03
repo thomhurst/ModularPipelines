@@ -30,8 +30,19 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
         category: "Design",
         severity: DiagnosticSeverity.Warning);
 
+    /// <summary>
+    /// Gets the diagnostic rule for mutable auto-properties in modules.
+    /// </summary>
+    public static DiagnosticDescriptor PropertyRule { get; } = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.StatefulModuleAnalyzerTitle),
+        "StatefulModuleAnalyzerPropertyMessageFormat",
+        nameof(Resources.StatefulModuleAnalyzerDescription),
+        category: "Design",
+        severity: DiagnosticSeverity.Warning);
+
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule, PropertyRule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -74,7 +85,7 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
                 case IPropertySymbol property when IsWritableAutoProperty(
                     property,
                     autoProperties):
-                    ReportDiagnostic(context, property, classSymbol);
+                    ReportDiagnostic(context, PropertyRule, property, classSymbol);
                     break;
             }
         }
@@ -97,7 +108,7 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        ReportDiagnostic(context, fieldSymbol, classSymbol);
+        ReportDiagnostic(context, Rule, fieldSymbol, classSymbol);
     }
 
     private static bool IsWritableAutoProperty(
@@ -106,13 +117,13 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
     {
         return !property.IsStatic
                && !property.IsIndexer
-               && !property.IsRequired
                && property.SetMethod is { IsInitOnly: false }
                && autoProperties.Contains(property);
     }
 
     private static void ReportDiagnostic(
         SymbolAnalysisContext context,
+        DiagnosticDescriptor rule,
         ISymbol member,
         INamedTypeSymbol classSymbol)
     {
@@ -123,7 +134,7 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
         }
 
         var diagnostic = Diagnostic.Create(
-            Rule,
+            rule,
             location,
             member.Name,
             classSymbol.Name);

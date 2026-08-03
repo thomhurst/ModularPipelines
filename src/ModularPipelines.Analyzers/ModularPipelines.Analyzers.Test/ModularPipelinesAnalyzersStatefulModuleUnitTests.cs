@@ -124,6 +124,20 @@ public class Module1 : Module<int>
 }}
 ";
 
+    private const string BadModuleWithRequiredMutableAutoProperty = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class Module1 : Module<int>
+{{
+    public required int {{|#0:Counter|}} {{ get; set; }}
+
+    protected override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {{
+        return Task.FromResult(Counter);
+    }}
+}}
+";
+
     private const string PartialModuleWithMutableField = $@"
 {TestSourceConstants.StandardModuleHeader}
 
@@ -151,7 +165,7 @@ public class Module1 : Module<int>
 
     public int InitOnly {{ get; init; }}
 
-    public required int Required {{ get; set; }}
+    public required int Required {{ get; init; }}
 
     public static int Static {{ get; set; }}
 
@@ -751,7 +765,7 @@ public class Module1 : Module<int>
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableField()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_state", "Module1");
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.Rule).WithLocation(0).WithArguments("_state", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableField, expected);
     }
@@ -759,7 +773,7 @@ public class Module1 : Module<int>
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableCollection()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_items", "Module1");
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.Rule).WithLocation(0).WithArguments("_items", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCollection, expected);
     }
@@ -767,7 +781,7 @@ public class Module1 : Module<int>
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableDictionary()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_cache", "Module1");
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.Rule).WithLocation(0).WithArguments("_cache", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableDictionary, expected);
     }
@@ -775,7 +789,7 @@ public class Module1 : Module<int>
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableCounter()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_counter", "Module1");
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.Rule).WithLocation(0).WithArguments("_counter", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCounter, expected);
     }
@@ -783,7 +797,7 @@ public class Module1 : Module<int>
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableAutoProperty()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId)
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.PropertyRule)
             .WithLocation(0)
             .WithArguments("Counter", "Module1");
 
@@ -791,9 +805,31 @@ public class Module1 : Module<int>
     }
 
     [TestMethod]
+    public async Task AnalyzerIsTriggered_When_RequiredAutoPropertyHasSetter()
+    {
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.PropertyRule)
+            .WithLocation(0)
+            .WithArguments("Counter", "Module1");
+
+        await VerifyCS.VerifyAnalyzerAsync(
+            BadModuleWithRequiredMutableAutoProperty,
+            expected);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_Mutable_Auto_Property()
+    {
+        await VerifyCS.VerifyNoCodeFixAsync(
+            BadModuleWithMutableAutoProperty
+                .Replace("{|#0:", string.Empty)
+                .Replace("|}", string.Empty),
+            StatefulModuleAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
     public async Task AnalyzerReportsMutableFieldOnce_When_ModuleIsPartial()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId)
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.Rule)
             .WithLocation(0)
             .WithArguments("_counter", "Module1");
 
@@ -809,7 +845,7 @@ public class Module1 : Module<int>
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_MutableCustomClass()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0).WithArguments("_cache", "Module1");
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.Rule).WithLocation(0).WithArguments("_cache", "Module1");
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCustomClass, expected);
     }
@@ -853,7 +889,7 @@ public class Module1 : Module<int>
     [TestMethod]
     public async Task CodeFix_Makes_Eligible_Field_Readonly()
     {
-        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId)
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.Rule)
             .WithLocation(0)
             .WithArguments("_name", "Module1");
 
