@@ -51,6 +51,23 @@ public class PipelineLifecycleTests
         }
     }
 
+    private sealed class ThrowingDisposalTracker : IAsyncDisposable
+    {
+        public ValueTask DisposeAsync() =>
+            ValueTask.FromException(new ApplicationException("Cleanup failed"));
+    }
+
+    private sealed class ThrowingCleanupInitializer : IInitializer
+    {
+        public ThrowingCleanupInitializer(ThrowingDisposalTracker disposalTracker)
+        {
+            ArgumentNullException.ThrowIfNull(disposalTracker);
+        }
+
+        public Task InitializeAsync() =>
+            Task.FromException(new InvalidOperationException("Startup failed"));
+    }
+
     [Test]
     public async Task Pipeline_Does_Not_Declare_A_Finalizer()
     {
@@ -102,5 +119,22 @@ public class PipelineLifecycleTests
 
         await Assert.That(disposalTracker).IsNotNull();
         await Assert.That(disposalTracker!.IsDisposed).IsTrue();
+    }
+
+    [Test]
+    public async Task Initialization_Failure_Is_Preserved_When_Disposal_Also_Fails()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<LifecycleModule>();
+        builder.Services.AddSingleton<ThrowingDisposalTracker>();
+        builder.Services.AddSingleton<IInitializer, ThrowingCleanupInitializer>();
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+            () => builder.BuildAsync());
+
+        await Assert.That(exception).IsNotNull();
+        await Assert.That(exception!.Message).IsEqualTo("Startup failed");
+        await Assert.That(exception.Data.Values.OfType<ApplicationException>().Single().Message)
+            .IsEqualTo("Cleanup failed");
     }
 }

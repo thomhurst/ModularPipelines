@@ -18,6 +18,8 @@ namespace ModularPipelines;
 /// </summary>
 internal sealed class PipelineImpl : IPipeline
 {
+    private const string DisposalExceptionDataKey = "ModularPipelines.PipelineDisposalException";
+
     private readonly IHost _host;
     private readonly AsyncServiceScope _serviceScope;
     private readonly IDisposable _shutdownRegistration;
@@ -58,9 +60,17 @@ internal sealed class PipelineImpl : IPipeline
             await services.InitializeAsync().ConfigureAwait(false);
             return pipeline;
         }
-        catch
+        catch (Exception startupException)
         {
-            await pipeline.DisposeAsync().ConfigureAwait(false);
+            try
+            {
+                await pipeline.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (Exception disposalException)
+            {
+                startupException.Data[DisposalExceptionDataKey] = disposalException;
+            }
+
             throw;
         }
     }
