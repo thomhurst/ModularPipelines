@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("firestore", "import")]
 public record GcloudFirestoreImportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InputUriPrefix
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InputUriPrefix
 ) : GcloudOptions
 {
     /// <summary>
@@ -32,7 +32,7 @@ public record GcloudFirestoreImportOptions(
     /// <summary>
     /// List specifying which collection groups will be included in the     operation. When omitted, all collection groups are included.     For example, to operate on only the customers and orders collections     groups:       $ gcloud firestore import --collection-ids='customers','orders'
     /// </summary>
-    [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CollectionIds { get; set; }
 
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
@@ -41,7 +41,7 @@ public record GcloudFirestoreImportOptions(
     /// <summary>
     /// List specifying which namespaces will be included in the operation.     When omitted, all namespaces are included.     This is only supported for Datastore Mode databases.     For example, to operate on only the customers and orders namespaces:       $ gcloud firestore import --namespaces-ids='customers','orders'
     /// </summary>
-    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NamespaceIds { get; set; }
 
 }

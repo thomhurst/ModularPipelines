@@ -19,8 +19,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
 public record PodmanExecOptions(
-    [property: CliArgument(0)] string Container,
-    [property: CliArgument(1)] string Command
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Command
 ) : PodmanOptions
 {
     /// <summary>
@@ -38,13 +38,13 @@ public record PodmanExecOptions(
     /// <summary>
     /// Set environment variables
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
     /// Read in a file of environment variables
     /// </summary>
-    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnvFile { get; set; }
 
     /// <summary>
@@ -92,7 +92,7 @@ public record PodmanExecOptions(
     /// <summary>
     /// The ARG operand.
     /// </summary>
-    [CliArgument(2)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

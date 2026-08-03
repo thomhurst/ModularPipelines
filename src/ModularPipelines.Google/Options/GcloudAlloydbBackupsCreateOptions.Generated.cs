@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "backups", "create")]
 public record GcloudAlloydbBackupsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Backup
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Backup
 ) : GcloudOptions
 {
 }

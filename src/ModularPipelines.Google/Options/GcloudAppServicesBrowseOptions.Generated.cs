@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "services", "browse")]
 public record GcloudAppServicesBrowseOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Services
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Services
 ) : GcloudOptions
 {
     /// <summary>

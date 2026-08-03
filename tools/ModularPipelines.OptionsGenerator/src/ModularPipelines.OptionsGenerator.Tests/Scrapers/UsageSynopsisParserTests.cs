@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -21,13 +22,13 @@ public class UsageSynopsisParserTests
         using (Assert.Multiple())
         {
             await Assert.That(copy.PositionalArguments).Count().IsEqualTo(2);
-            await Assert.That(copy.PositionalArguments[0].PlaceholderName)
-                .IsEqualTo("source node name>:<source file path");
-            await Assert.That(copy.PositionalArguments[1].PlaceholderName)
-                .IsEqualTo("target node name>:<target absolute file path");
+            await Assert.That(copy.PositionalArguments[0].PropertyName)
+                .IsEqualTo("SourceNodeNameSourceFilePath");
+            await Assert.That(copy.PositionalArguments[1].PropertyName)
+                .IsEqualTo("TargetNodeNameTargetAbsoluteFilePath");
             await Assert.That(mount.PositionalArguments).Count().IsEqualTo(1);
-            await Assert.That(mount.PositionalArguments[0].PlaceholderName)
-                .IsEqualTo("source directory>:<target directory");
+            await Assert.That(mount.PositionalArguments[0].PropertyName)
+                .IsEqualTo("SourceDirectoryTargetDirectory");
         }
     }
 
@@ -53,23 +54,23 @@ public class UsageSynopsisParserTests
                 "vault",
                 "Usage: vault delete [options] PATH",
                 ["vault", "delete"],
-                Required("Path", placement: PositionalArgumentPosition.AfterOptions)),
+                Required("Path", phase: CommandLinePhase.Passthrough)),
             Fixture(
                 "terraform",
                 "Usage: terraform [global options] import [options] ADDRESS ID",
                 ["terraform", "import"],
-                Required("Address", placement: PositionalArgumentPosition.AfterOptions),
-                Required("Id", placement: PositionalArgumentPosition.AfterOptions)),
+                Required("Address", phase: CommandLinePhase.Passthrough),
+                Required("Id", phase: CommandLinePhase.Passthrough)),
             Fixture(
                 "cargo",
                 "Usage: cargo run [OPTIONS] [ARGS]...",
                 ["cargo", "run"],
-                Optional("Args", isVariadic: true, placement: PositionalArgumentPosition.AfterOptions)),
+                Optional("Args", isVariadic: true, phase: CommandLinePhase.Passthrough)),
             Fixture(
                 "packer",
                 "Usage: packer build [options] TEMPLATE",
                 ["packer", "build"],
-                Required("Template", placement: PositionalArgumentPosition.AfterOptions)),
+                Required("Template", phase: CommandLinePhase.Passthrough)),
             Fixture(
                 "gh",
                 "USAGE\n  gh api <endpoint> [flags]",
@@ -79,26 +80,26 @@ public class UsageSynopsisParserTests
                 "podman",
                 "Usage:\n  podman attach [options] CONTAINER",
                 ["podman", "attach"],
-                Required("Container", placement: PositionalArgumentPosition.AfterOptions)),
+                Required("Container", phase: CommandLinePhase.Passthrough)),
             Fixture(
                 "buildah",
                 "Usage: buildah add [options] container source [source ...] destination",
                 ["buildah", "add"],
-                Required("Container", placement: PositionalArgumentPosition.AfterOptions),
-                Required("Source", isVariadic: true, placement: PositionalArgumentPosition.AfterOptions),
-                Required("Destination", placement: PositionalArgumentPosition.AfterOptions)),
+                Required("Container", phase: CommandLinePhase.Passthrough),
+                Required("Source", isVariadic: true, phase: CommandLinePhase.Passthrough),
+                Required("Destination", phase: CommandLinePhase.Passthrough)),
             Fixture(
                 "newman",
                 "Usage: newman run [options] <collection|URL>",
                 ["newman", "run"],
-                Required("Collection", placement: PositionalArgumentPosition.AfterOptions)),
+                Required("Collection", phase: CommandLinePhase.Passthrough)),
             Fixture(
                 "docker",
                 "Usage: docker exec [OPTIONS] CONTAINER COMMAND [ARG...]",
                 ["docker", "exec"],
-                Required("Container", placement: PositionalArgumentPosition.AfterOptions),
-                Required("Command", placement: PositionalArgumentPosition.AfterOptions),
-                Optional("Arg", isVariadic: true, placement: PositionalArgumentPosition.AfterOptions)),
+                Required("Container", phase: CommandLinePhase.Passthrough),
+                Required("Command", phase: CommandLinePhase.Passthrough),
+                Optional("Arg", isVariadic: true, phase: CommandLinePhase.Passthrough)),
         };
 
         foreach (var fixture in fixtures)
@@ -119,7 +120,7 @@ public class UsageSynopsisParserTests
                 await Assert.That(actual.PropertyName).IsEqualTo(expected.PropertyName).Because(fixture.Tool);
                 await Assert.That(actual.IsRequired).IsEqualTo(expected.IsRequired).Because(fixture.Tool);
                 await Assert.That(actual.IsVariadic).IsEqualTo(expected.IsVariadic).Because(fixture.Tool);
-                await Assert.That(actual.Placement).IsEqualTo(expected.Placement).Because(fixture.Tool);
+                await Assert.That(actual.Phase).IsEqualTo(expected.Phase).Because(fixture.Tool);
                 await Assert.That(actual.PositionIndex).IsEqualTo(index).Because(fixture.Tool);
             }
         }
@@ -135,17 +136,17 @@ public class UsageSynopsisParserTests
         var source = result.PositionalArguments.Single(argument => argument.PropertyName == "Source");
         var destination = result.PositionalArguments.Single(argument => argument.PropertyName == "Destination");
 
-        await Assert.That(source.Placement).IsEqualTo(PositionalArgumentPosition.BeforeOptions);
+        await Assert.That(source.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
         await Assert.That(source.PositionIndex).IsEqualTo(0);
-        await Assert.That(destination.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(destination.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(destination.PositionIndex).IsEqualTo(0);
 
         var globalOptions = UsageSynopsisParser.Parse(
             "Usage: tool [GLOBAL OPTIONS] copy <SOURCE>",
             ["tool", "copy"]);
 
-        await Assert.That(globalOptions.PositionalArguments.Single().Placement)
-            .IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(globalOptions.PositionalArguments.Single().Phase)
+            .IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     [Test]
@@ -310,7 +311,7 @@ public class UsageSynopsisParserTests
         await Assert.That(argument.PropertyName).IsEqualTo("Args");
         await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(argument.IsVariadic).IsTrue();
-        await Assert.That(argument.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(argument.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(argument.PrependOptionTerminator).IsTrue();
     }
 
@@ -330,7 +331,7 @@ public class UsageSynopsisParserTests
         await Assert.That(result.PositionalArguments.Select(argument => argument.PropertyName))
             .IsEquivalentTo(["Source", "Destination"]);
         await Assert.That(result.PositionalArguments.All(argument =>
-                argument.Placement == PositionalArgumentPosition.AfterOptions))
+                argument.Phase == CommandLinePhase.Passthrough))
             .IsTrue();
     }
 
@@ -522,9 +523,9 @@ public class UsageSynopsisParserTests
         var generated = (await new OptionsClassGenerator().GenerateAsync(tool)).Single().Content;
 
         await Assert.That(generated).Contains(
-            "[property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Source");
+            "[property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Source");
         await Assert.That(generated).Contains(
-            "[CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]");
+            "[CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]");
         await Assert.That(generated).Contains(
             "public IEnumerable<string>? Destination { get; set; }");
     }
@@ -592,14 +593,14 @@ public class UsageSynopsisParserTests
     private static ExpectedArgument Required(
         string propertyName,
         bool isVariadic = false,
-        PositionalArgumentPosition placement = PositionalArgumentPosition.BeforeOptions) =>
-        new(propertyName, IsRequired: true, IsVariadic: isVariadic, Placement: placement);
+        CommandLinePhase phase = CommandLinePhase.EarlyOperand) =>
+        new(propertyName, IsRequired: true, IsVariadic: isVariadic, Phase: phase);
 
     private static ExpectedArgument Optional(
         string propertyName,
         bool isVariadic = false,
-        PositionalArgumentPosition placement = PositionalArgumentPosition.BeforeOptions) =>
-        new(propertyName, IsRequired: false, IsVariadic: isVariadic, Placement: placement);
+        CommandLinePhase phase = CommandLinePhase.EarlyOperand) =>
+        new(propertyName, IsRequired: false, IsVariadic: isVariadic, Phase: phase);
 
     private sealed record OperandFixture(
         string Tool,
@@ -611,7 +612,7 @@ public class UsageSynopsisParserTests
         string PropertyName,
         bool IsRequired,
         bool IsVariadic,
-        PositionalArgumentPosition Placement);
+        CommandLinePhase Phase);
 
     private sealed class TestKustomizeCliScraper : KustomizeCliScraper
     {

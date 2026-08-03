@@ -19,13 +19,13 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "import")]
 public record PodmanVolumeImportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Volume
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Volume
 ) : PodmanOptions
 {
     /// <summary>
     /// The SOURCE operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Source { get; set; }
 
 }

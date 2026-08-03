@@ -19,6 +19,6 @@ public record NpmPkgGetOptions : NpmOptions
     [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Key { get; set; }
 }

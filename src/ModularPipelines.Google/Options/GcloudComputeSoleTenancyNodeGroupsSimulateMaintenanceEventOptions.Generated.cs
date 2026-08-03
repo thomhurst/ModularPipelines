@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "sole-tenancy", "node-groups", "simulate-maintenance-event")]
 public record GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
@@ -32,7 +32,7 @@ public record GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions(
     /// <summary>
     /// The names of the nodes to simulate maintenance event.
     /// </summary>
-    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>

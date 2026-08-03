@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "clone")]
 public record PulumiEnvCloneOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SrcEnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string DestEnvironmentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SrcEnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string DestEnvironmentName
 ) : PulumiOptions
 {
     /// <summary>

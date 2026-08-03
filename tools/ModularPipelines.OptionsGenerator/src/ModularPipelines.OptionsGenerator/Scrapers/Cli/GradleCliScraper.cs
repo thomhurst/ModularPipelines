@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -111,12 +112,11 @@ public partial class GradleCliScraper : CliScraperBase
                 new CliPositionalArgument
                 {
                     PropertyName = "Tasks",
-                    PlaceholderName = "task(s)",
                     CSharpType = "IEnumerable<string>?",
                     Description = "Gradle tasks to execute.",
                     PositionIndex = 0,
                     IsRequired = false,
-                    Placement = PositionalArgumentPosition.AfterOptions
+                    Phase = CommandLinePhase.Passthrough
                 }
             ],
             SubDomainGroup = null,

@@ -83,7 +83,6 @@ public record HelmPackageOptions : HelmOptions
     /// <summary>
     /// location of a file which contains the passphrase for the signing key. Use "-" in order to read from stdin.
     /// </summary>
-    [SecretValue]
     [CliOption("--passphrase-file", Format = OptionFormat.EqualsSeparated)]
     public string? PassphraseFile { get; set; }
 
@@ -139,7 +138,7 @@ public record HelmPackageOptions : HelmOptions
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KubeAsGroup { get; set; }
 
     /// <summary>
@@ -218,7 +217,7 @@ public record HelmPackageOptions : HelmOptions
     /// <summary>
     /// The CHART_PATH operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? ChartPath { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
+    public IEnumerable<string>? ChartPath { get; set; }
 
 }

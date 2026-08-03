@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "peered-dns-domains", "delete")]
 public record GcloudServicesPeeredDnsDomainsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
 }

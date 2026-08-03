@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "l2-forwarding", "describe-mapping")]
 public record GcloudPreviewComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
 }

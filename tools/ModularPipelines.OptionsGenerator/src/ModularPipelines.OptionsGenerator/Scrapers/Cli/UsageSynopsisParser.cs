@@ -1,3 +1,4 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 
@@ -155,17 +156,17 @@ public static class UsageSynopsisParser
         var arguments = new List<CliPositionalArgument>();
         var unparsedTokens = new List<string>();
         var prependOptionTerminatorToNextOperand = false;
-        var placement = tokens
+        var phase = tokens
             .Take(commandMatch.EndIndex + 1)
             .Any(IsOptionControlToken)
-                ? PositionalArgumentPosition.AfterOptions
-                : PositionalArgumentPosition.BeforeOptions;
+                ? CommandLinePhase.Passthrough
+                : CommandLinePhase.EarlyOperand;
         foreach (var token in TrimTrailingUsageExplanation(
                      CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1))))
         {
             if (IsOptionControlToken(token))
             {
-                placement = PositionalArgumentPosition.AfterOptions;
+                phase = CommandLinePhase.Passthrough;
             }
 
             if (IsStandaloneOptionTerminator(token))
@@ -186,7 +187,7 @@ public static class UsageSynopsisParser
             if (TryParseNestedOperandGroup(
                     operandToken,
                     arguments.Count,
-                    placement,
+                    phase,
                     out var nestedArguments))
             {
                 arguments.AddRange(nestedArguments);
@@ -194,7 +195,7 @@ public static class UsageSynopsisParser
                 continue;
             }
 
-            var argument = ParseOperand(operandToken, arguments.Count, placement);
+            var argument = ParseOperand(operandToken, arguments.Count, phase);
             if (argument is null)
             {
                 unparsedTokens.Add(operandToken);
@@ -461,7 +462,7 @@ public static class UsageSynopsisParser
     private static CliPositionalArgument? ParseOperand(
         string token,
         int positionIndex,
-        PositionalArgumentPosition placement)
+        CommandLinePhase phase)
     {
         var trimmed = token.Trim().TrimEnd(',', ';');
         var isRequired = !trimmed.StartsWith('[')
@@ -498,13 +499,12 @@ public static class UsageSynopsisParser
         return new CliPositionalArgument
         {
             PropertyName = propertyName,
-            PlaceholderName = content,
             CSharpType = GetCSharpType(isRequired, isVariadic),
             IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag: false),
             IsRequired = isRequired,
             IsVariadic = isVariadic,
             PositionIndex = positionIndex,
-            Placement = placement,
+            Phase = phase,
             Description = $"The {canonicalName} operand.",
         };
     }
@@ -517,7 +517,7 @@ public static class UsageSynopsisParser
     private static bool TryParseNestedOperandGroup(
         string token,
         int positionIndex,
-        PositionalArgumentPosition placement,
+        CommandLinePhase phase,
         out IReadOnlyList<CliPositionalArgument> arguments)
     {
         arguments = [];
@@ -544,7 +544,7 @@ public static class UsageSynopsisParser
             var argument = ParseOperand(
                 nestedToken,
                 positionIndex + parsedArguments.Count,
-                placement);
+                phase);
             if (argument is null)
             {
                 return false;

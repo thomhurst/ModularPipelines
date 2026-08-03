@@ -119,7 +119,7 @@ public record GhSearchPrsOptions : GhOptions
     /// <summary>
     /// Filter on label
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -143,7 +143,7 @@ public record GhSearchPrsOptions : GhOptions
     /// <summary>
     /// Restrict search to specific field of issue: {title|body|comments}
     /// </summary>
-    [CliOption("--match", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--match", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Match { get; set; }
 
     /// <summary>
@@ -203,7 +203,7 @@ public record GhSearchPrsOptions : GhOptions
     /// <summary>
     /// Filter on repository owner
     /// </summary>
-    [CliOption("--owner", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--owner", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Owner { get; set; }
 
     /// <summary>
@@ -221,7 +221,7 @@ public record GhSearchPrsOptions : GhOptions
     /// <summary>
     /// Filter on repository
     /// </summary>
-    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--repo", ShortForm = "-R", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Repo { get; set; }
 
     /// <summary>
@@ -275,7 +275,7 @@ public record GhSearchPrsOptions : GhOptions
     /// <summary>
     /// Filter based on repository visibility: {public|private|internal}
     /// </summary>
-    [CliOption("--visibility", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--visibility", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Visibility { get; set; }
 
     /// <summary>

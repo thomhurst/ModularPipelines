@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("api", "describe")]
 public record PulumiApiDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PathOrOperationId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PathOrOperationId
 ) : PulumiOptions
 {
     /// <summary>

@@ -36,7 +36,7 @@ public record NbgvTagOptions : NbgvOptions
     /// <summary>
     /// The &lt;versionOrRef&gt; operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? VersionOrRef { get; set; }
 
 }

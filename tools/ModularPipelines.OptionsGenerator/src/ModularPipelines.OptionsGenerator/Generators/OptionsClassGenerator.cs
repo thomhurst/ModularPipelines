@@ -1,5 +1,4 @@
 using System.Text;
-using ModularPipelines.Options;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -9,14 +8,9 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public class OptionsClassGenerator : ICodeGenerator
 {
-    private static readonly HashSet<string> InheritedPropertyNames =
-        typeof(CommandLineToolOptions)
-            .GetProperties()
-            .Select(property => property.Name)
-            .ToHashSet(StringComparer.Ordinal);
-
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
+        tool = InheritedPropertyCollisionResolver.Resolve(tool);
         var files = new List<GeneratedFile>();
 
         foreach (var command in tool.Commands)
@@ -424,7 +418,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.CSharpType} {option.PropertyName} {{ get; set; }}");
+        sb.AppendLine($"    public {option.CSharpType} {option.PropertyName} {{ get; set; }}");
     }
 
     private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)
@@ -438,7 +432,7 @@ public class OptionsClassGenerator : ICodeGenerator
 
         var attrString = GetPositionalAttributeString(positional);
         sb.AppendLine($"    [{attrString}]");
-        sb.AppendLine($"    public {GetNewModifier(positional.PropertyName)}{positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
+        sb.AppendLine($"    public {positional.CSharpType} {positional.PropertyName} {{ get; set; }}");
     }
 
     private static void GenerateCompatibilityProperty(StringBuilder sb, CliCompatibilityProperty property)
@@ -459,36 +453,17 @@ public class OptionsClassGenerator : ICodeGenerator
     }
 
     private static string GetNewModifier(string propertyName) =>
-        InheritedPropertyNames.Contains(propertyName) ? "new " : "";
+        InheritedPropertyCollisionResolver.IsInheritedPropertyName(propertyName) ? "new " : "";
 
     private static string GetPositionalAttributeString(CliPositionalArgument positional)
     {
         var parts = new List<string> { positional.PositionIndex.ToString() };
-
-        // Map to ArgumentPlacement enum
-        var placement = positional.Placement switch
-        {
-            PositionalArgumentPosition.BeforeOptions or PositionalArgumentPosition.BeforeSwitches =>
-                "ArgumentPlacement.BeforeOptions",
-            PositionalArgumentPosition.ImmediatelyAfterCommand =>
-                "ArgumentPlacement.ImmediatelyAfterCommand",
-            _ => null // AfterOptions is the default, no need to specify
-        };
-
-        if (placement is not null)
-        {
-            parts.Add($"Placement = {placement}");
-        }
+        parts.Add($"Phase = CommandLinePhase.{positional.Phase}");
 
         if (positional.PrependOptionTerminator)
         {
             parts.Add("PrependOptionTerminator = true");
         }
-
-        // Note: We intentionally do NOT add the Name property here.
-        // The Name property is only for documentation/help text and causes
-        // CommandArgumentBuilder to skip the argument (it assumes Name means
-        // the argument is handled via placeholder replacement).
 
         return $"CliArgument({string.Join(", ", parts)})";
     }

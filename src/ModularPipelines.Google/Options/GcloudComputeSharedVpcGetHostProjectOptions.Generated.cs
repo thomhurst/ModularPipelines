@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "shared-vpc", "get-host-project")]
 public record GcloudComputeSharedVpcGetHostProjectOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ProjectId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ProjectId
 ) : GcloudOptions
 {
 }

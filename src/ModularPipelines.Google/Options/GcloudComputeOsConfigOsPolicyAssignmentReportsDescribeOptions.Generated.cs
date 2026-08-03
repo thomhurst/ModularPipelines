@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "os-policy-assignment-reports", "describe")]
 public record GcloudComputeOsConfigOsPolicyAssignmentReportsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Os
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Os
 ) : GcloudOptions
 {
 }

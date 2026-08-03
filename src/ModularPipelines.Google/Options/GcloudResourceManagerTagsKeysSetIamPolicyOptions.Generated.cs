@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "keys", "set-iam-policy")]
 public record GcloudResourceManagerTagsKeysSetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ResourceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ResourceName
 ) : GcloudOptions
 {
 }

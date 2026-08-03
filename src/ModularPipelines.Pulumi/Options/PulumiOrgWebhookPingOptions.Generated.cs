@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "webhook", "ping")]
 public record PulumiOrgWebhookPingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
 ) : PulumiOptions
 {
     /// <summary>

@@ -30,7 +30,7 @@ public record GcloudMonitoringPoliciesMigrateOptions : GcloudOptions
     /// <summary>
     /// One or more Prometheus alert rule YAML files (separated by commas if     multiple) to be converted to Cloud Alerting Policies. Example:     --policies-from-prometheus-alert-rules-yaml=rules_1.yaml,rules_2.yaml
     /// </summary>
-    [CliOption("--policies-from-prometheus-alert-rules-yaml", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policies-from-prometheus-alert-rules-yaml", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PoliciesFromPrometheusAlertRulesYaml { get; set; }
 
 }

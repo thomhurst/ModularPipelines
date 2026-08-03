@@ -25,7 +25,7 @@ public record GcloudAssetListOptions : GcloudOptions
     /// <summary>
     /// A list of asset types (i.e., "compute.googleapis.com/Disk") to take a     snapshot. If specified and non-empty, only assets matching the     specified types will be returned. See     http://cloud.google.com/asset-inventory/docs/supported-asset-types for     supported asset types.
     /// </summary>
-    [CliOption("--asset-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--asset-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AssetTypes { get; set; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public record GcloudAssetListOptions : GcloudOptions
     /// <summary>
     /// A list of relationship types (i.e., "INSTANCE_TO_INSTANCEGROUP") to     take a snapshot. This argument will only be honoured if     content_type=RELATIONSHIP. If specified and non-empty, only     relationships matching the specified types will be returned. See     http://cloud.google.com/asset-inventory/docs/supported-asset-types for     supported relationship types.
     /// </summary>
-    [CliOption("--relationship-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--relationship-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RelationshipTypes { get; set; }
 
     /// <summary>

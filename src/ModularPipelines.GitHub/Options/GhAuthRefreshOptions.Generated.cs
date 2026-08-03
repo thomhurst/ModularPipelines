@@ -41,7 +41,7 @@ public record GhAuthRefreshOptions : GhOptions
     /// <summary>
     /// Authentication scopes to remove from gh
     /// </summary>
-    [CliOption("--remove-scopes", ShortForm = "-r", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-scopes", ShortForm = "-r", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveScopes { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record GhAuthRefreshOptions : GhOptions
     /// <summary>
     /// Additional authentication scopes for gh to have
     /// </summary>
-    [CliOption("--scopes", ShortForm = "-s", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scopes", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>

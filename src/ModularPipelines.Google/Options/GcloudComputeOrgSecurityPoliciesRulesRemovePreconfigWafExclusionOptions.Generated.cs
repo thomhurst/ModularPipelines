@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "org-security-policies", "rules", "remove-preconfig-waf-exclusion")]
 public record GcloudComputeOrgSecurityPoliciesRulesRemovePreconfigWafExclusionOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Priority
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Priority
 ) : GcloudOptions
 {
 }

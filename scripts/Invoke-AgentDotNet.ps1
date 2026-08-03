@@ -9,7 +9,7 @@ limits are exceeded. Exit 124 means timeout; exit 137 means memory limit.
 
 .EXAMPLE
 pwsh scripts/Invoke-AgentDotNet.ps1 -SingleNode `
-    -DotNetArguments @('build', 'ModularPipelines.sln', '-c', 'Release')
+    -DotNetArguments @('build', 'ModularPipelines.slnx', '-c', 'Release')
 #>
 
 [CmdletBinding(PositionalBinding = $false)]

@@ -50,7 +50,7 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions : 
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public record GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions : 
     /// <summary>
     /// Comma-separated list of SSL flags used for establishing SSL connection     to the database. Use an equals sign to separate the flag name and     value. Example: --ssl-flags     ssl_mode=enable,server_certificate_hostname=server.com.
     /// </summary>
-    [CliOption("--ssl-flags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ssl-flags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? SslFlags { get; set; }
 
     /// <summary>

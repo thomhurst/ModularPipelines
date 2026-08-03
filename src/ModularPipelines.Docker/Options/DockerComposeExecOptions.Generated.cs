@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "exec")]
 public record DockerComposeExecOptions(
-    [property: CliArgument(0)] string Service,
-    [property: CliArgument(1)] string Command
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Command
 ) : DockerOptions
 {
     /// <summary>
@@ -38,7 +38,7 @@ public record DockerComposeExecOptions(
     /// <summary>
     /// Set environment variables
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
@@ -46,6 +46,12 @@ public record DockerComposeExecOptions(
     /// </summary>
     [CliOption("--index", Format = OptionFormat.EqualsSeparated)]
     public int? Index { get; set; }
+
+    /// <summary>
+    /// Disable pseudo-TTY allocation. By default 'docker compose exec' allocates a TTY. (default true)
+    /// </summary>
+    [CliOption("--no-tty", ShortForm = "-T", Format = OptionFormat.EqualsSeparated)]
+    public bool? NoTty { get; set; }
 
     /// <summary>
     /// Give extended privileges to the process
@@ -68,7 +74,7 @@ public record DockerComposeExecOptions(
     /// <summary>
     /// The ARGS operand.
     /// </summary>
-    [CliArgument(2)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Args { get; set; }
 
 }

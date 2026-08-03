@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "health-checks", "create", "grpc")]
 public record GcloudPreviewComputeHealthChecksCreateGrpcOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     [CliOption("--check-interval", Format = OptionFormat.EqualsSeparated)]

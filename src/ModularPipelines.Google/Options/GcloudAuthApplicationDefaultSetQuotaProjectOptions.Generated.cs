@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "application-default", "set-quota-project")]
 public record GcloudAuthApplicationDefaultSetQuotaProjectOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string QuotaProjectId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string QuotaProjectId
 ) : GcloudOptions
 {
 }

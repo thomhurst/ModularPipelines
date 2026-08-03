@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "tune")]
 public record VaultSecretsTuneOptions(
-    [property: CliArgument(0)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
 ) : VaultOptions
 {
 }

@@ -21,13 +21,13 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "notifications", "create")]
 public record GcloudStorageBucketsNotificationsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Url
 ) : GcloudOptions
 {
-    [CliOption("--custom-attributes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--custom-attributes", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? CustomAttributes { get; set; }
 
-    [CliOption("--event-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--event-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EventTypes { get; set; }
 
     [CliOption("--object-prefix", Format = OptionFormat.EqualsSeparated)]

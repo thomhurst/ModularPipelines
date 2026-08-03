@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "ssl", "client-certs", "create")]
 public record GcloudSqlSslClientCertsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string CommonName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string CommonName
 ) : GcloudOptions
 {
 }

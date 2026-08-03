@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "users", "set-password-policy")]
 public record GcloudSqlUsersSetPasswordPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Username
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Username
 ) : GcloudOptions
 {
 }

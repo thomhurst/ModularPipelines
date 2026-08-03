@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "buckets", "notifications", "delete")]
 public record GcloudStorageBucketsNotificationsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Urls
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Urls
 ) : GcloudOptions
 {
 }

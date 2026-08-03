@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "ssl-policies", "describe")]
 public record GcloudComputeSslPoliciesDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SslPolicy
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SslPolicy
 ) : GcloudOptions
 {
 }

@@ -37,31 +37,31 @@ public record GcloudNetworkConnectivitySpokesLinkedInterconnectAttachmentsUpdate
     /// <summary>
     /// Dynamic routes overlapped/encompassed by exclude export ranges are     excluded during export to hub.
     /// </summary>
-    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude-export-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeExportRanges { get; set; }
 
     /// <summary>
     /// Hub routes overlapped/encompassed by exclude import ranges are excluded     during import from hub.
     /// </summary>
-    [CliOption("--exclude-import-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude-import-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludeImportRanges { get; set; }
 
     /// <summary>
     /// Dynamic routes fully encompassed by include export ranges are included     during export to hub. If it's empty, the spoke exports all dynamic     routes to the hub.
     /// </summary>
-    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include-export-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludeExportRanges { get; set; }
 
     /// <summary>
     /// Hub routes fully encompassed by include import ranges are included     during import from hub. If it's empty, the spoke does not import any     subnets from the hub. If it's empty and site-to-site-data-transfer is     true, the spoke imports all IPv4 site-to-site dynamic routes from the     hub.
     /// </summary>
-    [CliOption("--include-import-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include-import-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludeImportRanges { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud network-connectivity spokes \         linked-interconnect-attachments update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud network-connectivity spokes \         linked-interconnect-attachments update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
 }

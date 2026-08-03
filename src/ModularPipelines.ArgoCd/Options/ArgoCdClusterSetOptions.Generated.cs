@@ -20,13 +20,13 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "set")]
 public record ArgoCdClusterSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ClusterName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ClusterName
 ) : ArgoCdOptions
 {
     /// <summary>
     /// Set metadata annotations (e.g. --annotation key=value)
     /// </summary>
-    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotation", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotation { get; set; }
 
     /// <summary>
@@ -38,7 +38,7 @@ public record ArgoCdClusterSetOptions(
     /// <summary>
     /// Set metadata labels (e.g. --label key=value)
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -50,7 +50,7 @@ public record ArgoCdClusterSetOptions(
     /// <summary>
     /// List of namespaces which are allowed to manage. Specify '*' to manage all namespaces
     /// </summary>
-    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--namespace", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Namespace { get; set; }
 
     /// <summary>
@@ -111,7 +111,7 @@ public record ArgoCdClusterSetOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

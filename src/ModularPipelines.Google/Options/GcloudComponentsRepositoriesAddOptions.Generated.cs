@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("components", "repositories", "add")]
 public record GcloudComponentsRepositoriesAddOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Url
 ) : GcloudOptions
 {
 }

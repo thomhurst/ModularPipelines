@@ -30,7 +30,7 @@ public record GcloudAuthApplicationDefaultPrintAccessTokenOptions : GcloudOption
     /// <summary>
     /// The scopes to authorize for. This flag is supported for user accounts     and service accounts only. The list of possible scopes can be found at:     https://developers.google.com/identity/protocols/googlescopes.     For end-user accounts, the provided scopes must be from [openid,     https://www.googleapis.com/auth/userinfo.email,     https://www.googleapis.com/auth/cloud-platform,     https://www.googleapis.com/auth/sqlservice.login], or the scopes     previously specified through gcloud auth application-default login     --scopes.
     /// </summary>
-    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
 }

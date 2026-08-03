@@ -44,7 +44,7 @@ public record DotNetNuGetVerifyOptions : DotNetOptions
     /// <summary>
     /// Specify the path to the package
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? PackagePaths { get; set; }
 
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Grype.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "import")]
 public record GrypeDbImportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string File
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string File
 ) : GrypeOptions
 {
     /// <summary>
@@ -31,13 +31,13 @@ public record GrypeDbImportOptions(
     /// <summary>
     /// grype configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>

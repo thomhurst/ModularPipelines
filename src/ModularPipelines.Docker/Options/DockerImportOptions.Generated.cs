@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
 public record DockerImportOptions(
-    [property: CliArgument(0)] string File
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string File
 ) : DockerOptions
 {
     /// <summary>
     /// Apply Dockerfile instruction to the created image
     /// </summary>
-    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Change { get; set; }
 
     /// <summary>
@@ -43,7 +43,7 @@ public record DockerImportOptions(
     /// <summary>
     /// The REPOSITORY[:TAG] operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? RepositoryTag { get; set; }
 
 }

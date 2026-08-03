@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("print")]
 public record VaultPrintOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Subcommand
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Subcommand
 ) : VaultOptions
 {
 }

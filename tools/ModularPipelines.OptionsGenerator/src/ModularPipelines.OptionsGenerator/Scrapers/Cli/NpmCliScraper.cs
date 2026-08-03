@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -98,10 +99,9 @@ public partial class NpmCliScraper(
         [
             new CliPositionalArgument
             {
-                PlaceholderName = "<package-spec>",
                 PropertyName = "Value",
                 CSharpType = "string?",
-                Placement = PositionalArgumentPosition.BeforeOptions,
+                Phase = CommandLinePhase.EarlyOperand,
                 PositionIndex = 0,
                 IsRequired = false,
             },

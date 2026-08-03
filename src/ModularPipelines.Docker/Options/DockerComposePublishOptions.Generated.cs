@@ -19,9 +19,15 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "publish")]
 public record DockerComposePublishOptions(
-    [property: CliArgument(0)] string RepositoryTag
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string RepositoryTag
 ) : DockerOptions
 {
+    /// <summary>
+    /// Published compose application (includes referenced images)
+    /// </summary>
+    [CliFlag("--app")]
+    public bool? App { get; set; }
+
     /// <summary>
     /// Execute command in dry run mode
     /// </summary>

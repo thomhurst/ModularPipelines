@@ -35,7 +35,7 @@ public record BuildahImagesOptions : BuildahOptions
     /// <summary>
     /// filter output based on conditions provided
     /// </summary>
-    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>

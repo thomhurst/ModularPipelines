@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "remove-path-matcher")]
 public record GcloudComputeUrlMapsRemovePathMatcherOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string UrlMap
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UrlMap
 ) : GcloudOptions
 {
 }

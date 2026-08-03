@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("asset", "saved-queries", "create")]
 public record GcloudAssetSavedQueriesCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string QueryId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string QueryId
 ) : GcloudOptions
 {
 }

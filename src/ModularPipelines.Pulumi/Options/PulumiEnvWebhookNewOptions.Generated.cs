@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "webhook", "new")]
 public record PulumiEnvWebhookNewOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string WebhookDisplayName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string WebhookDisplayName
 ) : PulumiOptions
 {
     /// <summary>
@@ -32,7 +32,7 @@ public record PulumiEnvWebhookNewOptions(
     /// <summary>
     /// Event types to subscribe to (repeatable)
     /// </summary>
-    [CliOption("--event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Event { get; set; }
 
     /// <summary>
@@ -44,7 +44,7 @@ public record PulumiEnvWebhookNewOptions(
     /// <summary>
     /// Event groups to subscribe to (repeatable)
     /// </summary>
-    [CliOption("--group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Group { get; set; }
 
     /// <summary>

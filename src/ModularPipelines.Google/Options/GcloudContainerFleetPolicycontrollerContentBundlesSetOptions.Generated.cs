@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "policycontroller", "content", "bundles", "set")]
 public record GcloudContainerFleetPolicycontrollerContentBundlesSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string BundleName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BundleName
 ) : GcloudOptions
 {
 }

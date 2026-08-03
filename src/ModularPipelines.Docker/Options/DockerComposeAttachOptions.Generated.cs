@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "attach")]
 public record DockerComposeAttachOptions(
-    [property: CliArgument(0)] string Service
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service
 ) : DockerOptions
 {
     /// <summary>

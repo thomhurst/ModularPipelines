@@ -72,15 +72,15 @@ public partial class CosignCliScraper : CobraCliScraper
         return string.Join(' ', commandParts) switch
         {
             "attest" or "sign" or "verify" or "verify-attestation" =>
-                [RequiredMultiple("Images", "IMAGE")],
-            "sign-blob" => [RequiredMultiple("Blobs", "BLOB")],
-            "attest-blob" or "verify-blob-attestation" => [Optional("Blob", "BLOB")],
-            "verify-blob" => [Required("Blob", "BLOB")],
+                [RequiredMultiple("Images")],
+            "sign-blob" => [RequiredMultiple("Blobs")],
+            "attest-blob" or "verify-blob-attestation" => [Optional("Blob")],
+            "verify-blob" => [Required("Blob")],
             "clean" or "load" or "save" or "tree" or "download attestation" or "download sbom" or
                 "download signature" =>
-                [Required("Image", "IMAGE")],
-            "bundle inspect" or "bundle upgrade" => [Required("Bundle", "BUNDLE")],
-            "login" => [Optional("Server", "SERVER")],
+                [Required("Image")],
+            "bundle inspect" or "bundle upgrade" => [Required("Bundle")],
+            "login" => [Optional("Server")],
             _ => positionalArguments,
         };
     }
@@ -99,24 +99,22 @@ public partial class CosignCliScraper : CobraCliScraper
         string.Join(' ', commandParts) is not (
             "attest" or "attest-blob" or "verify-attestation" or "verify-blob-attestation");
 
-    private static CliPositionalArgument Required(string propertyName, string placeholderName) =>
-        Positional(propertyName, placeholderName, "string", isRequired: true);
+    private static CliPositionalArgument Required(string propertyName) =>
+        Positional(propertyName, "string", isRequired: true);
 
-    private static CliPositionalArgument RequiredMultiple(string propertyName, string placeholderName) =>
-        Positional(propertyName, placeholderName, "IEnumerable<string>", isRequired: true);
+    private static CliPositionalArgument RequiredMultiple(string propertyName) =>
+        Positional(propertyName, "IEnumerable<string>", isRequired: true);
 
-    private static CliPositionalArgument Optional(string propertyName, string placeholderName) =>
-        Positional(propertyName, placeholderName, "string?", isRequired: false);
+    private static CliPositionalArgument Optional(string propertyName) =>
+        Positional(propertyName, "string?", isRequired: false);
 
     private static CliPositionalArgument Positional(
         string propertyName,
-        string placeholderName,
         string csharpType,
         bool isRequired) =>
         new()
         {
             PropertyName = propertyName,
-            PlaceholderName = placeholderName,
             CSharpType = csharpType,
             IsRequired = isRequired,
             PositionIndex = 0,

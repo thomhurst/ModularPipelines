@@ -45,9 +45,15 @@ public record DockerBuildxHistoryInspectAttachmentOptions : DockerOptions
     public string? Type { get; set; }
 
     /// <summary>
-    /// The REF [DIGEST] operand.
+    /// The REF operand.
     /// </summary>
-    [CliArgument(0)]
-    public string? RefDigest { get; set; }
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
+    public string? Ref { get; set; }
+
+    /// <summary>
+    /// The DIGEST operand.
+    /// </summary>
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
+    public string? Digest { get; set; }
 
 }

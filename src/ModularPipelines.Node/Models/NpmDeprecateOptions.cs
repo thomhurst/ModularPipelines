@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deprecate")]
 public record NpmDeprecateOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Message
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Message
 ) : NpmOptions
 {
     [CliOption("--registry")]

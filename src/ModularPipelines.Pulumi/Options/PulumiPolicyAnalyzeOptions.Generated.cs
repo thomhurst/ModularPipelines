@@ -41,13 +41,13 @@ public record PulumiPolicyAnalyzeOptions : PulumiOptions
     /// <summary>
     /// Path to a policy pack to run during analysis
     /// </summary>
-    [CliOption("--policy-pack", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy-pack", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PolicyPack { get; set; }
 
     /// <summary>
     /// Path to a JSON config file for the corresponding --policy-pack
     /// </summary>
-    [CliOption("--policy-pack-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy-pack-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PolicyPackConfig { get; set; }
 
     /// <summary>

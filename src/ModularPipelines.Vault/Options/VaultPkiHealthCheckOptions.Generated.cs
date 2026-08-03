@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "health-check")]
 public record VaultPkiHealthCheckOptions(
-    [property: CliArgument(0)] string Mount
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Mount
 ) : VaultOptions
 {
 }

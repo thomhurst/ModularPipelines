@@ -56,7 +56,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
@@ -86,7 +86,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Custom metadata to apply to this instance.
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
@@ -104,7 +104,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Tags to apply to this instance.    The hardware accelerator used on this instance. If you use accelerators,   make sure that your configuration has enough vCPUs and memory to support   the `machine_type` you have selected.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -182,7 +182,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// Resource policies to apply to the data disk. Format:     projects/{project}/regions/{region}/resourcePolicies/{policy}.
     /// </summary>
-    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
 
     /// <summary>
@@ -257,7 +257,7 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     /// <summary>
     /// The label value of a reservation resource. To target a specific     reservation by name, use compute.googleapis.com/reservation-name as the     key and specify the name of your reservation as its value.    Shielded VM configurations.
     /// </summary>
-    [CliOption("--reservation-values", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--reservation-values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ReservationValues { get; set; }
 
     /// <summary>

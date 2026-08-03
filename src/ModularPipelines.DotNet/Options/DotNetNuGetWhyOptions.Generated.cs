@@ -29,13 +29,13 @@ public record DotNetNuGetWhyOptions : DotNetOptions
     /// <summary>
     /// A path to a project, solution file, or directory.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProjectSolution { get; set; }
 
     /// <summary>
     /// The package name to lookup in the dependency graph.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Package { get; set; }
 
 }

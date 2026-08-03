@@ -19,10 +19,10 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "azure-login", "oidc")]
 public record PulumiEnvProviderAzureLoginOidcOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string TenantId,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string SubscriptionId,
-    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string ClientId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string TenantId,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string SubscriptionId,
+    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand)] string ClientId
 ) : PulumiOptions
 {
     /// <summary>
@@ -52,7 +52,7 @@ public record PulumiEnvProviderAzureLoginOidcOptions(
     /// <summary>
     /// OIDC subject attribute to include in the federated token (repeatable)
     /// </summary>
-    [CliOption("--subject-attribute", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subject-attribute", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SubjectAttribute { get; set; }
 
     /// <summary>

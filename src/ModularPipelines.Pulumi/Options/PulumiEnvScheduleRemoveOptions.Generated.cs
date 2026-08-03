@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "schedule", "remove")]
 public record PulumiEnvScheduleRemoveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ScheduleId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ScheduleId
 ) : PulumiOptions
 {
     /// <summary>

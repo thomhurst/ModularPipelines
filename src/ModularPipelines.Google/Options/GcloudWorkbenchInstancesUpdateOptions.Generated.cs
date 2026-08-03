@@ -31,13 +31,13 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     /// <summary>
     /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance    Data disk configurations.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Resource policies to apply to the data disk. Format:     projects/{project}/regions/{region}/resourcePolicies/{policy}.
     /// </summary>
-    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
 
     /// <summary>
@@ -49,13 +49,13 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     /// <summary>
     /// Custom metadata to apply to this instance.
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
     /// Tags to apply to this instance.    Accelerator configurations.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>

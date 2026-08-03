@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "links", "describe")]
 public record GcloudLoggingLinksDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string LinkId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string LinkId
 ) : GcloudOptions
 {
 }

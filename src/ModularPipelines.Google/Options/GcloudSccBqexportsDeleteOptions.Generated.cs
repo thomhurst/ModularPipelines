@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "bqexports", "delete")]
 public record GcloudSccBqexportsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string BigQueryExport
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BigQueryExport
 ) : GcloudOptions
 {
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]

@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "unpause")]
 public record DockerContainerUnpauseOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Container
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Container
 ) : DockerOptions
 {
 }

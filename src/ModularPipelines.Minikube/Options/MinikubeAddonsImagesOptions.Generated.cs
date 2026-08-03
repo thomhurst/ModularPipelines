@@ -19,7 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "images")]
 public record MinikubeAddonsImagesOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AddonName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string AddonName
 ) : MinikubeOptions
 {
     /// <summary>

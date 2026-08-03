@@ -395,23 +395,6 @@ public class GeneratorUtilsTests
     }
 
     [Test]
-    public async Task GenerateCliAttributeString_Includes_AllowMultiple_When_True()
-    {
-        var option = new CliOptionDefinition
-        {
-            SwitchName = "--values",
-            PropertyName = "Values",
-            CSharpType = "string[]?",
-            IsFlag = false,
-            AcceptsMultipleValues = true,
-        };
-
-        var result = GeneratorUtils.GenerateCliAttributeString(option);
-
-        await Assert.That(result).Contains("AllowMultiple = true");
-    }
-
-    [Test]
     public async Task GenerateCliAttributeString_Includes_OptionalArity_And_TerminalPhase()
     {
         var option = new CliOptionDefinition
@@ -431,20 +414,53 @@ public class GeneratorUtilsTests
     }
 
     [Test]
-    public async Task GenerateCliAttributeString_Includes_NoneArity_For_Option()
+    public async Task GenerateCliAttributeString_Includes_Grouped_Values()
     {
         var option = new CliOptionDefinition
         {
-            SwitchName = "--valueless",
-            PropertyName = "Valueless",
-            CSharpType = "string?",
-            ValueArity = CliOptionValueArity.None,
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "string[]?",
+            GroupValues = true,
         };
 
-        var result = GeneratorUtils.GenerateCliAttributeString(option);
+        var attribute = GeneratorUtils.GenerateCliAttributeString(option);
 
-        await Assert.That(result).IsEqualTo(
-            "CliOption(\"--valueless\", ValueArity = CliOptionValueArity.None)");
+        await Assert.That(attribute)
+            .IsEqualTo("CliOption(\"--arguments\", GroupValues = true)");
+    }
+
+    [Test]
+    public async Task GenerateCliAttributeString_Rejects_Grouping_With_NonSpace_Separator()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "string[]?",
+            GroupValues = true,
+            ValueSeparator = "=",
+        };
+
+        await Assert.That(() => GeneratorUtils.GenerateCliAttributeString(option))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("must use a space separator");
+    }
+
+    [Test]
+    public async Task GenerateCliAttributeString_Rejects_Unsupported_Separator()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--output",
+            PropertyName = "Output",
+            CSharpType = "string?",
+            ValueSeparator = "::",
+        };
+
+        await Assert.That(() => GeneratorUtils.GenerateCliAttributeString(option))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Unsupported value separator");
     }
 
     [Test]
@@ -682,7 +698,6 @@ public class GeneratorUtilsTests
     [Test]
     [Arguments("Credential")]
     [Arguments("UserCredential")]
-    [Arguments("CredentialPath")]
     public async Task IsSecretOption_Returns_True_For_Credential_Variants(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
@@ -749,6 +764,10 @@ public class GeneratorUtilsTests
     [Arguments("Verbose")]
     [Arguments("Format")]
     [Arguments("ConfigFile")]
+    [Arguments("PrivateKeyFile")]
+    [Arguments("AccessTokenPath")]
+    [Arguments("CredentialKeyring")]
+    [Arguments("SecretDir")]
     [Arguments("Namespace")]
     [Arguments("Repository")]
     [Arguments("SecretsProvider")]
@@ -760,6 +779,17 @@ public class GeneratorUtilsTests
     public async Task IsSecretOption_Returns_False_For_Non_Secret_Names(string propertyName)
     {
         var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsSecretOption_Returns_False_When_Description_Identifies_A_Path()
+    {
+        var result = GeneratorUtils.IsSecretOption(
+            "PrivateKeyLocation",
+            isFlag: false,
+            "Path to the private key file.");
 
         await Assert.That(result).IsFalse();
     }

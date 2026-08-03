@@ -78,7 +78,10 @@ public class ManualOverrideDetector : IOptionTypeDetector
             Type = optionOverride.Type,
             Confidence = 100,
             Source = Name,
-            Notes = $"{scope}: {optionOverride.Reason ?? "Manual override"}"
+            Notes = $"{scope}: {optionOverride.Reason ?? "Manual override"}",
+            IsSecret = optionOverride.IsSecret,
+            SecretValueKeys = optionOverride.SecretValueKeys,
+            GroupValues = optionOverride.GroupValues,
         };
     }
 
@@ -125,7 +128,9 @@ public class ManualOverrideDetector : IOptionTypeDetector
         var overridesDir = Path.Combine(assemblyDir, "TypeOverrides");
 
         if (Directory.Exists(overridesDir))
+        {
             return overridesDir;
+        }
 
         // Try relative to project directory (for development)
         var projectDir = Path.GetFullPath(Path.Combine(assemblyDir, "..", "..", "..", ".."));

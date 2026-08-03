@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "versions", "set-default")]
 public record GcloudAiPlatformVersionsSetDefaultOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Version
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Version
 ) : GcloudOptions
 {
 }

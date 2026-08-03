@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-buckets", "delete")]
 public record GcloudPreviewComputeBackendBucketsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> BackendBucketName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> BackendBucketName
 ) : GcloudOptions
 {
 }

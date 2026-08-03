@@ -24,7 +24,7 @@ public record HelmTemplateOptions : HelmOptions
     /// <summary>
     /// Kubernetes api versions used for Capabilities.APIVersions
     /// </summary>
-    [CliOption("--api-versions", ShortForm = "-a", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--api-versions", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApiVersions { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record HelmTemplateOptions : HelmOptions
     /// <summary>
     /// simulate an install. If --dry-run is set with no option being specified or as '--dry-run=client', it will not attempt cluster connections. Setting '--dry-run=server' allows attempting cluster connections.
     /// </summary>
-    [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated)]
+    [CliOption("--dry-run", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public string? DryRun { get; set; }
 
     /// <summary>
@@ -229,37 +229,38 @@ public record HelmTemplateOptions : HelmOptions
     /// <summary>
     /// set values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
     /// </summary>
-    [CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Set { get; set; }
+    [SecretValue("password", "secret", "token", "apiKey", "accessKey", "secretKey", "clientSecret")]
+    [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Set { get; set; }
 
     /// <summary>
     /// set values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
     /// </summary>
-    [CliOption("--set-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--set-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetFile { get; set; }
 
     /// <summary>
     /// set JSON values on the command line (can specify multiple or separate values with commas: key1=jsonval1,key2=jsonval2)
     /// </summary>
-    [CliOption("--set-json", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--set-json", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetJson { get; set; }
 
     /// <summary>
     /// set a literal STRING value on the command line
     /// </summary>
-    [CliOption("--set-literal", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--set-literal", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetLiteral { get; set; }
 
     /// <summary>
     /// set STRING values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
     /// </summary>
-    [CliOption("--set-string", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--set-string", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SetString { get; set; }
 
     /// <summary>
     /// only show manifests rendered from the given templates
     /// </summary>
-    [CliOption("--show-only", ShortForm = "-s", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--show-only", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ShowOnly { get; set; }
 
     /// <summary>
@@ -307,7 +308,7 @@ public record HelmTemplateOptions : HelmOptions
     /// <summary>
     /// specify values in a YAML file or a URL (can specify multiple)
     /// </summary>
-    [CliOption("--values", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--values", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Values { get; set; }
 
     /// <summary>
@@ -355,7 +356,7 @@ public record HelmTemplateOptions : HelmOptions
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KubeAsGroup { get; set; }
 
     /// <summary>
@@ -434,13 +435,13 @@ public record HelmTemplateOptions : HelmOptions
     /// <summary>
     /// The NAME operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
 
     /// <summary>
     /// The CHART operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Chart { get; set; }
 
 }

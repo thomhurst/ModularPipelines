@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
@@ -152,7 +153,9 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         var positionalArgs = ExtractPositionalArguments(doc);
 
         if (options.Count == 0 && positionalArgs.Count == 0)
+        {
             return null;
+        }
 
         var subDomain = commandParts.Length > 1 ? ToPascalCase(commandParts[0]) : null;
         var className = GenerateClassName(commandParts);
@@ -182,7 +185,9 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         {
             var content = meta.GetAttribute("content");
             if (!string.IsNullOrEmpty(content))
+            {
                 return content;
+            }
         }
 
         var firstPara = doc.QuerySelector("article p, .content p, main p");
@@ -202,7 +207,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
             var dts = dl.QuerySelectorAll("dt").ToArray();
             var dds = dl.QuerySelectorAll("dd").ToArray();
 
-            for (int i = 0; i < dts.Length; i++)
+            for (var i = 0; i < dts.Length; i++)
             {
                 var dt = dts[i];
                 var dd = i < dds.Length ? dds[i] : null;
@@ -223,14 +228,18 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
             var headerText = string.Join(" ", headers.Select(h => h.TextContent.ToLowerInvariant()));
 
             if (!headerText.Contains("option") && !headerText.Contains("argument"))
+            {
                 continue;
+            }
 
             var rows = table.QuerySelectorAll("tbody tr, tr").Skip(headers.Any() ? 0 : 1);
             foreach (var row in rows)
             {
                 var cells = row.QuerySelectorAll("td").ToArray();
                 if (cells.Length < 2)
+                {
                     continue;
+                }
 
                 var option = ParseTableRow(cells, className);
                 if (option is not null && !options.Any(o => o.SwitchName == option.SwitchName))
@@ -246,7 +255,9 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         {
             var text = block.TextContent;
             if (!text.Contains("dotnet") && !text.Contains("--"))
+            {
                 continue;
+            }
 
             var matches = OptionPattern().Matches(text);
             foreach (Match match in matches)
@@ -256,11 +267,15 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
                 var valueType = match.Groups["type"].Value.Trim();
 
                 if (string.IsNullOrEmpty(longForm) || options.Any(o => o.SwitchName == longForm))
+                {
                     continue;
+                }
 
                 var propertyName = NormalizePropertyName(longForm);
                 if (propertyName is null)
+                {
                     continue;
+                }
 
                 var isFlag = string.IsNullOrEmpty(valueType) ||
                              valueType.Contains("bool", StringComparison.OrdinalIgnoreCase);
@@ -295,7 +310,9 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         // Parse option names from format like "-c|--configuration <CONFIGURATION>"
         var match = OptionDefinitionPattern().Match(text);
         if (!match.Success)
+        {
             return null;
+        }
 
         var shortForm = match.Groups["short"].Value.Trim();
         var longForm = match.Groups["long"].Value.Trim();
@@ -304,14 +321,19 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         if (string.IsNullOrEmpty(longForm))
         {
             if (string.IsNullOrEmpty(shortForm))
+            {
                 return null;
+            }
+
             longForm = shortForm;
             shortForm = null;
         }
 
         var propertyName = NormalizePropertyName(longForm);
         if (propertyName is null)
+        {
             return null;
+        }
 
         var isFlag = string.IsNullOrEmpty(valueType) ||
                      description?.Contains("boolean", StringComparison.OrdinalIgnoreCase) == true;
@@ -344,7 +366,9 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
     private CliOptionDefinition? ParseTableRow(IElement[] cells, string className)
     {
         if (cells.Length < 2)
+        {
             return null;
+        }
 
         var optionCell = cells[0].TextContent.Trim();
         var description = cells.Length > 1 ? cells[1].TextContent.Trim() : string.Empty;
@@ -352,7 +376,9 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         // Parse option pattern
         var match = OptionDefinitionPattern().Match(optionCell);
         if (!match.Success)
+        {
             return null;
+        }
 
         var shortForm = match.Groups["short"].Value.Trim();
         var longForm = match.Groups["long"].Value.Trim();
@@ -361,14 +387,19 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         if (string.IsNullOrEmpty(longForm))
         {
             if (string.IsNullOrEmpty(shortForm))
+            {
                 return null;
+            }
+
             longForm = shortForm;
             shortForm = null;
         }
 
         var propertyName = NormalizePropertyName(longForm);
         if (propertyName is null)
+        {
             return null;
+        }
 
         var isFlag = string.IsNullOrEmpty(valueType);
         var isNumeric = description.Contains("integer", StringComparison.OrdinalIgnoreCase);
@@ -414,13 +445,17 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         {
             var text = block.TextContent;
             if (!text.Contains("dotnet"))
+            {
                 continue;
+            }
 
             // Only look at the first usage line
             var lines = text.Split('\n');
             var usageLine = lines.FirstOrDefault(l => l.TrimStart().StartsWith("dotnet"));
             if (string.IsNullOrEmpty(usageLine))
+            {
                 continue;
+            }
 
             // Look for angle-bracket patterns that are NOT preceded by --
             var matches = PositionalArgPattern().Matches(usageLine);
@@ -434,24 +469,29 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
                 var matchIndex = match.Index;
                 var precedingText = usageLine[..matchIndex];
                 if (precedingText.EndsWith("--") || precedingText.TrimEnd().EndsWith("-"))
+                {
                     continue;
+                }
 
                 // Only include known positional argument types
                 if (!validPositionalArgs.Contains(argName))
+                {
                     continue;
+                }
 
                 if (NormalizePropertyName(argName) is not { } propertyName)
+                {
                     continue;
+                }
 
                 if (!args.Any(a => a.PropertyName == propertyName))
                 {
                     args.Add(new CliPositionalArgument
                     {
-                        PlaceholderName = argName,
                         PropertyName = propertyName,
                         CSharpType = "string?",
                         Description = null,
-                        Placement = PositionalArgumentPosition.BeforeOptions,
+                        Phase = CommandLinePhase.EarlyOperand,
                         PositionIndex = index++,
                         IsRequired = false
                     });

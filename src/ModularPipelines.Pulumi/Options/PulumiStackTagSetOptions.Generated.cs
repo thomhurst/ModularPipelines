@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "tag", "set")]
 public record PulumiStackTagSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Value
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Value
 ) : PulumiOptions
 {
     /// <summary>

@@ -47,7 +47,7 @@ public record HelmRegistryOptions : HelmOptions
     /// <summary>
     /// group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kube-as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KubeAsGroup { get; set; }
 
     /// <summary>
@@ -122,11 +122,5 @@ public record HelmRegistryOptions : HelmOptions
     /// </summary>
     [CliOption("--repository-config", Format = OptionFormat.EqualsSeparated)]
     public string? RepositoryConfig { get; set; }
-
-    /// <summary>
-    /// The command operand.
-    /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Command { get; set; }
 
 }

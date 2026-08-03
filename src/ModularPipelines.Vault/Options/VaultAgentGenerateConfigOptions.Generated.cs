@@ -24,7 +24,7 @@ public record VaultAgentGenerateConfigOptions : VaultOptions
     /// <summary>
     /// The path Or to Or config.hcl operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? PathOrToOrConfigHcl { get; set; }
 
 }

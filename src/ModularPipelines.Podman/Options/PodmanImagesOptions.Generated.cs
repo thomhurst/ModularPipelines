@@ -35,7 +35,7 @@ public record PodmanImagesOptions : PodmanOptions
     /// <summary>
     /// Filter output based on conditions provided (default [])
     /// </summary>
-    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>
@@ -77,7 +77,7 @@ public record PodmanImagesOptions : PodmanOptions
     /// <summary>
     /// The IMAGE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Image { get; set; }
 
 }

@@ -33,13 +33,13 @@ public record GcloudTransferJobsListOptions : GcloudOptions
     /// <summary>
     /// The names of the jobs you want to list. Separate multiple job names     with commas (e.g., --job-names=foo,bar). If not specified, all jobs     will be listed.
     /// </summary>
-    [CliOption("--job-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--job-names", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JobNames { get; set; }
 
     /// <summary>
     /// List only jobs with the statuses you specify. Options include     'enabled', 'disabled', 'deleted' (case insensitive). Separate multiple     statuses with commas (e.g., --job-statuses=enabled,deleted). If not     specified, all jobs will be listed.
     /// </summary>
-    [CliOption("--job-statuses", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--job-statuses", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? JobStatuses { get; set; }
 
     /// <summary>

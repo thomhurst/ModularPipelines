@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("functions", "list")]
 public record GcloudFunctionsListOptions : GcloudOptions
 {
-    [CliOption("--regions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>

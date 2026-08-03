@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("spanner", "instances", "create")]
 public record GcloudSpannerInstancesCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Instance
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Instance
 ) : GcloudOptions
 {
 }

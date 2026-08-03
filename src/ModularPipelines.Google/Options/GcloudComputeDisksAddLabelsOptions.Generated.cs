@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "add-labels")]
 public record GcloudComputeDisksAddLabelsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DiskName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DiskName
 ) : GcloudOptions
 {
 }

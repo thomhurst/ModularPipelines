@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("bigtable", "instances", "tables", "set-iam-policy")]
 public record GcloudBigtableInstancesTablesSetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PolicyFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PolicyFile
 ) : GcloudOptions
 {
 }

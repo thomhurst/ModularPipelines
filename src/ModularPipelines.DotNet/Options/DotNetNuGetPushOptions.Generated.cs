@@ -100,7 +100,7 @@ public record DotNetNuGetPushOptions : DotNetOptions
     /// <summary>
     /// Specify the path to the package and your API key to push the package to the server.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Path { get; set; }
 
 }

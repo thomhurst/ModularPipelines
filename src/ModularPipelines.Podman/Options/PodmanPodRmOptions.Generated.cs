@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "rm")]
 public record PodmanPodRmOptions(
-    [property: CliArgument(0)] IEnumerable<string> Pod
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Pod
 ) : PodmanOptions
 {
     /// <summary>
@@ -49,7 +49,7 @@ public record PodmanPodRmOptions(
     /// <summary>
     /// Read the pod ID from the file
     /// </summary>
-    [CliOption("--pod-id-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pod-id-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PodIdFile { get; set; }
 
     /// <summary>

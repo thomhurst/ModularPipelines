@@ -20,13 +20,13 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "groups", "update")]
 public record GcloudPreviewComputeInterconnectsAttachmentsGroupsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
     /// Member interconnect attachments to add to the interconnect attachment     group initially.
     /// </summary>
-    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attachments", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attachments { get; set; }
 
     /// <summary>

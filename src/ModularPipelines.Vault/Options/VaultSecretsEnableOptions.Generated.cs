@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "enable")]
 public record VaultSecretsEnableOptions(
-    [property: CliArgument(0)] string Type
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Type
 ) : VaultOptions
 {
 }
