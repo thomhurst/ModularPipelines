@@ -1,6 +1,5 @@
 using System.Globalization;
 using ModularPipelines.Attributes;
-using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
@@ -8,34 +7,6 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class CliAttributeTests
 {
-    [Test]
-    public async Task Named_Placeholder_Values_Use_Invariant_Culture()
-    {
-        var originalCulture = CultureInfo.CurrentCulture;
-
-        try
-        {
-            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
-            var handler = new PlaceholderHandler(new CommandModelProvider());
-
-            var arguments = handler.ReplacePlaceholders(
-                ["<SCALAR>", "<VALUES>"],
-                new TestCliOptionsWithNamedFormattableValues
-                {
-                    Scalar = 1.5,
-                    Values = [2.5, 3.5],
-                });
-
-            await Assert.That(arguments).IsEquivalentTo(
-                ["1.5", "2.5", "3.5"],
-                TUnit.Assertions.Enums.CollectionOrdering.Matching);
-        }
-        finally
-        {
-            CultureInfo.CurrentCulture = originalCulture;
-        }
-    }
-
     [Test]
     public async Task Numeric_And_Formattable_Values_Use_Invariant_Culture()
     {
@@ -437,15 +408,6 @@ public class CliAttributeTests
 
         [CliOption("--values")]
         public double[]? Values { get; init; }
-    }
-
-    private record TestCliOptionsWithNamedFormattableValues
-    {
-        [CliArgument(Name = "<SCALAR>")]
-        public double? Scalar { get; init; }
-
-        [CliArgument(Name = "<VALUES>")]
-        public IEnumerable<double>? Values { get; init; }
     }
 
     private record TestCliOptionsWithFlag

@@ -93,7 +93,7 @@ public partial class NbgvCliScraper(
             Description = ExtractDescription(helpText),
             DocumentationUrl = DocumentationUrl,
             Options = ParseOptions(helpText),
-            PositionalArguments = NormalizePositionalArguments(usage.PositionalArguments),
+            PositionalArguments = usage.PositionalArguments,
             UsageSynopsis = usage.Synopsis,
             HasOperandTakingUsage = usage.HasOperandTokens,
             Enums = [],
@@ -106,18 +106,6 @@ public partial class NbgvCliScraper(
         DescriptionPattern().Match(helpText) is { Success: true } match
             ? match.Groups["description"].Value.Trim()
             : null;
-
-    private static CliPositionalArgument[] NormalizePositionalArguments(
-        IReadOnlyList<CliPositionalArgument> arguments) =>
-        [
-            .. arguments.Select(argument =>
-                string.Equals(
-                    argument.PlaceholderName?.Trim('<', '>'),
-                    "versionOrRef",
-                    StringComparison.OrdinalIgnoreCase)
-                    ? argument with { PropertyName = "VersionOrRef" }
-                    : argument),
-        ];
 
     private static List<CliOptionDefinition> ParseOptions(string helpText)
     {

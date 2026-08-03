@@ -118,6 +118,19 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Uses_Constructor_Computed_CommandParts()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestComputedCommandPartsOptions("deploy")
+        {
+            Force = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("mytool resource deploy --force");
+    }
+
+    [Test]
     public async Task Build_WithPositionalArguments_PlacesCorrectly()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -237,6 +250,18 @@ public class CommandLineBuilderTests : TestBase
 
         [CliOption("--output")]
         public string? Output { get; set; }
+    }
+
+    [CliTool("mytool")]
+    private sealed record TestComputedCommandPartsOptions : CommandLineToolOptions
+    {
+        public TestComputedCommandPartsOptions(string action)
+        {
+            CommandParts = ["resource", action];
+        }
+
+        [CliFlag("--force")]
+        public bool? Force { get; init; }
     }
 
     [CliTool("processor")]

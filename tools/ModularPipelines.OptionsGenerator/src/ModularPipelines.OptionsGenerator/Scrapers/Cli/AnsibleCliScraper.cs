@@ -87,7 +87,6 @@ public partial class AnsibleCliScraper : CliScraperBase
                 new CliPositionalArgument
                 {
                     PropertyName = "Pattern",
-                    PlaceholderName = "pattern",
                     CSharpType = "string",
                     IsRequired = true,
                     PositionIndex = 0,

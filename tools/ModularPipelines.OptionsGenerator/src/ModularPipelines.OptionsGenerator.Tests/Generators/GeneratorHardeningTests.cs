@@ -320,7 +320,6 @@ public class GeneratorHardeningTests
                 new CliPositionalArgument
                 {
                     PropertyName = "Service",
-                    PlaceholderName = "SERVICE",
                     CSharpType = "string",
                     IsRequired = true,
                 },

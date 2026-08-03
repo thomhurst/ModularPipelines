@@ -417,7 +417,6 @@ public partial class DotNetCliScraper : CliScraperBase
             {
                 args.Add(new CliPositionalArgument
                 {
-                    PlaceholderName = argName,
                     PropertyName = propertyName,
                     CSharpType = "string?",
                     Description = description,
@@ -448,7 +447,6 @@ public partial class DotNetCliScraper : CliScraperBase
             [
                 new CliPositionalArgument
                 {
-                    PlaceholderName = "PACKAGE_ID",
                     PropertyName = "PackageName",
                     CSharpType = "string?",
                     Description = "The package ID to delete.",
@@ -458,7 +456,6 @@ public partial class DotNetCliScraper : CliScraperBase
                 },
                 new CliPositionalArgument
                 {
-                    PlaceholderName = "PACKAGE_VERSION",
                     PropertyName = "Version",
                     CSharpType = "string?",
                     Description = "The package version to delete.",

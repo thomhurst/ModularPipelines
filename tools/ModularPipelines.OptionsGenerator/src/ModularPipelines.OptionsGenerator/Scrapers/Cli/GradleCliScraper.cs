@@ -112,7 +112,6 @@ public partial class GradleCliScraper : CliScraperBase
                 new CliPositionalArgument
                 {
                     PropertyName = "Tasks",
-                    PlaceholderName = "task(s)",
                     CSharpType = "IEnumerable<string>?",
                     Description = "Gradle tasks to execute.",
                     PositionIndex = 0,
