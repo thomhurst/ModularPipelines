@@ -572,6 +572,39 @@ public class ArtifactContractTests
             Task.FromResult<string?>("used history dependency");
     }
 
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
+    private sealed class OscillatingFirstArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Oscillating consumer must cascade-skip");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ConsumesArtifact(
+        typeof(DependencyOrderedSkippedArtifactProducerModule),
+        "dependency-ordered")]
+    private sealed class OscillatingSecondArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Oscillating consumer must cascade-skip");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    private sealed class UnrelatedFirstHistoryDependentModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("used first history dependency");
+    }
+
     [ModularPipelines.Attributes.DependsOn<SkippedArtifactBlockerModule>]
     private sealed class TransitiveSkippedArtifactIntermediateModule : Module<string>
     {
@@ -1573,6 +1606,62 @@ public class ArtifactContractTests
                 await Assert.That(firstProducerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
                 await Assert.That(secondProducerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
                 await Assert.That(unrelatedResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task IgnoredArtifactDemandBreaksOscillationWithoutSuppressingAllHistory()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules =
+                [
+                    nameof(SkippedArtifactProducerModule),
+                    nameof(DependencyOrderedSkippedArtifactProducerModule),
+                ],
+            });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<DependencyOrderedSkippedArtifactProducerModule>();
+            builder.AddModule<OscillatingFirstArtifactConsumerModule>();
+            builder.AddModule<OscillatingSecondArtifactConsumerModule>();
+            builder.AddModule<UnrelatedFirstHistoryDependentModule>();
+            builder.AddModule<UnrelatedHistoryDependentModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var firstProducerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var secondProducerResult = await summary.Modules
+                .OfType<DependencyOrderedSkippedArtifactProducerModule>()
+                .Single();
+            var firstUnrelatedResult = await summary.Modules
+                .OfType<UnrelatedFirstHistoryDependentModule>()
+                .Single();
+            var secondUnrelatedResult = await summary.Modules
+                .OfType<UnrelatedHistoryDependentModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstProducerResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(secondProducerResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(firstUnrelatedResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Successful);
+                await Assert.That(secondUnrelatedResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Skipped);
             }
         }
         finally

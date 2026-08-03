@@ -91,8 +91,30 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             .Select(ignoredModule => ignoredModule.Module.GetType())
             .ToHashSet();
         var consumedArtifactProducerTypes = new HashSet<Type>();
-        for (var iteration = 0; iteration <= allModules.Length; iteration++)
+        var forcedConsumedArtifactProducerTypes = new HashSet<Type>();
+        var seenDemandStates = new List<HashSet<Type>>();
+        while (true)
         {
+            if (seenDemandStates.Any(state => state.SetEquals(consumedArtifactProducerTypes)))
+            {
+                var cycleBreaker = seenDemandStates
+                    .SelectMany(state => state)
+                    .Concat(consumedArtifactProducerTypes)
+                    .Where(type => !forcedConsumedArtifactProducerTypes.Contains(type))
+                    .OrderBy(type => type.AssemblyQualifiedName, StringComparer.Ordinal)
+                    .FirstOrDefault();
+                if (cycleBreaker is null)
+                {
+                    break;
+                }
+
+                forcedConsumedArtifactProducerTypes.Add(cycleBreaker);
+                consumedArtifactProducerTypes = new HashSet<Type>(forcedConsumedArtifactProducerTypes);
+                seenDemandStates.Clear();
+                continue;
+            }
+
+            seenDemandStates.Add(new HashSet<Type>(consumedArtifactProducerTypes));
             var nextConsumedArtifactProducerTypes = new HashSet<Type>();
             var unrecoverableIgnoredModuleTypes = ignoredModuleTypesWithoutHistory
                 .Concat(consumedArtifactProducerTypes)
@@ -132,14 +154,9 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                 }
             }
 
+            nextConsumedArtifactProducerTypes.UnionWith(forcedConsumedArtifactProducerTypes);
             if (consumedArtifactProducerTypes.SetEquals(nextConsumedArtifactProducerTypes))
             {
-                break;
-            }
-
-            if (iteration == allModules.Length)
-            {
-                consumedArtifactProducerTypes.UnionWith(nextConsumedArtifactProducerTypes);
                 break;
             }
 
