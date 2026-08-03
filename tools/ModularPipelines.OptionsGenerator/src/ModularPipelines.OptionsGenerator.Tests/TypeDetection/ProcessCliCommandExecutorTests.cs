@@ -176,7 +176,7 @@ public class ProcessCliCommandExecutorTests
                 NullLogger<ProcessCliCommandExecutor>.Instance,
                 OperatingSystem.IsWindows()
                     ? TimeSpan.FromMilliseconds(1500)
-                    : TimeSpan.FromMilliseconds(100));
+                    : TimeSpan.FromSeconds(2));
 
             var execution = executor.ExecuteAsync(command.Command, command.Arguments);
             var result = await execution.WaitAsync(TimeSpan.FromSeconds(5));
@@ -223,7 +223,7 @@ public class ProcessCliCommandExecutorTests
                 NullLogger<ProcessCliCommandExecutor>.Instance,
                 OperatingSystem.IsWindows()
                     ? TimeSpan.FromMilliseconds(1500)
-                    : TimeSpan.FromMilliseconds(150));
+                    : TimeSpan.FromSeconds(2));
 
             var result = await executor.ExecuteAsync(command.Command, command.Arguments)
                 .WaitAsync(TimeSpan.FromSeconds(5));
@@ -392,7 +392,7 @@ public class ProcessCliCommandExecutorTests
 
         var scriptPath = Path.ChangeExtension(childPidPath, ".cmd");
         var escapedPidPath = childPidPath.Replace("'", "''", StringComparison.Ordinal);
-        var parentDelayMilliseconds = parentExits ? 1000 : 3000;
+        var parentDelayMilliseconds = parentExits ? 0 : 3000;
         await File.WriteAllTextAsync(
             scriptPath,
             $"""

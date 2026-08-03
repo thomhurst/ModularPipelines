@@ -19,7 +19,10 @@ internal sealed class DescendantProcessTracker : IDisposable
     private readonly SafeFileHandle? _windowsJob;
     private bool _disposed;
 
-    public DescendantProcessTracker(int rootProcessId, bool usesUnixProcessGroup = false)
+    public DescendantProcessTracker(
+        int rootProcessId,
+        bool usesUnixProcessGroup = false,
+        bool usesWindowsJobLauncher = false)
     {
         _unixProcessGroupId = usesUnixProcessGroup ? rootProcessId : null;
         if (!ChildProcessSnapshot.IsSupported)
@@ -35,7 +38,7 @@ internal sealed class DescendantProcessTracker : IDisposable
             _rootProcess = new TrackedProcess(
                 new ProcessIdentity(rootProcessId, _rootProcessStartTime),
                 rootProcess);
-            _windowsJob = OperatingSystem.IsWindows()
+            _windowsJob = OperatingSystem.IsWindows() && !usesWindowsJobLauncher
                 ? TryCreateWindowsJob(rootProcess)
                 : null;
         }
@@ -131,16 +134,15 @@ internal sealed class DescendantProcessTracker : IDisposable
 
     private static SafeFileHandle? TryCreateWindowsJob(Process process)
     {
-        var job = CreateJobObject(nint.Zero, null);
-        if (job.IsInvalid)
+        var job = WindowsJob.TryCreate();
+        if (job is null)
         {
-            job.Dispose();
             return null;
         }
 
         try
         {
-            if (AssignProcessToJobObject(job, process.SafeHandle))
+            if (WindowsJob.TryAssign(job, process.SafeHandle))
             {
                 return job;
             }
@@ -334,15 +336,6 @@ internal sealed class DescendantProcessTracker : IDisposable
 #pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
     [DllImport("libc", EntryPoint = "kill", SetLastError = true)]
     private static extern int KillProcess(int processId, int signal);
-
-    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-    private static extern SafeFileHandle CreateJobObject(nint jobAttributes, string? name);
-
-    [DllImport("kernel32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool AssignProcessToJobObject(
-        SafeFileHandle job,
-        SafeProcessHandle process);
 
     [DllImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]

@@ -50,7 +50,9 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
         startInfo.Environment["GIT_PAGER"] = "";    // Git
         startInfo.Environment["NO_COLOR"] = "1";    // Disable color output which can cause parsing issues
 
-        var processLaunch = UnixProcessGroupLauncher.Wrap(startInfo);
+        var processLaunch = OperatingSystem.IsWindows()
+            ? WindowsJobLauncher.Wrap(startInfo)
+            : UnixProcessGroupLauncher.Wrap(startInfo);
 
         try
         {
@@ -62,7 +64,8 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             process.StandardInput.Close();
             using var descendantTracker = new DescendantProcessTracker(
                 process.Id,
-                processLaunch.UsesUnixProcessGroup);
+                processLaunch.UsesUnixProcessGroup,
+                processLaunch.UsesWindowsJobLauncher);
 
             var stdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
             var stderrTask = process.StandardError.ReadToEndAsync(cts.Token);

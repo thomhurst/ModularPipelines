@@ -14,12 +14,6 @@ internal static class UnixProcessGroupLauncher
 
     public static ProcessLaunch Wrap(ProcessStartInfo targetStartInfo)
     {
-        if (OperatingSystem.IsWindows())
-        {
-            targetStartInfo.CreateNewProcessGroup = true;
-            return new ProcessLaunch(targetStartInfo, UsesUnixProcessGroup: false);
-        }
-
         var launcherStartInfo = CreateLauncherStartInfo();
         launcherStartInfo.ArgumentList.Add(InvocationArgument);
         launcherStartInfo.ArgumentList.Add(targetStartInfo.FileName);
@@ -37,7 +31,10 @@ internal static class UnixProcessGroupLauncher
             launcherStartInfo.Environment[name] = value;
         }
 
-        return new ProcessLaunch(launcherStartInfo, UsesUnixProcessGroup: true);
+        return new ProcessLaunch(
+            launcherStartInfo,
+            UsesUnixProcessGroup: true,
+            UsesWindowsJobLauncher: false);
     }
 
     public static async Task<int> RunAsync(string[] arguments)
@@ -96,4 +93,7 @@ internal static class UnixProcessGroupLauncher
 #pragma warning restore SYSLIB1054
 }
 
-internal sealed record ProcessLaunch(ProcessStartInfo StartInfo, bool UsesUnixProcessGroup);
+internal sealed record ProcessLaunch(
+    ProcessStartInfo StartInfo,
+    bool UsesUnixProcessGroup,
+    bool UsesWindowsJobLauncher);
