@@ -160,7 +160,7 @@ public class CommandParserTests : TestBase
     }
 
     [CliTool("mysupersecrettool")]
-    [CliCommand("mysupersecrettool", "do", "this", "then", "that")]
+    [CliSubCommand("do", "this", "then", "that")]
     private record MySuperSecretToolOptions : CommandLineToolOptions
     {
         [CliOption("--build-arg")]
@@ -189,7 +189,7 @@ public class CommandParserTests : TestBase
     }
 
     [CliTool("dotnet")]
-    [CliCommand("dotnet", "add")]
+    [CliSubCommand("add")]
     private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions
     {
         [CliArgument(0, Placement = ArgumentPlacement.ImmediatelyAfterCommand)]
@@ -206,7 +206,7 @@ public class CommandParserTests : TestBase
     }
 
     [CliTool("dotnet")]
-    [CliCommand("dotnet", "add")]
+    [CliSubCommand("add")]
     private record PlaceholderToolOptions3 : CommandLineToolOptions
     {
         [CliArgument(Placement = ArgumentPlacement.ImmediatelyAfterCommand)]

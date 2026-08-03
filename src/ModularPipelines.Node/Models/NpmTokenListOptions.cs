@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("token", "list")]
+[CliSubCommand("token", "list")]
 public record NpmTokenListOptions : NpmOptions
 {
     [CliFlag("--read-only")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pkg", "set")]
+[CliSubCommand("pkg", "set")]
 public record NpmPkgSetOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : NpmOptions

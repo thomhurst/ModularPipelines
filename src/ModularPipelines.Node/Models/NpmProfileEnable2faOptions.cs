@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("profile", "enable-2fa")]
+[CliSubCommand("profile", "enable-2fa")]
 public record NpmProfileEnable2faOptions : NpmOptions
 {
     [CliOption("--registry")]

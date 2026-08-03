@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "set", "registry")]
+[CliSubCommand("config", "set", "registry")]
 public record NpmConfigSetRegistryOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Registry
 ) : NpmOptions

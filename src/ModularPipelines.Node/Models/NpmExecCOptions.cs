@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("exec", "-c")]
+[CliSubCommand("exec", "-c")]
 public record NpmExecCOptions : NpmOptions
 {
     [CliOption("--package")]

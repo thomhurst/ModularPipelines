@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("team", "ls")]
+[CliSubCommand("team", "ls")]
 public record NpmTeamLsOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : NpmOptions

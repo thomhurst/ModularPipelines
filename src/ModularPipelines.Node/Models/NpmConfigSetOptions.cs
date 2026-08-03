@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "set")]
+[CliSubCommand("config", "set")]
 public record NpmConfigSetOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
 ) : NpmOptions

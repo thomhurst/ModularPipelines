@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cache", "clean")]
+[CliSubCommand("cache", "clean")]
 public record NpmCacheCleanOptions : NpmOptions
 {
     [CliOption("--cache")]
