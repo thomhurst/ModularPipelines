@@ -13,11 +13,9 @@ internal static class ModuleConfigurationAttributeAdapter
 {
     public static ModuleConfiguration Apply(
         Type moduleType,
-        ModuleConfiguration configured,
-        IReadOnlySet<string> declaredTags,
-        string? declaredCategory)
+        ModuleConfiguration configured)
     {
-        var tags = MergeTags(moduleType, declaredTags, configured.Tags);
+        var tags = MergeTags(moduleType, configured.Tags);
         var dependencies = MergeDependencies(moduleType, configured.Dependencies);
         var notInParallel = moduleType.GetCustomAttribute<NotInParallelAttribute>(inherit: true);
         var priority = moduleType.GetCustomAttribute<PriorityAttribute>(inherit: true);
@@ -29,7 +27,6 @@ internal static class ModuleConfigurationAttributeAdapter
             .Distinct(StringComparer.Ordinal)
             .ToArray();
         var category = configured.Category
-            ?? declaredCategory
             ?? moduleType.GetCustomAttribute<ModuleCategoryAttribute>(inherit: true)?.Category;
         if (IsUnchanged(configured, notInParallel, priority, executionHint, tags, category, cacheInputPatterns, dependencies))
         {
@@ -39,6 +36,7 @@ internal static class ModuleConfigurationAttributeAdapter
         return new ModuleConfiguration
         {
             SkipCondition = configured.SkipCondition,
+            PlanningSkipCondition = configured.PlanningSkipCondition,
             Timeout = configured.Timeout,
             RetryConfiguration = configured.RetryConfiguration,
             AdvancedRetryPolicyFactory = configured.AdvancedRetryPolicyFactory,
@@ -59,13 +57,11 @@ internal static class ModuleConfigurationAttributeAdapter
 
     private static IReadOnlySet<string> MergeTags(
         Type moduleType,
-        IReadOnlySet<string> declaredTags,
         IReadOnlySet<string> configuredTags)
     {
         return moduleType
             .GetCustomAttributes<ModuleTagAttribute>(inherit: true)
             .Select(attribute => attribute.Tag)
-            .Concat(declaredTags)
             .Concat(configuredTags)
             .ToFrozenSet(StringComparer.OrdinalIgnoreCase);
     }

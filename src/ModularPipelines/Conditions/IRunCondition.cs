@@ -9,6 +9,8 @@ namespace ModularPipelines.Conditions;
 /// Implement this interface to create custom run conditions.
 /// Conditions are evaluated before module execution and can access
 /// the pipeline context for environment checks, HTTP calls, etc.
+/// Conditions may also be evaluated while building a dry-run plan. Implementations must not
+/// mutate state or rely on being evaluated exactly once.
 /// </remarks>
 /// <example>
 /// <code>

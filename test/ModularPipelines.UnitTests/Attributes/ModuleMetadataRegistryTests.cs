@@ -1,13 +1,11 @@
 using System.Reflection;
 using ModularPipelines.Configuration;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
@@ -19,17 +17,16 @@ public class ModuleMetadataRegistryTests
             => Task.FromResult<string>("A");
     }
 
-    private sealed class DirectTaggedModule : IModule, ITaggedModule
+    private sealed class DirectConfiguredModule : IModule
     {
         public Type ResultType => typeof(string);
 
-        public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Create().Build();
+        public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Create()
+            .WithTags("direct-tag")
+            .WithCategory("direct-category")
+            .Build();
 
         public Task<IModuleResult> ResultTask => null!;
-
-        public IReadOnlySet<string> Tags { get; } = new HashSet<string> { "direct-tag" };
-
-        public string? Category => "direct-category";
 
         public bool TrySetDistributedResult(IModuleResult result) => false;
     }
@@ -98,14 +95,10 @@ public class ModuleMetadataRegistryTests
     }
 
     private static ModuleMetadataRegistry CreateRegistry()
-        => new(
-            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-            new ModuleAttributeEventService());
+        => new(new ModuleAttributeEventService());
 
     private static ModuleMetadataRegistry CreateRegistry(IModuleAttributeEventService attributeEventService)
-        => new(
-            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-            attributeEventService);
+        => new(attributeEventService);
 
     [Test]
     public async Task SetMetadata_GetMetadata_ReturnsValue()
@@ -140,15 +133,15 @@ public class ModuleMetadataRegistryTests
     }
 
     [Test]
-    public async Task FinalizeMetadata_PreservesDirectTaggedModuleMetadata()
+    public async Task FinalizeMetadata_PreservesDirectConfiguredModuleMetadata()
     {
         var registry = CreateRegistry();
-        var module = new DirectTaggedModule();
+        var module = new DirectConfiguredModule();
 
-        registry.FinalizeMetadata(typeof(DirectTaggedModule), module);
+        registry.FinalizeMetadata(typeof(DirectConfiguredModule), module);
 
-        await Assert.That(registry.GetTags(typeof(DirectTaggedModule))).Contains("direct-tag");
-        await Assert.That(registry.GetCategory(typeof(DirectTaggedModule))).IsEqualTo("direct-category");
+        await Assert.That(registry.GetTags(typeof(DirectConfiguredModule))).Contains("direct-tag");
+        await Assert.That(registry.GetCategory(typeof(DirectConfiguredModule))).IsEqualTo("direct-category");
     }
 
     [Test]

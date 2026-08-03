@@ -7,6 +7,45 @@ sidebar_position: 5
 
 This is a complete example of running a distributed pipeline across GitHub Actions matrix runners using Redis for coordination.
 
+## Generate the Workflow
+
+The `ModularPipelines.GitHub` package can generate the matrix from the operating-system
+capabilities declared by registered modules. Call `WriteDistributedWorkflow` after registering
+the modules so regeneration reflects capability changes:
+
+```csharp
+using ModularPipelines.GitHub.Extensions;
+using ModularPipelines.GitHub.PipelineWriters;
+
+builder.AddModule<RestoreModule>();
+builder.AddModule<LinuxBuildModule>();
+builder.AddModule<WindowsBuildModule>();
+builder.AddModule<MacBuildModule>();
+builder.AddModule<AggregateResultsModule>();
+
+builder.WriteDistributedWorkflow(new DistributedWorkflowOptions
+{
+    Backend = DistributedBackend.Redis,
+    ExtraWorkers = 1,
+    PipelineProjectPath = new("src/MyPipeline"),
+});
+```
+
+The generated matrix contains a Linux master, one worker for every `linux`, `windows`, or
+`macos` capability used by a registered module or its operating-system run conditions, and the
+requested additional workers. It wires `INSTANCE_INDEX`, `TOTAL_INSTANCES`, `REDIS_URL`, and a
+unique `RUN_IDENTIFIER` automatically. Set the repository secret
+named `REDIS_URL`, or change `RedisSecretName` in the options. Commit the generated file at
+`.github/workflows/modular-pipelines.yml`; regenerate it whenever module registration or
+capability requirements change.
+
+The default trigger runs on pushes to `main` and manual dispatches. Pull requests are omitted
+because workflows from forks cannot access the Redis repository secret. Trusted repositories can
+opt in by setting `TriggerCondition.PullRequest`; repositories accepting fork contributions should
+keep secret-dependent distributed jobs disabled for those events.
+
+The following hand-written workflow is equivalent and can be customized directly.
+
 ## Workflow File
 
 ```yaml
@@ -15,10 +54,21 @@ name: Distributed Pipeline
 on:
   push:
     branches: [main]
-  pull_request:
+  workflow_dispatch:
 
 jobs:
+  initialize:
+    runs-on: ubuntu-latest
+    outputs:
+      run-identifier: ${{ steps.identifier.outputs.value }}
+    steps:
+      - name: Initialize coordination
+        id: identifier
+        shell: bash
+        run: echo "value=${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+
   pipeline:
+    needs: initialize
     strategy:
       fail-fast: false
       matrix:
@@ -36,9 +86,17 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Validate retry scope
+        shell: bash
+        run: |
+          if [ "${{ needs.initialize.outputs.run-identifier }}" != "${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" ]; then
+            echo "::error::Distributed workflows require 'Re-run all jobs'; partial retries cannot recreate the worker matrix."
+            exit 1
+          fi
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7.0.1
+
+      - uses: actions/setup-dotnet@v6.0.0
         with:
           dotnet-version: "10.0.x"
 
@@ -47,7 +105,8 @@ jobs:
           INSTANCE_INDEX: ${{ matrix.instance }}
           TOTAL_INSTANCES: 4
           REDIS_URL: ${{ secrets.REDIS_URL }}
-        run: dotnet run --project src/MyPipeline -c Release
+          RUN_IDENTIFIER: ${{ needs.initialize.outputs.run-identifier }}
+        run: dotnet run --project 'src/MyPipeline' -c Release
 ```
 
 ## Redis Setup for CI
@@ -97,7 +156,7 @@ builder.AddDistributedMode(o =>
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = Environment.GetEnvironmentVariable("REDIS_URL")!;
-    // RunIdentifier auto-detected from GITHUB_SHA
+    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
 });
 
 builder.AddModule<RestoreModule>();
@@ -191,6 +250,10 @@ public class AggregateResultsModule : Module<string>
 - **Matrix jobs don't start simultaneously.** GitHub Actions may stagger runner provisioning. Workers that start before the master will wait for work to appear in the queue.
 - **Runner timeout.** GitHub Actions has a 6-hour job timeout. Set `KeyExpirationSeconds` accordingly if you have very long pipelines.
 - **fail-fast: false** is important — you don't want GitHub to cancel workers if the master reports an error in one module.
+- **Run isolation.** The `initialize` job combines the GitHub run ID and attempt. Use
+  **Re-run all jobs** after a failure so GitHub reruns the initializer and complete worker matrix
+  with a fresh Redis namespace. Partial retries cannot recreate successful worker jobs, so the
+  generated validation step rejects **Re-run failed jobs** before any stale coordination state is read.
 - **Secrets** — store your Redis connection string as a repository or organization secret, not in code.
 
 ## Azure DevOps

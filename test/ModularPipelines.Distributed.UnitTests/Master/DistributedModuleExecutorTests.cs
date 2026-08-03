@@ -29,9 +29,7 @@ public class DistributedModuleExecutorTests
     private static ModuleDependencyRegistry NewDependencyRegistry() => new();
 
     private static ModuleMetadataRegistry NewMetadataRegistry() =>
-        new(
-            Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()),
-            new ModuleAttributeEventService());
+        new(new ModuleAttributeEventService());
 
     private static ModuleResultRegistrar NewResultRegistrar(IModuleResultRegistry resultRegistry) =>
         new ModuleResultRegistrar(resultRegistry, NullLogger<ModuleResultRegistrar>.Instance);

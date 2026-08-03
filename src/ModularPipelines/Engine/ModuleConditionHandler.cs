@@ -78,6 +78,14 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         return Task.FromResult(result);
     }
 
+    public Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
+        IModule module,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return EvaluateShouldIgnore(module, cancellationToken);
+    }
+
     private async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> EvaluateShouldIgnore(
         IModule module,
         CancellationToken cancellationToken)

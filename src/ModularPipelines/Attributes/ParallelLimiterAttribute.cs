@@ -21,6 +21,8 @@ public sealed class ParallelLimiterAttribute<TParallelLimit> : ParallelLimiterAt
     {
         return provider.GetLock<TParallelLimit>();
     }
+
+    internal override int Limit => TParallelLimit.Limit;
 }
 
 /// <summary>
@@ -32,6 +34,8 @@ public abstract class ParallelLimiterAttribute : Attribute
     /// Gets the type implementing <see cref="IParallelLimit"/>.
     /// </summary>
     public Type Type { get; }
+
+    internal abstract int Limit { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ParallelLimiterAttribute"/> class.

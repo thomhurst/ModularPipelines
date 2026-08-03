@@ -18,6 +18,7 @@ public class NodeTests : TestBase
     }
 
     [Test]
+    [RequiresTool("node")]
     public async Task Has_Not_Errored()
     {
         var moduleResult = await await RunModule<NodeVersionModule>();
@@ -26,6 +27,7 @@ public class NodeTests : TestBase
     }
 
     [Test]
+    [RequiresTool("node")]
     public async Task Standard_Output_Is_Version_Number()
     {
         var moduleResult = await await RunModule<NodeVersionModule>();
