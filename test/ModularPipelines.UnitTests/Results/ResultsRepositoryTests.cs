@@ -84,7 +84,7 @@ public class ResultsRepositoryTests : TestBase
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<OtherCategoryModule>()
-            .RunCategories("Other")
+            .RunOnlyCategories("Other")
             .BuildAsync();
 
         await host.RunAsync();
