@@ -411,7 +411,10 @@ public class OptionsClassGenerator : ICodeGenerator
         // Validation attributes
         if (option.ValidationConstraints is not null)
         {
-            GeneratorUtils.GenerateValidationAttributes(sb, option.ValidationConstraints);
+            GeneratorUtils.GenerateValidationAttributes(
+                sb,
+                option.ValidationConstraints,
+                useCliOptionValueAttributes: option.ValueArity == CliOptionValueArity.Optional);
         }
 
         // Secret attribute for sensitive values

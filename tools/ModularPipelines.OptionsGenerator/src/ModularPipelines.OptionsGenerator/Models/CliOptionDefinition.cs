@@ -7,6 +7,49 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliOptionDefinition
 {
+    private static readonly HashSet<string> CollectionTypeNames = new(StringComparer.Ordinal)
+    {
+        "ArraySegment",
+        "BindingList",
+        "BlockingCollection",
+        "Collection",
+        "ConcurrentBag",
+        "ConcurrentDictionary",
+        "ConcurrentQueue",
+        "ConcurrentStack",
+        "Dictionary",
+        "FrozenDictionary",
+        "FrozenSet",
+        "HashSet",
+        "ICollection",
+        "IDictionary",
+        "IEnumerable",
+        "IList",
+        "IReadOnlyCollection",
+        "IReadOnlyDictionary",
+        "IReadOnlyList",
+        "IReadOnlySet",
+        "ISet",
+        "ImmutableArray",
+        "ImmutableDictionary",
+        "ImmutableHashSet",
+        "ImmutableList",
+        "ImmutableQueue",
+        "ImmutableSortedDictionary",
+        "ImmutableSortedSet",
+        "ImmutableStack",
+        "LinkedList",
+        "List",
+        "ObservableCollection",
+        "Queue",
+        "ReadOnlyCollection",
+        "ReadOnlyObservableCollection",
+        "SortedDictionary",
+        "SortedList",
+        "SortedSet",
+        "Stack",
+    };
+
     /// <summary>
     /// The CLI switch name (e.g., "--output", "-o").
     /// </summary>
@@ -50,15 +93,21 @@ public record CliOptionDefinition
     private static bool IsCollectionType(string cSharpType)
     {
         var type = cSharpType.TrimEnd('?');
-        return type.EndsWith("[]", StringComparison.Ordinal)
-               || type.Contains("IEnumerable<", StringComparison.Ordinal)
-               || type.Contains("IReadOnlyCollection<", StringComparison.Ordinal)
-               || type.Contains("IReadOnlyList<", StringComparison.Ordinal)
-               || type.Contains("ICollection<", StringComparison.Ordinal)
-               || type.Contains("IList<", StringComparison.Ordinal)
-               || type.Contains("ISet<", StringComparison.Ordinal)
-               || type.Contains("List<", StringComparison.Ordinal)
-               || type.Contains("Set<", StringComparison.Ordinal);
+        if (type.EndsWith("[]", StringComparison.Ordinal))
+        {
+            return true;
+        }
+
+        var genericStart = type.IndexOf('<');
+        if (genericStart < 0)
+        {
+            return false;
+        }
+
+        var qualifiedTypeName = type[..genericStart];
+        var separator = qualifiedTypeName.LastIndexOfAny(['.', ':']);
+        var typeName = qualifiedTypeName[(separator + 1)..];
+        return CollectionTypeNames.Contains(typeName);
     }
 
     /// <summary>

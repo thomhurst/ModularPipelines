@@ -234,4 +234,20 @@ public class CliOptionDefinitionTests
 
         await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
     }
+
+    [Test]
+    [Arguments("Queue<string>?")]
+    [Arguments("System.Collections.Immutable.ImmutableArray<string>?")]
+    public async Task PropertyType_Preserves_Framework_Optional_Collection_Shapes(string cSharpType)
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = cSharpType,
+            ValueArity = CliOptionValueArity.Optional,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+    }
 }

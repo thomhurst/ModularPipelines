@@ -59,6 +59,37 @@ public class GeneratorHardeningTests
         await Assert.That(generated).Contains("public CliOptionValue? RunTests { get; set; }");
     }
 
+    [Test]
+    public async Task OptionsClassGenerator_Validates_Explicit_Optional_Values()
+    {
+        var command = Command(
+            "ToolRunOptions",
+            "ToolOptions",
+            options:
+            [
+                new CliOptionDefinition
+                {
+                    SwitchName = "--run-tests",
+                    PropertyName = "RunTests",
+                    CSharpType = "string?",
+                    ValueArity = CliOptionValueArity.Optional,
+                    ValidationConstraints = new CliValidationConstraints
+                    {
+                        MinValue = 1,
+                        MaxValue = 3,
+                        Pattern = "^[1-3]$",
+                    },
+                },
+            ]);
+
+        var generated = (await new OptionsClassGenerator().GenerateAsync(Tool(command))).Single().Content;
+
+        await Assert.That(generated).Contains("[CliOptionValueRange(1, 3)]");
+        await Assert.That(generated).Contains("[CliOptionValueRegularExpression(\"^[1-3]$\")]");
+        await Assert.That(generated).DoesNotContain("[Range(1, 3)]");
+        await Assert.That(generated).DoesNotContain("[RegularExpression(\"^[1-3]$\")]");
+    }
+
     private static CliToolDefinition Tool(params CliCommandDefinition[] commands) =>
         new()
         {

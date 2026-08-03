@@ -89,6 +89,7 @@ public class GlobalOptionsBaseGeneratorTests
                     PropertyName = "RunTests",
                     CSharpType = "string?",
                     ValueArity = CliOptionValueArity.Optional,
+                    ValidationConstraints = new CliValidationConstraints { Pattern = "^[a-z]+$" },
                 },
             ],
         };
@@ -96,6 +97,7 @@ public class GlobalOptionsBaseGeneratorTests
         var generated = (await new GlobalOptionsBaseGenerator().GenerateAsync(tool)).Single().Content;
 
         await Assert.That(generated).Contains("using ModularPipelines.Models;");
+        await Assert.That(generated).Contains("[CliOptionValueRegularExpression(\"^[a-z]+$\")]");
         await Assert.That(generated).Contains("public virtual CliOptionValue? RunTests { get; set; }");
     }
 
