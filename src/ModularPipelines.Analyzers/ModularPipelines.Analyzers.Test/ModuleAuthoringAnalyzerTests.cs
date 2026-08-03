@@ -5840,6 +5840,38 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_With_Local_Unresolved_Descriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var services = Pipeline.CreateBuilder().Services;
+                    var descriptor = ServiceDescriptor.Singleton(
+                        typeof(IModule),
+                        ChooseImplementationType());
+                    services.Add(descriptor);
+                }
+
+                private static Type ChooseImplementationType() => typeof(BuildModule);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Switch_Passed_Through_ServiceDescriptor()
     {
         var source = $$"""
@@ -6011,6 +6043,79 @@ public class ModuleAuthoringAnalyzerTests
                 {
                     public Registrar() =>
                         Pipeline.CreateBuilder().AddModule<BuildModule>();
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_Registered_Only_By_Getter_In_Uninvoked_Callback()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    Action callback = () => { _ = IsRegistered; };
+                }
+
+                private static bool IsRegistered
+                {
+                    get
+                    {
+                        Pipeline.CreateBuilder().AddModule<BuildModule>();
+                        return true;
+                    }
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_Registered_Only_By_Event_In_Uninvoked_Callback()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    Action callback = () => Registered += static () => { };
+                }
+
+                private static event Action Registered
+                {
+                    add => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                    remove { }
                 }
             }
 

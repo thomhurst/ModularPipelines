@@ -287,7 +287,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var propertyReference = (IPropertyReferenceOperation) context.Operation;
-        if (!IsInReachableBranch(propertyReference))
+        if (!IsInReachableBranch(propertyReference)
+            || !IsInsideReachableNestedCallable(propertyReference))
         {
             return;
         }
@@ -318,7 +319,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var eventAssignment = (IEventAssignmentOperation) context.Operation;
-        if (!IsInReachableBranch(eventAssignment))
+        if (!IsInReachableBranch(eventAssignment)
+            || !IsInsideReachableNestedCallable(eventAssignment))
         {
             return;
         }
@@ -1166,6 +1168,13 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsUnresolvedModuleServiceDescriptor(IOperation operation)
     {
+        return IsUnresolvedModuleServiceDescriptor(operation, []);
+    }
+
+    private static bool IsUnresolvedModuleServiceDescriptor(
+        IOperation operation,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
         while (operation is IConversionOperation conversion)
         {
             operation = conversion.Operand;
@@ -1174,25 +1183,55 @@ internal static class ModuleAuthoringAnalysis
         return operation switch
         {
             IConversionOperation conversion =>
-                IsUnresolvedModuleServiceDescriptor(conversion.Operand),
+                IsUnresolvedModuleServiceDescriptor(conversion.Operand, visitedLocals),
             IArrayCreationOperation { Initializer: { } initializer } =>
-                initializer.ElementValues.Any(IsUnresolvedModuleServiceDescriptor),
+                initializer.ElementValues.Any(element =>
+                    IsUnresolvedModuleServiceDescriptor(
+                        element,
+                        CloneVisitedLocals(visitedLocals))),
             ICollectionExpressionOperation collection =>
-                collection.Elements.Any(IsUnresolvedModuleServiceDescriptor),
-            ISpreadOperation spread => IsUnresolvedModuleServiceDescriptor(spread.Operand),
+                collection.Elements.Any(element =>
+                    IsUnresolvedModuleServiceDescriptor(
+                        element,
+                        CloneVisitedLocals(visitedLocals))),
+            ISpreadOperation spread =>
+                IsUnresolvedModuleServiceDescriptor(spread.Operand, visitedLocals),
             IConditionalOperation conditional =>
-                IsUnresolvedModuleServiceDescriptor(conditional.WhenTrue)
+                IsUnresolvedModuleServiceDescriptor(
+                    conditional.WhenTrue,
+                    CloneVisitedLocals(visitedLocals))
                 || (conditional.WhenFalse is not null
-                    && IsUnresolvedModuleServiceDescriptor(conditional.WhenFalse)),
+                    && IsUnresolvedModuleServiceDescriptor(
+                        conditional.WhenFalse,
+                        CloneVisitedLocals(visitedLocals))),
             ICoalesceOperation coalesce =>
-                IsUnresolvedModuleServiceDescriptor(coalesce.Value)
-                || IsUnresolvedModuleServiceDescriptor(coalesce.WhenNull),
+                IsUnresolvedModuleServiceDescriptor(
+                    coalesce.Value,
+                    CloneVisitedLocals(visitedLocals))
+                || IsUnresolvedModuleServiceDescriptor(
+                    coalesce.WhenNull,
+                    CloneVisitedLocals(visitedLocals)),
             ISwitchExpressionOperation switchExpression =>
                 switchExpression.Arms.Any(arm =>
-                    IsUnresolvedModuleServiceDescriptor(arm.Value)),
+                    IsUnresolvedModuleServiceDescriptor(
+                        arm.Value,
+                        CloneVisitedLocals(visitedLocals))),
+            ILocalReferenceOperation localReference =>
+                IsUnresolvedModuleServiceDescriptorLocal(localReference, visitedLocals),
             IInvocationOperation invocation => IsUnresolvedModuleServiceDescriptorFactory(invocation),
             _ => false,
         };
+    }
+
+    private static bool IsUnresolvedModuleServiceDescriptorLocal(
+        ILocalReferenceOperation localReference,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        return visitedLocals.Add(localReference.Local)
+               && FindReachingLocalValues(localReference, localReference.Local)
+                   .Any(value => IsUnresolvedModuleServiceDescriptor(
+                       value,
+                       CloneVisitedLocals(visitedLocals)));
     }
 
     private static bool IsUnresolvedModuleServiceDescriptorFactory(IInvocationOperation invocation)
