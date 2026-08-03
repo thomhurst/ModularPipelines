@@ -119,6 +119,20 @@ public abstract class Module1 : Wrapper<IEnumerable<int>, List<string>>
 }}
 ";
 
+    private const string FixedResultWrapperSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+#pragma warning disable EnumerableModuleResult
+public abstract class FixedWrapper<T> : Module<IEnumerable<T>>
+{{
+}}
+#pragma warning restore EnumerableModuleResult
+
+public abstract class Module1 : FixedWrapper<string>
+{{
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_IEnumerable()
     {
@@ -170,5 +184,13 @@ public abstract class Module1 : Wrapper<IEnumerable<int>, List<string>>
             WrappedModuleSource,
             expected,
             FixedWrappedModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Is_Not_Offered_For_A_Fixed_Result_Wrapper()
+    {
+        await VerifyCodeFixCS.VerifyNoCodeFixAsync(
+            FixedResultWrapperSource,
+            EnumerableModuleResultAnalyzer.DiagnosticId);
     }
 }

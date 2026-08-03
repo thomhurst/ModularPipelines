@@ -44,6 +44,14 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return;
         }
 
+        if (await GetReplacementContext(
+                context.Document,
+                baseTypeSyntax,
+                context.CancellationToken).ConfigureAwait(false) is null)
+        {
+            return;
+        }
+
         // Register a code action to convert IEnumerable<T> to List<T>
         context.RegisterCodeFix(
             CodeAction.Create(
