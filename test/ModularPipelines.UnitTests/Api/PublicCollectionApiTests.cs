@@ -37,7 +37,6 @@ public class PublicCollectionApiTests
         var notInParallel = new PipelineNotInParallelAttribute(values);
         var commandAlias = new CliCommandAliasAttribute(values);
         var subCommand = new CliSubCommandAttribute(values);
-        var command = new CliCommandAttribute("tool", values);
         var secretValue = new SecretValueAttribute(values);
 
         values[0] = "changed";
@@ -45,7 +44,6 @@ public class PublicCollectionApiTests
         await Assert.That(notInParallel.ConstraintKeys).IsEquivalentTo(["original"]);
         await Assert.That(commandAlias.CommandParts).IsEquivalentTo(["original"]);
         await Assert.That(subCommand.SubCommands).IsEquivalentTo(["original"]);
-        await Assert.That(command.SubCommands).IsEquivalentTo(["original"]);
         await Assert.That(secretValue.Keys).IsEquivalentTo(["original"]);
     }
 

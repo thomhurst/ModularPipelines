@@ -8,8 +8,8 @@ namespace ModularPipelines.Attributes;
 /// </summary>
 /// <example>
 /// <code>
-/// [CliCommand("docker", "container", "run")]
-/// [CliCommandAlias("docker", "run")]
+/// [CliSubCommand("container", "run")]
+/// [CliCommandAlias("run")]
 /// public record DockerRunOptions : DockerOptions { }
 /// </code>
 /// </example>
@@ -24,7 +24,7 @@ public sealed class CliCommandAliasAttribute : Attribute
 
     /// <summary>
     /// Gets or sets a value indicating whether gets or sets whether this alias is the preferred form when building the command.
-    /// When true, this alias will be used instead of the primary <see cref="CliCommandAttribute"/>.
+    /// When true, this alias will be used instead of the primary <see cref="CliSubCommandAttribute"/>.
     /// </summary>
     public bool IsPreferred { get; set; }
 
