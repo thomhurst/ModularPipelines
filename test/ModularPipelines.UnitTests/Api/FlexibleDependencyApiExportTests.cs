@@ -1,3 +1,4 @@
+using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
@@ -97,17 +98,6 @@ public class FlexibleDependencyApiExportTests
     }
 
     [Test]
-    public async Task ITaggedModule_IsAccessibleFromModulesNamespace()
-    {
-        // Verify ITaggedModule is in ModularPipelines.Modules namespace
-        var type = typeof(ITaggedModule);
-
-        await Assert.That(type.Namespace).IsEqualTo("ModularPipelines.Modules");
-        await Assert.That(type.IsPublic).IsTrue();
-        await Assert.That(type.IsInterface).IsTrue();
-    }
-
-    [Test]
     public async Task AllFlexibleDependencyAttributes_HaveCorrectAttributeUsage()
     {
         // Verify all dependency attributes allow multiple usage and inheritance
@@ -160,13 +150,35 @@ public class FlexibleDependencyApiExportTests
     }
 
     [Test]
-    public async Task ITaggedModule_HasExpectedProperties()
+    public async Task Module_Does_Not_Expose_Metadata_Properties()
     {
-        // Verify ITaggedModule has all required properties
-        var type = typeof(ITaggedModule);
-        var properties = type.GetProperties();
+        var propertyNames = typeof(Module<>).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Select(property => property.Name)
+            .ToArray();
 
-        await Assert.That(properties.Any(p => p.Name == "Tags")).IsTrue();
-        await Assert.That(properties.Any(p => p.Name == "Category")).IsTrue();
+        await Assert.That(propertyNames).DoesNotContain("Tags");
+        await Assert.That(propertyNames).DoesNotContain("Category");
     }
+
+    [Test]
+    public async Task ModuleRegistration_Does_Not_Expose_Metadata_Methods()
+    {
+        var methodNames = typeof(ModuleRegistration<>).GetMethods(
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            .Select(method => method.Name)
+            .ToArray();
+
+        await Assert.That(methodNames).DoesNotContain("WithTags");
+        await Assert.That(methodNames).DoesNotContain("WithCategory");
+    }
+
+    [Test]
+    public async Task Legacy_Metadata_Types_Are_Not_Exported()
+    {
+        var assembly = typeof(Module<>).Assembly;
+
+        await Assert.That(assembly.GetType("ModularPipelines.Modules.ITaggedModule")).IsNull();
+        await Assert.That(assembly.GetType("ModularPipelines.Options.ModuleRegistrationOptions")).IsNull();
+    }
+
 }

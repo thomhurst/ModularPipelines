@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Conditions;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
@@ -78,6 +79,18 @@ public class PipelineCommandLineTests
             Interlocked.Increment(ref _unrelatedExecutions);
             return Task.FromResult<string?>("unrelated");
         }
+    }
+
+    private sealed class ConfiguredCategoryModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithCategory("configured-category")
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("configured-category");
     }
 
     private sealed class UnregisteredModule : Module<string>
@@ -331,7 +344,7 @@ public class PipelineCommandLineTests
         var consoleWriter = new CapturingConsoleWriter();
         using var builder = Pipeline.CreateBuilder(["--list-modules"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
-        builder.AddModule<UnrelatedModule>().WithCategory("configured-category");
+        builder.AddModule<ConfiguredCategoryModule>();
 
         await builder.ExecutePipelineAsync();
 

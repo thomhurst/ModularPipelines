@@ -1026,11 +1026,13 @@ Tag modules for organization and dependency management:
 [ModuleCategory("Infrastructure")]
 public class DeployModule : Module<DeployResult> { }
 
-// Via property override
+// Via module configuration
 public class MyModule : Module<string>
 {
-    public override IReadOnlySet<string> Tags => new HashSet<string> { "critical", "fast" };
-    public override string? Category => "Build";
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTags("critical", "fast")
+        .WithCategory("Build")
+        .Build();
 }
 ```
 
