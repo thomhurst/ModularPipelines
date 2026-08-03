@@ -68,7 +68,8 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
 
             if (CliAttributeSymbols.Is(attribute, symbols.CliOption)
                 && IsNullableBoolean(property.Type)
-                && GetNamedEnumValue(attribute, "ValueArity") == 2)
+                && symbols.CliOptionValueArityNone is not null
+                && GetNamedEnumValue(attribute, "ValueArity") == symbols.CliOptionValueArityNone)
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     BooleanOptionRule,

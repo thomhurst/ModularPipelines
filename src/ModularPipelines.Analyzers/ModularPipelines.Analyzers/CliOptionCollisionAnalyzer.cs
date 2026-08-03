@@ -11,9 +11,6 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
 {
-    private const int DefaultArgumentPhase = 3;
-    private const int DefaultArgumentPlacement = 0;
-
     public const string DuplicateSwitchDiagnosticId = "MPCLI004";
     public const string DuplicateArgumentPositionDiagnosticId = "MPCLI005";
 
@@ -51,7 +48,7 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         }
 
         var switches = new Dictionary<string, IPropertySymbol>(StringComparer.Ordinal);
-        var positions = new Dictionary<(int Position, int Phase, int Placement), IPropertySymbol>();
+        var positions = new Dictionary<(int Position, int Phase, int? Placement), IPropertySymbol>();
 
         foreach (var property in GetPropertiesBaseFirst(type))
         {
@@ -64,7 +61,7 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
                 }
                 else if (CliAttributeSymbols.Is(attribute, symbols.CliArgument))
                 {
-                    AnalyzeArgument(context, type, property, attribute, positions);
+                    AnalyzeArgument(context, type, property, attribute, positions, symbols);
                 }
             }
         }
@@ -122,12 +119,16 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         INamedTypeSymbol analyzedType,
         IPropertySymbol property,
         AttributeData attribute,
-        IDictionary<(int Position, int Phase, int Placement), IPropertySymbol> positions)
+        IDictionary<(int Position, int Phase, int? Placement), IPropertySymbol> positions,
+        CliAttributeSymbols symbols)
     {
         var position = attribute.ConstructorArguments.FirstOrDefault().Value as int? ?? 0;
-        var phase = GetNamedEnumValue(attribute, "Phase") ?? DefaultArgumentPhase;
-        var placement = GetNamedEnumValue(attribute, "Placement") ?? DefaultArgumentPlacement;
-        var orderedPhase = placement == DefaultArgumentPlacement ? phase : -1;
+        var phase = GetNamedEnumValue(attribute, "Phase") ?? symbols.CommandLinePhasePassthrough ?? 0;
+        var placement = GetNamedEnumValue(attribute, "Placement") ?? symbols.ArgumentPlacementAfterOptions;
+        var orderedPhase = symbols.ArgumentPlacementAfterOptions is null
+                           || placement == symbols.ArgumentPlacementAfterOptions
+            ? phase
+            : -1;
         var key = (position, orderedPhase, placement);
 
         if (positions.TryGetValue(key, out var existingProperty))

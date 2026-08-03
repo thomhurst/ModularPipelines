@@ -49,10 +49,46 @@ public class CliPropertyAttributeAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Reports_ValueLess_Boolean_Option()
+    public async Task Reports_ValueLess_Boolean_Option_With_Reordered_Legacy_Enum()
     {
-        var source = $$"""
-            {{TestSourceConstants.StandardUsingsWithOptions}}
+        const string source = """
+            #nullable enable
+            using System;
+            using ModularPipelines.Attributes;
+            using ModularPipelines.Options;
+
+            namespace ModularPipelines.Attributes
+            {
+                public enum CliOptionValueArity
+                {
+                    Required = 3,
+                    Optional = 11,
+                    None = 17,
+                }
+
+                public sealed class CliArgumentAttribute : Attribute { }
+                public sealed class CliFlagAttribute : Attribute
+                {
+                    public CliFlagAttribute(string name) { }
+                }
+
+                public sealed class CliOptionAttribute : Attribute
+                {
+                    public CliOptionAttribute(string name) { }
+                    public CliOptionValueArity ValueArity { get; set; }
+                }
+
+                public sealed class CliSubCommandAttribute : Attribute { }
+                public sealed class CliToolAttribute : Attribute
+                {
+                    public CliToolAttribute(string name) { }
+                }
+            }
+
+            namespace ModularPipelines.Options
+            {
+                public abstract record CommandLineToolOptions;
+            }
 
             [CliTool("tool")]
             public record Options : CommandLineToolOptions
@@ -66,7 +102,14 @@ public class CliPropertyAttributeAnalyzerTests
             .WithLocation(0)
             .WithArguments("Force");
 
-        await VerifyCS.VerifyAnalyzerAsync(source, expected);
+        var test = new VerifyCS.Test
+        {
+            TestCode = source,
+            ReferenceAssemblies = Net.Net100,
+        };
+
+        test.ExpectedDiagnostics.Add(expected);
+        await test.RunAsync(CancellationToken.None);
     }
 
     [TestMethod]

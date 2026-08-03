@@ -14,6 +14,9 @@ internal sealed class CliAttributeSymbols
         CliOption = compilation.GetTypeByMetadataName(AttributesNamespace + "CliOptionAttribute");
         CliSubCommand = compilation.GetTypeByMetadataName(AttributesNamespace + "CliSubCommandAttribute");
         CliTool = compilation.GetTypeByMetadataName(AttributesNamespace + "CliToolAttribute");
+        CommandLinePhasePassthrough = GetEnumConstantValue(compilation, "CommandLinePhase", "Passthrough");
+        ArgumentPlacementAfterOptions = GetEnumConstantValue(compilation, "ArgumentPlacement", "AfterOptions");
+        CliOptionValueArityNone = GetEnumConstantValue(compilation, "CliOptionValueArity", "None");
     }
 
     public INamedTypeSymbol? CommandLineToolOptions { get; }
@@ -22,6 +25,9 @@ internal sealed class CliAttributeSymbols
     public INamedTypeSymbol? CliOption { get; }
     public INamedTypeSymbol? CliSubCommand { get; }
     public INamedTypeSymbol? CliTool { get; }
+    public int? CommandLinePhasePassthrough { get; }
+    public int? ArgumentPlacementAfterOptions { get; }
+    public int? CliOptionValueArityNone { get; }
 
     public bool IsAvailable => CommandLineToolOptions is not null
                                && CliArgument is not null
@@ -45,4 +51,11 @@ internal sealed class CliAttributeSymbols
         attribute.ApplicationSyntaxReference?.GetSyntax().GetLocation()
         ?? fallbackSymbol.Locations.FirstOrDefault()
         ?? Location.None;
+
+    private static int? GetEnumConstantValue(Compilation compilation, string enumName, string memberName) =>
+        compilation.GetTypeByMetadataName(AttributesNamespace + enumName)?
+            .GetMembers(memberName)
+            .OfType<IFieldSymbol>()
+            .FirstOrDefault(field => field.HasConstantValue)?
+            .ConstantValue as int?;
 }
