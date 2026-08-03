@@ -62,8 +62,8 @@ public class JqOptionsTests
         {
             Arg =
             [
-                new CliOptionValuePair("empty", ""),
-                new CliOptionValuePair("whitespace", "  "),
+                new CliValuePair("empty", ""),
+                new CliValuePair("whitespace", "  "),
             ],
         });
 
