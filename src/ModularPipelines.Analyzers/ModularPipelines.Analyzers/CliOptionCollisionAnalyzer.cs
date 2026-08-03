@@ -6,22 +6,17 @@ using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
 
-/// <summary>Detects colliding CLI switches and positional arguments.</summary>
+/// <summary>Detects colliding CLI switches.</summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 [ExcludeFromCodeCoverage]
 public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
 {
     public const string DuplicateSwitchDiagnosticId = "MPCLI004";
-    public const string DuplicateArgumentPositionDiagnosticId = "MPCLI005";
-
     public static DiagnosticDescriptor DuplicateSwitchRule { get; } = DiagnosticDescriptorFactory.Create(
         DuplicateSwitchDiagnosticId, "DuplicateCliSwitchTitle", "DuplicateCliSwitchMessageFormat", "DuplicateCliSwitchDescription");
 
-    public static DiagnosticDescriptor DuplicateArgumentPositionRule { get; } = DiagnosticDescriptorFactory.Create(
-        DuplicateArgumentPositionDiagnosticId, "DuplicateCliArgumentPositionTitle", "DuplicateCliArgumentPositionMessageFormat", "DuplicateCliArgumentPositionDescription");
-
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(DuplicateSwitchRule, DuplicateArgumentPositionRule);
+        [DuplicateSwitchRule];
 
     public override void Initialize(AnalysisContext context)
     {
@@ -48,23 +43,36 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         }
 
         var switches = new Dictionary<string, IPropertySymbol>(StringComparer.Ordinal);
-        var positions = new Dictionary<(int Position, int Phase, int? Placement), IPropertySymbol>();
 
         foreach (var property in GetEffectivePropertiesBaseFirst(type))
         {
-            foreach (var attribute in property.GetAttributes())
+            var attribute = FindCommandAttribute(property, symbols);
+            if (attribute is not null
+                && (CliAttributeSymbols.Is(attribute, symbols.CliFlag)
+                    || CliAttributeSymbols.Is(attribute, symbols.CliOption)))
             {
-                if (CliAttributeSymbols.Is(attribute, symbols.CliFlag)
-                    || CliAttributeSymbols.Is(attribute, symbols.CliOption))
-                {
-                    AnalyzeSwitch(context, type, property, attribute, switches);
-                }
-                else if (CliAttributeSymbols.Is(attribute, symbols.CliArgument))
-                {
-                    AnalyzeArgument(context, type, property, attribute, positions, symbols);
-                }
+                AnalyzeSwitch(context, type, property, attribute, switches);
             }
         }
+    }
+
+    private static AttributeData? FindCommandAttribute(
+        IPropertySymbol property,
+        CliAttributeSymbols symbols)
+    {
+        for (var current = property; current is not null; current = current.OverriddenProperty)
+        {
+            var attribute = current.GetAttributes().FirstOrDefault(candidate =>
+                CliAttributeSymbols.Is(candidate, symbols.CliArgument)
+                || CliAttributeSymbols.Is(candidate, symbols.CliFlag)
+                || CliAttributeSymbols.Is(candidate, symbols.CliOption));
+            if (attribute is not null)
+            {
+                return attribute;
+            }
+        }
+
+        return null;
     }
 
     private static IEnumerable<IPropertySymbol> GetEffectivePropertiesBaseFirst(INamedTypeSymbol type)
@@ -91,7 +99,7 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         INamedTypeSymbol analyzedType,
         IPropertySymbol property,
         AttributeData attribute,
-        IDictionary<string, IPropertySymbol> switches)
+        Dictionary<string, IPropertySymbol> switches)
     {
         foreach (var switchName in GetSwitchNames(attribute))
         {
@@ -116,47 +124,6 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private static void AnalyzeArgument(
-        SymbolAnalysisContext context,
-        INamedTypeSymbol analyzedType,
-        IPropertySymbol property,
-        AttributeData attribute,
-        IDictionary<(int Position, int Phase, int? Placement), IPropertySymbol> positions,
-        CliAttributeSymbols symbols)
-    {
-        if (attribute.NamedArguments.Any(pair => pair.Key == "Name" && pair.Value.Value is not null))
-        {
-            return;
-        }
-
-        var position = attribute.ConstructorArguments.FirstOrDefault().Value as int? ?? 0;
-        var phase = GetNamedEnumValue(attribute, "Phase") ?? symbols.CommandLinePhasePassthrough ?? 0;
-        var placement = GetNamedEnumValue(attribute, "Placement") ?? symbols.ArgumentPlacementAfterOptions;
-        var orderedPhase = symbols.ArgumentPlacementAfterOptions is null
-                           || placement == symbols.ArgumentPlacementAfterOptions
-            ? phase
-            : -1;
-        var key = (position, orderedPhase, placement);
-
-        if (positions.TryGetValue(key, out var existingProperty))
-        {
-            if (SymbolEqualityComparer.Default.Equals(property.ContainingType, analyzedType)
-                && !Overrides(property, existingProperty))
-            {
-                context.ReportDiagnostic(Diagnostic.Create(
-                    DuplicateArgumentPositionRule,
-                    CliAttributeSymbols.GetLocation(attribute, property),
-                    position,
-                    GetQualifiedName(existingProperty),
-                    GetQualifiedName(property)));
-            }
-        }
-        else
-        {
-            positions.Add(key, property);
-        }
-    }
-
     private static IEnumerable<string> GetSwitchNames(AttributeData attribute)
     {
         var name = attribute.ConstructorArguments.FirstOrDefault().Value as string;
@@ -171,9 +138,6 @@ public sealed class CliOptionCollisionAnalyzer : DiagnosticAnalyzer
             yield return shortForm!;
         }
     }
-
-    private static int? GetNamedEnumValue(AttributeData attribute, string name) =>
-        attribute.NamedArguments.FirstOrDefault(pair => pair.Key == name).Value.Value as int?;
 
     private static string GetQualifiedName(IPropertySymbol property) =>
         $"{property.ContainingType.Name}.{property.Name}";

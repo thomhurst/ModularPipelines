@@ -222,9 +222,6 @@
   <data name="DuplicateCliSwitchTitle" xml:space="preserve"><value>Duplicate CLI switch</value></data>
   <data name="DuplicateCliSwitchMessageFormat" xml:space="preserve"><value>CLI switch '{0}' is declared by both '{1}' and '{2}'</value></data>
   <data name="DuplicateCliSwitchDescription" xml:space="preserve"><value>Long and short CLI switch names must be unique across an options type hierarchy.</value></data>
-  <data name="DuplicateCliArgumentPositionTitle" xml:space="preserve"><value>Duplicate CLI argument position</value></data>
-  <data name="DuplicateCliArgumentPositionMessageFormat" xml:space="preserve"><value>CLI argument position {0} is declared by both '{1}' and '{2}' in the same command phase</value></data>
-  <data name="DuplicateCliArgumentPositionDescription" xml:space="preserve"><value>Positional CLI arguments in the same command phase and placement must have unique positions.</value></data>
   <data name="CliOptionsBaseTitle" xml:space="preserve"><value>Invalid CLI options base type</value></data>
   <data name="CliOptionsBaseMessageFormat" xml:space="preserve"><value>Type '{0}' uses CLI attributes but does not derive from CommandLineToolOptions</value></data>
   <data name="CliOptionsBaseDescription" xml:space="preserve"><value>CLI attributes are only consumed on CommandLineToolOptions hierarchies.</value></data>
