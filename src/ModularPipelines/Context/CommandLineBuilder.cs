@@ -81,13 +81,14 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
             commandSpecificModel,
             options,
             ref emittedOptionTerminator);
-        var emittedOptionTerminatorBeforeTerminal = emittedOptionTerminator;
-        var terminalArgs = _commandArgumentBuilder.BuildArguments(
-            terminalCommandModel,
+        var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
+            terminalCommandModel.Where(static part => part is ArgumentPart).ToList(),
             options,
             ref emittedOptionTerminator);
-        var terminalArgsEmittedOptionTerminator = emittedOptionTerminator
-                                                  && !emittedOptionTerminatorBeforeTerminal;
+        var terminalOptionArgs = _commandArgumentBuilder.BuildArguments(
+            terminalCommandModel.Where(static part => part is FlagPart or OptionPart).ToList(),
+            options,
+            ref emittedOptionTerminator);
         var runSettingsArgs = _commandArgumentBuilder.BuildArguments(
             RunSettingsCommandModel,
             options,
@@ -112,11 +113,9 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         allArgs.AddRange(runSettingsArgs);
 
         // 7. A terminal option must not follow any rendered or manually supplied option terminator.
-        var hasOptionTerminator = emittedOptionTerminatorBeforeTerminal
-                                  || (!terminalArgsEmittedOptionTerminator && emittedOptionTerminator)
-                                  || (terminalArgsEmittedOptionTerminator && runSettingsArgs.Count > 0)
+        var hasOptionTerminator = emittedOptionTerminator
                                   || manualArgs.Contains("--", StringComparer.Ordinal);
-        if (terminalArgs.Count > 0 && hasOptionTerminator)
+        if (terminalOptionArgs.Count > 0 && hasOptionTerminator)
         {
             throw new InvalidOperationException(
                 "Terminal options cannot be combined with arguments that emit or supply an "
@@ -124,7 +123,8 @@ internal sealed class CommandLineBuilder : ICommandLineBuilder
         }
 
         // Terminal options must follow every positional argument source.
-        allArgs.AddRange(terminalArgs);
+        allArgs.AddRange(terminalArgumentArgs);
+        allArgs.AddRange(terminalOptionArgs);
 
         return new CommandLine(tool, allArgs);
     }

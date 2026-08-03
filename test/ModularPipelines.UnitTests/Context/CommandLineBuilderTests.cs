@@ -132,6 +132,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Terminal_Option_After_Terminal_Argument_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestTerminalOptions
+        {
+            TerminalArgument = "-x",
+            RunTests = "tests.jq",
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("end-of-options marker");
+    }
+
+    [Test]
     public async Task Build_Empty_RunSettings_Emit_No_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
