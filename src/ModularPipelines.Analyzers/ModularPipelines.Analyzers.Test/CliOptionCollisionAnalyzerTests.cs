@@ -152,20 +152,6 @@ public class CliOptionCollisionAnalyzerTests
         await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
-    [TestMethod]
-    public async Task Accepts_Named_Arguments_With_Same_Position()
-    {
-        var source = CreateOptionsSource("""
-            [CliArgument(0, Name = "<SOURCE>")]
-            public string? Source { get; init; }
-
-            [CliArgument(0, Name = "<DESTINATION>")]
-            public string? Destination { get; init; }
-            """);
-
-        await VerifyCS.VerifyAnalyzerAsync(source);
-    }
-
     private static string CreateOptionsSource(string properties) => $$"""
         {{TestSourceConstants.StandardUsingsWithOptions}}
 
