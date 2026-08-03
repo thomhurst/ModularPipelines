@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "manage", "custom-modules", "sha", "update")]
 public record GcloudSccManageCustomModulesShaUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ModuleIdOrName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ModuleIdOrName
 ) : GcloudOptions
 {
 }

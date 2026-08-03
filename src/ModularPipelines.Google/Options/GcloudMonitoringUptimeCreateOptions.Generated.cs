@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("monitoring", "uptime", "create")]
 public record GcloudMonitoringUptimeCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DisplayName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DisplayName
 ) : GcloudOptions
 {
 }

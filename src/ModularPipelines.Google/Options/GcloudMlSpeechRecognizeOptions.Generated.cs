@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "speech", "recognize")]
 public record GcloudMlSpeechRecognizeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Audio
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Audio
 ) : GcloudOptions
 {
 }

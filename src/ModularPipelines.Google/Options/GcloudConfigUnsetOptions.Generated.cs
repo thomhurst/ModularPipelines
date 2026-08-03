@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "unset")]
 public record GcloudConfigUnsetOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Section
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Section
 ) : GcloudOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "insights", "describe")]
 public record GcloudRecommenderInsightsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Insight
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Insight
 ) : GcloudOptions
 {
 }

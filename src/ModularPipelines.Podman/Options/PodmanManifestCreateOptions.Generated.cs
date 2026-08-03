@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "create")]
 public record PodmanManifestCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string List
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string List
 ) : PodmanOptions
 {
     /// <summary>

@@ -19,7 +19,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get", "notes")]
 public record HelmGetNotesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ReleaseName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReleaseName
 ) : HelmOptions
 {
     /// <summary>

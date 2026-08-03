@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("identity", "groups", "update")]
 public record GcloudIdentityGroupsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Email
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Email
 ) : GcloudOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "scopes", "namespaces", "get-credentials")]
 public record GcloudContainerHubScopesNamespacesGetCredentialsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Namespace
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Namespace
 ) : GcloudOptions
 {
     /// <summary>

@@ -20,10 +20,10 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "remove-destination-service-account")]
 public record ArgoCdProjRemoveDestinationServiceAccountOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string DestinationServer,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Namespace,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand)] string ServiceAccount
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DestinationServer,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Namespace,
+    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceAccount
 ) : ArgoCdOptions
 {
     /// <summary>

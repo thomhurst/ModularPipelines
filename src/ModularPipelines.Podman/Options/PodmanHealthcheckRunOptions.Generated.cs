@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("healthcheck", "run")]
 public record PodmanHealthcheckRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Container
 ) : PodmanOptions
 {
 }

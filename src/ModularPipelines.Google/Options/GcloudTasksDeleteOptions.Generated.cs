@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "delete")]
 public record GcloudTasksDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Task
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Task
 ) : GcloudOptions
 {
     /// <summary>

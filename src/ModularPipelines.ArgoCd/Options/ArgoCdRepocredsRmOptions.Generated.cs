@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("repocreds", "rm")]
 public record ArgoCdRepocredsRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string CredentialsUrl
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CredentialsUrl
 ) : ArgoCdOptions
 {
     /// <summary>

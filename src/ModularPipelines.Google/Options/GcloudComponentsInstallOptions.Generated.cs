@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("components", "install")]
 public record GcloudComponentsInstallOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Component
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Component
 ) : GcloudOptions
 {
 }

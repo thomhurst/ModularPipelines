@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "gen-sdk")]
 public record PulumiPackageGenSdkOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SchemaSource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SchemaSource
 ) : PulumiOptions
 {
     /// <summary>

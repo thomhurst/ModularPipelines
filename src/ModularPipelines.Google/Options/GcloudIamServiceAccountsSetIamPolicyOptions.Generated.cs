@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "service-accounts", "set-iam-policy")]
 public record GcloudIamServiceAccountsSetIamPolicyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ServiceAccount
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServiceAccount
 ) : GcloudOptions
 {
 }

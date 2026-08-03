@@ -101,11 +101,11 @@ internal partial class Helm : IHelm
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> InstallAsync(
-        HelmInstallOptions? options = null,
+        HelmInstallOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new HelmInstallOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

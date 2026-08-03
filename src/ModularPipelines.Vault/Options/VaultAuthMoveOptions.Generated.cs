@@ -20,8 +20,8 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("auth", "move")]
 public record VaultAuthMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Source,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Destination
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Source,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Destination
 ) : VaultOptions
 {
 }

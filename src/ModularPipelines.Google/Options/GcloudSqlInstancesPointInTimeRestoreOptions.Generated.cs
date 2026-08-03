@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "point-in-time-restore")]
 public record GcloudSqlInstancesPointInTimeRestoreOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Datasource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Datasource
 ) : GcloudOptions
 {
     /// <summary>

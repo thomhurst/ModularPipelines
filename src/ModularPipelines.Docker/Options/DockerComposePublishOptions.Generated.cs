@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "publish")]
 public record DockerComposePublishOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string RepositoryTag
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string RepositoryTag
 ) : DockerOptions
 {
     /// <summary>

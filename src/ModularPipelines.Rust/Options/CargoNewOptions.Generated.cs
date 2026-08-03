@@ -20,7 +20,7 @@ namespace ModularPipelines.Rust.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("new")]
 public record CargoNewOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Path
 ) : CargoOptions
 {
     /// <summary>

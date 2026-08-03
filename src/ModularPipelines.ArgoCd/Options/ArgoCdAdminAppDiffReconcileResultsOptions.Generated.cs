@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("admin", "app", "diff-reconcile-results")]
 public record ArgoCdAdminAppDiffReconcileResultsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path1,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Path2
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path1,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path2
 ) : ArgoCdOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "instances", "network-interfaces", "get-effective-firewalls")]
 public record GcloudPreviewComputeInstancesNetworkInterfacesGetEffectiveFirewallsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string InstanceName
 ) : GcloudOptions
 {
     [CliOption("--network-interface", Format = OptionFormat.EqualsSeparated)]

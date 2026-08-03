@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "snapshots", "update-kms-key")]
 public record GcloudPreviewComputeSnapshotsUpdateKmsKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SnapshotName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SnapshotName
 ) : GcloudOptions
 {
     /// <summary>

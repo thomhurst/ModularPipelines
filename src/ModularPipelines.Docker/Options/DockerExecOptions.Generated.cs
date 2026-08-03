@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
 public record DockerExecOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container,
-    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Command
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Container,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough, Required = true)] string Command
 ) : DockerOptions
 {
     /// <summary>

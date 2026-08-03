@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "instances", "snapshots", "update")]
 public record GcloudFilestoreInstancesSnapshotsUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Snapshot
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Snapshot
 ) : GcloudOptions
 {
 }

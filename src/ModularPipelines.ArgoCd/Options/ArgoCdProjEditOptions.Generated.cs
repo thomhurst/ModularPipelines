@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "edit")]
 public record ArgoCdProjEditOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project
 ) : ArgoCdOptions
 {
     /// <summary>

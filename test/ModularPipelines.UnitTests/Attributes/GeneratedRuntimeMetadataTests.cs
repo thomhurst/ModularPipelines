@@ -12,7 +12,8 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
     [CliArgument(
         0,
         Phase = CommandLinePhase.EarlyOperand,
-        PrependOptionTerminator = true)]
+        PrependOptionTerminator = true,
+        Required = true)]
     public string? File { get; init; }
 
     [CliFlag("--verbose", ShortForm = "-v", PreferShortForm = true)]
@@ -131,6 +132,7 @@ public class GeneratedRuntimeMetadataTests
         await Assert.That(argument.Attribute.Position).IsEqualTo(0);
         await Assert.That(argument.Attribute.Phase).IsEqualTo(CommandLinePhase.EarlyOperand);
         await Assert.That(argument.Attribute.PrependOptionTerminator).IsTrue();
+        await Assert.That(argument.Attribute.Required).IsTrue();
 
         var flag = model.OfType<FlagPart>().Single();
         await Assert.That((bool) flag.Getter(options)!).IsTrue();

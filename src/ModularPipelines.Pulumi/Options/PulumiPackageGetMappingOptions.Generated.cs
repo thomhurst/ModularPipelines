@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "get-mapping")]
 public record PulumiPackageGetMappingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Key,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string SchemaSource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SchemaSource
 ) : PulumiOptions
 {
     /// <summary>

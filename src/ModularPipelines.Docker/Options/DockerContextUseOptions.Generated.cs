@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "use")]
 public record DockerContextUseOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Context
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Context
 ) : DockerOptions
 {
 }

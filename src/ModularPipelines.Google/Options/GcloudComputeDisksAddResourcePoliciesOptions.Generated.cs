@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disks", "add-resource-policies")]
 public record GcloudComputeDisksAddResourcePoliciesOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DiskName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DiskName
 ) : GcloudOptions
 {
 }

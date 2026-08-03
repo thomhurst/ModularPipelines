@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "configurations", "activate")]
 public record GcloudConfigConfigurationsActivateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ConfigurationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ConfigurationName
 ) : GcloudOptions
 {
 }

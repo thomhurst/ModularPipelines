@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("cluster", "rm")]
 public record ArgoCdClusterRmOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ServerOrName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ServerOrName
 ) : ArgoCdOptions
 {
     /// <summary>
