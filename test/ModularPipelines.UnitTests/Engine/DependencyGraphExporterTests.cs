@@ -242,6 +242,30 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("mutable-state");
     }
 
+    private sealed class ConfiguredFallbackFactoryModule(string factoryValue) : Module<string>
+    {
+        private int _configurationCallCount;
+
+        public int ConfigurationCallCount => _configurationCallCount;
+
+        protected override ModuleConfiguration Configure()
+        {
+            _configurationCallCount++;
+            var builder = ModuleConfiguration.Create();
+            if (_configurationCallCount == 1)
+            {
+                builder.DependsOn<DependencyModule>();
+            }
+
+            return builder.Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>(factoryValue);
+    }
+
     private sealed class FactoryInitializedModule : Module<string>
     {
         public bool IncludeDependency { get; init; }
@@ -1775,6 +1799,28 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Render_Preserves_Configured_Fallback_Copy()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule(_ => new ConfiguredFallbackFactoryModule("factory-only"));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var runtimeModule = pipeline.Services.GetServices<IModule>()
+            .OfType<ConfiguredFallbackFactoryModule>()
+            .Single();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+            await Assert.That(runtimeModule.ConfigurationCallCount).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task Render_Compares_User_Struct_Fields()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -2378,6 +2424,45 @@ public class DependencyGraphExporterTests
                 DependencyGraphFormat.Json,
                 summary,
                 cancellationTokenSource.Token));
+    }
+
+    [Test]
+    public async Task RenderSummary_Matches_Deserialized_Result_By_Type_Name()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var module = pipeline.Services.GetServices<IModule>()
+            .OfType<DependencyModule>()
+            .Single();
+        var now = DateTimeOffset.UtcNow;
+        var result = new ModuleResult.Skipped(SkipDecision.Skip("distributed skip"))
+        {
+            ModuleName = nameof(DependencyModule),
+            ModuleTypeName = typeof(DependencyModule).FullName,
+            ModuleDuration = TimeSpan.Zero,
+            ModuleStart = now,
+            ModuleEnd = now,
+            ModuleStatus = Status.Skipped,
+        };
+        var summary = new PipelineSummary(
+            [module],
+            [result],
+            TimeSpan.Zero,
+            now,
+            now);
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderSummaryAsync(DependencyGraphFormat.Json, summary));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ModuleType).IsNull();
+            await Assert.That(node.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(node.GetProperty("skipReason").GetString()).IsEqualTo("distributed skip");
+        }
     }
 
     [Test]

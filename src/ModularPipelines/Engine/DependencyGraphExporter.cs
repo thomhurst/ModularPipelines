@@ -172,15 +172,22 @@ internal sealed class DependencyGraphExporter(
         var models = dependencyChainProvider.ModuleDependencyModels
             .OrderBy(model => GetModuleFullName(model.Module), StringComparer.Ordinal)
             .ToArray();
-        var resultsByType = pipelineSummary.Results
+        var resultsByTypeName = pipelineSummary.Results
             .OfType<ModuleResult>()
-            .Where(result => result.ModuleType is not null)
-            .ToDictionary(result => result.ModuleType!);
+            .Select(result => (
+                Result: result,
+                TypeName: result.ModuleType?.FullName ?? result.ModuleTypeName))
+            .Where(item => item.TypeName is not null)
+            .ToDictionary(item => item.TypeName!, item => item.Result, StringComparer.Ordinal);
         var states = models.ToDictionary(
             model => model.Module.GetType(),
             model =>
             {
-                resultsByType.TryGetValue(model.Module.GetType(), out var result);
+                var moduleTypeName = model.Module.GetType().FullName;
+                var result = moduleTypeName is not null
+                    && resultsByTypeName.TryGetValue(moduleTypeName, out var matchingResult)
+                        ? matchingResult
+                        : null;
                 return new GraphNodeExecutionState(
                     result?.ModuleStatus == Status.Skipped,
                     result?.SkipDecisionOrDefault?.Reason);

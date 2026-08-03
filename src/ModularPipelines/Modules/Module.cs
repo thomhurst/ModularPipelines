@@ -129,7 +129,9 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
     IModule IPlanningModuleCopyProvider.CreatePlanningCopyFromRegisteredInstance()
     {
         var copy = (Module<T>) MemberwiseClone();
-        copy._configuration = copy.CreateConfigurationLazy();
+        copy._configuration = _configuration.IsValueCreated
+            ? CreateInitializedConfigurationLazy(_configuration.Value)
+            : copy.CreateConfigurationLazy();
         copy._provisionalResult = new AsyncLocal<ModuleResult<T>?>();
         copy.CompletionSource = CreateCompletionSource();
         return copy;
@@ -320,6 +322,10 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
 
     private Lazy<ModuleConfiguration> CreateConfigurationLazy() =>
         new(CreateConfiguration, LazyThreadSafetyMode.ExecutionAndPublication);
+
+    private static Lazy<ModuleConfiguration> CreateInitializedConfigurationLazy(
+        ModuleConfiguration configuration) =>
+        new(() => configuration, LazyThreadSafetyMode.ExecutionAndPublication);
 
     private static TaskCompletionSource<ModuleResult<T>> CreateCompletionSource() =>
         new(TaskCreationOptions.RunContinuationsAsynchronously);
