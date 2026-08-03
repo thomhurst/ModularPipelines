@@ -274,6 +274,24 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("secret exists", "SECRET")]
+    [Arguments("secret inspect", "SECRET [SECRET...]")]
+    [Arguments("secret rm", "SECRET [SECRET...]")]
+    public async Task PodmanSecret_Identifiers_Are_Not_Secret_Values(
+        string command,
+        string operands)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] {operands}";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+
+        await Assert.That(definition!.PositionalArguments.All(argument => !argument.IsSecret)).IsTrue();
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """

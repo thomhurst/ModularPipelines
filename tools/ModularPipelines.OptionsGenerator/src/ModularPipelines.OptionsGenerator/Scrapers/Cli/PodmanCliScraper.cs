@@ -115,20 +115,22 @@ public partial class PodmanCliScraper : CobraCliScraper
         string[] commandParts,
         IReadOnlyList<CliPositionalArgument> positionalArguments)
     {
-        var requiredCount = string.Join(' ', commandParts) switch
+        return string.Join(' ', commandParts) switch
         {
-            "container clone" or "pod clone" => 1,
-            "exec" => 2,
-            _ => (int?) null,
+            "container clone" or "pod clone" => SetRequiredCount(positionalArguments, 1),
+            "exec" => SetRequiredCount(positionalArguments, 2),
+            "secret exists" or "secret inspect" or "secret rm" => positionalArguments
+                .Select(argument => argument with { IsSecret = false })
+                .ToList(),
+            _ => positionalArguments,
         };
+    }
 
-        if (requiredCount is null)
-        {
-            return positionalArguments;
-        }
-
-        return positionalArguments
-            .Select((argument, index) => index < requiredCount.Value
+    private static IReadOnlyList<CliPositionalArgument> SetRequiredCount(
+        IReadOnlyList<CliPositionalArgument> positionalArguments,
+        int requiredCount) =>
+        positionalArguments
+            .Select((argument, index) => index < requiredCount
                 ? argument with
                 {
                     CSharpType = argument.CSharpType.TrimEnd('?'),
@@ -140,5 +142,4 @@ public partial class PodmanCliScraper : CobraCliScraper
                     IsRequired = false,
                 })
             .ToList();
-    }
 }
