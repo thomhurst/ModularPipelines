@@ -252,7 +252,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("mytool")]
-    private sealed record TestComputedCommandPartsOptions : CommandLineToolOptions
+    internal sealed record TestComputedCommandPartsOptions : CommandLineToolOptions
     {
         public TestComputedCommandPartsOptions(string action)
         {
@@ -286,7 +286,7 @@ public class CommandLineBuilderTests : TestBase
     [CliTool("mytool")]
     [CliSubCommand("long", "command")]
     [CliCommandAlias("short", IsPreferred = true)]
-    private record TestAliasOptions : CommandLineToolOptions;
+    internal record TestAliasOptions : CommandLineToolOptions;
 
     [CliTool("liquibase")]
     [CliGlobalOptions]
