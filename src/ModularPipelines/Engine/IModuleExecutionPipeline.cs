@@ -18,5 +18,6 @@ internal interface IModuleExecutionPipeline
         Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
-        CancellationToken engineCancellationToken);
+        CancellationToken engineCancellationToken,
+        Func<CancellationToken, Task>? prepareExecutionAsync = null);
 }

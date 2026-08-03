@@ -134,15 +134,6 @@ internal class ModuleRunner : IModuleRunner
 
                 var executionContext = CreateExecutionContext(module, moduleType);
                 ApplyDependencySkip(moduleState, executionContext);
-                if (_manageArtifactsLocally && !executionContext.SkipResult.ShouldSkip)
-                {
-                    await _artifactLifecycleManager
-                        .DownloadConsumedArtifactsAsync(
-                            moduleType,
-                            failIfMissing: true,
-                            cancellationToken)
-                        .ConfigureAwait(false);
-                }
 
                 await ExecuteModuleWithPipeline(
                         moduleState,
@@ -258,7 +249,14 @@ internal class ModuleRunner : IModuleRunner
 
         try
         {
-            await ExecuteModuleLifecycle(moduleState, scopedServiceProvider, pipelineContext, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
+            await ExecuteModuleLifecycle(
+                    moduleState,
+                    scopedServiceProvider,
+                    pipelineContext,
+                    executionContext,
+                    moduleContext,
+                    cancellationToken)
+                .ConfigureAwait(false);
 
             // Record success, skip, or ignored failure status on the Activity
             if (executionContext.Status == Enums.Status.Skipped)
@@ -357,7 +355,12 @@ internal class ModuleRunner : IModuleRunner
             await _lifecycleEventInvoker.InvokeStartEventAsync(lifecycleContext).ConfigureAwait(false);
 
             // Execute through generated typed metadata when available.
-            var result = await ExecuteTypedModule(module, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
+            var result = await ExecuteTypedModule(
+                    module,
+                    executionContext,
+                    moduleContext,
+                    cancellationToken)
+                .ConfigureAwait(false);
 
             moduleState.Result = result;
             _resultRegistry.RegisterResult(moduleType, result);
@@ -458,6 +461,12 @@ internal class ModuleRunner : IModuleRunner
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
+        Func<CancellationToken, Task>? prepareExecutionAsync = _manageArtifactsLocally
+            ? token => _artifactLifecycleManager.DownloadConsumedArtifactsAsync(
+                module.GetType(),
+                failIfMissing: true,
+                token)
+            : null;
         if (GeneratedModuleMetadata.TryGetRuntime(module.GetType(), out var runtime))
         {
             return await runtime.ExecuteAsync(
@@ -465,13 +474,20 @@ internal class ModuleRunner : IModuleRunner
                     module,
                     executionContext,
                     moduleContext,
+                    prepareExecutionAsync,
                     cancellationToken)
                 .ConfigureAwait(false);
         }
 
         // Dynamic/plugin modules retain the annotated reflection fallback.
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
-        return await executor(_executionPipeline, module, executionContext, moduleContext, cancellationToken)
+        return await executor(
+                _executionPipeline,
+                module,
+                executionContext,
+                moduleContext,
+                prepareExecutionAsync,
+                cancellationToken)
             .ConfigureAwait(false);
     }
 

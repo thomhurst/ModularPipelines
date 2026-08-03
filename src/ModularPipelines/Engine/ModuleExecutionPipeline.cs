@@ -59,13 +59,15 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         Module<T> module,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
-        CancellationToken engineCancellationToken)
+        CancellationToken engineCancellationToken,
+        Func<CancellationToken, Task>? prepareExecutionAsync = null)
     {
         var logger = moduleContext.Logger;
         var moduleName = executionContext.ModuleType.Name;
         ModuleResult<T>? moduleResult = null;
         var beforeHooksExecuted = false;
         var afterHookInvoked = false;
+        var preparingExecution = false;
         var originalCancellationTokenSource = executionContext.ModuleCancellationTokenSource;
 
         // Get configuration once at the start
@@ -104,6 +106,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             // Check for cancellation after skip check
             executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            if (prepareExecutionAsync is not null)
+            {
+                preparingExecution = true;
+                await prepareExecutionAsync(executionContext.ModuleCancellationTokenSource.Token)
+                    .ConfigureAwait(false);
+                preparingExecution = false;
+            }
 
             // Execute direct before hook first (virtual override)
             await _directHookInvoker.InvokeBeforeExecuteAsync(module, moduleContext, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
@@ -150,6 +159,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 .ConfigureAwait(false);
 
             return moduleResult;
+        }
+        catch (Exception) when (preparingExecution)
+        {
+            throw;
         }
         catch (Exception exception)
         {

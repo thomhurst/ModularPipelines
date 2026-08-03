@@ -171,6 +171,25 @@ public class ArtifactContractTests
         }
     }
 
+    [ModularPipelines.Attributes.DependsOn<MissingRuntimeProducerModule>]
+    [ConsumesArtifact(typeof(MissingRuntimeProducerModule), "missing-runtime")]
+    private sealed class ConfiguredSkippedArtifactConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => SkipDecision.Skip("consumer skipped"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
     [ProducesArtifact("working-output", "working.txt")]
     private sealed class WorkingDirectoryProducerModule : Module<string>
     {
@@ -415,6 +434,28 @@ public class ArtifactContractTests
             await builder.ExecutePipelineAsync();
 
             await Assert.That(SkippedArtifactConsumerModule.Executed).IsFalse();
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionEvaluatesConsumerSkipBeforeArtifactRestore()
+    {
+        DeleteLocalArtifacts();
+        ConfiguredSkippedArtifactConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<MissingRuntimeProducerModule>();
+            builder.AddModule<ConfiguredSkippedArtifactConsumerModule>();
+
+            await builder.ExecutePipelineAsync();
+
+            await Assert.That(ConfiguredSkippedArtifactConsumerModule.Executed).IsFalse();
         }
         finally
         {
