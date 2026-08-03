@@ -84,9 +84,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal static bool IsTypeCandidate(SyntaxNode node)
     {
         return node is ClassDeclarationSyntax
+            || node is StructDeclarationSyntax
+            || node is EnumDeclarationSyntax
             || node is DelegateDeclarationSyntax
-            || (node is RecordDeclarationSyntax record
-                && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword));
+            || node is RecordDeclarationSyntax;
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorSyntaxContext context)
@@ -118,8 +119,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var location = type.Locations.FirstOrDefault() ?? Location.None;
-        var isPartial = IsPartial(type);
-        var canRegisterSecretCoverage = !isPartial || isCommandOptions;
+        var isPartial = HasPartialDeclarationInHierarchy(type);
+        var canRegisterSecretCoverage = !isPartial;
         var canReferenceType = IsTypeAccessible(type, compilation.Assembly) && !type.IsGenericType;
         if (!canReferenceType)
         {
@@ -547,11 +548,21 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return true;
     }
 
-    private static bool IsPartial(INamedTypeSymbol type) =>
-        type.DeclaringSyntaxReferences
-            .Select(static reference => reference.GetSyntax())
-            .OfType<TypeDeclarationSyntax>()
-            .Any(static declaration => declaration.Modifiers.Any(SyntaxKind.PartialKeyword));
+    private static bool HasPartialDeclarationInHierarchy(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            if (current.DeclaringSyntaxReferences
+                .Select(static reference => reference.GetSyntax())
+                .OfType<TypeDeclarationSyntax>()
+                .Any(static declaration => declaration.Modifiers.Any(SyntaxKind.PartialKeyword)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private static bool IsPropertyAccessible(IPropertySymbol property, IAssemblySymbol currentAssembly)
     {

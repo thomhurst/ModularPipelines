@@ -154,6 +154,31 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Value_Types_Register_Exact_Empty_Metadata()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public struct PlainStruct;
+            public enum PlainEnum { Value }
+            public readonly record struct PlainRecordStruct;
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.Register(typeof(global::PlainStruct))");
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.Register(typeof(global::PlainEnum))");
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.Register(typeof(global::PlainRecordStruct))");
+        }
+    }
+
+    [Test]
     public async Task Inaccessible_Secret_Property_Reports_Diagnostic()
     {
         var result = GeneratorTestRunner.Run(
@@ -353,8 +378,39 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).DoesNotContain(
                 "GeneratedCommandMetadata.Register(\n            typeof(global::PartialOptions)");
-            await Assert.That(generatedSource).Contains(
+            await Assert.That(generatedSource).DoesNotContain(
                 "GeneratedSecretMetadata.Register(typeof(global::PartialOptions))");
+        }
+    }
+
+    [Test]
+    public async Task Partial_Base_Prevents_Complete_Derived_Metadata()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public partial class PartialBaseOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                public string Value { get; } = "";
+
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "";
+            }
+
+            public sealed class DerivedOptions : PartialBaseOptions;
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedCommandMetadata.Register(\n            typeof(global::DerivedOptions)");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedSecretMetadata.Register(typeof(global::DerivedOptions))");
         }
     }
 
