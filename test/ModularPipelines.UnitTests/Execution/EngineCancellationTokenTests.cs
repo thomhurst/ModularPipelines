@@ -420,7 +420,7 @@ public class EngineCancellationTokenTests : TestBase
         var host = await builder.BuildAsync();
         var resultRegistry = host.Services.GetRequiredService<IModuleResultRegistry>();
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await host.RunAsync().WaitAsync(TimeSpan.FromSeconds(5)));
+            async () => await host.RunAsync().WaitAsync(TestHostSettings.DefaultTestTimeout));
         var alwaysRunResult = resultRegistry.GetResult<bool>(typeof(AwaitingTerminatedModule));
 
         using (Assert.Multiple())

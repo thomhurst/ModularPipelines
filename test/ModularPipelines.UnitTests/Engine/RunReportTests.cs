@@ -108,6 +108,22 @@ public class RunReportTests
         }
     }
 
+    private sealed class MixedFailureEndHook : IPipelineGlobalHooks
+    {
+        public Task OnPipelineEndAsync(
+            IPipelineContext context,
+            PipelineSummary pipelineSummary)
+        {
+            var moduleException = pipelineSummary.Results
+                .Select(result => result.ExceptionOrDefault)
+                .OfType<Exception>()
+                .Single();
+            throw new AggregateException(
+                moduleException,
+                new InvalidOperationException("Pipeline end hook failed"));
+        }
+    }
+
     private sealed class DelayedEndHook : IPipelineGlobalHooks
     {
         public static DateTimeOffset CompletedAt { get; private set; }
@@ -1350,6 +1366,46 @@ public class RunReportTests
                 await Assert.That(report.Exception).IsNull();
                 await Assert.That(report.Modules).HasSingleItem();
                 await Assert.That(report.Modules[0].Exception).IsNotNull();
+                await Assert.That(report.Modules[0].Exception!.Message)
+                    .IsEqualTo("report failure **********");
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task PipelineExceptionRetainsNonModuleAggregateBranches()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "mixed-failure.json");
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                ExecutionMode = ExecutionMode.WaitForAllModules,
+                ThrowOnPipelineFailure = false,
+                PrintLogo = false,
+                PrintResults = false,
+                RunReport = options.RunReport with { ReportPath = reportPath },
+            });
+            builder.AddModule<FailingModule>();
+            builder.AddPipelineGlobalHooks<MixedFailureEndHook>();
+
+            await Assert.ThrowsAsync<AggregateException>(() => builder.ExecutePipelineAsync());
+
+            var report = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+            using (Assert.Multiple())
+            {
+                await Assert.That(report!.Exception).IsNotNull();
+                await Assert.That(report.Exception!.InnerExceptions).HasSingleItem();
+                await Assert.That(report.Exception.InnerExceptions[0].Message)
+                    .IsEqualTo("Pipeline end hook failed");
                 await Assert.That(report.Modules[0].Exception!.Message)
                     .IsEqualTo("report failure **********");
             }

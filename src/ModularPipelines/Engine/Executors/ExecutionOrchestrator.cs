@@ -228,29 +228,57 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         PipelineSummary summary,
         Exception? pipelineException)
     {
-        return pipelineException is not null
-               && summary.Results.Any(result =>
-                   result.ExceptionOrDefault is { } moduleException
-                   && ContainsException(pipelineException, moduleException))
-            ? null
-            : pipelineException;
+        if (pipelineException is null)
+        {
+            return null;
+        }
+
+        var moduleExceptions = summary.Results
+            .Select(result => result.ExceptionOrDefault)
+            .OfType<Exception>()
+            .ToArray();
+        return RemoveModuleExceptionBranches(pipelineException, moduleExceptions);
     }
 
-    private static bool ContainsException(Exception exception, Exception expected)
+    private static Exception? RemoveModuleExceptionBranches(
+        Exception exception,
+        IReadOnlyCollection<Exception> moduleExceptions)
     {
-        if (ReferenceEquals(exception, expected))
+        if (moduleExceptions.Any(moduleException => ReferenceEquals(exception, moduleException)))
         {
-            return true;
+            return null;
         }
 
         if (exception is AggregateException aggregateException)
         {
-            return aggregateException.InnerExceptions.Any(innerException =>
-                ContainsException(innerException, expected));
+            var remainingExceptions = aggregateException.InnerExceptions
+                .Select(innerException => RemoveModuleExceptionBranches(innerException, moduleExceptions))
+                .OfType<Exception>()
+                .ToArray();
+            if (remainingExceptions.Length == aggregateException.InnerExceptions.Count)
+            {
+                return exception;
+            }
+
+            return remainingExceptions.Length == 0
+                ? null
+                : new AggregateException(aggregateException.Message, remainingExceptions);
         }
 
-        return exception.InnerException is { } innerException
-               && ContainsException(innerException, expected);
+        if (exception.InnerException is not { } innerException)
+        {
+            return exception;
+        }
+
+        var remainingInnerException = RemoveModuleExceptionBranches(innerException, moduleExceptions);
+        if (remainingInnerException is null)
+        {
+            return null;
+        }
+
+        return ReferenceEquals(remainingInnerException, innerException)
+            ? exception
+            : new AggregateException(exception.Message, remainingInnerException);
     }
 
     private static PipelineMetrics? RecomputeDurationMetrics(
