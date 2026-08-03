@@ -40,6 +40,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly IModuleAttributeEventService _moduleAttributeEventService;
     private readonly IModuleResultRegistrar _resultRegistrar;
     private readonly ISecretObfuscator _secretObfuscator;
+    private readonly IModuleConditionHandler _moduleConditionHandler;
     private readonly ArtifactLifecycleManager _artifactLifecycleManager;
     private readonly bool _manageArtifactsLocally;
     private readonly IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
@@ -62,6 +63,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleLifecycleEventInvoker lifecycleEventInvoker,
         IModuleAttributeEventService moduleAttributeEventService,
         IModuleResultRegistrar resultRegistrar,
+        IModuleConditionHandler moduleConditionHandler,
         ArtifactLifecycleManager artifactLifecycleManager,
         IOptions<DistributedOptions> distributedOptions,
         IEnumerable<IModule> modules,
@@ -82,6 +84,7 @@ internal class ModuleRunner : IModuleRunner
         _moduleAttributeEventService = moduleAttributeEventService;
         _resultRegistrar = resultRegistrar;
         _secretObfuscator = secretObfuscator;
+        _moduleConditionHandler = moduleConditionHandler;
         _artifactLifecycleManager = artifactLifecycleManager;
         _manageArtifactsLocally = !distributedOptions.Value.Enabled
                                   || distributedOptions.Value.TotalInstances <= 1;
@@ -278,6 +281,14 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken)
     {
         var module = moduleState.Module;
+        var (shouldIgnore, attributeDecision) = await _moduleConditionHandler
+            .ShouldIgnoreForPlanning(module, cancellationToken)
+            .ConfigureAwait(false);
+        if (shouldIgnore)
+        {
+            return attributeDecision ?? SkipDecision.Skip("Module was ignored");
+        }
+
         var planningSkipCondition = module.Configuration.PlanningSkipCondition;
         if (planningSkipCondition is null)
         {

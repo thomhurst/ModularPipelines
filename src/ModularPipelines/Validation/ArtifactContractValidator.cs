@@ -23,8 +23,7 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             return result;
         }
 
-        var runnableModules = services.GetRequiredService<ModuleRetriever>()
-            .GetRunnableModulesForValidation()
+        var runnableModules = GetRunnableModulesForArtifactValidationAsync(services)
             .GetAwaiter()
             .GetResult();
         return ValidateModules(services, runnableModules);
@@ -39,10 +38,31 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             return result;
         }
 
-        var runnableModules = await services.GetRequiredService<ModuleRetriever>()
-            .GetRunnableModulesForValidation()
+        var runnableModules = await GetRunnableModulesForArtifactValidationAsync(services)
             .ConfigureAwait(false);
         return ValidateModules(services, runnableModules);
+    }
+
+    private static async Task<IReadOnlyList<IModule>> GetRunnableModulesForArtifactValidationAsync(
+        IServiceProvider services)
+    {
+        var modules = await services.GetRequiredService<ModuleRetriever>()
+            .GetRunnableModulesForValidation()
+            .ConfigureAwait(false);
+        var conditionHandler = services.GetRequiredService<IModuleConditionHandler>();
+        var runnableModules = new List<IModule>(modules.Count);
+        foreach (var module in modules)
+        {
+            var (shouldIgnore, _) = await conditionHandler
+                .ShouldIgnoreForPlanning(module)
+                .ConfigureAwait(false);
+            if (!shouldIgnore)
+            {
+                runnableModules.Add(module);
+            }
+        }
+
+        return runnableModules;
     }
 
     private static ValidationResult ValidateModules(
