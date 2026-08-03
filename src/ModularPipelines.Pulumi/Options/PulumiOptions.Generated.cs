@@ -19,6 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("pulumi")]
+[CliGlobalOptions]
 public abstract record PulumiOptions : CommandLineToolOptions
 {
 }

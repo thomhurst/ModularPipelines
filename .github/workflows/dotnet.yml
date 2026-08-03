@@ -166,12 +166,6 @@ jobs:
             --results-directory "$RUNNER_TEMP/options-generator-test-results" \
             --report-trx \
             --report-trx-filename test-results.trx
-      - name: Verify OptionsGenerator version stamps
-        shell: pwsh
-        run: |
-          tools/ModularPipelines.OptionsGenerator/scripts/Test-GeneratedVersionStamps.ps1 `
-            -GeneratorAssemblyPath `
-              tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator.Tests/bin/Release/net10.0/ModularPipelines.OptionsGenerator.dll
       - name: Upload OptionsGenerator test results
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7

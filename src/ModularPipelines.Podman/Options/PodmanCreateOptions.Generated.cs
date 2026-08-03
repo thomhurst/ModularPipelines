@@ -19,7 +19,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create")]
-public record PodmanCreateOptions : PodmanOptions
+public record PodmanCreateOptions(
+    [property: CliArgument(0)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// Add a custom host-to-IP mapping (host:ip) (default [])
@@ -157,13 +159,13 @@ public record PodmanCreateOptions : PodmanOptions
     /// CPUs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetCpus { get; set; }
+    public string? CpuSetCpus { get; set; }
 
     /// <summary>
     /// Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems.
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetMems { get; set; }
+    public string? CpuSetMems { get; set; }
 
     /// <summary>
     /// Key needed to decrypt the image (e.g. /path/to/key.pem)
@@ -829,7 +831,16 @@ public record PodmanCreateOptions : PodmanOptions
     [CliOption("--workdir", ShortForm = "-w", Format = OptionFormat.EqualsSeparated)]
     public string? Workdir { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The COMMAND operand.
+    /// </summary>
+    [CliArgument(1)]
+    public string? Command { get; set; }
+
+    /// <summary>
+    /// The ARG operand.
+    /// </summary>
+    [CliArgument(2)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

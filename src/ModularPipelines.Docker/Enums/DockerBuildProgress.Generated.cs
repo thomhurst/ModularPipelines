@@ -11,14 +11,26 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Docker.Enums;
 
 /// <summary>
-/// Allowed values for the --cgroupns option.
+/// Allowed values for the --progress option.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
-public enum DockerContainerCreateCgroupns
+public enum DockerBuildProgress
 {
-    [EnumValue("host")]
-    Host,
+    [EnumValue("auto")]
+    Auto = 0,
 
-    [EnumValue("private")]
-    Private
+    [EnumValue("none")]
+    None = 1,
+
+    [EnumValue("plain")]
+    Plain = 2,
+
+    [EnumValue("quiet")]
+    Quiet = 3,
+
+    [EnumValue("rawjson")]
+    Rawjson = 4,
+
+    [EnumValue("tty")]
+    Tty = 5
 }

@@ -44,7 +44,10 @@ public record PodmanContainerMountOptions : PodmanOptions
     [CliFlag("--no-trunc")]
     public bool? NoTrunc { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The CONTAINER operand.
+    /// </summary>
+    [CliArgument(0)]
     public IEnumerable<string>? Container { get; set; }
 
 }

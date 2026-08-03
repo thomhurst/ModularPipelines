@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -142,6 +143,158 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    public async Task CobraTraversal_Does_Not_Treat_Trailing_Guidance_As_Commands()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake [command]
+
+                Available Commands:
+                  run    Run the operation
+
+                Use "fake [command] --help" for more information.
+
+                Learn More
+                  Read the CLI reference.
+                """,
+            ["run --help"] = """
+                Usage:
+                  fake run [flags]
+
+                Flags:
+                  --value string   Supply a value
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .IsEquivalentTo(["fake run"]);
+        await Assert.That(executor.Arguments)
+            .IsEquivalentTo(["--help", "run --help"]);
+    }
+
+    [Test]
+    public async Task CobraTraversal_Stops_When_Nested_Command_Reprints_Parent_Help()
+    {
+        var executor = new StubExecutor(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["--help"] = """
+                Usage:
+                  fake [command]
+
+                Commands:
+                  init    Initialize a project
+                """,
+            ["init --help"] = """
+                Usage:
+                  fake [command]
+
+                Commands:
+                  init    Initialize a project
+                """,
+        });
+        var scraper = new TestCobraScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands).IsEmpty();
+        await Assert.That(executor.Arguments)
+            .IsEquivalentTo(["--help", "init --help"]);
+    }
+
+    [Test]
+    public async Task PodmanTraversal_Uses_ComposeProvider_Help()
+    {
+        var executor = new ComposeProviderExecutor();
+        var scraper = new TestPodmanCliScraper(executor);
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands.Select(command => command.FullCommand))
+            .Contains("podman compose build");
+        await Assert.That(executor.Invocations)
+            .Contains(("docker-compose-shim", "build --help"));
+    }
+
+    [Test]
+    public async Task PodmanTraversal_Rejects_Recursive_ComposeProvider_Help()
+    {
+        var scraper = new TestPodmanCliScraper(new RecursiveComposeProviderExecutor());
+
+        var commands = await ScrapeAsync(scraper);
+
+        await Assert.That(commands).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("container clone", "CONTAINER NAME IMAGE", 3)]
+    [Arguments("pod clone", "POD NAME", 2)]
+    public async Task PodmanClone_Keeps_Defaulted_Output_Operands_Optional(
+        string command,
+        string operands,
+        int expectedCount)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] {operands}";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(expectedCount);
+            await Assert.That(definition.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(definition.PositionalArguments.Skip(1).All(argument => !argument.IsRequired)).IsTrue();
+            await Assert.That(definition.PositionalArguments.Skip(1).All(argument => argument.CSharpType == "string?")).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("exec")]
+    [Arguments("container exec")]
+    public async Task PodmanExec_Requires_Container_And_Command(string command)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] CONTAINER COMMAND [ARG...]";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(3);
+            await Assert.That(definition.PositionalArguments.Take(2).All(argument => argument.IsRequired)).IsTrue();
+            await Assert.That(definition.PositionalArguments.Take(2).All(argument => argument.CSharpType == "string")).IsTrue();
+            await Assert.That(definition.PositionalArguments[2].IsRequired).IsFalse();
+            await Assert.That(definition.PositionalArguments[2].CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
+    [Arguments("secret exists", "SECRET")]
+    [Arguments("secret inspect", "SECRET [SECRET...]")]
+    [Arguments("secret rm", "SECRET [SECRET...]")]
+    public async Task PodmanSecret_Identifiers_Are_Not_Secret_Values(
+        string command,
+        string operands)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] {operands}";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+
+        await Assert.That(definition!.PositionalArguments.All(argument => !argument.IsSecret)).IsTrue();
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """
@@ -161,6 +314,33 @@ public class CliScraperTraversalTests
 
         await Assert.That(tag.AcceptsMultipleValues).IsTrue();
         await Assert.That(tag.CSharpType).IsEqualTo("IEnumerable<string>?");
+    }
+
+    [Test]
+    public async Task SharedShapeInference_Models_Optional_Cobra_Option_Values()
+    {
+        const string helpText = """
+            Create a provider.
+
+            Usage:
+              fake provider [flags]
+
+            Flags:
+              --draft string[="new"]   Set without a value to create a draft
+            """;
+        var scraper = new TestCobraScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+
+        var command = await scraper.Parse(["fake", "provider"], helpText);
+        var draft = command!.Options.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(draft.CSharpType).IsEqualTo("string?");
+            await Assert.That(draft.IsFlag).IsFalse();
+            await Assert.That(draft.ValueSeparator).IsEqualTo("=");
+            await Assert.That(draft.ValueArity).IsEqualTo(CliOptionValueArity.Optional);
+        }
     }
 
     [Test]
@@ -256,6 +436,111 @@ public class CliScraperTraversalTests
         public bool DeclaresCommandGroup(string helpText) => HelpDeclaresCommandGroup(helpText);
 
         public IReadOnlyList<string> GetSubcommands(string helpText) => ExtractSubcommands(helpText).ToList();
+    }
+
+    private sealed class TestPodmanCliScraper(ICliCommandExecutor executor)
+        : PodmanCliScraper(
+            executor,
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance),
+            NullLogger<PodmanCliScraper>.Instance)
+    {
+        protected override string? ComposeProviderPath => "docker-compose-shim";
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
+    }
+
+    private sealed class ComposeProviderExecutor : ICliCommandExecutor
+    {
+        public List<(string Command, string Arguments)> Invocations { get; } = [];
+
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            Invocations.Add((command, arguments));
+            var helpText = (command, arguments) switch
+            {
+                ("podman", "--help") => """
+                    Usage: podman [OPTIONS] COMMAND
+
+                    Commands:
+                      compose    Run Compose workloads
+                    """,
+                ("docker-compose-shim", "--help") => """
+                    Usage: docker compose [OPTIONS] COMMAND
+
+                    Options:
+                      --ansi string    Control ANSI output
+
+                    Commands:
+                      build    Build services
+                    """,
+                ("docker-compose-shim", "build --help") => """
+                    Usage: docker compose build [OPTIONS] [SERVICE...]
+
+                    Options:
+                      --pull    Always attempt to pull
+                    """,
+                _ => throw new InvalidOperationException(
+                    $"Unexpected invocation: {command} {arguments}"),
+            };
+
+            return Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = helpText,
+                StandardError = string.Empty,
+            });
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
+    }
+
+    private sealed class RecursiveComposeProviderExecutor : ICliCommandExecutor
+    {
+        public Task<CliCommandResult> ExecuteAsync(
+            string command,
+            string arguments,
+            CancellationToken cancellationToken = default,
+            string? workingDirectory = null)
+        {
+            var helpText = command switch
+            {
+                "podman" => """
+                    Usage: podman [OPTIONS] COMMAND
+
+                    Commands:
+                      compose    Run Compose workloads
+                    """,
+                "docker-compose-shim" => """
+                    Usage: podman [OPTIONS] COMMAND
+
+                    Commands:
+                      compose    Run Compose workloads
+                    """,
+                _ => throw new InvalidOperationException($"Unexpected invocation: {command} {arguments}"),
+            };
+            return Task.FromResult(new CliCommandResult
+            {
+                ExitCode = 0,
+                StandardOutput = helpText,
+                StandardError = string.Empty,
+            });
+        }
+
+        public Task<bool> IsAvailableAsync(
+            string command,
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(true);
     }
 
     private sealed class ShapeMismatchScraper : CliScraperBase

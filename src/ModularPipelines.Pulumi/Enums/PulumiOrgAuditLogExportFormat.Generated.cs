@@ -17,8 +17,8 @@ namespace ModularPipelines.Pulumi.Enums;
 public enum PulumiOrgAuditLogExportFormat
 {
     [EnumValue("csv")]
-    Csv,
+    Csv = 0,
 
     [EnumValue("cef")]
-    Cef
+    Cef = 1
 }

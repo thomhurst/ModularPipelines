@@ -13,24 +13,20 @@ using ModularPipelines.Pulumi.Options;
 namespace ModularPipelines.Pulumi.Options;
 
 /// <summary>
-/// Delete a package version from the Pulumi Registry.
+/// Set the local default organization for the current backend.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("package", "delete")]
-public record PulumiPackageDeleteOptions : PulumiOptions
+[CliSubCommand("org", "set-default")]
+public record PulumiOrgSetDefaultOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+) : PulumiOptions
 {
     /// <summary>
-    /// help for delete
+    /// help for set-default
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    /// <summary>
-    /// Skip confirmation prompts, and proceed with deletion anyway
-    /// </summary>
-    [CliFlag("--yes", ShortForm = "-y")]
-    public bool? Yes { get; set; }
 
     /// <summary>
     /// Colorize output. Choices are: always, never, raw, auto (default "auto")
@@ -87,7 +83,7 @@ public record PulumiPackageDeleteOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

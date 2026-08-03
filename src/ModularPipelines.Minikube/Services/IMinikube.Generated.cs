@@ -60,6 +60,15 @@ public partial interface IMinikube
     #region Commands
 
     /// <summary>
+    /// Copy the specified file into minikube, it will be saved at path &lt;target file absolute path&gt; in your minikube.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> CpAsync(MinikubeCpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Access the Kubernetes dashboard running within the minikube cluster
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -129,7 +138,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> MountAsync(MinikubeMountOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> MountAsync(MinikubeMountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// pause Kubernetes

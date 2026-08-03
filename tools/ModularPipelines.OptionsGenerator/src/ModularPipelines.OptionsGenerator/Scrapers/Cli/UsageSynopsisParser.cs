@@ -37,6 +37,14 @@ public static class UsageSynopsisParser
         "options",
     };
 
+    private static readonly HashSet<string> CommandGroupPlaceholderNames = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Command",
+        "Commands",
+        "Subcommand",
+        "Subcommands",
+    };
+
     /// <summary>
     /// Parses the best matching synopsis for a command.
     /// </summary>
@@ -65,7 +73,11 @@ public static class UsageSynopsisParser
             .ToList();
         if (candidates.Count == 0)
         {
-            return UsageSynopsisParseResult.Empty;
+            return UsageSynopsisParseResult.Empty with
+            {
+                HasExtractedSynopses = synopses.Count > 0,
+                Synopsis = synopses.FirstOrDefault(),
+            };
         }
 
         var rankedCandidates = candidates
@@ -78,7 +90,7 @@ public static class UsageSynopsisParser
             .Where(candidate =>
                 candidate.MatchedCommandPartCount == selected.MatchedCommandPartCount)
             .ToList();
-        List<UsageSynopsisParseResult> requirednessCandidates =
+        var requirednessCandidates =
             suppliedSynopsisSet.Contains(selected.Synopsis ?? "")
             ? [.. sameCommandCandidates
                 .Where(candidate => suppliedSynopsisSet.Contains(candidate.Synopsis ?? ""))]
@@ -86,6 +98,7 @@ public static class UsageSynopsisParser
 
         return selected with
         {
+            HasExtractedSynopses = true,
             MatchedSynopsisCount = candidates.Count,
             HasAmbiguousMatch = rankedCandidates
                 .Skip(1)
@@ -114,6 +127,20 @@ public static class UsageSynopsisParser
                    !char.IsLetter(character) || char.IsUpper(character)));
     }
 
+    internal static UsageSynopsisParseResult RemoveCommandGroupPlaceholders(
+        UsageSynopsisParseResult result)
+    {
+        var positionalArguments = result.PositionalArguments
+            .Where(argument => !CommandGroupPlaceholderNames.Contains(argument.PropertyName))
+            .ToList();
+
+        return result with
+        {
+            HasOperandTokens = positionalArguments.Count > 0 || result.UnparsedOperandTokens.Count > 0,
+            PositionalArguments = positionalArguments,
+        };
+    }
+
     private static UsageSynopsisParseResult ParseSynopsis(
         string synopsis,
         IReadOnlyList<string> commandPath)
@@ -133,7 +160,8 @@ public static class UsageSynopsisParser
             .Any(IsOptionControlToken)
                 ? PositionalArgumentPosition.AfterOptions
                 : PositionalArgumentPosition.BeforeOptions;
-        foreach (var token in CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1)))
+        foreach (var token in TrimTrailingUsageExplanation(
+                     CollapseAlternatives(tokens.Skip(commandMatch.EndIndex + 1))))
         {
             if (IsOptionControlToken(token))
             {
@@ -152,6 +180,17 @@ public static class UsageSynopsisParser
             if (TryApplyStandaloneRepeat(operandToken, arguments)
                 || IsNonOperandSyntax(operandToken))
             {
+                continue;
+            }
+
+            if (TryParseNestedOperandGroup(
+                    operandToken,
+                    arguments.Count,
+                    placement,
+                    out var nestedArguments))
+            {
+                arguments.AddRange(nestedArguments);
+                prependOptionTerminatorToNextOperand = false;
                 continue;
             }
 
@@ -357,30 +396,26 @@ public static class UsageSynopsisParser
             }
 
             var start = index;
-            if (TryGetClosingDelimiter(synopsis[index], out var closingDelimiter))
+            var closingDelimiters = new Stack<char>();
+            while (index < synopsis.Length)
             {
+                var character = synopsis[index];
+                if (closingDelimiters.Count == 0 && char.IsWhiteSpace(character))
+                {
+                    break;
+                }
+
+                if (TryGetClosingDelimiter(character, out var closingDelimiter))
+                {
+                    closingDelimiters.Push(closingDelimiter);
+                }
+                else if (closingDelimiters.TryPeek(out var expectedDelimiter)
+                         && character == expectedDelimiter)
+                {
+                    closingDelimiters.Pop();
+                }
+
                 index++;
-                while (index < synopsis.Length && synopsis[index] != closingDelimiter)
-                {
-                    index++;
-                }
-
-                if (index < synopsis.Length)
-                {
-                    index++;
-                }
-
-                while (index < synopsis.Length && !char.IsWhiteSpace(synopsis[index]))
-                {
-                    index++;
-                }
-            }
-            else
-            {
-                while (index < synopsis.Length && !char.IsWhiteSpace(synopsis[index]))
-                {
-                    index++;
-                }
             }
 
             tokens.Add(synopsis[start..index]);
@@ -429,12 +464,24 @@ public static class UsageSynopsisParser
         PositionalArgumentPosition placement)
     {
         var trimmed = token.Trim().TrimEnd(',', ';');
-        var isRequired = !trimmed.StartsWith('[');
+        var isRequired = !trimmed.StartsWith('[')
+                         || HasRequiredSuffixOutsideOptionalPrefix(trimmed);
         var content = TrimWrapper(trimmed).Trim();
         var canonicalName = SelectCanonicalAlternative(content);
-        var isVariadic = canonicalName.EndsWith("...", StringComparison.Ordinal)
+        if (TrySelectRequiredCompoundPlaceholder(trimmed, out var requiredPlaceholder))
+        {
+            isRequired = true;
+            canonicalName = requiredPlaceholder;
+        }
+
+        var isVariadic = trimmed.EndsWith("...", StringComparison.Ordinal)
+                         || trimmed.EndsWith('…')
+                         || content.EndsWith("...", StringComparison.Ordinal)
+                         || content.EndsWith('…')
+                         || canonicalName.EndsWith("...", StringComparison.Ordinal)
                          || canonicalName.EndsWith('…')
-                         || canonicalName.EndsWith(" ...", StringComparison.Ordinal);
+                         || canonicalName.EndsWith(" ...", StringComparison.Ordinal)
+                         || IsForwardedOptionTail(trimmed, content);
         canonicalName = canonicalName.TrimEnd('.', '…').Trim();
 
         if (canonicalName.StartsWith('-'))
@@ -453,12 +500,132 @@ public static class UsageSynopsisParser
             PropertyName = propertyName,
             PlaceholderName = content,
             CSharpType = GetCSharpType(isRequired, isVariadic),
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag: false),
             IsRequired = isRequired,
             IsVariadic = isVariadic,
             PositionIndex = positionIndex,
             Placement = placement,
             Description = $"The {canonicalName} operand.",
         };
+    }
+
+    private static bool IsForwardedOptionTail(string token, string content) =>
+        token.StartsWith('[')
+        && content.Contains(' ')
+        && content.EndsWith(" OPTIONS", StringComparison.OrdinalIgnoreCase);
+
+    private static bool TryParseNestedOperandGroup(
+        string token,
+        int positionIndex,
+        PositionalArgumentPosition placement,
+        out IReadOnlyList<CliPositionalArgument> arguments)
+    {
+        arguments = [];
+        if (!IsWrapped(token))
+        {
+            return false;
+        }
+
+        var content = TrimWrapper(token).Trim();
+        if (!content.Contains('[') || content.Contains('|'))
+        {
+            return false;
+        }
+
+        var nestedTokens = Tokenize(content);
+        if (nestedTokens.Count <= 1)
+        {
+            return false;
+        }
+
+        var parsedArguments = new List<CliPositionalArgument>();
+        foreach (var nestedToken in nestedTokens)
+        {
+            var argument = ParseOperand(
+                nestedToken,
+                positionIndex + parsedArguments.Count,
+                placement);
+            if (argument is null)
+            {
+                return false;
+            }
+
+            parsedArguments.Add(argument with
+            {
+                CSharpType = GetCSharpType(isRequired: false, argument.IsVariadic),
+                IsRequired = false,
+            });
+        }
+
+        arguments = parsedArguments;
+        return true;
+    }
+
+    private static bool HasRequiredSuffixOutsideOptionalPrefix(string token)
+    {
+        if (!token.StartsWith('['))
+        {
+            return false;
+        }
+
+        var closingBracketIndex = token.IndexOf(']');
+        return closingBracketIndex >= 0
+               && token[(closingBracketIndex + 1)..].Any(char.IsLetterOrDigit);
+    }
+
+    private static bool TrySelectRequiredCompoundPlaceholder(
+        string token,
+        out string requiredPlaceholder)
+    {
+        var optionalDepth = 0;
+        var requiredPlaceholders = new List<string>();
+        var hasOptionalPlaceholder = false;
+
+        for (var index = 0; index < token.Length; index++)
+        {
+            if (token[index] == '[')
+            {
+                optionalDepth++;
+                continue;
+            }
+
+            if (token[index] == ']')
+            {
+                optionalDepth = Math.Max(0, optionalDepth - 1);
+                continue;
+            }
+
+            if (token[index] != '<')
+            {
+                continue;
+            }
+
+            var end = token.IndexOf('>', index + 1);
+            if (end < 0)
+            {
+                break;
+            }
+
+            var placeholder = token[(index + 1)..end].Trim();
+            if (!string.IsNullOrWhiteSpace(placeholder))
+            {
+                if (optionalDepth == 0)
+                {
+                    requiredPlaceholders.Add(placeholder);
+                }
+                else
+                {
+                    hasOptionalPlaceholder = true;
+                }
+            }
+
+            index = end;
+        }
+
+        requiredPlaceholder = requiredPlaceholders.Count > 0
+            ? requiredPlaceholders[^1]
+            : string.Empty;
+        return hasOptionalPlaceholder && requiredPlaceholders.Count > 0;
     }
 
     private static string SelectCanonicalAlternative(string content)
@@ -493,6 +660,22 @@ public static class UsageSynopsisParser
         return collapsed;
     }
 
+    private static IReadOnlyList<string> TrimTrailingUsageExplanation(IEnumerable<string> sourceTokens)
+    {
+        var tokens = sourceTokens.ToList();
+        var boundaryIndex = tokens.FindIndex(static token =>
+            token.Length > 1
+            && token[^1] == '.'
+            && token[^2] is ']' or '>' or '}' or ')');
+        if (boundaryIndex < 0)
+        {
+            return tokens;
+        }
+
+        tokens[boundaryIndex] = tokens[boundaryIndex][..^1];
+        return tokens.Take(boundaryIndex + 1).ToList();
+    }
+
     private static string? NormalizeOperandName(string content)
     {
         var cleaned = new string(content
@@ -508,7 +691,7 @@ public static class UsageSynopsisParser
         string token,
         List<CliPositionalArgument> arguments)
     {
-        if (token is not ("..." or "…") || arguments.Count == 0)
+        if (token is not ("..." or "…" or "[...]" or "[…]") || arguments.Count == 0)
         {
             return false;
         }
@@ -621,6 +804,8 @@ public sealed record UsageSynopsisParseResult
     public string? Synopsis { get; init; }
 
     public bool CommandMatched { get; init; }
+
+    public bool HasExtractedSynopses { get; init; }
 
     public int MatchedCommandPartCount { get; init; }
 

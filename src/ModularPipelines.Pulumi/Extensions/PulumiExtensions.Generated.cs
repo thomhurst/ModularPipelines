@@ -35,6 +35,7 @@ public static class PulumiExtensions
         services.TryAddScoped<IPulumiEnv, PulumiEnv>();
         services.TryAddScoped<IPulumiInsights, PulumiInsights>();
         services.TryAddScoped<IPulumiLogs, PulumiLogs>();
+        services.TryAddScoped<IPulumiNeo, PulumiNeo>();
         services.TryAddScoped<IPulumiOrg, PulumiOrg>();
         services.TryAddScoped<IPulumiPackage, PulumiPackage>();
         services.TryAddScoped<IPulumiPlugin, PulumiPlugin>();
@@ -47,7 +48,7 @@ public static class PulumiExtensions
     }
 
     /// <summary>
-    /// Gets the pulumi service from the pipeline context.
+    /// Gets the pulumi service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPulumi"/> service for executing pulumi commands.</returns>

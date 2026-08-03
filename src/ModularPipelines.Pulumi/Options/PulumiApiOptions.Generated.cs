@@ -159,7 +159,7 @@ public record PulumiApiOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
@@ -175,5 +175,11 @@ public record PulumiApiOptions : PulumiOptions
     /// </summary>
     [CliOption("--tracing", Format = OptionFormat.EqualsSeparated)]
     public string? Tracing { get; set; }
+
+    /// <summary>
+    /// The path-or-operation-id operand.
+    /// </summary>
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? PathOrOperationId { get; set; }
 
 }

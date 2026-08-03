@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attach")]
-public record DockerAttachOptions : DockerOptions
+public record DockerAttachOptions(
+    [property: CliArgument(0)] string Container
+) : DockerOptions
 {
     /// <summary>
     /// Override the key sequence for detaching a container
@@ -35,10 +37,7 @@ public record DockerAttachOptions : DockerOptions
     /// <summary>
     /// Proxy all received signals to the process (default true)
     /// </summary>
-    [CliFlag("--sig-proxy")]
+    [CliOption("--sig-proxy", Format = OptionFormat.EqualsSeparated)]
     public bool? SigProxy { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("swarm", "join")]
-public record DockerSwarmJoinOptions : DockerOptions
+public record DockerSwarmJoinOptions(
+    [property: CliArgument(0)] string HostPort
+) : DockerOptions
 {
     /// <summary>
     /// Advertised address (format: "&lt;ip|interface&gt;[:port]")
@@ -50,8 +52,5 @@ public record DockerSwarmJoinOptions : DockerOptions
     [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -24,12 +24,12 @@ public record MinikubeDashboardOptions : MinikubeOptions
     /// Exposed port of the proxyfied dashboard. Set to 0 to pick a random port.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
+    public int? Port { get; set; }
 
     /// <summary>
     /// Display dashboard URL instead of opening a browser
     /// </summary>
-    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
-    public string? Url { get; set; }
+    [CliFlag("--url")]
+    public bool? Url { get; set; }
 
 }

@@ -56,7 +56,4 @@ public record DockerBuildxHistoryLsOptions : DockerOptions
     [CliFlag("--no-trunc")]
     public bool? NoTrunc { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
 }

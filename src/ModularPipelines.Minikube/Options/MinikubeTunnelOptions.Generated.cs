@@ -30,6 +30,6 @@ public record MinikubeTunnelOptions : MinikubeOptions
     /// call with cleanup=true to remove old tunnels
     /// </summary>
     [CliOption("--cleanup", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
-    public string? Cleanup { get; set; }
+    public bool? Cleanup { get; set; }
 
 }

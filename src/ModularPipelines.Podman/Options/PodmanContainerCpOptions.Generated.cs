@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "cp")]
-public record PodmanContainerCpOptions : PodmanOptions
+public record PodmanContainerCpOptions(
+    [property: CliArgument(0)] string ContainerSrcPath,
+    [property: CliArgument(1)] string ContainerDestPath
+) : PodmanOptions
 {
     /// <summary>
     /// Chown copied files to the primary uid/gid of the destination container. (default true)

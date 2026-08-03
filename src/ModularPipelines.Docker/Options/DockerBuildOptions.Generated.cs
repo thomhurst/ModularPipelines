@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Docker.Options;
+using ModularPipelines.Docker.Enums;
 
 namespace ModularPipelines.Docker.Options;
 
@@ -18,7 +19,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build")]
-public record DockerBuildOptions : DockerOptions
+public record DockerBuildOptions(
+    [property: CliArgument(0)] string Path
+) : DockerOptions
 {
     /// <summary>
     /// Add a custom host-to-IP mapping (format: "host:ip")
@@ -168,7 +171,7 @@ public record DockerBuildOptions : DockerOptions
     /// Set type of progress output ("auto", "none",  "plain", "quiet", "rawjson", "tty"). Use plain to show container output (default "auto")
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-    public string? Progress { get; set; }
+    public DockerBuildProgress? Progress { get; set; }
 
     /// <summary>
     /// Shorthand for "--attest=type=provenance"
@@ -242,8 +245,5 @@ public record DockerBuildOptions : DockerOptions
     /// </summary>
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public string? Ulimit { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

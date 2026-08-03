@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "logs")]
-public record DockerContainerLogsOptions : DockerOptions
+public record DockerContainerLogsOptions(
+    [property: CliArgument(0)] string Container
+) : DockerOptions
 {
     /// <summary>
     /// Show extra details provided to logs
@@ -55,8 +57,5 @@ public record DockerContainerLogsOptions : DockerOptions
     /// </summary>
     [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
     public string? Until { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

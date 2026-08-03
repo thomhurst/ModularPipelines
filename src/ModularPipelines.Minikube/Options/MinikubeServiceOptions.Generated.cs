@@ -18,25 +18,27 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("service")]
-public record MinikubeServiceOptions : MinikubeOptions
+public record MinikubeServiceOptions(
+    [property: CliArgument(0)] string Service
+) : MinikubeOptions
 {
     /// <summary>
     /// Forwards all services in a namespace (defaults to "false")
     /// </summary>
-    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all")]
+    public bool? All { get; set; }
 
     /// <summary>
     /// Open the service URL with https instead of http (defaults to "false")
     /// </summary>
-    [CliOption("--https", Format = OptionFormat.EqualsSeparated)]
-    public string? Https { get; set; }
+    [CliFlag("--https")]
+    public bool? Https { get; set; }
 
     /// <summary>
     /// The initial time interval for each check that wait performs in seconds
     /// </summary>
     [CliOption("--interval", Format = OptionFormat.EqualsSeparated)]
-    public string? Interval { get; set; }
+    public int? Interval { get; set; }
 
     /// <summary>
     /// The service namespace
@@ -47,13 +49,13 @@ public record MinikubeServiceOptions : MinikubeOptions
     /// <summary>
     /// Display the Kubernetes service URL in the CLI instead of opening it in the default browser
     /// </summary>
-    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
-    public string? Url { get; set; }
+    [CliFlag("--url")]
+    public bool? Url { get; set; }
 
     /// <summary>
     /// Amount of time to wait for a service in seconds
     /// </summary>
     [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
-    public string? Wait { get; set; }
+    public int? Wait { get; set; }
 
 }

@@ -17,11 +17,11 @@ namespace ModularPipelines.Pulumi.Enums;
 public enum PulumiInsightsAccountNewScanSchedule
 {
     [EnumValue("none")]
-    None,
+    None = 0,
 
     [EnumValue("12h")]
-    __12h,
+    Value12H = 1,
 
     [EnumValue("daily")]
-    Daily
+    Daily = 2
 }

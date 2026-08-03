@@ -18,7 +18,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "port")]
-public record PodmanComposePortOptions : PodmanOptions
+public record PodmanComposePortOptions(
+    [property: CliArgument(0)] string Service,
+    [property: CliArgument(1)] string PrivatePort
+) : PodmanOptions
 {
     /// <summary>
     /// Execute command in dry run mode
@@ -37,8 +40,5 @@ public record PodmanComposePortOptions : PodmanOptions
     /// </summary>
     [CliOption("--protocol", Format = OptionFormat.EqualsSeparated)]
     public string? Protocol { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "group", "edit")]
-public record PulumiPolicyGroupEditOptions : PulumiOptions
+public record PulumiPolicyGroupEditOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+) : PulumiOptions
 {
     /// <summary>
     /// Add an Insights account to the Policy Group (repeatable)
@@ -43,12 +45,6 @@ public record PulumiPolicyGroupEditOptions : PulumiOptions
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
-
-    /// <summary>
-    /// Rename the Policy Group
-    /// </summary>
-    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
-    public string? Name { get; set; }
 
     /// <summary>
     /// The organization that owns the Policy Group
@@ -135,7 +131,7 @@ public record PulumiPolicyGroupEditOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }

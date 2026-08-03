@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "inspect")]
-public record DockerNetworkInspectOptions : DockerOptions
+public record DockerNetworkInspectOptions(
+    [property: CliArgument(0)] IEnumerable<string> Network
+) : DockerOptions
 {
     /// <summary>
     /// Format output using a custom template: 'json':             Print in JSON format 'TEMPLATE':         Print output using the given Go template. Refer to https://docs.docker.com/go/formatting/ for more information about formatting output with templates
@@ -31,11 +33,5 @@ public record DockerNetworkInspectOptions : DockerOptions
     /// </summary>
     [CliFlag("--verbose", ShortForm = "-v")]
     public bool? Verbose { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Network { get; set; }
 
 }

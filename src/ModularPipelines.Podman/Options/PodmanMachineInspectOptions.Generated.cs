@@ -26,7 +26,10 @@ public record PodmanMachineInspectOptions : PodmanOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The MACHINE operand.
+    /// </summary>
+    [CliArgument(0)]
     public IEnumerable<string>? Machine { get; set; }
 
 }

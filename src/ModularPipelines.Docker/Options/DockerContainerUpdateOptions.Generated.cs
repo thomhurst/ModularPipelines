@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "update")]
-public record DockerContainerUpdateOptions : DockerOptions
+public record DockerContainerUpdateOptions(
+    [property: CliArgument(0)] IEnumerable<string> Container
+) : DockerOptions
 {
     /// <summary>
     /// Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
@@ -66,13 +68,13 @@ public record DockerContainerUpdateOptions : DockerOptions
     /// CPUs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-cpus", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetCpus { get; set; }
+    public string? CpuSetCpus { get; set; }
 
     /// <summary>
     /// MEMs in which to allow execution (0-3, 0,1)
     /// </summary>
     [CliOption("--cpuset-mems", Format = OptionFormat.EqualsSeparated)]
-    public string? CpusetMems { get; set; }
+    public string? CpuSetMems { get; set; }
 
     /// <summary>
     /// Memory limit
@@ -87,7 +89,7 @@ public record DockerContainerUpdateOptions : DockerOptions
     public string? MemoryReservation { get; set; }
 
     /// <summary>
-    /// Swap limit equal to memory plus swap:
+    /// Swap limit equal to memory plus swap: -1 to enable unlimited swap
     /// </summary>
     [CliOption("--memory-swap", Format = OptionFormat.EqualsSeparated)]
     public string? MemorySwap { get; set; }
@@ -103,11 +105,5 @@ public record DockerContainerUpdateOptions : DockerOptions
     /// </summary>
     [CliOption("--restart", Format = OptionFormat.EqualsSeparated)]
     public string? Restart { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Container { get; set; }
 
 }

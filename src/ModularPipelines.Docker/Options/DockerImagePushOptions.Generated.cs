@@ -18,7 +18,9 @@ namespace ModularPipelines.Docker.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "push")]
-public record DockerImagePushOptions : DockerOptions
+public record DockerImagePushOptions(
+    [property: CliArgument(0)] string NameTag
+) : DockerOptions
 {
     /// <summary>
     /// Push all tags of an image to the repository
@@ -29,7 +31,7 @@ public record DockerImagePushOptions : DockerOptions
     /// <summary>
     /// Skip image signing (default true)
     /// </summary>
-    [CliFlag("--disable-content-trust")]
+    [CliOption("--disable-content-trust", Format = OptionFormat.EqualsSeparated)]
     public bool? DisableContentTrust { get; set; }
 
     /// <summary>
@@ -43,8 +45,5 @@ public record DockerImagePushOptions : DockerOptions
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
 
 }

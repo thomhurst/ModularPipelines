@@ -32,7 +32,10 @@ public record PodmanImageMountOptions : PodmanOptions
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(0)]
     public IEnumerable<string>? Image { get; set; }
 
 }

@@ -18,7 +18,9 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mount")]
-public record MinikubeMountOptions : MinikubeOptions
+public record MinikubeMountOptions(
+    [property: CliArgument(0)] string SourceDirectoryTargetDirectory
+) : MinikubeOptions
 {
     /// <summary>
     /// Specify the 9p version that the mount should use
@@ -41,26 +43,26 @@ public record MinikubeMountOptions : MinikubeOptions
     /// <summary>
     /// Kill the mount process spawned by minikube start
     /// </summary>
-    [CliOption("--kill", Format = OptionFormat.EqualsSeparated)]
-    public string? Kill { get; set; }
+    [CliFlag("--kill")]
+    public bool? Kill { get; set; }
 
     /// <summary>
     /// The number of bytes to use for 9p packet payload
     /// </summary>
     [CliOption("--msize", Format = OptionFormat.EqualsSeparated)]
-    public string? Msize { get; set; }
+    public int? Msize { get; set; }
 
     /// <summary>
     /// Additional mount options, such as cache=fscache
     /// </summary>
-    [CliOption("--options", Format = OptionFormat.EqualsSeparated)]
-    public string? Options { get; set; }
+    [CliOption("--options", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Options { get; set; }
 
     /// <summary>
     /// Specify the port that the mount should be setup on, where 0 means any free port.
     /// </summary>
     [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
-    public string? Port { get; set; }
+    public int? Port { get; set; }
 
     /// <summary>
     /// Specify the mount filesystem type (supported types: 9p)

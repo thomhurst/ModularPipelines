@@ -17,14 +17,14 @@ namespace ModularPipelines.Minikube.Enums;
 public enum MinikubeImageLsFormat
 {
     [EnumValue("short")]
-    Short,
+    Short = 0,
 
     [EnumValue("table")]
-    Table,
+    Table = 1,
 
     [EnumValue("json")]
-    Json,
+    Json = 2,
 
     [EnumValue("yaml")]
-    Yaml
+    Yaml = 3
 }

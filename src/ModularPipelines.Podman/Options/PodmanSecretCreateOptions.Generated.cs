@@ -19,7 +19,10 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "create")]
-public record PodmanSecretCreateOptions : PodmanOptions
+public record PodmanSecretCreateOptions(
+    [property: CliArgument(0)] string Name,
+    [property: CliArgument(1)] string File
+) : PodmanOptions
 {
     /// <summary>
     /// Specify secret driver (default "file")

@@ -9,6 +9,42 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers;
 public class UsageSynopsisParserTests
 {
     [Test]
+    public async Task Retains_Compound_Endpoint_Placeholders_As_Single_Operands()
+    {
+        var copy = UsageSynopsisParser.Parse(
+            "Usage: minikube cp <source node name>:<source file path> <target node name>:<target absolute file path>",
+            ["minikube", "cp"]);
+        var mount = UsageSynopsisParser.Parse(
+            "Usage: minikube mount <source directory>:<target directory> [flags]",
+            ["minikube", "mount"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(copy.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(copy.PositionalArguments[0].PlaceholderName)
+                .IsEqualTo("source node name>:<source file path");
+            await Assert.That(copy.PositionalArguments[1].PlaceholderName)
+                .IsEqualTo("target node name>:<target absolute file path");
+            await Assert.That(mount.PositionalArguments).Count().IsEqualTo(1);
+            await Assert.That(mount.PositionalArguments[0].PlaceholderName)
+                .IsEqualTo("source directory>:<target directory");
+        }
+    }
+
+    [Test]
+    public async Task Command_Group_Placeholders_Are_Not_Operands()
+    {
+        var parsed = UsageSynopsisParser.Parse(
+            "Usage: docker buildx [OPTIONS] COMMAND",
+            ["docker", "buildx"]);
+
+        var result = UsageSynopsisParser.RemoveCommandGroupPlaceholders(parsed);
+
+        await Assert.That(result.PositionalArguments).IsEmpty();
+        await Assert.That(result.HasOperandTokens).IsFalse();
+    }
+
+    [Test]
     public async Task Parses_Regression_Operand_Syntax_Through_One_Model()
     {
         var fixtures = new[]
@@ -127,6 +163,141 @@ public class UsageSynopsisParserTests
     }
 
     [Test]
+    public async Task Parses_Forwarded_Option_Tail_As_Multiple_Arguments()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: docker top CONTAINER [ps OPTIONS]",
+            ["docker", "top"]);
+
+        var psOptions = result.PositionalArguments.Single(argument =>
+            argument.PropertyName == "PsOptions");
+        using (Assert.Multiple())
+        {
+            await Assert.That(psOptions.IsRequired).IsFalse();
+            await Assert.That(psOptions.IsVariadic).IsTrue();
+            await Assert.That(psOptions.CSharpType).IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
+    public async Task Splits_Nested_Command_And_Argument_Operands()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: podman run [options] IMAGE [COMMAND [ARG...]]",
+            ["podman", "run"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).Count().IsEqualTo(3);
+            await Assert.That(result.PositionalArguments[0].PropertyName).IsEqualTo("Image");
+            await Assert.That(result.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(result.PositionalArguments[1].PropertyName).IsEqualTo("Command");
+            await Assert.That(result.PositionalArguments[1].CSharpType).IsEqualTo("string?");
+            await Assert.That(result.PositionalArguments[2].PropertyName).IsEqualTo("Arg");
+            await Assert.That(result.PositionalArguments[2].CSharpType)
+                .IsEqualTo("IEnumerable<string>?");
+        }
+    }
+
+    [Test]
+    public async Task Requires_Suffixes_Outside_Optional_Qualifiers()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: podman cp [options] [CONTAINER:]SRC_PATH [CONTAINER:]DEST_PATH",
+            ["podman", "cp"]);
+
+        await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
+        await Assert.That(result.PositionalArguments.All(argument => argument.IsRequired)).IsTrue();
+        await Assert.That(result.PositionalArguments.All(argument => argument.CSharpType == "string"))
+            .IsTrue();
+    }
+
+    [Test]
+    public async Task Preserves_Variadic_Marker_After_Alternative()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: docker inspect [OPTIONS] NAME|ID [NAME|ID...]",
+            ["docker", "inspect"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.PropertyName).IsEqualTo("Name");
+            await Assert.That(argument.IsRequired).IsTrue();
+            await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>");
+        }
+    }
+
+    [Test]
+    public async Task Applies_Bracketed_Standalone_Repeat_To_Preceding_Operand()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: podman inspect [options] {CONTAINER|IMAGE} [...]",
+            ["podman", "inspect"]);
+
+        var argument = result.PositionalArguments.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(argument.IsRequired).IsTrue();
+            await Assert.That(argument.IsVariadic).IsTrue();
+            await Assert.That(argument.CSharpType).IsEqualTo("IEnumerable<string>");
+        }
+    }
+
+    [Test]
+    public async Task Preserves_Required_Core_Inside_Optional_Operand_Qualifiers()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: pulumi env get [<org-name>/][<project-name>/]<environment-name>[@<version>] [property-path]",
+            ["pulumi", "env", "get"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(result.PositionalArguments[0].PropertyName).IsEqualTo("EnvironmentName");
+            await Assert.That(result.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(result.PositionalArguments[0].CSharpType).IsEqualTo("string");
+            await Assert.That(result.PositionalArguments[1].PropertyName).IsEqualTo("PropertyPath");
+            await Assert.That(result.PositionalArguments[1].IsRequired).IsFalse();
+            await Assert.That(result.PositionalArguments[1].CSharpType).IsEqualTo("string?");
+        }
+    }
+
+    [Test]
+    public async Task Selects_Final_Required_Placeholder_From_Qualified_Compound_Operand()
+    {
+        var result = UsageSynopsisParser.Parse(
+            "Usage: pulumi env clone [<org-name>/]<src-project-name>/<src-environment-name> [<dest-project-name>/]<dest-environment-name>",
+            ["pulumi", "env", "clone"]);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.PositionalArguments).Count().IsEqualTo(2);
+            await Assert.That(result.PositionalArguments[0].PropertyName).IsEqualTo("SrcEnvironmentName");
+            await Assert.That(result.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(result.PositionalArguments[1].PropertyName).IsEqualTo("DestEnvironmentName");
+            await Assert.That(result.PositionalArguments[1].IsRequired).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments("client-secret", "ClientSecret")]
+    [Arguments("secret-access-key", "SecretAccessKey")]
+    [Arguments("access-token", "AccessToken")]
+    public async Task Marks_Secret_Positional_Operands(string operandName, string propertyName)
+    {
+        var result = UsageSynopsisParser.Parse(
+            $"Usage: tool login <{operandName}>",
+            ["tool", "login"]);
+
+        var argument = result.PositionalArguments.Single();
+
+        await Assert.That(argument.PropertyName).IsEqualTo(propertyName);
+        await Assert.That(argument.IsSecret).IsTrue();
+    }
+
+    [Test]
     public async Task Preserves_Operands_Grouped_Behind_Option_Terminator()
     {
         var result = UsageSynopsisParser.Parse(
@@ -161,6 +332,21 @@ public class UsageSynopsisParserTests
         await Assert.That(result.PositionalArguments.All(argument =>
                 argument.Placement == PositionalArgumentPosition.AfterOptions))
             .IsTrue();
+    }
+
+    [Test]
+    public async Task Ignores_Explanation_After_Terminated_Wrapped_Operand()
+    {
+        const string helpText = """
+            Usage:
+              minikube profile [MINIKUBE_PROFILE_NAME]. You can return to the default profile [flags]
+            """;
+
+        var result = UsageSynopsisParser.Parse(helpText, ["minikube", "profile"]);
+
+        var argument = result.PositionalArguments.Single();
+        await Assert.That(argument.PropertyName).IsEqualTo("MinikubeProfileName");
+        await Assert.That(argument.IsRequired).IsFalse();
     }
 
     [Test]

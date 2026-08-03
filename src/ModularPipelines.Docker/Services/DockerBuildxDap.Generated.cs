@@ -32,6 +32,21 @@ public class DockerBuildxDap
     #region Commands
 
     /// <summary>
+    /// Start debug adapter protocol compatible debugger
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteAsync(
+        DockerBuildxDapOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxDapOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// Start a build
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -39,11 +54,11 @@ public class DockerBuildxDap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BuildAsync(
-        DockerBuildxDapBuildOptions? options = null,
+        DockerBuildxDapBuildOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new DockerBuildxDapBuildOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -50,10 +50,10 @@ public record DockerComposeDownOptions : DockerOptions
     [CliFlag("--volumes", ShortForm = "-v")]
     public bool? Volumes { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The SERVICES operand.
+    /// </summary>
+    [CliArgument(0)]
     public string? Services { get; set; }
 
 }

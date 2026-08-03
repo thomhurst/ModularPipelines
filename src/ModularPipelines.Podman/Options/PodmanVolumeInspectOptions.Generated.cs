@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "inspect")]
-public record PodmanVolumeInspectOptions : PodmanOptions
+public record PodmanVolumeInspectOptions(
+    [property: CliArgument(0)] IEnumerable<string> Volume
+) : PodmanOptions
 {
     /// <summary>
     /// Inspect all volumes
@@ -31,8 +33,5 @@ public record PodmanVolumeInspectOptions : PodmanOptions
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
-
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public IEnumerable<string>? Volume { get; set; }
 
 }

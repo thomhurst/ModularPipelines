@@ -18,7 +18,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("port")]
-public record PodmanPortOptions : PodmanOptions
+public record PodmanPortOptions(
+    [property: CliArgument(0)] string Container
+) : PodmanOptions
 {
     /// <summary>
     /// Display port information for all containers
@@ -32,7 +34,10 @@ public record PodmanPortOptions : PodmanOptions
     [CliFlag("--latest", ShortForm = "-l")]
     public bool? Latest { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The PORT operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Port { get; set; }
 
 }

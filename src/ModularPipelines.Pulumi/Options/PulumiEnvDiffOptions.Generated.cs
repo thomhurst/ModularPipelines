@@ -18,7 +18,9 @@ namespace ModularPipelines.Pulumi.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "diff")]
-public record PulumiEnvDiffOptions : PulumiOptions
+public record PulumiEnvDiffOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName
+) : PulumiOptions
 {
     /// <summary>
     /// the output format to use. May be 'dotenv', 'json', 'yaml', 'detailed', or 'shell'
@@ -105,7 +107,7 @@ public record PulumiEnvDiffOptions : PulumiOptions
     public bool? NonInteractive { get; set; }
 
     /// <summary>
-    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// for remote collectors
+    /// Export OpenTelemetry traces to the specified endpoint. Use file:// for local JSON files, grpc:// or https:// for remote collectors
     /// </summary>
     [CliOption("--otel-traces", Format = OptionFormat.EqualsSeparated)]
     public string? OtelTraces { get; set; }
@@ -127,5 +129,11 @@ public record PulumiEnvDiffOptions : PulumiOptions
     /// </summary>
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
+
+    /// <summary>
+    /// The [[org-name Or ][&lt;project-name&gt; Or ]&lt;environment-name&gt;]@&lt;version&gt; operand.
+    /// </summary>
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? OrgNameOrProjectNameOrEnvironmentNameVersion { get; set; }
 
 }

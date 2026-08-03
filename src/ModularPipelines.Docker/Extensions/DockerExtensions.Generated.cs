@@ -48,7 +48,7 @@ public static class DockerExtensions
     }
 
     /// <summary>
-    /// Gets the docker service from the pipeline context.
+    /// Gets the docker service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IDocker"/> service for executing docker commands.</returns>

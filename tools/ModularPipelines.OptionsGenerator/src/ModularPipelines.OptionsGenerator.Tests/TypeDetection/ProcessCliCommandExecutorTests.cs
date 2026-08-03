@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -10,6 +11,114 @@ public class ProcessCliCommandExecutorTests
     {
         await Assert.That(ProcessCliCommandExecutor.ExecutableOverrideVariableName)
             .IsEqualTo("MODULARPIPELINES_CLI_EXECUTABLE");
+    }
+
+    [Test]
+    public async Task DescendantIdentity_Rejects_Process_Older_Than_Root()
+    {
+        var rootStart = new DateTime(2026, 8, 3, 12, 0, 0, DateTimeKind.Utc);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(DescendantProcessTracker.CanBeDescendant(
+                    rootStart,
+                    rootStart.AddTicks(-1)))
+                .IsFalse();
+            await Assert.That(DescendantProcessTracker.CanBeDescendant(
+                    rootStart,
+                    rootStart))
+                .IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task DescendantIdentity_Rejects_Child_Created_After_Parent_Exit()
+    {
+        var parentStart = new DateTime(2026, 8, 3, 12, 0, 0, DateTimeKind.Utc);
+        var parentExit = parentStart.AddSeconds(1);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(DescendantProcessTracker.CanBeChildOfParent(
+                    parentStart,
+                    parentExit,
+                    parentStart))
+                .IsTrue();
+            await Assert.That(DescendantProcessTracker.CanBeChildOfParent(
+                    parentStart,
+                    parentExit,
+                    parentExit))
+                .IsTrue();
+            await Assert.That(DescendantProcessTracker.CanBeChildOfParent(
+                    parentStart,
+                    parentExit,
+                    parentExit.AddTicks(1)))
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task DescendantIdentity_Stops_When_Exited_Parent_Has_No_Exit_Time()
+    {
+        var exitTime = new DateTime(2026, 8, 3, 12, 0, 1, DateTimeKind.Utc);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(DescendantProcessTracker.CanCaptureChildren(
+                    hasExited: false,
+                    exitTime: null))
+                .IsTrue();
+            await Assert.That(DescendantProcessTracker.CanCaptureChildren(
+                    hasExited: true,
+                    exitTime: exitTime))
+                .IsTrue();
+            await Assert.That(DescendantProcessTracker.CanCaptureChildren(
+                    hasExited: true,
+                    exitTime: null))
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Deferred_Kill_Requires_Matching_Process_Identity()
+    {
+        var expectedStart = new DateTime(2026, 8, 3, 12, 0, 0, DateTimeKind.Utc);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(ProcessCliCommandExecutor.MatchesProcessIdentity(
+                    expectedStart,
+                    expectedStart))
+                .IsTrue();
+            await Assert.That(ProcessCliCommandExecutor.MatchesProcessIdentity(
+                    expectedStart,
+                    expectedStart.AddTicks(1)))
+                .IsFalse();
+            await Assert.That(ProcessCliCommandExecutor.MatchesProcessIdentity(
+                    expectedStartTime: null,
+                    actualStartTime: expectedStart))
+                .IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task ExecutableOverride_Applies_To_Matching_Command()
+    {
+        var applies = ProcessCliCommandExecutor.IsOverrideForCommand(
+            "podman",
+            "/usr/bin/podman");
+
+        await Assert.That(applies).IsTrue();
+    }
+
+    [Test]
+    public async Task ExecutableOverride_Does_Not_Redirect_Helper_Command()
+    {
+        var applies = ProcessCliCommandExecutor.IsOverrideForCommand(
+            "/tmp/docker-compose",
+            "/usr/bin/podman");
+
+        await Assert.That(applies).IsFalse();
     }
 
     [Test]
@@ -90,6 +199,101 @@ public class ProcessCliCommandExecutorTests
         await Assert.That(startInfo.UseShellExecute).IsFalse();
         await Assert.That(startInfo.RedirectStandardOutput).IsTrue();
         await Assert.That(startInfo.RedirectStandardError).IsTrue();
+        await Assert.That(startInfo.RedirectStandardInput).IsTrue();
+    }
+
+    [Test]
+    public async Task Timeout_Returns_When_Command_Has_Long_Running_Child()
+    {
+        var childPidPath = Path.Combine(
+            Path.GetTempPath(),
+            $"mp-cli-child-{Guid.NewGuid():N}.pid");
+        string? scriptPath = null;
+        int? childPid = null;
+        try
+        {
+            var command = await CreateLongRunningChildCommandAsync(
+                childPidPath,
+                parentExits: false);
+            scriptPath = command.ScriptPath;
+            var executor = new ProcessCliCommandExecutor(
+                NullLogger<ProcessCliCommandExecutor>.Instance,
+                OperatingSystem.IsWindows()
+                    ? TimeSpan.FromMilliseconds(1500)
+                    : TimeSpan.FromSeconds(2));
+
+            var execution = executor.ExecuteAsync(command.Command, command.Arguments);
+            var result = await execution.WaitAsync(TimeSpan.FromSeconds(5));
+            childPid = int.Parse(await File.ReadAllTextAsync(childPidPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ExitCode).IsEqualTo(-1);
+                await Assert.That(result.StandardError).Contains("timed out");
+                await Assert.That(await WaitForProcessExitAsync(childPid.Value)).IsTrue();
+            }
+        }
+        finally
+        {
+            if (childPid.HasValue && IsProcessRunning(childPid.Value))
+            {
+                using var childProcess = Process.GetProcessById(childPid.Value);
+                childProcess.Kill();
+            }
+
+            File.Delete(childPidPath);
+            if (scriptPath is not null)
+            {
+                File.Delete(scriptPath);
+            }
+        }
+    }
+
+    [Test]
+    public async Task Timeout_Returns_When_Exited_Command_Leaves_Pipe_Open()
+    {
+        var childPidPath = Path.Combine(
+            Path.GetTempPath(),
+            $"mp-cli-exited-parent-child-{Guid.NewGuid():N}.pid");
+        string? scriptPath = null;
+        int? childPid = null;
+        try
+        {
+            var command = await CreateLongRunningChildCommandAsync(
+                childPidPath,
+                parentExits: true);
+            scriptPath = command.ScriptPath;
+            var executor = new ProcessCliCommandExecutor(
+                NullLogger<ProcessCliCommandExecutor>.Instance,
+                OperatingSystem.IsWindows()
+                    ? TimeSpan.FromMilliseconds(1500)
+                    : TimeSpan.FromSeconds(2));
+
+            var result = await executor.ExecuteAsync(command.Command, command.Arguments)
+                .WaitAsync(TimeSpan.FromSeconds(5));
+            childPid = int.Parse(await File.ReadAllTextAsync(childPidPath));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(result.ExitCode).IsEqualTo(-1);
+                await Assert.That(result.StandardError).Contains("timed out");
+                await Assert.That(await WaitForProcessExitAsync(childPid.Value)).IsTrue();
+            }
+        }
+        finally
+        {
+            if (childPid.HasValue && IsProcessRunning(childPid.Value))
+            {
+                using var childProcess = Process.GetProcessById(childPid.Value);
+                childProcess.Kill();
+            }
+
+            File.Delete(childPidPath);
+            if (scriptPath is not null)
+            {
+                File.Delete(scriptPath);
+            }
+        }
     }
 
     [Test]
@@ -200,5 +404,69 @@ public class ProcessCliCommandExecutorTests
         var isAvailable = await executor.IsAvailableAsync($"missing-{Guid.NewGuid():N}.cmd");
 
         await Assert.That(isAvailable).IsFalse();
+    }
+
+    [Test]
+    public async Task IsAvailableAsync_Returns_False_For_Missing_Command()
+    {
+        var executor = new ProcessCliCommandExecutor(NullLogger<ProcessCliCommandExecutor>.Instance);
+
+        var isAvailable = await executor.IsAvailableAsync($"missing-{Guid.NewGuid():N}");
+
+        await Assert.That(isAvailable).IsFalse();
+    }
+
+    private static async Task<bool> WaitForProcessExitAsync(int processId)
+    {
+        var timeout = DateTimeOffset.UtcNow + TimeSpan.FromSeconds(2);
+        while (DateTimeOffset.UtcNow < timeout)
+        {
+            if (!IsProcessRunning(processId))
+            {
+                return true;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(50));
+        }
+
+        return !IsProcessRunning(processId);
+    }
+
+    private static async Task<(string Command, string Arguments, string? ScriptPath)>
+        CreateLongRunningChildCommandAsync(string childPidPath, bool parentExits)
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            var parentCommand = parentExits ? "sleep 0.05" : "wait";
+            return (
+                "/bin/sh",
+                $"-c \"sleep 30 & child=$!; echo $child > '{childPidPath}'; {parentCommand}\"",
+                null);
+        }
+
+        var scriptPath = Path.ChangeExtension(childPidPath, ".cmd");
+        var escapedPidPath = childPidPath.Replace("'", "''", StringComparison.Ordinal);
+        var parentDelayMilliseconds = parentExits ? 0 : 3000;
+        await File.WriteAllTextAsync(
+            scriptPath,
+            $"""
+            @echo off
+            start "" /b powershell.exe -NoProfile -Command "$PID | Set-Content -LiteralPath '{escapedPidPath}'; Start-Sleep -Seconds 30"
+            powershell.exe -NoProfile -Command "Start-Sleep -Milliseconds {parentDelayMilliseconds}"
+            """);
+        return (scriptPath, string.Empty, scriptPath);
+    }
+
+    private static bool IsProcessRunning(int processId)
+    {
+        try
+        {
+            using var process = Process.GetProcessById(processId);
+            return !process.HasExited;
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Podman.Options;
+using ModularPipelines.Podman.Enums;
 
 namespace ModularPipelines.Podman.Options;
 
@@ -18,7 +19,9 @@ namespace ModularPipelines.Podman.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("push")]
-public record PodmanPushOptions : PodmanOptions
+public record PodmanPushOptions(
+    [property: CliArgument(0)] string Image
+) : PodmanOptions
 {
     /// <summary>
     /// Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override
@@ -90,7 +93,7 @@ public record PodmanPushOptions : PodmanOptions
     /// Manifest type (oci, v2s2, or v2s1) to use in the destination (default is manifest type of source, with fallbacks)
     /// </summary>
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
-    public string? Format { get; set; }
+    public PodmanPushFormat? Format { get; set; }
 
     /// <summary>
     /// Suppress output information when pushing images
@@ -136,7 +139,10 @@ public record PodmanPushOptions : PodmanOptions
     [CliOption("--tls-verify", Format = OptionFormat.EqualsSeparated)]
     public bool? TlsVerify { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    /// <summary>
+    /// The DESTINATION operand.
+    /// </summary>
+    [CliArgument(1)]
     public string? Destination { get; set; }
 
 }

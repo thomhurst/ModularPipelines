@@ -33,6 +33,7 @@ public static class PodmanExtensions
         services.TryAddScoped<IPodmanContainer, PodmanContainer>();
         services.TryAddScoped<IPodmanFarm, PodmanFarm>();
         services.TryAddScoped<IPodmanGenerate, PodmanGenerate>();
+        services.TryAddScoped<IPodmanHealthcheck, PodmanHealthcheck>();
         services.TryAddScoped<IPodmanImage, PodmanImage>();
         services.TryAddScoped<IPodmanKube, PodmanKube>();
         services.TryAddScoped<IPodmanMachine, PodmanMachine>();
@@ -46,7 +47,7 @@ public static class PodmanExtensions
     }
 
     /// <summary>
-    /// Gets the podman service from the pipeline context.
+    /// Gets the podman service from the pipeline context for compatibility.
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IPodman"/> service for executing podman commands.</returns>
