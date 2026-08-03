@@ -78,7 +78,9 @@ public class ManualOverrideDetector : IOptionTypeDetector
             Type = optionOverride.Type,
             Confidence = 100,
             Source = Name,
-            Notes = $"{scope}: {optionOverride.Reason ?? "Manual override"}"
+            Notes = $"{scope}: {optionOverride.Reason ?? "Manual override"}",
+            IsSecret = optionOverride.IsSecret,
+            SecretValueKeys = optionOverride.SecretValueKeys,
         };
     }
 

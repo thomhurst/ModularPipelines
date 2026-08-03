@@ -753,23 +753,20 @@ public static partial class GeneratorUtils
         "SecretKey"
     ];
 
+    private static readonly string[] FilePathPropertySuffixes = ["File", "Path", "Keyring", "Dir"];
+
     /// <summary>
-    /// Determines if an option should be marked as a secret based on its property name.
+    /// Determines if an option should be marked as a secret based on its property name and description.
     /// Options containing secret-related keywords such as "Secret", "Password", "Passphrase",
     /// "Token", "Credential", "Otp", or known compound key names are considered secrets and
     /// should be obfuscated in logs.
     /// </summary>
     /// <param name="propertyName">The C# property name of the option.</param>
     /// <param name="isFlag">Whether this is a boolean flag (flags are not considered secrets).</param>
+    /// <param name="description">The option description, when available.</param>
     /// <returns>True if the option should be marked as a secret.</returns>
-    public static bool IsSecretOption(string propertyName, bool isFlag)
+    public static bool IsSecretOption(string propertyName, bool isFlag, string? description = null)
     {
-        // Flags (boolean options) don't take values, so they can't be secrets
-        if (isFlag)
-        {
-            return false;
-        }
-
         if (string.IsNullOrEmpty(propertyName))
         {
             return false;
@@ -782,10 +779,24 @@ public static partial class GeneratorUtils
             return false;
         }
 
-        // Check if the property name contains any secret-related keywords
-        return SecretKeywords.Any(keyword =>
-                   propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-               || ContainsIdentifierSegment(propertyName, "Otp");
+        var hasSecretKeyword = SecretKeywords.Any(keyword =>
+                                   propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                               || ContainsIdentifierSegment(propertyName, "Otp");
+        if (!hasSecretKeyword || IsFilePathOption(propertyName, description))
+        {
+            return false;
+        }
+
+        // A keyword-bearing flag is suspicious, but has no value to mask. The
+        // enhancer reports it so a bad scraped type cannot pass unnoticed.
+        return !isFlag;
+    }
+
+    internal static bool IsFilePathOption(string propertyName, string? description)
+    {
+        return FilePathPropertySuffixes.Any(suffix =>
+                   propertyName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+               || description?.Contains("path to", StringComparison.OrdinalIgnoreCase) == true;
     }
 
     private static bool ContainsIdentifierSegment(string propertyName, string segment)

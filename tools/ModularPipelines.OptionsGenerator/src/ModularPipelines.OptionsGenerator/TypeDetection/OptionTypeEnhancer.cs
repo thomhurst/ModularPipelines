@@ -30,9 +30,34 @@ public class OptionTypeEnhancer
     /// <summary>
     /// Enhances all options in a tool definition with better type detection.
     /// </summary>
-    public async Task<CliToolDefinition> EnhanceAsync(
+    public Task<CliToolDefinition> EnhanceAsync(
         CliToolDefinition toolDefinition,
         CancellationToken cancellationToken = default)
+    {
+        return EnhanceAsync(
+            toolDefinition,
+            manualOverridesOnly: false,
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Applies only per-tool manual overrides. This keeps CLI-first generation
+    /// deterministic without re-running help-text and heuristic detection.
+    /// </summary>
+    public Task<CliToolDefinition> EnhanceManualOverridesAsync(
+        CliToolDefinition toolDefinition,
+        CancellationToken cancellationToken = default)
+    {
+        return EnhanceAsync(
+            toolDefinition,
+            manualOverridesOnly: true,
+            cancellationToken);
+    }
+
+    private async Task<CliToolDefinition> EnhanceAsync(
+        CliToolDefinition toolDefinition,
+        bool manualOverridesOnly,
+        CancellationToken cancellationToken)
     {
         var enhancedCommands = new List<CliCommandDefinition>();
 
@@ -41,6 +66,7 @@ public class OptionTypeEnhancer
             var (enhancedOptions, detectedEnums) = await EnhanceCommandOptionsAsync(
                 command,
                 toolDefinition.ToolName,
+                manualOverridesOnly,
                 cancellationToken);
 
             // Merge existing enums with newly detected enums
@@ -57,6 +83,7 @@ public class OptionTypeEnhancer
     private async Task<(List<CliOptionDefinition> Options, List<CliEnumDefinition> Enums)> EnhanceCommandOptionsAsync(
         CliCommandDefinition command,
         string toolName,
+        bool manualOverridesOnly,
         CancellationToken cancellationToken)
     {
         var enhancedOptions = new List<CliOptionDefinition>();
@@ -70,6 +97,7 @@ public class OptionTypeEnhancer
                 command,
                 toolName,
                 commandCache,
+                manualOverridesOnly,
                 cancellationToken);
 
             enhancedOptions.Add(enhanced);
@@ -88,6 +116,7 @@ public class OptionTypeEnhancer
         CliCommandDefinition command,
         string toolName,
         IDictionary<object, object> commandCache,
+        bool manualOverridesOnly,
         CancellationToken cancellationToken)
     {
         // Build the list of all names for this option
@@ -109,15 +138,20 @@ public class OptionTypeEnhancer
             AcceptedValues = null,
             CommandCache = commandCache // Share cache directly - no copying needed
         };
+        var enhancedOption = option;
+        CliEnumDefinition? enumDef = null;
+        OptionTypeDetectionResult? detectionResult = null;
 
         try
         {
-            var result = await _pipeline.DetectTypeAsync(context, cancellationToken);
+            var result = manualOverridesOnly
+                ? await _pipeline.DetectManualOverrideAsync(context, cancellationToken)
+                : await _pipeline.DetectTypeAsync(context, cancellationToken);
+            detectionResult = result;
 
             if (result.Type != CliOptionType.Unknown && result.Confidence >= MinimumConfidenceToEnhance)
             {
                 // Check if we detected enum values - create an enum definition
-                CliEnumDefinition? enumDef = null;
                 if (result.Type == CliOptionType.Enum && result.EnumValues is { Length: > 0 })
                 {
                     enumDef = CreateEnumDefinition(option, command, result.EnumValues);
@@ -147,7 +181,7 @@ public class OptionTypeEnhancer
                         result.Source,
                         enumDef is not null ? $" [Enum: {enumDef.EnumName}]" : "");
 
-                    var enhancedOption = option with
+                    enhancedOption = option with
                     {
                         CSharpType = newCSharpType,
                         IsFlag = newIsFlag,
@@ -157,8 +191,6 @@ public class OptionTypeEnhancer
                         ValueSeparator = newIsFlag ? " " : "=",
                         EnumDefinition = effectiveEnumDef
                     };
-
-                    return (enhancedOption, enumDef);
                 }
             }
         }
@@ -169,7 +201,41 @@ public class OptionTypeEnhancer
                 command.FullCommand, option.SwitchName);
         }
 
-        return (option, null);
+        return (ApplySecretMetadata(enhancedOption, command, detectionResult), enumDef);
+    }
+
+    private CliOptionDefinition ApplySecretMetadata(
+        CliOptionDefinition option,
+        CliCommandDefinition command,
+        OptionTypeDetectionResult? detectionResult)
+    {
+        var secretValueKeys = detectionResult?.SecretValueKeys ?? option.SecretValueKeys;
+        var hasSecretKeyword = GeneratorUtils.IsSecretOption(
+            option.PropertyName,
+            isFlag: false,
+            option.Description);
+        var explicitlySecret = detectionResult?.IsSecret;
+        var inferredSecret = (option.IsSecret
+                              && !GeneratorUtils.IsFilePathOption(
+                                  option.PropertyName,
+                                  option.Description))
+                             || hasSecretKeyword;
+        var requestsSecret = secretValueKeys.Count > 0
+                             || (explicitlySecret ?? inferredSecret);
+
+        if (option.IsFlag && requestsSecret)
+        {
+            _logger.LogWarning(
+                "Secret-looking option {Command} {Option} was detected as a flag and cannot be masked",
+                command.FullCommand,
+                option.SwitchName);
+        }
+
+        return option with
+        {
+            IsSecret = !option.IsFlag && requestsSecret,
+            SecretValueKeys = secretValueKeys,
+        };
     }
 
     /// <summary>

@@ -37,6 +37,16 @@ public class OptionTypeDetectionResult
     public bool AcceptsMultipleValues { get; init; }
 
     /// <summary>
+    /// Optional manual override for secret handling.
+    /// </summary>
+    public bool? IsSecret { get; init; }
+
+    /// <summary>
+    /// Keys whose values are secret for a key-value option.
+    /// </summary>
+    public IReadOnlyList<string>? SecretValueKeys { get; init; }
+
+    /// <summary>
     /// Creates a result indicating the detector could not determine the type.
     /// </summary>
     public static OptionTypeDetectionResult Unknown(string source) => new()

@@ -12,6 +12,16 @@ public class OptionOverride
     public CliOptionType Type { get; set; }
 
     /// <summary>
+    /// Overrides whether the option value is secret.
+    /// </summary>
+    public bool? IsSecret { get; set; }
+
+    /// <summary>
+    /// Keys whose values are secret for a key-value option.
+    /// </summary>
+    public string[]? SecretValueKeys { get; set; }
+
+    /// <summary>
     /// Optional reason for the override (for documentation).
     /// </summary>
     public string? Reason { get; set; }
