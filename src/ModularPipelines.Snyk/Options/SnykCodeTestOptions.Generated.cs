@@ -103,7 +103,7 @@ public record SnykCodeTestOptions : SnykOptions
     /// <summary>
     /// Source code path to scan
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Path { get; set; }
 
 }

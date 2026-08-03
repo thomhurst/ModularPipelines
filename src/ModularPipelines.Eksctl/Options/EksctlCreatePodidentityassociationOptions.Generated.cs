@@ -78,7 +78,7 @@ public record EksctlCreatePodidentityassociationOptions : EksctlOptions
     /// <summary>
     /// List of ARNs of the IAM permission policies to attach
     /// </summary>
-    [CliOption("--permission-policy-arns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--permission-policy-arns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PermissionPolicyArns { get; set; }
 
     /// <summary>
@@ -91,7 +91,7 @@ public record EksctlCreatePodidentityassociationOptions : EksctlOptions
     /// AWS tags to attach to the PodIdentityAssosciation. List of comma separated KV pairs "k1=v1,k2=v2" (default [])
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Tags { get; set; }
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// EKS cluster name

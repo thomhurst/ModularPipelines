@@ -20,7 +20,7 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "unset")]
 public record ArgoCdAppUnsetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ApplicationName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ApplicationName
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -50,7 +50,7 @@ public record ArgoCdAppUnsetOptions(
     /// <summary>
     /// Kustomize images name (e.g. --kustomize-image node --kustomize-image mysql)
     /// </summary>
-    [CliOption("--kustomize-image", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kustomize-image", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KustomizeImage { get; set; }
 
     /// <summary>
@@ -62,7 +62,7 @@ public record ArgoCdAppUnsetOptions(
     /// <summary>
     /// Kustomize replicas name (e.g. --kustomize-replica my-deployment --kustomize-replica my-statefulset)
     /// </summary>
-    [CliOption("--kustomize-replica", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kustomize-replica", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KustomizeReplica { get; set; }
 
     /// <summary>
@@ -86,7 +86,7 @@ public record ArgoCdAppUnsetOptions(
     /// <summary>
     /// Unset a parameter override (e.g. -p guestbook=image)
     /// </summary>
-    [CliOption("--parameter", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--parameter", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Parameter { get; set; }
 
     /// <summary>
@@ -98,7 +98,7 @@ public record ArgoCdAppUnsetOptions(
     /// <summary>
     /// Unset plugin env variables (e.g --plugin-env name)
     /// </summary>
-    [CliOption("--plugin-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--plugin-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PluginEnv { get; set; }
 
     /// <summary>
@@ -122,7 +122,7 @@ public record ArgoCdAppUnsetOptions(
     /// <summary>
     /// Unset one or more Helm values files
     /// </summary>
-    [CliOption("--values", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Values { get; set; }
 
     /// <summary>
@@ -189,7 +189,7 @@ public record ArgoCdAppUnsetOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("recommender", "insight-type-config", "update")]
 public record GcloudRecommenderInsightTypeConfigUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InsightType
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InsightType
 ) : GcloudOptions
 {
 }

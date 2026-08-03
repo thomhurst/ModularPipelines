@@ -26,8 +26,8 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     /// <summary>
     /// A list of Airflow software configuration override KEY=VALUE pairs to     set. For information on how to structure KEYs and VALUEs, run $ gcloud     help composer environments update.
     /// </summary>
-    [CliOption("--airflow-configs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? AirflowConfigs { get; set; }
+    [CliOption("--airflow-configs", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? AirflowConfigs { get; set; }
 
     /// <summary>
     /// The number of days for the Airflow database retention period. If set to     0, the Airflow database retention mechanism will be disabled.
@@ -86,8 +86,8 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     /// <summary>
     /// A comma-delimited list of environment variable NAME=VALUE pairs to     provide to the Airflow scheduler, worker, and webserver processes. NAME     may contain upper and lowercase letters, digits, and underscores, but     they may not begin with a digit. To include commas as part of a VALUE,     see gcloud topic escaping for information about overriding the     delimiter.
     /// </summary>
-    [CliOption("--env-variables", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? EnvVariables { get; set; }
+    [CliOption("--env-variables", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? EnvVariables { get; set; }
 
     /// <summary>
     /// Size of the environment. Unspecified means that the default option will     be chosen. ENVIRONMENT_SIZE must be one of: extra-large, large, medium,     small, unspecified.
@@ -98,8 +98,8 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// The Compute Engine machine type     (https://cloud.google.com/compute/docs/machine-types) to use for nodes.     For example --machine-type=n1-standard-1.
@@ -122,7 +122,7 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     /// <summary>
     /// The set of Google API scopes to be made available on all of the node     VMs. Defaults to ['https://www.googleapis.com/auth/cloud-platform'].     Cannot be updated.
     /// </summary>
-    [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--oauth-scopes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OauthScopes { get; set; }
 
     /// <summary>
@@ -152,7 +152,7 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     /// <summary>
     /// The set of instance tags applied to all node VMs. Tags are used to     identify valid sources or targets for network firewalls. Each tag     within the list must comply with RFC 1035. Cannot be updated.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -296,7 +296,7 @@ public record GcloudComposerEnvironmentsCreateOptions : GcloudOptions
     /// <summary>
     /// Comma separated Master Authorized Networks specified in CIDR notation.     Cannot be specified unless --enable-master-authorized-networks is also     specified.    Group of arguments for setting scheduled snapshots settings in Composer   2.0.32 or greater.
     /// </summary>
-    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
 
     /// <summary>

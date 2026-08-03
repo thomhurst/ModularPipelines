@@ -88,7 +88,7 @@ public record GcloudPreviewComputeDiagnoseRoutesOptions : GcloudOptions
     /// <summary>
     /// If provided, only resources from the given zones are queried.    At most one of these can be specified:     --ssh-key-expiration=SSH_KEY_EXPIRATION      The time when the ssh key will be valid until, such as      "2017-08-29T18:52:51.142Z." This is only valid if the instance is not      using OS Login. See $ gcloud topic datetimes for information on time      formats.     --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER      The maximum length of time an SSH key is valid for once created and      installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for      information on duration formats.
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Zones { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "backups", "describe")]
 public record GcloudSqlBackupsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
 ) : GcloudOptions
 {
     [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]

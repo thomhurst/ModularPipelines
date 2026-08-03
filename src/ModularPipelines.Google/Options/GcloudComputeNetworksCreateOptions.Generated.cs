@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "create")]
 public record GcloudComputeNetworksCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     [CliOption("--bgp-routing-mode", Format = OptionFormat.EqualsSeparated)]
@@ -66,8 +66,8 @@ public record GcloudComputeNetworksCreateOptions(
     /// <summary>
     /// A comma-separated list of Resource Manager tags to apply to the     network.
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ResourceManagerTags { get; set; }
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// The subnet mode of the network. If not specified, defaults to AUTO.     MODE must be one of:      auto       Subnets are created automatically. This is the recommended       selection.     custom       Create subnets manually.     legacy       [Deprecated] Create an old style network that has a range and       cannot have subnets. This is not recommended for new networks.    BGP Best Path Selection flags

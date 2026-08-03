@@ -8,6 +8,7 @@ using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.UnitTests;
 
@@ -50,6 +51,36 @@ public class AzureCommandTests : TestBase
         var result = await await RunModule<AzureCommandModule2>(RegisterArmClient);
         await Assert.That(result.ValueOrDefault!.CommandInput)
             .IsEqualTo("az account management-group list");
+    }
+
+    [Test]
+    public async Task Spark_Job_Arguments_Are_Valued_Options()
+    {
+        var arguments = BuildArguments(new AzSynapseSparkJobSubmitOptions
+        {
+            JobArguments = ["first=value", "second=value"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--arguments", "first=value", "second=value"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(typeof(AzSynapseSparkJobSubmitOptions).GetProperty(nameof(CommandLineToolOptions.Arguments))!.DeclaringType)
+            .IsEqualTo(typeof(CommandLineToolOptions));
+    }
+
+    [Test]
+    public async Task Cassandra_Command_Arguments_Are_Valued_Options()
+    {
+        var arguments = BuildArguments(new AzManagedCassandraClusterInvokeCommandOptions
+        {
+            ClusterArguments = ["first=value", "second=value"],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+            ["--arguments", "first=value", "second=value"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(typeof(AzManagedCassandraClusterInvokeCommandOptions).GetProperty(nameof(CommandLineToolOptions.Arguments))!.DeclaringType)
+            .IsEqualTo(typeof(CommandLineToolOptions));
     }
 
     private static void RegisterArmClient(IServiceCollection services)

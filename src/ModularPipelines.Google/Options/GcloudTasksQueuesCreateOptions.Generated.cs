@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "queues", "create")]
 public record GcloudTasksQueuesCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Queue
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Queue
 ) : GcloudOptions
 {
     [CliOption("--http-header-override", Format = OptionFormat.EqualsSeparated)]
@@ -35,7 +35,7 @@ public record GcloudTasksQueuesCreateOptions(
     /// <summary>
     /// If provided, the specified HTTP target URI override is used for all     tasks in the queue depending on what is set as the mode. Allowed values     for mode are: ALWAYS, IF_NOT_EXISTS. If not set, mode defaults to     ALWAYS.     KEY must be at least one of: [scheme, host, port, path, query, mode].     Any missing keys will use the default.
     /// </summary>
-    [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--http-uri-override", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HttpUriOverride { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record GcloudTasksQueuesCreateOptions(
     /// <summary>
     /// If provided, the specified App Engine route is used for all tasks in     the queue, no matter what is set is at the task-level.     KEY must be at least one of: [service, version, instance]. Any missing     keys will use the default.    If specified, all Authorization headers in the HttpRequest.headers field   will be overridden for any tasks executed on this queue.    At most one of these can be specified:     OAuth2     --http-oauth-service-account-email-override=HTTP_OAUTH_SERVICE_ACCOUNT_EMAIL_OVERRIDE      The service account email to be used for generating an OAuth2 access      token to be included in the request sent to the target when executing      the task. The service account must be within the same project as the      queue. The caller must have 'iam.serviceAccounts.actAs' permission      for the service account.      This flag argument must be specified if any of the other arguments in      this group are specified.     --http-oauth-token-scope-override=HTTP_OAUTH_TOKEN_SCOPE_OVERRIDE      The scope to be used when generating an OAuth2 access token to be      included in the request sent to the target when executing the task.      If not specified, 'https://www.googleapis.com/auth/cloud-platform'      will be used.     OpenId Connect     --http-oidc-service-account-email-override=HTTP_OIDC_SERVICE_ACCOUNT_EMAIL_OVERRIDE      The service account email to be used for generating an OpenID Connect      token to be included in the request sent to the target when executing      the task. The service account must be within the same project as the      queue. The caller must have 'iam.serviceAccounts.actAs' permission      for the service account.      This flag argument must be specified if any of the other arguments in      this group are specified.     --http-oidc-token-audience-override=HTTP_OIDC_TOKEN_AUDIENCE_OVERRIDE      The audience to be used when generating an OpenID Connect token to be      included in the request sent to the target when executing the task.      If not specified, the URI specified in the target will be used.
     /// </summary>
-    [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--routing-override", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RoutingOverride { get; set; }
 
 }

@@ -60,7 +60,7 @@ public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOpt
     /// <summary>
     /// Resource labels to represent user-provided metadata.      KEY       Keys must start with a lowercase character and contain only hyphens       (-), underscores (_), lowercase characters, and numbers.      VALUE       Values must contain only hyphens (-), underscores (_), lowercase       characters, and numbers.     Shorthand Example:       --labels=string=string     JSON Example:       --labels='{"string": "string"}'     File Example:       --labels=path_to_file.(yaml|json)    Arguments for the metadata.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
@@ -72,7 +72,7 @@ public record GcloudNetworkManagementVpcFlowLogsConfigsCreateOptions : GcloudOpt
     /// <summary>
     /// Custom metadata fields to include in the reported VPC flow logs. Can     only be specified if "metadata" was set to CUSTOM_METADATA.    Arguments for the state.
     /// </summary>
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     /// <summary>

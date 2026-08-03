@@ -30,7 +30,7 @@ public record GcloudFirestoreBulkDeleteOptions : GcloudOptions
     /// <summary>
     /// List specifying which collection groups will be included in the     operation. When omitted, all collection groups are included.     For example, to operate on only the customers and orders collections     groups:       $ gcloud firestore bulk-delete --collection-ids='customers','orders'
     /// </summary>
-    [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--collection-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CollectionIds { get; set; }
 
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
@@ -39,7 +39,7 @@ public record GcloudFirestoreBulkDeleteOptions : GcloudOptions
     /// <summary>
     /// List specifying which namespaces will be included in the operation.     When omitted, all namespaces are included.     This is only supported for Datastore Mode databases.     For example, to operate on only the customers and orders namespaces:       $ gcloud firestore bulk-delete --namespaces-ids='customers','orders'
     /// </summary>
-    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--namespace-ids", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NamespaceIds { get; set; }
 
 }

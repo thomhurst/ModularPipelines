@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "snapshots", "create")]
 public record GcloudPreviewComputeSnapshotsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
@@ -58,14 +58,14 @@ public record GcloudPreviewComputeSnapshotsCreateOptions(
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// A comma-separated list of Resource Manager tags to apply to the     snapshot.
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? ResourceManagerTags { get; set; }
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>
     /// Type of snapshot. If a snapshot type is not specified, a STANDARD     snapshot will be created. SNAPSHOT_TYPE must be one of: ARCHIVE,     STANDARD.

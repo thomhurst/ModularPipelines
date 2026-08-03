@@ -20,7 +20,7 @@ namespace ModularPipelines.Snyk.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "monitor")]
 public record SnykContainerMonitorOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Image
 ) : SnykOptions
 {
     /// <summary>

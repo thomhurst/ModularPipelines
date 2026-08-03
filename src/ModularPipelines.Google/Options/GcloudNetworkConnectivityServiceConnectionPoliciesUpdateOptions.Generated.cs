@@ -25,7 +25,7 @@ public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : 
     /// <summary>
     /// List of projects, folders, or orgs where the producer instance can be     located in the form "projects/123456789", folders/123456789", or     "organizations/123456789".
     /// </summary>
-    [CliOption("--allowed-google-producers-resource-hierarchy-level", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--allowed-google-producers-resource-hierarchy-level", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AllowedGoogleProducersResourceHierarchyLevel { get; set; }
 
     /// <summary>
@@ -43,8 +43,8 @@ public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : 
     /// <summary>
     /// List of label KEY=VALUE pairs to add.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Option that determines where the producer instances can be located for     which connections can be created in the network controlled by this     policy. PRODUCER_INSTANCE_LOCATION must be one of:      custom-resource-hierarchy-levels       The producer instance must be located in one of the values provided       in the allowed-google-producers-resource-hierarchy-level flag.     none       The producer instance must be within the same project as this       connection policy.
@@ -67,7 +67,7 @@ public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : 
     /// <summary>
     /// IDs of the subnetworks or fully qualified identifiers for the     subnetworks.     To set the subnetwork attribute:     ◆ provide the argument --subnets on the command line.
     /// </summary>
-    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Subnets { get; set; }
 
 }

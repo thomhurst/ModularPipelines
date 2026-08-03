@@ -48,7 +48,7 @@ public record KubernetesReplaceOptions : KubernetesOptions
     /// <summary>
     /// The files that contain the configurations to replace.
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>

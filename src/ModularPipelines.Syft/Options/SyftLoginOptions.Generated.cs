@@ -48,13 +48,13 @@ public record SyftLoginOptions : SyftOptions
     /// <summary>
     /// syft configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>
@@ -72,7 +72,7 @@ public record SyftLoginOptions : SyftOptions
     /// <summary>
     /// The SERVER operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Server { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "network-firewall-policies", "rules", "delete")]
 public record GcloudPreviewComputeNetworkFirewallPoliciesRulesDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Priority
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Priority
 ) : GcloudOptions
 {
 }

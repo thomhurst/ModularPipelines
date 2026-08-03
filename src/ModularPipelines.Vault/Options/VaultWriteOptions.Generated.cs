@@ -20,13 +20,13 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("write")]
 public record VaultWriteOptions(
-    [property: CliArgument(0)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
 ) : VaultOptions
 {
     /// <summary>
     /// The DATA K=V operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? DataKV { get; set; }
 
 }

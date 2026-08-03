@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "windows", "enable-manual-sync")]
 public record ArgoCdProjWindowsEnableManualSyncOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Id
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -88,7 +88,7 @@ public record ArgoCdProjWindowsEnableManualSyncOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

@@ -125,7 +125,7 @@ public record PulumiLogoutOptions : PulumiOptions
     /// <summary>
     /// The url operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Url { get; set; }
 
 }

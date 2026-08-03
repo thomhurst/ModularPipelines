@@ -78,13 +78,13 @@ public record PulumiInsightsResourceSearchOptions : PulumiOptions
     /// <summary>
     /// Search query in Pulumi query syntax
     /// </summary>
-    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Query { get; set; }
 
     /// <summary>
     /// Field(s) to sort results by; repeat or comma-separate for multiple. Allowed values: category, created, custom, delete, dependencies, id, managed, modified, module, name, package, parentUrn, project, protected, providerUrn, stack, type, urn
     /// </summary>
-    [CliOption("--sort", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<PulumiInsightsResourceSearchSort>? Sort { get; set; }
 
     /// <summary>

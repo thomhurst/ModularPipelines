@@ -20,7 +20,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "create")]
 public record DockerNetworkCreateOptions(
-    [property: CliArgument(0)] string Network
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Network
 ) : DockerOptions
 {
     /// <summary>
@@ -33,7 +33,7 @@ public record DockerNetworkCreateOptions(
     /// Auxiliary IPv4 or IPv6 addresses used by Network driver (default map[])
     /// </summary>
     [CliOption("--aux-address", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? AuxAddress { get; set; }
+    public IReadOnlyList<KeyValue>? AuxAddress { get; set; }
 
     /// <summary>
     /// The network from which to copy the configuration
@@ -56,7 +56,7 @@ public record DockerNetworkCreateOptions(
     /// <summary>
     /// IPv4 or IPv6 Gateway for the master subnet
     /// </summary>
-    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Gateway { get; set; }
 
     /// <summary>
@@ -74,7 +74,7 @@ public record DockerNetworkCreateOptions(
     /// <summary>
     /// Allocate container ip from a sub-range
     /// </summary>
-    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IpRange { get; set; }
 
     /// <summary>
@@ -87,7 +87,7 @@ public record DockerNetworkCreateOptions(
     /// Set IPAM driver specific options (default map[])
     /// </summary>
     [CliOption("--ipam-opt", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? IpamOpt { get; set; }
+    public IReadOnlyList<KeyValue>? IpamOpt { get; set; }
 
     /// <summary>
     /// Enable or disable IPv4 address assignment (default true)
@@ -104,14 +104,14 @@ public record DockerNetworkCreateOptions(
     /// <summary>
     /// Set metadata on a network
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
     /// Set driver specific options (default map[])
     /// </summary>
     [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Opt { get; set; }
+    public IReadOnlyList<KeyValue>? Opt { get; set; }
 
     /// <summary>
     /// Control the network's scope
@@ -122,7 +122,7 @@ public record DockerNetworkCreateOptions(
     /// <summary>
     /// Subnet in CIDR format that represents a network segment
     /// </summary>
-    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Subnet { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "describe-custom-constraint")]
 public record GcloudOrgPoliciesDescribeCustomConstraintOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string CustomConstraint
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string CustomConstraint
 ) : GcloudOptions
 {
 }

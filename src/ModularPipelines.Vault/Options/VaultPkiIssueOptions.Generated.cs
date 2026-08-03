@@ -20,8 +20,8 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pki", "issue")]
 public record VaultPkiIssueOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Parent,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ChildMount
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Parent,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ChildMount
 ) : VaultOptions
 {
 }

@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "settings", "get")]
 public record PulumiEnvSettingsGetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName
 ) : PulumiOptions
 {
     /// <summary>
@@ -121,7 +121,7 @@ public record PulumiEnvSettingsGetOptions(
     /// <summary>
     /// The &lt;setting-name&gt; operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? SettingName { get; set; }
 
 }

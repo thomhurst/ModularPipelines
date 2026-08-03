@@ -47,7 +47,7 @@ public record PulumiOrgSearchOptions : PulumiOptions
     /// <summary>
     /// A Pulumi Query to send to Pulumi Cloud for resource search.May be formatted as a single query, or multiple: -q "type:aws:s3/bucketv2:BucketV2 modified:&gt;=2023-09-01" -q "type:aws:s3/bucketv2:BucketV2" -q "modified:&gt;=2023-09-01" See https://www.pulumi.com/docs/pulumi-cloud/insights/search/#query-syntax for syntax reference.
     /// </summary>
-    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--query", ShortForm = "-q", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Query { get; set; }
 
     /// <summary>

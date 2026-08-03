@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("manifest", "push")]
 public record DockerManifestPushOptions(
-    [property: CliArgument(0)] string ManifestList
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string ManifestList
 ) : DockerOptions
 {
     /// <summary>

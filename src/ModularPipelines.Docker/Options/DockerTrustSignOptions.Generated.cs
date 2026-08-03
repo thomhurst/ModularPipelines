@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "sign")]
 public record DockerTrustSignOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImageTag
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImageTag
 ) : DockerOptions
 {
     /// <summary>

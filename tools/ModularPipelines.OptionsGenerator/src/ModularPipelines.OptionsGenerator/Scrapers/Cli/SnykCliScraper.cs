@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -483,7 +484,7 @@ public partial class SnykCliScraper : CliScraperBase
             IsRequired = isRequired,
             IsSecret = isSecret,
             PositionIndex = 0,
-            Placement = PositionalArgumentPosition.BeforeOptions,
+            Phase = CommandLinePhase.EarlyOperand,
         };
     }
 

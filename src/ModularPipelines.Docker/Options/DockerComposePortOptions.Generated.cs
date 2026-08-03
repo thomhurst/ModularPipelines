@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "port")]
 public record DockerComposePortOptions(
-    [property: CliArgument(0)] string Service,
-    [property: CliArgument(1)] string PrivatePort
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Service,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string PrivatePort
 ) : DockerOptions
 {
     /// <summary>

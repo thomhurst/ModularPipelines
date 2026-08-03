@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "pools", "create")]
 public record GcloudPrivatecaPoolsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Ca
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Ca
 ) : GcloudOptions
 {
     /// <summary>
@@ -39,8 +39,8 @@ public record GcloudPrivatecaPoolsCreateOptions(
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// If this is enabled, the following will happen: 1) The CA certificates     will be written to a known location within the CA distribution point.     2) The AIA extension in all issued certificates will point to the CA     cert URL in that distribition point.     Note that the same bucket may be used for the CRLs if --publish-crl is     set.     Enabled by default, use --no-publish-ca-cert to disable.

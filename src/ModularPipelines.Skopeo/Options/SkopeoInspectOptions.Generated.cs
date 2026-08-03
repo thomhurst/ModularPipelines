@@ -19,7 +19,7 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("inspect")]
 public record SkopeoInspectOptions(
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string ImageName
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string ImageName
 ) : SkopeoOptions
 {
     /// <summary>
@@ -123,7 +123,7 @@ public record SkopeoInspectOptions(
     /// <summary>
     /// The command options operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? CommandOptions { get; set; }
 
 }

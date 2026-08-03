@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("datastore", "indexes", "cleanup")]
 public record GcloudDatastoreIndexesCleanupOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string IndexFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string IndexFile
 ) : GcloudOptions
 {
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "worker-pools", "logs", "tail")]
 public record GcloudRunWorkerPoolsLogsTailOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string WorkerPool
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string WorkerPool
 ) : GcloudOptions
 {
     /// <summary>

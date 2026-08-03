@@ -54,7 +54,7 @@ public record CargoUninstallOptions : CargoOptions
     /// <summary>
     /// The [SPEC] operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Spec { get; set; }
 
 }

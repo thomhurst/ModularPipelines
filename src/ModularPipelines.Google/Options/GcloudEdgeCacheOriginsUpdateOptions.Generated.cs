@@ -50,8 +50,8 @@ public record GcloudEdgeCacheOriginsUpdateOptions : GcloudOptions
     /// <summary>
     /// List of KEY=VALUE labels to attach to this resource.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Maximum number of attempts to cache fill from this origin. Another     attempt is made when a cache fill fails with one of the     retry_conditions.     Once max_attempts to this origin have failed the failover_origin will     be used, if one is specified. That failover_origin may specify its own     max_attempts, retry_conditions and failover_origin to control its own     cache fill failures.     The total number of allowed attempts to cache fill across this and     failover origins is limited to four. The total time allowed for cache     fill attempts across this and failover origins can be controlled with     max_attempts_timeout.     The last valid response from an origin will be returned to the client.     If no origin returns a valid response, an HTTP 503 will be returned to     the client.     Defaults to 1. Must be a value greater than 0 and less than 4.
@@ -86,7 +86,7 @@ public record GcloudEdgeCacheOriginsUpdateOptions : GcloudOptions
     /// <summary>
     /// Specifies one or more retry conditions for the configured origin.     If the failure mode during a connection attempt to the origin matches     the configured retryCondition(s), the origin request will be retried up     to maxAttempts times. The failoverOrigin, if configured, will then be     used to satisfy the request.     The default retryCondition is "connect-failure".     retryConditions apply to this origin, and not subsequent     failoverOrigin(s), which may specify their own retryConditions and     maxAttempts.     Valid values are:     ◆ connect-failure: Retry on failures connecting to origins, for      example due to connection timeouts.     ◆ http-5xx: Retry if the origin responds with any 5xx response code,      or if the origin does not respond at all, example: disconnects,      reset, read timeout, connection failure, and refused streams.     ◆ gateway-error: Similar to 5xx, but only applies to response codes      502, 503 or 504.     ◆ retriable-4xx: Retry for retriable 4xx response codes, which      include HTTP 409 (Conflict) and HTTP 429 (Too Many Requests)     ◆ not-found: Retry if the origin returns a HTTP 404 (Not Found). This      can be useful when generating video content, and the segment is not      available yet.     RETRY_CONDITIONS must be one of: connect-failure, forbidden,     gateway-error, http-5xx, not-found, retriable-4xx,     retry-conditions-unspecified.
     /// </summary>
-    [CliOption("--retry-conditions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--retry-conditions", Format = OptionFormat.EqualsSeparated)]
     public GcloudRetryConditions? RetryConditions { get; set; }
 
 }

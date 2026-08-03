@@ -30,19 +30,19 @@ public record DockerVolumeCreateOptions : DockerOptions
     /// <summary>
     /// Set metadata for a volume
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
     /// Set driver specific options (default map[])
     /// </summary>
     [CliOption("--opt", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? Opt { get; set; }
+    public IReadOnlyList<KeyValue>? Opt { get; set; }
 
     /// <summary>
     /// The VOLUME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Volume { get; set; }
 
 }

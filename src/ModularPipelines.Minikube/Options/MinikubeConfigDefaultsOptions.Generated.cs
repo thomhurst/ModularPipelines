@@ -20,7 +20,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "defaults")]
 public record MinikubeConfigDefaultsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PropertyName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PropertyName
 ) : MinikubeOptions
 {
     /// <summary>

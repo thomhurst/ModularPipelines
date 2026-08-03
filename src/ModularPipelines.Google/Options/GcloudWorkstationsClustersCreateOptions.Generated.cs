@@ -49,8 +49,8 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     /// <summary>
     /// Labels that are applied to the cluster and propagated to the underlying     Compute Engine resources.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Fully specified network path for instances created in this cluster.
@@ -67,8 +67,8 @@ public record GcloudWorkstationsClustersCreateOptions : GcloudOptions
     /// <summary>
     /// Resource manager tags to be bound to this cluster. For example:     "123/environment=production" "123/costCenter=marketing"
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Tags { get; set; }
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
     /// The redirect URL for unauthorized requests. Redirects to this endpoint     send a base64 encoded 'state' query param with the workstation name and     original request hostname.

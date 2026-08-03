@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "disk-types", "describe")]
 public record GcloudComputeDiskTypesDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DiskType
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DiskType
 ) : GcloudOptions
 {
     /// <summary>

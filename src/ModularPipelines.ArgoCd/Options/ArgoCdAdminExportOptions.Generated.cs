@@ -24,13 +24,13 @@ public record ArgoCdAdminExportOptions : ArgoCdOptions
     /// <summary>
     /// Comma-separated list of namespace globs to export applications from, in addition to the control plane namespace (Argo CD namespace). By default, all applications from the control plane namespace are always exported. If this flag is provided, applications from the specified namespaces are exported along with the control plane namespace. If not specified, the value from 'application.namespaces' in argocd-cmd-params-cm is used (if defined in the ConfigMap). If the ConfigMap value is not set, only applications from the control plane namespace are exported.
     /// </summary>
-    [CliOption("--application-namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--application-namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApplicationNamespaces { get; set; }
 
     /// <summary>
     /// Comma-separated list of namespace globs to export ApplicationSets from, in addition to the control plane namespace (Argo CD namespace). By default, all ApplicationSets from the control plane namespace are always exported. If this flag is provided, ApplicationSets from the specified namespaces are exported along with the control plane namespace. If not specified, the value from 'applicationsetcontroller.namespaces' in argocd-cmd-params-cm is used (if defined in the ConfigMap). If the ConfigMap value is not set, only ApplicationSets from the control plane namespace are exported.
     /// </summary>
-    [CliOption("--applicationset-namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--applicationset-namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ApplicationsetNamespaces { get; set; }
 
     /// <summary>
@@ -42,7 +42,7 @@ public record ArgoCdAdminExportOptions : ArgoCdOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -225,7 +225,7 @@ public record ArgoCdAdminExportOptions : ArgoCdOptions
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

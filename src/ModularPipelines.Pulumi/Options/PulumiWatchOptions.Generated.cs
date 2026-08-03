@@ -23,7 +23,7 @@ public record PulumiWatchOptions : PulumiOptions
     /// <summary>
     /// Config to use during the update
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
@@ -65,19 +65,19 @@ public record PulumiWatchOptions : PulumiOptions
     /// <summary>
     /// Specify one or more relative or absolute paths that need to be watched. A path can point to a folder or a file. Defaults to working directory
     /// </summary>
-    [CliOption("--path", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Path { get; set; }
 
     /// <summary>
     /// Run one or more policy packs as part of each update
     /// </summary>
-    [CliOption("--policy-pack", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy-pack", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PolicyPack { get; set; }
 
     /// <summary>
     /// Path to JSON file containing the config for the policy pack of the corresponding "--policy-pack" flag
     /// </summary>
-    [CliOption("--policy-pack-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy-pack-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PolicyPackConfig { get; set; }
 
     /// <summary>

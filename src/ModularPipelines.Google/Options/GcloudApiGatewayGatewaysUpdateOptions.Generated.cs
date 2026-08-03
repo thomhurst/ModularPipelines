@@ -37,8 +37,8 @@ public record GcloudApiGatewayGatewaysUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Api config resource - Resource name for API config the gateway will use.   The arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --api-config on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --api-config on the command line with a fully     specified name;    ◆ Location for API and API Configs. Defaults to global.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// ID of the api-config or fully qualified identifier for the api-config.     To set the api-config attribute:     ◆ provide the argument --api-config on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.

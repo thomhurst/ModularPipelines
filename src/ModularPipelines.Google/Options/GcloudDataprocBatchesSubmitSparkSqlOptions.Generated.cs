@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dataproc", "batches", "submit", "spark-sql")]
 public record GcloudDataprocBatchesSubmitSparkSqlOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SqlScript
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SqlScript
 ) : GcloudOptions
 {
     /// <summary>
@@ -57,7 +57,7 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     /// <summary>
     /// Comma-separated list of jar files to be provided to the classpaths.
     /// </summary>
-    [CliOption("--jars", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--jars", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Jars { get; set; }
 
     /// <summary>
@@ -69,8 +69,8 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Name of a Dataproc Metastore service to be used as an external     metastore in the format:     "projects/{project-id}/locations/{region}/services/{service-name}".
@@ -81,8 +81,8 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     /// <summary>
     /// Specifies configuration properties for the workload. See Dataproc     Serverless for Spark documentation     (https://cloud.google.com/dataproc-serverless/docs/concepts/properties)     for the list of supported properties.    Region resource - Dataproc region to use. Each Dataproc region constitutes   an independent resource namespace constrained to deploying instances into   Compute Engine zones inside the region. This represents a Cloud resource.   (NOTE) Some attributes are not given arguments in this group but can be   set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ set the property dataproc/region with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Properties { get; set; }
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Properties { get; set; }
 
     /// <summary>
     /// ID of the region or fully qualified identifier for the region.     To set the region attribute:     ◆ provide the argument --region on the command line;     ◆ set the property dataproc/region.
@@ -100,7 +100,7 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     /// Resource Manager Tags to be associated with the compute resources     created for the workload. Only one key-value pair can be specified per     flag. Repeat the flag to specify multiple tags.
     /// </summary>
     [CliOption("--resource-manager-tag", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? ResourceManagerTag { get; set; }
+    public IReadOnlyList<KeyValue>? ResourceManagerTag { get; set; }
 
     /// <summary>
     /// The IAM service account to be used for a batch/session job.
@@ -117,7 +117,7 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     /// <summary>
     /// Network tags for traffic control.
     /// </summary>
-    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
@@ -135,8 +135,8 @@ public record GcloudDataprocBatchesSubmitSparkSqlOptions(
     /// <summary>
     /// Mapping of query variable names to values (equivalent to the Spark SQL     command: SET name="value";).
     /// </summary>
-    [CliOption("--vars", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Vars { get; set; }
+    [CliOption("--vars", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Vars { get; set; }
 
     /// <summary>
     /// Optional runtime version. If not specified, a default version will be     used.    At most one of these can be specified:     --network=NETWORK      Network URI to connect network to.     --subnet=SUBNET      Subnetwork URI to connect network to. Subnet must have Private Google      Access enabled.

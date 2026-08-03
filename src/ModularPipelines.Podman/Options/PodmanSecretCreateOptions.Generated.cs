@@ -20,8 +20,8 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secret", "create")]
 public record PodmanSecretCreateOptions(
-    [property: CliArgument(0)] string Name,
-    [property: CliArgument(1)] string File
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string File
 ) : PodmanOptions
 {
     /// <summary>
@@ -34,7 +34,7 @@ public record PodmanSecretCreateOptions(
     /// Specify driver specific options (default [])
     /// </summary>
     [CliOption("--driver-opts", Format = OptionFormat.EqualsSeparated)]
-    public KeyValue[]? DriverOpts { get; set; }
+    public IReadOnlyList<KeyValue>? DriverOpts { get; set; }
 
     /// <summary>
     /// Read secret data from environment variable
@@ -45,7 +45,7 @@ public record PodmanSecretCreateOptions(
     /// <summary>
     /// Specify labels on the secret
     /// </summary>
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>

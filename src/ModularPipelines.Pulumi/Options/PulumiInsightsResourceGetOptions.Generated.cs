@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("insights", "resource", "get")]
 public record PulumiInsightsResourceGetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ResourceTypeAndId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ResourceTypeAndId
 ) : PulumiOptions
 {
     /// <summary>

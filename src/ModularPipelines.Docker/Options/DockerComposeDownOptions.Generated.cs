@@ -53,7 +53,7 @@ public record DockerComposeDownOptions : DockerOptions
     /// <summary>
     /// The SERVICES operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Services { get; set; }
 
 }

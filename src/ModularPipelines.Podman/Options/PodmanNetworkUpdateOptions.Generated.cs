@@ -19,19 +19,19 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "update")]
 public record PodmanNetworkUpdateOptions(
-    [property: CliArgument(0)] string Network
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Network
 ) : PodmanOptions
 {
     /// <summary>
     /// add network level nameservers
     /// </summary>
-    [CliOption("--dns-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsAdd { get; set; }
 
     /// <summary>
     /// remove network level nameservers
     /// </summary>
-    [CliOption("--dns-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-drop", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsDrop { get; set; }
 
 }

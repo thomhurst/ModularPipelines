@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "import")]
 public record GcloudDnsRecordSetsImportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string RecordsFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RecordsFile
 ) : GcloudOptions
 {
 }

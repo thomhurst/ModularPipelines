@@ -98,7 +98,7 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// A list of Redis Cluster config parameters to remove. Removing a     non-existent config parameter is silently ignored.
     /// </summary>
-    [CliOption("--remove-redis-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-redis-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveRedisConfig { get; set; }
 
     /// <summary>
@@ -128,8 +128,8 @@ public record GcloudRedisClustersUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// A list of Redis Cluster config KEY=VALUE pairs to update. If a config     parameter is already set, its value is modified; otherwise a new Redis     config parameter is added.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud redis clusters update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud redis clusters update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --maintenance-window-any      Removes the user-specified maintenance window.     Or at least one of these can be specified:      --maintenance-window-day=MAINTENANCE_WINDOW_DAY       The day of week when the window starts, e.g. sunday.       MAINTENANCE_WINDOW_DAY must be one of: friday, monday, saturday,       sunday, thursday, tuesday, wednesday.      --maintenance-window-hour=MAINTENANCE_WINDOW_HOUR       Hour of day (0 to 23) for the start of maintenance window, in UTC       time zone.

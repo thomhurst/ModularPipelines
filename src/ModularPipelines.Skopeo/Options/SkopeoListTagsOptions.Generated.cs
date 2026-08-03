@@ -19,7 +19,7 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("list-tags")]
 public record SkopeoListTagsOptions(
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string SourceImage
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string SourceImage
 ) : SkopeoOptions
 {
     /// <summary>
@@ -87,7 +87,7 @@ public record SkopeoListTagsOptions(
     /// <summary>
     /// The command options operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? CommandOptions { get; set; }
 
 }

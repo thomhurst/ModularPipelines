@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transfer", "jobs", "update")]
 public record GcloudTransferJobsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
@@ -201,13 +201,13 @@ public record GcloudTransferJobsUpdateOptions(
     /// <summary>
     /// Include only objects that start with the specified prefix(es). Separate     multiple prefixes with commas, omitting spaces after the commas (e.g.,     --include-prefixes=foo,bar).
     /// </summary>
-    [CliOption("--include-prefixes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include-prefixes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IncludePrefixes { get; set; }
 
     /// <summary>
     /// Exclude any objects that start with the prefix(es) entered. Separate     multiple prefixes with commas, omitting spaces after the commas (e.g.,     --exclude-prefixes=foo,bar).
     /// </summary>
-    [CliOption("--exclude-prefixes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude-prefixes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExcludePrefixes { get; set; }
 
     /// <summary>
@@ -267,7 +267,7 @@ public record GcloudTransferJobsUpdateOptions(
     /// <summary>
     /// Specify object metadata values that can optionally be preserved.     Example: --preserve-metadata=storage-class,uid     For more info, see:     https://cloud.google.com/storage-transfer/docs/metadata-preservation.     METADATA_FIELDS must be one of: acl, gid, kms-key, mode, storage-class,     symlink, temporary-hold, time-created, uid.
     /// </summary>
-    [CliOption("--preserve-metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--preserve-metadata", Format = OptionFormat.EqualsSeparated)]
     public GcloudPreserveMetadata? PreserveMetadata { get; set; }
 
     /// <summary>
@@ -297,7 +297,7 @@ public record GcloudTransferJobsUpdateOptions(
     /// <summary>
     /// Define which change of transfer operation status will trigger Pub/Sub     notifications. Choices include 'success', 'failed', 'aborted'. To     trigger notifications for all three status changes, you can leave this     flag unspecified as long as you've specified a topic for the     --notification-pubsub-topic flag. EVENT_TYPES must be one of: success,     failed, aborted.
     /// </summary>
-    [CliOption("--notification-event-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--notification-event-types", Format = OptionFormat.EqualsSeparated)]
     public GcloudNotificationEventTypes? NotificationEventTypes { get; set; }
 
     /// <summary>
@@ -315,13 +315,13 @@ public record GcloudTransferJobsUpdateOptions(
     /// <summary>
     /// Define the transfer operation actions to report in logs. Separate     multiple actions with commas, omitting spaces after the commas (e.g.,     --log-actions=find,copy). LOG_ACTIONS must be one of: copy, delete,     find.
     /// </summary>
-    [CliOption("--log-actions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--log-actions", Format = OptionFormat.EqualsSeparated)]
     public GcloudLogActions? LogActions { get; set; }
 
     /// <summary>
     /// The states in which the actions specified in --log-actions are logged.     Separate multiple states with a comma, omitting the space after the     comma (e.g., --log-action-states=succeeded,failed). LOG_ACTION_STATES     must be one of: failed, skipped, succeeded.    ADDITIONAL OPTIONS
     /// </summary>
-    [CliOption("--log-action-states", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--log-action-states", Format = OptionFormat.EqualsSeparated)]
     public GcloudLogActionStates? LogActionStates { get; set; }
 
     /// <summary>

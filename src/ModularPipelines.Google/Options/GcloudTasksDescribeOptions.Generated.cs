@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tasks", "describe")]
 public record GcloudTasksDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Task
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Task
 ) : GcloudOptions
 {
     /// <summary>

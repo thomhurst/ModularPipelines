@@ -31,14 +31,14 @@ public record GcloudWorkstationsCreateOptions : GcloudOptions
     /// <summary>
     /// Environment variables passed to the Workstation.
     /// </summary>
-    [CliOption("--env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Env { get; set; }
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Env { get; set; }
 
     /// <summary>
     /// Labels that are applied to the workstation and propagated to the     underlying Compute Engine resources.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Source workstation from which this workstations persistent directories     are cloned on creation. When specified, the workstations service agent     must have compute.disks.createSnapshot and     compute.snapshots.useReadOnly permissions on the source workstation's     host project.

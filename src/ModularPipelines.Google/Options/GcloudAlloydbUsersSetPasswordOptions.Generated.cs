@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "users", "set-password")]
 public record GcloudAlloydbUsersSetPasswordOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Username
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Username
 ) : GcloudOptions
 {
 }

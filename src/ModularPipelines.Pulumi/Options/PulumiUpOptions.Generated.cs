@@ -23,13 +23,13 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Enable the ability to attach a debugger to the program and source based plugins being executed. Can limit debug type to 'program', 'plugins', 'plugin:&lt;name&gt;' or 'all'.
     /// </summary>
-    [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated, AllowMultiple = true, ValueArity = CliOptionValueArity.Optional)]
+    [CliOption("--attach-debugger", Format = OptionFormat.EqualsSeparated, ValueArity = CliOptionValueArity.Optional)]
     public IEnumerable<string>? AttachDebugger { get; set; }
 
     /// <summary>
     /// Config to use during the update and save to the stack config file
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
@@ -65,7 +65,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Specify a resource URN to ignore. These resources will not be updated. Multiple resources can be specified using --exclude urn1 --exclude urn2. Wildcards (*, **) are also supported
     /// </summary>
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
@@ -107,7 +107,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// [EXPERIMENTAL] Override an imported environment for this run only, as &lt;env&gt;=&lt;replacement&gt;; repeatable
     /// </summary>
-    [CliOption("--override-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--override-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OverrideEnv { get; set; }
 
     /// <summary>
@@ -119,13 +119,13 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Run one or more policy packs as part of this update
     /// </summary>
-    [CliOption("--policy-pack", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy-pack", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PolicyPack { get; set; }
 
     /// <summary>
     /// Path to JSON file containing the config for the policy pack of the corresponding "--policy-pack" flag
     /// </summary>
-    [CliOption("--policy-pack-config", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy-pack-config", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PolicyPackConfig { get; set; }
 
     /// <summary>
@@ -137,7 +137,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Specify a single resource URN to replace. Multiple resources can be specified using --replace urn1 --replace urn2. Wildcards (*, **) are also supported
     /// </summary>
-    [CliOption("--replace", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--replace", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Replace { get; set; }
 
     /// <summary>
@@ -245,7 +245,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Specify a single resource URN to update. Other resources will not be updated. Multiple resources can be specified using --target urn1 --target urn2. Wildcards (*, **) are also supported
     /// </summary>
-    [CliOption("--target", ShortForm = "-t", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--target", ShortForm = "-t", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Target { get; set; }
 
     /// <summary>
@@ -257,7 +257,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// Specify a single resource URN to replace. Other resources will not be updated. Shorthand for --target urn --replace urn.
     /// </summary>
-    [CliOption("--target-replace", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--target-replace", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? TargetReplace { get; set; }
 
     /// <summary>
@@ -353,7 +353,7 @@ public record PulumiUpOptions : PulumiOptions
     /// <summary>
     /// The template operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Template { get; set; }
 
 }

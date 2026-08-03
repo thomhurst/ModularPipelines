@@ -146,38 +146,13 @@ public static class GeneratedOptionsSmokeTestHarness
         var switches = model.Where(part => part is FlagPart or OptionPart).ToList();
         var expected = new List<string>();
 
-        expected.AddRange(RenderArguments(
-            arguments.Where(argument =>
-                argument.Attribute.Placement == ArgumentPlacement.ImmediatelyAfterCommand),
-            options));
-        expected.AddRange(RenderArguments(
-            arguments.Where(argument =>
-                argument.Attribute.Placement == ArgumentPlacement.BeforeOptions),
-            options));
-
-        foreach (var phase in new[]
-                 {
-                     CommandLinePhase.Normal,
-                     CommandLinePhase.EndOfOptions,
-                     CommandLinePhase.Passthrough,
-                     CommandLinePhase.Terminal,
-                 })
+        foreach (var phase in Enum.GetValues<CommandLinePhase>())
         {
-            var phaseArguments = arguments.Where(argument =>
-                argument.Attribute.Placement == ArgumentPlacement.AfterOptions
-                && argument.Phase == phase);
+            var phaseArguments = arguments.Where(argument => argument.Phase == phase);
             var phaseSwitches = switches.Where(part => part.Phase == phase);
 
-            if (phase == CommandLinePhase.Terminal)
-            {
-                expected.AddRange(RenderArguments(phaseArguments, options));
-                expected.AddRange(RenderSwitches(phaseSwitches, options));
-            }
-            else
-            {
-                expected.AddRange(RenderSwitches(phaseSwitches, options));
-                expected.AddRange(RenderArguments(phaseArguments, options));
-            }
+            expected.AddRange(RenderSwitches(phaseSwitches, options));
+            expected.AddRange(RenderArguments(phaseArguments, options));
         }
 
         return expected;
@@ -241,17 +216,12 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var optionName = option.Attribute.GetEffectiveName();
 
-        if (option.ValueArity == CliOptionValueArity.None)
-        {
-            return value is not false ? [optionName] : [];
-        }
-
-        if (value is CliOptionValuePair pair)
+        if (value is CliValuePair pair)
         {
             return [optionName, pair.First, pair.Second];
         }
 
-        if (value is IEnumerable<CliOptionValuePair> pairs)
+        if (value is IEnumerable<CliValuePair> pairs)
         {
             return pairs
                 .SelectMany(pairValue => new[] { optionName, pairValue.First, pairValue.Second })
@@ -259,7 +229,15 @@ public static class GeneratedOptionsSmokeTestHarness
         }
 
         var separator = option.Attribute.GetSeparator();
-        return GetValues(value)
+        var values = GetValues(value);
+        if (option.Attribute.GroupValues && values.Count > 0)
+        {
+            return separator == " "
+                ? [optionName, .. values]
+                : [$"{optionName}{separator}{values[0]}", .. values.Skip(1)];
+        }
+
+        return values
             .SelectMany(renderedValue => separator == " "
                 ? new[] { optionName, renderedValue }
                 : new[] { $"{optionName}{separator}{renderedValue}" })
@@ -296,7 +274,7 @@ public static class GeneratedOptionsSmokeTestHarness
     private static object? TryCreateKnownSample(Type type) =>
         type == typeof(string) ? "smoke-value"
         : type == typeof(bool) ? true
-        : type == typeof(CliOptionValuePair) ? new CliOptionValuePair("smoke-first", "smoke-second")
+        : type == typeof(CliValuePair) ? new CliValuePair("smoke-first", "smoke-second")
         : type == typeof(KeyValue) ? new KeyValue("smoke-key", "smoke-value")
         : type == typeof(Uri) ? new Uri("https://example.invalid/smoke")
         : null;
@@ -395,7 +373,7 @@ public static class GeneratedOptionsSmokeTestHarness
         value switch
         {
             string stringValue => [stringValue],
-            IEnumerable<KeyValue> keyValues => keyValues.Select(item => item.ToString()).ToList(),
+            IReadOnlyList<KeyValue> keyValues => keyValues.Select(item => item.ToString()).ToList(),
             IEnumerable enumerable when value is not IEnumerable<char> => GetEnumerableValues(enumerable),
             bool boolValue => [boolValue.ToString().ToLowerInvariant()],
             Uri uri => [uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.ToString()],

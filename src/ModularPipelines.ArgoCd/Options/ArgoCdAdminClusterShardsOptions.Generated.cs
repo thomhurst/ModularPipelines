@@ -36,7 +36,7 @@ public record ArgoCdAdminClusterShardsOptions : ArgoCdOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -193,7 +193,7 @@ public record ArgoCdAdminClusterShardsOptions : ArgoCdOptions
     /// <summary>
     /// Redis sentinel hostname and port (e.g. argocd-redis-ha-announce-0:6379).
     /// </summary>
-    [CliOption("--sentinel", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--sentinel", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Sentinel { get; set; }
 
     /// <summary>
@@ -303,7 +303,7 @@ public record ArgoCdAdminClusterShardsOptions : ArgoCdOptions
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

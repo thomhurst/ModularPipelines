@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "folders", "update")]
 public record GcloudResourceManagerFoldersUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string FolderId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string FolderId
 ) : GcloudOptions
 {
 }

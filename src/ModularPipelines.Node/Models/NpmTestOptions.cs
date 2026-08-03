@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("test")]
 public record NpmTestOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Args
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Args
 ) : NpmOptions
 {
     [CliFlag("--ignore-scripts")]

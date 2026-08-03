@@ -30,7 +30,7 @@ public record KubernetesApplyViewLastAppliedOptions : KubernetesOptions
     /// <summary>
     /// Filename, directory, or URL to files that contains the last-applied-configuration annotations
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>

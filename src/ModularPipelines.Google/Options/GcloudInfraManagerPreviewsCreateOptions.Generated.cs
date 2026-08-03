@@ -21,14 +21,14 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("infra-manager", "previews", "create")]
 public record GcloudInfraManagerPreviewsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Preview
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Preview
 ) : GcloudOptions
 {
     /// <summary>
     /// Preview annotations cannot be updated after creation.
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Annotations { get; set; }
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
     /// <summary>
     /// user-defined location of Cloud Build logs, artifacts, and Terraform     state files in Google Cloud Storage. Format: gs://{bucket}/{folder} A     default bucket will be bootstrapped if the field is not set or empty
@@ -51,8 +51,8 @@ public record GcloudInfraManagerPreviewsCreateOptions(
     /// <summary>
     /// Preview labels cannot be updated after creation.    Location resource - the location to be used as parent. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ set the property infra-manager/location with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ set the property infra-manager/location.

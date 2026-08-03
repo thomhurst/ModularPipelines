@@ -33,7 +33,7 @@ public record GcloudPreviewComputeNetworksSubnetsListOptions : GcloudOptions
     /// <summary>
     /// If provided, only resources from the given regions are queried.
     /// </summary>
-    [CliOption("--regions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--regions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Regions { get; set; }
 
     /// <summary>

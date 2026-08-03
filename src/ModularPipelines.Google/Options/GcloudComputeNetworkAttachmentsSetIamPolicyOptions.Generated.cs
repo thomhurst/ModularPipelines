@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-attachments", "set-iam-policy")]
 public record GcloudComputeNetworkAttachmentsSetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PolicyFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PolicyFile
 ) : GcloudOptions
 {
 }

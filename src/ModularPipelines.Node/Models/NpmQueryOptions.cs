@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("query")]
 public record NpmQueryOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Selector
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Selector
 ) : NpmOptions
 {
     [CliFlag("--global")]

@@ -47,13 +47,13 @@ public record KustomizeBuildOptions : KustomizeOptions
     /// <summary>
     /// a list of environment variables to be used by functions
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
     /// Kubernetes api versions used by Helm for Capabilities.APIVersions
     /// </summary>
-    [CliOption("--helm-api-versions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--helm-api-versions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? HelmApiVersions { get; set; }
 
     /// <summary>
@@ -89,7 +89,7 @@ public record KustomizeBuildOptions : KustomizeOptions
     /// <summary>
     /// a list of storage options read from the filesystem
     /// </summary>
-    [CliOption("--mount", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Mount { get; set; }
 
     /// <summary>

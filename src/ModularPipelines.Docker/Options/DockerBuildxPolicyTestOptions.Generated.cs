@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("buildx", "policy", "test")]
 public record DockerBuildxPolicyTestOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path
 ) : DockerOptions
 {
     /// <summary>

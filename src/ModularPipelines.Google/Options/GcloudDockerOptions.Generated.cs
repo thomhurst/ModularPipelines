@@ -30,7 +30,7 @@ public record GcloudDockerOptions : GcloudOptions
     [CliOption("--docker-host", Format = OptionFormat.EqualsSeparated)]
     public string? DockerHost { get; set; }
 
-    [CliOption("--server", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Server { get; set; }
 
 }

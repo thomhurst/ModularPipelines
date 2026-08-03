@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "hmac", "describe")]
 public record GcloudStorageHmacDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AccessId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string AccessId
 ) : GcloudOptions
 {
 }

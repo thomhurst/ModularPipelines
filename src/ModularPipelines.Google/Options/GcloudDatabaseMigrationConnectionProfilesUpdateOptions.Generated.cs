@@ -105,8 +105,8 @@ public record GcloudDatabaseMigrationConnectionProfilesUpdateOptions : GcloudOpt
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateLabels { get; set; }
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>
     /// Username that Database Migration Service uses to connect to the     database. Database Migration Service encrypts the value when storing     it.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud database-migration connection-profiles update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud database-migration connection-profiles update \         --clear-labels --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --disable-iam-authentication      Use IAM database authentication to connect to the database. The      username will be overridden by the DMS service agent principal. This      flag is only supported for PostgreSQL Destinations.     --enable-iam-authentication      Use IAM database authentication to connect to the database. The      username will be overridden by the DMS service agent principal. This      flag is only supported for PostgreSQL Destinations.

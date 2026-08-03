@@ -66,7 +66,7 @@ public record NbgvCloudOptions : NbgvOptions
     /// <summary>
     /// Additional cloud build variables to define. Each should be in the NAME=VALUE syntax.
     /// </summary>
-    [CliOption("--define", ShortForm = "-d", AllowMultiple = true)]
+    [CliOption("--define", ShortForm = "-d")]
     public IEnumerable<string>? Define { get; set; }
 
 }

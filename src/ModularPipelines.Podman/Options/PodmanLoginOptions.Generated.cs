@@ -85,7 +85,7 @@ public record PodmanLoginOptions : PodmanOptions
     /// <summary>
     /// The REGISTRY operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Registry { get; set; }
 
 }

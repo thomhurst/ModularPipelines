@@ -94,7 +94,7 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     /// <summary>
     /// IPv4 address pools that are used for data plane load balancing of local     control plane clusters. Existing pools cannot be updated after cluster     creation; only adding new pools is allowed. Each address pool must be     specified as one of the following two types of values: 1. A IPv4     address range, for example, "10.0.0.1-10.0.0.10". A range that contains     a single IP (e.g. "10.0.0.1-10.0.0.1") is allowed. 2. A IPv4 CIDR     block, for example, "10.0.0.1/24" Use comma when specifying multiple     address pools, for example: --external-lb-ipv4-address-pools     10.0.0.1-10.0.0.10,10.0.0.1/24
     /// </summary>
-    [CliOption("--external-lb-ipv4-address-pools", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--external-lb-ipv4-address-pools", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ExternalLbIpv4AddressPools { get; set; }
 
     /// <summary>
@@ -106,8 +106,8 @@ public record GcloudEdgeCloudContainerClustersCreateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Labels { get; set; }
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
     /// Overwrite the default LRO maximum timeout.

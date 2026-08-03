@@ -25,7 +25,7 @@ public record GcloudServiceDirectoryServicesUpdateOptions : GcloudOptions
     /// <summary>
     /// Annotations for the service.     Annotations take the form of key/value string pairs. Keys are composed     of an optional prefix and a name segment, separated by a slash(/).     Prefixes and names must be composed of alphanumeric characters, dashes,     and dots. Names may also use underscores. There are no character     restrictions on what may go into the value of an annotation. The entire     dictionary is limited to 2000 characters, spread across all key-value     pairs.
     /// </summary>
-    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? Annotations { get; set; }
+    [CliOption("--annotations", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? Annotations { get; set; }
 
 }

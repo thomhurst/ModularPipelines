@@ -23,7 +23,7 @@ public record DockerComposeBuildOptions : DockerOptions
     /// <summary>
     /// Set build-time variables for services
     /// </summary>
-    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--build-arg", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BuildArg { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record DockerComposeBuildOptions : DockerOptions
     /// <summary>
     /// The SERVICE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
 
 }

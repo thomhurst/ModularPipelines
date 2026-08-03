@@ -98,8 +98,8 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     /// <summary>
     /// The list of headers to add to the uptime check. Any existing headers     with matching "key" are overridden by the provided values.    Uptime check remove headers.    At most one of these can be specified:     --clear-headers=CLEAR_HEADERS      Clear all headers on the uptime check.     --remove-headers=[KEY,...]      The list of header keys to remove from the uptime check.    Settings.
     /// </summary>
-    [CliOption("--update-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateHeaders { get; set; }
+    [CliOption("--update-headers", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateHeaders { get; set; }
 
     /// <summary>
     /// The display name for the uptime check or synthetic monitor.
@@ -122,8 +122,8 @@ public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-user-labels      Remove all labels. If --update-user-labels is also specified then      --clear-user-labels is applied first.      For example, to remove all labels:        $ gcloud monitoring uptime update --clear-user-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud monitoring uptime update --clear-user-labels \         --update-user-labels foo=bar,baz=qux     --remove-user-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-user-labels is also specified then      --update-user-labels is applied first.    Uptime check matcher settings.
     /// </summary>
-    [CliOption("--update-user-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public KeyValue[]? UpdateUserLabels { get; set; }
+    [CliOption("--update-user-labels", Format = OptionFormat.EqualsSeparated)]
+    public IReadOnlyList<KeyValue>? UpdateUserLabels { get; set; }
 
     /// <summary>
     /// String, regex or JSON content to match.     This flag argument must be specified if any of the other arguments in     this group are specified.

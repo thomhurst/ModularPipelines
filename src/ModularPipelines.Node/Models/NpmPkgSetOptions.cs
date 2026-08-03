@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pkg", "set")]
 public record NpmPkgSetOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value
 ) : NpmOptions
 {
     [CliFlag("--force")]
@@ -21,12 +21,12 @@ public record NpmPkgSetOptions(
     [CliFlag("--workspaces")]
     public virtual bool? Workspaces { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Key { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Array { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Index { get; set; }
 }

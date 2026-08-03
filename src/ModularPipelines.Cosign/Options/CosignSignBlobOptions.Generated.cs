@@ -20,7 +20,7 @@ namespace ModularPipelines.Cosign.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sign-blob")]
 public record CosignSignBlobOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Blobs
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Blobs
 ) : CosignOptions
 {
     /// <summary>

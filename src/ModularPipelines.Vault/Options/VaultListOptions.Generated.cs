@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("list")]
 public record VaultListOptions(
-    [property: CliArgument(0)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
 ) : VaultOptions
 {
 }

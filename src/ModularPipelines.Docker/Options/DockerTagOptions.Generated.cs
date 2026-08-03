@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("tag")]
 public record DockerTagOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SourceImageTag,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string TargetImageTag
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SourceImageTag,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string TargetImageTag
 ) : DockerOptions
 {
 }

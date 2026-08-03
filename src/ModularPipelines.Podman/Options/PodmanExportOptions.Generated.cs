@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("export")]
 public record PodmanExportOptions(
-    [property: CliArgument(0)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Container
 ) : PodmanOptions
 {
     /// <summary>
