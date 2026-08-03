@@ -56,9 +56,11 @@ Modular Pipelines uses runtime reflection for the missing metadata.
 ## MPG0006
 
 Command or secret metadata generation was skipped because its declaring type is
-generic or inaccessible to generated code. Make the type and its containing types
-accessible and non-generic. The build fails because command and secret reflection
-fallbacks are not available for C# types.
+generic, inaccessible, file-local, or part of a partial type hierarchy. Make the
+type and its containing types accessible and non-generic. Move file-local command
+or secret types to an accessible declaration, and combine partial command/secret
+declarations into one non-partial declaration. The build fails because exact
+generated metadata cannot be guaranteed for these shapes.
 
 **Severity:** Error
 

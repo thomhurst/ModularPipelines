@@ -1,5 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
 
@@ -27,7 +28,8 @@ internal static class GeneratorTestHarness
         IIncrementalGenerator generator,
         string infrastructure,
         string externalSource,
-        string source)
+        string source,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
     {
         var infrastructureReference = CreateMetadataReference(
             "ModularPipelines",
@@ -44,14 +46,17 @@ internal static class GeneratorTestHarness
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         ThrowForCompilationErrors(compilation);
 
-        return Run(generator, compilation);
+        return Run(generator, compilation, globalOptions);
     }
 
     private static GeneratorDriverRunResult Run(
         IIncrementalGenerator generator,
-        CSharpCompilation compilation)
+        CSharpCompilation compilation,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
     {
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(
+            generators: [generator.AsSourceGenerator()],
+            optionsProvider: new TestAnalyzerConfigOptionsProvider(globalOptions));
 
         driver = driver.RunGeneratorsAndUpdateCompilation(
             compilation,
@@ -152,5 +157,27 @@ internal static class GeneratorTestHarness
         }
 
         return MetadataReference.CreateFromImage(stream.ToArray());
+    }
+
+    private sealed class TestAnalyzerConfigOptionsProvider(
+        IReadOnlyDictionary<string, string>? globalOptions) : AnalyzerConfigOptionsProvider
+    {
+        private static readonly AnalyzerConfigOptions Empty =
+            new DictionaryAnalyzerConfigOptions(new Dictionary<string, string>());
+
+        public override AnalyzerConfigOptions GlobalOptions { get; } =
+            new DictionaryAnalyzerConfigOptions(
+                globalOptions ?? new Dictionary<string, string>());
+
+        public override AnalyzerConfigOptions GetOptions(SyntaxTree tree) => Empty;
+
+        public override AnalyzerConfigOptions GetOptions(AdditionalText textFile) => Empty;
+    }
+
+    private sealed class DictionaryAnalyzerConfigOptions(
+        IReadOnlyDictionary<string, string> values) : AnalyzerConfigOptions
+    {
+        public override bool TryGetValue(string key, out string value) =>
+            values.TryGetValue(key, out value!);
     }
 }

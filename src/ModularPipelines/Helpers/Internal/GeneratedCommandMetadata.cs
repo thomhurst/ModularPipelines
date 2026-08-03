@@ -1,6 +1,6 @@
-using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ModularPipelines.Helpers.Internal;
 
@@ -9,8 +9,8 @@ namespace ModularPipelines.Helpers.Internal;
 /// </summary>
 public static class GeneratedCommandMetadata
 {
-    private static readonly ConcurrentDictionary<Type, CommandMetadata> Models = new();
-    private static readonly ConcurrentDictionary<Assembly, byte> ProcessedAssemblies = new();
+    private static readonly ConditionalWeakTable<Type, CommandMetadata> Models = new();
+    private static readonly ConditionalWeakTable<Assembly, ProcessedAssembly> ProcessedAssemblies = new();
 
     /// <summary>
     /// Registers that an assembly ran the C# command metadata generator.
@@ -18,7 +18,7 @@ public static class GeneratedCommandMetadata
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void RegisterAssembly(Assembly assembly)
     {
-        ProcessedAssemblies.TryAdd(assembly, 0);
+        _ = ProcessedAssemblies.GetValue(assembly, static _ => new ProcessedAssembly());
     }
 
     /// <summary>
@@ -41,9 +41,15 @@ public static class GeneratedCommandMetadata
         IReadOnlyList<PropertyCommandLinePart> model,
         bool isComplete = true)
     {
-        if (!Models.TryAdd(optionsType, new CommandMetadata(model, isComplete)))
+        try
         {
-            throw new InvalidOperationException($"Command metadata is already registered for {optionsType}.");
+            Models.Add(optionsType, new CommandMetadata(model, isComplete));
+        }
+        catch (ArgumentException exception)
+        {
+            throw new InvalidOperationException(
+                $"Command metadata is already registered for {optionsType}.",
+                exception);
         }
     }
 
@@ -59,7 +65,10 @@ public static class GeneratedCommandMetadata
         return false;
     }
 
-    internal static bool IsAssemblyProcessed(Assembly assembly) => ProcessedAssemblies.ContainsKey(assembly);
+    internal static bool IsAssemblyProcessed(Assembly assembly) =>
+        ProcessedAssemblies.TryGetValue(assembly, out _);
 
     private sealed record CommandMetadata(IReadOnlyList<PropertyCommandLinePart> Model, bool IsComplete);
+
+    private sealed class ProcessedAssembly;
 }

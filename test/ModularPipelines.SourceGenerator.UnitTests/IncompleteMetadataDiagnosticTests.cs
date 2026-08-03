@@ -119,7 +119,45 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Accessible_Type_Without_Secrets_Registers_Exact_Empty_Metadata()
+    public async Task Trimmed_Host_Generates_Metadata_For_Unprocessed_Referenced_Options()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace External;
+
+            public sealed class CrossLanguageOptions
+                : ModularPipelines.Options.CommandLineToolOptions
+            {
+                [ModularPipelines.Attributes.CliOption("--value")]
+                public string Value { get; } = "";
+
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "";
+            }
+            """,
+            "public sealed class TrimmedHost;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedCommandMetadata.Register(\n            typeof(global::External.CrossLanguageOptions)");
+            await Assert.That(generatedSource).Contains("OptionPart");
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.Register(\n            typeof(global::External.CrossLanguageOptions)");
+            await Assert.That(generatedSource).Contains("new(\"Token\"");
+        }
+    }
+
+    [Test]
+    public async Task Accessible_Type_Without_Secrets_Registers_Name_Based_Empty_Metadata()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -130,8 +168,9 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains("typeof(global::PlainOptions)");
-            await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.Register");
+            await Assert.That(generatedSource).DoesNotContain("typeof(global::PlainOptions)");
+            await Assert.That(generatedSource).Contains("GeneratedSecretMetadata.RegisterCoveredTypeName");
+            await Assert.That(generatedSource).Contains("\"PlainOptions\"");
             await Assert.That(generatedSource).Contains("RegisterAssembly");
         }
     }
@@ -148,8 +187,43 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains("#pragma warning disable CS0618");
-            await Assert.That(generatedSource).Contains("typeof(global::LegacyOptions)");
+            await Assert.That(generatedSource).Contains("#pragma warning disable CS0612, CS0618");
+            await Assert.That(generatedSource).DoesNotContain("typeof(global::LegacyOptions)");
+            await Assert.That(generatedSource).Contains("\"LegacyOptions\"");
+        }
+    }
+
+    [Test]
+    public async Task Obsolete_Error_Type_Uses_Name_Based_Coverage()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            "[System.Obsolete(\"Removed\", true)] public sealed class LegacyOptions;");
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).DoesNotContain("typeof(global::LegacyOptions)");
+            await Assert.That(generatedSource).Contains("\"LegacyOptions\"");
+        }
+    }
+
+    [Test]
+    public async Task Nested_Type_In_Generic_Container_Uses_Name_Based_Coverage()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            "public class Outer<T> { public sealed class Settings; }");
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).DoesNotContain("typeof(global::Outer<T>.Settings)");
+            await Assert.That(generatedSource).Contains("Outer`1+Settings");
         }
     }
 
@@ -166,7 +240,8 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.Register(typeof(global::Callback))");
+                "GeneratedSecretMetadata.RegisterCoveredTypeName");
+            await Assert.That(generatedSource).Contains("\"Callback\"");
         }
     }
 
@@ -186,12 +261,9 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.Register(typeof(global::PlainStruct))");
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.Register(typeof(global::PlainEnum))");
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.Register(typeof(global::PlainRecordStruct))");
+            await Assert.That(generatedSource).Contains("\"PlainStruct\"");
+            await Assert.That(generatedSource).Contains("\"PlainEnum\"");
+            await Assert.That(generatedSource).Contains("\"PlainRecordStruct\"");
         }
     }
 
@@ -343,7 +415,55 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Single_Declaration_Partial_Secret_Type_Registers_Metadata()
+    public async Task Abstract_Generic_Command_Options_Are_Ignored()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public abstract class GenericOptions<T>
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(result.GeneratedTrees.Single().ToString()).DoesNotContain("GenericOptions");
+        }
+    }
+
+    [Test]
+    public async Task Hidden_Base_Secret_Uses_Base_Accessor()
+    {
+        var result = GeneratorTestRunner.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            public class SecretBase
+            {
+                [ModularPipelines.Attributes.SecretValue]
+                public string Token { get; } = "base";
+            }
+
+            public sealed class DerivedSecrets : SecretBase
+            {
+                public new int Token { get; } = 42;
+            }
+            """);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "static instance => ((global::SecretBase)instance).@Token");
+            await Assert.That(generatedSource).DoesNotContain(
+                "static instance => ((global::DerivedSecrets)instance).@Token");
+        }
+    }
+
+    [Test]
+    public async Task Single_Declaration_Partial_Secret_Type_Reports_Error()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -356,18 +476,15 @@ public class IncompleteMetadataDiagnosticTests
             }
             """);
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains("new(\"Token\"");
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.Register(\n            typeof(global::PartialSecrets)");
-        }
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialSecrets",
+            DiagnosticSeverity.Error);
     }
 
     [Test]
-    public async Task Single_Declaration_Partial_Unannotated_Type_Registers_Empty_Metadata()
+    public async Task Single_Declaration_Partial_Unannotated_Type_Registers_Incomplete_Metadata()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -379,13 +496,14 @@ public class IncompleteMetadataDiagnosticTests
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(result.GeneratedTrees.Single().ToString()).Contains(
-                "GeneratedSecretMetadata.Register(typeof(global::PartialOptions))");
+            var generatedSource = result.GeneratedTrees.Single().ToString();
+            await Assert.That(generatedSource).Contains("RegisterIncompleteTypeNames");
+            await Assert.That(generatedSource).Contains("\"PartialOptions\"");
         }
     }
 
     [Test]
-    public async Task Single_Declaration_Partial_Command_Options_Register_Metadata()
+    public async Task Single_Declaration_Partial_Command_Options_Report_Error()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -399,19 +517,15 @@ public class IncompleteMetadataDiagnosticTests
             }
             """);
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
-        using (Assert.Multiple())
-        {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains(
-                "GeneratedCommandMetadata.Register(\n            typeof(global::PartialOptions)");
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.Register(typeof(global::PartialOptions))");
-        }
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
     }
 
     [Test]
-    public async Task Single_Declaration_Partial_Base_Allows_Complete_Derived_Metadata()
+    public async Task Single_Declaration_Partial_Base_Rejects_Derived_Metadata()
     {
         var result = GeneratorTestRunner.Run(
             new CommandOptionsGenerator(),
@@ -430,14 +544,13 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class DerivedOptions : PartialBaseOptions;
             """);
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var messages = result.Diagnostics.Select(diagnostic => diagnostic.GetMessage()).ToList();
         using (Assert.Multiple())
         {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).Contains(
-                "GeneratedCommandMetadata.Register(\n            typeof(global::DerivedOptions)");
-            await Assert.That(generatedSource).Contains(
-                "GeneratedSecretMetadata.Register(\n            typeof(global::DerivedOptions)");
+            await Assert.That(result.Diagnostics).Count().IsEqualTo(2);
+            await Assert.That(result.Diagnostics.All(diagnostic => diagnostic.Id == "MPG0006")).IsTrue();
+            await Assert.That(messages.Any(message => message.Contains("global::PartialBaseOptions"))).IsTrue();
+            await Assert.That(messages.Any(message => message.Contains("global::DerivedOptions"))).IsTrue();
         }
     }
 
@@ -500,7 +613,12 @@ public class IncompleteMetadataDiagnosticTests
             """);
 
         await Assert.That(result.Diagnostics).IsEmpty();
-        await Assert.That(result.GeneratedTrees.Single().ToString()).DoesNotContain("PartialOptions");
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(generatedSource).Contains("RegisterIncompleteTypeNames");
+            await Assert.That(generatedSource).Contains("PartialOptions");
+        }
     }
 
     [Test]
@@ -536,14 +654,15 @@ public class IncompleteMetadataDiagnosticTests
             """);
 
         var generatedSource = result.GeneratedTrees.Single().ToString();
-        var registrations = generatedSource.Split(
-            "RegisterCoveredTypeName",
+        var coveredNames = generatedSource.Split(
+            "FileOptions",
             StringSplitOptions.None).Length - 1;
 
         using (Assert.Multiple())
         {
             await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(registrations).IsEqualTo(2);
+            await Assert.That(generatedSource).Contains("RegisterCoveredTypeNames");
+            await Assert.That(coveredNames).IsEqualTo(2);
         }
     }
 

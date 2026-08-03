@@ -35,6 +35,11 @@ if (!File.Exists(FilePath)
     <_ModularPipelinesIsWindows Condition="'$(_ModularPipelinesIsWindows.Length)' == '0'">$([MSBuild]::IsOSPlatform('Windows'))</_ModularPipelinesIsWindows>
   </PropertyGroup>
 
+  <ItemGroup>
+    <CompilerVisibleProperty Include="PublishAot" />
+    <CompilerVisibleProperty Include="PublishTrimmed" />
+  </ItemGroup>
+
   <Target
     Name="_WarnUnsupportedModularPipelinesNonCSharpTrimAot"
     BeforeTargets="PrepareForPublish"

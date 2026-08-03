@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
@@ -10,9 +11,8 @@ namespace ModularPipelines.Engine;
 /// </summary>
 public static class GeneratedSecretMetadata
 {
-    private static readonly ConcurrentDictionary<Type, SecretMetadata> Accessors = new();
-    private static readonly ConcurrentDictionary<(Assembly Assembly, string MetadataName), byte> CoveredTypeNames = new();
-    private static readonly ConcurrentDictionary<Assembly, byte> ProcessedAssemblies = new();
+    private static readonly ConditionalWeakTable<Type, SecretMetadata> Accessors = new();
+    private static readonly ConditionalWeakTable<Assembly, AssemblyCoverage> AssemblyCoverageByAssembly = new();
 
     /// <summary>
     /// Registers that an assembly ran the C# metadata generator.
@@ -20,7 +20,7 @@ public static class GeneratedSecretMetadata
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void RegisterAssembly(Assembly assembly)
     {
-        ProcessedAssemblies.TryAdd(assembly, 0);
+        _ = AssemblyCoverageByAssembly.GetValue(assembly, static _ => new AssemblyCoverage());
     }
 
     /// <summary>
@@ -52,9 +52,15 @@ public static class GeneratedSecretMetadata
         IReadOnlyList<SecretPropertyAccessor> accessors,
         bool isComplete = true)
     {
-        if (!Accessors.TryAdd(declaringType, new SecretMetadata(accessors, isComplete)))
+        try
         {
-            throw new InvalidOperationException($"Secret metadata is already registered for {declaringType}.");
+            Accessors.Add(declaringType, new SecretMetadata(accessors, isComplete));
+        }
+        catch (ArgumentException exception)
+        {
+            throw new InvalidOperationException(
+                $"Secret metadata is already registered for {declaringType}.",
+                exception);
         }
     }
 
@@ -64,12 +70,47 @@ public static class GeneratedSecretMetadata
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void RegisterCoveredTypeName(Assembly assembly, string metadataName)
     {
-        CoveredTypeNames.TryAdd((assembly, metadataName), 0);
+        RegisterCoveredTypeNames(assembly, [metadataName]);
+    }
+
+    /// <summary>
+    /// Registers source coverage for types that generated code does not reference directly.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterCoveredTypeNames(
+        Assembly assembly,
+        IReadOnlyList<string> metadataNames)
+    {
+        var coverage = AssemblyCoverageByAssembly.GetValue(
+            assembly,
+            static _ => new AssemblyCoverage());
+        foreach (var metadataName in metadataNames)
+        {
+            coverage.CoveredTypeNames.TryAdd(metadataName, 0);
+        }
+    }
+
+    /// <summary>
+    /// Registers partial source types whose final runtime shape requires reflection.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterIncompleteTypeNames(
+        Assembly assembly,
+        IReadOnlyList<string> metadataNames)
+    {
+        var coverage = AssemblyCoverageByAssembly.GetValue(
+            assembly,
+            static _ => new AssemblyCoverage());
+        foreach (var metadataName in metadataNames)
+        {
+            coverage.IncompleteTypeNames.TryAdd(metadataName, 0);
+        }
     }
 
     internal static bool TryGetAccessors(Type type, out IReadOnlyList<SecretPropertyAccessor> accessors)
     {
-        if (type.IsArray || IsAnonymousType(type))
+        if (type.IsArray || type.IsEnum || typeof(Delegate).IsAssignableFrom(type)
+            || IsKnownCompilerGeneratedInfrastructure(type))
         {
             accessors = Array.Empty<SecretPropertyAccessor>();
             return true;
@@ -83,7 +124,8 @@ public static class GeneratedSecretMetadata
 
         var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
         if (metadataType.FullName is { } metadataName
-            && CoveredTypeNames.ContainsKey((type.Assembly, metadataName)))
+            && AssemblyCoverageByAssembly.TryGetValue(type.Assembly, out var coverage)
+            && coverage.CoveredTypeNames.ContainsKey(metadataName))
         {
             accessors = Array.Empty<SecretPropertyAccessor>();
             return true;
@@ -93,14 +135,39 @@ public static class GeneratedSecretMetadata
         return false;
     }
 
-    internal static bool IsAssemblyProcessed(Assembly assembly) => ProcessedAssemblies.ContainsKey(assembly);
+    internal static bool IsIncomplete(Type type)
+    {
+        var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
+        return metadataType.FullName is { } metadataName
+               && AssemblyCoverageByAssembly.TryGetValue(type.Assembly, out var coverage)
+               && coverage.IncompleteTypeNames.ContainsKey(metadataName);
+    }
 
-    private static bool IsAnonymousType(Type type) =>
-        type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false)
-        && (type.Name.StartsWith("<>f__AnonymousType", StringComparison.Ordinal)
-            || type.Name.StartsWith("VB$AnonymousType_", StringComparison.Ordinal));
+    internal static bool IsAssemblyProcessed(Assembly assembly) =>
+        AssemblyCoverageByAssembly.TryGetValue(assembly, out _);
+
+    private static bool IsKnownCompilerGeneratedInfrastructure(Type type)
+    {
+        if (!type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
+        {
+            return false;
+        }
+
+        return type.Name.StartsWith("<>f__AnonymousType", StringComparison.Ordinal)
+               || type.Name.StartsWith("VB$AnonymousType_", StringComparison.Ordinal)
+               || type.Name.StartsWith("<>c__DisplayClass", StringComparison.Ordinal)
+               || (type.Name.Contains(">d__", StringComparison.Ordinal)
+                   && typeof(IEnumerable).IsAssignableFrom(type));
+    }
 
     private sealed record SecretMetadata(IReadOnlyList<SecretPropertyAccessor> Accessors, bool IsComplete);
+
+    private sealed class AssemblyCoverage
+    {
+        public ConcurrentDictionary<string, byte> CoveredTypeNames { get; } = new(StringComparer.Ordinal);
+
+        public ConcurrentDictionary<string, byte> IncompleteTypeNames { get; } = new(StringComparer.Ordinal);
+    }
 }
 
 /// <summary>

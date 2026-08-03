@@ -1,6 +1,6 @@
-using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
@@ -10,7 +10,7 @@ namespace ModularPipelines.Helpers.Internal;
 /// <inheritdoc/>
 internal sealed class CommandModelProvider : ICommandModelProvider
 {
-    private readonly ConcurrentDictionary<Type, IReadOnlyList<PropertyCommandLinePart>> _cache = new();
+    private readonly ConditionalWeakTable<Type, CommandModel> _cache = new();
 
     /// <inheritdoc/>
     [UnconditionalSuppressMessage(
@@ -19,11 +19,12 @@ internal sealed class CommandModelProvider : ICommandModelProvider
         Justification = "Processed C# assemblies require generated metadata. Unprocessed assemblies use a reflection fallback and are not trim-safe.")]
     public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType)
     {
-        return _cache.GetOrAdd(optionsType, static type =>
+        return _cache.GetValue(optionsType, static type =>
         {
             if (!GeneratedCommandMetadata.TryGet(type, out var model))
             {
-                if (GeneratedCommandMetadata.IsAssemblyProcessed(type.Assembly))
+                if (GeneratedCommandMetadata.IsAssemblyProcessed(type.Assembly)
+                    || !RuntimeFeature.IsDynamicCodeSupported)
                 {
                     throw new MissingCommandMetadataException(type);
                 }
@@ -32,8 +33,8 @@ internal sealed class CommandModelProvider : ICommandModelProvider
             }
 
             ValidateUniqueSwitches(type, model);
-            return model;
-        });
+            return new CommandModel(model);
+        }).Value;
     }
 
     [RequiresUnreferencedCode("Assemblies without generated command metadata require reflection and are not trim-safe.")]
@@ -156,4 +157,6 @@ internal sealed class CommandModelProvider : ICommandModelProvider
             yield return shortForm;
         }
     }
+
+    private sealed record CommandModel(IReadOnlyList<PropertyCommandLinePart> Value);
 }

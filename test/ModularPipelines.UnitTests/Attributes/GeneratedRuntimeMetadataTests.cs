@@ -7,6 +7,7 @@ using ModularPipelines.Options;
 using ModularPipelines.VisualBasic.TestFixtures;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
@@ -318,6 +319,25 @@ public class GeneratedRuntimeMetadataTests
         }
     }
 
+    [Test]
+    public async Task GeneratedMetadata_DoesNotRootCollectibleAssemblies()
+    {
+        var (assemblyReference, typeReference) = RegisterCollectibleMetadata();
+
+        for (var attempt = 0; attempt < 10 && (assemblyReference.IsAlive || typeReference.IsAlive); attempt++)
+        {
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+        }
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(assemblyReference.IsAlive).IsFalse();
+            await Assert.That(typeReference.IsAlive).IsFalse();
+        }
+    }
+
     private static Type CreateDynamicType(string name)
     {
         var assembly = AssemblyBuilder.DefineDynamicAssembly(
@@ -327,6 +347,24 @@ public class GeneratedRuntimeMetadataTests
         return assembly.DefineDynamicModule("Main")
             .DefineType(name, TypeAttributes.Public)
             .CreateType()!;
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static (WeakReference Assembly, WeakReference Type) RegisterCollectibleMetadata()
+    {
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"CollectibleMetadata_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.RunAndCollect);
+        var type = assembly.DefineDynamicModule("Main")
+            .DefineType("CollectibleOptions", TypeAttributes.Public)
+            .CreateType()!;
+
+        GeneratedCommandMetadata.RegisterAssembly(assembly);
+        GeneratedCommandMetadata.Register(type, []);
+        GeneratedSecretMetadata.RegisterAssembly(assembly);
+        GeneratedSecretMetadata.Register(type, []);
+
+        return (new WeakReference(assembly), new WeakReference(type));
     }
 
     private sealed class DuplicateCommandMetadataType

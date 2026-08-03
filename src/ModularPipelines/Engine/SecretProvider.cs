@@ -34,8 +34,8 @@ namespace ModularPipelines.Engine;
 /// <threadsafety static="true" instance="true"/>
 internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 {
-    private static readonly ConcurrentDictionary<Assembly, bool> SecretAttributeReferenceCache = new();
-    private static readonly ConcurrentDictionary<Type, IReadOnlyList<SecretPropertyAccessor>> ReflectionAccessorsCache = new();
+    private static readonly ConditionalWeakTable<Assembly, SecretAttributeReference> SecretAttributeReferenceCache = new();
+    private static readonly ConditionalWeakTable<Type, ReflectionAccessors> ReflectionAccessorsCache = new();
 
     private readonly IOptionsProvider _optionsProvider;
     private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
@@ -163,11 +163,22 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         {
             if (GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly))
             {
-                throw new MissingSecretMetadataException(type);
+                if (!GeneratedSecretMetadata.IsIncomplete(type)
+                    || !RuntimeFeature.IsDynamicCodeSupported)
+                {
+                    throw new MissingSecretMetadataException(type);
+                }
+
+                secretProperties = GetReflectionAccessors(type);
             }
             else if (CanTypeHierarchyReferenceSecretValueAttribute(type))
             {
-                secretProperties = ReflectionAccessorsCache.GetOrAdd(type, GetSecretProperties);
+                if (!RuntimeFeature.IsDynamicCodeSupported)
+                {
+                    throw new MissingSecretMetadataException(type);
+                }
+
+                secretProperties = GetReflectionAccessors(type);
             }
             else
             {
@@ -253,22 +264,18 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         Justification = "Generated assemblies register themselves. Reference inspection only excludes third-party assemblies that cannot declare SecretValue properties.")]
     private static bool CanReferenceSecretValueAttribute(Assembly assembly)
     {
-        if (!RuntimeFeature.IsDynamicCodeSupported)
-        {
-            return false;
-        }
-
-        return SecretAttributeReferenceCache.GetOrAdd(assembly, static candidate =>
+        return SecretAttributeReferenceCache.GetValue(assembly, static candidate =>
         {
             var attributeAssembly = typeof(SecretValueAttribute).Assembly;
             var attributeAssemblyName = attributeAssembly.GetName().Name;
-            return candidate == attributeAssembly
-                   || candidate.GetReferencedAssemblies().Any(
-                       reference => string.Equals(
-                           reference.Name,
-                           attributeAssemblyName,
-                           StringComparison.Ordinal));
-        });
+            var referencesAttribute = candidate == attributeAssembly
+                                      || candidate.GetReferencedAssemblies().Any(
+                                          reference => string.Equals(
+                                              reference.Name,
+                                              attributeAssemblyName,
+                                              StringComparison.Ordinal));
+            return new SecretAttributeReference(referencesAttribute);
+        }).Value;
     }
 
     private static bool CanTypeHierarchyReferenceSecretValueAttribute(Type type)
@@ -296,6 +303,12 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
                 property.GetCustomAttribute<SecretValueAttribute>()!.Keys))
             .ToArray();
     }
+
+    [RequiresUnreferencedCode("Partial and non-C# types require reflection metadata.")]
+    private static IReadOnlyList<SecretPropertyAccessor> GetReflectionAccessors(Type type) =>
+        ReflectionAccessorsCache.GetValue(
+            type,
+            static candidate => new ReflectionAccessors(GetSecretProperties(candidate))).Value;
 
     private static IEnumerable<string?> NormalizeSecrets(object? value)
     {
@@ -375,4 +388,8 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
             _buildSystemSecretMasker.MaskSecrets(newPatterns);
         }
     }
+
+    private sealed record SecretAttributeReference(bool Value);
+
+    private sealed record ReflectionAccessors(IReadOnlyList<SecretPropertyAccessor> Value);
 }

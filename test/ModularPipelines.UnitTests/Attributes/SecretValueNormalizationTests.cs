@@ -42,6 +42,17 @@ internal class GeneratedCharacterSecretOptions
 
 internal sealed class GeneratedNoSecretsOptions;
 
+internal class GeneratedHiddenSecretBase
+{
+    [SecretValue]
+    public string Token { get; init; } = "hidden-base-secret";
+}
+
+internal sealed class GeneratedHiddenSecretDerived : GeneratedHiddenSecretBase
+{
+    public new int Token { get; init; } = 42;
+}
+
 public class SecretValueNormalizationTests
 {
     private sealed class PrivateNoSecretsOptions;
@@ -142,6 +153,63 @@ public class SecretValueNormalizationTests
             await Assert.That(metadataFound).IsTrue();
             await Assert.That(accessors).IsEmpty();
             await Assert.That(secrets).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task GeneratedMetadata_PreservesHiddenBaseSecret()
+    {
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(new GeneratedHiddenSecretDerived()).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["hidden-base-secret"]);
+    }
+
+    [Test]
+    public async Task IteratorOptionsAreRecognizedAsEmptyMetadata()
+    {
+        var options = GetIteratorOptions();
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(options.GetType(), out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task ClosureTargetsAreRecognizedAsEmptyMetadata()
+    {
+        var captured = "not-secret";
+        Func<string> callback = () => captured;
+        var target = callback.Target!;
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(target.GetType(), out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task EnumAndDelegateOptionsAreRecognizedAsEmptyMetadata()
+    {
+        Action callback = static () => { };
+
+        var enumFound = GeneratedSecretMetadata.TryGetAccessors(DayOfWeek.Monday.GetType(), out var enumAccessors);
+        var delegateFound = GeneratedSecretMetadata.TryGetAccessors(callback.GetType(), out var delegateAccessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(enumFound).IsTrue();
+            await Assert.That(enumAccessors).IsEmpty();
+            await Assert.That(delegateFound).IsTrue();
+            await Assert.That(delegateAccessors).IsEmpty();
         }
     }
 
@@ -281,6 +349,11 @@ public class SecretValueNormalizationTests
             nativeMasker.Object,
             Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()),
             Mock.Of<ILogger<SecretProvider>>());
+    }
+
+    private static IEnumerable<string> GetIteratorOptions()
+    {
+        yield return "not-secret";
     }
 
     private static object CreateDerivedDynamicOptions()

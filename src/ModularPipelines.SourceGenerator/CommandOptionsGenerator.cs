@@ -1,7 +1,9 @@
 using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace ModularPipelines.SourceGenerator;
 
@@ -11,6 +13,9 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
+    private const string RuntimeMetadataRegistrationFullName =
+        "ModularPipelines.Generated.RuntimeMetadataRegistration";
+
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
@@ -46,10 +51,17 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Select(static (item, _) => item!)
             .WithComparer(TypeMetadataCandidateComparer.Instance);
 
+        var externalTypeCandidates = context.CompilationProvider
+            .Combine(context.AnalyzerConfigOptionsProvider)
+            .Select(static (input, _) => GetExternalTypeCandidates(input.Left, input.Right));
         var hasRuntimeReference = context.CompilationProvider.Select(
             static (compilation, _) => compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName) is not null);
-        var candidates = typeCandidates.Collect()
+        var sourceCandidates = typeCandidates.Collect()
             .Combine(secretCandidates.Collect())
+            .Select(static (input, _) => input.Left.AddRange(input.Right));
+        var candidates = sourceCandidates
+            .Combine(externalTypeCandidates)
+            .Select(static (input, _) => input.Left.AddRange(input.Right))
             .Combine(hasRuntimeReference);
         context.RegisterSourceOutput(candidates, static (sourceContext, input) =>
         {
@@ -58,8 +70,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 return;
             }
 
-            var candidateGroups = input.Left;
-            var candidates = candidateGroups.Left.AddRange(candidateGroups.Right);
+            var candidates = input.Left;
             foreach (var skipped in candidates
                          .Where(static candidate => candidate.Metadata is null)
                          .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
@@ -84,7 +95,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         return node is ClassDeclarationSyntax
             || node is StructDeclarationSyntax
-            || node is RecordDeclarationSyntax;
+            || node is RecordDeclarationSyntax
+            || node is EnumDeclarationSyntax
+            || node is DelegateDeclarationSyntax;
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorSyntaxContext context)
@@ -106,7 +119,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static TypeMetadataCandidate? GetTypeCandidate(
         INamedTypeSymbol? type,
         Compilation compilation,
-        bool hasKnownSecretAttribute)
+        bool hasKnownSecretAttribute,
+        bool isExternal = false)
     {
         if (type is null)
         {
@@ -114,11 +128,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
+        if (isCommandOptions && type is { IsAbstract: true, IsGenericType: true })
+        {
+            return null;
+        }
+
         var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
         var location = type.Locations.FirstOrDefault() ?? Location.None;
-        var hasMultipleDeclarations = HasMultipleDeclarationsInHierarchy(type);
-        var canRegisterSecretCoverage = !hasMultipleDeclarations;
-        var canReferenceType = IsTypeAccessible(type, compilation.Assembly) && !type.IsGenericType;
+        var hasPartialDeclaration = HasPartialDeclarationInHierarchy(type);
+        var canRegisterSecretCoverage = !hasPartialDeclaration;
+        var canReferenceType = IsTypeAccessible(type, compilation.Assembly)
+                               && !HasGenericTypeInHierarchy(type)
+                               && !HasObsoleteErrorInHierarchy(type);
         if (!canReferenceType)
         {
             return GetInaccessibleTypeCandidate(
@@ -128,7 +149,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 location,
                 isCommandOptions,
                 hasKnownSecretAttribute,
-                canRegisterSecretCoverage);
+                canRegisterSecretCoverage,
+                isExternal);
         }
 
         var commandMetadata = isCommandOptions
@@ -140,9 +162,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             typeName,
             location,
             isCommandOptions,
-            hasMultipleDeclarations,
+            hasPartialDeclaration,
             commandMetadata,
-            secretMetadata);
+            secretMetadata,
+            isExternal);
     }
 
     private static TypeMetadataCandidate GetInaccessibleTypeCandidate(
@@ -152,7 +175,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         Location location,
         bool isCommandOptions,
         bool hasKnownSecretAttribute,
-        bool canRegisterSecretCoverage)
+        bool canRegisterSecretCoverage,
+        bool isExternal)
     {
         var hasSecretAttributes = hasKnownSecretAttribute
             || GetSecretProperties(type, currentAssembly).HasAttributes;
@@ -164,9 +188,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
             typeName,
             GetMetadataName(type),
-            CanReferenceType: false,
             CanRegisterCommandMetadata: false,
             CanRegisterSecretCoverage: canRegisterSecretCoverage,
+            UseTypeForEmptySecretCoverage: isExternal,
             IsCommandOptions: false,
             PropertyCollection.Empty,
             PropertyCollection.Empty));
@@ -177,19 +201,20 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string typeName,
         Location location,
         bool isCommandOptions,
-        bool hasMultipleDeclarations,
+        bool hasPartialDeclaration,
         PropertyCollection commandMetadata,
-        PropertyCollection secretMetadata)
+        PropertyCollection secretMetadata,
+        bool isExternal)
     {
-        var metadata = hasMultipleDeclarations
+        var metadata = hasPartialDeclaration
                        && (isCommandOptions || secretMetadata.HasAttributes)
             ? null
             : new TypeMetadata(
                 typeName,
                 GetMetadataName(type),
-                CanReferenceType: true,
-                CanRegisterCommandMetadata: !hasMultipleDeclarations,
-                CanRegisterSecretCoverage: !hasMultipleDeclarations,
+                CanRegisterCommandMetadata: !hasPartialDeclaration,
+                CanRegisterSecretCoverage: !hasPartialDeclaration,
+                UseTypeForEmptySecretCoverage: isExternal,
                 isCommandOptions,
                 commandMetadata,
                 secretMetadata);
@@ -257,7 +282,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         IAssemblySymbol currentAssembly)
     {
         var properties = ImmutableArray.CreateBuilder<PropertyMetadata>();
-        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        var seenPropertySlots = new HashSet<IPropertySymbol>(SymbolEqualityComparer.Default);
         var incompleteProperties = ImmutableArray.CreateBuilder<string>();
         var isComplete = true;
         var hasAttributes = false;
@@ -266,13 +291,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
             {
-                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
+                if (property.IsStatic || property.GetMethod is null)
                 {
                     continue;
                 }
 
                 var secretAttribute = FindAttribute(property, IsSecretAttribute);
                 if (secretAttribute is null)
+                {
+                    continue;
+                }
+
+                if (!seenPropertySlots.Add(GetPropertySlot(property)))
                 {
                     continue;
                 }
@@ -297,7 +327,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     "Normal",
                     0,
                     GetConstructorStrings(secretAttribute),
-                    false));
+                    false,
+                    property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)));
             }
         }
 
@@ -324,6 +355,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return null;
     }
 
+    private static IPropertySymbol GetPropertySlot(IPropertySymbol property)
+    {
+        while (property.OverriddenProperty is { } overriddenProperty)
+        {
+            property = overriddenProperty;
+        }
+
+        return property;
+    }
+
     private static PropertyMetadata CreatePropertyMetadata(IPropertySymbol property, AttributeData attribute)
     {
         var isGlobalOption = IsGlobalOption(property);
@@ -342,7 +383,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedEnumMemberName(attribute, "Phase", "Passthrough"),
                 0,
                 EquatableArray<string>.Empty,
-                isGlobalOption);
+                isGlobalOption,
+                property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -359,7 +401,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedEnumMemberName(attribute, "Phase", "Normal"),
                 0,
                 EquatableArray<string>.Empty,
-                isGlobalOption);
+                isGlobalOption,
+                property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
         }
 
         return new PropertyMetadata(
@@ -374,7 +417,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedEnumMemberName(attribute, "Phase", "Normal"),
             GetNamedInt(attribute, "ValueArity"),
             EquatableArray<string>.Empty,
-            isGlobalOption);
+            isGlobalOption,
+            property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
     }
 
     private static bool IsGlobalOption(IPropertySymbol property)
@@ -402,7 +446,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         sb.AppendLine("// <auto-generated/>");
         sb.AppendLine("#nullable enable");
-        sb.AppendLine("#pragma warning disable CS0618 // Generated metadata must register obsolete types.");
+        sb.AppendLine("#pragma warning disable CS0612, CS0618 // Generated metadata must register obsolete types.");
         sb.AppendLine();
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
@@ -415,6 +459,17 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("        var assembly = global::System.Reflection.Assembly.GetExecutingAssembly();");
         sb.AppendLine("        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.RegisterAssembly(assembly);");
         sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterAssembly(assembly);");
+        AppendTypeNameRegistration(
+            sb,
+            "RegisterCoveredTypeNames",
+            uniqueItems.Where(item => item.CanRegisterSecretCoverage
+                                      && item.SecretMetadata.IsComplete
+                                      && item.SecretMetadata.Properties.Count == 0
+                                      && !item.UseTypeForEmptySecretCoverage));
+        AppendTypeNameRegistration(
+            sb,
+            "RegisterIncompleteTypeNames",
+            uniqueItems.Where(item => !item.CanRegisterSecretCoverage));
         foreach (var item in uniqueItems)
         {
             if (item.IsCommandOptions
@@ -433,6 +488,29 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("    }");
         sb.AppendLine("}");
         return sb.ToString();
+    }
+
+    private static void AppendTypeNameRegistration(
+        StringBuilder sb,
+        string methodName,
+        IEnumerable<TypeMetadata> items)
+    {
+        var metadataNames = items.Select(item => item.MetadataName).ToList();
+        if (metadataNames.Count == 0)
+        {
+            return;
+        }
+
+        sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{methodName}(");
+        sb.AppendLine("            assembly,");
+        sb.AppendLine("            new string[]");
+        sb.AppendLine("            {");
+        foreach (var metadataName in metadataNames)
+        {
+            sb.AppendLine($"                {Literal(metadataName)},");
+        }
+
+        sb.AppendLine("            });");
     }
 
     private static void ReportIncompleteMetadata(
@@ -474,7 +552,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         foreach (var property in item.CommandMetadata.Properties)
         {
-            var getter = $"static instance => (({item.TypeName})instance).@{property.Name}";
+            var getter = $"static instance => (({property.AccessorTypeName})instance).@{property.Name}";
             switch (property.Kind)
             {
                 case PropertyKind.Argument:
@@ -525,14 +603,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         if (item.SecretMetadata.Properties.Count == 0)
         {
-            if (item.CanReferenceType)
+            if (item.UseTypeForEmptySecretCoverage)
             {
                 sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(typeof({item.TypeName}));");
-            }
-            else
-            {
-                sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterCoveredTypeName(");
-                sb.AppendLine($"            assembly, {Literal(item.MetadataName)});");
             }
 
             return;
@@ -545,7 +618,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         foreach (var property in item.SecretMetadata.Properties)
         {
-            sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({item.TypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)}),");
+            sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({property.AccessorTypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)}),");
         }
 
         sb.AppendLine("            });");
@@ -563,6 +636,81 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         return false;
     }
+
+    private static ImmutableArray<TypeMetadataCandidate> GetExternalTypeCandidates(
+        Compilation compilation,
+        AnalyzerConfigOptionsProvider optionsProvider)
+    {
+        if (!IsTrimOrAotEnabled(optionsProvider)
+            || compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName)?.ContainingAssembly is not { } runtimeAssembly)
+        {
+            return [];
+        }
+
+        var candidates = ImmutableArray.CreateBuilder<TypeMetadataCandidate>();
+        foreach (var assembly in compilation.SourceModule.ReferencedAssemblySymbols)
+        {
+            if (SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
+                || assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName) is not null
+                || !assembly.Modules.Any(module => module.ReferencedAssemblySymbols.Any(
+                    referenced => SymbolEqualityComparer.Default.Equals(referenced, runtimeAssembly))))
+            {
+                continue;
+            }
+
+            foreach (var type in GetTypes(assembly.GlobalNamespace))
+            {
+                var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
+                var hasSecretAttributes = GetSecretProperties(type, compilation.Assembly).HasAttributes;
+                if ((!isCommandOptions && !hasSecretAttributes)
+                    || (type.IsAbstract && type.IsGenericType))
+                {
+                    continue;
+                }
+
+                if (GetTypeCandidate(
+                        type,
+                        compilation,
+                        hasSecretAttributes,
+                        isExternal: true) is { } candidate)
+                {
+                    candidates.Add(candidate);
+                }
+            }
+        }
+
+        return candidates.ToImmutable();
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetTypes(INamespaceOrTypeSymbol container)
+    {
+        foreach (var member in container.GetMembers())
+        {
+            if (member is INamespaceSymbol namespaceSymbol)
+            {
+                foreach (var type in GetTypes(namespaceSymbol))
+                {
+                    yield return type;
+                }
+            }
+            else if (member is INamedTypeSymbol typeSymbol)
+            {
+                yield return typeSymbol;
+                foreach (var nestedType in GetTypes(typeSymbol))
+                {
+                    yield return nestedType;
+                }
+            }
+        }
+    }
+
+    private static bool IsTrimOrAotEnabled(AnalyzerConfigOptionsProvider optionsProvider) =>
+        IsEnabled(optionsProvider, "build_property.PublishTrimmed")
+        || IsEnabled(optionsProvider, "build_property.PublishAot");
+
+    private static bool IsEnabled(AnalyzerConfigOptionsProvider optionsProvider, string key) =>
+        optionsProvider.GlobalOptions.TryGetValue(key, out var value)
+        && string.Equals(value, "true", StringComparison.OrdinalIgnoreCase);
 
     private static string GetMetadataName(INamedTypeSymbol type)
     {
@@ -592,11 +740,43 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return true;
     }
 
-    private static bool HasMultipleDeclarationsInHierarchy(INamedTypeSymbol type)
+    private static bool HasPartialDeclarationInHierarchy(INamedTypeSymbol type)
     {
         for (var current = type; current is not null; current = current.BaseType)
         {
-            if (current.DeclaringSyntaxReferences.Length > 1)
+            if (current.DeclaringSyntaxReferences.Any(reference =>
+                    reference.GetSyntax() is TypeDeclarationSyntax declaration
+                    && declaration.Modifiers.Any(SyntaxKind.PartialKeyword)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HasGenericTypeInHierarchy(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            if (current.IsGenericType)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HasObsoleteErrorInHierarchy(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            var obsoleteAttribute = current.GetAttributes().FirstOrDefault(attribute =>
+                attribute.AttributeClass?.ToDisplayString() == "System.ObsoleteAttribute");
+            if (obsoleteAttribute is not null
+                && obsoleteAttribute.ConstructorArguments.Length > 1
+                && obsoleteAttribute.ConstructorArguments[1].Value is true)
             {
                 return true;
             }
@@ -707,9 +887,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private sealed record TypeMetadata(
         string TypeName,
         string MetadataName,
-        bool CanReferenceType,
         bool CanRegisterCommandMetadata,
         bool CanRegisterSecretCoverage,
+        bool UseTypeForEmptySecretCoverage,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
         PropertyCollection SecretMetadata);
@@ -771,7 +951,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string Phase,
         int ValueArity,
         EquatableArray<string> SecretValueKeys,
-        bool IsGlobalOption);
+        bool IsGlobalOption,
+        string AccessorTypeName);
 
     private enum PropertyKind
     {
