@@ -161,27 +161,11 @@ public sealed class ModularPipelinesIntegrationGenerator : IIncrementalGenerator
 
     private static string GetGeneratedTypeName(string? assemblyName)
     {
-        var name = assemblyName ?? "Integration";
-        var builder = new StringBuilder(name.Length + 15);
-
-        if (name.Length == 0 || !IsIdentifierStart(name[0]))
-        {
-            builder.Append('_');
-        }
-
-        foreach (var character in name)
-        {
-            builder.Append(IsIdentifierPart(character) ? character : '_');
-        }
-
-        return builder.Append("ToolsExtensions").ToString();
+        return GeneratedTypeName.FromAssembly(
+            assemblyName,
+            "Integration",
+            "ToolsExtensions");
     }
-
-    private static bool IsIdentifierStart(char character) =>
-        character == '_' || char.IsLetter(character);
-
-    private static bool IsIdentifierPart(char character) =>
-        character == '_' || char.IsLetterOrDigit(character);
 
     private static bool IsAccessibleFromGeneratedRegistrar(INamedTypeSymbol type)
     {
