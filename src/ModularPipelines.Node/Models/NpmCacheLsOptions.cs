@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("cache", "ls")]
+[CliSubCommand("cache", "ls")]
 public record NpmCacheLsOptions : NpmOptions
 {
     [CliOption("--cache")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("pkg", "delete")]
+[CliSubCommand("pkg", "delete")]
 public record NpmPkgDeleteOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Key
 ) : NpmOptions

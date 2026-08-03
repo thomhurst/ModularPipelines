@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hook", "ls")]
+[CliSubCommand("hook", "ls")]
 public record NpmHookLsOptions : NpmOptions
 {
     [CliOption("--registry")]

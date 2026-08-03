@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("exec", "--")]
+[CliSubCommand("exec", "--")]
 public record NpmExecOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value,
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Cmd

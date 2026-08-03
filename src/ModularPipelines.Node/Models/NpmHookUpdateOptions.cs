@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hook", "update")]
+[CliSubCommand("hook", "update")]
 public record NpmHookUpdateOptions(
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Id,
     [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Url,
