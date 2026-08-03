@@ -15,6 +15,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
     private const string RuntimeMetadataRegistrationFullName =
         "ModularPipelines.Generated.RuntimeMetadataRegistration";
+    private const string RuntimeMetadataSchemaVersionFieldName = "SchemaVersion";
+    private const int RuntimeMetadataSchemaVersion = 1;
 
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
@@ -496,6 +498,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine();
         sb.AppendLine("internal static class RuntimeMetadataRegistration");
         sb.AppendLine("{");
+        sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
+        sb.AppendLine();
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
         sb.AppendLine("    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]");
         sb.AppendLine("    internal static void Register()");
@@ -734,11 +738,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static bool RequiresExternalMetadata(IAssemblySymbol assembly, IAssemblySymbol runtimeAssembly) =>
         !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
-        && assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName) is null
+        && !HasCurrentRuntimeMetadata(assembly)
         && ReferencesAssembly(
             assembly,
             runtimeAssembly,
             new HashSet<IAssemblySymbol>(SymbolEqualityComparer.Default));
+
+    private static bool HasCurrentRuntimeMetadata(IAssemblySymbol assembly) =>
+        assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName)?
+            .GetMembers(RuntimeMetadataSchemaVersionFieldName)
+            .OfType<IFieldSymbol>()
+            .Any(field => field.IsConst
+                          && field.ConstantValue is int version
+                          && version >= RuntimeMetadataSchemaVersion) is true;
 
     private static bool ReferencesAssembly(
         IAssemblySymbol assembly,

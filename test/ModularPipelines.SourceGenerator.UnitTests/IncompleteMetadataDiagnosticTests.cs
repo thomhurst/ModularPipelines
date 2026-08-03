@@ -156,6 +156,82 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Rescans_Legacy_Metadata_Marker()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration;
+            }
+
+            namespace External
+            {
+                public class LegacyOptions
+                    : ModularPipelines.Options.CommandLineToolOptions
+                {
+                    [ModularPipelines.Attributes.SecretValue]
+                    protected string Token { get; } = "";
+                }
+            }
+            """,
+            "public sealed class TrimmedHost;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var diagnostic = result.Diagnostics.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0004");
+            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
+            await Assert.That(diagnostic.GetMessage()).Contains("global::External.LegacyOptions");
+        }
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Trusts_Current_Metadata_Marker()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration
+                {
+                    public const int SchemaVersion = 1;
+                }
+            }
+
+            namespace External
+            {
+                public class CurrentOptions
+                    : ModularPipelines.Options.CommandLineToolOptions
+                {
+                    [ModularPipelines.Attributes.SecretValue]
+                    protected string Token { get; } = "";
+                }
+            }
+            """,
+            "public sealed class TrimmedHost;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).DoesNotContain("global::External.CurrentOptions");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Generates_Metadata_For_Indirectly_Derived_Options()
     {
         var result = GeneratorTestHarness.RunWithIndirectExternalAssembly(

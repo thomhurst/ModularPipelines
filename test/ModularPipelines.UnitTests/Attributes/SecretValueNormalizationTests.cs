@@ -211,6 +211,22 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
+    public async Task NoncapturingLambdaTargetsAreRecognizedAsEmptyMetadata()
+    {
+        Func<string> callback = () => "not-secret";
+        var target = callback.Target!;
+
+        var metadataFound = GeneratedSecretMetadata.TryGetAccessors(target.GetType(), out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(target.GetType().Name).IsEqualTo("<>c");
+            await Assert.That(metadataFound).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task EnumAndDelegateOptionsAreRecognizedAsEmptyMetadata()
     {
         Action callback = static () => { };

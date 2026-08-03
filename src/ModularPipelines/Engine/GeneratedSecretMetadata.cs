@@ -193,6 +193,7 @@ public static class GeneratedSecretMetadata
 
         return type.Name.StartsWith("<>f__AnonymousType", StringComparison.Ordinal)
                || type.Name.StartsWith("VB$AnonymousType_", StringComparison.Ordinal)
+               || type.Name == "<>c"
                || type.Name.StartsWith("<>c__DisplayClass", StringComparison.Ordinal)
                || (type.Name.Contains(">d__", StringComparison.Ordinal)
                    && IsIteratorStateMachine(type));
