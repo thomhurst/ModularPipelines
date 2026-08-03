@@ -146,7 +146,9 @@ internal class ArtifactLifecycleManager
         IReadOnlyList<string> resolvedPaths,
         CancellationToken cancellationToken)
     {
-        if (resolvedPaths.Count == 1 && Directory.Exists(resolvedPaths[0]))
+        if (resolvedPaths.Count == 1
+            && Directory.Exists(resolvedPaths[0])
+            && pathPattern.IndexOfAny(['*', '?']) < 0)
         {
             return UploadDirectoryAsync(descriptor, resolvedPaths[0], cancellationToken);
         }

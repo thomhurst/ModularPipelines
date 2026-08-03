@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -12,6 +13,13 @@ public class ProducerModule : Module<string>
 {
     protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
         => Task.FromResult<string>("done");
+}
+
+[ProducesArtifact("single-glob-output", "single-match-*")]
+public class SingleGlobProducerModule : Module<string>
+{
+    protected internal override Task<string> ExecuteAsync(Context.IModuleContext context, CancellationToken cancellationToken)
+        => Task.FromResult("done");
 }
 
 [ConsumesArtifact(typeof(ProducerModule), "build-output", RestorePath = "restored")]
@@ -37,6 +45,60 @@ public class DifferentPathConsumerModule : Module<string>
 
 public class ArtifactLifecycleManagerTests
 {
+    [Test]
+    public async Task UploadProducedArtifacts_Preserves_Single_Glob_Directory_Root()
+    {
+        var workingDirectory = Directory.CreateTempSubdirectory("artifact-single-glob-test-");
+        var matchedDirectory = Path.Combine(workingDirectory.FullName, "single-match-directory");
+        Directory.CreateDirectory(Path.Combine(matchedDirectory, "empty-child"));
+        File.WriteAllText(Path.Combine(matchedDirectory, "output.txt"), "hello");
+
+        IReadOnlyList<string>? archivedEntries = null;
+        var expectedReference = new ArtifactReference(
+            "id1",
+            "single-glob-output",
+            typeof(SingleGlobProducerModule).FullName!,
+            100,
+            "application/zip",
+            DateTimeOffset.UtcNow);
+        var mockStore = new Mock<IDistributedArtifactStore>();
+        mockStore
+            .Setup(store => store.UploadAsync(
+                It.IsAny<ArtifactDescriptor>(),
+                It.IsAny<Stream>(),
+                It.IsAny<CancellationToken>()))
+            .Returns((ArtifactDescriptor _, Stream stream, CancellationToken _) =>
+            {
+                using var archive = new ZipArchive(stream, ZipArchiveMode.Read, leaveOpen: true);
+                archivedEntries = [.. archive.Entries.Select(entry => entry.FullName)];
+                return Task.FromResult(expectedReference);
+            });
+
+        var manager = new ArtifactLifecycleManager(
+            mockStore.Object,
+            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
+            Mock.Of<ILogger<ArtifactLifecycleManager>>(),
+            workingDirectory.FullName);
+
+        try
+        {
+            await manager.UploadProducedArtifactsAsync(
+                typeof(SingleGlobProducerModule),
+                CancellationToken.None);
+
+            await Assert.That(archivedEntries).IsEquivalentTo(
+            [
+                "single-match-directory/",
+                "single-match-directory/empty-child/",
+                "single-match-directory/output.txt",
+            ]);
+        }
+        finally
+        {
+            workingDirectory.Delete(recursive: true);
+        }
+    }
+
     [Test]
     public async Task UploadProducedArtifacts_Scans_Attributes()
     {
