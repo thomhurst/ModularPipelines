@@ -28,6 +28,7 @@ internal sealed class PipelineImpl : IPipeline
     private readonly IDisposable _shutdownRegistration;
     private readonly object _disposeLock = new();
     private readonly AsyncLocal<DisposalOwnership?> _disposalOwnership = new();
+    private int _isSynchronousContainerDisposalActive;
     private Task? _disposeTask;
 
     private PipelineImpl(IHost host)
@@ -123,6 +124,7 @@ internal sealed class PipelineImpl : IPipeline
             if (_disposeTask is not null)
             {
                 return _disposalOwnership.Value?.IsActive == true
+                    || Volatile.Read(ref _isSynchronousContainerDisposalActive) == 1
                     ? ValueTask.CompletedTask
                     : new ValueTask(_disposeTask);
             }
@@ -164,7 +166,18 @@ internal sealed class PipelineImpl : IPipeline
             Exception? scopeException = null;
             try
             {
-                await _serviceScope.DisposeAsync().ConfigureAwait(false);
+                ValueTask scopeDisposal;
+                Volatile.Write(ref _isSynchronousContainerDisposalActive, 1);
+                try
+                {
+                    scopeDisposal = _serviceScope.DisposeAsync();
+                }
+                finally
+                {
+                    Volatile.Write(ref _isSynchronousContainerDisposalActive, 0);
+                }
+
+                await scopeDisposal.ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -173,7 +186,18 @@ internal sealed class PipelineImpl : IPipeline
 
             try
             {
-                await Disposer.DisposeObjectAsync(_host).ConfigureAwait(false);
+                Task hostDisposal;
+                Volatile.Write(ref _isSynchronousContainerDisposalActive, 1);
+                try
+                {
+                    hostDisposal = Disposer.DisposeObjectAsync(_host);
+                }
+                finally
+                {
+                    Volatile.Write(ref _isSynchronousContainerDisposalActive, 0);
+                }
+
+                await hostDisposal.ConfigureAwait(false);
             }
             catch (Exception hostException) when (scopeException is not null)
             {
