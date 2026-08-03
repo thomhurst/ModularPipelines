@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Text.RegularExpressions;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -72,18 +71,11 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
                 return;
             }
 
-            // Parse owner and repository name from the remote URL
             var endpoint = "github";
-            var sshPattern = $@"git@{endpoint}\.com:(?<owner>.+)/(?<name>.+)\.git";
-            var httpsPattern = $@"https://(.*@)?{endpoint}\.com/(?<owner>.+)/(?<name>.+)(\.git)?";
-
-            var match = Regex.Match(remoteUrl, sshPattern);
-            if (!match.Success)
-            {
-                match = Regex.Match(remoteUrl, httpsPattern);
-            }
-
-            if (!match.Success)
+            if (!GitHubRepositoryUrlParser.TryParse(
+                    remoteUrl,
+                    out var owner,
+                    out var repositoryName))
             {
                 // Will not initialize as git repo is not setup
                 return;
@@ -91,8 +83,8 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
             Url = remoteUrl;
             Endpoint = endpoint;
-            Owner = match.Groups["owner"].Value;
-            RepositoryName = match.Groups["name"].Value;
+            Owner = owner;
+            RepositoryName = repositoryName;
 
             IsInitialized = true;
         }
