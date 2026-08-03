@@ -17,5 +17,4 @@ public class GeneratedOptionsSmokeTests
 
         await Assert.That(result.OptionsTypesTested).IsGreaterThan(0);
     }
-
 }
