@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace ModularPipelines.Analyzers;
 
@@ -53,7 +54,10 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return;
         }
 
-        if (HasCompatibleExecutionOverride(replacement, ReplacementType.List))
+        if (await HasCompatibleExecutionOverride(
+                replacement,
+                ReplacementType.List,
+                context.CancellationToken).ConfigureAwait(false))
         {
             context.RegisterCodeFix(
                 CodeAction.Create(
@@ -63,7 +67,10 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
                 diagnostic);
         }
 
-        if (HasCompatibleExecutionOverride(replacement, ReplacementType.Array))
+        if (await HasCompatibleExecutionOverride(
+                replacement,
+                ReplacementType.Array,
+                context.CancellationToken).ConfigureAwait(false))
         {
             context.RegisterCodeFix(
                 CodeAction.Create(
@@ -169,6 +176,7 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
         }
 
         return new ReplacementContext(
+            document,
             documentRoot,
             semanticModel,
             candidate,
@@ -219,9 +227,10 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             .TypeArgumentList.Arguments.FirstOrDefault();
     }
 
-    private static bool HasCompatibleExecutionOverride(
+    private static async Task<bool> HasCompatibleExecutionOverride(
         ReplacementContext replacement,
-        ReplacementType replacementType)
+        ReplacementType replacementType,
+        CancellationToken cancellationToken)
     {
         var containingTypeSymbol = replacement.EnumerableType
             .Ancestors()
@@ -234,12 +243,22 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return false;
         }
 
-        if (HasResultDependentHookOverride(containingTypeSymbol))
+        var derivedTypes = await SymbolFinder.FindDerivedClassesAsync(
+                containingTypeSymbol,
+                replacement.Document.Project.Solution,
+                transitive: true,
+                projects: null,
+                cancellationToken)
+            .ConfigureAwait(false);
+        var affectedTypes = derivedTypes.Prepend(containingTypeSymbol).ToArray();
+        if (affectedTypes.Any(HasResultDependentHookOverride))
         {
             return false;
         }
 
-        var executionOverrides = GetExecutionOverrides(containingTypeSymbol);
+        var executionOverrides = affectedTypes
+            .SelectMany(GetExecutionOverrides)
+            .ToArray();
         if (executionOverrides.Length == 0)
         {
             return true;
@@ -313,12 +332,15 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
     }
 
     private sealed class ReplacementContext(
+        Document document,
         SyntaxNode documentRoot,
         SemanticModel semanticModel,
         TypeSyntax enumerableType,
         TypeSyntax elementType,
         ITypeSymbol elementTypeSymbol)
     {
+        public Document Document { get; } = document;
+
         public SyntaxNode DocumentRoot { get; } = documentRoot;
 
         public SemanticModel SemanticModel { get; } = semanticModel;

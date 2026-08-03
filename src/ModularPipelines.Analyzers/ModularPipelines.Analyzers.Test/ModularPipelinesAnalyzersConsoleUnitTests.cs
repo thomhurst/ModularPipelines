@@ -55,6 +55,24 @@ public class Module1 : Module<List<string>>
         @"Console.WriteLine(value: ""Done!"")",
         markDiagnostic: false);
 
+    private const string DynamicConsoleArgumentSource = $@"
+{TestSourceConstants.StandardUsings}
+
+namespace AnalyzerExamples;
+
+public class Module1 : Module<List<string>>
+{{
+    protected override Task<List<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        dynamic message = ""Done!"";
+        {{|#0:Console.WriteLine(message)|}};
+        return Task.FromResult<List<string>?>([]);
+    }}
+}}
+";
+
     private const string UsingStaticConsoleSource = $@"
 {TestSourceConstants.StandardUsings}
 using static System.Console;
@@ -79,6 +97,14 @@ public class Module1 : Module<List<string>>
         var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyAnalyzerAsync(ConsoleInvocationReceiverSource, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerReportsConsoleInvocationWithDynamicArgument()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(DynamicConsoleArgumentSource, expected);
     }
 
     private const string CustomConsoleSource = $@"

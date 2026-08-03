@@ -173,6 +173,24 @@ public class Module1 : SyncModule<IEnumerable<string>>
 }}
 ";
 
+    private const string AbstractModuleWithDerivedExecutionSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public abstract class BaseModule : Module<IEnumerable<string>>
+{{
+}}
+
+public class DerivedModule : BaseModule
+{{
+    protected override Task<IEnumerable<string>?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {{
+        return Task.FromResult<IEnumerable<string>?>([]);
+    }}
+}}
+";
+
     private const string CollidingListSource = @"
 #nullable enable
 using System.Collections.Generic;
@@ -267,6 +285,14 @@ public class Module1 : global::ModularPipelines.Modules.SyncModule<global::Syste
     {
         await VerifyCodeFixCS.VerifyNoCodeFixAsync(
             ResultHookSyncModuleSource,
+            EnumerableModuleResultAnalyzer.DiagnosticId);
+    }
+
+    [TestMethod]
+    public async Task CodeFixIsNotOfferedWhenDerivedExecutionReturnWouldBecomeInvalid()
+    {
+        await VerifyCodeFixCS.VerifyNoCodeFixAsync(
+            AbstractModuleWithDerivedExecutionSource,
             EnumerableModuleResultAnalyzer.DiagnosticId);
     }
 

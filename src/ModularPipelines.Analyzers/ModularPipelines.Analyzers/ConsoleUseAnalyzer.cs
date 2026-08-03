@@ -37,20 +37,16 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (context.SemanticModel.GetSymbolInfo(
-                invocationExpressionSyntax,
-                context.CancellationToken).Symbol is not IMethodSymbol methodSymbol)
-        {
-            return;
-        }
-
         var consoleType = context.Compilation.GetTypeByMetadataName(
             AnalyzerConstants.FullyQualifiedTypeNames.SystemConsole);
+        var symbolInfo = context.SemanticModel.GetSymbolInfo(
+            invocationExpressionSyntax,
+            context.CancellationToken);
         if (consoleType is not null
             && IsConsoleUse(
                 context,
                 invocationExpressionSyntax,
-                methodSymbol,
+                symbolInfo,
                 consoleType))
         {
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(),
@@ -61,10 +57,17 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
     private static bool IsConsoleUse(
         SyntaxNodeAnalysisContext context,
         InvocationExpressionSyntax invocation,
-        IMethodSymbol method,
+        SymbolInfo symbolInfo,
         INamedTypeSymbol consoleType)
     {
-        if (SymbolEqualityComparer.Default.Equals(method.ContainingType, consoleType))
+        var resolvedMethodIsConsole = symbolInfo.Symbol is IMethodSymbol method
+            && SymbolEqualityComparer.Default.Equals(method.ContainingType, consoleType);
+        var candidateMethodIsConsole = symbolInfo.CandidateSymbols
+            .OfType<IMethodSymbol>()
+            .Any(candidate => SymbolEqualityComparer.Default.Equals(
+                candidate.ContainingType,
+                consoleType));
+        if (resolvedMethodIsConsole || candidateMethodIsConsole)
         {
             return true;
         }
