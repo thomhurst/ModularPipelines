@@ -80,7 +80,8 @@ internal sealed class Command : ICommandContext
         using var linkedCancellationToken =
             CreateLinkedCancellationToken(timeoutCancellationToken, cancellationToken);
         var inputToLog = new Lazy<string>(() => GetInputToLog(commandInput, execOpts));
-        using var activity = ModuleActivityTracing.StartCommandActivity(tool);
+        var obfuscatedTool = _secretObfuscator.Obfuscate(tool, execOpts);
+        using var activity = ModuleActivityTracing.StartCommandActivity(obfuscatedTool);
         RecordTelemetryCommandInput(activity, inputToLog, execOpts);
 
         try

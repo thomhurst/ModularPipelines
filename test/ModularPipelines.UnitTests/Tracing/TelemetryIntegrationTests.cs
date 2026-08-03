@@ -23,6 +23,8 @@ namespace ModularPipelines.UnitTests.Tracing;
 public class TelemetryIntegrationTests
 {
     private const string Secret = "telemetry-secret-value";
+    private const string SecretTool = "telemetry-" + Secret + "-tool";
+    private const string ObfuscatedTool = "telemetry-**********-tool";
     private const string UnregisteredSensitiveArgument = "unregistered-sensitive-argument";
     private static int _inputManipulatorInvocations;
 
@@ -54,7 +56,7 @@ public class TelemetryIntegrationTests
         {
             context.Services.Get<ISecretRegistry>().AddSecret(Secret);
             return await context.Shell.Command.ExecuteCommandLineToolAsync(
-                new GenericCommandLineToolOptions("telemetry-tool")
+                new GenericCommandLineToolOptions(SecretTool)
                 {
                     Arguments = [Secret],
                 },
@@ -161,7 +163,8 @@ public class TelemetryIntegrationTests
 
         var pipelineActivity = stoppedActivities.Single(activity => activity.OperationName == "Pipeline.Run");
         var moduleActivity = stoppedActivities.Single(activity => activity.OperationName == $"Module.{nameof(CommandModule)}");
-        var commandActivity = stoppedActivities.Single(activity => activity.OperationName == "Command.telemetry-tool");
+        var commandActivity = stoppedActivities.Single(activity =>
+            activity.OperationName == $"Command.{ObfuscatedTool}");
         var commandInput = commandActivity.GetTagItem(ModuleActivityTracing.CommandInputTag)?.ToString();
 
         using (Assert.Multiple())
@@ -169,7 +172,8 @@ public class TelemetryIntegrationTests
             await Assert.That(moduleActivity.ParentSpanId).IsEqualTo(pipelineActivity.SpanId);
             await Assert.That(commandActivity.ParentSpanId).IsEqualTo(moduleActivity.SpanId);
             await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.CommandToolTag))
-                .IsEqualTo("telemetry-tool");
+                .IsEqualTo(ObfuscatedTool);
+            await Assert.That(commandActivity.OperationName).DoesNotContain(Secret);
             await Assert.That(commandActivity.GetTagItem(ModuleActivityTracing.CommandExitCodeTag))
                 .IsEqualTo(0);
             await Assert.That(commandInput).Contains("**********");
@@ -270,7 +274,7 @@ public class TelemetryIntegrationTests
         var failureActivities = stoppedActivities.Where(activity =>
                 activity.OperationName is "Pipeline.Run"
                     or $"Module.{nameof(CommandModule)}"
-                    or "Command.telemetry-tool")
+                    or $"Command.{ObfuscatedTool}")
             .ToArray();
 
         await Assert.That(failureActivities).Count().IsEqualTo(3);
