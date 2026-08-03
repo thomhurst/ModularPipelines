@@ -33,10 +33,20 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
 
         return renderedPhases
-            .OrderBy(pair => pair.Key)
+            .OrderBy(pair => GetRenderOrder(pair.Key))
             .SelectMany(pair => pair.Value)
             .ToList();
     }
+
+    private static int GetRenderOrder(CommandLinePhase phase) => phase switch
+    {
+        CommandLinePhase.EarlyOperand => 0,
+        CommandLinePhase.Normal => 1,
+        CommandLinePhase.EndOfOptions => 2,
+        CommandLinePhase.Passthrough => 3,
+        CommandLinePhase.Terminal => 4,
+        _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
+    };
 
     private static List<string> RenderPhase(
         CommandLinePhase phase,
