@@ -534,7 +534,10 @@ internal class ModuleRunner : IModuleRunner
         await _pipelineSetupExecutor.OnModuleStartAsync(moduleState).ConfigureAwait(false);
 
         var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
-        await _mediator.Publish(new ModuleStartedNotification(moduleState, estimatedDuration)).ConfigureAwait(false);
+        await _mediator.Publish(
+                new ModuleStartedNotification(moduleState, estimatedDuration),
+                CancellationToken.None)
+            .ConfigureAwait(false);
 
         using var semaphoreHandle = await _parallelLimitHandler.AcquireParallelLimitAsync(moduleType).ConfigureAwait(false);
         using var executionTypeHandle = await _parallelLimitHandler.AcquireExecutionTypeLimitAsync(moduleState).ConfigureAwait(false);
@@ -556,84 +559,18 @@ internal class ModuleRunner : IModuleRunner
 
         try
         {
-            // Invoke OnModuleReady lifecycle event (dependencies satisfied, about to execute)
-            await _lifecycleEventInvoker.InvokeReadyEventAsync(lifecycleContext).ConfigureAwait(false);
-
-            // Invoke OnModuleStart lifecycle event
-            await _lifecycleEventInvoker.InvokeStartEventAsync(lifecycleContext).ConfigureAwait(false);
-
-            // Execute through generated typed metadata when available.
-            var result = await ExecuteTypedModule(
-                    module,
+            await ExecuteModuleBodyAsync(
+                    moduleState,
                     scheduler,
                     executionContext,
                     moduleContext,
+                    lifecycleContext,
                     cancellationToken)
                 .ConfigureAwait(false);
-
-            moduleState.Result = result;
-            _resultRegistry.RegisterResult(moduleType, result);
-
-            if (executionContext.Status == Enums.Status.Skipped)
-            {
-                // Invoke OnModuleSkipped lifecycle event
-                await _lifecycleEventInvoker.InvokeSkippedEventAsync(lifecycleContext, Enums.Status.Skipped, executionContext.SkipResult!).ConfigureAwait(false);
-
-                await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState).ConfigureAwait(false);
-                await _mediator.Publish(new ModuleSkippedNotification(moduleState, executionContext.SkipResult)).ConfigureAwait(false);
-                return;
-            }
-
-            if (executionContext.Status is Enums.Status.Successful or Enums.Status.IgnoredFailure)
-            {
-                await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration).ConfigureAwait(false);
-            }
-
-            await _pipelineSetupExecutor.OnModuleEndAsync(moduleState).ConfigureAwait(false);
-
-            // Invoke OnModuleEnd lifecycle event
-            await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
-
-            if (_manageArtifactsLocally
-                && executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory)
-            {
-                try
-                {
-                    await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken)
-                        .ConfigureAwait(false);
-                }
-                catch (Exception exception) when (exception is not ModuleFailedException)
-                {
-                    throw new ModuleFailedException(moduleType, exception);
-                }
-            }
-
-            var isSuccessful = executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory;
-            await _mediator.Publish(new ModuleCompletedNotification(moduleState, isSuccessful)).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            // Even when an exception is thrown, we need to register the result if one was set
-            if (executionContext.ExecutionTask.IsCompleted && !executionContext.ExecutionTask.IsFaulted && !executionContext.ExecutionTask.IsCanceled)
-            {
-                // Use GetAwaiter().GetResult() instead of .Result to avoid wrapping in AggregateException
-                var result = executionContext.ExecutionTask.GetAwaiter().GetResult();
-                moduleState.Result = result;
-                _resultRegistry.RegisterResult(moduleType, result);
-            }
-
-            try
-            {
-                // Invoke OnModuleFailed lifecycle event
-                await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, ex).ConfigureAwait(false);
-
-                await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
-            }
-            finally
-            {
-                await _mediator.Publish(new ModuleCompletedNotification(moduleState, false)).ConfigureAwait(false);
-            }
-
+            await HandleModuleFailureAsync(moduleState, executionContext, lifecycleContext, ex).ConfigureAwait(false);
             throw;
         }
         finally
@@ -645,6 +582,108 @@ internal class ModuleRunner : IModuleRunner
             {
                 await _moduleDisposer.DisposeAsync(moduleState).ConfigureAwait(false);
             }
+        }
+    }
+
+    private async Task ExecuteModuleBodyAsync(
+        ModuleState moduleState,
+        IModuleScheduler scheduler,
+        ModuleExecutionContext executionContext,
+        IModuleContext moduleContext,
+        ModuleLifecycleContext lifecycleContext,
+        CancellationToken cancellationToken)
+    {
+        var moduleType = moduleState.ModuleType;
+
+        // Invoke OnModuleReady lifecycle event (dependencies satisfied, about to execute)
+        await _lifecycleEventInvoker.InvokeReadyEventAsync(lifecycleContext).ConfigureAwait(false);
+
+        // Invoke OnModuleStart lifecycle event
+        await _lifecycleEventInvoker.InvokeStartEventAsync(lifecycleContext).ConfigureAwait(false);
+
+        // Execute through generated typed metadata when available.
+        var result = await ExecuteTypedModule(
+                moduleState.Module,
+                scheduler,
+                executionContext,
+                moduleContext,
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        moduleState.Result = result;
+        _resultRegistry.RegisterResult(moduleType, result);
+
+        if (executionContext.Status == Enums.Status.Skipped)
+        {
+            // Invoke OnModuleSkipped lifecycle event
+            await _lifecycleEventInvoker.InvokeSkippedEventAsync(lifecycleContext, Enums.Status.Skipped, executionContext.SkipResult!).ConfigureAwait(false);
+
+            await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState).ConfigureAwait(false);
+            await _mediator.Publish(
+                    new ModuleSkippedNotification(moduleState, executionContext.SkipResult),
+                    CancellationToken.None)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        if (executionContext.Status is Enums.Status.Successful or Enums.Status.IgnoredFailure)
+        {
+            await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration).ConfigureAwait(false);
+        }
+
+        await _pipelineSetupExecutor.OnModuleEndAsync(moduleState).ConfigureAwait(false);
+
+        // Invoke OnModuleEnd lifecycle event
+        await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
+
+        if (_manageArtifactsLocally
+            && executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory)
+        {
+            try
+            {
+                await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception exception) when (exception is not ModuleFailedException)
+            {
+                throw new ModuleFailedException(moduleType, exception);
+            }
+        }
+
+        var isSuccessful = executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory;
+        await _mediator.Publish(
+                new ModuleCompletedNotification(moduleState, isSuccessful),
+                CancellationToken.None)
+            .ConfigureAwait(false);
+    }
+
+    private async Task HandleModuleFailureAsync(
+        ModuleState moduleState,
+        ModuleExecutionContext executionContext,
+        ModuleLifecycleContext lifecycleContext,
+        Exception exception)
+    {
+        // Even when an exception is thrown, we need to register the result if one was set
+        if (executionContext.ExecutionTask.IsCompleted
+            && !executionContext.ExecutionTask.IsFaulted
+            && !executionContext.ExecutionTask.IsCanceled)
+        {
+            // Use GetAwaiter().GetResult() instead of .Result to avoid wrapping in AggregateException
+            var result = executionContext.ExecutionTask.GetAwaiter().GetResult();
+            moduleState.Result = result;
+            _resultRegistry.RegisterResult(moduleState.ModuleType, result);
+        }
+
+        try
+        {
+            // Invoke OnModuleFailed lifecycle event
+            await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, exception).ConfigureAwait(false);
+
+            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
+        }
+        finally
+        {
+            await _mediator.Publish(new ModuleCompletedNotification(moduleState, false)).ConfigureAwait(false);
         }
     }
 
