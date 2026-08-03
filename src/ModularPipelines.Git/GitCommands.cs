@@ -521,5 +521,6 @@ public class GitCommands :
             _gitCommandRunner,
             _gitCommitMapper,
             branch,
+            null,
             cancellationToken);
 }

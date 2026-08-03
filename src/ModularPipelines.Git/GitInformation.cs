@@ -248,9 +248,9 @@ internal class GitInformation : IGitInformation
             GitCommitPager.GetCompleteOutputOptions(_commandExecutionOptions),
             cancellationToken,
             "log",
-            "--skip=1",
             "-1",
-            $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
+            $"--format={GitConstants.CommitLogFormat}",
+            "HEAD^1").ConfigureAwait(false);
 
         return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);
     }

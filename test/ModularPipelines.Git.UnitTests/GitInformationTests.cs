@@ -294,7 +294,7 @@ public class GitInformationTests : TestBase
     }
 
     [Test]
-    public async Task Previous_Commit_Skips_Head()
+    public async Task Previous_Commit_Uses_First_Parent()
     {
         CommandExecutionOptions? observedOptions = null;
         string?[]? observedCommands = null;
@@ -323,8 +323,8 @@ public class GitInformationTests : TestBase
             await Assert.That(repository?.PreviousCommit?.Message?.Subject).IsEqualTo("previous commit");
             await Assert.That(observedOptions).IsNotNull();
             await Assert.That(observedOptions!.MaxCapturedOutputLength).IsLessThanOrEqualTo(0);
-            await Assert.That(observedCommands!).Contains("--skip=1");
-            await Assert.That(observedCommands!).DoesNotContain("--skip=0");
+            await Assert.That(observedCommands!).Contains("HEAD^1");
+            await Assert.That(observedCommands!).DoesNotContain("--skip=1");
         }
 
         await result.Host.DisposeAsync();
