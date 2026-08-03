@@ -691,6 +691,17 @@ public class GeneratorUtilsTests
     }
 
     [Test]
+    [Arguments("Otp")]
+    [Arguments("OTP")]
+    [Arguments("RegistryOtp")]
+    public async Task IsSecretOption_Returns_True_For_Otp_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
     [Arguments("ApiKey")]
     [Arguments("MyApiKey")]
     [Arguments("ApiKeyValue")]
