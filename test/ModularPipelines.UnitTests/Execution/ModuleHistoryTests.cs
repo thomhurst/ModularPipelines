@@ -145,7 +145,7 @@ public class ModuleHistoryTests
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunCategories("2")
+            .RunOnlyCategories("2")
             .BuildAsync();
 
         await host.RunAsync();
@@ -205,7 +205,7 @@ public class ModuleHistoryTests
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunCategories("2")
+            .RunOnlyCategories("2")
             .AddResultsRepository<NotFoundModuleRepository>()
             .BuildAsync();
 
@@ -307,7 +307,7 @@ public class ModuleHistoryTests
         var host = await TestPipelineBuilder.Create()
             .AddModule<SkipFromCategory>()
             .AddModule<RunnableCategoryModule>()
-            .RunCategories("2")
+            .RunOnlyCategories("2")
             .AddResultsRepository<GoodModuleRepository>()
             .BuildAsync();
 
