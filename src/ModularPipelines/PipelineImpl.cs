@@ -122,6 +122,10 @@ internal sealed class PipelineImpl : IPipeline
             await DisposeCoreAsync().ConfigureAwait(false);
             completion.SetResult();
         }
+        catch (OperationCanceledException cancellationException)
+        {
+            completion.SetCanceled(cancellationException.CancellationToken);
+        }
         catch (Exception exception)
         {
             completion.SetException(exception);

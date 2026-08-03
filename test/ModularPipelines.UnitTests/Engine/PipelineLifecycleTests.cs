@@ -57,6 +57,14 @@ public class PipelineLifecycleTests
             ValueTask.FromException(new ApplicationException("Cleanup failed"));
     }
 
+    private sealed class CancelingDisposalTracker : IAsyncDisposable
+    {
+        public CancellationToken CancellationToken { get; set; }
+
+        public ValueTask DisposeAsync() =>
+            ValueTask.FromCanceled(CancellationToken);
+    }
+
     private sealed class ThrowingCleanupInitializer : IInitializer
     {
         public ThrowingCleanupInitializer(ThrowingDisposalTracker disposalTracker)
@@ -104,6 +112,24 @@ public class PipelineLifecycleTests
 
         await Assert.That(tracker.ReentrantDisposalTask).IsNotNull();
         await Assert.That(tracker.ReentrantDisposalTask!).IsSameReferenceAs(disposalTask);
+    }
+
+    [Test]
+    public async Task Canceled_Disposal_Produces_A_Canceled_Task()
+    {
+        using var cancellationTokenSource = new CancellationTokenSource();
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<LifecycleModule>();
+        builder.Services.AddSingleton<CancelingDisposalTracker>();
+        var pipeline = await builder.BuildAsync();
+        var tracker = pipeline.Services.GetRequiredService<CancelingDisposalTracker>();
+        tracker.CancellationToken = cancellationTokenSource.Token;
+        cancellationTokenSource.Cancel();
+
+        var disposalTask = pipeline.DisposeAsync().AsTask();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() => disposalTask);
+        await Assert.That(disposalTask.IsCanceled).IsTrue();
     }
 
     [Test]
