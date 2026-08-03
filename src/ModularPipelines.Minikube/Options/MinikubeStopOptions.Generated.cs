@@ -23,20 +23,20 @@ public record MinikubeStopOptions : MinikubeOptions
     /// <summary>
     /// Set flag to stop all profiles (clusters)
     /// </summary>
-    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all")]
+    public bool? All { get; set; }
 
     /// <summary>
     /// cancel any existing scheduled stop requests
     /// </summary>
-    [CliOption("--cancel-scheduled", Format = OptionFormat.EqualsSeparated)]
-    public string? CancelScheduled { get; set; }
+    [CliFlag("--cancel-scheduled")]
+    public bool? CancelScheduled { get; set; }
 
     /// <summary>
     /// keep the kube-context active after cluster is stopped. Defaults to false.
     /// </summary>
-    [CliOption("--keep-context-active", Format = OptionFormat.EqualsSeparated)]
-    public string? KeepContextActive { get; set; }
+    [CliFlag("--keep-context-active")]
+    public bool? KeepContextActive { get; set; }
 
     /// <summary>
     /// Format to print stdout in. Options include: [text,json]

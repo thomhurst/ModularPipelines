@@ -8,18 +8,18 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
 /// <summary>
-/// Base options class for minikube CLI commands.
-/// Contains global flags that apply to all commands.
+/// Remove one or more images
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("minikube")]
-[CliGlobalOptions]
-public abstract record MinikubeOptions : CommandLineToolOptions
+[CliSubCommand("image", "rm")]
+public record MinikubeImageRmOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Image
+) : MinikubeOptions
 {
 }

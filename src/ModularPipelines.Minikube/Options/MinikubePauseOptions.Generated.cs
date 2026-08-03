@@ -23,8 +23,8 @@ public record MinikubePauseOptions : MinikubeOptions
     /// <summary>
     /// If set, pause all namespaces
     /// </summary>
-    [CliOption("--all-namespaces", ShortForm = "-A", Format = OptionFormat.EqualsSeparated)]
-    public string? AllNamespaces { get; set; }
+    [CliFlag("--all-namespaces", ShortForm = "-A")]
+    public bool? AllNamespaces { get; set; }
 
     /// <summary>
     /// namespaces to pause

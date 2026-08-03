@@ -18,25 +18,27 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "build")]
-public record MinikubeImageBuildOptions : MinikubeOptions
+public record MinikubeImageBuildOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Path
+) : MinikubeOptions
 {
     /// <summary>
     /// Build image on all nodes.
     /// </summary>
-    [CliOption("--all", Format = OptionFormat.EqualsSeparated)]
-    public string? All { get; set; }
+    [CliFlag("--all")]
+    public bool? All { get; set; }
 
     /// <summary>
     /// Environment variables to pass to the build. (format: key=value)
     /// </summary>
-    [CliOption("--build-env", Format = OptionFormat.EqualsSeparated)]
-    public string? BuildEnv { get; set; }
+    [CliOption("--build-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? BuildEnv { get; set; }
 
     /// <summary>
     /// Specify arbitrary flags to pass to the build. (format: key=value)
     /// </summary>
-    [CliOption("--build-opt", Format = OptionFormat.EqualsSeparated)]
-    public string? BuildOpt { get; set; }
+    [CliOption("--build-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? BuildOpt { get; set; }
 
     /// <summary>
     /// Path to the Dockerfile to use (optional)
@@ -53,8 +55,8 @@ public record MinikubeImageBuildOptions : MinikubeOptions
     /// <summary>
     /// Push the new image (requires tag)
     /// </summary>
-    [CliOption("--push", Format = OptionFormat.EqualsSeparated)]
-    public string? Push { get; set; }
+    [CliFlag("--push")]
+    public bool? Push { get; set; }
 
     /// <summary>
     /// Tag to apply to the new image (optional)

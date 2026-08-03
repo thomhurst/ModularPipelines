@@ -7,5 +7,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "minikube")]
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-07-19T03:51:16.1489113Z")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Package", "ModularPipelines.Minikube")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Version", "2.0.0")]

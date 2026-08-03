@@ -18,7 +18,9 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "images")]
-public record MinikubeAddonsImagesOptions : MinikubeOptions
+public record MinikubeAddonsImagesOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AddonName
+) : MinikubeOptions
 {
     /// <summary>
     /// minikube addons images ADDON_NAME --output OUTPUT. table, json

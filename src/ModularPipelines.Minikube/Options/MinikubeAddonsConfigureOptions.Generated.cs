@@ -18,7 +18,9 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "configure")]
-public record MinikubeAddonsConfigureOptions : MinikubeOptions
+public record MinikubeAddonsConfigureOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AddonName
+) : MinikubeOptions
 {
     /// <summary>
     /// An optional configuration file to read addon specific configs from instead of being prompted each time.

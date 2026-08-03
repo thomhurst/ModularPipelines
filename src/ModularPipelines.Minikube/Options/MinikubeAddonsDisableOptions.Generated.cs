@@ -8,18 +8,18 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Minikube.Options;
 
 namespace ModularPipelines.Minikube.Options;
 
 /// <summary>
-/// Base options class for minikube CLI commands.
-/// Contains global flags that apply to all commands.
+/// Disables the addon w/ADDON_NAME within minikube (example: minikube addons disable dashboard). For a list of available addons use: minikube addons list
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("minikube")]
-[CliGlobalOptions]
-public abstract record MinikubeOptions : CommandLineToolOptions
+[CliSubCommand("addons", "disable")]
+public record MinikubeAddonsDisableOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AddonName
+) : MinikubeOptions
 {
 }

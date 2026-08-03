@@ -18,30 +18,32 @@ namespace ModularPipelines.Minikube.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("addons", "open")]
-public record MinikubeAddonsOpenOptions : MinikubeOptions
+public record MinikubeAddonsOpenOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AddonName
+) : MinikubeOptions
 {
     /// <summary>
     /// Open the addons URL with https instead of http
     /// </summary>
-    [CliOption("--https", Format = OptionFormat.EqualsSeparated)]
-    public string? Https { get; set; }
+    [CliFlag("--https")]
+    public bool? Https { get; set; }
 
     /// <summary>
     /// The time interval for each check that wait performs in seconds
     /// </summary>
     [CliOption("--interval", Format = OptionFormat.EqualsSeparated)]
-    public string? Interval { get; set; }
+    public int? Interval { get; set; }
 
     /// <summary>
     /// Display the Kubernetes addons URL in the CLI instead of opening it in the default browser
     /// </summary>
-    [CliOption("--url", Format = OptionFormat.EqualsSeparated)]
-    public string? Url { get; set; }
+    [CliFlag("--url")]
+    public bool? Url { get; set; }
 
     /// <summary>
     /// Amount of time to wait for service in seconds
     /// </summary>
     [CliOption("--wait", Format = OptionFormat.EqualsSeparated)]
-    public string? Wait { get; set; }
+    public int? Wait { get; set; }
 
 }
