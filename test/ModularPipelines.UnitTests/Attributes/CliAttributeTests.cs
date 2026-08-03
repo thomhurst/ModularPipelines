@@ -1,6 +1,7 @@
 using System.CodeDom.Compiler;
 using System.Globalization;
 using ModularPipelines.Attributes;
+using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
@@ -8,6 +9,66 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class CliAttributeTests
 {
+    [Test]
+    public async Task Named_Placeholder_Values_Use_Invariant_Culture()
+    {
+        var originalCulture = CultureInfo.CurrentCulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
+            var handler = new PlaceholderHandler(new CommandModelProvider());
+
+            var arguments = handler.ReplacePlaceholders(
+                ["<SCALAR>", "<VALUES>"],
+                new TestCliOptionsWithNamedFormattableValues
+                {
+                    Scalar = 1.5,
+                    Values = [2.5, 3.5],
+                });
+
+            await Assert.That(arguments).IsEquivalentTo(
+                ["1.5", "2.5", "3.5"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
+    [Test]
+    public async Task Numeric_And_Formattable_Values_Use_Invariant_Culture()
+    {
+        var originalCulture = CultureInfo.CurrentCulture;
+        var date = new DateTime(2026, 1, 2, 3, 4, 5);
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("de-DE");
+
+            var arguments = BuildArguments(new TestCliOptionsWithFormattableValues
+            {
+                Double = 1.5,
+                Decimal = 2.75m,
+                Date = date,
+                Values = [3.5, 4.5],
+            });
+
+            await Assert.That(arguments).IsEquivalentTo(
+            [
+                "--double", "1.5",
+                "--decimal", "2.75",
+                "--date", date.ToString(null, CultureInfo.InvariantCulture),
+                "--values", "3.5", "--values", "4.5",
+            ]);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
     [Test]
     public async Task CliFlag_Returns_Name_When_ShortForm_Not_Preferred()
     {
@@ -477,6 +538,30 @@ public class CliAttributeTests
     }
 
     // Test option classes
+    private record TestCliOptionsWithFormattableValues
+    {
+        [CliOption("--double")]
+        public double Double { get; init; }
+
+        [CliOption("--decimal")]
+        public decimal Decimal { get; init; }
+
+        [CliOption("--date")]
+        public DateTime Date { get; init; }
+
+        [CliOption("--values", AllowMultiple = true)]
+        public double[]? Values { get; init; }
+    }
+
+    private record TestCliOptionsWithNamedFormattableValues
+    {
+        [CliArgument(Name = "<SCALAR>")]
+        public double? Scalar { get; init; }
+
+        [CliArgument(Name = "<VALUES>")]
+        public IEnumerable<double>? Values { get; init; }
+    }
+
     private record TestCliOptionsWithFlag
     {
         [CliFlag("--debug")]
