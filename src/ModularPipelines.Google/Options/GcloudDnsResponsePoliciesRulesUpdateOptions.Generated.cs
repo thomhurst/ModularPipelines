@@ -37,7 +37,7 @@ public record GcloudDnsResponsePoliciesRulesUpdateOptions : GcloudOptions
     /// <summary>
     /// All resource record sets for this selector, one per resource record     type. The name must match the dns_name.     This is a repeated argument that can be specified multiple times to     specify multiple local data rrsets. (e.g.     --local-data=name="zone.com.",type="A",ttl=21600,rrdata="1.2.3.4 "     --local-data=name="www.zone.com.",type="CNAME",ttl=21600,rrdata="1.2.3.4|5.6.7.8")      name       The DnsName of a resource record set.      type       Type of all resource records in this set. For example, A, AAAA,       SOA, MX, NS, TXT ...      ttl       Number of seconds that this ResourceRecordSet can be cached by       resolvers.      rrdatas       The list of datas for this record, split by "|".
     /// </summary>
-    [CliOption("--local-data", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--local-data", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LocalData { get; set; }
 
     /// <summary>

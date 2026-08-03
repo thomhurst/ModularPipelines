@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy-troubleshoot", "iam")]
 public record GcloudPolicyTroubleshootIamOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Resource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Resource
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "list-grantable-roles")]
 public record GcloudIamListGrantableRolesOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Resource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Resource
 ) : GcloudOptions
 {
 }

@@ -305,7 +305,7 @@ public record YqEvalOptions : YqOptions
     /// <summary>
     /// The [yaml_file1] operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? YamlFile1 { get; set; }
 
 }

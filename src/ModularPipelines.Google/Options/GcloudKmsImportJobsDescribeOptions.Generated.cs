@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kms", "import-jobs", "describe")]
 public record GcloudKmsImportJobsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImportJob
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImportJob
 ) : GcloudOptions
 {
     /// <summary>

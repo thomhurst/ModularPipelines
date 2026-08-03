@@ -35,13 +35,13 @@ public record SyftCatalogerListOptions : SyftOptions
     /// <summary>
     /// set the base set of catalogers to use (defaults to 'image' or 'directory' depending on the scan source) (default [all])
     /// </summary>
-    [CliOption("--override-default-catalogers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--override-default-catalogers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OverrideDefaultCatalogers { get; set; }
 
     /// <summary>
     /// add, remove, and filter the catalogers to be used
     /// </summary>
-    [CliOption("--select-catalogers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--select-catalogers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SelectCatalogers { get; set; }
 
     /// <summary>
@@ -53,13 +53,13 @@ public record SyftCatalogerListOptions : SyftOptions
     /// <summary>
     /// syft configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>

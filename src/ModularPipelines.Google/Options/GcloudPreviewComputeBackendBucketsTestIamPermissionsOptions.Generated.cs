@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-buckets", "test-iam-permissions")]
 public record GcloudPreviewComputeBackendBucketsTestIamPermissionsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string BackendBucket
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendBucket
 ) : GcloudOptions
 {
 }

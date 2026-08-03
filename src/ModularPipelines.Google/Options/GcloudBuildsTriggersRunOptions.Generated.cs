@@ -25,7 +25,7 @@ public record GcloudBuildsTriggersRunOptions : GcloudOptions
     /// <summary>
     /// Parameters to be substituted in the build specification. For example:       $ gcloud builds triggers run ... \         --substitutions _FAVORITE_COLOR=blue,_NUM_CANDIES=10     This will result in a build where every occurrence of     ${_FAVORITE_COLOR} in certain fields is replaced by "blue", and     similarly for ${_NUM_CANDIES} and "10".     Substitutions can be applied to user-defined variables (starting with     an underscore) and to the following built-in variables: REPO_NAME,     BRANCH_NAME, TAG_NAME, REVISION_ID, COMMIT_SHA, SHORT_SHA.     For more details, see:     https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values    At most one of these can be specified:     --branch=BRANCH      Branch to run.     --sha=SHA      SHA to run.     --tag=TAG      Tag to run.
     /// </summary>
-    [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--substitutions", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Substitutions { get; set; }
 
 }

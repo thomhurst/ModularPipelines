@@ -47,7 +47,7 @@ public record PulumiConvertOptions : PulumiOptions
     /// <summary>
     /// Any mapping files to use in the conversion
     /// </summary>
-    [CliOption("--mappings", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--mappings", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Mappings { get; set; }
 
     /// <summary>
@@ -149,7 +149,7 @@ public record PulumiConvertOptions : PulumiOptions
     /// <summary>
     /// The [arg] operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

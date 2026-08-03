@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "images", "list-tags")]
 public record GcloudContainerImagesListTagsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ImageName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImageName
 ) : GcloudOptions
 {
 }

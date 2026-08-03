@@ -53,7 +53,7 @@ public record PodmanComposeStatsOptions : PodmanOptions
     /// <summary>
     /// The SERVICE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Service { get; set; }
 
 }

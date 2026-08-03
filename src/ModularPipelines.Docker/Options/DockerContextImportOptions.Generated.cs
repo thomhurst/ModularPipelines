@@ -19,8 +19,8 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "import")]
 public record DockerContextImportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Context,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string File
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Context,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string File
 ) : DockerOptions
 {
 }

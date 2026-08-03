@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -160,7 +161,7 @@ public class TrivyCliScraperTests
         await Assert.That(positionals[1].CSharpType).IsEqualTo("IEnumerable<string>?");
         await Assert.That(positionals[1].IsRequired).IsFalse();
         await Assert.That(positionals[1].PositionIndex).IsEqualTo(1);
-        await Assert.That(positionals[1].Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(positionals[1].Phase).IsEqualTo(CommandLinePhase.Passthrough);
     }
 
     [Test]

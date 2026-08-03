@@ -20,19 +20,19 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instance-groups", "managed", "all-instances-config", "delete")]
 public record GcloudComputeInstanceGroupsManagedAllInstancesConfigDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
     /// Remove labels keys from the group's all instances configuration.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
     /// Remove metadata keys from the group's all instances configuration.    At most one of these can be specified:     --region=REGION      Region of the managed instance group to delete the all instances      configuration for. If not specified, you might be prompted to select      a region (interactive mode only).      A list of regions can be fetched by running:        $ gcloud compute regions list      Overrides the default compute/region property value for this command      invocation.     --zone=ZONE      Zone of the managed instance group to delete the all instances      configuration for. If not specified, you might be prompted to select      a zone (interactive mode only).      A list of zones can be fetched by running:        $ gcloud compute zones list      Overrides the default compute/zone property value for this command      invocation.
     /// </summary>
-    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Metadata { get; set; }
 
 }

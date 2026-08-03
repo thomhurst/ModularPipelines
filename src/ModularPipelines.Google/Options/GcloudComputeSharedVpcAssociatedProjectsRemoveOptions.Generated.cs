@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "shared-vpc", "associated-projects", "remove")]
 public record GcloudComputeSharedVpcAssociatedProjectsRemoveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ProjectId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ProjectId
 ) : GcloudOptions
 {
 }

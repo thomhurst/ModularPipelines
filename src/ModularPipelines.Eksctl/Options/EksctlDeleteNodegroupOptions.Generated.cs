@@ -53,13 +53,13 @@ public record EksctlDeleteNodegroupOptions : EksctlOptions
     /// <summary>
     /// nodegroups to include (list of globs), e.g.: 'ng-team-?,prod-*'
     /// </summary>
-    [CliOption("--include", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--include", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Include { get; set; }
 
     /// <summary>
     /// nodegroups to exclude (list of globs), e.g.: 'ng-team-?,prod-*'
     /// </summary>
-    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>

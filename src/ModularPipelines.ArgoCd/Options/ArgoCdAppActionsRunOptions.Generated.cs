@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "actions", "run")]
 public record ArgoCdAppActionsRunOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string ApplicationName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Action
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ApplicationName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Action
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -118,7 +118,7 @@ public record ArgoCdAppActionsRunOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

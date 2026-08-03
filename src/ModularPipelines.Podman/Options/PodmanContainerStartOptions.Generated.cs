@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "start")]
 public record PodmanContainerStartOptions(
-    [property: CliArgument(0)] IEnumerable<string> Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Container
 ) : PodmanOptions
 {
     /// <summary>
@@ -43,7 +43,7 @@ public record PodmanContainerStartOptions(
     /// <summary>
     /// Filter output based on conditions given
     /// </summary>
-    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>

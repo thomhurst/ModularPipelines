@@ -83,7 +83,7 @@ public record GhSearchReposOptions : GhOptions
     /// <summary>
     /// Filter based on license type
     /// </summary>
-    [CliOption("--license", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--license", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? License { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record GhSearchReposOptions : GhOptions
     /// <summary>
     /// Restrict search to specific field of repository: {name|description|readme}
     /// </summary>
-    [CliOption("--match", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--match", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Match { get; set; }
 
     /// <summary>
@@ -113,7 +113,7 @@ public record GhSearchReposOptions : GhOptions
     /// <summary>
     /// Filter on owner
     /// </summary>
-    [CliOption("--owner", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--owner", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Owner { get; set; }
 
     /// <summary>
@@ -143,7 +143,7 @@ public record GhSearchReposOptions : GhOptions
     /// <summary>
     /// Filter on topic
     /// </summary>
-    [CliOption("--topic", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--topic", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Topic { get; set; }
 
     /// <summary>
@@ -155,7 +155,7 @@ public record GhSearchReposOptions : GhOptions
     /// <summary>
     /// Filter based on visibility: {public|private|internal}
     /// </summary>
-    [CliOption("--visibility", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--visibility", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Visibility { get; set; }
 
     /// <summary>

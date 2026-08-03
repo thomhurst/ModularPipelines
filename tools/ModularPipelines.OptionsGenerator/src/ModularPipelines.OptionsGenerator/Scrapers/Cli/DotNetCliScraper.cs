@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers;
@@ -419,7 +420,7 @@ public partial class DotNetCliScraper : CliScraperBase
                     PropertyName = propertyName,
                     CSharpType = "string?",
                     Description = description,
-                    Placement = PositionalArgumentPosition.BeforeOptions,
+                    Phase = CommandLinePhase.EarlyOperand,
                     PositionIndex = index++,
                     IsRequired = false
                 });
@@ -449,7 +450,7 @@ public partial class DotNetCliScraper : CliScraperBase
                     PropertyName = "PackageName",
                     CSharpType = "string?",
                     Description = "The package ID to delete.",
-                    Placement = PositionalArgumentPosition.BeforeOptions,
+                    Phase = CommandLinePhase.EarlyOperand,
                     PositionIndex = 0,
                     IsRequired = false
                 },
@@ -458,7 +459,7 @@ public partial class DotNetCliScraper : CliScraperBase
                     PropertyName = "Version",
                     CSharpType = "string?",
                     Description = "The package version to delete.",
-                    Placement = PositionalArgumentPosition.BeforeOptions,
+                    Phase = CommandLinePhase.EarlyOperand,
                     PositionIndex = 1,
                     IsRequired = false
                 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "firewall-rules", "delete")]
 public record GcloudAppFirewallRulesDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Priority
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Priority
 ) : GcloudOptions
 {
 }

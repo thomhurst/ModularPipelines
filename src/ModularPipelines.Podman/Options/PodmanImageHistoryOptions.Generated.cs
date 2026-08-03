@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "history")]
 public record PodmanImageHistoryOptions(
-    [property: CliArgument(0)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
 ) : PodmanOptions
 {
     /// <summary>

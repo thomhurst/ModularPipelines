@@ -19,13 +19,13 @@ namespace ModularPipelines.Grype.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "search", "vuln")]
 public record GrypeDbSearchVulnOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Id
 ) : GrypeOptions
 {
     /// <summary>
     /// only show vulnerabilities with the given fix state (fixed, not-fixed, unknown, wont-fix)
     /// </summary>
-    [CliOption("--fixed-state", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--fixed-state", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? FixedState { get; set; }
 
     /// <summary>
@@ -55,7 +55,7 @@ public record GrypeDbSearchVulnOptions(
     /// <summary>
     /// only show vulnerabilities from the given provider
     /// </summary>
-    [CliOption("--provider", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--provider", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Provider { get; set; }
 
     /// <summary>
@@ -67,13 +67,13 @@ public record GrypeDbSearchVulnOptions(
     /// <summary>
     /// grype configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>

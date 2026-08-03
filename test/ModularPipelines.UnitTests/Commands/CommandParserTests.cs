@@ -181,10 +181,10 @@ public class CommandParserTests : TestBase
         [CliOption("--filename")]
         public string[]? Filename { get; set; }
 
-        [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+        [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
         public string? Positional1 { get; set; }
 
-        [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
+        [CliArgument(Phase = CommandLinePhase.Passthrough)]
         public string? Positional2 { get; set; }
     }
 
@@ -192,13 +192,13 @@ public class CommandParserTests : TestBase
     [CliSubCommand("add")]
     private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions
     {
-        [CliArgument(0, Placement = ArgumentPlacement.ImmediatelyAfterCommand)]
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string Project { get; set; } = Project;
 
-        [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+        [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
         public string Command { get; set; } = "package";
 
-        [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
+        [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
         public string Package { get; set; } = Package;
 
         [CliOption("--source")]
@@ -209,7 +209,7 @@ public class CommandParserTests : TestBase
     [CliSubCommand("add")]
     private record PlaceholderToolOptions3 : CommandLineToolOptions
     {
-        [CliArgument(Placement = ArgumentPlacement.ImmediatelyAfterCommand)]
+        [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
         public string? Project { get; set; }
 
         [CliOption("--source")]

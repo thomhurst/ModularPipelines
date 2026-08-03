@@ -30,7 +30,7 @@ public record GcloudDataCatalogTagTemplatesFieldsUpdateOptions : GcloudOptions
     /// <summary>
     /// Comma-separated list of enum values. The list of enum values passed     with this flag replaces the existing one in tag template enum field.     That means:     ◆ the enum values passed to the flag and not present in tag template      enum field get created     ◆ the enum values present in tag template enum field and missing in      the list get removed     ◆ the order of the items on the list is preserved     Enum values can only be removed from optional enum fields for now.
     /// </summary>
-    [CliOption("--enum-values", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enum-values", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnumValues { get; set; }
 
     /// <summary>

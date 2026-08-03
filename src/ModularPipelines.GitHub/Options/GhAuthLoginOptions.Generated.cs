@@ -47,7 +47,7 @@ public record GhAuthLoginOptions : GhOptions
     /// <summary>
     /// Additional authentication scopes to request
     /// </summary>
-    [CliOption("--scopes", ShortForm = "-s", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--scopes", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Scopes { get; set; }
 
     /// <summary>

@@ -19,13 +19,13 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("context", "export")]
 public record DockerContextExportOptions(
-    [property: CliArgument(0)] string Context
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Context
 ) : DockerOptions
 {
     /// <summary>
     /// The FILE operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? File { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "create-cred-config")]
 public record GcloudIamWorkloadIdentityPoolsCreateCredConfigOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Audience
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Audience
 ) : GcloudOptions
 {
 }

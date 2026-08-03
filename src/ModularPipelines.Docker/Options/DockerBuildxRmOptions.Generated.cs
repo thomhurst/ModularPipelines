@@ -65,7 +65,7 @@ public record DockerBuildxRmOptions : DockerOptions
     /// <summary>
     /// The NAME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Name { get; set; }
 
 }

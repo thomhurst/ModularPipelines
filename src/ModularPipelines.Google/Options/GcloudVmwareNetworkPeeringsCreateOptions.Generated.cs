@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-peerings", "create")]
 public record GcloudVmwareNetworkPeeringsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Vm
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Vm
 ) : GcloudOptions
 {
 }

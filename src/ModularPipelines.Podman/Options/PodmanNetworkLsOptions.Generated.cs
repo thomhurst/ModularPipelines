@@ -23,7 +23,7 @@ public record PodmanNetworkLsOptions : PodmanOptions
     /// <summary>
     /// Provide filter values (e.g. 'name=podman')
     /// </summary>
-    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filter", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filter { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "os-config", "patch-deployments", "create")]
 public record GcloudComputeOsConfigPatchDeploymentsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PatchDeploymentId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PatchDeploymentId
 ) : GcloudOptions
 {
 }

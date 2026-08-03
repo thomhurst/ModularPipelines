@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -85,7 +86,7 @@ public partial class ShellcheckCliScraper : CliScraperBase
                     IsRequired = false,
                     PositionIndex = 0,
                     Description = "Shell script files to check",
-                    Placement = PositionalArgumentPosition.AfterOptions
+                    Phase = CommandLinePhase.Passthrough
                 }
             ],
             SubDomainGroup = null,

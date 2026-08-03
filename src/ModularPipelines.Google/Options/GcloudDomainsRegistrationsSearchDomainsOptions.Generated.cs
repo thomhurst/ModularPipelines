@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("domains", "registrations", "search-domains")]
 public record GcloudDomainsRegistrationsSearchDomainsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DomainQuery
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DomainQuery
 ) : GcloudOptions
 {
 }

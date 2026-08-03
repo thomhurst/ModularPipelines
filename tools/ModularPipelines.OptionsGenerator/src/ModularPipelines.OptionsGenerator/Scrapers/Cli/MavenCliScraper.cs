@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -116,7 +117,7 @@ public partial class MavenCliScraper : CliScraperBase
                     Description = "Maven goals and lifecycle phases to execute.",
                     PositionIndex = 0,
                     IsRequired = false,
-                    Placement = PositionalArgumentPosition.AfterOptions
+                    Phase = CommandLinePhase.Passthrough
                 }
             ],
             SubDomainGroup = null,

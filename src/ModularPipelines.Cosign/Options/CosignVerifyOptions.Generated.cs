@@ -20,7 +20,7 @@ namespace ModularPipelines.Cosign.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify")]
 public record CosignVerifyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Images
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Images
 ) : CosignOptions
 {
     /// <summary>
@@ -38,7 +38,7 @@ public record CosignVerifyOptions(
     /// <summary>
     /// extra key=value pairs to sign
     /// </summary>
-    [CliOption("--annotations", ShortForm = "-a", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--annotations", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Annotations { get; set; }
 
     /// <summary>

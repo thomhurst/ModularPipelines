@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "hub", "policycontroller", "deployment", "remove")]
 public record GcloudContainerHubPolicycontrollerDeploymentRemoveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Deployment
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Deployment
 ) : GcloudOptions
 {
     /// <summary>

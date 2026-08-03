@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Cli;
 using ModularPipelines.OptionsGenerator.TypeDetection;
@@ -130,7 +131,7 @@ public class NpmCliScraperTests
 
         await Assert.That(command!.CommandParts).IsEquivalentTo(["exec"]);
         var operand = command.PositionalArguments.First();
-        await Assert.That(operand.Placement).IsEqualTo(PositionalArgumentPosition.AfterOptions);
+        await Assert.That(operand.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(operand.PrependOptionTerminator).IsTrue();
     }
 

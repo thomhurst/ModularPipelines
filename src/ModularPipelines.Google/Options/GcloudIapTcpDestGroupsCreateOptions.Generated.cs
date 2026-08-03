@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iap", "tcp", "dest-groups", "create")]
 public record GcloudIapTcpDestGroupsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string GroupName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string GroupName
 ) : GcloudOptions
 {
 }

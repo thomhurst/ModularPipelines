@@ -58,6 +58,6 @@ public record NpmUpdateOptions : NpmOptions
     [CliFlag("--install-links")]
     public virtual bool? InstallLinks { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Pkg { get; set; }
 }

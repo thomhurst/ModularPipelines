@@ -19,11 +19,11 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "provider", "azure-login", "static")]
 public record PulumiEnvProviderAzureLoginStaticOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string TenantId,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string SubscriptionId,
-    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string ClientId,
-    [property: SecretValue, CliArgument(4, Placement = ArgumentPlacement.BeforeOptions)] string ClientSecret
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string TenantId,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string SubscriptionId,
+    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand)] string ClientId,
+    [property: SecretValue, CliArgument(4, Phase = CommandLinePhase.EarlyOperand)] string ClientSecret
 ) : PulumiOptions
 {
     /// <summary>

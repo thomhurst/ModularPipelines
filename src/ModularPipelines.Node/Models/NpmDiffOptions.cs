@@ -46,6 +46,6 @@ public record NpmDiffOptions : NpmOptions
     [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Paths { get; set; }
 }

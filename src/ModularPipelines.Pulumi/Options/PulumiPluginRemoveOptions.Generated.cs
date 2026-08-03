@@ -119,19 +119,19 @@ public record PulumiPluginRemoveOptions : PulumiOptions
     /// <summary>
     /// The kind operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Kind { get; set; }
 
     /// <summary>
     /// The name operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
 
     /// <summary>
     /// The version operand.
     /// </summary>
-    [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
     public string? Version { get; set; }
 
 }

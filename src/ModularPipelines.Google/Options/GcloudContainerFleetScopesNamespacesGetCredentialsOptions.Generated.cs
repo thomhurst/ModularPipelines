@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "fleet", "scopes", "namespaces", "get-credentials")]
 public record GcloudContainerFleetScopesNamespacesGetCredentialsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Namespace
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Namespace
 ) : GcloudOptions
 {
     /// <summary>

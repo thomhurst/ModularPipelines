@@ -35,7 +35,7 @@ public record EksctlCreateAccessentryOptions : EksctlOptions
     /// <summary>
     /// A set of Kubernetes groups to map to the principal ARN
     /// </summary>
-    [CliOption("--kubernetes-groups", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--kubernetes-groups", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? KubernetesGroups { get; set; }
 
     /// <summary>

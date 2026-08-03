@@ -19,7 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "unset")]
 public record MinikubeConfigUnsetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PropertyName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PropertyName
 ) : MinikubeOptions
 {
 }

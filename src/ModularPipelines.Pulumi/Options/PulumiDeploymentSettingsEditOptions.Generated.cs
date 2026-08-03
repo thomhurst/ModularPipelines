@@ -41,7 +41,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// <summary>
     /// Set a plaintext environment variable (repeatable, KEY=VALUE)
     /// </summary>
-    [CliOption("--env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
@@ -95,7 +95,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// <summary>
     /// AWS OIDC: replace the session policy ARN list (repeatable, comma-separated)
     /// </summary>
-    [CliOption("--oidc-aws-policy-arn", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--oidc-aws-policy-arn", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? OidcAwsPolicyArn { get; set; }
 
     /// <summary>
@@ -186,7 +186,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// <summary>
     /// GitHub: replace the path filter list (repeatable, comma-separated)
     /// </summary>
-    [CliOption("--path-filter", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--path-filter", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PathFilter { get; set; }
 
     /// <summary>
@@ -198,7 +198,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// <summary>
     /// Replace the pre-run command list (repeatable; pass once per command
     /// </summary>
-    [CliOption("--pre-run-command", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--pre-run-command", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? PreRunCommand { get; set; }
 
     /// <summary>
@@ -216,7 +216,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// <summary>
     /// Delete an environment variable by key (repeatable, comma-separated)
     /// </summary>
-    [CliOption("--remove-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveEnv { get; set; }
 
     /// <summary>
@@ -229,7 +229,7 @@ public record PulumiDeploymentSettingsEditOptions : PulumiOptions
     /// Set an encrypted environment variable (repeatable, KEY=VALUE)
     /// </summary>
     [SecretValue]
-    [CliOption("--secret-env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--secret-env", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SecretEnv { get; set; }
 
     /// <summary>

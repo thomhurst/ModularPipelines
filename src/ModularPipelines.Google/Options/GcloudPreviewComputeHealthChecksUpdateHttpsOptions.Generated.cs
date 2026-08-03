@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "health-checks", "update", "https")]
 public record GcloudPreviewComputeHealthChecksUpdateHttpsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
@@ -74,7 +74,7 @@ public record GcloudPreviewComputeHealthChecksUpdateHttpsOptions(
     /// <summary>
     /// Define the list of Google Cloud regions from which health checks are     performed. This option is supported only for global health checks that     will be referenced by DNS routing policies. If specified, the     --check-interval field should be at least 30 seconds. The     --proxy-header and --request fields (for TCP health checks) are not     supported with this option.     If --source-regions is specified for a health check, then that health     check cannot be used by a backend service or by a managed instance     group (for autohealing).
     /// </summary>
-    [CliOption("--source-regions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-regions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourceRegions { get; set; }
 
     /// <summary>
