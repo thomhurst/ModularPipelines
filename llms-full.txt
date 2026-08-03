@@ -3956,6 +3956,30 @@ public record MySettings
 }
 ```
 
+## Mask a configuration section
+
+When a configuration provider supplies a group of secrets, you can register every leaf value in
+that section without adding `[SecretValue]` to an options class:
+
+```csharp
+using var builder = Pipeline.CreateBuilder();
+
+builder.MaskConfigurationSection("Secrets");
+```
+
+Nested values such as `Secrets:Database:Password` are included. Missing sections and empty values
+are ignored. The values are registered during pipeline startup and use the same log and CI-native
+masking as `[SecretValue]` and `ISecretRegistry`.
+
+You can also configure multiple sections through options:
+
+```csharp
+builder.Services.Configure<SecretMaskingOptions>(options =>
+{
+    options.MaskedConfigurationSections = ["Secrets", "ConnectionStrings"];
+});
+```
+
 ---
 
 ## Sharing data across modules
