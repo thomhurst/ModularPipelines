@@ -150,7 +150,8 @@ public class OptionsClassGenerator : ICodeGenerator
         string parameterName)
     {
         var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
-        if (canonicalEnumName is null)
+        if (canonicalEnumName is null
+            || parameter.Option?.ValueArity == CliOptionValueArity.Optional)
         {
             return parameterName;
         }
