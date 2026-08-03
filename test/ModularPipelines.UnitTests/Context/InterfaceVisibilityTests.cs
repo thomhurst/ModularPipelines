@@ -33,7 +33,6 @@ public class InterfaceVisibilityTests
         string[] internalTypeNames =
         [
             "ModularPipelines.Modules.SubModuleBase",
-            "ModularPipelines.Context.ICommandLineExecutor",
             "ModularPipelines.Context.ICommandLineBuilder",
             "ModularPipelines.Engine.LogoPrinter",
             "ModularPipelines.Exceptions.AlwaysRunPostponedException",
