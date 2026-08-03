@@ -195,6 +195,28 @@ public static class PipelineBuilderExtensions
     }
 
     /// <summary>
+    /// Registers every leaf value beneath a configuration section as a secret during pipeline startup.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="sectionPath">The configuration section path, such as <c>Secrets</c>.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder MaskConfigurationSection(this PipelineBuilder builder, string sectionPath)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentException.ThrowIfNullOrWhiteSpace(sectionPath);
+
+        builder.Services.Configure<SecretMaskingOptions>(options =>
+        {
+            options.MaskedConfigurationSections = options.MaskedConfigurationSections
+                .Append(sectionPath)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+        });
+
+        return builder;
+    }
+
+    /// <summary>
     /// Builds the pipeline and executes it.
     /// </summary>
     /// <param name="builder">The pipeline builder.</param>

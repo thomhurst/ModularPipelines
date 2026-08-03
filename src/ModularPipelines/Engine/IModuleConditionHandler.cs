@@ -10,4 +10,8 @@ internal interface IModuleConditionHandler
         CancellationToken cancellationToken = default);
 
     Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default);
+
+    Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnoreForPlanning(
+        IModule module,
+        CancellationToken cancellationToken = default);
 }
