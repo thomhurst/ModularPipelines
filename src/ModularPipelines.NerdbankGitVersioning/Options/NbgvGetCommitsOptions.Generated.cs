@@ -20,7 +20,7 @@ namespace ModularPipelines.NerdbankGitVersioning.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("get-commits")]
 public record NbgvGetCommitsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Version
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Version
 ) : NbgvOptions
 {
     /// <summary>

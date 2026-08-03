@@ -6,8 +6,8 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("exec")]
 public record NpmExecOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.AfterOptions, PrependOptionTerminator = true)] string Value,
-    [property: CliArgument(1, Placement = ArgumentPlacement.AfterOptions)] string Cmd
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)] string Value,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Cmd
 ) : NpmOptions
 {
     [CliOption("--package")]
@@ -25,9 +25,9 @@ public record NpmExecOptions(
     [CliFlag("--include-workspace-root")]
     public virtual bool? IncludeWorkspaceRoot { get; set; }
 
-    [CliArgument(2, Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public virtual string? Pkg { get; set; }
 
-    [CliArgument(3, Placement = ArgumentPlacement.AfterOptions)]
+    [CliArgument(3, Phase = CommandLinePhase.Passthrough)]
     public virtual string? Version { get; set; }
 }

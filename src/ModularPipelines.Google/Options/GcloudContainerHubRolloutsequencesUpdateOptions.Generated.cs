@@ -37,7 +37,7 @@ public record GcloudContainerHubRolloutsequencesUpdateOptions : GcloudOptions
     /// <summary>
     /// Labels for the rollout sequence.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>

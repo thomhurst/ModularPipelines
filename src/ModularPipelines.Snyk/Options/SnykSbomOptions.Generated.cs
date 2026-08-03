@@ -231,7 +231,7 @@ public record SnykSbomOptions(
     /// <summary>
     /// Project directory to scan
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? TargetDirectory { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "backend-services", "add-iam-policy-binding")]
 public record GcloudPreviewComputeBackendServicesAddIamPolicyBindingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string BackendServiceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BackendServiceName
 ) : GcloudOptions
 {
 }

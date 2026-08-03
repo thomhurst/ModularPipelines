@@ -19,9 +19,9 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "set")]
 public record PulumiEnvSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string EnvironmentName,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Path,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Value
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Path,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Value
 ) : PulumiOptions
 {
     /// <summary>

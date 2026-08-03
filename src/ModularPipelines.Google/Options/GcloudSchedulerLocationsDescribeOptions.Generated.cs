@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scheduler", "locations", "describe")]
 public record GcloudSchedulerLocationsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Location
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Location
 ) : GcloudOptions
 {
 }

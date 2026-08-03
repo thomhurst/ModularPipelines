@@ -24,7 +24,7 @@ public record GcloudDatalineageProcessesCreateOptions : GcloudOptions
     /// <summary>
     /// Additional attributes for the process.
     /// </summary>
-    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attributes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attributes { get; set; }
 
     /// <summary>

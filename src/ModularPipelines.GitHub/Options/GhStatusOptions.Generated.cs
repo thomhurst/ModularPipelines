@@ -23,7 +23,7 @@ public record GhStatusOptions : GhOptions
     /// <summary>
     /// Comma separated list of repos to exclude in owner/name format
     /// </summary>
-    [CliOption("--exclude", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--exclude", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>

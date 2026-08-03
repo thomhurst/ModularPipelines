@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "unmount")]
 public record PodmanImageUnmountOptions(
-    [property: CliArgument(0)] IEnumerable<string> Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Image
 ) : PodmanOptions
 {
     /// <summary>

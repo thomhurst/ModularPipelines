@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kill")]
 public record PodmanKillOptions(
-    [property: CliArgument(0)] IEnumerable<string> Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Container
 ) : PodmanOptions
 {
     /// <summary>
@@ -31,7 +31,7 @@ public record PodmanKillOptions(
     /// <summary>
     /// Read the container ID from the file
     /// </summary>
-    [CliOption("--cidfile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cidfile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Cidfile { get; set; }
 
     /// <summary>

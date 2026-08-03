@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("billing", "accounts", "describe")]
 public record GcloudBillingAccountsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string AccountId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string AccountId
 ) : GcloudOptions
 {
 }

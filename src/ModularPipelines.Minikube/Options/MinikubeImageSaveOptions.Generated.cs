@@ -19,7 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
 public record MinikubeImageSaveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Image
 ) : MinikubeOptions
 {
     /// <summary>
@@ -37,7 +37,7 @@ public record MinikubeImageSaveOptions(
     /// <summary>
     /// The ARCHIVE operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Archive { get; set; }
 
 }

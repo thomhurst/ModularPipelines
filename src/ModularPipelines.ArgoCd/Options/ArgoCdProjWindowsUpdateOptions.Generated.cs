@@ -20,20 +20,20 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "windows", "update")]
 public record ArgoCdProjWindowsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Id
 ) : ArgoCdOptions
 {
     /// <summary>
     /// Applications that the schedule will be applied to. Comma separated, wildcards supported (e.g. --applications prod-\*,website)
     /// </summary>
-    [CliOption("--applications", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--applications", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Applications { get; set; }
 
     /// <summary>
     /// Clusters that the schedule will be applied to. Comma separated, wildcards supported (e.g. --clusters prod,staging)
     /// </summary>
-    [CliOption("--clusters", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--clusters", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Clusters { get; set; }
 
     /// <summary>
@@ -57,7 +57,7 @@ public record ArgoCdProjWindowsUpdateOptions(
     /// <summary>
     /// Namespaces that the schedule will be applied to. Comma separated, wildcards supported (e.g. --namespaces default,\*-prod)
     /// </summary>
-    [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Namespaces { get; set; }
 
     /// <summary>
@@ -130,7 +130,7 @@ public record ArgoCdProjWindowsUpdateOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

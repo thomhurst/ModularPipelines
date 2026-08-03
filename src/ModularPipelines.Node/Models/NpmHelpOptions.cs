@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("help")]
 public record NpmHelpOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Term
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Term
 ) : NpmOptions
 {
     [CliOption("--viewer")]

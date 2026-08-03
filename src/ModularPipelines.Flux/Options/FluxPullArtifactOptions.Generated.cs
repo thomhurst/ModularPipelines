@@ -60,7 +60,7 @@ public record FluxPullArtifactOptions : FluxOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -72,7 +72,7 @@ public record FluxPullArtifactOptions : FluxOptions
     /// <summary>
     /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
     /// </summary>
-    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>

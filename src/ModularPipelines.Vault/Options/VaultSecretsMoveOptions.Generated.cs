@@ -20,8 +20,8 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("secrets", "move")]
 public record VaultSecretsMoveOptions(
-    [property: CliArgument(0)] string Source,
-    [property: CliArgument(1)] string Destination
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Source,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Destination
 ) : VaultOptions
 {
 }

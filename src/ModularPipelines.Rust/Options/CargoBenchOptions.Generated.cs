@@ -66,13 +66,13 @@ public record CargoBenchOptions : CargoOptions
     /// <summary>
     /// The BENCHNAME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Benchname { get; set; }
 
     /// <summary>
     /// The [ARGS] operand.
     /// </summary>
-    [CliArgument(1, PrependOptionTerminator = true)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
     public IEnumerable<string>? Args { get; set; }
 
 }

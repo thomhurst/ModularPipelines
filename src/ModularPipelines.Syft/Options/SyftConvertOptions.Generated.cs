@@ -35,7 +35,7 @@ public record SyftConvertOptions : SyftOptions
     /// <summary>
     /// report output format (&lt;format&gt;=&lt;file&gt; to output to a file), formats=[cyclonedx-json cyclonedx-xml github-json purls spdx-json spdx-tag-value syft-json syft-table syft-text template] (default [syft-table])
     /// </summary>
-    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--output", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Output { get; set; }
 
     /// <summary>
@@ -47,13 +47,13 @@ public record SyftConvertOptions : SyftOptions
     /// <summary>
     /// syft configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>
@@ -71,13 +71,13 @@ public record SyftConvertOptions : SyftOptions
     /// <summary>
     /// The SOURCE-SBOM operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? SourceSbom { get; set; }
 
     /// <summary>
     /// The FORMAT operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Format { get; set; }
 
 }

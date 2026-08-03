@@ -138,7 +138,7 @@ public record CargoInstallOptions : CargoOptions
     /// <summary>
     /// The [CRATE[@&lt;VER&gt;]] operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? CrateVer { get; set; }
 
 }

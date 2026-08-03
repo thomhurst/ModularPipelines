@@ -6,7 +6,7 @@ namespace ModularPipelines.Node.Models;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("token", "revoke")]
 public record NpmTokenRevokeOptions(
-    [property: CliArgument(Placement = ArgumentPlacement.BeforeOptions)] string Value
+    [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value
 ) : NpmOptions
 {
     [CliFlag("--read-only")]

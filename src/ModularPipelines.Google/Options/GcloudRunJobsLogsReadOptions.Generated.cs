@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("run", "jobs", "logs", "read")]
 public record GcloudRunJobsLogsReadOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Job
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Job
 ) : GcloudOptions
 {
     [CliOption("--freshness", Format = OptionFormat.EqualsSeparated)]

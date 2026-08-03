@@ -20,13 +20,13 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create")]
 public record DockerCreateOptions(
-    [property: CliArgument(0)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
 ) : DockerOptions
 {
     /// <summary>
     /// Add a custom host-to-IP mapping (host:ip)
     /// </summary>
-    [CliOption("--add-host", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-host", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddHost { get; set; }
 
     /// <summary>
@@ -38,7 +38,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Attach to STDIN, STDOUT or STDERR
     /// </summary>
-    [CliOption("--attach", ShortForm = "-a", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--attach", ShortForm = "-a", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Attach { get; set; }
 
     /// <summary>
@@ -50,19 +50,19 @@ public record DockerCreateOptions(
     /// <summary>
     /// Block IO weight (relative device weight) (default [])
     /// </summary>
-    [CliOption("--blkio-weight-device", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--blkio-weight-device", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? BlkioWeightDevice { get; set; }
 
     /// <summary>
     /// Add Linux capabilities
     /// </summary>
-    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapAdd { get; set; }
 
     /// <summary>
     /// Drop Linux capabilities
     /// </summary>
-    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapDrop { get; set; }
 
     /// <summary>
@@ -134,37 +134,37 @@ public record DockerCreateOptions(
     /// <summary>
     /// Add a host device to the container
     /// </summary>
-    [CliOption("--device", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Device { get; set; }
 
     /// <summary>
     /// Add a rule to the cgroup allowed devices list
     /// </summary>
-    [CliOption("--device-cgroup-rule", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-cgroup-rule", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceCgroupRule { get; set; }
 
     /// <summary>
     /// Limit read rate (bytes per second) from a device (default [])
     /// </summary>
-    [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-read-bps", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceReadBps { get; set; }
 
     /// <summary>
     /// Limit read rate (IO per second) from a device (default [])
     /// </summary>
-    [CliOption("--device-read-iops", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-read-iops", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceReadIops { get; set; }
 
     /// <summary>
     /// Limit write rate (bytes per second) to a device (default [])
     /// </summary>
-    [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-write-bps", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceWriteBps { get; set; }
 
     /// <summary>
     /// Limit write rate (IO per second) to a device (default [])
     /// </summary>
-    [CliOption("--device-write-iops", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--device-write-iops", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DeviceWriteIops { get; set; }
 
     /// <summary>
@@ -176,19 +176,19 @@ public record DockerCreateOptions(
     /// <summary>
     /// Set custom DNS servers
     /// </summary>
-    [CliOption("--dns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Dns { get; set; }
 
     /// <summary>
     /// Set DNS options
     /// </summary>
-    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-option", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsOption { get; set; }
 
     /// <summary>
     /// Set custom DNS search domains
     /// </summary>
-    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--dns-search", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DnsSearch { get; set; }
 
     /// <summary>
@@ -206,19 +206,19 @@ public record DockerCreateOptions(
     /// <summary>
     /// Set environment variables
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
     /// Read in a file of environment variables
     /// </summary>
-    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnvFile { get; set; }
 
     /// <summary>
     /// Expose a port or a range of ports
     /// </summary>
-    [CliOption("--expose", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--expose", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Expose { get; set; }
 
     /// <summary>
@@ -230,7 +230,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Add additional groups to join
     /// </summary>
-    [CliOption("--group-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--group-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? GroupAdd { get; set; }
 
     /// <summary>
@@ -326,25 +326,25 @@ public record DockerCreateOptions(
     /// <summary>
     /// Set meta data on a container
     /// </summary>
-    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
     /// Read in a line delimited file of labels
     /// </summary>
-    [CliOption("--label-file", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label-file", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LabelFile { get; set; }
 
     /// <summary>
     /// Add link to another container
     /// </summary>
-    [CliOption("--link", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--link", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Link { get; set; }
 
     /// <summary>
     /// Container IPv4/IPv6 link-local addresses
     /// </summary>
-    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LinkLocalIp { get; set; }
 
     /// <summary>
@@ -356,7 +356,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Log driver options
     /// </summary>
-    [CliOption("--log-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--log-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LogOpt { get; set; }
 
     /// <summary>
@@ -410,7 +410,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Add network-scoped alias for the container
     /// </summary>
-    [CliOption("--network-alias", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--network-alias", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NetworkAlias { get; set; }
 
     /// <summary>
@@ -458,7 +458,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Publish a container's port(s) to the host
     /// </summary>
-    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--publish", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Publish { get; set; }
 
     /// <summary>
@@ -506,7 +506,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Security Options
     /// </summary>
-    [CliOption("--security-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--security-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SecurityOpt { get; set; }
 
     /// <summary>
@@ -530,7 +530,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Storage driver options for the container
     /// </summary>
-    [CliOption("--storage-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--storage-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? StorageOpt { get; set; }
 
     /// <summary>
@@ -542,7 +542,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Mount a tmpfs directory
     /// </summary>
-    [CliOption("--tmpfs", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tmpfs", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Tmpfs { get; set; }
 
     /// <summary>
@@ -578,7 +578,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Bind mount a volume
     /// </summary>
-    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>
@@ -590,7 +590,7 @@ public record DockerCreateOptions(
     /// <summary>
     /// Mount volumes from the specified container(s)
     /// </summary>
-    [CliOption("--volumes-from", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volumes-from", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? VolumesFrom { get; set; }
 
     /// <summary>
@@ -602,13 +602,13 @@ public record DockerCreateOptions(
     /// <summary>
     /// The COMMAND operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Command { get; set; }
 
     /// <summary>
     /// The ARG operand.
     /// </summary>
-    [CliArgument(2)]
+    [CliArgument(2, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

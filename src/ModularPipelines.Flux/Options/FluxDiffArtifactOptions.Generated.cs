@@ -36,7 +36,7 @@ public record FluxDiffArtifactOptions : FluxOptions
     /// <summary>
     /// set paths to ignore in .gitignore format (default [.git/,.gitignore,.gitmodules,.gitattributes,*.jpg,*.jpeg,*.gif,*.png,*.wmv,*.flv,*.tar.gz,*.zip])
     /// </summary>
-    [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--ignore-paths", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? IgnorePaths { get; set; }
 
     /// <summary>
@@ -66,7 +66,7 @@ public record FluxDiffArtifactOptions : FluxOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -78,7 +78,7 @@ public record FluxDiffArtifactOptions : FluxOptions
     /// <summary>
     /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
     /// </summary>
-    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>

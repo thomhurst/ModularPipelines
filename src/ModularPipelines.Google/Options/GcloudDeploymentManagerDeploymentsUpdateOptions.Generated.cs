@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deployment-manager", "deployments", "update")]
 public record GcloudDeploymentManagerDeploymentsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DeploymentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DeploymentName
 ) : GcloudOptions
 {
     /// <summary>
@@ -57,19 +57,19 @@ public record GcloudDeploymentManagerDeploymentsUpdateOptions(
     /// <summary>
     /// A comma separated, key:value, map to be used when deploying a template     file or composite type directly.
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Properties { get; set; }
 
     /// <summary>
     /// List of label keys to remove. If a label does not exist it is silently     ignored. If --update-labels is also specified then --update-labels is     applied first.
     /// </summary>
-    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-labels", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveLabels { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --composite-type=COMPOSITE_TYPE      Name of a composite type to deploy. For an example of creating and      deploying a composite type, see:      https://cloud.google.com/deployment-manager/docs/configuration/templates/create-composite-types#examplecompositetype     --config=CONFIG      Filename of a top-level yaml config that specifies resources to      deploy. For a guide to creating a configuration, refer to      https://cloud.google.com/deployment-manager/docs/configuration/create-basic-configuration     --template=TEMPLATE      Filename of a top-level jinja or python config template.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
 }

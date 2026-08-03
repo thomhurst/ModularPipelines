@@ -22,6 +22,6 @@ public record NpmConfigGetOptions : NpmOptions
     [CliFlag("--long")]
     public virtual bool? Long { get; set; }
 
-    [CliArgument(Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(Phase = CommandLinePhase.EarlyOperand)]
     public virtual string? Key { get; set; }
 }

@@ -36,7 +36,7 @@ public record KubernetesClusterInfoDumpOptions : KubernetesOptions
     /// <summary>
     /// A comma separated list of namespaces to dump.
     /// </summary>
-    [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--namespaces", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Namespaces { get; set; }
 
     /// <summary>

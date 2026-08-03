@@ -27,7 +27,7 @@ public record GcloudPreviewComputeInstanceGroupsUnmanagedListOptions : GcloudOpt
     /// <summary>
     /// If provided, only resources from the given zones are queried.
     /// </summary>
-    [CliOption("--zones", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--zones", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Zones { get; set; }
 
 }

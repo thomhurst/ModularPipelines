@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "video", "detect-shot-changes")]
 public record GcloudMlVideoDetectShotChangesOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InputPath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InputPath
 ) : GcloudOptions
 {
     /// <summary>
@@ -45,7 +45,7 @@ public record GcloudMlVideoDetectShotChangesOptions(
     /// <summary>
     /// Segments from the video which you want to analyze (by default, the     entire video will be treated as one segment). Must be in the format     START1:END1[,START2:END2,...] (inclusive). START and END of segments     must be a properly formatted duration string of the form HhMmSs where:       * H is the number of hours from beginning of video       * M is the number of minutes from the beginning of video       * S is the number of seconds from the beginning of the video     H, M and S can be specified as ints or floats for fractional units (to     microsecond resolution). Unit chars (e.g. h, m or s) are required.     Microseconds can be specified using fractional seconds e.g. 0.000569s     == 569 microseconds.     Examples:     0s:23.554048s,24s:29.528064s     0:1m40s,3m50s:5m10.232265s
     /// </summary>
-    [CliOption("--segments", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--segments", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Segments { get; set; }
 
 }

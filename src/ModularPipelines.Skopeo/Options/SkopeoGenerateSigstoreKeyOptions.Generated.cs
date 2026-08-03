@@ -19,7 +19,7 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("generate-sigstore-key")]
 public record SkopeoGenerateSigstoreKeyOptions(
-    [property: CliArgument(0)] string Prefix
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Prefix
 ) : SkopeoOptions
 {
     /// <summary>
@@ -44,7 +44,7 @@ public record SkopeoGenerateSigstoreKeyOptions(
     /// <summary>
     /// The command options operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? CommandOptions { get; set; }
 
 }

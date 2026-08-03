@@ -19,10 +19,10 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-sign")]
 public record SkopeoStandaloneSignOptions(
-    [property: CliArgument(0)] string Signature,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Manifest,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string DockerReference,
-    [property: CliArgument(3, Placement = ArgumentPlacement.BeforeOptions)] string KeyFingerprint
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Signature,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Manifest,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string DockerReference,
+    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand)] string KeyFingerprint
 ) : SkopeoOptions
 {
     /// <summary>
@@ -47,7 +47,7 @@ public record SkopeoStandaloneSignOptions(
     /// <summary>
     /// The command options operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? CommandOptions { get; set; }
 
 }

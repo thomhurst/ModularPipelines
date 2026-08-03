@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "ops-agents", "policies", "describe")]
 public record GcloudComputeInstancesOpsAgentsPoliciesDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PolicyId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PolicyId
 ) : GcloudOptions
 {
 }

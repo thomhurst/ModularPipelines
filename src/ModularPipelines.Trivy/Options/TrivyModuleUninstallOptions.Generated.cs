@@ -19,7 +19,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("module", "uninstall")]
 public record TrivyModuleUninstallOptions(
-    [property: CliArgument(0)] string Repository
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Repository
 ) : TrivyOptions
 {
     /// <summary>
@@ -55,7 +55,7 @@ public record TrivyModuleUninstallOptions(
     /// <summary>
     /// [EXPERIMENTAL] module names to enable
     /// </summary>
-    [CliOption("--enable-modules", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--enable-modules", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? EnableModules { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sql", "instances", "get-storage-shrink-config")]
 public record GcloudSqlInstancesGetStorageShrinkConfigOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Instance
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Instance
 ) : GcloudOptions
 {
 }

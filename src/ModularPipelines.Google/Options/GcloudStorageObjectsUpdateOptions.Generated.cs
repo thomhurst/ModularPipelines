@@ -54,7 +54,7 @@ public record GcloudStorageObjectsUpdateOptions : GcloudOptions
     /// <summary>
     /// Key-value pairs mirroring the JSON accepted by your cloud provider. For     example, for Cloud     Storage,--add-acl-grant=entity=user-tim@gmail.com,role=OWNER
     /// </summary>
-    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--add-acl-grant", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AddAclGrant { get; set; }
 
     [CliOption("--canned-acl", Format = OptionFormat.EqualsSeparated)]

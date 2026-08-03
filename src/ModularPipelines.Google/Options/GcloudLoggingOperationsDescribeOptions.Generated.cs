@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "operations", "describe")]
 public record GcloudLoggingOperationsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string OperationId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OperationId
 ) : GcloudOptions
 {
 }

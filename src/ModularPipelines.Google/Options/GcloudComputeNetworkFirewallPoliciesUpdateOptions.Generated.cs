@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "network-firewall-policies", "update")]
 public record GcloudComputeNetworkFirewallPoliciesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string FirewallPolicy
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string FirewallPolicy
 ) : GcloudOptions
 {
     /// <summary>

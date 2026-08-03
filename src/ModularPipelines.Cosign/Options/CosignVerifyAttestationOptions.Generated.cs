@@ -20,7 +20,7 @@ namespace ModularPipelines.Cosign.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("verify-attestation")]
 public record CosignVerifyAttestationOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Images
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Images
 ) : CosignOptions
 {
     /// <summary>
@@ -146,7 +146,7 @@ public record CosignVerifyAttestationOptions(
     /// <summary>
     /// specify CUE or Rego files with policies to be used for validation
     /// </summary>
-    [CliOption("--policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Policy { get; set; }
 
     /// <summary>

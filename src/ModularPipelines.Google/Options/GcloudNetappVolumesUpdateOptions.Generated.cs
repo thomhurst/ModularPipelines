@@ -79,13 +79,13 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     /// <summary>
     /// Type of File System protocols for the Cloud NetApp Volume. Valid     component values are: NFSV3, NFSV4, SMB, ISCSI.
     /// </summary>
-    [CliOption("--protocols", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--protocols", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Protocols { get; set; }
 
     /// <summary>
     /// Actions to be restricted for a volume. Valid restricted action options     are: 'DELETE'.
     /// </summary>
-    [CliOption("--restricted-actions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--restricted-actions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RestrictedActions { get; set; }
 
     [CliOption("--security-style", Format = OptionFormat.EqualsSeparated)]
@@ -100,7 +100,7 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of settings specific to SMB protocol for a Cloud NetApp Files     Volume. Valid component values are: ENCRYPT_DATA, BROWSABLE,     CHANGE_NOTIFY, NON_BROWSABLE, OPLOCKS, SHOW_SNAPSHOT,     SHOW_PREVIOUS_VERSIONS, ACCESS_BASED_ENUMERATION,     CONTINUOUSLY_AVAILABLE.
     /// </summary>
-    [CliOption("--smb-settings", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--smb-settings", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SmbSettings { get; set; }
 
     /// <summary>
@@ -157,7 +157,7 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     /// <summary>
     /// Tiering Policy contains auto tiering policy on a volume.       Tiering Policy will have the following format       --tiering-policy=tier-action=TIER_ACTION,       cooling-threshold-days=COOLING_THRESHOLD_DAYS       tier-action is an enum, supported values are ENABLED or PAUSED,     cooling-threshold-days is an integer represents time in days to mark     the volume's data block as cold and make it eligible for tiering, can     be range from 7-183. Default is 31.
     /// </summary>
-    [CliOption("--tiering-policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--tiering-policy", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? TieringPolicy { get; set; }
 
     /// <summary>
@@ -169,7 +169,7 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     /// <summary>
     /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud netapp volumes update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud netapp volumes update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Backup resource - The source Backup to create the Volume from. The   arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --source-backup on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --source-backup on the command line with a fully     specified name;    ◆ set the property netapp/location.
     /// </summary>
-    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? UpdateLabels { get; set; }
 
     /// <summary>

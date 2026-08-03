@@ -24,7 +24,7 @@ public record GcloudDataplexEntriesModifyOptions : GcloudOptions
     /// <summary>
     /// List of Aspect keys, identifying Aspects to remove from the entry.     Keys are in the format ASPECT_TYPE@PATH, or just ASPECT_TYPE, if the     Aspect is attached to an entry itself rather than to a specific column     defined in the schema.     ASPECT_TYPE is expected to be in a format     PROJECT_ID.LOCATION.ASPECT_TYPE_ID or a wildcard *, which targets all     aspect types.     PATH can be either empty (which means a 'root' path, such that Aspect     is attached to the entry itself), point to a specific column defined in     the schema (for example: Schema.some_column) or a wildcard * (target     all paths).     ASPECT_TYPE and PATH cannot be both specified as wildcards *.     If both --update-aspects and --remove-aspects flags are specified, and     the same aspect key is used in both flags, then --update-aspects takes     precedence, and such an aspect will be updated and not removed.
     /// </summary>
-    [CliOption("--remove-aspects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--remove-aspects", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RemoveAspects { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("filestore", "backups", "describe")]
 public record GcloudFilestoreBackupsDescribeOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Backup
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Backup
 ) : GcloudOptions
 {
 }

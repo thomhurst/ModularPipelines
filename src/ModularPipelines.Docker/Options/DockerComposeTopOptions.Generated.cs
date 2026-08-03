@@ -29,7 +29,7 @@ public record DockerComposeTopOptions : DockerOptions
     /// <summary>
     /// The SERVICES operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? Services { get; set; }
 
 }

@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("vmware", "network-policies", "external-access-rules", "update")]
 public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Vm
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Vm
 ) : GcloudOptions
 {
     /// <summary>
@@ -45,13 +45,13 @@ public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
     /// <summary>
     /// List of allowed destination ports. Each entry must be either an integer     or a range.
     /// </summary>
-    [CliOption("--destination-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--destination-ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DestinationPorts { get; set; }
 
     /// <summary>
     /// A list of destination IP addresses that the rule applies to. Each entry     in the list be an ExternalAddress resource name or 0.0.0.0/0. When the     value is set to 0.0.0.0/0, all IP addresses are allowed.
     /// </summary>
-    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--destination-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DestinationRanges { get; set; }
 
     /// <summary>
@@ -69,13 +69,13 @@ public record GcloudVmwareNetworkPoliciesExternalAccessRulesUpdateOptions(
     /// <summary>
     /// List of allowed source ports. Each entry must be either an integer or a     range.
     /// </summary>
-    [CliOption("--source-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-ports", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourcePorts { get; set; }
 
     /// <summary>
     /// A list of source IP addresses that the rule applies to. Each entry in     the list can be a CIDR notation or a single IP address. When the value     is set to 0.0.0.0/0, all IP addresses are allowed.
     /// </summary>
-    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-ranges", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SourceRanges { get; set; }
 
 }

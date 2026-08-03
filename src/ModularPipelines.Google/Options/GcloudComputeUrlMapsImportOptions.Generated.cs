@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "url-maps", "import")]
 public record GcloudComputeUrlMapsImportOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string UrlMap
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string UrlMap
 ) : GcloudOptions
 {
     /// <summary>

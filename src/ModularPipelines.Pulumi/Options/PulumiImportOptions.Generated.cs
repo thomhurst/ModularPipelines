@@ -107,7 +107,7 @@ public record PulumiImportOptions : PulumiOptions
     /// <summary>
     /// The property names to use for the import in the format name1,name2
     /// </summary>
-    [CliOption("--properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--properties", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Properties { get; set; }
 
     /// <summary>
@@ -251,7 +251,7 @@ public record PulumiImportOptions : PulumiOptions
     /// <summary>
     /// The [arg] operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? Arg { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instances", "detach-disk")]
 public record GcloudComputeInstancesDetachDiskOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InstanceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceName
 ) : GcloudOptions
 {
 }

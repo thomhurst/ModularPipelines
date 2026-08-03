@@ -53,7 +53,7 @@ public record PodmanPodStatsOptions : PodmanOptions
     /// <summary>
     /// The POD operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Pod { get; set; }
 
 }

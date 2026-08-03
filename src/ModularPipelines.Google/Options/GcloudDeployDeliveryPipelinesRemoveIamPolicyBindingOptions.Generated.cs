@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "delivery-pipelines", "remove-iam-policy-binding")]
 public record GcloudDeployDeliveryPipelinesRemoveIamPolicyBindingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Iam
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Iam
 ) : GcloudOptions
 {
 }

@@ -30,7 +30,7 @@ public record SnykPolicyOptions : SnykOptions
     /// <summary>
     /// Path to the Snyk policy file
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? PathToPolicyFile { get; set; }
 
 }

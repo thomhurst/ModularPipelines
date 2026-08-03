@@ -20,13 +20,13 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("token", "capabilities")]
 public record VaultTokenCapabilitiesOptions(
-    [property: CliArgument(1)] string Path
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Path
 ) : VaultOptions
 {
     /// <summary>
     /// The TOKEN operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Token { get; set; }
 
 }

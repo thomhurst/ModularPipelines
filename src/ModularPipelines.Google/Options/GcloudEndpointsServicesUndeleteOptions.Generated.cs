@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("endpoints", "services", "undelete")]
 public record GcloudEndpointsServicesUndeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Service
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Service
 ) : GcloudOptions
 {
     /// <summary>

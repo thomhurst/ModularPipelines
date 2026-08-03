@@ -24,7 +24,7 @@ public record FluxCreateReceiverOptions : FluxOptions
     /// <summary>
     /// also accepts comma-separated values
     /// </summary>
-    [CliOption("--event", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--event", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Event { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public record FluxCreateReceiverOptions : FluxOptions
     /// <summary>
     /// also accepts comma-separated values
     /// </summary>
-    [CliOption("--resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Resource { get; set; }
 
     [SecretValue]
@@ -58,7 +58,7 @@ public record FluxCreateReceiverOptions : FluxOptions
     /// <summary>
     /// Group to impersonate for the operation, this flag can be repeated to specify multiple groups.
     /// </summary>
-    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-group", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsGroup { get; set; }
 
     /// <summary>
@@ -70,7 +70,7 @@ public record FluxCreateReceiverOptions : FluxOptions
     /// <summary>
     /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
     /// </summary>
-    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>
@@ -154,7 +154,7 @@ public record FluxCreateReceiverOptions : FluxOptions
     /// <summary>
     /// set labels on the resource (can specify multiple labels with commas: label1=value1,label2=value2)
     /// </summary>
-    [CliOption("--label", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--label", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Label { get; set; }
 
     /// <summary>
@@ -209,7 +209,7 @@ public record FluxCreateReceiverOptions : FluxOptions
     /// <summary>
     /// The name operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
 
 }
