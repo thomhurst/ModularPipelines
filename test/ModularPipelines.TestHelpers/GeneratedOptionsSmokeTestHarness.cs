@@ -262,15 +262,30 @@ public static class GeneratedOptionsSmokeTestHarness
 
         if (value is CliOptionValue optionValue)
         {
-            return optionValue.IsBare
-                ? [optionName]
-                : RenderOptionValue(optionName, separator, optionValue.Value!);
+            return RenderOptionalValue(optionName, separator, optionValue);
+        }
+
+        if (option.ValueArity == CliOptionValueArity.Optional
+            && option.Attribute.AllowMultiple
+            && value is IEnumerable<CliOptionValue> optionValues)
+        {
+            return optionValues
+                .SelectMany(item => RenderOptionalValue(optionName, separator, item))
+                .ToList();
         }
 
         return GetValues(value)
             .SelectMany(renderedValue => RenderOptionValue(optionName, separator, renderedValue))
             .ToList();
     }
+
+    private static IReadOnlyList<string> RenderOptionalValue(
+        string optionName,
+        string separator,
+        CliOptionValue optionValue) =>
+        optionValue.IsBare
+            ? [optionName]
+            : RenderOptionValue(optionName, separator, optionValue.Value!);
 
     private static IReadOnlyList<string> RenderOptionValue(
         string optionName,

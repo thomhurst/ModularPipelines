@@ -218,16 +218,14 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
-        var isLegacyGeneratedOptions = optionsType
-            .GetCustomAttribute<GeneratedCodeAttribute>(inherit: false)
-            ?.Tool == "ModularPipelines.OptionsGenerator";
+        var isLegacyGeneratedOption = IsLegacyGeneratedOption(optionsType, optionPart);
         var optionValues = rawValue switch
         {
             CliOptionValue optionValue => [optionValue],
             IEnumerable<CliOptionValue> values when optionPart.Attribute.AllowMultiple => values,
             // Preserve compatibility with generated option packages that predate CliOptionValue.
-            string value when isLegacyGeneratedOptions => [ToLegacyOptionalValue(value)],
-            IEnumerable<string> values when optionPart.Attribute.AllowMultiple && isLegacyGeneratedOptions
+            string value when isLegacyGeneratedOption => [ToLegacyOptionalValue(value)],
+            IEnumerable<string> values when optionPart.Attribute.AllowMultiple && isLegacyGeneratedOption
                 => values.Select(ToLegacyOptionalValue),
             _ => throw CreateInvalidOptionalValueTypeException(optionsType, optionPart),
         };
@@ -240,6 +238,32 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static CliOptionValue ToLegacyOptionalValue(string value)
         => string.IsNullOrWhiteSpace(value) ? CliOptionValue.Bare : value;
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "Legacy generated options retain their public CLI properties for reflection-based compatibility.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "Legacy generated option base types retain their public CLI properties for reflection-based compatibility.")]
+    private static bool IsLegacyGeneratedOption(Type optionsType, OptionPart optionPart)
+    {
+        for (var currentType = optionsType; currentType is not null; currentType = currentType.BaseType)
+        {
+            var property = currentType.GetProperty(
+                optionPart.PropertyName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+            if (property is not null)
+            {
+                return currentType.GetCustomAttribute<GeneratedCodeAttribute>(inherit: false)?.Tool
+                    == "ModularPipelines.OptionsGenerator";
+            }
+        }
+
+        return false;
+    }
 
     private static InvalidOperationException CreateInvalidOptionalValueTypeException(
         Type optionsType,

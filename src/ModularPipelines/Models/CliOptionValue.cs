@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines.Models;
 
 /// <summary>
 /// Represents either a bare CLI option or an option with an explicit value.
 /// </summary>
-public readonly record struct CliOptionValue
+public sealed record CliOptionValue
 {
     private CliOptionValue(string? value, bool isBare)
     {
@@ -27,13 +29,18 @@ public readonly record struct CliOptionValue
     public bool IsBare { get; }
 
     /// <summary>
-    /// Creates an option value from a non-empty string.
+    /// Creates an option value from a non-empty string, or preserves a null value so the option is omitted.
     /// </summary>
     /// <param name="value">The value to render.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
     /// <exception cref="ArgumentException"><paramref name="value"/> is empty or whitespace.</exception>
-    public static implicit operator CliOptionValue(string value)
+    [return: NotNullIfNotNull(nameof(value))]
+    public static implicit operator CliOptionValue?(string? value)
     {
+        if (value is null)
+        {
+            return null;
+        }
+
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
         return new CliOptionValue(value, isBare: false);
     }

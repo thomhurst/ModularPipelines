@@ -290,6 +290,16 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Preserves_Legacy_Optional_Value_From_Generated_Base_Type()
+    {
+        var options = new TestCliOptionsDerivedFromLegacyGeneratedOptions { Output = "json" };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(["--output=json"]);
+    }
+
+    [Test]
     public async Task Parser_Rejects_Handwritten_Legacy_Optional_String_Value()
     {
         var options = new TestCliOptionsWithHandwrittenLegacyOptionalValue { Output = "json" };
@@ -336,13 +346,12 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Rejects_Default_OptionalValue()
+    public async Task CliOptionValue_Implicitly_Preserves_Null_Strings()
     {
-        var options = new TestCliOptionsWithSemanticPhases { Terminal = default(CliOptionValue) };
+        string? value = null;
+        CliOptionValue? optionValue = value;
 
-        await Assert.That(() => BuildArguments(options))
-            .Throws<InvalidOperationException>()
-            .And.HasMessageContaining(nameof(CliOptionValue.Bare));
+        await Assert.That(optionValue).IsNull();
     }
 
     [Test]
@@ -561,6 +570,19 @@ public class CliAttributeTests
             ValueArity = CliOptionValueArity.Optional)]
         public string? Output { get; set; }
     }
+
+    [GeneratedCode("ModularPipelines.OptionsGenerator", "3.0.0")]
+    private record TestCliOptionsWithLegacyGeneratedBase
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public string? Output { get; set; }
+    }
+
+    private sealed record TestCliOptionsDerivedFromLegacyGeneratedOptions
+        : TestCliOptionsWithLegacyGeneratedBase;
 
     private record TestCliOptionsWithHandwrittenLegacyOptionalValue
     {
