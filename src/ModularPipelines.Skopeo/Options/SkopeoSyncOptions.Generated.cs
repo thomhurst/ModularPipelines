@@ -20,9 +20,9 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("sync")]
 public record SkopeoSyncOptions(
-    [property: CliArgument(0)] string Transport,
-    [property: CliArgument(1)] string Source,
-    [property: CliArgument(2)] string Destination
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Transport,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Source,
+    [property: CliArgument(2, Phase = CommandLinePhase.Passthrough)] string Destination
 ) : SkopeoOptions
 {
     /// <summary>
@@ -232,7 +232,7 @@ public record SkopeoSyncOptions(
     /// <summary>
     /// The command options operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? CommandOptions { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "instant-snapshot-groups", "delete")]
 public record GcloudComputeInstantSnapshotGroupsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> InstantSnapshotGroupName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> InstantSnapshotGroupName
 ) : GcloudOptions
 {
 }

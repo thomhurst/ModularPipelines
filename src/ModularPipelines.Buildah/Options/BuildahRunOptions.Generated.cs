@@ -29,13 +29,13 @@ public record BuildahRunOptions : BuildahOptions
     /// <summary>
     /// add the specified capability (default [])
     /// </summary>
-    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-add", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapAdd { get; set; }
 
     /// <summary>
     /// drop the specified capability (default [])
     /// </summary>
-    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cap-drop", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CapDrop { get; set; }
 
     /// <summary>
@@ -53,7 +53,7 @@ public record BuildahRunOptions : BuildahOptions
     /// <summary>
     /// add environment variable to be set temporarily when running command (default [])
     /// </summary>
-    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", ShortForm = "-e", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Env { get; set; }
 
     /// <summary>
@@ -83,7 +83,7 @@ public record BuildahRunOptions : BuildahOptions
     /// <summary>
     /// attach a filesystem mount to the container (default [])
     /// </summary>
-    [CliOption("--mount", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--mount", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Mount { get; set; }
 
     /// <summary>
@@ -125,7 +125,7 @@ public record BuildahRunOptions : BuildahOptions
     /// <summary>
     /// add global flags for the container runtime
     /// </summary>
-    [CliOption("--runtime-flag", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--runtime-flag", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? RuntimeFlag { get; set; }
 
     /// <summary>
@@ -149,7 +149,7 @@ public record BuildahRunOptions : BuildahOptions
     /// <summary>
     /// bind mount a host location into the container while running the command
     /// </summary>
-    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--volume", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Volume { get; set; }
 
     /// <summary>

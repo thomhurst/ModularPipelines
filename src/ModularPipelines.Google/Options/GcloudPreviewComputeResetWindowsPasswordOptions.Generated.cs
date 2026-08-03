@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "reset-windows-password")]
 public record GcloudPreviewComputeResetWindowsPasswordOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string InstanceName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string InstanceName
 ) : GcloudOptions
 {
     /// <summary>

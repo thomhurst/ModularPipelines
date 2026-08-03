@@ -35,7 +35,7 @@ public record EksctlUnsetLabelsOptions : EksctlOptions
     /// <summary>
     /// List of labels to remove
     /// </summary>
-    [CliOption("--labels", ShortForm = "-l", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>

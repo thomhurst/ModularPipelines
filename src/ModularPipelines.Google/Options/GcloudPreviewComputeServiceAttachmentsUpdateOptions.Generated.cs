@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "service-attachments", "update")]
 public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
@@ -32,13 +32,13 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     /// <summary>
     /// Specifies which consumer projects/networks/endpoints are allowed to     connect to the service attachment. A connection limit is required for     each accepted project/network (optional for endpoints). For a given     service attachment, consumer accept and reject lists must contain     entries of the same type: all projects, all networks or all endpoints.     For example:     ◆ --consumer-accept-list myProjectId1=20 - Accepts a consumer project      myProjectId1 with connection limit 20.     ◆ --consumer-accept-list      projects/myProjectId1/global/networks/myNet1=20 - Accepts a consumer      network myNet1 with connection limit 20.     ◆ --consumer-accept-list      projects/myProjectId1/regions/myRegion1/forwardingRules/8167352512 -      Accepts a consumer endpoint with ID 8167352512.     ◆ PROJECT_OR_NETWORK_OR_ENDPOINT - Consumer project ID/number or      network URL or endpoint URL.     ◆ CONNECTION_LIMIT - The maximum number of allowed connections. This      field is optional for endpoints.
     /// </summary>
-    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ConsumerAcceptList { get; set; }
 
     /// <summary>
     /// Specifies a comma-separated list of projects/networks/endpoints that     are not allowed to connect to this service attachment. The project can     be specified using its project ID or project number and the network or     endpoint can be specified using its URL. For a given service     attachment, consumer accept and reject lists must contain entries of     the same type: all projects, all networks, or all endpoints.
     /// </summary>
-    [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ConsumerRejectList { get; set; }
 
     /// <summary>
@@ -56,7 +56,7 @@ public record GcloudPreviewComputeServiceAttachmentsUpdateOptions(
     /// <summary>
     /// The subnetworks provided by service producer to use for NAT
     /// </summary>
-    [CliOption("--nat-subnets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--nat-subnets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? NatSubnets { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("services", "api-keys", "lookup")]
 public record GcloudServicesApiKeysLookupOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string KeyString
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string KeyString
 ) : GcloudOptions
 {
 }

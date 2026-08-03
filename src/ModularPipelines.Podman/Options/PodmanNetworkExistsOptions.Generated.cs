@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "exists")]
 public record PodmanNetworkExistsOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Network
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Network
 ) : PodmanOptions
 {
 }

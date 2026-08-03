@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "env", "add")]
 public record PulumiConfigEnvAddOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> EnvironmentName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> EnvironmentName
 ) : PulumiOptions
 {
     /// <summary>

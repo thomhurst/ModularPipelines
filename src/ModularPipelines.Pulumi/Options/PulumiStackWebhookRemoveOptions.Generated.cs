@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stack", "webhook", "remove")]
 public record PulumiStackWebhookRemoveOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
 ) : PulumiOptions
 {
     /// <summary>

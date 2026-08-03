@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("resource-manager", "tags", "holds", "list")]
 public record GcloudResourceManagerTagsHoldsListOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Parent
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Parent
 ) : GcloudOptions
 {
     /// <summary>

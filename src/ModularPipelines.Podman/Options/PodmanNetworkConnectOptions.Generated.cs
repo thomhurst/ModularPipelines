@@ -19,14 +19,14 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "connect")]
 public record PodmanNetworkConnectOptions(
-    [property: CliArgument(0)] string Network,
-    [property: CliArgument(1)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Network,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Container
 ) : PodmanOptions
 {
     /// <summary>
     /// network scoped alias for container
     /// </summary>
-    [CliOption("--alias", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--alias", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Alias { get; set; }
 
     /// <summary>

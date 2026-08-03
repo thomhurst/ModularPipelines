@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ai-platform", "models", "delete")]
 public record GcloudAiPlatformModelsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Model
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Model
 ) : GcloudOptions
 {
     /// <summary>

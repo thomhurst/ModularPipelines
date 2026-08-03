@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("colab", "runtime-templates", "remove-iam-policy-binding")]
 public record GcloudColabRuntimeTemplatesRemoveIamPolicyBindingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Iam
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Iam
 ) : GcloudOptions
 {
 }

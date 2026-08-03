@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "interconnects", "attachments", "dedicated", "update")]
 public record GcloudPreviewComputeInterconnectsAttachmentsDedicatedUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     /// <summary>
@@ -44,7 +44,7 @@ public record GcloudPreviewComputeInterconnectsAttachmentsDedicatedUpdateOptions
     /// <summary>
     /// The candididate-ipv6-subnets field is not available.
     /// </summary>
-    [CliOption("--candidate-ipv6-subnets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--candidate-ipv6-subnets", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? CandidateIpv6Subnets { get; set; }
 
     /// <summary>

@@ -20,13 +20,13 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("kv", "patch")]
 public record VaultKvPatchOptions(
-    [property: CliArgument(0)] string Key
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Key
 ) : VaultOptions
 {
     /// <summary>
     /// The DATA operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Data { get; set; }
 
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "delete")]
 public record VaultPolicyDeleteOptions(
-    [property: CliArgument(0)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name
 ) : VaultOptions
 {
 }

@@ -29,7 +29,7 @@ public record KubernetesExecOptions : KubernetesOptions
     /// <summary>
     /// to use to exec into the resource
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("iam", "workload-identity-pools", "set-iam-policy")]
 public record GcloudIamWorkloadIdentityPoolsSetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PolicyFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PolicyFile
 ) : GcloudOptions
 {
 }

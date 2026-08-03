@@ -72,13 +72,13 @@ public record CargoTestOptions : CargoOptions
     /// <summary>
     /// The TESTNAME operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Testname { get; set; }
 
     /// <summary>
     /// The [ARGS] operand.
     /// </summary>
-    [CliArgument(1, PrependOptionTerminator = true)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
     public IEnumerable<string>? Args { get; set; }
 
 }

@@ -65,7 +65,7 @@ public record PodmanStatsOptions : PodmanOptions
     /// <summary>
     /// The CONTAINER operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Container { get; set; }
 
 }

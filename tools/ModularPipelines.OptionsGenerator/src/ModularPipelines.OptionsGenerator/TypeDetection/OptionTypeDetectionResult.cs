@@ -47,6 +47,11 @@ public class OptionTypeDetectionResult
     public IReadOnlyList<string>? SecretValueKeys { get; init; }
 
     /// <summary>
+    /// Gets a value indicating whether collection values share one option occurrence.
+    /// </summary>
+    public bool GroupValues { get; init; }
+
+    /// <summary>
     /// Creates a result indicating the detector could not determine the type.
     /// </summary>
     public static OptionTypeDetectionResult Unknown(string source) => new()

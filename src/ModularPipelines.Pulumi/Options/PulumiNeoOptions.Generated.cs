@@ -155,7 +155,7 @@ public record PulumiNeoOptions : PulumiOptions
     /// <summary>
     /// The prompt operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Prompt { get; set; }
 
 }

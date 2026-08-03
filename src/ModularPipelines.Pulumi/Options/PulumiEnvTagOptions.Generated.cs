@@ -119,19 +119,19 @@ public record PulumiEnvTagOptions : PulumiOptions
     /// <summary>
     /// The environment-name operand.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? EnvironmentName { get; set; }
 
     /// <summary>
     /// The name operand.
     /// </summary>
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(1, Phase = CommandLinePhase.EarlyOperand)]
     public string? Name { get; set; }
 
     /// <summary>
     /// The value operand.
     /// </summary>
-    [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
     public string? Value { get; set; }
 
 }

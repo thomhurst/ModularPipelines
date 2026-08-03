@@ -19,13 +19,13 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("wait")]
 public record PodmanWaitOptions(
-    [property: CliArgument(0)] IEnumerable<string> Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Container
 ) : PodmanOptions
 {
     /// <summary>
     /// Condition to wait on
     /// </summary>
-    [CliOption("--condition", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--condition", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Condition { get; set; }
 
     /// <summary>

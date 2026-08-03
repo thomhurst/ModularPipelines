@@ -19,7 +19,7 @@ namespace ModularPipelines.Grype.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("db", "diff")]
 public record GrypeDbDiffOptions(
-    [property: CliArgument(0)] string OldDbUrlOrPath
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string OldDbUrlOrPath
 ) : GrypeOptions
 {
     /// <summary>
@@ -49,13 +49,13 @@ public record GrypeDbDiffOptions(
     /// <summary>
     /// grype configuration file(s) to use
     /// </summary>
-    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--config", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Config { get; set; }
 
     /// <summary>
     /// configuration profiles to use
     /// </summary>
-    [CliOption("--profile", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--profile", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Profile { get; set; }
 
     /// <summary>
@@ -73,7 +73,7 @@ public record GrypeDbDiffOptions(
     /// <summary>
     /// The new_db_url_or_path operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? NewDbUrlOrPath { get; set; }
 
 }

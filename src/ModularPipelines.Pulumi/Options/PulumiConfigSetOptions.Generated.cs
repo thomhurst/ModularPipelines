@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set")]
 public record PulumiConfigSetOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Key
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Key
 ) : PulumiOptions
 {
     /// <summary>
@@ -151,7 +151,7 @@ public record PulumiConfigSetOptions(
     /// <summary>
     /// The value operand.
     /// </summary>
-    [CliArgument(0, PrependOptionTerminator = true)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
     public string? Value { get; set; }
 
 }

@@ -22,7 +22,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("scc", "findings", "update")]
 public record GcloudSccFindingsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Finding
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Finding
 ) : GcloudOptions
 {
     /// <summary>
@@ -46,7 +46,7 @@ public record GcloudSccFindingsUpdateOptions(
     /// <summary>
     /// Source specific properties. These properties are managed by the source     that writes the finding. The key names in the source_properties map     must be between 1 and 255 characters, and must start with a letter and     contain alphanumeric characters or underscores only. For example     "key1=val1,key2=val2"
     /// </summary>
-    [CliOption("--source-properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--source-properties", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? SourceProperties { get; set; }
 
     /// <summary>

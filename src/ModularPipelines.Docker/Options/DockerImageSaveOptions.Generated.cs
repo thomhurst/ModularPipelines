@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
 public record DockerImageSaveOptions(
-    [property: CliArgument(0)] IEnumerable<string> Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Image
 ) : DockerOptions
 {
     /// <summary>

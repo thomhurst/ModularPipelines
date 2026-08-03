@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("privateca", "pools", "get-iam-policy")]
 public record GcloudPrivatecaPoolsGetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Ca
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Ca
 ) : GcloudOptions
 {
 }

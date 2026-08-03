@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "buckets", "update")]
 public record GcloudLoggingBucketsUpdateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string BucketId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string BucketId
 ) : GcloudOptions
 {
 }

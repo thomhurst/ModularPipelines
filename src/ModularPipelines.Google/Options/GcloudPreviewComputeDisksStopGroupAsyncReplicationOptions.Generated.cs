@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "disks", "stop-group-async-replication")]
 public record GcloudPreviewComputeDisksStopGroupAsyncReplicationOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DiskConsistencyGroupPolicy
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DiskConsistencyGroupPolicy
 ) : GcloudOptions
 {
 }

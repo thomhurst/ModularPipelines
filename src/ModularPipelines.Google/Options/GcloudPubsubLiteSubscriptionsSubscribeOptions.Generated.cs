@@ -33,7 +33,7 @@ public record GcloudPubsubLiteSubscriptionsSubscribeOptions : GcloudOptions
     /// <summary>
     /// The partitions this subscriber should connect to to receive messages.     If empty, partitions will be automatically assigned.
     /// </summary>
-    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--partitions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Partitions { get; set; }
 
 }

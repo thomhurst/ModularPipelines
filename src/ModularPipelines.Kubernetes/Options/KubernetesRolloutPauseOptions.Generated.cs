@@ -36,7 +36,7 @@ public record KubernetesRolloutPauseOptions : KubernetesOptions
     /// <summary>
     /// Filename, directory, or URL to files identifying the resource to get from a server.
     /// </summary>
-    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--filename", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Filename { get; set; }
 
     /// <summary>

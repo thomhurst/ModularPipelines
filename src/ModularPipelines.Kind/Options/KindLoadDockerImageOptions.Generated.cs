@@ -19,7 +19,7 @@ namespace ModularPipelines.Kind.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("load", "docker-image")]
 public record KindLoadDockerImageOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] IEnumerable<string> Image
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Image
 ) : KindOptions
 {
     /// <summary>
@@ -37,7 +37,7 @@ public record KindLoadDockerImageOptions(
     /// <summary>
     /// comma separated list of nodes to load images into
     /// </summary>
-    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--nodes", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Nodes { get; set; }
 
     /// <summary>

@@ -24,7 +24,7 @@ public record GcloudComplianceManagerCloudControlsCreateOptions : GcloudOptions
     /// <summary>
     /// The categories for the cloud control. CATEGORIES must be one of:      cc-category-admin-access       The admin access category.     cc-category-artificial-intelligence       The artificial intelligence category.     cc-category-bcdr       The business continuity and disaster recovery (BCDR) category.     cc-category-data-residency       DRZ (Data Residency).     cc-category-data-security       The data security category.     cc-category-encryption       The encryption category.     cc-category-hr-admin-and-processes       The HR, admin, and processes category.     cc-category-identity-and-access-management       The identity and access management category.     cc-category-incident-management       The incident management category.     cc-category-infrastructure       The infrastructure security category.     cc-category-legal-and-disclosures       The legal and disclosures category.     cc-category-logs-management-and-infrastructure       The logs management and infrastructure category.     cc-category-network-security       The network security category.     cc-category-physical-security       The physical security category.     cc-category-privacy       The privacy category.     cc-category-resource-usage-restriction       RUR (Resource Usage Restriction).     cc-category-service-specific       SERVICE SPECIFIC     cc-category-third-party-and-sub-processor-management       The third-party and sub-processor management category.     cc-category-vulnerability-management       The vulnerability management category.
     /// </summary>
-    [CliOption("--categories", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--categories", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Categories { get; set; }
 
     /// <summary>
@@ -72,13 +72,13 @@ public record GcloudComplianceManagerCloudControlsCreateOptions : GcloudOptions
     /// <summary>
     /// The supported cloud providers. SUPPORTED_CLOUD_PROVIDERS must be one     of:      aws       Amazon Web Services (AWS).     azure       Microsoft Azure.     gcp       Google Cloud.
     /// </summary>
-    [CliOption("--supported-cloud-providers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--supported-cloud-providers", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SupportedCloudProviders { get; set; }
 
     /// <summary>
     /// The target resource types that are supported by the cloud control.     SUPPORTED_TARGET_RESOURCE_TYPES must be one of:      target-resource-crm-type-folder       The target resource is a folder.     target-resource-crm-type-org       The target resource is a Google Cloud organization.     target-resource-crm-type-project       The target resource is a project.     target-resource-type-application       The target resource is an application in App Hub.
     /// </summary>
-    [CliOption("--supported-target-resource-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--supported-target-resource-types", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? SupportedTargetResourceTypes { get; set; }
 
 }

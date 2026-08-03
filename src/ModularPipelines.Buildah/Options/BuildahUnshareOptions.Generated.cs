@@ -29,7 +29,7 @@ public record BuildahUnshareOptions : BuildahOptions
     /// <summary>
     /// mount the specified containers (default [])
     /// </summary>
-    [CliOption("--mount", ShortForm = "-m", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--mount", ShortForm = "-m", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Mount { get; set; }
 
 }

@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package", "get-mapping")]
 public record PulumiPackageGetMappingOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Key,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string SchemaSource
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Key,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string SchemaSource
 ) : PulumiOptions
 {
     /// <summary>
@@ -116,13 +116,13 @@ public record PulumiPackageGetMappingOptions(
     /// <summary>
     /// The [provider-parameter] operand.
     /// </summary>
-    [CliArgument(0, PrependOptionTerminator = true)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
     public IEnumerable<string>? ProviderParameter { get; set; }
 
     /// <summary>
     /// The provider-key operand.
     /// </summary>
-    [CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(2, Phase = CommandLinePhase.EarlyOperand)]
     public string? ProviderKey { get; set; }
 
 }

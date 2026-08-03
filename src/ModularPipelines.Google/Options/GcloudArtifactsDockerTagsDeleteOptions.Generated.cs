@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "docker", "tags", "delete")]
 public record GcloudArtifactsDockerTagsDeleteOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string DockerTag
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DockerTag
 ) : GcloudOptions
 {
 }

@@ -21,13 +21,13 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "diagnose")]
 public record GcloudStorageDiagnoseOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Url
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Url
 ) : GcloudOptions
 {
     /// <summary>
     /// Tests to run as part of this diagnosis. Following tests are supported:     DIRECT_CONNECTIVITY: Run a test upload over the Direct Connectivity     network path and run other diagnostics if the upload fails.     DOWNLOAD_THROUGHPUT: Upload objects to the specified bucket and record     the number of bytes transferred per second.     UPLOAD_THROUGHPUT: Download objects from the specified bucket and     record the number of bytes transferred per second.     LATENCY: Write the objects, retrieve their metadata, read the objects,     and record latency of each operation.     TEST_TYPES must be one of: DIRECT_CONNECTIVITY, DOWNLOAD_THROUGHPUT,     LATENCY, UPLOAD_THROUGHPUT.
     /// </summary>
-    [CliOption("--test-type", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--test-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudTestType? TestType { get; set; }
 
     [CliOption("--download-type", Format = OptionFormat.EqualsSeparated)]

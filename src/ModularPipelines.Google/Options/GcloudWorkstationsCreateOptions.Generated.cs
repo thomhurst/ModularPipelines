@@ -31,13 +31,13 @@ public record GcloudWorkstationsCreateOptions : GcloudOptions
     /// <summary>
     /// Environment variables passed to the Workstation.
     /// </summary>
-    [CliOption("--env", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--env", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Env { get; set; }
 
     /// <summary>
     /// Labels that are applied to the workstation and propagated to the     underlying Compute Engine resources.
     /// </summary>
-    [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--labels", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>

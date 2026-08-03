@@ -29,7 +29,7 @@ public record DotNetSolutionListOptions : DotNetOptions
     /// <summary>
     /// The solution file to operate on. If not specified, the command
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? SlnFile { get; set; }
 
 }

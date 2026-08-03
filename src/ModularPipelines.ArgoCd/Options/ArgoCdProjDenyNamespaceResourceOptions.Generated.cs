@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "deny-namespace-resource")]
 public record ArgoCdProjDenyNamespaceResourceOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Project,
-    [property: CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)] string Group,
-    [property: CliArgument(2, Placement = ArgumentPlacement.BeforeOptions)] string Kind
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Group,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string Kind
 ) : ArgoCdOptions
 {
     /// <summary>
@@ -95,7 +95,7 @@ public record ArgoCdProjDenyNamespaceResourceOptions(
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>

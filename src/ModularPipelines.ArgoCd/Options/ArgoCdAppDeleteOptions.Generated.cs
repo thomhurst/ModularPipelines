@@ -121,7 +121,7 @@ public record ArgoCdAppDeleteOptions : ArgoCdOptions
     /// <summary>
     /// Sets additional header to all requests made by Argo CD CLI. (Can be repeated multiple times to add multiple headers, also supports comma separated headers)
     /// </summary>
-    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--header", ShortForm = "-H", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Header { get; set; }
 
     /// <summary>
@@ -223,7 +223,7 @@ public record ArgoCdAppDeleteOptions : ArgoCdOptions
     /// <summary>
     /// Optional application names to target.
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public IEnumerable<string>? ApplicationNames { get; set; }
 
 }

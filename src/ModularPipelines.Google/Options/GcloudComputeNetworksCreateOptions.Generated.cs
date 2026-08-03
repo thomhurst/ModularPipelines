@@ -21,7 +21,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "networks", "create")]
 public record GcloudComputeNetworksCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Name
 ) : GcloudOptions
 {
     [CliOption("--bgp-routing-mode", Format = OptionFormat.EqualsSeparated)]
@@ -66,7 +66,7 @@ public record GcloudComputeNetworksCreateOptions(
     /// <summary>
     /// A comma-separated list of Resource Manager tags to apply to the     network.
     /// </summary>
-    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated)]
     public IReadOnlyList<KeyValue>? ResourceManagerTags { get; set; }
 
     /// <summary>

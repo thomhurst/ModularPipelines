@@ -109,7 +109,7 @@ public record DockerComposeBuildOptions : DockerOptions
     /// <summary>
     /// The SERVICE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public IEnumerable<string>? Service { get; set; }
 
 }

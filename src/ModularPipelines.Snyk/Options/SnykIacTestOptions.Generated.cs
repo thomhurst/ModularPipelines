@@ -151,7 +151,7 @@ public record SnykIacTestOptions : SnykOptions
     /// <summary>
     /// Infrastructure as Code path to scan
     /// </summary>
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
     public string? Path { get; set; }
 
 }

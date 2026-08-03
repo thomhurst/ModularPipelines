@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
 public record PodmanImportOptions(
-    [property: CliArgument(0)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Path
 ) : PodmanOptions
 {
     /// <summary>
@@ -31,7 +31,7 @@ public record PodmanImportOptions(
     /// <summary>
     /// Apply the following possible instructions to the created image (default []): CMD | ENTRYPOINT | ENV | EXPOSE | LABEL | ONBUILD | STOPSIGNAL | USER | VOLUME | WORKDIR
     /// </summary>
-    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--change", ShortForm = "-c", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Change { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public record PodmanImportOptions(
     /// <summary>
     /// The REFERENCE operand.
     /// </summary>
-    [CliArgument(1)]
+    [CliArgument(1, Phase = CommandLinePhase.Passthrough)]
     public string? Reference { get; set; }
 
 }

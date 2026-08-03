@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "images", "set-iam-policy")]
 public record GcloudPreviewComputeImagesSetIamPolicyOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PolicyFile
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string PolicyFile
 ) : GcloudOptions
 {
 }

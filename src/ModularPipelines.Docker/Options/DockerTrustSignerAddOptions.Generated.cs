@@ -19,14 +19,14 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("trust", "signer", "add")]
 public record DockerTrustSignerAddOptions(
-    [property: CliArgument(0)] string Name,
-    [property: CliArgument(1)] IEnumerable<string> Repository
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] IEnumerable<string> Repository
 ) : DockerOptions
 {
     /// <summary>
     /// Path to the signer's public key file
     /// </summary>
-    [CliOption("--key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Key { get; set; }
 
 }

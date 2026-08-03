@@ -19,7 +19,7 @@ namespace ModularPipelines.Minikube.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("mount")]
 public record MinikubeMountOptions(
-    [property: CliArgument(0)] string SourceDirectoryTargetDirectory
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string SourceDirectoryTargetDirectory
 ) : MinikubeOptions
 {
     /// <summary>
@@ -55,7 +55,7 @@ public record MinikubeMountOptions(
     /// <summary>
     /// Additional mount options, such as cache=fscache
     /// </summary>
-    [CliOption("--options", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--options", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Options { get; set; }
 
     /// <summary>

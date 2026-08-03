@@ -19,20 +19,20 @@ namespace ModularPipelines.Docker.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("network", "connect")]
 public record DockerNetworkConnectOptions(
-    [property: CliArgument(0)] string Network,
-    [property: CliArgument(1)] string Container
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Network,
+    [property: CliArgument(1, Phase = CommandLinePhase.Passthrough)] string Container
 ) : DockerOptions
 {
     /// <summary>
     /// Add network-scoped alias for the container
     /// </summary>
-    [CliOption("--alias", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--alias", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Alias { get; set; }
 
     /// <summary>
     /// driver options for the network
     /// </summary>
-    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--driver-opt", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? DriverOpt { get; set; }
 
     /// <summary>
@@ -56,13 +56,13 @@ public record DockerNetworkConnectOptions(
     /// <summary>
     /// Add link to another container
     /// </summary>
-    [CliOption("--link", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--link", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? Link { get; set; }
 
     /// <summary>
     /// Add a link-local address for the container
     /// </summary>
-    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? LinkLocalIp { get; set; }
 
 }

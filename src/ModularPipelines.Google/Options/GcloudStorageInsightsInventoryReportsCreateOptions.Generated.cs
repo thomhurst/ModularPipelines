@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "insights", "inventory-reports", "create")]
 public record GcloudStorageInsightsInventoryReportsCreateOptions(
-    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string SourceBucketUrl
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SourceBucketUrl
 ) : GcloudOptions
 {
     /// <summary>
@@ -35,7 +35,7 @@ public record GcloudStorageInsightsInventoryReportsCreateOptions(
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
 
-    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--metadata-fields", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? MetadataFields { get; set; }
 
     [CliOption("--schedule-repeats", Format = OptionFormat.EqualsSeparated)]

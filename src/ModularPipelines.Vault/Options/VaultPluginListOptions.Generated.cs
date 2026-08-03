@@ -24,7 +24,7 @@ public record VaultPluginListOptions : VaultOptions
     /// <summary>
     /// The TYPE operand.
     /// </summary>
-    [CliArgument(0)]
+    [CliArgument(0, Phase = CommandLinePhase.Passthrough)]
     public string? Type { get; set; }
 
 }

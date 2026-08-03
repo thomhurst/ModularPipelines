@@ -29,7 +29,7 @@ public record EksctlUtilsDescribeClusterVersionsOptions : EksctlOptions
     /// <summary>
     /// (optional) Filter results by specific Kubernetes versions. Accepts multiple comma-separated values. Example: --cluster-versions "1.31,1.30"
     /// </summary>
-    [CliOption("--cluster-versions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    [CliOption("--cluster-versions", Format = OptionFormat.EqualsSeparated)]
     public IEnumerable<string>? ClusterVersions { get; set; }
 
     /// <summary>
