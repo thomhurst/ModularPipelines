@@ -273,12 +273,14 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         var remainingInnerException = RemoveModuleExceptionBranches(innerException, moduleExceptions);
         if (remainingInnerException is null)
         {
-            return null;
+            return exception is ModuleFailedException
+                ? null
+                : new FilteredRunReportException(exception, innerException: null);
         }
 
         return ReferenceEquals(remainingInnerException, innerException)
             ? exception
-            : new AggregateException(exception.Message, remainingInnerException);
+            : new FilteredRunReportException(exception, remainingInnerException);
     }
 
     private static PipelineMetrics? RecomputeDurationMetrics(

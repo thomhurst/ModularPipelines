@@ -190,15 +190,18 @@ internal sealed class PipelineRunReportFactory(
 
     public RunReportExceptionDetails? CreateExceptionDetails(Exception? exception)
     {
+        var filteredException = exception as FilteredRunReportException;
         return exception is null
             ? null
             : new RunReportExceptionDetails
             {
-                Type = exception.GetType().FullName ?? exception.GetType().Name,
+                Type = filteredException?.TypeName
+                    ?? exception.GetType().FullName
+                    ?? exception.GetType().Name,
                 Message = secretObfuscator.Obfuscate(exception.Message, null),
-                StackTrace = exception.StackTrace is null
+                StackTrace = (filteredException?.OriginalStackTrace ?? exception.StackTrace) is not { } stackTrace
                     ? null
-                    : secretObfuscator.Obfuscate(exception.StackTrace, null),
+                    : secretObfuscator.Obfuscate(stackTrace, null),
                 InnerException = CreateExceptionDetails(exception.InnerException),
                 InnerExceptions = exception is AggregateException aggregateException
                     ? aggregateException.InnerExceptions

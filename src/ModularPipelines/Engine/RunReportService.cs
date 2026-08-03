@@ -115,11 +115,14 @@ internal sealed class RunReportService(
 
     private static RunReportExceptionDetails? CreateFallbackExceptionDetails(Exception? exception)
     {
+        var filteredException = exception as FilteredRunReportException;
         return exception is null
             ? null
             : new RunReportExceptionDetails
             {
-                Type = exception.GetType().FullName ?? exception.GetType().Name,
+                Type = filteredException?.TypeName
+                    ?? exception.GetType().FullName
+                    ?? exception.GetType().Name,
                 Message = "Exception details unavailable because secret obfuscation failed.",
                 InnerException = CreateFallbackExceptionDetails(exception.InnerException),
                 InnerExceptions = exception is AggregateException aggregateException

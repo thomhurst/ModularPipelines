@@ -124,6 +124,20 @@ public class RunReportTests
         }
     }
 
+    private sealed class WrappedFailureEndHook : IPipelineGlobalHooks
+    {
+        public Task OnPipelineEndAsync(
+            IPipelineContext context,
+            PipelineSummary pipelineSummary)
+        {
+            var moduleException = pipelineSummary.Results
+                .Select(result => result.ExceptionOrDefault)
+                .OfType<Exception>()
+                .Single();
+            throw new InvalidOperationException("Pipeline end hook failed", moduleException);
+        }
+    }
+
     private sealed class DelayedEndHook : IPipelineGlobalHooks
     {
         public static DateTimeOffset CompletedAt { get; private set; }
@@ -1406,6 +1420,49 @@ public class RunReportTests
                 await Assert.That(report.Exception!.InnerExceptions).HasSingleItem();
                 await Assert.That(report.Exception.InnerExceptions[0].Message)
                     .IsEqualTo("Pipeline end hook failed");
+                await Assert.That(report.Modules[0].Exception!.Message)
+                    .IsEqualTo("report failure **********");
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task PipelineExceptionRetainsNonModuleWrapper()
+    {
+        var directory = CreateTemporaryDirectory();
+        var reportPath = Path.Combine(directory, "wrapped-failure.json");
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                ExecutionMode = ExecutionMode.WaitForAllModules,
+                ThrowOnPipelineFailure = false,
+                PrintLogo = false,
+                PrintResults = false,
+                RunReport = options.RunReport with { ReportPath = reportPath },
+            });
+            builder.AddModule<FailingModule>();
+            builder.AddPipelineGlobalHooks<WrappedFailureEndHook>();
+
+            await Assert.ThrowsAsync<InvalidOperationException>(
+                () => builder.ExecutePipelineAsync());
+
+            var report = RunReportJsonSerializer.Deserialize(
+                await File.ReadAllTextAsync(reportPath));
+            using (Assert.Multiple())
+            {
+                await Assert.That(report!.Exception).IsNotNull();
+                await Assert.That(report.Exception!.Type)
+                    .IsEqualTo(typeof(InvalidOperationException).FullName);
+                await Assert.That(report.Exception.Message)
+                    .IsEqualTo("Pipeline end hook failed");
+                await Assert.That(report.Exception.InnerException).IsNull();
                 await Assert.That(report.Modules[0].Exception!.Message)
                     .IsEqualTo("report failure **********");
             }
