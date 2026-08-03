@@ -246,8 +246,8 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     /// </summary>
     /// <remarks>
     /// Examples:
-    /// - "BuildModule" → "Build" (generates GetBuildModuleResult)
-    /// - "DeployToProduction" → "DeployToProduction" (generates GetDeployToProductionModuleResult)
+    /// - "BuildModule" → "Build" (generates GetBuildModule)
+    /// - "DeployToProduction" → "DeployToProduction" (generates GetDeployToProductionModule)
     /// - "Module" → "Module" (edge case: keeps name to avoid empty string)
     ///
     /// The length check (className.Length > suffix.Length) ensures that a class named
