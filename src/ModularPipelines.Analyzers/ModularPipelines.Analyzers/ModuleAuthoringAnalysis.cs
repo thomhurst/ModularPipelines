@@ -266,7 +266,8 @@ internal static class ModuleAuthoringAnalysis
     {
         var objectCreation = (IObjectCreationOperation) context.Operation;
         if (objectCreation.Constructor is null
-            || !IsInReachableBranch(objectCreation))
+            || !IsInReachableBranch(objectCreation)
+            || !IsInsideReachableNestedCallable(objectCreation))
         {
             return;
         }
@@ -1172,11 +1173,23 @@ internal static class ModuleAuthoringAnalysis
 
         return operation switch
         {
+            IConversionOperation conversion =>
+                IsUnresolvedModuleServiceDescriptor(conversion.Operand),
             IArrayCreationOperation { Initializer: { } initializer } =>
                 initializer.ElementValues.Any(IsUnresolvedModuleServiceDescriptor),
             ICollectionExpressionOperation collection =>
                 collection.Elements.Any(IsUnresolvedModuleServiceDescriptor),
             ISpreadOperation spread => IsUnresolvedModuleServiceDescriptor(spread.Operand),
+            IConditionalOperation conditional =>
+                IsUnresolvedModuleServiceDescriptor(conditional.WhenTrue)
+                || (conditional.WhenFalse is not null
+                    && IsUnresolvedModuleServiceDescriptor(conditional.WhenFalse)),
+            ICoalesceOperation coalesce =>
+                IsUnresolvedModuleServiceDescriptor(coalesce.Value)
+                || IsUnresolvedModuleServiceDescriptor(coalesce.WhenNull),
+            ISwitchExpressionOperation switchExpression =>
+                switchExpression.Arms.Any(arm =>
+                    IsUnresolvedModuleServiceDescriptor(arm.Value)),
             IInvocationOperation invocation => IsUnresolvedModuleServiceDescriptorFactory(invocation),
             _ => false,
         };
@@ -1401,7 +1414,8 @@ internal static class ModuleAuthoringAnalysis
         var returnValues = operation.DescendantsAndSelf()
             .OfType<IReturnOperation>()
             .Where(static returnOperation =>
-                GetEnclosingCallable(returnOperation) is null)
+                GetEnclosingCallable(returnOperation) is null
+                && IsInReachableBranch(returnOperation))
             .Select(static returnOperation => returnOperation.ReturnedValue)
             .OfType<IOperation>()
             .ToArray();
@@ -1442,6 +1456,13 @@ internal static class ModuleAuthoringAnalysis
                 visitedMethods),
             IConditionalOperation conditional => TryTrackServiceDescriptorConditionalReturn(
                 conditional,
+                invocation,
+                compilation,
+                instanceRegisteredModules,
+                visitedLocals,
+                visitedMethods),
+            ISwitchExpressionOperation switchExpression => TryTrackServiceDescriptorSwitchReturn(
+                switchExpression,
                 invocation,
                 compilation,
                 instanceRegisteredModules,
@@ -2006,6 +2027,28 @@ internal static class ModuleAuthoringAnalysis
                    CloneVisitedMethods(visitedMethods)));
     }
 
+    private static bool TryTrackServiceDescriptorSwitchReturn(
+        ISwitchExpressionOperation switchExpression,
+        IInvocationOperation invocation,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var reachableArms = switchExpression.Arms
+            .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+            .Where(static arm => !AlwaysThrows(arm.Value))
+            .ToArray();
+        return reachableArms.Length > 0
+               && reachableArms.All(arm => TryTrackServiceDescriptorInvocationReturn(
+                   arm.Value,
+                   invocation,
+                   compilation,
+                   instanceRegisteredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   CloneVisitedMethods(visitedMethods)));
+    }
+
     private static bool TryTrackInstanceModuleTypesLocal(
         ILocalReferenceOperation localReference,
         Compilation compilation,
@@ -2499,12 +2542,16 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            _ = TryTrackServiceDescriptor(
-                assignment.Value,
-                context.Compilation,
-                instanceRegisteredModules,
-                [with(SymbolEqualityComparer.Default)],
-                [with(SymbolEqualityComparer.Default)]);
+            if (!TryTrackServiceDescriptor(
+                    assignment.Value,
+                    context.Compilation,
+                    instanceRegisteredModules,
+                    [with(SymbolEqualityComparer.Default)],
+                    [with(SymbolEqualityComparer.Default)])
+                && IsUnresolvedModuleServiceDescriptor(assignment.Value))
+            {
+                unresolvedModuleRegistrations.Add(0);
+            }
         }
     }
 
@@ -4560,6 +4607,15 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (coalesce.Value.ConstantValue is { HasValue: true, Value: null })
+        {
+            return FlowsFromCancellationToken(
+                coalesce.WhenNull,
+                cancellationToken,
+                visitedLocals,
+                visitedMethods);
+        }
+
         return FlowsFromCancellationToken(
                    coalesce.Value,
                    cancellationToken,

@@ -5840,6 +5840,209 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Switch_Passed_Through_ServiceDescriptor()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    var services = Pipeline.CreateBuilder().Services;
+                    services.Add(Pick(
+                        flag,
+                        ServiceDescriptor.Singleton<IModule, BuildModule>(),
+                        ServiceDescriptor.Singleton<IModule, BuildModule>()));
+                }
+
+                private static ServiceDescriptor Pick(
+                    bool flag,
+                    ServiceDescriptor first,
+                    ServiceDescriptor second) => flag switch
+                    {
+                        true => first,
+                        false => second,
+                    };
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_From_Dead_Descriptor_Helper_Return()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            internal class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:DeployModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register() =>
+                    Pipeline.CreateBuilder().Services.Add(CreateDescriptor());
+
+                private static ServiceDescriptor CreateDescriptor()
+                {
+                    if (false)
+                    {
+                        return ServiceDescriptor.Singleton<IModule, DeployModule>();
+                    }
+
+                    return ServiceDescriptor.Singleton<IModule, BuildModule>();
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("DeployModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Unresolved_Conditional_Descriptor_Suppresses_Unknown_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class KnownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class UnknownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag)
+                {
+                    Pipeline.CreateBuilder().Services.Add(flag
+                        ? ServiceDescriptor.Singleton<IModule, KnownModule>()
+                        : ServiceDescriptor.Singleton(
+                            typeof(IModule),
+                            ChooseImplementationType()));
+                }
+
+                private static Type ChooseImplementationType() => typeof(UnknownModule);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Unresolved_Indexer_Descriptor_Suppresses_Unknown_Module()
+    {
+        var source = $$"""
+            {{Header}}
+            using Microsoft.Extensions.DependencyInjection;
+
+            public class UnknownModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    var services = Pipeline.CreateBuilder().Services;
+                    services[0] = ServiceDescriptor.Singleton(
+                        typeof(IModule),
+                        ChooseImplementationType());
+                }
+
+                private static Type ChooseImplementationType() => typeof(UnknownModule);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Module_Registered_Only_In_Uninvoked_Constructor_Callback()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class {|#0:BuildModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register()
+                {
+                    Action callback = () => new Registrar();
+                }
+
+                private sealed class Registrar
+                {
+                    public Registrar() =>
+                        Pipeline.CreateBuilder().AddModule<BuildModule>();
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("BuildModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Statically_Null_Coalesced_CancellationToken()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await Task.Delay(
+                    1,
+                    (CancellationToken?)null ?? cancellationToken);
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Reports_Async_Safety_In_Interface_Dispatched_Helper()
     {
         var source = $$"""
