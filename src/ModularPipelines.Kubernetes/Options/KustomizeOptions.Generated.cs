@@ -19,6 +19,7 @@ namespace ModularPipelines.Kubernetes.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("kustomize")]
+[CliGlobalOptions]
 public abstract record KustomizeOptions : CommandLineToolOptions
 {
 }

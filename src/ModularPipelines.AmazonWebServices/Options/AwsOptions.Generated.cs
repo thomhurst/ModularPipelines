@@ -17,6 +17,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [CliTool("aws")]
+[CliGlobalOptions]
 public abstract record AwsOptions : CommandLineToolOptions
 {
 }

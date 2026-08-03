@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("access", "list", "packages")]
+[CliSubCommand("access", "list", "packages")]
 public record NpmAccessListPackagesOptions : NpmOptions
 {
     [CliFlag("--json")]

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("team", "destroy")]
+[CliSubCommand("team", "destroy")]
 public record NpmTeamDestroyOptions(
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope,
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Otpcode

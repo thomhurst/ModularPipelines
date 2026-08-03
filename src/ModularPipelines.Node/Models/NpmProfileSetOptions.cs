@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("profile", "set")]
+[CliSubCommand("profile", "set")]
 public record NpmProfileSetOptions(
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Key,
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value

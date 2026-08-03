@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("team", "create")]
+[CliSubCommand("team", "create")]
 public record NpmTeamCreateOptions(
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope,
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Otpcode

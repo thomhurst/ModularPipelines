@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "get")]
+[CliSubCommand("config", "get")]
 public record NpmConfigGetOptions : NpmOptions
 {
     [CliFlag("--json")]

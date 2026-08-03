@@ -94,6 +94,30 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_RuntimeIdentity_Overrides_StaticIdentity()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestAttributeOptions
+        {
+            Tool = "runtime-tool",
+            CommandParts = ["runtime", "command"],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("runtime-tool runtime command");
+    }
+
+    [Test]
+    public async Task Build_PreferredAlias_Overrides_Subcommand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestAliasOptions());
+
+        await Assert.That(result.ToString()).IsEqualTo("mytool short");
+    }
+
+    [Test]
     public async Task Build_WithPositionalArguments_PlacesCorrectly()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -205,7 +229,7 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("mytool")]
-    [CliCommand("mytool", "sub", "command")]
+    [CliSubCommand("sub", "command")]
     private record TestAttributeOptions : CommandLineToolOptions
     {
         [CliFlag("--force")]
@@ -216,7 +240,6 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("processor")]
-    [CliCommand("processor")]
     private record TestPositionalOptions : CommandLineToolOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
@@ -227,7 +250,6 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [CliTool("jq")]
-    [CliCommand("jq")]
     private record TestTerminalOptions : CommandLineToolOptions
     {
         [CliOption(
@@ -236,6 +258,11 @@ public class CommandLineBuilderTests : TestBase
             Phase = CommandLinePhase.Terminal)]
         public string? RunTests { get; set; }
     }
+
+    [CliTool("mytool")]
+    [CliSubCommand("long", "command")]
+    [CliCommandAlias("short", IsPreferred = true)]
+    private record TestAliasOptions : CommandLineToolOptions;
 
     [CliTool("liquibase")]
     [CliGlobalOptions]

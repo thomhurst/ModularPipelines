@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("profile", "get")]
+[CliSubCommand("profile", "get")]
 public record NpmProfileGetOptions : NpmOptions
 {
     [CliOption("--registry")]

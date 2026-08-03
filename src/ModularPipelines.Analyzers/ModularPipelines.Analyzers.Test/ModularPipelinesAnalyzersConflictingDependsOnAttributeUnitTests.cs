@@ -164,6 +164,21 @@ public class Module2 : Module<List<string>>
 {SimpleModuleBody}
 ";
 
+    private const string AliasedCycleSource = $@"
+{TestSourceConstants.StandardUsingsWithLogging}
+using Dependency = ModularPipelines.Attributes.DependsOnAttribute;
+
+{TestSourceConstants.ExamplesNamespace}
+
+[{{|#0:Dependency(typeof(Module2))|}}]
+public class Module1 : Module<List<string>>
+{SimpleModuleBody}
+
+[{{|#1:Dependency(typeof(Module1))|}}]
+public class Module2 : Module<List<string>>
+{SimpleModuleBody}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_Conflicting_Dependencies()
     {
@@ -320,6 +335,19 @@ public class Module2 : Module<List<string>>
     public async Task AnalyzerIsNotTriggered_When_No_Conflicting_Dependencies()
     {
         await VerifyCS.VerifyAnalyzerAsync(GoodModuleSource);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_Cycle_UsesAttributeAlias()
+    {
+        var expected1 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(0)
+            .WithArguments("Module2", "Module1");
+        var expected2 = VerifyCS.Diagnostic(ConflictingDependsOnAttributeAnalyzer.DiagnosticId)
+            .WithLocation(1)
+            .WithArguments("Module1", "Module2");
+
+        await VerifyCS.VerifyAnalyzerAsync(AliasedCycleSource, expected1, expected2);
     }
 
     [TestMethod]

@@ -19,6 +19,7 @@ namespace ModularPipelines.Homebrew.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("brew")]
+[CliGlobalOptions]
 public abstract record BrewOptions : CommandLineToolOptions
 {
 }

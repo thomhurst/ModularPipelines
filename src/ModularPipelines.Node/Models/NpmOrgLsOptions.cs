@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("org", "ls", "orgname")]
+[CliSubCommand("org", "ls")]
 public record NpmOrgLsOptions
 (
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string OrgName

@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("config", "delete")]
+[CliSubCommand("config", "delete")]
 public record NpmConfigDeleteOptions(
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Key
 ) : NpmOptions

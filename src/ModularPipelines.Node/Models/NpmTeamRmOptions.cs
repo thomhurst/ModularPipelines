@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("team", "rm")]
+[CliSubCommand("team", "rm")]
 public record NpmTeamRmOptions(
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope,
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string User,

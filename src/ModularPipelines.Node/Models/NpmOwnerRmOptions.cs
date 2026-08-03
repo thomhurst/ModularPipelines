@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("owner", "rm")]
+[CliSubCommand("owner", "rm")]
 public record NpmOwnerRmOptions(
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string User
 ) : NpmOptions

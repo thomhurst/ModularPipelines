@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("access", "grant")]
+[CliSubCommand("access", "grant")]
 public record NpmAccessGrantOptions(
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value,
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Scope

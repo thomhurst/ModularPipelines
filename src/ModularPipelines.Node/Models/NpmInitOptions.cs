@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("init", "(same", "as", "`npx")]
+[CliSubCommand("init")]
 public record NpmInitOptions
 (
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Value

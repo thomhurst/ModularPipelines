@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-[CliCommand("hook", "rm")]
+[CliSubCommand("hook", "rm")]
 public record NpmHookRmOptions(
     [property: CliArgument(Phase = CommandLinePhase.EarlyOperand)] string Id
 ) : NpmOptions
