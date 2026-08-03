@@ -75,25 +75,16 @@ internal class GitInformation : IGitInformation
         await using var scope = _serviceScopeFactory.CreateAsyncScope();
         var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
 
-        var index = 0;
-        while (!cancellationToken.IsCancellationRequested)
+        await foreach (var commit in GitCommitPager
+                           .EnumerateAsync(
+                               gitCommandRunner,
+                               _gitCommitMapper,
+                               branch,
+                               _commandExecutionOptions,
+                               cancellationToken)
+                           .ConfigureAwait(false))
         {
-            var output = await gitCommandRunner.RunCommandsOrNull(
-                _commandExecutionOptions,
-                cancellationToken,
-                "log",
-                branch,
-                $"--skip={index}",
-                "-1",
-                $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
-
-            if (string.IsNullOrWhiteSpace(output))
-            {
-                yield break;
-            }
-
-            index++;
-            yield return _gitCommitMapper.Map(output);
+            yield return commit;
         }
     }
 
@@ -253,8 +244,13 @@ internal class GitInformation : IGitInformation
         IGitCommandRunner gitCommandRunner,
         CancellationToken cancellationToken)
     {
-        var output = await gitCommandRunner.RunCommandsOrNull(_commandExecutionOptions, cancellationToken, "log", "--skip=0", "-1",
-            $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
+        var output = await gitCommandRunner.RunCommandsOrNull(
+            GitCommitPager.GetCompleteOutputOptions(_commandExecutionOptions),
+            cancellationToken,
+            "log",
+            "-1",
+            $"--format={GitConstants.CommitLogFormat}",
+            "HEAD^1").ConfigureAwait(false);
 
         return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);
     }

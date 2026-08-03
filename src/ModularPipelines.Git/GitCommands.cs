@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Git.Models;
@@ -517,20 +516,11 @@ public class GitCommands :
     }
 
     /// <inheritdoc/>
-    public virtual async IAsyncEnumerable<GitCommit> CommitsAsync(string? branch, GitOptions? options = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-    {
-        var index = 0;
-        while (!cancellationToken.IsCancellationRequested)
-        {
-            var output = await _gitCommandRunner.RunCommandsOrNull(null, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
-
-            if (string.IsNullOrWhiteSpace(output))
-            {
-                yield break;
-            }
-
-            index++;
-            yield return _gitCommitMapper.Map(output);
-        }
-    }
+    public virtual IAsyncEnumerable<GitCommit> CommitsAsync(string? branch, GitOptions? options = null, CancellationToken cancellationToken = default) =>
+        GitCommitPager.EnumerateAsync(
+            _gitCommandRunner,
+            _gitCommitMapper,
+            branch,
+            null,
+            cancellationToken);
 }
