@@ -16,10 +16,7 @@ internal static class GitCommitPager
         CommandExecutionOptions? commandExecutionOptions,
         [EnumeratorCancellation] CancellationToken cancellationToken)
     {
-        var completeOutputOptions = (commandExecutionOptions ?? new CommandExecutionOptions()) with
-        {
-            MaxCapturedOutputLength = 0,
-        };
+        var completeOutputOptions = GetCompleteOutputOptions(commandExecutionOptions);
         var skip = 0;
         while (true)
         {
@@ -58,4 +55,11 @@ internal static class GitCommitPager
             skip += records.Length;
         }
     }
+
+    internal static CommandExecutionOptions GetCompleteOutputOptions(
+        CommandExecutionOptions? commandExecutionOptions) =>
+        (commandExecutionOptions ?? new CommandExecutionOptions()) with
+        {
+            MaxCapturedOutputLength = 0,
+        };
 }

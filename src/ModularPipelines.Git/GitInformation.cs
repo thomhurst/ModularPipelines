@@ -244,7 +244,12 @@ internal class GitInformation : IGitInformation
         IGitCommandRunner gitCommandRunner,
         CancellationToken cancellationToken)
     {
-        var output = await gitCommandRunner.RunCommandsOrNull(_commandExecutionOptions, cancellationToken, "log", "--skip=1", "-1",
+        var output = await gitCommandRunner.RunCommandsOrNull(
+            GitCommitPager.GetCompleteOutputOptions(_commandExecutionOptions),
+            cancellationToken,
+            "log",
+            "--skip=1",
+            "-1",
             $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
 
         return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);

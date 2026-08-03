@@ -296,6 +296,7 @@ public class GitInformationTests : TestBase
     [Test]
     public async Task Previous_Commit_Skips_Head()
     {
+        CommandExecutionOptions? observedOptions = null;
         string?[]? observedCommands = null;
         var command = CreateRepositoryCommand((_, _) => CommandResult.Ok());
         var runner = new Mock<IGitCommandRunner>();
@@ -303,8 +304,9 @@ public class GitInformationTests : TestBase
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
-            .Returns<CommandExecutionOptions?, CancellationToken, string?[]>((_, _, commands) =>
+            .Returns<CommandExecutionOptions?, CancellationToken, string?[]>((options, _, commands) =>
             {
+                observedOptions = options;
                 observedCommands = commands;
                 return Task.FromResult<string?>(CreateCommitOutput("previous commit", '1'));
             });
@@ -319,6 +321,8 @@ public class GitInformationTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(repository?.PreviousCommit?.Message?.Subject).IsEqualTo("previous commit");
+            await Assert.That(observedOptions).IsNotNull();
+            await Assert.That(observedOptions!.MaxCapturedOutputLength).IsLessThanOrEqualTo(0);
             await Assert.That(observedCommands!).Contains("--skip=1");
             await Assert.That(observedCommands!).DoesNotContain("--skip=0");
         }
