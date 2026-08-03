@@ -41,6 +41,9 @@ public class Module1 : Module<List<string>>
         @"global::System.Console.WriteLine(""Done!"")");
     private static readonly string NestedConsoleReceiverSource = CreateBadModuleSource(
         @"Console.Out.Encoding.GetBytes(""Done!"")");
+    private static readonly string ConsoleInvocationReceiverSource = CreateBadModuleSource(
+        @"{|#0:Console.OpenStandardInput()|}.ReadByte()",
+        markDiagnostic: false);
     private static readonly string NonTerminatingWriteSource =
         CreateBadModuleSource(@"Console.Write(""Done!"")", markDiagnostic: false);
     private static readonly string NonTerminatingWriteAsyncSource =
@@ -69,6 +72,14 @@ public class Module1 : Module<List<string>>
     }}
 }}
 ";
+
+    [TestMethod]
+    public async Task AnalyzerReportsOnlyTheConsoleInvocationInAReceiverChain()
+    {
+        var expected = VerifyCS.Diagnostic(ConsoleUseAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(ConsoleInvocationReceiverSource, expected);
+    }
 
     private const string CustomConsoleSource = $@"
 {TestSourceConstants.StandardUsings}

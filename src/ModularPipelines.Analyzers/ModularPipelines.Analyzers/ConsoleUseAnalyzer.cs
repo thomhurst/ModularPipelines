@@ -72,6 +72,11 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
         var receiver = (invocation.Expression as MemberAccessExpressionSyntax)?.Expression;
         while (receiver is not null)
         {
+            if (receiver is InvocationExpressionSyntax)
+            {
+                return false;
+            }
+
             var receiverSymbol = context.SemanticModel.GetSymbolInfo(
                 receiver,
                 context.CancellationToken).Symbol;
@@ -84,10 +89,6 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
             receiver = receiver switch
             {
                 MemberAccessExpressionSyntax memberAccess => memberAccess.Expression,
-                InvocationExpressionSyntax
-                {
-                    Expression: MemberAccessExpressionSyntax invokedMember,
-                } => invokedMember.Expression,
                 ElementAccessExpressionSyntax elementAccess => elementAccess.Expression,
                 _ => null,
             };

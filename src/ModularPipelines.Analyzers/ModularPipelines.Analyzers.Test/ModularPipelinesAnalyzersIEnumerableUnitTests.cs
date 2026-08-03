@@ -95,6 +95,30 @@ public class Module1 : global::ModularPipelines.Modules.SyncModule<List<string>>
 }}
 ";
 
+    private const string WrappedModuleSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public abstract class Wrapper<TMetadata, TResult> : Module<TResult>
+{{
+}}
+
+public abstract class Module1 : {{|#0:Wrapper<IEnumerable<int>, IEnumerable<string>>|}}
+{{
+}}
+";
+
+    private const string FixedWrappedModuleSource = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public abstract class Wrapper<TMetadata, TResult> : Module<TResult>
+{{
+}}
+
+public abstract class Module1 : Wrapper<IEnumerable<int>, List<string>>
+{{
+}}
+";
+
     [TestMethod]
     public async Task AnalyzerIsTriggered_When_IEnumerable()
     {
@@ -134,5 +158,17 @@ public class Module1 : global::ModularPipelines.Modules.SyncModule<List<string>>
             QualifiedSyncModuleSource,
             expected,
             FixedQualifiedSyncModuleSource);
+    }
+
+    [TestMethod]
+    public async Task CodeFix_Replaces_The_Wrapper_Result_Argument()
+    {
+        var expected = VerifyCodeFixCS.Diagnostic(EnumerableModuleResultAnalyzer.DiagnosticId)
+            .WithLocation(0);
+
+        await VerifyCodeFixCS.VerifyCodeFixAsync(
+            WrappedModuleSource,
+            expected,
+            FixedWrappedModuleSource);
     }
 }

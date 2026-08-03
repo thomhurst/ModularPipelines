@@ -122,27 +122,70 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
             return null;
         }
 
-        foreach (var candidate in baseType.Type
-                     .DescendantNodesAndSelf()
-                     .OfType<TypeSyntax>())
+        if (semanticModel.GetTypeInfo(baseType.Type, cancellationToken).Type
+                is not INamedTypeSymbol baseTypeSymbol)
         {
-            if (semanticModel.GetTypeInfo(candidate, cancellationToken).Type
-                    is not INamedTypeSymbol candidateType
-                || !SymbolEqualityComparer.Default.Equals(
-                    candidateType.OriginalDefinition,
-                    enumerableType))
-            {
-                continue;
-            }
+            return null;
+        }
 
-            var elementType = candidate
-                .DescendantNodesAndSelf()
-                .OfType<GenericNameSyntax>()
-                .SelectMany(static generic => generic.TypeArgumentList.Arguments)
-                .FirstOrDefault();
-            return elementType is null
-                ? null
-                : new ReplacementContext(documentRoot, candidate, elementType);
+        var moduleType = semanticModel.Compilation.GetTypeByMetadataName(
+            AnalyzerConstants.FullyQualifiedTypeNames.Module);
+        var resultArgumentOrdinal = moduleType is null
+            ? null
+            : GetModuleResultTypeParameterOrdinal(baseTypeSymbol, moduleType);
+        var baseGenericName = baseType.Type
+            .DescendantNodesAndSelf()
+            .OfType<GenericNameSyntax>()
+            .FirstOrDefault(candidate => SymbolEqualityComparer.Default.Equals(
+                semanticModel.GetTypeInfo(candidate, cancellationToken).Type,
+                baseTypeSymbol));
+        if (resultArgumentOrdinal is not int ordinal
+            || baseGenericName is null
+            || ordinal >= baseGenericName.TypeArgumentList.Arguments.Count)
+        {
+            return null;
+        }
+
+        var candidate = baseGenericName.TypeArgumentList.Arguments[ordinal];
+        if (semanticModel.GetTypeInfo(candidate, cancellationToken).Type
+                is not INamedTypeSymbol candidateType
+            || !SymbolEqualityComparer.Default.Equals(
+                candidateType.OriginalDefinition,
+                enumerableType))
+        {
+            return null;
+        }
+
+        var enumerableGenericName = candidate
+            .DescendantNodesAndSelf()
+            .OfType<GenericNameSyntax>()
+            .FirstOrDefault(generic => semanticModel.GetTypeInfo(generic, cancellationToken).Type
+                    is INamedTypeSymbol genericType
+                && SymbolEqualityComparer.Default.Equals(
+                    genericType.OriginalDefinition,
+                    enumerableType));
+        var elementType = enumerableGenericName?.TypeArgumentList.Arguments.FirstOrDefault();
+        return elementType is null
+            ? null
+            : new ReplacementContext(documentRoot, candidate, elementType);
+    }
+
+    private static int? GetModuleResultTypeParameterOrdinal(
+        INamedTypeSymbol baseType,
+        INamedTypeSymbol moduleType)
+    {
+        var baseTypeDefinition = baseType.OriginalDefinition;
+        for (var current = baseTypeDefinition; current is not null; current = current.BaseType)
+        {
+            if (current.IsGenericType
+                && SymbolEqualityComparer.Default.Equals(current.OriginalDefinition, moduleType)
+                && current.TypeArguments[0] is ITypeParameterSymbol typeParameter
+                && SymbolEqualityComparer.Default.Equals(
+                    typeParameter.ContainingType,
+                    baseTypeDefinition))
+            {
+                return typeParameter.Ordinal;
+            }
         }
 
         return null;
