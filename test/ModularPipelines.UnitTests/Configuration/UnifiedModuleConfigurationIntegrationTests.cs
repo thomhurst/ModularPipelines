@@ -16,10 +16,10 @@ public class UnifiedModuleConfigurationIntegrationTests
 
     private sealed class DependencyModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("dependency");
-            return Task.FromResult<string?>("dependency");
+            return Task.FromResult<string>("dependency");
         }
     }
 
@@ -34,10 +34,10 @@ public class UnifiedModuleConfigurationIntegrationTests
             .WithExecutionHint(ExecutionType.IoIntensive)
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("configured");
-            return Task.FromResult<string?>("configured");
+            return Task.FromResult<string>("configured");
         }
     }
 
@@ -45,10 +45,10 @@ public class UnifiedModuleConfigurationIntegrationTests
     [DependsOnModulesInCategory("configured-category")]
     private sealed class MetadataConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("consumer");
-            return Task.FromResult<string?>("consumer");
+            return Task.FromResult<string>("consumer");
         }
     }
 
@@ -58,17 +58,17 @@ public class UnifiedModuleConfigurationIntegrationTests
             .WithTags("failing")
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => throw new InvalidOperationException("Expected test failure");
     }
 
     [DependsOnModulesWithTag("failing")]
     private sealed class FailingTagConsumerModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("selector-consumer");
-            return Task.FromResult<string?>("consumer");
+            return Task.FromResult<string>("consumer");
         }
     }
 
@@ -78,8 +78,8 @@ public class UnifiedModuleConfigurationIntegrationTests
             .DependsOn<SelfDependentModule>()
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("self-dependent");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("self-dependent");
     }
 
     private sealed class CircularDependencyModuleA : Module<string>
@@ -88,8 +88,8 @@ public class UnifiedModuleConfigurationIntegrationTests
             .DependsOn<CircularDependencyModuleB>()
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("a");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("a");
     }
 
     private sealed class CircularDependencyModuleB : Module<string>
@@ -98,8 +98,8 @@ public class UnifiedModuleConfigurationIntegrationTests
             .DependsOn<CircularDependencyModuleA>()
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("b");
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string>("b");
     }
 
     [Before(Test)]

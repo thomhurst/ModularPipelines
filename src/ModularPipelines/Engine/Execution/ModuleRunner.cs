@@ -35,6 +35,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly IModuleLifecycleEventInvoker _lifecycleEventInvoker;
     private readonly IModuleAttributeEventService _moduleAttributeEventService;
     private readonly IModuleResultRegistrar _resultRegistrar;
+    private readonly ISecretObfuscator _secretObfuscator;
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -50,7 +51,8 @@ internal class ModuleRunner : IModuleRunner
         IParallelLimitHandler parallelLimitHandler,
         IModuleLifecycleEventInvoker lifecycleEventInvoker,
         IModuleAttributeEventService moduleAttributeEventService,
-        IModuleResultRegistrar resultRegistrar)
+        IModuleResultRegistrar resultRegistrar,
+        ISecretObfuscator secretObfuscator)
     {
         _serviceProvider = serviceProvider;
         _executionPipeline = executionPipeline;
@@ -66,6 +68,7 @@ internal class ModuleRunner : IModuleRunner
         _lifecycleEventInvoker = lifecycleEventInvoker;
         _moduleAttributeEventService = moduleAttributeEventService;
         _resultRegistrar = resultRegistrar;
+        _secretObfuscator = secretObfuscator;
     }
 
     /// <inheritdoc />
@@ -157,7 +160,8 @@ internal class ModuleRunner : IModuleRunner
             _mediator,
             _moduleEstimatedTimeProvider);
 
-        // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)
+        var telemetryStart = Stopwatch.GetTimestamp();
+        var telemetryStatus = "Failed";
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
 
         // Set up logging and module type context using scope wrapper for proper cleanup
@@ -170,23 +174,52 @@ internal class ModuleRunner : IModuleRunner
             // Record success, skip, or ignored failure status on the Activity
             if (executionContext.Status == Enums.Status.Skipped)
             {
+                telemetryStatus = "Skipped";
                 ModuleActivityTracing.RecordSkipped(activity);
             }
             else if (executionContext.Status == Enums.Status.IgnoredFailure)
             {
-                activity?.SetTag("module.status", "IgnoredFailure");
-                activity?.SetStatus(System.Diagnostics.ActivityStatusCode.Ok, "Module failed but failure was ignored");
+                telemetryStatus = "IgnoredFailure";
+                activity?.SetTag(ModuleActivityTracing.ModuleStatusTag, telemetryStatus);
+                activity?.SetStatus(ActivityStatusCode.Ok, "Module failed but failure was ignored");
+            }
+            else if (executionContext.Status == Enums.Status.UsedHistory)
+            {
+                telemetryStatus = "UsedHistory";
+                ModuleActivityTracing.RecordUsedHistory(activity);
+            }
+            else if (executionContext.Status == Enums.Status.PipelineTerminated)
+            {
+                telemetryStatus = "PipelineTerminated";
+                ModuleActivityTracing.RecordPipelineTerminated(activity);
             }
             else
             {
+                telemetryStatus = "Successful";
                 ModuleActivityTracing.RecordSuccess(activity);
             }
         }
         catch (Exception ex)
         {
-            // Record failure on the Activity before re-throwing
-            ModuleActivityTracing.RecordFailure(activity, ex);
+            var obfuscatedMessage = _secretObfuscator.Obfuscate(ex.Message, null);
+            if (executionContext.Status == Enums.Status.TimedOut)
+            {
+                telemetryStatus = "TimedOut";
+                ModuleActivityTracing.RecordTimedOut(activity, ex, obfuscatedMessage);
+            }
+            else
+            {
+                ModuleActivityTracing.RecordFailure(activity, ex, obfuscatedMessage);
+            }
+
             throw;
+        }
+        finally
+        {
+            ModuleActivityTracing.RecordModuleMetrics(
+                moduleType,
+                telemetryStatus,
+                Stopwatch.GetElapsedTime(telemetryStart));
         }
     }
 

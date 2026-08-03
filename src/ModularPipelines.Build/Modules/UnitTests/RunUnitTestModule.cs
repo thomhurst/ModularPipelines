@@ -41,7 +41,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
 
     protected virtual SkipDecision GetSkipDecision(IModuleContext context) => SkipDecision.DoNotSkip;
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Git().Information.GetInfoAsync().ConfigureAwait(false)
             ?? throw new InvalidOperationException("Git repository information is unavailable.");

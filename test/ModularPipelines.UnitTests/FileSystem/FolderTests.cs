@@ -34,12 +34,13 @@ public class FolderTests : TestBase
 
     private class FindFileModule : Module<ModularPipelines.FileSystem.File>
     {
-        protected internal override Task<ModularPipelines.FileSystem.File?> ExecuteAsync(
+        protected internal override Task<ModularPipelines.FileSystem.File> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult(context.Files
                 .GetFolder(Path.Combine(TestContext.OutputDirectory!, "Data"))
-                .FindFile(x => x.Name == "Foo.txt"));
+                .FindFile(x => x.Name == "Foo.txt")
+                ?? throw new InvalidOperationException("Foo.txt was not found."));
     }
 
     [Test]

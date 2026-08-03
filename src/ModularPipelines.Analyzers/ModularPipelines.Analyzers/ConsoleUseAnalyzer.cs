@@ -37,41 +37,76 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (invocationExpressionSyntax.Expression is not MemberAccessExpressionSyntax memberAccessExpressionSyntax)
-        {
-            return;
-        }
-
-        memberAccessExpressionSyntax = GetTopMemberAccessExpression(memberAccessExpressionSyntax);
-
-        if (memberAccessExpressionSyntax.Expression is not IdentifierNameSyntax identifierNameSyntax)
-        {
-            return;
-        }
-
-        var nameSymbol = context.SemanticModel.GetSymbolInfo(identifierNameSyntax);
-
-        if (nameSymbol.Symbol is not INamedTypeSymbol namedTypeSymbol)
-        {
-            return;
-        }
-
-        if (namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == AnalyzerConstants.FullyQualifiedTypeNames.SystemConsole)
+        var consoleType = context.Compilation.GetTypeByMetadataName(
+            AnalyzerConstants.FullyQualifiedTypeNames.SystemConsole);
+        var symbolInfo = context.SemanticModel.GetSymbolInfo(
+            invocationExpressionSyntax,
+            context.CancellationToken);
+        if (consoleType is not null
+            && IsConsoleUse(
+                context,
+                invocationExpressionSyntax,
+                symbolInfo,
+                consoleType))
         {
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(),
-                namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+                consoleType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
         }
     }
 
-    private static MemberAccessExpressionSyntax GetTopMemberAccessExpression(MemberAccessExpressionSyntax memberAccessExpressionSyntax)
+    private static bool IsConsoleUse(
+        SyntaxNodeAnalysisContext context,
+        InvocationExpressionSyntax invocation,
+        SymbolInfo symbolInfo,
+        INamedTypeSymbol consoleType)
     {
-        var memberAccessExpression = memberAccessExpressionSyntax;
-
-        while (memberAccessExpression.Expression is MemberAccessExpressionSyntax parentMemberAccessExpressionSyntax)
+        var resolvedMethodIsConsole = symbolInfo.Symbol is IMethodSymbol method
+            && SymbolEqualityComparer.Default.Equals(method.ContainingType, consoleType);
+        var candidateMethodIsConsole = symbolInfo.CandidateSymbols
+            .OfType<IMethodSymbol>()
+            .Any(candidate => IsConsoleMethod(candidate, consoleType));
+        if (resolvedMethodIsConsole || candidateMethodIsConsole)
         {
-            memberAccessExpression = parentMemberAccessExpressionSyntax;
+            return true;
         }
 
-        return memberAccessExpression;
+        var memberGroupMethodIsConsole = context.SemanticModel
+            .GetMemberGroup(invocation.Expression, context.CancellationToken)
+            .OfType<IMethodSymbol>()
+            .Any(candidate => IsConsoleMethod(candidate, consoleType));
+        if (memberGroupMethodIsConsole)
+        {
+            return true;
+        }
+
+        var receiver = (invocation.Expression as MemberAccessExpressionSyntax)?.Expression;
+        while (receiver is not null)
+        {
+            if (receiver is InvocationExpressionSyntax)
+            {
+                return false;
+            }
+
+            var receiverSymbol = context.SemanticModel.GetSymbolInfo(
+                receiver,
+                context.CancellationToken).Symbol;
+            if (SymbolEqualityComparer.Default.Equals(receiverSymbol as INamedTypeSymbol, consoleType)
+                || SymbolEqualityComparer.Default.Equals(receiverSymbol?.ContainingType, consoleType))
+            {
+                return true;
+            }
+
+            receiver = receiver switch
+            {
+                MemberAccessExpressionSyntax memberAccess => memberAccess.Expression,
+                ElementAccessExpressionSyntax elementAccess => elementAccess.Expression,
+                _ => null,
+            };
+        }
+
+        return false;
     }
+
+    private static bool IsConsoleMethod(IMethodSymbol method, INamedTypeSymbol consoleType) =>
+        SymbolEqualityComparer.Default.Equals(method.ContainingType, consoleType);
 }

@@ -19,7 +19,7 @@ public class OptionalModule : Module<CommandResult>
         .WithIgnoreFailures()
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // If this fails, the pipeline continues
     }
@@ -37,7 +37,7 @@ public class MyModule : Module<CommandResult>
         .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException)
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // ItemAlreadyExistsException will be ignored, other exceptions will fail the pipeline
     }
@@ -91,7 +91,7 @@ var myModule = await context.GetModule<MyOptionalModule>();
 if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
 {
     // Handle the expected failure case
-    return null;
+    return None.Value;
 }
 
 return await DoSomethingAsync();

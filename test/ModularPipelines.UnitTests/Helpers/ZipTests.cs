@@ -69,9 +69,9 @@ public class ZipTests : TestBase
         }
     }
 
-    private class ZipModule : Module<string>
+    private class ZipModule : Module<None>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var directory = context.Files.GetFolder(Path.Combine(
                 TestContext.OutputDirectory!,
@@ -87,7 +87,7 @@ public class ZipTests : TestBase
 
             context.Files.Zip.ZipFolder(directory, fileToWrite.Path);
 
-            return null;
+            return None.Value;
         }
     }
 
@@ -115,9 +115,9 @@ public class ZipTests : TestBase
         }
     }
 
-    private class UnZipModule : Module<string>
+    private class UnZipModule : Module<None>
     {
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<None> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -130,7 +130,7 @@ public class ZipTests : TestBase
 
             context.Files.Zip.UnZipToFolder(zipLocation.Path, unzippedLocation.Path);
 
-            return null;
+            return None.Value;
         }
     }
 

@@ -30,7 +30,7 @@ using ModularPipelines.Homebrew.Options;
 
 public class UseBrewModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

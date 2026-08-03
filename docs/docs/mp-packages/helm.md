@@ -30,7 +30,7 @@ using ModularPipelines.Helm.Options;
 
 public class UseHelmModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {

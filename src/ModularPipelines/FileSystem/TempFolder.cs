@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Logging;
+
 namespace ModularPipelines.FileSystem;
 
 /// <summary>
@@ -61,7 +64,7 @@ public sealed class TempFolder : IAsyncDisposable, IDisposable
 
         if (Folder.Exists)
         {
-            await Folder.DeleteAsync().ConfigureAwait(false);
+            await Task.Run(DeleteFolder).ConfigureAwait(false);
         }
     }
 
@@ -77,7 +80,34 @@ public sealed class TempFolder : IAsyncDisposable, IDisposable
 
         if (Folder.Exists)
         {
+            DeleteFolder();
+        }
+    }
+
+    private void DeleteFolder()
+    {
+        try
+        {
+            Folder.Clean(removeReadOnlyAttribute: true, continueOnError: true);
+        }
+        catch (Exception exception)
+        {
+            ModuleLogger.Current.LogWarning(
+                exception,
+                "Failed to clean temporary folder {Path}",
+                Folder.Path);
+        }
+
+        try
+        {
             Folder.Delete();
+        }
+        catch (Exception exception)
+        {
+            ModuleLogger.Current.LogWarning(
+                exception,
+                "Failed to delete temporary folder {Path}",
+                Folder.Path);
         }
     }
 }

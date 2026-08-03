@@ -15,9 +15,9 @@ public class PipelineOptionsTests
 {
     private sealed class OptionsTestModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
-            CancellationToken cancellationToken) => Task.FromResult<string?>(null);
+            CancellationToken cancellationToken) => Task.FromResult(string.Empty);
     }
 
     [Test]

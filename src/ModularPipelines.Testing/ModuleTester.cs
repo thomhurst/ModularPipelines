@@ -74,7 +74,7 @@ public class ModuleTestBuilder<TModule>
     /// <typeparam name="TResult">The dependency value type.</typeparam>
     /// <param name="value">The dependency value.</param>
     /// <returns>This builder.</returns>
-    public ModuleTestBuilder<TModule> WithDependencyResult<TDependency, TResult>(TResult? value)
+    public ModuleTestBuilder<TModule> WithDependencyResult<TDependency, TResult>(TResult value)
         where TDependency : Module<TResult>
     {
         _registrations.Add(static builder => builder.AddModule<TDependency>());
@@ -267,7 +267,7 @@ public class ModuleTestBuilder<TModule>
         void Apply(IServiceProvider services);
     }
 
-    private sealed class DependencySeed<TDependency, TResult>(TResult? value) : IDependencySeed
+    private sealed class DependencySeed<TDependency, TResult>(TResult value) : IDependencySeed
         where TDependency : Module<TResult>
     {
         public void Apply(IServiceProvider services)
@@ -312,7 +312,7 @@ public sealed class ModuleTestBuilder<TModule, TResult> : ModuleTestBuilder<TMod
 
     /// <inheritdoc cref="ModuleTestBuilder{TModule}.WithDependencyResult{TDependency,TDependencyResult}(TDependencyResult)"/>
     public new ModuleTestBuilder<TModule, TResult> WithDependencyResult<TDependency, TDependencyResult>(
-        TDependencyResult? value)
+        TDependencyResult value)
         where TDependency : Module<TDependencyResult>
     {
         base.WithDependencyResult<TDependency, TDependencyResult>(value);

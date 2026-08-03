@@ -7,12 +7,14 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
+using ModularPipelines.Tracing;
 
 namespace ModularPipelines;
 
@@ -77,24 +79,47 @@ internal sealed class PipelineImpl : IPipeline
     /// <inheritdoc />
     public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
     {
-        if (await Services.GetRequiredService<PipelineCommandHandler>()
-                .TryExecuteAsync(cancellationToken)
-                .ConfigureAwait(false) is { } commandResult)
-        {
-            return commandResult;
-        }
+        var pipelineName = Services.GetRequiredService<IHostEnvironment>().ApplicationName;
+        using var activity = ModuleActivityTracing.StartPipelineActivity(pipelineName);
 
-        if (Services.GetRequiredService<IOptions<PipelineOptions>>().Value.DryRun)
+        try
         {
-            var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
-            Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
-            var now = DateTimeOffset.UtcNow;
-            return new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now);
-        }
+            PipelineSummary summary;
+            if (await Services.GetRequiredService<PipelineCommandHandler>()
+                    .TryExecuteAsync(cancellationToken)
+                    .ConfigureAwait(false) is { } commandResult)
+            {
+                summary = commandResult;
+            }
+            else if (Services.GetRequiredService<IOptions<PipelineOptions>>().Value.DryRun)
+            {
+                var plan = await PlanAsync(cancellationToken).ConfigureAwait(false);
+                Services.GetRequiredService<PipelinePlanPrinter>().Print(plan);
+                var now = DateTimeOffset.UtcNow;
+                summary = new PipelineSummary(plan.Modules, [], TimeSpan.Zero, now, now);
+            }
+            else
+            {
+                summary = await Services.GetRequiredService<IExecutionOrchestrator>()
+                    .ExecuteAsync(cancellationToken)
+                    .ConfigureAwait(false);
+            }
 
-        return await Services.GetRequiredService<IExecutionOrchestrator>()
-            .ExecuteAsync(cancellationToken)
-            .ConfigureAwait(false);
+            ModuleActivityTracing.RecordPipelineCompletion(
+                activity,
+                summary.Status.ToString(),
+                summary.Status == Status.Failed);
+            return summary;
+        }
+        catch (Exception exception)
+        {
+            var secretObfuscator = Services.GetRequiredService<ISecretObfuscator>();
+            ModuleActivityTracing.RecordPipelineFailure(
+                activity,
+                exception,
+                secretObfuscator.Obfuscate(exception.Message, null));
+            throw;
+        }
     }
 
     /// <inheritdoc />

@@ -10,9 +10,9 @@ namespace ModularPipelines.Examples.Modules.Launch;
 [ModuleCategory("Launch")]
 public class TelemetryStreamModule : Module<TelemetryData>
 {
-    protected override async Task<TelemetryData?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<TelemetryData> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var launch = (await context.GetModule<LaunchModule>()).ValueOrDefault!;
+        var launch = (await context.GetModule<LaunchModule>()).Value;
 
         if (!launch.Successful)
         {

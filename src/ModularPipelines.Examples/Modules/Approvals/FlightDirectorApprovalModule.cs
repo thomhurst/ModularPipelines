@@ -17,18 +17,18 @@ namespace ModularPipelines.Examples.Modules.Approvals;
 [ModuleCategory("Approvals")]
 public class FlightDirectorApprovalModule : Module<ApprovalResult>
 {
-    protected override async Task<ApprovalResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ApprovalResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Flight Director initiating final launch readiness review...");
         context.Logger.LogDebug("Polling all console positions for GO/NO-GO status...");
 
         // Retrieve all dependency results
-        var weather = (await context.GetModule<WeatherAnalysisModule>()).ValueOrDefault!;
-        var crew = (await context.GetModule<CrewReadinessModule>()).ValueOrDefault!;
-        var nav = (await context.GetModule<NavigationSystemModule>()).ValueOrDefault!;
-        var lifeSupport = (await context.GetModule<LifeSupportCheckModule>()).ValueOrDefault!;
-        var comms = (await context.GetModule<CommunicationsCheckModule>()).ValueOrDefault!;
-        var fuel = (await context.GetModule<FuelSystemCheckModule>()).ValueOrDefault!;
+        var weather = (await context.GetModule<WeatherAnalysisModule>()).Value;
+        var crew = (await context.GetModule<CrewReadinessModule>()).Value;
+        var nav = (await context.GetModule<NavigationSystemModule>()).Value;
+        var lifeSupport = (await context.GetModule<LifeSupportCheckModule>()).Value;
+        var comms = (await context.GetModule<CommunicationsCheckModule>()).Value;
+        var fuel = (await context.GetModule<FuelSystemCheckModule>()).Value;
 
         await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
         context.Logger.LogInformation("Reviewing weather station report...");

@@ -19,7 +19,7 @@ public class IgnoredFailureTests : TestBase
             .WithIgnoreFailures()
             .Build();
 
-        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

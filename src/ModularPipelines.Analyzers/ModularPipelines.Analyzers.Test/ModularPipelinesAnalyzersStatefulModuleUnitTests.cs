@@ -15,7 +15,7 @@ public class Module1 : Module<string>
 {{
     private string {{|#0:_state|}} = string.Empty;
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _state = ""updated"";
@@ -52,9 +52,9 @@ public class Module1 : Module<string>
         _name = ""module"";
     }}
 
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<string?>(_name);
+        return Task.FromResult<string>(_name);
     }}
 }}
 ";
@@ -71,9 +71,9 @@ public class Module1 : Module<string>
         _name = ""module"";
     }}
 
-    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<string?>(_name);
+        return Task.FromResult<string>(_name);
     }}
 }}
 ";
@@ -204,7 +204,7 @@ public class Module1 : Module<string>
 {{
     private readonly string _config = ""default"";
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return _config;
@@ -226,7 +226,7 @@ public class Module1 : Module<string>
         _myService = myService;
     }}
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return ""done"";
@@ -241,7 +241,7 @@ public class Module1 : Module<string>
 {{
     private static readonly object Lock = new();
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return ""done"";
@@ -256,7 +256,7 @@ public class Module1 : Module<string>
 {{
     private const string DefaultValue = ""default"";
 
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return DefaultValue;
@@ -269,7 +269,7 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return ""done"";
@@ -314,11 +314,11 @@ public class Module1 : Module<string>
         }
     }
 
-    protected override Task<string?> ExecuteAsync(
+    protected override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return Task.FromResult<string?>(_state);
+        return Task.FromResult<string>(_state);
     }
 }
 ";
@@ -339,11 +339,11 @@ public class Module1 : Module<string>
         other._state = ""updated"";
     }
 
-    protected override Task<string?> ExecuteAsync(
+    protected override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return Task.FromResult<string?>(_state);
+        return Task.FromResult<string>(_state);
     }
 }
 ";
@@ -369,11 +369,11 @@ public class Module1 : Module<string>
 
     private Module1(bool _) { }
 
-    protected override Task<string?> ExecuteAsync(
+    protected override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return Task.FromResult<string?>(_state);
+        return Task.FromResult<string>(_state);
     }
 }
 ";
@@ -558,11 +558,11 @@ public partial class Module1 : Module<string>
 {
     private string _state = string.Empty;
 
-    protected override Task<string?> ExecuteAsync(
+    protected override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return Task.FromResult<string?>(_state);
+        return Task.FromResult<string>(_state);
     }
 }
 
@@ -586,11 +586,11 @@ public class Module1 : Module<object>
 {
     private volatile object _state = new();
 
-    protected override Task<object?> ExecuteAsync(
+    protected override Task<object> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return Task.FromResult<object?>(_state);
+        return Task.FromResult<object>(_state);
     }
 }
 ";
@@ -606,11 +606,11 @@ public class Module1 : Module<object>
 {
     public required object State;
 
-    protected override Task<object?> ExecuteAsync(
+    protected override Task<object> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        return Task.FromResult<object?>(State);
+        return Task.FromResult<object>(State);
     }
 }
 ";
@@ -626,12 +626,12 @@ public class Module1 : Module<string>
 {
     private string _state = string.Empty;
 
-    protected override Task<string?> ExecuteAsync(
+    protected override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
         (_state, _) = (""updated"", 0);
-        return Task.FromResult<string?>(_state);
+        return Task.FromResult<string>(_state);
     }
 }
 ";
@@ -715,9 +715,9 @@ public class Module1 : Module<object>
 
     private ref object State => ref _state;
 
-    protected override Task<object?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<object> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
-        return Task.FromResult<object?>(State);
+        return Task.FromResult<object>(State);
     }}
 }}
 ";

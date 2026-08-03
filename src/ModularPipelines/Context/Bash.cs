@@ -6,6 +6,8 @@ namespace ModularPipelines.Context;
 
 internal class Bash : IBashContext
 {
+    private static readonly TimeSpan WslPathExecutionTimeout = TimeSpan.FromSeconds(10);
+
     private readonly ICommandContext _command;
 
     public Bash(ICommandContext command)
@@ -22,18 +24,21 @@ internal class Bash : IBashContext
     {
         return await _command.ExecuteCommandLineToolAsync(options with
         {
-            FilePath = await ToWslPath(options.FilePath).ConfigureAwait(false),
+            FilePath = await ToWslPath(options.FilePath, cancellationToken).ConfigureAwait(false),
         }, null, cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task<string> ToWslPath(string path)
+    private async Task<string> ToWslPath(string path, CancellationToken cancellationToken)
     {
         if (OperatingSystem.IsWindows())
         {
             var result = await _command.ExecuteCommandLineToolAsync(new GenericCommandLineToolOptions("wsl")
             {
                 Arguments = ["wslpath", "-a", path.Replace("\\", "\\\\")],
-            }).ConfigureAwait(false);
+            }, new CommandExecutionOptions
+            {
+                ExecutionTimeout = WslPathExecutionTimeout,
+            }, cancellationToken).ConfigureAwait(false);
 
             return result.StandardOutput.Trim();
         }

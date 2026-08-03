@@ -26,7 +26,7 @@ internal static class GeneratorDiagnostics
         "MPG0003",
         "Incomplete command metadata",
         "Command metadata for '{0}' is incomplete because one or more attributed properties "
-        + "are inaccessible; runtime reflection will be used",
+        + "are inaccessible or have invalid attribute arguments; runtime reflection will be used",
         DiagnosticSeverity.Warning);
 
     public static DiagnosticDescriptor IncompleteSecretMetadata { get; } = Create(

@@ -47,7 +47,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .DependsOn<BaseModule>()
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "programmatic";
@@ -63,7 +63,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .DependsOnOptional<OptionalDependencyModule>()
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "optional-dep";
@@ -79,7 +79,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .DependsOnIf<ConditionalModule>(true)
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "conditional-active";
@@ -95,7 +95,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .DependsOnIf<ConditionalModule>(false)
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "conditional-inactive";
@@ -112,7 +112,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .DependsOnOptional<OptionalDependencyModule>()
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "combined";
@@ -129,7 +129,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .DependsOnOptional<OptionalDependencyModule>()
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "chained";
@@ -145,7 +145,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .DependsOn<BaseModule>() // BaseModule not registered
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "missing-dep";
@@ -161,7 +161,7 @@ public class FluentDependencyConfigurationTests : TestBase
             .DependsOn(typeof(BaseModule))
             .Build();
 
-        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "type-dep";

@@ -84,7 +84,7 @@ public class PingApiModule : Module<HttpResponseMessage>
 You'll then be instructed by the compiler to make sure the return type of your main `ExecuteAsync` method matches the `Type` you've set up:
 
 ```csharp
-protected override async Task<MyCustomClass?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+protected override async Task<MyCustomClass> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ```
 
 ## Optional Data
@@ -94,7 +94,7 @@ You can use `IDictionary<string, object>` as a flexible return type:
 ```csharp
 public class MyModule : Module<IDictionary<string, object>>
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         return new Dictionary<string, object>
@@ -106,14 +106,30 @@ public class MyModule : Module<IDictionary<string, object>>
 }
 ```
 
-Returning an object isn't mandatory either. You can return `null`:
+When a module has no meaningful result, use `None`:
 
 ```csharp
-protected override async Task<MyResult?> ExecuteAsync(
-    IModuleContext context, CancellationToken cancellationToken)
+public class PublishModule : Module<None>
 {
-    await DoSomethingAsync();
-    return null;
+    protected override async Task<None> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await PublishAsync(cancellationToken);
+        return None.Value;
+    }
+}
+```
+
+If `null` is meaningful data, make that explicit in both the module and method types:
+
+```csharp
+public class OptionalLookupModule : Module<MyResult?>
+{
+    protected override async Task<MyResult?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        return await TryFindResultAsync(cancellationToken);
+    }
 }
 ```
 
@@ -127,7 +143,7 @@ Dependencies are configured by adding an attribute on your Module. This also mak
 [DependsOn<MyOtherModule>]
 public class MyModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // MyOtherModule is guaranteed to have completed before this runs
@@ -163,7 +179,7 @@ var myModule = await context.GetModule<MyOptionalModule>();
 
 if (myModule.SkipDecisionOrDefault is not null)
 {
-    return null;
+    return None.Value;
 }
 
 if (myModule.ExceptionOrDefault is not null)
@@ -171,13 +187,13 @@ if (myModule.ExceptionOrDefault is not null)
     // Check the exception
     if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
     {
-        return null;
+        return None.Value;
     }
     throw new Exception("Unexpected failure", myModule.ExceptionOrDefault);
 }
 
 // Success case
-return await DoSomethingAsync(myModule.ValueOrDefault);
+return await DoSomethingAsync(myModule.Value);
 ```
 
 You can also use the `Match` helper for exhaustive handling:

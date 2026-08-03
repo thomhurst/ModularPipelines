@@ -11,17 +11,17 @@ public class ConcurrencyOptionsTests : TestBase
 {
     public class SimpleModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Done");
+            return Task.FromResult<string>("Done");
         }
     }
 
     public class SimpleModule2 : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult<string?>("Done");
+            return Task.FromResult<string>("Done");
         }
     }
 

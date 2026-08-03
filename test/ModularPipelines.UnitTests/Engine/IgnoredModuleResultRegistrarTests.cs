@@ -71,18 +71,18 @@ public class IgnoredModuleResultRegistrarTests
     [RunIfAll<OnWindows>]
     private sealed class ForeignOperatingSystemModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>(null);
+            Task.FromResult(string.Empty);
     }
 
     [ModularPipelines.Attributes.DependsOn<ForeignOperatingSystemModule>]
     private sealed class CrossPlatformDependentModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>(null);
+            Task.FromResult(string.Empty);
     }
 }
