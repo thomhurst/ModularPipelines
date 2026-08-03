@@ -2043,7 +2043,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Does_Not_Dispose_Service_Provider_Owned_Planning_Module()
+    public async Task Render_Disposes_Scoped_Planning_Module_After_Each_Render()
     {
         _planningDisposals = 0;
         using var builder = Pipeline.CreateBuilder();
@@ -2055,15 +2055,17 @@ public class DependencyGraphExporterTests
         {
             var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
             _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+            await Assert.That(_planningDisposals).IsEqualTo(1);
 
-            await Assert.That(_planningDisposals).IsEqualTo(0);
+            _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+            await Assert.That(_planningDisposals).IsEqualTo(2);
         }
 
-        await Assert.That(_planningDisposals).IsGreaterThan(0);
+        await Assert.That(_planningDisposals).IsGreaterThan(2);
     }
 
     [Test]
-    public async Task Render_Does_Not_Dispose_Indirectly_Resolved_Planning_Module()
+    public async Task Render_Disposes_Indirectly_Resolved_Scoped_Planning_Module()
     {
         _planningDisposals = 0;
         using var builder = Pipeline.CreateBuilder();
@@ -2078,10 +2080,10 @@ public class DependencyGraphExporterTests
             var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
             _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
 
-            await Assert.That(_planningDisposals).IsEqualTo(0);
+            await Assert.That(_planningDisposals).IsEqualTo(1);
         }
 
-        await Assert.That(_planningDisposals).IsGreaterThan(0);
+        await Assert.That(_planningDisposals).IsGreaterThan(1);
     }
 
     [Test]
@@ -2125,7 +2127,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Does_Not_Dispose_Service_Provider_Owned_Planning_Copy()
+    public async Task Render_Disposes_Scoped_Planning_Copy()
     {
         _planningDisposals = 0;
         using var builder = Pipeline.CreateBuilder();
@@ -2137,10 +2139,10 @@ public class DependencyGraphExporterTests
             var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
             _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
 
-            await Assert.That(_planningDisposals).IsEqualTo(0);
+            await Assert.That(_planningDisposals).IsEqualTo(1);
         }
 
-        await Assert.That(_planningDisposals).IsGreaterThan(0);
+        await Assert.That(_planningDisposals).IsEqualTo(1);
     }
 
     [Test]

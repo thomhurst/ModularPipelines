@@ -41,6 +41,8 @@ internal sealed class ModuleDiscoveryPlanner(
             throw new PipelineException("No modules have been registered");
         }
 
+        var planningScope = serviceProvider.CreateAsyncScope();
+        var planningServiceProvider = planningScope.ServiceProvider;
         var planningModules = new IModule[_modules.Count];
         var ownedPlanningModules = new List<IModule>();
         try
@@ -49,7 +51,10 @@ internal sealed class ModuleDiscoveryPlanner(
             for (var index = 0; index < planningModules.Length; index++)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var planningModule = CreatePlanningModule(_modules[index], ownedPlanningModules);
+                var planningModule = CreatePlanningModule(
+                    _modules[index],
+                    ownedPlanningModules,
+                    planningServiceProvider);
                 planningModules[index] = planningModule.Module;
                 if (planningModule.IsPlannerOwned
                     && !ReferenceEquals(planningModule.Module, _modules[index]))
@@ -130,32 +135,44 @@ internal sealed class ModuleDiscoveryPlanner(
                 dependencyRegistry,
                 metadataRegistry,
                 originalModules,
-                ownedPlanningModules);
+                ownedPlanningModules,
+                planningScope);
         }
         catch
         {
-            await DisposePlanningModulesAsync(ownedPlanningModules).ConfigureAwait(false);
+            try
+            {
+                await DisposePlanningModulesAsync(ownedPlanningModules).ConfigureAwait(false);
+            }
+            finally
+            {
+                await planningScope.DisposeAsync().ConfigureAwait(false);
+            }
+
             throw;
         }
     }
 
     private PlanningModule CreatePlanningModule(
         IModule module,
-        ICollection<IModule> ownedPlanningModules)
+        ICollection<IModule> ownedPlanningModules,
+        IServiceProvider planningServiceProvider)
     {
         var factory = _planningFactories.LastOrDefault(candidate =>
             candidate.CreatedRuntimeModule(module));
         if (factory is null)
         {
-            return CreatePlanningModuleWithoutFactory(module);
+            return CreatePlanningModuleWithoutFactory(module, planningServiceProvider);
         }
 
-        var creation = factory.CreatePlanningModule(serviceProvider);
+        var creation = factory.CreatePlanningModule(planningServiceProvider);
         if (ReferenceEquals(creation.Module, module))
         {
             return module is IPlanningModuleCopyProvider factoryCopyProvider
-                ? CreateIsolatedPlanningModule(CreatePlanningCopy(factoryCopyProvider))
-                : CreatePlanningModuleWithoutFactory(module);
+                ? CreateIsolatedPlanningModule(CreatePlanningCopy(
+                    factoryCopyProvider,
+                    planningServiceProvider))
+                : CreatePlanningModuleWithoutFactory(module, planningServiceProvider);
         }
 
         if (module is IPlanningModuleCopyProvider replayCopyProvider
@@ -170,23 +187,29 @@ internal sealed class ModuleDiscoveryPlanner(
                 ownedPlanningModules.Add(creation.Module);
             }
 
-            return CreateIsolatedPlanningModule(CreatePlanningCopy(replayCopyProvider));
+            return CreateIsolatedPlanningModule(CreatePlanningCopy(
+                replayCopyProvider,
+                planningServiceProvider));
         }
 
         return CreateIsolatedPlanningModule(creation);
     }
 
-    private PlanningModule CreatePlanningModuleWithoutFactory(IModule module)
+    private static PlanningModule CreatePlanningModuleWithoutFactory(
+        IModule module,
+        IServiceProvider planningServiceProvider)
     {
         if (module is IPlanningModuleCopyProvider copyProvider)
         {
-            return CreateIsolatedPlanningModule(CreatePlanningCopy(copyProvider));
+            return CreateIsolatedPlanningModule(CreatePlanningCopy(
+                copyProvider,
+                planningServiceProvider));
         }
 
-        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
+        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(planningServiceProvider);
         try
         {
-            var planningModule = serviceProvider
+            var planningModule = planningServiceProvider
                 .GetRequiredService<IModuleActivator>()
                 .CreateModule(module.GetType(), trackingServiceProvider);
             return CreateIsolatedPlanningModule(new PlanningModuleCreation(
@@ -489,9 +512,11 @@ internal sealed class ModuleDiscoveryPlanner(
         return true;
     }
 
-    private PlanningModuleCreation CreatePlanningCopy(IPlanningModuleCopyProvider copyProvider)
+    private static PlanningModuleCreation CreatePlanningCopy(
+        IPlanningModuleCopyProvider copyProvider,
+        IServiceProvider planningServiceProvider)
     {
-        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
+        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(planningServiceProvider);
         var module = copyProvider.CreatePlanningCopy(trackingServiceProvider);
         return new PlanningModuleCreation(
             module,
@@ -740,12 +765,20 @@ internal sealed record PlannedModuleDiscovery(
     IModuleDependencyRegistry DependencyRegistry,
     IModuleMetadataRegistry MetadataRegistry,
     IReadOnlyDictionary<IModule, IModule> OriginalModules,
-    IReadOnlyList<IModule> OwnedPlanningModules) : IAsyncDisposable
+    IReadOnlyList<IModule> OwnedPlanningModules,
+    AsyncServiceScope PlanningScope) : IAsyncDisposable
 {
     public async ValueTask DisposeAsync()
     {
-        await ModuleDiscoveryPlanner
-            .DisposePlanningModulesAsync(OwnedPlanningModules)
-            .ConfigureAwait(false);
+        try
+        {
+            await ModuleDiscoveryPlanner
+                .DisposePlanningModulesAsync(OwnedPlanningModules)
+                .ConfigureAwait(false);
+        }
+        finally
+        {
+            await PlanningScope.DisposeAsync().ConfigureAwait(false);
+        }
     }
 }
