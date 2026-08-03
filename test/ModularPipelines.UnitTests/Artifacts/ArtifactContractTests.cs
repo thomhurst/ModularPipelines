@@ -193,6 +193,31 @@ public class ArtifactContractTests
         }
     }
 
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
+    private sealed class ConfiguredSkippedHistoricalArtifactConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        public static int SkipEvaluations;
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ =>
+            {
+                Interlocked.Increment(ref SkipEvaluations);
+                return SkipDecision.Skip("consumer skipped");
+            })
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
     [ProducesArtifact("failed-runtime", FailedRuntimeFile)]
     private sealed class IgnoredFailureArtifactProducerModule : Module<string>
     {
@@ -588,6 +613,46 @@ public class ArtifactContractTests
                 .Single();
 
             await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactProducerUsesHistoryWhenConsumerHasConfiguredSkip()
+    {
+        DeleteLocalArtifacts();
+        ConfiguredSkippedHistoricalArtifactConsumerModule.Executed = false;
+        ConfiguredSkippedHistoricalArtifactConsumerModule.SkipEvaluations = 0;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<ConfiguredSkippedHistoricalArtifactConsumerModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<ConfiguredSkippedHistoricalArtifactConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(consumerResult.SkipDecisionOrDefault?.Reason)
+                    .IsEqualTo("consumer skipped");
+                await Assert.That(ConfiguredSkippedHistoricalArtifactConsumerModule.Executed)
+                    .IsFalse();
+                await Assert.That(ConfiguredSkippedHistoricalArtifactConsumerModule.SkipEvaluations)
+                    .IsEqualTo(1);
+            }
         }
         finally
         {
