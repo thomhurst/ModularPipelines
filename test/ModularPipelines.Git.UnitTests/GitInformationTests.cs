@@ -1,5 +1,7 @@
 using ModularPipelines.Context;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Shell;
 using Moq;
 using ModularPipelines.Git;
@@ -37,6 +39,37 @@ public class GitInformationTests : TestBase
 
         command.VerifyNoOtherCalls();
         await result.Host.DisposeAsync();
+    }
+
+    [Test]
+    public async Task RunCommandsOrNull_Forces_Nonzero_Exit_Detection()
+    {
+        CommandExecutionOptions? observedOptions = null;
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(
+                (_, options, _) =>
+                {
+                    observedOptions = options;
+                    return Task.FromResult(CommandResult.Ok());
+                });
+        var shell = new Mock<IShellContext>();
+        shell.SetupGet(context => context.Command).Returns(command.Object);
+        var pipelineContext = new Mock<IPipelineContext>();
+        pipelineContext.SetupGet(context => context.Shell).Returns(shell.Object);
+        var runner = new GitCommandRunner(
+            pipelineContext.Object,
+            Mock.Of<ILogger<GitCommandRunner>>());
+
+        _ = await runner.RunCommandsOrNull(
+            new CommandExecutionOptions { ThrowOnNonZeroExitCode = false },
+            "status");
+
+        await Assert.That(observedOptions).IsNotNull();
+        await Assert.That(observedOptions!.ThrowOnNonZeroExitCode).IsTrue();
     }
 
     [Test]

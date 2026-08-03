@@ -145,7 +145,9 @@ public class GitTests : TestBase
                 Guid.NewGuid().ToString("N"));
             var workingDirectory = Path.Combine(temporaryRoot, "repository");
             var remoteDirectory = Path.Combine(temporaryRoot, "remote.git");
+            var hooksDirectory = Path.Combine(temporaryRoot, "hooks");
             Directory.CreateDirectory(temporaryRoot);
+            Directory.CreateDirectory(hooksDirectory);
 
             try
             {
@@ -155,6 +157,7 @@ public class GitTests : TestBase
                 await RunGitAsync(workingDirectory, "config", "user.email", "tests@modularpipelines.local");
                 await RunGitAsync(workingDirectory, "config", "commit.gpgSign", "false");
                 await RunGitAsync(workingDirectory, "config", "push.gpgSign", "false");
+                await RunGitAsync(workingDirectory, "config", "core.hooksPath", hooksDirectory);
 
                 await File.WriteAllTextAsync(Path.Combine(workingDirectory, "first.txt"), "first");
                 await RunGitAsync(workingDirectory, "add", "first.txt");
