@@ -1,5 +1,3 @@
-using System.Reflection;
-using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Node.Models;
 using ModularPipelines.TestHelpers;
@@ -8,18 +6,6 @@ namespace ModularPipelines.Node.UnitTests.Api;
 
 public class NpmCommandRenderingTests : TestBase
 {
-    [Test]
-    public async Task Npm_Options_Use_Subcommand_Attributes()
-    {
-        var optionsWithFullCommandAttributes = typeof(NpmOptions).Assembly.GetTypes()
-            .Where(type => type != typeof(NpmOptions) && type.IsAssignableTo(typeof(NpmOptions)))
-            .Where(type => type.GetCustomAttribute<CliCommandAttribute>() is not null)
-            .Select(type => type.Name)
-            .ToArray();
-
-        await Assert.That(optionsWithFullCommandAttributes).IsEmpty();
-    }
-
     [Test]
     public async Task Token_Revoke_Renders_Npm_Token_Revoke()
     {

@@ -57,6 +57,27 @@ public class ToolResolverTests
         await Assert.That(tool).IsEqualTo("mytool");
     }
 
+    [Test]
+    public async Task ResolveTool_RuntimeValue_OverridesAttribute()
+    {
+        var resolver = new ToolResolver();
+        var options = new DirectToolOptions { Tool = "runtime-tool" };
+
+        var tool = resolver.ResolveTool(options);
+
+        await Assert.That(tool).IsEqualTo("runtime-tool");
+    }
+
+    [Test]
+    public async Task ResolveTool_DerivedAttribute_OverridesBaseAttribute()
+    {
+        var resolver = new ToolResolver();
+
+        var tool = resolver.ResolveTool(typeof(OverriddenToolOptions));
+
+        await Assert.That(tool).IsEqualTo("npx");
+    }
+
     // Test fixtures
     [CliTool("mytool")]
     private record DirectToolOptions : CommandLineToolOptions;
@@ -65,6 +86,9 @@ public class ToolResolverTests
     private abstract record GitOptionsBase : CommandLineToolOptions;
 
     private record InheritedToolOptions : GitOptionsBase;
+
+    [CliTool("npx")]
+    private record OverriddenToolOptions : GitOptionsBase;
 
     [CliTool("docker")]
     private abstract record DockerOptionsBase : CommandLineToolOptions;

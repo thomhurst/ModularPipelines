@@ -29,14 +29,6 @@ internal sealed class ToolResolver : IToolResolver
     /// <inheritdoc />
     public string? ResolveTool(CommandLineToolOptions options)
     {
-        // First try [CliTool] attribute (preferred)
-        var toolFromAttribute = ResolveTool(options.GetType());
-        if (toolFromAttribute != null)
-        {
-            return toolFromAttribute;
-        }
-
-        // Fall back to Tool property for runtime-configured tools
-        return options.Tool;
+        return options.Tool ?? ResolveTool(options.GetType());
     }
 }
