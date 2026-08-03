@@ -309,6 +309,12 @@ public static class ExternalToolDefinitionLoader
                 $"{propertyName}[].isSecret must be true when secretValueKeys are declared.");
         }
 
+        if (option.ValueArity == CliOptionValueArity.Optional)
+        {
+            throw new InvalidDataException(
+                $"{propertyName}[].secretValueKeys do not support optional option values.");
+        }
+
         if (!option.IsKeyValue || !IsReadOnlyListKeyValueType(option.CSharpType))
         {
             throw new InvalidDataException(

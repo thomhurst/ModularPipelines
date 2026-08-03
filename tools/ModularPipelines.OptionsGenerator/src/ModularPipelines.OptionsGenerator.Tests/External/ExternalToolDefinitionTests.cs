@@ -1642,6 +1642,39 @@ public class ExternalToolDefinitionTests
     }
 
     [Test]
+    public async Task External_Metadata_Rejects_Secret_Keys_With_Optional_Values()
+    {
+        var workspace = CreateTemporaryDirectory();
+        var outputDirectory = Path.Combine(workspace, "integration");
+
+        try
+        {
+            var tool = await LoadValidToolAsync(workspace, outputDirectory);
+            var command = tool.Commands.Single();
+            var option = command.Options.Single() with
+            {
+                CSharpType = "IReadOnlyList<KeyValue>?",
+                ValueArity = CliOptionValueArity.Optional,
+                IsSecret = true,
+                IsKeyValue = true,
+                SecretValueKeys = ["token"],
+            };
+            tool = tool with
+            {
+                Commands = [command with { Options = [option] }],
+            };
+
+            await Assert.That(async () =>
+                    await CreateOrchestrator().GenerateFromDefinitionAsync(tool, outputDirectory))
+                .Throws<InvalidDataException>();
+        }
+        finally
+        {
+            Directory.Delete(workspace, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task External_Metadata_Requires_Custom_Optional_Collection_Shape()
     {
         var workspace = CreateTemporaryDirectory();
