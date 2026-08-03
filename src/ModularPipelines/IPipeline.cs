@@ -13,6 +13,13 @@ public interface IPipeline : IAsyncDisposable
     IServiceProvider Services { get; }
 
     /// <summary>
+    /// Builds a dependency-ordered plan, including skip decisions and duration estimates, without executing modules.
+    /// </summary>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
+    /// <returns>The planned pipeline execution.</returns>
+    Task<PipelinePlan> PlanAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Executes the pipeline and returns a summary of the results.
     /// </summary>
     /// <param name="cancellationToken">Optional cancellation token.</param>

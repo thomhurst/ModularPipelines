@@ -39,6 +39,30 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    public async Task Command_Registers_Credential_Password_As_Secret()
+    {
+        const string password = "command-credential-password";
+        var (command, pipeline) = await GetService<ICommandContext>(_ => { });
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("unused"),
+                new CommandExecutionOptions
+                {
+                    CommandLineCredentials = new CommandLineCredentials
+                    {
+                        Password = password,
+                    },
+                },
+                cancellationTokenSource.Token));
+
+        var secretProvider = pipeline.Services.GetRequiredService<ISecretProvider>();
+        await Assert.That(secretProvider.Secrets).Contains(password);
+    }
+
+    [Test]
     [RequiresTool("pwsh")]
     public async Task Command_Execution_Caps_Captured_Output_With_Head_And_Tail()
     {

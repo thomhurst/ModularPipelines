@@ -17,17 +17,21 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _keyExpiration;
     private readonly JsonSerializerOptions _jsonOptions;
+    // Lets real-backend contract tests synchronize after the race-closing reads complete.
+    private readonly Action? _onWaitReady;
 
     public RedisDistributedCoordinator(
         IDatabase database,
         ISubscriber subscriber,
         RedisKeyBuilder keys,
-        RedisDistributedOptions options)
+        RedisDistributedOptions options,
+        Action? onWaitReady = null)
     {
         _database = database;
         _subscriber = subscriber;
         _keys = keys;
         _keyExpiration = TimeSpan.FromSeconds(options.KeyExpirationSeconds);
+        _onWaitReady = onWaitReady;
         _jsonOptions = new JsonSerializerOptions
         {
             Converters = { new ReadOnlySetJsonConverter() },
@@ -81,6 +85,8 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
             {
                 return null;
             }
+
+            _onWaitReady?.Invoke();
 
             // Wait for notifications — only LRANGE when a publish says work is available
             while (!cancellationToken.IsCancellationRequested)
@@ -156,6 +162,11 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
             if (!existing.IsNullOrEmpty)
             {
                 tcs.TrySetResult(JsonSerializer.Deserialize<SerializedModuleResult>(existing.ToString(), _jsonOptions)!);
+            }
+
+            if (!tcs.Task.IsCompleted)
+            {
+                _onWaitReady?.Invoke();
             }
 
             using var reg = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
