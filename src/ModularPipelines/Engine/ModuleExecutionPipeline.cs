@@ -60,8 +60,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         CancellationToken engineCancellationToken,
-        Func<CancellationToken, Task>? prepareExecutionAsync = null,
-        Func<CancellationToken, Task>? completeExecutionAsync = null)
+        Func<CancellationToken, Task>? prepareExecutionAsync = null)
     {
         var logger = moduleContext.Logger;
         var moduleName = executionContext.ModuleType.Name;
@@ -96,10 +95,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                         skipDecision,
                         logger)
                     .ConfigureAwait(false);
-                await CompleteExecutionIfNeededAsync(
-                        executionContext,
-                        completeExecutionAsync)
-                    .ConfigureAwait(false);
                 module.CompletionSource.TrySetResult(skippedResult);
                 return skippedResult;
             }
@@ -121,10 +116,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 .ConfigureAwait(false);
             if (cachedResult is not null)
             {
-                await CompleteExecutionIfNeededAsync(
-                        executionContext,
-                        completeExecutionAsync)
-                    .ConfigureAwait(false);
                 module.CompletionSource.TrySetResult(cachedResult);
                 return cachedResult;
             }
@@ -160,11 +151,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                     moduleContext,
                     moduleResult,
                     executionContext.ModuleCancellationTokenSource.Token)
-                .ConfigureAwait(false);
-
-            await CompleteExecutionIfNeededAsync(
-                    executionContext,
-                    completeExecutionAsync)
                 .ConfigureAwait(false);
 
             executionContext.SetTypedResult(moduleResult);
@@ -231,16 +217,6 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 }
             }
         }
-    }
-
-    private static Task CompleteExecutionIfNeededAsync(
-        ModuleExecutionContext executionContext,
-        Func<CancellationToken, Task>? completeExecutionAsync)
-    {
-        return completeExecutionAsync is not null
-               && executionContext.Status is Status.Successful or Status.UsedHistory
-            ? completeExecutionAsync(executionContext.ModuleCancellationTokenSource.Token)
-            : Task.CompletedTask;
     }
 
     private async Task<SkipDecision> GetSkipDecisionAsync<T>(

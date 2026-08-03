@@ -86,41 +86,64 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         var ignoredModuleTypes = ignoredModules
             .Select(ignoredModule => ignoredModule.Module.GetType())
             .ToHashSet();
-        var unrecoverableIgnoredModuleTypes = ignoredModules
+        var ignoredModuleTypesWithoutHistory = ignoredModules
             .Where(ignoredModule => historicalResults[ignoredModule.Module] is null)
             .Select(ignoredModule => ignoredModule.Module.GetType())
             .ToHashSet();
         var consumedArtifactProducerTypes = new HashSet<Type>();
-        foreach (var runnableModule in runnableModules)
+        for (var iteration = 0; iteration <= allModules.Length; iteration++)
         {
-            var consumedArtifacts = runnableModule.Module.GetType()
-                .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
-                .Cast<ConsumesArtifactAttribute>()
-                .Where(attribute => ignoredModuleTypes.Contains(attribute.ProducerModule))
-                .ToArray();
-            if (consumedArtifacts.Length == 0)
+            var nextConsumedArtifactProducerTypes = new HashSet<Type>();
+            var unrecoverableIgnoredModuleTypes = ignoredModuleTypesWithoutHistory
+                .Concat(consumedArtifactProducerTypes)
+                .ToHashSet();
+            foreach (var runnableModule in runnableModules)
             {
-                continue;
+                var consumedArtifacts = runnableModule.Module.GetType()
+                    .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                    .Cast<ConsumesArtifactAttribute>()
+                    .Where(attribute => ignoredModuleTypes.Contains(attribute.ProducerModule))
+                    .ToArray();
+                if (consumedArtifacts.Length == 0)
+                {
+                    continue;
+                }
+
+                var consumedProducerTypes = consumedArtifacts
+                    .Select(attribute => attribute.ProducerModule)
+                    .ToHashSet();
+                if (HasUnrecoverableRequiredDependency(
+                        runnableModule.Module,
+                        modulesByType,
+                        availableModuleTypes,
+                        ignoredModuleTypes,
+                        unrecoverableIgnoredModuleTypes,
+                        consumedProducerTypes))
+                {
+                    continue;
+                }
+
+                var skipDecision = await _modulePlanningSkipEvaluator
+                    .EvaluateAsync(runnableModule.Module, CancellationToken.None)
+                    .ConfigureAwait(false);
+                if (skipDecision?.ShouldSkip != true)
+                {
+                    nextConsumedArtifactProducerTypes.UnionWith(consumedProducerTypes);
+                }
             }
 
-            if (HasUnrecoverableRequiredDependency(
-                    runnableModule.Module,
-                    modulesByType,
-                    availableModuleTypes,
-                    ignoredModuleTypes,
-                    unrecoverableIgnoredModuleTypes))
+            if (consumedArtifactProducerTypes.SetEquals(nextConsumedArtifactProducerTypes))
             {
-                continue;
+                break;
             }
 
-            var skipDecision = await _modulePlanningSkipEvaluator
-                .EvaluateAsync(runnableModule.Module, CancellationToken.None)
-                .ConfigureAwait(false);
-            if (skipDecision?.ShouldSkip != true)
+            if (iteration == allModules.Length)
             {
-                consumedArtifactProducerTypes.UnionWith(
-                    consumedArtifacts.Select(attribute => attribute.ProducerModule));
+                consumedArtifactProducerTypes.UnionWith(nextConsumedArtifactProducerTypes);
+                break;
             }
+
+            consumedArtifactProducerTypes = nextConsumedArtifactProducerTypes;
         }
         var cascadeResult = await DependencySkipCascade.ApplyAsync(
             allModules,
@@ -162,7 +185,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         IReadOnlyDictionary<Type, IModule> modulesByType,
         IReadOnlyCollection<Type> availableModuleTypes,
         IReadOnlySet<Type> ignoredModuleTypes,
-        IReadOnlySet<Type> unrecoverableIgnoredModuleTypes)
+        IReadOnlySet<Type> unrecoverableIgnoredModuleTypes,
+        IReadOnlySet<Type> consumedProducerTypes)
     {
         var pending = new Stack<IModule>();
         var visitedTypes = new HashSet<Type> { module.GetType() };
@@ -182,7 +206,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             {
                 if (ignoredModuleTypes.Contains(dependencyType))
                 {
-                    if (unrecoverableIgnoredModuleTypes.Contains(dependencyType))
+                    if (!consumedProducerTypes.Contains(dependencyType)
+                        && unrecoverableIgnoredModuleTypes.Contains(dependencyType))
                     {
                         return true;
                     }

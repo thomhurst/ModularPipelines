@@ -11,6 +11,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Events;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -41,12 +42,16 @@ internal class ModuleRunner : IModuleRunner
     private readonly IModuleResultRegistrar _resultRegistrar;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly ModulePlanningSkipEvaluator _modulePlanningSkipEvaluator;
+    private readonly IModuleResultHistoryProvider _resultHistoryProvider;
+    private readonly IPipelineContextProvider _pipelineContextProvider;
     private readonly ArtifactLifecycleManager _artifactLifecycleManager;
     private readonly bool _manageArtifactsLocally;
     private readonly IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
         _localArtifactConsumers;
     private readonly ConcurrentDictionary<Type, Lazy<Task<SkipDecision?>>>
         _planningSkipEvaluations = new();
+    private readonly ConcurrentDictionary<Type, Lazy<Task<bool>>> _historicalResultAvailability = new();
+    private readonly int _artifactPlanningIterationLimit;
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -64,6 +69,8 @@ internal class ModuleRunner : IModuleRunner
         IModuleAttributeEventService moduleAttributeEventService,
         IModuleResultRegistrar resultRegistrar,
         ModulePlanningSkipEvaluator modulePlanningSkipEvaluator,
+        IModuleResultHistoryProvider resultHistoryProvider,
+        IPipelineContextProvider pipelineContextProvider,
         ArtifactLifecycleManager artifactLifecycleManager,
         IOptions<DistributedOptions> distributedOptions,
         IEnumerable<IModule> modules,
@@ -85,10 +92,14 @@ internal class ModuleRunner : IModuleRunner
         _resultRegistrar = resultRegistrar;
         _secretObfuscator = secretObfuscator;
         _modulePlanningSkipEvaluator = modulePlanningSkipEvaluator;
+        _resultHistoryProvider = resultHistoryProvider;
+        _pipelineContextProvider = pipelineContextProvider;
         _artifactLifecycleManager = artifactLifecycleManager;
         _manageArtifactsLocally = !distributedOptions.Value.Enabled
                                   || distributedOptions.Value.TotalInstances <= 1;
-        _localArtifactConsumers = GetLocalArtifactConsumers(modules);
+        var registeredModules = modules.ToArray();
+        _localArtifactConsumers = GetLocalArtifactConsumers(registeredModules);
+        _artifactPlanningIterationLimit = registeredModules.Length + 1;
     }
 
     /// <inheritdoc />
@@ -187,6 +198,15 @@ internal class ModuleRunner : IModuleRunner
             return;
         }
 
+        var requiredProducerTypes = await GetArtifactProducerTypesRequiringExecutionAsync(
+                scheduler,
+                cancellationToken)
+            .ConfigureAwait(false);
+        if (!requiredProducerTypes.Contains(moduleType))
+        {
+            return;
+        }
+
         var artifactNames = new HashSet<string>(StringComparer.Ordinal);
         foreach (var (artifactName, consumerTypes) in consumersByArtifact)
         {
@@ -196,7 +216,8 @@ internal class ModuleRunner : IModuleRunner
                         moduleType,
                         consumerType,
                         scheduler,
-                        cancellationToken)
+                        cancellationToken,
+                        requiredProducerTypes)
                     .ConfigureAwait(false))
                 {
                     artifactNames.Add(artifactName);
@@ -220,32 +241,67 @@ internal class ModuleRunner : IModuleRunner
         IModuleScheduler scheduler,
         CancellationToken cancellationToken)
     {
-        if (!_localArtifactConsumers.TryGetValue(producerType, out var consumersByArtifact))
+        if (!_localArtifactConsumers.ContainsKey(producerType))
         {
             return false;
         }
 
-        foreach (var consumerType in consumersByArtifact.Values.SelectMany(consumers => consumers))
+        var requiredProducerTypes = await GetArtifactProducerTypesRequiringExecutionAsync(
+                scheduler,
+                cancellationToken)
+            .ConfigureAwait(false);
+        return requiredProducerTypes.Contains(producerType);
+    }
+
+    private async Task<HashSet<Type>> GetArtifactProducerTypesRequiringExecutionAsync(
+        IModuleScheduler scheduler,
+        CancellationToken cancellationToken)
+    {
+        var requiredProducerTypes = new HashSet<Type>();
+        for (var iteration = 0; iteration < _artifactPlanningIterationLimit; iteration++)
         {
-            if (await IsRunnableArtifactConsumerAsync(
-                    producerType,
-                    consumerType,
-                    scheduler,
-                    cancellationToken)
-                .ConfigureAwait(false))
+            var nextRequiredProducerTypes = new HashSet<Type>();
+            foreach (var (producerType, consumersByArtifact) in _localArtifactConsumers)
             {
-                return true;
+                foreach (var consumerType in consumersByArtifact.Values.SelectMany(consumers => consumers))
+                {
+                    if (await IsRunnableArtifactConsumerAsync(
+                            producerType,
+                            consumerType,
+                            scheduler,
+                            cancellationToken,
+                            requiredProducerTypes)
+                        .ConfigureAwait(false))
+                    {
+                        nextRequiredProducerTypes.Add(producerType);
+                        break;
+                    }
+                }
             }
+
+            if (requiredProducerTypes.SetEquals(nextRequiredProducerTypes))
+            {
+                return requiredProducerTypes;
+            }
+
+            if (iteration == _artifactPlanningIterationLimit - 1)
+            {
+                requiredProducerTypes.UnionWith(nextRequiredProducerTypes);
+                return requiredProducerTypes;
+            }
+
+            requiredProducerTypes = nextRequiredProducerTypes;
         }
 
-        return false;
+        return requiredProducerTypes;
     }
 
     private async Task<bool> IsRunnableArtifactConsumerAsync(
         Type producerType,
         Type consumerType,
         IModuleScheduler scheduler,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        IReadOnlySet<Type> requiredProducerTypes)
     {
         if (scheduler.GetModuleState(consumerType) is not { State: not ModuleExecutionState.Completed } moduleState
             || moduleState.SkipResult.ShouldSkip)
@@ -257,7 +313,8 @@ internal class ModuleRunner : IModuleRunner
                 moduleState,
                 scheduler,
                 cancellationToken,
-                [consumerType, producerType]).ConfigureAwait(false))
+                [consumerType, producerType],
+                requiredProducerTypes).ConfigureAwait(false))
         {
             return false;
         }
@@ -288,7 +345,8 @@ internal class ModuleRunner : IModuleRunner
         ModuleState moduleState,
         IModuleScheduler scheduler,
         CancellationToken cancellationToken,
-        HashSet<Type> visited)
+        HashSet<Type> visited,
+        IReadOnlySet<Type> requiredProducerTypes)
     {
         foreach (var dependency in moduleState.Dependencies.Where(static dependency => !dependency.Value))
         {
@@ -310,20 +368,39 @@ internal class ModuleRunner : IModuleRunner
             if (skipDecision?.ShouldSkip == true)
             {
                 dependencyState.SkipResult = skipDecision;
-                return true;
+                if (requiredProducerTypes.Contains(dependency.Key)
+                    || !await HasHistoricalResultAsync(dependencyState).ConfigureAwait(false))
+                {
+                    return true;
+                }
+
+                continue;
             }
 
             if (await HasSkippedRequiredDependencyAsync(
                     dependencyState,
                     scheduler,
                     cancellationToken,
-                    visited).ConfigureAwait(false))
+                    visited,
+                    requiredProducerTypes).ConfigureAwait(false))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private async Task<bool> HasHistoricalResultAsync(ModuleState moduleState)
+    {
+        var evaluation = _historicalResultAvailability.GetOrAdd(
+            moduleState.ModuleType,
+            _ => new Lazy<Task<bool>>(
+                async () => await _resultHistoryProvider
+                        .TryGetAsync(moduleState.Module, _pipelineContextProvider.GetModuleContext())
+                        .ConfigureAwait(false) is not null,
+                LazyThreadSafetyMode.ExecutionAndPublication));
+        return await evaluation.Value.ConfigureAwait(false);
     }
 
     private static IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
@@ -517,6 +594,20 @@ internal class ModuleRunner : IModuleRunner
             // Invoke OnModuleEnd lifecycle event
             await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
+            if (_manageArtifactsLocally
+                && executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory)
+            {
+                try
+                {
+                    await UploadProducedArtifactsAsync(moduleType, scheduler, cancellationToken)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception exception) when (exception is not ModuleFailedException)
+                {
+                    throw new ModuleFailedException(moduleType, exception);
+                }
+            }
+
             var isSuccessful = executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory;
             await _mediator.Publish(new ModuleCompletedNotification(moduleState, isSuccessful)).ConfigureAwait(false);
         }
@@ -606,9 +697,6 @@ internal class ModuleRunner : IModuleRunner
                 failIfMissing: true,
                 token)
             : null;
-        Func<CancellationToken, Task>? completeExecutionAsync = _manageArtifactsLocally
-            ? token => UploadProducedArtifactsAsync(module.GetType(), scheduler, token)
-            : null;
         if (GeneratedModuleMetadata.TryGetRuntime(module.GetType(), out var runtime))
         {
             return await runtime.ExecuteAsync(
@@ -617,7 +705,6 @@ internal class ModuleRunner : IModuleRunner
                     executionContext,
                     moduleContext,
                     prepareExecutionAsync,
-                    completeExecutionAsync,
                     cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -630,7 +717,6 @@ internal class ModuleRunner : IModuleRunner
                 executionContext,
                 moduleContext,
                 prepareExecutionAsync,
-                completeExecutionAsync,
                 cancellationToken)
             .ConfigureAwait(false);
     }

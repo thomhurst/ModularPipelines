@@ -26,7 +26,6 @@ internal static class ModuleExecutionDelegateFactory
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         Func<CancellationToken, Task>? prepareExecutionAsync,
-        Func<CancellationToken, Task>? completeExecutionAsync,
         CancellationToken cancellationToken);
 
     private static readonly ConcurrentDictionary<Type, ExecuteModuleDelegate> ExecutorCache = new();
@@ -63,9 +62,6 @@ internal static class ModuleExecutionDelegateFactory
         var prepareExecutionParam = Expression.Parameter(
             typeof(Func<CancellationToken, Task>),
             "prepareExecutionAsync");
-        var completeExecutionParam = Expression.Parameter(
-            typeof(Func<CancellationToken, Task>),
-            "completeExecutionAsync");
         var cancellationTokenParam = Expression.Parameter(typeof(CancellationToken), "cancellationToken");
 
         // Get the generic types
@@ -91,7 +87,6 @@ internal static class ModuleExecutionDelegateFactory
             castContext,
             moduleContextParam,
             prepareExecutionParam,
-            completeExecutionParam,
             cancellationTokenParam);
 
         // Create and compile the lambda
@@ -102,7 +97,6 @@ internal static class ModuleExecutionDelegateFactory
             contextParam,
             moduleContextParam,
             prepareExecutionParam,
-            completeExecutionParam,
             cancellationTokenParam);
 
         return lambda.Compile();
@@ -127,7 +121,6 @@ internal static class ModuleExecutionDelegateFactory
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         Func<CancellationToken, Task>? prepareExecutionAsync,
-        Func<CancellationToken, Task>? completeExecutionAsync,
         CancellationToken cancellationToken)
     {
         var result = await pipeline.ExecuteAsync(
@@ -135,8 +128,7 @@ internal static class ModuleExecutionDelegateFactory
                 executionContext,
                 moduleContext,
                 cancellationToken,
-                prepareExecutionAsync,
-                completeExecutionAsync)
+                prepareExecutionAsync)
             .ConfigureAwait(false);
         return result;
     }

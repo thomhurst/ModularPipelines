@@ -200,7 +200,6 @@ public class ModuleTestBuilder<TModule>
                     executionContext,
                     moduleContext,
                     prepareExecutionAsync: null,
-                    completeExecutionAsync: null,
                     cancellationToken: CancellationToken.None)
                 .ConfigureAwait(false);
         }

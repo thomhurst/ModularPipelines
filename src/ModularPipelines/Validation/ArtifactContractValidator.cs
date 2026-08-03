@@ -25,10 +25,10 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             return result;
         }
 
-        var runnableModules = GetRunnableModulesForArtifactValidationAsync(services)
+        var modules = GetRunnableModulesForArtifactValidationAsync(services)
             .GetAwaiter()
             .GetResult();
-        return ValidateModules(services, runnableModules);
+        return ValidateModules(services, modules.AvailableModules, modules.RunnableConsumerTypes);
     }
 
     /// <inheritdoc />
@@ -40,68 +40,217 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             return result;
         }
 
-        var runnableModules = await GetRunnableModulesForArtifactValidationAsync(services)
+        var modules = await GetRunnableModulesForArtifactValidationAsync(services)
             .ConfigureAwait(false);
-        return ValidateModules(services, runnableModules);
+        return ValidateModules(services, modules.AvailableModules, modules.RunnableConsumerTypes);
     }
 
-    private static async Task<IReadOnlyList<IModule>> GetRunnableModulesForArtifactValidationAsync(
+    private static async Task<ArtifactValidationModules> GetRunnableModulesForArtifactValidationAsync(
         IServiceProvider services)
     {
-        var modules = await services.GetRequiredService<ModuleRetriever>()
-            .GetRunnableModulesForValidation()
+        var discoveredModules = await services.GetRequiredService<ModuleRetriever>()
+            .GetUncascadedModulesForValidation()
             .ConfigureAwait(false);
+        var runnableModules = discoveredModules.RunnableModules.ToList();
+        var ignoredModules = discoveredModules.IgnoredModules.ToList();
+        var modules = runnableModules
+            .Concat(ignoredModules.Select(ignoredModule => ignoredModule.Module))
+            .Distinct<IModule>(ReferenceEqualityComparer.Instance)
+            .ToArray();
         var skipEvaluator = services.GetRequiredService<ModulePlanningSkipEvaluator>();
-        var runnableModules = new List<IModule>(modules.Count);
-        var ignoredModules = new List<IgnoredModule>();
-        foreach (var module in modules)
+        foreach (var module in runnableModules.ToArray())
         {
             var skipDecision = await skipEvaluator
                 .EvaluateAsync(module, CancellationToken.None)
                 .ConfigureAwait(false);
             if (skipDecision?.ShouldSkip == true)
             {
+                runnableModules.Remove(module);
                 ignoredModules.Add(new IgnoredModule(module, skipDecision));
-            }
-            else
-            {
-                runnableModules.Add(module);
             }
         }
 
-        var moduleTypesUsingHistory = new HashSet<Type>();
+        var ignoredModuleTypes = ignoredModules
+            .Select(ignoredModule => ignoredModule.Module.GetType())
+            .ToHashSet();
+        var moduleTypesWithHistory = new HashSet<Type>();
         var resultHistoryProvider = services.GetRequiredService<IModuleResultHistoryProvider>();
         var pipelineContext = services.GetRequiredService<IPipelineContextProvider>().GetModuleContext();
+        foreach (var ignoredModule in ignoredModules)
+        {
+            if (await resultHistoryProvider
+                    .TryGetAsync(ignoredModule.Module, pipelineContext)
+                    .ConfigureAwait(false) is not null)
+            {
+                moduleTypesWithHistory.Add(ignoredModule.Module.GetType());
+            }
+        }
+
+        var dependencyRegistry = services.GetRequiredService<IModuleDependencyRegistry>();
+        var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
+        var consumedArtifactProducerTypes = await GetConsumedArtifactProducerTypesAsync(
+                runnableModules,
+                modules,
+                ignoredModuleTypes,
+                moduleTypesWithHistory,
+                dependencyRegistry,
+                metadataRegistry,
+                skipEvaluator)
+            .ConfigureAwait(false);
         var cascadeResult = await DependencySkipCascade.ApplyAsync(
                 modules,
                 runnableModules,
                 ignoredModules,
-                services.GetRequiredService<IModuleDependencyRegistry>(),
-                services.GetRequiredService<IModuleMetadataRegistry>(),
-                async pendingIgnoredModules =>
-                {
-                    foreach (var ignoredModule in pendingIgnoredModules)
-                    {
-                        if (await resultHistoryProvider
-                                .TryGetAsync(ignoredModule.Module, pipelineContext)
-                                .ConfigureAwait(false) is not null)
-                        {
-                            moduleTypesUsingHistory.Add(ignoredModule.Module.GetType());
-                        }
-                    }
-                },
-                moduleType => !moduleTypesUsingHistory.Contains(moduleType))
+                dependencyRegistry,
+                metadataRegistry,
+                _ => Task.CompletedTask,
+                moduleType => !moduleTypesWithHistory.Contains(moduleType)
+                              || consumedArtifactProducerTypes.Contains(moduleType))
             .ConfigureAwait(false);
-        return cascadeResult.RunnableModules
+        var availableModules = cascadeResult.RunnableModules
             .Concat(cascadeResult.IgnoredModules
                 .Select(ignoredModule => ignoredModule.Module)
-                .Where(module => moduleTypesUsingHistory.Contains(module.GetType())))
+                .Where(module => moduleTypesWithHistory.Contains(module.GetType())
+                                 && !consumedArtifactProducerTypes.Contains(module.GetType())))
             .ToArray();
+        return new ArtifactValidationModules(
+            availableModules,
+            cascadeResult.RunnableModules
+                .Select(module => module.GetType())
+                .ToHashSet());
+    }
+
+    private static async Task<HashSet<Type>> GetConsumedArtifactProducerTypesAsync(
+        IReadOnlyCollection<IModule> runnableModules,
+        IReadOnlyCollection<IModule> allModules,
+        IReadOnlySet<Type> ignoredModuleTypes,
+        IReadOnlySet<Type> moduleTypesWithHistory,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
+        ModulePlanningSkipEvaluator skipEvaluator)
+    {
+        var modulesByType = allModules
+            .GroupBy(module => module.GetType())
+            .ToDictionary(group => group.Key, group => group.First());
+        var availableModuleTypes = modulesByType.Keys.ToArray();
+        var moduleTypesWithoutHistory = ignoredModuleTypes
+            .Where(moduleType => !moduleTypesWithHistory.Contains(moduleType))
+            .ToHashSet();
+        var consumedArtifactProducerTypes = new HashSet<Type>();
+        for (var iteration = 0; iteration <= allModules.Count; iteration++)
+        {
+            var nextConsumedArtifactProducerTypes = new HashSet<Type>();
+            var unrecoverableModuleTypes = moduleTypesWithoutHistory
+                .Concat(consumedArtifactProducerTypes)
+                .ToHashSet();
+            foreach (var module in runnableModules)
+            {
+                var consumedProducerTypes = module.GetType()
+                    .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
+                    .Cast<ConsumesArtifactAttribute>()
+                    .Where(IsValidArtifactDemand)
+                    .Select(attribute => attribute.ProducerModule)
+                    .Where(ignoredModuleTypes.Contains)
+                    .ToHashSet();
+                if (consumedProducerTypes.Count == 0
+                    || HasUnrecoverableRequiredDependency(
+                        module,
+                        modulesByType,
+                        availableModuleTypes,
+                        ignoredModuleTypes,
+                        unrecoverableModuleTypes,
+                        consumedProducerTypes,
+                        dependencyRegistry,
+                        metadataRegistry))
+                {
+                    continue;
+                }
+
+                var skipDecision = await skipEvaluator
+                    .EvaluateAsync(module, CancellationToken.None)
+                    .ConfigureAwait(false);
+                if (skipDecision?.ShouldSkip != true)
+                {
+                    nextConsumedArtifactProducerTypes.UnionWith(consumedProducerTypes);
+                }
+            }
+
+            if (consumedArtifactProducerTypes.SetEquals(nextConsumedArtifactProducerTypes))
+            {
+                return consumedArtifactProducerTypes;
+            }
+
+            if (iteration == allModules.Count)
+            {
+                consumedArtifactProducerTypes.UnionWith(nextConsumedArtifactProducerTypes);
+                return consumedArtifactProducerTypes;
+            }
+
+            consumedArtifactProducerTypes = nextConsumedArtifactProducerTypes;
+        }
+
+        return consumedArtifactProducerTypes;
+    }
+
+    private static bool IsValidArtifactDemand(ConsumesArtifactAttribute consumedArtifact) =>
+        consumedArtifact.ProducerModule
+            .GetCustomAttributes(typeof(ProducesArtifactAttribute), inherit: true)
+            .Cast<ProducesArtifactAttribute>()
+            .Count(producedArtifact => string.Equals(
+                producedArtifact.Name,
+                consumedArtifact.ArtifactName,
+                StringComparison.Ordinal)) == 1;
+
+    private static bool HasUnrecoverableRequiredDependency(
+        IModule module,
+        IReadOnlyDictionary<Type, IModule> modulesByType,
+        IReadOnlyCollection<Type> availableModuleTypes,
+        IReadOnlySet<Type> ignoredModuleTypes,
+        IReadOnlySet<Type> unrecoverableModuleTypes,
+        IReadOnlySet<Type> consumedProducerTypes,
+        IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry)
+    {
+        var pending = new Stack<IModule>();
+        var visitedTypes = new HashSet<Type> { module.GetType() };
+        pending.Push(module);
+        while (pending.TryPop(out var currentModule))
+        {
+            var requiredDependencyTypes = ModuleDependencyResolver.GetAllDependencies(
+                    currentModule,
+                    availableModuleTypes,
+                    dependencyRegistry,
+                    metadataRegistry)
+                .Where(dependency => !dependency.Optional)
+                .Select(dependency => dependency.DependencyType);
+            foreach (var dependencyType in requiredDependencyTypes)
+            {
+                if (ignoredModuleTypes.Contains(dependencyType))
+                {
+                    if (!consumedProducerTypes.Contains(dependencyType)
+                        && unrecoverableModuleTypes.Contains(dependencyType))
+                    {
+                        return true;
+                    }
+
+                    continue;
+                }
+
+                if (visitedTypes.Add(dependencyType)
+                    && modulesByType.TryGetValue(dependencyType, out var dependencyModule))
+                {
+                    pending.Push(dependencyModule);
+                }
+            }
+        }
+
+        return false;
     }
 
     private static ValidationResult ValidateModules(
         IServiceProvider services,
-        IEnumerable<IModule> modules)
+        IEnumerable<IModule> modules,
+        IReadOnlySet<Type>? runnableConsumerTypes = null)
     {
         var result = new ValidationResult();
         var modulesByType = modules
@@ -115,7 +264,8 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             metadataRegistry.FinalizeMetadata(moduleType, module);
         }
 
-        foreach (var consumerType in moduleTypes)
+        foreach (var consumerType in moduleTypes.Where(
+                     moduleType => runnableConsumerTypes?.Contains(moduleType) != false))
         {
             var consumedArtifacts = consumerType
                 .GetCustomAttributes(typeof(ConsumesArtifactAttribute), inherit: true)
@@ -250,4 +400,8 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
 
         return false;
     }
+
+    private sealed record ArtifactValidationModules(
+        IReadOnlyList<IModule> AvailableModules,
+        IReadOnlySet<Type> RunnableConsumerTypes);
 }

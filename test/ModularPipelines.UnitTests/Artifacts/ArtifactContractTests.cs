@@ -8,6 +8,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Validation;
@@ -256,6 +257,14 @@ public class ArtifactContractTests
             await File.ReadAllTextAsync(
                 Path.Combine(AfterHookRestoreDirectory, "after-hook-output"),
                 cancellationToken);
+    }
+
+    private sealed class EndHookArtifactReceiver : IModuleEventReceiver
+    {
+        public Task OnModuleEndAsync(IModuleHookContext context) =>
+            context.ModuleType == typeof(AfterHookArtifactProducerModule)
+                ? File.WriteAllTextAsync(AfterHookProducedFile, "end-hook")
+                : Task.CompletedTask;
     }
 
     [ProducesArtifact("multiple-output", MultipleProducedPattern)]
@@ -511,6 +520,51 @@ public class ArtifactContractTests
         }
     }
 
+    private sealed class HistoryBackedSkippedDependencyModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => SkipDecision.Skip("history-backed dependency skipped"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("History-backed dependency must not execute");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<HistoryBackedSkippedDependencyModule>]
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
+    private sealed class HistoryBackedDependencyArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Artifact consumer must cascade-skip");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    [ConsumesArtifact(
+        typeof(DependencyOrderedSkippedArtifactProducerModule),
+        "dependency-ordered")]
+    private sealed class FixedPointArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Fixed-point consumer must cascade-skip");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
+    private sealed class UnrelatedHistoryDependentModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("used history dependency");
+    }
+
     [ModularPipelines.Attributes.DependsOn<SkippedArtifactBlockerModule>]
     private sealed class TransitiveSkippedArtifactIntermediateModule : Module<string>
     {
@@ -584,7 +638,8 @@ public class ArtifactContractTests
             IPipelineContext pipelineContext)
         {
             if (module is not SkippedArtifactProducerModule
-                and not DependencyOrderedSkippedArtifactProducerModule)
+                and not DependencyOrderedSkippedArtifactProducerModule
+                and not HistoryBackedSkippedDependencyModule)
             {
                 return Task.FromResult<ModuleResult<T>?>(null);
             }
@@ -867,6 +922,26 @@ public class ArtifactContractTests
     }
 
     [Test]
+    public async Task BuildAsyncRejectsInvalidContractWhenSelectedDependencyHasHistory()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            SkippedModules = [nameof(SkippedArtifactValidationDependencyModule)],
+        });
+        builder.AddResultsRepository<ArtifactValidationHistoryRepository>();
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<SkippedArtifactValidationDependencyModule>();
+        builder.AddModule<DependencySkippedInvalidArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(DependencySkippedInvalidArtifactConsumerModule));
+    }
+
+    [Test]
     public async Task BuildAsyncRejectsInvalidContractWhenConsumedSkippedProducerHasHistory()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -934,6 +1009,31 @@ public class ArtifactContractTests
                 .Single();
 
             await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("after-hook");
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task StandaloneExecutionUploadsArtifactsAfterModuleEndReceiver()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModuleEventReceiver<EndHookArtifactReceiver>();
+            builder.AddModule<AfterHookArtifactProducerModule>();
+            builder.AddModule<AfterHookArtifactConsumerModule>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var consumerResult = await summary.Modules
+                .OfType<AfterHookArtifactConsumerModule>()
+                .Single();
+
+            await Assert.That(consumerResult.ValueOrDefault).IsEqualTo("end-hook");
         }
         finally
         {
@@ -1382,6 +1482,90 @@ public class ArtifactContractTests
                 await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
                 await Assert.That(IndependentDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task ArtifactProducerExecutesWhenConsumerDependencyUsesHistory()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<HistoryBackedSkippedDependencyModule>();
+            builder.AddModule<HistoryBackedDependencyArtifactConsumerModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var dependencyResult = await summary.Modules
+                .OfType<HistoryBackedSkippedDependencyModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<HistoryBackedDependencyArtifactConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(dependencyResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task IgnoredArtifactDemandConvergesAfterHistorySuppression()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules =
+                [
+                    nameof(SkippedArtifactProducerModule),
+                    nameof(DependencyOrderedSkippedArtifactProducerModule),
+                ],
+            });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<DependencyOrderedSkippedArtifactProducerModule>();
+            builder.AddModule<SkippedArtifactConsumerModule>();
+            builder.AddModule<FixedPointArtifactConsumerModule>();
+            builder.AddModule<UnrelatedHistoryDependentModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var firstProducerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var secondProducerResult = await summary.Modules
+                .OfType<DependencyOrderedSkippedArtifactProducerModule>()
+                .Single();
+            var unrelatedResult = await summary.Modules
+                .OfType<UnrelatedHistoryDependentModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstProducerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(secondProducerResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(unrelatedResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
             }
         }
         finally
