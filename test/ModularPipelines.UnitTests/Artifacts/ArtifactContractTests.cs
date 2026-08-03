@@ -46,6 +46,26 @@ public class ArtifactContractTests
             Task.FromResult<string?>("consumed");
     }
 
+    [ProducesArtifact("duplicate-output", "first.txt")]
+    [ProducesArtifact("duplicate-output", "second.txt")]
+    private sealed class DuplicateArtifactProducerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("produced");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<DuplicateArtifactProducerModule>]
+    [ConsumesArtifact(typeof(DuplicateArtifactProducerModule), "duplicate-output")]
+    private sealed class DuplicateArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("consumed");
+    }
+
     private sealed class AlwaysSkipArtifactCondition : IRunCondition
     {
         public Task<bool> EvaluateAsync(IPipelineContext context) => Task.FromResult(true);
@@ -169,13 +189,16 @@ public class ArtifactContractTests
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            Directory.CreateDirectory(MultipleProducedDirectory);
+            var firstDirectory = Path.Combine(MultipleProducedDirectory, "first");
+            var secondDirectory = Path.Combine(MultipleProducedDirectory, "second");
+            Directory.CreateDirectory(firstDirectory);
+            Directory.CreateDirectory(secondDirectory);
             await File.WriteAllTextAsync(
-                Path.Combine(MultipleProducedDirectory, "first.txt"),
+                Path.Combine(firstDirectory, "output.txt"),
                 "first",
                 cancellationToken);
             await File.WriteAllTextAsync(
-                Path.Combine(MultipleProducedDirectory, "second.txt"),
+                Path.Combine(secondDirectory, "output.txt"),
                 "second",
                 cancellationToken);
             return "produced";
@@ -196,10 +219,10 @@ public class ArtifactContractTests
             CancellationToken cancellationToken)
         {
             var first = await File.ReadAllTextAsync(
-                Path.Combine(MultipleRestoreDirectory, "first.txt"),
+                Path.Combine(MultipleRestoreDirectory, "first", "output.txt"),
                 cancellationToken);
             var second = await File.ReadAllTextAsync(
-                Path.Combine(MultipleRestoreDirectory, "second.txt"),
+                Path.Combine(MultipleRestoreDirectory, "second", "output.txt"),
                 cancellationToken);
             return ConsumedContent = $"{first},{second}";
         }
@@ -559,6 +582,21 @@ public class ArtifactContractTests
             error.Category == ValidationErrorCategory.Artifact
             && error.SourceType == typeof(UnregisteredProducerConsumerModule)
             && error.Message.Contains("unregistered producer", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Test]
+    public async Task BuildAsyncRejectsDuplicateProducedArtifactName()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DuplicateArtifactProducerModule>();
+        builder.AddModule<DuplicateArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(DuplicateArtifactConsumerModule)
+            && error.Message.Contains("more than once", StringComparison.Ordinal));
     }
 
     [Test]

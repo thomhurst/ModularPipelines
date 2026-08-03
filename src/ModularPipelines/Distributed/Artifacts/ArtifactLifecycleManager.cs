@@ -122,6 +122,7 @@ internal class ArtifactLifecycleManager
                 {
                     // Multiple files — zip to temp file to avoid OOM
                     descriptor = descriptor with { ContentType = "application/zip" };
+                    var archiveBaseDirectory = GetArchiveBaseDirectory(attr.PathPattern);
                     var tempFile = CreateTemporaryArchivePath();
                     try
                     {
@@ -129,7 +130,9 @@ internal class ArtifactLifecycleManager
                         {
                             foreach (var filePath in resolvedPaths)
                             {
-                                archive.CreateEntryFromFile(filePath, Path.GetFileName(filePath), _options.CompressionLevel);
+                                var entryName = Path.GetRelativePath(archiveBaseDirectory, filePath)
+                                    .Replace(Path.DirectorySeparatorChar, '/');
+                                archive.CreateEntryFromFile(filePath, entryName, _options.CompressionLevel);
                             }
                         }
 
@@ -325,11 +328,7 @@ internal class ArtifactLifecycleManager
             return [];
         }
 
-        var baseDir = Path.GetDirectoryName(pathPattern[..wildcardIndex]);
-        if (string.IsNullOrEmpty(baseDir))
-        {
-            baseDir = Directory.GetCurrentDirectory();
-        }
+        var baseDir = GetGlobBaseDirectory(pathPattern, wildcardIndex);
 
         if (!Directory.Exists(baseDir))
         {
@@ -353,6 +352,25 @@ internal class ArtifactLifecycleManager
         // Try directories
         var dirMatches = Directory.GetDirectories(baseDir, searchPattern, SearchOption.AllDirectories);
         return dirMatches;
+    }
+
+    private string GetArchiveBaseDirectory(string pathPattern)
+    {
+        var resolvedPattern = ResolvePath(pathPattern);
+        var wildcardIndex = resolvedPattern.IndexOfAny(['*', '?']);
+        return wildcardIndex < 0
+            ? Path.GetDirectoryName(resolvedPattern) ?? _workingDirectory
+            : GetGlobBaseDirectory(resolvedPattern, wildcardIndex);
+    }
+
+    private static string GetGlobBaseDirectory(string pathPattern, int wildcardIndex)
+    {
+        var separatorIndex = pathPattern.LastIndexOfAny(
+            [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+            wildcardIndex);
+        return separatorIndex < 0
+            ? Directory.GetCurrentDirectory()
+            : Path.GetFullPath(pathPattern[..(separatorIndex + 1)]);
     }
 
     private string ResolvePath(string path) =>

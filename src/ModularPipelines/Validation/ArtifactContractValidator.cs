@@ -141,11 +141,13 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             .Cast<ProducesArtifactAttribute>()
             .ToArray();
 
-        if (!producedArtifacts.Any(producedArtifact =>
-                string.Equals(
-                    producedArtifact.Name,
-                    consumedArtifact.ArtifactName,
-                    StringComparison.Ordinal)))
+        var matchingArtifacts = producedArtifacts
+            .Where(producedArtifact => string.Equals(
+                producedArtifact.Name,
+                consumedArtifact.ArtifactName,
+                StringComparison.Ordinal))
+            .ToArray();
+        if (matchingArtifacts.Length == 0)
         {
             var availableArtifacts = producedArtifacts.Length == 0
                 ? "none"
@@ -155,6 +157,16 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
                 $"Module '{consumerType.Name}' consumes artifact '{consumedArtifact.ArtifactName}', " +
                 $"but producer module '{producerType.Name}' does not declare it. " +
                 $"Available artifacts: {availableArtifacts}.",
+                consumerType));
+            return;
+        }
+
+        if (matchingArtifacts.Length > 1)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Artifact,
+                $"Module '{consumerType.Name}' consumes artifact '{consumedArtifact.ArtifactName}', " +
+                $"but producer module '{producerType.Name}' declares that artifact name more than once.",
                 consumerType));
             return;
         }
