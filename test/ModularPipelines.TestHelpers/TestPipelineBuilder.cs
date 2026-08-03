@@ -6,7 +6,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.TestHelpers;
 
-public static class TestPipelineHostBuilder
+public static class TestPipelineBuilder
 {
     public static PipelineBuilder Create() => Create(new TestHostSettings());
 

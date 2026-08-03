@@ -13,7 +13,7 @@ public class SafeEstimatedTimeProviderTests
     [Test]
     public async Task When_EstimatedTimeProvider_Succeeds_Then_No_Error()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<SuccessfulTimeProvider>()
             .BuildAsync();
@@ -28,7 +28,7 @@ public class SafeEstimatedTimeProviderTests
     [Test]
     public async Task When_EstimatedTimeProvider_Fails_Receiving_Time_Then_Still_No_Error()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<FailingTimeProvider>()
             .BuildAsync();
@@ -43,7 +43,7 @@ public class SafeEstimatedTimeProviderTests
     [Test]
     public async Task When_EstimatedTimeProvider_Fails_Saving_Time_Then_Still_No_Error()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddModuleEstimatedTimeProvider<FailingTimeProvider2>()
             .BuildAsync();
@@ -60,7 +60,7 @@ public class SafeEstimatedTimeProviderTests
     {
         TrackingTimeProvider.SaveCount = 0;
         CancellableModule.Reset();
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<CancellableModule>()
             .AddModuleEstimatedTimeProvider<TrackingTimeProvider>()
             .BuildAsync();

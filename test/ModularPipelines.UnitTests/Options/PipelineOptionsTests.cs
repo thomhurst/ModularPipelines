@@ -164,7 +164,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task PipelineBuilder_RegistersEquivalentIsolatedOptionsSnapshots()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
         var expected = builder.Options;
 
@@ -222,7 +222,7 @@ public class PipelineOptionsTests
     [Test]
     public async Task PipelineBuilder_PreservesRegisteredPipelineOptionsValidators()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
         builder.Services
             .AddOptions<PipelineOptions>()

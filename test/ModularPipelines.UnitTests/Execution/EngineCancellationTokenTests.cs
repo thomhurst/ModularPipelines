@@ -257,7 +257,7 @@ public class EngineCancellationTokenTests : TestBase
     [Test]
     public async Task When_Cancel_Engine_Token_With_DependsOn_Then_Modules_Cancel()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<BadModule>()
             .AddModule<Module1>();
 
@@ -283,7 +283,7 @@ public class EngineCancellationTokenTests : TestBase
     [Test]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<BadModule>()
             .AddModule<LongRunningModule>();
 
@@ -319,7 +319,7 @@ public class EngineCancellationTokenTests : TestBase
 
         try
         {
-            var builder = TestPipelineHostBuilder.Create()
+            var builder = TestPipelineBuilder.Create()
                 .AddModule<RunningCommandModule>()
                 .AddModule<FailAfterCommandStartsModule>();
             builder.ConfigurePipelineOptions(options => options with
@@ -345,7 +345,7 @@ public class EngineCancellationTokenTests : TestBase
     [Test]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel_Without_Cancellation()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<BadModule>()
             .AddModule<LongRunningModuleWithoutCancellation>();
 
@@ -376,7 +376,7 @@ public class EngineCancellationTokenTests : TestBase
         AwaitingPendingModuleStarted =
             new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
                 DefaultModuleTimeout = TimeSpan.Zero,
@@ -403,7 +403,7 @@ public class EngineCancellationTokenTests : TestBase
         AwaitingTerminatedModuleStarted =
             new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
                 DefaultModuleTimeout = TimeSpan.Zero,
@@ -436,7 +436,7 @@ public class EngineCancellationTokenTests : TestBase
     [Test]
     public async Task StopOnFirstException_PendingModuleAwaiterReturnsTerminatedResult()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions(options => options with
             {
                 DefaultModuleTimeout = TimeSpan.Zero,
@@ -476,7 +476,7 @@ public class EngineCancellationTokenTests : TestBase
     {
         PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions((_, options) => options with
             {
                 ExecutionMode = ExecutionMode.WaitForAllModules,
@@ -504,7 +504,7 @@ public class EngineCancellationTokenTests : TestBase
     {
         PeerModuleStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .ConfigurePipelineOptions((_, options) => options with
             {
                 ExecutionMode = ExecutionMode.WaitForAllModules,

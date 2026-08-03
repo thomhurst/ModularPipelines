@@ -175,7 +175,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Programmatic_Required_Dependency_Works_When_Registered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<ModuleWithProgrammaticDependency>()
             .ExecutePipelineAsync();
@@ -186,7 +186,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Programmatic_Required_Dependency_Throws_When_Not_Registered()
     {
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineBuilder.Create()
                 .AddModule<ModuleWithMissingRequiredDependency>()
                 .ExecutePipelineAsync())
             .ThrowsException();
@@ -195,7 +195,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Programmatic_Type_Dependency_Works()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<ModuleWithTypeDependency>()
             .ExecutePipelineAsync();
@@ -210,7 +210,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Optional_Dependency_Works_When_Registered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<OptionalDependencyModule>()
             .AddModule<ModuleWithOptionalDependency>()
             .ExecutePipelineAsync();
@@ -221,7 +221,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Optional_Dependency_Does_Not_Fail_When_Not_Registered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithOptionalDependency>()
             .ExecutePipelineAsync();
 
@@ -235,7 +235,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Conditional_Dependency_Works_When_Condition_True_And_Registered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ConditionalModule>()
             .AddModule<ModuleWithActiveConditionalDependency>()
             .ExecutePipelineAsync();
@@ -246,7 +246,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Conditional_Dependency_Throws_When_Condition_True_And_Not_Registered()
     {
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+        await Assert.That(async () => await TestPipelineBuilder.Create()
                 .AddModule<ModuleWithActiveConditionalDependency>()
                 .ExecutePipelineAsync())
             .ThrowsException();
@@ -255,7 +255,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Conditional_Dependency_Not_Added_When_Condition_False()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ModuleWithInactiveConditionalDependency>()
             .ExecutePipelineAsync();
 
@@ -269,7 +269,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Combined_Attribute_And_Programmatic_Dependencies_Work()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<OptionalDependencyModule>()
             .AddModule<ModuleWithBothAttributeAndProgrammaticDependencies>()
@@ -281,7 +281,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Combined_Dependencies_Work_With_Only_Attribute_Dependency_Registered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<ModuleWithBothAttributeAndProgrammaticDependencies>()
             .ExecutePipelineAsync();
@@ -292,7 +292,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Chained_Dependency_Declarations_Work()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<OptionalDependencyModule>()
             .AddModule<ModuleWithChainedDependencies>()
@@ -304,7 +304,7 @@ public class FluentDependencyConfigurationTests : TestBase
     [Test]
     public async Task Chained_Dependency_Declarations_Work_With_Only_Required_Registered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<BaseModule>()
             .AddModule<ModuleWithChainedDependencies>()
             .ExecutePipelineAsync();

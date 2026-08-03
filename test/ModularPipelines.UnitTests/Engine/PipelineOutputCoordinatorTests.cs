@@ -24,7 +24,7 @@ public class PipelineOutputCoordinatorTests
     [Test]
     public async Task PipelineBuilder_CopiesModuleOutputFlushSettings()
     {
-        var builder = TestPipelineHostBuilder.Create()
+        var builder = TestPipelineBuilder.Create()
             .AddModule<OptionsTestModule>();
         var expectedInterval = TimeSpan.FromSeconds(17);
         const int expectedThreshold = 23;

@@ -44,7 +44,7 @@ public class DockerTests : TestBase
     [Test]
     public async Task DockerBuild_CorrectInputCommand()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DockerBuildModule>()
             .BuildAsync();
 

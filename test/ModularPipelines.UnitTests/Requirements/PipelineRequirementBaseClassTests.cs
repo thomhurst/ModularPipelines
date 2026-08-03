@@ -16,7 +16,7 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task Sync_Requirement_With_Pass_Succeeds()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<PassingSyncRequirement>()
             .BuildAsync();
@@ -33,7 +33,7 @@ public class PipelineRequirementBaseClassTests
     {
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<FailingSyncRequirement>()
                 .ExecutePipelineAsync();
@@ -47,7 +47,7 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task Async_Requirement_With_Pass_Succeeds()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<PassingAsyncRequirement>()
             .BuildAsync();
@@ -64,7 +64,7 @@ public class PipelineRequirementBaseClassTests
     {
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<FailingAsyncRequirement>()
                 .ExecutePipelineAsync();
@@ -78,7 +78,7 @@ public class PipelineRequirementBaseClassTests
     [Test]
     public async Task When_Helper_With_True_Passes()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var host = await TestPipelineBuilder.Create()
             .AddModule<DummyModule>()
             .AddRequirement<WhenTrueRequirement>()
             .BuildAsync();
@@ -95,7 +95,7 @@ public class PipelineRequirementBaseClassTests
     {
         var executePipelineDelegate = async () =>
         {
-            await TestPipelineHostBuilder.Create()
+            await TestPipelineBuilder.Create()
                 .AddModule<DummyModule>()
                 .AddRequirement<WhenFalseRequirement>()
                 .ExecutePipelineAsync();

@@ -138,7 +138,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [Test]
     public async Task GetModule_SingleTypeParameter_ReturnsCorrectlyTypedResult()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<StringModule>()
             .AddModule<ConsumerModule>()
             .ExecutePipelineAsync();
@@ -149,7 +149,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [Test]
     public async Task GetModule_SingleTypeParameter_WithComplexType_InfersTypeCorrectly()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<ComplexResultModule>()
             .AddModule<ComplexConsumerModule>()
             .ExecutePipelineAsync();
@@ -160,7 +160,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [Test]
     public async Task GetModuleIfRegistered_SingleTypeParameter_ReturnsModule_WhenRegistered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<StringModule>()
             .AddModule<OptionalConsumerModule>()
             .ExecutePipelineAsync();
@@ -171,7 +171,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     [Test]
     public async Task GetModuleIfRegistered_SingleTypeParameter_ReturnsNull_WhenNotRegistered()
     {
-        var pipelineSummary = await TestPipelineHostBuilder.Create()
+        var pipelineSummary = await TestPipelineBuilder.Create()
             .AddModule<OptionalConsumerModule>()
             .ExecutePipelineAsync();
 
@@ -182,7 +182,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     public async Task GetModule_SingleTypeParameter_ThrowsModuleReferencingSelfException()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await TestPipelineHostBuilder.Create()
+            async () => await TestPipelineBuilder.Create()
                 .AddModule<SelfReferencingModule>()
                 .ExecutePipelineAsync());
 
@@ -193,7 +193,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     public async Task GetModule_SingleTypeParameter_ThrowsModuleNotRegisteredException()
     {
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await TestPipelineHostBuilder.Create()
+            async () => await TestPipelineBuilder.Create()
                 .AddModule<UnregisteredConsumerModule>()
                 .ExecutePipelineAsync());
 

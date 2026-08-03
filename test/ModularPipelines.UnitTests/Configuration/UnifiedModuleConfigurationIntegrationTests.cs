@@ -113,7 +113,7 @@ public class UnifiedModuleConfigurationIntegrationTests
     [Test]
     public async Task Fluent_Configuration_Drives_Metadata_Scheduling_And_Dependencies()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<DependencyModule>()
             .AddModule<ConfiguredModule>()
             .AddModule<MetadataConsumerModule>()
@@ -126,7 +126,7 @@ public class UnifiedModuleConfigurationIntegrationTests
     [Test]
     public async Task Selector_Dependency_Failure_Prevents_Consumer_Execution()
     {
-        var pipeline = TestPipelineHostBuilder.Create()
+        var pipeline = TestPipelineBuilder.Create()
             .AddModule<FailingTaggedModule>()
             .AddModule<FailingTagConsumerModule>();
 
@@ -137,7 +137,7 @@ public class UnifiedModuleConfigurationIntegrationTests
     [Test]
     public async Task Fluent_Self_Dependency_Is_Rejected_Before_Execution()
     {
-        var pipeline = TestPipelineHostBuilder.Create()
+        var pipeline = TestPipelineBuilder.Create()
             .AddModule<SelfDependentModule>();
 
         var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => pipeline.ExecutePipelineAsync());
@@ -149,7 +149,7 @@ public class UnifiedModuleConfigurationIntegrationTests
     [Test]
     public async Task Fluent_Circular_Dependencies_Are_Rejected_Before_Execution()
     {
-        var pipeline = TestPipelineHostBuilder.Create()
+        var pipeline = TestPipelineBuilder.Create()
             .AddModule<CircularDependencyModuleA>()
             .AddModule<CircularDependencyModuleB>();
 

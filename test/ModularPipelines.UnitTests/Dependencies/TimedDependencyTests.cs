@@ -19,7 +19,7 @@ public class TimedDependencyTests
     {
         var timeProvider = new FakeTimeProvider();
 
-        var host = await TestPipelineHostBuilder.Create(new TestHostSettings(), timeProvider)
+        var host = await TestPipelineBuilder.Create(new TestHostSettings(), timeProvider)
             .AddModule<FiveSecondModule>()
             .AddModule<OneSecondModuleDependentOnFiveSecondModule>()
             .BuildAsync();

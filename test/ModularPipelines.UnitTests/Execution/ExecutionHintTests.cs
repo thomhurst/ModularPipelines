@@ -121,7 +121,7 @@ public class ExecutionHintTests : TestBase
     [Test]
     public async Task ExecutionHintAttribute_CanBeAppliedToModule()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<CpuIntensiveModule1>()
             .ExecutePipelineAsync();
 
@@ -131,7 +131,7 @@ public class ExecutionHintTests : TestBase
     [Test]
     public async Task ModulesWithoutExecutionHint_UseDefaultType()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<NoHintModule>()
             .ExecutePipelineAsync();
 
@@ -141,7 +141,7 @@ public class ExecutionHintTests : TestBase
     [Test]
     public async Task AllExecutionTypes_ExecuteSuccessfully()
     {
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<CpuIntensiveModule1>()
             .AddModule<IoIntensiveModule>()
             .AddModule<DefaultExecutionTypeModule>()
@@ -155,7 +155,7 @@ public class ExecutionHintTests : TestBase
     public async Task CpuIntensiveModules_AreThrottled()
     {
         // Set max CPU-intensive modules to 2
-        var result = await TestPipelineHostBuilder.Create()
+        var result = await TestPipelineBuilder.Create()
             .AddModule<CpuIntensiveModule1>()
             .AddModule<CpuIntensiveModule2>()
             .AddModule<CpuIntensiveModule3>()

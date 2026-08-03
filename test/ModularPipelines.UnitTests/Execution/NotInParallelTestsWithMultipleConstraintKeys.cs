@@ -41,7 +41,7 @@ public class NotInParallelTestsWithMultipleConstraintKeys : TestBase
     {
         Tracker.Reset();
 
-        await TestPipelineHostBuilder.Create()
+        await TestPipelineBuilder.Create()
             .AddModule<Module1>()
             .AddModule<Module2>()
             .AddModule<Module3>()

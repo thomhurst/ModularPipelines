@@ -26,7 +26,7 @@ public class HttpTests : TestBase
         var content = new BlockingHttpContent();
         var handler = new ImmediateResponseHandler(content);
         using var httpClient = new HttpClient(handler);
-        var result = await GetService<IHttpContext>((_, _) => { });
+        var result = await GetService<IHttpContext>(_ => { });
         var sendTask = result.T.SendAsync(new HttpOptions(
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/large-file"))
         {
@@ -57,7 +57,7 @@ public class HttpTests : TestBase
         var timeout = TimeSpan.FromMilliseconds(100);
         var contentStream = new BlockingReadStream();
         using var httpClient = new HttpClient(new ImmediateResponseHandler(new StreamContent(contentStream)));
-        var result = await GetService<IHttpContext>((builder, _) =>
+        var result = await GetServiceWithPipelineConfiguration<IHttpContext>(builder =>
             builder.ConfigurePipelineOptions(options => options with
             {
                 DefaultHttpTimeout = useRequestTimeout ? null : timeout,
@@ -357,7 +357,7 @@ public class HttpTests : TestBase
             returnEofWhenDisposed: returnEofWhenDisposed);
         using var httpClient = new HttpClient(
             new ImmediateResponseHandler(new StreamContent(contentStream)));
-        var result = await GetService<IHttpContext>((_, _) => { });
+        var result = await GetService<IHttpContext>(_ => { });
         using var response = await result.T.SendAsync(new HttpOptions(
             new HttpRequestMessage(HttpMethod.Get, "https://example.test/synchronous-read"))
         {
@@ -750,7 +750,7 @@ public class HttpTests : TestBase
     public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
     {
         await using var server = LocalHttpServer.Start();
-        var (http, _) = await GetService<IHttpContext>((_, _) => { });
+        var (http, _) = await GetService<IHttpContext>(_ => { });
 
         await http.SendAsync(server.Uri);
     }
@@ -761,7 +761,7 @@ public class HttpTests : TestBase
         await using var server = LocalHttpServer.Start();
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var (http, host) = await GetService<IHttpContext>((_, collection) =>
+        var (http, host) = await GetService<IHttpContext>(collection =>
         {
             collection.AddLogging(builder =>
             {
@@ -791,7 +791,7 @@ public class HttpTests : TestBase
         await using var server = LocalHttpServer.Start();
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var (http, host) = await GetService<IHttpContext>((_, collection) =>
+        var (http, host) = await GetService<IHttpContext>(collection =>
         {
             collection.AddLogging(builder =>
             {
@@ -823,7 +823,7 @@ public class HttpTests : TestBase
         await using var server = LocalHttpServer.Start();
         var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
 
-        var (http, host) = await GetService<IHttpContext>((_, collection) =>
+        var (http, host) = await GetService<IHttpContext>(collection =>
         {
             collection.AddLogging(builder =>
             {
