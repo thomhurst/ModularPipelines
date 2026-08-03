@@ -218,7 +218,9 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         object rawValue,
         Type optionsType)
     {
-        var isLegacyGeneratedOptions = optionsType.IsDefined(typeof(GeneratedCodeAttribute), inherit: false);
+        var isLegacyGeneratedOptions = optionsType
+            .GetCustomAttribute<GeneratedCodeAttribute>(inherit: false)
+            ?.Tool == "ModularPipelines.OptionsGenerator";
         var optionValues = rawValue switch
         {
             CliOptionValue optionValue => [optionValue],

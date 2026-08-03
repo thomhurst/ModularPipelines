@@ -223,9 +223,7 @@ public class OptionsClassGenerator : ICodeGenerator
         string canonicalEnumName,
         string aliasEnumName)
     {
-        var nullableOperator = option.CSharpType.EndsWith(
-            "?",
-            StringComparison.Ordinal)
+        var nullableOperator = option.CSharpType.EndsWith('?')
             ? "?"
             : string.Empty;
         sb.AppendLine(

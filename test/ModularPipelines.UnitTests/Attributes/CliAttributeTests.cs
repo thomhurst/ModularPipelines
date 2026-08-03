@@ -300,6 +300,16 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Rejects_Unrelated_Generated_Legacy_Optional_String_Value()
+    {
+        var options = new TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue { Output = "json" };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
     public async Task Parser_Omits_Null_OptionalValue_Option()
     {
         var list = BuildArguments(new TestCliOptionsWithSemanticPhases { Terminal = null });
@@ -553,6 +563,16 @@ public class CliAttributeTests
     }
 
     private record TestCliOptionsWithHandwrittenLegacyOptionalValue
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public string? Output { get; set; }
+    }
+
+    [GeneratedCode("Other.Generator", "1.0.0")]
+    private record TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue
     {
         [CliOption(
             "--output",
