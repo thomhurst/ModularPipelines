@@ -91,10 +91,10 @@ public class PipelineCommandLineTests
             .WithCategory("configured-category")
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("configured-category");
+            Task.FromResult("configured-category");
     }
 
     private sealed class UnregisteredModule : Module<string>
@@ -118,7 +118,7 @@ public class PipelineCommandLineTests
     [AddRegistrationDependency(typeof(DependencyModule))]
     private sealed class RegistrationDependentModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -135,7 +135,7 @@ public class PipelineCommandLineTests
             })
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -171,7 +171,7 @@ public class PipelineCommandLineTests
     [ModularPipelines.Attributes.DependsOn<ResultDependentSkipModule>]
     private sealed class DependentOnUnknownModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -216,10 +216,10 @@ public class PipelineCommandLineTests
     [ModuleCategory("selected")]
     private sealed class AttributeSkippedModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
-            Task.FromResult<string?>("attribute-skipped");
+            Task.FromResult("attribute-skipped");
     }
 
     private sealed class FluentlySkippedModule : Module<string>
@@ -229,7 +229,7 @@ public class PipelineCommandLineTests
             .WithSkipWhen(_ => SkipDecision.Skip("fluent skip"))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -242,7 +242,7 @@ public class PipelineCommandLineTests
             .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -255,7 +255,7 @@ public class PipelineCommandLineTests
             .WithSkipWhen(_ => SkipDecision.Skip("dependency unavailable"))
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -268,7 +268,7 @@ public class PipelineCommandLineTests
             .WithCategory("selected")
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -285,7 +285,7 @@ public class PipelineCommandLineTests
             })
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -369,7 +369,7 @@ public class PipelineCommandLineTests
             .WithNotInParallel("shared-plan-lock")
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -381,7 +381,7 @@ public class PipelineCommandLineTests
             .WithNotInParallel("shared-plan-lock")
             .Build();
 
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
@@ -605,7 +605,7 @@ public class PipelineCommandLineTests
 
     private abstract class DryRunModule : Module<string>
     {
-        protected internal override Task<string?> ExecuteAsync(
+        protected internal override Task<string> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
             throw new InvalidOperationException("Dry-run must not execute modules.");
