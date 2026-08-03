@@ -62,13 +62,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         dynamic message = ""Done!"";
         {{|#0:Console.WriteLine(message)|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -81,12 +81,12 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         {{|#0:WriteLine(""Done!"")|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -99,13 +99,13 @@ namespace AnalyzerExamples;
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         dynamic message = ""Done!"";
         {{|#0:WriteLine(message)|}};
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";
@@ -148,12 +148,12 @@ public static class CustomConsole
 
 public class Module1 : Module<List<string>>
 {{
-    protected override Task<List<string>?> ExecuteAsync(
+    protected override Task<List<string>> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {{
         CustomConsole.WriteLine(""Done!"");
-        return Task.FromResult<List<string>?>([]);
+        return Task.FromResult<List<string>>([]);
     }}
 }}
 ";

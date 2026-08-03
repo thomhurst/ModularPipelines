@@ -2043,12 +2043,12 @@ public class ModuleAuthoringAnalyzerTests
         string memberName)
     {
         var source = ModuleSource($$"""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 {{blockingStatement}}
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -2062,12 +2062,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Blocking_ValueTask_Result_In_ExecuteAsync()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 _ = {|#0:GetValueAsync().Result|};
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
 
                 private static ValueTask<int> GetValueAsync() => ValueTask.FromResult(1);
@@ -2083,12 +2083,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await {|#0:Task.Delay(1)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2102,12 +2102,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_Through_ConfigureAwait()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await {|#0:Task.Delay(1)|}.ConfigureAwait(false);
-                return null;
+                return null!;
             }
             """);
 
@@ -2121,12 +2121,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_With_Trailing_Optional_Parameter()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await {|#0:FetchAsync()|};
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -2146,7 +2146,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_In_AwaitForeach()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2155,7 +2155,7 @@ public class ModuleAuthoringAnalyzerTests
                     _ = item;
                 }
 
-                return null;
+                return null!;
             }
 
                 private static IAsyncEnumerable<int> GetItemsAsync() => null!;
@@ -2182,13 +2182,13 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Intentional_Derived_CancellationToken()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 using var source = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
                 await Task.Delay(1, source.Token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2199,12 +2199,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_CancellationToken_Returned_By_Source_Helper()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Task.Delay(1, Pass(cancellationToken));
-                return null;
+                return null!;
             }
 
                 private static CancellationToken Pass(CancellationToken token) => token;
@@ -2226,12 +2226,12 @@ public class ModuleAuthoringAnalyzerTests
 
             public class BuildModule : Module<List<string>>
             {
-                protected override async Task<List<string>?> ExecuteAsync(
+                protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context,
                     CancellationToken cancellationToken)
                 {
                     await Task.Delay(1, cancellationToken.Pass());
-                    return null;
+                    return null!;
                 }
             }
             """;
@@ -2243,14 +2243,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_CancellationToken_From_Constant_Selected_Arm()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Task.Delay(1, true
                     ? cancellationToken
                     : CancellationToken.None);
-                return null;
+                return null!;
             }
             """);
 
@@ -2261,7 +2261,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_CancellationToken_From_Constant_Switch_Arm()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2270,7 +2270,7 @@ public class ModuleAuthoringAnalyzerTests
                     0 => cancellationToken,
                     _ => CancellationToken.None,
                 });
-                return null;
+                return null!;
             }
             """);
 
@@ -2281,14 +2281,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Linked_CancellationToken_Array()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 using var source = CancellationTokenSource.CreateLinkedTokenSource(
                     new[] { cancellationToken, CancellationToken.None });
                 await Task.Delay(1, source.Token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2299,14 +2299,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Linked_CancellationToken_Collection_Expression()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 using var source = CancellationTokenSource.CreateLinkedTokenSource(
                     [cancellationToken, CancellationToken.None]);
                 await Task.Delay(1, source.Token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2317,14 +2317,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Linked_CancellationToken_Collection_Spread()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 var tokens = new[] { cancellationToken, CancellationToken.None };
                 using var source = CancellationTokenSource.CreateLinkedTokenSource([.. tokens]);
                 await Task.Delay(1, source.Token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2335,13 +2335,13 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Shared_Local_In_Conditional_Token_Branches()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 var token = cancellationToken;
                 await Task.Delay(1, context is not null ? token : token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2352,7 +2352,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Incidental_CancellationToken_Reference()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2361,7 +2361,7 @@ public class ModuleAuthoringAnalyzerTests
                     cancellationToken.CanBeCanceled
                         ? CancellationToken.None
                         : default)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2375,13 +2375,13 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unrelated_CancellationToken()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 using var source = new CancellationTokenSource();
                 await {|#0:Task.Delay(1, source.Token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2395,13 +2395,13 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_For_Stored_Task()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 var pending = {|#0:Task.Delay(1)|};
                 await pending;
-                return null;
+                return null!;
             }
             """);
 
@@ -2415,14 +2415,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_For_Assigned_Stored_Task()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 Task pending;
                 pending = {|#0:Task.Delay(1)|};
                 await pending;
-                return null;
+                return null!;
             }
             """);
 
@@ -2436,14 +2436,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Arbitrary_Cancellation_Carrier_Helper()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await {|#0:Task.Delay(
                     1,
                     Select(cancellationToken, CancellationToken.None))|};
-                return null;
+                return null!;
             }
 
                 private static CancellationToken Select(
@@ -2462,12 +2462,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Cancellation_Overload_For_Task_Property_Receiver()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await GetHolder().Pending;
-                return null;
+                return null!;
             }
 
                 private static Holder GetHolder() => new();
@@ -2487,7 +2487,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_For_Branch_Assigned_Stored_Task()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2502,7 +2502,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await pending;
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -2521,14 +2521,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Uses_Latest_Assignment_When_Tracing_CancellationToken()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 var token = CancellationToken.None;
                 token = cancellationToken;
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2539,7 +2539,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Branch_Dependent_CancellationToken_Flow()
     {
         var cancellationLast = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2554,11 +2554,11 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
         var cancellationFirst = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2573,7 +2573,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2589,7 +2589,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_When_All_Branch_Tokens_Are_Unflowed()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2604,7 +2604,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2619,7 +2619,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_When_All_Branch_Tokens_Are_Flowed()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2634,7 +2634,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2645,7 +2645,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_When_All_Switch_Tokens_Are_Flowed()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2661,7 +2661,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2672,7 +2672,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Token_Overwritten_In_Do_Loop()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2684,7 +2684,7 @@ public class ModuleAuthoringAnalyzerTests
                 while (DateTime.UtcNow.Ticks > 0);
 
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2695,7 +2695,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Token_When_Do_Loop_Can_Break_Before_Assignment()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2712,7 +2712,7 @@ public class ModuleAuthoringAnalyzerTests
                 while (DateTime.UtcNow.Ticks > 0);
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2727,7 +2727,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Switch_Expression_CancellationToken()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2737,7 +2737,7 @@ public class ModuleAuthoringAnalyzerTests
                     false => cancellationToken,
                 };
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2748,7 +2748,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Throwing_Switch_Expression_Arm()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2758,7 +2758,7 @@ public class ModuleAuthoringAnalyzerTests
                     false => throw new InvalidOperationException(),
                 };
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2769,7 +2769,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Throwing_Conditional_Arm()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2777,7 +2777,7 @@ public class ModuleAuthoringAnalyzerTests
                     ? cancellationToken
                     : throw new InvalidOperationException();
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2788,7 +2788,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Require_Token_Assignment_In_Returning_Switch_Case()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2796,14 +2796,14 @@ public class ModuleAuthoringAnalyzerTests
                 switch (context is not null)
                 {
                     case true:
-                        return null;
+                        return null!;
                     default:
                         token = cancellationToken;
                         break;
                 }
 
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2814,7 +2814,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Ignores_Token_Initializer_Overwritten_In_All_Branches()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2829,7 +2829,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2840,7 +2840,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Ignores_Values_Overwritten_Inside_All_Branches()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2857,7 +2857,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -2868,7 +2868,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Token_Initializer_Reaching_One_Branch()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2879,7 +2879,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2894,7 +2894,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Conditional_Unflowed_Token_After_Flowed_Initializer()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2905,7 +2905,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2920,7 +2920,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Conditional_Unflowed_Token_After_Fully_Assigning_Branch()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2940,7 +2940,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2955,7 +2955,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Nested_Conditional_Unflowed_Token_In_Branch()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -2974,7 +2974,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -2989,7 +2989,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Nested_Conditional_Unflowed_Token_In_Switch_Case()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -3010,7 +3010,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await {|#0:Task.Delay(1, token)|};
-                return null;
+                return null!;
             }
             """);
 
@@ -3025,12 +3025,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_Inside_WhenAll()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Task.WhenAll({|#0:Task.Delay(1)|});
-                return null;
+                return null!;
             }
             """);
 
@@ -3044,12 +3044,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_In_Awaited_Invocation_Argument()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await WrapAsync({|#0:FetchAsync()|}, cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static Task WrapAsync(Task task, CancellationToken cancellationToken) => task;
@@ -3070,12 +3070,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Selector_In_Awaitable_Constructor()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await new Awaitable(GetValue());
-                return null;
+                return null!;
             }
 
                 private static int GetValue() => 1;
@@ -3100,12 +3100,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Cancellation_Overload_In_Awaited_Condition()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await (ShouldUseFirst() ? FetchAsync() : OtherAsync());
-                return null;
+                return null!;
             }
 
                 private static bool ShouldUseFirst() => true;
@@ -3124,12 +3124,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Cancellation_Overload_In_Awaited_Conditional_Arm()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await (ShouldUseFirst() ? {|#0:FetchAsync()|} : OtherAsync());
-                return null;
+                return null!;
             }
 
                 private static bool ShouldUseFirst() => true;
@@ -3153,12 +3153,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Cancellation_Overload_In_Dead_Awaited_Conditional_Arm()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await (true ? Task.CompletedTask : FetchAsync());
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -3174,7 +3174,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Cancellation_Overload_In_Dead_Awaited_Switch_Arm()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -3183,7 +3183,7 @@ public class ModuleAuthoringAnalyzerTests
                     0 => Task.CompletedTask,
                     _ => FetchAsync(),
                 });
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -3199,7 +3199,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Cancellation_Overloads_In_Awaited_Switch_Control()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -3208,7 +3208,7 @@ public class ModuleAuthoringAnalyzerTests
                     0 when ShouldFetch() => FetchAsync(),
                     _ => OtherAsync(),
                 });
-                return null;
+                return null!;
             }
 
                 private static int SelectArm() => 0;
@@ -3231,13 +3231,13 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Cancellation_Overload_In_Awaited_Index()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 var tasks = new[] { Task.Delay(1, cancellationToken) };
                 await tasks[GetIndex()];
-                return null;
+                return null!;
             }
 
                 private static int GetIndex() => 0;
@@ -3252,14 +3252,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_In_Task_Producing_Receiver()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await {|#0:FetchAsync()|}.ContinueWith(
                     _ => { },
                     cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -3278,12 +3278,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_CancellationToken_Once_For_Nested_Await()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await WrapAsync(await {|#0:FetchAsync()|});
-                return null;
+                return null!;
             }
 
                 private static Task WrapAsync(string value) => Task.CompletedTask;
@@ -3304,12 +3304,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Unrelated_CancellationToken_Overload()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Call("value");
-                return null;
+                return null!;
             }
 
                 private static Task Call(string value) => Task.CompletedTask;
@@ -3325,12 +3325,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_NonAwaitable_CancellationToken_Overload()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await FetchAsync();
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -3359,12 +3359,12 @@ public class ModuleAuthoringAnalyzerTests
 
             public class BuildModule : Module<List<string>>
             {
-                protected override async Task<List<string>?> ExecuteAsync(
+                protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context,
                     CancellationToken cancellationToken)
                 {
                     await Api.FetchAsync();
-                    return null;
+                    return null!;
                 }
             }
             """;
@@ -3376,12 +3376,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Static_CancellationToken_Overload_For_Instance_Call()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await new Client().FetchAsync();
-                return null;
+                return null!;
             }
 
                 private sealed class Client
@@ -3400,12 +3400,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_Token_For_Generic_Overload()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await {|#0:FetchAsync("value")|};
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync<T>(T value) => Task.CompletedTask;
@@ -3424,12 +3424,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Generic_Cancellation_Overload_For_Non_Generic_Call()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await FetchAsync();
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -3484,12 +3484,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Generic_Overload_With_Unsatisfied_Constraints()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await FetchAsync<string>();
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync<T>()
@@ -3525,12 +3525,12 @@ public class ModuleAuthoringAnalyzerTests
 
             public class BuildModule : Module<List<string>>
             {
-                protected override async Task<List<string>?> ExecuteAsync(
+                protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context,
                     CancellationToken cancellationToken)
                 {
                     await {|#0:new Client().FetchAsync()|};
-                    return null;
+                    return null!;
                 }
             }
             """;
@@ -3561,12 +3561,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_ThreadSleep_In_ExecuteAsync()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 {|#0:Thread.Sleep(1)|};
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -3579,12 +3579,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Invoked_Local_Function()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await FetchAsync();
-                return null;
+                return null!;
 
                 async Task FetchAsync()
                 {
@@ -3603,14 +3603,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Local_Function_Method_Groups()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await {|#2:Task.Run(Work)|};
                 Func<Task> callback = OtherWork;
                 await callback();
-                return null;
+                return null!;
 
                 async Task Work()
                 {
@@ -3640,7 +3640,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Invoked_Lambda()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -3650,7 +3650,7 @@ public class ModuleAuthoringAnalyzerTests
                 };
 
                 await run();
-                return null;
+                return null!;
             }
             """);
 
@@ -3664,14 +3664,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_TaskRun_Lambda()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Task.Run(
                     async () => await {|#0:Task.Delay(1)|},
                     cancellationToken);
-                return null;
+                return null!;
             }
             """);
 
@@ -3685,12 +3685,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_Token_In_Task_Returning_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Task.Run(() => {|#0:FetchAsync()|}, cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -3709,14 +3709,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_Token_In_Method_Group_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 Task Work() => {|#0:FetchAsync()|};
 
                 await Task.Run(Work, cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -3735,14 +3735,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_Token_In_Directly_Invoked_Local_Function()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 Task Work() => {|#0:FetchAsync()|};
 
                 await Work();
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -3761,12 +3761,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_In_Invoked_Member_Helper()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await WorkAsync(cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static async Task WorkAsync(CancellationToken cancellationToken)
@@ -3793,12 +3793,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Flowed_Token_In_Invoked_Member_Helper()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await FirstAsync(cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static Task FirstAsync(CancellationToken cancellationToken) =>
@@ -3815,12 +3815,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Flowed_Second_Token_In_Member_Helper()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await WorkAsync(CancellationToken.None, cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static async Task WorkAsync(
@@ -3838,12 +3838,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Flowed_Token_In_Local_Function()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await WorkAsync(cancellationToken);
-                return null;
+                return null!;
 
                 static async Task WorkAsync(CancellationToken token)
                 {
@@ -3859,12 +3859,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unrelated_First_Token_In_Member_Helper()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await WorkAsync(CancellationToken.None, cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static async Task WorkAsync(
@@ -3886,13 +3886,13 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_When_Token_Position_Differs_Across_Helper_Calls()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await WorkAsync(CancellationToken.None, cancellationToken);
                 await WorkAsync(cancellationToken, CancellationToken.None);
-                return null;
+                return null!;
             }
 
                 private static async Task WorkAsync(
@@ -3914,12 +3914,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_Token_In_Task_Returning_Member_Helper()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await WorkAsync(cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static Task WorkAsync(CancellationToken cancellationToken) =>
@@ -3944,7 +3944,7 @@ public class ModuleAuthoringAnalyzerTests
         var source = $$"""
             {{Header}}
 
-            public abstract class BaseModule : Module<List<string>?>
+            public abstract class BaseModule : Module<List<string>>
             {
                 protected async Task WorkAsync(CancellationToken cancellationToken)
                 {
@@ -3955,12 +3955,12 @@ public class ModuleAuthoringAnalyzerTests
 
             public class BuildModule : BaseModule
             {
-                protected override async Task<List<string>?> ExecuteAsync(
+                protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context,
                     CancellationToken cancellationToken)
                 {
                     await WorkAsync(cancellationToken);
-                    return null;
+                    return null!;
                 }
             }
 
@@ -3988,12 +3988,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_In_Invoked_Property_Getter()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Pending;
-                return null;
+                return null!;
             }
 
                 private Task Pending
@@ -4028,12 +4028,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_In_Invoked_Property_Setter()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 Value = 1;
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
 
                 private int Value
@@ -4054,14 +4054,14 @@ public class ModuleAuthoringAnalyzerTests
         var source = $$"""
             {{Header}}
 
-            public abstract class BaseModule : Module<List<string>?>
+            public abstract class BaseModule : Module<List<string>>
             {
-                protected override async Task<List<string>?> ExecuteAsync(
+                protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context,
                     CancellationToken cancellationToken)
                 {
                     await WorkAsync(cancellationToken);
-                    return null;
+                    return null!;
                 }
 
                 protected abstract Task WorkAsync(CancellationToken cancellationToken);
@@ -4103,14 +4103,14 @@ public class ModuleAuthoringAnalyzerTests
         var source = $$"""
             {{Header}}
 
-            public abstract class BaseModule : Module<List<string>?>
+            public abstract class BaseModule : Module<List<string>>
             {
-                protected override async Task<List<string>?> ExecuteAsync(
+                protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context,
                     CancellationToken cancellationToken)
                 {
                     await Pending;
-                    return null;
+                    return null!;
                 }
 
                 protected abstract Task Pending { get; }
@@ -4152,14 +4152,14 @@ public class ModuleAuthoringAnalyzerTests
                 Task Pending { get; }
             }
 
-            public class BuildModule : Module<List<string>?>, IWorker
+            public class BuildModule : Module<List<string>>, IWorker
             {
-                protected override async Task<List<string>?> ExecuteAsync(
+                protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context,
                     CancellationToken cancellationToken)
                 {
                     await ((IWorker)this).Pending;
-                    return null;
+                    return null!;
                 }
 
                 Task IWorker.Pending
@@ -4189,11 +4189,11 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Async_Safety_In_Unused_Member_Helper()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
 
                 private static async Task WorkAsync(CancellationToken cancellationToken)
@@ -4210,7 +4210,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Source_Helper_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4219,7 +4219,7 @@ public class ModuleAuthoringAnalyzerTests
                     {|#0:Thread.Sleep(1)|};
                     await {|#1:FetchAsync()|};
                 });
-                return null;
+                return null!;
             }
 
                 private static Task RunAsync(Func<Task> callback) => callback();
@@ -4247,7 +4247,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Forwarded_Source_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4256,7 +4256,7 @@ public class ModuleAuthoringAnalyzerTests
                     {|#0:Thread.Sleep(1)|};
                     await {|#1:FetchAsync()|};
                 });
-                return null;
+                return null!;
             }
 
                 private static Task RunAsync(Func<Task> callback) =>
@@ -4287,14 +4287,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_Token_In_Directly_Invoked_Delegate()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 Func<Task> work = () => {|#0:FetchAsync()|};
 
                 await work();
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -4313,7 +4313,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unflowed_Token_In_Delegate_Local_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4321,7 +4321,7 @@ public class ModuleAuthoringAnalyzerTests
                 Func<Task> callback = Work;
 
                 await Task.Run(callback, cancellationToken);
-                return null;
+                return null!;
             }
 
                 private static Task FetchAsync() => Task.CompletedTask;
@@ -4340,14 +4340,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Awaited_TaskJoin_Linq_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Task.WhenAll(
                     Enumerable.Range(0, 1).Select(
                         async _ => await {|#0:Task.Delay(1)|}));
-                return null;
+                return null!;
             }
             """);
 
@@ -4370,7 +4370,7 @@ public class ModuleAuthoringAnalyzerTests
         string terminalInvocation)
     {
         var source = ModuleSource($$"""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4381,7 +4381,7 @@ public class ModuleAuthoringAnalyzerTests
                         return 1;
                     })
                     .{{terminalInvocation}};
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4394,7 +4394,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Direct_Eager_Linq_Callback()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4403,7 +4403,7 @@ public class ModuleAuthoringAnalyzerTests
                     {|#0:Thread.Sleep(1)|};
                     return value > 0;
                 });
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4416,12 +4416,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_List_ForEach_Callback()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 new List<int> { 1 }.ForEach(_ => {|#0:Thread.Sleep(1)|});
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4434,12 +4434,12 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Parallel_ForEach_Callback()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 Parallel.ForEach(new[] { 1 }, _ => {|#0:Thread.Sleep(1)|});
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4452,14 +4452,14 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Task_Continuation()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 await Task.CompletedTask.ContinueWith(
                     _ => {|#0:Thread.Sleep(1)|},
                     cancellationToken);
-                return null;
+                return null!;
             }
             """);
 
@@ -4472,7 +4472,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Generic_Task_Factory_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4484,7 +4484,7 @@ public class ModuleAuthoringAnalyzerTests
                         return 0;
                     },
                     cancellationToken);
-                return null;
+                return null!;
             }
             """);
 
@@ -4497,7 +4497,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Parallel_ForEachAsync_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4509,7 +4509,7 @@ public class ModuleAuthoringAnalyzerTests
                         {|#0:Thread.Sleep(1)|};
                         await Task.Yield();
                     });
-                return null;
+                return null!;
             }
             """);
 
@@ -4522,7 +4522,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Derived_Parallel_ForEachAsync_Callback_Token()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4530,7 +4530,7 @@ public class ModuleAuthoringAnalyzerTests
                     new[] { 1 },
                     cancellationToken,
                     async (_, token) => await Task.Delay(1, token));
-                return null;
+                return null!;
             }
             """);
 
@@ -4541,7 +4541,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Unrelated_Parallel_ForEachAsync_Callback_Token()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4549,7 +4549,7 @@ public class ModuleAuthoringAnalyzerTests
                     new[] { 1 },
                     CancellationToken.None,
                     async (_, token) => await {|#0:Task.Delay(1, token)|})|};
-                return null;
+                return null!;
             }
             """);
 
@@ -4571,7 +4571,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Foreach_Linq_Callback()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4583,7 +4583,7 @@ public class ModuleAuthoringAnalyzerTests
                 {
                 }
 
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4596,7 +4596,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Async_Safety_Inside_Stored_Foreach_Linq_Callback()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4610,7 +4610,7 @@ public class ModuleAuthoringAnalyzerTests
                 {
                 }
 
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4623,7 +4623,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Reports_Stored_Linq_Callback_Consumed_In_Awaited_Callback()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4639,7 +4639,7 @@ public class ModuleAuthoringAnalyzerTests
                     {
                     }
                 }, cancellationToken);
-                return null;
+                return null!;
             }
             """);
 
@@ -4652,7 +4652,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Overwritten_Deferred_Linq_Callback()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4667,7 +4667,7 @@ public class ModuleAuthoringAnalyzerTests
                 {
                 }
 
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4678,13 +4678,13 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Async_Safety_Inside_Unused_Linq_Callback()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
                 var tasks = Enumerable.Range(0, 1).Select(
                     async _ => await Task.Delay(1));
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4695,7 +4695,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Async_Safety_Inside_Unused_Lambda()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -4704,7 +4704,7 @@ public class ModuleAuthoringAnalyzerTests
                     await Task.Delay(1);
                 };
 
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
             }
             """);
 
@@ -4715,11 +4715,11 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Async_Safety_Inside_Unused_Local_Function()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
 
                 void Block()
                 {
@@ -4735,11 +4735,11 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Async_Safety_Inside_Unreachable_Recursive_Local_Function()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
 
                 void Block()
                 {
@@ -4756,11 +4756,11 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Async_Safety_Inside_Transitively_Unreachable_Local_Function()
     {
         var source = ModuleSource("""
-            protected override Task<List<string>?> ExecuteAsync(
+            protected override Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
-                return Task.FromResult<List<string>?>(null);
+                return Task.FromResult<List<string>>(null!);
 
                 void First() => Second();
 
@@ -5342,12 +5342,12 @@ public class ModuleAuthoringAnalyzerTests
 
             public class BuildModule : Module<List<string>>, IWorker
             {
-                protected override async Task<List<string>?> ExecuteAsync(
+                protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context,
                     CancellationToken cancellationToken)
                 {
                     await ((IWorker)this).WorkAsync();
-                    return null;
+                    return null!;
                 }
 
                 async Task IWorker.WorkAsync()
@@ -5388,7 +5388,7 @@ public class ModuleAuthoringAnalyzerTests
         var source = ModuleSource("""
             private Func<Task>? _callback;
 
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -5397,7 +5397,7 @@ public class ModuleAuthoringAnalyzerTests
                     {|#0:Thread.Sleep(1)|};
                     await {|#1:FetchAsync()|};
                 });
-                return null;
+                return null!;
             }
 
                 private Task RunAsync(Func<Task> callback)
@@ -5429,7 +5429,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Token_Assigned_In_Finally_Block()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -5443,7 +5443,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
@@ -5454,7 +5454,7 @@ public class ModuleAuthoringAnalyzerTests
     public async Task Does_Not_Report_Token_Assigned_In_Try_And_Catch()
     {
         var source = ModuleSource("""
-            protected override async Task<List<string>?> ExecuteAsync(
+            protected override async Task<List<string>> ExecuteAsync(
                 IModuleContext context,
                 CancellationToken cancellationToken)
             {
@@ -5474,7 +5474,7 @@ public class ModuleAuthoringAnalyzerTests
                 }
 
                 await Task.Delay(1, token);
-                return null;
+                return null!;
             }
             """);
 
