@@ -33,7 +33,7 @@ public class GitCommandRunner : IGitCommandRunner
 
         var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray());
 
-        var executionOptions = new CommandExecutionOptions
+        var executionOptions = commandEnvironmentOptions with
         {
             LogSettings = CommandLoggingOptions.Silent,
         };

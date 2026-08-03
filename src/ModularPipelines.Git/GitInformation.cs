@@ -14,6 +14,7 @@ internal class GitInformation : IGitInformation
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IGitCommitMapper _gitCommitMapper;
+    private readonly CommandExecutionOptions? _commandExecutionOptions;
     private readonly SemaphoreSlim _repositoryInfoLock = new(1, 1);
     private GitRepositoryInfo? _repositoryInfo;
     private bool _repositoryInfoLoaded;
@@ -21,9 +22,18 @@ internal class GitInformation : IGitInformation
     public GitInformation(
         IServiceScopeFactory serviceScopeFactory,
         IGitCommitMapper gitCommitMapper)
+        : this(serviceScopeFactory, gitCommitMapper, null)
+    {
+    }
+
+    internal GitInformation(
+        IServiceScopeFactory serviceScopeFactory,
+        IGitCommitMapper gitCommitMapper,
+        CommandExecutionOptions? commandExecutionOptions)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _gitCommitMapper = gitCommitMapper;
+        _commandExecutionOptions = commandExecutionOptions;
     }
 
     public async Task<GitRepositoryInfo?> GetInfoAsync(CancellationToken cancellationToken = default)
@@ -69,7 +79,7 @@ internal class GitInformation : IGitInformation
         while (!cancellationToken.IsCancellationRequested)
         {
             var output = await gitCommandRunner.RunCommandsOrNull(
-                null,
+                _commandExecutionOptions,
                 cancellationToken,
                 "log",
                 branch,
@@ -97,6 +107,7 @@ internal class GitInformation : IGitInformation
             command,
             logger,
             new GitRevParseOptions { ShowToplevel = true },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (string.IsNullOrWhiteSpace(root))
@@ -108,32 +119,38 @@ internal class GitInformation : IGitInformation
             command,
             logger,
             new GitBranchOptions { ShowCurrent = true },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
-        var defaultBranchName = GetDefaultBranchName(command, logger, cancellationToken);
+        var defaultBranchName = GetDefaultBranchName(command, logger, _commandExecutionOptions, cancellationToken);
         var lastCommitSha = GetOutput(
             command,
             logger,
             new GitRevParseOptions { Committish = "HEAD" },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var lastCommitShortSha = GetOutput(
             command,
             logger,
             new GitRevParseOptions { Short = true, Committish = "HEAD" },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var tag = GetOutput(
             command,
             logger,
             new GitDescribeOptions { Tags = true },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var commitCount = GetOutput(
             command,
             logger,
             new GitRevListOptions { Count = true, Ref = "HEAD" },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var lastCommitTimestamp = GetOutput(
             command,
             logger,
             new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, MaxCount = "1" },
+            _commandExecutionOptions,
             cancellationToken: cancellationToken);
         var previousCommit = GetPreviousCommit(gitCommandRunner, cancellationToken);
 
@@ -163,6 +180,7 @@ internal class GitInformation : IGitInformation
     private static async Task<string?> GetDefaultBranchName(
         ICommandContext command,
         ILogger logger,
+        CommandExecutionOptions? executionOptions,
         CancellationToken cancellationToken)
     {
         try
@@ -171,6 +189,7 @@ internal class GitInformation : IGitInformation
                 command,
                 logger,
                 new GitRemoteShowOptions { Remote = "origin" },
+                executionOptions,
                 cancellationToken: cancellationToken).ConfigureAwait(false);
             if (output == null)
             {
@@ -187,14 +206,15 @@ internal class GitInformation : IGitInformation
             // or shallow clone), try parsing origin/HEAD reference instead. This provides a best-effort
             // approach to determine the default branch in various git repository states.
             logger.LogDebug(ex, "Failed to get default branch from 'git remote show origin', falling back to origin/HEAD");
+            var fallbackExecutionOptions = (executionOptions ?? new CommandExecutionOptions()) with
+            {
+                ThrowOnNonZeroExitCode = false,
+            };
             var output = await GetOutput(command, logger, new GitRevParseOptions
             {
                 Committish = "origin/HEAD",
                 AbbrevRef = true,
-            }, new CommandExecutionOptions
-            {
-                ThrowOnNonZeroExitCode = false,
-            }, cancellationToken).ConfigureAwait(false);
+            }, fallbackExecutionOptions, cancellationToken).ConfigureAwait(false);
 
             return output?.Replace("origin/", string.Empty);
         }
@@ -230,7 +250,7 @@ internal class GitInformation : IGitInformation
         IGitCommandRunner gitCommandRunner,
         CancellationToken cancellationToken)
     {
-        var output = await gitCommandRunner.RunCommandsOrNull(null, cancellationToken, "log", "--skip=0", "-1",
+        var output = await gitCommandRunner.RunCommandsOrNull(_commandExecutionOptions, cancellationToken, "log", "--skip=0", "-1",
             $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
 
         return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);
