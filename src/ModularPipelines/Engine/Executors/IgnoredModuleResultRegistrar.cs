@@ -90,34 +90,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             .Where(ignoredModule => historicalResults[ignoredModule.Module] is null)
             .Select(ignoredModule => ignoredModule.Module.GetType())
             .ToHashSet();
-        var consumedArtifactProducerTypes = new HashSet<Type>();
-        var forcedConsumedArtifactProducerTypes = new HashSet<Type>();
-        var seenDemandStates = new List<HashSet<Type>>();
-        while (true)
+        var consumedArtifactProducerTypes = await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
         {
-            if (seenDemandStates.Any(state => state.SetEquals(consumedArtifactProducerTypes)))
-            {
-                var cycleBreaker = seenDemandStates
-                    .SelectMany(state => state)
-                    .Concat(consumedArtifactProducerTypes)
-                    .Where(type => !forcedConsumedArtifactProducerTypes.Contains(type))
-                    .OrderBy(type => type.AssemblyQualifiedName, StringComparer.Ordinal)
-                    .FirstOrDefault();
-                if (cycleBreaker is null)
-                {
-                    break;
-                }
-
-                forcedConsumedArtifactProducerTypes.Add(cycleBreaker);
-                consumedArtifactProducerTypes = new HashSet<Type>(forcedConsumedArtifactProducerTypes);
-                seenDemandStates.Clear();
-                continue;
-            }
-
-            seenDemandStates.Add(new HashSet<Type>(consumedArtifactProducerTypes));
             var nextConsumedArtifactProducerTypes = new HashSet<Type>();
             var unrecoverableIgnoredModuleTypes = ignoredModuleTypesWithoutHistory
-                .Concat(consumedArtifactProducerTypes)
+                .Concat(currentDemand)
                 .ToHashSet();
             foreach (var runnableModule in runnableModules)
             {
@@ -154,14 +131,8 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                 }
             }
 
-            nextConsumedArtifactProducerTypes.UnionWith(forcedConsumedArtifactProducerTypes);
-            if (consumedArtifactProducerTypes.SetEquals(nextConsumedArtifactProducerTypes))
-            {
-                break;
-            }
-
-            consumedArtifactProducerTypes = nextConsumedArtifactProducerTypes;
-        }
+            return nextConsumedArtifactProducerTypes;
+        }).ConfigureAwait(false);
         var cascadeResult = await DependencySkipCascade.ApplyAsync(
             allModules,
             runnableModules.Select(runnableModule => runnableModule.Module),

@@ -605,6 +605,16 @@ public class ArtifactContractTests
             Task.FromResult<string?>("used first history dependency");
     }
 
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ConsumesArtifact(typeof(DeclaredProducerModule), "missing-output")]
+    private sealed class PreservedProducerInvalidArtifactConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Invalid consumer must fail validation");
+    }
+
     [ModularPipelines.Attributes.DependsOn<SkippedArtifactBlockerModule>]
     private sealed class TransitiveSkippedArtifactIntermediateModule : Module<string>
     {
@@ -994,6 +1004,26 @@ public class ArtifactContractTests
         await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
             error.Category == ValidationErrorCategory.Artifact
             && error.SourceType == typeof(InvalidSkippedArtifactConsumerModule)
+            && error.Message.Contains("missing-output", StringComparison.Ordinal));
+    }
+
+    [Test]
+    public async Task BuildAsyncPreservesValidationAcrossArtifactDemandCycle()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddResultsRepository<ArtifactHistoryRepository>();
+        builder.AddModule<DeclaredProducerModule>();
+        builder.AddModule<SkippedArtifactProducerModule>();
+        builder.AddModule<DependencyOrderedSkippedArtifactProducerModule>();
+        builder.AddModule<OscillatingFirstArtifactConsumerModule>();
+        builder.AddModule<OscillatingSecondArtifactConsumerModule>();
+        builder.AddModule<PreservedProducerInvalidArtifactConsumerModule>();
+
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
+
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(PreservedProducerInvalidArtifactConsumerModule)
             && error.Message.Contains("missing-output", StringComparison.Ordinal));
     }
 
@@ -1630,6 +1660,54 @@ public class ArtifactContractTests
                     nameof(DependencyOrderedSkippedArtifactProducerModule),
                 ],
             });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<DependencyOrderedSkippedArtifactProducerModule>();
+            builder.AddModule<OscillatingFirstArtifactConsumerModule>();
+            builder.AddModule<OscillatingSecondArtifactConsumerModule>();
+            builder.AddModule<UnrelatedFirstHistoryDependentModule>();
+            builder.AddModule<UnrelatedHistoryDependentModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var firstProducerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var secondProducerResult = await summary.Modules
+                .OfType<DependencyOrderedSkippedArtifactProducerModule>()
+                .Single();
+            var firstUnrelatedResult = await summary.Modules
+                .OfType<UnrelatedFirstHistoryDependentModule>()
+                .Single();
+            var secondUnrelatedResult = await summary.Modules
+                .OfType<UnrelatedHistoryDependentModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstProducerResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.UsedHistory);
+                await Assert.That(secondProducerResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(firstUnrelatedResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Successful);
+                await Assert.That(secondUnrelatedResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Skipped);
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task RuntimeArtifactDemandBreaksOscillationWithoutSuppressingAllHistory()
+    {
+        DeleteLocalArtifacts();
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
             builder.AddModule<SkippedArtifactProducerModule>();
             builder.AddModule<DependencyOrderedSkippedArtifactProducerModule>();
             builder.AddModule<OscillatingFirstArtifactConsumerModule>();

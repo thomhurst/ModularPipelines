@@ -136,12 +136,11 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
         var moduleTypesWithoutHistory = ignoredModuleTypes
             .Where(moduleType => !moduleTypesWithHistory.Contains(moduleType))
             .ToHashSet();
-        var consumedArtifactProducerTypes = new HashSet<Type>();
-        for (var iteration = 0; iteration <= allModules.Count; iteration++)
+        return await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
         {
             var nextConsumedArtifactProducerTypes = new HashSet<Type>();
             var unrecoverableModuleTypes = moduleTypesWithoutHistory
-                .Concat(consumedArtifactProducerTypes)
+                .Concat(currentDemand)
                 .ToHashSet();
             foreach (var module in runnableModules)
             {
@@ -175,21 +174,8 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
                 }
             }
 
-            if (consumedArtifactProducerTypes.SetEquals(nextConsumedArtifactProducerTypes))
-            {
-                return consumedArtifactProducerTypes;
-            }
-
-            if (iteration == allModules.Count)
-            {
-                consumedArtifactProducerTypes.UnionWith(nextConsumedArtifactProducerTypes);
-                return consumedArtifactProducerTypes;
-            }
-
-            consumedArtifactProducerTypes = nextConsumedArtifactProducerTypes;
-        }
-
-        return consumedArtifactProducerTypes;
+            return nextConsumedArtifactProducerTypes;
+        }).ConfigureAwait(false);
     }
 
     private static bool IsValidArtifactDemand(ConsumesArtifactAttribute consumedArtifact) =>

@@ -51,7 +51,6 @@ internal class ModuleRunner : IModuleRunner
     private readonly ConcurrentDictionary<Type, Lazy<Task<SkipDecision?>>>
         _planningSkipEvaluations = new();
     private readonly ConcurrentDictionary<Type, Lazy<Task<bool>>> _historicalResultAvailability = new();
-    private readonly int _artifactPlanningIterationLimit;
 
     public ModuleRunner(
         IServiceProvider serviceProvider,
@@ -99,7 +98,6 @@ internal class ModuleRunner : IModuleRunner
                                   || distributedOptions.Value.TotalInstances <= 1;
         var registeredModules = modules.ToArray();
         _localArtifactConsumers = GetLocalArtifactConsumers(registeredModules);
-        _artifactPlanningIterationLimit = registeredModules.Length + 1;
     }
 
     /// <inheritdoc />
@@ -257,8 +255,7 @@ internal class ModuleRunner : IModuleRunner
         IModuleScheduler scheduler,
         CancellationToken cancellationToken)
     {
-        var requiredProducerTypes = new HashSet<Type>();
-        for (var iteration = 0; iteration < _artifactPlanningIterationLimit; iteration++)
+        return await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
         {
             var nextRequiredProducerTypes = new HashSet<Type>();
             foreach (var (producerType, consumersByArtifact) in _localArtifactConsumers)
@@ -270,7 +267,7 @@ internal class ModuleRunner : IModuleRunner
                             consumerType,
                             scheduler,
                             cancellationToken,
-                            requiredProducerTypes)
+                            currentDemand)
                         .ConfigureAwait(false))
                     {
                         nextRequiredProducerTypes.Add(producerType);
@@ -279,21 +276,8 @@ internal class ModuleRunner : IModuleRunner
                 }
             }
 
-            if (requiredProducerTypes.SetEquals(nextRequiredProducerTypes))
-            {
-                return requiredProducerTypes;
-            }
-
-            if (iteration == _artifactPlanningIterationLimit - 1)
-            {
-                requiredProducerTypes.UnionWith(nextRequiredProducerTypes);
-                return requiredProducerTypes;
-            }
-
-            requiredProducerTypes = nextRequiredProducerTypes;
-        }
-
-        return requiredProducerTypes;
+            return nextRequiredProducerTypes;
+        }).ConfigureAwait(false);
     }
 
     private async Task<bool> IsRunnableArtifactConsumerAsync(
