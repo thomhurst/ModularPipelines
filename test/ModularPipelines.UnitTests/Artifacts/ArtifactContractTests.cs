@@ -785,16 +785,19 @@ public class ArtifactContractTests
     }
 
     [Test]
-    public async Task BuildAsyncIgnoresInvalidContractWhenConsumedSkippedProducerHasHistory()
+    public async Task BuildAsyncRejectsInvalidContractWhenConsumedSkippedProducerHasHistory()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddResultsRepository<ArtifactHistoryRepository>();
         builder.AddModule<SkippedArtifactProducerModule>();
         builder.AddModule<InvalidSkippedArtifactConsumerModule>();
 
-        await using var pipeline = await builder.BuildAsync();
+        var exception = await Assert.ThrowsAsync<PipelineValidationException>(() => builder.BuildAsync());
 
-        await Assert.That(pipeline).IsNotNull();
+        await Assert.That(exception!.ValidationResult.Errors).Contains(error =>
+            error.Category == ValidationErrorCategory.Artifact
+            && error.SourceType == typeof(InvalidSkippedArtifactConsumerModule)
+            && error.Message.Contains("missing-output", StringComparison.Ordinal));
     }
 
     [Test]
