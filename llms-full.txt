@@ -358,7 +358,7 @@ When a module has a `[RunIfAll<OnLinux>]`, `[RunIfAll<OnWindows>]`, or `[RunIfAl
 [RunIfAll<OnLinux>]
 public class LinuxBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Only executes on workers that have the "linux" capability
@@ -375,7 +375,7 @@ Mark a module with `[RequiresCapability]` to restrict which workers can execute 
 [RequiresCapability("docker")]
 public class DockerBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Only executes on workers that advertise "docker"
@@ -394,7 +394,7 @@ You can stack multiple attributes. The module will only run on a worker that has
 [RequiresCapability("docker")]
 public class LinuxDockerModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Only runs on Linux workers that also have Docker
@@ -721,7 +721,7 @@ await builder.ExecutePipelineAsync();
 
 public class RestoreModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.RestoreAsync(new());
@@ -732,7 +732,7 @@ public class RestoreModule : Module<string>
 [DependsOn<RestoreModule>]
 public class BuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(new());
@@ -743,7 +743,7 @@ public class BuildModule : Module<string>
 [DependsOn<BuildModule>]
 public class TestModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.TestAsync(new());
@@ -921,7 +921,7 @@ await builder.ExecutePipelineAsync();
 
 public class RestoreModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.RestoreAsync(new());
@@ -933,7 +933,7 @@ public class RestoreModule : Module<string>
 [DependsOn<RestoreModule>]
 public class LinuxBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(new());
@@ -946,7 +946,7 @@ public class LinuxBuildModule : Module<string>
 [DependsOn<RestoreModule>]
 public class WindowsBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(new());
@@ -959,7 +959,7 @@ public class WindowsBuildModule : Module<string>
 [DependsOn<RestoreModule>]
 public class MacBuildModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Tools.DotNet.BuildAsync(new());
@@ -973,15 +973,15 @@ public class MacBuildModule : Module<string>
 [DependsOn<MacBuildModule>]
 public class AggregateResultsModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         var linux = await context.GetModule<LinuxBuildModule>();
         var windows = await context.GetModule<WindowsBuildModule>();
         var mac = await context.GetModule<MacBuildModule>();
 
-        return $"All platforms passed: {linux.ValueOrDefault}, "
-             + $"{windows.ValueOrDefault}, {mac.ValueOrDefault}";
+        return $"All platforms passed: {linux.Value}, "
+             + $"{windows.Value}, {mac.Value}";
     }
 }
 ```
@@ -1144,7 +1144,7 @@ That would look like this:
 ```csharp
 public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityResource>
 {
-    protected override async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<UserAssignedIdentityResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentityProvisionResponse = await context.Tools.Azure.Provisioner.Security.UserAssignedIdentity(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
@@ -1161,7 +1161,7 @@ public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityRe
 ```csharp
 public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 {
-    protected override async Task<StorageAccountResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<StorageAccountResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccountProvisionResponse = await context.Tools.Azure.Provisioner.Storage.StorageAccount(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
@@ -1179,7 +1179,7 @@ public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 [DependsOn<ProvisionBlobStorageAccountModule>]
 public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 {
-    protected override async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<BlobContainerResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
@@ -1201,7 +1201,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 [DependsOn<ProvisionUserAssignedIdentityModule>]
 public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 {
-    protected override async Task<RoleAssignmentResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<RoleAssignmentResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
 
@@ -1225,7 +1225,7 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 [DependsOn<ProvisionBlobStorageContainerModule>]
 public class ProvisionAzureFunction : Module<WebSiteResource>
 {
-    protected override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<WebSiteResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
 
@@ -1284,7 +1284,7 @@ Here's an example of publishing a NuGet package. Complete with generating semati
 ```csharp
 public class NugetVersionGeneratorModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Tools.Git.Versioning.GetGitVersioningInformation();
         return gitVersionInformation.FullSemVer;
@@ -1297,7 +1297,7 @@ public class NugetVersionGeneratorModule : Module<string>
 [DependsOn<NugetVersionGeneratorModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
@@ -1316,8 +1316,8 @@ public class PackProjectsModule : Module<CommandResult[]>
                 IncludeSource = true,
                 Properties = new List<string>
                 {
-                    $"PackageVersion={packageVersion.ValueOrDefault}",
-                    $"Version={packageVersion.ValueOrDefault}",
+                    $"PackageVersion={packageVersion.Value}",
+                    $"Version={packageVersion.Value}",
                 },
             }, cancellationToken))
             .ProcessOneAtATime();
@@ -1332,7 +1332,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 [DependsOn<PackProjectsModule>]
 public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
-    protected override async Task<DotNetTestResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<DotNetTestResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var repositoryInfo = await context.Tools.Git.Information.GetInfoAsync()
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
@@ -1365,7 +1365,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         _nugetSettings = nugetSettings;
     }
 
-    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
@@ -1522,7 +1522,7 @@ To use ModularPipelines in a single file C# application, you can follow these st
 
     public class UpdateDotnetWorkloads : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().DotNetWorkload.Update(token: cancellationToken);
         }
@@ -1531,7 +1531,7 @@ To use ModularPipelines in a single file C# application, you can follow these st
     [DependsOn<UpdateDotnetWorkloads>]
     public class CheckDotnetSdkModule : Module<CommandResult>
     {
-        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().Sdk.Check(token: cancellationToken);
         }
@@ -1634,7 +1634,7 @@ public class PingApiModule : Module<HttpResponseMessage>
 You'll then be instructed by the compiler to make sure the return type of your main `ExecuteAsync` method matches the `Type` you've set up:
 
 ```csharp
-protected override async Task<MyCustomClass?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+protected override async Task<MyCustomClass> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
 ```
 
 ## Optional Data
@@ -1644,7 +1644,7 @@ You can use `IDictionary<string, object>` as a flexible return type:
 ```csharp
 public class MyModule : Module<IDictionary<string, object>>
 {
-    protected override async Task<IDictionary<string, object>?> ExecuteAsync(
+    protected override async Task<IDictionary<string, object>> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         return new Dictionary<string, object>
@@ -1656,14 +1656,30 @@ public class MyModule : Module<IDictionary<string, object>>
 }
 ```
 
-Returning an object isn't mandatory either. You can return `null`:
+When a module has no meaningful result, use `None`:
 
 ```csharp
-protected override async Task<MyResult?> ExecuteAsync(
-    IModuleContext context, CancellationToken cancellationToken)
+public class PublishModule : Module<None>
 {
-    await DoSomethingAsync();
-    return null;
+    protected override async Task<None> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await PublishAsync(cancellationToken);
+        return None.Value;
+    }
+}
+```
+
+If `null` is meaningful data, make that explicit in both the module and method types:
+
+```csharp
+public class OptionalLookupModule : Module<MyResult?>
+{
+    protected override async Task<MyResult?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        return await TryFindResultAsync(cancellationToken);
+    }
 }
 ```
 
@@ -1677,7 +1693,7 @@ Dependencies are configured by adding an attribute on your Module. This also mak
 [DependsOn<MyOtherModule>]
 public class MyModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // MyOtherModule is guaranteed to have completed before this runs
@@ -1713,7 +1729,7 @@ var myModule = await context.GetModule<MyOptionalModule>();
 
 if (myModule.SkipDecisionOrDefault is not null)
 {
-    return null;
+    return None.Value;
 }
 
 if (myModule.ExceptionOrDefault is not null)
@@ -1721,13 +1737,13 @@ if (myModule.ExceptionOrDefault is not null)
     // Check the exception
     if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
     {
-        return null;
+        return None.Value;
     }
     throw new Exception("Unexpected failure", myModule.ExceptionOrDefault);
 }
 
 // Success case
-return await DoSomethingAsync(myModule.ValueOrDefault);
+return await DoSomethingAsync(myModule.Value);
 ```
 
 You can also use the `Match` helper for exhaustive handling:
@@ -1762,7 +1778,7 @@ public class CleanupModule : Module<CommandResult>
         .WithAlwaysRun()
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Clean up resources - runs even if other modules failed
     }
@@ -1784,7 +1800,7 @@ public class CleanupModule : Module<CommandResult>
         .WithTimeout(TimeSpan.FromMinutes(5))
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Clean up resources - runs even if Build or Test failed
         // Won't fail the pipeline even if cleanup itself fails
@@ -1907,7 +1923,7 @@ It is recommended to use this token, and pass it in everywhere applicable. This 
 ```csharp
 public class MyModule : Module<File>
 {
-    protected override async Task<File?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<File> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://www.example.com/somefile.zip")), cancellationToken);
     }
@@ -2163,7 +2179,7 @@ Modules are defined by creating a class that inherits from the `Module<T>` base 
 ```csharp
 public class FindAFileModule : Module<FileInfo>
 {
-    protected override async Task<FileInfo?> ExecuteAsync(
+    protected override async Task<FileInfo> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         return context.Files
@@ -2229,7 +2245,7 @@ public class MyModule : Module<FileInfo>
         .WithAlwaysRun()
         .Build();
 
-    protected override async Task<FileInfo?> ExecuteAsync(
+    protected override async Task<FileInfo> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Module logic here
@@ -2301,7 +2317,7 @@ public class MyModule : Module<string>
         return Task.CompletedTask;
     }
 
-    protected override async Task<string?> ExecuteAsync(
+    protected override async Task<string> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         return "result";
@@ -2319,7 +2335,7 @@ Organize your modules with tags and categories:
 [ModuleTag("fast")]
 public class BuildModule : Module<BuildOutput>
 {
-    protected override async Task<BuildOutput?> ExecuteAsync(
+    protected override async Task<BuildOutput> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // ...
@@ -2337,7 +2353,7 @@ public class BuildModule : Module<BuildOutput>
         .WithTags("critical", "fast")
         .Build();
 
-    protected override async Task<BuildOutput?> ExecuteAsync(
+    protected override async Task<BuildOutput> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // ...
@@ -2388,7 +2404,7 @@ By default, dependencies declared with `[DependsOn<T>]` are **required**. This m
 [DependsOn<Module1>]
 public class Module2 : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Safe to call - Module1 is guaranteed to be registered
         var result = await context.GetModule<Module1>();
@@ -2419,7 +2435,7 @@ Use `Optional = true` when a dependency may or may not be present:
 [DependsOn<Module1>(Optional = true)]
 public class Module2 : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Use GetModuleIfRegistered for optional dependencies
         var module1 = context.GetModuleIfRegistered<Module1>();
@@ -2450,7 +2466,7 @@ When a category filter skips a required dependency, ModularPipelines cascade-ski
 [DependsOn<CompileModule>(Optional = true)]  // CompileModule is in "compile" category
 public class TestModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var compile = context.GetModuleIfRegistered<CompileModule>();
 
@@ -2822,7 +2838,7 @@ public class MyModule : Module<string>
         return Task.CompletedTask;
     }
 
-    protected internal override Task<string?> ExecuteAsync(
+    protected internal override Task<string> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
         => Task.FromResult<string?>("Hello, World!");
@@ -2974,7 +2990,7 @@ public class OptionalModule : Module<CommandResult>
         .WithIgnoreFailures()
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // If this fails, the pipeline continues
     }
@@ -2992,7 +3008,7 @@ public class MyModule : Module<CommandResult>
         .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException)
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // ItemAlreadyExistsException will be ignored, other exceptions will fail the pipeline
     }
@@ -3046,7 +3062,7 @@ var myModule = await context.GetModule<MyOptionalModule>();
 if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
 {
     // Handle the expected failure case
-    return null;
+    return None.Value;
 }
 
 return await DoSomethingAsync();
@@ -3400,7 +3416,7 @@ If these have any dependencies, they will be triggered too.
 [NotInParallel]
 public class MyModule : Module<IDictionary<string, object>>
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -3417,7 +3433,7 @@ If another module has a different constraint key, these will still run in parall
 [NotInParallel(ConstraintKey = "Install")]
 public class InstallModule1 : Module<IDictionary<string, object>>
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -3426,7 +3442,7 @@ public class InstallModule1 : Module<IDictionary<string, object>>
 [NotInParallel(ConstraintKey = "Install")]
 public class InstallModule2 : Module<IDictionary<string, object>>
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -3435,7 +3451,7 @@ public class InstallModule2 : Module<IDictionary<string, object>>
 [NotInParallel(ConstraintKey = "Build")]
 public class BuildProjectModule : Module<IDictionary<string, object>>
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -3474,7 +3490,7 @@ namespace MyTestProject;
 [ParallelLimiter<MyParallelLimit>]
 public class InstallModule1 : Module<IDictionary<string, object>>
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -3483,7 +3499,7 @@ public class InstallModule1 : Module<IDictionary<string, object>>
 [ParallelLimiter<MyParallelLimit>]
 public class InstallModule2 : Module<IDictionary<string, object>>
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -3492,7 +3508,7 @@ public class InstallModule2 : Module<IDictionary<string, object>>
 [ParallelLimiter<MyParallelLimit>]
 public class BuildProjectModule : Module<IDictionary<string, object>>
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -3854,7 +3870,7 @@ public class MyModule : Module<CommandResult>
         .WithRetry(3)  // Retry up to 3 times with exponential backoff and jitter
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something that might fail transiently
     }
@@ -3888,7 +3904,7 @@ public class MyModule : Module<CommandResult>
                 .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i)))
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -4104,7 +4120,7 @@ Call `await context.GetModule<TModule>()` from within your module to access anot
 [DependsOn<BuildModule>]
 public class DeployModule : Module<DeployResult>
 {
-    protected override async Task<DeployResult?> ExecuteAsync(
+    protected override async Task<DeployResult> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Get the build module's result
@@ -4171,9 +4187,9 @@ When an absent value is expected, inspect the union through its non-throwing acc
 ```csharp
 var result = await context.GetModule<MyModule>();
 
-if (result is ModuleResult<MyResult>.Success)
+if (result is ModuleResult<MyResult>.Success success)
 {
-    var value = result.ValueOrDefault;
+    var value = success.Value;
     // Process value
 }
 
@@ -4197,7 +4213,7 @@ Always declare dependencies using `[DependsOn<T>]` to ensure the dependent modul
 [DependsOn<TestModule>]   // Ensures TestModule completes first
 public class DeployModule : Module<DeployResult>
 {
-    protected override async Task<DeployResult?> ExecuteAsync(
+    protected override async Task<DeployResult> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
         // Safe to call - dependencies are guaranteed to be complete
@@ -4238,7 +4254,7 @@ public class MyModule : Module<CommandResult>
             : SkipDecision.DoNotSkip)
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Module logic here
     }
@@ -4259,7 +4275,7 @@ public class MyModule : Module<CommandResult>
                 : SkipDecision.DoNotSkip)
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // This only runs on the main branch
     }
@@ -4285,7 +4301,7 @@ public class MyModule : Module<CommandResult>
         })
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Module logic here
     }
@@ -4607,7 +4623,7 @@ In the example below, we use the .csproj filename as the submodule name. So if o
 ```csharp
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
@@ -4618,10 +4634,10 @@ public class PackProjectsModule : Module<CommandResult[]>
                 x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
             .ToList();
 
-        return await PackProjects(context, projects, packageVersion.ValueOrDefault, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
+        return await PackProjects(context, projects, packageVersion.Value, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
     }
 
-    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<File> projects, string? packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
+    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<File> projects, string packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         foreach (var project in projects)
         {
@@ -4938,7 +4954,7 @@ public class MyModule : Module<CommandResult>
         .WithTimeout(TimeSpan.FromSeconds(120))
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something - will be cancelled after 120 seconds
     }
@@ -4958,7 +4974,7 @@ public class ResilientModule : Module<CommandResult>
         .WithIgnoreFailures()  // Don't fail the pipeline if module times out
         .Build();
 
-    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Long-running operation with timeout protection
     }
@@ -6671,7 +6687,7 @@ using ModularPipelines.Azure.Options;
 
 public class UseAzureModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -6796,7 +6812,7 @@ using ModularPipelines.Ansible.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -6841,7 +6857,7 @@ using ModularPipelines.ArgoCd.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -7033,7 +7049,7 @@ using ModularPipelines.Azure.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -10188,7 +10204,7 @@ using ModularPipelines.Buildah.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -10275,7 +10291,7 @@ using ModularPipelines.Rust.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -10612,7 +10628,7 @@ using ModularPipelines.Flyway.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -10668,7 +10684,7 @@ using ModularPipelines.Google.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -18352,7 +18368,7 @@ using ModularPipelines.GitHub.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -18519,7 +18535,7 @@ using ModularPipelines.Go.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -18699,7 +18715,7 @@ using ModularPipelines.Helm.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -18799,7 +18815,7 @@ using ModularPipelines.Jq.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -18891,7 +18907,7 @@ using ModularPipelines.Kubernetes.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -18989,7 +19005,7 @@ using ModularPipelines.Kubernetes.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -19075,7 +19091,7 @@ using ModularPipelines.Liquibase.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -19288,7 +19304,7 @@ using ModularPipelines.NerdbankGitVersioning.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -19339,7 +19355,7 @@ using ModularPipelines.Newman.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -19385,7 +19401,7 @@ using ModularPipelines.Packer.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -19438,7 +19454,7 @@ using ModularPipelines.Python.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -19496,7 +19512,7 @@ using ModularPipelines.Node.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -19553,7 +19569,7 @@ using ModularPipelines.Podman.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -19885,7 +19901,7 @@ using ModularPipelines.Snyk.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -20034,7 +20050,7 @@ using ModularPipelines.Terraform.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -20209,7 +20225,7 @@ using ModularPipelines.Vault.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -20375,7 +20391,7 @@ using ModularPipelines.WinGet.Options;
 
 public class RunCommandModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -20815,7 +20831,7 @@ using ModularPipelines.Docker.Options;
 
 public class UseDockerModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -20860,7 +20876,7 @@ using ModularPipelines.DotNet.Options;
 
 public class UseDotNetModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -21125,7 +21141,7 @@ using ModularPipelines.Git.Options;
 
 public class UseGitModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -21264,7 +21280,7 @@ using ModularPipelines.Go.Options;
 
 public class UseGoModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -21308,7 +21324,7 @@ using ModularPipelines.Google.Options;
 
 public class UseGcloudModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -21439,7 +21455,7 @@ using ModularPipelines.Helm.Options;
 
 public class UseHelmModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -21483,7 +21499,7 @@ using ModularPipelines.Homebrew.Options;
 
 public class UseBrewModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -21677,7 +21693,7 @@ using ModularPipelines.Kubernetes.Options;
 
 public class UseKubernetesModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -21706,7 +21722,7 @@ using ModularPipelines.Models;
 
 public class UpdateDatabaseModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -21927,7 +21943,7 @@ using ModularPipelines.Modules;
 
 public class UseNodeModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -22095,7 +22111,7 @@ using ModularPipelines.Python.Options;
 
 public class UsePipModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -22139,7 +22155,7 @@ using ModularPipelines.Rust.Options;
 
 public class UseCargoModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -22176,7 +22192,7 @@ using ModularPipelines.Shellcheck.Options;
 
 public class CheckShellScriptsModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
@@ -22473,7 +22489,7 @@ using ModularPipelines.Terraform.Options;
 
 public class UseTerraformModule : Module<CommandResult>
 {
-    protected override async Task<CommandResult?> ExecuteAsync(
+    protected override async Task<CommandResult> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
