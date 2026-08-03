@@ -19,6 +19,7 @@ namespace ModularPipelines.Eksctl.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("eksctl")]
+[CliGlobalOptions]
 public abstract record EksctlOptions : CommandLineToolOptions
 {
 }

@@ -19,6 +19,7 @@ namespace ModularPipelines.Terraform.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("terraform")]
+[CliGlobalOptions]
 public abstract record TerraformOptions : CommandLineToolOptions
 {
 }
