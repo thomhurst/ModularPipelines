@@ -19,8 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pod", "clone")]
 public record PodmanPodCloneOptions(
-    [property: CliArgument(0)] string Pod,
-    [property: CliArgument(1)] string Name
+    [property: CliArgument(0)] string Pod
 ) : PodmanOptions
 {
     /// <summary>
@@ -145,6 +144,12 @@ public record PodmanPodCloneOptions(
     /// </summary>
     [CliOption("--memory-swap", Format = OptionFormat.EqualsSeparated)]
     public string? MemorySwap { get; set; }
+
+    /// <summary>
+    /// name the new pod
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
 
     /// <summary>
     /// PID namespace to use

@@ -19,9 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("container", "clone")]
 public record PodmanContainerCloneOptions(
-    [property: CliArgument(0)] string Container,
-    [property: CliArgument(1)] string Name,
-    [property: CliArgument(2)] string Image
+    [property: CliArgument(0)] string Container
 ) : PodmanOptions
 {
     /// <summary>
@@ -133,6 +131,12 @@ public record PodmanContainerCloneOptions(
     public int? MemorySwappiness { get; set; }
 
     /// <summary>
+    /// Assign a name to the container
+    /// </summary>
+    [CliOption("--name", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
     /// Run container in an existing pod
     /// </summary>
     [CliOption("--pod", Format = OptionFormat.EqualsSeparated)]
@@ -143,5 +147,11 @@ public record PodmanContainerCloneOptions(
     /// </summary>
     [CliFlag("--run")]
     public bool? Run { get; set; }
+
+    /// <summary>
+    /// The IMAGE operand.
+    /// </summary>
+    [CliArgument(2)]
+    public string? Image { get; set; }
 
 }

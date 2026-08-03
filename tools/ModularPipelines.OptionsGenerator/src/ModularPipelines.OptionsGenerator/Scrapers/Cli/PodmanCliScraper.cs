@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
 namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
@@ -105,4 +106,29 @@ public partial class PodmanCliScraper : CobraCliScraper
     {
         "--help", "-h", "--version", "help", "completion", "version", "info"
     };
+
+    /// <summary>
+    /// Podman 4.x reports clone output operands as required even though NAME and IMAGE
+    /// are optional and defaulted by the command implementation.
+    /// </summary>
+    protected override IReadOnlyList<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        IReadOnlyList<CliPositionalArgument> positionalArguments)
+    {
+        var requiredCount = string.Join(' ', commandParts) switch
+        {
+            "container clone" or "pod clone" => 1,
+            _ => positionalArguments.Count,
+        };
+
+        return positionalArguments
+            .Select((argument, index) => index < requiredCount
+                ? argument
+                : argument with
+                {
+                    CSharpType = $"{argument.CSharpType.TrimEnd('?')}?",
+                    IsRequired = false,
+                })
+            .ToList();
+    }
 }

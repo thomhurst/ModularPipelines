@@ -231,6 +231,30 @@ public class CliScraperTraversalTests
     }
 
     [Test]
+    [Arguments("container clone", "CONTAINER NAME IMAGE", 3)]
+    [Arguments("pod clone", "POD NAME", 2)]
+    public async Task PodmanClone_Keeps_Defaulted_Output_Operands_Optional(
+        string command,
+        string operands,
+        int expectedCount)
+    {
+        var scraper = new TestPodmanCliScraper(new StubExecutor(
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)));
+        var commandPath = new[] { "podman" }.Concat(command.Split(' ')).ToArray();
+        var helpText = $"Usage: podman {command} [options] {operands}";
+
+        var definition = await scraper.Parse(commandPath, helpText);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(definition!.PositionalArguments).Count().IsEqualTo(expectedCount);
+            await Assert.That(definition.PositionalArguments[0].IsRequired).IsTrue();
+            await Assert.That(definition.PositionalArguments.Skip(1).All(argument => !argument.IsRequired)).IsTrue();
+            await Assert.That(definition.PositionalArguments.Skip(1).All(argument => argument.CSharpType == "string?")).IsTrue();
+        }
+    }
+
+    [Test]
     public async Task SharedShapeInference_Models_Documented_Repeatability()
     {
         const string helpText = """
@@ -381,6 +405,12 @@ public class CliScraperTraversalTests
             NullLogger<PodmanCliScraper>.Instance)
     {
         protected override string? ComposeProviderPath => "docker-compose-shim";
+
+        public Task<CliCommandDefinition?> Parse(string[] commandPath, string helpText)
+        {
+            var usage = ParseUsageSynopsis(commandPath, helpText);
+            return ParseCommandAsync(commandPath, helpText, usage, CancellationToken.None);
+        }
     }
 
     private sealed class ComposeProviderExecutor : ICliCommandExecutor
