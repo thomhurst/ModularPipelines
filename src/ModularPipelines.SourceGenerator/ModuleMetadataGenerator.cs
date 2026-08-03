@@ -87,54 +87,7 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(
             compilationMetadata.Combine(allModules),
             static (sourceContext, input) =>
-            {
-                if (input.Left.HasModuleInterface)
-                {
-                    foreach (var skipped in input.Right
-                                 .Where(static module => !module.CanEmit)
-                                 .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
-                                 .Select(static group => group.First()))
-                    {
-                        sourceContext.ReportDiagnostic(Diagnostic.Create(
-                            skipped.IsExternalRegistration
-                                ? ExternalClosedGenericModuleRuntimeMetadata
-                                : SkippedModuleRuntimeMetadata,
-                            skipped.Location,
-                            skipped.TypeName));
-                    }
-
-                    foreach (var partial in input.Right
-                                 .Where(static module => module.IsPartial)
-                                 .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
-                                 .Select(static group => group.First()))
-                    {
-                        sourceContext.ReportDiagnostic(Diagnostic.Create(
-                            PartialModuleRuntimeMetadata,
-                            partial.Location,
-                            partial.TypeName));
-                    }
-
-                    foreach (var selector in input.Right
-                                 .Where(static module =>
-                                     module.SelectorDependencyLocation is not null)
-                                 .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
-                                 .Select(static group => group.First()))
-                    {
-                        sourceContext.ReportDiagnostic(Diagnostic.Create(
-                            SelectorDependencyRuntimeMetadata,
-                            selector.SelectorDependencyLocation,
-                            selector.TypeName));
-                    }
-
-                    var source = Generate(input.Left.AssemblyName, input.Right);
-                    if (source is not null)
-                    {
-                        sourceContext.AddSource(
-                            "ModularPipelines.ModuleMetadata.g.cs",
-                            source);
-                    }
-                }
-            });
+                EmitModuleMetadata(sourceContext, input.Left, input.Right));
 
         context.RegisterSourceOutput(
             genericModuleRegistrations,
@@ -151,6 +104,60 @@ public sealed class ModuleMetadataGenerator : IIncrementalGenerator
                     NonConcreteModuleRegistrationRuntimeMetadata,
                     registration!.Location,
                     registration.TypeName)));
+    }
+
+    private static void EmitModuleMetadata(
+        SourceProductionContext sourceContext,
+        CompilationMetadata compilation,
+        ImmutableArray<ModuleMetadataInfo> modules)
+    {
+        if (!compilation.HasModuleInterface)
+        {
+            return;
+        }
+
+        foreach (var skipped in modules
+                     .Where(static module => !module.CanEmit)
+                     .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
+                     .Select(static group => group.First()))
+        {
+            sourceContext.ReportDiagnostic(Diagnostic.Create(
+                skipped.IsExternalRegistration
+                    ? ExternalClosedGenericModuleRuntimeMetadata
+                    : SkippedModuleRuntimeMetadata,
+                skipped.Location,
+                skipped.TypeName));
+        }
+
+        foreach (var partial in modules
+                     .Where(static module => module.IsPartial)
+                     .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
+                     .Select(static group => group.First()))
+        {
+            sourceContext.ReportDiagnostic(Diagnostic.Create(
+                PartialModuleRuntimeMetadata,
+                partial.Location,
+                partial.TypeName));
+        }
+
+        foreach (var selector in modules
+                     .Where(static module => module.SelectorDependencyLocation is not null)
+                     .GroupBy(static module => module.TypeName, StringComparer.Ordinal)
+                     .Select(static group => group.First()))
+        {
+            sourceContext.ReportDiagnostic(Diagnostic.Create(
+                SelectorDependencyRuntimeMetadata,
+                selector.SelectorDependencyLocation,
+                selector.TypeName));
+        }
+
+        var source = Generate(compilation.AssemblyName, modules);
+        if (source is not null)
+        {
+            sourceContext.AddSource(
+                "ModularPipelines.ModuleMetadata.g.cs",
+                source);
+        }
     }
 
     internal static bool IsModuleRegistrationCandidate(SyntaxNode node)
