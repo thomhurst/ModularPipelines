@@ -113,7 +113,6 @@ public record CliOptionDefinition
     /// Validation constraints (e.g., min/max for numeric values).
     /// </summary>
     public CliValidationConstraints? ValidationConstraints { get; init; }
-
 }
 
 /// <summary>

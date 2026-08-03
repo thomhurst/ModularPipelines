@@ -360,7 +360,6 @@ public class CliAttributeTests
 
         [CliFlag("--normal")]
         public bool? Normal { get; set; }
-
     }
 
     private record TestCliOptionsWithDuplicateSwitch
