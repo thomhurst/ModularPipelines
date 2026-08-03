@@ -39,6 +39,31 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    public async Task Command_Registers_Credential_Password_As_Secret()
+    {
+        const string password = "command-credential-password";
+        var (command, pipeline) = await GetService<ICommandContext>(_ => { });
+        using var cancellationTokenSource = new CancellationTokenSource();
+        cancellationTokenSource.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            command.ExecuteCommandLineToolAsync(
+                new GenericCommandLineToolOptions("unused"),
+                new CommandExecutionOptions
+                {
+                    CommandLineCredentials = new CommandLineCredentials
+                    {
+                        Password = password,
+                    },
+                },
+                cancellationTokenSource.Token));
+
+        var secretProvider = pipeline.Services.GetRequiredService<ISecretProvider>();
+        await Assert.That(secretProvider.Secrets).Contains(password);
+    }
+
+    [Test]
+    [RequiresTool("pwsh")]
     public async Task Command_Execution_Caps_Captured_Output_With_Head_And_Tail()
     {
         var command = await GetService<ICommandContext>();
@@ -79,6 +104,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task Has_Not_Errored()
     {
         var moduleResult = await await RunModule<CommandEchoModule>();
@@ -87,6 +113,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task Standard_Output_Equals_Foo_Bar()
     {
         var moduleResult = await await RunModule<CommandEchoModule>();
@@ -103,6 +130,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task Failed_Command_Exposes_Obfuscated_Result()
     {
         const string secret = "command-result-secret-value";
@@ -140,9 +168,39 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Successful_And_Dry_Run_Commands_Expose_Obfuscated_Environment_Variables(bool dryRun)
+    [RequiresTool("pwsh")]
+    public async Task Successful_Command_Exposes_Obfuscated_Input()
+    {
+        const string secret = "successful-command-input-secret";
+        const string logOnlyInput = "manipulated-log-input";
+        var (command, pipeline) = await GetService<ICommandContext>(_ => { });
+        pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
+
+        var result = await command.ExecuteCommandLineToolAsync(
+            new GenericCommandLineToolOptions("pwsh")
+            {
+                Arguments = ["-NoProfile", "-Command", $"Write-Output '{secret}'"],
+            },
+            new CommandExecutionOptions
+            {
+                InputLoggingManipulator = _ => logOnlyInput,
+            });
+
+        await Assert.That(result.CommandInput).DoesNotContain(secret);
+        await Assert.That(result.CommandInput).DoesNotContain(logOnlyInput);
+        await Assert.That(result.CommandInput).Contains("Write-Output");
+    }
+
+    [Test]
+    public Task Dry_Run_Command_Exposes_Obfuscated_Environment_Variables() =>
+        AssertCommandExposesObfuscatedEnvironmentVariables(dryRun: true);
+
+    [Test]
+    [RequiresTool("pwsh")]
+    public Task Successful_Command_Exposes_Obfuscated_Environment_Variables() =>
+        AssertCommandExposesObfuscatedEnvironmentVariables(dryRun: false);
+
+    private async Task AssertCommandExposesObfuscatedEnvironmentVariables(bool dryRun)
     {
         const string secret = "command-result-secret-value";
         var (command, pipeline) = await GetService<ICommandContext>(_ => { });
@@ -175,10 +233,15 @@ public class CommandTests : TestBase
     }
 
     [Test]
-    [Arguments(false)]
-    [Arguments(true)]
-    public async Task Successful_And_Dry_Run_Commands_Preserve_Unix_Environment_Name_Casing(
-        bool dryRun)
+    public Task Dry_Run_Command_Preserves_Unix_Environment_Name_Casing() =>
+        AssertCommandPreservesUnixEnvironmentNameCasing(dryRun: true);
+
+    [Test]
+    [RequiresTool("pwsh")]
+    public Task Successful_Command_Preserves_Unix_Environment_Name_Casing() =>
+        AssertCommandPreservesUnixEnvironmentNameCasing(dryRun: false);
+
+    private async Task AssertCommandPreservesUnixEnvironmentNameCasing(bool dryRun)
     {
         if (OperatingSystem.IsWindows())
         {
@@ -241,9 +304,44 @@ public class CommandTests : TestBase
 
             await Assert.That(result.ExitCode).IsEqualTo(0);
             await Assert.That(result.StandardOutput.Trim()).IsEqualTo("hello world");
+            await Assert.That(result.CommandInput).Contains(scriptPath);
+            await Assert.That(result.CommandInput).Contains("hello world");
+            await Assert.That(result.CommandInput).DoesNotContain("MODULAR_PIPELINES_CMD_");
             await Assert.That(result.EnvironmentVariables["PATH"]).IsEqualTo(tempDirectory);
             await Assert.That(result.EnvironmentVariables.Keys.Any(key =>
                 key.StartsWith("MODULAR_PIPELINES_CMD_", StringComparison.OrdinalIgnoreCase))).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(tempDirectory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task ExecuteCommandLineToolAsync_Rejects_Newlines_In_Windows_Command_Script_Arguments()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
+
+        var tempDirectory = Path.Combine(Path.GetTempPath(), "mp runtime command tests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDirectory);
+        var scriptPath = Path.Combine(tempDirectory, "mp-runtime-newline-test.cmd");
+
+        try
+        {
+            await File.WriteAllTextAsync(scriptPath, "@echo off\r\n");
+            var command = await GetService<ICommandContext>();
+
+            var exception = await Assert.ThrowsAsync<ArgumentException>(() =>
+                command.ExecuteCommandLineToolAsync(
+                    new GenericCommandLineToolOptions(scriptPath)
+                    {
+                        Arguments = ["first line\r\nsecond line"],
+                    }));
+
+            await Assert.That(exception!.Message).Contains("cannot contain CR or LF");
         }
         finally
         {
@@ -378,6 +476,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantProcesses()
     {
         var pidFile = Path.Combine(Path.GetTempPath(), $"modular-pipelines-child-{Guid.NewGuid():N}.pid");
@@ -428,6 +527,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_KillsDescendantAfterParentExits()
     {
         var fileSuffix = Guid.NewGuid().ToString("N");
@@ -482,6 +582,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_GracefulExit_DoesNotWaitForForcefulTimeout()
     {
         var parentExitFile = Path.Combine(
@@ -522,6 +623,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ExecutionTimeout_ThrowsTimeoutException()
     {
         var command = await GetService<ICommandContext>();
@@ -542,6 +644,7 @@ public class CommandTests : TestBase
     }
 
     [Test]
+    [RequiresTool("pwsh")]
     public async Task ExecuteCommandLineToolAsync_ForcefulCancellation_CapturesDescendantSpawnedDuringGrace()
     {
         var fileSuffix = Guid.NewGuid().ToString("N");

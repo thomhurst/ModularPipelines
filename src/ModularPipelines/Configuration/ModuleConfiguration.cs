@@ -55,6 +55,8 @@ public sealed class ModuleConfiguration
     /// </value>
     public Func<IModuleContext, CancellationToken, ValueTask<SkipDecision>>? SkipCondition { get; init; }
 
+    internal Func<IModuleContext, CancellationToken, ValueTask<SkipDecision?>>? PlanningSkipCondition { get; init; }
+
     /// <summary>
     /// Gets the timeout duration for module execution.
     /// </summary>

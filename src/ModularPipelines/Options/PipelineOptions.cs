@@ -56,6 +56,11 @@ public record PipelineOptions
     private CommandExecutionOptions? _defaultExecutionOptions;
 
     /// <summary>
+    /// Gets a value indicating whether running the pipeline should print a plan without executing modules.
+    /// </summary>
+    public bool DryRun { get; init; }
+
+    /// <summary>
     /// Gets the execution mode that determines how the pipeline handles failures.
     /// </summary>
     public ExecutionMode ExecutionMode { get; init; } = ExecutionMode.StopOnFirstException;

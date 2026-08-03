@@ -3,6 +3,7 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
+[TUnit.Core.NotInParallel("ProcessEnvironment")]
 public class EnvironmentContextTests : TestBase
 {
     [Test]
@@ -10,12 +11,15 @@ public class EnvironmentContextTests : TestBase
     {
         var guid = Guid.NewGuid().ToString("N");
 
-        Environment.SetEnvironmentVariable(guid, TestConstants.TestString);
+        await RunWithEnvironmentRestored(guid, async () =>
+        {
+            Environment.SetEnvironmentVariable(guid, TestConstants.TestString);
 
-        var context = await GetService<IEnvironmentContext>();
+            var context = await GetService<IEnvironmentContext>();
 
-        var result = context.EnvironmentVariables.GetEnvironmentVariable(guid);
-        await Assert.That(result).IsEqualTo(TestConstants.TestString);
+            var result = context.EnvironmentVariables.GetEnvironmentVariable(guid);
+            await Assert.That(result).IsEqualTo(TestConstants.TestString);
+        });
     }
 
     [Test]
@@ -23,14 +27,17 @@ public class EnvironmentContextTests : TestBase
     {
         var guid = Guid.NewGuid().ToString("N");
 
-        Environment.SetEnvironmentVariable(guid, TestConstants.TestString);
+        await RunWithEnvironmentRestored(guid, async () =>
+        {
+            Environment.SetEnvironmentVariable(guid, TestConstants.TestString);
 
-        var context = await GetService<IEnvironmentContext>();
+            var context = await GetService<IEnvironmentContext>();
 
-        var result = context.EnvironmentVariables.GetEnvironmentVariables();
-        await Assert.That(result).IsNotNull();
-        await Assert.That((object) result).IsAssignableTo<IReadOnlyDictionary<string, string>>();
-        await Assert.That(result[guid]).IsEqualTo(TestConstants.TestString);
+            var result = context.EnvironmentVariables.GetEnvironmentVariables();
+            await Assert.That(result).IsNotNull();
+            await Assert.That((object) result).IsAssignableTo<IReadOnlyDictionary<string, string>>();
+            await Assert.That(result[guid]).IsEqualTo(TestConstants.TestString);
+        });
     }
 
     [Test]
@@ -38,12 +45,15 @@ public class EnvironmentContextTests : TestBase
     {
         var guid = Guid.NewGuid().ToString("N");
 
-        var context = await GetService<IEnvironmentContext>();
+        await RunWithEnvironmentRestored(guid, async () =>
+        {
+            var context = await GetService<IEnvironmentContext>();
 
-        context.EnvironmentVariables.SetEnvironmentVariable(guid, TestConstants.TestString);
+            context.EnvironmentVariables.SetEnvironmentVariable(guid, TestConstants.TestString);
 
-        var result = Environment.GetEnvironmentVariable(guid);
-        await Assert.That(result).IsEqualTo(TestConstants.TestString);
+            var result = Environment.GetEnvironmentVariable(guid);
+            await Assert.That(result).IsEqualTo(TestConstants.TestString);
+        });
     }
 
     [Test]
@@ -53,14 +63,17 @@ public class EnvironmentContextTests : TestBase
 
         var directoryToAdd = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N"));
 
-        var path = context.EnvironmentVariables.GetPath();
-        await Assert.That(path).IsNotEmpty();
-        await Assert.That(path).DoesNotContain(directoryToAdd);
+        await RunWithEnvironmentRestored("PATH", async () =>
+        {
+            var path = context.EnvironmentVariables.GetPath();
+            await Assert.That(path).IsNotEmpty();
+            await Assert.That(path).DoesNotContain(directoryToAdd);
 
-        context.EnvironmentVariables.AddToPath(directoryToAdd);
+            context.EnvironmentVariables.AddToPath(directoryToAdd);
 
-        path = context.EnvironmentVariables.GetPath();
-        await Assert.That(path).Contains(directoryToAdd);
+            path = context.EnvironmentVariables.GetPath();
+            await Assert.That(path).Contains(directoryToAdd);
+        });
     }
 
     [Test]
@@ -78,6 +91,22 @@ public class EnvironmentContextTests : TestBase
             await Assert.That(context.AppDomainDirectory).IsNotNull();
             await Assert.That(context.GetFolder(Environment.SpecialFolder.LocalApplicationData)).IsNotNull();
             await Assert.That(context.EnvironmentName).IsNotNull();
+        }
+    }
+
+    private static async Task RunWithEnvironmentRestored(
+        string variableName,
+        Func<Task> action)
+    {
+        var previousValue = Environment.GetEnvironmentVariable(variableName);
+
+        try
+        {
+            await action();
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable(variableName, previousValue);
         }
     }
 }

@@ -6,6 +6,7 @@ using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -13,7 +14,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
-[TUnit.Core.NotInParallel("MODULAR_PIPELINES_INSTANCE")]
+[TUnit.Core.NotInParallel("ProcessEnvironment")]
 public class IgnoredModuleResultRegistrarTests
 {
     [Test]
@@ -42,7 +43,9 @@ public class IgnoredModuleResultRegistrarTests
             var resultRegistry = new ModuleResultRegistry();
             var registrar = new IgnoredModuleResultRegistrar(
                 resultRegistry,
-                new NoOpModuleResultRepository(),
+                new ModuleResultHistoryProvider(
+                    new NoOpModuleResultRepository(),
+                    NullLogger<ModuleResultHistoryProvider>.Instance),
                 contextProvider.Object,
                 new ModuleDependencyRegistry(),
                 Mock.Of<IModuleMetadataRegistry>(),

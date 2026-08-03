@@ -12,4 +12,27 @@
   <ItemGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines.UnitTests'">
     <ProjectReference Include="$(MSBuildThisFileDirectory)..\src\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
+  <!-- Preserve the output-directory setup only for projects that previously compiled a local copy. -->
+  <ItemGroup Condition="
+    '$(MSBuildProjectName)' == 'ModularPipelines.Ansible.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.ArgoCd.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Cosign.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Docker.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Eksctl.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Email.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Ftp.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.GitHub.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Hadolint.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Java.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Jq.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Liquibase.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.NerdbankGitVersioning.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Node.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Shellcheck.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Snyk.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.SonarScanner.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Trivy.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.UnitTests'">
+    <Compile Include="$(MSBuildThisFileDirectory)Shared\GlobalTestSetup.cs" Link="GlobalTestSetup.cs" />
+  </ItemGroup>
 </Project>

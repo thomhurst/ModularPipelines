@@ -25,6 +25,7 @@ internal sealed class PipelineCommandHandler(
         switch (commandLineOptions.Command)
         {
             case PipelineCommand.Run:
+            case PipelineCommand.DryRun:
                 return null;
             case PipelineCommand.ListModules:
                 await FinalizeModulesAsync(cancellationToken).ConfigureAwait(false);

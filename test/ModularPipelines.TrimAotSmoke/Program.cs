@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Attributes.Events;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
@@ -24,8 +25,7 @@ builder.Services.AddSingleton<IOptions<SmokePipelineOptions>>(
 builder
     .AddModule<CommandModule>()
     .AddModule<VerificationModule>()
-    .AddModule<IgnoredValueModule>()
-    .WithCategory("ignored");
+    .AddModule<IgnoredValueModule>();
 builder.IgnoreCategories("ignored");
 
 await using var pipeline = await builder.BuildAsync();
@@ -157,6 +157,10 @@ internal sealed class VerificationModule(
 
 internal sealed class IgnoredValueModule : Module<int>
 {
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithCategory("ignored")
+        .Build();
+
     protected override Task<int> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
