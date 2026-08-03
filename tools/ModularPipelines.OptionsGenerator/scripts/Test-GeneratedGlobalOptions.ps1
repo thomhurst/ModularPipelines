@@ -1,8 +1,3 @@
-[CmdletBinding()]
-param(
-    [switch] $Fix
-)
-
 $ErrorActionPreference = 'Stop'
 
 $repositoryRoot = (& git rev-parse --show-toplevel).Trim()
@@ -19,9 +14,6 @@ if ($LASTEXITCODE -ne 0) {
 
 $baseRecordPattern = [regex]::new(
     '(?m)^public abstract record \w+Options : CommandLineToolOptions\r?$')
-$toolAttributePattern = [regex]::new(
-    '(?m)^(?<Tool>\[CliTool\([^\r\n]+\)\])(?<NewLine>\r?\n)')
-
 $generatedBaseFiles = foreach ($relativePath in $generatedFiles) {
     $path = Join-Path $repositoryRoot $relativePath
     $content = [IO.File]::ReadAllText($path)
@@ -30,7 +22,6 @@ $generatedBaseFiles = foreach ($relativePath in $generatedFiles) {
         $baseRecordPattern.IsMatch($content)) {
         [pscustomobject]@{
             RelativePath = $relativePath
-            Path = $path
             Content = $content
         }
     }
@@ -49,27 +40,8 @@ if ($missing.Count -eq 0) {
     return
 }
 
-if (!$Fix) {
-    $examples = $missing |
-        Select-Object -First 10 -ExpandProperty RelativePath
-    throw "Found $($missing.Count) generated tool bases without [CliGlobalOptions]. " +
-        "Examples: $($examples -join ', ')"
-}
-
-foreach ($file in $missing) {
-    if (!$toolAttributePattern.IsMatch($file.Content)) {
-        throw "Could not locate [CliTool] in $($file.RelativePath)."
-    }
-
-    $updated = $toolAttributePattern.Replace(
-        $file.Content,
-        {
-            param($match)
-            $newLine = $match.Groups['NewLine'].Value
-            return "$($match.Groups['Tool'].Value)$newLine[CliGlobalOptions]$newLine"
-        },
-        1)
-    [IO.File]::WriteAllText($file.Path, $updated)
-}
-
-Write-Host "Updated $($missing.Count) generated tool bases with [CliGlobalOptions]."
+$examples = $missing |
+    Select-Object -First 10 -ExpandProperty RelativePath
+throw "Found $($missing.Count) generated tool bases without [CliGlobalOptions]. " +
+    "Regenerate the affected tools with ModularPipelines.OptionsGenerator. " +
+    "Examples: $($examples -join ', ')"
