@@ -192,14 +192,16 @@ public class GitInformationTests : TestBase
     [Test]
     public async Task Commits_Reads_Multiple_Records_With_One_Git_Process()
     {
+        CommandExecutionOptions? observedOptions = null;
         string?[]? observedCommands = null;
         var runner = new Mock<IGitCommandRunner>();
         runner.Setup(x => x.RunCommandsOrNull(
                 It.IsAny<CommandExecutionOptions?>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?[]>()))
-            .Returns<CommandExecutionOptions?, CancellationToken, string?[]>((_, _, commands) =>
+            .Returns<CommandExecutionOptions?, CancellationToken, string?[]>((options, _, commands) =>
             {
+                observedOptions = options;
                 observedCommands = commands;
                 return Task.FromResult<string?>(
                     $"{CreateCommitOutput("second commit", '2')}\0{CreateCommitOutput("first commit", '1')}\0");
@@ -218,8 +220,10 @@ public class GitInformationTests : TestBase
             await Assert.That(commits).Count().IsEqualTo(2);
             await Assert.That(commits[0].Message?.Subject).IsEqualTo("second commit");
             await Assert.That(commits[1].Message?.Subject).IsEqualTo("first commit");
+            await Assert.That(observedOptions).IsNotNull();
             await Assert.That(observedCommands!).Contains("--skip=0");
             await Assert.That(observedCommands!).Contains("--max-count=50");
+            await Assert.That(observedOptions!.MaxCapturedOutputLength).IsLessThanOrEqualTo(0);
             await Assert.That(observedCommands!.Single(command =>
                     command?.StartsWith("--format=", StringComparison.Ordinal) == true))
                 .EndsWith("%x00");
@@ -230,6 +234,41 @@ public class GitInformationTests : TestBase
             It.IsAny<CancellationToken>(),
             It.IsAny<string?[]>()), Times.Once());
         await result.Host.DisposeAsync();
+    }
+
+    [Test]
+    public async Task Git_Command_Runner_Preserves_Output_Capture_Limit()
+    {
+        CommandExecutionOptions? observedOptions = null;
+        var command = new Mock<ICommandContext>();
+        command.Setup(context => context.ExecuteCommandLineToolAsync(
+                It.IsAny<CommandLineToolOptions>(),
+                It.IsAny<CommandExecutionOptions?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns<CommandLineToolOptions, CommandExecutionOptions?, CancellationToken>(
+                (_, options, _) =>
+                {
+                    observedOptions = options;
+                    return Task.FromResult(CommandResult.Ok("output"));
+                });
+        var shell = new Mock<IShellContext>();
+        shell.SetupGet(context => context.Command).Returns(command.Object);
+        var pipelineContext = new Mock<IPipelineContext>();
+        pipelineContext.SetupGet(context => context.Shell).Returns(shell.Object);
+        var runner = new GitCommandRunner(
+            pipelineContext.Object,
+            Mock.Of<ILogger<GitCommandRunner>>());
+
+        var output = await runner.RunCommands(
+            new CommandExecutionOptions { MaxCapturedOutputLength = 0 },
+            "status");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(output).IsEqualTo("output");
+            await Assert.That(observedOptions).IsNotNull();
+            await Assert.That(observedOptions!.MaxCapturedOutputLength).IsLessThanOrEqualTo(0);
+        }
     }
 
     [Test]

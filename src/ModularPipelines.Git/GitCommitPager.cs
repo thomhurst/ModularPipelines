@@ -16,12 +16,16 @@ internal static class GitCommitPager
         CommandExecutionOptions? commandExecutionOptions,
         [EnumeratorCancellation] CancellationToken cancellationToken)
     {
+        var completeOutputOptions = (commandExecutionOptions ?? new CommandExecutionOptions()) with
+        {
+            MaxCapturedOutputLength = 0,
+        };
         var skip = 0;
         while (true)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var output = await gitCommandRunner.RunCommandsOrNull(
-                commandExecutionOptions,
+                completeOutputOptions,
                 cancellationToken,
                 "log",
                 branch,
