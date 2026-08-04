@@ -69,7 +69,5 @@ register it on the builder:
 builder.AddRunHistoryStore<MyRunHistoryStore>();
 ```
 
-The store returns the latest report for comparison and saves the completed current report. Custom
-stores own their retention behavior. Override the identity-aware `GetLatestAsync` overload when the
-backend can search past a newer report belonging to another pipeline; its default implementation
-only validates the store's latest report.
+The store returns the latest report for the requested pipeline identity and saves the completed
+current report. Custom stores own their retention behavior.
