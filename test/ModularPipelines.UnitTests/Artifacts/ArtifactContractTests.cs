@@ -596,6 +596,41 @@ public class ArtifactContractTests
             throw new InvalidOperationException("Artifact consumer must cascade-skip");
     }
 
+    private sealed class ArtifactConsumerStateDependencyModule : Module<string>
+    {
+        public static bool IsReady { get; set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            IsReady = true;
+            return Task.FromResult<string?>("ready");
+        }
+    }
+
+    [ModularPipelines.Attributes.DependsOn<ArtifactConsumerStateDependencyModule>]
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
+    private sealed class DependencyStateArtifactConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(_ => ArtifactConsumerStateDependencyModule.IsReady
+                ? SkipDecision.DoNotSkip
+                : SkipDecision.Skip("dependency state is not ready"))
+            .Build();
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
     [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
     [ModularPipelines.Attributes.DependsOn<DependencyOrderedSkippedArtifactProducerModule>]
     [ConsumesArtifact(
@@ -1720,6 +1755,52 @@ public class ArtifactContractTests
                 await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
                 await Assert.That(dependencyResult.ModuleStatus).IsEqualTo(Enums.Status.UsedHistory);
                 await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task IgnoredProducerHistoryIsSuppressedUntilConsumerDependenciesFinish()
+    {
+        DeleteLocalArtifacts();
+        ArtifactConsumerStateDependencyModule.IsReady = false;
+        DependencyStateArtifactConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules = [nameof(SkippedArtifactProducerModule)],
+            });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<ArtifactConsumerStateDependencyModule>();
+            builder.AddModule<DependencyStateArtifactConsumerModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var stateDependencyResult = await summary.Modules
+                .OfType<ArtifactConsumerStateDependencyModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<DependencyStateArtifactConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(stateDependencyResult.ModuleStatus)
+                    .IsEqualTo(Enums.Status.Successful);
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(ArtifactConsumerStateDependencyModule.IsReady).IsTrue();
+                await Assert.That(DependencyStateArtifactConsumerModule.Executed).IsFalse();
             }
         }
         finally

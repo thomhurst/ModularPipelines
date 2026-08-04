@@ -113,7 +113,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                 var consumedProducerTypes = consumedArtifacts
                     .Select(attribute => attribute.ProducerModule)
                     .ToHashSet();
-                if (await HasUnrecoverableRequiredDependencyAsync(
+                var dependencyDemand = await GetRequiredDependencyDemandAsync(
                         runnableModule.Module,
                         modulesByType,
                         availableModuleTypes,
@@ -123,8 +123,15 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                         historicalResults,
                         planningSkipDecisions,
                         pipelineContext)
-                    .ConfigureAwait(false))
+                    .ConfigureAwait(false);
+                if (dependencyDemand.IsUnrecoverable)
                 {
+                    continue;
+                }
+
+                if (dependencyDemand.HasPendingDependency)
+                {
+                    nextConsumedArtifactProducerTypes.UnionWith(consumedProducerTypes);
                     continue;
                 }
 
@@ -174,7 +181,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             cascadeResult.IgnoredModules);
     }
 
-    private async Task<bool> HasUnrecoverableRequiredDependencyAsync(
+    private async Task<RequiredDependencyDemand> GetRequiredDependencyDemandAsync(
         IModule module,
         IReadOnlyDictionary<Type, IModule> modulesByType,
         IReadOnlyCollection<Type> availableModuleTypes,
@@ -187,6 +194,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     {
         var pending = new Stack<IModule>();
         var visitedTypes = new HashSet<Type> { module.GetType() };
+        var hasPendingDependency = false;
         pending.Push(module);
 
         while (pending.TryPop(out var currentModule))
@@ -214,17 +222,22 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                     .ConfigureAwait(false);
                 if (availability.IsUnrecoverable)
                 {
-                    return true;
+                    return new RequiredDependencyDemand(
+                        IsUnrecoverable: true,
+                        HasPendingDependency: hasPendingDependency);
                 }
 
                 if (availability.ModuleToTraverse is not null)
                 {
+                    hasPendingDependency = true;
                     pending.Push(availability.ModuleToTraverse);
                 }
             }
         }
 
-        return false;
+        return new RequiredDependencyDemand(
+            IsUnrecoverable: false,
+            HasPendingDependency: hasPendingDependency);
     }
 
     private async Task<DependencyAvailability> GetDependencyAvailabilityAsync(
@@ -278,6 +291,10 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     private readonly record struct DependencyAvailability(
         IModule? ModuleToTraverse,
         bool IsUnrecoverable);
+
+    private readonly record struct RequiredDependencyDemand(
+        bool IsUnrecoverable,
+        bool HasPendingDependency);
 
     private bool IsDistributedWorker()
     {
