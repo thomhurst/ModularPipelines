@@ -67,6 +67,18 @@ public class IncompleteMetadataDiagnosticTests
                     TService implementation) => services;
             }
         }
+
+        namespace Microsoft.Extensions.DependencyInjection.Extensions
+        {
+            public static class ServiceCollectionDescriptorExtensions
+            {
+                public static void TryAddSingleton<TService>(
+                    this Microsoft.Extensions.DependencyInjection.IServiceCollection services,
+                    TService implementation)
+                {
+                }
+            }
+        }
         """;
 
     [Test]
@@ -968,6 +980,33 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public static void Add(IServiceCollection services) =>
                     services.AddSingleton(Options.Create(new PartialOptions()));
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Jit_Host_Rejects_Inferred_TryAdd_Partial_Options_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.DependencyInjection.Extensions;
+            using Microsoft.Extensions.Options;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.TryAddSingleton(Options.Create(new PartialOptions()));
             }
             """);
 

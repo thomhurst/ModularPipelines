@@ -18,6 +18,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
     internal const string OptionsNamespace = "Microsoft.Extensions.Options";
     internal const string DependencyInjectionNamespace = "Microsoft.Extensions.DependencyInjection";
+    internal const string DependencyInjectionExtensionsNamespace =
+        "Microsoft.Extensions.DependencyInjection.Extensions";
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
     internal const string CliArgumentAttributeFullName = "ModularPipelines.Attributes.CliArgumentAttribute";
@@ -191,7 +193,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             TypeArgumentList.Arguments.Count: > 0,
         }
         || (node is InvocationExpressionSyntax invocation
-            && GetInvokedMethodName(invocation) is "AddSingleton" or "AddScoped" or "AddTransient");
+            && IsServiceRegistrationMethodName(GetInvokedMethodName(invocation)));
+
+    private static bool IsServiceRegistrationMethodName(string? methodName) => methodName is
+        "AddSingleton"
+        or "AddScoped"
+        or "AddTransient"
+        or "TryAddSingleton"
+        or "TryAddScoped"
+        or "TryAddTransient";
 
     private static string? GetInvokedMethodName(InvocationExpressionSyntax invocation) =>
         invocation.Expression switch
@@ -252,9 +262,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
-        if (definition.ContainingNamespace?.ToDisplayString() != DependencyInjectionNamespace
-            || definition.ContainingType.MetadataName != "ServiceCollectionServiceExtensions"
-            || definition.Name is not ("AddSingleton" or "AddScoped" or "AddTransient"))
+        var containingNamespace = definition.ContainingNamespace?.ToDisplayString();
+        var isServiceCollectionRegistration =
+            containingNamespace == DependencyInjectionNamespace
+            && definition.ContainingType.MetadataName == "ServiceCollectionServiceExtensions"
+            && definition.Name is "AddSingleton" or "AddScoped" or "AddTransient";
+        var isTryAddRegistration =
+            containingNamespace == DependencyInjectionExtensionsNamespace
+            && definition.ContainingType.MetadataName == "ServiceCollectionDescriptorExtensions"
+            && definition.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient";
+        if (!isServiceCollectionRegistration && !isTryAddRegistration)
         {
             return null;
         }
