@@ -52,7 +52,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly ConcurrentDictionary<Type, Lazy<Task<SkipDecision?>>>
         _planningSkipEvaluations = new();
     private readonly ConcurrentDictionary<Type, Lazy<Task<bool>>> _historicalResultAvailability = new();
-    private readonly ConcurrentDictionary<Type, Lazy<ModuleFailedException>>
+    private readonly ConcurrentDictionary<Type, Lazy<Task<ModuleFailedException>>>
         _lateArtifactProducerFailures = new();
 
     public ModuleRunner(
@@ -774,11 +774,17 @@ internal class ModuleRunner : IModuleRunner
             : CreateFailureResult(moduleState.Module, moduleState.ModuleType, executionContext, exception);
         PublishModuleResult(moduleState, executionContext, result);
 
+        await NotifyModuleFailureAsync(moduleState, lifecycleContext, exception).ConfigureAwait(false);
+    }
+
+    private async Task NotifyModuleFailureAsync(
+        ModuleState moduleState,
+        ModuleLifecycleContext lifecycleContext,
+        Exception exception)
+    {
         try
         {
-            // Invoke OnModuleFailed lifecycle event
             await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, exception).ConfigureAwait(false);
-
             await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
         }
         finally
@@ -880,22 +886,23 @@ internal class ModuleRunner : IModuleRunner
         }
         catch (MissingConsumedArtifactException exception)
         {
-            throw RegisterLateArtifactProducerFailure(exception, scheduler);
+            throw await RegisterLateArtifactProducerFailureAsync(exception, scheduler).ConfigureAwait(false);
         }
     }
 
-    private ModuleFailedException RegisterLateArtifactProducerFailure(
+    private async Task<ModuleFailedException> RegisterLateArtifactProducerFailureAsync(
         MissingConsumedArtifactException exception,
         IModuleScheduler scheduler)
     {
-        return _lateArtifactProducerFailures.GetOrAdd(
+        var failure = _lateArtifactProducerFailures.GetOrAdd(
             exception.ProducerModuleType,
-            _ => new Lazy<ModuleFailedException>(
-                () => CreateLateArtifactProducerFailure(exception, scheduler),
-                LazyThreadSafetyMode.ExecutionAndPublication)).Value;
+            _ => new Lazy<Task<ModuleFailedException>>(
+                () => CreateLateArtifactProducerFailureAsync(exception, scheduler),
+                LazyThreadSafetyMode.ExecutionAndPublication));
+        return await failure.Value.ConfigureAwait(false);
     }
 
-    private ModuleFailedException CreateLateArtifactProducerFailure(
+    private async Task<ModuleFailedException> CreateLateArtifactProducerFailureAsync(
         MissingConsumedArtifactException exception,
         IModuleScheduler scheduler)
     {
@@ -935,6 +942,21 @@ internal class ModuleRunner : IModuleRunner
             failureCause);
         producerState.Result = failureResult;
         _resultRegistry.RegisterResult(producerType, failureResult);
+
+        await using var scope = _serviceProvider.CreateAsyncScope();
+        var startTime = executionContext.StartTime;
+        var lifecycleContext = new ModuleLifecycleContext(
+            producerState.Module,
+            producerType,
+            _moduleAttributeEventService.GetAttributes(producerType),
+            startTime,
+            scope.ServiceProvider.GetRequiredService<IPipelineContext>(),
+            scope.ServiceProvider,
+            CancellationToken.None)
+        {
+            ReadyTime = producerState.ReadyTime ?? startTime,
+        };
+        await NotifyModuleFailureAsync(producerState, lifecycleContext, failureCause).ConfigureAwait(false);
         return moduleFailure;
     }
 

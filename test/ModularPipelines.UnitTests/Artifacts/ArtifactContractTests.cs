@@ -578,6 +578,21 @@ public class ArtifactContractTests
             Task.FromResult<string?>("produced");
     }
 
+    private sealed class LateArtifactFailureReceiver : IModuleEventReceiver
+    {
+        public static int ProducerFailureCount;
+
+        public Task OnModuleFailureAsync(IModuleHookContext context)
+        {
+            if (context.ModuleType == typeof(MissingRuntimeProducerModule))
+            {
+                Interlocked.Increment(ref ProducerFailureCount);
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+
     [ProducesArtifact("pending-skip-runtime", MissingRuntimeFile)]
     private sealed class PendingSkipArtifactProducerModule : Module<string>
     {
@@ -1852,6 +1867,7 @@ public class ArtifactContractTests
     {
         DeleteLocalArtifacts();
         TransitiveMissingRuntimeConsumerModule.Executed = false;
+        LateArtifactFailureReceiver.ProducerFailureCount = 0;
 
         try
         {
@@ -1859,6 +1875,7 @@ public class ArtifactContractTests
             builder.AddModule<MissingRuntimeProducerModule>();
             builder.AddModule<MissingRuntimeIntermediateModule>();
             builder.AddModule<TransitiveMissingRuntimeConsumerModule>();
+            builder.AddModuleEventReceiver<LateArtifactFailureReceiver>();
             await using var pipeline = await builder.BuildAsync();
 
             var exception = await Assert.ThrowsAsync<ModuleFailedException>(() => pipeline.RunAsync());
@@ -1874,6 +1891,7 @@ public class ArtifactContractTests
                 await Assert.That(exception.ToString()).Contains(nameof(TransitiveMissingRuntimeConsumerModule));
                 await Assert.That(exception.ToString()).Contains("matched no files");
                 await Assert.That(producerResult!.ModuleStatus).IsEqualTo(Enums.Status.Failed);
+                await Assert.That(LateArtifactFailureReceiver.ProducerFailureCount).IsEqualTo(1);
                 await Assert.That(TransitiveMissingRuntimeConsumerModule.Executed).IsFalse();
             }
         }
