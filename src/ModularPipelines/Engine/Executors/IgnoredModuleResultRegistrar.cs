@@ -192,47 +192,64 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         IDictionary<IModule, SkipDecision?> planningSkipDecisions,
         IPipelineContext pipelineContext)
     {
-        var pending = new Stack<IModule>();
-        var visitedTypes = new HashSet<Type> { module.GetType() };
+        return await GetRequiredDependencyDemandAsync(
+                module,
+                modulesByType,
+                availableModuleTypes,
+                ignoredModuleTypes,
+                unrecoverableIgnoredModuleTypes,
+                consumedProducerTypes,
+                historicalResults,
+                planningSkipDecisions,
+                pipelineContext,
+                new HashSet<Type> { module.GetType() })
+            .ConfigureAwait(false);
+    }
+
+    private async Task<RequiredDependencyDemand> GetRequiredDependencyDemandAsync(
+        IModule module,
+        IReadOnlyDictionary<Type, IModule> modulesByType,
+        IReadOnlyCollection<Type> availableModuleTypes,
+        IReadOnlySet<Type> ignoredModuleTypes,
+        IReadOnlySet<Type> unrecoverableIgnoredModuleTypes,
+        IReadOnlySet<Type> consumedProducerTypes,
+        IDictionary<IModule, IModuleResult?> historicalResults,
+        IDictionary<IModule, SkipDecision?> planningSkipDecisions,
+        IPipelineContext pipelineContext,
+        ISet<Type> visitedTypes)
+    {
         var hasPendingDependency = false;
-        pending.Push(module);
-
-        while (pending.TryPop(out var currentModule))
+        var requiredDependencies = ModuleDependencyResolver
+            .GetAllDependencies(
+                module,
+                availableModuleTypes,
+                _dependencyRegistry,
+                _metadataRegistry)
+            .Where(dependency => !dependency.Optional)
+            .Select(dependency => dependency.DependencyType);
+        foreach (var dependencyType in requiredDependencies)
         {
-            var requiredDependencies = ModuleDependencyResolver
-                .GetAllDependencies(
-                    currentModule,
+            var dependencyDemand = await GetDependencyDemandAsync(
+                    dependencyType,
+                    modulesByType,
                     availableModuleTypes,
-                    _dependencyRegistry,
-                    _metadataRegistry)
-                .Where(dependency => !dependency.Optional)
-                .Select(dependency => dependency.DependencyType);
-            foreach (var dependencyType in requiredDependencies)
+                    ignoredModuleTypes,
+                    unrecoverableIgnoredModuleTypes,
+                    consumedProducerTypes,
+                    visitedTypes,
+                    historicalResults,
+                    planningSkipDecisions,
+                    pipelineContext)
+                .ConfigureAwait(false);
+            if (dependencyDemand.IsUnrecoverable)
             {
-                var availability = await GetDependencyAvailabilityAsync(
-                        dependencyType,
-                        modulesByType,
-                        ignoredModuleTypes,
-                        unrecoverableIgnoredModuleTypes,
-                        consumedProducerTypes,
-                        visitedTypes,
-                        historicalResults,
-                        planningSkipDecisions,
-                        pipelineContext)
-                    .ConfigureAwait(false);
-                if (availability.IsUnrecoverable)
-                {
-                    return new RequiredDependencyDemand(
-                        IsUnrecoverable: true,
-                        HasPendingDependency: hasPendingDependency);
-                }
-
-                if (availability.ModuleToTraverse is not null)
-                {
-                    hasPendingDependency = true;
-                    pending.Push(availability.ModuleToTraverse);
-                }
+                return new RequiredDependencyDemand(
+                    IsUnrecoverable: true,
+                    HasPendingDependency: hasPendingDependency
+                                          || dependencyDemand.HasPendingDependency);
             }
+
+            hasPendingDependency |= dependencyDemand.HasPendingDependency;
         }
 
         return new RequiredDependencyDemand(
@@ -240,9 +257,10 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             HasPendingDependency: hasPendingDependency);
     }
 
-    private async Task<DependencyAvailability> GetDependencyAvailabilityAsync(
+    private async Task<RequiredDependencyDemand> GetDependencyDemandAsync(
         Type dependencyType,
         IReadOnlyDictionary<Type, IModule> modulesByType,
+        IReadOnlyCollection<Type> availableModuleTypes,
         IReadOnlySet<Type> ignoredModuleTypes,
         IReadOnlySet<Type> unrecoverableIgnoredModuleTypes,
         IReadOnlySet<Type> consumedProducerTypes,
@@ -255,13 +273,37 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
         {
             var isUnrecoverable = !consumedProducerTypes.Contains(dependencyType)
                                   && unrecoverableIgnoredModuleTypes.Contains(dependencyType);
-            return new DependencyAvailability(null, isUnrecoverable);
+            return new RequiredDependencyDemand(isUnrecoverable, HasPendingDependency: false);
         }
 
         if (!visitedTypes.Add(dependencyType)
             || !modulesByType.TryGetValue(dependencyType, out var dependencyModule))
         {
             return default;
+        }
+
+        var transitiveDemand = await GetRequiredDependencyDemandAsync(
+                dependencyModule,
+                modulesByType,
+                availableModuleTypes,
+                ignoredModuleTypes,
+                unrecoverableIgnoredModuleTypes,
+                consumedProducerTypes,
+                historicalResults,
+                planningSkipDecisions,
+                pipelineContext,
+                visitedTypes)
+            .ConfigureAwait(false);
+        if (transitiveDemand.IsUnrecoverable)
+        {
+            return new RequiredDependencyDemand(
+                IsUnrecoverable: true,
+                HasPendingDependency: true);
+        }
+
+        if (transitiveDemand.HasPendingDependency)
+        {
+            return transitiveDemand;
         }
 
         if (!planningSkipDecisions.TryGetValue(dependencyModule, out var skipDecision))
@@ -274,7 +316,9 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
 
         if (skipDecision?.ShouldSkip != true)
         {
-            return new DependencyAvailability(dependencyModule, IsUnrecoverable: false);
+            return new RequiredDependencyDemand(
+                IsUnrecoverable: false,
+                HasPendingDependency: true);
         }
 
         if (!historicalResults.TryGetValue(dependencyModule, out var historicalResult))
@@ -285,12 +329,10 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             historicalResults[dependencyModule] = historicalResult;
         }
 
-        return new DependencyAvailability(null, historicalResult is null);
+        return new RequiredDependencyDemand(
+            IsUnrecoverable: historicalResult is null,
+            HasPendingDependency: false);
     }
-
-    private readonly record struct DependencyAvailability(
-        IModule? ModuleToTraverse,
-        bool IsUnrecoverable);
 
     private readonly record struct RequiredDependencyDemand(
         bool IsUnrecoverable,

@@ -57,9 +57,6 @@ internal sealed class ArtifactContractValidator : IPipelineValidator
             .Concat(ignoredModules.Select(ignoredModule => ignoredModule.Module))
             .Distinct<IModule>(ReferenceEqualityComparer.Instance)
             .ToArray();
-        var modulesByType = modules
-            .GroupBy(module => module.GetType())
-            .ToDictionary(group => group.Key, group => group.First());
         var dependencyRegistry = services.GetRequiredService<IModuleDependencyRegistry>();
         var metadataRegistry = services.GetRequiredService<IModuleMetadataRegistry>();
         var skipEvaluator = services.GetRequiredService<ModulePlanningSkipEvaluator>();

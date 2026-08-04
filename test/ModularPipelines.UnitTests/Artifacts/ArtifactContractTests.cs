@@ -462,6 +462,22 @@ public class ArtifactContractTests
         }
     }
 
+    [ModularPipelines.Attributes.DependsOn<SkippedArtifactProducerModule>]
+    [ModularPipelines.Attributes.DependsOn<StateDependentIntermediateModule>]
+    [ConsumesArtifact(typeof(SkippedArtifactProducerModule), "skipped-runtime")]
+    private sealed class PrerequisiteStateArtifactConsumerModule : Module<string>
+    {
+        public static bool Executed { get; set; }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.FromResult<string?>("consumed");
+        }
+    }
+
     [ProducesArtifact("multiple-output", MultipleProducedPattern)]
     private sealed class MultipleDirectoryProducerModule : Module<string>
     {
@@ -2077,6 +2093,50 @@ public class ArtifactContractTests
                 await Assert.That(unrelatedResult.ModuleStatus).IsEqualTo(Enums.Status.Successful);
                 await Assert.That(IndependentDependencySkippedArtifactConsumerModule.Executed)
                     .IsFalse();
+            }
+        }
+        finally
+        {
+            DeleteLocalArtifacts();
+        }
+    }
+
+    [Test]
+    public async Task IgnoredProducerTraversesPrerequisitesBeforeCachingDependencySkip()
+    {
+        DeleteLocalArtifacts();
+        DependencyStateSourceModule.IsReady = false;
+        StateDependentIntermediateModule.Executed = false;
+        PrerequisiteStateArtifactConsumerModule.Executed = false;
+
+        try
+        {
+            using var builder = Pipeline.CreateBuilder();
+            builder.ConfigurePipelineOptions(options => options with
+            {
+                SkippedModules = [nameof(SkippedArtifactProducerModule)],
+            });
+            builder.AddModule<SkippedArtifactProducerModule>();
+            builder.AddModule<DependencyStateSourceModule>();
+            builder.AddModule<StateDependentIntermediateModule>();
+            builder.AddModule<PrerequisiteStateArtifactConsumerModule>();
+            builder.AddResultsRepository<ArtifactHistoryRepository>();
+
+            var summary = await builder.ExecutePipelineAsync();
+            var producerResult = await summary.Modules
+                .OfType<SkippedArtifactProducerModule>()
+                .Single();
+            var consumerResult = await summary.Modules
+                .OfType<PrerequisiteStateArtifactConsumerModule>()
+                .Single();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(producerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(DependencyStateSourceModule.IsReady).IsTrue();
+                await Assert.That(StateDependentIntermediateModule.Executed).IsTrue();
+                await Assert.That(consumerResult.ModuleStatus).IsEqualTo(Enums.Status.Skipped);
+                await Assert.That(PrerequisiteStateArtifactConsumerModule.Executed).IsFalse();
             }
         }
         finally
