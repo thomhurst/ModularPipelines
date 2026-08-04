@@ -25,7 +25,6 @@ public class ModuleMetadataRegistryTests
             .WithTags("direct-tag")
             .WithCategory("direct-category")
             .Build();
-
     }
 
     [ModuleTag("attribute-tag")]
@@ -35,7 +34,6 @@ public class ModuleMetadataRegistryTests
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
-
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
@@ -49,7 +47,6 @@ public class ModuleMetadataRegistryTests
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
-
     }
 
     [Cached]
@@ -59,7 +56,6 @@ public class ModuleMetadataRegistryTests
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
-
     }
 
     private sealed class ConfigurationCountingModule : IModule
@@ -76,7 +72,6 @@ public class ModuleMetadataRegistryTests
                 return ModuleConfiguration.Default;
             }
         }
-
     }
 
     private static ModuleMetadataRegistry CreateRegistry()

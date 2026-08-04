@@ -23,7 +23,6 @@ public class ModuleSchedulerConfigurationTests
         public Type ResultType => typeof(string);
 
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Default;
-
     }
 
     [Test]

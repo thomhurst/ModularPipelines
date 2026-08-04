@@ -22,7 +22,6 @@ public class ModuleDependencyResolverTests
         public ModuleConfiguration Configuration { get; } = ModuleConfiguration.Create()
             .DependsOnOptional<DependencyModule>()
             .Build();
-
     }
 
     [Test]
