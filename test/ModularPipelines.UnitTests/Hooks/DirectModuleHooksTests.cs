@@ -362,6 +362,16 @@ public class DirectModuleHooksTests : TestBase
         await Assert.That(module.ReceivedAfterResult.ExceptionOrDefault)
             .IsTypeOf<InvalidOperationException>();
         await Assert.That(module.AfterHookCancellationRequested).IsFalse();
+
+        var registeredResult = host.Services
+            .GetRequiredService<IModuleResultRegistry>()
+            .GetResult(typeof(NonIgnoredFailingHookTrackingModule));
+        var awaitedResult = await module;
+
+        await Assert.That(registeredResult!.ExceptionOrDefault)
+            .IsTypeOf<InvalidOperationException>();
+        await Assert.That(awaitedResult.ExceptionOrDefault)
+            .IsTypeOf<InvalidOperationException>();
     }
 
     [Test]

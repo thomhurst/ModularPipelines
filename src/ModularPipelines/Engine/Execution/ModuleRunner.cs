@@ -682,7 +682,9 @@ internal class ModuleRunner : IModuleRunner
             executionContext.Status = Enums.Status.Failed;
         }
 
-        var result = CreateFailureResult(moduleState.Module, moduleState.ModuleType, executionContext, exception);
+        var result = executionContext.ExecutionTask.IsCompletedSuccessfully
+            ? await executionContext.ExecutionTask.ConfigureAwait(false)
+            : CreateFailureResult(moduleState.Module, moduleState.ModuleType, executionContext, exception);
         PublishModuleResult(moduleState, executionContext, result);
 
         try
