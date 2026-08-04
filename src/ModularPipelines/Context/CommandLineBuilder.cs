@@ -92,15 +92,16 @@ internal sealed class CommandLineBuilder(
             commandSpecificModel,
             terminatorEmittedBeforeProperties);
 
-        // Keep recognized manual options ahead of a marker emitted by a structured argument;
-        // leave manual positional operands in place after that structured argument.
+        // Keep recognized manual options ahead of a marker emitted by a structured argument
+        // or declared in the manual arguments; leave manual positional operands in place.
+        var hasOptionTerminator = emittedOptionTerminator || options.ArgumentsContainOptionTerminator;
         var leadingManualGlobalOptions = options.ArgumentsContainToolOptions
-            && emittedOptionTerminator
+            && hasOptionTerminator
             ? ExtractRecognizedManualOptions(manualArgs, globalCommandModel)
             : [];
         var leadingManualCommandOptions = options.ArgumentsContainToolOptions
             && !terminatorEmittedBeforeProperties
-            && emittedOptionTerminator
+            && hasOptionTerminator
             ? ExtractRecognizedManualOptions(manualArgs, commandSpecificModel)
             : [];
         globalArgs.InsertRange(
@@ -110,8 +111,12 @@ internal sealed class CommandLineBuilder(
         {
             propertyArgs.InsertRange(insertionIndex, leadingManualCommandOptions);
         }
+        else
+        {
+            propertyArgs.AddRange(leadingManualCommandOptions);
+        }
         if (options.ArgumentsContainToolOptions
-            && (emittedOptionTerminator || options.ArgumentsContainOptionTerminator)
+            && hasOptionTerminator
             && ContainsRecognizedManualOption(manualArgs, terminalCommandModel))
         {
             throw new InvalidOperationException(

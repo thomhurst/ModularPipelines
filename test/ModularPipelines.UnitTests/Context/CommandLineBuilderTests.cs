@@ -292,6 +292,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_Manual_Option_Before_Manual_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestManualTerminatorOptions
+        {
+            Filter = ".",
+            Arguments = ["--", "input.json", "--compact-output"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq . --compact-output -- input.json");
+    }
+
+    [Test]
     public async Task Build_Hoists_Manual_Global_Option_Before_Command()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -590,6 +607,16 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(1, Phase = CommandLinePhase.Terminal, PrependOptionTerminator = true)]
         public string? TerminalArgument { get; set; }
+    }
+
+    [CliTool("jq")]
+    private record TestManualTerminatorOptions : CommandLineToolOptions
+    {
+        [CliFlag("--compact-output")]
+        public bool? CompactOutput { get; set; }
+
+        [CliArgument(0)]
+        public string? Filter { get; set; }
     }
 
     [CliTool("mytool")]
