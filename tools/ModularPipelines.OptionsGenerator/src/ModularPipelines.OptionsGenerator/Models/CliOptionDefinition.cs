@@ -1,3 +1,7 @@
+using System.Collections.Concurrent;
+using System.Collections.Immutable;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using ModularPipelines.Attributes;
 
 namespace ModularPipelines.OptionsGenerator.Models;
@@ -7,6 +11,10 @@ namespace ModularPipelines.OptionsGenerator.Models;
 /// </summary>
 public record CliOptionDefinition
 {
+    private const string CollectionProbeTypeName = "CollectionShapeProbe.Probe";
+    private static readonly ConcurrentDictionary<string, CollectionShapeResolution> CollectionShapes = new(StringComparer.Ordinal);
+    private static readonly Lazy<CSharpCompilation> CollectionProbeCompilation = new(CreateCollectionProbeCompilation);
+
     /// <summary>
     /// The CLI switch name (e.g., "--output", "-o").
     /// </summary>
@@ -31,6 +39,120 @@ public record CliOptionDefinition
     /// C# type (e.g., "string?", "bool?", "int?").
     /// </summary>
     public required string CSharpType { get; init; }
+
+    /// <summary>
+    /// C# type emitted for the generated property.
+    /// </summary>
+    public string PropertyType => (ValueArity, UsesCollectionShape) switch
+    {
+        (CliOptionValueArity.Optional, true) => "IEnumerable<CliOptionValue>?",
+        (CliOptionValueArity.Optional, false) => "CliOptionValue?",
+        _ => CSharpType,
+    };
+
+    private bool UsesCollectionShape
+    {
+        get
+        {
+            if (AcceptsMultipleValues || GroupValues)
+            {
+                return true;
+            }
+
+            return TryGetCollectionShape(CSharpType, out var isCollection)
+                ? isCollection
+                : IsCollection ?? false;
+        }
+    }
+
+    internal static bool TryGetCollectionShape(string cSharpType, out bool isCollection)
+    {
+        var resolution = CollectionShapes.GetOrAdd(
+            cSharpType,
+            static typeName => ResolveCollectionShape(typeName));
+        isCollection = resolution.IsCollection;
+        return resolution.IsResolved;
+    }
+
+    private static CollectionShapeResolution ResolveCollectionShape(string cSharpType)
+    {
+        var source = $$"""
+            #nullable enable
+            using System;
+            using System.Collections;
+            using System.Collections.Concurrent;
+            using System.Collections.Frozen;
+            using System.Collections.Generic;
+            using System.Collections.Immutable;
+            using System.Collections.ObjectModel;
+
+            namespace CollectionShapeProbe;
+
+            internal sealed class Probe
+            {
+                internal {{cSharpType}} Value { get; } = default!;
+            }
+            """;
+        var compilation = CollectionProbeCompilation.Value.AddSyntaxTrees(
+            CSharpSyntaxTree.ParseText(source));
+        var propertyType = compilation.GetTypeByMetadataName(CollectionProbeTypeName)?
+            .GetMembers("Value")
+            .OfType<IPropertySymbol>()
+            .SingleOrDefault()?
+            .Type;
+        if (propertyType is INamedTypeSymbol
+            {
+                OriginalDefinition.SpecialType: SpecialType.System_Nullable_T,
+                TypeArguments.Length: 1,
+            } nullableType)
+        {
+            propertyType = nullableType.TypeArguments[0];
+        }
+
+        if (propertyType is null || propertyType.TypeKind == TypeKind.Error)
+        {
+            return default;
+        }
+
+        if (propertyType.SpecialType == SpecialType.System_String)
+        {
+            return new CollectionShapeResolution(IsResolved: true, IsCollection: false);
+        }
+
+        var isCollection = propertyType is IArrayTypeSymbol
+                           || propertyType.SpecialType == SpecialType.System_Collections_IEnumerable
+                           || propertyType.AllInterfaces.Any(
+                               interfaceType => interfaceType.SpecialType == SpecialType.System_Collections_IEnumerable);
+        return new CollectionShapeResolution(IsResolved: true, IsCollection: isCollection);
+    }
+
+    private static PortableExecutableReference[] GetPlatformReferences()
+    {
+        if (AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") is string trustedPlatformAssemblies)
+        {
+            return
+            [
+                .. trustedPlatformAssemblies
+                .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+                .Where(File.Exists)
+                .Select(path => MetadataReference.CreateFromFile(path)),
+            ];
+        }
+
+        return
+        [
+            MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+            MetadataReference.CreateFromFile(typeof(ImmutableArray<>).Assembly.Location),
+        ];
+    }
+
+    private static CSharpCompilation CreateCollectionProbeCompilation() =>
+        CSharpCompilation.Create(
+            "CollectionShapeProbe",
+            references: GetPlatformReferences(),
+            options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+    private readonly record struct CollectionShapeResolution(bool IsResolved, bool IsCollection);
 
     /// <summary>
     /// Description for XML documentation.
@@ -78,6 +200,11 @@ public record CliOptionDefinition
     public bool GroupValues { get; init; }
 
     /// <summary>
+    /// Whether an optional value type unavailable to the generator has collection semantics.
+    /// </summary>
+    public bool? IsCollection { get; init; }
+
+    /// <summary>
     /// Whether this is a key-value pair option.
     /// </summary>
     public bool IsKeyValue { get; init; }
@@ -86,7 +213,9 @@ public record CliOptionDefinition
     /// Whether generated code needs the ModularPipelines.Models namespace for this option type.
     /// </summary>
     public bool RequiresModelsNamespace
-        => IsKeyValue || CSharpType.Contains("CliValuePair", StringComparison.Ordinal);
+        => IsKeyValue
+           || ValueArity == CliOptionValueArity.Optional
+           || CSharpType.Contains("CliValuePair", StringComparison.Ordinal);
 
     /// <summary>
     /// Whether the value is numeric.

@@ -12,7 +12,7 @@ public enum CliOptionValueArity
 
     /// <summary>
     /// The option can be rendered either bare or with a value.
-    /// A null property omits the option; an empty string renders it bare.
+    /// A null property omits the option; <see cref="ModularPipelines.Models.CliOptionValue.Bare"/> renders it bare.
     /// </summary>
     Optional,
 }

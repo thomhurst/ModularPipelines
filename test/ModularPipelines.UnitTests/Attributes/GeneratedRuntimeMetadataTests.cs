@@ -25,7 +25,7 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
         ValueArity = CliOptionValueArity.Optional,
         GroupValues = true,
         Phase = CommandLinePhase.Terminal)]
-    public string[]? Output { get; init; }
+    public IEnumerable<CliOptionValue>? Output { get; init; }
 
     [SecretValue]
     public string? Token { get; init; }
@@ -118,7 +118,7 @@ public class GeneratedRuntimeMetadataTests
         {
             File = "pipeline.yml",
             Verbose = true,
-            Output = ["json", "yaml"],
+            Output = [CliOptionValue.Bare, "json"],
         };
 
         var found = GeneratedCommandMetadata.TryGet(typeof(GeneratedMetadataOptions), out var model);
