@@ -536,6 +536,31 @@ public class DependencyGraphExporterTests
         public bool TrySetDistributedResult(IModuleResult result) => false;
     }
 
+    private sealed class ServiceBackedDirectInterfaceModule(DirectModulePlanningState state)
+        : IModule
+    {
+        public Type ResultType => typeof(string);
+
+        public ModuleConfiguration Configuration
+        {
+            get
+            {
+                state.ConfigurationReads++;
+                return ModuleConfiguration.Default;
+            }
+        }
+
+        public Task<IModuleResult> ResultTask =>
+            Task.FromException<IModuleResult>(new InvalidOperationException("Not executed by this test."));
+
+        public bool TrySetDistributedResult(IModuleResult result) => false;
+    }
+
+    private sealed class DirectModulePlanningState
+    {
+        public int ConfigurationReads { get; set; }
+    }
+
     private sealed class PlanningSingletonDependency
     {
         public bool IncludeDependency { get; init; }
@@ -2689,6 +2714,28 @@ public class DependencyGraphExporterTests
         finally
         {
             StatefulDirectInterfaceModule.InitialConfigurationCallCount = 0;
+        }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Service_Backed_Direct_Module_Before_Configuration()
+    {
+        var state = new DirectModulePlanningState();
+        var runtimeModule = new ServiceBackedDirectInterfaceModule(state);
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton(state);
+        builder.AddModule(runtimeModule);
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var configurationReadsBeforeExport = state.ConfigurationReads;
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("shares service-provider-owned state");
+            await Assert.That(state.ConfigurationReads).IsEqualTo(configurationReadsBeforeExport);
         }
     }
 

@@ -277,6 +277,15 @@ internal sealed class ModuleDiscoveryPlanner(
                 "during dependency-graph planning. The factory must return a fresh module instance.");
         }
 
+        if (runtimeModule is not IPlanningModuleCopyProvider
+            && HasServiceProviderOwnedState(planningModule, isServiceProviderOwned))
+        {
+            throw new PipelineException(
+                $"The direct module '{runtimeModule.GetType().FullName}' shares service-provider-owned state " +
+                "with its dependency-graph planning instance. Derive from Module<T> and override " +
+                "CreatePlanningCopy to return an isolated copy.");
+        }
+
         if (!IsEquivalentPlanningModule(
                 runtimeModule,
                 planningModule,
