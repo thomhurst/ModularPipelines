@@ -48,6 +48,14 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
         _ = metadata.Value;
     }
 
+    public void CopyRegistrationMetadataTo(IModuleMetadataRegistry destination)
+    {
+        foreach (var ((moduleType, key), value) in _metadata)
+        {
+            destination.SetMetadata(moduleType, key, value);
+        }
+    }
+
     /// <inheritdoc />
     public IReadOnlySet<string> GetTags(Type moduleType)
         => _finalizedMetadata.TryGetValue(moduleType, out var meta) ? meta.Value.Tags : FrozenSet<string>.Empty;

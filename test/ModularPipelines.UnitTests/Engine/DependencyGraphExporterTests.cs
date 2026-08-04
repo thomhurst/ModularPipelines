@@ -2073,7 +2073,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Does_Not_Cache_Registration_Before_Startup_Hooks()
+    public async Task Render_Caches_Registration_Before_Startup_Hooks()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
@@ -2088,7 +2088,7 @@ public class DependencyGraphExporterTests
             .GetDynamicDependencies(typeof(StartupDynamicDependencyModule))
             .ToArray();
         var summary = await pipeline.RunAsync();
-        var dynamicDependencies = dependencyRegistry
+        var dependenciesAfterRun = dependencyRegistry
             .GetDynamicDependencies(typeof(StartupDynamicDependencyModule))
             .ToArray();
 
@@ -2096,7 +2096,7 @@ public class DependencyGraphExporterTests
         {
             await Assert.That(dependenciesBeforeRun).IsEmpty();
             await Assert.That(summary.Results).Count().IsEqualTo(2);
-            await Assert.That(dynamicDependencies).Contains(typeof(DependencyModule));
+            await Assert.That(dependenciesAfterRun).IsEmpty();
         }
     }
 
@@ -2203,6 +2203,21 @@ public class DependencyGraphExporterTests
             await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
             await Assert.That(factoryCalls).IsEqualTo(1);
         }
+    }
+
+    [Test]
+    public async Task Render_Then_Run_Invokes_Registration_Receivers_Once()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DisposablePlanningModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        _planningRegistrationEvents = 0;
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        _ = await pipeline.RunAsync();
+
+        await Assert.That(_planningRegistrationEvents).IsEqualTo(1);
     }
 
     [Test]

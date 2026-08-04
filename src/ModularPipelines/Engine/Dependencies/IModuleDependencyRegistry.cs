@@ -12,4 +12,6 @@ internal interface IModuleDependencyRegistry
     IEnumerable<Type> GetDynamicDependencies(Type module);
 
     bool HasDynamicDependencies(Type module);
+
+    void CopyDynamicDependenciesTo(IModuleDependencyRegistry destination);
 }

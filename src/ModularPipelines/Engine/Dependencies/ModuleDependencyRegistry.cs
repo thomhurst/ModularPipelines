@@ -98,4 +98,21 @@ internal class ModuleDependencyRegistry : IModuleDependencyRegistry
             return _dynamicDependencies.TryGetValue(module, out var deps) && deps.Count > 0;
         }
     }
+
+    public void CopyDynamicDependenciesTo(IModuleDependencyRegistry destination)
+    {
+        (Type Module, Type Dependency)[] dependencies;
+        lock (_lock)
+        {
+            dependencies = _dynamicDependencies
+                .SelectMany(pair => pair.Value.Select(dependency =>
+                    (pair.Key, dependency)))
+                .ToArray();
+        }
+
+        foreach (var (module, dependency) in dependencies)
+        {
+            destination.AddDynamicDependency(module, dependency);
+        }
+    }
 }

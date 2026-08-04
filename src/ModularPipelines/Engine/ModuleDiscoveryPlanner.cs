@@ -2,9 +2,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Configuration;
 using ModularPipelines.Engine.Attributes;
@@ -19,9 +17,9 @@ namespace ModularPipelines.Engine;
 
 internal sealed class ModuleDiscoveryPlanner(
     IModuleConditionHandler moduleConditionHandler,
-    IAttributeEventInvoker attributeEventInvoker,
-    IConfiguration configuration,
-    IHostEnvironment environment,
+    IRegistrationEventExecutor registrationEventExecutor,
+    IModuleDependencyRegistry dependencyRegistry,
+    IModuleMetadataRegistry metadataRegistry,
     IEnumerable<IModule> modules,
     ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
     IOptions<PipelineOptions> pipelineOptions,
@@ -76,23 +74,18 @@ internal sealed class ModuleDiscoveryPlanner(
                 originalModules.Add(planningModules[index], _modules[index]);
             }
 
-            var dependencyRegistry = new ModuleDependencyRegistry();
-            var attributeEventService = new ModuleAttributeEventService();
-            var metadataRegistry = new ModuleMetadataRegistry(attributeEventService);
-            var dependencyChainProvider = new DependencyChainProvider(
-                metadataRegistry,
-                dependencyRegistry);
-            var registrationEventExecutor = new RegistrationEventExecutor(
-                attributeEventService,
-                attributeEventInvoker,
-                dependencyRegistry,
-                metadataRegistry,
-                configuration,
-                environment);
             cancellationToken.ThrowIfCancellationRequested();
-            await registrationEventExecutor.InvokeRegistrationEventsAsync(
-                    planningModules)
+            await registrationEventExecutor.InvokeRegistrationEventsAsync(_modules)
                 .ConfigureAwait(false);
+
+            var planningDependencyRegistry = new ModuleDependencyRegistry();
+            dependencyRegistry.CopyDynamicDependenciesTo(planningDependencyRegistry);
+            var attributeEventService = new ModuleAttributeEventService();
+            var planningMetadataRegistry = new ModuleMetadataRegistry(attributeEventService);
+            metadataRegistry.CopyRegistrationMetadataTo(planningMetadataRegistry);
+            var dependencyChainProvider = new DependencyChainProvider(
+                planningMetadataRegistry,
+                planningDependencyRegistry);
 
             var moduleSelection = ModuleSelection.Create(
                 planningModules,
@@ -110,7 +103,7 @@ internal sealed class ModuleDiscoveryPlanner(
                 }
 
                 var (shouldIgnore, skipDecision) = await moduleConditionHandler
-                    .ShouldIgnoreByCategory(module, metadataRegistry, cancellationToken)
+                    .ShouldIgnoreByCategory(module, planningMetadataRegistry, cancellationToken)
                     .ConfigureAwait(false);
                 if (shouldIgnore)
                 {
@@ -136,8 +129,8 @@ internal sealed class ModuleDiscoveryPlanner(
             return new PlannedModuleDiscovery(
                 new OrganizedModules(runnableModulesWithEstimatedDuration, ignoredModules),
                 dependencyChainProvider,
-                dependencyRegistry,
-                metadataRegistry,
+                planningDependencyRegistry,
+                planningMetadataRegistry,
                 originalModules,
                 ownedPlanningModules,
                 planningScope);
