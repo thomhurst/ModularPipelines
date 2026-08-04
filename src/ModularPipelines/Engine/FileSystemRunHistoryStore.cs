@@ -12,6 +12,7 @@ internal sealed class FileSystemRunHistoryStore(
     ILogger<FileSystemRunHistoryStore> logger) : IRunHistoryStore
 {
     private const string OwnedFilePrefix = "modularpipelines-run-";
+    private const int MinimumCompatibleSchemaVersion = 1;
 
     public Task<PipelineRunReport?> GetLatestAsync(CancellationToken cancellationToken = default) =>
         GetLatestAsyncCore($"{OwnedFilePrefix}*.json", pipelineIdentity: null, cancellationToken);
@@ -36,6 +37,7 @@ internal sealed class FileSystemRunHistoryStore(
         }
 
         PipelineRunReport? latestReport = null;
+        var incompatibleSchemaLogged = false;
         foreach (var file in Directory.EnumerateFiles(
                      directory,
                      searchPattern,
@@ -45,18 +47,19 @@ internal sealed class FileSystemRunHistoryStore(
             try
             {
                 var json = await File.ReadAllTextAsync(file, cancellationToken).ConfigureAwait(false);
-                if (RunReportJsonSerializer.Deserialize(json) is
-                    { SchemaVersion: PipelineRunReport.CurrentSchemaVersion } report
-                    && (pipelineIdentity is null
-                        || string.Equals(
-                            report.PipelineIdentity,
-                            pipelineIdentity,
-                            StringComparison.Ordinal)))
+                if (!TryDeserializeCompatibleReport(json, ref incompatibleSchemaLogged, out var report))
                 {
-                    if (latestReport is null || report.End > latestReport.End)
-                    {
-                        latestReport = report;
-                    }
+                    continue;
+                }
+
+                if ((pipelineIdentity is null
+                     || string.Equals(
+                         report.PipelineIdentity,
+                         pipelineIdentity,
+                         StringComparison.Ordinal))
+                    && (latestReport is null || report.End > latestReport.End))
+                {
+                    latestReport = report;
                 }
             }
             catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or System.Text.Json.JsonException)
@@ -67,6 +70,42 @@ internal sealed class FileSystemRunHistoryStore(
 
         return latestReport;
     }
+
+    private bool TryDeserializeCompatibleReport(
+        string json,
+        ref bool incompatibleSchemaLogged,
+        out PipelineRunReport report)
+    {
+        var deserializedReport = RunReportJsonSerializer.Deserialize(json);
+        if (deserializedReport is null)
+        {
+            report = null!;
+            return false;
+        }
+
+        report = deserializedReport;
+        if (IsSchemaVersionCompatible(report.SchemaVersion))
+        {
+            return true;
+        }
+
+        if (!incompatibleSchemaLogged)
+        {
+            logger.LogWarning(
+                "Skipped pipeline run history with schema version {SchemaVersion}; supported versions are {MinimumSchemaVersion} through {CurrentSchemaVersion}",
+                report.SchemaVersion,
+                MinimumCompatibleSchemaVersion,
+                PipelineRunReport.CurrentSchemaVersion);
+            incompatibleSchemaLogged = true;
+        }
+
+        return false;
+    }
+
+    internal static bool IsSchemaVersionCompatible(
+        int schemaVersion,
+        int currentSchemaVersion = PipelineRunReport.CurrentSchemaVersion) =>
+        schemaVersion >= MinimumCompatibleSchemaVersion && schemaVersion <= currentSchemaVersion;
 
     public async Task SaveAsync(
         PipelineRunReport report,

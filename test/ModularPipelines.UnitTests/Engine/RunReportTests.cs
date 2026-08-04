@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Loader;
+using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -20,6 +21,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
 using ModularPipelines.UnitTests.Attributes;
+using ModularPipelines.UnitTests.Logging;
 using ModularPipelines.Validation;
 using Moq;
 using OptionsFactory = Microsoft.Extensions.Options.Options;
@@ -824,6 +826,62 @@ public class RunReportTests
                 await Assert.That(latest?.PipelineIdentity).IsEqualTo("pipeline-b");
                 await Assert.That(Directory.GetFiles(directory, "modularpipelines-run-*.json"))
                     .Count().IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task FileSystemHistoryStoreAcceptsAdditiveOlderSchemas()
+    {
+        using (Assert.Multiple())
+        {
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(1, 2)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(2, 2)).IsTrue();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(0, 2)).IsFalse();
+            await Assert.That(FileSystemRunHistoryStore.IsSchemaVersionCompatible(3, 2)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task FileSystemHistoryStoreLogsUnsupportedSchemaOncePerRead()
+    {
+        var directory = CreateTemporaryDirectory();
+        var log = new StringBuilder();
+        var store = new FileSystemRunHistoryStore(
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    HistoryDirectory = directory,
+                    HistoryRetention = 2,
+                },
+            }),
+            new StringLogger<FileSystemRunHistoryStore>(log));
+
+        try
+        {
+            for (var second = 1; second <= 2; second++)
+            {
+                await store.SaveAsync(new PipelineRunReport
+                {
+                    SchemaVersion = PipelineRunReport.CurrentSchemaVersion + 1,
+                    PipelineIdentity = "pipeline-a",
+                    End = new DateTimeOffset(2026, 8, 2, 12, 0, second, TimeSpan.Zero),
+                });
+            }
+
+            var latest = await store.GetLatestAsync("pipeline-a");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(latest).IsNull();
+                await Assert.That(log.ToString().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+                    .Count().IsEqualTo(1);
+                await Assert.That(log.ToString()).Contains("supported versions are 1 through");
             }
         }
         finally
