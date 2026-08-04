@@ -159,6 +159,15 @@ built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
 
 **Severity:** Warning
 
+## MPG0017
+
+A type registered through the options dependency-injection APIs was emitted by another
+source generator in the same compilation. Source generators cannot observe one another's
+output, so trim-safe runtime metadata cannot be generated. Declare the type in user source
+or a referenced assembly before publishing with trimming or Native AOT.
+
+**Severity:** Error
+
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
 

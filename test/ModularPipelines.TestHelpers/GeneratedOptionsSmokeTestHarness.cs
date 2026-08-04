@@ -418,9 +418,7 @@ public static class GeneratedOptionsSmokeTestHarness
             return;
         }
 
-        var backingField = property.DeclaringType?.GetField(
-            $"<{property.Name}>k__BackingField",
-            BindingFlags.Instance | BindingFlags.NonPublic);
+        var backingField = GetBackingField(property);
 
         if (backingField is null)
         {
@@ -433,9 +431,12 @@ public static class GeneratedOptionsSmokeTestHarness
 
     private static bool CanAssign(PropertyInfo property) =>
         property.SetMethod is not null
-        || property.DeclaringType?.GetField(
+        || GetBackingField(property) is not null;
+
+    private static FieldInfo? GetBackingField(PropertyInfo property) =>
+        property.DeclaringType?.GetField(
             $"<{property.Name}>k__BackingField",
-            BindingFlags.Instance | BindingFlags.NonPublic) is not null;
+            BindingFlags.Instance | BindingFlags.NonPublic);
 
     private static IReadOnlyList<string> GetValues(object value) =>
         value switch

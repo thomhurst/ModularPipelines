@@ -47,10 +47,12 @@ public class GeneratedOptionsRegistrationAnalyzerTests
         var diagnostic = diagnostics.Single();
         using (Assert.Multiple())
         {
-            await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0017");
             await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
             await Assert.That(diagnostic.GetMessage())
                 .Contains("global::PeerGeneratedOptions");
+            await Assert.That(diagnostic.GetMessage())
+                .Contains("emitted by another source generator");
         }
     }
 

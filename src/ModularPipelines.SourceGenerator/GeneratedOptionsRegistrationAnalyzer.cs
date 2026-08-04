@@ -16,7 +16,7 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
 {
     /// <inheritdoc />
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        [GeneratorDiagnostics.SkippedRuntimeMetadata];
+        [GeneratorDiagnostics.PeerGeneratedRuntimeMetadata];
 
     /// <inheritdoc />
     public override void Initialize(AnalysisContext context)
@@ -53,7 +53,7 @@ public sealed class GeneratedOptionsRegistrationAnalyzer : DiagnosticAnalyzer
                         && IsGeneratedSourceType(registration.Key, endContext.CancellationToken))
                     {
                         endContext.ReportDiagnostic(Diagnostic.Create(
-                            GeneratorDiagnostics.SkippedRuntimeMetadata,
+                            GeneratorDiagnostics.PeerGeneratedRuntimeMetadata,
                             registration.Value,
                             registration.Key.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)));
                     }

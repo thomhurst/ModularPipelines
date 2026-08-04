@@ -129,6 +129,14 @@ internal static class GeneratorDiagnostics
         + "publishing with Native AOT",
         DiagnosticSeverity.Warning);
 
+    public static DiagnosticDescriptor PeerGeneratedRuntimeMetadata { get; } = Create(
+        "MPG0017",
+        "Peer-generated type lacks runtime metadata",
+        "Runtime metadata for '{0}' cannot be generated because the type was emitted by another "
+        + "source generator in this compilation; declare the type in user source or a referenced "
+        + "assembly so it is visible to the metadata generator",
+        DiagnosticSeverity.Error);
+
     private static DiagnosticDescriptor Create(
         string id,
         string title,
