@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 
 namespace ModularPipelines.Helpers.Internal;
 
@@ -146,8 +147,13 @@ public static class GeneratedCommandMetadata
     internal static bool IsAssemblyProcessed(Assembly assembly) =>
         ProcessedAssemblies.TryGetValue(assembly, out _);
 
-    internal static bool IsGeneratedMetadataRequired =>
-        ProcessedAssemblies.Any(static registration => registration.Value.RequiresGeneratedMetadata);
+    internal static bool IsGeneratedMetadataRequired(Assembly assembly)
+    {
+        var loadContext = AssemblyLoadContext.GetLoadContext(assembly);
+        return ProcessedAssemblies.Any(registration =>
+            registration.Value.RequiresGeneratedMetadata
+            && ReferenceEquals(AssemblyLoadContext.GetLoadContext(registration.Key), loadContext));
+    }
 
     internal static bool IsTypeCovered(Type type)
     {

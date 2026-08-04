@@ -161,7 +161,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         var type = value.GetType();
         if (!GeneratedSecretMetadata.TryGetAccessors(type, out var secretProperties))
         {
-            var reflectionFallbackIsUnsafe = GeneratedSecretMetadata.IsGeneratedMetadataRequired
+            var reflectionFallbackIsUnsafe = GeneratedSecretMetadata.IsGeneratedMetadataRequired(type.Assembly)
                                              || !RuntimeFeature.IsDynamicCodeSupported;
             if (GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly))
             {

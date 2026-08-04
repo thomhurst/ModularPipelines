@@ -423,6 +423,34 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task GeneratedMetadataRequirement_DoesNotCrossLoadContexts()
+    {
+        var assemblyPath = typeof(VisualBasicSecretOptions).Assembly.Location;
+        var trimmedContext = new AssemblyLoadContext("TrimmedAssembly", isCollectible: true);
+        var jitContext = new AssemblyLoadContext("JitAssembly", isCollectible: true);
+        try
+        {
+            var trimmedAssembly = trimmedContext.LoadFromAssemblyPath(assemblyPath);
+            var jitAssembly = jitContext.LoadFromAssemblyPath(assemblyPath);
+            GeneratedCommandMetadata.RegisterAssembly(trimmedAssembly, requiresGeneratedMetadata: true);
+            GeneratedSecretMetadata.RegisterAssembly(trimmedAssembly, requiresGeneratedMetadata: true);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(GeneratedCommandMetadata.IsGeneratedMetadataRequired(trimmedAssembly)).IsTrue();
+                await Assert.That(GeneratedCommandMetadata.IsGeneratedMetadataRequired(jitAssembly)).IsFalse();
+                await Assert.That(GeneratedSecretMetadata.IsGeneratedMetadataRequired(trimmedAssembly)).IsTrue();
+                await Assert.That(GeneratedSecretMetadata.IsGeneratedMetadataRequired(jitAssembly)).IsFalse();
+            }
+        }
+        finally
+        {
+            trimmedContext.Unload();
+            jitContext.Unload();
+        }
+    }
+
+    [Test]
     public async Task ExternalMetadataOverridesLegacyDirectRegistration()
     {
         var commandType = CreateDynamicType("LegacyDirectCommand");
