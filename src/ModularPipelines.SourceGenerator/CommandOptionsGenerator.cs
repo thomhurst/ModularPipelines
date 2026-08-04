@@ -243,7 +243,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return symbol switch
         {
             INamedTypeSymbol type => IsOptionsBuilder(type)
-                || IsServiceDescriptorServiceTypeUsage(context),
+                || IsServiceTypeRegistrationUsage(context),
             IMethodSymbol method => GetRegisteredOptionsType(method) is ITypeParameterSymbol,
             _ => false,
         };
@@ -256,14 +256,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             ContainingNamespace: { } containingNamespace,
         } && containingNamespace.ToDisplayString() == OptionsNamespace;
 
-    private static bool IsServiceDescriptorServiceTypeUsage(GeneratorSyntaxContext context)
+    private static bool IsServiceTypeRegistrationUsage(GeneratorSyntaxContext context)
     {
         var typeOfExpression = context.Node.FirstAncestorOrSelf<TypeOfExpressionSyntax>();
         if (typeOfExpression?.Parent is not ArgumentSyntax argument
             || argument.Parent is not BaseArgumentListSyntax argumentList
             || argumentList.Parent is not ExpressionSyntax descriptorCreation
             || context.SemanticModel.GetSymbolInfo(descriptorCreation).Symbol is not IMethodSymbol method
-            || !IsServiceDescriptorServiceTypeCarrier(method))
+            || !IsServiceTypeCarrier(method))
         {
             return false;
         }
@@ -277,13 +277,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return parameter?.Name == "serviceType";
     }
 
-    private static bool IsServiceDescriptorServiceTypeCarrier(IMethodSymbol method)
+    private static bool IsServiceTypeCarrier(IMethodSymbol method)
     {
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
-        return definition.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
-               && definition.ContainingType.MetadataName == "ServiceDescriptor"
-               && (definition.MethodKind == MethodKind.Constructor
-                   || definition.Name is "Describe" or "DescribeKeyed");
+        return IsServiceCollectionRegistration(definition)
+               || IsTryAddRegistration(definition)
+               || (definition.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
+                   && definition.ContainingType.MetadataName == "ServiceDescriptor"
+                   && (definition.MethodKind == MethodKind.Constructor
+                       || definition.Name is "Describe" or "DescribeKeyed"));
     }
 
     private static ITypeSymbol? GetOptionsTypeUsageSymbol(GeneratorSyntaxContext context)

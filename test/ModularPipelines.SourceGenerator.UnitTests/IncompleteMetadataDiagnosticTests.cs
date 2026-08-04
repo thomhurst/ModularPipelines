@@ -102,10 +102,21 @@ public class IncompleteMetadataDiagnosticTests
                     this IServiceCollection services,
                     TService implementation) => services;
 
+                public static IServiceCollection AddSingleton(
+                    this IServiceCollection services,
+                    System.Type serviceType,
+                    object implementation) => services;
+
                 public static IServiceCollection AddKeyedSingleton<TService>(
                     this IServiceCollection services,
                     object? serviceKey,
                     TService implementation) => services;
+
+                public static IServiceCollection AddKeyedSingleton(
+                    this IServiceCollection services,
+                    System.Type serviceType,
+                    object? serviceKey,
+                    object implementation) => services;
             }
         }
 
@@ -119,10 +130,25 @@ public class IncompleteMetadataDiagnosticTests
                 {
                 }
 
+                public static void TryAddSingleton(
+                    this Microsoft.Extensions.DependencyInjection.IServiceCollection services,
+                    System.Type serviceType,
+                    object implementation)
+                {
+                }
+
                 public static void TryAddKeyedSingleton<TService>(
                     this Microsoft.Extensions.DependencyInjection.IServiceCollection services,
                     object? serviceKey,
                     TService implementation)
+                {
+                }
+
+                public static void TryAddKeyedSingleton(
+                    this Microsoft.Extensions.DependencyInjection.IServiceCollection services,
+                    System.Type serviceType,
+                    object? serviceKey,
+                    object implementation)
                 {
                 }
             }
@@ -1714,6 +1740,62 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public static void Add<T>(IServiceCollection services, IOptions<T> instance) =>
                     services.Add(new ServiceDescriptor(typeof(IOptions<T>), instance));
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "T",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Generic_Type_Based_Options_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public static class Registration
+            {
+                public static void Add<T>(IServiceCollection services, IOptions<T> instance) =>
+                    services.AddSingleton(typeof(IOptions<T>), instance);
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "T",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Generic_Type_Based_Keyed_Options_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public static class Registration
+            {
+                public static void Add<T>(IServiceCollection services, IOptions<T> instance) =>
+                    services.AddKeyedSingleton(typeof(IOptions<T>), "key", instance);
             }
             """,
             globalOptions: new Dictionary<string, string>
