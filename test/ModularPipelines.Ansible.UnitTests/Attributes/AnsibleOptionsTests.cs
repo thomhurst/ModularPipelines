@@ -1,10 +1,13 @@
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Ansible.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Context;
+using ModularPipelines.TestHelpers;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.Ansible.UnitTests.Attributes;
 
-public class AnsibleOptionsTests
+public class AnsibleOptionsTests : TestBase
 {
     [Test]
     public async Task Execute_Renders_Required_Pattern_Repeatable_Options_And_Flags()
@@ -51,5 +54,18 @@ public class AnsibleOptionsTests
             var property = typeof(AnsibleExecuteOptions).GetProperty(propertyName);
             await Assert.That(property!.IsDefined(typeof(SecretValueAttribute), inherit: true)).IsTrue();
         }
+    }
+
+    [Test]
+    public async Task Execute_Rejects_Verbosity_Outside_Declared_Range()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        await Assert.That(() => builder.Build(new AnsibleExecuteOptions("webservers")
+        {
+            Verbose = 7,
+        }))
+            .Throws<ValidationException>()
+            .And.HasMessageContaining("AnsibleExecuteOptions.Verbose");
     }
 }

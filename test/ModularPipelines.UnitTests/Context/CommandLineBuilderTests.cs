@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Helpers.Internal;
@@ -23,6 +24,53 @@ public class CommandLineBuilderTests : TestBase
 
         await Assert.That(result.Tool).IsEqualTo("echo");
         await Assert.That(result.Arguments).IsEquivalentTo(new[] { "hello", "world" });
+    }
+
+    [Test]
+    public async Task Build_Rejects_All_Invalid_DataAnnotation_Values()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestValidatedOptions
+        {
+            Verbose = 7,
+            Name = "123",
+        });
+
+        await Assert.That(Build)
+            .Throws<ValidationException>()
+            .And.HasMessageContaining("TestValidatedOptions.Name")
+            .And.HasMessageContaining("TestValidatedOptions.Verbose");
+    }
+
+    [Test]
+    public async Task Build_Rejects_Invalid_CliOptionValue_Annotation()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestValidatedOptions
+        {
+            Level = "4",
+        });
+
+        await Assert.That(Build)
+            .Throws<ValidationException>()
+            .And.HasMessageContaining("TestValidatedOptions.Level");
+    }
+
+    [Test]
+    public async Task Build_Accepts_Valid_DataAnnotation_Values()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestValidatedOptions
+        {
+            Verbose = 2,
+            Name = "valid",
+            Level = CliOptionValue.Bare,
+        });
+
+        await Assert.That(result.Tool).IsEqualTo("tool");
     }
 
     [Test]
@@ -1050,6 +1098,22 @@ public class CommandLineBuilderTests : TestBase
 
         [CliOption("--output")]
         public string? Output { get; set; }
+    }
+
+    [CliTool("tool")]
+    private sealed record TestValidatedOptions : CommandLineToolOptions
+    {
+        [Range(0, 6)]
+        [CliFlag("-v")]
+        public int Verbose { get; init; }
+
+        [RegularExpression("^[a-z]+$")]
+        [CliOption("--name")]
+        public string? Name { get; init; }
+
+        [CliOptionValueRange(1, 3)]
+        [CliOption("--level", ValueArity = CliOptionValueArity.Optional)]
+        public CliOptionValue? Level { get; init; }
     }
 
     [CliTool("mytool")]
