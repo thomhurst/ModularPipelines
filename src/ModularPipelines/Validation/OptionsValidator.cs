@@ -69,30 +69,7 @@ internal class OptionsValidator : IOptionsValidator
                 $"ModuleOutputFlushThreshold cannot be negative. Current value: {options.ModuleOutputFlushThreshold}"));
         }
 
-        if (options.RunReport.HistoryRetention < 0)
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                $"RunReport.HistoryRetention cannot be negative. Current value: " +
-                $"{options.RunReport.HistoryRetention}"));
-        }
-
-        if (options.RunReport.IncludeModuleOutput
-            && options.RunReport.MaxOutputBytesPerModule <= 0)
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                $"RunReport.MaxOutputBytesPerModule must be positive. Current value: " +
-                $"{options.RunReport.MaxOutputBytesPerModule}"));
-        }
-
-        if (options.RunReport.HistoryRetention > 0
-            && string.IsNullOrWhiteSpace(options.RunReport.HistoryDirectory))
-        {
-            result.AddError(new ValidationError(
-                ValidationErrorCategory.Options,
-                "RunReport.HistoryDirectory cannot be empty when run history is enabled."));
-        }
+        ValidateRunReportOptions(options.RunReport, result);
 
         // Validate concurrency options
         if (options.Concurrency.MaxParallelism < 1)
@@ -125,6 +102,30 @@ internal class OptionsValidator : IOptionsValidator
         }
 
         return result;
+    }
+
+    private static void ValidateRunReportOptions(RunReportOptions options, ValidationResult result)
+    {
+        if (options.HistoryRetention < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.HistoryRetention cannot be negative. Current value: {options.HistoryRetention}"));
+        }
+
+        if (options.IncludeModuleOutput && options.MaxOutputBytesPerModule <= 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.MaxOutputBytesPerModule must be positive. Current value: {options.MaxOutputBytesPerModule}"));
+        }
+
+        if (options.HistoryRetention > 0 && string.IsNullOrWhiteSpace(options.HistoryDirectory))
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                "RunReport.HistoryDirectory cannot be empty when run history is enabled."));
+        }
     }
 
     /// <inheritdoc />
