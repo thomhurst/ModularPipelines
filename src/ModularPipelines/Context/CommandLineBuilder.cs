@@ -75,10 +75,10 @@ internal sealed class CommandLineBuilder(
             options,
             ref emittedOptionTerminator);
         var manualArgs = options.Arguments?.ToList() ?? [];
-        // Keep recognized leading flags ahead of a marker emitted by a structured argument;
-        // leave manual operands in place after that structured argument.
-        var leadingManualFlags = !terminatorEmittedBeforeProperties && emittedOptionTerminator
-            ? TakeLeadingManualFlags(manualArgs, commandSpecificModel)
+        // Keep recognized leading options ahead of a marker emitted by a structured argument;
+        // leave manual positional operands in place after that structured argument.
+        var leadingManualOptions = !terminatorEmittedBeforeProperties && emittedOptionTerminator
+            ? TakeLeadingManualOptions(manualArgs, commandSpecificModel)
             : [];
         if (options.ArgumentsContainOptionTerminator
             && !manualArgs.Contains("--", StringComparer.Ordinal))
@@ -111,10 +111,10 @@ internal sealed class CommandLineBuilder(
             ref emittedOptionTerminator);
 
         // 4. Combine: global args + command parts (subcommands) + property args
-        // with any hoisted manual flags before an emitted option terminator.
+        // with any hoisted manual options before an emitted option terminator.
         var allArgs = new List<string>(globalArgs);
         allArgs.AddRange(commandParts);
-        allArgs.AddRange(leadingManualFlags);
+        allArgs.AddRange(leadingManualOptions);
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments
@@ -138,7 +138,7 @@ internal sealed class CommandLineBuilder(
         return new CommandLine(tool, allArgs);
     }
 
-    private static IReadOnlyList<string> TakeLeadingManualFlags(
+    private static IReadOnlyList<string> TakeLeadingManualOptions(
         List<string> manualArgs,
         IReadOnlyList<PropertyCommandLinePart> commandModel)
     {
@@ -147,10 +147,37 @@ internal sealed class CommandLineBuilder(
             .SelectMany(static part => new[] { part.Attribute.Name, part.Attribute.ShortForm })
             .OfType<string>()
             .ToHashSet(StringComparer.Ordinal);
+        var optionsByName = commandModel
+            .OfType<OptionPart>()
+            .SelectMany(static part => new[]
+            {
+                (Name: part.Attribute.Name, Part: part),
+                (Name: part.Attribute.ShortForm, Part: part),
+            })
+            .Where(static item => item.Name is not null)
+            .GroupBy(static item => item.Name!, StringComparer.Ordinal)
+            .ToDictionary(static group => group.Key, static group => group.First().Part, StringComparer.Ordinal);
         var count = 0;
-        while (count < manualArgs.Count && flagNames.Contains(manualArgs[count]))
+        while (count < manualArgs.Count)
         {
-            count++;
+            if (flagNames.Contains(manualArgs[count]))
+            {
+                count++;
+                continue;
+            }
+
+            if (!optionsByName.TryGetValue(manualArgs[count], out var option))
+            {
+                break;
+            }
+
+            var operandCount = GetManualOperandCount(option);
+            if (manualArgs.Count - count - 1 < operandCount)
+            {
+                break;
+            }
+
+            count += operandCount + 1;
         }
 
         if (count == 0)
@@ -158,8 +185,21 @@ internal sealed class CommandLineBuilder(
             return [];
         }
 
-        var flags = manualArgs.GetRange(0, count);
+        var options = manualArgs.GetRange(0, count);
         manualArgs.RemoveRange(0, count);
-        return flags;
+        return options;
+    }
+
+    private static int GetManualOperandCount(OptionPart option)
+    {
+        if (option.Attribute.ValueArity == CliOptionValueArity.Optional)
+        {
+            return 0;
+        }
+
+        return option.ManualOperandCount >= 0
+            ? option.ManualOperandCount
+            : throw new InvalidOperationException(
+                $"Manual value count cannot be negative for {option.PropertyName}.");
     }
 }

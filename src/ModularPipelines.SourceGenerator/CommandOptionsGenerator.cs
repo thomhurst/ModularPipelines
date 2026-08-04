@@ -12,6 +12,8 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
+    private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
+
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
@@ -236,7 +238,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     0,
                     GetConstructorStrings(secretAttribute),
                     false,
-                    false));
+                    false,
+                    0));
             }
         }
 
@@ -277,7 +280,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 0,
                 EquatableArray<string>.Empty,
                 GetNamedBool(attribute, "PrependOptionTerminatorIfValueStartsWithDash"),
-                isGlobalOption);
+                isGlobalOption,
+                0);
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -294,7 +298,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 0,
                 EquatableArray<string>.Empty,
                 false,
-                isGlobalOption);
+                isGlobalOption,
+                0);
         }
 
         return new PropertyMetadata(
@@ -309,7 +314,32 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedInt(attribute, "ValueArity"),
             EquatableArray<string>.Empty,
             false,
-            isGlobalOption);
+            isGlobalOption,
+            GetManualOperandCount(property.Type));
+    }
+
+    private static int GetManualOperandCount(ITypeSymbol propertyType)
+    {
+        if (propertyType is INamedTypeSymbol nullableType
+            && nullableType.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T
+            && nullableType.TypeArguments.Length == 1)
+        {
+            propertyType = nullableType.TypeArguments[0];
+        }
+
+        if (propertyType.ToDisplayString() == CliValuePairFullName)
+        {
+            return 2;
+        }
+
+        return propertyType is INamedTypeSymbol namedType
+               && namedType.AllInterfaces
+                   .Append(namedType)
+                   .Any(type => type.OriginalDefinition.SpecialType
+                                == SpecialType.System_Collections_Generic_IEnumerable_T
+                                && type.TypeArguments[0].ToDisplayString() == CliValuePairFullName)
+            ? 2
+            : 1;
     }
 
     private static bool IsGlobalOption(IPropertySymbol property)
@@ -435,7 +465,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
                     sb.AppendLine($"                        GroupValues = {BooleanLiteral(property.GroupValues)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount} }},");
                     break;
             }
         }
@@ -642,7 +672,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         int ValueArity,
         EquatableArray<string> SecretValueKeys,
         bool PrependOptionTerminatorIfValueStartsWithDash,
-        bool IsGlobalOption);
+        bool IsGlobalOption,
+        int ManualOperandCount);
 
     private enum PropertyKind
     {

@@ -50,6 +50,11 @@ public sealed record OptionPart(
     Func<object, object?> Getter,
     CliOptionAttribute Attribute) : PropertyCommandLinePart(PropertyName, Getter)
 {
+    /// <summary>
+    /// Gets the number of separate operands consumed by one manual occurrence of this option.
+    /// </summary>
+    public int ManualOperandCount { get; init; } = 1;
+
     /// <inheritdoc />
     public override CommandLinePhase Phase => Attribute.Phase;
 }

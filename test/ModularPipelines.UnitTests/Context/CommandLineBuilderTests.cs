@@ -210,6 +210,21 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_Manual_Option_Operands_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--arg", "name", "value", "input.json"],
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --arg name value -- -1 input.json");
+    }
+
+    [Test]
     public async Task Build_Rejects_Manual_Terminator_After_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();

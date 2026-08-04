@@ -102,6 +102,21 @@ public class JqOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Places_Manual_Option_Operands_Before_OptionTerminated_Filter()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new JqExecuteOptions
+        {
+            Filter = "-1",
+            Arguments = ["--arg", "name", "value", "input.json"],
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("jq --arg name value -- -1 input.json");
+    }
+
+    [Test]
     public async Task Rejects_RunTests_With_OptionTerminated_Filter()
     {
         var builder = await GetService<ICommandLineBuilder>();
