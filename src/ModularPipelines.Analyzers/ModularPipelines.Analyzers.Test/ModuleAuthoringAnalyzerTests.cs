@@ -644,13 +644,13 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Does_Not_Report_Module_Registered_By_Delegated_DI_Factory()
+    public async Task Does_Not_Report_NonPublic_Module_Registered_By_Delegated_DI_Factory()
     {
         var source = $$"""
             {{Header}}
             using Microsoft.Extensions.DependencyInjection;
 
-            public class BuildModule : Module<List<string>>
+            internal class BuildModule : Module<List<string>>
             {
                 {{TestSourceConstants.SimpleAsyncExecuteBody}}
             }

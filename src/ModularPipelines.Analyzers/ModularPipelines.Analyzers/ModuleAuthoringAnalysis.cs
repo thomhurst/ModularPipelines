@@ -80,6 +80,7 @@ internal static class ModuleAuthoringAnalysis
         var instanceRegisteredModules = new ConcurrentBag<INamedTypeSymbol>();
         var scannedAssemblies = new ConcurrentBag<IAssemblySymbol>();
         var unresolvedModuleRegistrations = new ConcurrentBag<byte>();
+        var unresolvedFactoryRegistrations = new ConcurrentBag<byte>();
         var registrationInvocations =
             new ConcurrentBag<(IInvocationOperation Invocation, IMethodSymbol? ContainingMethod)>();
         var indexerAssignments =
@@ -131,14 +132,16 @@ internal static class ModuleAuthoringAnalysis
                 registeredModules,
                 instanceRegisteredModules,
                 scannedAssemblies,
-                unresolvedModuleRegistrations);
+                unresolvedModuleRegistrations,
+                unresolvedFactoryRegistrations);
             ReportModuleDiagnostics(
                 endContext,
                 modules,
                 registeredModules,
                 instanceRegisteredModules,
                 scannedAssemblies,
-                unresolvedModuleRegistrations);
+                unresolvedModuleRegistrations,
+                unresolvedFactoryRegistrations);
         });
     }
 
@@ -1024,14 +1027,16 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<byte> unresolvedModuleRegistrations,
+        ConcurrentBag<byte> unresolvedFactoryRegistrations)
     {
         var method = invocation.TargetMethod;
         if (TryTrackDirectModuleServiceRegistration(
                 invocation,
                 compilation,
                 instanceRegisteredModules,
-                unresolvedModuleRegistrations))
+                unresolvedModuleRegistrations,
+                unresolvedFactoryRegistrations))
         {
             return;
         }
@@ -1091,7 +1096,8 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<byte> unresolvedModuleRegistrations,
+        ConcurrentBag<byte> unresolvedFactoryRegistrations)
     {
         var method = invocation.TargetMethod;
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
@@ -1121,7 +1127,8 @@ internal static class ModuleAuthoringAnalysis
                 invocation,
                 compilation,
                 instanceRegisteredModules,
-                unresolvedModuleRegistrations);
+                unresolvedModuleRegistrations,
+                unresolvedFactoryRegistrations);
         }
 
         return true;
@@ -2244,7 +2251,8 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<byte> unresolvedModuleRegistrations,
+        ConcurrentBag<byte> unresolvedFactoryRegistrations)
     {
         var tracked = invocation.Arguments
             .Where(static argument => argument.Parameter?.Name is
@@ -2258,6 +2266,11 @@ internal static class ModuleAuthoringAnalysis
         if (!tracked)
         {
             unresolvedModuleRegistrations.Add(0);
+            if (invocation.Arguments.Any(static argument =>
+                    argument.Parameter?.Name == "implementationFactory"))
+            {
+                unresolvedFactoryRegistrations.Add(0);
+            }
         }
     }
 
@@ -3288,7 +3301,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<byte> unresolvedModuleRegistrations,
+        ConcurrentBag<byte> unresolvedFactoryRegistrations)
     {
         var reachableMethods = GetReachableStartupMethods(
             context.Compilation,
@@ -3311,7 +3325,8 @@ internal static class ModuleAuthoringAnalysis
                 registeredModules,
                 instanceRegisteredModules,
                 scannedAssemblies,
-                unresolvedModuleRegistrations);
+                unresolvedModuleRegistrations,
+                unresolvedFactoryRegistrations);
         }
 
         foreach (var (assignment, containingMethod) in indexerAssignments)
@@ -3720,7 +3735,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
         ConcurrentBag<IAssemblySymbol> scannedAssemblies,
-        ConcurrentBag<byte> unresolvedModuleRegistrations)
+        ConcurrentBag<byte> unresolvedModuleRegistrations,
+        ConcurrentBag<byte> unresolvedFactoryRegistrations)
     {
         var moduleSet = modules
             .Distinct<INamedTypeSymbol>(SymbolEqualityComparer.Default)
@@ -3730,7 +3746,8 @@ internal static class ModuleAuthoringAnalysis
         var scanned = scannedAssemblies.ToImmutableHashSet<IAssemblySymbol>(
             SymbolEqualityComparer.Default);
         foreach (var module in moduleSet.Where(module =>
-                     !IsPublic(module)
+                     unresolvedFactoryRegistrations.IsEmpty
+                     && !IsPublic(module)
                      && !instanceRegistered.Contains(module)
                      && !IsAssemblyScannedModule(module, scanned)))
         {
