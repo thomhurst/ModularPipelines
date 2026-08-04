@@ -564,6 +564,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Matches_Exact_MultiCharacter_Short_Option_Before_Cluster()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestMultiCharacterShortOptionOptions
+        {
+            Arguments = ["--", "tail", "-ss", "https://symbols"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("dotnet -ss https://symbols -- tail");
+    }
+
+    [Test]
     public async Task Build_Preserves_Manual_Option_Override_Order_When_Hoisted()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -874,6 +890,16 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
         public IReadOnlyList<string>? Parameters { get; init; }
+    }
+
+    [CliTool("dotnet")]
+    private sealed record TestMultiCharacterShortOptionOptions : CommandLineToolOptions
+    {
+        [CliOption("--source", ShortForm = "-s")]
+        public string? Source { get; init; }
+
+        [CliOption("--symbol-source", ShortForm = "-ss")]
+        public string? SymbolSource { get; init; }
     }
 
     private sealed class LegacyMetadataMarker;

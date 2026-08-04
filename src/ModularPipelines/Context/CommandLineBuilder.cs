@@ -358,6 +358,24 @@ internal sealed class CommandLineBuilder(
                 IsTerminal: attachedOption.Phase == CommandLinePhase.Terminal);
         }
 
+        if (optionsByName.TryGetValue(argument, out var option))
+        {
+            var operandCount = GetManualOperandCount(
+                option,
+                manualArgs,
+                index,
+                flagsByName,
+                optionsByName,
+                options);
+            return operandCount is { } count
+                   && manualArgs.Count - index - 1 >= count
+                ? new ManualOptionMatch(
+                    count + 1,
+                    option.IsGlobalOption,
+                    IsTerminal: option.Phase == CommandLinePhase.Terminal)
+                : null;
+        }
+
         if (TryGetCombinedShortOptionOperandCount(
                 argument,
                 manualArgs,
@@ -377,25 +395,7 @@ internal sealed class CommandLineBuilder(
                 : null;
         }
 
-        if (!optionsByName.TryGetValue(argument, out var option))
-        {
-            return null;
-        }
-
-        var operandCount = GetManualOperandCount(
-            option,
-            manualArgs,
-            index,
-            flagsByName,
-            optionsByName,
-            options);
-        return operandCount is { } count
-               && manualArgs.Count - index - 1 >= count
-            ? new ManualOptionMatch(
-                count + 1,
-                option.IsGlobalOption,
-                IsTerminal: option.Phase == CommandLinePhase.Terminal)
-            : null;
+        return null;
     }
 
     private static void AddRecognizedManualOptions(
