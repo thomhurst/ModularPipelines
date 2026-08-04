@@ -1104,6 +1104,14 @@ public class PipelineCommandLineTests
     }
 
     [Test]
+    public async Task GraphCommandRejectsRepeatedFormats()
+    {
+        await Assert.That(() => PipelineCommandLineParser.Parse(
+                ["--graph", "json", "report.json", "--graph", "dot"]))
+            .Throws<ArgumentException>();
+    }
+
+    [Test]
     [Arguments("0")]
     [Arguments("1")]
     [Arguments("2")]

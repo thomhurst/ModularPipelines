@@ -172,68 +172,27 @@ internal sealed class ModuleDiscoveryPlanner(
         ICollection<IModule> ownedPlanningModules,
         IServiceProvider planningServiceProvider)
     {
+        if (module is not IPlanningModuleCopyProvider copyProvider)
+        {
+            throw new PipelineException(
+                $"The direct module '{module.GetType().FullName}' cannot be copied for dependency-graph "
+                + "planning without invoking its constructor. Derive from Module<T> and override "
+                + "CreatePlanningCopy to return an isolated copy.");
+        }
+
         var factory = _planningFactories.LastOrDefault(candidate =>
             candidate.CreatedRuntimeModule(module));
         if (factory is null)
         {
             return CreatePlanningModuleWithoutFactory(
                 module,
+                copyProvider,
                 ownedPlanningModules,
                 planningServiceProvider);
         }
 
-        if (module is IPlanningModuleCopyProvider copyProvider)
+        if (HasCustomPlanningCopy(module))
         {
-            if (HasCustomPlanningCopy(module))
-            {
-                return CreateIsolatedPlanningModule(CreatePlanningCopy(
-                    module,
-                    copyProvider,
-                    ownedPlanningModules,
-                    planningServiceProvider));
-            }
-
-            RejectRuntimeBoundPlanningCondition(module, copyProvider);
-            return CreateIsolatedPlanningModule(new PlanningModuleCreation(
-                copyProvider.CreatePlanningCopyFromRegisteredInstance(
-                    preserveConfiguration: true),
-                factory.IsRuntimeServiceProviderOwned,
-                IsPlannerOwned: false));
-        }
-
-        return CreatePlanningModuleWithoutFactory(
-            module,
-            ownedPlanningModules,
-            planningServiceProvider);
-    }
-
-    private static PlanningModule CreatePlanningModuleWithoutFactory(
-        IModule module,
-        ICollection<IModule> ownedPlanningModules,
-        IServiceProvider planningServiceProvider)
-    {
-        if (module is IPlanningModuleCopyProvider copyProvider)
-        {
-            if (!HasCustomPlanningCopy(module)
-                && ModuleActivator.TryGetRuntimeServiceOwnership(
-                    module,
-                    out var runtimeServiceOwnership))
-            {
-                if (TryCreatePlanningCopyFromRegisteredInstance(
-                        module,
-                        copyProvider,
-                        runtimeServiceOwnership,
-                        out var registeredInstanceCopy))
-                {
-                    return CreateIsolatedPlanningModule(registeredInstanceCopy);
-                }
-
-                throw new PipelineException(
-                    $"The registered module '{module.GetType().FullName}' contains runtime state that "
-                    + "cannot be shared with dependency-graph planning. Override CreatePlanningCopy to "
-                    + "return an isolated copy.");
-            }
-
             return CreateIsolatedPlanningModule(CreatePlanningCopy(
                 module,
                 copyProvider,
@@ -241,24 +200,45 @@ internal sealed class ModuleDiscoveryPlanner(
                 planningServiceProvider));
         }
 
-        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(planningServiceProvider);
-        try
+        RejectRuntimeBoundPlanningCondition(module, copyProvider);
+        return CreateIsolatedPlanningModule(new PlanningModuleCreation(
+            copyProvider.CreatePlanningCopyFromRegisteredInstance(
+                preserveConfiguration: true),
+            factory.IsRuntimeServiceProviderOwned,
+            IsPlannerOwned: false));
+    }
+
+    private static PlanningModule CreatePlanningModuleWithoutFactory(
+        IModule module,
+        IPlanningModuleCopyProvider copyProvider,
+        ICollection<IModule> ownedPlanningModules,
+        IServiceProvider planningServiceProvider)
+    {
+        if (!HasCustomPlanningCopy(module)
+            && ModuleActivator.TryGetRuntimeServiceOwnership(
+                module,
+                out var runtimeServiceOwnership))
         {
-            var planningModule = planningServiceProvider
-                .GetRequiredService<IModuleActivator>()
-                .CreatePlanningModule(module.GetType(), trackingServiceProvider);
-            return CreateIsolatedPlanningModule(new PlanningModuleCreation(
-                planningModule,
-                trackingServiceProvider.IsServiceProviderOwned,
-                IsPlannerOwned: !trackingServiceProvider.IsServiceProviderOwned(planningModule)));
-        }
-        catch (Exception exception)
-        {
+            if (TryCreatePlanningCopyFromRegisteredInstance(
+                    module,
+                    copyProvider,
+                    runtimeServiceOwnership,
+                    out var registeredInstanceCopy))
+            {
+                return CreateIsolatedPlanningModule(registeredInstanceCopy);
+            }
+
             throw new PipelineException(
-                $"The module '{module.GetType().FullName}' does not provide a planning copy and could not be " +
-                "activated as an isolated dependency-graph planning instance.",
-                exception);
+                $"The registered module '{module.GetType().FullName}' contains runtime state that "
+                + "cannot be shared with dependency-graph planning. Override CreatePlanningCopy to "
+                + "return an isolated copy.");
         }
+
+        return CreateIsolatedPlanningModule(CreatePlanningCopy(
+            module,
+            copyProvider,
+            ownedPlanningModules,
+            planningServiceProvider));
     }
 
     private static PlanningModule CreateIsolatedPlanningModule(PlanningModuleCreation creation) =>
@@ -280,15 +260,6 @@ internal sealed class ModuleDiscoveryPlanner(
                 "during dependency-graph planning. The factory must return a fresh module instance.");
         }
 
-        if (runtimeModule is not IPlanningModuleCopyProvider
-            && HasServiceProviderOwnedState(planningModule, isServiceProviderOwned))
-        {
-            throw new PipelineException(
-                $"The direct module '{runtimeModule.GetType().FullName}' shares service-provider-owned state " +
-                "with its dependency-graph planning instance. Derive from Module<T> and override " +
-                "CreatePlanningCopy to return an isolated copy.");
-        }
-
         if (!IsEquivalentPlanningModule(
                 runtimeModule,
                 planningModule,
@@ -306,11 +277,10 @@ internal sealed class ModuleDiscoveryPlanner(
         IModule planningModule,
         Func<object, bool> isServiceProviderOwned) =>
         planningModule.GetType() == runtimeModule.GetType()
-        && (runtimeModule is not IPlanningModuleCopyProvider
-            || HasEquivalentPlanningConfiguration(
-                runtimeModule.Configuration,
-                planningModule.Configuration,
-                isServiceProviderOwned))
+        && HasEquivalentPlanningConfiguration(
+            runtimeModule.Configuration,
+            planningModule.Configuration,
+            isServiceProviderOwned)
         && HasEquivalentModuleState(
             runtimeModule,
             planningModule,
@@ -906,7 +876,10 @@ internal sealed class ModuleDiscoveryPlanner(
             "Configure",
             BindingFlags.Instance | BindingFlags.NonPublic);
         return method is not null
-               && MethodTouchesStaticState(method, new HashSet<MethodBase>());
+               && MethodTouchesStaticStateCore(
+                   method,
+                   new HashSet<MethodBase>(),
+                   module.GetType());
     }
 
     [UnconditionalSuppressMessage(
@@ -915,7 +888,17 @@ internal sealed class ModuleDiscoveryPlanner(
         Justification = "Missing or trimmed Configure bodies are conservatively treated as stateful.")]
     private static bool MethodTouchesStaticState(
         MethodBase method,
-        ISet<MethodBase> visited)
+        ISet<MethodBase> visited) =>
+        MethodTouchesStaticStateCore(method, visited, method.DeclaringType);
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Missing or trimmed Configure bodies are conservatively treated as stateful.")]
+    private static bool MethodTouchesStaticStateCore(
+        MethodBase method,
+        ISet<MethodBase> visited,
+        Type? runtimeType)
     {
         if (!visited.Add(method))
         {
@@ -945,12 +928,13 @@ internal sealed class ModuleDiscoveryPlanner(
             }
 
             if (operandSize == sizeof(int)
-                && InstructionTouchesStaticState(
+                && InstructionTouchesStaticStateCore(
                     method,
                     opCode,
                     il,
                     operandOffset,
-                    visited))
+                    visited,
+                    runtimeType))
             {
                 return true;
             }
@@ -970,7 +954,26 @@ internal sealed class ModuleDiscoveryPlanner(
         OpCode opCode,
         byte[] il,
         int operandOffset,
-        ISet<MethodBase> visited)
+        ISet<MethodBase> visited) =>
+        InstructionTouchesStaticStateCore(
+            method,
+            opCode,
+            il,
+            operandOffset,
+            visited,
+            method.DeclaringType);
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Missing or trimmed Configure metadata is conservatively treated as stateful.")]
+    private static bool InstructionTouchesStaticStateCore(
+        MethodBase method,
+        OpCode opCode,
+        byte[] il,
+        int operandOffset,
+        ISet<MethodBase> visited,
+        Type? runtimeType)
     {
         var token = BitConverter.ToInt32(il, operandOffset);
         var methodGenericArguments = method is MethodInfo methodInfo
@@ -1007,7 +1010,12 @@ internal sealed class ModuleDiscoveryPlanner(
 
             if (calledMethod.Module.Assembly == method.Module.Assembly)
             {
-                return MethodTouchesStaticState(calledMethod, visited);
+                var targetMethod = opCode == OpCodes.Callvirt
+                    && calledMethod is MethodInfo calledMethodInfo
+                    && runtimeType is not null
+                        ? ResolveVirtualTarget(calledMethodInfo, runtimeType)
+                        : calledMethod;
+                return MethodTouchesStaticStateCore(targetMethod, visited, runtimeType);
             }
 
             return calledMethod is ConstructorInfo
@@ -1017,6 +1025,46 @@ internal sealed class ModuleDiscoveryPlanner(
         {
             return true;
         }
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2070",
+        Justification = "Planning inspects already-loaded runtime module methods only to reject unsafe replay.")]
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Planning inspects already-loaded base methods only to reject unsafe replay.")]
+    private static MethodInfo ResolveVirtualTarget(MethodInfo method, Type runtimeType)
+    {
+        if (!method.IsVirtual
+            || method.IsFinal
+            || method.DeclaringType is null
+            || !method.DeclaringType.IsAssignableFrom(runtimeType))
+        {
+            return method;
+        }
+
+        var baseDefinition = method.GetBaseDefinition();
+        for (var candidateType = runtimeType;
+             candidateType is not null && method.DeclaringType.IsAssignableFrom(candidateType);
+             candidateType = candidateType.BaseType)
+        {
+            var overrideMethod = candidateType
+                .GetMethods(BindingFlags.Instance
+                            | BindingFlags.Public
+                            | BindingFlags.NonPublic
+                            | BindingFlags.DeclaredOnly)
+                .FirstOrDefault(candidate =>
+                    candidate.IsVirtual
+                    && candidate.GetBaseDefinition() == baseDefinition);
+            if (overrideMethod is not null)
+            {
+                return overrideMethod;
+            }
+        }
+
+        return method;
     }
 
     private static bool IsKnownPlanningSafeConfigurationMethod(MethodBase method) =>

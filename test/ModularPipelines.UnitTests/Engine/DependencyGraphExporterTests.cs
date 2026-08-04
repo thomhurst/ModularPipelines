@@ -497,6 +497,29 @@ public class DependencyGraphExporterTests
             Task.FromResult(ExternalConfigurationMutationProbe.ConstructorCalls);
     }
 
+    private abstract class VirtualConfigurationMutationBaseModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure() => CreateConfiguration();
+
+        protected virtual ModuleConfiguration CreateConfiguration() =>
+            ModuleConfiguration.Default;
+    }
+
+    private sealed class VirtualConfigurationMutationModule
+        : VirtualConfigurationMutationBaseModule
+    {
+        protected override ModuleConfiguration CreateConfiguration()
+        {
+            Interlocked.Increment(ref _globalConfigurationMutations);
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(_globalConfigurationMutations);
+    }
+
     private sealed class ConfigurationMutationProbe
     {
         public ConfigurationMutationProbe() =>
@@ -3153,6 +3176,25 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Render_Does_Not_Replay_Configuration_Through_Virtual_Override()
+    {
+        _globalConfigurationMutations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<VirtualConfigurationMutationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var mutationsAfterActivation = _globalConfigurationMutations;
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(mutationsAfterActivation).IsEqualTo(1);
+            await Assert.That(_globalConfigurationMutations).IsEqualTo(1);
+        }
+    }
+
+    [Test]
     public async Task Render_Does_Not_Replay_Configuration_Through_External_Constructor_State()
     {
         ExternalConfigurationMutationProbe.Reset();
@@ -3526,17 +3568,22 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Activates_Isolated_Direct_Interface_Module()
+    public async Task Render_Rejects_Direct_Interface_Module_Without_Reactivation()
     {
         _directModuleActivations = 0;
         using var builder = Pipeline.CreateBuilder();
-        builder.AddModule(new DirectInterfaceModule());
+        builder.AddModule<DirectInterfaceModule>();
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
 
-        await Assert.That(_directModuleActivations).IsEqualTo(2);
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("cannot be copied");
+            await Assert.That(_directModuleActivations).IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -3551,11 +3598,12 @@ public class DependencyGraphExporterTests
 
         try
         {
-            var graph = await exporter.RenderAsync(DependencyGraphFormat.Json);
+            var exception = await Assert.ThrowsAsync<PipelineException>(
+                () => exporter.RenderAsync(DependencyGraphFormat.Json));
 
             using (Assert.Multiple())
             {
-                await Assert.That(graph).Contains(nameof(StatefulDirectInterfaceModule));
+                await Assert.That(exception!.Message).Contains("cannot be copied");
                 await Assert.That(runtimeModule.ConfigurationCallCount)
                     .IsEqualTo(StatefulDirectInterfaceModule.InitialConfigurationCallCount);
             }
@@ -3583,13 +3631,13 @@ public class DependencyGraphExporterTests
 
         using (Assert.Multiple())
         {
-            await Assert.That(exception!.Message).Contains("shares service-provider-owned state");
+            await Assert.That(exception!.Message).Contains("cannot be copied");
             await Assert.That(state.ConfigurationReads).IsEqualTo(configurationReadsBeforeExport);
         }
     }
 
     [Test]
-    public async Task Render_Activates_Isolated_Direct_Interface_Singleton_Factory_Module()
+    public async Task Render_Rejects_Direct_Interface_Singleton_Factory_Without_Reactivation()
     {
         _directModuleActivations = 0;
         using var builder = Pipeline.CreateBuilder();
@@ -3599,9 +3647,14 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
 
-        await Assert.That(_directModuleActivations).IsEqualTo(2);
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("cannot be copied");
+            await Assert.That(_directModuleActivations).IsEqualTo(1);
+        }
     }
 
     [Test]

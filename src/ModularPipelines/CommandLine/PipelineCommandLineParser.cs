@@ -77,6 +77,13 @@ internal static class PipelineCommandLineParser
 
         if (TryReadGraph(arguments, ref index, out var parsedGraphFormat, out var parsedGraphPath))
         {
+            if (state.GraphFormat is not null)
+            {
+                throw new ArgumentException(
+                    $"Command-line option '{GraphOption}' cannot be specified more than once.",
+                    nameof(arguments));
+            }
+
             state.Command = SetCommand(state.Command, PipelineCommand.ExportGraph, argument);
             state.GraphFormat = parsedGraphFormat;
             if (parsedGraphPath is not null)
