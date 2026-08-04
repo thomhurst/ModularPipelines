@@ -102,7 +102,10 @@ internal sealed class GitChanges : IGitChanges, IDisposable
                     "ls-files",
                     "--others",
                     "--exclude-standard",
-                    "-z")
+                    "--full-name",
+                    "-z",
+                    "--",
+                    ":(top)")
                 .ConfigureAwait(false);
 
             cacheEntry.Snapshot = new ChangedPathSnapshot(

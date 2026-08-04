@@ -34,7 +34,9 @@ public class GitChangesTests
         await Assert.That(runner.Commands[1].OfType<string>()).IsEquivalentTo(
             ["diff", "--name-only", "--no-renames", "-z", "0123456789abcdef", "--"]);
         await Assert.That(runner.Commands[2].OfType<string>()).IsEquivalentTo(
-            ["ls-files", "--others", "--exclude-standard", "-z"]);
+            [
+                "ls-files", "--others", "--exclude-standard", "--full-name", "-z", "--", ":(top)"
+            ]);
     }
 
     [Test]
@@ -71,7 +73,7 @@ public class GitChangesTests
     }
 
     [Test]
-    public async Task Matches_Untracked_Files()
+    public async Task Matches_Untracked_Files_Using_Repository_Root_Paths()
     {
         var runner = new RecordingGitCommandRunner(
             "merge-base",
@@ -83,7 +85,9 @@ public class GitChangesTests
 
         await Assert.That(hasChanges).IsTrue();
         await Assert.That(runner.Commands[2].OfType<string>()).IsEquivalentTo(
-            ["ls-files", "--others", "--exclude-standard", "-z"]);
+            [
+                "ls-files", "--others", "--exclude-standard", "--full-name", "-z", "--", ":(top)"
+            ]);
     }
 
     [Test]
