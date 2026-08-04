@@ -61,6 +61,7 @@ public sealed class PipelineBuilder : IDisposable
         _options = new PipelineOptions
         {
             DryRun = _commandLineOptions.Command == PipelineCommand.DryRun,
+            DisableModuleCache = _commandLineOptions.DisableModuleCache,
             TargetModules = NullIfEmpty(_commandLineOptions.TargetModules),
             SkippedModules = NullIfEmpty(_commandLineOptions.SkippedModules),
             RunOnlyCategories = NullIfEmpty(_commandLineOptions.RunOnlyCategories),

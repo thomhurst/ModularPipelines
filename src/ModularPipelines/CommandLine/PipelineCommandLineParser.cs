@@ -5,6 +5,7 @@ internal static class PipelineCommandLineParser
     private const string ListModulesOption = "--list-modules";
     private const string ValidateOption = "--validate";
     private const string DryRunOption = "--dry-run";
+    private const string NoCacheOption = "--no-cache";
     private const string ModuleOption = "--module";
     private const string SkipModuleOption = "--skip-module";
     private const string CategoriesOption = "--categories";
@@ -18,6 +19,7 @@ internal static class PipelineCommandLineParser
         }
 
         var command = PipelineCommand.Run;
+        var disableModuleCache = false;
         var hostArguments = new List<string>();
         var targetModules = new List<string>();
         var skippedModules = new List<string>();
@@ -45,6 +47,12 @@ internal static class PipelineCommandLineParser
                 continue;
             }
 
+            if (argument.Equals(NoCacheOption, StringComparison.OrdinalIgnoreCase))
+            {
+                disableModuleCache = true;
+                continue;
+            }
+
             if (TryReadValues(arguments, ref index, ModuleOption, targetModules)
                 || TryReadValues(arguments, ref index, SkipModuleOption, skippedModules)
                 || TryReadValues(arguments, ref index, CategoriesOption, runOnlyCategories)
@@ -58,6 +66,7 @@ internal static class PipelineCommandLineParser
 
         return new PipelineCommandLineOptions(
             command,
+            disableModuleCache,
             hostArguments,
             Distinct(targetModules),
             Distinct(skippedModules),
