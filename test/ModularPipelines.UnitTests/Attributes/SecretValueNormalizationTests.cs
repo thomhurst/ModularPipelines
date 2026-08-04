@@ -341,6 +341,16 @@ public class SecretValueNormalizationTests
     }
 
     [Test]
+    public async Task NativeAot_Assumes_Unprocessed_Assemblies_May_Contain_Secrets()
+    {
+        var referencesSecretAttribute = SecretProvider.CanReferenceSecretValueAttribute(
+            typeof(FSharpSecretOptions).Assembly,
+            isDynamicCodeSupported: false);
+
+        await Assert.That(referencesSecretAttribute).IsTrue();
+    }
+
+    [Test]
     public async Task DerivedOptions_UseBaseAssemblyForReflectionFallback()
     {
         var provider = CreateProvider(out _);

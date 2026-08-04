@@ -61,6 +61,10 @@ public class IncompleteMetadataDiagnosticTests
             public sealed class ServiceDescriptor
             {
                 public static ServiceDescriptor Singleton<TService>(TService implementation) => new();
+
+                public static ServiceDescriptor KeyedSingleton<TService>(
+                    object? serviceKey,
+                    TService implementation) => new();
             }
 
             public static class OptionsServiceCollectionExtensions
@@ -78,6 +82,11 @@ public class IncompleteMetadataDiagnosticTests
                 public static IServiceCollection AddSingleton<TService>(
                     this IServiceCollection services,
                     TService implementation) => services;
+
+                public static IServiceCollection AddKeyedSingleton<TService>(
+                    this IServiceCollection services,
+                    object? serviceKey,
+                    TService implementation) => services;
             }
         }
 
@@ -87,6 +96,13 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public static void TryAddSingleton<TService>(
                     this Microsoft.Extensions.DependencyInjection.IServiceCollection services,
+                    TService implementation)
+                {
+                }
+
+                public static void TryAddKeyedSingleton<TService>(
+                    this Microsoft.Extensions.DependencyInjection.IServiceCollection services,
+                    object? serviceKey,
                     TService implementation)
                 {
                 }
@@ -1031,6 +1047,61 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Jit_Host_Rejects_Inferred_Keyed_Partial_Options_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.AddKeyedSingleton("key", Options.Create(new PartialOptions()));
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Jit_Host_Rejects_Inferred_TryAddKeyed_Partial_Options_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.DependencyInjection.Extensions;
+            using Microsoft.Extensions.Options;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.TryAddKeyedSingleton(
+                        "key",
+                        Options.Create(new PartialOptions()));
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
     public async Task Jit_Host_Rejects_Inferred_ServiceDescriptor_Options_Registration()
     {
         var result = GeneratorTestHarness.Run(
@@ -1046,6 +1117,34 @@ public class IncompleteMetadataDiagnosticTests
             {
                 public static void Add(IServiceCollection services) =>
                     services.Add(ServiceDescriptor.Singleton(
+                        Options.Create(new PartialOptions())));
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Jit_Host_Rejects_Inferred_KeyedDescriptor_Options_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.Add(ServiceDescriptor.KeyedSingleton(
+                        "key",
                         Options.Create(new PartialOptions())));
             }
             """);

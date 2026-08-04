@@ -195,16 +195,34 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         || (node is InvocationExpressionSyntax invocation
             && IsServiceRegistrationMethodName(GetInvokedMethodName(invocation)));
 
-    private static bool IsServiceRegistrationMethodName(string? methodName) => methodName is
+    private static bool IsServiceRegistrationMethodName(string? methodName) =>
+        IsServiceCollectionRegistrationMethodName(methodName)
+        || IsTryAddRegistrationMethodName(methodName)
+        || IsServiceDescriptorRegistrationMethodName(methodName);
+
+    private static bool IsServiceCollectionRegistrationMethodName(string? methodName) => methodName is
         "AddSingleton"
         or "AddScoped"
         or "AddTransient"
-        or "TryAddSingleton"
+        or "AddKeyedSingleton"
+        or "AddKeyedScoped"
+        or "AddKeyedTransient";
+
+    private static bool IsTryAddRegistrationMethodName(string? methodName) => methodName is
+        "TryAddSingleton"
         or "TryAddScoped"
         or "TryAddTransient"
-        or "Singleton"
+        or "TryAddKeyedSingleton"
+        or "TryAddKeyedScoped"
+        or "TryAddKeyedTransient";
+
+    private static bool IsServiceDescriptorRegistrationMethodName(string? methodName) => methodName is
+        "Singleton"
         or "Scoped"
-        or "Transient";
+        or "Transient"
+        or "KeyedSingleton"
+        or "KeyedScoped"
+        or "KeyedTransient";
 
     private static string? GetInvokedMethodName(InvocationExpressionSyntax invocation) =>
         invocation.Expression switch
@@ -282,21 +300,21 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
                && method.ContainingType.MetadataName == "ServiceCollectionServiceExtensions"
-               && method.Name is "AddSingleton" or "AddScoped" or "AddTransient";
+               && IsServiceCollectionRegistrationMethodName(method.Name);
     }
 
     private static bool IsTryAddRegistration(IMethodSymbol method)
     {
         return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionExtensionsNamespace
                && method.ContainingType.MetadataName == "ServiceCollectionDescriptorExtensions"
-               && method.Name is "TryAddSingleton" or "TryAddScoped" or "TryAddTransient";
+               && IsTryAddRegistrationMethodName(method.Name);
     }
 
     private static bool IsServiceDescriptorRegistration(IMethodSymbol method)
     {
         return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
                && method.ContainingType.MetadataName == "ServiceDescriptor"
-               && method.Name is "Singleton" or "Scoped" or "Transient";
+               && IsServiceDescriptorRegistrationMethodName(method.Name);
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorAttributeSyntaxContext context)

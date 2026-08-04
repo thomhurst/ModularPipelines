@@ -257,25 +257,31 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         }
     }
 
+    private static bool CanReferenceSecretValueAttribute(Assembly assembly) =>
+        CanReferenceSecretValueAttribute(assembly, RuntimeFeature.IsDynamicCodeSupported);
+
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
         Justification = "Generated assemblies register themselves. Reference inspection only excludes third-party assemblies that cannot declare SecretValue properties.")]
-    private static bool CanReferenceSecretValueAttribute(Assembly assembly)
+    internal static bool CanReferenceSecretValueAttribute(
+        Assembly assembly,
+        bool isDynamicCodeSupported)
     {
+        if (!isDynamicCodeSupported)
+        {
+            // Native AOT cannot inspect references or reflect over unprocessed types. Treat
+            // their secret metadata as unknown so the caller fails loudly instead of assuming
+            // that values are safe to log.
+            return true;
+        }
+
         return SecretAttributeReferenceCache.GetValue(assembly, static candidate =>
         {
             var attributeAssembly = typeof(SecretValueAttribute).Assembly;
             if (candidate == attributeAssembly)
             {
                 return new SecretAttributeReference(true);
-            }
-
-            if (!RuntimeFeature.IsDynamicCodeSupported)
-            {
-                // Processed application assemblies are handled before this fallback. Native AOT can
-                // neither inspect assembly references nor reflect over unprocessed option types.
-                return new SecretAttributeReference(false);
             }
 
             var attributeAssemblyName = attributeAssembly.GetName().Name;
