@@ -5619,6 +5619,38 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Helper_Assigned_Callback()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static Action Callback = null!;
+
+                public static void Register()
+                {
+                    var builder = Pipeline.CreateBuilder();
+                    SetCallback(builder);
+                    Callback();
+                }
+
+                private static void SetCallback(PipelineBuilder builder) =>
+                    Callback = () => builder.AddModule<BuildModule>();
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Module_Registered_By_Static_Constructor_Field_Assignment()
     {
         var source = $$"""

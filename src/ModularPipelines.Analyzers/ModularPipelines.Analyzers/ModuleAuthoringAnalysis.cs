@@ -1785,10 +1785,61 @@ internal static class ModuleAuthoringAnalysis
             return memberValues;
         }
 
+        memberValues = GetInvokedHelperMemberValues(
+                memberReference,
+                member,
+                compilation)
+            .ToArray();
+        if (memberValues.Length > 0)
+        {
+            return memberValues;
+        }
+
         memberValues = GetConstructorMemberValues(member, compilation).ToArray();
         return memberValues.Length > 0
             ? memberValues
             : GetDeclaredMemberValues(member, compilation);
+    }
+
+    private static IEnumerable<IOperation> GetInvokedHelperMemberValues(
+        IOperation memberReference,
+        ISymbol member,
+        Compilation compilation)
+    {
+        var callable = GetEnclosingCallable(memberReference);
+        var precedingInvocations = GetRoot(memberReference)
+            .DescendantsAndSelf()
+            .OfType<IInvocationOperation>()
+            .Where(invocation =>
+                invocation.Syntax.Span.End <= memberReference.Syntax.SpanStart)
+            .Where(invocation => ReferenceEquals(
+                GetEnclosingCallable(invocation),
+                callable))
+            .Where(IsInReachableBranch)
+            .Where(invocation => IsLinearPredecessor(invocation, memberReference))
+            .OrderByDescending(static invocation => invocation.Syntax.SpanStart);
+
+        foreach (var invocation in precedingInvocations)
+        {
+            var method = NormalizeMethod(invocation.TargetMethod);
+            if (GetMethodOperation(method, compilation, default) is not { } operation)
+            {
+                continue;
+            }
+
+            var values = GetFinalMemberValues(operation, member).ToArray();
+            if (values.Length == 0)
+            {
+                continue;
+            }
+
+            foreach (var value in values)
+            {
+                yield return value;
+            }
+
+            yield break;
+        }
     }
 
     private static IEnumerable<IOperation> GetEventHandlerValues(
@@ -5538,15 +5589,25 @@ internal static class ModuleAuthoringAnalysis
         var syntaxTree = syntaxReference.SyntaxTree;
         if (!compilation.ContainsSyntaxTree(syntaxTree))
         {
-            yield break;
+            return [];
         }
 
         var semanticModel = compilation.GetSemanticModel(syntaxTree);
-        var operations = syntaxReference.GetSyntax()
+        var operation = syntaxReference.GetSyntax()
             .DescendantNodesAndSelf()
             .Select(syntax => semanticModel.GetOperation(syntax))
             .OfType<IOperation>()
-            .ToArray();
+            .FirstOrDefault();
+        return operation is null
+            ? []
+            : GetFinalMemberValues(operation, member);
+    }
+
+    private static IEnumerable<IOperation> GetFinalMemberValues(
+        IOperation operation,
+        ISymbol member)
+    {
+        var operations = operation.DescendantsAndSelf().ToArray();
         var assignments = operations
             .OfType<ISimpleAssignmentOperation>()
             .Where(IsInReachableBranch)
