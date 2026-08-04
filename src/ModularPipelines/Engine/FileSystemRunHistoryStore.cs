@@ -137,7 +137,10 @@ internal sealed class FileSystemRunHistoryStore(
         var directory = GetHistoryDirectory();
         Directory.CreateDirectory(directory);
         var filePrefix = GetPipelineFilePrefix(report.PipelineIdentity);
-        var fileName = $"{filePrefix}{report.End.UtcDateTime:yyyyMMddHHmmssfffffff}-{Guid.NewGuid():N}.json";
+        var runId = Guid.TryParse(report.RunId, out var parsedRunId)
+            ? parsedRunId.ToString("N")
+            : Guid.NewGuid().ToString("N");
+        var fileName = $"{filePrefix}{report.End.UtcDateTime:yyyyMMddHHmmssfffffff}-{runId}.json";
         var path = Path.Combine(directory, fileName);
         await File.WriteAllTextAsync(
                 path,

@@ -190,6 +190,36 @@ public class RunReportTests
             throw new InvalidOperationException("Obfuscation failed");
     }
 
+    private sealed class RedactingSecretObfuscator : ISecretObfuscator
+    {
+        public string Obfuscate(string? input, object? optionsObject) =>
+            input?.Replace("secret", "**********", StringComparison.Ordinal) ?? string.Empty;
+    }
+
+    public sealed class StaticRunReportEnricher : IRunReportEnricher
+    {
+        public ValueTask EnrichAsync(
+            RunReportEnrichmentContext context,
+            CancellationToken cancellationToken)
+        {
+            context.GitSha = "secret-sha";
+            context.GitBranch = "secret-branch";
+            context.CiRunUrl = "https://ci.example/secret-run";
+            return ValueTask.CompletedTask;
+        }
+    }
+
+    private sealed class NeverCompletingRunReportEnricher : IRunReportEnricher
+    {
+        private readonly TaskCompletionSource _completion = new(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public ValueTask EnrichAsync(
+            RunReportEnrichmentContext context,
+            CancellationToken cancellationToken) =>
+            new(_completion.Task);
+    }
+
     [Test]
     public async Task WriteRunReportPersistsSchemaHistoryDeltasAndCommandCounts()
     {
@@ -208,7 +238,10 @@ public class RunReportTests
                 await Assert.That(firstSummary.RunReport).IsNotNull();
                 await Assert.That(firstReport).IsNotNull();
                 await Assert.That(firstReport!.SchemaVersion).IsEqualTo(PipelineRunReport.CurrentSchemaVersion);
+                await Assert.That(Guid.TryParseExact(firstReport.RunId, "N", out _)).IsTrue();
                 await Assert.That(firstReport.PipelineIdentity).IsNotNullOrWhiteSpace();
+                await Assert.That(firstReport.Correlation).IsNotNull();
+                await Assert.That(firstReport.Correlation!.Hostname).IsNotNullOrWhiteSpace();
                 await Assert.That(firstReport.Status).IsEqualTo(Status.Failed);
                 await Assert.That(firstReport.CommandCount).IsEqualTo(1);
                 await Assert.That(firstReport.Modules.Single(module => module.ModuleTypeName == ModuleTypeIdentifier.Get(typeof(CommandModule)))
@@ -1041,6 +1074,139 @@ public class RunReportTests
             NullLogger<FileSystemRunHistoryStore>.Instance);
 
     [Test]
+    public async Task RunReportEnrichersPopulateObfuscatedCorrelation()
+    {
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new RedactingSecretObfuscator()),
+            new KnownBuildSystemDetector(),
+            OptionsFactory.Create(new PipelineOptions()),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            runReportEnrichers: [new StaticRunReportEnricher()]);
+
+        var report = await service.CompleteAsync(CreateEmptySummary());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(Guid.TryParseExact(report.RunId, "N", out _)).IsTrue();
+            await Assert.That(report.Correlation).IsNotNull();
+            await Assert.That(report.Correlation!.GitSha).IsEqualTo("**********-sha");
+            await Assert.That(report.Correlation.GitBranch).IsEqualTo("**********-branch");
+            await Assert.That(report.Correlation.CiRunUrl)
+                .IsEqualTo("https://ci.example/**********-run");
+            await Assert.That(report.Correlation.Hostname).IsEqualTo(Environment.MachineName);
+            await Assert.That(report.Correlation.BuildSystem).IsEqualTo(BuildSystem.GitHubActions);
+        }
+    }
+
+    [Test]
+    public async Task BuilderRegistrationInvokesRunReportEnricher()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            PrintLogo = false,
+            PrintResults = false,
+        });
+        builder.AddModule<SuccessfulModule>();
+        builder.AddRunReportEnricher<StaticRunReportEnricher>();
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        await Assert.That(summary.RunReport!.Correlation!.GitSha).IsEqualTo("secret-sha");
+    }
+
+    [Test]
+    public async Task FileSystemHistoryStoreReadsSchemaOneWithoutCorrelation()
+    {
+        var directory = CreateTemporaryDirectory();
+
+        try
+        {
+            var store = CreateHistoryStore(directory, historyRetention: 1);
+            await store.SaveAsync(new PipelineRunReport
+            {
+                SchemaVersion = 1,
+                PipelineIdentity = "schema-one",
+                End = DateTimeOffset.UtcNow,
+            });
+
+            var report = await store.GetLatestAsync("schema-one");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(report).IsNotNull();
+                await Assert.That(report!.SchemaVersion).IsEqualTo(1);
+                await Assert.That(report.RunId).IsEmpty();
+                await Assert.That(report.Correlation).IsNull();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task RunReportEnricherHasBoundedExecutionTime()
+    {
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(new PipelineOptions()),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            enricherTimeout: TimeSpan.FromMilliseconds(25),
+            runReportEnrichers: [new NeverCompletingRunReportEnricher()]);
+
+        var report = await service.CompleteAsync(CreateEmptySummary())
+            .WaitAsync(TimeSpan.FromSeconds(2));
+
+        await Assert.That(report.Correlation).IsNotNull();
+    }
+
+    [Test]
+    public async Task FileSystemHistoryUsesRunIdInOwnedFileName()
+    {
+        var directory = CreateTemporaryDirectory();
+        var runId = Guid.NewGuid();
+
+        try
+        {
+            var store = CreateHistoryStore(directory, historyRetention: 1);
+            await store.SaveAsync(new PipelineRunReport
+            {
+                RunId = runId.ToString("D"),
+                PipelineIdentity = "run-id-file",
+                End = DateTimeOffset.UtcNow,
+            });
+
+            var fileName = Path.GetFileName(Directory.EnumerateFiles(directory).Single());
+            await Assert.That(fileName).Contains(runId.ToString("N"));
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task KnownCiUsesDefaultArtifactReportPath()
     {
         var options = OptionsFactory.Create(new PipelineOptions());
@@ -1234,7 +1400,7 @@ public class RunReportTests
                 It.IsAny<string>(),
                 It.IsAny<CancellationToken>()))
             .Callback<string, CancellationToken>((_, token) => readToken = token)
-            .ReturnsAsync((PipelineRunReport?)null);
+            .ReturnsAsync((PipelineRunReport?) null);
         historyStore.Setup(store => store.SaveAsync(
                 It.IsAny<PipelineRunReport>(),
                 It.IsAny<CancellationToken>()))
@@ -2300,7 +2466,7 @@ public class RunReportTests
     }
 
     private static IModuleResult CreateHistoricalResult(IModule module, DateTimeOffset start) =>
-        (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
+        (ModuleResult) CreateResult(module, start, TimeSpan.Zero) with
         {
             ModuleStatus = Status.UsedHistory,
         };
