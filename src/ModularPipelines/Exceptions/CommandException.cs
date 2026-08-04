@@ -44,7 +44,8 @@ public class CommandException : PipelineException
     {
     }
 
-    internal static CommandException FromObfuscatedResult(
+    // CommandInput is embedded in the message, so callers must pass an already-obfuscated result.
+    internal static CommandException FromAlreadyObfuscatedResult(
         CommandResult result,
         Exception? innerException = null) =>
         new(

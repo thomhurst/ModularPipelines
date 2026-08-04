@@ -26,6 +26,9 @@ namespace ModularPipelines.Context;
 /// </summary>
 internal sealed class Command : ICommandContext
 {
+    // Win32 ERROR_FILE_NOT_FOUND and Unix ENOENT both use native error code 2.
+    private const int FileNotFoundNativeErrorCode = 2;
+
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandLineBuilder _commandLineBuilder;
     private readonly IEnumerable<ICommandInterceptor> _commandInterceptors;
@@ -250,7 +253,7 @@ internal sealed class Command : ICommandContext
             LogInterceptedCommand(options, executionOptions, inputToLog.Value, result);
             if (result.ExitCode != 0 && executionOptions.ThrowOnNonZeroExitCode)
             {
-                throw CommandException.FromObfuscatedResult(CreateFailureResult(
+                throw CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
                     command,
                     executionOptions,
                     result.CommandInput,
@@ -425,7 +428,7 @@ internal sealed class Command : ICommandContext
                         command.WorkingDirPath));
                 var failure = loggingFailures.CombineWith(e);
 
-                throw CommandException.FromObfuscatedResult(
+                throw CommandException.FromAlreadyObfuscatedResult(
                     CreateFailureResult(
                         command,
                         execOpts,
@@ -502,7 +505,7 @@ internal sealed class Command : ICommandContext
                     command.WorkingDirPath));
             if (commandFailure is not null && loggingFailures.HasFailures)
             {
-                throw CommandException.FromObfuscatedResult(
+                throw CommandException.FromAlreadyObfuscatedResult(
                     commandFailure.Result,
                     loggingFailures.CombineWith(commandFailure));
             }
@@ -565,20 +568,19 @@ internal sealed class Command : ICommandContext
                 _secretObfuscator.Obfuscate(command.TargetFilePath, execOpts),
                 result,
                 combinedFailure)
-            : CommandException.FromObfuscatedResult(result, combinedFailure);
+            : CommandException.FromAlreadyObfuscatedResult(result, combinedFailure);
     }
 
     private static bool IsExecutableNotFound(Exception exception)
     {
-        if (exception is Win32Exception { NativeErrorCode: 2 })
+        if (exception is Win32Exception { NativeErrorCode: FileNotFoundNativeErrorCode })
         {
             return true;
         }
 
-        if (exception is AggregateException aggregateException
-            && aggregateException.InnerExceptions.Any(IsExecutableNotFound))
+        if (exception is AggregateException aggregateException)
         {
-            return true;
+            return aggregateException.InnerExceptions.Any(IsExecutableNotFound);
         }
 
         return exception.InnerException is not null
@@ -640,7 +642,7 @@ internal sealed class Command : ICommandContext
         string standardError)
     {
         return result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode
-            ? CommandException.FromObfuscatedResult(CreateFailureResult(
+            ? CommandException.FromAlreadyObfuscatedResult(CreateFailureResult(
                 command,
                 execOpts,
                 input,
