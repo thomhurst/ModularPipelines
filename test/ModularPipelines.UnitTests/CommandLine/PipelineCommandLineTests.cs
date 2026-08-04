@@ -108,6 +108,28 @@ public class PipelineCommandLineTests
             Task.FromResult<string>("unregistered");
     }
 
+    private sealed class ThrowingConstructorModule : Module<string>
+    {
+        public ThrowingConstructorModule() =>
+            throw new InvalidOperationException("Help must not activate modules.");
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Help must not execute modules.");
+    }
+
+    private sealed class ThrowingConfigurationModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() =>
+            throw new InvalidOperationException("Help must not read module configuration.");
+
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Help must not execute modules.");
+    }
+
     [AddRegistrationDependency(typeof(UnregisteredModule))]
     [ModuleCategory("excluded")]
     private sealed class InvalidDynamicDependencyModule : Module<string>
@@ -893,6 +915,42 @@ public class PipelineCommandLineTests
         var consoleWriter = new CapturingConsoleWriter();
         using var builder = Pipeline.CreateBuilder(["--help"]);
         builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(consoleWriter.Messages.Single())
+                .Contains("ModularPipelines command-line options:");
+        }
+    }
+
+    [Test]
+    public async Task HelpDoesNotActivateModules()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--help"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+        builder.AddModule<ThrowingConstructorModule>();
+
+        var summary = await builder.ExecutePipelineAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(summary.Results).IsEmpty();
+            await Assert.That(consoleWriter.Messages.Single())
+                .Contains("ModularPipelines command-line options:");
+        }
+    }
+
+    [Test]
+    public async Task HelpDoesNotReadModuleConfiguration()
+    {
+        var consoleWriter = new CapturingConsoleWriter();
+        using var builder = Pipeline.CreateBuilder(["--help"]);
+        builder.Services.AddSingleton<IConsoleWriter>(consoleWriter);
+        builder.AddModule<ThrowingConfigurationModule>();
 
         var summary = await builder.ExecutePipelineAsync();
 

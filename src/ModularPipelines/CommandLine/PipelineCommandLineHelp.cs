@@ -1,3 +1,6 @@
+using ModularPipelines.Interfaces;
+using ModularPipelines.Models;
+
 namespace ModularPipelines.PipelineCli;
 
 internal static class PipelineCommandLineHelp
@@ -17,4 +20,11 @@ internal static class PipelineCommandLineHelp
         Options accepting values may be repeated or written as --option=value.
         Unrecognized arguments are forwarded to host configuration.
         """;
+
+    public static PipelineSummary Show(IConsoleWriter consoleWriter)
+    {
+        consoleWriter.LogToConsole(Spectre.Console.Markup.Escape(Usage));
+        var now = DateTimeOffset.UtcNow;
+        return new PipelineSummary([], [], TimeSpan.Zero, now, now);
+    }
 }

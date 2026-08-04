@@ -10,6 +10,7 @@ using ModularPipelines.Engine.Executors;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -107,7 +108,11 @@ internal sealed class PipelineImpl : IPipeline
         try
         {
             PipelineSummary summary;
-            if (await Services.GetRequiredService<PipelineCommandHandler>()
+            if (Services.GetRequiredService<PipelineCommandLineOptions>().Command == PipelineCommand.Help)
+            {
+                summary = PipelineCommandLineHelp.Show(Services.GetRequiredService<IConsoleWriter>());
+            }
+            else if (await Services.GetRequiredService<PipelineCommandHandler>()
                     .TryExecuteAsync(cancellationToken)
                     .ConfigureAwait(false) is { } commandResult)
             {
