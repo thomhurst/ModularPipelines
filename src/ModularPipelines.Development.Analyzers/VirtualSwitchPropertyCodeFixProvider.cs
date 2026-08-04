@@ -49,9 +49,9 @@ public class VirtualSwitchPropertyCodeFixProvider : CodeFixProvider
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
-                title: Resources.MPD0001CodeFixTitle,
+                title: Resources.MP0011CodeFixTitle,
                 createChangedDocument: c => AddVirtualKeyword(context.Document, declaration, c),
-                equivalenceKey: nameof(Resources.MPD0001CodeFixTitle)),
+                equivalenceKey: nameof(Resources.MP0011CodeFixTitle)),
             diagnostic);
     }
 

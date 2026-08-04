@@ -235,14 +235,14 @@ file static class BuildPipelineConfiguration
 
     private static void WriteWarning(string message)
     {
-#pragma warning disable ConsoleUse // Logging is not configured until after distributed startup succeeds.
+#pragma warning disable MP0004 // Logging is not configured until after distributed startup succeeds.
         Console.Error.WriteLine($"WARNING: {message}");
 
         if (string.Equals(Environment.GetEnvironmentVariable("GITHUB_ACTIONS"), "true", StringComparison.OrdinalIgnoreCase))
         {
             Console.WriteLine($"::warning title=Distributed pipeline degraded::{message}");
         }
-#pragma warning restore ConsoleUse
+#pragma warning restore MP0004
     }
 
     private static void ConfigureArtifactStore(PipelineBuilder builder)

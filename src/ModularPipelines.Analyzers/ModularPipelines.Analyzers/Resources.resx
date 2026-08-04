@@ -210,6 +210,69 @@
   <data name="SelfDependencyAnalyzerDescription" xml:space="preserve">
     <value>A module cannot have a DependsOn attribute that references itself. This would create a circular dependency that prevents the module from ever executing.</value>
   </data>
+  <data name="UnregisteredModuleAnalyzerTitle" xml:space="preserve">
+    <value>Register module with the pipeline</value>
+  </data>
+  <data name="UnregisteredModuleAnalyzerMessageFormat" xml:space="preserve">
+    <value>Module '{0}' is not registered; call AddModule&lt;{0}&gt;() or register its assembly</value>
+  </data>
+  <data name="UnregisteredModuleAnalyzerDescription" xml:space="preserve">
+    <value>Every concrete module declared by an executable pipeline must be registered directly, auto-registered as a required dependency, or included in an assembly scan before the pipeline runs.</value>
+  </data>
+  <data name="NonPublicModuleAnalyzerTitle" xml:space="preserve">
+    <value>Module classes must be public</value>
+  </data>
+  <data name="NonPublicModuleAnalyzerMessageFormat" xml:space="preserve">
+    <value>Module '{0}' is not public and cannot be discovered reliably</value>
+  </data>
+  <data name="NonPublicModuleAnalyzerDescription" xml:space="preserve">
+    <value>Concrete module classes and their containing types must be public for discovery unless they are registered explicitly by instance or factory.</value>
+  </data>
+  <data name="AsyncVoidModuleAnalyzerTitle" xml:space="preserve">
+    <value>Avoid async void in modules</value>
+  </data>
+  <data name="AsyncVoidModuleAnalyzerMessageFormat" xml:space="preserve">
+    <value>Async method '{0}' in a module must return Task or Task&lt;T&gt;</value>
+  </data>
+  <data name="AsyncVoidModuleAnalyzerDescription" xml:space="preserve">
+    <value>Async module methods must return Task or Task&lt;T&gt; so callers can await completion and observe exceptions.</value>
+  </data>
+  <data name="BlockingCallModuleAnalyzerTitle" xml:space="preserve">
+    <value>Do not block in ExecuteAsync</value>
+  </data>
+  <data name="BlockingCallModuleAnalyzerMessageFormat" xml:space="preserve">
+    <value>Blocking call '{0}' in ExecuteAsync can deadlock or exhaust worker threads</value>
+  </data>
+  <data name="BlockingCallModuleAnalyzerDescription" xml:space="preserve">
+    <value>ExecuteAsync must await asynchronous work instead of synchronously blocking on Task results.</value>
+  </data>
+  <data name="UnflowedCancellationTokenAnalyzerTitle" xml:space="preserve">
+    <value>Flow the module cancellation token</value>
+  </data>
+  <data name="UnflowedCancellationTokenAnalyzerMessageFormat" xml:space="preserve">
+    <value>Awaited call '{0}' accepts a CancellationToken; pass the ExecuteAsync cancellationToken</value>
+  </data>
+  <data name="UnflowedCancellationTokenAnalyzerDescription" xml:space="preserve">
+    <value>Awaited operations in ExecuteAsync should receive its cancellation token so pipeline cancellation stops outstanding work.</value>
+  </data>
+  <data name="ThreadSleepModuleAnalyzerTitle" xml:space="preserve">
+    <value>Do not call Thread.Sleep in ExecuteAsync</value>
+  </data>
+  <data name="ThreadSleepModuleAnalyzerMessageFormat" xml:space="preserve">
+    <value>Thread.Sleep blocks ExecuteAsync; use an asynchronous delay with cancellation</value>
+  </data>
+  <data name="ThreadSleepModuleAnalyzerDescription" xml:space="preserve">
+    <value>ExecuteAsync should use an asynchronous delay that observes cancellation instead of blocking a worker thread.</value>
+  </data>
+  <data name="DuplicateDependsOnAnalyzerTitle" xml:space="preserve">
+    <value>Remove duplicate module dependency</value>
+  </data>
+  <data name="DuplicateDependsOnAnalyzerMessageFormat" xml:space="preserve">
+    <value>Module '{0}' declares dependency '{1}' more than once</value>
+  </data>
+  <data name="DuplicateDependsOnAnalyzerDescription" xml:space="preserve">
+    <value>A module should declare each DependsOn dependency only once.</value>
+  </data>
   <data name="CliFlagInvalidTypeTitle" xml:space="preserve"><value>Invalid CLI flag property type</value></data>
   <data name="CliFlagInvalidTypeMessageFormat" xml:space="preserve"><value>CLI flag property '{0}' has type '{1}'; use bool? or int?</value></data>
   <data name="CliFlagInvalidTypeDescription" xml:space="preserve"><value>CLI flags represent an optional boolean switch or an optional repetition count.</value></data>

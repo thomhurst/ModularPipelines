@@ -255,6 +255,37 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
+    public async Task First_CancelKeyPress_Cancels_Gracefully_And_Second_Passes_Through()
+    {
+        using var engineCancellationToken =
+            new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+
+        var firstInterruptShouldBeSwallowed = engineCancellationToken.HandleCancelKeyPress();
+        var secondInterruptShouldBeSwallowed = engineCancellationToken.HandleCancelKeyPress();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(firstInterruptShouldBeSwallowed).IsTrue();
+            await Assert.That(engineCancellationToken.IsCancellationRequested).IsTrue();
+            await Assert.That(secondInterruptShouldBeSwallowed).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task Cancel_And_Dispose_Can_Run_Concurrently()
+    {
+        for (var iteration = 0; iteration < 1_000; iteration++)
+        {
+            var engineCancellationToken =
+                new PipelineEngineCancellationToken(new PrimaryExceptionContainer());
+
+            await Task.WhenAll(
+                Task.Run(engineCancellationToken.Cancel),
+                Task.Run(engineCancellationToken.Dispose));
+        }
+    }
+
+    [Test]
     public async Task When_Cancel_Engine_Token_With_DependsOn_Then_Modules_Cancel()
     {
         var builder = TestPipelineBuilder.Create()
