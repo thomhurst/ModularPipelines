@@ -10,13 +10,13 @@ namespace ModularPipelines.Analyzers;
 
 /// <summary>
 /// Analyzer that detects when a module depends on itself via DependsOnAttribute.
-/// Reports diagnostic MPDEP003 when a module has [DependsOn&lt;Self&gt;].
+/// Reports diagnostic MP0010 when a module has [DependsOn&lt;Self&gt;].
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 [ExcludeFromCodeCoverage]
 public class SelfDependencyAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "MPDEP003";
+    public const string DiagnosticId = "MP0010";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,

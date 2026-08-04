@@ -147,11 +147,12 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             : string.Empty;
     }
 
-    private static string GetStatusString(Status status)
+    internal static string GetStatusString(Status status)
     {
         return status switch
         {
-            Status.Successful or Status.UsedHistory => $$$"""${\textsf{\color{lightgreen}{{{status}}}}}$""",
+            Status.Successful or Status.UsedHistory or Status.CachedResult =>
+                $$$"""${\textsf{\color{lightgreen}{{{status}}}}}$""",
             Status.NotYetStarted or Status.IgnoredFailure or Status.Processing or Status.Skipped =>
                 $$$"""${\textsf{\color{orange}{{{status}}}}}$""",
             Status.PipelineTerminated or Status.TimedOut or Status.Failed or Status.Unknown =>

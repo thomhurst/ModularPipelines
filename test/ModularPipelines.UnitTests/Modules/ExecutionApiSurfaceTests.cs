@@ -27,6 +27,7 @@ public class ExecutionApiSurfaceTests
             .Where(static method => method.Name is
                 "OnBeforeExecute" or
                 "OnAfterExecute" or
+                "OnCachedResult" or
                 "OnSkipped" or
                 "OnFailed")
             .ToArray();

@@ -2,41 +2,35 @@
 title: Single File C# Example
 ---
 
-Starting with dotnet 10 (preview 4), you can use the new file-based C# application feature to write scripts in C# without needing to create a full project structure. This is particularly useful for quick scripts or small utilities.
+Starting with .NET 10, file-based apps let you write and run C# without creating a project file.
+They are useful for quick scripts and small utilities.
 
 ## Using File-Based C# Application with ModularPipelines
 
-To use ModularPipelines in a single file C# application, you can follow these steps:
+Install the .NET 10 SDK, then follow these steps:
 
-1.  **Create a C# file**: Create a new file named `example.cs` (or any name with `.cs` extension).
-2.  **Add ModularPipelines to your project**: You can add TUnit as a package reference in your file. At the top of your `example.cs`, add the following line:
+1. **Create a C# file**: Create `example.cs` (or another file with a `.cs` extension).
+2. **Reference ModularPipelines**: Add the v4 DotNet integration package at the top of the file.
+   It brings in the core `ModularPipelines` package transitively.
 
     ```csharp
-    #:package ModularPipelines@3.*
+    #:package ModularPipelines.DotNet@4.*
     ```
 
-    Alternatively, you can specify a specific version:
+3. **Write the pipeline**: This example updates installed .NET workloads, then checks the SDK:
 
     ```csharp
-    #:package ModularPipelines@3.0.0
-    ```
+    #!/usr/bin/env -S dotnet --
+    #:package ModularPipelines.DotNet@4.*
 
-3.  **Write your C# code**: Below the package reference, you can write your C# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
-
-    ```csharp
-    #!/usr/bin/dotnet run
-    #:package ModularPipelines.DotNet@3.*
     using ModularPipelines;
     using ModularPipelines.Attributes;
     using ModularPipelines.Context;
-    using ModularPipelines.DotNet.Extensions;
     using ModularPipelines.Extensions;
     using ModularPipelines.Models;
     using ModularPipelines.Modules;
 
-    var builder = Pipeline.CreateBuilder(args);
-    // PipelineBuilder became disposable in v4; retain compatibility with the v3 package above.
-    using var builderLifetime = ((object)builder) as System.IDisposable;
+    using var builder = Pipeline.CreateBuilder(args);
 
     builder
         .AddModule<UpdateDotnetWorkloads>()
@@ -48,7 +42,7 @@ To use ModularPipelines in a single file C# application, you can follow these st
     {
         protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.DotNet().DotNetWorkload.Update(token: cancellationToken);
+            return await context.Tools.DotNet.Workload.UpdateAsync(cancellationToken: cancellationToken);
         }
     }
 
@@ -57,19 +51,19 @@ To use ModularPipelines in a single file C# application, you can follow these st
     {
         protected override async Task<CommandResult> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.DotNet().Sdk.Check(token: cancellationToken);
+            return await context.Tools.DotNet.Sdk.CheckAsync(cancellationToken: cancellationToken);
         }
     }
     ```
 
-4.  **Run your script**: You can run your script directly using the `dotnet run` command. Make sure you have the .NET SDK installed and available in your PATH.
+4. **Run the file-based app**:
 
     ```powershell
-    dotnet run example.cs
+    dotnet run --file example.cs
     ```
 
-If you need to convert the file based application to a regular C# project, you can run the following command:
+To convert the file-based app to a regular C# project, run:
 
-    ```powershell
-    dotnet project convert example.cs
-    ```
+```powershell
+dotnet project convert example.cs
+```

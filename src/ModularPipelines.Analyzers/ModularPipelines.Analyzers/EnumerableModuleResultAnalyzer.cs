@@ -11,7 +11,7 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public class EnumerableModuleResultAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "EnumerableModuleResult";
+    public const string DiagnosticId = "MP0002";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,

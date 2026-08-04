@@ -27,6 +27,7 @@ public class SecretValueAttribute : Attribute
 
     /// <summary>
     /// Gets the keys whose values are sensitive when the annotated property contains key-value pairs.
+    /// Keys also match complete identifier segments separated by dots, underscores, hyphens, or casing changes.
     /// An empty collection means the entire property value is sensitive.
     /// </summary>
     public IReadOnlyList<string> Keys { get; } = [];

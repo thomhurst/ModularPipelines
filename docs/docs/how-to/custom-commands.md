@@ -22,8 +22,10 @@ This is the equivalent to running:
 
 `dotnet tool install --global dotnet-coverage`
 
-`Arguments` always appears after generated non-terminal options and operands. It appears
-before `RunSettings` (and its `--` marker) and before options in the `Terminal` phase.
+By default, `Arguments` appears after generated non-terminal options and operands. It
+appears before `RunSettings` (and its `--` marker) and before options in the `Terminal`
+phase. When `ArgumentsContainToolOptions` is enabled, recognized tool options can be
+hoisted ahead of a structured or declared end-of-options marker.
 
 ## Adding Unmodeled Options
 
@@ -43,10 +45,11 @@ var options = new SomeGeneratedOptions
 };
 ```
 
-Within each phase, additional tokens retain their declared order and appear before
-generated tokens. The phases render as `EarlyOperand`, `Normal`, `EndOfOptions`,
-`Passthrough`, then `Terminal`. Terminal tokens appear after `Arguments` and cannot be
-combined with an end-of-options marker or `RunSettings`.
+Within each non-terminal phase, additional tokens retain their declared order and appear
+before generated tokens. The supported phases render as `EarlyOperand`, `Normal`,
+`Passthrough`, then `Terminal`. Use `RunSettings` or a declared marker in `Arguments` for
+end-of-options pass-through values. Terminal tokens appear after `Arguments` and cannot
+be combined with an end-of-options marker or `RunSettings`.
 
 ## Strongly Typed Options
 

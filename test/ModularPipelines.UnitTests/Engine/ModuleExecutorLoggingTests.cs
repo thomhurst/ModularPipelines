@@ -107,9 +107,10 @@ public class ModuleExecutorLoggingTests
     }
 
     [Test]
-    public async Task SchedulerFault_RegistersTerminatedResultsBeforeAlwaysRun()
+    public async Task SchedulerAndAlwaysRunFaults_AreAggregatedAfterRegisteringTerminatedResults()
     {
         var schedulerException = new DependencyCollisionException("Scheduler fault");
+        var alwaysRunException = new InvalidOperationException("AlwaysRun fault");
         var readyModules = Channel.CreateUnbounded<ModuleState>();
         readyModules.Writer.Complete(schedulerException);
         var cancelledModule = new LaterModule();
@@ -134,15 +135,18 @@ public class ModuleExecutorLoggingTests
             .Setup(x => x.WaitForAlwaysRunModulesAsync(
                 scheduler.Object,
                 It.IsAny<IReadOnlyList<IModule>>()))
-            .Callback(() =>
+            .Returns(() =>
             {
                 if (!terminatedResultsRegistered)
                 {
-                    throw new InvalidOperationException(
-                        "Terminated results were not registered before AlwaysRun processing.");
+                    return Task.FromException(new InvalidOperationException(
+                        "Terminated results were not registered before AlwaysRun processing."));
                 }
-            })
-            .Returns(Task.CompletedTask);
+
+                return Task.FromException(new AggregateException(
+                    schedulerException,
+                    alwaysRunException));
+            });
         var registrationEvents = new Mock<IRegistrationEventExecutor>();
         registrationEvents
             .Setup(x => x.InvokeRegistrationEventsAsync(It.IsAny<IReadOnlyList<IModule>>()))
@@ -164,15 +168,40 @@ public class ModuleExecutorLoggingTests
             Microsoft.Extensions.Options.Options.Create(new PipelineOptions()),
             NullLogger<ModuleExecutor>.Instance);
 
-        await Assert.ThrowsAsync<DependencyCollisionException>(
+        var exception = await Assert.ThrowsAsync<AggregateException>(
             async () => await executor.ExecuteAsync([cancelledModule]));
 
-        resultRegistrar.Verify(x => x.RegisterTerminatedResultsForCancelledModules(
-            cancelledModules,
-            schedulerException), Times.Once);
-        alwaysRunHandler.Verify(x => x.WaitForAlwaysRunModulesAsync(
-            scheduler.Object,
-            It.IsAny<IReadOnlyList<IModule>>()), Times.Once);
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.InnerExceptions[0]).IsSameReferenceAs(schedulerException);
+            await Assert.That(exception.InnerExceptions[1]).IsSameReferenceAs(alwaysRunException);
+            await Assert.That(exception.InnerExceptions).Count().IsEqualTo(2);
+            resultRegistrar.Verify(x => x.RegisterTerminatedResultsForCancelledModules(
+                cancelledModules,
+                schedulerException), Times.Once);
+            alwaysRunHandler.Verify(x => x.WaitForAlwaysRunModulesAsync(
+                scheduler.Object,
+                It.IsAny<IReadOnlyList<IModule>>()), Times.Once);
+        }
+    }
+
+    [Test]
+    public async Task FlattenDistinctExceptions_PreservesEmptyAggregates()
+    {
+        var pipelineException = new AggregateException();
+        var teardownException = new AggregateException();
+        var nestedTeardownException = new AggregateException(teardownException);
+
+        var exceptions = ModuleExecutor.FlattenDistinctExceptions(
+            pipelineException,
+            nestedTeardownException);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exceptions).Count().IsEqualTo(2);
+            await Assert.That(exceptions[0]).IsSameReferenceAs(pipelineException);
+            await Assert.That(exceptions[1]).IsSameReferenceAs(teardownException);
+        }
     }
 
     [Test]

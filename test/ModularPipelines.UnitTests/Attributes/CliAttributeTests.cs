@@ -1,5 +1,6 @@
 using System.CodeDom.Compiler;
 using System.Globalization;
+using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
@@ -100,6 +101,24 @@ public class CliAttributeTests
 
         await Assert.That(attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(attribute.Required).IsFalse();
+    }
+
+    [Test]
+    public async Task CommandLinePhase_Preserves_Published_Ordinals()
+    {
+        var ordinals = Enum.GetValues<CommandLinePhase>()
+            .ToDictionary(phase => phase, phase => (int)phase);
+
+        await Assert.That(ordinals[CommandLinePhase.EarlyOperand]).IsEqualTo(0);
+        await Assert.That(ordinals[CommandLinePhase.Normal]).IsEqualTo(1);
+        await Assert.That(ordinals[(CommandLinePhase) 2]).IsEqualTo(2);
+        await Assert.That(ordinals[CommandLinePhase.Passthrough]).IsEqualTo(3);
+        await Assert.That(ordinals[CommandLinePhase.Terminal]).IsEqualTo(4);
+        await Assert.That(Enum.GetName((CommandLinePhase) 2)).IsEqualTo("EndOfOptions");
+        await Assert.That(typeof(CommandLinePhase)
+                .GetField("EndOfOptions")!
+                .GetCustomAttribute<ObsoleteAttribute>())
+            .IsNotNull();
     }
 
     [Test]
@@ -491,28 +510,51 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Renders_EndOfOptions_Before_Passthrough()
+    public async Task Parser_Rejects_Early_Operand_Terminator_Before_Normal_Flag()
     {
-        var list = BuildArguments(new TestCliOptionsWithSemanticPhases
+        var options = new TestCliOptionsWithEarlyTerminator
         {
+            Operand = "-operand",
             Normal = true,
-            EndOfOptions = true,
-            Passthrough = "-input.txt",
-        });
+        };
 
-        await Assert.That(list).IsEquivalentTo(
-            ["--normal", "--", "-input.txt"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("before a later flag or option");
     }
 
     [Test]
-    public async Task Parser_Rejects_Terminal_Option_After_EndOfOptions()
+    public async Task Parser_Rejects_Conditional_Early_Terminator_Before_Normal_Flag()
     {
-        await Assert.That(() => BuildArguments(new TestCliOptionsWithSemanticPhases
+        var options = new TestCliOptionsWithConditionalEarlyTerminator
         {
-            Terminal = "tests.txt",
-            EndOfOptions = true,
-        })).Throws<InvalidOperationException>();
+            Operand = "-operand",
+            Normal = true,
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("before a later flag or option");
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Terminal_Option_After_Legacy_End_Marker()
+    {
+        PropertyCommandLinePart[] model =
+        [
+            new FlagPart(
+                "EndOfOptions",
+                static _ => true,
+                new CliFlagAttribute("--") { Phase = (CommandLinePhase) 2 }),
+            new OptionPart(
+                "RunTests",
+                static _ => "tests.jq",
+                new CliOptionAttribute("--run-tests") { Phase = CommandLinePhase.Terminal }),
+        ];
+
+        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(model, new object()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("legacy end-of-options marker");
     }
 
     [Test]
@@ -730,10 +772,6 @@ public class CliAttributeTests
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? EarlyOperand { get; set; }
-
-        [CliFlag("--", Phase = CommandLinePhase.EndOfOptions)]
-        public bool? EndOfOptions { get; set; }
-
         [CliOption(
             "--terminal",
             ValueArity = CliOptionValueArity.Optional,
@@ -827,6 +865,27 @@ public class CliAttributeTests
 
         [CliOption("--duplicate")]
         public string? Second { get; set; }
+    }
+
+    private record TestCliOptionsWithEarlyTerminator
+    {
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, PrependOptionTerminator = true)]
+        public string? Operand { get; set; }
+
+        [CliFlag("--normal")]
+        public bool? Normal { get; set; }
+    }
+
+    private record TestCliOptionsWithConditionalEarlyTerminator
+    {
+        [CliArgument(
+            0,
+            Phase = CommandLinePhase.EarlyOperand,
+            PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? Operand { get; set; }
+
+        [CliFlag("--normal")]
+        public bool? Normal { get; set; }
     }
 
     private record TestCliOptionsWithArgumentAfterOptions

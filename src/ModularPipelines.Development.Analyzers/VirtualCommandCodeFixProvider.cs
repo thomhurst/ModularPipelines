@@ -49,9 +49,9 @@ public class VirtualCommandCodeFixProvider : CodeFixProvider
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
-                title: Resources.MPD0002CodeFixTitle,
+                title: Resources.MP0012CodeFixTitle,
                 createChangedDocument: c => AddVirtualKeyword(context.Document, declaration, c),
-                equivalenceKey: nameof(Resources.MPD0002CodeFixTitle)),
+                equivalenceKey: nameof(Resources.MP0012CodeFixTitle)),
             diagnostic);
     }
 

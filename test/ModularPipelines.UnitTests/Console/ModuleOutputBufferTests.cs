@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.BuildSystemFormatters;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Console;
 
@@ -195,6 +196,98 @@ public class ModuleOutputBufferTests
         logEvent.WriteTo(logger);
 
         await Assert.That(logger.StateTypes).HasSingleItem().And.IsEquivalentTo([typeof(string)]);
+    }
+
+    [Test]
+    public async Task BufferedLogEvent_FormatsOnceAndObfuscatesEveryTime()
+    {
+        var formatterCalls = 0;
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => value?.Replace("secret", "***") ?? string.Empty);
+        var logEvent = new BufferedLogEvent<string>(
+            LogLevel.Information,
+            default,
+            "secret",
+            "***",
+            null,
+            (state, _) =>
+            {
+                formatterCalls++;
+                return $"value:{state}";
+            },
+            secretObfuscator.Object);
+
+        logEvent.WriteTo(new RecordingLogger());
+        logEvent.WriteTo(new RecordingLogger());
+        _ = logEvent.FormatMessageWithLevel();
+        _ = logEvent.FormatMessageWithLevel();
+
+        await Assert.That(formatterCalls).IsEqualTo(1);
+        secretObfuscator.Verify(
+            x => x.Obfuscate("value:secret", null),
+            Times.Exactly(4));
+    }
+
+    [Test]
+    public async Task BufferedLogEvent_ReobfuscatesMessageWithCurrentSecrets()
+    {
+        const string secret = "late-registered-secret";
+        var redactSecret = false;
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => redactSecret
+                ? value?.Replace(secret, "***", StringComparison.Ordinal) ?? string.Empty
+                : value ?? string.Empty);
+        var logEvent = new BufferedLogEvent<string>(
+            LogLevel.Information,
+            default,
+            secret,
+            secret,
+            null,
+            static (state, _) => state,
+            secretObfuscator.Object);
+
+        var beforeRegistration = logEvent.FormatMessageWithLevel();
+        redactSecret = true;
+        var afterRegistration = logEvent.FormatMessageWithLevel();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(beforeRegistration).Contains(secret);
+            await Assert.That(afterRegistration).Contains("***");
+            await Assert.That(afterRegistration).DoesNotContain(secret);
+        }
+    }
+
+    [Test]
+    public async Task BufferedLogEvent_ReobfuscatesExceptionWithCurrentSecrets()
+    {
+        const string secret = "late-registered-secret";
+        var redactSecret = false;
+        var secretObfuscator = new Mock<ISecretObfuscator>();
+        secretObfuscator
+            .Setup(x => x.Obfuscate(It.IsAny<string?>(), null))
+            .Returns((string? value, object? _) => redactSecret
+                ? value?.Replace(secret, "***", StringComparison.Ordinal) ?? string.Empty
+                : value ?? string.Empty);
+        var logEvent = new BufferedLogEvent<string>(
+            LogLevel.Error,
+            default,
+            "failure",
+            "failure",
+            new InvalidOperationException(secret),
+            static (state, _) => state,
+            secretObfuscator.Object);
+
+        redactSecret = true;
+
+        var formattedException = logEvent.FormatException();
+
+        await Assert.That(formattedException).Contains("***");
+        await Assert.That(formattedException).DoesNotContain(secret);
     }
 
     [Test]
