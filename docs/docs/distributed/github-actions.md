@@ -137,6 +137,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
