@@ -137,6 +137,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             input.Generation.OptionsTypeMetadataNames,
             StringComparer.Ordinal);
         var ambiguousMetadataNames = new HashSet<string>(candidates
+            .Where(RequiresDirectTypeReference)
             .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
             .Where(static group => group
                 .Select(static candidate => candidate.AssemblyIdentity)
@@ -788,9 +789,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool requiresGeneratedMetadata)
     {
         var uniqueItems = items
-            .GroupBy(item => item.MetadataName, StringComparer.Ordinal)
+            .GroupBy(GetRegistrationIdentity, StringComparer.Ordinal)
             .Select(group => group.First())
             .OrderBy(item => item.MetadataName, StringComparer.Ordinal)
+            .ThenBy(item => item.AssemblyIdentity, StringComparer.Ordinal)
             .ToList();
         var sb = new StringBuilder();
 
@@ -802,6 +804,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             requiresGeneratedMetadata);
         return sb.ToString();
     }
+
+    private static string GetRegistrationIdentity(TypeMetadata item) =>
+        item.UseExternalTypeNameForEmptySecretCoverage
+        || item.RequiresSecretReflectionFallback
+            ? $"{item.AssemblyIdentity}\0{item.MetadataName}"
+            : item.MetadataName;
 
     private static void AppendGeneratedFilePreamble(
         StringBuilder sb,
@@ -1223,6 +1231,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 Metadata = metadata with { RequiresSecretReflectionFallback = true },
             }
             : candidate;
+    }
+
+    private static bool RequiresDirectTypeReference(TypeMetadataCandidate candidate)
+    {
+        if (candidate.Metadata is not { } metadata)
+        {
+            return false;
+        }
+
+        return (metadata.IsCommandOptions
+                && metadata.CanRegisterCommandMetadata
+                && metadata.CommandMetadata.IsComplete)
+               || (metadata.SecretMetadata.IsComplete
+                   && !metadata.RequiresSecretReflectionFallback
+                   && (metadata.SecretMetadata.Properties.Count > 0
+                       || metadata.UseTypeForEmptySecretCoverage));
     }
 
     private static bool HasLegacyRuntimeMetadata(IAssemblySymbol assembly)

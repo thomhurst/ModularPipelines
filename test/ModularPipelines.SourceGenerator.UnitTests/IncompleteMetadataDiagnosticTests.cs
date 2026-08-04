@@ -500,6 +500,46 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Allows_Unrelated_Internal_External_Type_Name_Collisions()
+    {
+        var result = GeneratorTestHarness.RunWithIndirectExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace Shared
+            {
+                internal sealed class State;
+            }
+
+            public sealed class BaseRuntimeReference
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """,
+            """
+            namespace Shared
+            {
+                internal sealed class State;
+            }
+
+            public sealed class LeafRuntimeReference
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """,
+            "public sealed class TrimmedHost;",
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("ExternalBase");
+            await Assert.That(generatedSource).Contains("ExternalLeaf");
+            await Assert.That(generatedSource).Contains("Shared.State");
+        }
+    }
+
+    [Test]
     public async Task Accessible_Type_Without_Secrets_Registers_Name_Based_Empty_Metadata()
     {
         var result = GeneratorTestRunner.Run(
