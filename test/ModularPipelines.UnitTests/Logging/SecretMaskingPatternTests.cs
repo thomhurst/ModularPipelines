@@ -13,7 +13,7 @@ public class SecretMaskingPatternTests
 {
     private const string Secret = "p@ss word\"value";
 
-    private sealed class SecretOptions
+    internal sealed class SecretOptions
     {
         [SecretValue]
         public string Value { get; init; } = Secret;

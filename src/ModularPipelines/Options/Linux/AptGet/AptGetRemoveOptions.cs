@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
-public partial record AptGetRemoveOptions : AptGetOptions
+public record AptGetRemoveOptions : AptGetOptions
 {
     public AptGetRemoveOptions(string package)
     {

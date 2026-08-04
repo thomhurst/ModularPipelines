@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
-public partial record AptGetInstallOptions : AptGetOptions
+public record AptGetInstallOptions : AptGetOptions
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AptGetInstallOptions"/> class
