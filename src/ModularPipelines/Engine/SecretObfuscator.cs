@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -31,6 +32,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
     private readonly ISecretProvider _secretProvider;
     private readonly IOptions<SecretMaskingOptions> _maskingOptions;
     private readonly object _secretCacheLock = new();
+    private readonly ConditionalWeakTable<object, OptionsSecretCache> _optionsSecretCaches = [];
 
     private SecretCache? _secretCache;
 
@@ -82,7 +84,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         return ObfuscateCaseSensitive(input, secretCache.Secrets, maskValue);
     }
 
-    private SecretCache GetSecretCache(
+    internal SecretCache GetSecretCache(
         object? optionsObject,
         SecretMaskingOptions options,
         bool caseInsensitive)
@@ -96,15 +98,48 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         var minimumLength = Math.Max(1, options.MinimumSecretLength);
         var extraSecrets = _secretProvider.GetSecretsInObject(optionsObject)
             .Where(secret => secret.Length >= minimumLength)
-            .SelectMany(SecretMaskingPatternGenerator.Generate)
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
             .ToArray();
+        var optionsSecretCache = _optionsSecretCaches.GetValue(
+            optionsObject,
+            static _ => new OptionsSecretCache());
 
-        return extraSecrets.Length == 0
-            ? registeredSecrets
-            : CreateSecretCache(
-                registeredSecrets.Secrets.Concat(extraSecrets),
-                registeredSecrets.Version,
-                caseInsensitive);
+        lock (optionsSecretCache.SyncRoot)
+        {
+            var secretsChanged = optionsSecretCache.MinimumSecretLength != minimumLength
+                                 || !optionsSecretCache.ExtraSecrets.SequenceEqual(
+                                     extraSecrets,
+                                     StringComparer.Ordinal);
+            if (!secretsChanged
+                && optionsSecretCache.Cache is { } currentCache
+                && currentCache.Version == registeredSecrets.Version
+                && currentCache.CaseInsensitive == caseInsensitive)
+            {
+                return currentCache;
+            }
+
+            if (secretsChanged)
+            {
+                optionsSecretCache.MinimumSecretLength = minimumLength;
+                optionsSecretCache.ExtraSecrets = extraSecrets;
+                optionsSecretCache.Patterns = extraSecrets
+                    .SelectMany(SecretMaskingPatternGenerator.Generate)
+                    .ToArray();
+            }
+
+            var missingPatterns = optionsSecretCache.Patterns
+                .Where(pattern => !registeredSecrets.ExactSecrets.Contains(pattern))
+                .ToArray();
+            var cache = missingPatterns.Length == 0
+                ? registeredSecrets
+                : CreateSecretCache(
+                    registeredSecrets.Secrets.Concat(missingPatterns),
+                    registeredSecrets.Version,
+                    caseInsensitive);
+            optionsSecretCache.Cache = cache;
+            return cache;
+        }
     }
 
     private SecretCache GetRegisteredSecretCache(bool caseInsensitive)
@@ -143,8 +178,10 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         bool caseInsensitive)
     {
         var comparer = caseInsensitive ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
-        var orderedSecrets = secrets
+        var nonBlankSecrets = secrets
             .Where(secret => !string.IsNullOrWhiteSpace(secret))
+            .ToArray();
+        var orderedSecrets = nonBlankSecrets
             .Distinct(comparer)
             .OrderByDescending(secret => secret.Length)
             .ToArray();
@@ -153,7 +190,12 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             ? null
             : SearchValues.Create(orderedSecrets, comparison);
 
-        return new SecretCache(version, caseInsensitive, orderedSecrets, searchValues);
+        return new SecretCache(
+            version,
+            caseInsensitive,
+            orderedSecrets,
+            nonBlankSecrets.ToHashSet(comparer),
+            searchValues);
     }
 
     /// <summary>
@@ -220,9 +262,23 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         return result.ToString();
     }
 
-    private sealed record SecretCache(
+    private sealed class OptionsSecretCache
+    {
+        public object SyncRoot { get; } = new();
+
+        public int MinimumSecretLength { get; set; }
+
+        public string[] ExtraSecrets { get; set; } = [];
+
+        public string[] Patterns { get; set; } = [];
+
+        public SecretCache? Cache { get; set; }
+    }
+
+    internal sealed record SecretCache(
         long Version,
         bool CaseInsensitive,
         string[] Secrets,
+        IReadOnlySet<string> ExactSecrets,
         SearchValues<string>? SearchValues);
 }

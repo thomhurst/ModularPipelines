@@ -251,7 +251,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
         foreach (var keyValue in keyValues)
         {
-            if (secretValueKeys.Contains(keyValue.Key, StringComparer.OrdinalIgnoreCase) &&
+            if (secretValueKeys.Any(secretKey => IsMatchingSecretKey(keyValue.Key, secretKey)) &&
                 !string.IsNullOrWhiteSpace(keyValue.Value))
             {
                 yield return keyValue.Value;
@@ -327,6 +327,85 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         ReflectionAccessorsCache.GetValue(
             type,
             static candidate => new ReflectionAccessors(GetSecretProperties(candidate))).Value;
+
+    private static bool IsMatchingSecretKey(string key, string secretKey)
+    {
+        if (string.Equals(key, secretKey, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        var keySegments = SplitKeySegments(key);
+        var secretSegments = SplitKeySegments(secretKey);
+        if (secretSegments.Count == 0 || secretSegments.Count > keySegments.Count)
+        {
+            return false;
+        }
+
+        for (var start = 0; start <= keySegments.Count - secretSegments.Count; start++)
+        {
+            var allSegmentsMatch = true;
+            for (var offset = 0; offset < secretSegments.Count; offset++)
+            {
+                if (!string.Equals(
+                        secretSegments[offset],
+                        keySegments[start + offset],
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    allSegmentsMatch = false;
+                    break;
+                }
+            }
+
+            if (allSegmentsMatch)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static IReadOnlyList<string> SplitKeySegments(string key)
+    {
+        var segments = new List<string>();
+        var segmentStart = 0;
+        for (var index = 0; index < key.Length; index++)
+        {
+            if (key[index] is '.' or '_' or '-')
+            {
+                AddSegment(key, segmentStart, index, segments);
+                segmentStart = index + 1;
+                continue;
+            }
+
+            if (index > segmentStart
+                && char.IsUpper(key[index])
+                && (char.IsLower(key[index - 1])
+                    || (char.IsUpper(key[index - 1])
+                        && index + 1 < key.Length
+                        && char.IsLower(key[index + 1]))))
+            {
+                AddSegment(key, segmentStart, index, segments);
+                segmentStart = index;
+            }
+        }
+
+        AddSegment(key, segmentStart, key.Length, segments);
+        return segments;
+    }
+
+    private static void AddSegment(
+        string key,
+        int start,
+        int end,
+        ICollection<string> segments)
+    {
+        if (end > start)
+        {
+            segments.Add(key[start..end]);
+        }
+    }
 
     private static IEnumerable<string?> NormalizeSecrets(object? value)
     {
