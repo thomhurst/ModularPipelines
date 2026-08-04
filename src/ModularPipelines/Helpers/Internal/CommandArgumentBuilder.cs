@@ -11,54 +11,99 @@ namespace ModularPipelines.Helpers.Internal;
 /// <inheritdoc/>
 internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 {
+    private const CommandLinePhase LegacyEndOfOptionsPhase = (CommandLinePhase) 2;
+
     /// <inheritdoc/>
     public IReadOnlyList<string> BuildArguments(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject)
     {
+        var emittedOptionTerminator = false;
+        return BuildArguments(commandModel, optionsObject, ref emittedOptionTerminator);
+    }
+
+    /// <inheritdoc/>
+    public IReadOnlyList<string> BuildArguments(
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        object optionsObject,
+        ref bool emittedOptionTerminator) =>
+        BuildArguments(commandModel, optionsObject, ref emittedOptionTerminator, out _);
+
+    /// <inheritdoc/>
+    public IReadOnlyList<string> BuildArguments(
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        object optionsObject,
+        ref bool emittedOptionTerminator,
+        out int? emittedOptionTerminatorIndex)
+    {
         var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
-        var renderedPhases = Enum.GetValues<CommandLinePhase>()
-            .ToDictionary(
-                phase => phase,
-                phase => RenderPhase(
+        var propertyValues = commandModel.ToDictionary(
+            static part => part,
+            part => part.Getter(optionsObject));
+        var argumentValues = arguments.ToDictionary(
+            static argument => argument,
+            argument => (IReadOnlyList<string>) GetValues(propertyValues[argument]));
+        var renderedOptionValues = flagsAndOptions.ToDictionary(
+            static part => part,
+            part => RenderOption(part, propertyValues[part], optionsObject.GetType()));
+        ValidateOptionTerminatorOrdering(
+            arguments,
+            renderedOptionValues,
+            argumentValues,
+            emittedOptionTerminator);
+        var renderedPhases = new Dictionary<CommandLinePhase, RenderedPhase>();
+        foreach (var phase in Enum.GetValues<CommandLinePhase>())
+        {
+            renderedPhases.Add(
+                phase,
+                RenderPhase(
                     phase,
                     flagsAndOptions,
                     arguments,
-                    optionsObject));
-
-        if (renderedPhases[CommandLinePhase.EndOfOptions].Count > 0
-            && renderedPhases[CommandLinePhase.Terminal].Count > 0)
-        {
-            throw new InvalidOperationException(
-                "Terminal options cannot be combined with an end-of-options marker.");
+                    renderedOptionValues,
+                    argumentValues,
+                    optionsObject.GetType(),
+                    ref emittedOptionTerminator));
         }
 
-        return
-        [
-            .. renderedPhases
-                .OrderBy(pair => GetRenderOrder(pair.Key))
-                .SelectMany(pair => pair.Value),
-        ];
+        var rendered = new List<string>();
+        emittedOptionTerminatorIndex = null;
+        foreach (var phase in renderedPhases.OrderBy(pair => GetRenderOrder(pair.Key)))
+        {
+            if (emittedOptionTerminatorIndex is null
+                && phase.Value.OptionTerminatorIndex is { } phaseIndex)
+            {
+                emittedOptionTerminatorIndex = rendered.Count + phaseIndex;
+            }
+
+            rendered.AddRange(phase.Value.Arguments);
+        }
+
+        return rendered;
     }
 
     private static int GetRenderOrder(CommandLinePhase phase) => phase switch
     {
         CommandLinePhase.EarlyOperand => 0,
         CommandLinePhase.Normal => 1,
-        CommandLinePhase.EndOfOptions => 2,
+        LegacyEndOfOptionsPhase => 2,
         CommandLinePhase.Passthrough => 3,
         CommandLinePhase.Terminal => 4,
         _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
     };
 
-    private static List<string> RenderPhase(
+    private static RenderedPhase RenderPhase(
         CommandLinePhase phase,
         IEnumerable<PropertyCommandLinePart> flagsAndOptions,
         IEnumerable<ArgumentPart> arguments,
-        object optionsObject)
+        IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
+        Type optionsType,
+        ref bool emittedOptionTerminator)
     {
         var rendered = new List<string>();
+        int? optionTerminatorIndex = null;
         var phaseOptions = flagsAndOptions.Where(part => part.Phase == phase);
         var phaseArguments = arguments
             .Where(part => part.Phase == phase)
@@ -66,22 +111,45 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         if (phase == CommandLinePhase.Terminal)
         {
-            AddArguments(rendered, phaseArguments, optionsObject);
-            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
+            AddArguments(
+                rendered,
+                phaseArguments,
+                argumentValues,
+                optionsType,
+                ref emittedOptionTerminator,
+                ref optionTerminatorIndex);
+            AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
         }
         else
         {
-            AddFlagsAndOptions(rendered, phaseOptions, optionsObject);
-            AddArguments(rendered, phaseArguments, optionsObject);
+            AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
+            if (phase == LegacyEndOfOptionsPhase
+                && rendered.IndexOf("--") is var terminatorIndex
+                && terminatorIndex >= 0)
+            {
+                optionTerminatorIndex = terminatorIndex;
+                emittedOptionTerminator = true;
+            }
+
+            AddArguments(
+                rendered,
+                phaseArguments,
+                argumentValues,
+                optionsType,
+                ref emittedOptionTerminator,
+                ref optionTerminatorIndex);
         }
 
-        return rendered;
+        return new RenderedPhase(rendered, optionTerminatorIndex);
     }
 
     private static void AddArguments(
         List<string> args,
         IEnumerable<ArgumentPart>? argumentParts,
-        object optionsObject)
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
+        Type optionsType,
+        ref bool emittedOptionTerminator,
+        ref int? optionTerminatorIndex)
     {
         if (argumentParts is null)
         {
@@ -90,23 +158,25 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
         foreach (var argumentPart in argumentParts)
         {
-            var rawValue = argumentPart.Getter(optionsObject);
-            var values = GetValues(rawValue);
+            var values = argumentValues[argumentPart];
             if (argumentPart.Attribute.Required && IsEmpty(values))
             {
                 throw new ArgumentException(
-                    $"Required CLI argument '{optionsObject.GetType().Name}.{argumentPart.PropertyName}' cannot be null or empty.",
+                    $"Required CLI argument '{optionsType.Name}.{argumentPart.PropertyName}' cannot be null or empty.",
                     argumentPart.PropertyName);
             }
 
-            if (rawValue is null)
+            if (values.Count == 0)
             {
                 continue;
             }
 
-            if (argumentPart.Attribute.PrependOptionTerminator && values.Count > 0)
+            if (RequiresOptionTerminator(argumentPart, values)
+                && !emittedOptionTerminator)
             {
+                optionTerminatorIndex = args.Count;
                 args.Add("--");
+                emittedOptionTerminator = true;
             }
 
             args.AddRange(values);
@@ -116,30 +186,108 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static bool IsEmpty(IReadOnlyCollection<string> values) =>
         values.Count == 0 || values.All(string.IsNullOrWhiteSpace);
 
+    private sealed record RenderedPhase(
+        IReadOnlyList<string> Arguments,
+        int? OptionTerminatorIndex);
+
     private static void AddFlagsAndOptions(
         List<string> args,
         IEnumerable<PropertyCommandLinePart> parts,
-        object optionsObject)
+        IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues)
     {
         foreach (var part in parts)
         {
-            var rawValue = part.Getter(optionsObject);
-            if (rawValue is null)
+            args.AddRange(renderedOptionValues[part]);
+        }
+    }
+
+    private static void ValidateOptionTerminatorOrdering(
+        IEnumerable<ArgumentPart> arguments,
+        IReadOnlyDictionary<PropertyCommandLinePart, IReadOnlyList<string>> renderedOptionValues,
+        IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
+        bool optionTerminatorAlreadyEmitted)
+    {
+        var renderedOptions = renderedOptionValues
+            .Where(static pair => pair.Value.Count > 0)
+            .Select(static pair => pair.Key)
+            .ToArray();
+        if (optionTerminatorAlreadyEmitted && renderedOptions.Length > 0)
+        {
+            throw new InvalidOperationException(
+                "CLI flags or options cannot be rendered after an end-of-options marker "
+                + "emitted by an earlier property group.");
+        }
+
+        var legacyOptionTerminatorRendered = renderedOptionValues.Any(static pair =>
+            pair.Key.Phase == LegacyEndOfOptionsPhase
+            && pair.Value.Contains("--", StringComparer.Ordinal));
+        if (legacyOptionTerminatorRendered
+            && renderedOptions.Any(static option =>
+                GetRenderOrder(option.Phase) > GetRenderOrder(LegacyEndOfOptionsPhase)))
+        {
+            throw new InvalidOperationException(
+                "CLI flags or options cannot be rendered after a legacy end-of-options marker.");
+        }
+
+        foreach (var argument in arguments)
+        {
+            var values = argumentValues[argument];
+            if (values.Count == 0 || !RequiresOptionTerminator(argument, values))
             {
                 continue;
             }
 
-            switch (part)
+            if (renderedOptions.Any(option => IsRenderedAfter(option, argument)))
             {
-                case FlagPart flagPart:
-                    AddFlag(args, flagPart, rawValue);
-                    break;
-                case OptionPart optionPart:
-                    AddOption(args, optionPart, rawValue, optionsObject.GetType());
-                    break;
+                throw new InvalidOperationException(
+                    $"CLI argument '{argument.PropertyName}' emits an end-of-options marker before " +
+                    "a later flag or option. Move the argument to a later phase or remove its " +
+                    "option-terminator setting.");
             }
         }
     }
+
+    private static IReadOnlyList<string> RenderOption(
+        PropertyCommandLinePart part,
+        object? rawValue,
+        Type optionsType)
+    {
+        if (rawValue is null)
+        {
+            return [];
+        }
+
+        var rendered = new List<string>();
+        switch (part)
+        {
+            case FlagPart flag:
+                AddFlag(rendered, flag, rawValue);
+                break;
+            case OptionPart option:
+                AddOption(rendered, option, rawValue, optionsType);
+                break;
+        }
+
+        return rendered;
+    }
+
+    private static bool IsRenderedAfter(
+        PropertyCommandLinePart option,
+        ArgumentPart argument)
+    {
+        var optionOrder = GetRenderOrder(option.Phase);
+        var argumentOrder = GetRenderOrder(argument.Phase);
+        return optionOrder > argumentOrder
+               || (optionOrder == argumentOrder
+                   && argument.Phase == CommandLinePhase.Terminal);
+    }
+
+    private static bool RequiresOptionTerminator(
+        ArgumentPart argument,
+        IReadOnlyCollection<string> values) =>
+        argument.Attribute.PrependOptionTerminator
+        || (argument.Attribute.PrependOptionTerminatorIfValueStartsWithDash
+            && values.Any(static value => value.StartsWith('-')));
 
     private static void AddFlag(List<string> args, FlagPart flagPart, object rawValue)
     {

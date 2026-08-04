@@ -194,6 +194,19 @@ public abstract class Module<T> : IModule
         => Task.CompletedTask;
 
     /// <summary>
+    /// Called when the module's result is restored from the fingerprint cache.
+    /// </summary>
+    /// <param name="context">The module context.</param>
+    /// <param name="result">The cached module result.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A task representing the operation.</returns>
+    protected virtual Task OnCachedResultAsync(
+        IModuleContext context,
+        ModuleResult<T> result,
+        CancellationToken cancellationToken)
+        => Task.CompletedTask;
+
+    /// <summary>
     /// Called when the module fails with an exception. Override to add error handling.
     /// Called before OnAfterExecuteAsync.
     /// </summary>
@@ -242,6 +255,15 @@ public abstract class Module<T> : IModule
         SkipDecision skipDecision,
         CancellationToken cancellationToken)
         => OnSkippedAsync(context, skipDecision, cancellationToken);
+
+    /// <summary>
+    /// Internal accessor to invoke OnCachedResultAsync from the engine.
+    /// </summary>
+    internal Task InvokeOnCachedResultAsync(
+        IModuleContext context,
+        ModuleResult<T> result,
+        CancellationToken cancellationToken)
+        => OnCachedResultAsync(context, result, cancellationToken);
 
     /// <summary>
     /// Internal accessor to invoke OnFailedAsync from the engine.

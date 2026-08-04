@@ -299,8 +299,11 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext,
         IModuleLogger logger)
     {
-        if (!config.CacheEnabled || _cacheResultRepository is null)
+        if (_pipelineOptions.Value.DisableModuleCache
+            || !config.CacheEnabled
+            || _cacheResultRepository is null)
         {
+            ModuleActivityTracing.RecordCacheDisabled(executionContext.ModuleActivity);
             return null;
         }
 
@@ -313,22 +316,22 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             .ConfigureAwait(false);
         if (cachedResult is null)
         {
+            ModuleActivityTracing.RecordCacheMiss(executionContext.ModuleActivity, module.GetType());
             return null;
         }
 
-        var cacheHit = SkipDecision.Skip("Module cache hit");
-        await _directHookInvoker.InvokeSkippedAsync(
-                module,
-                moduleContext,
-                cacheHit,
-                cancellationToken)
-            .ConfigureAwait(false);
-        return UseHistoricalResult(
+        var result = UseCachedResult(
             executionContext,
             cachedResult,
-            cacheHit,
-            logger,
-            "Using cached module result");
+            logger);
+        ModuleActivityTracing.RecordCacheHit(executionContext.ModuleActivity, module.GetType());
+        await _directHookInvoker.InvokeCachedResultAsync(
+                module,
+                moduleContext,
+                result,
+                cancellationToken)
+            .ConfigureAwait(false);
+        return result;
     }
 
     private void SetupCancellation(
@@ -449,6 +452,17 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var usedHistoryResult = historicalResult with { ModuleStatus = Status.UsedHistory };
         logger.LogDebug(message);
         return usedHistoryResult;
+    }
+
+    private static ModuleResult<T> UseCachedResult<T>(
+        ModuleExecutionContext<T> executionContext,
+        ModuleResult<T> cachedResult,
+        IModuleLogger logger)
+    {
+        executionContext.Status = Status.CachedResult;
+        var result = cachedResult with { ModuleStatus = Status.CachedResult };
+        logger.LogDebug("Using cached module result");
+        return result;
     }
 
     private async Task<T> ExecuteWithPolicies<T>(
@@ -600,7 +614,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext,
         CancellationToken cancellationToken)
     {
-        if (!((IModule) module).Configuration.CacheEnabled || _cacheResultRepository is null)
+        if (_pipelineOptions.Value.DisableModuleCache
+            || !((IModule) module).Configuration.CacheEnabled
+            || _cacheResultRepository is null)
         {
             return;
         }
@@ -834,7 +850,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             Status.IgnoredFailure => LogLevel.Warning,
             Status.PipelineTerminated => LogLevel.Error,
             Status.UsedHistory => LogLevel.Information,
-            Status.Retried => LogLevel.Warning,
+            Status.CachedResult => LogLevel.Information,
             _ => LogLevel.Error,
         };
 

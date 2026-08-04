@@ -21,27 +21,12 @@ public static class GeneratedOptionsSmokeTestHarness
     /// <returns>The number of option types and attributed properties tested.</returns>
     public static GeneratedOptionsSmokeTestResult ValidateAssembly(Assembly assembly)
     {
-        return ValidateAssembly(assembly, useReflectionFallback: false);
-    }
+        RuntimeHelpers.RunModuleConstructor(assembly.ManifestModule.ModuleHandle);
 
-    /// <summary>
-    /// Validates every options type using the runtime reflection fallback.
-    /// </summary>
-    /// <param name="assembly">The integration assembly to validate.</param>
-    /// <returns>The number of option types and attributed properties tested.</returns>
-    public static GeneratedOptionsSmokeTestResult ValidateAssemblyUsingReflection(Assembly assembly)
-    {
-        return ValidateAssembly(assembly, useReflectionFallback: true);
-    }
-
-    private static GeneratedOptionsSmokeTestResult ValidateAssembly(
-        Assembly assembly,
-        bool useReflectionFallback)
-    {
         var results = assembly.GetTypes()
             .Where(IsOptionsType)
             .OrderBy(type => type.FullName, StringComparer.Ordinal)
-            .Select(type => ValidateOptionsType(type, useReflectionFallback))
+            .Select(ValidateOptionsType)
             .ToList();
 
         return new GeneratedOptionsSmokeTestResult(
@@ -56,23 +41,6 @@ public static class GeneratedOptionsSmokeTestHarness
     /// <returns>The number of option types and attributed properties tested.</returns>
     public static GeneratedOptionsSmokeTestResult ValidateOptionsType(Type optionsType)
     {
-        return ValidateOptionsType(optionsType, useReflectionFallback: false);
-    }
-
-    /// <summary>
-    /// Validates one options type using the runtime reflection fallback.
-    /// </summary>
-    /// <param name="optionsType">The options type to validate.</param>
-    /// <returns>The number of option types and attributed properties tested.</returns>
-    public static GeneratedOptionsSmokeTestResult ValidateOptionsTypeUsingReflection(Type optionsType)
-    {
-        return ValidateOptionsType(optionsType, useReflectionFallback: true);
-    }
-
-    private static GeneratedOptionsSmokeTestResult ValidateOptionsType(
-        Type optionsType,
-        bool useReflectionFallback)
-    {
         if (!typeof(CommandLineToolOptions).IsAssignableFrom(optionsType))
         {
             throw new ArgumentException(
@@ -80,9 +48,13 @@ public static class GeneratedOptionsSmokeTestHarness
                 nameof(optionsType));
         }
 
-        var model = useReflectionFallback
-            ? CommandModelProvider.GetReflectionCommandModel(optionsType)
-            : new CommandModelProvider().GetCommandModel(optionsType);
+        if (!GeneratedCommandMetadata.TryGet(optionsType, out _))
+        {
+            throw new InvalidOperationException(
+                $"Source-generated command metadata is missing for {optionsType.FullName}.");
+        }
+
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
 
         if (optionsType.IsAbstract)
         {
@@ -91,19 +63,23 @@ public static class GeneratedOptionsSmokeTestHarness
 
         var builder = new CommandArgumentBuilder();
 
+        var propertiesTested = 0;
         foreach (var part in model)
         {
-            ValidatePart(optionsType, model, builder, part);
+            if (ValidatePart(optionsType, model, builder, part))
+            {
+                propertiesTested++;
+            }
         }
 
-        return new GeneratedOptionsSmokeTestResult(1, model.Count);
+        return new GeneratedOptionsSmokeTestResult(1, propertiesTested);
     }
 
     private static bool IsOptionsType(Type type) =>
         !type.ContainsGenericParameters
         && typeof(CommandLineToolOptions).IsAssignableFrom(type);
 
-    private static void ValidatePart(
+    private static bool ValidatePart(
         Type optionsType,
         IReadOnlyList<PropertyCommandLinePart> model,
         CommandArgumentBuilder builder,
@@ -112,11 +88,16 @@ public static class GeneratedOptionsSmokeTestHarness
         try
         {
             var property = GetProperty(optionsType, part.PropertyName);
+            if (!CanAssign(property))
+            {
+                return false;
+            }
+
             var sample = CreateSample(property.PropertyType);
             var options = RuntimeHelpers.GetUninitializedObject(optionsType);
 
             InitializeRequiredArguments(optionsType, model, options);
-            SetValue(options, property, sample);
+            SetValueIfAssignable(options, property, sample);
 
             var actual = builder.BuildArguments(model, options);
             var expected = GetExpectedArguments(model, options);
@@ -127,6 +108,8 @@ public static class GeneratedOptionsSmokeTestHarness
                     $"Expected [{string.Join(", ", expected)}], " +
                     $"but rendered [{string.Join(", ", actual)}].");
             }
+
+            return true;
         }
         catch (Exception exception) when (exception is not GeneratedOptionsSmokeTestException)
         {
@@ -147,7 +130,7 @@ public static class GeneratedOptionsSmokeTestHarness
                      .Where(argument => argument.Attribute.Required))
         {
             var property = GetProperty(optionsType, argument.PropertyName);
-            SetValue(options, property, CreateSample(property.PropertyType));
+            SetValueIfAssignable(options, property, CreateSample(property.PropertyType));
         }
     }
 
@@ -224,7 +207,10 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         var values = GetValues(sample);
 
-        return attribute.PrependOptionTerminator
+        var requiresOptionTerminator = attribute.PrependOptionTerminator
+            || (attribute.PrependOptionTerminatorIfValueStartsWithDash
+                && values.Any(static value => value.StartsWith('-')));
+        return requiresOptionTerminator
             ? ["--", .. values]
             : values;
     }
@@ -427,7 +413,7 @@ public static class GeneratedOptionsSmokeTestHarness
         || type == typeof(double)
         || type == typeof(decimal);
 
-    private static void SetValue(object target, PropertyInfo property, object value)
+    private static void SetValueIfAssignable(object target, PropertyInfo property, object value)
     {
         if (property.SetMethod is not null)
         {
@@ -435,11 +421,25 @@ public static class GeneratedOptionsSmokeTestHarness
             return;
         }
 
-        var backingField = (property.DeclaringType?.GetField(
-            $"<{property.Name}>k__BackingField",
-            BindingFlags.Instance | BindingFlags.NonPublic)) ?? throw new InvalidOperationException($"{property.Name} cannot be assigned.");
+        var backingField = GetBackingField(property);
+
+        if (backingField is null)
+        {
+            throw new InvalidOperationException(
+                $"{property.DeclaringType?.FullName}.{property.Name} cannot be assigned a representative value.");
+        }
+
         backingField.SetValue(target, value);
     }
+
+    private static bool CanAssign(PropertyInfo property) =>
+        property.SetMethod is not null
+        || GetBackingField(property) is not null;
+
+    private static FieldInfo? GetBackingField(PropertyInfo property) =>
+        property.DeclaringType?.GetField(
+            $"<{property.Name}>k__BackingField",
+            BindingFlags.Instance | BindingFlags.NonPublic);
 
     private static IReadOnlyList<string> GetValues(object value) =>
         value switch

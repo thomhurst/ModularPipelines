@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace ModularPipelines.SourceGenerator;
 
@@ -12,12 +13,24 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
+    private const int RuntimeMetadataSchemaVersion = 1;
+    private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
+
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
+    internal const string OptionsNamespace = "Microsoft.Extensions.Options";
+    internal const string DependencyInjectionNamespace = "Microsoft.Extensions.DependencyInjection";
+    internal const string DependencyInjectionExtensionsNamespace =
+        "Microsoft.Extensions.DependencyInjection.Extensions";
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
     internal const string CliArgumentAttributeFullName = "ModularPipelines.Attributes.CliArgumentAttribute";
     internal const string CliGlobalOptionsAttributeFullName = "ModularPipelines.Attributes.CliGlobalOptionsAttribute";
     internal const string SecretValueAttributeFullName = "ModularPipelines.Attributes.SecretValueAttribute";
+    internal const string ExperimentalAttributeFullName = "System.Diagnostics.CodeAnalysis.ExperimentalAttribute";
+    internal const string IncompleteRuntimeMetadataAttributeFullName =
+        "ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute";
+    internal const string RuntimeMetadataRegistrationFullName =
+        "ModularPipelines.Generated.RuntimeMetadataRegistration";
 
     private static readonly DiagnosticDescriptor IncompleteCommandMetadata =
         GeneratorDiagnostics.IncompleteCommandMetadata;
@@ -46,42 +59,144 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Where(static item => item is not null)
             .Select(static (item, _) => item!)
             .WithComparer(TypeMetadataCandidateComparer.Instance);
+        var optionsTypeUsages = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                static (node, _) => IsOptionsTypeUsageCandidate(node),
+                static (generatorContext, _) => GetOptionsTypeUsage(generatorContext))
+            .Where(static usage => usage is not null)
+            .Select(static (usage, _) => usage!);
+        var collectedOptionsTypeUsages = optionsTypeUsages
+            .Where(static usage => usage.TypeIdentity is not null)
+            .Select(static (usage, _) => usage.TypeIdentity!)
+            .Collect();
 
-        var candidates = typeCandidates.Collect().Combine(secretCandidates.Collect());
-        context.RegisterSourceOutput(candidates, static (sourceContext, candidateGroups) =>
+        var externalTypeCandidates = context.CompilationProvider
+            .Combine(context.AnalyzerConfigOptionsProvider)
+            .Combine(collectedOptionsTypeUsages)
+            .Select(static (input, _) => GetExternalTypeCandidates(
+                input.Left.Left,
+                input.Left.Right,
+                input.Right));
+        var coveredExternalAssemblyIdentities = context.CompilationProvider
+            .Combine(context.AnalyzerConfigOptionsProvider)
+            .Select(static (input, _) => GetCoveredExternalAssemblyIdentities(
+                input.Left,
+                input.Right));
+        var runtimeMetadataConfiguration = coveredExternalAssemblyIdentities
+            .Combine(context.AnalyzerConfigOptionsProvider.Select(
+                static (optionsProvider, _) => IsTrimOrAotEnabled(optionsProvider)));
+        var hasRuntimeReference = context.CompilationProvider.Select(
+            static (compilation, _) => compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName) is not null);
+        context.RegisterSourceOutput(
+            optionsTypeUsages
+                .Where(static usage => usage.TypeParameterName is not null)
+                .Combine(hasRuntimeReference),
+            static (sourceContext, input) => ReportGenericOptionsUsage(sourceContext, input));
+        var sourceCandidates = typeCandidates.Collect()
+            .Combine(secretCandidates.Collect())
+            .Select(static (input, _) => input.Left.AddRange(input.Right));
+        var candidates = sourceCandidates
+            .Combine(externalTypeCandidates)
+            .Select(static (input, _) => input.Left.AddRange(input.Right))
+            .Combine(hasRuntimeReference);
+        var generationInputs = candidates
+            .Combine(collectedOptionsTypeUsages)
+            .Combine(runtimeMetadataConfiguration);
+        context.RegisterSourceOutput(
+            generationInputs,
+            static (sourceContext, input) => GenerateSource(sourceContext, input));
+    }
+
+    private static void ReportGenericOptionsUsage(
+        SourceProductionContext sourceContext,
+        (OptionsTypeUsage Usage, bool HasRuntimeReference) input)
+    {
+        if (!input.HasRuntimeReference)
         {
-            var candidates = candidateGroups.Left.AddRange(candidateGroups.Right);
-            foreach (var skipped in candidates
-                         .Where(static candidate => candidate.Metadata is null)
-                         .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+            return;
+        }
+
+        sourceContext.ReportDiagnostic(Diagnostic.Create(
+            SkippedRuntimeMetadata,
+            input.Usage.Location,
+            input.Usage.TypeParameterName));
+    }
+
+    private static void GenerateSource(
+        SourceProductionContext sourceContext,
+        (((ImmutableArray<TypeMetadataCandidate> Candidates, bool HasRuntimeReference) Candidates,
+            ImmutableArray<OptionsTypeIdentity> OptionsTypes) Generation,
+            (ImmutableArray<string> CoveredExternalAssemblyIdentities, bool RequiresGeneratedMetadata) Configuration) input)
+    {
+        if (!input.Generation.Candidates.HasRuntimeReference)
+        {
+            return;
+        }
+
+        var candidates = input.Generation.Candidates.Candidates;
+        var optionsTypes = new HashSet<OptionsTypeIdentity>(input.Generation.OptionsTypes);
+        var ambiguousMetadataNames = new HashSet<string>(candidates
+            .Where(RequiresDirectTypeReference)
+            .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
+            .Where(static group => group
+                .Select(static candidate => candidate.AssemblyIdentity)
+                .Distinct(StringComparer.Ordinal)
+                .Skip(1)
+                .Any())
+            .Select(static group => group.Key), StringComparer.Ordinal);
+        foreach (var collision in candidates
+                     .Where(candidate => ambiguousMetadataNames.Contains(candidate.MetadataName))
+                     .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal))
+        {
+            foreach (var candidate in collision
+                         .GroupBy(static candidate => candidate.AssemblyIdentity, StringComparer.Ordinal)
                          .Select(static group => group.First()))
             {
                 sourceContext.ReportDiagnostic(Diagnostic.Create(
                     SkippedRuntimeMetadata,
-                    skipped.Location,
-                    skipped.TypeName));
+                    candidate.Location,
+                    candidate.TypeName));
             }
+        }
 
-            var items = candidates
-                .Select(static candidate => candidate.Metadata)
-                .OfType<TypeMetadata>()
-                .ToImmutableArray();
-            if (items.Length > 0)
-            {
-                ReportIncompleteMetadata(sourceContext, candidates);
-                sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
-            }
-        });
+        var unambiguousCandidates = candidates
+            .Where(candidate => !ambiguousMetadataNames.Contains(candidate.MetadataName))
+            .ToArray();
+        foreach (var skipped in unambiguousCandidates
+                     .Where(static candidate => candidate.Metadata is null)
+                     .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                     .Select(static group => group.First()))
+        {
+            sourceContext.ReportDiagnostic(Diagnostic.Create(
+                SkippedRuntimeMetadata,
+                skipped.Location,
+                skipped.TypeName));
+        }
+
+        var items = unambiguousCandidates
+            .Select(static candidate => candidate.Metadata)
+            .OfType<TypeMetadata>()
+            .ToImmutableArray();
+        ReportIncompleteMetadata(
+            sourceContext,
+            unambiguousCandidates,
+            optionsTypes,
+            input.Configuration.RequiresGeneratedMetadata);
+        sourceContext.AddSource(
+            "ModularPipelines.RuntimeMetadata.g.cs",
+            Generate(
+                items,
+                input.Configuration.CoveredExternalAssemblyIdentities,
+                input.Configuration.RequiresGeneratedMetadata));
     }
 
     internal static bool IsTypeCandidate(SyntaxNode node)
     {
-        return node is ClassDeclarationSyntax { BaseList.Types.Count: > 0 }
-            || (node is RecordDeclarationSyntax record
-                && !record.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword)
-                && (record.BaseList is { Types.Count: > 0 }
-                    || record.ParameterList?.Parameters.Any(
-                        static parameter => parameter.AttributeLists.Count > 0) == true));
+        return node is ClassDeclarationSyntax
+            || node is StructDeclarationSyntax
+            || node is RecordDeclarationSyntax
+            || node is EnumDeclarationSyntax
+            || node is DelegateDeclarationSyntax;
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorSyntaxContext context)
@@ -90,6 +205,345 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             context.SemanticModel.GetDeclaredSymbol(context.Node) as INamedTypeSymbol,
             context.SemanticModel.Compilation,
             hasKnownSecretAttribute: false);
+    }
+
+    private static OptionsTypeUsage? GetOptionsTypeUsage(GeneratorSyntaxContext context)
+    {
+        var optionsTypeSymbol = GetOptionsTypeUsageSymbol(context);
+        if (optionsTypeSymbol is INamedTypeSymbol
+            {
+                TypeKind: not TypeKind.Error,
+                ContainingNamespace: not null,
+            } optionsType
+            && IsConcreteOptionsRegistrationUsage(context))
+        {
+            return new OptionsTypeUsage(
+                new OptionsTypeIdentity(
+                    GetMetadataName(optionsType),
+                    optionsType.ContainingAssembly.Identity.ToString()),
+                TypeParameterName: null,
+                context.Node.GetLocation());
+        }
+
+        var enclosingNamespace = context.SemanticModel
+            .GetEnclosingSymbol(context.Node.SpanStart)?
+            .ContainingNamespace?
+            .ToDisplayString();
+        return enclosingNamespace != OptionsNamespace
+               && optionsTypeSymbol is ITypeParameterSymbol typeParameter
+               && IsGenericOptionsRegistrationUsage(context)
+            ? new OptionsTypeUsage(
+                TypeIdentity: null,
+                typeParameter.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                context.Node.GetLocation())
+            : null;
+    }
+
+    private static bool IsGenericOptionsRegistrationUsage(GeneratorSyntaxContext context)
+    {
+        var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
+        return symbol switch
+        {
+            INamedTypeSymbol type => IsOptionsBuilder(type)
+                || IsServiceTypeRegistrationUsage(context),
+            IMethodSymbol method => GetRegisteredOptionsType(context, method) is ITypeParameterSymbol,
+            _ => false,
+        };
+    }
+
+    private static bool IsConcreteOptionsRegistrationUsage(GeneratorSyntaxContext context)
+    {
+        var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
+        return symbol switch
+        {
+            INamedTypeSymbol type => IsOptionsBuilder(type)
+                                     || IsServiceTypeRegistrationUsage(context),
+            IMethodSymbol method => GetRegisteredOptionsType(context, method) is INamedTypeSymbol,
+            _ => false,
+        };
+    }
+
+    private static bool IsOptionsBuilder(INamedTypeSymbol type) =>
+        type.OriginalDefinition is
+        {
+            MetadataName: "OptionsBuilder`1",
+            ContainingNamespace: { } containingNamespace,
+        } && containingNamespace.ToDisplayString() == OptionsNamespace;
+
+    private static bool IsServiceTypeRegistrationUsage(GeneratorSyntaxContext context)
+    {
+        var typeOfExpression = context.Node.FirstAncestorOrSelf<TypeOfExpressionSyntax>();
+        if (typeOfExpression?.Parent is not ArgumentSyntax argument
+            || argument.Parent is not BaseArgumentListSyntax argumentList
+            || argumentList.Parent is not ExpressionSyntax descriptorCreation
+            || context.SemanticModel.GetSymbolInfo(descriptorCreation).Symbol is not IMethodSymbol method
+            || !IsServiceTypeCarrier(method))
+        {
+            return false;
+        }
+
+        var argumentIndex = argumentList.Arguments.IndexOf(argument);
+        var parameter = argument.NameColon is { Name.Identifier.ValueText: { } parameterName }
+            ? method.Parameters.FirstOrDefault(candidate => candidate.Name == parameterName)
+            : argumentIndex >= 0 && argumentIndex < method.Parameters.Length
+                ? method.Parameters[argumentIndex]
+                : null;
+        return parameter?.Name == "serviceType";
+    }
+
+    internal static bool IsServiceTypeCarrier(IMethodSymbol method)
+    {
+        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        return IsServiceCollectionRegistration(definition)
+               || IsTryAddRegistration(definition)
+               || IsServiceDescriptorRegistration(definition)
+               || (definition.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
+                   && definition.ContainingType.MetadataName == "ServiceDescriptor"
+                   && definition.MethodKind == MethodKind.Constructor);
+    }
+
+    private static ITypeSymbol? GetOptionsTypeUsageSymbol(GeneratorSyntaxContext context)
+    {
+        var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
+        return symbol switch
+        {
+            INamedTypeSymbol constructedType when IsOptionsTypeUsage(constructedType) =>
+                constructedType.TypeArguments[0],
+            IMethodSymbol method => GetRegisteredOptionsType(context, method),
+            _ => null,
+        };
+    }
+
+    private static ITypeSymbol? GetRegisteredOptionsType(
+        GeneratorSyntaxContext context,
+        IMethodSymbol method) =>
+        GetRegisteredOptionsType(method)
+        ?? GetServiceTypeArgumentOptionsType(context, method);
+
+    private static ITypeSymbol? GetServiceTypeArgumentOptionsType(
+        GeneratorSyntaxContext context,
+        IMethodSymbol method)
+    {
+        if (!IsServiceTypeCarrier(method))
+        {
+            return null;
+        }
+
+        var argumentList = context.Node switch
+        {
+            InvocationExpressionSyntax invocation => invocation.ArgumentList,
+            BaseObjectCreationExpressionSyntax objectCreation => objectCreation.ArgumentList,
+            _ => null,
+        };
+        if (argumentList is null)
+        {
+            return null;
+        }
+
+        for (var index = 0; index < argumentList.Arguments.Count; index++)
+        {
+            var argument = argumentList.Arguments[index];
+            if (ResolveArgumentParameter(method, argument, index)?.Name != "serviceType")
+            {
+                continue;
+            }
+
+            var optionsType = GetTypeOfOptionsArgument(context, argument);
+            if (optionsType is not null)
+            {
+                return optionsType;
+            }
+        }
+
+        return null;
+    }
+
+    private static IParameterSymbol? ResolveArgumentParameter(
+        IMethodSymbol method,
+        ArgumentSyntax argument,
+        int index)
+    {
+        if (argument.NameColon is { Name.Identifier.ValueText: { } parameterName })
+        {
+            return method.Parameters.FirstOrDefault(candidate => candidate.Name == parameterName);
+        }
+
+        return index < method.Parameters.Length ? method.Parameters[index] : null;
+    }
+
+    private static ITypeSymbol? GetTypeOfOptionsArgument(
+        GeneratorSyntaxContext context,
+        ArgumentSyntax argument)
+    {
+        if (argument.Expression is not TypeOfExpressionSyntax typeOfExpression
+            || typeOfExpression.Type.DescendantNodesAndSelf().Any(IsOptionsTypeUsageCandidate)
+            || context.SemanticModel.GetTypeInfo(typeOfExpression.Type).Type
+                is not INamedTypeSymbol serviceType
+            || !IsOptionsTypeUsage(serviceType))
+        {
+            return null;
+        }
+
+        return serviceType.TypeArguments[0];
+    }
+
+    private static bool IsOptionsTypeUsageCandidate(SyntaxNode node) =>
+        IsServiceDescriptorObjectCreationCandidate(node)
+        || node is GenericNameSyntax
+        {
+            Identifier.ValueText: "IOptions"
+                or "IOptionsMonitor"
+                or "IOptionsSnapshot"
+                or "IConfigureOptions"
+                or "IPostConfigureOptions"
+                or "IValidateOptions"
+                or "IConfigureNamedOptions"
+                or "OptionsBuilder"
+                or "Configure"
+                or "ConfigureAll"
+                or "PostConfigure"
+                or "PostConfigureAll"
+                or "AddOptions"
+                or "AddOptionsWithValidateOnStart",
+            TypeArgumentList.Arguments.Count: > 0,
+        }
+        || (node is InvocationExpressionSyntax invocation
+            && IsServiceRegistrationMethodName(GetInvokedMethodName(invocation)));
+
+    private static bool IsServiceDescriptorObjectCreationCandidate(SyntaxNode node) =>
+        node is ImplicitObjectCreationExpressionSyntax
+        {
+            ArgumentList.Arguments.Count: > 0,
+        }
+            or ObjectCreationExpressionSyntax
+        {
+            Type: IdentifierNameSyntax { Identifier.ValueText: "ServiceDescriptor" }
+                    or QualifiedNameSyntax { Right.Identifier.ValueText: "ServiceDescriptor" }
+                    or AliasQualifiedNameSyntax { Name.Identifier.ValueText: "ServiceDescriptor" },
+        };
+
+    private static bool IsServiceRegistrationMethodName(string? methodName) =>
+        IsServiceCollectionRegistrationMethodName(methodName)
+        || IsTryAddRegistrationMethodName(methodName)
+        || IsServiceDescriptorRegistrationMethodName(methodName);
+
+    private static bool IsServiceCollectionRegistrationMethodName(string? methodName) => methodName is
+        "AddSingleton"
+        or "AddScoped"
+        or "AddTransient"
+        or "AddKeyedSingleton"
+        or "AddKeyedScoped"
+        or "AddKeyedTransient";
+
+    private static bool IsTryAddRegistrationMethodName(string? methodName) => methodName is
+        "TryAddSingleton"
+        or "TryAddScoped"
+        or "TryAddTransient"
+        or "TryAddKeyedSingleton"
+        or "TryAddKeyedScoped"
+        or "TryAddKeyedTransient";
+
+    private static bool IsServiceDescriptorRegistrationMethodName(string? methodName) => methodName is
+        "Singleton"
+        or "Scoped"
+        or "Transient"
+        or "KeyedSingleton"
+        or "KeyedScoped"
+        or "KeyedTransient"
+        or "Describe"
+        or "DescribeKeyed";
+
+    private static string? GetInvokedMethodName(InvocationExpressionSyntax invocation) =>
+        invocation.Expression switch
+        {
+            IdentifierNameSyntax identifier => identifier.Identifier.ValueText,
+            MemberAccessExpressionSyntax memberAccess => memberAccess.Name.Identifier.ValueText,
+            _ => null,
+        };
+
+    internal static bool IsOptionsTypeUsage(INamedTypeSymbol type)
+    {
+        var definition = type.OriginalDefinition;
+        return type.TypeArguments.Length == 1
+               && definition.ContainingNamespace?.ToDisplayString() == OptionsNamespace
+               && definition.MetadataName is
+                   "IOptions`1"
+                   or "IOptionsMonitor`1"
+                   or "IOptionsSnapshot`1"
+                   or "IConfigureOptions`1"
+                   or "IPostConfigureOptions`1"
+                   or "IValidateOptions`1"
+                   or "IConfigureNamedOptions`1"
+                   or "OptionsBuilder`1";
+    }
+
+    internal static bool IsOptionsRegistrationMethod(IMethodSymbol method)
+    {
+        if (method.TypeArguments.Length == 0)
+        {
+            return false;
+        }
+
+        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        if (definition.ContainingNamespace?.ToDisplayString() != DependencyInjectionNamespace)
+        {
+            return false;
+        }
+
+        return definition.ContainingType.MetadataName switch
+        {
+            "OptionsServiceCollectionExtensions" => definition.Name is
+                "Configure"
+                or "ConfigureAll"
+                or "PostConfigure"
+                or "PostConfigureAll"
+                or "AddOptions"
+                or "AddOptionsWithValidateOnStart",
+            "OptionsConfigurationServiceCollectionExtensions" => definition.Name == "Configure",
+            _ => false,
+        };
+    }
+
+    private static ITypeSymbol? GetRegisteredOptionsType(IMethodSymbol method)
+    {
+        if (IsOptionsRegistrationMethod(method))
+        {
+            return method.TypeArguments[0];
+        }
+
+        var definition = (method.ReducedFrom ?? method).OriginalDefinition;
+        if (!IsServiceCollectionRegistration(definition)
+            && !IsTryAddRegistration(definition)
+            && !IsServiceDescriptorRegistration(definition))
+        {
+            return null;
+        }
+
+        return method.TypeArguments
+            .OfType<INamedTypeSymbol>()
+            .FirstOrDefault(IsOptionsTypeUsage)
+            ?.TypeArguments[0];
+    }
+
+    private static bool IsServiceCollectionRegistration(IMethodSymbol method)
+    {
+        return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
+               && method.ContainingType.MetadataName == "ServiceCollectionServiceExtensions"
+               && IsServiceCollectionRegistrationMethodName(method.Name);
+    }
+
+    private static bool IsTryAddRegistration(IMethodSymbol method)
+    {
+        return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionExtensionsNamespace
+               && method.ContainingType.MetadataName == "ServiceCollectionDescriptorExtensions"
+               && IsTryAddRegistrationMethodName(method.Name);
+    }
+
+    private static bool IsServiceDescriptorRegistration(IMethodSymbol method)
+    {
+        return method.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
+               && method.ContainingType.MetadataName == "ServiceDescriptor"
+               && IsServiceDescriptorRegistrationMethodName(method.Name);
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorAttributeSyntaxContext context)
@@ -103,7 +557,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static TypeMetadataCandidate? GetTypeCandidate(
         INamedTypeSymbol? type,
         Compilation compilation,
-        bool hasKnownSecretAttribute)
+        bool hasKnownSecretAttribute,
+        bool isExternal = false,
+        PropertyCollection? precomputedSecretMetadata = null)
     {
         if (type is null)
         {
@@ -111,36 +567,126 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
-        var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-        var location = type.Locations.FirstOrDefault() ?? Location.None;
-        if (!IsTypeAccessible(type, compilation.Assembly))
+        if (isCommandOptions && type is { IsAbstract: true, IsGenericType: true })
         {
-            return isCommandOptions || hasKnownSecretAttribute
-                ? new TypeMetadataCandidate(typeName, location, Metadata: null)
-                : null;
+            return null;
         }
 
-        if (type.IsGenericType)
+        var typeName = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var location = type.Locations.FirstOrDefault() ?? Location.None;
+        var hasPartialDeclaration = HasPartialDeclarationInHierarchy(type);
+        var canRegisterSecretCoverage = !hasPartialDeclaration;
+        var canReferenceType = IsTypeAccessible(type, compilation.Assembly)
+                               && !HasGenericTypeInHierarchy(type)
+                               && !HasObsoleteErrorInHierarchy(type);
+        if (!canReferenceType)
         {
-            return isCommandOptions || hasKnownSecretAttribute
-                ? new TypeMetadataCandidate(typeName, location, Metadata: null)
-                : null;
+            return GetInaccessibleTypeCandidate(
+                type,
+                compilation.Assembly,
+                typeName,
+                location,
+                isCommandOptions,
+                hasKnownSecretAttribute,
+                precomputedSecretMetadata,
+                canRegisterSecretCoverage,
+                isExternal);
         }
 
         var commandMetadata = isCommandOptions
             ? GetCommandProperties(type, compilation.Assembly)
             : PropertyCollection.Empty;
-        var secretMetadata = GetSecretProperties(type, compilation.Assembly);
-        if (!isCommandOptions && !secretMetadata.HasAttributes)
+        var secretMetadata = precomputedSecretMetadata
+                             ?? GetSecretProperties(type, compilation.Assembly);
+        return GetAccessibleTypeCandidate(
+            type,
+            typeName,
+            location,
+            isCommandOptions,
+            hasPartialDeclaration,
+            commandMetadata,
+            secretMetadata,
+            isExternal);
+    }
+
+    private static TypeMetadataCandidate GetInaccessibleTypeCandidate(
+        INamedTypeSymbol type,
+        IAssemblySymbol currentAssembly,
+        string typeName,
+        Location location,
+        bool isCommandOptions,
+        bool hasKnownSecretAttribute,
+        PropertyCollection? precomputedSecretMetadata,
+        bool canRegisterSecretCoverage,
+        bool isExternal)
+    {
+        var hasSecretAttributes = precomputedSecretMetadata?.HasAttributes
+                                  ?? (hasKnownSecretAttribute
+                                      || GetSecretProperties(type, currentAssembly).HasAttributes);
+        if (isCommandOptions || hasSecretAttributes)
         {
-            return null;
+            return new TypeMetadataCandidate(
+                typeName,
+                GetMetadataName(type),
+                type.ContainingAssembly.Identity.ToString(),
+                location,
+                Metadata: null);
         }
 
-        return new TypeMetadataCandidate(typeName, location, new TypeMetadata(
+        return new TypeMetadataCandidate(
             typeName,
-            isCommandOptions,
-            commandMetadata,
-            secretMetadata));
+            GetMetadataName(type),
+            type.ContainingAssembly.Identity.ToString(),
+            location,
+            new TypeMetadata(
+                typeName,
+                GetMetadataName(type),
+                type.ContainingAssembly.Identity.ToString(),
+                CanRegisterCommandMetadata: false,
+                CanRegisterSecretCoverage: canRegisterSecretCoverage,
+                UseTypeForEmptySecretCoverage: false,
+                UseExternalTypeNameForEmptySecretCoverage: isExternal,
+                RequiresSecretReflectionFallback: false,
+                IsExternal: isExternal,
+                IsCommandOptions: false,
+                PropertyCollection.Empty,
+                PropertyCollection.Empty,
+                EquatableArray<string>.Empty));
+    }
+
+    private static TypeMetadataCandidate GetAccessibleTypeCandidate(
+        INamedTypeSymbol type,
+        string typeName,
+        Location location,
+        bool isCommandOptions,
+        bool hasPartialDeclaration,
+        PropertyCollection commandMetadata,
+        PropertyCollection secretMetadata,
+        bool isExternal)
+    {
+        var metadata = hasPartialDeclaration
+                       && (isCommandOptions || secretMetadata.HasAttributes)
+            ? null
+            : new TypeMetadata(
+                typeName,
+                GetMetadataName(type),
+                type.ContainingAssembly.Identity.ToString(),
+                CanRegisterCommandMetadata: !hasPartialDeclaration,
+                CanRegisterSecretCoverage: !hasPartialDeclaration,
+                UseTypeForEmptySecretCoverage: isExternal,
+                UseExternalTypeNameForEmptySecretCoverage: false,
+                RequiresSecretReflectionFallback: false,
+                IsExternal: isExternal,
+                isCommandOptions,
+                commandMetadata,
+                secretMetadata,
+                GetExperimentalDiagnosticIds(type));
+        return new TypeMetadataCandidate(
+            typeName,
+            GetMetadataName(type),
+            type.ContainingAssembly.Identity.ToString(),
+            location,
+            metadata);
     }
 
     private static PropertyCollection GetCommandProperties(
@@ -149,6 +695,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var properties = new Dictionary<string, PropertyMetadata>(StringComparer.Ordinal);
         var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        var incompleteProperties = ImmutableArray.CreateBuilder<string>();
         var isComplete = true;
         var hasAttributes = false;
 
@@ -156,32 +703,21 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
             {
-                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
-                {
-                    continue;
-                }
-
-                var attribute = FindAttribute(property, IsCommandAttribute);
-                if (attribute is null)
+                if (!TryGetCommandProperty(
+                        property,
+                        currentAssembly,
+                        seenPropertyNames,
+                        out var propertyMetadata,
+                        out var isIncomplete))
                 {
                     continue;
                 }
 
                 hasAttributes = true;
-                if (!IsPropertyAccessible(property, currentAssembly))
+                if (isIncomplete)
                 {
                     isComplete = false;
-                    continue;
-                }
-
-                var propertyMetadata = CreatePropertyMetadata(property, attribute);
-                if (propertyMetadata is
-                    {
-                        Kind: PropertyKind.Flag or PropertyKind.Option,
-                        PrimaryValue: null,
-                    })
-                {
-                    isComplete = false;
+                    incompleteProperties.Add(property.Name);
                     continue;
                 }
 
@@ -189,7 +725,46 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
         }
 
-        return new PropertyCollection(properties.Values.ToImmutableArray(), isComplete, hasAttributes);
+        return new PropertyCollection(
+            properties.Values.ToImmutableArray(),
+            incompleteProperties.ToImmutable(),
+            isComplete,
+            hasAttributes);
+    }
+
+    private static bool TryGetCommandProperty(
+        IPropertySymbol property,
+        IAssemblySymbol currentAssembly,
+        ISet<string> seenPropertyNames,
+        out PropertyMetadata propertyMetadata,
+        out bool isIncomplete)
+    {
+        propertyMetadata = null!;
+        isIncomplete = false;
+        if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
+        {
+            return false;
+        }
+
+        var attribute = FindAttribute(property, IsCommandAttribute);
+        if (attribute is null)
+        {
+            return false;
+        }
+
+        if (!IsPropertyAccessible(property, currentAssembly) || HasObsoleteError(property))
+        {
+            isIncomplete = true;
+            return true;
+        }
+
+        propertyMetadata = CreatePropertyMetadata(property, attribute);
+        isIncomplete = propertyMetadata is
+        {
+            Kind: PropertyKind.Flag or PropertyKind.Option,
+            PrimaryValue: null,
+        };
+        return true;
     }
 
     private static PropertyCollection GetSecretProperties(
@@ -197,7 +772,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         IAssemblySymbol currentAssembly)
     {
         var properties = ImmutableArray.CreateBuilder<PropertyMetadata>();
-        var seenPropertyNames = new HashSet<string>(StringComparer.Ordinal);
+        var seenPropertySlots = new HashSet<IPropertySymbol>(SymbolEqualityComparer.Default);
+        var incompleteProperties = ImmutableArray.CreateBuilder<string>();
         var isComplete = true;
         var hasAttributes = false;
 
@@ -205,7 +781,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             foreach (var property in current.GetMembers().OfType<IPropertySymbol>())
             {
-                if (property.IsStatic || property.GetMethod is null || !seenPropertyNames.Add(property.Name))
+                if (property.IsStatic || property.GetMethod is null)
                 {
                     continue;
                 }
@@ -216,11 +792,17 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     continue;
                 }
 
+                if (!seenPropertySlots.Add(GetPropertySlot(property)))
+                {
+                    continue;
+                }
+
                 hasAttributes = true;
-                if (!IsAttribute(secretAttribute, SecretValueAttributeFullName)
-                    || !IsPropertyAccessible(property, currentAssembly))
+                if (!IsPropertyAccessible(property, currentAssembly)
+                    || HasObsoleteError(property))
                 {
                     isComplete = false;
+                    incompleteProperties.Add(property.Name);
                     continue;
                 }
 
@@ -236,11 +818,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     "Normal",
                     0,
                     GetConstructorStrings(secretAttribute),
-                    false));
+                    false,
+                    false,
+                    0,
+                    property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)));
             }
         }
 
-        return new PropertyCollection(properties.ToImmutable(), isComplete, hasAttributes);
+        return new PropertyCollection(
+            properties.ToImmutable(),
+            incompleteProperties.ToImmutable(),
+            isComplete,
+            hasAttributes);
     }
 
     private static AttributeData? FindAttribute(
@@ -257,6 +846,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         return null;
+    }
+
+    private static IPropertySymbol GetPropertySlot(IPropertySymbol property)
+    {
+        while (property.OverriddenProperty is { } overriddenProperty)
+        {
+            property = overriddenProperty;
+        }
+
+        return property;
     }
 
     private static PropertyMetadata CreatePropertyMetadata(IPropertySymbol property, AttributeData attribute)
@@ -277,7 +876,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedEnumMemberName(attribute, "Phase", "Passthrough"),
                 0,
                 EquatableArray<string>.Empty,
-                isGlobalOption);
+                GetNamedBool(attribute, "PrependOptionTerminatorIfValueStartsWithDash"),
+                isGlobalOption,
+                0,
+                property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -294,7 +896,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedEnumMemberName(attribute, "Phase", "Normal"),
                 0,
                 EquatableArray<string>.Empty,
-                isGlobalOption);
+                false,
+                isGlobalOption,
+                0,
+                property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
         }
 
         return new PropertyMetadata(
@@ -309,7 +914,55 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedEnumMemberName(attribute, "Phase", "Normal"),
             GetNamedInt(attribute, "ValueArity"),
             EquatableArray<string>.Empty,
-            isGlobalOption);
+            false,
+            isGlobalOption,
+            GetManualOperandCount(property.Type),
+            property.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat));
+    }
+
+    private static int GetManualOperandCount(ITypeSymbol propertyType)
+    {
+        if (propertyType is INamedTypeSymbol nullableType
+            && nullableType.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T
+            && nullableType.TypeArguments.Length == 1)
+        {
+            propertyType = nullableType.TypeArguments[0];
+        }
+
+        if (IsCliValuePair(propertyType))
+        {
+            return 2;
+        }
+
+        if (propertyType is IArrayTypeSymbol arrayType
+            && IsCliValuePair(arrayType.ElementType))
+        {
+            return 2;
+        }
+
+        return propertyType is INamedTypeSymbol namedType
+               && namedType.AllInterfaces
+                   .Append(namedType)
+                   .Any(type => type.OriginalDefinition.SpecialType
+                                == SpecialType.System_Collections_Generic_IEnumerable_T
+                                && IsCliValuePair(type.TypeArguments[0]))
+            ? 2
+            : 1;
+    }
+
+    private static bool IsCliValuePair(ITypeSymbol type)
+    {
+        for (var current = type.WithNullableAnnotation(NullableAnnotation.None) as INamedTypeSymbol;
+             current is not null;
+             current = current.BaseType)
+        {
+            if (current.ToDisplayString() == CliValuePairFullName)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool IsGlobalOption(IPropertySymbol property)
@@ -326,34 +979,128 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static string Generate(ImmutableArray<TypeMetadata> items)
+    private static string Generate(
+        ImmutableArray<TypeMetadata> items,
+        ImmutableArray<string> coveredExternalAssemblyIdentities,
+        bool requiresGeneratedMetadata)
     {
         var uniqueItems = items
-            .GroupBy(item => item.TypeName, StringComparer.Ordinal)
+            .GroupBy(GetRegistrationIdentity, StringComparer.Ordinal)
             .Select(group => group.First())
-            .OrderBy(item => item.TypeName, StringComparer.Ordinal)
+            .OrderBy(item => item.MetadataName, StringComparer.Ordinal)
+            .ThenBy(item => item.AssemblyIdentity, StringComparer.Ordinal)
             .ToList();
         var sb = new StringBuilder();
 
+        AppendGeneratedFilePreamble(sb, uniqueItems);
+        AppendRuntimeMetadataRegistration(
+            sb,
+            uniqueItems,
+            coveredExternalAssemblyIdentities,
+            requiresGeneratedMetadata);
+        return sb.ToString();
+    }
+
+    private static string GetRegistrationIdentity(TypeMetadata item) =>
+        item.UseExternalTypeNameForEmptySecretCoverage
+        || item.RequiresSecretReflectionFallback
+            ? $"{item.AssemblyIdentity}\0{item.MetadataName}"
+            : item.MetadataName;
+
+    private static void AppendGeneratedFilePreamble(
+        StringBuilder sb,
+        IReadOnlyList<TypeMetadata> uniqueItems)
+    {
         sb.AppendLine("// <auto-generated/>");
         sb.AppendLine("#nullable enable");
+        foreach (var item in uniqueItems.Where(static item => !item.CanRegisterSecretCoverage))
+        {
+            sb.AppendLine(
+                $"[assembly: global::{IncompleteRuntimeMetadataAttributeFullName}({Literal(item.MetadataName)})]");
+        }
+
+        var suppressedDiagnostics = uniqueItems
+            .SelectMany(static item => item.ExperimentalDiagnosticIds)
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(static diagnosticId => diagnosticId, StringComparer.Ordinal);
+        sb.Append("#pragma warning disable CS0612, CS0618");
+        foreach (var diagnosticId in suppressedDiagnostics)
+        {
+            sb.Append($", {diagnosticId}");
+        }
+
+        sb.AppendLine(" // Generated metadata must register obsolete and experimental types.");
         sb.AppendLine();
+    }
+
+    private static void AppendRuntimeMetadataRegistration(
+        StringBuilder sb,
+        IReadOnlyList<TypeMetadata> uniqueItems,
+        ImmutableArray<string> coveredExternalAssemblyIdentities,
+        bool requiresGeneratedMetadata)
+    {
         sb.AppendLine("namespace ModularPipelines.Generated;");
         sb.AppendLine();
         sb.AppendLine("internal static class RuntimeMetadataRegistration");
         sb.AppendLine("{");
+        sb.AppendLine($"    public const int SchemaVersion = {RuntimeMetadataSchemaVersion};");
+        sb.AppendLine();
         sb.AppendLine("    [global::System.Runtime.CompilerServices.ModuleInitializer]");
+        sb.AppendLine("    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]");
         sb.AppendLine("    internal static void Register()");
         sb.AppendLine("    {");
-
+        sb.AppendLine("        var assembly = global::System.Reflection.Assembly.GetExecutingAssembly();");
+        var requiresGeneratedMetadataLiteral = requiresGeneratedMetadata ? "true" : "false";
+        AppendAssemblyRegistration(
+            sb,
+            "global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata",
+            requiresGeneratedMetadataLiteral);
+        AppendAssemblyRegistration(
+            sb,
+            "global::ModularPipelines.Engine.GeneratedSecretMetadata",
+            requiresGeneratedMetadataLiteral);
+        AppendStringRegistration(
+            sb,
+            "RegisterCoveredExternalAssemblyIdentities",
+            coveredExternalAssemblyIdentities);
+        AppendExternalTypeNameRegistrations(
+            sb,
+            "RegisterCoveredExternalTypeNames",
+            uniqueItems.Where(static item => item.UseExternalTypeNameForEmptySecretCoverage
+                                             && !item.RequiresSecretReflectionFallback));
+        AppendExternalTypeNameRegistrations(
+            sb,
+            "RegisterExternalReflectionFallbackTypeNames",
+            uniqueItems.Where(static item => item.RequiresSecretReflectionFallback));
+        AppendTypeNameRegistration(
+            sb,
+            "RegisterCoveredTypeNames",
+            uniqueItems.Where(item => item.IsCommandOptions),
+            "global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata");
+        AppendTypeNameRegistration(
+            sb,
+            "RegisterCoveredTypeNames",
+            uniqueItems.Where(item => item.CanRegisterSecretCoverage
+                                      && item.SecretMetadata.IsComplete
+                                      && item.SecretMetadata.Properties.Count == 0
+                                      && !item.UseTypeForEmptySecretCoverage
+                                      && !item.UseExternalTypeNameForEmptySecretCoverage
+                                      && !item.RequiresSecretReflectionFallback));
+        AppendTypeNameRegistration(
+            sb,
+            "RegisterIncompleteTypeNames",
+            uniqueItems.Where(item => !item.CanRegisterSecretCoverage));
         foreach (var item in uniqueItems)
         {
-            if (item.IsCommandOptions)
+            if (item.IsCommandOptions
+                && item.CanRegisterCommandMetadata
+                && item.CommandMetadata.IsComplete)
             {
                 AppendCommandRegistration(sb, item);
             }
 
-            if (item.SecretMetadata.HasAttributes)
+            if (item.SecretMetadata.IsComplete
+                && !item.RequiresSecretReflectionFallback)
             {
                 AppendSecretRegistration(sb, item);
             }
@@ -361,25 +1108,109 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         sb.AppendLine("    }");
         sb.AppendLine("}");
-        return sb.ToString();
+    }
+
+    private static void AppendAssemblyRegistration(
+        StringBuilder sb,
+        string registryType,
+        string requiresGeneratedMetadataLiteral)
+    {
+        sb.AppendLine(
+            $"        {registryType}.RegisterAssembly(assembly, requiresGeneratedMetadata: {requiresGeneratedMetadataLiteral});");
+    }
+
+    private static void AppendTypeNameRegistration(
+        StringBuilder sb,
+        string methodName,
+        IEnumerable<TypeMetadata> items,
+        string registryType = "global::ModularPipelines.Engine.GeneratedSecretMetadata")
+    {
+        AppendStringRegistration(
+            sb,
+            methodName,
+            items.Select(item => item.MetadataName),
+            registryType);
+    }
+
+    private static void AppendExternalTypeNameRegistrations(
+        StringBuilder sb,
+        string methodName,
+        IEnumerable<TypeMetadata> items)
+    {
+        foreach (var assemblyGroup in items.GroupBy(static item => item.AssemblyIdentity, StringComparer.Ordinal))
+        {
+            sb.AppendLine(
+                $"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{methodName}(");
+            sb.AppendLine("            assembly,");
+            sb.AppendLine($"            {Literal(assemblyGroup.Key)},");
+            sb.AppendLine("            new string[]");
+            sb.AppendLine("            {");
+            foreach (var item in assemblyGroup)
+            {
+                sb.AppendLine($"                {Literal(item.MetadataName)},");
+            }
+
+            sb.AppendLine("            });");
+        }
+    }
+
+    private static void AppendStringRegistration(
+        StringBuilder sb,
+        string methodName,
+        IEnumerable<string> values,
+        string registryType = "global::ModularPipelines.Engine.GeneratedSecretMetadata")
+    {
+        var valueList = values.ToList();
+        if (valueList.Count == 0)
+        {
+            return;
+        }
+
+        sb.AppendLine($"        {registryType}.{methodName}(");
+        sb.AppendLine("            assembly,");
+        sb.AppendLine("            new string[]");
+        sb.AppendLine("            {");
+        foreach (var value in valueList)
+        {
+            sb.AppendLine($"                {Literal(value)},");
+        }
+
+        sb.AppendLine("            });");
     }
 
     private static void ReportIncompleteMetadata(
         SourceProductionContext context,
-        IReadOnlyCollection<TypeMetadataCandidate> candidates)
+        IReadOnlyCollection<TypeMetadataCandidate> candidates,
+        IReadOnlyCollection<OptionsTypeIdentity> optionsTypes,
+        bool requiresGeneratedMetadata)
     {
         foreach (var candidate in candidates
                      .Where(static candidate => candidate.Metadata is not null)
-                     .GroupBy(static candidate => candidate.TypeName, StringComparer.Ordinal)
+                     .GroupBy(static candidate => (candidate.TypeName, candidate.AssemblyIdentity))
                      .Select(static group => group.First()))
         {
             var item = candidate.Metadata!;
+            var isObservedOptionsType = optionsTypes.Contains(new OptionsTypeIdentity(
+                item.MetadataName,
+                candidate.AssemblyIdentity));
+            if (item.CommandMetadata.IsComplete
+                && item.SecretMetadata.IsComplete
+                && ((!item.CanRegisterSecretCoverage && isObservedOptionsType)
+                    || (requiresGeneratedMetadata && item.RequiresSecretReflectionFallback)))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(
+                    SkippedRuntimeMetadata,
+                    candidate.Location,
+                    item.TypeName));
+            }
+
             if (!item.CommandMetadata.IsComplete)
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     IncompleteCommandMetadata,
                     candidate.Location,
-                    item.TypeName));
+                    item.TypeName,
+                    string.Join(", ", item.CommandMetadata.IncompletePropertyNames)));
             }
 
             if (!item.SecretMetadata.IsComplete)
@@ -387,21 +1218,28 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 context.ReportDiagnostic(Diagnostic.Create(
                     IncompleteSecretMetadata,
                     candidate.Location,
-                    item.TypeName));
+                    item.TypeName,
+                    string.Join(", ", item.SecretMetadata.IncompletePropertyNames)));
             }
         }
     }
 
     private static void AppendCommandRegistration(StringBuilder sb, TypeMetadata item)
     {
-        sb.AppendLine("        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.Register(");
+        var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
+        sb.AppendLine($"        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.{registrationMethod}(");
+        if (item.IsExternal)
+        {
+            sb.AppendLine("            assembly,");
+        }
+
         sb.AppendLine($"            typeof({item.TypeName}),");
         sb.AppendLine("            new global::ModularPipelines.Helpers.Internal.PropertyCommandLinePart[]");
         sb.AppendLine("            {");
 
         foreach (var property in item.CommandMetadata.Properties)
         {
-            var getter = $"static instance => (({item.TypeName})instance).@{property.Name}";
+            var getter = $"static instance => (({property.AccessorTypeName})instance).@{property.Name}";
             switch (property.Kind)
             {
                 case PropertyKind.Argument:
@@ -411,6 +1249,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
+                    sb.AppendLine($"                        PrependOptionTerminatorIfValueStartsWithDash = {BooleanLiteral(property.PrependOptionTerminatorIfValueStartsWithDash)},");
                     sb.AppendLine($"                        Required = {BooleanLiteral(property.IsRequired)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
@@ -435,27 +1274,48 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
                     sb.AppendLine($"                        GroupValues = {BooleanLiteral(property.GroupValues)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount} }},");
                     break;
             }
         }
 
-        sb.AppendLine($"            }}, isComplete: {BooleanLiteral(item.CommandMetadata.IsComplete)});");
+        sb.AppendLine("            });");
     }
 
     private static void AppendSecretRegistration(StringBuilder sb, TypeMetadata item)
     {
-        sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.Register(");
+        if (!item.CanRegisterSecretCoverage)
+        {
+            return;
+        }
+
+        if (item.SecretMetadata.Properties.Count == 0)
+        {
+            if (item.UseTypeForEmptySecretCoverage)
+            {
+                sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterExternal(assembly, typeof({item.TypeName}));");
+            }
+
+            return;
+        }
+
+        var registrationMethod = item.IsExternal ? "RegisterExternal" : "Register";
+        sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{registrationMethod}(");
+        if (item.IsExternal)
+        {
+            sb.AppendLine("            assembly,");
+        }
+
         sb.AppendLine($"            typeof({item.TypeName}),");
         sb.AppendLine("            new global::ModularPipelines.Engine.SecretPropertyAccessor[]");
         sb.AppendLine("            {");
 
         foreach (var property in item.SecretMetadata.Properties)
         {
-            sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({item.TypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)}),");
+            sb.AppendLine($"                new({Literal(property.Name)}, static instance => (({property.AccessorTypeName})instance).@{property.Name}, {StringArrayLiteral(property.SecretValueKeys)}),");
         }
 
-        sb.AppendLine($"            }}, isComplete: {BooleanLiteral(item.SecretMetadata.IsComplete)});");
+        sb.AppendLine("            });");
     }
 
     private static bool InheritsFrom(INamedTypeSymbol type, string metadataName)
@@ -471,17 +1331,488 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return false;
     }
 
+    private static ImmutableArray<TypeMetadataCandidate> GetExternalTypeCandidates(
+        Compilation compilation,
+        AnalyzerConfigOptionsProvider optionsProvider,
+        ImmutableArray<OptionsTypeIdentity> optionsTypes)
+    {
+        if (compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName)?.ContainingAssembly is not { } runtimeAssembly)
+        {
+            return [];
+        }
+
+        var includeAllRuntimeMetadata = IsTrimOrAotEnabled(optionsProvider);
+        var usedOptionsTypes = new HashSet<OptionsTypeIdentity>(optionsTypes);
+        return GetReferencedAssemblyClosure(compilation.SourceModule.ReferencedAssemblySymbols)
+            .SelectMany(assembly => GetExternalTypeCandidates(
+                assembly,
+                runtimeAssembly,
+                compilation,
+                includeAllRuntimeMetadata,
+                usedOptionsTypes))
+            .ToImmutableArray();
+    }
+
+    private static ImmutableArray<string> GetCoveredExternalAssemblyIdentities(
+        Compilation compilation,
+        AnalyzerConfigOptionsProvider optionsProvider)
+    {
+        if (!IsTrimOrAotEnabled(optionsProvider)
+            || compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName)?.ContainingAssembly is not { } runtimeAssembly)
+        {
+            return [];
+        }
+
+        return GetReferencedAssemblyClosure(compilation.SourceModule.ReferencedAssemblySymbols)
+            .Where(assembly => !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
+                               && !ReferencesAssemblyDirectly(assembly, runtimeAssembly))
+            .Select(assembly => assembly.Identity.ToString())
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(static identity => identity, StringComparer.Ordinal)
+            .ToImmutableArray();
+    }
+
+    internal static IEnumerable<IAssemblySymbol> GetReferencedAssemblyClosure(
+        IEnumerable<IAssemblySymbol> referencedAssemblies)
+    {
+        var pendingAssemblies = new Stack<IAssemblySymbol>(referencedAssemblies);
+        var visitedAssemblyIdentities = new HashSet<string>(StringComparer.Ordinal);
+        while (pendingAssemblies.Count > 0)
+        {
+            var assembly = pendingAssemblies.Pop();
+            if (!visitedAssemblyIdentities.Add(assembly.Identity.ToString()))
+            {
+                continue;
+            }
+
+            yield return assembly;
+            foreach (var referencedAssembly in assembly.Modules
+                         .SelectMany(static module => module.ReferencedAssemblySymbols))
+            {
+                pendingAssemblies.Push(referencedAssembly);
+            }
+        }
+    }
+
+    private static IEnumerable<TypeMetadataCandidate> GetExternalTypeCandidates(
+        IAssemblySymbol assembly,
+        IAssemblySymbol runtimeAssembly,
+        Compilation compilation,
+        bool includeAllRuntimeMetadata,
+        HashSet<OptionsTypeIdentity> usedOptionsTypes)
+    {
+        if (SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly))
+        {
+            return [];
+        }
+
+        if (!RequiresExternalMetadata(assembly, runtimeAssembly))
+        {
+            return [];
+        }
+
+        var incompleteTypeNames = GetIncompleteTypeNames(assembly);
+        var runtimeMetadataRegistration = assembly.GetTypeByMetadataName(
+            RuntimeMetadataRegistrationFullName);
+        var runtimeMetadataSchemaVersion = GetRuntimeMetadataSchemaVersion(
+            runtimeMetadataRegistration);
+        var requiresSecretReflectionFallback = runtimeMetadataRegistration is not null
+                                               && !Equals(
+                                                   runtimeMetadataSchemaVersion,
+                                                   RuntimeMetadataSchemaVersion);
+        var hasCurrentRuntimeMetadata = Equals(
+            runtimeMetadataSchemaVersion,
+            RuntimeMetadataSchemaVersion);
+        return GetTypes(assembly.GlobalNamespace)
+            .Select(type => GetExternalTypeCandidate(
+                type,
+                compilation,
+                includeAllRuntimeMetadata,
+                usedOptionsTypes,
+                incompleteTypeNames,
+                requiresSecretReflectionFallback,
+                hasCurrentRuntimeMetadata))
+            .OfType<TypeMetadataCandidate>();
+    }
+
+    private static TypeMetadataCandidate? GetExternalTypeCandidate(
+        INamedTypeSymbol type,
+        Compilation compilation,
+        bool includeAllRuntimeMetadata,
+        ISet<OptionsTypeIdentity> usedOptionsTypes,
+        ISet<string> incompleteTypeNames,
+        bool requiresSecretReflectionFallback,
+        bool hasCurrentRuntimeMetadata)
+    {
+        var metadataName = GetMetadataName(type);
+        var isObservedOptionsType = IsObservedOptionsType(type, usedOptionsTypes);
+        var requiresRescan = !hasCurrentRuntimeMetadata
+                             || incompleteTypeNames.Contains(metadataName)
+                             || isObservedOptionsType;
+        if (!requiresRescan && !includeAllRuntimeMetadata)
+        {
+            return null;
+        }
+
+        var candidate = GetExternalTypeCandidate(
+            type,
+            compilation,
+            includeAllRuntimeMetadata,
+            isObservedOptionsType,
+            incompleteTypeNames.Contains(metadataName));
+
+        if (!requiresRescan && !CanRegenerateExternalRuntimeMetadata(candidate))
+        {
+            return null;
+        }
+
+        return AddSecretReflectionFallback(
+            candidate,
+            requiresSecretReflectionFallback,
+            isObservedOptionsType);
+    }
+
+    private static TypeMetadataCandidate? GetExternalTypeCandidate(
+        INamedTypeSymbol type,
+        Compilation compilation,
+        bool includeAllRuntimeMetadata,
+        bool isObservedOptionsType,
+        bool hasIncompleteMetadata) =>
+        isObservedOptionsType
+            ? GetExternalOptionsUsageCandidate(type, compilation, hasIncompleteMetadata)
+            : includeAllRuntimeMetadata
+                ? GetExternalTypeCandidate(type, compilation)
+                : null;
+
+    private static TypeMetadataCandidate? AddSecretReflectionFallback(
+        TypeMetadataCandidate? candidate,
+        bool requiresSecretReflectionFallback,
+        bool isObservedOptionsType)
+    {
+        if (!requiresSecretReflectionFallback
+            || candidate?.Metadata is not { } metadata
+            || (!metadata.IsCommandOptions
+                && !metadata.SecretMetadata.HasAttributes
+                && !isObservedOptionsType))
+        {
+            return candidate;
+        }
+
+        return candidate with
+        {
+            Metadata = metadata with { RequiresSecretReflectionFallback = true },
+        };
+    }
+
+    private static bool IsObservedOptionsType(
+        INamedTypeSymbol type,
+        ISet<OptionsTypeIdentity> usedOptionsTypes) =>
+        usedOptionsTypes.Contains(new OptionsTypeIdentity(
+            GetMetadataName(type),
+            type.ContainingAssembly.Identity.ToString()));
+
+    private static bool CanRegenerateExternalRuntimeMetadata(
+        TypeMetadataCandidate? candidate)
+    {
+        if (candidate?.Metadata is not { } metadata)
+        {
+            return false;
+        }
+
+        var needsCommandMetadata = metadata.IsCommandOptions;
+        var needsSecretMetadata = metadata.SecretMetadata.HasAttributes;
+        return (!needsCommandMetadata
+                   || (metadata.CanRegisterCommandMetadata
+                       && metadata.CommandMetadata.IsComplete))
+               && (!needsSecretMetadata
+                   || (metadata.CanRegisterSecretCoverage
+                       && metadata.SecretMetadata.IsComplete));
+    }
+
+    private static bool RequiresDirectTypeReference(TypeMetadataCandidate candidate)
+    {
+        if (candidate.Metadata is not { } metadata)
+        {
+            return false;
+        }
+
+        return (metadata.IsCommandOptions
+                && metadata.CanRegisterCommandMetadata
+                && metadata.CommandMetadata.IsComplete)
+               || (metadata.SecretMetadata.IsComplete
+                   && !metadata.RequiresSecretReflectionFallback
+                   && (metadata.SecretMetadata.Properties.Count > 0
+                       || metadata.UseTypeForEmptySecretCoverage));
+    }
+
+    private static object? GetRuntimeMetadataSchemaVersion(INamedTypeSymbol? registration) =>
+        registration?
+            .GetMembers("SchemaVersion")
+            .OfType<IFieldSymbol>()
+            .FirstOrDefault(static field => field.HasConstantValue)?
+            .ConstantValue;
+
+    private static TypeMetadataCandidate? GetExternalOptionsUsageCandidate(
+        INamedTypeSymbol type,
+        Compilation compilation,
+        bool isIncomplete)
+    {
+        var candidate = GetTypeCandidate(
+            type,
+            compilation,
+            hasKnownSecretAttribute: false,
+            isExternal: true);
+        return isIncomplete && candidate?.Metadata is { } metadata
+            ? candidate with
+            {
+                Metadata = metadata with
+                {
+                    CanRegisterCommandMetadata = false,
+                    CanRegisterSecretCoverage = false,
+                },
+            }
+            : candidate;
+    }
+
+    private static HashSet<string> GetIncompleteTypeNames(IAssemblySymbol assembly) =>
+        new(
+            assembly.GetAttributes()
+            .Where(attribute => attribute.AttributeClass?.ToDisplayString()
+                                == IncompleteRuntimeMetadataAttributeFullName)
+            .Select(GetConstructorString)
+            .OfType<string>(),
+            StringComparer.Ordinal);
+
+    private static bool RequiresExternalMetadata(IAssemblySymbol assembly, IAssemblySymbol runtimeAssembly) =>
+        !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
+        && ReferencesAssembly(
+            assembly,
+            runtimeAssembly,
+            new HashSet<IAssemblySymbol>(SymbolEqualityComparer.Default));
+
+    private static bool ReferencesAssemblyDirectly(
+        IAssemblySymbol assembly,
+        IAssemblySymbol targetAssembly) =>
+        assembly.Modules.Any(module => module.ReferencedAssemblySymbols.Any(referenced =>
+            SymbolEqualityComparer.Default.Equals(referenced, targetAssembly)));
+
+    private static bool ReferencesAssembly(
+        IAssemblySymbol assembly,
+        IAssemblySymbol targetAssembly,
+        HashSet<IAssemblySymbol> visitedAssemblies)
+    {
+        if (!visitedAssemblies.Add(assembly))
+        {
+            return false;
+        }
+
+        return assembly.Modules.Any(module => module.ReferencedAssemblySymbols.Any(referenced =>
+            SymbolEqualityComparer.Default.Equals(referenced, targetAssembly)
+            || ReferencesAssembly(referenced, targetAssembly, visitedAssemblies)));
+    }
+
+    private static TypeMetadataCandidate? GetExternalTypeCandidate(
+        INamedTypeSymbol type,
+        Compilation compilation)
+    {
+        var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
+        var secretMetadata = GetSecretProperties(type, compilation.Assembly);
+        var hasSecretAttributes = secretMetadata.HasAttributes;
+        var canCoverPlainOptions = type.TypeKind is TypeKind.Class or TypeKind.Struct;
+        if ((!isCommandOptions && !hasSecretAttributes && !canCoverPlainOptions)
+            || (type.IsAbstract && type.IsGenericType && (isCommandOptions || hasSecretAttributes)))
+        {
+            return null;
+        }
+
+        return GetTypeCandidate(
+            type,
+            compilation,
+            hasSecretAttributes,
+            isExternal: true,
+            precomputedSecretMetadata: secretMetadata);
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetTypes(INamespaceOrTypeSymbol container)
+    {
+        foreach (var member in container.GetMembers())
+        {
+            if (member is INamespaceSymbol namespaceSymbol)
+            {
+                foreach (var type in GetTypes(namespaceSymbol))
+                {
+                    yield return type;
+                }
+            }
+            else if (member is INamedTypeSymbol typeSymbol)
+            {
+                yield return typeSymbol;
+                foreach (var nestedType in GetTypes(typeSymbol))
+                {
+                    yield return nestedType;
+                }
+            }
+        }
+    }
+
+    private static bool IsTrimOrAotEnabled(AnalyzerConfigOptionsProvider optionsProvider) =>
+        IsEnabled(optionsProvider, "build_property.PublishTrimmed")
+        || IsEnabled(optionsProvider, "build_property.PublishAot");
+
+    private static bool IsEnabled(AnalyzerConfigOptionsProvider optionsProvider, string key) =>
+        optionsProvider.GlobalOptions.TryGetValue(key, out var value)
+        && string.Equals(value, "true", StringComparison.OrdinalIgnoreCase);
+
+    private static string GetMetadataName(INamedTypeSymbol type)
+    {
+        var typeNames = new Stack<string>();
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            typeNames.Push(current.MetadataName);
+        }
+
+        var namespaceName = type.ContainingNamespace.IsGlobalNamespace
+            ? string.Empty
+            : type.ContainingNamespace.ToDisplayString() + ".";
+        return namespaceName + string.Join("+", typeNames);
+    }
+
     private static bool IsTypeAccessible(INamedTypeSymbol type, IAssemblySymbol currentAssembly)
     {
         for (var current = type; current is not null; current = current.ContainingType)
         {
-            if (!IsAccessible(current.DeclaredAccessibility, current.ContainingAssembly, currentAssembly))
+            if (current.IsFileLocal
+                || !IsAccessible(current.DeclaredAccessibility, current.ContainingAssembly, currentAssembly))
             {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private static bool HasPartialDeclarationInHierarchy(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            if (current.DeclaringSyntaxReferences.Any(reference =>
+                    reference.GetSyntax() is TypeDeclarationSyntax declaration
+                    && declaration.Modifiers.Any(SyntaxKind.PartialKeyword)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HasGenericTypeInHierarchy(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            if (current.IsGenericType)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HasObsoleteErrorInHierarchy(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            if (HasObsoleteError(current))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HasObsoleteError(ISymbol symbol)
+    {
+        var obsoleteAttribute = symbol.GetAttributes().FirstOrDefault(attribute =>
+            attribute.AttributeClass?.ToDisplayString() == "System.ObsoleteAttribute");
+        return obsoleteAttribute is not null
+               && obsoleteAttribute.ConstructorArguments.Length > 1
+               && obsoleteAttribute.ConstructorArguments[1].Value is true;
+    }
+
+    private static EquatableArray<string> GetExperimentalDiagnosticIds(INamedTypeSymbol type)
+    {
+        var typeHierarchy = GetBaseTypes(type).ToArray();
+        var properties = typeHierarchy
+            .SelectMany(static current => current.GetMembers().OfType<IPropertySymbol>())
+            .ToArray();
+        var propertyTypes = properties
+            .SelectMany(static property => GetReferencedNamedTypes(property.Type))
+            .ToArray();
+        return type.ContainingAssembly.GetAttributes()
+            .Concat(typeHierarchy
+                .SelectMany(GetContainingTypes)
+                .SelectMany(static current => current.GetAttributes()))
+            .Concat(properties.SelectMany(static property => property.GetAttributes()))
+            .Concat(propertyTypes
+                .SelectMany(GetContainingTypes)
+                .SelectMany(static current => current.GetAttributes()))
+            .Concat(propertyTypes
+                .SelectMany(static propertyType => propertyType.ContainingAssembly?.GetAttributes() ?? []))
+            .Where(static attribute => IsAttribute(attribute, ExperimentalAttributeFullName))
+            .Select(GetConstructorString)
+            .OfType<string>()
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(static diagnosticId => diagnosticId, StringComparer.Ordinal)
+            .ToImmutableArray();
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetReferencedNamedTypes(ITypeSymbol type)
+    {
+        var pendingTypes = new Stack<ITypeSymbol>();
+        pendingTypes.Push(type);
+        while (pendingTypes.Count > 0)
+        {
+            switch (pendingTypes.Pop())
+            {
+                case INamedTypeSymbol namedType:
+                    yield return namedType;
+                    if (namedType.ContainingType is not null)
+                    {
+                        pendingTypes.Push(namedType.ContainingType);
+                    }
+
+                    foreach (var typeArgument in namedType.TypeArguments)
+                    {
+                        pendingTypes.Push(typeArgument);
+                    }
+
+                    break;
+                case IArrayTypeSymbol arrayType:
+                    pendingTypes.Push(arrayType.ElementType);
+                    break;
+                case IPointerTypeSymbol pointerType:
+                    pendingTypes.Push(pointerType.PointedAtType);
+                    break;
+            }
+        }
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetBaseTypes(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.BaseType)
+        {
+            yield return current;
+        }
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetContainingTypes(INamedTypeSymbol type)
+    {
+        for (var current = type; current is not null; current = current.ContainingType)
+        {
+            yield return current;
+        }
     }
 
     private static bool IsPropertyAccessible(IPropertySymbol property, IAssemblySymbol currentAssembly)
@@ -509,8 +1840,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     }
 
     private static bool IsSecretAttribute(AttributeData attribute) =>
-        attribute.AttributeClass is { } attributeClass
-        && InheritsFrom(attributeClass, SecretValueAttributeFullName);
+        attribute.AttributeClass is { } attributeType
+        && GetBaseTypes(attributeType).Any(static type =>
+            type.ToDisplayString() == SecretValueAttributeFullName);
 
     private static bool IsAttribute(AttributeData attribute, string fullName) =>
         attribute.AttributeClass?.ToDisplayString() == fullName;
@@ -586,14 +1918,34 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private sealed record TypeMetadata(
         string TypeName,
+        string MetadataName,
+        string AssemblyIdentity,
+        bool CanRegisterCommandMetadata,
+        bool CanRegisterSecretCoverage,
+        bool UseTypeForEmptySecretCoverage,
+        bool UseExternalTypeNameForEmptySecretCoverage,
+        bool RequiresSecretReflectionFallback,
+        bool IsExternal,
         bool IsCommandOptions,
         PropertyCollection CommandMetadata,
-        PropertyCollection SecretMetadata);
+        PropertyCollection SecretMetadata,
+        EquatableArray<string> ExperimentalDiagnosticIds);
 
     private sealed record TypeMetadataCandidate(
         string TypeName,
+        string MetadataName,
+        string AssemblyIdentity,
         Location Location,
         TypeMetadata? Metadata);
+
+    private sealed record OptionsTypeUsage(
+        OptionsTypeIdentity? TypeIdentity,
+        string? TypeParameterName,
+        Location Location);
+
+    private sealed record OptionsTypeIdentity(
+        string MetadataName,
+        string AssemblyIdentity);
 
     private sealed class TypeMetadataCandidateComparer : IEqualityComparer<TypeMetadataCandidate>
     {
@@ -604,12 +1956,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             || (x is not null
                 && y is not null
                 && StringComparer.Ordinal.Equals(x.TypeName, y.TypeName)
+                && StringComparer.Ordinal.Equals(x.MetadataName, y.MetadataName)
+                && StringComparer.Ordinal.Equals(x.AssemblyIdentity, y.AssemblyIdentity)
                 && EqualityComparer<TypeMetadata?>.Default.Equals(x.Metadata, y.Metadata)
                 && (!RequiresDiagnostic(x) || x.Location.Equals(y.Location)));
 
         public int GetHashCode(TypeMetadataCandidate obj)
         {
             var hashCode = (StringComparer.Ordinal.GetHashCode(obj.TypeName) * 397)
+                           ^ StringComparer.Ordinal.GetHashCode(obj.MetadataName);
+            hashCode = (hashCode * 397)
+                           ^ StringComparer.Ordinal.GetHashCode(obj.AssemblyIdentity);
+            hashCode = (hashCode * 397)
                            ^ (obj.Metadata?.GetHashCode() ?? 0);
             return RequiresDiagnostic(obj)
                 ? (hashCode * 397) ^ obj.Location.GetHashCode()
@@ -618,16 +1976,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         private static bool RequiresDiagnostic(TypeMetadataCandidate candidate) =>
             candidate.Metadata is null
+            || !candidate.Metadata.CanRegisterSecretCoverage
             || !candidate.Metadata.CommandMetadata.IsComplete
             || !candidate.Metadata.SecretMetadata.IsComplete;
     }
 
     private sealed record PropertyCollection(
         EquatableArray<PropertyMetadata> Properties,
+        EquatableArray<string> IncompletePropertyNames,
         bool IsComplete,
         bool HasAttributes)
     {
-        public static PropertyCollection Empty { get; } = new(EquatableArray<PropertyMetadata>.Empty, true, false);
+        public static PropertyCollection Empty { get; } = new(
+            EquatableArray<PropertyMetadata>.Empty,
+            EquatableArray<string>.Empty,
+            true,
+            false);
     }
 
     private sealed record PropertyMetadata(
@@ -642,7 +2006,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string Phase,
         int ValueArity,
         EquatableArray<string> SecretValueKeys,
-        bool IsGlobalOption);
+        bool PrependOptionTerminatorIfValueStartsWithDash,
+        bool IsGlobalOption,
+        int ManualOperandCount,
+        string AccessorTypeName);
 
     private enum PropertyKind
     {

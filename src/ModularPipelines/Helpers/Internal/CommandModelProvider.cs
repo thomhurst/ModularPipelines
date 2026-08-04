@@ -1,53 +1,53 @@
-using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes;
+using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 
 namespace ModularPipelines.Helpers.Internal;
 
 /// <inheritdoc/>
 internal sealed class CommandModelProvider : ICommandModelProvider
 {
-    private readonly ConcurrentDictionary<Type, IReadOnlyList<PropertyCommandLinePart>> _cache = new();
+    private readonly ConditionalWeakTable<Type, CommandModel> _cache = [];
 
     /// <inheritdoc/>
     [UnconditionalSuppressMessage(
         "Trimming",
         "IL2026",
-        Justification = "Generated command metadata handles statically known options; BuildModel is the documented reflection fallback for dynamic options.")]
+        Justification = "Processed C# assemblies require generated metadata. Unprocessed assemblies use a reflection fallback and are not trim-safe.")]
     public IReadOnlyList<PropertyCommandLinePart> GetCommandModel(Type optionsType)
     {
-        return _cache.GetOrAdd(optionsType, static type =>
+        return _cache.GetValue(optionsType, static type =>
         {
-            var model = GeneratedCommandMetadata.TryGet(type, out var generatedModel)
-                ? generatedModel
-                : BuildModel(type);
+            if (!GeneratedCommandMetadata.TryGet(type, out var model))
+            {
+                if (GeneratedCommandMetadata.IsGeneratedMetadataRequired(type.Assembly)
+                    || !RuntimeFeature.IsDynamicCodeSupported
+                    || (GeneratedCommandMetadata.IsAssemblyProcessed(type.Assembly)
+                        && GeneratedCommandMetadata.IsTypeCovered(type)))
+                {
+                    throw new MissingCommandMetadataException(type);
+                }
+
+                model = BuildModel(type);
+            }
 
             ValidateUniqueSwitches(type, model);
-            return model;
-        });
+            return new CommandModel(model);
+        }).Value;
     }
 
-    [UnconditionalSuppressMessage(
-        "Trimming",
-        "IL2026",
-        Justification = "This explicit reflection-only path is used to validate the documented fallback against preserved test assemblies.")]
-    internal static IReadOnlyList<PropertyCommandLinePart> GetReflectionCommandModel(Type optionsType)
-    {
-        var model = BuildModel(optionsType);
-        ValidateUniqueSwitches(optionsType, model);
-        return model;
-    }
-
-    [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties. Ensure ModularPipelines.SourceGenerator runs for trim-safe command models.")]
+    [RequiresUnreferencedCode("Assemblies without generated command metadata require reflection and are not trim-safe.")]
     private static IReadOnlyList<PropertyCommandLinePart> BuildModel(Type type)
     {
         var parts = new List<PropertyCommandLinePart>();
         foreach (var property in GetCommandProperties(type))
         {
-            if (property.GetCustomAttribute<CliArgumentAttribute>() is { } arg)
+            if (property.GetCustomAttribute<CliArgumentAttribute>() is { } argument)
             {
-                parts.Add(new ArgumentPart(property.Name, property.GetValue, arg)
+                parts.Add(new ArgumentPart(property.Name, property.GetValue, argument)
                 {
                     IsGlobalOption = IsGlobalOption(property),
                 });
@@ -64,12 +64,35 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                 parts.Add(new OptionPart(property.Name, property.GetValue, option)
                 {
                     IsGlobalOption = IsGlobalOption(property),
+                    ManualOperandCount = GetManualOperandCount(property.PropertyType),
                 });
             }
         }
 
         return parts;
     }
+
+    [RequiresUnreferencedCode("Reflection fallback requires option value type metadata.")]
+    internal static int GetManualOperandCount(Type propertyType)
+    {
+        propertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+        return typeof(ModularPipelines.Models.CliValuePair).IsAssignableFrom(propertyType)
+               || propertyType.GetInterfaces()
+                   .Append(propertyType)
+                   .Any(type => type.IsGenericType
+                                && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+                                && typeof(ModularPipelines.Models.CliValuePair)
+                                    .IsAssignableFrom(type.GetGenericArguments()[0]))
+            ? 2
+            : 1;
+    }
+
+    [RequiresUnreferencedCode("Legacy generated metadata requires option property metadata.")]
+    internal static int GetManualOperandCount(Type optionsType, string propertyName) =>
+        GetCommandProperties(optionsType)
+            .FirstOrDefault(property => property.Name == propertyName) is { } property
+            ? GetManualOperandCount(property.PropertyType)
+            : 1;
 
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]
     private static IEnumerable<PropertyInfo> GetCommandProperties(Type optionsType)
@@ -159,4 +182,6 @@ internal sealed class CommandModelProvider : ICommandModelProvider
             yield return shortForm;
         }
     }
+
+    private sealed record CommandModel(IReadOnlyList<PropertyCommandLinePart> Value);
 }

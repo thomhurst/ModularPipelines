@@ -1,8 +1,10 @@
 using System.CodeDom.Compiler;
 using System.Globalization;
+using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using static ModularPipelines.TestHelpers.OptionsRenderingTestHelper;
 
 namespace ModularPipelines.UnitTests.Attributes;
@@ -100,6 +102,24 @@ public class CliAttributeTests
 
         await Assert.That(attribute.Phase).IsEqualTo(CommandLinePhase.Passthrough);
         await Assert.That(attribute.Required).IsFalse();
+    }
+
+    [Test]
+    public async Task CommandLinePhase_Preserves_Published_Ordinals()
+    {
+        var ordinals = Enum.GetValues<CommandLinePhase>()
+            .ToDictionary(phase => phase, phase => (int) phase);
+
+        await Assert.That(ordinals[CommandLinePhase.EarlyOperand]).IsEqualTo(0);
+        await Assert.That(ordinals[CommandLinePhase.Normal]).IsEqualTo(1);
+        await Assert.That(ordinals[(CommandLinePhase) 2]).IsEqualTo(2);
+        await Assert.That(ordinals[CommandLinePhase.Passthrough]).IsEqualTo(3);
+        await Assert.That(ordinals[CommandLinePhase.Terminal]).IsEqualTo(4);
+        await Assert.That(Enum.GetName((CommandLinePhase) 2)).IsEqualTo("EndOfOptions");
+        await Assert.That(typeof(CommandLinePhase)
+                .GetField("EndOfOptions")!
+                .GetCustomAttribute<ObsoleteAttribute>())
+            .IsNotNull();
     }
 
     [Test]
@@ -491,28 +511,51 @@ public class CliAttributeTests
     }
 
     [Test]
-    public async Task Parser_Renders_EndOfOptions_Before_Passthrough()
+    public async Task Parser_Rejects_Early_Operand_Terminator_Before_Normal_Flag()
     {
-        var list = BuildArguments(new TestCliOptionsWithSemanticPhases
+        var options = new TestCliOptionsWithEarlyTerminator
         {
+            Operand = "-operand",
             Normal = true,
-            EndOfOptions = true,
-            Passthrough = "-input.txt",
-        });
+        };
 
-        await Assert.That(list).IsEquivalentTo(
-            ["--normal", "--", "-input.txt"],
-            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("before a later flag or option");
     }
 
     [Test]
-    public async Task Parser_Rejects_Terminal_Option_After_EndOfOptions()
+    public async Task Parser_Rejects_Conditional_Early_Terminator_Before_Normal_Flag()
     {
-        await Assert.That(() => BuildArguments(new TestCliOptionsWithSemanticPhases
+        var options = new TestCliOptionsWithConditionalEarlyTerminator
         {
-            Terminal = "tests.txt",
-            EndOfOptions = true,
-        })).Throws<InvalidOperationException>();
+            Operand = "-operand",
+            Normal = true,
+        };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("before a later flag or option");
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Terminal_Option_After_Legacy_End_Marker()
+    {
+        PropertyCommandLinePart[] model =
+        [
+            new FlagPart(
+                "EndOfOptions",
+                static _ => true,
+                new CliFlagAttribute("--") { Phase = (CommandLinePhase) 2 }),
+            new OptionPart(
+                "RunTests",
+                static _ => "tests.jq",
+                new CliOptionAttribute("--run-tests") { Phase = CommandLinePhase.Terminal }),
+        ];
+
+        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(model, new object()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("legacy end-of-options marker");
     }
 
     [Test]
@@ -645,7 +688,7 @@ public class CliAttributeTests
             new object());
 
     // Test option classes
-    private record TestCliOptionsWithFormattableValues
+    internal record TestCliOptionsWithFormattableValues : CommandLineToolOptions
     {
         [CliOption("--double")]
         public double Double { get; init; }
@@ -660,80 +703,76 @@ public class CliAttributeTests
         public double[]? Values { get; init; }
     }
 
-    private record TestCliOptionsWithFlag
+    internal record TestCliOptionsWithFlag : CommandLineToolOptions
     {
         [CliFlag("--debug")]
         public bool? Debug { get; set; }
     }
 
-    private record TestCliOptionsWithCountedFlag
+    internal record TestCliOptionsWithCountedFlag : CommandLineToolOptions
     {
         [CliFlag("--verbose")]
         public int? Verbose { get; set; }
     }
 
-    private record TestCliOptionsWithOption
+    internal record TestCliOptionsWithOption : CommandLineToolOptions
     {
         [CliOption("--namespace")]
         public string? Namespace { get; set; }
     }
 
-    private record TestCliOptionsWithEqualsSeparator
+    internal record TestCliOptionsWithEqualsSeparator : CommandLineToolOptions
     {
         [CliOption("--set", Format = OptionFormat.EqualsSeparated)]
         public string? Set { get; set; }
     }
 
-    private record TestCliOptionsWithMultipleValues
+    internal record TestCliOptionsWithMultipleValues : CommandLineToolOptions
     {
         [CliOption("--values")]
         public string[]? Values { get; set; }
     }
 
-    private record TestCliOptionsWithGroupedValues
+    internal record TestCliOptionsWithGroupedValues : CommandLineToolOptions
     {
         [CliOption("--values", GroupValues = true)]
         public string[]? Values { get; set; }
     }
 
-    private record TestCliOptionsWithInvalidGroupedValues
+    internal record TestCliOptionsWithInvalidGroupedValues : CommandLineToolOptions
     {
         [CliOption("--values", Format = OptionFormat.EqualsSeparated, GroupValues = true)]
         public string[]? Values { get; set; }
     }
 
-    private record TestCliOptionsWithGroupedPairs
+    internal record TestCliOptionsWithGroupedPairs : CommandLineToolOptions
     {
         [CliOption("--values", GroupValues = true)]
         public IEnumerable<CliValuePair>? Values { get; set; }
     }
 
-    private record TestCliOptionsWithInvalidGroupedPairs
+    internal record TestCliOptionsWithInvalidGroupedPairs : CommandLineToolOptions
     {
         [CliOption("--values", Format = OptionFormat.EqualsSeparated, GroupValues = true)]
         public IEnumerable<CliValuePair>? Values { get; set; }
     }
 
-    private record TestCliOptionsWithValuePairs
+    internal record TestCliOptionsWithValuePairs : CommandLineToolOptions
     {
         [CliOption("--arg")]
         public IReadOnlyList<CliValuePair>? Values { get; set; }
     }
 
-    private record TestCliOptionsWithInvalidValuePairFormat
+    internal record TestCliOptionsWithInvalidValuePairFormat : CommandLineToolOptions
     {
         [CliOption("--arg", Format = OptionFormat.EqualsSeparated)]
         public IReadOnlyList<CliValuePair>? Values { get; set; }
     }
 
-    private record TestCliOptionsWithSemanticPhases
+    internal record TestCliOptionsWithSemanticPhases : CommandLineToolOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? EarlyOperand { get; set; }
-
-        [CliFlag("--", Phase = CommandLinePhase.EndOfOptions)]
-        public bool? EndOfOptions { get; set; }
-
         [CliOption(
             "--terminal",
             ValueArity = CliOptionValueArity.Optional,
@@ -820,7 +859,7 @@ public class CliAttributeTests
         public string? Output { get; set; }
     }
 
-    private record TestCliOptionsWithDuplicateSwitch
+    internal record TestCliOptionsWithDuplicateSwitch : CommandLineToolOptions
     {
         [CliFlag("--duplicate")]
         public bool? First { get; set; }
@@ -829,7 +868,28 @@ public class CliAttributeTests
         public string? Second { get; set; }
     }
 
-    private record TestCliOptionsWithArgumentAfterOptions
+    internal record TestCliOptionsWithEarlyTerminator : CommandLineToolOptions
+    {
+        [CliArgument(0, Phase = CommandLinePhase.EarlyOperand, PrependOptionTerminator = true)]
+        public string? Operand { get; set; }
+
+        [CliFlag("--normal")]
+        public bool? Normal { get; set; }
+    }
+
+    internal record TestCliOptionsWithConditionalEarlyTerminator : CommandLineToolOptions
+    {
+        [CliArgument(
+            0,
+            Phase = CommandLinePhase.EarlyOperand,
+            PrependOptionTerminatorIfValueStartsWithDash = true)]
+        public string? Operand { get; set; }
+
+        [CliFlag("--normal")]
+        public bool? Normal { get; set; }
+    }
+
+    internal record TestCliOptionsWithArgumentAfterOptions : CommandLineToolOptions
     {
         [CliArgument(0)]
         public string? ReleaseName { get; set; }
@@ -838,7 +898,7 @@ public class CliAttributeTests
         public bool? Debug { get; set; }
     }
 
-    private record TestCliOptionsWithArgumentBeforeOptions
+    internal record TestCliOptionsWithArgumentBeforeOptions : CommandLineToolOptions
     {
         [CliArgument(0, Phase = CommandLinePhase.EarlyOperand)]
         public string? Path { get; set; }
@@ -847,7 +907,7 @@ public class CliAttributeTests
         public bool? Debug { get; set; }
     }
 
-    private record TestCliOptionsWithOptionalArgument
+    internal record TestCliOptionsWithOptionalArgument : CommandLineToolOptions
     {
         [CliArgument(0)]
         public string? ReleaseName { get; set; }
@@ -856,19 +916,20 @@ public class CliAttributeTests
         public bool? Debug { get; set; }
     }
 
-    private record TestCliOptionsWithRequiredArgument
+    internal record TestCliOptionsWithRequiredArgument : CommandLineToolOptions
     {
         [CliArgument(0, Required = true)]
         public string? Chart { get; set; }
     }
 
-    private record TestCliOptionsWithRequiredArgumentCollection
+    internal record TestCliOptionsWithRequiredArgumentCollection : CommandLineToolOptions
     {
         [CliArgument(0, Required = true)]
         public IEnumerable<string>? Files { get; set; }
     }
 
-    private sealed class TestCliOptionsWithRequiredSinglePassArgument(IEnumerable<string> values)
+    internal sealed record TestCliOptionsWithRequiredSinglePassArgument(IEnumerable<string> values)
+        : CommandLineToolOptions
     {
         public int GetterCount { get; private set; }
 
@@ -901,7 +962,7 @@ public class CliAttributeTests
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    private record TestCliOptionsWithMultipleArguments
+    internal record TestCliOptionsWithMultipleArguments : CommandLineToolOptions
     {
         [CliArgument(0)]
         public string? ReleaseName { get; set; }
@@ -910,13 +971,13 @@ public class CliAttributeTests
         public string? ChartReference { get; set; }
     }
 
-    private record TestCliOptionsWithPassthroughArguments
+    internal record TestCliOptionsWithPassthroughArguments : CommandLineToolOptions
     {
         [CliArgument(0, PrependOptionTerminator = true)]
         public IEnumerable<string>? Args { get; set; }
     }
 
-    private record TestCliOptionsComplete
+    internal record TestCliOptionsComplete : CommandLineToolOptions
     {
         [CliArgument(0)]
         public string? ReleaseName { get; set; }

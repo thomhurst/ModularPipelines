@@ -272,6 +272,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ModuleStatus.Skipped => $"[dim]{moduleName}[/]",
             ModuleStatus.Successful => $"[green]{moduleName}[/]",
             ModuleStatus.UsedHistory => $"[green3]{moduleName}[/]",
+            ModuleStatus.CachedResult => $"[green3]{moduleName}[/]",
             _ => $"[cyan]{moduleName}[/]",
         };
     }
@@ -286,8 +287,8 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ModuleStatus.PipelineTerminated => "[red]Terminated[/]",
             ModuleStatus.IgnoredFailure => "[yellow]Ignored[/]",
             ModuleStatus.Skipped => "[dim]⏭ skipped[/]",
-            ModuleStatus.UsedHistory => "[green3]Cached[/]",
-            ModuleStatus.Retried => "[yellow]Retried[/]",
+            ModuleStatus.UsedHistory => "[green3]History[/]",
+            ModuleStatus.CachedResult => "[green3]Cached[/]",
             ModuleStatus.Processing => "[blue]Running[/]",
             ModuleStatus.NotYetStarted => "[dim]Pending[/]",
             ModuleStatus.Unknown => "[dim]Unknown[/]",

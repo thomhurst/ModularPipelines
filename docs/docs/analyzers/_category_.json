@@ -1,0 +1,8 @@
+{
+  "label": "Analyzer rules",
+  "position": 7,
+  "link": {
+    "type": "doc",
+    "id": "analyzers/index"
+  }
+}

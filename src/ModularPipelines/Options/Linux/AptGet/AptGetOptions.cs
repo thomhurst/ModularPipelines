@@ -5,7 +5,7 @@ namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
 [CliTool("apt-get")]
-public partial record AptGetOptions : CommandLineToolOptions
+public record AptGetOptions : CommandLineToolOptions
 {
 
     [CliFlag("--download-only")]

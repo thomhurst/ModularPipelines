@@ -225,9 +225,16 @@ public class RunReportTests
 
             using (Assert.Multiple())
             {
-                await Assert.That(secondSummary.RunReport!.PreviousTotalDuration).IsNotNull();
-                await Assert.That(secondReport!.TotalDurationDelta).IsNotNull();
-                await Assert.That(secondReport.Modules.All(module => module.PreviousDuration.HasValue)).IsTrue();
+                await Assert.That(secondSummary.RunReport!.PreviousTotalDuration).IsNull();
+                await Assert.That(secondReport!.TotalDurationDelta).IsNull();
+                await Assert.That(secondReport.Modules
+                        .Single(module => module.Status == Status.Successful)
+                        .PreviousDuration)
+                    .IsNotNull();
+                await Assert.That(secondReport.Modules
+                        .Where(module => module.Status != Status.Successful)
+                        .All(module => module.PreviousDuration is null))
+                    .IsTrue();
                 await Assert.That(Directory.GetFiles(historyPath, "*.json")).Count().IsEqualTo(2);
             }
         }
@@ -523,6 +530,7 @@ public class RunReportTests
     [Test]
     [Arguments(Status.Skipped)]
     [Arguments(Status.UsedHistory)]
+    [Arguments(Status.CachedResult)]
     public async Task RunReportDoesNotCompareNonExecutedModuleDurations(Status status)
     {
         var module = new SkippedModule();
@@ -549,9 +557,13 @@ public class RunReportTests
         var nonExecutedReport = factory.Create(
             new PipelineSummary(
                 [module],
-                [status == Status.Skipped
-                    ? CreateSkippedResult(module)
-                    : CreateHistoricalResult(module, start)],
+                [status switch
+                {
+                    Status.Skipped => CreateSkippedResult(module),
+                    Status.UsedHistory => CreateHistoricalResult(module, start),
+                    Status.CachedResult => CreateCachedResult(module, start),
+                    _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
+                }],
                 TimeSpan.Zero,
                 start,
                 start),
@@ -581,6 +593,42 @@ public class RunReportTests
             await Assert.That(nonExecutedReport.Modules.Single().DurationDelta).IsNull();
             await Assert.That(successfulReport.Modules.Single().PreviousDuration).IsNull();
             await Assert.That(successfulReport.Modules.Single().DurationDelta).IsNull();
+        }
+    }
+
+    [Test]
+    [Arguments(Status.Failed)]
+    [Arguments(Status.TimedOut)]
+    public async Task RunReportDoesNotCompareMeasuredUnsuccessfulCurrentDurations(Status status)
+    {
+        var previousReport = CreateMeasuredRunReport(Status.Successful, TimeSpan.FromSeconds(10));
+        var report = CreateMeasuredRunReport(status, TimeSpan.FromSeconds(1), previousReport);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.PreviousTotalDuration).IsNull();
+            await Assert.That(report.TotalDurationDelta).IsNull();
+            await Assert.That(report.Modules.Single().DurationMeasured).IsTrue();
+            await Assert.That(report.Modules.Single().PreviousDuration).IsNull();
+            await Assert.That(report.Modules.Single().DurationDelta).IsNull();
+        }
+    }
+
+    [Test]
+    [Arguments(Status.Failed)]
+    [Arguments(Status.TimedOut)]
+    public async Task RunReportDoesNotCompareAgainstMeasuredUnsuccessfulPreviousDurations(Status status)
+    {
+        var previousReport = CreateMeasuredRunReport(status, TimeSpan.FromSeconds(1));
+        var report = CreateMeasuredRunReport(Status.Successful, TimeSpan.FromSeconds(10), previousReport);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.Status).IsEqualTo(Status.Successful);
+            await Assert.That(report.PreviousTotalDuration).IsNull();
+            await Assert.That(report.TotalDurationDelta).IsNull();
+            await Assert.That(report.Modules.Single().PreviousDuration).IsNull();
+            await Assert.That(report.Modules.Single().DurationDelta).IsNull();
         }
     }
 
@@ -810,6 +858,41 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task FileSystemHistoryStorePrunesOnlyStaleOwnedTemporaryFiles()
+    {
+        var directory = CreateTemporaryDirectory();
+        var store = CreateHistoryStore(directory, historyRetention: 1);
+        var staleTemporaryFile = Path.Combine(directory, ".modularpipelines-stale.tmp");
+        var recentTemporaryFile = Path.Combine(directory, ".modularpipelines-recent.tmp");
+        var unrelatedTemporaryFile = Path.Combine(directory, "unrelated.tmp");
+
+        try
+        {
+            await File.WriteAllTextAsync(staleTemporaryFile, "stale");
+            File.SetLastWriteTimeUtc(staleTemporaryFile, DateTime.UtcNow.AddDays(-2));
+            await File.WriteAllTextAsync(recentTemporaryFile, "recent");
+            await File.WriteAllTextAsync(unrelatedTemporaryFile, "unrelated");
+
+            await store.SaveAsync(new PipelineRunReport
+            {
+                PipelineIdentity = "pipeline-a",
+                End = DateTimeOffset.UtcNow,
+            });
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(File.Exists(staleTemporaryFile)).IsFalse();
+                await Assert.That(File.Exists(recentTemporaryFile)).IsTrue();
+                await Assert.That(File.Exists(unrelatedTemporaryFile)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task FileSystemHistoryStorePartitionsRetentionByPipelineIdentity()
     {
         var directory = CreateTemporaryDirectory();
@@ -847,6 +930,100 @@ public class RunReportTests
                 await Assert.That(pipelineB?.PipelineIdentity).IsEqualTo("pipeline-b");
                 await Assert.That(Directory.GetFiles(directory, "modularpipelines-run-*.json"))
                     .Count().IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task AtomicFileWriterKeepsExistingFileWhenWriteFails()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "run-report.json");
+
+        try
+        {
+            await File.WriteAllTextAsync(path, "complete");
+
+            await Assert.That(async () => await AtomicFileWriter.WriteAllTextAsync(
+                    path,
+                    "replacement",
+                    static async (temporaryPath, _, cancellationToken) =>
+                    {
+                        await File.WriteAllTextAsync(temporaryPath, "partial", cancellationToken);
+                        throw new InvalidOperationException("write failed");
+                    }))
+                .Throws<InvalidOperationException>();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(await File.ReadAllTextAsync(path)).IsEqualTo("complete");
+                await Assert.That(Directory.GetFiles(directory, ".modularpipelines-*.tmp"))
+                    .IsEmpty();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task AtomicFileWriterReplacesExistingFileAfterCompletedWrite()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "run-report.json");
+
+        try
+        {
+            await File.WriteAllTextAsync(path, "original");
+
+            await AtomicFileWriter.WriteAllTextAsync(path, "replacement");
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(await File.ReadAllTextAsync(path)).IsEqualTo("replacement");
+                await Assert.That(Directory.GetFiles(directory, ".modularpipelines-*.tmp"))
+                    .IsEmpty();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task AtomicFileWriterDoesNotPublishCanceledWrite()
+    {
+        var directory = CreateTemporaryDirectory();
+        var path = Path.Combine(directory, "run-report.json");
+        using var cancellationTokenSource = new CancellationTokenSource();
+
+        try
+        {
+            await Assert.That(async () => await AtomicFileWriter.WriteAllTextAsync(
+                    path,
+                    "replacement",
+                    async (temporaryPath, contents, cancellationToken) =>
+                    {
+                        await File.WriteAllTextAsync(
+                            temporaryPath,
+                            contents,
+                            cancellationToken);
+                        cancellationTokenSource.Cancel();
+                    },
+                    cancellationTokenSource.Token))
+                .Throws<OperationCanceledException>();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(File.Exists(path)).IsFalse();
+                await Assert.That(Directory.GetFiles(directory, ".modularpipelines-*.tmp"))
+                    .IsEmpty();
             }
         }
         finally
@@ -1527,7 +1704,7 @@ public class RunReportTests
                 await Assert.That(failedReport.Modules).HasSingleItem();
                 await Assert.That(failedReport.Modules[0].ModuleName).IsEqualTo(nameof(SuccessfulModule));
                 await Assert.That(successfulReport.PipelineIdentity).IsEqualTo(failedReport.PipelineIdentity);
-                await Assert.That(successfulReport.PreviousTotalDuration).IsNotNull();
+                await Assert.That(successfulReport.PreviousTotalDuration).IsNull();
             }
         }
         finally
@@ -2305,6 +2482,12 @@ public class RunReportTests
             ModuleStatus = Status.UsedHistory,
         };
 
+    private static IModuleResult CreateCachedResult(IModule module, DateTimeOffset start) =>
+        (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
+        {
+            ModuleStatus = Status.CachedResult,
+        };
+
     private static ModuleRunReport CreatePreviousModuleReport(
         Type moduleType,
         string typeName,
@@ -2319,6 +2502,40 @@ public class RunReportTests
             Start = start,
             End = start + duration,
         };
+
+    private static PipelineRunReport CreateMeasuredRunReport(
+        Status status,
+        TimeSpan duration,
+        PipelineRunReport? previousReport = null)
+    {
+        var module = new SuccessfulModule();
+        var start = new DateTimeOffset(2026, 8, 3, 12, 0, 0, TimeSpan.Zero);
+        var result = (ModuleResult)CreateResult(module, start, duration) with
+        {
+            ModuleStatus = status,
+        };
+        var summary = new PipelineSummary(
+            [module],
+            [result],
+            duration,
+            start,
+            start + duration,
+            moduleTimelines:
+            [
+                CreateTimeline(typeof(SuccessfulModule), start, duration) with
+                {
+                    Status = status,
+                },
+            ]) with
+        {
+            StatusOverride = status,
+        };
+
+        return new PipelineRunReportFactory(
+                Mock.Of<ICommandExecutionCounter>(),
+                new PassthroughSecretObfuscator())
+            .Create(summary, previousReport, "measured-run");
+    }
 
     private static ModuleTimeline CreateTimeline(
         Type moduleType,

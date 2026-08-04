@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace></RootNamespace>
+    <OptionStrict>On</OptionStrict>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
+  </ItemGroup>
+  <!-- Project references do not import the package's buildTransitive assets. Import
+       the target directly so repository validation exercises the consumer guard. -->
+  <Import Project="..\..\src\ModularPipelines\buildTransitive\ModularPipelines.targets" />
+</Project>

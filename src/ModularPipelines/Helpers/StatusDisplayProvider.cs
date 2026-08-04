@@ -38,7 +38,7 @@ internal static class StatusDisplayProvider
         [Status.IgnoredFailure] = new("[orange3]⚠[/]", "Module {0} failed but the failure was ignored"),
         [Status.PipelineTerminated] = new(MarkupFormatter.StopIcon, "Module {0} terminated due to pipeline error"),
         [Status.UsedHistory] = new(MarkupFormatter.HistoryIcon, "Module {0} used historical data"),
-        [Status.Retried] = new(MarkupFormatter.RetryIcon, "Module {0} retried"),
+        [Status.CachedResult] = new(MarkupFormatter.HistoryIcon, "Module {0} used a cached result"),
     };
 
     /// <summary>

@@ -1,5 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
+using System.Collections.Immutable;
 
 namespace ModularPipelines.SourceGenerator.UnitTests;
 
@@ -17,49 +19,202 @@ internal static class GeneratorTestHarness
         IIncrementalGenerator generator,
         string infrastructure,
         string source,
-        string assemblyName = "GeneratorTests")
+        string assemblyName = "GeneratorTests",
+        IReadOnlyDictionary<string, string>? globalOptions = null)
     {
         var compilation = CreateCompilation(infrastructure, source, assemblyName);
-        return Run(generator, compilation);
+        return Run(generator, compilation, globalOptions);
     }
 
     public static GeneratorDriverRunResult RunWithExternalAssembly(
         IIncrementalGenerator generator,
         string infrastructure,
         string externalSource,
-        string source)
+        string source,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
+    {
+        var compilation = CreateCompilationWithExternalAssembly(infrastructure, externalSource, source);
+        return Run(generator, compilation, globalOptions);
+    }
+
+    public static (GeneratorDriverRunResult Result, Diagnostic[] CompilationDiagnostics)
+        RunWithExternalAssemblyAndGetCompilationDiagnostics(
+            IIncrementalGenerator generator,
+            string infrastructure,
+            string externalSource,
+            string source,
+            IReadOnlyDictionary<string, string>? globalOptions = null)
+    {
+        var compilation = CreateCompilationWithExternalAssembly(infrastructure, externalSource, source);
+        var driver = CreateDriver(generator, globalOptions).RunGeneratorsAndUpdateCompilation(
+            compilation,
+            out var outputCompilation,
+            out _);
+
+        return (driver.GetRunResult(), outputCompilation.GetDiagnostics().ToArray());
+    }
+
+    public static GeneratorDriverRunResult RunWithIndirectExternalAssembly(
+        IIncrementalGenerator generator,
+        string infrastructure,
+        string externalBaseSource,
+        string externalLeafSource,
+        string source,
+        IReadOnlyDictionary<string, string>? globalOptions = null,
+        bool leafReferencesInfrastructure = true)
     {
         var infrastructureReference = CreateMetadataReference(
             "ModularPipelines",
             [infrastructure],
             References);
-        var externalReference = CreateMetadataReference(
-            "ExternalModules",
-            [externalSource],
+        var externalBaseReference = CreateMetadataReference(
+            "ExternalBase",
+            [externalBaseSource],
+            [.. References, infrastructureReference]);
+        var externalLeafReference = CreateMetadataReference(
+            "ExternalLeaf",
+            [externalLeafSource],
+            leafReferencesInfrastructure
+                ? [.. References, infrastructureReference, externalBaseReference]
+                : [.. References, externalBaseReference]);
+        var compilation = CSharpCompilation.Create(
+            "GeneratorTests",
+            [CSharpSyntaxTree.ParseText(source)],
+            [
+                .. References,
+                infrastructureReference,
+                externalBaseReference,
+                externalLeafReference,
+            ],
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        return Run(generator, compilation, globalOptions);
+    }
+
+    public static IReadOnlyList<string> GetIndirectExternalAssemblyClosure(
+        string infrastructure,
+        string externalBaseSource,
+        string externalLeafSource)
+    {
+        var infrastructureReference = CreateMetadataReference(
+            "ModularPipelines",
+            [infrastructure],
+            References);
+        var externalBaseReference = CreateMetadataReference(
+            "ExternalBase",
+            [externalBaseSource],
+            [.. References, infrastructureReference]);
+        var externalLeafReference = CreateMetadataReference(
+            "ExternalLeaf",
+            [externalLeafSource],
+            [.. References, infrastructureReference, externalBaseReference]);
+        var compilation = CSharpCompilation.Create(
+            "GeneratorTests",
+            [CSharpSyntaxTree.ParseText("public sealed class Host;")],
+            [
+                .. References,
+                infrastructureReference,
+                externalBaseReference,
+                externalLeafReference,
+            ],
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        var externalLeaf = compilation.SourceModule.ReferencedAssemblySymbols
+            .Single(static assembly => assembly.Name == "ExternalLeaf");
+        return CommandOptionsGenerator.GetReferencedAssemblyClosure([externalLeaf])
+            .Select(static assembly => assembly.Name)
+            .ToArray();
+    }
+
+    public static GeneratorDriverRunResult RunWithPeerExternalAssemblies(
+        IIncrementalGenerator generator,
+        string infrastructure,
+        string firstExternalSource,
+        string secondExternalSource,
+        string source,
+        IReadOnlyDictionary<string, string>? globalOptions = null,
+        bool firstExternalReferencesInfrastructure = true)
+    {
+        var infrastructureReference = CreateMetadataReference(
+            "ModularPipelines",
+            [infrastructure],
+            References);
+        var firstExternalReference = CreateMetadataReference(
+            "ExternalOne",
+            [firstExternalSource],
+            firstExternalReferencesInfrastructure
+                ? [.. References, infrastructureReference]
+                : References);
+        var secondExternalReference = CreateMetadataReference(
+            "ExternalTwo",
+            [secondExternalSource],
             [.. References, infrastructureReference]);
         var compilation = CSharpCompilation.Create(
             "GeneratorTests",
             [CSharpSyntaxTree.ParseText(source)],
-            [.. References, infrastructureReference, externalReference],
+            [
+                .. References,
+                infrastructureReference,
+                firstExternalReference,
+                secondExternalReference,
+            ],
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
         ThrowForCompilationErrors(compilation);
 
-        return Run(generator, compilation);
+        return Run(generator, compilation, globalOptions);
+    }
+
+    public static async Task<ImmutableArray<Diagnostic>> RunWithPeerGeneratorAndAnalyzer(
+        IIncrementalGenerator generator,
+        IIncrementalGenerator peerGenerator,
+        DiagnosticAnalyzer analyzer,
+        string infrastructure,
+        string source,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
+    {
+        var compilation = CreateCompilation(infrastructure, source);
+        var optionsProvider = new TestAnalyzerConfigOptionsProvider(globalOptions);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(
+            generators: [generator.AsSourceGenerator(), peerGenerator.AsSourceGenerator()],
+            optionsProvider: optionsProvider);
+        driver.RunGeneratorsAndUpdateCompilation(
+            compilation,
+            out var outputCompilation,
+            out _);
+        var analyzerOptions = new AnalyzerOptions([], optionsProvider);
+        var compilationWithAnalyzers = outputCompilation.WithAnalyzers(
+            [analyzer],
+            new CompilationWithAnalyzersOptions(
+                analyzerOptions,
+                onAnalyzerException: null,
+                concurrentAnalysis: true,
+                logAnalyzerExecutionTime: false,
+                reportSuppressedDiagnostics: false));
+
+        return await compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync();
     }
 
     private static GeneratorDriverRunResult Run(
         IIncrementalGenerator generator,
-        CSharpCompilation compilation)
+        CSharpCompilation compilation,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
     {
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
-
-        driver = driver.RunGeneratorsAndUpdateCompilation(
+        var driver = CreateDriver(generator, globalOptions).RunGeneratorsAndUpdateCompilation(
             compilation,
             out _,
             out _);
 
         return driver.GetRunResult();
     }
+
+    private static GeneratorDriver CreateDriver(
+        IIncrementalGenerator generator,
+        IReadOnlyDictionary<string, string>? globalOptions) =>
+        CSharpGeneratorDriver.Create(
+            generators: [generator.AsSourceGenerator()],
+            optionsProvider: new TestAnalyzerConfigOptionsProvider(globalOptions));
 
     public static GeneratorDriverRunResult RunTwiceWithStepTracking(
         IIncrementalGenerator generator,
@@ -119,6 +274,29 @@ internal static class GeneratorTestHarness
         return compilation;
     }
 
+    private static CSharpCompilation CreateCompilationWithExternalAssembly(
+        string infrastructure,
+        string externalSource,
+        string source)
+    {
+        var infrastructureReference = CreateMetadataReference(
+            "ModularPipelines",
+            [infrastructure],
+            References);
+        var externalReference = CreateMetadataReference(
+            "ExternalModules",
+            [externalSource],
+            [.. References, infrastructureReference]);
+        var compilation = CSharpCompilation.Create(
+            "GeneratorTests",
+            [CSharpSyntaxTree.ParseText(source)],
+            [.. References, infrastructureReference, externalReference],
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        return compilation;
+    }
+
     private static void ThrowForCompilationErrors(CSharpCompilation compilation)
     {
         var compilationErrors = compilation.GetDiagnostics()
@@ -152,5 +330,27 @@ internal static class GeneratorTestHarness
         }
 
         return MetadataReference.CreateFromImage(stream.ToArray());
+    }
+
+    internal sealed class TestAnalyzerConfigOptionsProvider(
+        IReadOnlyDictionary<string, string>? globalOptions) : AnalyzerConfigOptionsProvider
+    {
+        private static readonly AnalyzerConfigOptions Empty =
+            new DictionaryAnalyzerConfigOptions(new Dictionary<string, string>());
+
+        public override AnalyzerConfigOptions GlobalOptions { get; } =
+            new DictionaryAnalyzerConfigOptions(
+                globalOptions ?? new Dictionary<string, string>());
+
+        public override AnalyzerConfigOptions GetOptions(SyntaxTree tree) => Empty;
+
+        public override AnalyzerConfigOptions GetOptions(AdditionalText textFile) => Empty;
+    }
+
+    private sealed class DictionaryAnalyzerConfigOptions(
+        IReadOnlyDictionary<string, string> values) : AnalyzerConfigOptions
+    {
+        public override bool TryGetValue(string key, out string value) =>
+            values.TryGetValue(key, out value!);
     }
 }
