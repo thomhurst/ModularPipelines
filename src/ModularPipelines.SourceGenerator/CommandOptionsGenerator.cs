@@ -71,20 +71,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Combine(externalTypeCandidates)
             .Select(static (input, _) => input.Left.AddRange(input.Right))
             .Combine(hasRuntimeReference);
-        var generationInputs = candidates
-            .Combine(optionsTypeUsages.Collect())
-            .Combine(context.AnalyzerConfigOptionsProvider.Select(
-                static (options, _) => IsTrimOrAotEnabled(options)));
+        var generationInputs = candidates.Combine(optionsTypeUsages.Collect());
         context.RegisterSourceOutput(generationInputs, static (sourceContext, input) =>
         {
-            if (!input.Left.Left.Right)
+            if (!input.Left.Right)
             {
                 return;
             }
 
-            var candidates = input.Left.Left.Left;
-            var optionsTypeMetadataNames = new HashSet<string>(input.Left.Right, StringComparer.Ordinal);
-            var requiresCompleteMetadata = input.Right;
+            var candidates = input.Left.Left;
+            var optionsTypeMetadataNames = new HashSet<string>(input.Right, StringComparer.Ordinal);
             var ambiguousMetadataNames = new HashSet<string>(candidates
                 .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
                 .Where(static group => group
@@ -126,8 +122,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             ReportIncompleteMetadata(
                 sourceContext,
                 unambiguousCandidates,
-                optionsTypeMetadataNames,
-                requiresCompleteMetadata);
+                optionsTypeMetadataNames);
             sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
         });
     }
@@ -675,8 +670,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void ReportIncompleteMetadata(
         SourceProductionContext context,
         IReadOnlyCollection<TypeMetadataCandidate> candidates,
-        IReadOnlyCollection<string> optionsTypeMetadataNames,
-        bool requiresCompleteMetadata)
+        IReadOnlyCollection<string> optionsTypeMetadataNames)
     {
         foreach (var candidate in candidates
                      .Where(static candidate => candidate.Metadata is not null)
@@ -684,8 +678,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                      .Select(static group => group.First()))
         {
             var item = candidate.Metadata!;
-            if (requiresCompleteMetadata
-                && !item.CanRegisterSecretCoverage
+            if (!item.CanRegisterSecretCoverage
                 && optionsTypeMetadataNames.Contains(item.MetadataName))
             {
                 context.ReportDiagnostic(Diagnostic.Create(

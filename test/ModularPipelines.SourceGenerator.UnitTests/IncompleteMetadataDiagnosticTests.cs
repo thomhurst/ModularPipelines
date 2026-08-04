@@ -840,6 +840,31 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Jit_Host_Rejects_Partial_Options_Registered_With_Configure()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.Configure<PartialOptions>(_ => { });
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
     public async Task Trimmed_Host_Rejects_Partial_Options_Registered_With_AddOptions()
     {
         var result = GeneratorTestHarness.Run(
