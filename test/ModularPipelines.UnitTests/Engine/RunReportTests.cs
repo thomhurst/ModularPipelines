@@ -1267,7 +1267,7 @@ public class RunReportTests
     }
 
     [Test]
-    public async Task RunReportEnricherHasBoundedExecutionTime()
+    public async Task RunReportEnricherTimeoutDoesNotSkipLaterEnrichers()
     {
         var directory = CreateTemporaryDirectory();
         var distributedOptions = OptionsFactory.Create(new DistributedOptions());
@@ -1285,14 +1285,18 @@ public class RunReportTests
             commandExecutionCounter,
             NullLogger<RunReportService>.Instance,
             enricherTimeout: TimeSpan.FromMilliseconds(25),
-            runReportEnrichers: [new NeverCompletingRunReportEnricher()]);
+            runReportEnrichers:
+            [
+                new NeverCompletingRunReportEnricher(),
+                new StaticRunReportEnricher(),
+            ]);
 
         try
         {
             var report = await service.CompleteAsync(CreateEmptySummary())
                 .WaitAsync(TimeSpan.FromSeconds(2));
 
-            await Assert.That(report.Correlation).IsNotNull();
+            await Assert.That(report.Correlation!.GitSha).IsEqualTo("secret-sha");
         }
         finally
         {

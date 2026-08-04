@@ -170,9 +170,9 @@ internal sealed class RunReportService(
     private async Task<RunReportEnrichmentContext> InvokeEnrichersAsync(
         RunReportEnrichmentContext context)
     {
-        using var timeout = new CancellationTokenSource(_enricherTimeout);
         foreach (var enricher in _runReportEnrichers)
         {
+            using var timeout = new CancellationTokenSource(_enricherTimeout);
             var enrichedContext = context.Copy();
             try
             {
@@ -185,9 +185,9 @@ internal sealed class RunReportService(
             catch (OperationCanceledException) when (timeout.IsCancellationRequested)
             {
                 logger.LogWarning(
-                    "Timed out enriching pipeline run report after {Timeout}",
+                    "Timed out enriching pipeline run report using {EnricherType} after {Timeout}",
+                    enricher.GetType().FullName,
                     _enricherTimeout);
-                break;
             }
             catch (Exception exception)
             {
