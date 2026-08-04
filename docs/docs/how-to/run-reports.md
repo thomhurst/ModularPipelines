@@ -37,7 +37,8 @@ Each schema-v2 report has a unique `RunId` plus `RunCorrelation` metadata for th
 detected build system. Registering the Git or GitHub integration also adds the available commit,
 branch, and CI run URL. Correlation strings pass through secret obfuscation before persistence.
 
-Add application-specific metadata through a bounded `IRunReportEnricher`:
+When report writing is enabled, add application-specific metadata through a bounded
+`IRunReportEnricher`:
 
 ```csharp
 public sealed class DeploymentRunEnricher : IRunReportEnricher

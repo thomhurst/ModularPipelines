@@ -53,7 +53,8 @@ internal sealed class RunReportService(
         var previousReport = await LoadPreviousReportAsync(historyEnabled, pipelineIdentity)
             .ConfigureAwait(false);
         var report = CreateReport(summary, previousReport, pipelineIdentity, pipelineException);
-        report = await EnrichReportAsync(report, pipelineIdentity).ConfigureAwait(false);
+        report = await EnrichReportAsync(report, pipelineIdentity, reportPath is not null)
+            .ConfigureAwait(false);
 
         await WriteReportAsync(reportPath, report).ConfigureAwait(false);
         await SaveHistoryAsync(historyEnabled, report).ConfigureAwait(false);
@@ -131,15 +132,34 @@ internal sealed class RunReportService(
 
     private async Task<PipelineRunReport> EnrichReportAsync(
         PipelineRunReport report,
-        string pipelineIdentity)
+        string pipelineIdentity,
+        bool invokeEnrichers)
     {
         var context = new RunReportEnrichmentContext(
             report.RunId,
             pipelineIdentity,
             Environment.MachineName,
             buildSystemDetector.Current);
-        using var timeout = new CancellationTokenSource(_enricherTimeout);
+        if (invokeEnrichers)
+        {
+            context = await InvokeEnrichersAsync(context).ConfigureAwait(false);
+        }
 
+        try
+        {
+            return reportFactory.WithCorrelation(report, context);
+        }
+        catch (Exception exception)
+        {
+            logger.LogWarning(exception, "Could not obfuscate pipeline run correlation metadata");
+            return report;
+        }
+    }
+
+    private async Task<RunReportEnrichmentContext> InvokeEnrichersAsync(
+        RunReportEnrichmentContext context)
+    {
+        using var timeout = new CancellationTokenSource(_enricherTimeout);
         foreach (var enricher in _runReportEnrichers)
         {
             var enrichedContext = context.Copy();
@@ -167,15 +187,7 @@ internal sealed class RunReportService(
             }
         }
 
-        try
-        {
-            return reportFactory.WithCorrelation(report, context);
-        }
-        catch (Exception exception)
-        {
-            logger.LogWarning(exception, "Could not obfuscate pipeline run correlation metadata");
-            return report;
-        }
+        return context;
     }
 
     private static RunReportExceptionDetails? CreateFallbackExceptionDetails(Exception? exception)

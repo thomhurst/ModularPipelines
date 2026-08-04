@@ -1050,9 +1050,20 @@ public class RunReportTests
             }),
             NullLogger<FileSystemRunHistoryStore>.Instance);
 
+    private static PipelineOptions CreateReportingOptions(string reportPath) =>
+        new()
+        {
+            RunReport = new RunReportOptions
+            {
+                ReportPath = reportPath,
+                HistoryRetention = 0,
+            },
+        };
+
     [Test]
     public async Task RunReportEnrichersPopulateObfuscatedCorrelation()
     {
+        var directory = CreateTemporaryDirectory();
         var distributedOptions = OptionsFactory.Create(new DistributedOptions());
         var commandExecutionCounter = new CommandExecutionCounter();
         var service = new RunReportService(
@@ -1061,6 +1072,73 @@ public class RunReportTests
                 commandExecutionCounter,
                 new RedactingSecretObfuscator()),
             new KnownBuildSystemDetector(),
+            OptionsFactory.Create(CreateReportingOptions(Path.Combine(directory, "report.json"))),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            runReportEnrichers: [new StaticRunReportEnricher()]);
+
+        try
+        {
+            var report = await service.CompleteAsync(CreateEmptySummary());
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(Guid.TryParseExact(report.RunId, "N", out _)).IsTrue();
+                await Assert.That(report.Correlation).IsNotNull();
+                await Assert.That(report.Correlation!.GitSha).IsEqualTo("**********-sha");
+                await Assert.That(report.Correlation.GitBranch).IsEqualTo("**********-branch");
+                await Assert.That(report.Correlation.CiRunUrl)
+                    .IsEqualTo("https://ci.example/**********-run");
+                await Assert.That(report.Correlation.Hostname).IsEqualTo(Environment.MachineName);
+                await Assert.That(report.Correlation.BuildSystem).IsEqualTo(BuildSystem.GitHubActions);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task BuilderRegistrationInvokesRunReportEnricher()
+    {
+        var directory = CreateTemporaryDirectory();
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            PrintLogo = false,
+            PrintResults = false,
+            RunReport = CreateReportingOptions(Path.Combine(directory, "report.json")).RunReport,
+        });
+        builder.AddModule<SuccessfulModule>();
+        builder.AddRunReportEnricher<StaticRunReportEnricher>();
+
+        try
+        {
+            var summary = await builder.ExecutePipelineAsync();
+
+            await Assert.That(summary.RunReport!.Correlation!.GitSha).IsEqualTo("secret-sha");
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    public async Task DisabledReportPersistenceSkipsRegisteredEnrichers()
+    {
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            Mock.Of<IRunHistoryStore>(),
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
             OptionsFactory.Create(new PipelineOptions()),
             distributedOptions,
             new RoleDetector(distributedOptions),
@@ -1071,34 +1149,7 @@ public class RunReportTests
 
         var report = await service.CompleteAsync(CreateEmptySummary());
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(Guid.TryParseExact(report.RunId, "N", out _)).IsTrue();
-            await Assert.That(report.Correlation).IsNotNull();
-            await Assert.That(report.Correlation!.GitSha).IsEqualTo("**********-sha");
-            await Assert.That(report.Correlation.GitBranch).IsEqualTo("**********-branch");
-            await Assert.That(report.Correlation.CiRunUrl)
-                .IsEqualTo("https://ci.example/**********-run");
-            await Assert.That(report.Correlation.Hostname).IsEqualTo(Environment.MachineName);
-            await Assert.That(report.Correlation.BuildSystem).IsEqualTo(BuildSystem.GitHubActions);
-        }
-    }
-
-    [Test]
-    public async Task BuilderRegistrationInvokesRunReportEnricher()
-    {
-        using var builder = Pipeline.CreateBuilder();
-        builder.ConfigurePipelineOptions(options => options with
-        {
-            PrintLogo = false,
-            PrintResults = false,
-        });
-        builder.AddModule<SuccessfulModule>();
-        builder.AddRunReportEnricher<StaticRunReportEnricher>();
-
-        var summary = await builder.ExecutePipelineAsync();
-
-        await Assert.That(summary.RunReport!.Correlation!.GitSha).IsEqualTo("secret-sha");
+        await Assert.That(report.Correlation!.GitSha).IsNull();
     }
 
     [Test]
@@ -1135,6 +1186,7 @@ public class RunReportTests
     [Test]
     public async Task RunReportEnricherHasBoundedExecutionTime()
     {
+        var directory = CreateTemporaryDirectory();
         var distributedOptions = OptionsFactory.Create(new DistributedOptions());
         var commandExecutionCounter = new CommandExecutionCounter();
         var service = new RunReportService(
@@ -1143,7 +1195,7 @@ public class RunReportTests
                 commandExecutionCounter,
                 new PassthroughSecretObfuscator()),
             Mock.Of<IBuildSystemDetector>(),
-            OptionsFactory.Create(new PipelineOptions()),
+            OptionsFactory.Create(CreateReportingOptions(Path.Combine(directory, "report.json"))),
             distributedOptions,
             new RoleDetector(distributedOptions),
             Mock.Of<IDistributedCoordinator>(),
@@ -1152,10 +1204,17 @@ public class RunReportTests
             enricherTimeout: TimeSpan.FromMilliseconds(25),
             runReportEnrichers: [new NeverCompletingRunReportEnricher()]);
 
-        var report = await service.CompleteAsync(CreateEmptySummary())
-            .WaitAsync(TimeSpan.FromSeconds(2));
+        try
+        {
+            var report = await service.CompleteAsync(CreateEmptySummary())
+                .WaitAsync(TimeSpan.FromSeconds(2));
 
-        await Assert.That(report.Correlation).IsNotNull();
+            await Assert.That(report.Correlation).IsNotNull();
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
     }
 
     [Test]
