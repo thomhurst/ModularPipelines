@@ -88,8 +88,8 @@ public class PackProjectsModule : Module<CommandResult[]>
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         var projects = repository.Root
             .GetFiles(file => file.Extension == ".csproj"
-                              && !file.Name.Contains(
-                                  "test",
+                              && !file.Name.EndsWith(
+                                  ".UnitTests.csproj",
                                   StringComparison.OrdinalIgnoreCase))
             .ToList();
         var packageDirectory = repository.Root
@@ -133,7 +133,10 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         var packages = repository.Root
             .GetFolder("artifacts")
             .GetFolder("packages")
-            .GetFiles(file => file.Extension == ".nupkg")
+            .GetFiles(file => file.Extension == ".nupkg"
+                              && !file.Name.EndsWith(
+                                  ".symbols.nupkg",
+                                  StringComparison.OrdinalIgnoreCase))
             .ToList();
         var results = new List<CommandResult>();
 
