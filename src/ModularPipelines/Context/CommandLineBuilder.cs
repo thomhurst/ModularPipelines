@@ -161,16 +161,35 @@ internal sealed class CommandLineBuilder(
         var remainingArguments = new List<string>();
         for (var index = 0; index < manualArgs.Count;)
         {
-            if (flagNames.Contains(manualArgs[index]))
+            var argument = manualArgs[index];
+            if (flagNames.Contains(argument))
             {
-                recognizedOptions.Add(manualArgs[index]);
+                recognizedOptions.Add(argument);
                 index++;
                 continue;
             }
 
-            if (!optionsByName.TryGetValue(manualArgs[index], out var option))
+            if (TryGetCombinedShortOptionOperandCount(
+                    argument,
+                    flagNames,
+                    optionsByName,
+                    out var combinedOperandCount))
             {
-                remainingArguments.Add(manualArgs[index]);
+                if (manualArgs.Count - index - 1 < combinedOperandCount)
+                {
+                    remainingArguments.Add(argument);
+                    index++;
+                    continue;
+                }
+
+                recognizedOptions.AddRange(manualArgs.GetRange(index, combinedOperandCount + 1));
+                index += combinedOperandCount + 1;
+                continue;
+            }
+
+            if (!optionsByName.TryGetValue(argument, out var option))
+            {
+                remainingArguments.Add(argument);
                 index++;
                 continue;
             }
@@ -195,6 +214,42 @@ internal sealed class CommandLineBuilder(
         manualArgs.Clear();
         manualArgs.AddRange(remainingArguments);
         return recognizedOptions;
+    }
+
+    private static bool TryGetCombinedShortOptionOperandCount(
+        string argument,
+        IReadOnlySet<string> flagNames,
+        IReadOnlyDictionary<string, OptionPart> optionsByName,
+        out int followingOperandCount)
+    {
+        followingOperandCount = 0;
+        if (argument.Length <= 2 || argument[0] != '-' || argument[1] == '-')
+        {
+            return false;
+        }
+
+        for (var index = 1; index < argument.Length; index++)
+        {
+            var shortName = $"-{argument[index]}";
+            if (flagNames.Contains(shortName))
+            {
+                continue;
+            }
+
+            if (!optionsByName.TryGetValue(shortName, out var option))
+            {
+                return false;
+            }
+
+            var operandCount = GetManualOperandCount(option);
+            var hasAttachedOperand = index < argument.Length - 1;
+            followingOperandCount = hasAttachedOperand
+                ? Math.Max(0, operandCount - 1)
+                : operandCount;
+            return true;
+        }
+
+        return true;
     }
 
     private static int GetManualOperandCount(OptionPart option)

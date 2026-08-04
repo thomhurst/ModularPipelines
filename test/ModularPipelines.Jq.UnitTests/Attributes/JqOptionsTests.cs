@@ -102,6 +102,36 @@ public class JqOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Places_Combined_Manual_Flags_Before_OptionTerminated_Filter()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new JqExecuteOptions
+        {
+            Filter = "-1",
+            Arguments = ["-cM", "input.json"],
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("jq -cM -- -1 input.json");
+    }
+
+    [Test]
+    public async Task Places_Attached_Manual_Option_Before_OptionTerminated_Filter()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var commandLine = builder.Build(new JqExecuteOptions
+        {
+            Filter = "-1",
+            Arguments = ["-Lmodules", "input.json"],
+        });
+
+        await Assert.That(commandLine.ToString())
+            .IsEqualTo("jq -Lmodules -- -1 input.json");
+    }
+
+    [Test]
     public async Task Places_Manual_Option_Operands_Before_OptionTerminated_Filter()
     {
         var builder = await GetService<ICommandLineBuilder>();
