@@ -181,8 +181,9 @@ public sealed class PipelineBuilder : IDisposable
     /// <exception cref="PipelineValidationException">Thrown when validation fails.</exception>
     public async Task<IPipeline> BuildAsync()
     {
+        var validatePipeline = _commandLineOptions.Command != PipelineCommand.Help;
         var (pipeline, validationResult, validationException) =
-            await BuildAndValidatePipelineAsync().ConfigureAwait(false);
+            await BuildAndValidatePipelineAsync(validatePipeline).ConfigureAwait(false);
 
         if (validationResult.HasErrors)
         {
@@ -204,7 +205,7 @@ public sealed class PipelineBuilder : IDisposable
     public async Task<ValidationResult> ValidateAsync()
     {
         var (pipeline, validationResult, _) =
-            await BuildAndValidatePipelineAsync().ConfigureAwait(false);
+            await BuildAndValidatePipelineAsync(validatePipeline: true).ConfigureAwait(false);
 
         try
         {
@@ -220,14 +221,16 @@ public sealed class PipelineBuilder : IDisposable
     }
 
     private async Task<(IPipeline? Pipeline, ValidationResult ValidationResult, Exception? ValidationException)>
-        BuildAndValidatePipelineAsync()
+        BuildAndValidatePipelineAsync(bool validatePipeline)
     {
         IPipeline? pipeline = null;
 
         try
         {
-            pipeline = await BuildPipelineAsync().ConfigureAwait(false);
-            var validationResult = await ValidatePipelineAsync(pipeline.Services).ConfigureAwait(false);
+            pipeline = await BuildPipelineAsync(initializePipeline: validatePipeline).ConfigureAwait(false);
+            var validationResult = validatePipeline
+                ? await ValidatePipelineAsync(pipeline.Services).ConfigureAwait(false)
+                : ValidationResult.Success();
             return (pipeline, validationResult, null);
         }
         catch (PipelineException ex) when (ex.Message.Contains("No modules"))
@@ -313,7 +316,7 @@ public sealed class PipelineBuilder : IDisposable
     private static IReadOnlyList<string>? NullIfEmpty(IReadOnlyList<string> values) =>
         values.Count == 0 ? null : values;
 
-    private async Task<IPipeline> BuildPipelineAsync()
+    private async Task<IPipeline> BuildPipelineAsync(bool initializePipeline)
     {
         LoadModularPipelineAssembliesIfNotLoadedYet();
 
@@ -359,7 +362,7 @@ public sealed class PipelineBuilder : IDisposable
             }
         });
 
-        return await PipelineImpl.CreateAsync(_hostBuilder).ConfigureAwait(false);
+        return await PipelineImpl.CreateAsync(_hostBuilder, initializePipeline).ConfigureAwait(false);
     }
 
     private void LoadModularPipelineAssembliesIfNotLoadedYet()
