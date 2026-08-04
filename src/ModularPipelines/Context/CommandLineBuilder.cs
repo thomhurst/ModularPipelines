@@ -113,12 +113,17 @@ internal sealed class CommandLineBuilder(
             terminatorEmittedBeforeProperties,
             emittedOptionTerminator,
             hasOptionTerminator);
+        var hasRenderedCommandOptions = ContainsRecognizedManualOption(
+            propertyArgs,
+            commandSpecificModel,
+            options);
         InsertManualOptions(
             globalArgs,
             propertyArgs,
             extractedManualOptions,
             globalOptionTerminatorIndex,
-            commandOptionTerminatorIndex);
+            commandOptionTerminatorIndex,
+            hasRenderedCommandOptions);
 
         emittedOptionTerminator = pendingTerminatorState;
         var terminalOptionArgs = _commandArgumentBuilder.BuildArguments(
@@ -200,14 +205,17 @@ internal sealed class CommandLineBuilder(
         List<string> propertyArgs,
         ExtractedManualOptions extractedManualOptions,
         int? globalOptionTerminatorIndex,
-        int? commandOptionTerminatorIndex)
+        int? commandOptionTerminatorIndex,
+        bool hasRenderedCommandOptions)
     {
         globalArgs.InsertRange(
             globalOptionTerminatorIndex ?? globalArgs.Count,
             extractedManualOptions.Global);
         if (commandOptionTerminatorIndex is { } insertionIndex)
         {
-            propertyArgs.InsertRange(insertionIndex, extractedManualOptions.Command);
+            propertyArgs.InsertRange(
+                hasRenderedCommandOptions ? insertionIndex : 0,
+                extractedManualOptions.Command);
         }
         else
         {

@@ -338,6 +338,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_Manual_Option_Before_Early_Operand()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestEarlyOperandTerminatorOptions("aws")
+        {
+            Parameters = ["param"],
+            Arguments = ["--color=never"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("pulumi package info --color=never aws -- param");
+    }
+
+    [Test]
     public async Task Build_Hoists_ColonSeparated_Manual_Option_Before_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -811,6 +827,19 @@ public class CommandLineBuilderTests : TestBase
 
         [CliArgument(1, Phase = CommandLinePhase.Terminal, PrependOptionTerminator = true)]
         public string? TerminalArgument { get; set; }
+    }
+
+    [CliTool("pulumi")]
+    [CliSubCommand("package", "info")]
+    private sealed record TestEarlyOperandTerminatorOptions(
+        [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Provider)
+        : CommandLineToolOptions
+    {
+        [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
+        public string? Color { get; init; }
+
+        [CliArgument(0, Phase = CommandLinePhase.Passthrough, PrependOptionTerminator = true)]
+        public IReadOnlyList<string>? Parameters { get; init; }
     }
 
     private sealed class LegacyMetadataMarker;
