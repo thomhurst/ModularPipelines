@@ -71,6 +71,16 @@ public static class CurrentApiSnippets
         }
     }
 
+    public static async Task ConfigureSingleFilePipeline(string[] args)
+    {
+        using var builder = Pipeline.CreateBuilder(args);
+        builder
+            .AddModule<UpdateDotnetWorkloads>()
+            .AddModule<CheckDotnetSdkModule>();
+
+        await builder.ExecutePipelineAsync();
+    }
+
     public static async Task ConfigureTestPackPublishPipeline(string[] args)
     {
         using var builder = Pipeline.CreateBuilder(args);
@@ -146,6 +156,29 @@ public static class CurrentApiSnippets
                     Output = "publish/",
                 },
                 cancellationToken: cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    public sealed class UpdateDotnetWorkloads : Module<CommandResult>
+    {
+        protected override async Task<CommandResult> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return await context.Tools.DotNet.Workload
+                .UpdateAsync(cancellationToken: cancellationToken);
+        }
+    }
+
+    [DependsOn<UpdateDotnetWorkloads>]
+    public sealed class CheckDotnetSdkModule : Module<CommandResult>
+    {
+        protected override async Task<CommandResult> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            return await context.Tools.DotNet.Sdk
+                .CheckAsync(cancellationToken: cancellationToken);
         }
     }
 

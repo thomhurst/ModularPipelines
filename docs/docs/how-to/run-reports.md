@@ -35,10 +35,16 @@ report is also exposed through `PipelineSummary.RunReport`.
 
 ## Local history and deltas
 
-When report writing is enabled, the default `IRunHistoryStore` saves reports under
-`.modularpipelines/run-history`. It retains the latest 20 reports and uses the newest compatible
-report to calculate module and total-duration deltas. When a previous duration exists, the final
-results table includes a `Δ previous` column.
+By default, the `IRunHistoryStore` saves reports under `.modularpipelines/run-history` on local and
+CI runs, even when JSON report writing is disabled. It retains the latest 20 reports and uses the
+newest compatible report to calculate module and total-duration deltas. When a previous duration
+exists, the final results table includes a `Δ previous` column.
+
+Add the default history directory to `.gitignore` if you do not want to commit local run data:
+
+```gitignore
+.modularpipelines/run-history/
+```
 
 Configure or disable retention with `RunReportOptions`:
 
@@ -59,6 +65,19 @@ history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one
 path and registered module types. History is bounded: after each save, the default store deletes
 owned files beyond the configured limit for that pipeline.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
+
+CI agents are often ephemeral, so restore the history directory from a cache before running the
+pipeline. For example, a GitHub Actions workflow can restore the newest cache for its branch and
+save the updated history under a run-specific key:
+
+```yaml
+- uses: actions/cache@v4
+  with:
+    path: .modularpipelines/run-history
+    key: ${{ runner.os }}-modularpipelines-history-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
+    restore-keys: |
+      ${{ runner.os }}-modularpipelines-history-${{ github.ref_name }}-
+```
 
 ## Custom history stores
 

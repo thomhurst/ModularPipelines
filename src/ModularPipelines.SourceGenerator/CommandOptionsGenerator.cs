@@ -12,6 +12,8 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
+    private const string CliValuePairFullName = "ModularPipelines.Models.CliValuePair";
+
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
@@ -236,7 +238,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     "Normal",
                     0,
                     GetConstructorStrings(secretAttribute),
-                    false));
+                    false,
+                    false,
+                    0));
             }
         }
 
@@ -277,7 +281,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedEnumMemberName(attribute, "Phase", "Passthrough"),
                 0,
                 EquatableArray<string>.Empty,
-                isGlobalOption);
+                GetNamedBool(attribute, "PrependOptionTerminatorIfValueStartsWithDash"),
+                isGlobalOption,
+                0);
         }
 
         if (attributeName == CliFlagAttributeFullName)
@@ -294,7 +300,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 GetNamedEnumMemberName(attribute, "Phase", "Normal"),
                 0,
                 EquatableArray<string>.Empty,
-                isGlobalOption);
+                false,
+                isGlobalOption,
+                0);
         }
 
         return new PropertyMetadata(
@@ -309,7 +317,54 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             GetNamedEnumMemberName(attribute, "Phase", "Normal"),
             GetNamedInt(attribute, "ValueArity"),
             EquatableArray<string>.Empty,
-            isGlobalOption);
+            false,
+            isGlobalOption,
+            GetManualOperandCount(property.Type));
+    }
+
+    private static int GetManualOperandCount(ITypeSymbol propertyType)
+    {
+        if (propertyType is INamedTypeSymbol nullableType
+            && nullableType.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T
+            && nullableType.TypeArguments.Length == 1)
+        {
+            propertyType = nullableType.TypeArguments[0];
+        }
+
+        if (IsCliValuePair(propertyType))
+        {
+            return 2;
+        }
+
+        if (propertyType is IArrayTypeSymbol arrayType
+            && IsCliValuePair(arrayType.ElementType))
+        {
+            return 2;
+        }
+
+        return propertyType is INamedTypeSymbol namedType
+               && namedType.AllInterfaces
+                   .Append(namedType)
+                   .Any(type => type.OriginalDefinition.SpecialType
+                                == SpecialType.System_Collections_Generic_IEnumerable_T
+                                && IsCliValuePair(type.TypeArguments[0]))
+            ? 2
+            : 1;
+    }
+
+    private static bool IsCliValuePair(ITypeSymbol type)
+    {
+        for (var current = type.WithNullableAnnotation(NullableAnnotation.None) as INamedTypeSymbol;
+             current is not null;
+             current = current.BaseType)
+        {
+            if (current.ToDisplayString() == CliValuePairFullName)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool IsGlobalOption(IPropertySymbol property)
@@ -411,6 +466,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine("                    {");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
                     sb.AppendLine($"                        PrependOptionTerminator = {BooleanLiteral(property.BooleanValue)},");
+                    sb.AppendLine($"                        PrependOptionTerminatorIfValueStartsWithDash = {BooleanLiteral(property.PrependOptionTerminatorIfValueStartsWithDash)},");
                     sb.AppendLine($"                        Required = {BooleanLiteral(property.IsRequired)},");
                     sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
                     break;
@@ -435,7 +491,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                     sb.AppendLine($"                        ValueArity = (global::ModularPipelines.Attributes.CliOptionValueArity){property.ValueArity},");
                     sb.AppendLine($"                        GroupValues = {BooleanLiteral(property.GroupValues)},");
                     sb.AppendLine($"                        Phase = global::ModularPipelines.Attributes.CommandLinePhase.{property.Phase},");
-                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)} }},");
+                    sb.AppendLine($"                    }}) {{ IsGlobalOption = {BooleanLiteral(property.IsGlobalOption)}, ManualOperandCount = {property.ManualOperandCount} }},");
                     break;
             }
         }
@@ -642,7 +698,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string Phase,
         int ValueArity,
         EquatableArray<string> SecretValueKeys,
-        bool IsGlobalOption);
+        bool PrependOptionTerminatorIfValueStartsWithDash,
+        bool IsGlobalOption,
+        int ManualOperandCount);
 
     private enum PropertyKind
     {
