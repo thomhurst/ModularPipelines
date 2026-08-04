@@ -3314,6 +3314,29 @@ builder.AddModuleCache<FileSystemModuleCache>(options =>
 
 The file limit prevents unexpectedly broad globs. File hashes use a persistent modification-time and size index; changed files are hashed concurrently.
 
+## Transfer artifacts between modules
+
+Declare a produced file and consume it through a required dependency:
+
+```csharp
+[ProducesArtifact("application", "artifacts/publish.zip")]
+public sealed class BuildModule : Module<Unit>
+{
+    // Create artifacts/publish.zip.
+}
+
+[DependsOn<BuildModule>]
+[ConsumesArtifact(typeof(BuildModule), "application", RestorePath = "deploy")]
+public sealed class DeployModule : Module<Unit>
+{
+    // Read deploy/application.
+}
+```
+
+Artifact transfer works for standalone and distributed pipelines. Validation requires the producer to be registered, the artifact name to match exactly, and the consumer to reach the producer through required dependencies. An optional dependency cannot guarantee that an artifact exists.
+
+Relative produce and restore paths use `ModuleCacheOptions.WorkingDirectory`. Standalone execution uploads only artifacts needed by runnable consumers, and fails the consumer before execution when a required artifact is missing.
+
 ## Share entries through S3 or Redis
 
 The S3 and Redis packages provide cross-run cache backends. Their cache namespaces do not use distributed pipeline run identifiers, so concurrent runs can safely share entries.
