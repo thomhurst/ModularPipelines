@@ -108,7 +108,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
             var context = new ModuleRegistrationContext(
                 moduleType,
                 _planningSafeOnly
-                    ? [.. receivers.OfType<Attribute>()]
+                    ? _attributeEventService.GetPlanningAttributes(moduleType)
                     : _attributeEventService.GetAttributes(moduleType),
                 _configuration,
                 _environment,

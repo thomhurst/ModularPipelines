@@ -40,6 +40,8 @@ public class DependencyGraphExporterTests
     private static int _globalConfigurationMutations;
     private static int _deferredConditionAttributeConstructions;
     private static int _deferredConditionLogicReads;
+    private static int _planningCompanionAttributeConstructions;
+    private static int _planningPresenceAttributeConstructions;
 
     private sealed class ConstructorMutationState
     {
@@ -93,6 +95,39 @@ public class DependencyGraphExporterTests
     }
 
     [AttributeUsage(AttributeTargets.Class)]
+    private sealed class PlanningCompanionAttribute : Attribute
+    {
+        public PlanningCompanionAttribute()
+        {
+            Interlocked.Increment(ref _planningCompanionAttributeConstructions);
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class AddDependencyWhenCompanionPresentAttribute(Type dependencyType)
+        : Attribute, IPlanningSafeModuleRegistrationEventReceiver
+    {
+        public Task OnRegistrationAsync(IModuleRegistrationContext context)
+        {
+            if (context.ModuleAttributes.Any(static attribute => attribute is PlanningCompanionAttribute))
+            {
+                context.AddDependency(dependencyType);
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class PlanningPresenceAttribute : Attribute
+    {
+        public PlanningPresenceAttribute()
+        {
+            Interlocked.Increment(ref _planningPresenceAttributeConstructions);
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddStartupDependencyAttribute(Type dependencyType)
         : Attribute, IModuleRegistrationEventReceiver
     {
@@ -131,6 +166,34 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("dynamic");
+    }
+
+    [PlanningCompanion]
+    [AddDependencyWhenCompanionPresent(typeof(DependencyModule))]
+    private sealed class CompanionAwareDynamicDependencyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("companion-aware");
+    }
+
+    [PlanningPresence]
+    private sealed class PresenceDependencyModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("presence-dependency");
+    }
+
+    [DependsOnModulesWithAttribute<PlanningPresenceAttribute>]
+    private sealed class AttributePresenceConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("attribute-presence-consumer");
     }
 
     private sealed class HistoricalDependencyModule : Module<string>
@@ -2498,6 +2561,48 @@ public class DependencyGraphExporterTests
         {
             await Assert.That(edge.GetProperty("from").GetString()).IsEqualTo(dependencyId);
             await Assert.That(edge.GetProperty("to").GetString()).IsEqualTo(dependentId);
+        }
+    }
+
+    [Test]
+    public async Task Render_Preserves_Companion_Attributes_Without_Constructing_Them()
+    {
+        _planningCompanionAttributeConstructions = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<CompanionAwareDynamicDependencyModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var constructionsBeforeRender = _planningCompanionAttributeConstructions;
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+            await Assert.That(_planningCompanionAttributeConstructions).IsEqualTo(constructionsBeforeRender);
+        }
+    }
+
+    [Test]
+    public async Task Render_Checks_Attribute_Presence_Without_Constructing_It()
+    {
+        _planningPresenceAttributeConstructions = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<PresenceDependencyModule>();
+        builder.AddModule<AttributePresenceConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var constructionsBeforeRender = _planningPresenceAttributeConstructions;
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+            await Assert.That(_planningPresenceAttributeConstructions).IsEqualTo(constructionsBeforeRender);
         }
     }
 

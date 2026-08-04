@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Attributes.Events;
 using ModularPipelines.Exceptions;
 
@@ -15,6 +16,7 @@ namespace ModularPipelines.Engine.Attributes;
 internal class ModuleAttributeEventService : IModuleAttributeEventService
 {
     private readonly ConcurrentDictionary<Type, Lazy<AttributeHandlerCache>> _cache = new();
+    private readonly ConcurrentDictionary<Type, Lazy<PlanningAttributeCache>> _planningCache = new();
 
     public IReadOnlyList<Attribute> GetAttributes(Type moduleType)
         => GetCache(moduleType).Attributes;
@@ -23,10 +25,28 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         => GetCache(moduleType).RegistrationReceivers;
 
     public IReadOnlyList<IModuleRegistrationEventReceiver> GetPlanningRegistrationReceivers(Type moduleType)
+        => GetPlanningCache(moduleType).RegistrationReceivers;
+
+    public IReadOnlyList<Attribute> GetPlanningAttributes(Type moduleType)
+        => GetPlanningCache(moduleType).Attributes;
+
+    private PlanningAttributeCache GetPlanningCache(Type moduleType)
+        => _planningCache.GetOrAdd(
+            moduleType,
+            static type => new Lazy<PlanningAttributeCache>(
+                () => DiscoverPlanningAttributes(type),
+                LazyThreadSafetyMode.ExecutionAndPublication)).Value;
+
+    private static PlanningAttributeCache DiscoverPlanningAttributes(Type moduleType)
     {
         var receiverData = CustomAttributeMetadata.GetApplicable(
             moduleType,
             static type => typeof(IModuleRegistrationEventReceiver).IsAssignableFrom(type));
+        if (receiverData.Count == 0)
+        {
+            return new PlanningAttributeCache([], []);
+        }
+
         var deferredReceiverTypes = receiverData
             .Select(static data => data.AttributeType)
             .Where(static type => !typeof(IPlanningSafeModuleRegistrationEventReceiver).IsAssignableFrom(type))
@@ -42,9 +62,67 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
                 + "the receiver is deterministic, idempotent, and free of external side effects.");
         }
 
-        return SortByPriority(receiverData
-            .Select(CustomAttributeMetadata.Create<IModuleRegistrationEventReceiver>)
-            .ToList());
+        var attributeData = CustomAttributeMetadata.GetApplicable(moduleType, static _ => true);
+        var attributes = attributeData.Select(CreatePlanningAttribute).ToArray();
+        var receivers = attributes.OfType<IModuleRegistrationEventReceiver>().ToList();
+        return new PlanningAttributeCache(attributes, SortByPriority(receivers));
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2072",
+        Justification = "The exact attribute type is preserved by the custom-attribute metadata being inspected.")]
+    private static Attribute CreatePlanningAttribute(CustomAttributeData data)
+    {
+        if (typeof(IPlanningSafeModuleRegistrationEventReceiver).IsAssignableFrom(data.AttributeType)
+            || data.AttributeType.Assembly == typeof(ModuleAttributeEventService).Assembly)
+        {
+            return CustomAttributeMetadata.Create<Attribute>(data);
+        }
+
+        if (!IsCompilerMetadataAttribute(data.AttributeType)
+            && (data.ConstructorArguments.Count > 0
+            || data.NamedArguments.Count > 0
+            || HasInstanceState(data.AttributeType)))
+        {
+            throw new PipelineException(
+                $"Cannot export a resolved dependency graph because {data.AttributeType.FullName} is a stateful "
+                + "companion to a planning-safe registration receiver. Planning cannot construct arbitrary "
+                + "companion attributes. Use a stateless marker attribute or move the required state onto the "
+                + $"{nameof(IPlanningSafeModuleRegistrationEventReceiver)} attribute.");
+        }
+
+        return (Attribute) RuntimeHelpers.GetUninitializedObject(data.AttributeType);
+    }
+
+    private static bool IsCompilerMetadataAttribute(Type attributeType)
+        => attributeType.Namespace == typeof(CompilerGeneratedAttribute).Namespace;
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "Planning inspects module attribute types that are already preserved by custom-attribute metadata.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "Planning inspects module attribute types that are already preserved by custom-attribute metadata.")]
+    private static bool HasInstanceState(Type attributeType)
+    {
+        for (var current = attributeType; current != typeof(Attribute); current = current.BaseType)
+        {
+            if (current is null)
+            {
+                return true;
+            }
+
+            if (current.GetFields(
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).Length > 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public IReadOnlyList<IModuleReadyHandler> GetReadyHandlers(Type moduleType)
@@ -170,4 +248,8 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
         IReadOnlyList<IModuleEndHandler> EndHandlers,
         IReadOnlyList<IModuleFailureHandler> FailureHandlers,
         IReadOnlyList<IModuleSkippedHandler> SkippedHandlers);
+
+    private sealed record PlanningAttributeCache(
+        IReadOnlyList<Attribute> Attributes,
+        IReadOnlyList<IModuleRegistrationEventReceiver> RegistrationReceivers);
 }

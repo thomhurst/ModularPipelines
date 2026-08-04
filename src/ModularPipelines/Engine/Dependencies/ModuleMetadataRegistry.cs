@@ -63,7 +63,12 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     /// <inheritdoc />
     public bool HasAttribute<TAttribute>(Type moduleType)
         where TAttribute : Attribute
-        => GetCachedAttributes(moduleType, typeof(TAttribute)).Length > 0;
+        => _planningSafeOnly
+            ? CustomAttributeMetadata.GetApplicable(
+                    moduleType,
+                    typeof(TAttribute).IsAssignableFrom)
+                .Count > 0
+            : GetCachedAttributes(moduleType, typeof(TAttribute)).Length > 0;
 
     /// <inheritdoc />
     public TAttribute? GetAttribute<TAttribute>(Type moduleType)
