@@ -14,11 +14,16 @@ public class StatusCompatibilityTests
     [Arguments(Status.PipelineTerminated, 6)]
     [Arguments(Status.TimedOut, 7)]
     [Arguments(Status.Skipped, 8)]
-    [Arguments(Status.Retried, 9)]
     [Arguments(Status.Unknown, 10)]
     [Arguments(Status.CachedResult, 11)]
     public async Task NumericValuesRemainStable(Status status, int expectedValue)
     {
         await Assert.That((int)status).IsEqualTo(expectedValue);
+    }
+
+    [Test]
+    public async Task RemovedRetriedValueRemainsUnassigned()
+    {
+        await Assert.That(Enum.IsDefined(typeof(Status), 9)).IsFalse();
     }
 }

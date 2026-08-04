@@ -36,7 +36,6 @@ internal static class MarkupFormatter
     public const string SkipIcon = "[yellow]⊘[/]";
     public const string TimeoutIcon = "[red]⏱[/]";
     public const string StopIcon = "[red]⏹[/]";
-    public const string RetryIcon = "[yellow]↻[/]";
     public const string HistoryIcon = "[green3]↻[/]";
     public const string QuestionIcon = "[red]?[/]";
     public const string PlayIcon = "[bold cyan]▶[/]";
