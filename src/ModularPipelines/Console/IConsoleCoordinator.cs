@@ -27,7 +27,7 @@ namespace ModularPipelines.Console;
 /// concurrently from multiple threads.
 /// </para>
 /// </remarks>
-internal interface IConsoleCoordinator : IAsyncDisposable
+internal interface IConsoleCoordinator : IModuleOutputExcerptProvider, IAsyncDisposable
 {
     /// <summary>
     /// Installs the coordinator, intercepting Console.Out/Error.
