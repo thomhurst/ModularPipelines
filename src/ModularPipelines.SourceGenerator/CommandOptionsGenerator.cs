@@ -1264,7 +1264,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             RuntimeMetadataSchemaVersion);
         return GetTypes(assembly.GlobalNamespace)
             .Where(type => !hasCurrentRuntimeMetadata
-                           || incompleteTypeNames.Contains(GetMetadataName(type)))
+                           || incompleteTypeNames.Contains(GetMetadataName(type))
+                           || IsObservedOptionsType(type, usedOptionsTypes))
             .Select(type => GetExternalTypeCandidate(
                 type,
                 compilation,
@@ -1284,9 +1285,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool requiresSecretReflectionFallback)
     {
         var metadataName = GetMetadataName(type);
-        var isObservedOptionsType = usedOptionsTypes.Contains(new OptionsTypeIdentity(
-            metadataName,
-            type.ContainingAssembly.Identity.ToString()));
+        var isObservedOptionsType = IsObservedOptionsType(type, usedOptionsTypes);
         TypeMetadataCandidate? candidate;
         if (isObservedOptionsType)
         {
@@ -1313,6 +1312,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             }
             : candidate;
     }
+
+    private static bool IsObservedOptionsType(
+        INamedTypeSymbol type,
+        ISet<OptionsTypeIdentity> usedOptionsTypes) =>
+        usedOptionsTypes.Contains(new OptionsTypeIdentity(
+            GetMetadataName(type),
+            type.ContainingAssembly.Identity.ToString()));
 
     private static bool RequiresDirectTypeReference(TypeMetadataCandidate candidate)
     {

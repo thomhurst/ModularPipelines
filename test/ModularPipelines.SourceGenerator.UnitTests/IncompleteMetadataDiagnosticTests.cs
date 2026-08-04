@@ -466,6 +466,52 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Rescans_Observed_Peer_Generated_Options()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration
+                {
+                    public const int SchemaVersion = 1;
+                }
+            }
+
+            namespace External
+            {
+                public sealed class PeerGeneratedOptions
+                {
+                    [ModularPipelines.Attributes.SecretValue]
+                    public string Token { get; } = "";
+                }
+            }
+            """,
+            """
+            public sealed class Consumer(
+                Microsoft.Extensions.Options.IOptions<External.PeerGeneratedOptions> options);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterExternal(");
+            await Assert.That(generatedSource).Contains(
+                "typeof(global::External.PeerGeneratedOptions)");
+            await Assert.That(generatedSource).Contains(
+                "((global::External.PeerGeneratedOptions)instance).@Token");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Generates_Metadata_For_Indirectly_Derived_Options()
     {
         var result = GeneratorTestHarness.RunWithIndirectExternalAssembly(
