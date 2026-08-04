@@ -298,40 +298,15 @@ internal sealed class DependencyGraphExporter(
         var unresolvedSkipDecisionTypes = new HashSet<Type>();
         foreach (var runnableModule in organizedModules.RunnableModules)
         {
-            var conditionResult = await moduleConditionHandler
-                .ShouldIgnoreForGraphPlanning(
+            var ignoredModule = await EvaluateRunConditionsAsync(
                     runnableModule.Module,
                     graphMetadataRegistry,
+                    unresolvedSkipDecisionTypes,
                     cancellationToken)
                 .ConfigureAwait(false);
-            var shouldIgnore = conditionResult.ShouldIgnore;
-            var skipDecision = conditionResult.SkipDecision;
-            if (!shouldIgnore && !conditionResult.IsResolved)
+            if (ignoredModule is not null)
             {
-                unresolvedSkipDecisionTypes.Add(runnableModule.Module.GetType());
-            }
-
-            if (!shouldIgnore && runnableModule.Module.Configuration.SkipCondition is not null)
-            {
-                skipDecision = await EvaluateConfiguredSkipConditionAsync(
-                        runnableModule.Module,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-                if (skipDecision is null)
-                {
-                    unresolvedSkipDecisionTypes.Add(runnableModule.Module.GetType());
-                }
-                else
-                {
-                    shouldIgnore = skipDecision.ShouldSkip;
-                }
-            }
-
-            if (shouldIgnore)
-            {
-                ignoredModules.Add(new IgnoredModule(
-                    runnableModule.Module,
-                    skipDecision ?? SkipDecision.Skip("Module was ignored")));
+                ignoredModules.Add(ignoredModule);
             }
             else
             {
@@ -342,6 +317,43 @@ internal sealed class DependencyGraphExporter(
         return new RunConditionResolution(
             new OrganizedModules(runnableModules, ignoredModules),
             unresolvedSkipDecisionTypes);
+    }
+
+    private async Task<IgnoredModule?> EvaluateRunConditionsAsync(
+        IModule module,
+        IModuleMetadataRegistry graphMetadataRegistry,
+        ISet<Type> unresolvedSkipDecisionTypes,
+        CancellationToken cancellationToken)
+    {
+        var conditionResult = await moduleConditionHandler
+            .ShouldIgnoreForGraphPlanning(module, graphMetadataRegistry, cancellationToken)
+            .ConfigureAwait(false);
+        if (conditionResult.ShouldIgnore)
+        {
+            return new IgnoredModule(
+                module,
+                conditionResult.SkipDecision ?? SkipDecision.Skip("Module was ignored"));
+        }
+
+        if (!conditionResult.IsResolved)
+        {
+            unresolvedSkipDecisionTypes.Add(module.GetType());
+        }
+
+        if (module.Configuration.SkipCondition is null)
+        {
+            return null;
+        }
+
+        var skipDecision = await EvaluateConfiguredSkipConditionAsync(module, cancellationToken)
+            .ConfigureAwait(false);
+        if (skipDecision is null)
+        {
+            unresolvedSkipDecisionTypes.Add(module.GetType());
+            return null;
+        }
+
+        return skipDecision.ShouldSkip ? new IgnoredModule(module, skipDecision) : null;
     }
 
     private async Task<SkipDecision?> EvaluateConfiguredSkipConditionAsync(

@@ -844,6 +844,26 @@ public class DependencyGraphExporterTests
         }
     }
 
+    private sealed class MutableReferenceClosureFactorySkipModule(string factoryValue) : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            var decisions = new Queue<SkipDecision>(
+                [SkipDecision.Skip("first evaluation"), SkipDecision.DoNotSkip]);
+            return ModuleConfiguration.Create()
+                .WithSkipWhen(_ => decisions.Dequeue())
+                .Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref _executions);
+            return Task.FromResult<string?>(factoryValue);
+        }
+    }
+
     private sealed class RuntimeBoundFactorySkipModule(bool shouldSkip) : Module<string>
     {
         public int PlanningEvaluations { get; private set; }
@@ -2507,6 +2527,27 @@ public class DependencyGraphExporterTests
         _executions = 0;
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new MutableClosureFactorySkipModule("factory-only"));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var summary = await pipeline.RunAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("mutable runtime state");
+            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(_executions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Mutable_Reference_Closure_Without_Evaluating_It()
+    {
+        _executions = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => new MutableReferenceClosureFactorySkipModule("factory-only"));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 

@@ -124,6 +124,27 @@ public class ModuleConditionHandlerTests
     }
 
     [Test]
+    public async Task Distributed_Master_Graph_Defers_Routable_Os_Condition()
+    {
+        var handler = CreateHandler(new DistributedOptions
+        {
+            Enabled = true,
+            InstanceIndex = 0,
+            TotalInstances = 3,
+        });
+
+        var result = await handler.ShouldIgnoreForGraphPlanning(
+            CreateForeignOsModule(),
+            Mock.Of<IModuleMetadataRegistry>());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.ShouldIgnore).IsFalse();
+            await Assert.That(result.IsResolved).IsFalse();
+        }
+    }
+
+    [Test]
     public async Task Distributed_Master_Does_Not_Filter_Unix_Condition_Group()
     {
         var handler = CreateHandler(new DistributedOptions

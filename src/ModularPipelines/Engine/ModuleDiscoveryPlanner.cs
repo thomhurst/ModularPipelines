@@ -593,17 +593,11 @@ internal sealed class ModuleDiscoveryPlanner(
 
         if (value is Delegate @delegate)
         {
-            return @delegate.GetInvocationList().Any(invocation =>
-                invocation.Target is { } target
-                && (WritesDelegateTargetField(invocation.Method, target.GetType())
-                    || MutatesDelegateTargetState(target, visited)));
+            return DelegateTargetMutatesState(@delegate, visited);
         }
 
         var type = value.GetType();
-        if (value is string or MemberInfo
-            || type.IsPrimitive
-            || type.IsEnum
-            || type.IsPointer
+        if (IsTerminalPlanningValue(value, type)
             || (!type.IsValueType && !visited.Add(value)))
         {
             return false;
@@ -611,30 +605,30 @@ internal sealed class ModuleDiscoveryPlanner(
 
         if (value is Array array)
         {
-            return array.Cast<object?>().Any(item => MutatesDelegateTargetState(item, visited));
+            return !typeof(Delegate).IsAssignableFrom(type.GetElementType()!)
+                   || array.Cast<object?>().Any(item => MutatesDelegateTargetState(item, visited));
         }
 
-        if (!type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false)
-            && value is not IEnumerable)
+        if (!type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
         {
-            return false;
+            return !type.IsValueType;
         }
 
-        for (var current = type; current is not null; current = current.BaseType)
-        {
-            if (current.GetFields(
-                    BindingFlags.Instance
-                    | BindingFlags.Public
-                    | BindingFlags.NonPublic
-                    | BindingFlags.DeclaredOnly)
-                .Any(field => MutatesDelegateTargetState(field.GetValue(value), visited)))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return GetInstanceFields(type)
+            .Any(field => MutatesDelegateTargetState(field.GetValue(value), visited));
     }
+
+    private static bool DelegateTargetMutatesState(Delegate @delegate, ISet<object> visited) =>
+        @delegate.GetInvocationList().Any(invocation =>
+            invocation.Target is { } target
+            && (WritesDelegateTargetField(invocation.Method, target.GetType())
+                || MutatesDelegateTargetState(target, visited)));
+
+    private static bool IsTerminalPlanningValue(object value, Type type) =>
+        value is string or MemberInfo or SkipDecision
+        || type.IsPrimitive
+        || type.IsEnum
+        || type.IsPointer;
 
     [UnconditionalSuppressMessage(
         "Trimming",
@@ -656,22 +650,15 @@ internal sealed class ModuleDiscoveryPlanner(
             return false;
         }
 
-        for (var current = targetType; current is not null; current = current.BaseType)
+        foreach (var field in GetInstanceFields(targetType))
         {
-            foreach (var field in current.GetFields(
-                         BindingFlags.Instance
-                         | BindingFlags.Public
-                         | BindingFlags.NonPublic
-                         | BindingFlags.DeclaredOnly))
+            var token = BitConverter.GetBytes(field.MetadataToken);
+            for (var index = 0; index <= il.Length - token.Length - 1; index++)
             {
-                var token = BitConverter.GetBytes(field.MetadataToken);
-                for (var index = 0; index <= il.Length - token.Length - 1; index++)
+                if (il[index] == StoreInstanceFieldOpCode
+                    && il.AsSpan(index + 1, token.Length).SequenceEqual(token))
                 {
-                    if (il[index] == StoreInstanceFieldOpCode
-                        && il.AsSpan(index + 1, token.Length).SequenceEqual(token))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
@@ -694,17 +681,13 @@ internal sealed class ModuleDiscoveryPlanner(
             return true;
         }
 
-        if (value is null)
+        if (value is null || IsTerminalPlanningValue(value, value.GetType()))
         {
             return false;
         }
 
         var type = value.GetType();
-        if (value is string or MemberInfo
-            || type.IsPrimitive
-            || type.IsEnum
-            || type.IsPointer
-            || (!type.IsValueType && !visited.Add(value)))
+        if (!type.IsValueType && !visited.Add(value))
         {
             return false;
         }
@@ -722,35 +705,41 @@ internal sealed class ModuleDiscoveryPlanner(
         }
 
         var inspectCollectionFields = value is IEnumerable;
-        if (inspectCollectionFields)
-        {
-            inspectFields = true;
-        }
-
         if (!inspectFields
+            && !inspectCollectionFields
             && !type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
         {
             return false;
         }
 
+        return GetInstanceFields(type).Any(field => ReferencesObject(
+            field.GetValue(value),
+            target,
+            visited,
+            inspectCollectionFields));
+    }
+
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2070",
+        Justification = "Planning state is inspected only to validate isolated planning copies.")]
+    [UnconditionalSuppressMessage(
+        "ReflectionAnalysis",
+        "IL2075",
+        Justification = "Planning state base fields are inspected only to validate isolated planning copies.")]
+    private static IEnumerable<FieldInfo> GetInstanceFields(Type type)
+    {
         for (var current = type; current is not null; current = current.BaseType)
         {
-            if (current.GetFields(
-                    BindingFlags.Instance
-                    | BindingFlags.Public
-                    | BindingFlags.NonPublic
-                    | BindingFlags.DeclaredOnly)
-                .Any(field => ReferencesObject(
-                    field.GetValue(value),
-                    target,
-                    visited,
-                    inspectCollectionFields)))
+            foreach (var field in current.GetFields(
+                         BindingFlags.Instance
+                         | BindingFlags.Public
+                         | BindingFlags.NonPublic
+                         | BindingFlags.DeclaredOnly))
             {
-                return true;
+                yield return field;
             }
         }
-
-        return false;
     }
 
     internal static async Task DisposePlanningModulesAsync(IEnumerable<IModule> planningModules)
