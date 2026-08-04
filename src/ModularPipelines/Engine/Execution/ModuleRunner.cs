@@ -173,12 +173,23 @@ internal class ModuleRunner : IModuleRunner
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Module {ModuleName} failed", moduleName);
-                scheduler.MarkModuleCompleted(moduleType, false, ex);
+                var isDependencyFailure = ex is DependencyFailedException;
+                scheduler.MarkModuleCompleted(
+                    moduleType,
+                    false,
+                    ex,
+                    isDependencyFailure ? Enums.Status.DependencyFailed : null);
 
-                // Register a PipelineTerminated result for this module if no result was registered yet
                 if (moduleState.Result == null)
                 {
-                    _resultRegistrar.RegisterTerminatedResult(module, moduleType, ex);
+                    if (isDependencyFailure)
+                    {
+                        _resultRegistrar.RegisterDependencyFailedResult(module, moduleType, ex);
+                    }
+                    else
+                    {
+                        _resultRegistrar.RegisterTerminatedResult(module, moduleType, ex);
+                    }
                 }
 
                 if (_pipelineOptions.Value.ExecutionMode == ExecutionMode.StopOnFirstException)

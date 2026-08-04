@@ -62,4 +62,9 @@ public enum Status
     /// The module result was restored from the fingerprint cache.
     /// </summary>
     CachedResult = 11,
+
+    /// <summary>
+    /// The module did not run because a required dependency failed.
+    /// </summary>
+    DependencyFailed = 12,
 }
