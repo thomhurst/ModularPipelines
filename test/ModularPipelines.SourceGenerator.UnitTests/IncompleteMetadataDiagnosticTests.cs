@@ -1215,6 +1215,8 @@ public class IncompleteMetadataDiagnosticTests
         {
             await Assert.That(result.Diagnostics).IsEmpty();
             await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(");
+            await Assert.That(generatedSource).Contains(
                 "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::System.Uri))");
             await Assert.That(generatedSource).DoesNotContain(
                 "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::System.Version))");

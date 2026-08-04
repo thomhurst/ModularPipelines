@@ -71,6 +71,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 input.Left.Left,
                 input.Left.Right,
                 input.Right));
+        var coveredExternalAssemblyIdentities = context.CompilationProvider
+            .Combine(context.AnalyzerConfigOptionsProvider)
+            .Select(static (input, _) => GetCoveredExternalAssemblyIdentities(
+                input.Left,
+                input.Right));
         var hasRuntimeReference = context.CompilationProvider.Select(
             static (compilation, _) => compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName) is not null);
         var sourceCandidates = typeCandidates.Collect()
@@ -80,16 +85,18 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Combine(externalTypeCandidates)
             .Select(static (input, _) => input.Left.AddRange(input.Right))
             .Combine(hasRuntimeReference);
-        var generationInputs = candidates.Combine(collectedOptionsTypeUsages);
+        var generationInputs = candidates
+            .Combine(collectedOptionsTypeUsages)
+            .Combine(coveredExternalAssemblyIdentities);
         context.RegisterSourceOutput(generationInputs, static (sourceContext, input) =>
         {
-            if (!input.Left.Right)
+            if (!input.Left.Left.Right)
             {
                 return;
             }
 
-            var candidates = input.Left.Left;
-            var optionsTypeMetadataNames = new HashSet<string>(input.Right, StringComparer.Ordinal);
+            var candidates = input.Left.Left.Left;
+            var optionsTypeMetadataNames = new HashSet<string>(input.Left.Right, StringComparer.Ordinal);
             var ambiguousMetadataNames = new HashSet<string>(candidates
                 .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
                 .Where(static group => group
@@ -132,7 +139,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 sourceContext,
                 unambiguousCandidates,
                 optionsTypeMetadataNames);
-            sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
+            sourceContext.AddSource(
+                "ModularPipelines.RuntimeMetadata.g.cs",
+                Generate(items, input.Right));
         });
     }
 
@@ -686,7 +695,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return false;
     }
 
-    private static string Generate(ImmutableArray<TypeMetadata> items)
+    private static string Generate(
+        ImmutableArray<TypeMetadata> items,
+        ImmutableArray<string> coveredExternalAssemblyIdentities)
     {
         var uniqueItems = items
             .GroupBy(item => item.MetadataName, StringComparer.Ordinal)
@@ -728,6 +739,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("        var assembly = global::System.Reflection.Assembly.GetExecutingAssembly();");
         sb.AppendLine("        global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata.RegisterAssembly(assembly);");
         sb.AppendLine("        global::ModularPipelines.Engine.GeneratedSecretMetadata.RegisterAssembly(assembly);");
+        AppendStringRegistration(
+            sb,
+            "RegisterCoveredExternalAssemblyIdentities",
+            coveredExternalAssemblyIdentities);
         AppendTypeNameRegistration(
             sb,
             "RegisterCoveredTypeNames",
@@ -770,8 +785,21 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         IEnumerable<TypeMetadata> items,
         string registryType = "global::ModularPipelines.Engine.GeneratedSecretMetadata")
     {
-        var metadataNames = items.Select(item => item.MetadataName).ToList();
-        if (metadataNames.Count == 0)
+        AppendStringRegistration(
+            sb,
+            methodName,
+            items.Select(item => item.MetadataName),
+            registryType);
+    }
+
+    private static void AppendStringRegistration(
+        StringBuilder sb,
+        string methodName,
+        IEnumerable<string> values,
+        string registryType = "global::ModularPipelines.Engine.GeneratedSecretMetadata")
+    {
+        var valueList = values.ToList();
+        if (valueList.Count == 0)
         {
             return;
         }
@@ -780,9 +808,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         sb.AppendLine("            assembly,");
         sb.AppendLine("            new string[]");
         sb.AppendLine("            {");
-        foreach (var metadataName in metadataNames)
+        foreach (var value in valueList)
         {
-            sb.AppendLine($"                {Literal(metadataName)},");
+            sb.AppendLine($"                {Literal(value)},");
         }
 
         sb.AppendLine("            });");
@@ -953,6 +981,25 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 compilation,
                 includeAllRuntimeMetadata,
                 usedOptionsTypes))
+            .ToImmutableArray();
+    }
+
+    private static ImmutableArray<string> GetCoveredExternalAssemblyIdentities(
+        Compilation compilation,
+        AnalyzerConfigOptionsProvider optionsProvider)
+    {
+        if (!IsEnabled(optionsProvider, "build_property.PublishAot")
+            || compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName)?.ContainingAssembly is not { } runtimeAssembly)
+        {
+            return [];
+        }
+
+        return compilation.SourceModule.ReferencedAssemblySymbols
+            .Where(assembly => !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
+                               && !RequiresExternalMetadata(assembly, runtimeAssembly))
+            .Select(assembly => assembly.Identity.ToString())
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(static identity => identity, StringComparer.Ordinal)
             .ToImmutableArray();
     }
 

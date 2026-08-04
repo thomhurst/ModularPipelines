@@ -379,6 +379,23 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task CoveredExternalAssemblyIdentity_RegistersEmptySecretMetadata()
+    {
+        var type = CreateDynamicType("CoveredExternalAssembly");
+        GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(
+            typeof(GeneratedRuntimeMetadataTests).Assembly,
+            [type.Assembly.FullName!]);
+
+        var found = GeneratedSecretMetadata.TryGetAccessors(type, out var accessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(found).IsTrue();
+            await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
     public async Task ExternalMetadataOverridesLegacyDirectRegistration()
     {
         var commandType = CreateDynamicType("LegacyDirectCommand");

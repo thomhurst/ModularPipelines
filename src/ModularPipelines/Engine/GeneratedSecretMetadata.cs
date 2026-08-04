@@ -128,6 +128,24 @@ public static class GeneratedSecretMetadata
     }
 
     /// <summary>
+    /// Registers referenced assemblies that cannot declare or inherit secret properties because
+    /// they do not reference the ModularPipelines runtime assembly.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterCoveredExternalAssemblyIdentities(
+        Assembly consumerAssembly,
+        IReadOnlyList<string> assemblyIdentities)
+    {
+        var registrations = ExternalAccessors.GetValue(
+            consumerAssembly,
+            static _ => new ExternalSecretMetadata());
+        foreach (var assemblyIdentity in assemblyIdentities)
+        {
+            registrations.CoveredAssemblyIdentities.TryAdd(assemblyIdentity, 0);
+        }
+    }
+
+    /// <summary>
     /// Registers partial source types whose final runtime shape requires reflection.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -166,6 +184,16 @@ public static class GeneratedSecretMetadata
                 && metadata.IsComplete)
             {
                 accessors = metadata.Accessors;
+                return true;
+            }
+        }
+
+        foreach (var registrations in ExternalAccessors)
+        {
+            if (type.Assembly.FullName is { } assemblyIdentity
+                && registrations.Value.CoveredAssemblyIdentities.ContainsKey(assemblyIdentity))
+            {
+                accessors = Array.Empty<SecretPropertyAccessor>();
                 return true;
             }
         }
@@ -229,6 +257,8 @@ public static class GeneratedSecretMetadata
     private sealed class ExternalSecretMetadata
     {
         public ConcurrentDictionary<Type, SecretMetadata> Accessors { get; } = [];
+
+        public ConcurrentDictionary<string, byte> CoveredAssemblyIdentities { get; } = new(StringComparer.Ordinal);
     }
 
     private sealed class AssemblyCoverage
