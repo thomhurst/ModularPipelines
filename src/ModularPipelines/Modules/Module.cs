@@ -129,10 +129,11 @@ public abstract class Module<T> : IModule, IPlanningModuleCopyProvider
     void IPlanningModuleCopyProvider.InitializeConfiguration(ModuleConfiguration configuration) =>
         _configuration = CreateInitializedConfigurationLazy(configuration);
 
-    IModule IPlanningModuleCopyProvider.CreatePlanningCopyFromRegisteredInstance()
+    IModule IPlanningModuleCopyProvider.CreatePlanningCopyFromRegisteredInstance(
+        bool preserveConfiguration)
     {
         var copy = (Module<T>) MemberwiseClone();
-        copy._configuration = _configuration.IsValueCreated
+        copy._configuration = preserveConfiguration && _configuration.IsValueCreated
             ? CreateInitializedConfigurationLazy(_configuration.Value)
             : copy.CreateConfigurationLazy();
         copy._provisionalResult = new AsyncLocal<ModuleResult<T>?>();
@@ -340,7 +341,7 @@ internal interface IPlanningModuleCopyProvider
 
     IModule CreatePlanningCopy(IServiceProvider serviceProvider);
 
-    IModule CreatePlanningCopyFromRegisteredInstance();
+    IModule CreatePlanningCopyFromRegisteredInstance(bool preserveConfiguration);
 
     void InitializeConfiguration();
 

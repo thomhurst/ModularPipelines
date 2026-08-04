@@ -217,7 +217,8 @@ internal sealed class ModuleDiscoveryPlanner(
 
             RejectRuntimeBoundPlanningCondition(module, copyProvider);
             return CreateIsolatedPlanningModule(new PlanningModuleCreation(
-                copyProvider.CreatePlanningCopyFromRegisteredInstance(),
+                copyProvider.CreatePlanningCopyFromRegisteredInstance(
+                    preserveConfiguration: true),
                 static _ => false,
                 IsPlannerOwned: false));
         }
@@ -235,6 +236,19 @@ internal sealed class ModuleDiscoveryPlanner(
     {
         if (module is IPlanningModuleCopyProvider copyProvider)
         {
+            if (!HasCustomPlanningCopy(module)
+                && ModuleActivator.TryGetRuntimeServiceOwnership(
+                    module,
+                    out var runtimeServiceOwnership)
+                && TryCreatePlanningCopyFromRegisteredInstance(
+                    module,
+                    copyProvider,
+                    runtimeServiceOwnership,
+                    out var registeredInstanceCopy))
+            {
+                return CreateIsolatedPlanningModule(registeredInstanceCopy);
+            }
+
             return CreateIsolatedPlanningModule(CreatePlanningCopy(
                 module,
                 copyProvider,
@@ -644,6 +658,47 @@ internal sealed class ModuleDiscoveryPlanner(
             module,
             trackingServiceProvider.IsServiceProviderOwned,
             IsPlannerOwned: isPlannerOwned);
+    }
+
+    private static bool TryCreatePlanningCopyFromRegisteredInstance(
+        IModule runtimeModule,
+        IPlanningModuleCopyProvider copyProvider,
+        ResolvedObjectTrackingServiceProvider runtimeServiceOwnership,
+        [NotNullWhen(true)] out PlanningModuleCreation? creation)
+    {
+        var module = copyProvider.CreatePlanningCopyFromRegisteredInstance(
+            preserveConfiguration: false);
+        if (!HasEquivalentModuleState(
+                runtimeModule,
+                module,
+                runtimeServiceOwnership.IsServiceProviderOwned))
+        {
+            creation = null;
+            return false;
+        }
+
+        if (module is IPlanningModuleCopyProvider planningCopyProvider
+            && copyProvider.IsConfigurationInitialized)
+        {
+            if (HasServiceProviderOwnedState(
+                    module,
+                    runtimeServiceOwnership.IsServiceProviderOwned)
+                || ConfigurationTouchesStaticState(runtimeModule))
+            {
+                RejectRuntimeBoundPlanningCondition(runtimeModule, copyProvider);
+                planningCopyProvider.InitializeConfiguration(runtimeModule.Configuration);
+            }
+            else
+            {
+                planningCopyProvider.InitializeConfiguration();
+            }
+        }
+
+        creation = new PlanningModuleCreation(
+            module,
+            runtimeServiceOwnership.IsServiceProviderOwned,
+            IsPlannerOwned: false);
+        return true;
     }
 
     [UnconditionalSuppressMessage(

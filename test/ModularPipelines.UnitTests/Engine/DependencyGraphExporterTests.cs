@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
@@ -35,6 +37,35 @@ public class DependencyGraphExporterTests
     private static bool _externalConfigurationIncludesDependency;
     private static int _customPlanningAttributeEvaluations;
     private static int _globalConfigurationMutations;
+
+    private sealed class ConstructorMutationState
+    {
+        public int Activations { get; set; }
+    }
+
+    private sealed class ConstructorMutatingModule : Module<int>
+    {
+        private readonly ConstructorMutationState _state;
+
+        public ConstructorMutatingModule(ConstructorMutationState state)
+        {
+            _state = state;
+            _state.Activations++;
+        }
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(_state.Activations);
+    }
+
+    public class SummaryIdentityModuleBase : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>(GetType().Assembly.GetName().Name);
+    }
 
     private sealed class DependencyModule : Module<string>
     {
@@ -3647,6 +3678,46 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Render_Does_Not_Replay_Default_Module_Constructor()
+    {
+        var state = new ConstructorMutationState();
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton(state);
+        builder.AddModule<ConstructorMutatingModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var summary = await pipeline.RunAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(state.Activations).IsEqualTo(1);
+            await Assert.That(summary.Results.Single().ModuleStatus)
+                .IsEqualTo(Status.Successful);
+        }
+    }
+
+    [Test]
+    public async Task RenderSummary_Matches_Runtime_Results_By_Assembly_Identity()
+    {
+        const string typeName = "Duplicate.SummaryModule";
+        var firstType = CreateDynamicSummaryModuleType("SummaryAssemblyOne", typeName);
+        var secondType = CreateDynamicSummaryModuleType("SummaryAssemblyTwo", typeName);
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModules(firstType, secondType);
+        await using var pipeline = await builder.BuildAsync();
+        var summary = await pipeline.RunAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderSummaryAsync(DependencyGraphFormat.Json, summary));
+
+        await Assert.That(document.RootElement.GetProperty("nodes").GetArrayLength())
+            .IsEqualTo(2);
+    }
+
+    [Test]
     public async Task RenderSummary_Matches_Deserialized_Result_By_Type_Name()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -3748,6 +3819,19 @@ public class DependencyGraphExporterTests
             await Assert.That(mermaid).Contains("&#96;&#96;&#96;");
             await Assert.That(mermaid).Contains("build<br/>&#96;&#96;&#96;<br/>release");
         }
+    }
+
+    private static Type CreateDynamicSummaryModuleType(
+        string assemblyName,
+        string typeName)
+    {
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName(assemblyName),
+            AssemblyBuilderAccess.Run);
+        return assembly
+            .DefineDynamicModule(assemblyName)
+            .DefineType(typeName, TypeAttributes.Public, typeof(SummaryIdentityModuleBase))
+            .CreateType()!;
     }
 
     private static PipelineBuilder CreateBuilder()

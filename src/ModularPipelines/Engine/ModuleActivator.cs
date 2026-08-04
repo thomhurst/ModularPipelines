@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
@@ -17,6 +18,9 @@ namespace ModularPipelines.Engine;
 /// </remarks>
 internal sealed class ModuleActivator : IModuleActivator
 {
+    private static readonly ConditionalWeakTable<IModule, ResolvedObjectTrackingServiceProvider>
+        RuntimeServiceOwnership = new();
+
     /// <inheritdoc />
     [UnconditionalSuppressMessage(
         "Trimming",
@@ -24,11 +28,14 @@ internal sealed class ModuleActivator : IModuleActivator
         Justification = "This runtime-Type overload is the reflection fallback; generated registrations use the annotated generic overload.")]
     public IModule CreateModule(Type moduleType, IServiceProvider serviceProvider)
     {
-        return CreateModuleWithContext(
+        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
+        var module = CreateModuleWithContext(
             moduleType,
-            serviceProvider,
+            trackingServiceProvider,
             provider => (IModule) ActivatorUtilities.CreateInstance(provider, moduleType),
             initializeConfiguration: true);
+        RuntimeServiceOwnership.Add(module, trackingServiceProvider);
+        return module;
     }
 
     /// <inheritdoc />
@@ -50,12 +57,20 @@ internal sealed class ModuleActivator : IModuleActivator
         IServiceProvider serviceProvider)
         where TModule : class, IModule
     {
-        return CreateModuleWithContext(
+        var trackingServiceProvider = new ResolvedObjectTrackingServiceProvider(serviceProvider);
+        var module = CreateModuleWithContext(
             typeof(TModule),
-            serviceProvider,
+            trackingServiceProvider,
             static provider => ActivatorUtilities.CreateInstance<TModule>(provider),
             initializeConfiguration: true);
+        RuntimeServiceOwnership.Add(module, trackingServiceProvider);
+        return module;
     }
+
+    internal static bool TryGetRuntimeServiceOwnership(
+        IModule module,
+        [NotNullWhen(true)] out ResolvedObjectTrackingServiceProvider? serviceOwnership) =>
+        RuntimeServiceOwnership.TryGetValue(module, out serviceOwnership);
 
     private static TModule CreateModuleWithContext<TModule>(
         Type moduleType,

@@ -217,22 +217,33 @@ internal sealed class DependencyGraphExporter(
         var models = dependencyChainProvider.ModuleDependencyModels
             .OrderBy(model => GetModuleFullName(model.Module), StringComparer.Ordinal)
             .ToArray();
-        var resultsByTypeName = pipelineSummary.Results
+        var resultsByType = pipelineSummary.Results
             .OfType<ModuleResult>()
-            .Select(result => (
-                Result: result,
-                TypeName: result.ModuleType?.FullName ?? result.ModuleTypeName))
-            .Where(item => item.TypeName is not null)
-            .ToDictionary(item => item.TypeName!, item => item.Result, StringComparer.Ordinal);
+            .Where(static result => result.ModuleType is not null)
+            .GroupBy(static result => result.ModuleType!)
+            .ToDictionary(static group => group.Key, static group => group.First());
+        var deserializedResultsByTypeName = pipelineSummary.Results
+            .OfType<ModuleResult>()
+            .Where(static result => result.ModuleType is null
+                                    && result.ModuleTypeName is not null)
+            .GroupBy(static result => result.ModuleTypeName!, StringComparer.Ordinal)
+            .Where(static group => group.Count() == 1)
+            .ToDictionary(
+                static group => group.Key,
+                static group => group.Single(),
+                StringComparer.Ordinal);
         var states = models.ToDictionary(
             model => model.Module.GetType(),
             model =>
             {
-                var moduleTypeName = model.Module.GetType().FullName;
-                var result = moduleTypeName is not null
-                    && resultsByTypeName.TryGetValue(moduleTypeName, out var matchingResult)
-                        ? matchingResult
-                        : null;
+                var moduleType = model.Module.GetType();
+                resultsByType.TryGetValue(moduleType, out var result);
+                if (result is null
+                    && moduleType.FullName is { } moduleTypeName)
+                {
+                    deserializedResultsByTypeName.TryGetValue(moduleTypeName, out result);
+                }
+
                 return new GraphNodeExecutionState(
                     result?.ModuleStatus == Status.Skipped,
                     result?.SkipDecisionOrDefault?.Reason);
