@@ -9,6 +9,7 @@ using ModularPipelines.VisualBasic.TestFixtures;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
@@ -392,6 +393,32 @@ public class GeneratedRuntimeMetadataTests
         {
             await Assert.That(found).IsTrue();
             await Assert.That(accessors).IsEmpty();
+        }
+    }
+
+    [Test]
+    public async Task CoveredExternalAssemblyIdentity_DoesNotCrossLoadContexts()
+    {
+        var assemblyPath = typeof(VisualBasicSecretOptions).Assembly.Location;
+        var firstContext = new AssemblyLoadContext("CoveredAssembly", isCollectible: true);
+        var secondContext = new AssemblyLoadContext("UncoveredAssembly", isCollectible: true);
+        try
+        {
+            var firstAssembly = firstContext.LoadFromAssemblyPath(assemblyPath);
+            var secondAssembly = secondContext.LoadFromAssemblyPath(assemblyPath);
+            var secondType = secondAssembly.GetType(typeof(VisualBasicSecretOptions).FullName!)!;
+            GeneratedSecretMetadata.RegisterCoveredExternalAssemblyIdentities(
+                firstAssembly,
+                [firstAssembly.FullName!]);
+
+            var found = GeneratedSecretMetadata.TryGetAccessors(secondType, out _);
+
+            await Assert.That(found).IsFalse();
+        }
+        finally
+        {
+            firstContext.Unload();
+            secondContext.Unload();
         }
     }
 

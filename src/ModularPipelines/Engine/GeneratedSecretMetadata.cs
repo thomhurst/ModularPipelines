@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 
 namespace ModularPipelines.Engine;
 
@@ -228,10 +229,18 @@ public static class GeneratedSecretMetadata
         return false;
     }
 
-    private static bool IsCoveredExternalAssembly(Type type) =>
-        type.Assembly.FullName is { } assemblyIdentity
-        && ExternalAccessors.Any(registrations =>
-            registrations.Value.CoveredAssemblyIdentities.ContainsKey(assemblyIdentity));
+    private static bool IsCoveredExternalAssembly(Type type)
+    {
+        if (type.Assembly.FullName is not { } assemblyIdentity)
+        {
+            return false;
+        }
+
+        var loadContext = AssemblyLoadContext.GetLoadContext(type.Assembly);
+        return ExternalAccessors.Any(registrations =>
+            ReferenceEquals(AssemblyLoadContext.GetLoadContext(registrations.Key), loadContext)
+            && registrations.Value.CoveredAssemblyIdentities.ContainsKey(assemblyIdentity));
+    }
 
     internal static bool IsIncomplete(Type type)
     {
