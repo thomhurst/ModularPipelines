@@ -137,6 +137,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -258,9 +259,13 @@ public class AggregateResultsModule : Module<string>
 
 ## Azure DevOps
 
-The same pattern works in Azure DevOps with a matrix strategy. The run identifier auto-detects from `BUILD_SOURCEVERSION`:
+The same pattern works in Azure DevOps with a matrix strategy. Export one shared identifier explicitly;
+combining the build and stage attempt keeps full stage retries isolated:
 
 ```yaml
+variables:
+  RUN_IDENTIFIER: "$(Build.BuildId)-$(System.StageAttempt)"
+
 strategy:
   matrix:
     master:
@@ -276,7 +281,8 @@ strategy:
 
 ## GitLab CI
 
-For GitLab CI, the run identifier auto-detects from `CI_COMMIT_SHA`. Use parallel jobs or a matrix to spawn instances:
+For GitLab CI, export `CI_PIPELINE_ID` explicitly as the shared identifier. Start a new pipeline rather
+than retrying only part of the matrix when coordination state must be discarded:
 
 ```yaml
 pipeline:
@@ -288,4 +294,5 @@ pipeline:
   variables:
     TOTAL_INSTANCES: 3
     REDIS_URL: $REDIS_URL
+    RUN_IDENTIFIER: $CI_PIPELINE_ID
 ```

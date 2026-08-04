@@ -58,6 +58,15 @@ public record PipelineSummary
     [JsonInclude]
     public IReadOnlyList<ModuleTimeline>? ModuleTimelines { get; private init; }
 
+    /// <summary>
+    /// Gets the machine-readable report produced for this run, when report processing completed.
+    /// </summary>
+    [JsonInclude]
+    public PipelineRunReport? RunReport { get; internal init; }
+
+    [JsonIgnore]
+    internal Status? StatusOverride { get; init; }
+
     [JsonConstructor]
     internal PipelineSummary(
         IReadOnlyList<IModule> modules,
@@ -84,6 +93,11 @@ public record PipelineSummary
     {
         get
         {
+            if (StatusOverride is { } statusOverride)
+            {
+                return statusOverride;
+            }
+
             if (Results.Any(result =>
                     result.ExceptionOrDefault is not null
                     && result.ModuleStatus != Status.IgnoredFailure))

@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -139,20 +140,37 @@ internal class SpectreResultsPrinter : IResultsPrinter
         table.AddColumn(new TableColumn("[bold]Module[/]").LeftAligned());
         table.AddColumn(new TableColumn("[bold]Status[/]").Centered());
         table.AddColumn(new TableColumn("[bold]Duration[/]").RightAligned());
+        var reportLookup = pipelineSummary.RunReport is null
+            ? new Dictionary<Type, ModuleRunReport>()
+            : pipelineSummary.Modules
+                .Zip(pipelineSummary.RunReport.Modules)
+                .GroupBy(static pair => pair.First.GetType())
+                .ToDictionary(static group => group.Key, static group => group.First().Second);
+        var showDeltas = pipelineSummary.RunReport?.TotalDurationDelta.HasValue == true
+            || reportLookup.Values.Any(static module => module.DurationDelta.HasValue);
+        if (showDeltas)
+        {
+            table.AddColumn(new TableColumn("[bold]Δ previous[/]").RightAligned());
+        }
+
         table.AddColumn(new TableColumn("[bold]Start[/]").RightAligned());
         table.AddColumn(new TableColumn("[bold]End[/]").RightAligned());
 
-        // Create a lookup for module timelines by module name
+        // Create a lookup for module timelines by assembly-qualified module type
         var timelineLookup = pipelineSummary.ModuleTimelines?
-            .ToDictionary(t => t.ModuleName, t => t)
-            ?? new Dictionary<string, ModuleTimeline>();
+            .GroupBy(
+                static timeline => string.IsNullOrWhiteSpace(timeline.RuntimeModuleTypeName)
+                    ? timeline.ModuleTypeName
+                    : timeline.RuntimeModuleTypeName,
+                StringComparer.Ordinal)
+            .ToDictionary(static group => group.Key, static group => group.First(), StringComparer.Ordinal)
+            ?? new Dictionary<string, ModuleTimeline>(StringComparer.Ordinal);
 
         // Sort modules: Failed first, then Skipped, then by start time
         var sortedModules = pipelineSummary.Modules
             .OrderBy(m =>
             {
-                var name = m.GetType().Name;
-                if (timelineLookup.TryGetValue(name, out var timeline))
+                if (TryGetTimeline(timelineLookup, m.GetType(), out var timeline))
                 {
                     return timeline.Status switch
                     {
@@ -169,8 +187,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
             })
             .ThenBy(m =>
             {
-                var name = m.GetType().Name;
-                return timelineLookup.TryGetValue(name, out var timeline)
+                return TryGetTimeline(timelineLookup, m.GetType(), out var timeline)
                     ? timeline.StartTime ?? DateTimeOffset.MaxValue
                     : DateTimeOffset.MaxValue;
             })
@@ -178,10 +195,10 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         foreach (var module in sortedModules)
         {
-            AddModuleRow(table, module, timelineLookup);
+            AddModuleRow(table, module, timelineLookup, reportLookup, showDeltas);
         }
 
-        AddTotalRow(table, pipelineSummary);
+        AddTotalRow(table, pipelineSummary, showDeltas);
 
         return table;
     }
@@ -189,11 +206,13 @@ internal class SpectreResultsPrinter : IResultsPrinter
     private static void AddModuleRow(
         Table table,
         object module,
-        Dictionary<string, ModuleTimeline> timelineLookup)
+        Dictionary<string, ModuleTimeline> timelineLookup,
+        IReadOnlyDictionary<Type, ModuleRunReport> reportLookup,
+        bool showDeltas)
     {
         var moduleName = module.GetType().Name;
         var escapedModuleName = SpectreMarkupEscaper.Escape(moduleName);
-        var hasTimeline = timelineLookup.TryGetValue(moduleName, out var timeline);
+        var hasTimeline = TryGetTimeline(timelineLookup, module.GetType(), out var timeline);
 
         var duration = hasTimeline && timeline!.ExecutionDuration.HasValue
             ? $"[dim]{timeline.ExecutionDuration.Value.ToDisplayString()}[/]"
@@ -221,12 +240,25 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ? FormatModuleNameByStatus(escapedModuleName, timeline!.Status)
             : $"[cyan]{escapedModuleName}[/]";
 
-        table.AddRow(
+        var cells = new List<string>
+        {
             moduleNameFormatted,
             status,
             duration,
+        };
+        if (showDeltas)
+        {
+            cells.Add(reportLookup.TryGetValue(module.GetType(), out var report)
+                ? FormatDelta(report.DurationDelta)
+                : "[dim]-[/]");
+        }
+
+        cells.AddRange(
+        [
             start,
-            end);
+            end,
+        ]);
+        table.AddRow(cells.ToArray());
     }
 
     private static string FormatModuleNameByStatus(string moduleName, ModuleStatus status)
@@ -263,7 +295,10 @@ internal class SpectreResultsPrinter : IResultsPrinter
         };
     }
 
-    private static void AddTotalRow(Table table, PipelineSummary pipelineSummary)
+    private static void AddTotalRow(
+        Table table,
+        PipelineSummary pipelineSummary,
+        bool showDeltas)
     {
         var isSameDayTotal = pipelineSummary.Start.Date == pipelineSummary.End.Date;
 
@@ -273,12 +308,47 @@ internal class SpectreResultsPrinter : IResultsPrinter
                 ? "[bold red]Failed[/]"
                 : $"[bold]{pipelineSummary.Status}[/]";
 
-        table.AddRow(
+        var cells = new List<string>
+        {
             "[bold]Total[/]",
             statusFormatted,
             $"[bold]{pipelineSummary.TotalDuration.ToDisplayString()}[/]",
+        };
+        if (showDeltas)
+        {
+            cells.Add(FormatDelta(pipelineSummary.RunReport?.TotalDurationDelta));
+        }
+
+        cells.AddRange(
+        [
             $"[dim]{FormatTime(pipelineSummary.Start, isSameDayTotal)}[/]",
-            $"[dim]{FormatTime(pipelineSummary.End, isSameDayTotal)}[/]");
+            $"[dim]{FormatTime(pipelineSummary.End, isSameDayTotal)}[/]",
+        ]);
+        table.AddRow(cells.ToArray());
+    }
+
+    private static bool TryGetTimeline(
+        IReadOnlyDictionary<string, ModuleTimeline> timelines,
+        Type moduleType,
+        out ModuleTimeline timeline) =>
+        timelines.TryGetValue(ModuleTypeIdentifier.GetRuntime(moduleType), out timeline!)
+        || timelines.TryGetValue(ModuleTypeIdentifier.Get(moduleType), out timeline!);
+
+    private static string FormatDelta(TimeSpan? delta)
+    {
+        if (!delta.HasValue)
+        {
+            return "[dim]-[/]";
+        }
+
+        if (delta.Value == TimeSpan.Zero)
+        {
+            return "[dim]±0s[/]";
+        }
+
+        var sign = delta.Value > TimeSpan.Zero ? "+" : "-";
+        var color = delta.Value > TimeSpan.Zero ? "yellow" : "green";
+        return $"[{color}]{sign}{delta.Value.Duration().ToDisplayString()}[/]";
     }
 
     private static void PrintMetrics(PipelineSummary pipelineSummary)

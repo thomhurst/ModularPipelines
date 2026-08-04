@@ -409,6 +409,9 @@ docs/plans/
 # Build staging directory for distributed artifact sharing
 _build-staging/
 
+# Default local pipeline run history
+.modularpipelines/
+
 # CLI generator installer artifacts belong under runner temp, never in checkout.
 /*.zip
 /*.tar

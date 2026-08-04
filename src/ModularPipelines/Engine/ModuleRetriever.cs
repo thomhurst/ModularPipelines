@@ -23,6 +23,8 @@ internal class ModuleRetriever
     private readonly List<IModule> _modules;
     private Task<OrganizedModules>? _cached;
 
+    internal IReadOnlyList<IModule> RegisteredModules => _modules;
+
     public ModuleRetriever(
         IModuleConditionHandler moduleConditionHandler,
         IRegistrationEventExecutor registrationEventExecutor,
@@ -59,6 +61,14 @@ internal class ModuleRetriever
         CancellationToken cancellationToken = default)
     {
         return (await DiscoverModules(cancellationToken, cascadeSkippedDependencies: true).ConfigureAwait(false)).RunnableModules;
+    }
+
+    internal async Task<(IReadOnlyList<IModule> RunnableModules, IReadOnlyList<IgnoredModule> IgnoredModules)>
+        GetUncascadedModulesForValidation(CancellationToken cancellationToken = default)
+    {
+        var modules = await DiscoverModules(cancellationToken, cascadeSkippedDependencies: false)
+            .ConfigureAwait(false);
+        return (modules.RunnableModules, modules.IgnoredModules);
     }
 
     internal async Task ValidateSelectionAsync()

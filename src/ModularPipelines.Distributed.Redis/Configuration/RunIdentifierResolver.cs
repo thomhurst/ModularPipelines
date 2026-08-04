@@ -4,7 +4,7 @@ namespace ModularPipelines.Distributed.Redis.Configuration;
 
 /// <summary>
 /// Resolves the run identifier for Redis key isolation.
-/// Priority: explicit config > GITHUB_SHA > BUILD_SOURCEVERSION > CI_COMMIT_SHA > git rev-parse HEAD > GUID fallback.
+/// Priority: explicit config > CI execution identifier > commit identifier > git rev-parse HEAD > GUID fallback.
 /// </summary>
 internal static class RunIdentifierResolver
 {
@@ -17,9 +17,10 @@ internal static class RunIdentifierResolver
 
     public static string Resolve(string? explicitValue)
     {
-        if (!string.IsNullOrWhiteSpace(explicitValue))
+        var executionIdentifier = ResolveExecutionIdentifier(explicitValue);
+        if (executionIdentifier is not null)
         {
-            return explicitValue;
+            return executionIdentifier;
         }
 
         foreach (var envVar in CiEnvironmentVariables)
@@ -38,6 +39,19 @@ internal static class RunIdentifierResolver
         }
 
         return Guid.NewGuid().ToString("N");
+    }
+
+    public static string? ResolveExecutionIdentifier(string? explicitValue)
+    {
+        if (!string.IsNullOrWhiteSpace(explicitValue))
+        {
+            return explicitValue;
+        }
+
+        var environmentIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
+        return string.IsNullOrWhiteSpace(environmentIdentifier)
+            ? null
+            : environmentIdentifier;
     }
 
     private static string? TryGetGitSha()

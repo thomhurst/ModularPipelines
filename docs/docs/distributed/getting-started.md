@@ -69,14 +69,20 @@ That's it. When `InstanceIndex` is `0`, the process runs as the master. All othe
 
 Test with two terminal windows:
 
+Generate one identifier for this invocation and copy the value:
+
+```bash
+uuidgen
+```
+
 **Terminal 1 (Master):**
 ```bash
-INSTANCE_INDEX=0 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+RUN_IDENTIFIER="paste-same-generated-uuid-here" INSTANCE_INDEX=0 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 **Terminal 2 (Worker):**
 ```bash
-INSTANCE_INDEX=1 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
+RUN_IDENTIFIER="paste-same-generated-uuid-here" INSTANCE_INDEX=1 TOTAL_INSTANCES=2 REDIS_URL=localhost:6379 dotnet run
 ```
 
 The master will enqueue modules, the worker will pick them up and execute them, and results flow back to the master.
@@ -87,21 +93,20 @@ In GitHub Actions, use a matrix strategy to launch multiple instances. See the [
 
 ## How Run Isolation Works
 
-Every Redis key is prefixed with a run identifier so concurrent pipeline runs on the same Redis instance don't collide. By default, the run identifier is auto-detected from CI environment variables:
+Every Redis key is prefixed with a run identifier so concurrent or repeated pipeline runs on the same Redis instance don't collide. The identifier is resolved from:
 
-1. `GITHUB_SHA` (GitHub Actions)
-2. `BUILD_SOURCEVERSION` (Azure DevOps)
-3. `CI_COMMIT_SHA` (GitLab CI)
-4. `git rev-parse HEAD` (local git)
-5. A random GUID as fallback
+1. Explicit `RedisDistributedOptions.RunIdentifier` configuration
+2. The `RUN_IDENTIFIER` environment variable
 
-You can override this with an explicit value:
+Commit hashes are not safe because repeated executions of the same commit would reuse stale keys.
+For local or CI multi-process runs, export one invocation-specific `RUN_IDENTIFIER` value before
+starting every process:
 
 ```csharp
 builder.AddRedisDistributedCoordinator(o =>
 {
     o.ConnectionString = "your-redis-url";
-    o.RunIdentifier = "my-custom-run-id";
+    o.RunIdentifier = Environment.GetEnvironmentVariable("RUN_IDENTIFIER");
 });
 ```
 
@@ -115,6 +120,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
