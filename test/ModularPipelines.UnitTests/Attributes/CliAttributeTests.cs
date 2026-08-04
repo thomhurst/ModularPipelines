@@ -231,14 +231,12 @@ public class CliAttributeTests
     [Test]
     public async Task Parser_Rejects_Grouped_Value_Pairs_With_NonSpace_Separator()
     {
-        var options = new TestCliOptionsWithInvalidGroupedPairs
-        {
-            Values = [new("first", "one")],
-        };
+        var options = new TestCliOptionsWithInvalidGroupedPairs();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("must use a space separator");
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithInvalidGroupedPairs).FullName}.Values");
     }
 
     [Test]
@@ -259,14 +257,12 @@ public class CliAttributeTests
     [Test]
     public async Task Parser_Rejects_NonSpace_Separated_Value_Pairs()
     {
-        var options = new TestCliOptionsWithInvalidValuePairFormat
-        {
-            Values = [new CliValuePair("name", "Ada")],
-        };
+        var options = new TestCliOptionsWithInvalidValuePairFormat();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("OptionFormat.SpaceSeparated");
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithInvalidValuePairFormat).FullName}.Values");
     }
 
     [Test]
@@ -292,11 +288,12 @@ public class CliAttributeTests
     [Test]
     public async Task Parser_Rejects_Grouped_Values_With_NonSpace_Separator()
     {
-        var options = new TestCliOptionsWithInvalidGroupedValues { Values = ["first", "second"] };
+        var options = new TestCliOptionsWithInvalidGroupedValues();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining("must use a space separator");
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithInvalidGroupedValues).FullName}.Values");
     }
 
     [Test]
@@ -449,21 +446,23 @@ public class CliAttributeTests
     [Test]
     public async Task Parser_Rejects_Handwritten_Legacy_Optional_String_Value()
     {
-        var options = new TestCliOptionsWithHandwrittenLegacyOptionalValue { Output = "json" };
+        var options = new TestCliOptionsWithHandwrittenLegacyOptionalValue();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining(nameof(CliOptionValue));
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithHandwrittenLegacyOptionalValue).FullName}.Output");
     }
 
     [Test]
     public async Task Parser_Rejects_Unrelated_Generated_Legacy_Optional_String_Value()
     {
-        var options = new TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue { Output = "json" };
+        var options = new TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue();
 
         await Assert.That(() => BuildArguments(options))
             .Throws<InvalidOperationException>()
-            .And.HasMessageContaining(nameof(CliOptionValue));
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue).FullName}.Output");
     }
 
     [Test]
@@ -563,6 +562,34 @@ public class CliAttributeTests
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateSwitch()))
             .Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Unsupported_Flag_Type_When_Unset()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithInvalidFlagType()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(
+                $"{typeof(TestCliOptionsWithInvalidFlagType).FullName}.Force");
+    }
+
+    [Test]
+    public async Task Reflection_CommandModel_Rejects_Unsupported_Flag_Type()
+    {
+        var optionsType = typeof(ReflectionInvalidFlagOptions<string>);
+
+        await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining($"{optionsType.FullName}.Force");
+    }
+
+    [Test]
+    public async Task CommandModel_Rejects_Duplicate_Argument_Positions_In_Phase()
+    {
+        await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateArgumentPosition()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("First")
+            .And.HasMessageContaining("Second");
     }
 
     [Test]
@@ -865,6 +892,27 @@ public class CliAttributeTests
         public bool? First { get; set; }
 
         [CliOption("--duplicate")]
+        public string? Second { get; set; }
+    }
+
+    internal record TestCliOptionsWithInvalidFlagType : CommandLineToolOptions
+    {
+        [CliFlag("--force")]
+        public string? Force { get; set; }
+    }
+
+    private sealed record ReflectionInvalidFlagOptions<T> : CommandLineToolOptions
+    {
+        [CliFlag("--force")]
+        public T? Force { get; init; }
+    }
+
+    internal record TestCliOptionsWithDuplicateArgumentPosition : CommandLineToolOptions
+    {
+        [CliArgument(0)]
+        public string? First { get; set; }
+
+        [CliArgument(0)]
         public string? Second { get; set; }
     }
 
