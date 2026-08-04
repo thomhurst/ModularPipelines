@@ -13,9 +13,6 @@ namespace ModularPipelines.SourceGenerator;
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
 {
-    private const string RuntimeMetadataRegistrationFullName =
-        "ModularPipelines.Generated.RuntimeMetadataRegistration";
-    private const string RuntimeMetadataSchemaVersionFieldName = "SchemaVersion";
     private const int RuntimeMetadataSchemaVersion = 1;
 
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
@@ -510,6 +507,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         AppendTypeNameRegistration(
             sb,
             "RegisterCoveredTypeNames",
+            uniqueItems.Where(item => item.IsCommandOptions),
+            "global::ModularPipelines.Helpers.Internal.GeneratedCommandMetadata");
+        AppendTypeNameRegistration(
+            sb,
+            "RegisterCoveredTypeNames",
             uniqueItems.Where(item => item.CanRegisterSecretCoverage
                                       && item.SecretMetadata.IsComplete
                                       && item.SecretMetadata.Properties.Count == 0
@@ -541,7 +543,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void AppendTypeNameRegistration(
         StringBuilder sb,
         string methodName,
-        IEnumerable<TypeMetadata> items)
+        IEnumerable<TypeMetadata> items,
+        string registryType = "global::ModularPipelines.Engine.GeneratedSecretMetadata")
     {
         var metadataNames = items.Select(item => item.MetadataName).ToList();
         if (metadataNames.Count == 0)
@@ -549,7 +552,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return;
         }
 
-        sb.AppendLine($"        global::ModularPipelines.Engine.GeneratedSecretMetadata.{methodName}(");
+        sb.AppendLine($"        {registryType}.{methodName}(");
         sb.AppendLine("            assembly,");
         sb.AppendLine("            new string[]");
         sb.AppendLine("            {");
@@ -738,19 +741,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     private static bool RequiresExternalMetadata(IAssemblySymbol assembly, IAssemblySymbol runtimeAssembly) =>
         !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
-        && !HasCurrentRuntimeMetadata(assembly)
         && ReferencesAssembly(
             assembly,
             runtimeAssembly,
             new HashSet<IAssemblySymbol>(SymbolEqualityComparer.Default));
-
-    private static bool HasCurrentRuntimeMetadata(IAssemblySymbol assembly) =>
-        assembly.GetTypeByMetadataName(RuntimeMetadataRegistrationFullName)?
-            .GetMembers(RuntimeMetadataSchemaVersionFieldName)
-            .OfType<IFieldSymbol>()
-            .Any(field => field.IsConst
-                          && field.ConstantValue is int version
-                          && version >= RuntimeMetadataSchemaVersion) is true;
 
     private static bool ReferencesAssembly(
         IAssemblySymbol assembly,

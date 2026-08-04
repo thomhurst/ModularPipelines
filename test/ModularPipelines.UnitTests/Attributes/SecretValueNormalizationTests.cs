@@ -269,6 +269,7 @@ public class SecretValueNormalizationTests
             []));
         var objectType = typeBuilder.CreateType()!;
         GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly);
+        GeneratedSecretMetadata.RegisterIncompleteTypeNames(objectType.Assembly, [objectType.FullName!]);
         var provider = CreateProvider(out _);
         var value = Activator.CreateInstance(objectType)!;
 
@@ -291,6 +292,36 @@ public class SecretValueNormalizationTests
         var secrets = provider.GetSecretsInObject(new VisualBasicSecretOptions()).ToList();
 
         await Assert.That(secrets).IsEquivalentTo(["visual-basic-secret"]);
+    }
+
+    [Test]
+    public async Task ProcessedAssembly_UsesReflectionForGeneratorEmittedSecrets()
+    {
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(
+            new AssemblyName($"GeneratedSecretOptions_{Guid.NewGuid():N}"),
+            AssemblyBuilderAccess.Run);
+        var typeBuilder = assembly.DefineDynamicModule("Main")
+            .DefineType("GeneratedSecretOptions", TypeAttributes.Public);
+        var getter = typeBuilder.DefineMethod(
+            "get_Token",
+            MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig,
+            typeof(string),
+            Type.EmptyTypes);
+        var il = getter.GetILGenerator();
+        il.Emit(OpCodes.Ldstr, "generated-secret");
+        il.Emit(OpCodes.Ret);
+        var property = typeBuilder.DefineProperty("Token", PropertyAttributes.None, typeof(string), null);
+        property.SetGetMethod(getter);
+        property.SetCustomAttribute(new CustomAttributeBuilder(
+            typeof(SecretValueAttribute).GetConstructor(Type.EmptyTypes)!,
+            []));
+        var optionsType = typeBuilder.CreateType()!;
+        GeneratedSecretMetadata.RegisterAssembly(optionsType.Assembly);
+        var provider = CreateProvider(out _);
+
+        var secrets = provider.GetSecretsInObject(Activator.CreateInstance(optionsType)).ToList();
+
+        await Assert.That(secrets).IsEquivalentTo(["generated-secret"]);
     }
 
     [Test]
@@ -330,6 +361,7 @@ public class SecretValueNormalizationTests
         var objectType = typeBuilder.CreateType()!;
         var value = Activator.CreateInstance(objectType)!;
         GeneratedSecretMetadata.RegisterAssembly(objectType.Assembly);
+        GeneratedSecretMetadata.RegisterIncompleteTypeNames(objectType.Assembly, [objectType.FullName!]);
 
         var exception = await Assert.That(() => provider.GetSecretsInObject(value).ToList())
             .Throws<MissingSecretMetadataException>();

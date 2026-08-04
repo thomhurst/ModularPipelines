@@ -163,7 +163,7 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
         {
             if (GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly))
             {
-                if (!GeneratedSecretMetadata.IsIncomplete(type)
+                if (GeneratedSecretMetadata.IsIncomplete(type)
                     || !RuntimeFeature.IsDynamicCodeSupported)
                 {
                     throw new MissingSecretMetadataException(type);

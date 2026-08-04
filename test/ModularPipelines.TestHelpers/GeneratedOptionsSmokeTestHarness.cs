@@ -371,7 +371,8 @@ public static class GeneratedOptionsSmokeTestHarness
 
         if (backingField is null)
         {
-            return;
+            throw new InvalidOperationException(
+                $"{property.DeclaringType?.FullName}.{property.Name} cannot be assigned a representative value.");
         }
 
         backingField.SetValue(target, value);

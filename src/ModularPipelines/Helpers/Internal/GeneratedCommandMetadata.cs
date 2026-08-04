@@ -24,6 +24,23 @@ public static class GeneratedCommandMetadata
     }
 
     /// <summary>
+    /// Registers command option types observed by the source generator.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public static void RegisterCoveredTypeNames(
+        Assembly assembly,
+        IReadOnlyList<string> metadataNames)
+    {
+        var processedAssembly = ProcessedAssemblies.GetValue(
+            assembly,
+            static _ => new ProcessedAssembly());
+        foreach (var metadataName in metadataNames)
+        {
+            processedAssembly.CoveredTypeNames.TryAdd(metadataName, 0);
+        }
+    }
+
+    /// <summary>
     /// Registers the generated command model for an options type.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -96,6 +113,14 @@ public static class GeneratedCommandMetadata
     internal static bool IsAssemblyProcessed(Assembly assembly) =>
         ProcessedAssemblies.TryGetValue(assembly, out _);
 
+    internal static bool IsTypeCovered(Type type)
+    {
+        var metadataType = type.IsConstructedGenericType ? type.GetGenericTypeDefinition() : type;
+        return metadataType.FullName is { } metadataName
+               && ProcessedAssemblies.TryGetValue(type.Assembly, out var processedAssembly)
+               && processedAssembly.CoveredTypeNames.ContainsKey(metadataName);
+    }
+
     private sealed record CommandMetadata(IReadOnlyList<PropertyCommandLinePart> Model, bool IsComplete);
 
     private sealed class ExternalCommandMetadata
@@ -103,5 +128,8 @@ public static class GeneratedCommandMetadata
         public ConcurrentDictionary<Type, CommandMetadata> Models { get; } = [];
     }
 
-    private sealed class ProcessedAssembly;
+    private sealed class ProcessedAssembly
+    {
+        public ConcurrentDictionary<string, byte> CoveredTypeNames { get; } = new(StringComparer.Ordinal);
+    }
 }

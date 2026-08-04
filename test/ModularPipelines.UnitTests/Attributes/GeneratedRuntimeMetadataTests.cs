@@ -227,6 +227,18 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task ProcessedAssembly_UsesReflectionForGeneratorEmittedOptions()
+    {
+        var optionsType = typeof(VisualBasicCommandOptions);
+        GeneratedCommandMetadata.RegisterAssembly(optionsType.Assembly);
+
+        var model = new CommandModelProvider().GetCommandModel(optionsType);
+
+        var option = model.OfType<OptionPart>().Single();
+        await Assert.That(option.Attribute.Name).IsEqualTo("--value");
+    }
+
+    [Test]
     public async Task CommandMetadata_TracksProcessedAssembliesIndependently()
     {
         var type = CreateDynamicType("CommandAssemblyRegistration");

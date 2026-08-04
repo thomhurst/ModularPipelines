@@ -47,6 +47,20 @@ public class GeneratedOptionsSmokeTestHarnessTests
         await Assert.That(arguments.SequenceEqual(expected, StringComparer.Ordinal)).IsTrue();
     }
 
+    [Test]
+    public async Task Computed_Getter_Is_Not_Counted_As_Tested()
+    {
+        var exception = await Assert.That(
+                () => GeneratedOptionsSmokeTestHarness.ValidateOptionsType(typeof(ComputedGetterOptions)))
+            .Throws<GeneratedOptionsSmokeTestException>();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.PropertyName).IsEqualTo(nameof(ComputedGetterOptions.Value));
+            await Assert.That(exception.InnerException!.Message).Contains("cannot be assigned");
+        }
+    }
+
     internal sealed record RepresentativeOptions : CommandLineToolOptions
     {
         [CliArgument(0, PrependOptionTerminator = true, Required = true)]
@@ -63,5 +77,11 @@ public class GeneratedOptionsSmokeTestHarnessTests
 
         [CliOption("--pair")]
         public CliValuePair? Pair { get; init; }
+    }
+
+    internal sealed record ComputedGetterOptions : CommandLineToolOptions
+    {
+        [CliOption("--value")]
+        public string? Value => null;
     }
 }

@@ -193,7 +193,7 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
-    public async Task Trimmed_Host_Trusts_Current_Metadata_Marker()
+    public async Task Trimmed_Host_Rescans_Current_Metadata_Marker()
     {
         var result = GeneratorTestHarness.RunWithExternalAssembly(
             new CommandOptionsGenerator(),
@@ -223,11 +223,12 @@ public class IncompleteMetadataDiagnosticTests
                 ["build_property.PublishAot"] = "true",
             });
 
-        var generatedSource = result.GeneratedTrees.Single().ToString();
+        var diagnostic = result.Diagnostics.Single();
         using (Assert.Multiple())
         {
-            await Assert.That(result.Diagnostics).IsEmpty();
-            await Assert.That(generatedSource).DoesNotContain("global::External.CurrentOptions");
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0004");
+            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
+            await Assert.That(diagnostic.GetMessage()).Contains("global::External.CurrentOptions");
         }
     }
 
