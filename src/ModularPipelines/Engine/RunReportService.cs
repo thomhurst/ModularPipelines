@@ -331,7 +331,7 @@ internal sealed class RunReportService(
                 continue;
             }
 
-            var recordedCount = GetRecordedCountForCompletedWorkers(
+            var recordedCount = GetRecordedRemoteCountForCompletedWorkers(
                 moduleTypeIdentifier,
                 moduleTypes,
                 remoteCounts,
@@ -359,26 +359,20 @@ internal sealed class RunReportService(
             unmatchedFinalCount - unmatchedRecordedRemoteCount);
     }
 
-    private int GetRecordedCountForCompletedWorkers(
+    private static int GetRecordedRemoteCountForCompletedWorkers(
         string moduleTypeIdentifier,
         IReadOnlyCollection<Type> moduleTypes,
         IReadOnlyDictionary<(int WorkerIndex, Type ModuleType), int> remoteCounts,
         IReadOnlyDictionary<int, HashSet<string>> finalModuleIdentifiersByWorker)
     {
         var moduleTypeSet = moduleTypes.ToHashSet();
-        var allRecordedRemoteCount = remoteCounts
-            .Where(count => moduleTypeSet.Contains(count.Key.ModuleType))
-            .Sum(static count => count.Value);
-        var completedWorkerRecordedCount = remoteCounts
+        return remoteCounts
             .Where(count => moduleTypeSet.Contains(count.Key.ModuleType)
                             && finalModuleIdentifiersByWorker.TryGetValue(
                                 count.Key.WorkerIndex,
                                 out var finalModuleIdentifiers)
                             && finalModuleIdentifiers.Contains(moduleTypeIdentifier))
             .Sum(static count => count.Value);
-        var locallyRecordedCount = moduleTypes.Sum(commandExecutionCounter.GetCount)
-                                   - allRecordedRemoteCount;
-        return locallyRecordedCount + completedWorkerRecordedCount;
     }
 
     private async Task<WorkerMetricsWaitResult> WaitForFinalWorkerMetricsAsync(

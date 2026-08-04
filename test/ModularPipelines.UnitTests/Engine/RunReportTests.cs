@@ -1422,7 +1422,7 @@ public class RunReportTests
             ]);
         var commandExecutionCounter = new CommandExecutionCounter();
         commandExecutionCounter.Add(null, 1);
-        commandExecutionCounter.Add(typeof(SuccessfulModule), 1);
+        commandExecutionCounter.AddRemote(typeof(SuccessfulModule), workerIndex: 1, count: 1);
         var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
         Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
 
@@ -1705,6 +1705,7 @@ public class RunReportTests
                     new WorkerRegistration(2, new HashSet<string>(), runStartedAt),
                 ]);
             var commandExecutionCounter = new CommandExecutionCounter();
+            commandExecutionCounter.Add(firstType, count: 5);
             commandExecutionCounter.AddRemote(secondType, workerIndex: 2, count: 5);
             var previousInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
             Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", "0");
@@ -1737,9 +1738,9 @@ public class RunReportTests
                 {
                     await Assert.That(ModuleTypeIdentifier.Get(secondType))
                         .IsEqualTo(moduleTypeIdentifier);
-                    await Assert.That(report.CommandCount).IsEqualTo(8);
+                    await Assert.That(report.CommandCount).IsEqualTo(13);
                     await Assert.That(report.UnattributedCommandCount).IsEqualTo(3);
-                    await Assert.That(report.Modules.Sum(module => module.CommandCount)).IsEqualTo(5);
+                    await Assert.That(report.Modules.Sum(module => module.CommandCount)).IsEqualTo(10);
                 }
             }
             finally
