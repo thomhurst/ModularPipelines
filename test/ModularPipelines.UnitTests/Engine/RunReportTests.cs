@@ -238,6 +238,29 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task RunHistoryPersistsAndCalculatesDeltasWithoutReportWriting()
+    {
+        var historyPath = CreateTemporaryDirectory();
+
+        try
+        {
+            var firstSummary = await RunPipelineWithoutReportAsync(historyPath);
+            var secondSummary = await RunPipelineWithoutReportAsync(historyPath);
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(firstSummary.RunReport!.PreviousTotalDuration).IsNull();
+                await Assert.That(secondSummary.RunReport!.PreviousTotalDuration).IsNotNull();
+                await Assert.That(Directory.GetFiles(historyPath, "*.json")).Count().IsEqualTo(2);
+            }
+        }
+        finally
+        {
+            Directory.Delete(historyPath, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task RunReportSuppressesHistoryForCurrentIdentifierCollisions()
     {
         var firstType = CreateDynamicModuleType("RunReportAssembly", new Version(1, 0));
@@ -2151,6 +2174,24 @@ public class RunReportTests
         builder.AddModule<CommandModule>();
         builder.AddModule<FailingModule>();
         builder.AddModule<SkippedModule>();
+        return await builder.ExecutePipelineAsync();
+    }
+
+    private static async Task<PipelineSummary> RunPipelineWithoutReportAsync(string historyPath)
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            PrintLogo = false,
+            PrintResults = false,
+            RunReport = options.RunReport with
+            {
+                AutoWriteInCi = false,
+                HistoryDirectory = historyPath,
+                HistoryRetention = 2,
+            },
+        });
+        builder.AddModule<SuccessfulModule>();
         return await builder.ExecutePipelineAsync();
     }
 
