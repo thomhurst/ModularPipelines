@@ -1412,7 +1412,7 @@ In your `Program.cs`, enable distributed mode and register the Redis coordinator
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Extensions;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Parse instance info from arguments or environment
 var instanceIndex = int.Parse(
@@ -1503,7 +1503,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 var instanceIndex = int.Parse(
     Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
@@ -1701,7 +1701,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 var instanceIndex = int.Parse(
     Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
@@ -2113,7 +2113,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<NugetVersionGeneratorModule>()
@@ -2360,7 +2360,7 @@ Install the .NET 10 SDK, then follow these steps:
     using ModularPipelines.Models;
     using ModularPipelines.Modules;
 
-    using var builder = Pipeline.CreateBuilder(args);
+    var builder = Pipeline.CreateBuilder(args);
 
     builder
         .AddModule<UpdateDotnetWorkloads>()
@@ -2408,13 +2408,10 @@ dotnet project convert example.cs
 Your pipeline is created using `Pipeline.CreateBuilder()`. This follows the ASP.NET Core minimal API pattern, providing direct access to `Configuration`, `Services`, and `Options`. Setup should feel familiar if you've used ASP.NET Core.
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 await builder.ExecutePipelineAsync();
 ```
-
-`PipelineBuilder` owns its content-root file provider, so keep it in a `using`
-scope until configuration and execution are complete.
 
 ## Modules
 
@@ -2665,7 +2662,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<BuildModule>();
 
 await builder.ExecutePipelineAsync();
@@ -2931,7 +2928,7 @@ configured by an earlier call or by command-line options. Pass the complete filt
 ## Example of Running Specific Categories
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()
@@ -2947,7 +2944,7 @@ await builder.ExecutePipelineAsync();
 ## Example of Ignoring Specific Categories
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()
@@ -2969,7 +2966,7 @@ Pass the application's `args` to `Pipeline.CreateBuilder(args)` to enable the
 built-in pipeline command line:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<BuildModule>()
@@ -3080,7 +3077,7 @@ To forward every argument to host configuration, disable pipeline command-line
 options:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
+var builder = Pipeline.CreateBuilder(new PipelineBuilderOptions
 {
     Args = args,
     EnableCommandLineOptions = false,
@@ -3419,7 +3416,7 @@ public class Module2 : Module<string>
 When you declare a required dependency, you don't need to explicitly register it:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<Module2>(); // Module1 is auto-registered because Module2 depends on it
 
 await builder.ExecutePipelineAsync();
@@ -4143,7 +4140,7 @@ await context.Tools.DotNet.BuildAsync(
 Set default logging for all commands at the pipeline level:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // All commands will use Silent logging unless overridden
 builder.ConfigurePipelineOptions(options => options with
@@ -4384,7 +4381,7 @@ JIT-compiled, or move their module declarations and registrations into a C# proj
 Use generic registration for every module:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<BuildModule>()
@@ -4652,7 +4649,7 @@ The pipeline builder follows the ASP.NET Core minimal API pattern, providing dir
 ## Basic Example
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<BuildModule>()
@@ -4670,7 +4667,7 @@ for listing, selecting, skipping, and validating modules.
 Add configuration sources directly via the `Configuration` property:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false)
@@ -4687,7 +4684,7 @@ builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySetti
 Modules are registered directly on `PipelineBuilder`. Every registration method returns the same builder for chaining:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Register modules
 builder
@@ -4704,7 +4701,7 @@ builder.AddModules(typeof(Module1), typeof(Module2), typeof(Module3));
 Use `builder.Environment` or `builder.Configuration` for conditional module registration:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 
@@ -4728,7 +4725,7 @@ builder.AddModule<AlwaysRunModule>();
 Configure pipeline behavior via the `Options` property:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.ConfigurePipelineOptions(options => options with
 {
@@ -4757,7 +4754,7 @@ builder.ConfigurePipelineOptions(options => options with
 The pipeline follows a two-step build-then-run pattern:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.ConfigurePipelineOptions(options => options with
 {
     ExecutionMode = ExecutionMode.WaitForAllModules,
@@ -4784,7 +4781,7 @@ the returned summary after a module fails. Fail-fast mode rethrows the module ex
 `BuildAsync()` always validates the pipeline configuration before returning:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 
 try
@@ -4806,7 +4803,7 @@ catch (PipelineValidationException ex)
 ### Validate Without Running
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 builder.AddModule<MyModule>();
 
 var validation = await builder.ValidateAsync();
@@ -4831,7 +4828,7 @@ using ModularPipelines;
 using ModularPipelines.Extensions;
 using ModularPipelines.Options;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Configuration
 builder.Configuration
@@ -4879,7 +4876,7 @@ await builder.ExecutePipelineAsync();
 Register global hooks and pipeline requirements:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 // Global hooks (run before/after all modules)
 builder.AddPipelineGlobalHooks<MyGlobalHooks>();
@@ -4897,7 +4894,7 @@ builder.AddRequirement<GitRequirement>();
 For a more fluent API, extension methods are available:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 await builder
     .AddModule<Module1>()
@@ -4925,7 +4922,7 @@ If you want to run every module regardless, you can switch to `WaitForAllModules
 ## Example
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()
@@ -5061,7 +5058,7 @@ public class ResilientModule : Module<CommandResult>
 Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()
@@ -5307,7 +5304,7 @@ When a configuration provider supplies a group of secrets, you can register ever
 that section without adding `[SecretValue]` to an options class:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder();
+var builder = Pipeline.CreateBuilder();
 
 builder.MaskConfigurationSection("Secrets");
 ```
@@ -5795,7 +5792,7 @@ It's recommended to store and retrieve results using the Git commit SHA, as then
 ## Example Repository Class using Azure Blobs
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()
@@ -6063,7 +6060,7 @@ Then on subsequent runs, it'll ask you for an estimated time for a module. You g
 ## Example
 
 ```csharp
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder
     .AddModule<Module1>()
@@ -6170,7 +6167,7 @@ public class MyEstimatedTimeProvider : IModuleEstimatedTimeProvider
 Modules have a 30-minute timeout by default. Configure the pipeline default when your workloads need a different limit, or use `TimeSpan.Zero` to disable it:
 
 ```csharp
-using var builder = Pipeline.CreateBuilder();
+var builder = Pipeline.CreateBuilder();
 builder.ConfigurePipelineOptions(options => options with
 {
     DefaultModuleTimeout = TimeSpan.FromHours(2),
@@ -22521,7 +22518,7 @@ Register the artifact store after enabling distributed mode:
 using ModularPipelines.Distributed.Artifacts.S3.Extensions;
 using ModularPipelines.Distributed.Extensions;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddS3DistributedArtifactStore(options =>
@@ -22569,7 +22566,7 @@ using ModularPipelines.Distributed.Discovery.Redis;
 using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.SignalR.Extensions;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddSignalRDistributedCoordinator();
@@ -22602,7 +22599,7 @@ Use the combined helper when Redis should provide both services:
 using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Distributed.Extensions;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddRedisDistributed(
@@ -22652,7 +22649,7 @@ Register the coordinator after enabling distributed mode:
 using ModularPipelines.Distributed.SignalR.Extensions;
 using ModularPipelines.Distributed.Extensions;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.AddDistributedMode(options => options.TotalInstances = 2);
 builder.AddSignalRDistributedCoordinator(options =>
@@ -23131,7 +23128,7 @@ Modular Pipelines' `GitHub()` automatically authenticates OctoKit client when:
 Configuring OctoKit auth using `GitHubOptions` is straightforward as it follows standard .NET practices for working with `IConfiguration` and `IOptions<T>`. When configuring your pipeline, use the usual practices for working with configuration to configure OctoKit auth:
 
 ```cs
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json")
