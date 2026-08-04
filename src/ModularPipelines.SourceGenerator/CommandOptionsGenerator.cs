@@ -1339,17 +1339,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             runtimeMetadataSchemaVersion,
             RuntimeMetadataSchemaVersion);
         return GetTypes(assembly.GlobalNamespace)
-            .Where(type => !hasCurrentRuntimeMetadata
-                           || incompleteTypeNames.Contains(GetMetadataName(type))
-                           || IsObservedOptionsType(type, usedOptionsTypes)
-                           || CanRegenerateExternalRuntimeMetadata(type, compilation))
             .Select(type => GetExternalTypeCandidate(
                 type,
                 compilation,
                 includeAllRuntimeMetadata,
                 usedOptionsTypes,
                 incompleteTypeNames,
-                requiresSecretReflectionFallback))
+                requiresSecretReflectionFallback,
+                hasCurrentRuntimeMetadata))
             .OfType<TypeMetadataCandidate>();
     }
 
@@ -1359,10 +1356,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool includeAllRuntimeMetadata,
         ISet<OptionsTypeIdentity> usedOptionsTypes,
         ISet<string> incompleteTypeNames,
-        bool requiresSecretReflectionFallback)
+        bool requiresSecretReflectionFallback,
+        bool hasCurrentRuntimeMetadata)
     {
         var metadataName = GetMetadataName(type);
         var isObservedOptionsType = IsObservedOptionsType(type, usedOptionsTypes);
+        var requiresRescan = !hasCurrentRuntimeMetadata
+                             || incompleteTypeNames.Contains(metadataName)
+                             || isObservedOptionsType;
+        if (!requiresRescan && !includeAllRuntimeMetadata)
+        {
+            return null;
+        }
+
         TypeMetadataCandidate? candidate;
         if (isObservedOptionsType)
         {
@@ -1376,6 +1382,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             candidate = includeAllRuntimeMetadata
                 ? GetExternalTypeCandidate(type, compilation)
                 : null;
+        }
+
+        if (!requiresRescan && !CanRegenerateExternalRuntimeMetadata(candidate))
+        {
+            return null;
         }
 
         return requiresSecretReflectionFallback
@@ -1398,10 +1409,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             type.ContainingAssembly.Identity.ToString()));
 
     private static bool CanRegenerateExternalRuntimeMetadata(
-        INamedTypeSymbol type,
-        Compilation compilation)
+        TypeMetadataCandidate? candidate)
     {
-        if (GetExternalTypeCandidate(type, compilation)?.Metadata is not { } metadata)
+        if (candidate?.Metadata is not { } metadata)
         {
             return false;
         }
