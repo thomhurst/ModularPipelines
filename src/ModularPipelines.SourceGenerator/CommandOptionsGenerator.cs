@@ -295,10 +295,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         var definition = (method.ReducedFrom ?? method).OriginalDefinition;
         return IsServiceCollectionRegistration(definition)
                || IsTryAddRegistration(definition)
+               || IsServiceDescriptorRegistration(definition)
                || (definition.ContainingNamespace?.ToDisplayString() == DependencyInjectionNamespace
                    && definition.ContainingType.MetadataName == "ServiceDescriptor"
-                   && (definition.MethodKind == MethodKind.Constructor
-                       || definition.Name is "Describe" or "DescribeKeyed"));
+                   && definition.MethodKind == MethodKind.Constructor);
     }
 
     private static ITypeSymbol? GetOptionsTypeUsageSymbol(GeneratorSyntaxContext context)
@@ -323,15 +323,25 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         GeneratorSyntaxContext context,
         IMethodSymbol method)
     {
-        if (!IsServiceTypeCarrier(method)
-            || context.Node is not InvocationExpressionSyntax invocation)
+        if (!IsServiceTypeCarrier(method))
         {
             return null;
         }
 
-        for (var index = 0; index < invocation.ArgumentList.Arguments.Count; index++)
+        var argumentList = context.Node switch
         {
-            var argument = invocation.ArgumentList.Arguments[index];
+            InvocationExpressionSyntax invocation => invocation.ArgumentList,
+            BaseObjectCreationExpressionSyntax objectCreation => objectCreation.ArgumentList,
+            _ => null,
+        };
+        if (argumentList is null)
+        {
+            return null;
+        }
+
+        for (var index = 0; index < argumentList.Arguments.Count; index++)
+        {
+            var argument = argumentList.Arguments[index];
             if (ResolveArgumentParameter(method, argument, index)?.Name != "serviceType")
             {
                 continue;
@@ -377,7 +387,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     }
 
     private static bool IsOptionsTypeUsageCandidate(SyntaxNode node) =>
-        node is GenericNameSyntax
+        IsServiceDescriptorObjectCreationCandidate(node)
+        || node is GenericNameSyntax
         {
             Identifier.ValueText: "IOptions"
                 or "IOptionsMonitor"
@@ -397,6 +408,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
         || (node is InvocationExpressionSyntax invocation
             && IsServiceRegistrationMethodName(GetInvokedMethodName(invocation)));
+
+    private static bool IsServiceDescriptorObjectCreationCandidate(SyntaxNode node) =>
+        node is ObjectCreationExpressionSyntax
+        {
+            Type: IdentifierNameSyntax { Identifier.ValueText: "ServiceDescriptor" }
+                or QualifiedNameSyntax { Right.Identifier.ValueText: "ServiceDescriptor" }
+                or AliasQualifiedNameSyntax { Name.Identifier.ValueText: "ServiceDescriptor" },
+        };
 
     private static bool IsServiceRegistrationMethodName(string? methodName) =>
         IsServiceCollectionRegistrationMethodName(methodName)
@@ -425,7 +444,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         or "Transient"
         or "KeyedSingleton"
         or "KeyedScoped"
-        or "KeyedTransient";
+        or "KeyedTransient"
+        or "Describe"
+        or "DescribeKeyed";
 
     private static string? GetInvokedMethodName(InvocationExpressionSyntax invocation) =>
         invocation.Expression switch

@@ -70,6 +70,10 @@ public class IncompleteMetadataDiagnosticTests
 
                 public static ServiceDescriptor Singleton<TService>(TService implementation) => new();
 
+                public static ServiceDescriptor Singleton(
+                    System.Type serviceType,
+                    object implementation) => new();
+
                 public static ServiceDescriptor KeyedSingleton<TService>(
                     object? serviceKey,
                     TService implementation) => new();
@@ -1327,6 +1331,105 @@ public class IncompleteMetadataDiagnosticTests
                     services.AddSingleton(
                         typeof(RegisteredOptions),
                         Options.Create(new PartialOptions()));
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Aot_Host_Rejects_Aliased_ServiceDescriptor_Constructor()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+            using RegisteredOptions = Microsoft.Extensions.Options.IOptions<PartialOptions>;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.Add(new ServiceDescriptor(
+                        typeof(RegisteredOptions),
+                        Options.Create(new PartialOptions())));
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Aot_Host_Rejects_Aliased_ServiceDescriptor_Describe()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+            using RegisteredOptions = Microsoft.Extensions.Options.IOptions<PartialOptions>;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.Add(ServiceDescriptor.Describe(
+                        typeof(RegisteredOptions),
+                        Options.Create(new PartialOptions()),
+                        null!));
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Aot_Host_Rejects_Type_Based_ServiceDescriptor_Factory()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.Add(ServiceDescriptor.Singleton(
+                        typeof(IOptions<PartialOptions>),
+                        Options.Create(new PartialOptions())));
             }
             """,
             globalOptions: new Dictionary<string, string>
