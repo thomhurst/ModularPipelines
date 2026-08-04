@@ -88,6 +88,42 @@ internal static class GeneratorTestHarness
         return Run(generator, compilation, globalOptions);
     }
 
+    public static IReadOnlyList<string> GetIndirectExternalAssemblyClosure(
+        string infrastructure,
+        string externalBaseSource,
+        string externalLeafSource)
+    {
+        var infrastructureReference = CreateMetadataReference(
+            "ModularPipelines",
+            [infrastructure],
+            References);
+        var externalBaseReference = CreateMetadataReference(
+            "ExternalBase",
+            [externalBaseSource],
+            [.. References, infrastructureReference]);
+        var externalLeafReference = CreateMetadataReference(
+            "ExternalLeaf",
+            [externalLeafSource],
+            [.. References, infrastructureReference, externalBaseReference]);
+        var compilation = CSharpCompilation.Create(
+            "GeneratorTests",
+            [CSharpSyntaxTree.ParseText("public sealed class Host;")],
+            [
+                .. References,
+                infrastructureReference,
+                externalBaseReference,
+                externalLeafReference,
+            ],
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        ThrowForCompilationErrors(compilation);
+
+        var externalLeaf = compilation.SourceModule.ReferencedAssemblySymbols
+            .Single(static assembly => assembly.Name == "ExternalLeaf");
+        return CommandOptionsGenerator.GetReferencedAssemblyClosure([externalLeaf])
+            .Select(static assembly => assembly.Name)
+            .ToArray();
+    }
+
     public static GeneratorDriverRunResult RunWithPeerExternalAssemblies(
         IIncrementalGenerator generator,
         string infrastructure,

@@ -500,6 +500,22 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Generator_Reference_Walk_Includes_Transitive_Option_Assembly()
+    {
+        var assemblyNames = GeneratorTestHarness.GetIndirectExternalAssemblyClosure(
+            CommandInfrastructure,
+            "namespace External; public sealed class PayloadOptions : ModularPipelines.Options.CommandLineToolOptions;",
+            "namespace External; public sealed class OpaqueHelper { public PayloadOptions Create() => new(); }");
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(assemblyNames).Contains("ExternalLeaf");
+            await Assert.That(assemblyNames).Contains("ExternalBase");
+            await Assert.That(assemblyNames.Distinct()).Count().IsEqualTo(assemblyNames.Count);
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Allows_Unrelated_Internal_External_Type_Name_Collisions()
     {
         var result = GeneratorTestHarness.RunWithPeerExternalAssemblies(

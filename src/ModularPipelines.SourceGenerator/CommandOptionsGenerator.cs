@@ -1144,7 +1144,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         var includeAllRuntimeMetadata = IsTrimOrAotEnabled(optionsProvider);
         var usedOptionsTypes = new HashSet<OptionsTypeIdentity>(optionsTypes);
-        return compilation.SourceModule.ReferencedAssemblySymbols
+        return GetReferencedAssemblyClosure(compilation.SourceModule.ReferencedAssemblySymbols)
             .SelectMany(assembly => GetExternalTypeCandidates(
                 assembly,
                 runtimeAssembly,
@@ -1164,13 +1164,35 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return [];
         }
 
-        return compilation.SourceModule.ReferencedAssemblySymbols
+        return GetReferencedAssemblyClosure(compilation.SourceModule.ReferencedAssemblySymbols)
             .Where(assembly => !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
                                && !RequiresExternalMetadata(assembly, runtimeAssembly))
             .Select(assembly => assembly.Identity.ToString())
             .Distinct(StringComparer.Ordinal)
             .OrderBy(static identity => identity, StringComparer.Ordinal)
             .ToImmutableArray();
+    }
+
+    internal static IEnumerable<IAssemblySymbol> GetReferencedAssemblyClosure(
+        IEnumerable<IAssemblySymbol> referencedAssemblies)
+    {
+        var pendingAssemblies = new Stack<IAssemblySymbol>(referencedAssemblies);
+        var visitedAssemblyIdentities = new HashSet<string>(StringComparer.Ordinal);
+        while (pendingAssemblies.Count > 0)
+        {
+            var assembly = pendingAssemblies.Pop();
+            if (!visitedAssemblyIdentities.Add(assembly.Identity.ToString()))
+            {
+                continue;
+            }
+
+            yield return assembly;
+            foreach (var referencedAssembly in assembly.Modules
+                         .SelectMany(static module => module.ReferencedAssemblySymbols))
+            {
+                pendingAssemblies.Push(referencedAssembly);
+            }
+        }
     }
 
     private static IEnumerable<TypeMetadataCandidate> GetExternalTypeCandidates(

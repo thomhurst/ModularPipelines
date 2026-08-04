@@ -367,13 +367,9 @@ public static class GeneratedSecretMetadata
     internal static bool IsAssemblyProcessed(Assembly assembly) =>
         AssemblyCoverageByAssembly.TryGetValue(assembly, out _);
 
-    internal static bool IsGeneratedMetadataRequired(Assembly assembly)
-    {
-        var loadContext = AssemblyLoadContext.GetLoadContext(assembly);
-        return AssemblyCoverageByAssembly.Any(registration =>
-            registration.Value.RequiresGeneratedMetadata
-            && ReferenceEquals(AssemblyLoadContext.GetLoadContext(registration.Key), loadContext));
-    }
+    internal static bool IsGeneratedMetadataRequired(Assembly assembly) =>
+        AssemblyCoverageByAssembly.TryGetValue(assembly, out var coverage)
+        && coverage.RequiresGeneratedMetadata;
 
     private static bool IsKnownCompilerGeneratedInfrastructure(Type type)
     {

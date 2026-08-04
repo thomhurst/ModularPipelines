@@ -500,6 +500,35 @@ public class GeneratedRuntimeMetadataTests
     }
 
     [Test]
+    public async Task GeneratedMetadataRequirement_DoesNotCrossAssembliesInSameLoadContext()
+    {
+        var trimmedType = CreateDynamicType("TrimmedMetadataRequirement");
+        var jitType = CreateDynamicType("JitMetadataRequirement");
+        GeneratedCommandMetadata.RegisterAssembly(
+            trimmedType.Assembly,
+            requiresGeneratedMetadata: true);
+        GeneratedSecretMetadata.RegisterAssembly(
+            trimmedType.Assembly,
+            requiresGeneratedMetadata: true);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(
+                    GeneratedCommandMetadata.IsGeneratedMetadataRequired(trimmedType.Assembly))
+                .IsTrue();
+            await Assert.That(
+                    GeneratedCommandMetadata.IsGeneratedMetadataRequired(jitType.Assembly))
+                .IsFalse();
+            await Assert.That(
+                    GeneratedSecretMetadata.IsGeneratedMetadataRequired(trimmedType.Assembly))
+                .IsTrue();
+            await Assert.That(
+                    GeneratedSecretMetadata.IsGeneratedMetadataRequired(jitType.Assembly))
+                .IsFalse();
+        }
+    }
+
+    [Test]
     public async Task ExternalMetadataOverridesLegacyDirectRegistration()
     {
         var commandType = CreateDynamicType("LegacyDirectCommand");
