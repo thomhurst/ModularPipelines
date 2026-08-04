@@ -446,26 +446,30 @@ internal sealed class CommandLineBuilder(
         IReadOnlyDictionary<string, OptionPart> optionsByName,
         out OptionPart option)
     {
+        OptionPart? matchingOption = null;
+        var matchingNameLength = 0;
         foreach (var item in optionsByName)
         {
             if (argument.Length <= item.Key.Length
+                || item.Key.Length <= matchingNameLength
                 || !argument.StartsWith(item.Key, StringComparison.Ordinal))
             {
                 continue;
             }
 
             var separator = argument[item.Key.Length];
-            if (separator == '='
+            if (item.Value.Attribute.Format == OptionFormat.NoSeparator
+                || separator == '='
                 || (separator == ':'
                     && item.Value.Attribute.Format == OptionFormat.ColonSeparated))
             {
-                option = item.Value;
-                return true;
+                matchingOption = item.Value;
+                matchingNameLength = item.Key.Length;
             }
         }
 
-        option = null!;
-        return false;
+        option = matchingOption!;
+        return matchingOption is not null;
     }
 
     private static bool ContainsRecognizedManualOption(

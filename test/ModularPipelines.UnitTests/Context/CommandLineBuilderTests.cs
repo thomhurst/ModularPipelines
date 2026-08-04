@@ -402,6 +402,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Hoists_NoSeparator_Manual_Option_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--variablevalue"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --variablevalue -- -1");
+    }
+
+    [Test]
     public async Task Build_Hoists_Optional_Manual_Option_With_Explicit_Value()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -900,6 +916,9 @@ public class CommandLineBuilderTests : TestBase
 
         [CliOption("--define", Format = OptionFormat.ColonSeparated)]
         public string? Define { get; set; }
+
+        [CliOption("--variable", Format = OptionFormat.NoSeparator)]
+        public string? Variable { get; set; }
 
         [CliFlag("--compact", ShortForm = "-c")]
         public bool? Compact { get; set; }
