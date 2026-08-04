@@ -14,8 +14,8 @@ namespace ModularPipelines.Context;
 /// 1. Resolve tool name from [CliTool] attribute or constructor parameter
 /// 2. Get subcommand parts from [CliSubCommand] or a preferred [CliCommandAlias]
 /// 3. Build arguments from [CliOption], [CliFlag], and [CliArgument] attributes
-/// 4. Add manual Arguments if present
-/// 5. Add RunSettings after "--" if present.
+/// 4. Insert phase-aware AdditionalArguments and append manual Arguments
+/// 5. Add RunSettings after "--" and terminal options last.
 /// </remarks>
 internal sealed class CommandLineBuilder(
     IToolResolver toolResolver,
@@ -44,6 +44,9 @@ internal sealed class CommandLineBuilder(
         // on a [CliGlobalOptions] base belong before the subcommand; command-specific
         // properties retain their normal position after it.
         var commandModel = _commandModelProvider.GetCommandModel(options.GetType());
+        var additionalArguments = options.AdditionalArguments?.ToList() ?? [];
+        ValidateAdditionalArguments(additionalArguments);
+
         var terminalCommandModel = commandModel
             .Where(part => part.Phase == CommandLinePhase.Terminal)
             .ToList();
@@ -52,14 +55,15 @@ internal sealed class CommandLineBuilder(
             .ToList();
         var globalCommandModel = nonTerminalCommandModel.Where(part => part.IsGlobalOption).ToList();
         var commandSpecificModel = nonTerminalCommandModel.Where(part => !part.IsGlobalOption).ToList();
-        var globalArgs = _commandArgumentBuilder.BuildArguments(globalCommandModel, options);
-        var propertyArgs = _commandArgumentBuilder.BuildArguments(commandSpecificModel, options);
-        var terminalArgs = _commandArgumentBuilder.BuildArguments(terminalCommandModel, options);
+        var terminalArgs = _commandArgumentBuilder.BuildArguments(terminalCommandModel, options)
+            .Concat(GetAdditionalArguments(additionalArguments, CommandLinePhase.Terminal))
+            .ToList();
 
-        // 4. Combine: global args + command parts (subcommands) + property args
-        var allArgs = new List<string>(globalArgs);
+        // 4. Combine: global args + command parts (subcommands) + command-specific args.
+        var allArgs = new List<string>();
+        AddNonTerminalArguments(allArgs, globalCommandModel, additionalArguments, options, isGlobalOption: true);
         allArgs.AddRange(commandParts);
-        allArgs.AddRange(propertyArgs);
+        AddNonTerminalArguments(allArgs, commandSpecificModel, additionalArguments, options, isGlobalOption: false);
 
         // 5. Add any manual arguments passed via options.Arguments
         var manualArgs = options.Arguments?.ToList() ?? [];
@@ -71,9 +75,14 @@ internal sealed class CommandLineBuilder(
                 .ToList();
             var hasPropertyEndOfOptions =
                 _commandArgumentBuilder.BuildArguments(endOfOptionsModel, options).Count > 0;
+            var hasAdditionalEndOfOptions = additionalArguments
+                .Any(argument => argument.Phase == CommandLinePhase.EndOfOptions);
             var hasManualEndOfOptions = manualArgs.Contains("--", StringComparer.Ordinal);
 
-            if (hasPropertyEndOfOptions || hasManualEndOfOptions || options.RunSettings is not null)
+            if (hasPropertyEndOfOptions
+                || hasAdditionalEndOfOptions
+                || hasManualEndOfOptions
+                || options.RunSettings is not null)
             {
                 throw new InvalidOperationException(
                     "Terminal options cannot be combined with an end-of-options marker.");
@@ -93,5 +102,56 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(terminalArgs);
 
         return new CommandLine(tool, allArgs);
+    }
+
+    private void AddNonTerminalArguments(
+        List<string> destination,
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        IReadOnlyList<AdditionalCommandLineArgument> additionalArguments,
+        CommandLineToolOptions options,
+        bool isGlobalOption)
+    {
+        foreach (var phase in Enum.GetValues<CommandLinePhase>()
+                     .Where(phase => phase != CommandLinePhase.Terminal))
+        {
+            var phaseModel = commandModel.Where(part => part.Phase == phase).ToList();
+            destination.AddRange(GetAdditionalArguments(additionalArguments, phase, isGlobalOption));
+            destination.AddRange(_commandArgumentBuilder.BuildArguments(phaseModel, options));
+        }
+    }
+
+    private static IEnumerable<string> GetAdditionalArguments(
+        IEnumerable<AdditionalCommandLineArgument> additionalArguments,
+        CommandLinePhase phase,
+        bool? isGlobalOption = null)
+        => additionalArguments
+            .Where(argument => argument.Phase == phase
+                && (isGlobalOption is null || argument.IsGlobalOption == isGlobalOption))
+            .Select(argument => argument.Value);
+
+    private static void ValidateAdditionalArguments(
+        IEnumerable<AdditionalCommandLineArgument> additionalArguments)
+    {
+        foreach (var argument in additionalArguments)
+        {
+            ArgumentNullException.ThrowIfNull(argument);
+
+            if (!Enum.IsDefined(argument.Phase))
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(CommandLineToolOptions.AdditionalArguments),
+                    argument.Phase,
+                    "The additional argument phase is not defined.");
+            }
+
+            ArgumentNullException.ThrowIfNull(argument.Value);
+
+            if (argument is { IsGlobalOption: true, Phase: CommandLinePhase.Terminal })
+            {
+                throw new ArgumentException(
+                    "A terminal additional argument cannot be a global option.",
+                    nameof(CommandLineToolOptions.AdditionalArguments));
+            }
+        }
     }
 }

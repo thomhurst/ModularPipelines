@@ -20,9 +20,16 @@ public abstract record CommandLineToolOptions
     public IReadOnlyList<string>? CommandParts { get; init; }
 
     /// <summary>
-    /// Gets used for providing switches and arguments to the tool.
+    /// Gets manual tokens appended after generated non-terminal options and operands,
+    /// and before <see cref="RunSettings"/> and terminal options.
     /// </summary>
     public IEnumerable<string>? Arguments { get; init; }
+
+    /// <summary>
+    /// Gets manual tokens whose placement is controlled by their command-line phase.
+    /// Use this for unmodeled options on strongly typed or generated option records.
+    /// </summary>
+    public IEnumerable<AdditionalCommandLineArgument>? AdditionalArguments { get; init; }
 
     /// <summary>
     /// Gets used for command line tools that support -- syntax.

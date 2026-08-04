@@ -225,6 +225,51 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Places_Additional_Arguments_By_Phase_And_Scope()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestMultiLevelCommandOptions
+        {
+            Context = "remote",
+            Reference = "build-reference",
+            Follow = true,
+            Arguments = ["manual"],
+            AdditionalArguments =
+            [
+                new("--global-unmodeled", IsGlobalOption: true),
+                new("early-unmodeled", CommandLinePhase.EarlyOperand),
+                new("--normal-unmodeled"),
+                new("--", CommandLinePhase.EndOfOptions),
+                new("pass-through", CommandLinePhase.Passthrough),
+            ],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo(
+            "docker --global-unmodeled --context remote buildx history logs "
+            + "early-unmodeled build-reference --normal-unmodeled --follow -- pass-through manual");
+    }
+
+    [Test]
+    public async Task Build_Places_Additional_Terminal_Arguments_Last()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestAttributeOptions
+        {
+            Force = true,
+            Arguments = ["manual"],
+            AdditionalArguments =
+            [
+                new("terminal", CommandLinePhase.Terminal),
+            ],
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo(
+            "mytool sub command --force manual terminal");
+    }
+
+    [Test]
     public async Task Build_Keeps_MultiLevel_Command_Chain_Atomic()
     {
         var builder = await GetService<ICommandLineBuilder>();
