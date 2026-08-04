@@ -1326,6 +1326,55 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Rejects_Generic_AddOptions_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+
+            public static class Registration
+            {
+                public static void Add<T>(IServiceCollection services) =>
+                    services.AddOptions<T>();
+            }
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "T",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Trimmed_Host_Rejects_Generic_OptionsBuilder_Usage()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            public sealed class Registration<T>(
+                Microsoft.Extensions.Options.OptionsBuilder<T> builder);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "T",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
     public async Task Single_Declaration_Partial_Command_Options_Report_Error()
     {
         var result = GeneratorTestRunner.Run(

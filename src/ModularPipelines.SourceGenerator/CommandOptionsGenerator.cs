@@ -60,9 +60,12 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .CreateSyntaxProvider(
                 static (node, _) => IsOptionsTypeUsageCandidate(node),
                 static (generatorContext, _) => GetOptionsTypeUsage(generatorContext))
-            .Where(static metadataName => metadataName is not null)
-            .Select(static (metadataName, _) => metadataName!);
-        var collectedOptionsTypeUsages = optionsTypeUsages.Collect();
+            .Where(static usage => usage is not null)
+            .Select(static (usage, _) => usage!);
+        var collectedOptionsTypeUsages = optionsTypeUsages
+            .Where(static usage => usage.MetadataName is not null)
+            .Select(static (usage, _) => usage.MetadataName!)
+            .Collect();
 
         var externalTypeCandidates = context.CompilationProvider
             .Combine(context.AnalyzerConfigOptionsProvider)
@@ -81,6 +84,20 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 static (optionsProvider, _) => IsTrimOrAotEnabled(optionsProvider)));
         var hasRuntimeReference = context.CompilationProvider.Select(
             static (compilation, _) => compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName) is not null);
+        context.RegisterSourceOutput(
+            optionsTypeUsages
+                .Where(static usage => usage.TypeParameterName is not null)
+                .Combine(hasRuntimeReference),
+            static (sourceContext, input) =>
+            {
+                if (input.Right)
+                {
+                    sourceContext.ReportDiagnostic(Diagnostic.Create(
+                        SkippedRuntimeMetadata,
+                        input.Left.Location,
+                        input.Left.TypeParameterName));
+                }
+            });
         var sourceCandidates = typeCandidates.Collect()
             .Combine(secretCandidates.Collect())
             .Select(static (input, _) => input.Left.AddRange(input.Right));
@@ -168,24 +185,44 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             hasKnownSecretAttribute: false);
     }
 
-    private static string? GetOptionsTypeUsage(GeneratorSyntaxContext context)
+    private static OptionsTypeUsage? GetOptionsTypeUsage(GeneratorSyntaxContext context)
+    {
+        var optionsTypeSymbol = GetOptionsTypeUsageSymbol(context);
+        if (optionsTypeSymbol is INamedTypeSymbol
+            {
+                TypeKind: not TypeKind.Error,
+                ContainingNamespace: not null,
+            } optionsType)
+        {
+            return new OptionsTypeUsage(
+                GetMetadataName(optionsType),
+                TypeParameterName: null,
+                context.Node.GetLocation());
+        }
+
+        var enclosingNamespace = context.SemanticModel
+            .GetEnclosingSymbol(context.Node.SpanStart)?
+            .ContainingNamespace?
+            .ToDisplayString();
+        return enclosingNamespace != OptionsNamespace
+               && optionsTypeSymbol is ITypeParameterSymbol typeParameter
+            ? new OptionsTypeUsage(
+                MetadataName: null,
+                typeParameter.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                context.Node.GetLocation())
+            : null;
+    }
+
+    private static ITypeSymbol? GetOptionsTypeUsageSymbol(GeneratorSyntaxContext context)
     {
         var symbol = context.SemanticModel.GetSymbolInfo(context.Node).Symbol;
-        var optionsTypeSymbol = symbol switch
+        return symbol switch
         {
             INamedTypeSymbol constructedType when IsOptionsTypeUsage(constructedType) =>
                 constructedType.TypeArguments[0],
             IMethodSymbol method => GetRegisteredOptionsType(method),
             _ => null,
         };
-        if (optionsTypeSymbol is not INamedTypeSymbol optionsType
-            || optionsType.TypeKind == TypeKind.Error
-            || optionsType.ContainingNamespace is null)
-        {
-            return null;
-        }
-
-        return GetMetadataName(optionsType);
     }
 
     private static bool IsOptionsTypeUsageCandidate(SyntaxNode node) =>
@@ -1448,6 +1485,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         string AssemblyIdentity,
         Location Location,
         TypeMetadata? Metadata);
+
+    private sealed record OptionsTypeUsage(
+        string? MetadataName,
+        string? TypeParameterName,
+        Location Location);
 
     private sealed class TypeMetadataCandidateComparer : IEqualityComparer<TypeMetadataCandidate>
     {
