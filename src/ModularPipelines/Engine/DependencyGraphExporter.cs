@@ -87,9 +87,42 @@ internal sealed class DependencyGraphExporter(
     private async Task<DependencyGraphDocument> CreateGraphAsync(
         CancellationToken cancellationToken)
     {
-        await using var planningDiscovery = await moduleDiscoveryPlanner
+        var planningDiscovery = await moduleDiscoveryPlanner
             .DiscoverAsync(cancellationToken)
             .ConfigureAwait(false);
+        DependencyGraphDocument graph;
+        try
+        {
+            graph = await CreateGraphDocumentAsync(planningDiscovery, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception graphException)
+            when (graphException is not (OutOfMemoryException or StackOverflowException))
+        {
+            try
+            {
+                await planningDiscovery.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (Exception cleanupException)
+                when (cleanupException is not (OutOfMemoryException or StackOverflowException))
+            {
+                throw new AggregateException(
+                    "Dependency graph creation and planning cleanup both failed.",
+                    graphException,
+                    cleanupException);
+            }
+
+            throw;
+        }
+
+        await planningDiscovery.DisposeAsync().ConfigureAwait(false);
+        return graph;
+    }
+
+    private async Task<DependencyGraphDocument> CreateGraphDocumentAsync(
+        PlannedModuleDiscovery planningDiscovery,
+        CancellationToken cancellationToken)
+    {
         var organizedModules = planningDiscovery.OrganizedModules;
         var ignoredModuleResolution = await ignoredModuleResultRegistrar
             .ResolveIgnoredModuleResultsAsync(

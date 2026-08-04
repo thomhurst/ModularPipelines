@@ -34,6 +34,7 @@ public class DependencyGraphExporterTests
     private static readonly object DependencySentinel = new();
     private static bool _externalConfigurationIncludesDependency;
     private static int _customPlanningAttributeEvaluations;
+    private static int _globalConfigurationMutations;
 
     private sealed class DependencyModule : Module<string>
     {
@@ -119,6 +120,25 @@ public class DependencyGraphExporterTests
     [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
     private sealed class HistoricalArtifactConsumerModule : Module<string>
     {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Graph export must not execute modules.");
+    }
+
+    [ModularPipelines.Attributes.DependsOn<HistoricalArtifactProducerModule>]
+    [ConsumesArtifact(typeof(HistoricalArtifactProducerModule), "graph-output")]
+    private sealed class AsyncHistoricalArtifactConsumerModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(async (_, _) =>
+            {
+                Interlocked.Increment(ref _asyncSkipConditionEvaluations);
+                await Task.Yield();
+                return SkipDecision.DoNotSkip;
+            })
+            .Build();
+
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
@@ -286,6 +306,20 @@ public class DependencyGraphExporterTests
     private sealed class ConfigurationMutationCounter
     {
         public int Count { get; set; }
+    }
+
+    private sealed class GlobalConfigurationMutationModule : Module<int>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            Interlocked.Increment(ref _globalConfigurationMutations);
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(_globalConfigurationMutations);
     }
 
     private sealed class InjectedConfigurationMutationModule(ConfigurationMutationCounter counter)
@@ -1773,6 +1807,38 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Artifact_Demand_Does_Not_Run_Async_Configured_Conditions()
+    {
+        _asyncSkipConditionEvaluations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton<IModuleResultRepository>(
+            new ModuleTypeHistoryRepository(typeof(HistoricalArtifactProducerModule)));
+        builder.ConfigurePipelineOptions(options => options with
+        {
+            SkippedModules = [nameof(HistoricalArtifactProducerModule)],
+        });
+        builder.AddModule<HistoricalArtifactProducerModule>();
+        builder.AddModule<AsyncHistoricalArtifactConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var nodes = document.RootElement.GetProperty("nodes").EnumerateArray().ToArray();
+        var producerNode = nodes.Single(node =>
+            node.GetProperty("name").GetString() == nameof(HistoricalArtifactProducerModule));
+        var consumerNode = nodes.Single(node =>
+            node.GetProperty("name").GetString() == nameof(AsyncHistoricalArtifactConsumerModule));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(producerNode.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(consumerNode.GetProperty("skipped").GetBoolean()).IsTrue();
+            await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
     public async Task Render_Does_Not_Complete_Runtime_Module_Results()
     {
         var repository = new ChangingHistoryRepository();
@@ -2515,6 +2581,31 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(counter.Count).IsEqualTo(1);
+            await Assert.That(result.ValueOrDefault).IsEqualTo(1);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Replay_Configuration_Against_Global_State()
+    {
+        _globalConfigurationMutations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<GlobalConfigurationMutationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var mutationsAfterActivation = _globalConfigurationMutations;
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        _ = await pipeline.RunAsync();
+        var module = pipeline.Services.GetServices<IModule>()
+            .OfType<GlobalConfigurationMutationModule>()
+            .Single();
+        var result = await module;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(mutationsAfterActivation).IsEqualTo(1);
+            await Assert.That(_globalConfigurationMutations).IsEqualTo(1);
             await Assert.That(result.ValueOrDefault).IsEqualTo(1);
         }
     }
@@ -3410,6 +3501,31 @@ public class DependencyGraphExporterTests
         using (Assert.Multiple())
         {
             await Assert.That(failures.OfType<OperationCanceledException>()).HasSingleItem();
+            await Assert.That(failures.Any(failure =>
+                    failure.Message == "Planning disposal failed."))
+                .IsTrue();
+        }
+
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => pipeline.DisposeAsync().AsTask());
+    }
+
+    [Test]
+    public async Task Render_Preserves_Post_Discovery_And_Cleanup_Failures()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<ThrowingDisposablePlanningModule>();
+        builder.AddModule<InvalidDynamicDependencyModule>();
+        var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var failures = exception!.Flatten().InnerExceptions;
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(failures.OfType<ModuleNotRegisteredException>()).HasSingleItem();
             await Assert.That(failures.Any(failure =>
                     failure.Message == "Planning disposal failed."))
                 .IsTrue();

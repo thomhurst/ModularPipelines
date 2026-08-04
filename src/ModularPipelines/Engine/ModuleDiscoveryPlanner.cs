@@ -29,6 +29,9 @@ internal sealed class ModuleDiscoveryPlanner(
     IEnumerable<ModulePlanningFactory> planningFactories)
 {
     private const byte StoreInstanceFieldOpCode = 0x7D;
+    private const byte LoadStaticFieldOpCode = 0x7E;
+    private const byte LoadStaticFieldAddressOpCode = 0x7F;
+    private const byte StoreStaticFieldOpCode = 0x80;
 
     private readonly IReadOnlyList<IModule> _modules = modules
         .Distinct<IModule>(ReferenceEqualityComparer.Instance)
@@ -610,9 +613,11 @@ internal sealed class ModuleDiscoveryPlanner(
             if (module is IPlanningModuleCopyProvider planningCopyProvider)
             {
                 if (!HasCustomPlanningCopy(runtimeModule)
-                    && HasServiceProviderOwnedState(
-                        module,
-                        trackingServiceProvider.IsServiceProviderOwned))
+                    && (HasServiceProviderOwnedState(
+                            module,
+                            trackingServiceProvider.IsServiceProviderOwned)
+                        || (copyProvider.IsConfigurationInitialized
+                            && ConfigurationTouchesStaticState(runtimeModule))))
                 {
                     var runtimeConfiguration = runtimeModule.Configuration;
                     RejectRuntimeBoundPlanningCondition(runtimeModule, copyProvider);
@@ -833,6 +838,54 @@ internal sealed class ModuleDiscoveryPlanner(
                 {
                     return true;
                 }
+            }
+        }
+
+        return false;
+    }
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2026",
+        Justification = "Missing or trimmed Configure bodies conservatively produce no detected static access.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "The already-loaded module Configure method is inspected only to avoid replaying global state.")]
+    private static bool ConfigurationTouchesStaticState(IModule module)
+    {
+        var method = module.GetType().GetMethod(
+            "Configure",
+            BindingFlags.Instance | BindingFlags.NonPublic);
+        var il = method?.GetMethodBody()?.GetILAsByteArray();
+        if (method is null || il is null)
+        {
+            return false;
+        }
+
+        for (var index = 0; index <= il.Length - sizeof(int) - 1; index++)
+        {
+            if (il[index] is not (LoadStaticFieldOpCode
+                or LoadStaticFieldAddressOpCode
+                or StoreStaticFieldOpCode))
+            {
+                continue;
+            }
+
+            try
+            {
+                var field = method.Module.ResolveField(
+                    BitConverter.ToInt32(il, index + 1),
+                    method.DeclaringType?.GetGenericArguments(),
+                    method.GetGenericArguments());
+                if (field?.IsStatic == true)
+                {
+                    return true;
+                }
+            }
+            catch (ArgumentException)
+            {
+                // The opcode-shaped byte was part of another instruction's operand.
             }
         }
 

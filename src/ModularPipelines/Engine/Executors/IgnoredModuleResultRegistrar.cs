@@ -195,9 +195,17 @@ internal class IgnoredModuleResultRegistrar(
                     continue;
                 }
 
-                var skipDecision = await _modulePlanningSkipEvaluator
-                    .EvaluateAsync(runnableModule.Module, cancellationToken)
-                    .ConfigureAwait(false);
+                if (!planningSkipDecisions.TryGetValue(runnableModule.Module, out var skipDecision))
+                {
+                    skipDecision = await EvaluatePlanningSkipAsync(
+                            runnableModule.Module,
+                            metadataRegistry,
+                            historyModules,
+                            cancellationToken)
+                        .ConfigureAwait(false);
+                    planningSkipDecisions[runnableModule.Module] = skipDecision;
+                }
+
                 if (skipDecision?.ShouldSkip != true)
                 {
                     nextConsumedArtifactProducerTypes.UnionWith(consumedProducerTypes);
@@ -416,8 +424,11 @@ internal class IgnoredModuleResultRegistrar(
 
             if (!planningSkipDecisions.TryGetValue(dependencyModule, out var skipDecision))
             {
-                skipDecision = await _modulePlanningSkipEvaluator
-                    .EvaluateAsync(dependencyModule, cancellationToken)
+                skipDecision = await EvaluatePlanningSkipAsync(
+                        dependencyModule,
+                        metadataRegistry,
+                        historyModules,
+                        cancellationToken)
                     .ConfigureAwait(false);
                 planningSkipDecisions[dependencyModule] = skipDecision;
             }
@@ -452,6 +463,18 @@ internal class IgnoredModuleResultRegistrar(
     private readonly record struct RequiredDependencyDemand(
         bool IsUnrecoverable,
         bool HasPendingDependency);
+
+    private Task<SkipDecision?> EvaluatePlanningSkipAsync(
+        IModule module,
+        IModuleMetadataRegistry metadataRegistry,
+        IReadOnlyDictionary<IModule, IModule>? historyModules,
+        CancellationToken cancellationToken) =>
+        historyModules is null
+            ? _modulePlanningSkipEvaluator.EvaluateAsync(module, cancellationToken)
+            : _modulePlanningSkipEvaluator.EvaluateGraphSafeAsync(
+                module,
+                metadataRegistry,
+                cancellationToken);
 
     private static IModule GetHistoryModule(
         IModule module,
