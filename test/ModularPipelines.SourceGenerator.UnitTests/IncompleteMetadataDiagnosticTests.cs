@@ -169,13 +169,16 @@ public class IncompleteMetadataDiagnosticTests
 
                 namespace External;
 
+                [Experimental("LIBPROPERTYTYPE001")]
+                public sealed class ExperimentalValue;
+
                 [Experimental("LIBBASE001")]
                 public class ExperimentalBaseOptions
                     : ModularPipelines.Options.CommandLineToolOptions
                 {
                     [Experimental("LIBPROPERTY001")]
                     [ModularPipelines.Attributes.CliOption("--value")]
-                    public string Value { get; } = "";
+                    public System.Collections.Generic.List<ExperimentalValue[]> Value { get; } = [];
                 }
 
                 [Experimental("LIBOUTER001")]
@@ -199,10 +202,10 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(compilationDiagnostics
                     .Where(static diagnostic => diagnostic.Id is
                         "LIBASSEMBLY001" or "LIBBASE001" or "LIBOUTER001"
-                        or "LIBPROPERTY001" or "LIBTYPE001"))
+                        or "LIBPROPERTY001" or "LIBPROPERTYTYPE001" or "LIBTYPE001"))
                 .IsEmpty();
             await Assert.That(generatedSource).Contains(
-                "#pragma warning disable CS0612, CS0618, LIBASSEMBLY001, LIBBASE001, LIBOUTER001, LIBPROPERTY001, LIBTYPE001");
+                "#pragma warning disable CS0612, CS0618, LIBASSEMBLY001, LIBBASE001, LIBOUTER001, LIBPROPERTY001, LIBPROPERTYTYPE001, LIBTYPE001");
             await Assert.That(generatedSource).Contains(
                 "typeof(global::External.ExperimentalContainer.ExperimentalOptions)");
         }
@@ -709,6 +712,21 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Allows_Unrelated_Partial_Type()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            CommandInfrastructure,
+            "public partial class Program;",
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            });
+
+        await Assert.That(result.Diagnostics).IsEmpty();
+    }
+
+    [Test]
     public async Task Aot_Host_Rejects_Partial_Unannotated_Options_Type()
     {
         var result = GeneratorTestHarness.Run(
@@ -717,9 +735,9 @@ public class IncompleteMetadataDiagnosticTests
             """
             namespace Microsoft.Extensions.Options
             {
-                public interface IOptions<out T>
+                public interface IOptions<out TOptions>
                 {
-                    T Value { get; }
+                    TOptions Value { get; }
                 }
             }
 
@@ -749,9 +767,9 @@ public class IncompleteMetadataDiagnosticTests
             """
             namespace Microsoft.Extensions.Options
             {
-                public interface IOptions<out T>
+                public interface IOptions<out TOptions>
                 {
-                    T Value { get; }
+                    TOptions Value { get; }
                 }
             }
 

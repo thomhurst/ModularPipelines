@@ -16,6 +16,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private const int RuntimeMetadataSchemaVersion = 1;
 
     internal const string CommandLineToolOptionsFullName = "ModularPipelines.Options.CommandLineToolOptions";
+    internal const string OptionsInterfaceMetadataName = "IOptions`1";
+    internal const string OptionsNamespace = "Microsoft.Extensions.Options";
     internal const string CliOptionAttributeFullName = "ModularPipelines.Attributes.CliOptionAttribute";
     internal const string CliFlagAttributeFullName = "ModularPipelines.Attributes.CliFlagAttribute";
     internal const string CliArgumentAttributeFullName = "ModularPipelines.Attributes.CliArgumentAttribute";
@@ -50,6 +52,16 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Where(static item => item is not null)
             .Select(static (item, _) => item!)
             .WithComparer(TypeMetadataCandidateComparer.Instance);
+        var optionsTypeUsages = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                static (node, _) => node is GenericNameSyntax
+                {
+                    Identifier.ValueText: "IOptions",
+                    TypeArgumentList.Arguments.Count: 1,
+                },
+                static (generatorContext, _) => GetOptionsTypeUsage(generatorContext))
+            .Where(static metadataName => metadataName is not null)
+            .Select(static (metadataName, _) => metadataName!);
 
         var externalTypeCandidates = context.CompilationProvider
             .Combine(context.AnalyzerConfigOptionsProvider)
@@ -63,17 +75,19 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Combine(externalTypeCandidates)
             .Select(static (input, _) => input.Left.AddRange(input.Right))
             .Combine(hasRuntimeReference);
-        var generationInputs = candidates.Combine(
-            context.AnalyzerConfigOptionsProvider.Select(
+        var generationInputs = candidates
+            .Combine(optionsTypeUsages.Collect())
+            .Combine(context.AnalyzerConfigOptionsProvider.Select(
                 static (options, _) => IsTrimOrAotEnabled(options)));
         context.RegisterSourceOutput(generationInputs, static (sourceContext, input) =>
         {
-            if (!input.Left.Right)
+            if (!input.Left.Left.Right)
             {
                 return;
             }
 
-            var candidates = input.Left.Left;
+            var candidates = input.Left.Left.Left;
+            var optionsTypeMetadataNames = new HashSet<string>(input.Left.Right, StringComparer.Ordinal);
             var requiresCompleteMetadata = input.Right;
             var ambiguousMetadataNames = new HashSet<string>(candidates
                 .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
@@ -113,7 +127,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 .Select(static candidate => candidate.Metadata)
                 .OfType<TypeMetadata>()
                 .ToImmutableArray();
-            ReportIncompleteMetadata(sourceContext, unambiguousCandidates, requiresCompleteMetadata);
+            ReportIncompleteMetadata(
+                sourceContext,
+                unambiguousCandidates,
+                optionsTypeMetadataNames,
+                requiresCompleteMetadata);
             sourceContext.AddSource("ModularPipelines.RuntimeMetadata.g.cs", Generate(items));
         });
     }
@@ -133,6 +151,22 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             context.SemanticModel.GetDeclaredSymbol(context.Node) as INamedTypeSymbol,
             context.SemanticModel.Compilation,
             hasKnownSecretAttribute: false);
+    }
+
+    private static string? GetOptionsTypeUsage(GeneratorSyntaxContext context)
+    {
+        if (context.SemanticModel.GetSymbolInfo(context.Node).Symbol is not INamedTypeSymbol constructedType
+            || constructedType.TypeArguments.Length != 1
+            || constructedType.TypeArguments[0] is not INamedTypeSymbol optionsType
+            || constructedType.OriginalDefinition.MetadataName != OptionsInterfaceMetadataName
+            || constructedType.OriginalDefinition.ContainingNamespace?.ToDisplayString() != OptionsNamespace
+            || optionsType.TypeKind == TypeKind.Error
+            || optionsType.ContainingNamespace is null)
+        {
+            return null;
+        }
+
+        return GetMetadataName(optionsType);
     }
 
     private static TypeMetadataCandidate? GetTypeCandidate(GeneratorAttributeSyntaxContext context)
@@ -580,6 +614,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void ReportIncompleteMetadata(
         SourceProductionContext context,
         IReadOnlyCollection<TypeMetadataCandidate> candidates,
+        IReadOnlyCollection<string> optionsTypeMetadataNames,
         bool requiresCompleteMetadata)
     {
         foreach (var candidate in candidates
@@ -588,7 +623,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                      .Select(static group => group.First()))
         {
             var item = candidate.Metadata!;
-            if (requiresCompleteMetadata && !item.CanRegisterSecretCoverage)
+            if (requiresCompleteMetadata
+                && !item.CanRegisterSecretCoverage
+                && optionsTypeMetadataNames.Contains(item.MetadataName))
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     SkippedRuntimeMetadata,
@@ -895,19 +932,59 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static EquatableArray<string> GetExperimentalDiagnosticIds(INamedTypeSymbol type)
     {
         var typeHierarchy = GetBaseTypes(type).ToArray();
+        var properties = typeHierarchy
+            .SelectMany(static current => current.GetMembers().OfType<IPropertySymbol>())
+            .ToArray();
+        var propertyTypes = properties
+            .SelectMany(static property => GetReferencedNamedTypes(property.Type))
+            .ToArray();
         return type.ContainingAssembly.GetAttributes()
             .Concat(typeHierarchy
                 .SelectMany(GetContainingTypes)
                 .SelectMany(static current => current.GetAttributes()))
-            .Concat(typeHierarchy
-                .SelectMany(static current => current.GetMembers().OfType<IPropertySymbol>())
-                .SelectMany(static property => property.GetAttributes()))
+            .Concat(properties.SelectMany(static property => property.GetAttributes()))
+            .Concat(propertyTypes
+                .SelectMany(GetContainingTypes)
+                .SelectMany(static current => current.GetAttributes()))
+            .Concat(propertyTypes
+                .SelectMany(static propertyType => propertyType.ContainingAssembly?.GetAttributes() ?? []))
             .Where(static attribute => IsAttribute(attribute, ExperimentalAttributeFullName))
             .Select(GetConstructorString)
             .OfType<string>()
             .Distinct(StringComparer.Ordinal)
             .OrderBy(static diagnosticId => diagnosticId, StringComparer.Ordinal)
             .ToImmutableArray();
+    }
+
+    private static IEnumerable<INamedTypeSymbol> GetReferencedNamedTypes(ITypeSymbol type)
+    {
+        var pendingTypes = new Stack<ITypeSymbol>();
+        pendingTypes.Push(type);
+        while (pendingTypes.Count > 0)
+        {
+            switch (pendingTypes.Pop())
+            {
+                case INamedTypeSymbol namedType:
+                    yield return namedType;
+                    if (namedType.ContainingType is not null)
+                    {
+                        pendingTypes.Push(namedType.ContainingType);
+                    }
+
+                    foreach (var typeArgument in namedType.TypeArguments)
+                    {
+                        pendingTypes.Push(typeArgument);
+                    }
+
+                    break;
+                case IArrayTypeSymbol arrayType:
+                    pendingTypes.Push(arrayType.ElementType);
+                    break;
+                case IPointerTypeSymbol pointerType:
+                    pendingTypes.Push(pointerType.PointedAtType);
+                    break;
+            }
+        }
     }
 
     private static IEnumerable<INamedTypeSymbol> GetBaseTypes(INamedTypeSymbol type)
