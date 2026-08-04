@@ -489,12 +489,18 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         // Get retry policy if applicable
         var retryPolicy = GetRetryPolicy<T>(config, moduleContext);
         var moduleAttemptCount = 0;
+        ModuleTimeoutException? abandonedAttemptTimeout = null;
 
         // Keep timeout enforcement inside the retry policy so each attempt gets a fresh budget
         // and policy-owned backoff delays are not mistaken for unresponsive module execution.
-        async Task<(T? Value, ModuleTimeoutException? NonRetryableTimeout)> ExecuteModuleAttempt(CancellationToken ct)
+        async Task<T> ExecuteModuleAttempt(CancellationToken ct)
         {
             Interlocked.Increment(ref moduleAttemptCount);
+
+            if (abandonedAttemptTimeout is not null)
+            {
+                throw abandonedAttemptTimeout;
+            }
 
             var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
                 attemptToken => module.ExecuteAsync(moduleContext, attemptToken),
@@ -512,27 +518,20 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
                 if (!timeoutResult.WasCancellationTokenRespected)
                 {
-                    return (default, timeoutException);
+                    abandonedAttemptTimeout = timeoutException;
                 }
 
                 throw timeoutException;
             }
 
-            return (timeoutResult.Value, null);
+            return timeoutResult.Value!;
         }
 
         try
         {
-            var executionResult = retryPolicy != null
+            return retryPolicy != null
                 ? await retryPolicy.ExecuteAsync(ExecuteModuleAttempt, cancellationToken).ConfigureAwait(false)
                 : await ExecuteModuleAttempt(cancellationToken).ConfigureAwait(false);
-
-            if (executionResult.NonRetryableTimeout is not null)
-            {
-                throw executionResult.NonRetryableTimeout;
-            }
-
-            return executionResult.Value!;
         }
         finally
         {

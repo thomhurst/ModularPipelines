@@ -162,9 +162,13 @@ internal static class TimeoutHelper
             }
             catch (TimeoutException)
             {
-                // Task still didn't complete - definitely not respecting the token
-                taskRespondedDuringGrace = false;
-                TaskObservation.ObserveFault(executionTask);
+                // WaitAsync also propagates a TimeoutException thrown by the task itself.
+                // Only an incomplete task means the grace period actually expired.
+                taskRespondedDuringGrace = executionTask.IsCompleted;
+                if (!taskRespondedDuringGrace)
+                {
+                    TaskObservation.ObserveFault(executionTask);
+                }
             }
             catch (OperationCanceledException)
             {
