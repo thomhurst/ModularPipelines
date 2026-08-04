@@ -104,13 +104,32 @@ internal class OptionsValidator : IOptionsValidator
         return result;
     }
 
-    private static void ValidateRunReportOptions(RunReportOptions options, ValidationResult result)
+    private static void ValidateRunReportOptions(
+        RunReportOptions options,
+        ValidationResult result)
     {
         if (options.HistoryRetention < 0)
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
                 $"RunReport.HistoryRetention cannot be negative. Current value: {options.HistoryRetention}"));
+        }
+
+        if (options.GlobalHistoryRetention < 0)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.GlobalHistoryRetention cannot be negative. Current value: {options.GlobalHistoryRetention}"));
+        }
+
+        if (options.HistoryRetention > 0
+            && options.GlobalHistoryRetention > 0
+            && options.GlobalHistoryRetention < options.HistoryRetention)
+        {
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.Options,
+                $"RunReport.GlobalHistoryRetention ({options.GlobalHistoryRetention}) cannot be lower than " +
+                $"RunReport.HistoryRetention ({options.HistoryRetention})."));
         }
 
         if (options.IncludeModuleOutput && options.MaxOutputBytesPerModule <= 0)
@@ -120,7 +139,8 @@ internal class OptionsValidator : IOptionsValidator
                 $"RunReport.MaxOutputBytesPerModule must be positive. Current value: {options.MaxOutputBytesPerModule}"));
         }
 
-        if (options.HistoryRetention > 0 && string.IsNullOrWhiteSpace(options.HistoryDirectory))
+        if (options.HistoryRetention > 0
+            && string.IsNullOrWhiteSpace(options.HistoryDirectory))
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
