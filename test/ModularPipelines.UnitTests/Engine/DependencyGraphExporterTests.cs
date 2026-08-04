@@ -17,6 +17,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.Plugins;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Engine;
@@ -44,6 +45,8 @@ public class DependencyGraphExporterTests
     private static int _planningCompanionAttributeConstructions;
     private static int _planningPresenceAttributeConstructions;
     private static int _staticPlanningSkipEvaluations;
+    private static int _customDependencyAttributeConstructions;
+    private static int _customDependencyPredicateEvaluations;
 
     private sealed class ConstructorMutationState
     {
@@ -196,6 +199,28 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("attribute-presence-consumer");
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class RuntimeDependencyPredicateAttribute : DependsOnBaseAttribute
+    {
+        public RuntimeDependencyPredicateAttribute() =>
+            Interlocked.Increment(ref _customDependencyAttributeConstructions);
+
+        public override bool ShouldDependOn(Type candidateModule, IDependencyContext context)
+        {
+            Interlocked.Increment(ref _customDependencyPredicateEvaluations);
+            return candidateModule == typeof(DependencyModule);
+        }
+    }
+
+    [RuntimeDependencyPredicate]
+    private sealed class RuntimePredicateConsumerModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("runtime-predicate-consumer");
     }
 
     private sealed class HistoricalDependencyModule : Module<string>
@@ -492,6 +517,35 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult(Environment.GetEnvironmentVariable(EnvironmentVariableName));
+    }
+
+    private sealed class CoreApiConfigurationMutationModule : Module<int>
+    {
+        private readonly PlanningMutationPlugin _plugin = new();
+
+        protected override ModuleConfiguration Configure()
+        {
+            PluginRegistry.Register(_plugin);
+            return ModuleConfiguration.Default;
+        }
+
+        protected internal override Task<int> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult(PluginRegistry.Plugins.Count);
+    }
+
+    private sealed class PlanningMutationPlugin : IModularPipelinesPlugin
+    {
+        public string Name => nameof(PlanningMutationPlugin);
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+        }
+
+        public void ConfigurePipeline(PipelineBuilder pipelineBuilder)
+        {
+        }
     }
 
     private sealed class StaticRuntimeBoundPlanningConditionModule : Module<string>
@@ -2736,6 +2790,36 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Render_Defers_Custom_Dependency_Predicates()
+    {
+        _customDependencyAttributeConstructions = 0;
+        _customDependencyPredicateEvaluations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule<RuntimePredicateConsumerModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var constructionsBeforeRender = _customDependencyAttributeConstructions;
+        var evaluationsBeforeRender = _customDependencyPredicateEvaluations;
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(_customDependencyAttributeConstructions).IsEqualTo(constructionsBeforeRender);
+            await Assert.That(_customDependencyPredicateEvaluations).IsEqualTo(evaluationsBeforeRender);
+        }
+
+        _ = await pipeline.RunAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(_customDependencyAttributeConstructions).IsGreaterThan(constructionsBeforeRender);
+            await Assert.That(_customDependencyPredicateEvaluations).IsGreaterThan(evaluationsBeforeRender);
+        }
+    }
+
+    [Test]
     public async Task Render_Cascades_Skipped_Dynamic_Dependency()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -3078,6 +3162,34 @@ public class DependencyGraphExporterTests
             Environment.SetEnvironmentVariable(
                 FrameworkConfigurationMutationModule.EnvironmentVariableName,
                 originalValue);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Replay_Configuration_Through_Stateful_Core_Api()
+    {
+        var scanner = typeof(ModuleDiscoveryPlanner).GetMethod(
+            "ConfigurationTouchesStaticState",
+            BindingFlags.NonPublic | BindingFlags.Static)!;
+        var touchesStaticState = (bool) scanner.Invoke(
+            null,
+            [new CoreApiConfigurationMutationModule()])!;
+        await Assert.That(touchesStaticState).IsTrue();
+
+        using var pluginScope = PluginRegistry.BeginIsolatedScope();
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CoreApiConfigurationMutationModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        var registrationsAfterActivation = PluginRegistry.Plugins.Count;
+        PluginRegistry.Clear();
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(registrationsAfterActivation).IsEqualTo(1);
+            await Assert.That(PluginRegistry.Plugins).Count().IsEqualTo(0);
         }
     }
 

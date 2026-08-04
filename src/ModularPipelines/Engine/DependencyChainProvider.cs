@@ -8,15 +8,18 @@ internal class DependencyChainProvider : IDependencyChainProvider
 {
     private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
+    private readonly bool _planningSafeOnly;
 
     public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = [];
 
     public DependencyChainProvider(
         IModuleMetadataRegistry metadataRegistry,
-        IModuleDependencyRegistry dependencyRegistry)
+        IModuleDependencyRegistry dependencyRegistry,
+        bool planningSafeOnly = false)
     {
         _metadataRegistry = metadataRegistry;
         _dependencyRegistry = dependencyRegistry;
+        _planningSafeOnly = planningSafeOnly;
     }
 
     public void Initialize(IReadOnlyList<IModule> modules)
@@ -73,7 +76,8 @@ internal class DependencyChainProvider : IDependencyChainProvider
             moduleDependencyModel.Module,
             availableModuleTypes,
             _dependencyRegistry,
-            dependencyContext: _metadataRegistry);
+            dependencyContext: _metadataRegistry,
+            planningSafeOnly: _planningSafeOnly);
 
         foreach (var dependencyType in dependencies
                      .Select(dependency => dependency.DependencyType)

@@ -19,6 +19,8 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     private readonly IModuleAttributeEventService _attributeEventService;
     private readonly bool _planningSafeOnly;
 
+    internal bool PlanningSafeOnly => _planningSafeOnly;
+
     public ModuleMetadataRegistry(
         IModuleAttributeEventService attributeEventService,
         bool planningSafeOnly = false)

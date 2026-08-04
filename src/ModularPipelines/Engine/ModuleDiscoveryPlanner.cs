@@ -88,7 +88,8 @@ internal sealed class ModuleDiscoveryPlanner(
                 planningSafeOnly: true);
             var dependencyChainProvider = new DependencyChainProvider(
                 planningMetadataRegistry,
-                planningDependencyRegistry);
+                planningDependencyRegistry,
+                planningSafeOnly: true);
             var registrationEventExecutor = new RegistrationEventExecutor(
                 attributeEventService,
                 attributeEventInvoker,
@@ -1005,7 +1006,7 @@ internal sealed class ModuleDiscoveryPlanner(
             }
 
             return calledMethod is ConstructorInfo
-                   || !IsKnownPlanningSafeAssembly(calledMethod.Module.Assembly);
+                   || !IsKnownPlanningSafeConfigurationMethod(calledMethod);
         }
         catch (ArgumentException)
         {
@@ -1013,8 +1014,10 @@ internal sealed class ModuleDiscoveryPlanner(
         }
     }
 
-    private static bool IsKnownPlanningSafeAssembly(Assembly assembly)
-        => assembly == typeof(ModuleConfiguration).Assembly;
+    private static bool IsKnownPlanningSafeConfigurationMethod(MethodBase method) =>
+        method.DeclaringType == typeof(ModuleConfiguration)
+        || method.DeclaringType == typeof(ModuleConfigurationBuilder)
+        || method.DeclaringType == typeof(AdvancedModuleConfigurationBuilder);
 
     private static OpCode ReadOpCode(byte[] il, ref int offset)
     {
