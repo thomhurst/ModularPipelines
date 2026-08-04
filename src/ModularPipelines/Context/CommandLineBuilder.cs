@@ -83,12 +83,15 @@ internal sealed class CommandLineBuilder(
             options,
             ref emittedOptionTerminator,
             out var passthroughOptionTerminatorIndex).ToList();
+        var modelEmittedOptionTerminator = emittedOptionTerminator;
+        var terminalArgumentTerminatorState = emittedOptionTerminator
+                                              || options.ArgumentsContainOptionTerminator;
         var terminalArgumentArgs = _commandArgumentBuilder.BuildArguments(
             [.. terminalCommandModel.Where(static part => part is ArgumentPart)],
             options,
-            ref emittedOptionTerminator,
+            ref terminalArgumentTerminatorState,
             out var terminalArgumentOptionTerminatorIndex);
-        var modelEmittedOptionTerminator = emittedOptionTerminator;
+        modelEmittedOptionTerminator |= terminalArgumentOptionTerminatorIndex is not null;
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument
         // or declared in the manual arguments or run settings; leave manual positional operands in place.
@@ -113,7 +116,7 @@ internal sealed class CommandLineBuilder(
             manualArgs,
             extractedManualOptions,
             terminatorEmittedBeforeProperties,
-            emittedOptionTerminator,
+            modelEmittedOptionTerminator,
             hasOptionTerminator);
         var hasRenderedCommandOptions = ContainsRecognizedManualOption(
             propertyArgs,
@@ -146,10 +149,9 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(commandParts);
         allArgs.AddRange(propertyArgs);
 
-        // 5. Ordinary manual arguments are tool inputs, so keep them ahead of structured
-        // pass-through operands. Explicit option/terminator modes retain their positional
-        // operands after the structured arguments while recognized options are hoisted above.
-        AddManualAndPassthroughArguments(allArgs, manualArgs, passthroughArgs, options);
+        // 5. Keep pass-through values ahead of ordinary manual arguments. Recognized manual
+        // tool options have already been extracted and inserted before any option terminator.
+        AddManualAndPassthroughArguments(allArgs, manualArgs, passthroughArgs);
 
         // 6. Render RunSettings as option-terminated pass-through arguments.
         allArgs.AddRange(runSettingsArgs);
@@ -264,16 +266,8 @@ internal sealed class CommandLineBuilder(
     private static void AddManualAndPassthroughArguments(
         List<string> allArgs,
         IReadOnlyCollection<string> manualArgs,
-        IReadOnlyCollection<string> passthroughArgs,
-        CommandLineToolOptions options)
+        IReadOnlyCollection<string> passthroughArgs)
     {
-        if (!options.ArgumentsContainToolOptions && !options.ArgumentsContainOptionTerminator)
-        {
-            allArgs.AddRange(manualArgs);
-            allArgs.AddRange(passthroughArgs);
-            return;
-        }
-
         allArgs.AddRange(passthroughArgs);
         allArgs.AddRange(manualArgs);
     }
