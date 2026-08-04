@@ -12,7 +12,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<CosmosDBSqlDatabaseResource>> Database(
+    public async Task<ArmOperation<CosmosDBSqlDatabaseResource>> DatabaseAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, CosmosDBSqlDatabaseCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -25,7 +25,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await account.Value.GetCosmosDBSqlDatabases().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlRoleAssignmentResource>> RoleAssignment(
+    public async Task<ArmOperation<CosmosDBSqlRoleAssignmentResource>> RoleAssignmentAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, CosmosDBSqlRoleAssignmentCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -38,7 +38,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await account.Value.GetCosmosDBSqlRoleAssignments().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlRoleDefinitionResource>> RoleDefinition(
+    public async Task<ArmOperation<CosmosDBSqlRoleDefinitionResource>> RoleDefinitionAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, CosmosDBSqlRoleDefinitionCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -51,7 +51,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await account.Value.GetCosmosDBSqlRoleDefinitions().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlContainerResource>> Container(
+    public async Task<ArmOperation<CosmosDBSqlContainerResource>> ContainerAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, CosmosDBSqlContainerCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -65,7 +65,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await database.Value.GetCosmosDBSqlContainers().CreateOrUpdateAsync(WaitUntil.Completed, containerName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlTriggerResource>> Trigger(
+    public async Task<ArmOperation<CosmosDBSqlTriggerResource>> TriggerAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, string triggerName, CosmosDBSqlTriggerCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -80,7 +80,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await container.Value.GetCosmosDBSqlTriggers().CreateOrUpdateAsync(WaitUntil.Completed, triggerName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlStoredProcedureResource>> StoredProcedure(
+    public async Task<ArmOperation<CosmosDBSqlStoredProcedureResource>> StoredProcedureAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, string storedProcedureName, CosmosDBSqlStoredProcedureCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -95,7 +95,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await container.Value.GetCosmosDBSqlStoredProcedures().CreateOrUpdateAsync(WaitUntil.Completed, storedProcedureName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlUserDefinedFunctionResource>> UserDefinedFunction(
+    public async Task<ArmOperation<CosmosDBSqlUserDefinedFunctionResource>> UserDefinedFunctionAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, string functionName, CosmosDBSqlUserDefinedFunctionCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -110,7 +110,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await container.Value.GetCosmosDBSqlUserDefinedFunctions().CreateOrUpdateAsync(WaitUntil.Completed, functionName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlDatabaseThroughputSettingResource>> DatabaseThroughputSetting(
+    public async Task<ArmOperation<CosmosDBSqlDatabaseThroughputSettingResource>> DatabaseThroughputSettingAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, ThroughputSettingsUpdateData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -123,7 +123,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await database.Value.GetCosmosDBSqlDatabaseThroughputSetting().CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlContainerThroughputSettingResource>> ContainerThroughputSetting(
+    public async Task<ArmOperation<CosmosDBSqlContainerThroughputSettingResource>> ContainerThroughputSettingAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, ThroughputSettingsUpdateData properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -137,7 +137,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await container.Value.GetCosmosDBSqlContainerThroughputSetting().CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBSqlClientEncryptionKeyResource>> EncryptionKey(
+    public async Task<ArmOperation<CosmosDBSqlClientEncryptionKeyResource>> EncryptionKeyAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, string encryptionKeyName, CosmosDBSqlClientEncryptionKeyCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -151,7 +151,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await database.Value.GetCosmosDBSqlClientEncryptionKeys().CreateOrUpdateAsync(WaitUntil.Completed, encryptionKeyName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<CosmosDBTableResource>> Table(
+    public async Task<ArmOperation<CosmosDBTableResource>> TableAsync(
         AzureResourceIdentifier azureResourceIdentifier, string databaseName, CosmosDBTableCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
@@ -164,7 +164,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await account.Value.GetCosmosDBTables().CreateOrUpdateAsync(WaitUntil.Completed, databaseName, properties, cancellationToken);
     }
 
-    public async Task<Response<CosmosDBSqlContainerResource>> GetContainer(AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, CancellationToken cancellationToken = default)
+    public async Task<Response<CosmosDBSqlContainerResource>> GetContainerAsync(AzureResourceIdentifier azureResourceIdentifier, string databaseName, string containerName, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(databaseName);
@@ -176,7 +176,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await database.Value.GetCosmosDBSqlContainerAsync(containerName, cancellationToken);
     }
 
-    public async Task<Response<CosmosDBSqlDatabaseResource>> GetDatabase(AzureResourceIdentifier azureResourceIdentifier, string databaseName, CancellationToken cancellationToken = default)
+    public async Task<Response<CosmosDBSqlDatabaseResource>> GetDatabaseAsync(AzureResourceIdentifier azureResourceIdentifier, string databaseName, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(databaseName);
@@ -187,7 +187,7 @@ public class AzureCosmosSqlProvisioner : BaseAzureProvisioner
         return await account.Value.GetCosmosDBSqlDatabaseAsync(databaseName, cancellationToken);
     }
 
-    public async Task<Response<CosmosDBAccountResource>> GetAccount(AzureResourceIdentifier azureResourceIdentifier, CancellationToken cancellationToken = default)
+    public async Task<Response<CosmosDBAccountResource>> GetAccountAsync(AzureResourceIdentifier azureResourceIdentifier, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
         ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);

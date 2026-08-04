@@ -16,7 +16,7 @@ public class PropulsionDiagnosticsModule : Module<PropulsionStatus>
         context.Logger.LogDebug("Loading engine telemetry baseline parameters...");
 
         // Use SubModules to check each engine individually
-        var engine1 = await context.SubModule("Engine 1 Diagnostics", async () =>
+        var engine1 = await context.SubModuleAsync("Engine 1 Diagnostics", async () =>
         {
             context.Logger.LogInformation("Engine 1: Starting diagnostic sequence...");
             context.Logger.LogDebug("Engine 1: Checking fuel injector pressure...");
@@ -30,9 +30,9 @@ public class PropulsionDiagnosticsModule : Module<PropulsionStatus>
             context.Logger.LogDebug("Engine 1: Turbopump RPM: 35,420 - NOMINAL");
             context.Logger.LogInformation("Engine 1: Diagnostic sequence complete - PASS");
             return new EngineStatus(1, true, 25.0, 101.3);
-        });
+        }, cancellationToken);
 
-        var engine2 = await context.SubModule("Engine 2 Diagnostics", async () =>
+        var engine2 = await context.SubModuleAsync("Engine 2 Diagnostics", async () =>
         {
             context.Logger.LogInformation("Engine 2: Starting diagnostic sequence...");
             context.Logger.LogDebug("Engine 2: Checking fuel injector pressure...");
@@ -46,9 +46,9 @@ public class PropulsionDiagnosticsModule : Module<PropulsionStatus>
             context.Logger.LogDebug("Engine 2: Turbopump RPM: 35,380 - NOMINAL");
             context.Logger.LogInformation("Engine 2: Diagnostic sequence complete - PASS");
             return new EngineStatus(2, true, 24.8, 101.1);
-        });
+        }, cancellationToken);
 
-        var engine3 = await context.SubModule("Engine 3 Diagnostics", async () =>
+        var engine3 = await context.SubModuleAsync("Engine 3 Diagnostics", async () =>
         {
             context.Logger.LogInformation("Engine 3: Starting diagnostic sequence...");
             context.Logger.LogDebug("Engine 3: Checking fuel injector pressure...");
@@ -62,7 +62,7 @@ public class PropulsionDiagnosticsModule : Module<PropulsionStatus>
             context.Logger.LogDebug("Engine 3: Turbopump RPM: 35,445 - NOMINAL");
             context.Logger.LogInformation("Engine 3: Diagnostic sequence complete - PASS");
             return new EngineStatus(3, true, 25.2, 101.5);
-        });
+        }, cancellationToken);
 
         // Additional diagnostic delay
         context.Logger.LogDebug("Running cross-engine synchronization check...");

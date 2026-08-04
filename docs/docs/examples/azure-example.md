@@ -20,9 +20,10 @@ public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityRe
 {
     protected override async Task<UserAssignedIdentityResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAssignedIdentityProvisionResponse = await context.Tools.Azure.Provisioner.Security.UserAssignedIdentity(
+        var userAssignedIdentityProvisionResponse = await context.Tools.Azure.Provisioner.Security.UserAssignedIdentityAsync(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
-            new UserAssignedIdentityData(AzureLocation.UKSouth)
+            new UserAssignedIdentityData(AzureLocation.UKSouth),
+            cancellationToken
         );
 
         return userAssignedIdentityProvisionResponse.Value;
@@ -37,9 +38,10 @@ public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 {
     protected override async Task<StorageAccountResource> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var blobStorageAccountProvisionResponse = await context.Tools.Azure.Provisioner.Storage.StorageAccount(
+        var blobStorageAccountProvisionResponse = await context.Tools.Azure.Provisioner.Storage.StorageAccountAsync(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
-            new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth)
+            new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth),
+            cancellationToken
         );
 
         return blobStorageAccountProvisionResponse.Value;
@@ -57,10 +59,11 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
     {
         var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
-        var blobContainerProvisionResponse = await context.Tools.Azure.Provisioner.Storage.BlobContainer(
+        var blobContainerProvisionResponse = await context.Tools.Azure.Provisioner.Storage.BlobContainerAsync(
             blobStorageAccount.Value.Id,
             "MyContainer",
-            new BlobContainerData()
+            new BlobContainerData(),
+            cancellationToken
         );
 
         return blobContainerProvisionResponse.Value;
@@ -81,9 +84,10 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 
         var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
-        var roleAssignmentResource = await context.Tools.Azure.Provisioner.Security.RoleAssignment(
+        var roleAssignmentResource = await context.Tools.Azure.Provisioner.Security.RoleAssignmentAsync(
             storageAccount.Value.Id,
-            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.Value.Data.PrincipalId!.Value)
+            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.Value.Data.PrincipalId!.Value),
+            cancellationToken
         );
 
         return roleAssignmentResource.Value;
@@ -106,7 +110,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
         var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
         var blobContainer = await context.GetModule<ProvisionBlobStorageContainerModule>();
 
-        var functionProvisionResponse = await context.Tools.Azure.Provisioner.Compute.WebSite(
+        var functionProvisionResponse = await context.Tools.Azure.Provisioner.Compute.WebSiteAsync(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),
             new WebSiteData(AzureLocation.UKSouth)
             {
@@ -131,7 +135,8 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
                     }
                 }
                 // ... Other properties
-            }
+            },
+            cancellationToken
         );
 
         return functionProvisionResponse.Value;

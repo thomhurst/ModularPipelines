@@ -188,7 +188,7 @@ public static class CurrentApiSnippets
             IModuleContext context,
             CancellationToken cancellationToken)
         {
-            var version = await context.Tools.Git.Versioning.GetGitVersioningInformation();
+            var version = await context.Tools.Git.Versioning.GetVersioningInformationAsync(cancellationToken);
             return version.FullSemVer
                    ?? throw new InvalidOperationException(
                        "GitVersion did not return a semantic version.");
