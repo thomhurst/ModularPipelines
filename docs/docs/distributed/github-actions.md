@@ -141,7 +141,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
-using var builder = Pipeline.CreateBuilder(args);
+var builder = Pipeline.CreateBuilder(args);
 
 var instanceIndex = int.Parse(
     Environment.GetEnvironmentVariable("INSTANCE_INDEX") ?? "0");
