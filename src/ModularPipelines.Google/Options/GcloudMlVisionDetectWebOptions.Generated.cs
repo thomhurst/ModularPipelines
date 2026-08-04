@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("ml", "vision", "detect-web")]
 public record GcloudMlVisionDetectWebOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ImagePath
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ImagePath
 ) : GcloudOptions
 {
     /// <summary>

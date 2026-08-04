@@ -20,7 +20,7 @@ namespace ModularPipelines.Helm.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("history")]
 public record HelmHistoryOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ReleaseName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ReleaseName
 ) : HelmOptions
 {
     /// <summary>

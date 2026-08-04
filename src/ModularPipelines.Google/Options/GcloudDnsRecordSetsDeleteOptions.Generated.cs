@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dns", "record-sets", "delete")]
 public record GcloudDnsRecordSetsDeleteOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string DnsName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DnsName
 ) : GcloudOptions
 {
 }

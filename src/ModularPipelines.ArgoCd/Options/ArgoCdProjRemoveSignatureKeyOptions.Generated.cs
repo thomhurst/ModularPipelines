@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "remove-signature-key")]
 public record ArgoCdProjRemoveSignatureKeyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string KeyId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyId
 ) : ArgoCdOptions
 {
     /// <summary>

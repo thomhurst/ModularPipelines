@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "firewall-rules", "test-ip")]
 public record GcloudAppFirewallRulesTestIpOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Ip
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Ip
 ) : GcloudOptions
 {
 }

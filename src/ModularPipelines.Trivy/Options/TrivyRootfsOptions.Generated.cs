@@ -20,7 +20,7 @@ namespace ModularPipelines.Trivy.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("rootfs")]
 public record TrivyRootfsOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Rootdir
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Rootdir
 ) : TrivyOptions
 {
     /// <summary>

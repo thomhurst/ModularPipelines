@@ -19,8 +19,8 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "enable")]
 public record PulumiPolicyEnableOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string OrgNameOrPolicyPackName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Latest
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string OrgNameOrPolicyPackName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Latest
 ) : PulumiOptions
 {
     /// <summary>

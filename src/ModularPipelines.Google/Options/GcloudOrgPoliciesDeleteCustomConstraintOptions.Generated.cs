@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org-policies", "delete-custom-constraint")]
 public record GcloudOrgPoliciesDeleteCustomConstraintOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string CustomConstraint
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CustomConstraint
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create")]
 public record PodmanCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Image
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Image
 ) : PodmanOptions
 {
     /// <summary>

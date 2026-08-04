@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("deploy", "delivery-pipelines", "add-iam-policy-binding")]
 public record GcloudDeployDeliveryPipelinesAddIamPolicyBindingOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Iam
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Iam
 ) : GcloudOptions
 {
 }

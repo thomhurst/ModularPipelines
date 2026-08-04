@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("backup-dr", "backup-plan-associations", "fetch-for-resource-type")]
 public record GcloudBackupDrBackupPlanAssociationsFetchForResourceTypeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string ResourceType
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string ResourceType
 ) : GcloudOptions
 {
 }

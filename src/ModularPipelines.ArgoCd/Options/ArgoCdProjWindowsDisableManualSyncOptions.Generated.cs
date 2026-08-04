@@ -20,8 +20,8 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "windows", "disable-manual-sync")]
 public record ArgoCdProjWindowsDisableManualSyncOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
 ) : ArgoCdOptions
 {
     /// <summary>

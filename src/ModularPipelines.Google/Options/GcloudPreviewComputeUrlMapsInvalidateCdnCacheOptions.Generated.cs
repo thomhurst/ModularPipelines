@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("preview", "compute", "url-maps", "invalidate-cdn-cache")]
 public record GcloudPreviewComputeUrlMapsInvalidateCdnCacheOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Urlmap
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Urlmap
 ) : GcloudOptions
 {
     /// <summary>

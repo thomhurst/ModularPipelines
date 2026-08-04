@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("volume", "export")]
 public record PodmanVolumeExportOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Volume
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Volume
 ) : PodmanOptions
 {
     /// <summary>

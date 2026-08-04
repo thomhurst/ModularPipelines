@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("lease", "lookup")]
 public record VaultLeaseLookupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
 ) : VaultOptions
 {
 }

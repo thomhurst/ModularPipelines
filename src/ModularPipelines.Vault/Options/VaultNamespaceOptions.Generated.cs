@@ -20,7 +20,7 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("namespace")]
 public record VaultNamespaceOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Subcommand
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subcommand
 ) : VaultOptions
 {
     /// <summary>

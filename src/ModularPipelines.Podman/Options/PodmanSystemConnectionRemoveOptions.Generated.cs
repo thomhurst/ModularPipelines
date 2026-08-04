@@ -19,7 +19,7 @@ namespace ModularPipelines.Podman.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("system", "connection", "remove")]
 public record PodmanSystemConnectionRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough)] string Name
+    [property: CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)] string Name
 ) : PodmanOptions
 {
     /// <summary>

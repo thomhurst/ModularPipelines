@@ -19,9 +19,9 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("env", "tag", "move")]
 public record PulumiEnvTagMoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string EnvironmentName,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Name,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string NewName
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string EnvironmentName,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Name,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string NewName
 ) : PulumiOptions
 {
     /// <summary>

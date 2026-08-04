@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("storage", "intelligence-findings", "revisions", "describe")]
 public record GcloudStorageIntelligenceFindingsRevisionsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string RevisionId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RevisionId
 ) : GcloudOptions
 {
 }

@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("app", "versions", "stop")]
 public record GcloudAppVersionsStopOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] IEnumerable<string> Versions
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] IEnumerable<string> Versions
 ) : GcloudOptions
 {
     [CliOption("--service", Format = OptionFormat.EqualsSeparated)]

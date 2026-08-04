@@ -19,10 +19,10 @@ namespace ModularPipelines.Skopeo.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("standalone-verify")]
 public record SkopeoStandaloneVerifyOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Manifest,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string DockerReference,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string KeyFingerprints,
-    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand)] string Signature
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Manifest,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string DockerReference,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string KeyFingerprints,
+    [property: CliArgument(3, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Signature
 ) : SkopeoOptions
 {
     /// <summary>

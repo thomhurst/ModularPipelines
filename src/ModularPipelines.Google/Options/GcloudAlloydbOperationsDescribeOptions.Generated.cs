@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("alloydb", "operations", "describe")]
 public record GcloudAlloydbOperationsDescribeOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Operation
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Operation
 ) : GcloudOptions
 {
 }

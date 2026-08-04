@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("org", "webhook", "remove")]
 public record PulumiOrgWebhookRemoveOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Id
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Id
 ) : PulumiOptions
 {
     /// <summary>

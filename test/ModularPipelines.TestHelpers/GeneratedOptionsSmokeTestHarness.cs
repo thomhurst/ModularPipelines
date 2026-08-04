@@ -111,12 +111,11 @@ public static class GeneratedOptionsSmokeTestHarness
     {
         try
         {
-            var property = optionsType
-                .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .First(candidate => candidate.Name == part.PropertyName);
+            var property = GetProperty(optionsType, part.PropertyName);
             var sample = CreateSample(property.PropertyType);
             var options = RuntimeHelpers.GetUninitializedObject(optionsType);
 
+            InitializeRequiredArguments(optionsType, model, options);
             SetValue(options, property, sample);
 
             var actual = builder.BuildArguments(model, options);
@@ -138,7 +137,26 @@ public static class GeneratedOptionsSmokeTestHarness
         }
     }
 
-    private static List<string> GetExpectedArguments(
+    private static void InitializeRequiredArguments(
+        Type optionsType,
+        IEnumerable<PropertyCommandLinePart> model,
+        object options)
+    {
+        foreach (var argument in model
+                     .OfType<ArgumentPart>()
+                     .Where(argument => argument.Attribute.Required))
+        {
+            var property = GetProperty(optionsType, argument.PropertyName);
+            SetValue(options, property, CreateSample(property.PropertyType));
+        }
+    }
+
+    private static PropertyInfo GetProperty(Type optionsType, string propertyName) =>
+        optionsType
+            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .First(candidate => candidate.Name == propertyName);
+
+    private static IReadOnlyList<string> GetExpectedArguments(
         IReadOnlyList<PropertyCommandLinePart> model,
         object options)
     {
@@ -436,7 +454,6 @@ public sealed class GeneratedOptionsSmokeTestException(
     string propertyName,
     Exception innerException) : Exception($"{optionsType.FullName}.{propertyName} failed generated-options smoke testing.", innerException)
 {
-
     /// <summary>
     /// Gets the options type under test.
     /// </summary>

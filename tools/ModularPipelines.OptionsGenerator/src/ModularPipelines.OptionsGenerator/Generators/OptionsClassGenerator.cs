@@ -470,6 +470,11 @@ public class OptionsClassGenerator : ICodeGenerator
             parts.Add("PrependOptionTerminatorIfValueStartsWithDash = true");
         }
 
+        if (positional.IsRequired)
+        {
+            parts.Add("Required = true");
+        }
+
         return $"CliArgument({string.Join(", ", parts)})";
     }
 }

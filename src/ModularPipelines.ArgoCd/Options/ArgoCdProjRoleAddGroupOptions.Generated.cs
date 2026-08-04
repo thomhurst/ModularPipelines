@@ -20,9 +20,9 @@ namespace ModularPipelines.ArgoCd.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("proj", "role", "add-group")]
 public record ArgoCdProjRoleAddGroupOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Project,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string RoleName,
-    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand)] string GroupClaim
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Project,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string RoleName,
+    [property: CliArgument(2, Phase = CommandLinePhase.EarlyOperand, Required = true)] string GroupClaim
 ) : ArgoCdOptions
 {
     /// <summary>

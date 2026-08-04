@@ -7,6 +7,11 @@ StatefulModule | Design | Warning | Detects mutable instance fields in modules t
 MPDEP001 | Usage | Error | DependsOn type does not implement IModule
 MPDEP002 | Usage | Error | Circular dependency detected between modules (renamed from ConflictingDependsOnAttribute)
 MPDEP003 | Usage | Error | Module depends on itself
+MPCLI001 | Usage | Error | CliFlag property must be bool? or int?
+MPCLI002 | Usage | Error | Value-less bool? CliOption should use CliFlag
+MPCLI003 | Usage | Error | Multiple CLI attributes applied to one property
+MPCLI004 | Usage | Error | Duplicate CLI switch in an options hierarchy
+MPCLI006 | Usage | Error | CLI attributes used outside CommandLineToolOptions
 
 ### Removed Rules
 

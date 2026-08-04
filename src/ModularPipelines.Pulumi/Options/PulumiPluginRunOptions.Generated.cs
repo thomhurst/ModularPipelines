@@ -19,7 +19,7 @@ namespace ModularPipelines.Pulumi.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("plugin", "run")]
 public record PulumiPluginRunOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path
 ) : PulumiOptions
 {
     /// <summary>

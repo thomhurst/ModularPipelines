@@ -20,8 +20,8 @@ namespace ModularPipelines.Vault.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("transform", "import-version")]
 public record VaultTransformImportVersionOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Path,
-    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand)] string Key
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Path,
+    [property: CliArgument(1, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Key
 ) : VaultOptions
 {
 }

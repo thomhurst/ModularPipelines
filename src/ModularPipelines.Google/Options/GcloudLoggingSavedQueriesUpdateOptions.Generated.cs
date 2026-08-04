@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("logging", "saved-queries", "update")]
 public record GcloudLoggingSavedQueriesUpdateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string SavedQueryId
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string SavedQueryId
 ) : GcloudOptions
 {
     /// <summary>

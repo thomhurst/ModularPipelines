@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("pubsub", "lite-subscriptions", "create")]
 public record GcloudPubsubLiteSubscriptionsCreateOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string Subscription
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string Subscription
 ) : GcloudOptions
 {
 }

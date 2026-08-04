@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compute", "composite-health-checks", "get-health")]
 public record GcloudComputeCompositeHealthChecksGetHealthOptions(
-    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand)] string CompositeHealthCheck
+    [property: CliArgument(0, Phase = CommandLinePhase.EarlyOperand, Required = true)] string CompositeHealthCheck
 ) : GcloudOptions
 {
     /// <summary>
