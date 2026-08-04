@@ -188,14 +188,10 @@ public static class GeneratedSecretMetadata
             }
         }
 
-        foreach (var registrations in ExternalAccessors)
+        if (IsCoveredExternalAssembly(type))
         {
-            if (type.Assembly.FullName is { } assemblyIdentity
-                && registrations.Value.CoveredAssemblyIdentities.ContainsKey(assemblyIdentity))
-            {
-                accessors = Array.Empty<SecretPropertyAccessor>();
-                return true;
-            }
+            accessors = Array.Empty<SecretPropertyAccessor>();
+            return true;
         }
 
         if (directMetadata is { IsComplete: true })
@@ -216,6 +212,11 @@ public static class GeneratedSecretMetadata
         accessors = Array.Empty<SecretPropertyAccessor>();
         return false;
     }
+
+    private static bool IsCoveredExternalAssembly(Type type) =>
+        type.Assembly.FullName is { } assemblyIdentity
+        && ExternalAccessors.Any(registrations =>
+            registrations.Value.CoveredAssemblyIdentities.ContainsKey(assemblyIdentity));
 
     internal static bool IsIncomplete(Type type)
     {
