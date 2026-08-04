@@ -99,17 +99,22 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
             .Distinct(StringComparer.Ordinal)
             .ToArray();
 
-        if (extraSecrets.Length == 0
-            || extraSecrets.All(registeredSecrets.ExactSecrets.Contains))
+        if (extraSecrets.Length == 0)
         {
             return registeredSecrets;
         }
 
-        var extraPatterns = extraSecrets
-            .Where(secret => !registeredSecrets.ExactSecrets.Contains(secret))
-            .SelectMany(SecretMaskingPatternGenerator.Generate);
+        var missingPatterns = extraSecrets
+            .SelectMany(SecretMaskingPatternGenerator.Generate)
+            .Where(pattern => !registeredSecrets.ExactSecrets.Contains(pattern))
+            .ToArray();
+        if (missingPatterns.Length == 0)
+        {
+            return registeredSecrets;
+        }
+
         return CreateSecretCache(
-            registeredSecrets.Secrets.Concat(extraPatterns),
+            registeredSecrets.Secrets.Concat(missingPatterns),
             registeredSecrets.Version,
             caseInsensitive);
     }

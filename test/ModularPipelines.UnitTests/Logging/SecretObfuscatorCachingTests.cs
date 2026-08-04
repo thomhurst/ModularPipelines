@@ -133,6 +133,26 @@ public class SecretObfuscatorCachingTests
         await Assert.That(result).IsEqualTo("**********");
     }
 
+    [Test]
+    public async Task BuildsExtraPatternsWhenOptionSecretMatchesRegisteredDerivedPattern()
+    {
+        const string registeredSecret = "foo";
+        var optionSecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(registeredSecret));
+        var optionsObject = new object();
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(
+                0,
+                SecretMaskingPatternGenerator.Generate(registeredSecret)));
+        secretProvider.Setup(x => x.GetSecretsInObject(optionsObject)).Returns([optionSecret]);
+        var obfuscator = CreateObfuscator(secretProvider.Object);
+        var encodedOptionSecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(optionSecret));
+
+        var result = obfuscator.Obfuscate(encodedOptionSecret, optionsObject);
+
+        await Assert.That(result).IsEqualTo("**********");
+    }
+
     private static object GetSecretCache(
         SecretObfuscator obfuscator,
         object? optionsObject,
