@@ -108,6 +108,7 @@ internal sealed class PipelineImpl : IPipeline
         try
         {
             PipelineSummary summary;
+            // Help must bypass PipelineCommandHandler because constructing it enumerates and activates modules.
             if (Services.GetRequiredService<PipelineCommandLineOptions>().Command == PipelineCommand.Help)
             {
                 summary = PipelineCommandLineHelp.Show(Services.GetRequiredService<IConsoleWriter>());

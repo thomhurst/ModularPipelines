@@ -27,8 +27,6 @@ internal sealed class PipelineCommandHandler(
             case PipelineCommand.Run:
             case PipelineCommand.DryRun:
                 return null;
-            case PipelineCommand.Help:
-                return PipelineCommandLineHelp.Show(consoleWriter);
             case PipelineCommand.ListModules:
                 await FinalizeModulesAsync(cancellationToken).ConfigureAwait(false);
                 return ListModules();
