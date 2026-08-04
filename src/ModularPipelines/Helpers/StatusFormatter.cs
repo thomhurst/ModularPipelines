@@ -16,6 +16,7 @@ internal static class StatusFormatter
             Status.Failed => "[red]Failed[/]",
             Status.IgnoredFailure => "[orange3]Ignored Failure[/]",
             Status.PipelineTerminated => "[red]Pipeline Terminated[/]",
+            Status.DependencyFailed => "[red]Dependency Failed[/]",
             Status.TimedOut => "[red]Timed Out[/]",
             Status.Skipped => "[yellow]Skipped[/]",
             Status.Unknown => "[yellow]Unknown[/]",
