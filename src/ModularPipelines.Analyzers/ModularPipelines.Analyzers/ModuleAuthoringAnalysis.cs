@@ -12,7 +12,6 @@ internal static class ModuleAuthoringAnalysis
 {
     private const string AssemblyMetadataName = "System.Reflection.Assembly";
     private const string CancellationTokenMetadataName = "System.Threading.CancellationToken";
-    private const string EventArgsMetadataName = "System.EventArgs";
 
     private static readonly ImmutableHashSet<string> EagerLinqTerminalNames =
     [
@@ -238,8 +237,7 @@ internal static class ModuleAuthoringAnalysis
     {
         foreach (var method in asyncVoidMethods)
         {
-            if (HasEventHandlerSignature(method, context.Compilation)
-                || eventHandlerMethods.Any(eventHandler =>
+            if (eventHandlerMethods.Any(eventHandler =>
                     SymbolEqualityComparer.Default.Equals(eventHandler, method))
                 || method.Locations.FirstOrDefault(static item => item.IsInSource)
                     is not { } location)
@@ -2422,19 +2420,6 @@ internal static class ModuleAuthoringAnalysis
                 [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]);
         }
-    }
-
-    private static bool HasEventHandlerSignature(
-        IMethodSymbol method,
-        Compilation compilation)
-    {
-        return method.Parameters.Length == 2
-               && method.Parameters[0].RefKind == RefKind.None
-               && method.Parameters[0].Type.SpecialType == SpecialType.System_Object
-               && method.Parameters[1].RefKind == RefKind.None
-               && method.Parameters[1].Type.InheritsFrom(
-                   compilation,
-                   EventArgsMetadataName);
     }
 
     private static bool TryTrackInstanceModuleTypes(

@@ -3907,6 +3907,8 @@ public class ModuleAuthoringAnalyzerTests
 
                 public event EventHandler? Completed;
 
+                public BuildModule() => Completed += OnCompleted;
+
                 private async void OnCompleted(object? sender, EventArgs eventArgs)
                 {
                     await Task.Yield();
@@ -7152,6 +7154,24 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Void_Event_Shaped_Method_When_Not_Subscribed()
+    {
+        var source = ModuleSource($$"""
+            {{TestSourceConstants.SimpleAsyncExecuteBody}}
+
+                private async void {|#0:OnCompleted|}(object? sender, EventArgs eventArgs)
+                {
+                    await Task.Yield();
+                }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.AsyncVoidId)
+            .WithLocation(0)
+            .WithArguments("OnCompleted");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
