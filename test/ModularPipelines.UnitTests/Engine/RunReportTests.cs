@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.DependencyInjection;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
 using ModularPipelines.Enums;
@@ -1034,6 +1035,56 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task FileSystemHistoryStoreQueriesNewestRunsWithFilters()
+    {
+        var directory = CreateTemporaryDirectory();
+        var store = CreateHistoryStore(directory, historyRetention: 8);
+        var start = new DateTimeOffset(2026, 8, 2, 12, 0, 0, TimeSpan.Zero);
+
+        try
+        {
+            for (var index = 1; index <= 4; index++)
+            {
+                await store.SaveAsync(new PipelineRunReport
+                {
+                    RunId = $"run-{index}",
+                    PipelineIdentity = "pipeline-a",
+                    Status = index % 2 == 0 ? Status.Failed : Status.Successful,
+                    End = start.AddMinutes(index),
+                });
+            }
+
+            await store.SaveAsync(new PipelineRunReport
+            {
+                RunId = "other-pipeline",
+                PipelineIdentity = "pipeline-b",
+                Status = Status.Failed,
+                End = start.AddMinutes(5),
+            });
+
+            var reports = await System.Linq.AsyncEnumerable.ToListAsync(
+                store.GetRunsAsync(new RunHistoryQuery
+                {
+                    PipelineIdentity = "pipeline-a",
+                    MaxRuns = 2,
+                    Since = start.AddMinutes(2),
+                    Status = Status.Failed,
+                }));
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(reports).Count().IsEqualTo(2);
+                await Assert.That(reports[0].RunId).IsEqualTo("run-4");
+                await Assert.That(reports[1].RunId).IsEqualTo("run-2");
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task FileSystemHistoryStorePrunesAbandonedPipelineIdentitiesToGlobalRetention()
     {
         var directory = CreateTemporaryDirectory();
@@ -1155,6 +1206,43 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task RunHistoryReaderReturnsMeasuredAttributableModuleTrends()
+    {
+        var moduleTypeName = ModuleTypeIdentifier.Get(typeof(SuccessfulModule));
+        var end = new DateTimeOffset(2026, 8, 2, 12, 0, 0, TimeSpan.Zero);
+        var historyStore = new Mock<IRunHistoryStore>();
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Reports(
+                CreateTrendReport("run-2", end.AddMinutes(2), moduleTypeName, measured: true),
+                CreateTrendReport("", end.AddMinutes(1), moduleTypeName, measured: true),
+                CreateTrendReport("run-0", end, moduleTypeName, measured: false)));
+        var reader = new RunHistoryReader(
+            historyStore.Object,
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions { PipelineIdentity = "pipeline-a" },
+            }));
+
+        var samples = await reader.GetModuleDurationTrendAsync(moduleTypeName, 3);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(samples).Count().IsEqualTo(1);
+            await Assert.That(samples[0]).IsEqualTo(new ModuleDurationSample(
+                "run-2",
+                end.AddMinutes(2),
+                Status.Successful,
+                TimeSpan.FromSeconds(2)));
+            historyStore.Verify(store => store.GetRunsAsync(
+                It.Is<RunHistoryQuery>(query =>
+                    query.PipelineIdentity == "pipeline-a" && query.MaxRuns == 3),
+                It.IsAny<CancellationToken>()), Times.Once);
+        }
+    }
+
+    [Test]
     public async Task AtomicFileWriterReplacesExistingFileAfterCompletedWrite()
     {
         var directory = CreateTemporaryDirectory();
@@ -1177,6 +1265,30 @@ public class RunReportTests
         {
             Directory.Delete(directory, recursive: true);
         }
+    }
+
+    [Test]
+    public async Task RunHistoryReaderRequiresConfiguredPipelineIdentity()
+    {
+        var reader = new RunHistoryReader(
+            Mock.Of<IRunHistoryStore>(),
+            OptionsFactory.Create(new PipelineOptions()));
+
+        await Assert.That(async () => await reader.GetModuleDurationTrendAsync("module", 1))
+            .Throws<InvalidOperationException>()
+            .WithMessage("PipelineIdentity must be configured to query run history.");
+    }
+
+    [Test]
+    public async Task PipelineRegistersRunHistoryReader()
+    {
+        var services = new ServiceCollection();
+        DependencyInjectionSetup.Initialize(services);
+
+        await Assert.That(services.Any(descriptor =>
+                descriptor.ServiceType == typeof(IRunHistoryReader)
+                && descriptor.ImplementationType == typeof(RunHistoryReader)))
+            .IsTrue();
     }
 
     [Test]
@@ -1495,6 +1607,52 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task HistoryPersistenceInvokesRunReportEnrichersWithoutReportFile()
+    {
+        PipelineRunReport? savedReport = null;
+        var historyStore = new Mock<IRunHistoryStore>();
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(EmptyReports());
+        historyStore.Setup(store => store.SaveAsync(
+                It.IsAny<PipelineRunReport>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<PipelineRunReport, CancellationToken>((report, _) => savedReport = report)
+            .Returns(Task.CompletedTask);
+        var distributedOptions = OptionsFactory.Create(new DistributedOptions());
+        var commandExecutionCounter = new CommandExecutionCounter();
+        var service = new RunReportService(
+            historyStore.Object,
+            new PipelineRunReportFactory(
+                commandExecutionCounter,
+                new PassthroughSecretObfuscator()),
+            Mock.Of<IBuildSystemDetector>(),
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    AutoWriteInCi = false,
+                    HistoryRetention = 1,
+                },
+            }),
+            distributedOptions,
+            new RoleDetector(distributedOptions),
+            Mock.Of<IDistributedCoordinator>(),
+            commandExecutionCounter,
+            NullLogger<RunReportService>.Instance,
+            runReportEnrichers: [new StaticRunReportEnricher()]);
+
+        var report = await service.CompleteAsync(CreateEmptySummary());
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(report.Correlation!.GitSha).IsEqualTo("secret-sha");
+            await Assert.That(savedReport).IsSameReferenceAs(report);
+        }
+    }
+
+    [Test]
     public async Task RepeatedCompletionsReceiveDistinctRunIds()
     {
         var distributedOptions = OptionsFactory.Create(new DistributedOptions());
@@ -1601,7 +1759,14 @@ public class RunReportTests
                 commandExecutionCounter,
                 new PassthroughSecretObfuscator()),
             Mock.Of<IBuildSystemDetector>(),
-            OptionsFactory.Create(new PipelineOptions()),
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    AutoWriteInCi = false,
+                    HistoryRetention = 0,
+                },
+            }),
             distributedOptions,
             new RoleDetector(distributedOptions),
             Mock.Of<IDistributedCoordinator>(),
@@ -1920,7 +2085,7 @@ public class RunReportTests
                 await Assert.That(report).IsNotNull();
                 await Assert.That(File.Exists(reportPath)).IsFalse();
                 historyStore.Verify(
-                    store => store.GetLatestAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+                    store => store.GetRunsAsync(It.IsAny<RunHistoryQuery>(), It.IsAny<CancellationToken>()),
                     Times.Never);
                 historyStore.Verify(
                     store => store.SaveAsync(It.IsAny<PipelineRunReport>(), It.IsAny<CancellationToken>()),
@@ -2034,11 +2199,11 @@ public class RunReportTests
         var historyStore = new Mock<IRunHistoryStore>();
         var readToken = CancellationToken.None;
         var saveToken = CancellationToken.None;
-        historyStore.Setup(store => store.GetLatestAsync(
-                It.IsAny<string>(),
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<string, CancellationToken>((_, token) => readToken = token)
-            .ReturnsAsync((PipelineRunReport?) null);
+            .Callback<RunHistoryQuery, CancellationToken>((_, token) => readToken = token)
+            .Returns(EmptyReports());
         historyStore.Setup(store => store.SaveAsync(
                 It.IsAny<PipelineRunReport>(),
                 It.IsAny<CancellationToken>()))
@@ -2089,14 +2254,13 @@ public class RunReportTests
         var reportPath = Path.Combine(directory, "run-report.json");
         var readStarted = new TaskCompletionSource(
             TaskCreationOptions.RunContinuationsAsynchronously);
-        var readCompletion = new TaskCompletionSource<PipelineRunReport?>(
-            TaskCreationOptions.RunContinuationsAsynchronously);
         var historyStore = new Mock<IRunHistoryStore>();
-        historyStore.Setup(store => store.GetLatestAsync(
-                It.IsAny<string>(),
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
                 It.IsAny<CancellationToken>()))
-            .Callback<string, CancellationToken>((_, _) => readStarted.TrySetResult())
-            .Returns(readCompletion.Task);
+            .Callback<RunHistoryQuery, CancellationToken>((_, _) => readStarted.TrySetResult())
+            .Returns((RunHistoryQuery _, CancellationToken token) =>
+                ReportsAfterAsync(Task.Delay(Timeout.InfiniteTimeSpan, token)));
         var distributedOptions = OptionsFactory.Create(new DistributedOptions());
         var commandExecutionCounter = new CommandExecutionCounter();
         var service = new RunReportService(
@@ -2142,7 +2306,6 @@ public class RunReportTests
         }
         finally
         {
-            readCompletion.TrySetResult(null);
             Directory.Delete(directory, recursive: true);
         }
     }
@@ -2202,15 +2365,15 @@ public class RunReportTests
     {
         var directory = CreateTemporaryDirectory();
         var reportPath = Path.Combine(directory, "run-report.json");
-        var readCompletion = new TaskCompletionSource<PipelineRunReport?>(
+        var readCompletion = new TaskCompletionSource(
             TaskCreationOptions.RunContinuationsAsynchronously);
         var saveCompletion = new TaskCompletionSource(
             TaskCreationOptions.RunContinuationsAsynchronously);
         var historyStore = new Mock<IRunHistoryStore>();
-        historyStore.Setup(store => store.GetLatestAsync(
-                It.IsAny<string>(),
+        historyStore.Setup(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
                 It.IsAny<CancellationToken>()))
-            .Returns(readCompletion.Task);
+            .Returns(ReportsAfterAsync(readCompletion.Task));
         historyStore.Setup(store => store.SaveAsync(
                 It.IsAny<PipelineRunReport>(),
                 It.IsAny<CancellationToken>()))
@@ -2244,8 +2407,8 @@ public class RunReportTests
                 .WaitAsync(TimeSpan.FromSeconds(2));
 
             await Assert.That(report).IsNotNull();
-            historyStore.Verify(store => store.GetLatestAsync(
-                It.IsAny<string>(),
+            historyStore.Verify(store => store.GetRunsAsync(
+                It.IsAny<RunHistoryQuery>(),
                 It.IsAny<CancellationToken>()), Times.Once);
             historyStore.Verify(store => store.SaveAsync(
                 It.IsAny<PipelineRunReport>(),
@@ -2253,6 +2416,8 @@ public class RunReportTests
         }
         finally
         {
+            readCompletion.TrySetResult();
+            saveCompletion.TrySetResult();
             Directory.Delete(directory, recursive: true);
         }
     }
@@ -3261,5 +3426,49 @@ public class RunReportTests
             EndTime = start + duration,
             ExecutionDuration = duration,
             Status = Status.Successful,
+        };
+
+    private static async IAsyncEnumerable<PipelineRunReport> EmptyReports()
+    {
+        await Task.CompletedTask;
+        yield break;
+    }
+
+    private static async IAsyncEnumerable<PipelineRunReport> ReportsAfterAsync(Task completion)
+    {
+        await completion;
+        yield break;
+    }
+
+    private static async IAsyncEnumerable<PipelineRunReport> Reports(
+        params PipelineRunReport[] reports)
+    {
+        await Task.CompletedTask;
+        foreach (var report in reports)
+        {
+            yield return report;
+        }
+    }
+
+    private static PipelineRunReport CreateTrendReport(
+        string runId,
+        DateTimeOffset end,
+        string moduleTypeName,
+        bool measured) => new()
+        {
+            RunId = runId,
+            PipelineIdentity = "pipeline-a",
+            End = end,
+            Modules =
+            [
+                new ModuleRunReport
+                {
+                    ModuleName = nameof(SuccessfulModule),
+                    ModuleTypeName = moduleTypeName,
+                    Status = Status.Successful,
+                    Duration = TimeSpan.FromSeconds(2),
+                    DurationMeasured = measured,
+                },
+            ],
         };
 }

@@ -299,6 +299,7 @@ internal static class DependencyInjectionSetup
 
         services.TryAddSingleton<RunReportPathResolver>();
         services.TryAddSingleton<IRunHistoryStore, FileSystemRunHistoryStore>();
+        services.TryAddSingleton<IRunHistoryReader, RunHistoryReader>();
     }
 
     /// <summary>

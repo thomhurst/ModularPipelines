@@ -8,13 +8,13 @@ namespace ModularPipelines.Engine;
 public interface IRunHistoryStore
 {
     /// <summary>
-    /// Gets the latest retained report for a pipeline identity.
+    /// Gets retained reports matching a query, ordered newest first.
     /// </summary>
-    /// <param name="pipelineIdentity">The stable pipeline identity.</param>
+    /// <param name="query">The history query.</param>
     /// <param name="cancellationToken">A token that cancels the operation.</param>
-    /// <returns>The latest matching report, or <see langword="null"/>.</returns>
-    Task<PipelineRunReport?> GetLatestAsync(
-        string pipelineIdentity,
+    /// <returns>The matching retained reports.</returns>
+    IAsyncEnumerable<PipelineRunReport> GetRunsAsync(
+        RunHistoryQuery query,
         CancellationToken cancellationToken = default);
 
     /// <summary>

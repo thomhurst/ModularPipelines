@@ -64,7 +64,10 @@ internal sealed class RunReportService(
             pipelineIdentity,
             runId,
             pipelineException);
-        report = await EnrichReportAsync(report, pipelineIdentity, reportPath is not null)
+        report = await EnrichReportAsync(
+                report,
+                pipelineIdentity,
+                reportPath is not null || historyEnabled)
             .ConfigureAwait(false);
         report = report with
         {

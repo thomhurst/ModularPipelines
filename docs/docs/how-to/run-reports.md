@@ -112,6 +112,36 @@ a complete report with partial JSON. After each successful history save, the bui
 removes atomic-write temporary files older than 24 hours while leaving recent files for concurrent
 writers.
 
+Query retained reports newest-first through `IRunHistoryStore`:
+
+```csharp
+await foreach (var failedRun in historyStore.GetRunsAsync(new RunHistoryQuery
+{
+    PipelineIdentity = "release-pipeline",
+    MaxRuns = 10,
+    Since = DateTimeOffset.UtcNow.AddDays(-30),
+    Status = Status.Failed,
+}, cancellationToken))
+{
+    // Inspect failedRun.
+}
+```
+
+`GetLatestAsync(pipelineIdentity, cancellationToken)` remains available as an extension method over
+`GetRunsAsync`. The registered `IRunHistoryReader` provides measured, attributable module-duration
+samples from the latest runs:
+
+```csharp
+var samples = await historyReader.GetModuleDurationTrendAsync(
+    moduleTypeName,
+    lastN: 10,
+    cancellationToken);
+```
+
+Configure `RunReportOptions.PipelineIdentity` before using `IRunHistoryReader`; the reader uses that
+identity to select the current pipeline's retained history. Schema-v1 reports remain queryable, but
+they have no run ID and are therefore omitted from duration trends.
+
 CI agents are often ephemeral, so restore the history directory from a cache before running the
 pipeline. For example, a GitHub Actions workflow can restore the newest cache for its branch and
 save the updated history under a run-specific key:
@@ -134,9 +164,9 @@ register it on the builder:
 builder.AddRunHistoryStore<MyRunHistoryStore>();
 ```
 
-The store returns the latest report for the requested pipeline identity and saves the completed
-current report. Custom stores own their retention behavior.
+The store returns matching reports newest-first and saves the completed current report. Custom
+stores own their retention behavior.
 
-In v4, `IRunHistoryStore` removes the parameterless `GetLatestAsync` member. Existing custom stores
-must move any identity filtering into `GetLatestAsync(string pipelineIdentity, CancellationToken)`,
-which is now the only read member to implement.
+In v4, custom stores implement `GetRunsAsync(RunHistoryQuery, CancellationToken)`. The former
+`GetLatestAsync` interface member is now an extension method, so stores need only implement the
+query operation and `SaveAsync`.
