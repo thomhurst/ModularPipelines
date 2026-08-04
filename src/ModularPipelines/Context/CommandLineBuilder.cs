@@ -68,12 +68,14 @@ internal sealed class CommandLineBuilder(
         var globalArgs = _commandArgumentBuilder.BuildArguments(
             globalCommandModel,
             options,
-            ref emittedOptionTerminator);
+            ref emittedOptionTerminator,
+            out var globalOptionTerminatorIndex).ToList();
         var terminatorEmittedBeforeProperties = emittedOptionTerminator;
         var propertyArgs = _commandArgumentBuilder.BuildArguments(
             commandSpecificModel,
             options,
-            ref emittedOptionTerminator);
+            ref emittedOptionTerminator,
+            out var commandOptionTerminatorIndex).ToList();
         var manualArgs = options.Arguments?.ToList() ?? [];
         ValidateManualOptionsAfterGlobalTerminator(
             options,
@@ -92,6 +94,13 @@ internal sealed class CommandLineBuilder(
             && emittedOptionTerminator
             ? ExtractRecognizedManualOptions(manualArgs, commandSpecificModel)
             : [];
+        globalArgs.InsertRange(
+            globalOptionTerminatorIndex ?? globalArgs.Count,
+            leadingManualGlobalOptions);
+        if (commandOptionTerminatorIndex is { } insertionIndex)
+        {
+            propertyArgs.InsertRange(insertionIndex, leadingManualCommandOptions);
+        }
         if (options.ArgumentsContainToolOptions
             && emittedOptionTerminator
             && ContainsRecognizedManualOption(manualArgs, terminalCommandModel))
@@ -133,10 +142,8 @@ internal sealed class CommandLineBuilder(
 
         // 4. Combine: global args + command parts (subcommands) + property args
         // with any hoisted manual options before an emitted option terminator.
-        var allArgs = new List<string>(leadingManualGlobalOptions);
-        allArgs.AddRange(globalArgs);
+        var allArgs = new List<string>(globalArgs);
         allArgs.AddRange(commandParts);
-        allArgs.AddRange(leadingManualCommandOptions);
         allArgs.AddRange(propertyArgs);
 
         // 5. Add any manual arguments passed via options.Arguments

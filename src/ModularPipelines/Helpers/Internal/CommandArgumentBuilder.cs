@@ -24,7 +24,15 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     public IReadOnlyList<string> BuildArguments(
         IReadOnlyList<PropertyCommandLinePart> commandModel,
         object optionsObject,
-        ref bool emittedOptionTerminator)
+        ref bool emittedOptionTerminator) =>
+        BuildArguments(commandModel, optionsObject, ref emittedOptionTerminator, out _);
+
+    /// <inheritdoc/>
+    public IReadOnlyList<string> BuildArguments(
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        object optionsObject,
+        ref bool emittedOptionTerminator,
+        out int? emittedOptionTerminatorIndex)
     {
         var arguments = commandModel.OfType<ArgumentPart>().ToList();
         var flagsAndOptions = commandModel.Where(p => p is FlagPart or OptionPart).ToList();
@@ -42,7 +50,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             renderedOptionValues,
             argumentValues,
             emittedOptionTerminator);
-        var renderedPhases = new Dictionary<CommandLinePhase, IReadOnlyList<string>>();
+        var renderedPhases = new Dictionary<CommandLinePhase, RenderedPhase>();
         foreach (var phase in Enum.GetValues<CommandLinePhase>())
         {
             renderedPhases.Add(
@@ -57,12 +65,20 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                     ref emittedOptionTerminator));
         }
 
-        return
-        [
-            .. renderedPhases
-                .OrderBy(pair => GetRenderOrder(pair.Key))
-                .SelectMany(pair => pair.Value),
-        ];
+        var rendered = new List<string>();
+        emittedOptionTerminatorIndex = null;
+        foreach (var phase in renderedPhases.OrderBy(pair => GetRenderOrder(pair.Key)))
+        {
+            if (emittedOptionTerminatorIndex is null
+                && phase.Value.OptionTerminatorIndex is { } phaseIndex)
+            {
+                emittedOptionTerminatorIndex = rendered.Count + phaseIndex;
+            }
+
+            rendered.AddRange(phase.Value.Arguments);
+        }
+
+        return rendered;
     }
 
     private static int GetRenderOrder(CommandLinePhase phase) => phase switch
@@ -74,7 +90,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         _ => throw new ArgumentOutOfRangeException(nameof(phase), phase, null),
     };
 
-    private static List<string> RenderPhase(
+    private static RenderedPhase RenderPhase(
         CommandLinePhase phase,
         IEnumerable<PropertyCommandLinePart> flagsAndOptions,
         IEnumerable<ArgumentPart> arguments,
@@ -84,6 +100,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         ref bool emittedOptionTerminator)
     {
         var rendered = new List<string>();
+        int? optionTerminatorIndex = null;
         var phaseOptions = flagsAndOptions.Where(part => part.Phase == phase);
         var phaseArguments = arguments
             .Where(part => part.Phase == phase)
@@ -96,7 +113,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 phaseArguments,
                 argumentValues,
                 optionsType,
-                ref emittedOptionTerminator);
+                ref emittedOptionTerminator,
+                ref optionTerminatorIndex);
             AddFlagsAndOptions(rendered, phaseOptions, renderedOptionValues);
         }
         else
@@ -107,10 +125,11 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 phaseArguments,
                 argumentValues,
                 optionsType,
-                ref emittedOptionTerminator);
+                ref emittedOptionTerminator,
+                ref optionTerminatorIndex);
         }
 
-        return rendered;
+        return new RenderedPhase(rendered, optionTerminatorIndex);
     }
 
     private static void AddArguments(
@@ -118,7 +137,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         IEnumerable<ArgumentPart>? argumentParts,
         IReadOnlyDictionary<ArgumentPart, IReadOnlyList<string>> argumentValues,
         Type optionsType,
-        ref bool emittedOptionTerminator)
+        ref bool emittedOptionTerminator,
+        ref int? optionTerminatorIndex)
     {
         if (argumentParts is null)
         {
@@ -143,6 +163,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             if (RequiresOptionTerminator(argumentPart, values)
                 && !emittedOptionTerminator)
             {
+                optionTerminatorIndex = args.Count;
                 args.Add("--");
                 emittedOptionTerminator = true;
             }
@@ -153,6 +174,10 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static bool IsEmpty(IReadOnlyCollection<string> values) =>
         values.Count == 0 || values.All(string.IsNullOrWhiteSpace);
+
+    private sealed record RenderedPhase(
+        IReadOnlyList<string> Arguments,
+        int? OptionTerminatorIndex);
 
     private static void AddFlagsAndOptions(
         List<string> args,

@@ -291,6 +291,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Preserves_Manual_Option_Override_Order_When_Hoisted()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Color = "always",
+            Filter = "-1",
+            Arguments = ["--color=never"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --color=always --color=never -- -1");
+    }
+
+    [Test]
     public async Task Build_Rejects_Manual_Terminator_After_Property_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
