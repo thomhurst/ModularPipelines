@@ -82,12 +82,6 @@ internal sealed class CommandLineBuilder(
             manualArgs,
             commandSpecificModel,
             terminatorEmittedBeforeProperties);
-        if (terminatorEmittedBeforeProperties && commandParts.Count > 0)
-        {
-            throw new InvalidOperationException(
-                "A global end-of-options marker cannot precede a subcommand. "
-                + "Remove the marker source or use options without a subcommand.");
-        }
 
         // Keep recognized manual options ahead of a marker emitted by a structured argument
         // or declared in the manual arguments or run settings; leave manual positional operands in place.
@@ -111,43 +105,20 @@ internal sealed class CommandLineBuilder(
                 options,
                 preserveTerminalOptions: true)
             : ExtractedManualOptions.Empty;
-        if (options.ArgumentsContainOptionTerminator
-            && !manualArgs.Contains("--", StringComparer.Ordinal))
-        {
-            throw new ArgumentException(
-                $"{nameof(CommandLineToolOptions.ArgumentsContainOptionTerminator)} requires "
-                + $"{nameof(CommandLineToolOptions.Arguments)} to contain an unconsumed '--'.",
-                nameof(options));
-        }
-
-        var leadingManualGlobalOptions = extractedManualOptions.Global;
-        var leadingManualCommandOptions = extractedManualOptions.Command;
-        globalArgs.InsertRange(
-            globalOptionTerminatorIndex ?? globalArgs.Count,
-            leadingManualGlobalOptions);
-        if (commandOptionTerminatorIndex is { } insertionIndex)
-        {
-            propertyArgs.InsertRange(insertionIndex, leadingManualCommandOptions);
-        }
-        else
-        {
-            propertyArgs.AddRange(leadingManualCommandOptions);
-        }
-        if (options.ArgumentsContainToolOptions
-            && hasOptionTerminator
-            && extractedManualOptions.HasTerminalOptions)
-        {
-            throw new InvalidOperationException(
-                "Manual terminal options cannot be combined with an end-of-options marker. "
-                + "Remove either the terminal option or the '--' source.");
-        }
-
-        if (options.ArgumentsContainOptionTerminator && emittedOptionTerminator)
-        {
-            throw new InvalidOperationException(
-                "Manual arguments cannot supply an end-of-options marker after one was already "
-                + "emitted by a structured argument. Remove one of the '--' sources.");
-        }
+        ValidateTerminatorState(
+            options,
+            commandParts,
+            manualArgs,
+            extractedManualOptions,
+            terminatorEmittedBeforeProperties,
+            emittedOptionTerminator,
+            hasOptionTerminator);
+        InsertManualOptions(
+            globalArgs,
+            propertyArgs,
+            extractedManualOptions,
+            globalOptionTerminatorIndex,
+            commandOptionTerminatorIndex);
 
         emittedOptionTerminator = pendingTerminatorState;
         var terminalOptionArgs = _commandArgumentBuilder.BuildArguments(
@@ -180,6 +151,68 @@ internal sealed class CommandLineBuilder(
         allArgs.AddRange(terminalOptionArgs);
 
         return new CommandLine(tool, allArgs);
+    }
+
+    private static void ValidateTerminatorState(
+        CommandLineToolOptions options,
+        IReadOnlyCollection<string> commandParts,
+        IReadOnlyCollection<string> manualArgs,
+        ExtractedManualOptions extractedManualOptions,
+        bool terminatorEmittedBeforeProperties,
+        bool emittedOptionTerminator,
+        bool hasOptionTerminator)
+    {
+        if (terminatorEmittedBeforeProperties && commandParts.Count > 0)
+        {
+            throw new InvalidOperationException(
+                "A global end-of-options marker cannot precede a subcommand. "
+                + "Remove the marker source or use options without a subcommand.");
+        }
+
+        if (options.ArgumentsContainOptionTerminator
+            && !manualArgs.Contains("--", StringComparer.Ordinal))
+        {
+            throw new ArgumentException(
+                $"{nameof(CommandLineToolOptions.ArgumentsContainOptionTerminator)} requires "
+                + $"{nameof(CommandLineToolOptions.Arguments)} to contain an unconsumed '--'.",
+                nameof(options));
+        }
+
+        if (options.ArgumentsContainToolOptions
+            && hasOptionTerminator
+            && extractedManualOptions.HasTerminalOptions)
+        {
+            throw new InvalidOperationException(
+                "Manual terminal options cannot be combined with an end-of-options marker. "
+                + "Remove either the terminal option or the '--' source.");
+        }
+
+        if (options.ArgumentsContainOptionTerminator && emittedOptionTerminator)
+        {
+            throw new InvalidOperationException(
+                "Manual arguments cannot supply an end-of-options marker after one was already "
+                + "emitted by a structured argument. Remove one of the '--' sources.");
+        }
+    }
+
+    private static void InsertManualOptions(
+        List<string> globalArgs,
+        List<string> propertyArgs,
+        ExtractedManualOptions extractedManualOptions,
+        int? globalOptionTerminatorIndex,
+        int? commandOptionTerminatorIndex)
+    {
+        globalArgs.InsertRange(
+            globalOptionTerminatorIndex ?? globalArgs.Count,
+            extractedManualOptions.Global);
+        if (commandOptionTerminatorIndex is { } insertionIndex)
+        {
+            propertyArgs.InsertRange(insertionIndex, extractedManualOptions.Command);
+        }
+        else
+        {
+            propertyArgs.AddRange(extractedManualOptions.Command);
+        }
     }
 
     private static void ValidateManualOptionsAfterGlobalTerminator(
