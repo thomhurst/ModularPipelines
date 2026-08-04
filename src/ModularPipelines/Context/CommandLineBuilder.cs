@@ -342,6 +342,11 @@ internal sealed class CommandLineBuilder(
         CommandLineToolOptions options)
     {
         var argument = manualArgs[index];
+        if (argument == "--" && options.ArgumentsContainOptionTerminator)
+        {
+            return null;
+        }
+
         if (flagsByName.TryGetValue(argument, out var flag))
         {
             return new ManualOptionMatch(

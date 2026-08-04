@@ -120,6 +120,21 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Preserves_Declared_Manual_Marker_With_Legacy_Flag()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestLegacyEndOfOptionsOptions
+        {
+            Arguments = ["--", "tail"],
+            ArgumentsContainOptionTerminator = true,
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString()).IsEqualTo("jq -- tail");
+    }
+
+    [Test]
     public async Task Build_Rejects_Manual_Terminal_Options_With_Manual_Terminator()
     {
         var builder = await GetService<ICommandLineBuilder>();
