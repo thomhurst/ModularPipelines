@@ -35,6 +35,13 @@ public class IncompleteMetadataDiagnosticTests
         namespace Microsoft.Extensions.Options
         {
             public sealed class OptionsBuilder<TOptions>;
+
+            public interface IOptions<out TOptions>;
+
+            public static class Options
+            {
+                public static IOptions<TOptions> Create<TOptions>(TOptions options) => null!;
+            }
         }
 
         namespace Microsoft.Extensions.DependencyInjection
@@ -51,6 +58,13 @@ public class IncompleteMetadataDiagnosticTests
 
                 public static object AddOptions<TOptions>(
                     this IServiceCollection services) => new object();
+            }
+
+            public static class ServiceCollectionServiceExtensions
+            {
+                public static IServiceCollection AddSingleton<TService>(
+                    this IServiceCollection services,
+                    TService implementation) => services;
             }
         }
         """;
@@ -774,6 +788,8 @@ public class IncompleteMetadataDiagnosticTests
             await Assert.That(result.Diagnostics).IsEmpty();
             var generatedSource = result.GeneratedTrees.Single().ToString();
             await Assert.That(generatedSource).Contains("RegisterIncompleteTypeNames");
+            await Assert.That(generatedSource).Contains(
+                "[assembly: global::ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute(\"PartialOptions\")]");
             await Assert.That(generatedSource).Contains("\"PartialOptions\"");
         }
     }
@@ -934,6 +950,71 @@ public class IncompleteMetadataDiagnosticTests
             "MPG0006",
             "global::PartialOptions",
             DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Jit_Host_Rejects_Inferred_Partial_Options_Registration()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Options;
+
+            public partial class PartialOptions;
+
+            public static class Registration
+            {
+                public static void Add(IServiceCollection services) =>
+                    services.AddSingleton(Options.Create(new PartialOptions()));
+            }
+            """);
+
+        await AssertSkippedDiagnostic(
+            result,
+            "MPG0006",
+            "global::PartialOptions",
+            DiagnosticSeverity.Error);
+    }
+
+    [Test]
+    public async Task Jit_Host_Rejects_External_Partial_Options_Usage()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            [assembly: ModularPipelines.Generated.IncompleteRuntimeMetadataAttribute(
+                "External.PartialOptions")]
+
+            namespace ModularPipelines.Generated
+            {
+                [System.AttributeUsage(System.AttributeTargets.Assembly, AllowMultiple = true)]
+                internal sealed class IncompleteRuntimeMetadataAttribute(string metadataName)
+                    : System.Attribute;
+            }
+
+            namespace External
+            {
+                public partial class PartialOptions;
+
+                public sealed class RuntimeReference
+                    : ModularPipelines.Options.CommandLineToolOptions;
+            }
+            """,
+            """
+            public sealed class Consumer(
+                Microsoft.Extensions.Options.IOptions<External.PartialOptions> options);
+            """);
+
+        var diagnostic = result.Diagnostics.Single();
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
+            await Assert.That(diagnostic.Severity).IsEqualTo(DiagnosticSeverity.Error);
+            await Assert.That(diagnostic.GetMessage()).Contains("global::External.PartialOptions");
+        }
     }
 
     [Test]
