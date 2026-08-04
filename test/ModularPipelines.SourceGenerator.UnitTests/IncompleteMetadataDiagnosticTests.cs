@@ -1196,6 +1196,32 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Aot_Host_Registers_Empty_Metadata_For_Framework_Options()
+    {
+        var result = GeneratorTestHarness.Run(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            public sealed class Consumer(
+                Microsoft.Extensions.Options.IOptions<System.Uri> options);
+            """,
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::System.Uri))");
+            await Assert.That(generatedSource).DoesNotContain(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::System.Version))");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Rejects_Partial_Options_Registered_With_AddOptions()
     {
         var result = GeneratorTestHarness.Run(

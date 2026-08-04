@@ -963,9 +963,21 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         bool includeAllRuntimeMetadata,
         HashSet<string> usedOptionsTypes)
     {
-        if (!RequiresExternalMetadata(assembly, runtimeAssembly))
+        if (SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly))
         {
             return [];
+        }
+
+        if (!RequiresExternalMetadata(assembly, runtimeAssembly))
+        {
+            return usedOptionsTypes
+                .Select(assembly.GetTypeByMetadataName)
+                .OfType<INamedTypeSymbol>()
+                .Select(type => GetExternalOptionsUsageCandidate(
+                    type,
+                    compilation,
+                    isIncomplete: false))
+                .OfType<TypeMetadataCandidate>();
         }
 
         var incompleteTypeNames = GetIncompleteTypeNames(assembly);
