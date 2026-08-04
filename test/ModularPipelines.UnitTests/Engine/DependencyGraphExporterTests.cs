@@ -31,6 +31,8 @@ public class DependencyGraphExporterTests
     private static int _planningRegistrationEvents;
     private static int _directModuleActivations;
     private static readonly object DependencySentinel = new();
+    private static bool _externalConfigurationIncludesDependency;
+    private static int _customPlanningAttributeEvaluations;
 
     private sealed class DependencyModule : Module<string>
     {
@@ -428,6 +430,25 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("reference-identity");
+    }
+
+    private sealed class ExternalConfigurationFactoryModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            var builder = ModuleConfiguration.Create();
+            if (_externalConfigurationIncludesDependency)
+            {
+                builder.DependsOn<DependencyModule>();
+            }
+
+            return builder.Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("external-configuration");
     }
 
     private sealed class StatefulDirectInterfaceModule : IModule
@@ -889,6 +910,34 @@ public class DependencyGraphExporterTests
         }
     }
 
+    private struct MutablePlanningCounter
+    {
+        private int _evaluations;
+
+        public SkipDecision NextDecision() => ++_evaluations == 1
+            ? SkipDecision.Skip("first evaluation")
+            : SkipDecision.DoNotSkip;
+    }
+
+    private sealed class MutableStructClosureFactorySkipModule(string factoryValue) : Module<string>
+    {
+        protected override ModuleConfiguration Configure()
+        {
+            var counter = new MutablePlanningCounter();
+            return ModuleConfiguration.Create()
+                .WithSkipWhen(_ => counter.NextDecision())
+                .Build();
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken)
+        {
+            Interlocked.Increment(ref _executions);
+            return Task.FromResult<string?>(factoryValue);
+        }
+    }
+
     private sealed class RuntimeBoundFactorySkipModule(bool shouldSkip) : Module<string>
     {
         public int PlanningEvaluations { get; private set; }
@@ -1038,6 +1087,19 @@ public class DependencyGraphExporterTests
         }
     }
 
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class CustomGenericConditionAttribute<T> : RunIfAllAttribute
+        where T : IPlanningRunCondition
+    {
+        public override Task<bool> EvaluateAsync(IPipelineContext context)
+        {
+            Interlocked.Increment(ref _customPlanningAttributeEvaluations);
+            return Task.FromResult(false);
+        }
+
+        public override string ConditionNames => typeof(T).Name;
+    }
+
     [AsyncPlanningCondition]
     private sealed class AsyncAttributeConditionModule : Module<string>
     {
@@ -1045,6 +1107,15 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("async-attribute-condition");
+    }
+
+    [CustomGenericCondition<AlwaysSkipCondition>]
+    private sealed class CustomGenericAttributeConditionModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("custom-generic-attribute-condition");
     }
 
     [AsyncPlanningCondition]
@@ -1780,6 +1851,21 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Exporter_Rejects_Graph_Render_After_Execution()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<ExecutionMutatingModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        _ = await pipeline.RunAsync();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(() =>
+            exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(exception!.Message).Contains("before RunAsync starts");
+    }
+
+    [Test]
     public async Task Async_Attribute_Condition_Is_Unresolved_Without_Starting_Work()
     {
         using var builder = Pipeline.CreateBuilder();
@@ -1796,6 +1882,27 @@ public class DependencyGraphExporterTests
             await Assert.That(node.GetProperty("skipped").ValueKind)
                 .IsEqualTo(JsonValueKind.Null);
             await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Custom_Generic_Attribute_Requires_Planning_Opt_In()
+    {
+        _customPlanningAttributeEvaluations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<CustomGenericAttributeConditionModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(node.GetProperty("skipped").ValueKind)
+                .IsEqualTo(JsonValueKind.Null);
+            await Assert.That(_customPlanningAttributeEvaluations).IsEqualTo(0);
         }
     }
 
@@ -2277,6 +2384,23 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
+    public async Task Render_Preserves_Initialized_External_Configuration()
+    {
+        _externalConfigurationIncludesDependency = true;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DependencyModule>();
+        builder.AddModule(_ => new ExternalConfigurationFactoryModule());
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        _externalConfigurationIncludesDependency = false;
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        await Assert.That(document.RootElement.GetProperty("edges").GetArrayLength()).IsEqualTo(1);
+    }
+
+    [Test]
     public async Task Render_Activates_Isolated_Direct_Interface_Module()
     {
         _directModuleActivations = 0;
@@ -2588,6 +2712,27 @@ public class DependencyGraphExporterTests
         _executions = 0;
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule(_ => new MutableReferenceClosureFactorySkipModule("factory-only"));
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+        var summary = await pipeline.RunAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("mutable runtime state");
+            await Assert.That(summary.Results.Single().ModuleStatus).IsEqualTo(Status.Skipped);
+            await Assert.That(_executions).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Mutable_Struct_Closure_Without_Evaluating_It()
+    {
+        _executions = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule(_ => new MutableStructClosureFactorySkipModule("factory-only"));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 

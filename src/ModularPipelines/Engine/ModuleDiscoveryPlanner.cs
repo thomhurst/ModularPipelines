@@ -289,10 +289,35 @@ internal sealed class ModuleDiscoveryPlanner(
         IModule planningModule,
         Func<object, bool> isServiceProviderOwned) =>
         planningModule.GetType() == runtimeModule.GetType()
+        && (runtimeModule is not IPlanningModuleCopyProvider
+            || HasEquivalentPlanningConfiguration(
+                runtimeModule.Configuration,
+                planningModule.Configuration,
+                isServiceProviderOwned))
         && HasEquivalentModuleState(
             runtimeModule,
             planningModule,
             isServiceProviderOwned);
+
+    private static bool HasEquivalentPlanningConfiguration(
+        ModuleConfiguration runtimeConfiguration,
+        ModuleConfiguration planningConfiguration,
+        Func<object, bool> isServiceProviderOwned)
+    {
+        if (ReferenceEquals(runtimeConfiguration, planningConfiguration))
+        {
+            return true;
+        }
+
+        var context = new StateComparisonContext(isServiceProviderOwned);
+        return runtimeConfiguration.Dependencies.SequenceEqual(planningConfiguration.Dependencies)
+               && runtimeConfiguration.Tags.SetEquals(planningConfiguration.Tags)
+               && runtimeConfiguration.Category == planningConfiguration.Category
+               && HasEquivalentState(
+                   runtimeConfiguration.SynchronousPlanningSkipCondition,
+                   planningConfiguration.SynchronousPlanningSkipCondition,
+                   context);
+    }
 
     [UnconditionalSuppressMessage(
         "Trimming",
@@ -379,6 +404,14 @@ internal sealed class ModuleDiscoveryPlanner(
             return HasEquivalentFields(first, second, context);
         }
 
+        return HasEquivalentReferenceMapping(first, second, context);
+    }
+
+    private static bool HasEquivalentReferenceMapping(
+        object first,
+        object second,
+        StateComparisonContext context)
+    {
         var mapping = context.Map(first, second);
         if (mapping == ReferenceMapping.Mismatch)
         {
@@ -392,18 +425,23 @@ internal sealed class ModuleDiscoveryPlanner(
 
         if (ReferenceEquals(first, second))
         {
-            return context.IsServiceProviderOwned(first)
-                   || first is Array { Length: 0 }
-                   || (first is not Array && !HasInstanceFields(first))
-                   || IsKnownImmutableFrameworkSingleton(first)
-                   || (IsFrameworkComparer(first)
-                       && HasEquivalentFields(first, first, context))
-                   || (first is Delegate sharedDelegate
-                       && HasEquivalentDelegates(sharedDelegate, sharedDelegate, context));
+            return HasEquivalentSharedReference(first, context);
         }
 
         return HasEquivalentReferenceState(first, second, context);
     }
+
+    private static bool HasEquivalentSharedReference(
+        object value,
+        StateComparisonContext context) =>
+        context.IsServiceProviderOwned(value)
+        || value is Array { Length: 0 }
+        || (value is not Array && !HasInstanceFields(value))
+        || IsKnownImmutableFrameworkSingleton(value)
+        || (IsFrameworkComparer(value)
+            && HasEquivalentFields(value, value, context))
+        || (value is Delegate sharedDelegate
+            && HasEquivalentDelegates(sharedDelegate, sharedDelegate, context));
 
     private static bool HasEquivalentReferenceState(
         object first,
@@ -620,26 +658,37 @@ internal sealed class ModuleDiscoveryPlanner(
         }
 
         var type = value.GetType();
-        if (IsTerminalPlanningValue(value, type)
-            || (!type.IsValueType && !visited.Add(value)))
+        if (ShouldSkipPlanningValue(value, type, visited))
         {
             return false;
         }
 
         if (value is Array array)
         {
-            return !typeof(Delegate).IsAssignableFrom(type.GetElementType()!)
-                   || array.Cast<object?>().Any(item => MutatesDelegateTargetState(item, visited));
+            return MutatesPlanningArray(array, visited);
         }
 
-        if (!type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false))
-        {
-            return !type.IsValueType;
-        }
-
-        return GetInstanceFields(type)
-            .Any(field => MutatesDelegateTargetState(field.GetValue(value), visited));
+        return MutatesPlanningObject(value, type, visited);
     }
+
+    private static bool MutatesPlanningArray(Array array, ISet<object> visited) =>
+        !typeof(Delegate).IsAssignableFrom(array.GetType().GetElementType()!)
+        || array.Cast<object?>().Any(item => MutatesDelegateTargetState(item, visited));
+
+    private static bool MutatesPlanningObject(
+        object value,
+        Type type,
+        ISet<object> visited) =>
+        !type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false)
+        || GetInstanceFields(type)
+            .Any(field => MutatesDelegateTargetState(field.GetValue(value), visited));
+
+    private static bool ShouldSkipPlanningValue(
+        object value,
+        Type type,
+        ISet<object> visited) =>
+        IsTerminalPlanningValue(value, type)
+        || (!type.IsValueType && !visited.Add(value));
 
     private static bool DelegateTargetMutatesState(Delegate @delegate, ISet<object> visited) =>
         @delegate.GetInvocationList().Any(invocation =>
@@ -704,13 +753,13 @@ internal sealed class ModuleDiscoveryPlanner(
             return true;
         }
 
-        if (value is null || IsTerminalPlanningValue(value, value.GetType()))
+        if (value is null)
         {
             return false;
         }
 
         var type = value.GetType();
-        if (!type.IsValueType && !visited.Add(value))
+        if (ShouldSkipPlanningValue(value, type, visited))
         {
             return false;
         }
@@ -727,6 +776,16 @@ internal sealed class ModuleDiscoveryPlanner(
                 ReferencesObject(item, target, visited, inspectFields: true));
         }
 
+        return ReferencesObjectFields(value, target, visited, inspectFields, type);
+    }
+
+    private static bool ReferencesObjectFields(
+        object value,
+        object target,
+        ISet<object> visited,
+        bool inspectFields,
+        Type type)
+    {
         var inspectCollectionFields = value is IEnumerable;
         if (!inspectFields
             && !inspectCollectionFields

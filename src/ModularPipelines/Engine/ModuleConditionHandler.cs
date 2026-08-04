@@ -247,11 +247,27 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return true;
         }
 
-        var conditionTypes = attribute.GetType().GetGenericArguments();
-        return conditionTypes.Length > 0
+        var attributeType = attribute.GetType();
+        var conditionTypes = attributeType.GetGenericArguments();
+        return attributeType.IsGenericType
+               && IsBuiltInGenericConditionAttribute(attributeType.GetGenericTypeDefinition())
                && conditionTypes.All(static type =>
                    typeof(IPlanningRunCondition).IsAssignableFrom(type));
     }
+
+    private static bool IsBuiltInGenericConditionAttribute(Type type) =>
+        type == typeof(RunIfAllAttribute<>)
+        || type == typeof(RunIfAllAttribute<,>)
+        || type == typeof(RunIfAllAttribute<,,>)
+        || type == typeof(RunIfAllAttribute<,,,>)
+        || type == typeof(RunIfAnyAttribute<>)
+        || type == typeof(RunIfAnyAttribute<,>)
+        || type == typeof(RunIfAnyAttribute<,,>)
+        || type == typeof(RunIfAnyAttribute<,,,>)
+        || type == typeof(SkipIfAttribute<>)
+        || type == typeof(SkipIfAttribute<,>)
+        || type == typeof(SkipIfAttribute<,,>)
+        || type == typeof(SkipIfAttribute<,,,>);
 
     private static async Task<PlanningConditionResult> EvaluatePlanningConditions(
         ConditionAttributes attributes,

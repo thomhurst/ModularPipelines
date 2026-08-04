@@ -22,6 +22,7 @@ internal sealed class DependencyGraphExporter(
     IServiceProvider serviceProvider,
     ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
     IMediator mediator,
+    PipelineExecutionState pipelineExecutionState,
     IIgnoredModuleResultRegistrar ignoredModuleResultRegistrar) :
     IDependencyGraphExporter
 {
@@ -29,8 +30,8 @@ internal sealed class DependencyGraphExporter(
         DependencyGraphFormat format,
         CancellationToken cancellationToken = default)
     {
-        var graph = await CreateGraphAsync(cancellationToken).ConfigureAwait(false);
-        return Render(format, graph);
+        using var exportLease = pipelineExecutionState.EnterGraphExport();
+        return await RenderBeforeExecutionAsync(format, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<string> RenderSummaryAsync(
@@ -61,6 +62,7 @@ internal sealed class DependencyGraphExporter(
         string path,
         CancellationToken cancellationToken = default)
     {
+        using var exportLease = pipelineExecutionState.EnterGraphExport();
         ArgumentException.ThrowIfNullOrWhiteSpace(path);
 
         var fullPath = Path.GetFullPath(path);
@@ -70,8 +72,16 @@ internal sealed class DependencyGraphExporter(
             Directory.CreateDirectory(directory);
         }
 
-        var contents = await RenderAsync(format, cancellationToken).ConfigureAwait(false);
+        var contents = await RenderBeforeExecutionAsync(format, cancellationToken).ConfigureAwait(false);
         await File.WriteAllTextAsync(fullPath, contents, cancellationToken).ConfigureAwait(false);
+    }
+
+    private async Task<string> RenderBeforeExecutionAsync(
+        DependencyGraphFormat format,
+        CancellationToken cancellationToken)
+    {
+        var graph = await CreateGraphAsync(cancellationToken).ConfigureAwait(false);
+        return Render(format, graph);
     }
 
     private async Task<DependencyGraphDocument> CreateGraphAsync(
