@@ -213,18 +213,22 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<IMethodSymbol> eventHandlerMethods)
     {
         var eventAssignment = (IEventAssignmentOperation) context.Operation;
-        foreach (var method in eventAssignment.HandlerValue
-                     .DescendantsAndSelf()
-                     .Select(static operation => operation switch
-                     {
-                         IMethodReferenceOperation methodReference => methodReference.Method,
-                         IAnonymousFunctionOperation anonymousFunction => anonymousFunction.Symbol,
-                         _ => null,
-                     })
-                     .OfType<IMethodSymbol>())
+        if (GetDirectDelegateTarget(eventAssignment.HandlerValue) is { } method)
         {
             eventHandlerMethods.Add(method);
         }
+    }
+
+    private static IMethodSymbol? GetDirectDelegateTarget(IOperation operation)
+    {
+        return operation switch
+        {
+            IConversionOperation conversion => GetDirectDelegateTarget(conversion.Operand),
+            IDelegateCreationOperation { Target: { } target } => GetDirectDelegateTarget(target),
+            IMethodReferenceOperation methodReference => methodReference.Method,
+            IAnonymousFunctionOperation anonymousFunction => anonymousFunction.Symbol,
+            _ => null,
+        };
     }
 
     private static void ReportAsyncVoidDiagnostics(
@@ -342,8 +346,7 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
     {
         var eventAssignment = (IEventAssignmentOperation) context.Operation;
-        if (!IsInReachableBranch(eventAssignment)
-            || !IsInsideReachableNestedCallable(eventAssignment))
+        if (!IsInReachableBranch(eventAssignment))
         {
             return;
         }
@@ -354,7 +357,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         foreach (var containingMethod in
-                 GetContainingExecutionMethods(context.ContainingSymbol)
+                 GetContainingExecutionMethods(eventAssignment, context.ContainingSymbol)
                      .OfType<IMethodSymbol>())
         {
             methodCalls.Add((
@@ -1059,6 +1062,7 @@ internal static class ModuleAuthoringAnalysis
         {
             TrackDynamicModuleRegistrations(
                 invocation,
+                compilation,
                 registeredModules,
                 unresolvedModuleRegistrations);
         }
@@ -2668,6 +2672,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static void TrackDynamicModuleRegistrations(
         IInvocationOperation invocation,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
         ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
@@ -2676,7 +2681,9 @@ internal static class ModuleAuthoringAnalysis
         {
             if (!TryTrackModuleTypes(
                     argument.Value,
+                    compilation,
                     registeredModules,
+                    [with(SymbolEqualityComparer.Default)],
                     [with(SymbolEqualityComparer.Default)]))
             {
                 unresolvedModuleRegistrations.Add(0);
@@ -2865,30 +2872,54 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackModuleTypes(
         IOperation operation,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
     {
         switch (operation)
         {
             case IConversionOperation conversion:
                 return TryTrackModuleTypes(
                     conversion.Operand,
+                    compilation,
                     registeredModules,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMembers);
             case ITypeOfOperation { TypeOperand: INamedTypeSymbol moduleType }:
                 registeredModules.Add(moduleType.OriginalDefinition);
                 return true;
             case ILocalReferenceOperation localReference:
                 return TryTrackModuleTypesLocal(
                     localReference,
+                    compilation,
                     registeredModules,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMembers);
+            case IFieldReferenceOperation fieldReference:
+                return TryTrackModuleTypesMember(
+                    fieldReference,
+                    fieldReference.Field,
+                    compilation,
+                    registeredModules,
+                    visitedLocals,
+                    visitedMembers);
+            case IPropertyReferenceOperation propertyReference:
+                return TryTrackModuleTypesMember(
+                    propertyReference,
+                    propertyReference.Property,
+                    compilation,
+                    registeredModules,
+                    visitedLocals,
+                    visitedMembers);
             case IArrayCreationOperation { Initializer: { } initializer }:
                 return initializer.ElementValues.All(element =>
                     TryTrackModuleTypes(
                         element,
+                        compilation,
                         registeredModules,
-                        CloneVisitedLocals(visitedLocals)));
+                        CloneVisitedLocals(visitedLocals),
+                        new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
             case IArrayCreationOperation { Initializer: null } arrayCreation
                 when arrayCreation.DimensionSizes.Length == 1
                      && arrayCreation.DimensionSizes[0].ConstantValue
@@ -2898,13 +2929,17 @@ internal static class ModuleAuthoringAnalysis
                 return collection.Elements.All(element =>
                     TryTrackModuleTypes(
                         element,
+                        compilation,
                         registeredModules,
-                        CloneVisitedLocals(visitedLocals)));
+                        CloneVisitedLocals(visitedLocals),
+                        new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
             case ISpreadOperation spread:
                 return TryTrackModuleTypes(
                     spread.Operand,
+                    compilation,
                     registeredModules,
-                    visitedLocals);
+                    visitedLocals,
+                    visitedMembers);
             case IConditionalOperation or ISwitchExpressionOperation:
                 var reachableValues = GetReachableValueLeaves(operation)
                     .Where(static value => !AlwaysThrows(value))
@@ -2912,8 +2947,10 @@ internal static class ModuleAuthoringAnalysis
                 return reachableValues.Length > 0
                        && reachableValues.All(value => TryTrackModuleTypes(
                            value,
+                           compilation,
                            registeredModules,
-                           CloneVisitedLocals(visitedLocals)));
+                           CloneVisitedLocals(visitedLocals),
+                           new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
             case IInvocationOperation invocation
                 when invocation.TargetMethod.Name == "Empty"
                      && invocation.TargetMethod.ContainingType.OriginalDefinition
@@ -2956,8 +2993,10 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool TryTrackModuleTypesLocal(
         ILocalReferenceOperation localReference,
+        Compilation compilation,
         ConcurrentBag<INamedTypeSymbol> registeredModules,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
     {
         if (!visitedLocals.Add(localReference.Local))
         {
@@ -2973,8 +3012,10 @@ internal static class ModuleAuthoringAnalysis
         {
             trackedAll &= TryTrackModuleTypes(
                 localValue,
+                compilation,
                 registeredModules,
-                CloneVisitedLocals(visitedLocals));
+                CloneVisitedLocals(visitedLocals),
+                new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default));
         }
 
         return trackedAll;
@@ -3041,6 +3082,19 @@ internal static class ModuleAuthoringAnalysis
                     scannedAssemblies,
                     visitedLocals,
                     visitedMembers);
+            case IConditionalOperation or ISwitchExpressionOperation:
+                var reachableValues = GetReachableValueLeaves(operation)
+                    .Where(static value => !AlwaysThrows(value))
+                    .ToArray();
+                return reachableValues.Length > 0
+                       && reachableValues.All(value => TryTrackScannedAssembly(
+                           value,
+                           compilation,
+                           currentAssembly,
+                           isApplication,
+                           scannedAssemblies,
+                           CloneVisitedLocals(visitedLocals),
+                           new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
             case IInvocationOperation invocation:
                 return TryTrackScannedAssemblyInvocation(
                     invocation,
@@ -3084,6 +3138,29 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return trackedAll;
+    }
+
+    private static bool TryTrackModuleTypesMember(
+        IOperation memberReference,
+        ISymbol member,
+        Compilation compilation,
+        ConcurrentBag<INamedTypeSymbol> registeredModules,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<ISymbol> visitedMembers)
+    {
+        if (!visitedMembers.Add(member))
+        {
+            return false;
+        }
+
+        var memberValues = GetMemberValues(memberReference, member, compilation).ToArray();
+        return memberValues.Length > 0
+               && memberValues.All(value => TryTrackModuleTypes(
+                   value,
+                   compilation,
+                   registeredModules,
+                   CloneVisitedLocals(visitedLocals),
+                   new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default)));
     }
 
     private static bool TryTrackScannedAssemblyMember(

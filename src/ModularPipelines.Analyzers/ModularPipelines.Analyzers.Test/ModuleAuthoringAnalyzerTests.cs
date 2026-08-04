@@ -1584,6 +1584,42 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("private static readonly Type[] ModuleTypes = [typeof(RegisteredModule)];")]
+    [DataRow("private static Type[] ModuleTypes => [typeof(RegisteredModule)];")]
+    public async Task Tracks_Member_Backed_Params_Type_Array(string declaration)
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class RegisteredModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class {|#0:UnregisteredModule|} : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                {{declaration}}
+
+                public static void Register() =>
+                    Pipeline.CreateBuilder().AddModules(ModuleTypes);
+            }
+
+            {{EntryPoint}}
+            """;
+
+        var expected = VerifyRegistrationCS.Diagnostic(
+                ModuleRegistrationAnalyzer.UnregisteredModuleId)
+            .WithLocation(0)
+            .WithArguments("UnregisteredModule");
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Switch_Assigned_Params_Type_Array()
     {
         var source = ModuleSource(
@@ -1756,6 +1792,36 @@ public class ModuleAuthoringAnalyzerTests
         var source = ModuleSource(
             TestSourceConstants.SimpleAsyncExecuteBody,
             "Pipeline.CreateBuilder().AddModulesFromAssembly(typeof(BuildModule).Assembly);");
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("flag ? typeof(FirstModule).Assembly : typeof(SecondModule).Assembly")]
+    [DataRow("flag switch { true => typeof(FirstModule).Assembly, false => typeof(SecondModule).Assembly }")]
+    public async Task Tracks_Conditional_Assembly_Scans(string assembly)
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class FirstModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public class SecondModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                public static void Register(bool flag) =>
+                    Pipeline.CreateBuilder().AddModulesFromAssembly({{assembly}});
+            }
+
+            {{EntryPoint}}
+            """;
 
         await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
     }
@@ -2287,6 +2353,27 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Async_Void_Callback_Nested_Inside_Event_Handler()
+    {
+        var source = ModuleSource($$"""
+            {{TestSourceConstants.SimpleAsyncExecuteBody}}
+
+                public event Action? Completed;
+
+                public BuildModule() => Completed += () =>
+                {
+                    Action work = {|#0:async () => await Task.Yield()|};
+                    work();
+                };
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.AsyncVoidId)
+            .WithLocation(0)
+            .WithArguments("anonymous function");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -6916,6 +7003,37 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("BuildModule");
         await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Does_Not_Report_Module_Registered_By_Event_In_Invoked_Field_Callback()
+    {
+        var source = $$"""
+            {{Header}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+            }
+
+            public static class Registration
+            {
+                private static readonly Action Callback = () =>
+                    Registered += static () => { };
+
+                public static void Register() => Callback();
+
+                private static event Action Registered
+                {
+                    add => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                    remove { }
+                }
+            }
+
+            {{EntryPoint}}
+            """;
+
+        await VerifyRegistrationCS.VerifyExecutableAnalyzerAsync(source);
     }
 
     [TestMethod]
