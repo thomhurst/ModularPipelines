@@ -4,8 +4,13 @@ using OpenTelemetry.Trace;
 
 namespace ModularPipelines.OpenTelemetry;
 
+// IInitializer forces the providers to be constructed during pipeline startup. Because this
+// singleton is constructed after its provider dependencies, DI disposes it first so both
+// providers can be flushed before their exporters are shut down.
 internal sealed class OpenTelemetryInitializer : IInitializer, IDisposable
 {
+    private const int FlushTimeoutMilliseconds = 5_000;
+
     private readonly TracerProvider _tracerProvider;
     private readonly MeterProvider _meterProvider;
 
@@ -23,7 +28,13 @@ internal sealed class OpenTelemetryInitializer : IInitializer, IDisposable
 
     public void Dispose()
     {
-        _tracerProvider.ForceFlush();
-        _meterProvider.ForceFlush();
+        try
+        {
+            _tracerProvider.ForceFlush(FlushTimeoutMilliseconds);
+        }
+        finally
+        {
+            _meterProvider.ForceFlush(FlushTimeoutMilliseconds);
+        }
     }
 }

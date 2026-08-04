@@ -57,7 +57,9 @@ public class OpenTelemetryRegistrationTests
         await pipeline.DisposeAsync();
 
         await Assert.That(activityProcessor.ForceFlushCalled).IsTrue();
+        await Assert.That(activityProcessor.FlushTimeoutMilliseconds).IsGreaterThan(0);
         await Assert.That(metricReader.CollectCalled).IsTrue();
+        await Assert.That(metricReader.CollectTimeoutMilliseconds).IsGreaterThan(0);
     }
 
     [Test]
@@ -74,9 +76,12 @@ public class OpenTelemetryRegistrationTests
     {
         public bool ForceFlushCalled { get; private set; }
 
+        public int FlushTimeoutMilliseconds { get; private set; }
+
         protected override bool OnForceFlush(int timeoutMilliseconds)
         {
             ForceFlushCalled = true;
+            FlushTimeoutMilliseconds = timeoutMilliseconds;
             return true;
         }
     }
@@ -85,9 +90,12 @@ public class OpenTelemetryRegistrationTests
     {
         public bool CollectCalled { get; private set; }
 
+        public int CollectTimeoutMilliseconds { get; private set; }
+
         protected override bool OnCollect(int timeoutMilliseconds)
         {
             CollectCalled = true;
+            CollectTimeoutMilliseconds = timeoutMilliseconds;
             return true;
         }
     }
