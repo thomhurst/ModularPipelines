@@ -94,7 +94,8 @@ internal static class GeneratorTestHarness
         string firstExternalSource,
         string secondExternalSource,
         string source,
-        IReadOnlyDictionary<string, string>? globalOptions = null)
+        IReadOnlyDictionary<string, string>? globalOptions = null,
+        bool firstExternalReferencesInfrastructure = true)
     {
         var infrastructureReference = CreateMetadataReference(
             "ModularPipelines",
@@ -103,7 +104,9 @@ internal static class GeneratorTestHarness
         var firstExternalReference = CreateMetadataReference(
             "ExternalOne",
             [firstExternalSource],
-            [.. References, infrastructureReference]);
+            firstExternalReferencesInfrastructure
+                ? [.. References, infrastructureReference]
+                : References);
         var secondExternalReference = CreateMetadataReference(
             "ExternalTwo",
             [secondExternalSource],

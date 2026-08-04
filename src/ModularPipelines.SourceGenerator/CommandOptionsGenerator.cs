@@ -65,8 +65,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .Where(static usage => usage is not null)
             .Select(static (usage, _) => usage!);
         var collectedOptionsTypeUsages = optionsTypeUsages
-            .Where(static usage => usage.MetadataName is not null)
-            .Select(static (usage, _) => usage.MetadataName!)
+            .Where(static usage => usage.TypeIdentity is not null)
+            .Select(static (usage, _) => usage.TypeIdentity!)
             .Collect();
 
         var externalTypeCandidates = context.CompilationProvider
@@ -124,7 +124,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void GenerateSource(
         SourceProductionContext sourceContext,
         (((ImmutableArray<TypeMetadataCandidate> Candidates, bool HasRuntimeReference) Candidates,
-            ImmutableArray<string> OptionsTypeMetadataNames) Generation,
+            ImmutableArray<OptionsTypeIdentity> OptionsTypes) Generation,
             (ImmutableArray<string> CoveredExternalAssemblyIdentities, bool RequiresGeneratedMetadata) Configuration) input)
     {
         if (!input.Generation.Candidates.HasRuntimeReference)
@@ -133,9 +133,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var candidates = input.Generation.Candidates.Candidates;
-        var optionsTypeMetadataNames = new HashSet<string>(
-            input.Generation.OptionsTypeMetadataNames,
-            StringComparer.Ordinal);
+        var optionsTypes = new HashSet<OptionsTypeIdentity>(input.Generation.OptionsTypes);
         var ambiguousMetadataNames = new HashSet<string>(candidates
             .Where(RequiresDirectTypeReference)
             .GroupBy(static candidate => candidate.MetadataName, StringComparer.Ordinal)
@@ -181,7 +179,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         ReportIncompleteMetadata(
             sourceContext,
             unambiguousCandidates,
-            optionsTypeMetadataNames,
+            optionsTypes,
             input.Configuration.RequiresGeneratedMetadata);
         sourceContext.AddSource(
             "ModularPipelines.RuntimeMetadata.g.cs",
@@ -218,7 +216,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             } optionsType)
         {
             return new OptionsTypeUsage(
-                GetMetadataName(optionsType),
+                new OptionsTypeIdentity(
+                    GetMetadataName(optionsType),
+                    optionsType.ContainingAssembly.Identity.ToString()),
                 TypeParameterName: null,
                 context.Node.GetLocation());
         }
@@ -231,7 +231,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                && optionsTypeSymbol is ITypeParameterSymbol typeParameter
                && IsGenericOptionsRegistrationUsage(context)
             ? new OptionsTypeUsage(
-                MetadataName: null,
+                TypeIdentity: null,
                 typeParameter.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 context.Node.GetLocation())
             : null;
@@ -985,7 +985,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static void ReportIncompleteMetadata(
         SourceProductionContext context,
         IReadOnlyCollection<TypeMetadataCandidate> candidates,
-        IReadOnlyCollection<string> optionsTypeMetadataNames,
+        IReadOnlyCollection<OptionsTypeIdentity> optionsTypes,
         bool requiresGeneratedMetadata)
     {
         foreach (var candidate in candidates
@@ -996,7 +996,9 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             var item = candidate.Metadata!;
             if ((!item.CanRegisterSecretCoverage
                  || (requiresGeneratedMetadata && item.RequiresSecretReflectionFallback))
-                && optionsTypeMetadataNames.Contains(item.MetadataName))
+                && optionsTypes.Contains(new OptionsTypeIdentity(
+                    item.MetadataName,
+                    candidate.AssemblyIdentity)))
             {
                 context.ReportDiagnostic(Diagnostic.Create(
                     SkippedRuntimeMetadata,
@@ -1133,7 +1135,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static ImmutableArray<TypeMetadataCandidate> GetExternalTypeCandidates(
         Compilation compilation,
         AnalyzerConfigOptionsProvider optionsProvider,
-        ImmutableArray<string> optionsTypeMetadataNames)
+        ImmutableArray<OptionsTypeIdentity> optionsTypes)
     {
         if (compilation.GetTypeByMetadataName(CommandLineToolOptionsFullName)?.ContainingAssembly is not { } runtimeAssembly)
         {
@@ -1141,7 +1143,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         }
 
         var includeAllRuntimeMetadata = IsTrimOrAotEnabled(optionsProvider);
-        var usedOptionsTypes = new HashSet<string>(optionsTypeMetadataNames, StringComparer.Ordinal);
+        var usedOptionsTypes = new HashSet<OptionsTypeIdentity>(optionsTypes);
         return compilation.SourceModule.ReferencedAssemblySymbols
             .SelectMany(assembly => GetExternalTypeCandidates(
                 assembly,
@@ -1176,7 +1178,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         IAssemblySymbol runtimeAssembly,
         Compilation compilation,
         bool includeAllRuntimeMetadata,
-        HashSet<string> usedOptionsTypes)
+        HashSet<OptionsTypeIdentity> usedOptionsTypes)
     {
         if (SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly))
         {
@@ -1205,13 +1207,15 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         INamedTypeSymbol type,
         Compilation compilation,
         bool includeAllRuntimeMetadata,
-        ISet<string> usedOptionsTypes,
+        ISet<OptionsTypeIdentity> usedOptionsTypes,
         ISet<string> incompleteTypeNames,
         bool requiresSecretReflectionFallback)
     {
         var metadataName = GetMetadataName(type);
         TypeMetadataCandidate? candidate;
-        if (usedOptionsTypes.Contains(metadataName))
+        if (usedOptionsTypes.Contains(new OptionsTypeIdentity(
+                metadataName,
+                type.ContainingAssembly.Identity.ToString())))
         {
             candidate = GetExternalOptionsUsageCandidate(
                 type,
@@ -1634,9 +1638,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         TypeMetadata? Metadata);
 
     private sealed record OptionsTypeUsage(
-        string? MetadataName,
+        OptionsTypeIdentity? TypeIdentity,
         string? TypeParameterName,
         Location Location);
+
+    private sealed record OptionsTypeIdentity(
+        string MetadataName,
+        string AssemblyIdentity);
 
     private sealed class TypeMetadataCandidateComparer : IEqualityComparer<TypeMetadataCandidate>
     {

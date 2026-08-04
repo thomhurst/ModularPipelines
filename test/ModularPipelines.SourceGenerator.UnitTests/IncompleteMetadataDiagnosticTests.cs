@@ -540,6 +540,50 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Trimmed_Host_Tracks_External_Options_Usage_By_Assembly()
+    {
+        var result = GeneratorTestHarness.RunWithPeerExternalAssemblies(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace External;
+
+            public sealed class LegacyOptions;
+            """,
+            """
+            namespace ModularPipelines.Generated
+            {
+                internal static class RuntimeMetadataRegistration;
+            }
+
+            namespace External
+            {
+                internal sealed class LegacyOptions;
+
+                public sealed class RuntimeReference
+                    : ModularPipelines.Options.CommandLineToolOptions;
+            }
+            """,
+            """
+            public sealed class Consumer(
+                Microsoft.Extensions.Options.IOptions<External.LegacyOptions> options);
+            """,
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishTrimmed"] = "true",
+            },
+            firstExternalReferencesInfrastructure: false);
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains("ExternalOne");
+            await Assert.That(generatedSource).Contains("ExternalTwo");
+        }
+    }
+
+    [Test]
     public async Task Accessible_Type_Without_Secrets_Registers_Name_Based_Empty_Metadata()
     {
         var result = GeneratorTestRunner.Run(
