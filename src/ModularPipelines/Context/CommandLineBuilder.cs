@@ -542,7 +542,11 @@ internal sealed class CommandLineBuilder(
             var groupedOperandCount = 0;
             for (var index = optionIndex + 1; index < manualArgs.Count; index++)
             {
-                if (IsRecognizedManualOptionToken(manualArgs[index], flagsByName, optionsByName))
+                if (IsRecognizedManualOptionToken(
+                        manualArgs[index],
+                        flagsByName,
+                        optionsByName,
+                        options.ArgumentsContainOptionTerminator))
                 {
                     break;
                 }
@@ -570,7 +574,11 @@ internal sealed class CommandLineBuilder(
         }
 
         var possibleOperand = manualArgs[optionIndex + 1];
-        return IsRecognizedManualOptionToken(possibleOperand, flagsByName, optionsByName)
+        return IsRecognizedManualOptionToken(
+            possibleOperand,
+            flagsByName,
+            optionsByName,
+            options.ArgumentsContainOptionTerminator)
             ? 0
             : operandCount;
     }
@@ -602,9 +610,10 @@ internal sealed class CommandLineBuilder(
     private static bool IsRecognizedManualOptionToken(
         string argument,
         IReadOnlyDictionary<string, FlagPart> flagsByName,
-        IReadOnlyDictionary<string, OptionPart> optionsByName)
+        IReadOnlyDictionary<string, OptionPart> optionsByName,
+        bool argumentsContainOptionTerminator)
     {
-        if (argument == "--"
+        if ((argument == "--" && argumentsContainOptionTerminator)
             || flagsByName.ContainsKey(argument)
             || optionsByName.ContainsKey(argument)
             || TryGetAttachedManualOption(argument, optionsByName, out _))

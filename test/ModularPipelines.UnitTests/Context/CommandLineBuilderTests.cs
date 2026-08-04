@@ -419,6 +419,22 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Preserves_Undeclared_Double_Dash_In_Grouped_Values()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Arguments = ["--arguments", "one", "--", "two"],
+            ArgumentsContainToolOptions = true,
+            RunSettings = ["tail"],
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --arguments one -- two -- tail");
+    }
+
+    [Test]
     public async Task Build_Grouped_Option_Preserves_Terminal_Option_For_Validation()
     {
         var builder = await GetService<ICommandLineBuilder>();
