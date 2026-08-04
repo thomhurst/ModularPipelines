@@ -42,7 +42,9 @@ report is also exposed through `PipelineSummary.RunReport`.
 By default, the `IRunHistoryStore` saves reports under `.modularpipelines/run-history` on local and
 CI runs, even when JSON report writing is disabled. It retains the latest 20 reports and uses the
 newest compatible report to calculate module and total-duration deltas. When a previous duration
-exists, the final results table includes a `Δ previous` column.
+exists, the final results table includes a `Δ previous` column. Deltas compare only successful
+runs and successful module executions, so failed or timed-out durations do not create false
+regressions on a later run.
 
 Add the default history directory to `.gitignore` if you do not want to commit local run data:
 
@@ -69,6 +71,8 @@ history store. When `PipelineIdentity` is omitted, Modular Pipelines derives one
 module types; changing only the report path does not fork history. History is bounded: after each
 save, the default store deletes owned files beyond the configured limit for that pipeline.
 Report and history I/O failures are logged as warnings and do not replace a pipeline failure.
+Report and history files are published atomically, so cancellation or a failed write cannot replace
+a complete report with partial JSON.
 
 CI agents are often ephemeral, so restore the history directory from a cache before running the
 pipeline. For example, a GitHub Actions workflow can restore the newest cache for its branch and

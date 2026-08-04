@@ -35,13 +35,18 @@ if (!File.Exists(FilePath)
     <_ModularPipelinesIsWindows Condition="'$(_ModularPipelinesIsWindows.Length)' == '0'">$([MSBuild]::IsOSPlatform('Windows'))</_ModularPipelinesIsWindows>
   </PropertyGroup>
 
+  <ItemGroup>
+    <CompilerVisibleProperty Include="PublishAot" />
+    <CompilerVisibleProperty Include="PublishTrimmed" />
+  </ItemGroup>
+
   <Target
-    Name="_WarnUnsupportedModularPipelinesFSharpTrimAot"
+    Name="_RejectUnsupportedModularPipelinesNonCSharpTrimAot"
     BeforeTargets="PrepareForPublish"
-    Condition="'$(MSBuildProjectExtension)' == '.fsproj' and ('$(PublishAot)' == 'true' or '$(PublishTrimmed)' == 'true')">
-    <Warning
+    Condition="('$(MSBuildProjectExtension)' == '.fsproj' or '$(MSBuildProjectExtension)' == '.vbproj') and ('$(PublishAot)' == 'true' or '$(PublishTrimmed)' == 'true')">
+    <Error
       Code="MPAOT001"
-      Text="F# pipeline projects are not supported with trimming or Native AOT because the ModularPipelines metadata generators are C#-only. Disable PublishAot and PublishTrimmed, or move pipeline declarations and registrations to a C# project." />
+      Text="F# and Visual Basic pipeline projects are not supported with trimming or Native AOT because the ModularPipelines metadata generators are C#-only. Disable PublishAot and PublishTrimmed, or move pipeline declarations and registrations to a C# project." />
   </Target>
 
   <Target

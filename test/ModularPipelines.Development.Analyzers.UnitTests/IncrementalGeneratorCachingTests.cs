@@ -107,6 +107,8 @@ public class IncrementalGeneratorCachingTests
                                   public class PlainClass;
                                   public record PlainRecord;
                                   public struct PlainStruct;
+                                  public enum PlainEnum { Value }
+                                  public delegate void PlainDelegate();
                                   public interface IPlainInterface;
                               }
                               """;
@@ -118,7 +120,7 @@ public class IncrementalGeneratorCachingTests
             .Count(CommandOptionsGenerator.IsTypeCandidate);
         var generatedSource = result.GeneratedSources.Single().SourceText.ToString();
 
-        await Assert.That(candidateCount).IsEqualTo(3);
+        await Assert.That(candidateCount).IsEqualTo(10);
         await Assert.That(generatedSource).Contains("SecretTarget");
         await Assert.That(generatedSource).Contains("SecretRecord");
     }

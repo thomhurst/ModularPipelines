@@ -54,17 +54,12 @@ public enum Status
     Skipped,
 
     /// <summary>
-    /// The module was retried.
-    /// </summary>
-    Retried,
-
-    /// <summary>
     /// Unknown module status.
     /// </summary>
-    Unknown,
+    Unknown = 10,
 
     /// <summary>
     /// The module result was restored from the fingerprint cache.
     /// </summary>
-    CachedResult,
+    CachedResult = 11,
 }

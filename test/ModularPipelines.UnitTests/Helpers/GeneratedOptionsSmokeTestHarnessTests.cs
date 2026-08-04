@@ -48,24 +48,18 @@ public class GeneratedOptionsSmokeTestHarnessTests
     }
 
     [Test]
-    public async Task Reflection_Model_Uses_Most_Derived_Shadowed_Property()
+    public async Task Computed_Getter_Is_Not_Counted_As_Tested()
     {
-        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsTypeUsingReflection(
-            typeof(ShadowedOptions));
+        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsType(typeof(ComputedGetterOptions));
 
-        await Assert.That(result.PropertiesTested).IsEqualTo(1);
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.OptionsTypesTested).IsEqualTo(1);
+            await Assert.That(result.PropertiesTested).IsEqualTo(0);
+        }
     }
 
-    [Test]
-    public async Task Reflection_Model_Ignores_Setter_Only_Shadow()
-    {
-        var result = GeneratedOptionsSmokeTestHarness.ValidateOptionsTypeUsingReflection(
-            typeof(SetterOnlyShadowedOptions));
-
-        await Assert.That(result.PropertiesTested).IsEqualTo(1);
-    }
-
-    private sealed record RepresentativeOptions : CommandLineToolOptions
+    internal sealed record RepresentativeOptions : CommandLineToolOptions
     {
         [CliArgument(0, PrependOptionTerminator = true, Required = true)]
         public string? Target { get; init; }
@@ -89,26 +83,9 @@ public class GeneratedOptionsSmokeTestHarnessTests
         public IEnumerable<CliOptionValue>? RepeatableOptional { get; init; }
     }
 
-    private record ShadowedOptionsBase : CommandLineToolOptions
-    {
-        [CliOption("--progress")]
-        public string? Progress { get; init; }
-    }
-
-    private sealed record ShadowedOptions : ShadowedOptionsBase
-    {
-        [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
-        public new int? Progress { get; init; }
-    }
-
-    private record SetterOnlyShadowedOptionsBase : CommandLineToolOptions
+    internal sealed record ComputedGetterOptions : CommandLineToolOptions
     {
         [CliOption("--value")]
-        public string? Value { get; init; }
-    }
-
-    private sealed record SetterOnlyShadowedOptions : SetterOnlyShadowedOptionsBase
-    {
-        public new string? Value { set { } }
+        public string? Value => null;
     }
 }
