@@ -122,6 +122,23 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Manual_Options_After_Global_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        CommandLine Build() => builder.Build(new TestGlobalTerminatorCommandOptions
+        {
+            GlobalOperand = "-operand",
+            Arguments = ["--force"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(Build)
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("Manual tool options");
+    }
+
+    [Test]
     public async Task Build_Accepts_Terminal_Option_When_Option_Value_Is_DoubleDash()
     {
         var builder = await GetService<ICommandLineBuilder>();
@@ -239,6 +256,22 @@ public class CommandLineBuilderTests : TestBase
 
         await Assert.That(result.ToString())
             .IsEqualTo("jq --arg name value -- -1 input.json");
+    }
+
+    [Test]
+    public async Task Build_Hoists_EqualsSeparated_Manual_Option_Before_Property_Terminator()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+
+        var result = builder.Build(new TestTerminalOptions
+        {
+            Filter = "-1",
+            Arguments = ["--color=never"],
+            ArgumentsContainToolOptions = true,
+        });
+
+        await Assert.That(result.ToString())
+            .IsEqualTo("jq --color=never -- -1");
     }
 
     [Test]
@@ -492,6 +525,9 @@ public class CommandLineBuilderTests : TestBase
     {
         [CliOption("--arg")]
         public CliValuePair? Argument { get; set; }
+
+        [CliOption("--color", Format = OptionFormat.EqualsSeparated)]
+        public string? Color { get; set; }
 
         [CliArgument(0, PrependOptionTerminator = true)]
         public string? Filter { get; set; }

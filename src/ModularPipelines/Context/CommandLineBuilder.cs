@@ -75,6 +75,12 @@ internal sealed class CommandLineBuilder(
             options,
             ref emittedOptionTerminator);
         var manualArgs = options.Arguments?.ToList() ?? [];
+        ValidateManualOptionsAfterGlobalTerminator(
+            options,
+            manualArgs,
+            nonTerminalCommandModel,
+            terminatorEmittedBeforeProperties);
+
         // Keep recognized manual options ahead of a marker emitted by a structured argument;
         // leave manual positional operands in place after that structured argument.
         var leadingManualOptions = options.ArgumentsContainToolOptions
@@ -149,6 +155,24 @@ internal sealed class CommandLineBuilder(
         return new CommandLine(tool, allArgs);
     }
 
+    private static void ValidateManualOptionsAfterGlobalTerminator(
+        CommandLineToolOptions options,
+        IReadOnlyCollection<string> manualArgs,
+        IReadOnlyList<PropertyCommandLinePart> commandModel,
+        bool terminatorEmittedBeforeProperties)
+    {
+        if (!options.ArgumentsContainToolOptions
+            || !terminatorEmittedBeforeProperties
+            || !ContainsRecognizedManualOption(manualArgs, commandModel))
+        {
+            return;
+        }
+
+        throw new InvalidOperationException(
+            "Manual tool options cannot follow an end-of-options marker emitted by an "
+            + "earlier property group. Remove either the manual option or the '--' source.");
+    }
+
     private static IReadOnlyList<string> ExtractRecognizedManualOptions(
         List<string> manualArgs,
         IReadOnlyList<PropertyCommandLinePart> commandModel)
@@ -174,6 +198,13 @@ internal sealed class CommandLineBuilder(
         {
             var argument = manualArgs[index];
             if (flagNames.Contains(argument))
+            {
+                recognizedOptions.Add(argument);
+                index++;
+                continue;
+            }
+
+            if (IsEqualsSeparatedManualOption(argument, optionsByName))
             {
                 recognizedOptions.Add(argument);
                 index++;
@@ -226,6 +257,15 @@ internal sealed class CommandLineBuilder(
         manualArgs.AddRange(remainingArguments);
         return recognizedOptions;
     }
+
+    private static bool IsEqualsSeparatedManualOption(
+        string argument,
+        IReadOnlyDictionary<string, OptionPart> optionsByName) =>
+        optionsByName.Any(item =>
+            item.Value.Attribute.Format == OptionFormat.EqualsSeparated
+            && argument.Length > item.Key.Length
+            && argument.StartsWith(item.Key, StringComparison.Ordinal)
+            && argument[item.Key.Length] == '=');
 
     private static bool ContainsRecognizedManualOption(
         IReadOnlyCollection<string> manualArgs,
