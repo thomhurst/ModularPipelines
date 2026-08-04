@@ -12,7 +12,7 @@ namespace ModularPipelines.UnitTests.Logging;
 
 public class LoggingSecretTests
 {
-    private class MySecretSettings
+    internal class MySecretSettings
     {
         [SecretValue] public string Secret1 { get; set; } = "";
     }
