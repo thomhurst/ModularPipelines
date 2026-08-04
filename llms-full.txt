@@ -5602,7 +5602,10 @@ See [Categories](categories)
 
 Modular Pipelines generates registration metadata at compile time. A generator
 diagnostic explains why metadata could not be emitted safely and whether the build
-will fail or runtime reflection will be used as a fallback.
+will fail. Command and secret metadata must be generated for C# types; runtime
+reflection remains only for assemblies not processed by the C# source generator,
+including F# and Visual Basic, because those languages cannot run the C# source
+generator.
 
 ## MPG0001
 
@@ -5623,18 +5626,18 @@ stripping the `Module` suffix produces a unique name.
 ## MPG0003
 
 An inaccessible property with a CLI attribute prevents complete command metadata
-generation. Make the property and getter accessible to generated code. Until fixed,
-Modular Pipelines uses runtime reflection for the missing metadata.
+generation. Make the property and getter accessible to generated code. The build
+fails until every attributed property can be generated.
 
-**Severity:** Warning
+**Severity:** Error
 
 ## MPG0004
 
 An inaccessible property marked with `[SecretValue]` prevents complete secret
-metadata generation. Make the property and getter accessible to generated code.
-Until fixed, Modular Pipelines uses runtime reflection for the missing metadata.
+metadata generation. Make the property and getter accessible to generated code. The
+build fails until every attributed property can be generated.
 
-**Severity:** Warning
+**Severity:** Error
 
 ## MPG0005
 
@@ -5648,12 +5651,20 @@ Modular Pipelines uses runtime reflection for the missing metadata.
 ## MPG0006
 
 Command or secret metadata generation was skipped because its declaring type is
-generic or inaccessible to generated code. Make the type and its containing types
-accessible and non-generic before publishing with trimming or Native AOT. Until
-fixed, Modular Pipelines uses runtime reflection, and required command or secret
-members may be removed by trimming.
+generic, inaccessible, file-local, part of a partial type hierarchy, or has the
+same metadata name as a type in another assembly. Make the type and its containing
+types accessible and non-generic. Move file-local command or secret types to an
+accessible declaration, combine partial command/secret declarations into one
+non-partial declaration, and give colliding types unique metadata names. The build
+fails because exact generated metadata cannot be guaranteed for these shapes.
 
-**Severity:** Warning
+The generator reports this diagnostic when it recognizes a command or secret type,
+or when it observes the type in an Options or dependency-injection usage such as
+`IOptions<T>`, `Configure<T>`, `AddOptions<T>`, or a service registration. An unrelated
+type with one of these declaration shapes does not require runtime metadata and does
+not trigger MPG0006.
+
+**Severity:** Error
 
 ## MPG0007
 
@@ -5742,6 +5753,15 @@ runtime reflection. This includes `DependsOnAllModulesInheritingFrom<T>`,
 built-in explicit `DependsOn<T>` attribute before publishing with Native AOT.
 
 **Severity:** Warning
+
+## MPG0017
+
+A type registered through the options dependency-injection APIs was emitted by another
+source generator in the same compilation. Source generators cannot observe one another's
+output, so trim-safe runtime metadata cannot be generated. Declare the type in user source
+or a referenced assembly before publishing with trimming or Native AOT.
+
+**Severity:** Error
 
 Diagnostics can be configured with standard MSBuild or `.editorconfig` settings.
 For example:
