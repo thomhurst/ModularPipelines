@@ -1091,7 +1091,8 @@ internal static class ModuleAuthoringAnalysis
             TrackDirectImplementationValue(
                 invocation,
                 compilation,
-                instanceRegisteredModules);
+                instanceRegisteredModules,
+                unresolvedModuleRegistrations);
         }
 
         return true;
@@ -2159,9 +2160,10 @@ internal static class ModuleAuthoringAnalysis
     private static void TrackDirectImplementationValue(
         IInvocationOperation invocation,
         Compilation compilation,
-        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules)
+        ConcurrentBag<INamedTypeSymbol> instanceRegisteredModules,
+        ConcurrentBag<byte> unresolvedModuleRegistrations)
     {
-        _ = invocation.Arguments
+        var tracked = invocation.Arguments
             .Where(static argument => argument.Parameter?.Name is
                 "implementationInstance" or "implementationFactory")
             .Any(argument => TryTrackInstanceModuleTypes(
@@ -2170,6 +2172,10 @@ internal static class ModuleAuthoringAnalysis
                 instanceRegisteredModules,
                 [with(SymbolEqualityComparer.Default)],
                 [with(SymbolEqualityComparer.Default)]));
+        if (!tracked)
+        {
+            unresolvedModuleRegistrations.Add(0);
+        }
     }
 
     private static bool TryGetTypeOfNamedTypes(

@@ -8,22 +8,30 @@ sidebar_position: 1
 
 # Analyzer rules
 
-| Rule | Category | Default severity | Description |
-|------|----------|------------------|-------------|
-| [`MP0001`](./MP0001.md) | Usage | Error | Accesses a module result without declaring the dependency. |
-| [`MP0002`](./MP0002.md) | Usage | Error | Uses IEnumerable as a module result instead of a concrete collection. |
-| [`MP0003`](./MP0003.md) | Usage | Error | Injects a logger into a module constructor instead of using the module context. |
-| [`MP0004`](./MP0004.md) | Usage | Error | Writes directly to System.Console instead of using pipeline logging. |
-| [`MP0005`](./MP0005.md) | Usage | Error | Creates a circular dependency between modules. |
-| [`MP0006`](./MP0006.md) | Usage | Error | Implements ExecuteAsync without the async modifier. |
-| [`MP0007`](./MP0007.md) | Usage | Error | Awaits the current module instance. |
-| [`MP0008`](./MP0008.md) | Design | Warning | Declares mutable instance state that can leak between module executions. |
-| [`MP0009`](./MP0009.md) | Usage | Error | References a dependency type that does not implement IModule. |
-| [`MP0010`](./MP0010.md) | Usage | Error | Declares a module dependency on itself. |
-| [`MP0013`](./MP0013.md) | Usage | Warning | Module is not registered with the pipeline. |
-| [`MP0014`](./MP0014.md) | Usage | Warning | Async void method in a module. |
-| [`MP0015`](./MP0015.md) | Usage | Warning | Blocking call in ExecuteAsync. |
-| [`MP0016`](./MP0016.md) | Usage | Warning | ExecuteAsync cancellation token is not flowed. |
-| [`MP0017`](./MP0017.md) | Usage | Warning | Thread.Sleep in ExecuteAsync. |
-| [`MP0018`](./MP0018.md) | Usage | Warning | Module class is not public. |
-| [`MP0019`](./MP0019.md) | Usage | Warning | Duplicate DependsOn declaration. |
+| Rule | Category | Default severity | Availability | Description |
+|------|----------|------------------|--------------|-------------|
+| [`MP0001`](./MP0001.md) | Usage | Error | Public analyzer package | Accesses a module result without declaring the dependency. |
+| [`MP0002`](./MP0002.md) | Usage | Error | Public analyzer package | Uses IEnumerable as a module result instead of a concrete collection. |
+| [`MP0003`](./MP0003.md) | Usage | Error | Public analyzer package | Injects a logger into a module constructor instead of using the module context. |
+| [`MP0004`](./MP0004.md) | Usage | Error | Public analyzer package | Writes directly to System.Console instead of using pipeline logging. |
+| [`MP0005`](./MP0005.md) | Usage | Error | Public analyzer package | Creates a circular dependency between modules. |
+| [`MP0006`](./MP0006.md) | Usage | Error | Public analyzer package | Implements ExecuteAsync without the async modifier. |
+| [`MP0007`](./MP0007.md) | Usage | Error | Public analyzer package | Awaits the current module instance. |
+| [`MP0008`](./MP0008.md) | Design | Warning | Public analyzer package | Declares mutable instance state that can leak between module executions. |
+| [`MP0009`](./MP0009.md) | Usage | Error | Public analyzer package | References a dependency type that does not implement IModule. |
+| [`MP0010`](./MP0010.md) | Usage | Error | Public analyzer package | Declares a module dependency on itself. |
+| [`MP0011`](./MP0011.md) | Usage | Warning | Repository development only | Requires generated CLI option properties to be virtual. |
+| [`MP0012`](./MP0012.md) | Usage | Warning | Repository development only | Requires generated CLI command methods to be virtual. |
+| [`MP0013`](./MP0013.md) | Usage | Warning | Public analyzer package | Module is not registered with the pipeline. |
+| [`MP0014`](./MP0014.md) | Usage | Warning | Public analyzer package | Async void method in a module. |
+| [`MP0015`](./MP0015.md) | Usage | Warning | Public analyzer package | Blocking call in ExecuteAsync. |
+| [`MP0016`](./MP0016.md) | Usage | Warning | Public analyzer package | ExecuteAsync cancellation token is not flowed. |
+| [`MP0017`](./MP0017.md) | Usage | Warning | Public analyzer package | Thread.Sleep in ExecuteAsync. |
+| [`MP0018`](./MP0018.md) | Usage | Warning | Public analyzer package | Module class is not public. |
+| [`MP0019`](./MP0019.md) | Usage | Warning | Public analyzer package | Duplicate DependsOn declaration. |
+| [`MPCLI001`](./MPCLI001.md) | Usage | Error | Public analyzer package | CliFlag property must be bool? or int? |
+| [`MPCLI002`](./MPCLI002.md) | Usage | Error | Public analyzer package | Value-less bool? CliOption should use CliFlag. |
+| [`MPCLI003`](./MPCLI003.md) | Usage | Error | Public analyzer package | Multiple CLI attributes applied to one property. |
+| [`MPCLI004`](./MPCLI004.md) | Usage | Error | Public analyzer package | Duplicate CLI switch in an options hierarchy. |
+| [`MPCLI006`](./MPCLI006.md) | Usage | Error | Public analyzer package | CLI attributes used outside CommandLineToolOptions. |
+| [`MPDEP002`](./MPDEP002.md) | Usage | Error | Public analyzer package | Circular dependency detected between modules (renamed from ConflictingDependsOnAttribute). |
