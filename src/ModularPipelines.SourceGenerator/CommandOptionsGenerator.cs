@@ -1400,7 +1400,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var isCommandOptions = InheritsFrom(type, CommandLineToolOptionsFullName);
         var hasSecretAttributes = GetSecretProperties(type, compilation.Assembly).HasAttributes;
-        var canCoverPlainOptions = type.TypeKind == TypeKind.Class;
+        var canCoverPlainOptions = type.TypeKind is TypeKind.Class or TypeKind.Struct;
         if ((!isCommandOptions && !hasSecretAttributes && !canCoverPlainOptions)
             || (type.IsAbstract && type.IsGenericType && (isCommandOptions || hasSecretAttributes)))
         {

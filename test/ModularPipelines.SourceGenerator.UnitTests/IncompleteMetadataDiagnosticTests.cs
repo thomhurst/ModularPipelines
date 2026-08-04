@@ -584,6 +584,35 @@ public class IncompleteMetadataDiagnosticTests
     }
 
     [Test]
+    public async Task Aot_Host_Covers_Direct_External_Plain_Struct()
+    {
+        var result = GeneratorTestHarness.RunWithExternalAssembly(
+            new CommandOptionsGenerator(),
+            OptionsRegistrationInfrastructure,
+            """
+            namespace External;
+
+            public struct PlainStruct;
+
+            public sealed class RuntimeReference
+                : ModularPipelines.Options.CommandLineToolOptions;
+            """,
+            "public sealed class AotHost;",
+            globalOptions: new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+
+        var generatedSource = result.GeneratedTrees.Single().ToString();
+        using (Assert.Multiple())
+        {
+            await Assert.That(result.Diagnostics).IsEmpty();
+            await Assert.That(generatedSource).Contains(
+                "GeneratedSecretMetadata.RegisterExternal(assembly, typeof(global::External.PlainStruct));");
+        }
+    }
+
+    [Test]
     public async Task Trimmed_Host_Allows_Unrelated_Internal_External_Type_Name_Collisions()
     {
         var result = GeneratorTestHarness.RunWithPeerExternalAssemblies(
