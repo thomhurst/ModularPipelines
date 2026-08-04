@@ -12,7 +12,7 @@ namespace ModularPipelines.UnitTests.Context;
 public class ModuleContextSubModuleTests
 {
     [Test]
-    public async Task SubModule_PublishesLifecycleAndSavesDuration()
+    public async Task SubModuleAsync_PublishesLifecycleAndSavesDuration()
     {
         var module = Mock.Of<IModule>();
         var executionContext = new ModuleExecutionContext(module, module.GetType());
@@ -40,7 +40,7 @@ public class ModuleContextSubModuleTests
             .Returns(Task.CompletedTask);
         var context = CreateContext(module, executionContext, mediator.Object, estimatedTimeProvider.Object);
 
-        var result = await context.SubModule("Compile", () => Task.FromResult(42));
+        var result = await context.SubModuleAsync("Compile", () => Task.FromResult(42));
 
         await Assert.That(result).IsEqualTo(42);
         await Assert.That(created).IsNotNull();
@@ -56,7 +56,7 @@ public class ModuleContextSubModuleTests
     }
 
     [Test]
-    public async Task SubModule_FailurePublishesCompletionWithoutSavingDuration()
+    public async Task SubModuleAsync_FailurePublishesCompletionWithoutSavingDuration()
     {
         var module = Mock.Of<IModule>();
         var executionContext = new ModuleExecutionContext(module, module.GetType());
@@ -80,7 +80,7 @@ public class ModuleContextSubModuleTests
         var context = CreateContext(module, executionContext, mediator.Object, estimatedTimeProvider.Object);
 
         var exception = await Assert.ThrowsAsync<InvalidOperationException>(
-            () => context.SubModule<int>("Fail", () => Task.FromException<int>(expectedException)));
+            () => context.SubModuleAsync<int>("Fail", () => Task.FromException<int>(expectedException)));
 
         await Assert.That(exception).IsSameReferenceAs(expectedException);
         await Assert.That(created).IsNotNull();
@@ -93,7 +93,7 @@ public class ModuleContextSubModuleTests
     }
 
     [Test]
-    public async Task SubModule_LoadsEstimatesOncePerModuleExecution()
+    public async Task SubModuleAsync_LoadsEstimatesOncePerModuleExecution()
     {
         var module = Mock.Of<IModule>();
         var executionContext = new ModuleExecutionContext(module, module.GetType());
@@ -115,12 +115,38 @@ public class ModuleContextSubModuleTests
         var context = CreateContext(module, executionContext, mediator.Object, estimatedTimeProvider.Object);
 
         await Task.WhenAll(
-            context.SubModule("First", () => Task.CompletedTask),
-            context.SubModule("Second", () => Task.CompletedTask));
+            context.SubModuleAsync("First", () => Task.CompletedTask),
+            context.SubModuleAsync("Second", () => Task.CompletedTask));
 
         estimatedTimeProvider.Verify(
             x => x.GetSubModuleEstimatedTimesAsync(module.GetType()),
             Times.Once);
+    }
+
+    [Test]
+    public async Task SubModuleAsync_CancelledToken_DoesNotRunAction()
+    {
+        var module = Mock.Of<IModule>();
+        var actionWasRun = false;
+        using var cancellationTokenSource = new CancellationTokenSource();
+        await cancellationTokenSource.CancelAsync();
+        var context = CreateContext(
+            module,
+            new ModuleExecutionContext(module, module.GetType()),
+            Mock.Of<IMediator>(),
+            Mock.Of<ISafeModuleEstimatedTimeProvider>());
+
+        await Assert.ThrowsAsync<OperationCanceledException>(() =>
+            context.SubModuleAsync(
+                "Cancelled",
+                () =>
+                {
+                    actionWasRun = true;
+                    return Task.CompletedTask;
+                },
+                cancellationTokenSource.Token));
+
+        await Assert.That(actionWasRun).IsFalse();
     }
 
     private static ModuleContext CreateContext(
