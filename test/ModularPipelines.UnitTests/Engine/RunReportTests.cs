@@ -903,6 +903,58 @@ public class RunReportTests
     }
 
     [Test]
+    public async Task FileSystemHistoryStoreSkipsInvalidSchemaMetadata()
+    {
+        var directory = CreateTemporaryDirectory();
+        var log = new StringBuilder();
+        var store = new FileSystemRunHistoryStore(
+            OptionsFactory.Create(new PipelineOptions
+            {
+                RunReport = new RunReportOptions
+                {
+                    HistoryDirectory = directory,
+                    HistoryRetention = 4,
+                },
+            }),
+            new StringLogger<FileSystemRunHistoryStore>(log));
+
+        try
+        {
+            var invalidReports = new[]
+            {
+                "[]",
+                "{ \"schemaVersion\": \"future\" }",
+                "{ \"schemaVersion\": 2147483648 }",
+            };
+            for (var index = 0; index < invalidReports.Length; index++)
+            {
+                await File.WriteAllTextAsync(
+                    Path.Combine(directory, $"modularpipelines-run-invalid-{index}.json"),
+                    invalidReports[index]);
+            }
+
+            await store.SaveAsync(new PipelineRunReport
+            {
+                PipelineIdentity = "pipeline-a",
+                End = new DateTimeOffset(2026, 8, 2, 12, 0, 1, TimeSpan.Zero),
+            });
+
+            var latest = await store.GetLatestAsync();
+
+            using (Assert.Multiple())
+            {
+                await Assert.That(latest?.PipelineIdentity).IsEqualTo("pipeline-a");
+                await Assert.That(log.ToString().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+                    .Count().IsEqualTo(invalidReports.Length);
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     [WindowsOnlyTest]
     public async Task FileSystemHistoryStoreContinuesPruningAfterDeleteFailure()
     {

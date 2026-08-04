@@ -78,9 +78,7 @@ internal sealed class FileSystemRunHistoryStore(
         out PipelineRunReport report)
     {
         using var document = JsonDocument.Parse(json);
-        var schemaVersion = document.RootElement.TryGetProperty("schemaVersion", out var schemaVersionElement)
-            ? schemaVersionElement.GetInt32()
-            : PipelineRunReport.CurrentSchemaVersion;
+        var schemaVersion = ReadSchemaVersion(document.RootElement);
         if (!IsSchemaVersionCompatible(schemaVersion))
         {
             if (!incompatibleSchemaLogged)
@@ -106,6 +104,27 @@ internal sealed class FileSystemRunHistoryStore(
 
         report = deserializedReport;
         return true;
+    }
+
+    private static int ReadSchemaVersion(JsonElement root)
+    {
+        if (root.ValueKind != JsonValueKind.Object)
+        {
+            throw new JsonException("Pipeline run history must contain a JSON object.");
+        }
+
+        if (!root.TryGetProperty("schemaVersion", out var schemaVersionElement))
+        {
+            return PipelineRunReport.CurrentSchemaVersion;
+        }
+
+        if (schemaVersionElement.ValueKind != JsonValueKind.Number
+            || !schemaVersionElement.TryGetInt32(out var schemaVersion))
+        {
+            throw new JsonException("Pipeline run history schemaVersion must be a 32-bit integer.");
+        }
+
+        return schemaVersion;
     }
 
     internal static bool IsSchemaVersionCompatible(
