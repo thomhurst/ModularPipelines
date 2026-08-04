@@ -135,6 +135,7 @@ public class JqOptionsTests : TestBase
         {
             Filter = "-1",
             Arguments = ["--compact-output", "input.json"],
+            ArgumentsContainToolOptions = true,
         });
 
         await Assert.That(commandLine.ToString())
@@ -150,6 +151,7 @@ public class JqOptionsTests : TestBase
         {
             Filter = "-1",
             Arguments = ["-cM", "input.json"],
+            ArgumentsContainToolOptions = true,
         });
 
         await Assert.That(commandLine.ToString())
@@ -165,6 +167,7 @@ public class JqOptionsTests : TestBase
         {
             Filter = "-1",
             Arguments = ["--run-tests", "tests.jq"],
+            ArgumentsContainToolOptions = true,
         });
 
         await Assert.That(Build)
@@ -181,6 +184,7 @@ public class JqOptionsTests : TestBase
         {
             Filter = "-1",
             Arguments = ["-Lmodules", "input.json"],
+            ArgumentsContainToolOptions = true,
         });
 
         await Assert.That(commandLine.ToString())
@@ -196,6 +200,7 @@ public class JqOptionsTests : TestBase
         {
             Filter = "-1",
             Arguments = ["--arg", "name", "value", "input.json"],
+            ArgumentsContainToolOptions = true,
         });
 
         await Assert.That(commandLine.ToString())
@@ -211,6 +216,7 @@ public class JqOptionsTests : TestBase
         {
             Filter = "-1",
             Arguments = ["input.json", "--compact-output"],
+            ArgumentsContainToolOptions = true,
         });
 
         await Assert.That(commandLine.ToString())

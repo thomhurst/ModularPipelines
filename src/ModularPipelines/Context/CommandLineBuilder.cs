@@ -77,10 +77,13 @@ internal sealed class CommandLineBuilder(
         var manualArgs = options.Arguments?.ToList() ?? [];
         // Keep recognized manual options ahead of a marker emitted by a structured argument;
         // leave manual positional operands in place after that structured argument.
-        var leadingManualOptions = !terminatorEmittedBeforeProperties && emittedOptionTerminator
+        var leadingManualOptions = options.ArgumentsContainToolOptions
+            && !terminatorEmittedBeforeProperties
+            && emittedOptionTerminator
             ? ExtractRecognizedManualOptions(manualArgs, commandSpecificModel)
             : [];
-        if (emittedOptionTerminator
+        if (options.ArgumentsContainToolOptions
+            && emittedOptionTerminator
             && ContainsRecognizedManualOption(manualArgs, terminalCommandModel))
         {
             throw new InvalidOperationException(

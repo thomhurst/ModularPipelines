@@ -234,6 +234,7 @@ public class CommandLineBuilderTests : TestBase
         {
             Filter = "-1",
             Arguments = ["--arg", "name", "value", "input.json"],
+            ArgumentsContainToolOptions = true,
         });
 
         await Assert.That(result.ToString())
