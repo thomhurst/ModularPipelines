@@ -971,6 +971,32 @@ public class IncompleteMetadataDiagnosticTests
         }
     }
 
+    [Test]
+    public async Task Incremental_Partial_Aot_Diagnostic_Location_Tracks_Source_Edit()
+    {
+        const string candidate = "public partial class PartialOptions;";
+        var updatedCandidate = $"{Environment.NewLine}{Environment.NewLine}{candidate}";
+
+        var result = GeneratorTestRunner.RunIncrementalUpdate(
+            new CommandOptionsGenerator(),
+            [CommandInfrastructure, candidate],
+            [CommandInfrastructure, updatedCandidate],
+            new Dictionary<string, string>
+            {
+                ["build_property.PublishAot"] = "true",
+            });
+        var diagnostic = result.Diagnostics.Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(diagnostic.Id).IsEqualTo("MPG0006");
+            await Assert.That(diagnostic.Location.SourceTree?.ToString())
+                .IsEqualTo(updatedCandidate);
+            await Assert.That(diagnostic.Location.GetLineSpan().StartLinePosition.Line)
+                .IsEqualTo(2);
+        }
+    }
+
     private static async Task AssertIncompleteDiagnostic(
         GeneratorDriverRunResult result,
         string diagnosticId,

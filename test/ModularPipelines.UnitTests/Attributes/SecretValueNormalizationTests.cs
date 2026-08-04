@@ -368,6 +368,7 @@ public class SecretValueNormalizationTests
 
         await Assert.That(exception!.ObjectType).IsEqualTo(objectType);
         await Assert.That(exception.Message).Contains("ModularPipelines.SourceGenerator");
+        await Assert.That(exception.Message).Contains("RuntimeMetadataRegistry");
     }
 
     [Test]

@@ -2,6 +2,7 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
+using ModularPipelines.Metadata;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.VisualBasic.TestFixtures;
@@ -38,8 +39,6 @@ internal sealed record GeneratedMetadataOptions : CommandLineToolOptions
     [SecretValue("token", "password")]
     public IReadOnlyList<KeyValue>? Properties { get; init; }
 }
-
-internal sealed record MissingGeneratedMetadataOptions<T> : CommandLineToolOptions;
 
 [CliTool("control-character-test")]
 internal sealed record ControlCharacterMetadataOptions : CommandLineToolOptions
@@ -217,13 +216,16 @@ public class GeneratedRuntimeMetadataTests
     [Test]
     public async Task MissingCommandMetadata_ThrowsActionableException()
     {
-        var optionsType = typeof(MissingGeneratedMetadataOptions<string>);
+        var optionsType = CreateDynamicType("MissingCommandMetadata");
+        GeneratedCommandMetadata.RegisterAssembly(optionsType.Assembly);
+        GeneratedCommandMetadata.RegisterCoveredTypeNames(optionsType.Assembly, [optionsType.FullName!]);
 
         var exception = await Assert.That(() => new CommandModelProvider().GetCommandModel(optionsType))
             .Throws<MissingCommandMetadataException>();
 
         await Assert.That(exception!.OptionsType).IsEqualTo(optionsType);
         await Assert.That(exception.Message).Contains("ModularPipelines.SourceGenerator");
+        await Assert.That(exception.Message).Contains("RuntimeMetadataRegistry");
     }
 
     [Test]
@@ -249,6 +251,31 @@ public class GeneratedRuntimeMetadataTests
         {
             await Assert.That(GeneratedCommandMetadata.IsAssemblyProcessed(type.Assembly)).IsTrue();
             await Assert.That(GeneratedSecretMetadata.IsAssemblyProcessed(type.Assembly)).IsFalse();
+        }
+    }
+
+    [Test]
+    public async Task OtherGeneratorsCanContributeAotSafeRuntimeMetadata()
+    {
+        var type = CreateDynamicType("ContributedRuntimeMetadata");
+        var commandModel = new List<PropertyCommandLinePart>
+        {
+            new OptionPart("Value", static _ => "value", new CliOptionAttribute("--value")),
+        };
+        var secretAccessors = new List<SecretPropertyAccessor>
+        {
+            new("Token", static _ => "secret"),
+        };
+
+        RuntimeMetadataRegistry.RegisterCommandOptions(type, commandModel);
+        RuntimeMetadataRegistry.RegisterSecrets(type, secretAccessors);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(GeneratedCommandMetadata.TryGet(type, out var registeredCommandModel)).IsTrue();
+            await Assert.That(registeredCommandModel).IsSameReferenceAs(commandModel);
+            await Assert.That(GeneratedSecretMetadata.TryGetAccessors(type, out var registeredSecretAccessors)).IsTrue();
+            await Assert.That(registeredSecretAccessors).IsSameReferenceAs(secretAccessors);
         }
     }
 

@@ -13,7 +13,9 @@ public sealed class MissingSecretMetadataException : InvalidOperationException
         : base(
             $"Secret metadata coverage is missing for type '{objectType.FullName}' in assembly " +
             $"'{objectType.Assembly.GetName().Name}'. Ensure ModularPipelines.SourceGenerator is " +
-            "referenced and make SecretValue-attributed types and properties accessible and non-generic.")
+            "referenced and make SecretValue-attributed types and properties accessible and non-generic. " +
+            "Generators that emit entire types must register static accessors through " +
+            "ModularPipelines.Metadata.RuntimeMetadataRegistry from a module initializer.")
     {
         ObjectType = objectType;
     }

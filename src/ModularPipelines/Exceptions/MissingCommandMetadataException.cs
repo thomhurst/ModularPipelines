@@ -13,7 +13,9 @@ public sealed class MissingCommandMetadataException : InvalidOperationException
         : base(
             $"Command metadata is missing for '{optionsType.FullName}'. Ensure " +
             "ModularPipelines.SourceGenerator is referenced and make the options type, " +
-            "its containing types, and CLI-attributed properties accessible and non-generic.")
+            "its containing types, and CLI-attributed properties accessible and non-generic. " +
+            "Generators that emit entire types must register static accessors through " +
+            "ModularPipelines.Metadata.RuntimeMetadataRegistry from a module initializer.")
     {
         OptionsType = optionsType;
     }

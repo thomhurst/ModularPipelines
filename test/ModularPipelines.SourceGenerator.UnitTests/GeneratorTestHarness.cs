@@ -195,7 +195,7 @@ internal static class GeneratorTestHarness
         return MetadataReference.CreateFromImage(stream.ToArray());
     }
 
-    private sealed class TestAnalyzerConfigOptionsProvider(
+    internal sealed class TestAnalyzerConfigOptionsProvider(
         IReadOnlyDictionary<string, string>? globalOptions) : AnalyzerConfigOptionsProvider
     {
         private static readonly AnalyzerConfigOptions Empty =

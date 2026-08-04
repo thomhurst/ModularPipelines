@@ -1025,6 +1025,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
         private static bool RequiresDiagnostic(TypeMetadataCandidate candidate) =>
             candidate.Metadata is null
+            || !candidate.Metadata.CanRegisterSecretCoverage
             || !candidate.Metadata.CommandMetadata.IsComplete
             || !candidate.Metadata.SecretMetadata.IsComplete;
     }

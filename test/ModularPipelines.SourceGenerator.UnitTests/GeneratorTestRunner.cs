@@ -18,10 +18,13 @@ internal static class GeneratorTestRunner
     public static GeneratorDriverRunResult RunIncrementalUpdate(
         IIncrementalGenerator generator,
         string[] initialSources,
-        string[] updatedSources)
+        string[] updatedSources,
+        IReadOnlyDictionary<string, string>? globalOptions = null)
     {
         var initialCompilation = CreateCompilation(initialSources);
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(
+            generators: [generator.AsSourceGenerator()],
+            optionsProvider: new GeneratorTestHarness.TestAnalyzerConfigOptionsProvider(globalOptions));
         driver = driver.RunGeneratorsAndUpdateCompilation(initialCompilation, out _, out _);
 
         var updatedCompilation = CreateCompilation(updatedSources);
