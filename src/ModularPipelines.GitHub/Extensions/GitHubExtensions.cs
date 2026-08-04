@@ -55,6 +55,8 @@ public static class GitHubExtensions
         services.TryAddScoped<IGitHubEnvironmentVariables, GitHubEnvironmentVariables>();
         services.TryAddSingleton<IGitHubRepositoryInfo, GitHubRepositoryInfo>();
         services.AddSingleton<IPipelineGlobalHooks, GitHubMarkdownSummaryGenerator>();
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IRunReportEnricher, GitHubRunReportEnricher>());
         services.AddGitHubHttpClient();
         return services;
     }

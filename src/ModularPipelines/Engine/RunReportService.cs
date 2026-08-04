@@ -22,19 +22,26 @@ internal sealed class RunReportService(
     ICommandExecutionCounter commandExecutionCounter,
     ILogger<RunReportService> logger,
     TimeSpan? historyStoreTimeout = null,
-    TimeSpan? workerMetricsTimeout = null) : IRunReportService
+    TimeSpan? workerMetricsTimeout = null,
+    TimeSpan? enricherTimeout = null,
+    IEnumerable<IRunReportEnricher>? runReportEnrichers = null) : IRunReportService
 {
     private static readonly TimeSpan DefaultHistoryStoreTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan ReportWriteTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan WorkerMetricsTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan WorkerMetricsPollingInterval = TimeSpan.FromMilliseconds(100);
+    private static readonly TimeSpan DefaultEnricherTimeout = TimeSpan.FromSeconds(5);
     private readonly TimeSpan _historyStoreTimeout = historyStoreTimeout ?? DefaultHistoryStoreTimeout;
     private readonly TimeSpan _workerMetricsTimeout = workerMetricsTimeout ?? WorkerMetricsTimeout;
+    private readonly TimeSpan _enricherTimeout = enricherTimeout ?? DefaultEnricherTimeout;
+    private readonly IReadOnlyList<IRunReportEnricher> _runReportEnrichers =
+        runReportEnrichers?.ToArray() ?? [];
 
     public async Task<PipelineRunReport> CompleteAsync(
         PipelineSummary summary,
         Exception? pipelineException = null)
     {
+        var runId = Guid.NewGuid().ToString("N");
         var isDistributedWorker = IsDistributedWorker();
         await SynchronizeDistributedMetricsAsync(isDistributedWorker, summary)
             .ConfigureAwait(false);
@@ -45,7 +52,19 @@ internal sealed class RunReportService(
             && pipelineOptions.Value.RunReport.HistoryRetention > 0;
         var previousReport = await LoadPreviousReportAsync(historyEnabled, pipelineIdentity)
             .ConfigureAwait(false);
-        var report = CreateReport(summary, previousReport, pipelineIdentity, pipelineException);
+        var report = CreateReport(
+            summary,
+            previousReport,
+            pipelineIdentity,
+            runId,
+            pipelineException);
+        report = await EnrichReportAsync(report, pipelineIdentity, reportPath is not null)
+            .ConfigureAwait(false);
+        report = report with
+        {
+            CommandCount = commandExecutionCounter.TotalCount,
+            UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
+        };
 
         await WriteReportAsync(reportPath, report).ConfigureAwait(false);
         await SaveHistoryAsync(historyEnabled, report).ConfigureAwait(false);
@@ -93,6 +112,7 @@ internal sealed class RunReportService(
         PipelineSummary summary,
         PipelineRunReport? previousReport,
         string pipelineIdentity,
+        string runId,
         Exception? pipelineException)
     {
         try
@@ -101,13 +121,15 @@ internal sealed class RunReportService(
                 summary,
                 previousReport,
                 pipelineIdentity,
-                pipelineException);
+                pipelineException,
+                runId);
         }
         catch (Exception exception)
         {
             logger.LogWarning(exception, "Could not create pipeline run report");
             return new PipelineRunReport
             {
+                RunId = runId,
                 PipelineIdentity = pipelineIdentity,
                 Status = pipelineException is null ? summary.Status : Status.Failed,
                 Start = summary.Start,
@@ -117,6 +139,66 @@ internal sealed class RunReportService(
                 Exception = CreateFallbackExceptionDetails(pipelineException),
             };
         }
+    }
+
+    private async Task<PipelineRunReport> EnrichReportAsync(
+        PipelineRunReport report,
+        string pipelineIdentity,
+        bool invokeEnrichers)
+    {
+        var context = new RunReportEnrichmentContext(
+            report.RunId,
+            pipelineIdentity,
+            Environment.MachineName,
+            buildSystemDetector.Current);
+        if (invokeEnrichers)
+        {
+            context = await InvokeEnrichersAsync(context).ConfigureAwait(false);
+        }
+
+        try
+        {
+            return reportFactory.WithCorrelation(report, context);
+        }
+        catch (Exception exception)
+        {
+            logger.LogWarning(exception, "Could not obfuscate pipeline run correlation metadata");
+            return report;
+        }
+    }
+
+    private async Task<RunReportEnrichmentContext> InvokeEnrichersAsync(
+        RunReportEnrichmentContext context)
+    {
+        foreach (var enricher in _runReportEnrichers)
+        {
+            using var timeout = new CancellationTokenSource(_enricherTimeout);
+            var enrichedContext = context.Copy();
+            try
+            {
+                await enricher.EnrichAsync(enrichedContext, timeout.Token)
+                    .AsTask()
+                    .WaitAsync(timeout.Token)
+                    .ConfigureAwait(false);
+                context = enrichedContext;
+            }
+            catch (OperationCanceledException) when (timeout.IsCancellationRequested)
+            {
+                logger.LogWarning(
+                    "Timed out enriching pipeline run report using {EnricherType} after {Timeout}",
+                    enricher.GetType().FullName,
+                    _enricherTimeout);
+            }
+            catch (Exception exception)
+            {
+                logger.LogWarning(
+                    exception,
+                    "Could not enrich pipeline run report using {EnricherType}",
+                    enricher.GetType().FullName);
+            }
+        }
+
+        return context;
     }
 
     private static RunReportExceptionDetails? CreateFallbackExceptionDetails(Exception? exception)
