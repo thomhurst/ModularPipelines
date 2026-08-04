@@ -82,7 +82,9 @@ internal sealed class ModuleDiscoveryPlanner(
 
             var planningDependencyRegistry = new ModuleDependencyRegistry();
             var attributeEventService = new ModuleAttributeEventService();
-            var planningMetadataRegistry = new ModuleMetadataRegistry(attributeEventService);
+            var planningMetadataRegistry = new ModuleMetadataRegistry(
+                attributeEventService,
+                planningSafeOnly: true);
             var dependencyChainProvider = new DependencyChainProvider(
                 planningMetadataRegistry,
                 planningDependencyRegistry);
@@ -189,37 +191,11 @@ internal sealed class ModuleDiscoveryPlanner(
                     planningServiceProvider));
             }
 
-            try
-            {
-                var activatedCopy = CreatePlanningCopy(
-                    module,
-                    copyProvider,
-                    ownedPlanningModules,
-                    planningServiceProvider);
-                if (IsEquivalentPlanningModule(
-                        module,
-                        activatedCopy.Module,
-                        activatedCopy.IsServiceProviderOwned))
-                {
-                    return CreateIsolatedPlanningModule(activatedCopy);
-                }
-
-                if (activatedCopy.IsPlannerOwned)
-                {
-                    ownedPlanningModules.Add(activatedCopy.Module);
-                }
-            }
-            catch
-            {
-                // Factory-only constructor values may not be available through dependency injection.
-                // The validated runtime copy below preserves those values without replaying the factory.
-            }
-
             RejectRuntimeBoundPlanningCondition(module, copyProvider);
             return CreateIsolatedPlanningModule(new PlanningModuleCreation(
                 copyProvider.CreatePlanningCopyFromRegisteredInstance(
                     preserveConfiguration: true),
-                static _ => false,
+                factory.IsRuntimeServiceProviderOwned,
                 IsPlannerOwned: false));
         }
 
@@ -1239,6 +1215,7 @@ internal sealed class ModulePlanningFactory
 {
     private readonly Func<IServiceProvider, IModule> _create;
     private IModule? _runtimeModule;
+    private ResolvedObjectTrackingServiceProvider? _runtimeServiceOwnership;
 
     public ModulePlanningFactory(
         Func<IServiceProvider, IModule> create,
@@ -1250,13 +1227,21 @@ internal sealed class ModulePlanningFactory
 
     public IModule CreateRuntimeModule(IServiceProvider serviceProvider)
     {
-        var module = _create(serviceProvider);
-        Interlocked.CompareExchange(ref _runtimeModule, module, null);
+        var runtimeServiceOwnership = new ResolvedObjectTrackingServiceProvider(serviceProvider);
+        var module = _create(runtimeServiceOwnership);
+        if (Interlocked.CompareExchange(ref _runtimeModule, module, null) is null)
+        {
+            Volatile.Write(ref _runtimeServiceOwnership, runtimeServiceOwnership);
+        }
+
         return module;
     }
 
     public bool CreatedRuntimeModule(IModule module) =>
         ReferenceEquals(Volatile.Read(ref _runtimeModule), module);
+
+    public bool IsRuntimeServiceProviderOwned(object value) =>
+        Volatile.Read(ref _runtimeServiceOwnership)?.IsServiceProviderOwned(value) == true;
 }
 
 internal sealed class ResolvedObjectTrackingServiceProvider(IServiceProvider innerServiceProvider)

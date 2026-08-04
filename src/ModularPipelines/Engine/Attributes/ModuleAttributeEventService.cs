@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ModularPipelines.Attributes.Events;
+using ModularPipelines.Exceptions;
 
 namespace ModularPipelines.Engine.Attributes;
 
@@ -20,6 +21,31 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
 
     public IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType)
         => GetCache(moduleType).RegistrationReceivers;
+
+    public IReadOnlyList<IModuleRegistrationEventReceiver> GetPlanningRegistrationReceivers(Type moduleType)
+    {
+        var receiverData = CustomAttributeMetadata.GetApplicable(
+            moduleType,
+            static type => typeof(IModuleRegistrationEventReceiver).IsAssignableFrom(type));
+        var deferredReceiverTypes = receiverData
+            .Select(static data => data.AttributeType)
+            .Where(static type => !typeof(IPlanningSafeModuleRegistrationEventReceiver).IsAssignableFrom(type))
+            .Distinct()
+            .ToArray();
+        if (deferredReceiverTypes.Length > 0)
+        {
+            throw new PipelineException(
+                $"Cannot export a resolved dependency graph because {moduleType.FullName} has "
+                + "registration receivers that are not planning-safe: "
+                + string.Join(", ", deferredReceiverTypes.Select(static type => type.FullName))
+                + $". Implement {nameof(IPlanningSafeModuleRegistrationEventReceiver)} only when "
+                + "the receiver is deterministic, idempotent, and free of external side effects.");
+        }
+
+        return SortByPriority(receiverData
+            .Select(CustomAttributeMetadata.Create<IModuleRegistrationEventReceiver>)
+            .ToList());
+    }
 
     public IReadOnlyList<IModuleReadyHandler> GetReadyHandlers(Type moduleType)
         => GetCache(moduleType).ReadyHandlers;

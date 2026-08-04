@@ -17,10 +17,14 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     private readonly ConcurrentDictionary<Type, Lazy<ModuleMetadata>> _finalizedMetadata = new();
     private readonly ConcurrentDictionary<(Type ModuleType, Type AttributeType), Attribute[]> _attributesByType = new();
     private readonly IModuleAttributeEventService _attributeEventService;
+    private readonly bool _planningSafeOnly;
 
-    public ModuleMetadataRegistry(IModuleAttributeEventService attributeEventService)
+    public ModuleMetadataRegistry(
+        IModuleAttributeEventService attributeEventService,
+        bool planningSafeOnly = false)
     {
         _attributeEventService = attributeEventService;
+        _planningSafeOnly = planningSafeOnly;
     }
 
     public void SetMetadata(Type moduleType, string key, object value)
@@ -100,9 +104,15 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     {
         return _attributesByType.GetOrAdd(
             (moduleType, attributeType),
-            key => _attributeEventService.GetAttributes(key.ModuleType)
-                .Where(key.AttributeType.IsInstanceOfType)
-                .ToArray());
+            key => _planningSafeOnly
+                ? CustomAttributeMetadata.GetApplicable(
+                        key.ModuleType,
+                        key.AttributeType.IsAssignableFrom)
+                    .Select(CustomAttributeMetadata.Create<Attribute>)
+                    .ToArray()
+                : _attributeEventService.GetAttributes(key.ModuleType)
+                    .Where(key.AttributeType.IsInstanceOfType)
+                    .ToArray());
     }
 
     internal sealed record ModuleMetadata(FrozenSet<string> Tags, string? Category);

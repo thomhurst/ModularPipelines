@@ -7,6 +7,7 @@ using ModularPipelines.Conditions;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Configuration;
+using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -118,7 +119,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         }
 
         return await EvaluatePlanningConditions(
-                CreateConditionAttributes(module.GetType()),
+                CreatePlanningConditionAttributes(module.GetType()),
                 _pipelineContextProvider.GetModuleContext(),
                 IsDistributedMaster(),
                 cancellationToken)
@@ -240,14 +241,62 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             conditionAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray());
     }
 
-    private static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
+    private static ConditionAttributes CreatePlanningConditionAttributes(Type moduleType)
     {
-        if (attribute is IPlanningConditionAttribute)
+        var conditionData = CustomAttributeMetadata.GetApplicable(
+            moduleType,
+            static type => typeof(IConditionAttribute).IsAssignableFrom(type));
+        var planningAttributes = conditionData
+            .Where(data => IsPlanningConditionAttribute(data.AttributeType))
+            .Select(CustomAttributeMetadata.Create<IConditionAttribute>)
+            .ToArray();
+        var deferredTypes = conditionData
+            .Select(static data => data.AttributeType)
+            .Where(static type => !IsPlanningConditionAttribute(type))
+            .ToArray();
+
+        return new ConditionAttributes(
+            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.Skip).ToArray(),
+            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.All).ToArray(),
+            planningAttributes.Where(attribute => attribute.Logic == ConditionLogic.Any).ToArray(),
+            HasDeferredCondition(deferredTypes, ConditionLogic.Skip),
+            HasDeferredCondition(deferredTypes, ConditionLogic.All),
+            HasDeferredCondition(deferredTypes, ConditionLogic.Any));
+    }
+
+    private static bool HasDeferredCondition(
+        IEnumerable<Type> attributeTypes,
+        ConditionLogic logic) =>
+        attributeTypes.Any(type => GetConditionLogic(type) is not { } conditionLogic
+                                   || conditionLogic == logic);
+
+    private static ConditionLogic? GetConditionLogic(Type attributeType)
+    {
+        if (typeof(SkipIfAttribute).IsAssignableFrom(attributeType))
+        {
+            return ConditionLogic.Skip;
+        }
+
+        if (typeof(RunIfAllAttribute).IsAssignableFrom(attributeType))
+        {
+            return ConditionLogic.All;
+        }
+
+        return typeof(RunIfAnyAttribute).IsAssignableFrom(attributeType)
+            ? ConditionLogic.Any
+            : null;
+    }
+
+    private static bool IsPlanningConditionAttribute(IConditionAttribute attribute)
+        => IsPlanningConditionAttribute(attribute.GetType());
+
+    private static bool IsPlanningConditionAttribute(Type attributeType)
+    {
+        if (typeof(IPlanningConditionAttribute).IsAssignableFrom(attributeType))
         {
             return true;
         }
 
-        var attributeType = attribute.GetType();
         var conditionTypes = attributeType.GetGenericArguments();
         return attributeType.IsGenericType
                && IsBuiltInGenericConditionAttribute(attributeType.GetGenericTypeDefinition())
@@ -278,6 +327,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var skipEvaluation = await EvaluateSkipPlanningConditions(
                 attributes.Skip,
                 pipelineContext,
+                attributes.HasDeferredSkip,
                 cancellationToken)
             .ConfigureAwait(false);
         if (skipEvaluation.Result is not null)
@@ -289,6 +339,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
                 attributes.All,
                 pipelineContext,
                 isDistributedMaster,
+                attributes.HasDeferredAll,
                 cancellationToken)
             .ConfigureAwait(false);
         if (allEvaluation.Result is not null)
@@ -299,6 +350,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         var anyEvaluation = await EvaluateAnyPlanningConditions(
                 attributes.Any,
                 pipelineContext,
+                attributes.HasDeferredAny,
                 cancellationToken)
             .ConfigureAwait(false);
         return anyEvaluation.Result ?? new PlanningConditionResult(
@@ -312,9 +364,10 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static async Task<PlanningConditionEvaluation> EvaluateSkipPlanningConditions(
         IEnumerable<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
+        bool hasDeferredConditions,
         CancellationToken cancellationToken)
     {
-        var isResolved = true;
+        var isResolved = !hasDeferredConditions;
         foreach (var attribute in attributes)
         {
             if (!IsPlanningConditionAttribute(attribute))
@@ -339,9 +392,10 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         IEnumerable<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
         bool isDistributedMaster,
+        bool hasDeferredConditions,
         CancellationToken cancellationToken)
     {
-        var isResolved = true;
+        var isResolved = !hasDeferredConditions;
         var allConditions = attributes
             .Select(attribute => (
                 Attribute: attribute,
@@ -385,8 +439,14 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private static async Task<PlanningConditionEvaluation> EvaluateAnyPlanningConditions(
         IReadOnlyCollection<IConditionAttribute> attributes,
         IPipelineContext pipelineContext,
+        bool hasDeferredConditions,
         CancellationToken cancellationToken)
     {
+        if (hasDeferredConditions)
+        {
+            return new PlanningConditionEvaluation(null, IsResolved: false);
+        }
+
         var isResolved = true;
         var evaluatedGroups = new HashSet<Type>();
         foreach (var attribute in attributes)
@@ -631,5 +691,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private sealed record ConditionAttributes(
         IConditionAttribute[] Skip,
         IConditionAttribute[] All,
-        IConditionAttribute[] Any);
+        IConditionAttribute[] Any,
+        bool HasDeferredSkip = false,
+        bool HasDeferredAll = false,
+        bool HasDeferredAny = false);
 }

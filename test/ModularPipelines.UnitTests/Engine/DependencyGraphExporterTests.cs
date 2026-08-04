@@ -38,6 +38,8 @@ public class DependencyGraphExporterTests
     private static bool _externalConfigurationIncludesDependency;
     private static int _customPlanningAttributeEvaluations;
     private static int _globalConfigurationMutations;
+    private static int _deferredConditionAttributeConstructions;
+    private static int _deferredConditionLogicReads;
 
     private sealed class ConstructorMutationState
     {
@@ -332,6 +334,9 @@ public class DependencyGraphExporterTests
         private readonly List<string> _configurationCalls = [];
 
         public int ConfigurationCallCount => _configurationCalls.Count;
+
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            new MutableConfigurationStateModule();
 
         protected override ModuleConfiguration Configure()
         {
@@ -884,6 +889,9 @@ public class DependencyGraphExporterTests
 
     private sealed class ContainerOwnedPlanningModule : Module<string>, IAsyncDisposable
     {
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            serviceProvider.GetRequiredService<ContainerOwnedPlanningModule>();
+
         public ValueTask DisposeAsync()
         {
             Interlocked.Increment(ref _planningDisposals);
@@ -984,6 +992,9 @@ public class DependencyGraphExporterTests
             return ValueTask.CompletedTask;
         }
 
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            new DisposablePlanningModule();
+
         protected internal override Task<string?> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken) =>
@@ -992,6 +1003,9 @@ public class DependencyGraphExporterTests
 
     private sealed class ThrowingDisposablePlanningModule : Module<string>, IDisposable
     {
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            new ThrowingDisposablePlanningModule();
+
         public void Dispose() => throw new InvalidOperationException("Planning disposal failed.");
 
         protected internal override Task<string?> ExecuteAsync(
@@ -1303,6 +1317,9 @@ public class DependencyGraphExporterTests
 
         public bool HasFactoryState { get; init; }
 
+        protected override Module<string> CreatePlanningCopy(IServiceProvider serviceProvider) =>
+            new ConfigurationThrowingDisposableFactoryModule();
+
         public void Dispose() => Interlocked.Increment(ref Disposals);
 
         protected override ModuleConfiguration Configure() => HasFactoryState
@@ -1330,6 +1347,29 @@ public class DependencyGraphExporterTests
             _evaluated = true;
             return Task.FromResult(true);
         }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    private sealed class DeferredStatefulConditionAttribute : Attribute, IConditionAttribute
+    {
+        public DeferredStatefulConditionAttribute()
+        {
+            Interlocked.Increment(ref _deferredConditionAttributeConstructions);
+        }
+
+        public ConditionLogic Logic
+        {
+            get
+            {
+                Interlocked.Increment(ref _deferredConditionLogicReads);
+                throw new InvalidOperationException("Deferred condition logic must not run during planning.");
+            }
+        }
+
+        public string ConditionNames => nameof(DeferredStatefulConditionAttribute);
+
+        public Task<bool> EvaluateAsync(IPipelineContext context) =>
+            throw new InvalidOperationException("Deferred condition must not run during planning.");
     }
 
     [AttributeUsage(AttributeTargets.Class)]
@@ -1391,6 +1431,15 @@ public class DependencyGraphExporterTests
             IModuleContext context,
             CancellationToken cancellationToken) =>
             Task.FromResult<string?>("single-use");
+    }
+
+    [DeferredStatefulCondition]
+    private sealed class DeferredStatefulConditionModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("deferred-stateful-condition");
     }
 
     [AddStartupDependency(typeof(DependencyModule))]
@@ -2288,6 +2337,29 @@ public class DependencyGraphExporterTests
             await Assert.That(node.GetProperty("skipped").ValueKind)
                 .IsEqualTo(JsonValueKind.Null);
             await Assert.That(_asyncSkipConditionEvaluations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Deferred_Condition_Attribute_Is_Not_Constructed_During_Planning()
+    {
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<DeferredStatefulConditionModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+        _deferredConditionAttributeConstructions = 0;
+        _deferredConditionLogicReads = 0;
+
+        using var document = JsonDocument.Parse(
+            await exporter.RenderAsync(DependencyGraphFormat.Json));
+        var node = document.RootElement.GetProperty("nodes").EnumerateArray().Single();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(node.GetProperty("skipped").ValueKind)
+                .IsEqualTo(JsonValueKind.Null);
+            await Assert.That(_deferredConditionAttributeConstructions).IsEqualTo(0);
+            await Assert.That(_deferredConditionLogicReads).IsEqualTo(0);
         }
     }
 
@@ -3398,9 +3470,14 @@ public class DependencyGraphExporterTests
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
 
-        await Assert.That(ConfigurationThrowingDisposableFactoryModule.Disposals).IsEqualTo(1);
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).IsEqualTo("Factory state is unavailable.");
+            await Assert.That(ConfigurationThrowingDisposableFactoryModule.Disposals).IsEqualTo(1);
+        }
     }
 
     [Test]
@@ -3721,6 +3798,28 @@ public class DependencyGraphExporterTests
         using var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton(state);
         builder.AddModule<ConstructorMutatingModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var summary = await pipeline.RunAsync();
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(state.Activations).IsEqualTo(1);
+            await Assert.That(summary.Results.Single().ModuleStatus)
+                .IsEqualTo(Status.Successful);
+        }
+    }
+
+    [Test]
+    public async Task Render_Does_Not_Replay_Factory_Module_Constructor()
+    {
+        var state = new ConstructorMutationState();
+        using var builder = Pipeline.CreateBuilder();
+        builder.Services.AddSingleton(state);
+        builder.AddModule(serviceProvider => new ConstructorMutatingModule(
+            serviceProvider.GetRequiredService<ConstructorMutationState>()));
         await using var pipeline = await builder.BuildAsync();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 

@@ -11,6 +11,8 @@ internal interface IModuleAttributeEventService
 
     IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType);
 
+    IReadOnlyList<IModuleRegistrationEventReceiver> GetPlanningRegistrationReceivers(Type moduleType);
+
     IReadOnlyList<IModuleReadyHandler> GetReadyHandlers(Type moduleType);
 
     IReadOnlyList<IModuleStartHandler> GetStartHandlers(Type moduleType);
