@@ -953,6 +953,32 @@ public class CommandLineBuilderTests : TestBase
     }
 
     [Test]
+    public async Task Build_Rejects_Additional_Terminator_Outside_Legacy_Phase()
+    {
+        var builder = await GetService<ICommandLineBuilder>();
+        CommandLinePhase[] phases =
+        [
+            CommandLinePhase.EarlyOperand,
+            CommandLinePhase.Normal,
+            CommandLinePhase.Passthrough,
+            CommandLinePhase.Terminal,
+        ];
+
+        foreach (var phase in phases)
+        {
+            CommandLine Build() => builder.Build(new TestTerminalOptions
+            {
+                AdditionalArguments = [new("--", phase)],
+                RunTests = "tests.jq",
+            });
+
+            await Assert.That(Build)
+                .Throws<ArgumentException>()
+                .And.HasMessageContaining("legacy end-of-options phase");
+        }
+    }
+
+    [Test]
     public async Task Build_Keeps_MultiLevel_Command_Chain_Atomic()
     {
         var builder = await GetService<ICommandLineBuilder>();

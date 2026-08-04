@@ -33,3 +33,8 @@ public enum CommandLinePhase
     /// </summary>
     Passthrough = 3,
 }
+
+internal static class CommandLinePhaseCompatibility
+{
+    internal const CommandLinePhase LegacyEndOfOptions = (CommandLinePhase) 2;
+}

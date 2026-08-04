@@ -25,8 +25,6 @@ internal sealed class CommandLineBuilder(
     ICommandModelProvider commandModelProvider,
     ICommandArgumentBuilder commandArgumentBuilder) : ICommandLineBuilder
 {
-    private const CommandLinePhase LegacyEndOfOptionsPhase = (CommandLinePhase) 2;
-
     private static readonly IReadOnlyList<PropertyCommandLinePart> RunSettingsCommandModel =
     [
         new ArgumentPart(
@@ -193,7 +191,8 @@ internal sealed class CommandLineBuilder(
                     phase,
                     isGlobalOption)
                 .ToList();
-            if (phase == LegacyEndOfOptionsPhase && phaseAdditionalArguments.Count > 0)
+            if (phase == CommandLinePhaseCompatibility.LegacyEndOfOptions
+                && phaseAdditionalArguments.Count > 0)
             {
                 if (emittedOptionTerminator)
                 {
@@ -258,15 +257,25 @@ internal sealed class CommandLineBuilder(
                     nameof(CommandLineToolOptions.AdditionalArguments));
             }
 
-            if (argument.Phase == LegacyEndOfOptionsPhase && argument.Value != "--")
+            if (argument.Phase == CommandLinePhaseCompatibility.LegacyEndOfOptions
+                && argument.Value != "--")
             {
                 throw new ArgumentException(
                     "The legacy end-of-options phase only accepts the '--' marker.",
                     nameof(CommandLineToolOptions.AdditionalArguments));
             }
+
+            if (argument.Value == "--"
+                && argument.Phase != CommandLinePhaseCompatibility.LegacyEndOfOptions)
+            {
+                throw new ArgumentException(
+                    "The '--' marker must use the legacy end-of-options phase.",
+                    nameof(CommandLineToolOptions.AdditionalArguments));
+            }
         }
 
-        if (additionalArguments.Count(argument => argument.Phase == LegacyEndOfOptionsPhase) > 1)
+        if (additionalArguments.Count(argument =>
+                argument.Phase == CommandLinePhaseCompatibility.LegacyEndOfOptions) > 1)
         {
             throw new ArgumentException(
                 "Additional arguments can contain at most one end-of-options marker.",
