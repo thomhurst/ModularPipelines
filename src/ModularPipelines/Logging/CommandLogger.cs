@@ -46,8 +46,8 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         }
 
         var obfuscatedInput = ShouldShowInput(effectiveOptions)
-            ? _secretObfuscator.Obfuscate(inputToLog, null)
-            : LoggingConstants.CommandMask;
+            ? ObfuscateLogValue(inputToLog)
+            : new PreObfuscatedLogValue(LoggingConstants.CommandMask);
         Logger.LogInformation(
             "{WorkingDirectory}> {Input}",
             commandWorkingDirPath,
@@ -141,7 +141,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
 
         logger.LogInformation("{WorkingDirectory}> {Input} [DRY-RUN]",
             workingDirectory,
-            _secretObfuscator.Obfuscate(input, null));
+            ObfuscateLogValue(input));
     }
 
     private void LogOutputLine(
@@ -160,7 +160,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        var obfuscatedOutput = _secretObfuscator.Obfuscate(line, null);
+        var obfuscatedOutput = ObfuscateLogValue(line);
         Logger.LogInformation(
             isError ? "  ↳ {CommandError}" : "  ↳ {CommandOutput}",
             obfuscatedOutput);
@@ -231,7 +231,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         {
             Logger.LogInformation(
                 "  → {CommandOutput}",
-                _secretObfuscator.Obfuscate(output, null));
+                ObfuscateLogValue(output));
             return;
         }
 
@@ -242,7 +242,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        Logger.LogInformation("  ↳ {CommandOutput}", _secretObfuscator.Obfuscate(output, null));
+        Logger.LogInformation("  ↳ {CommandOutput}", ObfuscateLogValue(output));
     }
 
     private void LogCapturedError(
@@ -258,7 +258,7 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return;
         }
 
-        Logger.LogWarning("  ✗ {CommandError}", _secretObfuscator.Obfuscate(error, null));
+        Logger.LogWarning("  ✗ {CommandError}", ObfuscateLogValue(error));
     }
 
     private void LogCommandStatus(
@@ -278,14 +278,17 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
         if (!string.IsNullOrEmpty(commandStatus))
         {
             var obfuscatedInput = ShouldShowInput(options)
-                ? _secretObfuscator.Obfuscate(inputToLog, null)
-                : LoggingConstants.CommandMask;
+                ? ObfuscateLogValue(inputToLog)
+                : new PreObfuscatedLogValue(LoggingConstants.CommandMask);
             Logger.LogInformation(
                 "{CommandStatus} {Input}",
                 commandStatus.TrimStart(),
                 obfuscatedInput);
         }
     }
+
+    private PreObfuscatedLogValue ObfuscateLogValue(string? value) =>
+        new(_secretObfuscator.Obfuscate(value, null));
 
     private static bool ShouldShowInput(CommandLoggingOptions options)
     {

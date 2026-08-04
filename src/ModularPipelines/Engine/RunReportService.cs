@@ -41,7 +41,7 @@ internal sealed class RunReportService(
 
         var reportPath = isDistributedWorker ? null : GetReportPath();
         var pipelineIdentity = GetPipelineIdentity(summary, reportPath);
-        var historyEnabled = reportPath is not null
+        var historyEnabled = !isDistributedWorker
             && pipelineOptions.Value.RunReport.HistoryRetention > 0;
         var previousReport = await LoadPreviousReportAsync(historyEnabled, pipelineIdentity)
             .ConfigureAwait(false);
