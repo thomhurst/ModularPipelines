@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Text;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
@@ -93,10 +95,67 @@ public class SecretObfuscatorCachingTests
         secretProvider.Verify(x => x.GetSnapshot(), Times.Exactly(2));
     }
 
-    private static SecretObfuscator CreateObfuscator(ISecretProvider secretProvider)
+    [Test]
+    public async Task ReusesRegisteredCacheWhenOptionSecretsAreAlreadyRegistered()
+    {
+        const string secret = "registered-secret";
+        var optionsObject = new object();
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(0, SecretMaskingPatternGenerator.Generate(secret)));
+        secretProvider.Setup(x => x.GetSecretsInObject(optionsObject)).Returns([secret]);
+        var obfuscator = CreateObfuscator(secretProvider.Object);
+        var maskingOptions = new SecretMaskingOptions();
+
+        var registeredCache = GetSecretCache(obfuscator, null, maskingOptions, false);
+        var optionsCache = GetSecretCache(obfuscator, optionsObject, maskingOptions, false);
+
+        await Assert.That(optionsCache).IsSameReferenceAs(registeredCache);
+    }
+
+    [Test]
+    public async Task BuildsExtraPatternsForCaseVariantOptionSecrets()
+    {
+        const string registeredSecret = "CaseSensitiveSecret";
+        const string optionSecret = "casesensitivesecret";
+        var optionsObject = new object();
+        var secretProvider = new Mock<ISecretProvider>();
+        secretProvider.Setup(x => x.GetSnapshot())
+            .Returns(new SecretSnapshot(
+                0,
+                SecretMaskingPatternGenerator.Generate(registeredSecret)));
+        secretProvider.Setup(x => x.GetSecretsInObject(optionsObject)).Returns([optionSecret]);
+        var obfuscator = CreateObfuscator(secretProvider.Object, caseInsensitive: true);
+        var encodedOptionSecret = Convert.ToBase64String(Encoding.UTF8.GetBytes(optionSecret));
+
+        var result = obfuscator.Obfuscate(encodedOptionSecret, optionsObject);
+
+        await Assert.That(result).IsEqualTo("**********");
+    }
+
+    private static object GetSecretCache(
+        SecretObfuscator obfuscator,
+        object? optionsObject,
+        SecretMaskingOptions maskingOptions,
+        bool caseInsensitive)
+    {
+        var method = typeof(SecretObfuscator).GetMethod(
+            "GetSecretCache",
+            BindingFlags.Instance | BindingFlags.NonPublic)!;
+        return method.Invoke(
+            obfuscator,
+            [optionsObject, maskingOptions, caseInsensitive])!;
+    }
+
+    private static SecretObfuscator CreateObfuscator(
+        ISecretProvider secretProvider,
+        bool caseInsensitive = false)
     {
         return new SecretObfuscator(
             secretProvider,
-            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions()));
+            Microsoft.Extensions.Options.Options.Create(new SecretMaskingOptions
+            {
+                CaseInsensitive = caseInsensitive,
+            }));
     }
 }
