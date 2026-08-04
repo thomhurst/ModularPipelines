@@ -538,6 +538,26 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Rejects_Terminal_Option_After_Legacy_End_Marker()
+    {
+        PropertyCommandLinePart[] model =
+        [
+            new FlagPart(
+                "EndOfOptions",
+                static _ => true,
+                new CliFlagAttribute("--") { Phase = (CommandLinePhase) 2 }),
+            new OptionPart(
+                "RunTests",
+                static _ => "tests.jq",
+                new CliOptionAttribute("--run-tests") { Phase = CommandLinePhase.Terminal }),
+        ];
+
+        await Assert.That(() => new CommandArgumentBuilder().BuildArguments(model, new object()))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining("legacy end-of-options marker");
+    }
+
+    [Test]
     public async Task CommandModel_Rejects_Duplicate_Switches()
     {
         await Assert.That(() => BuildArguments(new TestCliOptionsWithDuplicateSwitch()))

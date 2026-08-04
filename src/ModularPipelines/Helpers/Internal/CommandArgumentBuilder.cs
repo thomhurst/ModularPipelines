@@ -218,6 +218,17 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 + "emitted by an earlier property group.");
         }
 
+        var legacyOptionTerminatorRendered = renderedOptionValues.Any(static pair =>
+            pair.Key.Phase == LegacyEndOfOptionsPhase
+            && pair.Value.Contains("--", StringComparer.Ordinal));
+        if (legacyOptionTerminatorRendered
+            && renderedOptions.Any(static option =>
+                GetRenderOrder(option.Phase) > GetRenderOrder(LegacyEndOfOptionsPhase)))
+        {
+            throw new InvalidOperationException(
+                "CLI flags or options cannot be rendered after a legacy end-of-options marker.");
+        }
+
         foreach (var argument in arguments)
         {
             var values = argumentValues[argument];
