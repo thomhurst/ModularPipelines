@@ -45,6 +45,7 @@ public class DependencyGraphExporterTests
     private static int _planningCompanionAttributeConstructions;
     private static int _planningPresenceAttributeConstructions;
     private static int _staticPlanningSkipEvaluations;
+    private static int _planningCallbackConstructorMutations;
     private static int _customDependencyAttributeConstructions;
     private static int _customDependencyPredicateEvaluations;
 
@@ -447,6 +448,8 @@ public class DependencyGraphExporterTests
 
     private sealed class ConfigurationMutationCounter
     {
+        public int Activations { get; set; }
+
         public int Count { get; set; }
     }
 
@@ -570,6 +573,30 @@ public class DependencyGraphExporterTests
             Task.FromResult<string?>("static-planning-condition");
     }
 
+    private sealed class ConstructorBoundPlanningConditionModule : Module<string>
+    {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(EvaluatePlanningSkip)
+            .Build();
+
+        private static SkipDecision EvaluatePlanningSkip(IModuleContext context)
+        {
+            _ = new PlanningCallbackConstructorMutationProbe();
+            return SkipDecision.DoNotSkip;
+        }
+
+        protected internal override Task<string?> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) =>
+            Task.FromResult<string?>("constructor-bound-planning-condition");
+    }
+
+    private sealed class PlanningCallbackConstructorMutationProbe
+    {
+        public PlanningCallbackConstructorMutationProbe() =>
+            Interlocked.Increment(ref _planningCallbackConstructorMutations);
+    }
+
     private sealed class InjectedConfigurationMutationModule(ConfigurationMutationCounter counter)
         : Module<int>
     {
@@ -587,10 +614,15 @@ public class DependencyGraphExporterTests
 
     private sealed record ConfigurationMutationHolder(ConfigurationMutationCounter Counter);
 
-    private sealed class NestedInjectedConfigurationMutationModule(
-        ConfigurationMutationCounter counter) : Module<int>
+    private sealed class NestedInjectedConfigurationMutationModule : Module<int>
     {
-        private readonly ConfigurationMutationHolder _holder = new(counter);
+        private readonly ConfigurationMutationHolder _holder;
+
+        public NestedInjectedConfigurationMutationModule(ConfigurationMutationCounter counter)
+        {
+            _holder = new ConfigurationMutationHolder(counter);
+            counter.Activations++;
+        }
 
         protected override ModuleConfiguration Configure()
         {
@@ -3220,7 +3252,7 @@ public class DependencyGraphExporterTests
                 [bodylessMethod, typeof(BodylessPlanningProbe)])!).IsTrue();
             await Assert.That((bool) touchesStaticState.Invoke(
                 null,
-                [bodylessMethod, new HashSet<MethodBase>(), true])!).IsTrue();
+                [bodylessMethod, new HashSet<MethodBase>()])!).IsTrue();
             await Assert.That((bool) instructionTouchesStaticState.Invoke(
                 null,
                 [
@@ -3229,7 +3261,6 @@ public class DependencyGraphExporterTests
                     BitConverter.GetBytes(int.MaxValue),
                     0,
                     new HashSet<MethodBase>(),
-                    true,
                 ])!).IsTrue();
         }
     }
@@ -3254,7 +3285,26 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Finds_Injected_State_Inside_Module_Owned_Holder()
+    public async Task Render_Rejects_Planning_Callback_Constructor_Mutation()
+    {
+        _planningCallbackConstructorMutations = 0;
+        using var builder = Pipeline.CreateBuilder();
+        builder.AddModule<ConstructorBoundPlanningConditionModule>();
+        await using var pipeline = await builder.BuildAsync();
+        var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
+
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(exception!.Message).Contains("mutable runtime state");
+            await Assert.That(_planningCallbackConstructorMutations).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task Render_Rejects_Shared_Module_Owned_Holder_Without_Replaying_Constructor()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.Services.AddSingleton<ConfigurationMutationCounter>();
@@ -3263,17 +3313,14 @@ public class DependencyGraphExporterTests
         var counter = pipeline.Services.GetRequiredService<ConfigurationMutationCounter>();
         var exporter = pipeline.Services.GetRequiredService<IDependencyGraphExporter>();
 
-        _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
-        _ = await pipeline.RunAsync();
-        var module = pipeline.Services.GetServices<IModule>()
-            .OfType<NestedInjectedConfigurationMutationModule>()
-            .Single();
-        var result = await module;
+        var exception = await Assert.ThrowsAsync<PipelineException>(
+            () => exporter.RenderAsync(DependencyGraphFormat.Json));
 
         using (Assert.Multiple())
         {
+            await Assert.That(exception!.Message).Contains("Override CreatePlanningCopy");
+            await Assert.That(counter.Activations).IsEqualTo(1);
             await Assert.That(counter.Count).IsEqualTo(1);
-            await Assert.That(result.ValueOrDefault).IsEqualTo(1);
         }
     }
 

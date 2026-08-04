@@ -217,14 +217,21 @@ internal sealed class ModuleDiscoveryPlanner(
             if (!HasCustomPlanningCopy(module)
                 && ModuleActivator.TryGetRuntimeServiceOwnership(
                     module,
-                    out var runtimeServiceOwnership)
-                && TryCreatePlanningCopyFromRegisteredInstance(
-                    module,
-                    copyProvider,
-                    runtimeServiceOwnership,
-                    out var registeredInstanceCopy))
+                    out var runtimeServiceOwnership))
             {
-                return CreateIsolatedPlanningModule(registeredInstanceCopy);
+                if (TryCreatePlanningCopyFromRegisteredInstance(
+                        module,
+                        copyProvider,
+                        runtimeServiceOwnership,
+                        out var registeredInstanceCopy))
+                {
+                    return CreateIsolatedPlanningModule(registeredInstanceCopy);
+                }
+
+                throw new PipelineException(
+                    $"The registered module '{module.GetType().FullName}' contains runtime state that "
+                    + "cannot be shared with dependency-graph planning. Override CreatePlanningCopy to "
+                    + "return an isolated copy.");
             }
 
             return CreateIsolatedPlanningModule(CreatePlanningCopy(
@@ -835,8 +842,7 @@ internal sealed class ModuleDiscoveryPlanner(
             (!IsKnownPlanningSafeDelegateWrapper(invocation.Method)
              && MethodTouchesStaticState(
                  invocation.Method,
-                 new HashSet<MethodBase>(),
-                 inspectConstructors: false))
+                 new HashSet<MethodBase>()))
             || (invocation.Target is { } target
                 && (MutatesDelegateTargetField(invocation.Method, target.GetType())
                     || MutatesDelegateTargetState(target, visited))));
@@ -909,8 +915,7 @@ internal sealed class ModuleDiscoveryPlanner(
         Justification = "Missing or trimmed Configure bodies are conservatively treated as stateful.")]
     private static bool MethodTouchesStaticState(
         MethodBase method,
-        ISet<MethodBase> visited,
-        bool inspectConstructors = true)
+        ISet<MethodBase> visited)
     {
         if (!visited.Add(method))
         {
@@ -945,8 +950,7 @@ internal sealed class ModuleDiscoveryPlanner(
                     opCode,
                     il,
                     operandOffset,
-                    visited,
-                    inspectConstructors))
+                    visited))
             {
                 return true;
             }
@@ -966,8 +970,7 @@ internal sealed class ModuleDiscoveryPlanner(
         OpCode opCode,
         byte[] il,
         int operandOffset,
-        ISet<MethodBase> visited,
-        bool inspectConstructors)
+        ISet<MethodBase> visited)
     {
         var token = BitConverter.ToInt32(il, operandOffset);
         var methodGenericArguments = method is MethodInfo methodInfo
@@ -992,11 +995,6 @@ internal sealed class ModuleDiscoveryPlanner(
                 return false;
             }
 
-            if (!inspectConstructors && calledMethod is ConstructorInfo)
-            {
-                return false;
-            }
-
             if (calledMethod is ConstructorInfo
                 && calledMethod.DeclaringType?.IsDefined(
                     typeof(CompilerGeneratedAttribute),
@@ -1007,7 +1005,7 @@ internal sealed class ModuleDiscoveryPlanner(
 
             if (calledMethod.Module.Assembly == method.Module.Assembly)
             {
-                return MethodTouchesStaticState(calledMethod, visited, inspectConstructors);
+                return MethodTouchesStaticState(calledMethod, visited);
             }
 
             return calledMethod is ConstructorInfo
