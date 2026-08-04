@@ -47,6 +47,7 @@ internal enum ModuleExecutionState
 internal class ModuleState
 {
     private ImmutableDictionary<Type, bool> _dependencies = ImmutableDictionary<Type, bool>.Empty;
+    private SkipDecision _skipResult = SkipDecision.DoNotSkip;
 
     public ModuleState(IModule module, Type moduleType)
     {
@@ -158,7 +159,23 @@ internal class ModuleState
     public IModuleResult? Result { get; set; }
 
     /// <summary>
-    /// Gets or sets the skip decision if the module was skipped.
+    /// Gets the first skip decision recorded for the module.
     /// </summary>
-    public SkipDecision SkipResult { get; set; } = SkipDecision.DoNotSkip;
+    public SkipDecision SkipResult => Volatile.Read(ref _skipResult);
+
+    /// <summary>
+    /// Records a skip decision unless another caller already recorded one.
+    /// </summary>
+    public bool TrySetSkipResult(SkipDecision value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        if (!value.ShouldSkip)
+        {
+            return false;
+        }
+
+        return ReferenceEquals(
+            Interlocked.CompareExchange(ref _skipResult, value, SkipDecision.DoNotSkip),
+            SkipDecision.DoNotSkip);
+    }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine.Attributes;
@@ -94,7 +95,25 @@ internal class ModuleExecutor : IModuleExecutor
 
             if (scheduler != null)
             {
-                await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
+                try
+                {
+                    await _alwaysRunHandler.WaitForAlwaysRunModulesAsync(scheduler, modules).ConfigureAwait(false);
+                }
+                catch (Exception alwaysRunException)
+                {
+                    var pipelineExceptions = FlattenDistinctExceptions(outerEx);
+                    var combinedExceptions = FlattenDistinctExceptions(
+                        outerEx,
+                        alwaysRunException);
+                    if (combinedExceptions.Count == pipelineExceptions.Count)
+                    {
+                        ExceptionDispatchInfo.Capture(outerEx).Throw();
+                    }
+
+                    throw new AggregateException(
+                        "Pipeline execution and AlwaysRun teardown both failed.",
+                        combinedExceptions);
+                }
             }
 
             _logger.LogDebug("Outer catch block rethrowing exception");
@@ -105,6 +124,18 @@ internal class ModuleExecutor : IModuleExecutor
             scheduler?.Dispose();
         }
     }
+
+    internal static IReadOnlyList<Exception> FlattenDistinctExceptions(
+        params Exception[] exceptions) =>
+        exceptions
+            .SelectMany(FlattenException)
+            .Distinct<Exception>(ReferenceEqualityComparer.Instance)
+            .ToArray();
+
+    private static IEnumerable<Exception> FlattenException(Exception exception) =>
+        exception is AggregateException { InnerExceptions.Count: > 0 } aggregateException
+            ? aggregateException.InnerExceptions.SelectMany(FlattenException)
+            : [exception];
 
     private async Task<IModuleScheduler> InitializeSchedulerAsync(IReadOnlyList<IModule> modules)
     {

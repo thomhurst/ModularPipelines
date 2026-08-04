@@ -523,6 +523,7 @@ public class RunReportTests
     [Test]
     [Arguments(Status.Skipped)]
     [Arguments(Status.UsedHistory)]
+    [Arguments(Status.CachedResult)]
     public async Task RunReportDoesNotCompareNonExecutedModuleDurations(Status status)
     {
         var module = new SkippedModule();
@@ -549,9 +550,13 @@ public class RunReportTests
         var nonExecutedReport = factory.Create(
             new PipelineSummary(
                 [module],
-                [status == Status.Skipped
-                    ? CreateSkippedResult(module)
-                    : CreateHistoricalResult(module, start)],
+                [status switch
+                {
+                    Status.Skipped => CreateSkippedResult(module),
+                    Status.UsedHistory => CreateHistoricalResult(module, start),
+                    Status.CachedResult => CreateCachedResult(module, start),
+                    _ => throw new ArgumentOutOfRangeException(nameof(status), status, null),
+                }],
                 TimeSpan.Zero,
                 start,
                 start),
@@ -2397,6 +2402,12 @@ public class RunReportTests
         (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
         {
             ModuleStatus = Status.UsedHistory,
+        };
+
+    private static IModuleResult CreateCachedResult(IModule module, DateTimeOffset start) =>
+        (ModuleResult)CreateResult(module, start, TimeSpan.Zero) with
+        {
+            ModuleStatus = Status.CachedResult,
         };
 
     private static ModuleRunReport CreatePreviousModuleReport(

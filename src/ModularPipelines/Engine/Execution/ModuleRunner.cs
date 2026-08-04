@@ -49,6 +49,8 @@ internal class ModuleRunner : IModuleRunner
     private readonly bool _manageArtifactsLocally;
     private readonly IReadOnlyDictionary<Type, IReadOnlyDictionary<string, IReadOnlySet<Type>>>
         _localArtifactConsumers;
+    private readonly IReadOnlyList<Type> _registeredModuleTypes;
+    private readonly ArtifactDemandPlanCache _artifactDemandPlanCache = new();
     private readonly ConcurrentDictionary<Type, Lazy<Task<SkipDecision?>>>
         _planningSkipEvaluations = new();
     private readonly ConcurrentDictionary<Type, Lazy<Task<bool>>> _historicalResultAvailability = new();
@@ -98,6 +100,7 @@ internal class ModuleRunner : IModuleRunner
         _manageArtifactsLocally = !distributedOptions.Value.Enabled
                                   || distributedOptions.Value.TotalInstances <= 1;
         var registeredModules = modules.ToArray();
+        _registeredModuleTypes = registeredModules.Select(static module => module.GetType()).ToArray();
         _localArtifactConsumers = GetLocalArtifactConsumers(registeredModules);
     }
 
@@ -192,39 +195,17 @@ internal class ModuleRunner : IModuleRunner
         CancellationToken cancellationToken)
     {
         if (!_manageArtifactsLocally
-            || !_localArtifactConsumers.TryGetValue(moduleType, out var consumersByArtifact))
+            || !_localArtifactConsumers.ContainsKey(moduleType))
         {
             return;
         }
 
-        var requiredProducerTypes = await GetArtifactProducerTypesRequiringExecutionAsync(
+        var demandPlan = await GetArtifactDemandPlanAsync(
                 scheduler,
                 cancellationToken)
             .ConfigureAwait(false);
-        if (!requiredProducerTypes.Contains(moduleType))
-        {
-            return;
-        }
-
-        var artifactNames = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var (artifactName, consumerTypes) in consumersByArtifact)
-        {
-            foreach (var consumerType in consumerTypes)
-            {
-                if (await IsRunnableArtifactConsumerAsync(
-                        consumerType,
-                        scheduler,
-                        cancellationToken,
-                        requiredProducerTypes)
-                    .ConfigureAwait(false))
-                {
-                    artifactNames.Add(artifactName);
-                    break;
-                }
-            }
-        }
-
-        if (artifactNames.Count == 0)
+        if (!demandPlan.RequiredArtifactsByProducer.TryGetValue(moduleType, out var artifactNames)
+            || artifactNames.Count == 0)
         {
             return;
         }
@@ -244,39 +225,83 @@ internal class ModuleRunner : IModuleRunner
             return false;
         }
 
-        var requiredProducerTypes = await GetArtifactProducerTypesRequiringExecutionAsync(
+        var demandPlan = await GetArtifactDemandPlanAsync(
                 scheduler,
                 cancellationToken)
             .ConfigureAwait(false);
-        return requiredProducerTypes.Contains(producerType);
+        return demandPlan.RequiredProducerTypes.Contains(producerType);
     }
 
-    private async Task<HashSet<Type>> GetArtifactProducerTypesRequiringExecutionAsync(
+    private Task<ArtifactDemandPlan> GetArtifactDemandPlanAsync(
         IModuleScheduler scheduler,
         CancellationToken cancellationToken)
     {
-        return await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
-        {
-            var nextRequiredProducerTypes = new HashSet<Type>();
-            foreach (var (producerType, consumersByArtifact) in _localArtifactConsumers)
+        return _artifactDemandPlanCache.GetAsync(
+            () => _registeredModuleTypes
+                .Where(moduleType => scheduler.GetModuleCompletionTask(moduleType)?.IsCompleted == true)
+                .ToHashSet(),
+            async () =>
             {
-                foreach (var consumerType in consumersByArtifact.Values.SelectMany(consumers => consumers))
+                var requiredProducerTypes = await ArtifactDemandPlanner.ResolveAsync(async currentDemand =>
                 {
-                    if (await IsRunnableArtifactConsumerAsync(
-                            consumerType,
-                            scheduler,
-                            cancellationToken,
-                            currentDemand)
-                        .ConfigureAwait(false))
+                    var nextRequiredProducerTypes = new HashSet<Type>();
+                    foreach (var (producerType, consumersByArtifact) in _localArtifactConsumers)
                     {
-                        nextRequiredProducerTypes.Add(producerType);
-                        break;
+                        foreach (var consumerType in consumersByArtifact.Values.SelectMany(consumers => consumers))
+                        {
+                            if (await IsRunnableArtifactConsumerAsync(
+                                    consumerType,
+                                    scheduler,
+                                    cancellationToken,
+                                    currentDemand)
+                                .ConfigureAwait(false))
+                            {
+                                nextRequiredProducerTypes.Add(producerType);
+                                break;
+                            }
+                        }
+                    }
+
+                    return nextRequiredProducerTypes;
+                }).ConfigureAwait(false);
+
+                var requiredArtifactsByProducer = new Dictionary<Type, IReadOnlySet<string>>();
+                foreach (var producerType in requiredProducerTypes)
+                {
+                    if (!_localArtifactConsumers.TryGetValue(producerType, out var consumersByArtifact))
+                    {
+                        continue;
+                    }
+
+                    var requiredArtifactNames = new HashSet<string>(StringComparer.Ordinal);
+                    foreach (var (artifactName, consumerTypes) in consumersByArtifact)
+                    {
+                        foreach (var consumerType in consumerTypes)
+                        {
+                            if (!await IsRunnableArtifactConsumerAsync(
+                                    consumerType,
+                                    scheduler,
+                                    cancellationToken,
+                                    requiredProducerTypes)
+                                .ConfigureAwait(false))
+                            {
+                                continue;
+                            }
+
+                            requiredArtifactNames.Add(artifactName);
+                            break;
+                        }
+                    }
+
+                    if (requiredArtifactNames.Count > 0)
+                    {
+                        requiredArtifactsByProducer.Add(producerType, requiredArtifactNames);
                     }
                 }
-            }
 
-            return nextRequiredProducerTypes;
-        }).ConfigureAwait(false);
+                return new ArtifactDemandPlan(requiredProducerTypes, requiredArtifactsByProducer);
+            },
+            cancellationToken);
     }
 
     private async Task<bool> IsRunnableArtifactConsumerAsync(
@@ -314,7 +339,7 @@ internal class ModuleRunner : IModuleRunner
             return true;
         }
 
-        moduleState.SkipResult = skipDecision;
+        moduleState.TrySetSkipResult(skipDecision);
         return false;
     }
 
@@ -396,7 +421,7 @@ internal class ModuleRunner : IModuleRunner
                     .ConfigureAwait(false);
                 if (skipDecision?.ShouldSkip == true)
                 {
-                    dependencyState.SkipResult = skipDecision;
+                    dependencyState.TrySetSkipResult(skipDecision);
                     if (await IsSkippedDependencyUnrecoverableAsync(
                             dependency.Key,
                             dependencyState,
@@ -493,6 +518,7 @@ internal class ModuleRunner : IModuleRunner
         var telemetryStart = Stopwatch.GetTimestamp();
         var telemetryStatus = "Failed";
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
+        executionContext.ModuleActivity = activity;
 
         // Set up logging and module type context using scope wrapper for proper cleanup
         await using var loggerScope = new ModuleLoggerScope(logger, moduleType);
@@ -525,6 +551,11 @@ internal class ModuleRunner : IModuleRunner
             {
                 telemetryStatus = "UsedHistory";
                 ModuleActivityTracing.RecordUsedHistory(activity);
+            }
+            else if (executionContext.Status == Enums.Status.CachedResult)
+            {
+                telemetryStatus = "CachedResult";
+                ModuleActivityTracing.RecordCachedResult(activity);
             }
             else if (executionContext.Status == Enums.Status.PipelineTerminated)
             {
@@ -620,7 +651,7 @@ internal class ModuleRunner : IModuleRunner
         finally
         {
             // Store execution context results in module state
-            moduleState.SkipResult = executionContext.SkipResult;
+            moduleState.TrySetSkipResult(executionContext.SkipResult);
 
             if (!_pipelineOptions.Value.ShowProgressInConsole)
             {
@@ -670,7 +701,8 @@ internal class ModuleRunner : IModuleRunner
             return;
         }
 
-        var isSuccessful = executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory;
+        var isSuccessful = executionContext.Status is
+            Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.CachedResult;
         await _mediator.Publish(
                 new ModuleCompletedNotification(moduleState, isSuccessful),
                 CancellationToken.None)
@@ -684,7 +716,11 @@ internal class ModuleRunner : IModuleRunner
         Exception exception)
     {
         executionContext.Exception = exception;
-        if (executionContext.Status is Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.NotYetStarted or Enums.Status.Processing)
+        if (executionContext.Status is Enums.Status.Successful
+            or Enums.Status.UsedHistory
+            or Enums.Status.CachedResult
+            or Enums.Status.NotYetStarted
+            or Enums.Status.Processing)
         {
             executionContext.Status = Enums.Status.Failed;
         }
@@ -740,7 +776,8 @@ internal class ModuleRunner : IModuleRunner
         await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
 
         if (!_manageArtifactsLocally
-            || executionContext.Status is not (Enums.Status.Successful or Enums.Status.UsedHistory))
+            || executionContext.Status is not (
+                Enums.Status.Successful or Enums.Status.UsedHistory or Enums.Status.CachedResult))
         {
             return;
         }
