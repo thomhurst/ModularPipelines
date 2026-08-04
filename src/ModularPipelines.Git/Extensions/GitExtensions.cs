@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 
 namespace ModularPipelines.Git.Extensions;
 
@@ -28,6 +29,8 @@ public static class GitExtensions
         services.TryAddScoped<IGitVersioning, GitVersioning>();
         services.TryAddScoped<IGitCommandRunner, GitCommandRunner>();
         services.TryAddSingleton<IGitCommitMapper, GitCommitMapper>();
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<IRunReportEnricher, GitRunReportEnricher>());
         return services;
     }
 
