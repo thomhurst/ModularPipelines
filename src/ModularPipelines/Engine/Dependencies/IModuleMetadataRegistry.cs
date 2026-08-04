@@ -19,6 +19,4 @@ internal interface IModuleMetadataRegistry : IDependencyContext
     /// <param name="moduleType">The module type.</param>
     /// <param name="instance">The module instance.</param>
     void FinalizeMetadata(Type moduleType, IModule instance);
-
-    void CopyRegistrationMetadataTo(IModuleMetadataRegistry destination);
 }

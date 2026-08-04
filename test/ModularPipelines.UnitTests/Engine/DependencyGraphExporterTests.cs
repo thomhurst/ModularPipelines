@@ -47,7 +47,7 @@ public class DependencyGraphExporterTests
 
     [AttributeUsage(AttributeTargets.Class)]
     private sealed class AddRegistrationDependencyAttribute(Type dependencyType)
-        : Attribute, IModuleRegistrationEventReceiver
+        : Attribute, IPlanningSafeModuleRegistrationEventReceiver
     {
         public Task OnRegistrationAsync(IModuleRegistrationContext context)
         {
@@ -2073,7 +2073,7 @@ public class DependencyGraphExporterTests
     }
 
     [Test]
-    public async Task Render_Caches_Registration_Before_Startup_Hooks()
+    public async Task Render_Does_Not_Cache_Registration_Before_Startup_Hooks()
     {
         using var builder = Pipeline.CreateBuilder();
         builder.AddModule<DependencyModule>();
@@ -2096,7 +2096,7 @@ public class DependencyGraphExporterTests
         {
             await Assert.That(dependenciesBeforeRun).IsEmpty();
             await Assert.That(summary.Results).Count().IsEqualTo(2);
-            await Assert.That(dependenciesAfterRun).IsEmpty();
+            await Assert.That(dependenciesAfterRun).Contains(typeof(DependencyModule));
         }
     }
 
@@ -2215,9 +2215,14 @@ public class DependencyGraphExporterTests
         _planningRegistrationEvents = 0;
 
         _ = await exporter.RenderAsync(DependencyGraphFormat.Json);
+        var eventsAfterRender = _planningRegistrationEvents;
         _ = await pipeline.RunAsync();
 
-        await Assert.That(_planningRegistrationEvents).IsEqualTo(1);
+        using (Assert.Multiple())
+        {
+            await Assert.That(eventsAfterRender).IsEqualTo(0);
+            await Assert.That(_planningRegistrationEvents).IsEqualTo(1);
+        }
     }
 
     [Test]

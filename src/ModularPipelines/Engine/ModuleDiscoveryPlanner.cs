@@ -2,7 +2,9 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Configuration;
 using ModularPipelines.Engine.Attributes;
@@ -17,9 +19,9 @@ namespace ModularPipelines.Engine;
 
 internal sealed class ModuleDiscoveryPlanner(
     IModuleConditionHandler moduleConditionHandler,
-    IRegistrationEventExecutor registrationEventExecutor,
-    IModuleDependencyRegistry dependencyRegistry,
-    IModuleMetadataRegistry metadataRegistry,
+    IAttributeEventInvoker attributeEventInvoker,
+    IConfiguration configuration,
+    IHostEnvironment environment,
     IEnumerable<IModule> modules,
     ISafeModuleEstimatedTimeProvider estimatedTimeProvider,
     IOptions<PipelineOptions> pipelineOptions,
@@ -74,18 +76,23 @@ internal sealed class ModuleDiscoveryPlanner(
                 originalModules.Add(planningModules[index], _modules[index]);
             }
 
-            cancellationToken.ThrowIfCancellationRequested();
-            await registrationEventExecutor.InvokeRegistrationEventsAsync(_modules)
-                .ConfigureAwait(false);
-
             var planningDependencyRegistry = new ModuleDependencyRegistry();
-            dependencyRegistry.CopyDynamicDependenciesTo(planningDependencyRegistry);
             var attributeEventService = new ModuleAttributeEventService();
             var planningMetadataRegistry = new ModuleMetadataRegistry(attributeEventService);
-            metadataRegistry.CopyRegistrationMetadataTo(planningMetadataRegistry);
             var dependencyChainProvider = new DependencyChainProvider(
                 planningMetadataRegistry,
                 planningDependencyRegistry);
+            var registrationEventExecutor = new RegistrationEventExecutor(
+                attributeEventService,
+                attributeEventInvoker,
+                planningDependencyRegistry,
+                planningMetadataRegistry,
+                configuration,
+                environment,
+                planningSafeOnly: true);
+            cancellationToken.ThrowIfCancellationRequested();
+            await registrationEventExecutor.InvokeRegistrationEventsAsync(planningModules)
+                .ConfigureAwait(false);
 
             var moduleSelection = ModuleSelection.Create(
                 planningModules,
