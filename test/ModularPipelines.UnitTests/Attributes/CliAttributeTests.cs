@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using System.Globalization;
 using ModularPipelines.Attributes;
 using ModularPipelines.Helpers.Internal;
@@ -261,6 +262,26 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Omits_Empty_Required_Option_Collections()
+    {
+        var options = new TestCliOptionsWithMultipleValues { Values = [] };
+
+        await Assert.That(BuildArguments(options)).IsEmpty();
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments("   ")]
+    public async Task Parser_Rejects_Empty_Required_Option_Values(string value)
+    {
+        var options = new TestCliOptionsWithOption { Namespace = value };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining($"{typeof(TestCliOptionsWithOption).FullName}.Namespace");
+    }
+
+    [Test]
     public async Task Parser_Rejects_Grouped_Values_With_NonSpace_Separator()
     {
         var options = new TestCliOptionsWithInvalidGroupedValues { Values = ["first", "second"] };
@@ -271,12 +292,28 @@ public class CliAttributeTests
     }
 
     [Test]
+    public async Task Parser_Omits_Empty_Grouped_Required_Option_Collections()
+    {
+        var options = new TestCliOptionsWithGroupedValues { Values = [] };
+
+        await Assert.That(BuildArguments(options)).IsEmpty();
+    }
+
+    [Test]
+    public async Task Parser_Omits_Empty_Required_Value_Pair_Collections()
+    {
+        var options = new TestCliOptionsWithValuePairs { Values = [] };
+
+        await Assert.That(BuildArguments(options)).IsEmpty();
+    }
+
+    [Test]
     public async Task Parser_Renders_Bare_OptionalValue_Option()
     {
         var options = new TestCliOptionsWithSemanticPhases
         {
             Normal = true,
-            Terminal = string.Empty,
+            Terminal = CliOptionValue.Bare,
             Passthrough = "input.txt",
         };
 
@@ -304,6 +341,165 @@ public class CliAttributeTests
         await Assert.That(list).IsEquivalentTo(
             ["command-input", "--normal", "input.txt", "terminal-input", "--terminal", "tests.txt"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Renders_Multiple_Bare_And_Explicit_Optional_Values()
+    {
+        var options = new TestCliOptionsWithMultipleOptionalValues
+        {
+            Output = [CliOptionValue.Bare, "json"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "--output=json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Groups_Optional_Values_Into_One_Occurrence()
+    {
+        var options = new TestCliOptionsWithGroupedOptionalValues
+        {
+            Output = ["first", "second"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "first", "second"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Skips_Null_Repeatable_Optional_Values()
+    {
+        var options = new TestCliOptionsWithMultipleOptionalValues
+        {
+            Output = [CliOptionValue.Bare, null!, "json"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "--output=json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Preserves_Legacy_Multiple_Optional_String_Values()
+    {
+        var options = new TestCliOptionsWithLegacyMultipleOptionalValues
+        {
+            Output = [string.Empty, "json"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "--output=json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Skips_Null_Legacy_Repeatable_Optional_Values()
+    {
+        var options = new TestCliOptionsWithLegacyMultipleOptionalValues
+        {
+            Output = [string.Empty, null!, "json"],
+        };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(
+            ["--output", "--output=json"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
+    public async Task Parser_Preserves_Legacy_Scalar_Optional_String_Value()
+    {
+        var options = new TestCliOptionsWithLegacyScalarOptionalValue { Output = "json" };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(["--output=json"]);
+    }
+
+    [Test]
+    public async Task Parser_Preserves_Legacy_Optional_Value_From_Generated_Base_Type()
+    {
+        var options = new TestCliOptionsDerivedFromLegacyGeneratedOptions { Output = "json" };
+
+        var list = BuildArguments(options);
+
+        await Assert.That(list).IsEquivalentTo(["--output=json"]);
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Handwritten_Legacy_Optional_String_Value()
+    {
+        var options = new TestCliOptionsWithHandwrittenLegacyOptionalValue { Output = "json" };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
+    public async Task Parser_Rejects_Unrelated_Generated_Legacy_Optional_String_Value()
+    {
+        var options = new TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue { Output = "json" };
+
+        await Assert.That(() => BuildArguments(options))
+            .Throws<InvalidOperationException>()
+            .And.HasMessageContaining(nameof(CliOptionValue));
+    }
+
+    [Test]
+    public async Task Parser_Omits_Null_OptionalValue_Option()
+    {
+        var list = BuildArguments(new TestCliOptionsWithSemanticPhases { Terminal = null });
+
+        await Assert.That(list).IsEmpty();
+    }
+
+    [Test]
+    public async Task Parser_Preserves_Explicit_Optional_Value_Across_Cultures()
+    {
+        var originalCulture = CultureInfo.CurrentCulture;
+
+        try
+        {
+            CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+            var list = BuildArguments(new TestCliOptionsWithSemanticPhases { Terminal = "1.5" });
+
+            await Assert.That(list).IsEquivalentTo(["--terminal", "1.5"]);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = originalCulture;
+        }
+    }
+
+    [Test]
+    public async Task CliOptionValue_Implicitly_Preserves_Null_Strings()
+    {
+        string? value = null;
+        CliOptionValue? optionValue = value;
+
+        await Assert.That(optionValue).IsNull();
+    }
+
+    [Test]
+    public async Task CliOptionValue_Implicitly_Converts_NonEmpty_Strings()
+    {
+        CliOptionValue optionValue = "tests.txt";
+
+        await Assert.That(optionValue.IsBare).IsFalse();
+        await Assert.That(optionValue.Value).IsEqualTo("tests.txt");
     }
 
     [Test]
@@ -553,7 +749,7 @@ public class CliAttributeTests
             "--terminal",
             ValueArity = CliOptionValueArity.Optional,
             Phase = CommandLinePhase.Terminal)]
-        public string? Terminal { get; set; }
+        public CliOptionValue? Terminal { get; set; }
 
         [CliArgument(0, Phase = CommandLinePhase.Terminal)]
         public string? TerminalOperand { get; set; }
@@ -563,6 +759,76 @@ public class CliAttributeTests
 
         [CliFlag("--normal")]
         public bool? Normal { get; set; }
+    }
+
+    private record TestCliOptionsWithMultipleOptionalValues
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public IEnumerable<CliOptionValue>? Output { get; set; }
+    }
+
+    private record TestCliOptionsWithGroupedOptionalValues
+    {
+        [CliOption(
+            "--output",
+            ValueArity = CliOptionValueArity.Optional,
+            GroupValues = true)]
+        public IEnumerable<CliOptionValue>? Output { get; set; }
+    }
+
+    [GeneratedCode("ModularPipelines.OptionsGenerator", "3.0.0")]
+    private record TestCliOptionsWithLegacyMultipleOptionalValues
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public IEnumerable<string>? Output { get; set; }
+    }
+
+    [GeneratedCode("ModularPipelines.OptionsGenerator", "3.0.0")]
+    private record TestCliOptionsWithLegacyScalarOptionalValue
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public string? Output { get; set; }
+    }
+
+    [GeneratedCode("ModularPipelines.OptionsGenerator", "3.0.0")]
+    private record TestCliOptionsWithLegacyGeneratedBase
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public string? Output { get; set; }
+    }
+
+    private sealed record TestCliOptionsDerivedFromLegacyGeneratedOptions
+        : TestCliOptionsWithLegacyGeneratedBase;
+
+    private record TestCliOptionsWithHandwrittenLegacyOptionalValue
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public string? Output { get; set; }
+    }
+
+    [GeneratedCode("Other.Generator", "1.0.0")]
+    private record TestCliOptionsWithUnrelatedGeneratedLegacyOptionalValue
+    {
+        [CliOption(
+            "--output",
+            Format = OptionFormat.EqualsSeparated,
+            ValueArity = CliOptionValueArity.Optional)]
+        public string? Output { get; set; }
     }
 
     private record TestCliOptionsWithDuplicateSwitch

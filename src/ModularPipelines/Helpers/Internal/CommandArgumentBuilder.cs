@@ -1,3 +1,4 @@
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -35,7 +36,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
             argument => (IReadOnlyList<string>) GetValues(propertyValues[argument]));
         var renderedOptionValues = flagsAndOptions.ToDictionary(
             static part => part,
-            part => RenderOption(part, propertyValues[part]));
+            part => RenderOption(part, propertyValues[part], optionsObject.GetType()));
         ValidateOptionTerminatorOrdering(arguments, renderedOptionValues, argumentValues);
         var renderedPhases = new Dictionary<CommandLinePhase, IReadOnlyList<string>>();
         foreach (var phase in Enum.GetValues<CommandLinePhase>())
@@ -189,7 +190,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 
     private static IReadOnlyList<string> RenderOption(
         PropertyCommandLinePart part,
-        object? rawValue)
+        object? rawValue,
+        Type optionsType)
     {
         if (rawValue is null)
         {
@@ -203,7 +205,7 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
                 AddFlag(rendered, flag, rawValue);
                 break;
             case OptionPart option:
-                AddOption(rendered, option, rawValue);
+                AddOption(rendered, option, rawValue, optionsType);
                 break;
         }
 
@@ -241,74 +243,224 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         }
     }
 
-    private static void AddOption(List<string> args, OptionPart optionPart, object rawValue)
+    private static void AddOption(
+        List<string> args,
+        OptionPart optionPart,
+        object rawValue,
+        Type optionsType)
     {
+        if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
+        {
+            if (optionPart.Attribute.GroupValues)
+            {
+                AddGroupedOptionalValueOption(args, optionPart, rawValue, optionsType);
+            }
+            else
+            {
+                AddOptionalValueOption(args, optionPart, rawValue, optionsType);
+            }
+
+            return;
+        }
+
         var valuePairs = GetOptionValuePairs(rawValue);
         if (optionPart.Attribute.GroupValues)
         {
-            var values = valuePairs is null
+            var groupedValues = valuePairs is null
                 ? GetValues(rawValue)
                 : valuePairs.SelectMany(static pair => new[] { pair.First, pair.Second });
-            AddGroupedOption(args, optionPart.Attribute, values);
+            AddGroupedOption(args, optionPart, groupedValues, optionsType);
             return;
         }
 
         if (valuePairs is not null)
         {
-            AddOptionValuePairs(args, optionPart, valuePairs);
+            AddOptionValuePairs(args, optionPart, valuePairs, optionsType);
             return;
         }
 
-        foreach (var value in GetValues(rawValue))
+        var values = GetValues(rawValue);
+        if (values.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var value in values)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                if (optionPart.Attribute.ValueArity == CliOptionValueArity.Optional)
-                {
-                    args.Add(GetEffectiveName(optionPart.Attribute));
-                }
-
-                continue;
+                throw CreateEmptyRequiredValueException(optionsType, optionPart);
             }
 
-            var optionName = GetEffectiveName(optionPart.Attribute);
-            var separator = GetSeparator(optionPart.Attribute);
+            AddOptionValue(args, optionPart, value);
+        }
+    }
 
-            if (separator == " ")
+    private static void AddOptionalValueOption(
+        List<string> args,
+        OptionPart optionPart,
+        object rawValue,
+        Type optionsType)
+    {
+        foreach (var optionValue in GetOptionalValues(rawValue, optionsType, optionPart))
+        {
+            AddOptionalValue(args, optionPart, optionValue, optionsType);
+        }
+    }
+
+    private static void AddGroupedOptionalValueOption(
+        List<string> args,
+        OptionPart optionPart,
+        object rawValue,
+        Type optionsType)
+    {
+        var optionValues = GetOptionalValues(rawValue, optionsType, optionPart).ToList();
+        if (optionValues.Count == 0)
+        {
+            return;
+        }
+
+        if (GetSeparator(optionPart.Attribute) != " ")
+        {
+            throw new InvalidOperationException(
+                $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
+        }
+
+        foreach (var optionValue in optionValues.Where(static value => !value.IsBare))
+        {
+            ValidateOptionalValue(optionValue, optionsType, optionPart);
+        }
+
+        args.Add(GetEffectiveName(optionPart.Attribute));
+        args.AddRange(optionValues
+            .Where(static value => !value.IsBare)
+            .Select(static value => value.Value!));
+    }
+
+    private static IEnumerable<CliOptionValue> GetOptionalValues(
+        object rawValue,
+        Type optionsType,
+        OptionPart optionPart)
+    {
+        var isLegacyGeneratedOption = IsLegacyGeneratedOption(optionsType, optionPart);
+        return rawValue switch
+        {
+            CliOptionValue optionValue => [optionValue],
+            IEnumerable<CliOptionValue> values => values.OfType<CliOptionValue>(),
+            // Preserve compatibility with generated option packages that predate CliOptionValue.
+            string value when isLegacyGeneratedOption => [ToLegacyOptionalValue(value)],
+            IEnumerable<string> values when isLegacyGeneratedOption => values
+                .OfType<string>()
+                .Select(ToLegacyOptionalValue),
+            _ => throw CreateInvalidOptionalValueTypeException(optionsType, optionPart),
+        };
+    }
+
+    private static CliOptionValue ToLegacyOptionalValue(string value)
+        => string.IsNullOrWhiteSpace(value) ? CliOptionValue.Bare : value;
+
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2070",
+        Justification = "Legacy generated options retain their public CLI properties for reflection-based compatibility.")]
+    [UnconditionalSuppressMessage(
+        "Trimming",
+        "IL2075",
+        Justification = "Legacy generated option base types retain their public CLI properties for reflection-based compatibility.")]
+    private static bool IsLegacyGeneratedOption(Type optionsType, OptionPart optionPart)
+    {
+        for (var currentType = optionsType; currentType is not null; currentType = currentType.BaseType)
+        {
+            var property = currentType.GetProperty(
+                optionPart.PropertyName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+            if (property is not null)
             {
-                args.Add(optionName);
-                args.Add(value);
+                return currentType.GetCustomAttribute<GeneratedCodeAttribute>(inherit: false)?.Tool
+                    == "ModularPipelines.OptionsGenerator";
             }
-            else
-            {
-                args.Add($"{optionName}{separator}{value}");
-            }
+        }
+
+        return false;
+    }
+
+    private static InvalidOperationException CreateInvalidOptionalValueTypeException(
+        Type optionsType,
+        OptionPart optionPart)
+        => new(
+            $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+            + $"must use {nameof(CliOptionValue)} or IEnumerable<{nameof(CliOptionValue)}>.");
+
+    private static void AddOptionalValue(
+        List<string> args,
+        OptionPart optionPart,
+        CliOptionValue optionValue,
+        Type optionsType)
+    {
+        if (optionValue.IsBare)
+        {
+            args.Add(GetEffectiveName(optionPart.Attribute));
+            return;
+        }
+
+        ValidateOptionalValue(optionValue, optionsType, optionPart);
+        AddOptionValue(args, optionPart, optionValue.Value!);
+    }
+
+    private static void ValidateOptionalValue(
+        CliOptionValue optionValue,
+        Type optionsType,
+        OptionPart optionPart)
+    {
+        if (string.IsNullOrWhiteSpace(optionValue.Value))
+        {
+            throw new InvalidOperationException(
+                $"Optional-value CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+                + $"must use {nameof(CliOptionValue)}.{nameof(CliOptionValue.Bare)} or a non-empty value.");
+        }
+    }
+
+    private static void AddOptionValue(List<string> args, OptionPart optionPart, string value)
+    {
+        var optionName = GetEffectiveName(optionPart.Attribute);
+        var separator = GetSeparator(optionPart.Attribute);
+
+        if (separator == " ")
+        {
+            args.Add(optionName);
+            args.Add(value);
+        }
+        else
+        {
+            args.Add($"{optionName}{separator}{value}");
         }
     }
 
     private static void AddGroupedOption(
         List<string> args,
-        CliOptionAttribute attribute,
-        IEnumerable<string> values)
+        OptionPart optionPart,
+        IEnumerable<string> values,
+        Type optionsType)
     {
-        if (GetSeparator(attribute) != " ")
+        if (GetSeparator(optionPart.Attribute) != " ")
         {
             throw new InvalidOperationException(
-                $"Grouped option '{GetEffectiveName(attribute)}' must use a space separator.");
+                $"Grouped option '{GetEffectiveName(optionPart.Attribute)}' must use a space separator.");
         }
 
-        var renderedValues = values.Where(value => !string.IsNullOrWhiteSpace(value)).ToList();
+        var renderedValues = values.ToList();
         if (renderedValues.Count == 0)
         {
-            if (attribute.ValueArity == CliOptionValueArity.Optional)
-            {
-                args.Add(GetEffectiveName(attribute));
-            }
-
             return;
         }
 
-        args.Add(GetEffectiveName(attribute));
+        if (renderedValues.Any(string.IsNullOrWhiteSpace))
+        {
+            throw CreateEmptyRequiredValueException(optionsType, optionPart);
+        }
+
+        args.Add(GetEffectiveName(optionPart.Attribute));
         args.AddRange(renderedValues);
     }
 
@@ -325,7 +477,8 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
     private static void AddOptionValuePairs(
         List<string> args,
         OptionPart optionPart,
-        IEnumerable<CliValuePair> pairs)
+        IEnumerable<CliValuePair> pairs,
+        Type optionsType)
     {
         if (GetSeparator(optionPart.Attribute) != " ")
         {
@@ -337,11 +490,24 @@ internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
         var optionName = GetEffectiveName(optionPart.Attribute);
         foreach (var pair in pairs)
         {
+            if (string.IsNullOrWhiteSpace(pair.First)
+                || pair.Second is null)
+            {
+                throw CreateEmptyRequiredValueException(optionsType, optionPart);
+            }
+
             args.Add(optionName);
             args.Add(pair.First);
             args.Add(pair.Second);
         }
     }
+
+    private static InvalidOperationException CreateEmptyRequiredValueException(
+        Type optionsType,
+        OptionPart optionPart) =>
+        new(
+            $"Required CLI option property '{optionsType.FullName}.{optionPart.PropertyName}' "
+            + "cannot be empty or whitespace.");
 
     private static string GetEffectiveName(CliFlagAttribute attribute) =>
         attribute.PreferShortForm && !string.IsNullOrEmpty(attribute.ShortForm)

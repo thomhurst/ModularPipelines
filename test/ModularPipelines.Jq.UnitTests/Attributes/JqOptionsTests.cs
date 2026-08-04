@@ -58,6 +58,46 @@ public class JqOptionsTests : TestBase
     }
 
     [Test]
+    public async Task Renders_Empty_And_Whitespace_String_Pair_Values()
+    {
+        var arguments = BuildArguments(new JqExecuteOptions
+        {
+            Arg =
+            [
+                new CliValuePair("empty", ""),
+                new CliValuePair("whitespace", "  "),
+            ],
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "--arg", "empty", "",
+            "--arg", "whitespace", "  ",
+        ]);
+    }
+
+    [Test]
+    public async Task Renders_RunTests_After_Positionals()
+    {
+        var arguments = BuildArguments(new JqExecuteOptions
+        {
+            LibraryPath = ["modules"],
+            Binary = true,
+            RunTests = "tests.jq",
+            Filter = ".",
+        });
+
+        await Assert.That(arguments).IsEquivalentTo(
+        [
+            "-L", "modules",
+            "-b",
+            ".",
+            "--run-tests", "tests.jq",
+        ],
+        TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     public async Task Renders_Terminator_Before_DashPrefixed_Input()
     {
         var arguments = BuildArguments(new JqExecuteOptions
@@ -195,7 +235,7 @@ public class JqOptionsTests : TestBase
     [Test]
     public async Task Renders_Bare_RunTests_For_Standard_Input()
     {
-        var arguments = BuildArguments(new JqExecuteOptions { RunTests = string.Empty });
+        var arguments = BuildArguments(new JqExecuteOptions { RunTests = CliOptionValue.Bare });
 
         await Assert.That(arguments).IsEquivalentTo(["--run-tests"]);
     }

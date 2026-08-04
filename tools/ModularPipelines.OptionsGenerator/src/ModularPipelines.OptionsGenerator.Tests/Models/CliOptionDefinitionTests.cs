@@ -174,4 +174,100 @@ public class CliOptionDefinitionTests
     }
 
     #endregion
+
+    [Test]
+    public async Task PropertyType_Uses_CliOptionValue_For_Optional_Value_Arity()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--run-tests",
+            PropertyName = "RunTests",
+            CSharpType = "string?",
+            ValueArity = CliOptionValueArity.Optional,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("CliOptionValue?");
+        await Assert.That(option.RequiresModelsNamespace).IsTrue();
+    }
+
+    [Test]
+    public async Task PropertyType_Uses_CliOptionValue_Collection_For_Repeatable_Optional_Value_Arity()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--attach-debugger",
+            PropertyName = "AttachDebugger",
+            CSharpType = "IEnumerable<string>?",
+            ValueArity = CliOptionValueArity.Optional,
+            AcceptsMultipleValues = true,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+        await Assert.That(option.RequiresModelsNamespace).IsTrue();
+    }
+
+    [Test]
+    public async Task PropertyType_Preserves_Grouped_Optional_Collection_Shape()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "string[]?",
+            ValueArity = CliOptionValueArity.Optional,
+            GroupValues = true,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+    }
+
+    [Test]
+    public async Task PropertyType_Preserves_Declared_Optional_Collection_Shape()
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "IReadOnlyList<string>?",
+            ValueArity = CliOptionValueArity.Optional,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+    }
+
+    [Test]
+    [Arguments("Queue<string>?")]
+    [Arguments("System.Collections.Immutable.ImmutableArray<string>?")]
+    [Arguments("System.Collections.ObjectModel.ReadOnlyDictionary<string, string>?")]
+    public async Task PropertyType_Preserves_Framework_Optional_Collection_Shapes(string cSharpType)
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = cSharpType,
+            ValueArity = CliOptionValueArity.Optional,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo("IEnumerable<CliOptionValue>?");
+    }
+
+    [Test]
+    [Arguments(true, "IEnumerable<CliOptionValue>?")]
+    [Arguments(false, "CliOptionValue?")]
+    public async Task PropertyType_Uses_Declared_Custom_Optional_Collection_Shape(
+        bool isCollection,
+        string expectedType)
+    {
+        var option = new CliOptionDefinition
+        {
+            SwitchName = "--arguments",
+            PropertyName = "Arguments",
+            CSharpType = "PrivatePackage.CustomValues?",
+            ValueArity = CliOptionValueArity.Optional,
+            IsCollection = isCollection,
+        };
+
+        await Assert.That(option.PropertyType).IsEqualTo(expectedType);
+    }
 }

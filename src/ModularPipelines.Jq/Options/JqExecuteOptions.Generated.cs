@@ -205,7 +205,7 @@ public record JqExecuteOptions : JqOptions
     /// Run jq tests from standard input or the specified file
     /// </summary>
     [CliOption("--run-tests", ValueArity = CliOptionValueArity.Optional, Phase = CommandLinePhase.Terminal)]
-    public string? RunTests { get; set; }
+    public CliOptionValue? RunTests { get; set; }
 
     /// <summary>
     /// The jq filter expression to apply

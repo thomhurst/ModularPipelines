@@ -1,4 +1,5 @@
 using System.Text;
+using ModularPipelines.Attributes;
 using ModularPipelines.OptionsGenerator.Models;
 
 namespace ModularPipelines.OptionsGenerator.Generators;
@@ -53,12 +54,19 @@ public class OptionsClassGenerator : ICodeGenerator
             command.ClassName);
         var requiredParameters = GeneratorUtils.GetRequiredConstructorParameters(command);
         var enumOptions = command.Options
-            .Where(option => option.EnumDefinition is not null)
+            .Where(option => option.EnumDefinition is not null
+                             && option.ValueArity != CliOptionValueArity.Optional)
             .ToArray();
         var sb = new StringBuilder();
         GeneratorUtils.GenerateFileHeaderWithNullable(sb, command.DocumentationUrl);
         sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
+        if (requiredParameters.Any(static parameter =>
+                parameter.Option?.ValueArity == CliOptionValueArity.Optional))
+        {
+            sb.AppendLine("using ModularPipelines.Models;");
+        }
+
         if (enumOptions.Length > 0)
         {
             sb.AppendLine("using ModularPipelines.Attributes;");
@@ -148,7 +156,8 @@ public class OptionsClassGenerator : ICodeGenerator
         string parameterName)
     {
         var canonicalEnumName = parameter.Option?.EnumDefinition?.EnumName;
-        if (canonicalEnumName is null)
+        if (canonicalEnumName is null
+            || parameter.Option?.ValueArity == CliOptionValueArity.Optional)
         {
             return parameterName;
         }
@@ -217,9 +226,7 @@ public class OptionsClassGenerator : ICodeGenerator
         string canonicalEnumName,
         string aliasEnumName)
     {
-        var nullableOperator = option.CSharpType.EndsWith(
-            "?",
-            StringComparison.Ordinal)
+        var nullableOperator = option.CSharpType.EndsWith('?')
             ? "?"
             : string.Empty;
         sb.AppendLine(
@@ -404,7 +411,10 @@ public class OptionsClassGenerator : ICodeGenerator
         // Validation attributes
         if (option.ValidationConstraints is not null)
         {
-            GeneratorUtils.GenerateValidationAttributes(sb, option.ValidationConstraints);
+            GeneratorUtils.GenerateValidationAttributes(
+                sb,
+                option.ValidationConstraints,
+                useCliOptionValueAttributes: option.ValueArity == CliOptionValueArity.Optional);
         }
 
         // Secret attribute for sensitive values
@@ -418,7 +428,7 @@ public class OptionsClassGenerator : ICodeGenerator
         sb.AppendLine($"    [{attribute}]");
 
         // Property
-        sb.AppendLine($"    public {option.CSharpType} {option.PropertyName} {{ get; set; }}");
+        sb.AppendLine($"    public {GetNewModifier(option.PropertyName)}{option.PropertyType} {option.PropertyName} {{ get; set; }}");
     }
 
     private static void GeneratePositionalArgument(StringBuilder sb, CliPositionalArgument positional)

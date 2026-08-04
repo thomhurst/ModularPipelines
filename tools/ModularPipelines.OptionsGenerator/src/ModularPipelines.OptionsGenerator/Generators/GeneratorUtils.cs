@@ -464,7 +464,11 @@ public static partial class GeneratorUtils
     /// <param name="sb">The StringBuilder to append to.</param>
     /// <param name="constraints">The validation constraints.</param>
     /// <param name="indent">The indentation string (defaults to 4 spaces).</param>
-    public static void GenerateValidationAttributes(StringBuilder sb, CliValidationConstraints constraints, string indent = "    ")
+    public static void GenerateValidationAttributes(
+        StringBuilder sb,
+        CliValidationConstraints constraints,
+        string indent = "    ",
+        bool useCliOptionValueAttributes = false)
     {
         ArgumentNullException.ThrowIfNull(sb);
         ArgumentNullException.ThrowIfNull(constraints);
@@ -473,13 +477,16 @@ public static partial class GeneratorUtils
         {
             var min = constraints.MinValue ?? int.MinValue;
             var max = constraints.MaxValue ?? int.MaxValue;
-            sb.AppendLine($"{indent}[Range({min}, {max})]");
+            var attributeName = useCliOptionValueAttributes ? "CliOptionValueRange" : "Range";
+            sb.AppendLine($"{indent}[{attributeName}({min}, {max})]");
         }
 
         if (!string.IsNullOrEmpty(constraints.Pattern))
         {
-            sb.AppendLine(
-                $"{indent}[RegularExpression({FormatStringLiteral(constraints.Pattern)})]");
+            var attributeName = useCliOptionValueAttributes
+                ? "CliOptionValueRegularExpression"
+                : "RegularExpression";
+            sb.AppendLine($"{indent}[{attributeName}({FormatStringLiteral(constraints.Pattern)})]");
         }
     }
 
@@ -572,7 +579,7 @@ public static partial class GeneratorUtils
         var parameters = command.RequiredOptions
             .Select(option => new RequiredConstructorParameter(
                 option.PropertyName,
-                option.CSharpType,
+                option.PropertyType,
                 option.IsSecret,
                 option,
                 null))
